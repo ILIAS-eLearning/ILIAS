@@ -626,7 +626,6 @@ class ASS_MultipleChoice extends ASS_Question
 		$order = 0
 	)
 	{
-echo "<br>addAnswer";
 		$found = -1;
 		foreach ($this->answers as $key => $value)
 		{

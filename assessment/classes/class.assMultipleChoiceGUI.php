@@ -95,11 +95,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function showEditForm()
+	function editQuestion()
 	{
-//echo "<br>ASS_MultipleChoiceGUI->showEditForm()";
+		// single response
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{
+			$this->getQuestionTemplate("qt_multiple_choice_sr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
 			$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 			// output of existing single response answers
@@ -125,6 +126,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
+			/*
 			if (strlen($_POST["cmd"]["add"]) > 0)
 			{
 				// Create template for a new answer
@@ -136,7 +138,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 			// call to other question data i.e. material, estimated working time block
 			$this->outOtherQuestionData();
 
@@ -174,8 +176,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-		else
+		else	// multiple response
 		{
+			$this->getQuestionTemplate("qt_multiple_choice_mr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
 			$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
@@ -203,6 +206,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			/*
 			if (strlen($_POST["cmd"]["add"]) > 0)
 			{
 				// Create template for a new answer
@@ -215,7 +219,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", "0");
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 
 			// call to other question data i.e. material, estimated working time block
 			$this->outOtherQuestionData();
@@ -247,14 +251,13 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_multiple_choice_mr");
+			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST",
+				$this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
-	function editQuestion()
-	{
-		$this->showEditForm();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -305,6 +308,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* add yes no answer
+	*/
 	function addYesNo()
 	{
 		$this->setObjectData();
@@ -330,7 +336,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			);
 		}
 
-		$this->showEditForm();
+		$this->editQuestion();
 	}
 
 	/**
@@ -361,7 +367,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			);
 		}
 
-		$this->showEditForm();
+		$this->editQuestion();
 	}
 
 	/**
@@ -386,7 +392,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			);
 		}
 
-		$this->showEditForm();
+		$this->editQuestion();
 	}
 
 	/**
@@ -412,7 +418,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 
-		$this->showEditForm();
+		$this->editQuestion();
 	}
 
 	/**
@@ -420,12 +426,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function apply()
 	{
-		$this->setObjectData();
-		$this->showEditForm();
+		$this->writePostData();
+		$this->editQuestion();
 	}
 
 	/**
-	* apply changes
+	* save question
 	*/
 	function save()
 	{
@@ -439,9 +445,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function uploadingMaterial()
 	{
 		$this->setObjectData();
-		$this->showEditForm();
+		$this->editQuestion();
 	}
-
 
 	/**
 	* check input fields
@@ -470,6 +475,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		return true;
 	}
 
+	/**
+	* set object data
+	*/
 	function setObjectData()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -544,7 +552,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData($force_save = false)
+	function writePostData()
 	{
 //echo "here!"; exit;
 //echo "<br>ASS_MultipleChoiceGUI->writePostData()";
@@ -617,6 +625,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						);
 				}
 			}
+			/*
 			if ($_POST["cmd"]["add_tf"])
 			{
 				// add a true/false answer template
@@ -632,7 +641,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					false,
 					count($this->object->answers)
 				);
-			}
+			}*/
+			/*
 			if ($_POST["cmd"]["add_yn"])
 			{
 				// add a true/false answer template
@@ -648,7 +658,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					false,
 					count($this->object->answers)
 				);
-			}
+			}*/
 		}
 		else
 		{
@@ -691,14 +701,17 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->object->setId($_POST["multiple_choice_id"]);
 		}
 
-		if ($saved || $force_save)
+		if ($saved)
 		{
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
 			// irritated, if he presses cancel, because he only has the question state before
 			// the upload process.
-			$this->object->saveToDb();
+			// ???
 		}
+
+		$this->object->saveToDb();
+		$this->object->removeAllQuestionReferences();
 
 		return $result;
 	}
@@ -803,7 +816,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function outPreviewForm()
 	{
-//echo "<br>ASS_MultipleChoiceGUI->outPreviewForm()";
 		$this->outWorkingForm();
 	}
 
