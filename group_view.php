@@ -21,12 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-
-
-
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilExplorer.php";
 require_once "./classes/class.ilTableGUI.php";
 
 function getContextPath($a_endnode_id, $a_startnode_id = 0)
@@ -51,14 +46,34 @@ function getContextPath($a_endnode_id, $a_startnode_id = 0)
 	return $path;
 }
 
+function getURLbyType($cont_data)
+{
+	switch ($cont_data["type"])
+	{ 
+		
+  		case "frm":
+			$URL = "forums_threads_liste.php?ref_id=".$cont_data["ref_id"];
+		break;	
+		
+		case "crs":
+			$URL = "lo_content.php?ref_id=".$cont_data["ref_id"];
+		break;
+		
+		case "le":
+			$URL = "content/lm_presentation.php?lm_id=".$cont_data["ref_id"];
+		break;
+	}
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.groups_overview.html");
+return $URL;
+}
+
+
+$tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 infoPanel();
 
-
 $tpl->setCurrentBlock("content");
-$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("groups_overview"));
+$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("group_details"));
 
 // set offset & limit
 $offset = intval($_GET["offset"]);
@@ -75,63 +90,31 @@ if (empty($_GET["sort_by"]))
 	$_GET["sort_by"] = "title";
 }
 
-if (!isset($_SESSION["viewmode"]))
-{
-	$_SESSION["viewmode"] = "flat";
-}
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","group_members.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("group_members"));
+$tpl->parseCurrentBlock();
 
-
-if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
-{
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","group.php?viewmode=tree");
-	$tpl->setVariable("BTN_TXT", $lng->txt("treeview"));
-	$tpl->parseCurrentBlock();
-}
-else
-{
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","group.php?viewmode=flat");
-	$tpl->setVariable("BTN_TARGET","target=\"_parent\"");
-	$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
-	$tpl->parseCurrentBlock();
-}
-
-
-// display different content depending on viewmode
-switch ($_SESSION["viewmode"])
-{
-	case "flat":
-		$cont_arr = ilUtil::getObjectsByOperations('grp','visible');
-		break;
+$cont_arr = array();
 		
-	case "tree":
-		//go through valid objects and filter out the lessons only
-		$cont_arr = array();
-		$objects = $tree->getChilds($_GET["ref_id"],"title");
+$objects = $tree->getChilds($_GET["grp_id"],"title");
 		
 		if (count($objects) > 0)
 		{
 			foreach ($objects as $key => $object)
 			{
-				if ($object["type"] == "grp" && $rbacsystem->checkAccess('visible',$object["child"]))
+				if ($rbacsystem->checkAccess('visible',$object["child"]))
 				{
 					$cont_arr[$key] = $object;
 				}
 			}
 		}
-		break;
-}
+		
+$maxcount = count($cont_arr);
 
-$maxcount = count($cont_arr);	
-
-require_once "./include/inc.sort.php";
-$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
-$cont_arr = array_slice($cont_arr,$offset,$limit);
-	
 
 // load template for table
-$tpl->addBlockfile("GROUP_TABLE", "group_table", "tpl.table.html");
+$tpl->addBlockfile("GROUP_DETAILS_TABLE", "group_table", "tpl.table.html");
 // load template for table content data
 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 $cont_num = count($cont_arr);
@@ -143,14 +126,15 @@ if ($cont_num > 0)
 	$num = 0;
 
 	foreach ($cont_arr as $cont_data)
-	{
+	{	var_dump($cont_data);
 		$tpl->setCurrentBlock("tbl_content");
 
 		// change row color
 		$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 		$num++;
 
-		$obj_link = "group_view.php?grp_id=".$cont_data["ref_id"];
+		$obj_link = getURLbyType($cont_data);
+		
 		$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 
 		$tpl->setVariable("TITLE", $cont_data["title"]);
@@ -171,7 +155,7 @@ if ($cont_num > 0)
 else
 {
 	$tpl->setCurrentBlock("no_content");
-	$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("group_not_available"));
+	$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("group_any_objects"));
 	$tpl->parseCurrentBlock("no_content");
 }
 
@@ -201,5 +185,4 @@ $tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
 $tbl->render();
 
 $tpl->show();
-
 ?>
