@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.62 2004/01/16 10:27:07 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.63 2004/01/30 13:41:22 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -334,6 +334,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$cb_reset	    = ilUtil::formCheckBox(0,"group_reset",1,false);
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("grp_edit"));
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","content"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
