@@ -2547,6 +2547,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function evaluationuserObject($print = 0)
 	{
+		require_once './classes/Spreadsheet/Excel/Writer.php';
+		$format_bold = "";
+		$format_percent = "";
+		$format_datetime = "";
+		$format_title = "";
+		$format_title_plain = "";
+		if ($print)
+		{
+			unset($_POST["export_format"]);
+		}
+		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
+		$surveyname = preg_replace("/\s/", "_", $object_title);
+
+		if (!$_POST["export_format"])
+		{
+			$_POST["export_format"] = TYPE_PRINT;
+		}
+
 		$eval =& $this->object->getEvaluationForAllUsers();
 		if (!$print)
 		{
@@ -2559,12 +2577,43 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
 		}
 		$counter = 0;
-		$classes = array("tblrow1", "tblrow2");
-		$questions =& $this->object->getSurveyQuestions();
+		$classes = array("tblrow1top", "tblrow2top");
+		$questions =& $this->object->getSurveyQuestions(true);
 		$this->tpl->setCurrentBlock("headercell");
 		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
 		$this->tpl->parseCurrentBlock();
 		$char = "A";
+		switch ($_POST["export_format"])
+		{
+			case TYPE_XLS:
+				// Creating a workbook
+				$workbook = new Spreadsheet_Excel_Writer();
+
+				// sending HTTP headers
+				$workbook->send("$surveyname.xls");
+
+				// Creating a worksheet
+				$format_bold =& $workbook->addFormat();
+				$format_bold->setBold();
+				$format_percent =& $workbook->addFormat();
+				$format_percent->setNumFormat("0.00%");
+				$format_datetime =& $workbook->addFormat();
+				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+				$format_title =& $workbook->addFormat();
+				$format_title->setBold();
+				$format_title->setColor('black');
+				$format_title->setPattern(1);
+				$format_title->setFgColor('silver');
+				$format_title_plain =& $workbook->addFormat();
+				$format_title_plain->setColor('black');
+				$format_title_plain->setPattern(1);
+				$format_title_plain->setFgColor('silver');
+				// Creating a worksheet
+				$mainworksheet =& $workbook->addWorksheet();
+				break;
+		}
+		$cellcounter = 1;
+		$csvrow = array();
 		foreach ($questions as $question_id => $question_data)
 		{
 			$this->tpl->setCurrentBlock("headercell");
@@ -2575,6 +2624,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		$csvfile = array();
+
 		foreach ($eval as $user_id => $resultset)
 		{
 			$this->tpl->setCurrentBlock("bodycell");
@@ -2585,9 +2636,35 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if (count($resultset["answers"][$question_id]))
 				{
+					$answervalues = array();
+					foreach ($resultset["answers"][$question_id] as $key => $answer)
+					{
+						switch ($questions[$question_id]["questiontype_fi"])
+						{
+							case 1:
+								// nominal question
+								if (strcmp($answer["value"], "") != 0)
+								{
+									array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
+								}
+								break;
+							case 2:
+								// ordinal question
+								array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
+								break;
+							case 3:
+								// metric question
+								array_push($answervalues, $answer["value"]);
+								break;
+							case 4:
+								// text question
+								array_push($answervalues, $answer["textanswer"]);
+								break;
+						}
+					}
 					$this->tpl->setCurrentBlock("bodycell");
 					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", "answers");
+					$this->tpl->setVariable("TEXT_BODY_CELL", join($answervalues, "<br />"));
 					$this->tpl->parseCurrentBlock();
 				}
 				else
@@ -2625,6 +2702,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
 		$this->tpl->parseCurrentBlock();
+		switch ($_POST["export_format"])
+		{
+			case TYPE_XLS:
+				// Let's send the file
+				$workbook->close();
+				exit();
+				break;
+			case TYPE_SPSS:
+				$csv = "";
+				foreach ($csvfile as $csvrow)
+				{
+					$csv .= join($csvrow, ",") . "\n";
+				}
+				ilUtil::deliverData($csv, "$surveyname.csv");
+				exit();
+				break;
+		}
 		if ($print)
 		{
 			$this->tpl->show();

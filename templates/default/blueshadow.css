@@ -68,6 +68,31 @@ textarea.fullwidth {
 	padding:3px;
 }
 
+.tblrow2top {
+	background-color:#f7f7f7;
+	color:#222222;
+	font-size:13px;
+	padding:3px;
+	vertical-align: top;
+}
+
+.tblrow1top {
+	background-color:#eeeeee;
+	color:#222222;
+	font-size:13px;
+	padding:3px;
+	vertical-align: top;
+}
+
+.tblrowmarkedtop {
+	background-color:#ffe0e0;
+	color:#222222;
+	font-size:13px;
+	padding:3px;
+	vertical-align: top;
+}
+
+
 /* -------------------- table formatting ------------------ */
 
 table.std {
