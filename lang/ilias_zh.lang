@@ -65,6 +65,9 @@ assessment#:#create_new#:#创建新的
 assessment#:#duplicate#:#复制
 assessment#:#export#:#导出
 assessment#:#false#:#否
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#过滤程序
 assessment#:#gap_selection#:#间隔选择
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -94,6 +97,7 @@ assessment#:#qt_matching#:#匹配问题
 assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_type#:#问题类型
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable

@@ -207,6 +207,7 @@ intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行
 ip_address#:#IP地址
 java_path#:#Java路径 
 java_path_comment#:#用于SCORM学习模块 
+lang_cs#:#Czech###09 Mar 2004 new variable
 lang_de#:#德语 
 lang_dk#:#丹麦语
 lang_en#:#英语 

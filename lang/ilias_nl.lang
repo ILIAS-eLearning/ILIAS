@@ -48,6 +48,9 @@ assessment#:#create_new#:#Creëer een nieuwe
 assessment#:#duplicate#:#Duplikaat
 assessment#:#export#:#Exporteer
 assessment#:#false#:#Verkeerd
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -77,6 +80,7 @@ assessment#:#qt_matching#:#Overeenkomende vraag
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één  antwoord)
 assessment#:#qt_ordering#:#Volgorde-vraag
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable

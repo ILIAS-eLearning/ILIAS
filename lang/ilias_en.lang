@@ -48,8 +48,8 @@ assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
