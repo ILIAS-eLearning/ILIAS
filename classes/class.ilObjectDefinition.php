@@ -178,14 +178,16 @@ class ilObjectDefinition extends ilSaxParser
 	*
 	* @param	string	object type
 	* @access	public
+	* @return	array	list of allowed object types
 	*/
-	function getSubObjects($a_obj_name)
+	function getSubObjects($a_obj_type)
 	{
 		$subs = array();
-		if($subobjects = $this->obj_data[$a_obj_name]["subobjects"])
+
+		if($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
 		{
 			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
-			if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_name == "grp"))
+			if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_type == "grp"))
 			{
 				foreach ($subobjects as $data => $sub)
 				{
@@ -206,12 +208,12 @@ class ilObjectDefinition extends ilSaxParser
 						$subs[$data] = $sub;
 					}
 				}
+
 				return $subs;
 			}
 		}
+
 		return $subs;
-		// original code temp. disabled
-		//return $this->obj_data[$a_obj_name]["subobjects"];
 	}
 	
 	/**
@@ -219,10 +221,11 @@ class ilObjectDefinition extends ilSaxParser
 	*
 	* @param	string	object type
  	* @access	public
+	* @return	array	list of createable object types
 	*/
-	function getCreatableSubObjects($a_obj_name)
+	function getCreatableSubObjects($a_obj_type)
 	{
-		$subobjects = $this->getSubObjects($a_obj_name);
+		$subobjects = $this->getSubObjects($a_obj_type);
 		
 		unset($subobjects["rolf"]);
 
