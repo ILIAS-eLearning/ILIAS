@@ -831,6 +831,7 @@ common#:#choose_only_one_language#:#V&aelig;lg venligst kun et sprog
 common#:#city#:#By, 
 common#:#clear#:#Ryd
 common#:#client ip#:#Klient IP
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#Klient ID
 common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder

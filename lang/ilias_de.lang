@@ -909,6 +909,7 @@ common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client ip#:#Client IP
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#Mandanten ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage

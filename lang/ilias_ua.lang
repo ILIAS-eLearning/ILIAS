@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Очищення завершилось невдал�
 common#:#clear#:#Очистити
 common#:#clear_clipboard#:#Очистити Буфір Обміну
 common#:#client ip#:#Ip Клієнта
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID Клієнта
 common#:#client_ip#:#Ip Клієнта
 common#:#clipboard#:#Буфер обміну
