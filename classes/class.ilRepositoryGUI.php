@@ -119,7 +119,7 @@ class ilRepositoryGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output tabs
-		$this->setTabs();
+		//$this->setTabs();
 
 		// output locator
 		$this->setLocator();
@@ -272,6 +272,7 @@ class ilRepositoryGUI
 	*/
 	function showLearningResources()
 	{
+
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -323,7 +324,7 @@ class ilRepositoryGUI
 					}
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
 					{
-						$tpl->setVariable("TO_DESK_LINK", "lo_list.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
 							"&item_ref_id=".$lr_data["ref_id"].
 							"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 							"&sort_by=".$_GET["sort_by"]);
@@ -352,6 +353,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->parseCurrentBlock();
 			}
+
 		}
 		else
 		{
@@ -364,10 +366,11 @@ class ilRepositoryGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		$this->showPossibleSubObjects("lrs");
+		//$this->showPossibleSubObjects("lrs");
 
 		// create table
 		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("learning_resources"),"icon_lm_b.gif",$this->lng->txt("learning_resources"));
@@ -391,9 +394,9 @@ class ilRepositoryGUI
 		//$tbl->disable("title");
 
 		// render table
-		$tbl->setTemplate($tpl);
 		$tbl->render();
 		$tpl->parseCurrentBlock();
+
 
 		$this->tpl->setCurrentBlock("learning_resources");
 		$this->tpl->setVariable("LEARNING_RESOURCES", $tpl->get());
@@ -650,8 +653,9 @@ class ilRepositoryGUI
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
 				$tpl->setVariable("LINK_TARGET", "bottom");
-				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
+				//$tpl->setVariable("IMG", $obj_icon);
+				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
@@ -674,7 +678,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
 		$tbl->setHeaderVars(array("","title","description","owner","last_change"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
-		$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
+		$tbl->setColumnWidth(array("1%","30%","39%","10%","20%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
