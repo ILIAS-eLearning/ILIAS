@@ -129,6 +129,7 @@ class ilValidator extends PEAR
 			$this->logging = true;
 
 			// should be available thru inc.header.php
+			// TODO: move log functionality to new class ilScanLog
 			include_once "classes/class.ilLog.php";
 		
 			// create scan log
@@ -258,7 +259,7 @@ class ilValidator extends PEAR
 		{
 			return false;
 		}
-
+		
 		// init
 		$this->missing_objects = array();
 		
@@ -890,18 +891,21 @@ restore starts here
 /*******************
 restore starts here
 ********************/
+
+		$subnodes = array();
+		$topnode = array();
 		
 		// process move subtree
 		foreach ($a_nodes as $node)
 		{
 			// get node data
-			$top_node = $tree->getNodeData($node["child"]);
+			$topnode = $tree->getNodeData($node["child"]);
 			
 			// don't save rolefolders, remove them
 			// TODO process ROLE_FOLDER_ID
-			if ($top_node["type"] == "rolf")
+			if ($topnode["type"] == "rolf")
 			{
-				$rolfObj = $ilias->obj_factory->getInstanceByRefId($top_node["child"]);
+				$rolfObj = $ilias->obj_factory->getInstanceByRefId($topnode["child"]);
 				$rolfObj->delete();
 				unset($top_node);
 				unset($rolfObj);
@@ -909,10 +913,10 @@ restore starts here
 			}
 
 			// get subnodes of top nodes
-			$subnodes[$node["child"]] = $tree->getSubtree($top_node);
+			$subnodes[$node["child"]] = $tree->getSubtree($topnode);
 		
 			// delete old tree entries
-			$tree->deleteTree($top_node);
+			$tree->deleteTree($topnode);
 		}
 
 		// now move all subtrees to new location
