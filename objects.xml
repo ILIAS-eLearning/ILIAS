@@ -264,4 +264,7 @@
 	<property name="edit_meta">meta_data</property>
 	<subobj name="par">par</subobj>
 </object>
+<object name="sty" class_name="StyleSheet" checkbox="1" inherit="0">
+	<property name="view">cont_content</property>
+</object>
 </objects>
