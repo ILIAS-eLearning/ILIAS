@@ -268,7 +268,7 @@ class User extends PEAR
 			 "email" => "herm@nn.de",
 			 "subject" => "Hello",
 			 "body" => "This is a test mail",
-			 "datetime" => $lng->formatDate(date("Y-m-d"))
+			 "datetime" => $lng->fmtDate(date("Y-m-d"))
 			 );
 		 return $mails;
 	 }
@@ -295,7 +295,7 @@ class User extends PEAR
 			 "content" => "This is Lesson One",
 			 "page" => "Contents",
 			 "pageid" => "1",
-			 "datetime" => $lng->formatDate(date("Y-m-d"))
+			 "datetime" => $lng->fmtDate(date("Y-m-d"))
 			 );
 		 return $lessons;
 	 }
@@ -328,7 +328,7 @@ class User extends PEAR
 			 "content" => "This is Lesson One",
 			 "page" => "Contents",
 			 "pageid" => "1",
-			 "datetime" => $lng->formatDate(date("Y-m-d"))
+			 "datetime" => $lng->fmtDate(date("Y-m-d"))
 			 );
 */
 		 return $lessons;
@@ -355,7 +355,7 @@ class User extends PEAR
 			 "title" => "Course 1",
 			 "desc" => "description of course one",
 			 "content" => "This is Course One",
-			 "datetime" => $lng->formatDate(date("Y-m-d"))
+			 "datetime" => $lng->fmtDate(date("Y-m-d"))
 			 );
 		 return $courses;
 	 }
