@@ -7,15 +7,19 @@ body { margin:0px; }
 <form name="surveyOutput" method="post" action="{FORM_ACTION}">
 <div class="il_Header">
 <table width="100%">
-<tr>
+<tr colspan="2">
 <td><h1>{HEADER}</h1></td>
-<td align="right">
+</tr>
+<tr>
+<td align="left">
 <!-- BEGIN prev -->
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev -->
 <!-- BEGIN skipprev -->
 <input type="submit" class="submit" name="cmd[skip_previous]" value="{BTN_SKIP_PREV}" />
 <!-- END skipprev -->
+</td>
+<td align="right">
 <!-- BEGIN skipnext -->
 <input type="submit" class="submit" name="cmd[skip_next]" value="{BTN_SKIP_NEXT}" />
 <!-- END skipnext -->
