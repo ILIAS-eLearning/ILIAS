@@ -152,6 +152,130 @@ class ilGroupExplorer extends ilExplorer
 		
 		$this->output[] = $tpl->get();
 	}
+	
+	/**
+	* Creates output
+	* recursive method
+	* @access	private
+	* @param	integer
+	* @param	array
+	* @return	string
+	*/
+	function formatObject($a_node_id,$a_option)
+	{
+		global $lng;
+
+		if (!isset($a_node_id) or !is_array($a_option))
+		{
+			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+		}
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		foreach ($a_option["tab"] as $picture)
+		{
+			if ($picture == 'plus')
+			{
+				$target = $this->createTarget('+',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'minus')
+			{
+				$target = $this->createTarget('-',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'blank' or $picture == 'winkel'
+			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+			{
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
+				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($this->output_icons)
+		{
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->parseCurrentBlock();
+		}
+
+		if($this->isClickable($a_option["type"]))	// output link
+		{
+			$tpl->setCurrentBlock("link");
+			/*$target = (strpos($this->target, "?") === false) ?
+				$this->target."?" : $this->target."&";
+			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			*/
+			
+			$tpl->setVariable("LINK_TARGET", $this->getURLbyType($a_option));
+			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+
+			if($a_option["type"]=="fold")
+			{
+				$tpl->setVariable("TARGET", " target=\"content\"");
+			}else{
+				$tpl->setVariable("TARGET", " target=\"bottom\"");
+			}
+			/*if ($this->frame_target != "")
+			{
+				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
+			}*/
+			$tpl->parseCurrentBlock();
+		}
+		else			// output text only
+		{
+			$tpl->setCurrentBlock("text");
+			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
+	}
+	
+	/*
+	* function returns specific link-url depending on object-type
+	*
+	*
+	* access public
+	*/
+	function getURLbyType($cont_data)
+	{
+		switch ($cont_data["type"])
+		{
+	  		case "frm":
+				$URL = "forums_threads_liste.php?ref_id=".$cont_data["child"];
+				break;
+	
+			case "crs":
+				$URL = "lo_list.php?cmd=displayList&ref_id=".$cont_data["child"];
+				break;
+	
+			case "lm":
+				$URL = "content/lm_presentation.php?ref_id=".$cont_data["child"];
+				break;
+	
+			case "fold":
+				$URL = "group.php?ref_id=".$cont_data["child"]."&cmd=show_content";
+				break;
+		}
+
+		return $URL;
+	}
 }
 
 
