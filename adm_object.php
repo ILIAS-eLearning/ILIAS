@@ -66,7 +66,6 @@ else
 }
 
 $method = $_GET["cmd"]."Object";
-
 // build object instance
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
@@ -74,7 +73,6 @@ $class_name = $objDefinition->getClassName($obj_type);
 $class_constr = $class_name."Object";
 require_once("./classes/class.".$class_name."Object.php");
 $obj = new $class_constr($id,$call_by_reference);
-
 // call object method
 switch ($_GET["cmd"])
 {
@@ -86,7 +84,7 @@ switch ($_GET["cmd"])
 	// save object
 	// removed 2nd param parent_id. $id is parent_id
 	case "save":
-		$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
+		//$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
 		break;
 
 	// update object
@@ -133,8 +131,8 @@ switch ($_GET["cmd"])
 
 // CALL OUTPUT METHOD OF OBJECT
 $class_constr = $class_name."ObjectOut";
-
 require_once("./classes/class.".$class_name."ObjectOut.php");
+//echo "call:".$class_name."ObjectOut"."->".$method."<br>";exit;
 $obj = new $class_constr($data,$id,$call_by_reference);
 $obj->$method();
 

@@ -17,6 +17,7 @@ class RoleFolderObject extends Object
 	function RoleFolderObject($a_id,$a_call_by_reference = "")
 	{
 		$this->Object($a_id,$a_call_by_reference);
+		$this->type = "rolf";
 	}
 
 

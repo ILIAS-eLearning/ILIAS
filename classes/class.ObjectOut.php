@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.31 2003/03/10 10:51:59 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.32 2003/03/10 13:59:34 akill Exp $
 *
 * @package ilias-core
 */
@@ -261,15 +261,13 @@ class ObjectOut
 
 			case "btn_undelete":
 				$this->data = $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]);
-				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
 				exit();
 				break;
 
 			case "btn_remove_system":
 				$this->data = $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]);
-				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
 				exit();
 				break;
 
@@ -287,8 +285,7 @@ class ObjectOut
 
 		if (key($_POST["cmd"]) != "delete")
 		{
-			header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+			header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
 			exit();
 		}
 	}
@@ -308,8 +305,37 @@ class ObjectOut
 
 	}
 
+
+	/**
+	* save object
+	*/
 	function saveObject()
 	{
+		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+
+
+		//$obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
+		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			// create and insert object in objecttree
+			$class_name = $objDefinition->getClassName($_GET["new_type"])."Object";
+			$newObj = new $class_name();
+			$newObj->setType($_GET["new_type"]);
+			$newObj->setTitle($_POST["Fobject"]["title"]);
+			$newObj->setDescription($_POST["Fobject"]["desc"]);
+			$newObj->create();
+
+			//$this->id = createNewObject($_GET["new_type"], $_POST["Fobject"]["title"], $_POST["Fobject"]["desc"]);
+			//$ref_id = createNewReference($newObj->GetId());
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+
+			unset($newObj);
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
+		}
 		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
 		exit();
 	}
@@ -439,6 +465,7 @@ class ObjectOut
 			{
 				$out = "&nbsp;";
 			}
+			$num++;
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
 			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?ref_id=".$_GET["ref_id"]."&order=type&direction=".
@@ -454,8 +481,6 @@ class ObjectOut
 			{
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
-
-				$num++;
 
 				// color changing
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
@@ -552,7 +577,6 @@ class ObjectOut
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
-
 		if ($tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]))
 		{
 			foreach ($tree->Childs as $key => $val)
@@ -569,7 +593,6 @@ class ObjectOut
 					"description" => $val["desc"],
 					"last_change" => Format::formatDate($val["last_update"])
 				);
-
 				//control information
 				$this->data["ctrl"][] = array(
 					"type" => $val["type"],

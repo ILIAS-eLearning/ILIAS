@@ -4,7 +4,7 @@
 *
 * @author Wolfgang Merkens <wmerkens@databay.de> 
 * @version $Id$
-* 
+*
 * @extends Object
 * @package ilias-core
 */
@@ -31,10 +31,10 @@ class ForumObject extends Object
 		$this->Object($a_id,$a_call_by_reference);
 		$this->Forum = new Forum();
 	}
-	
+
 	/**
 	* saves new object in admin interface
-	* 
+	*
 	* @param	integer		obj_id
 	* @param	integer		parent_id
 	* @param	string		obj_type
@@ -43,57 +43,79 @@ class ForumObject extends Object
 	* @return	integer		new obj_id
 	* @access	public
 	*/
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
+	//function create($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
+	function create()
+	{
+		$newFrm_ID = parent::create();
+	}
+
+
+	/**
+	* put forum into tree
+	*/
+	function putInTree($a_parent)
 	{
 		global $tree, $rbacadmin;
 
-		$newFrm_ID = parent::saveObject($a_obj_id, $a_parent ,$a_type, $a_new_type, $a_data);
-		
+		// put forum in tree
+		parent::putInTree($a_parent);
+
 		// create new forum tree
-		$tree->addTree($newFrm_ID);			
-		
+		$tree->addTree($this->id);
+
 		// create a local role-folder
-		$rolF_obj["title"] = "Local roles";
-		$rolF_obj["desc"] = "Role Folder of forum no.".$newFrm_ID;
-		
-		$rolF_ID = parent::saveObject($newFrm_ID, $a_obj_id ,"frm" , "rolf" , $rolF_obj);
-		
+		require_once "class.RoleFolderObject.php";
+		$rfoldObj = new RoleFolderObject();
+		$rfoldObj->setTitle("Local roles");
+		$rfoldObj->setDescription("Role Folder of forum ref_no.".$this->ref_id);
+		$rfoldObj->create();
+		$rfoldObj->createReference();
+		$rfoldObj->putInTree($this->ref_id);
+		//$rolF_obj["title"] = "Local roles";
+		//$rolF_obj["desc"] = "Role Folder of forum no.".$newFrm_ID;
+
+		//$rolF_ID = parent::saveObject($newFrm_ID, $a_obj_id ,"frm" , "rolf" , $rolF_obj);
+
 		// create moderator role in local role-folder
-		require_once "class.RoleObject.php";		
+		require_once "class.RoleObject.php";
 		$roleObj = new RoleObject();
-		
-		$role_data["title"] = "moderator_".$newFrm_ID;
-		$role_data["desc"] = "moderator of forum no.".$newFrm_ID;
-		
-		$roleID = $roleObj->saveObject($rolF_ID, $newFrm_ID , $role_data);
-		
+		$roleObj->setTitle("moderator_".$this->ref_id);
+		$roleObj->setDescription("moderator of forum ref_no.".$this->ref_id);
+
+		//$role_data["title"] = "moderator_".$newFrm_ID;
+		//$role_data["desc"] = "moderator of forum no.".$newFrm_ID;
+		$roleObj->create();
+		$roleObj->createReference();
+		$roleObj->putInTree($rfoldObj->getRefId());
+
+		//$roleID = $roleObj->saveObject($rolF_ID, $newFrm_ID , $role_data);
+
 		// insert new forum as new topic into frm_data
-		$frm_data = getObject($newFrm_ID);
-		
+		//$frm_data = getObject($newFrm_ID);
+
 		$top_data = array(
-            "top_frm_fk"   		=> $newFrm_ID,
-			"top_name"   		=> addslashes($frm_data["title"]),
-            "top_description" 	=> addslashes($frm_data["desc"]),
+            "top_frm_fk"   		=> $this->getId(),
+			"top_name"   		=> addslashes($this->getTitle()),
+            "top_description" 	=> addslashes($this->getDescription()),
             "top_num_posts"     => 0,
             "top_num_threads"   => 0,
             "top_last_post"     => "",
-			"top_mods"      	=> $roleID,
+			"top_mods"      	=> $roleObj->getId(),
 			"top_usr_id"      	=> $_SESSION["AccountId"],
-            "top_date" 			=> date("Y-m-d H:i:s")			
+            "top_date" 			=> date("Y-m-d H:i:s")
         );
-				
+
 		$q = "INSERT INTO frm_data ";
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
 		$q .= "VALUES ";
 		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
-		$result = $this->ilias->db->query($q);	
+		$result = $this->ilias->db->query($q);
 		//echo "roleID: ".$roleID." owner: ".$frm_data["owner"]."<br>";
 		// assign moderator
-		$rbacadmin->assignUser($roleID,$frm_data["owner"],"n");
-		
-		return $newFrm_ID;	
+		$rbacadmin->assignUser($roleObj->getRefId(), $this->getOwner(), "n");
+
 	}
-			
+
 	/**
 	* update forum data
 	* @param	array	forum data

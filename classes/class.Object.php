@@ -37,7 +37,7 @@ class Object
 	var $owner;
 	var $create_date;
 	var $last_update;
-	
+
 	/**
 	* indicates if object is init by reference or its true object id
 	* true=reference_id; false=object_id
@@ -53,6 +53,28 @@ class Object
 	*/
 	var $objectList;
 
+
+	/**
+	* max title length
+	* @var int
+	*/
+	var $max_title;
+
+
+	/**
+	* max description length
+	* @var int
+	*/
+	var $max_desc;
+
+
+	/**
+	* add dots to shortened titles and descriptions
+	* @var boolean
+	*/
+	var $add_dots;
+
+
 	/**
 	* Constructor
 	* @access	public
@@ -65,11 +87,15 @@ class Object
 		$this->ilias =& $ilias;
 		$this->lng = &$lng;
 
+		$this->max_title = MAXLENGTH_OBJ_TITLE;
+		$this->max_desc = MAXLENGTH_OBJ_DESC;
+		$this->add_dots = true;
+
 		$this->call_by_reference = $a_call_by_reference;
-		
+
 		if ($this->call_by_reference)
 		{
-			$this->ref_id = $a_id;		
+			$this->ref_id = $a_id;
 		}
 		else
 		{
@@ -90,7 +116,7 @@ class Object
 	function read()
 	{
 		global $ilias;
-		
+
 		if ($this->call_by_reference)
 		{
 			$obj = getObjectByReference($this->ref_id);
@@ -98,7 +124,7 @@ class Object
 		}
 		else
 		{
-			$obj = getObject($this->id);		
+			$obj = getObject($this->id);
 		}
 
 		$this->type = $obj["type"];
@@ -131,8 +157,9 @@ class Object
 		$this->id = $a_id;
 	}
 
+
 	/**
-	* get reference id
+	* get reference id (deprecated -> getRefId())
 	* @access	public
 	* @return	int		reference id
 	*/
@@ -141,9 +168,8 @@ class Object
 		return $this->ref_id;
 	}
 
-
 	/**
-	* set reference id
+	* set reference id (deprecated -> setRefId())
 	* @access	public
 	* @param	int		$a_id		reference id
 	*/
@@ -151,7 +177,30 @@ class Object
 	{
 		$this->ref_id = $a_id;
 	}
-	
+
+
+	/**
+	* set reference id
+	* @access	public
+	* @param	int		$a_id		reference id
+	*/
+	function setRefId($a_id)
+	{
+		$this->ref_id = $a_id;
+	}
+
+
+	/**
+	* get reference id
+	* @access	public
+	* @return	int		reference id
+	*/
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
+
+
 	/**
 	* get object type
 	* @access	public
@@ -259,6 +308,67 @@ class Object
 	function getLastUpdateDate()
 	{
 		return $this->last_update;
+	}
+
+
+	/**
+	* create
+	*
+	* note: title, description and type should be set when this function is called
+	*
+	* @return	int		object id
+	*/
+	function create()
+	{
+		global $ilias;
+
+		// cut length of text
+		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
+		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
+
+		$q = "INSERT INTO object_data ".
+			 "(type,title,description,owner,create_date,last_update) ".
+			 "VALUES ".
+			 "('".$this->type."','".$this->title."','".$this->desc."',".
+			 "'".$ilias->account->getId()."',now(),now())";
+		$ilias->db->query($q);
+
+		$this->id = getLastInsertId();
+		$this->read();						// to get all data (incl. dates!)
+
+		return $this->id;
+	}
+
+
+	/**
+	* maybe this method should be in tree object!?
+	* @todo	role/rbac stuff
+	*/
+	function putInTree($a_parent)
+	{
+		global $tree, $rbacadmin;
+
+		$tree->insertNode($this->getRefId(), $a_parent);
+
+		// TODO: MAKE THIS WORK!
+		/*
+		$parentRoles = $rbacadmin->getParentRoleIds();
+		foreach ($parentRoles as $parRol)
+		{
+    		// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+			$ops = $rbacreview->getOperations($parRol["obj_id"], $this->getType(), $parRol["parent"]);
+			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId(), $a_parent);
+		}*/
+	}
+
+
+	/**
+	* creates reference for object
+	*/
+	function createReference()
+	{
+		$this->ref_id = createNewReference($this->id);
+		return $this->ref_id;
 	}
 
 
@@ -442,9 +552,9 @@ class Object
 	* @return	integer		new obj_id
 	* @access	public
 	**/
-	function saveObject($a_parent_ref_id,$a_type, $a_new_type, $a_data)
+	function saveObject($a_parent_ref_id, $a_type, $a_new_type, $a_data)
 	{
-		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
+		/*global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 
 		if ($rbacsystem->checkAccess("create",$a_parent_ref_id,$a_new_type))
 		{
@@ -456,7 +566,7 @@ class Object
 
 			// TODO: first param is required
 			$parentRoles = $rbacadmin->getParentRoleIds();
-			
+
 			foreach ($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -467,8 +577,8 @@ class Object
 		else
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}
-		
+		} */
+
 		// NOT CHANGED
 		return $this->id;
 	}
@@ -596,7 +706,7 @@ class Object
 		}
 		return $data;
 	}
-	
+
 	/**
 	* save permissions of object
 	* @access public
