@@ -27,7 +27,7 @@ require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilObjLearningModuleGUI.php");
 require_once ("content/classes/class.ilObjDlBook.php");
 require_once ("content/classes/class.ilObjDlBookGUI.php");
-require_once ("content/classes/class.ilPageObjectGUI.php");
+require_once ("content/classes/class.ilLMPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 require_once ("classes/class.ilObjStyleSheet.php");
