@@ -1281,5 +1281,36 @@ class ilUtil
 		return $ret;
 	}
 
+
+	/**
+	* convert "y"/"n" to true/false
+	*/
+	function yn2tf($a_yn)
+	{
+		if(strtolower($a_yn) == "y")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* convert true/false to "y"/"n"
+	*/
+	function tf2yn($a_tf)
+	{
+		if($a_tf)
+		{
+			return "y";
+		}
+		else
+		{
+			return "f";
+		}
+	}
+
 } // END class.ilUtil
 ?>
