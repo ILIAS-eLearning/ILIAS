@@ -290,6 +290,21 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_RECT", $this->lng->txt("rectangle"));
 				$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
 				$this->tpl->setVariable("TEXT_POLY", $this->lng->txt("polygon"));
+				if (array_key_exists("newarea", $_POST))
+				{
+					switch ($_POST["newarea"])
+					{
+						case "circle":
+							$this->tpl->setVariable("SELECTED_CIRCLE", " selected=\"selected\"");
+							break;
+						case "poly":
+							$this->tpl->setVariable("SELECTED_POLY", " selected=\"selected\"");
+							break;
+						case "rect":
+							$this->tpl->setVariable("SELECTED_RECT", " selected=\"selected\"");
+							break;
+					}
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("HeadContent");
@@ -446,6 +461,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 
 	function addArea()
 	{
+		$_SESSION["last_area"] = $_POST["newarea"];
 		$this->writePostData();
 		$this->editQuestion();
 	}
@@ -684,7 +700,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$maxpoints = $answer->get_points();
 				$maxindex = $idx;
 			}
-			$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
+			if (!array_key_exists("evaluation", $_GET))
+			{
+				$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
+			}
 		}
 		if ($maxindex > -1)
 		{
