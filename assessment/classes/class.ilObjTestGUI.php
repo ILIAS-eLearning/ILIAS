@@ -208,6 +208,16 @@ class ilObjTestGUI extends ilObjectGUI
 	function exportObject()
 	{
 		global $tree;
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 
 		//$this->setTabs();
 
@@ -723,6 +733,16 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+		
 		$data["sel_test_types"] = $this->object->getTestType();
 		$data["author"] = $this->object->getAuthor();
 		$data["introduction"] = $this->object->getIntroduction();
@@ -1981,13 +2001,23 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function questionsObject()
 	{
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+
 		if ($this->object->isRandomTest())
 		{
 			$this->randomQuestionsObject();
 			return;
 		}
 		
-		global $rbacsystem;
 		$add_parameter = $this->getAddParameter();
 
 		if ($_GET["eqid"] and $_GET["eqpl"])
@@ -2270,6 +2300,15 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function marksObject() {
 		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 
 		$this->object->mark_schema->sort();
 	
@@ -4289,6 +4328,15 @@ class ilObjTestGUI extends ilObjectGUI
 	function maintenanceObject()
 	{
 		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$add_parameter = $this->getAddParameter();
