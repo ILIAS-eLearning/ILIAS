@@ -41,10 +41,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjQuestionPoolGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "qpl";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
 	
 	/**

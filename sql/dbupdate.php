@@ -248,7 +248,7 @@ if (count($grp_data) > 0)
 		$res = $this->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC); 
 		$entry["parent"] = $row["ref_id"];
-		
+
 		$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,ref_id) VALUES ".
 			 "('".$entry["tree"]."',".
 			 "'".$entry["ref_id"]."',".
@@ -1302,7 +1302,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	$rbac_operations[$row->typ_id][$row->ops_id] = $row->ops_id;
 }
-	
+
 foreach ($rbac_objects as $key => $obj_data)
 {
 	$rbac_objects[$key]["ops"] = $rbac_operations[$key];
@@ -1446,3 +1446,81 @@ INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('22', '41');
 
 <#93>
 ALTER TABLE mail_options ADD incoming_type TINYINT( 3 );
+
+<#94>
+# add operations 'create_tst' and 'create_qpl' for test objects and question pools
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('27', 'create_tst', 'create new test');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('28', 'create_qpl', 'create new question pool');
+
+<#95>
+<?php
+
+// insert test definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'tst', 'Test object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to test object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#96>
+<?php
+
+// insert question pool definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'qpl', 'Question pool object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to question pool object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#97>
+<?php
+
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add create_tst and create_qpl operations to category type
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','27')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','28')";
+$this->db->query($query);
+
+?>

@@ -737,6 +737,18 @@ common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
 common#:#obj_file#:#File
+common#:#obj_tst#:#Test
+common#:#obj_qpl#:#Question Pool
+common#:#qpl_edit_permission#:#Change permission settings
+common#:#tst_edit_permission#:#Change permission settings
+common#:#qpl_visible#:#Question Pool is visible
+common#:#tst_visible#:#Test is visible
+common#:#qpl_read#:#Read access to Question Pool
+common#:#tst_read#:#Read access to Test
+common#:#qpl_write#:#Edit Question Pool
+common#:#tst_write#:#Edit Test
+common#:#qpl_delete#:#Delete Question Pool
+common#:#tst_delete#:#Delete Test
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary

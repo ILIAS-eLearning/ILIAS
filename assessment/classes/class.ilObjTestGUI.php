@@ -41,10 +41,10 @@ class ilObjTestGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjTestGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjTestGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "tst";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
 	
 	/**
