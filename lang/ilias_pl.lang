@@ -862,8 +862,9 @@ common#:#group_req_password#:#Wymagane hasło rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
 common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
 common#:#group_reset#:#Przywróć ustawienia domyslne grupy
-common#:#group_status#:#Status grupy
+common#:#group_status#:#Status grupy###08 May 2004 content changed
 common#:#group_status_closed#:#Zamknięta
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
 common#:#group_status_public#:#Publiczna
 common#:#groups#:#Grupy
 common#:#groups_overview#:#Przegląd grup
@@ -1075,6 +1076,7 @@ common#:#login#:#Loguj
 common#:#login_as#:#Zalogowany jako
 common#:#login_data#:#Data zalogowania
 common#:#login_exists#:#Już jest użytkownik z taką nazwą (pseudonim)! Wybierz inną.
+common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Biezący czas pracy
 common#:#login_to_ilias#:#Logowanie do ILIAS-a
 common#:#logout#:#Wyloguj
@@ -1713,6 +1715,7 @@ content#:#cont_Additional#:#Dodatkowe
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Koło
 content#:#cont_Citation#:#Cytat
+content#:#cont_Code#:#Code###08 May 2004 new variable
 content#:#cont_Example#:#Przykład
 content#:#cont_Headline1#:#Nagłówek 1
 content#:#cont_Headline2#:#Nagłówek 2

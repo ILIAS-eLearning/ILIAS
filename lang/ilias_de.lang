@@ -862,9 +862,9 @@ common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
-common#:#group_status#:#Gruppe ist
-common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
+common#:#group_status#:#Gruppe ist###08 May 2004 content changed
 common#:#group_status_closed#:#Geschlossen
+common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppenübersicht
@@ -1076,6 +1076,7 @@ common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
@@ -1396,7 +1397,6 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
@@ -1715,6 +1715,7 @@ content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
+content#:#cont_Code#:#Code###08 May 2004 new variable
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2

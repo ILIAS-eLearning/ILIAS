@@ -864,6 +864,7 @@ common#:#group_req_registration_msg#:#To join this group you have to register. T
 common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#groups
 common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
@@ -1075,6 +1076,7 @@ common#:#login#:#login
 common#:#login_as#:#Logged in as###29 Oct 2003 new variable
 common#:#login_data#:#Login data###25 Mar 2003 new variable
 common#:#login_exists#:#There is already a user with this loginname! Please choose another one.###25 Mar 2003 new variable
+common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
 common#:#login_time#:#Current online time###04 Aug 2003 new variable
 common#:#login_to_ilias#:#login to ILIAS
 common#:#logout#:#logout
@@ -1713,6 +1715,7 @@ content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
 content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
+content#:#cont_Code#:#Code###08 May 2004 new variable
 content#:#cont_Example#:#Example###23 Jun 2003 new variable
 content#:#cont_Headline1#:#Headline 1###06 Sep 2003 new variable
 content#:#cont_Headline2#:#Headline 2###06 Sep 2003 new variable
