@@ -85,7 +85,7 @@ class Tree
 			$this->ilias->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		if (func_num_args() > 2))
+		if (func_num_args() > 2)
 		{
 			$this->ilias->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilias->error_obj->WARNING);
 		}
