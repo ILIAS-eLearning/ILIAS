@@ -99,7 +99,7 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}
 
-	function buildFrameTarget($a_type)
+	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
 		switch($a_type)
 		{
@@ -108,7 +108,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "lm":
 			case "dbk":
-				return "_top";
+				return "ilContObj".$a_obj_id;
 
 			case "grp":
 				return "";
