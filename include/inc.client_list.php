@@ -35,7 +35,23 @@
 require_once "PEAR.php";
 require_once "DB.php";
 
-require_once "./include/inc.check_pear.php";
+// wrapper for php 4.3.2 & higher
+@include_once "HTML/ITX.php";
+
+if (!class_exists(IntegratedTemplateExtension))
+{
+	include_once "HTML/Template/ITX.php";
+	//include_once "classes/class.ilTemplate2.php";
+	include_once "classes/class.ilTemplateHTMLITX.php";
+}
+else
+{
+	//include_once "classes/class.ilTemplate.php";
+	include_once "classes/class.ilTemplateITX.php";
+}
+
+require_once "classes/class.ilTemplate.php";
+
 require_once "./classes/class.ilIniFile.php";
 require_once "./classes/class.ilTableGUI.php";
 require_once "./classes/class.ilUtil.php";
@@ -52,6 +68,8 @@ define("ILIAS_WEB_DIR",$ini_ilias->readVariable("clients","path"));
 define ("ILIAS_HTTP_PATH",$ini_ilias->readVariable('server','http_path'));
 define ("ILIAS_ABSOLUTE_PATH",$ini_ilias->readVariable('server','absolute_path'));
 
+define ("DEBUG",false);
+	
 // read path + command for third party tools from ilias.ini
 define ("PATH_TO_CONVERT",$ini_ilias->readVariable("tools","convert"));	
 define ("PATH_TO_ZIP",$ini_ilias->readVariable("tools","zip"));
@@ -60,8 +78,10 @@ define ("PATH_TO_JAVA",$ini_ilias->readVariable("tools","java"));
 define ("PATH_TO_HTMLDOC",$ini_ilias->readVariable("tools","htmldoc"));
 		
 //instantiate template - in the main program please use ILIAS Template class
-$tpl = new $tpl_class_name ("./templates/default");
-$tpl->loadTemplatefile("tpl.main.html", true, true);
+//$tpl = new $tpl_class_name ("./templates/default");
+//$tpl->loadTemplatefile("tpl.main.html", true, true);
+// instantiate main template
+$tpl = new ilTemplate("tpl.main.html", true, true);
 
 $tpl->setVariable("PAGETITLE","Client List");
 $tpl->setVariable("LOCATION_STYLESHEET","./templates/default/blueshadow.css");
