@@ -62,5 +62,6 @@ class ilLMObjectFactory
 		}
 		return $obj;
 	}
+
 }
 ?>

@@ -349,6 +349,7 @@ class ilPageEditorGUI
 			$tabs_gui->setTabs(array(array("cont_mob_inst_prop", "editAlias"),
 				array("cont_mob_prop", "edit"),
 				array("cont_mob_files", "editFiles"),
+				array("cont_mob_usages", "showUsages"),
 				array("cont_back", "returnToContext")
 				));
 		}

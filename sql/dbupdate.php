@@ -857,3 +857,6 @@ $this->db->query($query);
 
 <#64>
 ALTER TABLE page_object MODIFY content MEDIUMTEXT;
+
+<#65>
+ALTER TABLE mob_usage MODIFY usage_type VARCHAR(10) NOT NULL;
