@@ -29,6 +29,8 @@ define("RESPONSE_MULTIPLE", "1");
 define("OUTPUT_ORDER", "0");
 define("OUTPUT_RANDOM", "1");
 
+define("MULTIPLE_CHOICE_QUESTION_IDENTIFIER", "MULTIPLE CHOICE QUESTION");
+
 /**
 * Class for multiple choice tests
 *
@@ -159,6 +161,14 @@ class ASS_MultipleChoice extends ASS_Question
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation

@@ -26,7 +26,7 @@ require_once "./assessment/classes/class.assAnswerMatching.php";
 
 define ("MT_TERMS_PICTURES", 0);
 define ("MT_TERMS_DEFINITIONS", 1);
-
+define ("MATCHING_QUESTION_IDENTIFIER", "MATCHING QUESTION");
 /**
 * Class for matching questions
 *
@@ -160,6 +160,14 @@ class ASS_MatchingQuestion extends ASS_Question
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".MATCHING_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 

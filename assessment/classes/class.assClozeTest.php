@@ -26,6 +26,7 @@ require_once "./assessment/classes/class.assAnswerCloze.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
+define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
 
 /**
 * Class for cloze tests
@@ -375,6 +376,14 @@ class ASS_ClozeTest extends ASS_Question
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".CLOZE_TEST_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 

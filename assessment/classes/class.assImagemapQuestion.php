@@ -24,6 +24,8 @@
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerImagemap.php";
 
+define ("IMAGEMAP_QUESTION_IDENTIFIER", "IMAGE MAP QUESTION");
+
 /**
 * Class for image map questions
 *
@@ -400,6 +402,14 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".IMAGEMAP_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation

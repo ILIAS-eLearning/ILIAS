@@ -27,6 +27,8 @@ require_once "./assessment/classes/class.assAnswerOrdering.php";
 define ("OQ_PICTURES", 0);
 define ("OQ_TERMS", 1);
 
+define ("ORDERING_QUESTION_IDENTIFIER", "ORDERING QUESTION");
+
 /**
 * Class for ordering questions
 *
@@ -155,6 +157,14 @@ class ASS_OrderingQuestion extends ASS_Question
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".ORDERING_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation
