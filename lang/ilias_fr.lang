@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+common#:#3rd_party_software#:#3rd party software###26 Nov 2003 new variable
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?
 common#:#access#:#Accès
@@ -117,6 +118,7 @@ common#:#choose_location#:#Choisissez l'emplacement
 common#:#choose_only_one_language#:#Veuillez ne choisir qu'une langue
 common#:#city#:#Ville
 common#:#clear#:#Effacer
+common#:#client_id#:#Client IDe###26 Nov 2003 new variable
 common#:#clipboard#:#Presse-papier
 common#:#close#:#Fermer
 common#:#comma_separated#:#Séparé par des virgules (CSV)
@@ -153,6 +155,7 @@ common#:#day#:#Jour
 common#:#days#:#Jours
 common#:#db_host#:#Hôte de base de données
 common#:#db_name#:#Nom de base de données
+common#:#db_need_update#:#Database needs an update!e###26 Nov 2003 new variable
 common#:#db_pass#:#Mot de passe de base de données
 common#:#db_type#:#Type de base de données
 common#:#db_user#:#Utilisateur de base de données
@@ -167,6 +170,7 @@ common#:#default_language#:#Langue par défaut
 common#:#default_role#:#Rôle par défaut
 common#:#default_roles#:#Rôles par défaut
 common#:#default_skin#:#Apparence par défaut
+common#:#default_skin_style#:#Default Skin / Stylee###26 Nov 2003 new variable
 common#:#default_style#:#Style par défaut
 common#:#delete#:#Détruire
 common#:#delete_all#:#Détruire tout
@@ -287,6 +291,7 @@ common#:#glo_a#:#un glossaire
 common#:#glo_add#:#Ajouter glossaire
 common#:#glo_added#:#Glossaire ajouté
 common#:#glo_new#:#Nouveau glossaire
+common#:#glossaries#:#Glossariese###26 Nov 2003 new variable
 common#:#glossary#:#Glossaire
 common#:#glossary_added#:#Glossaire ajouté
 common#:#group_access_denied#:#Accès refusé
@@ -334,6 +339,8 @@ common#:#grp_mem_leave#:#Enlever le membre du groupe
 common#:#grp_mem_send_mail#:#Envoyer un message au membre
 common#:#grp_name_exists#:#Un groupe portant ce nom existe déjà ! Veuillez choisir un autre nom.
 common#:#grp_new#:#Nouveau groupe
+common#:#grp_register#:#Registere###26 Nov 2003 new variable
+common#:#grp_registration_completed#:#Registration completede###26 Nov 2003 new variable
 common#:#guest#:#Invité
 common#:#guests#:#Invités
 common#:#help#:#Aide
@@ -346,6 +353,8 @@ common#:#http_path#:#Chemin HTTP
 common#:#id#:#ID
 common#:#identifier#:#identifiant
 common#:#ilias_version#:#Version ILIAS
+common#:#image#:#Image###26 Nov 2003 new variable
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###26 Nov 2003 new variable
 common#:#import#:#Importation
 common#:#import_lm#:#Importation de cours
 common#:#import_slm#:#Importation de paquet SCORM
@@ -489,6 +498,7 @@ common#:#mark_all_read#:#Marquer tout comme lu
 common#:#mark_all_unread#:#Marquer tout comme non lu
 common#:#member#:#Membre
 common#:#members#:#Membres
+common#:#membership_annulled#:#Your membership has been canceled###26 Nov 2003 new variable
 common#:#message#:#Message
 common#:#message_content#:#Contenu du message
 common#:#message_to#:#Message à:
@@ -541,6 +551,7 @@ common#:#msg_no_perm_modify_rolt#:#Vous n'avez pas la permission de modifier les
 common#:#msg_no_perm_modify_user#:#Vous n'avez pas la permission de modifier les données utilisateurs
 common#:#msg_no_perm_paste#:#Vous n'avez pas la permission de coller les objets suivants :
 common#:#msg_no_perm_perm#:#Vous n'avez pas la permission de modifier les paramètres de permissions
+common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###26 Nov 2003 new variable
 common#:#msg_no_perm_write#:#Vous n'avez pas la permission d'écrire
 common#:#msg_no_rolf_allowed1#:#L'objet
 common#:#msg_no_rolf_allowed2#:#ne peut pas contenir un dossier de rôles.
@@ -645,6 +656,7 @@ common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
 common#:#objects#:#Objets
 common#:#objf#:#Définition d'objet
 common#:#objs_delete#:#Détruire objets
+common#:#objs_confirm#:#Confirm Deletion###26 Nov 2003 new variable
 common#:#of#:#de
 common#:#offline_version#:#Version hors-ligne
 common#:#ok#:#OK
@@ -672,8 +684,10 @@ common#:#paste#:#Coller
 common#:#pasteChapter#:#Coller
 common#:#pastePage#:#Coller
 common#:#path#:#Chemin
+common#:#path_not_set#:#Path not set###26 Nov 2003 new variable
 common#:#path_to_babylon#:#Chemin vers Babylon
 common#:#path_to_convert#:#Chemin vers Convert
+common#:#path_to_htmldoc#:#Path to HTMLdoc###26 Nov 2003 new variable
 common#:#path_to_java#:#Chemin vers Java
 common#:#path_to_unzip#:#Chemin vers Unzip
 common#:#path_to_zip#:#Chemin vers Zip
@@ -705,6 +719,7 @@ common#:#presentation_options#:#Options de présentation
 common#:#previous#:#précédent
 common#:#print#:#Imprimer
 common#:#profile_changed#:#Votre profil a changé
+common#:#profile_of#:#Profile of###26 Nov 2003 new variable
 common#:#properties#:#Propriétés
 common#:#pub_section#:#Section publique
 common#:#public_profile#:#Profil public
@@ -783,6 +798,7 @@ common#:#sent#:#Envoyé
 common#:#sequence#:#Séquence
 common#:#sequences#:#Séquences
 common#:#server#:#Serveur
+common#:#server_data#:#Server data 
 common#:#server_software#:#Logiciel serveur
 common#:#set#:#Fixer
 common#:#setSystemLanguage#:#Fixer la langue du système
@@ -871,6 +887,7 @@ common#:#usr_agreement#:#Charte d'utilisation
 common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
 common#:#usr_edit#:#Modifier utilisateur
 common#:#usr_new#:#Nouvel utilisateur
+common#:#usr_skin_style#:#Skin / Style###26 Nov 2003 new variable
 common#:#usr_style#:#Style utilisateur
 common#:#usrf#:#Répertoire utilisateur
 common#:#validate#:#Valider
@@ -887,6 +904,7 @@ common#:#write#:#Ecrire
 common#:#yes#:#Oui
 common#:#you_may_add_local_roles#:#Vous pouvez ajouter des rôles locaux
 common#:#your_message#:#Votre message
+common#:#zip#:#Postal Code###26 Nov 2003 new variable
 common#:#zipcode#:#Code postal
 content#:#HTML export#:#Exportation HTML
 content#:#PDF export#:#Exportation PDF
@@ -997,6 +1015,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Fichiers objets
 content#:#cont_mob_inst_prop#:#Propriétés de l'instance
 content#:#cont_mob_prop#:#Propriétés de l'objet
+content#:#cont_mob_usages#:#Usage###26 Nov 2003 new variable
 content#:#cont_month#:#Mois
 content#:#cont_msg_multiple_editions#:#Il n'est pas possible d'afficher les détails de plusieurs éditions
 content#:#cont_new_assignment#:#Nouvelle assignation
@@ -1091,6 +1110,7 @@ forum#:#forums_attachments#:#Attachements
 forum#:#forums_attachments_add#:#Ajouter attachement
 forum#:#forums_attachments_edit#:#Modifier attachement
 forum#:#forums_available#:#Forums disponibles
+forum#:#forums_censor_comment#:#Comment of Censor###26 Nov 2003 new variable
 forum#:#forums_count#:#Nombre de forums
 forum#:#forums_count_art#:#Nombre d'articles
 forum#:#forums_count_thr#:#Nombre de fils de discussion
@@ -1111,6 +1131,7 @@ forum#:#forums_post_modified#:#L'article a été modifié
 forum#:#forums_post_new_entry#:#Le nouvel article a été inscrit
 forum#:#forums_posts#:#Tous les articles
 forum#:#forums_posts_not_available#:#Articles non disponibles
+forum#:#forums_print_thread#:#Print Thread###26 Nov 2003 new variable
 forum#:#forums_quote#:#Citer
 forum#:#forums_respond#:#Envoyer réponse
 forum#:#forums_the_post#:#Article
@@ -1173,6 +1194,7 @@ mail#:#mail_new_file#:#Ajouter nouveau fichier :
 mail#:#mail_no_attach_allowed#:#Les messages système ne peuvent pas contenir de pièce jointe
 mail#:#mail_no_attachments_found#:#Aucune pièce jointe trouvée
 mail#:#mail_options_of#:#Options
+mail#:#mail_options_saved#:#Options saved###26 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
 mail#:#mail_s#:#Message(s)
 mail#:#mail_s_unread#:#Message(s) non lu(s)
