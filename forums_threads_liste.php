@@ -52,7 +52,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			
 			unset($author);
 			$author = $frm->getModerator($thrData["thr_usr_id"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste\">".$author["surname"]."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste\">".$author["SurName"]."</a>"); 
 			
 			$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
 			
@@ -60,7 +60,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			if ($thrData["thr_last_post"] != "") $lastPost = $frm->getLastPost($thrData["thr_last_post"]);	
 			if (is_array($lastPost)) {				
 				$lpCont = "<a href=\"forums_posts_reply.php?pos_pk=".$lastPost["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=forums_threads_liste\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-				$lpCont .= "<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste\">".$lastPost["surname"]."</a><br>";
+				$lpCont .= "<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste\">".$lastPost["SurName"]."</a><br>";
 				$lpCont .= $lastPost["pos_date"];				
 			}
 			$tpl->setVariable("LAST_POST", $lpCont);			

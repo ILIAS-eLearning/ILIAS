@@ -45,7 +45,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 						
 			unset($author);
 			$author = $frm->getModerator($posData["pos_usr_id"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$posData["pos_usr_id"]."&backurl=forums_threads_view&thr_pk=".$_GET["thr_pk"]."\">".$author["surname"]."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$posData["pos_usr_id"]."&backurl=forums_threads_view&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
 			
 			$posData["pos_date"] = $frm->convertDate($posData["pos_date"]);
 			$tpl->setVariable("POST_DATE",$posData["pos_date"]);	
