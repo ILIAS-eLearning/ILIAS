@@ -303,13 +303,18 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		{
 			$clone->saveToDb();
 		}
+
+		// copy question page content
+		$clone->copyPageOfQuestion($this->id);
+
 		// duplicate the materials
 		$clone->duplicateMaterials($original_id);
+		
 		// duplicate the image
 		$clone->duplicateImage($original_id);
 		return $clone->id;
 	}
-	
+
 	function duplicateImage($question_id)
 	{
 		$imagepath = $this->getImagePath();

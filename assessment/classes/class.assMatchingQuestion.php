@@ -542,8 +542,13 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$clone->saveToDb();
 		}
+
+		// copy question page content
+		$clone->copyPageOfQuestion($this->id);
+
 		// duplicate the materials
 		$clone->duplicateMaterials($original_id);
+
 		// duplicate the image
 		$clone->duplicateImages($original_id);
 		return $clone->id;

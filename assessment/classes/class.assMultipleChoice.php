@@ -513,6 +513,7 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			$clone->setTitle($title);
 		}
+
 		if ($author)
 		{
 			$clone->setAuthor($author);
@@ -521,6 +522,7 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			$clone->setOwner($owner);
 		}
+
 		if ($for_test)
 		{
 			$clone->saveToDb($original_id);
@@ -529,6 +531,10 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			$clone->saveToDb();
 		}
+
+		// copy question page content
+		$clone->copyPageOfQuestion($this->id);
+
 		// duplicate the materials
 		$clone->duplicateMaterials($original_id);
 		return $clone->id;

@@ -51,8 +51,13 @@ class ilLMPresentationGUI
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 
-		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
-		$cmd = $cmd == "edpost" ? "ilCitation" : $cmd;
+		$cmd = (!empty($_GET["cmd"]))
+			? $_GET["cmd"]
+			: "layout";
+
+		$cmd = ($cmd == "edpost")
+			? "ilCitation"
+			: $cmd;
 
 		// Todo: check lm id
 		$type = $this->ilias->obj_factory->getTypeByRefId($_GET["ref_id"]);

@@ -362,6 +362,7 @@ class ilPageObjectGUI
 		}
 
 		$this->obj->addSourceCodeHighlighting();
+//echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$this->getLinkXML().$this->getQuestionXML());
 
