@@ -434,8 +434,8 @@ class ilSearchGUI
 		$this->tpl->setVariable("FORM_SEARCH_STR",$this->search->getSearchString());
 		$this->tpl->setVariable("OR_CHECKED",$this->search->getCombination() == "or" ? "checked=\"checked\"" : "");
 		$this->tpl->setVariable("AND_CHECKED",$this->search->getCombination() == "and" ? "checked=\"checked\"" : "");
-		$this->tpl->setVariable("LOGIC_OR",$this->lng->txt("logic_or"));
-		$this->tpl->setVariable("LOGIC_AND",$this->lng->txt("logic_and"));
+        $this->tpl->setVariable("TXT_AND",$this->lng->txt("search_and"));
+        $this->tpl->setVariable("TXT_OR",$this->lng->txt("search_or"));
 
 		$search_for = $this->search->getSearchFor();
 
