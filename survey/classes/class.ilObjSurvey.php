@@ -740,17 +740,32 @@ class ilObjSurvey extends ilObject
 * @see $questions
 */
 	function saveQuestionsToDb() {
-		// delete existing category relations
+		// save old questions state
+		$old_questions = array();
+		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$old_questions[$row["question_fi"]] = $row;
+			}
+		}
+		
+		// delete existing question relations
     $query = sprintf("DELETE FROM survey_survey_question WHERE survey_fi = %s",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
-		// create new category relations
+		// create new question relations
 		foreach ($this->questions as $key => $value) {
-			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($value),
-				$this->ilias->db->quote($key)
+			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, heading, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($value . ""),
+				$this->ilias->db->quote($old_questions[$value]["heading"]),
+				$this->ilias->db->quote($key . "")
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -1756,7 +1771,6 @@ class ilObjSurvey extends ilObject
 		}
 		if ($pageindex < count($pages)-1)
 		{
-			print "bewege hinter " . $pages[$pageindex+1][count($pages[$pageindex+1])-1]["title"];
 			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
 		}
 	}
@@ -2175,7 +2189,7 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
@@ -2321,7 +2335,7 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
@@ -3770,6 +3784,26 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}
+		// add headings
+		foreach ($pages as $question_array)
+		{
+			foreach ($question_array as $question)
+			{
+				if ($question["heading"])
+				{
+					$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+					$qtiFieldLabel = $domxml->create_element("fieldlabel");
+					$qtiFieldLabelText = $domxml->create_text_node("heading_" . $question["question_id"]);
+					$qtiFieldLabel->append_child($qtiFieldLabelText);
+					$qtiFieldEntry = $domxml->create_element("fieldentry");
+					$qtiFieldEntryText = $domxml->create_text_node($question["heading"]);
+					$qtiFieldEntry->append_child($qtiFieldEntryText);
+					$qtiMetadatafield->append_child($qtiFieldLabel);
+					$qtiMetadatafield->append_child($qtiFieldEntry);
+					$qtiMetadata->append_child($qtiMetadatafield);				
+				}
+			}
+		}
 		$qtiSurvey->append_child($qtiMetadata);
 		$root->append_child($qtiSurvey);
 		$xml = $domxml->dump_mem(true);
@@ -3936,6 +3970,10 @@ class ilObjSurvey extends ilObject
 			{
 				$this->addConstraint($new_question_ids[$constraint["for"]], $new_question_ids[$constraint["question"]], $relations[$constraint["relation"]]["id"], $constraint["value"]);
 			}
+			foreach ($import_results["headings"] as $qid => $heading)
+			{
+				$this->saveHeading($heading, $new_question_ids[$qid]);
+			}
 		}
 		return $error;
 	}
@@ -3954,6 +3992,7 @@ class ilObjSurvey extends ilObject
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$domxml = domxml_open_mem($xml_text);
 		$constraints = array();
+		$headings = array();
 		$questionblocks = array();
 		if (!empty($domxml))
 		{
@@ -4056,12 +4095,18 @@ class ilObjSurvey extends ilObject
 									));
 								}
 							}
+							if (preg_match("/heading_(\d+)/", $fieldlabel->get_content(), $matches))
+							{
+								$heading = $fieldentry->get_content();
+								$headings[$matches[1]] = $heading;
+							}
 						}
 						break;
 				}
 			}
 			$result["questionblocks"] = $questionblocks;
 			$result["constraints"] = $constraints;
+			$result["headings"] = $headings;
 		}
 		return $result;
 	}
@@ -4381,6 +4426,26 @@ class ilObjSurvey extends ilObject
 		{
 			return false;
 		}
+	}
+	
+	function saveHeading($heading = "", $insertbefore)
+	{
+		if ($heading)
+		{
+			$query = sprintf("UPDATE survey_survey_question SET heading=%s WHERE survey_fi=%s AND question_fi=%s",
+				$this->ilias->db->quote($heading),
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($insertbefore)
+			);
+		}
+		else
+		{
+			$query = sprintf("UPDATE survey_survey_question SET heading=NULL WHERE survey_fi=%s AND question_fi=%s",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($insertbefore)
+			);
+		}
+		$this->ilias->db->query($query);
 	}
 } // END class.ilObjSurvey
 ?>

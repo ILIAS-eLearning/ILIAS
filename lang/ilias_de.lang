@@ -127,7 +127,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
-assessment#:#code#:#Code###05 Nov 2004 new variable
+assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#counter#:#Zähler
@@ -186,7 +186,7 @@ assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften bet
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
-assessment#:#exp_type_excel#:#Microsoft Excel###05 Nov 2004 new variable
+assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -200,7 +200,7 @@ assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle 
 assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
-assessment#:#filter#:#Filter###05 Nov 2004 new variable
+assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#Alle Fragentypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -218,7 +218,7 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#javaapplet#:#Java Applet###05 Nov 2004 new variable
+assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#last_update#:#Letzte Aktualisierung
@@ -230,7 +230,7 @@ assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
-assessment#:#material#:#Material###05 Nov 2004 new variable
+assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
@@ -293,7 +293,7 @@ assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
-assessment#:#region#:#Region###05 Nov 2004 new variable
+assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_solution#:#Musterlösung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
@@ -309,7 +309,7 @@ assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
-assessment#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_tst_option#:#--- Bitte wählen Sie einen Test aus ---
 assessment#:#selected_image#:#Ausgewählte Grafik
@@ -321,10 +321,10 @@ assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
-assessment#:#symbol#:#Symbol###05 Nov 2004 new variable
+assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
-assessment#:#time_format#:#HH MM SS###05 Nov 2004 new variable
+assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
@@ -1299,11 +1299,11 @@ common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_hlm#:#Import HACP Modul
 common#:#import_lm#:#Import Lernmodul
-common#:#import_qpl#:#Import Fragenpool (Test)
+common#:#import_qpl#:#Fragenpool für Test importieren
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
-common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
-common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
+common#:#import_spl#:#Fragenpool für Umfrage importieren
+common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
@@ -1745,10 +1745,10 @@ common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
 common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
-common#:#obj_tst#:#Test###05 Nov 2004 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
-common#:#obj_url#:#URL###23 Oct 2004 new variable
+common#:#obj_url#:#URL
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
@@ -1763,7 +1763,7 @@ common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_alm#:#AICC Lernmodule
 common#:#objs_cat#:#Kategorien
-common#:#objs_chat#:#Chats###05 Nov 2004 new variable
+common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
@@ -1790,13 +1790,13 @@ common#:#objs_sahs#:#SCORM/AICC Lernmodule
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
-common#:#objs_tst#:#Tests###05 Nov 2004 new variable
+common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
-common#:#objs_url#:#URLs###23 Oct 2004 new variable
+common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
 common#:#offline_version#:#Offline Version###05 Nov 2004 new variable
-common#:#ok#:#OK###05 Nov 2004 new variable
+common#:#ok#:#OK
 common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version###05 Nov 2004 new variable
@@ -1812,7 +1812,7 @@ common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#pages#:#Seiten
-common#:#parameter#:#Parameter###05 Nov 2004 new variable
+common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
@@ -2064,7 +2064,7 @@ common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
 common#:#spl_read#:#Lesezugriff auf Fragenpool
-common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
+common#:#spl_upload_file#:#Datei hochladen
 common#:#spl_visible#:#Fragenpool ist sichtbar
 common#:#spl_write#:#Fragenpool kann bearbeitet werden
 common#:#st_a#:#ein Kapitel
@@ -2096,7 +2096,7 @@ common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
-common#:#svy_upload_file#:#Upload file###05 Nov 2004 new variable
+common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System###05 Nov 2004 new variable
@@ -2122,10 +2122,10 @@ common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
 common#:#taxf_visible#:#Taxonomienordner ist sichtbar
 common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
-common#:#test#:#Test###05 Nov 2004 new variable
+common#:#test#:#Test
 common#:#test_intern#:#Interner Test
 common#:#test_module#:#Test
-common#:#tests#:#Tests###05 Nov 2004 new variable
+common#:#tests#:#Tests
 common#:#time#:#Zeit
 common#:#time_d#:#Tag
 common#:#time_h#:#Stunde
@@ -2158,7 +2158,7 @@ common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#tst#:#Test###05 Nov 2004 new variable
+common#:#tst#:#Test
 common#:#tst_add#:#Test anfügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
@@ -2596,7 +2596,7 @@ content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_update#:#Aktualisieren
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_url#:#URL###05 Nov 2004 new variable
+content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Clipboard von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
@@ -3798,12 +3798,12 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
-survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
-survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
+survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrecht, um den Fragenpool zu exportieren!
+survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Umfrage zu exportieren!
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Metadaten zu speichern!
+survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
@@ -3878,7 +3878,7 @@ survey#:#dp_standard_beliefs_true_false#:#Standard-Vorstellungen (wahr-falsch)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr-unentschlossen-falsch)
 survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate#:#Duplizieren
-survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
+survey#:#duplicate_svy#:#Umfrage duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten
 survey#:#end_date#:#Enddatum
@@ -3887,14 +3887,14 @@ survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
-survey#:#evaluation#:#Evaluation###05 Nov 2004 new variable
+survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#excel#:#Microsoft Excel###05 Nov 2004 new variable
+survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Beenden
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
-survey#:#filter#:#Filter###05 Nov 2004 new variable
+survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -3923,7 +3923,7 @@ survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
-survey#:#median#:#Median###05 Nov 2004 new variable
+survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
@@ -4012,17 +4012,17 @@ survey#:#search_questions#:#Fragen suchen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
 survey#:#search_users#:#Nutzerinnen
-survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+survey#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
-survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable
+survey#:#select_questionpool_short#:#Fragenpool für Umfrage
 survey#:#select_relation#:#Relation auswählen
-survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new variable
+survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
-survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
+survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
@@ -4043,20 +4043,20 @@ survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
-survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
+survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
-survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
-survey#:#svy_file#:#File###05 Nov 2004 new variable
+survey#:#svy_export_files#:#Dateien exportieren
+survey#:#svy_file#:#Datei
 survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_select_file_for_import#:#You must select a file for import!###05 Nov 2004 new variable
+survey#:#svy_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
-survey#:#svy_select_surveys#:#Please select a survey for duplication###05 Nov 2004 new variable
+survey#:#svy_select_surveys#:#Bitte wählen Sie eine Umfrage zum duplizieren aus
 survey#:#svy_show_questiontitles#:#Fragentitel in der Umfrage anzeigen
-survey#:#svy_size#:#Size###05 Nov 2004 new variable
+survey#:#svy_size#:#Größe
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:

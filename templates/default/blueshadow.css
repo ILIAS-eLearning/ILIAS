@@ -1073,8 +1073,22 @@ div.ilc_Question
 }
 
 .questionblockTitle {
-	margin-bottom: 10px;
-	border: thin ridge #cccccc;
-	background: #cccccc;
-	padding: 5px;
+	font-size:14px;
+	color:#222222;
+	background-color: #CCCCCC;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding: 10px;
+	margin-top:25px;
+	margin-bottom:0px;
+	background-image: url(blueshadow/images/cellpic5.gif);
 }
+
+.questionheading {
+	margin-top:2px;
+	margin-bottom:5px;
+	font-size:14px;
+	font-weight: bold;
+}
+
