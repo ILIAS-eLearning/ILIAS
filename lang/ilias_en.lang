@@ -240,7 +240,8 @@ common#:#literature_bookmarks#:#literature bookmarks
 common#:#lng#:#language
 common#:#lngf#:#language folder
 common#:#lo#:#learning object
-common#:#lo_available#:#available learning objects
+common#:#lo_available#:#Overview learning modules & courses
+common#:#lo_no_content#:#No learning ressources available
 common#:#lo_categories#:#lo categories
 common#:#lo_edit#:#edit learning object
 common#:#lo_new#:#new learning object
@@ -444,3 +445,5 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you may add local roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
+common#:#show_members#:#display members
+common#:#last_visit#:#Last visit

@@ -240,7 +240,8 @@ common#:#literature_bookmarks#:#Literatur Bookmarks
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
-common#:#lo_available#:#verfügbare Lerneinheiten
+common#:#lo_available#:#Übersicht Lerneinheiten & Kurse
+common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_categories#:#Lerneinheiten Kategorien
 common#:#lo_edit#:#Lerneinheiten editieren
 common#:#lo_new#:#neue Lerneinheit
@@ -444,3 +445,5 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
+common#:#show_members#:#Mitglieder anzeigen
+common#:#last_visit#:#Letzter Besuch
