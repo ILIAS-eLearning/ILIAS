@@ -568,6 +568,8 @@ function buttonX()
 	
 	editor.surroundHTML("!1!1!","!2!2!");
 	S = editor.getHTML();
+	S = S.replace("!1!1!"+unescape("%A0")+"!2!2!","!1!1!!2!2!");
+	
 	
 	for(i=0;i<100;i++) {
 		S = S.replace("<br />","*?*");
@@ -617,7 +619,7 @@ function buttonX()
 						S = S.replace("*?*", "<br />");
 					}
 					
-					editor.setHTML(S);
+					editor.setHTML(S+"&nbsp;");
 					editor.focusEditor();
 					
 				}
@@ -813,6 +815,9 @@ function addInternalLink(Link,title)
 	{
 		editor.insertHTML(Link+title+"</a>");
 	}
+	S = editor.getHTML();
+	editor.setHTML(S+"&nbsp;&nbsp;");
+	editor.focusEditor();
 }
 
 
@@ -908,22 +913,22 @@ function buttonInternalLink()
 		*	find all internal links
 		*/
 		T2 = T;
-		if (T2.indexOf("[iln ")!=-1) 
+		while (T2.indexOf("[iln ")!=-1) 
 		{
 			T2 = T2.substring(T2.indexOf("[iln ")+5,T2.length );
 			
 			Tb = T2.substr(0,T2.indexOf("]") );
-			
+
 			Td = "[iln "+Tb+"]"; 
 			
 			T2 = T2.substring(T2.indexOf("]")+1,T2.length );
 			Te = T2.substr(0,T2.indexOf("[/iln]") );
 			
 			Tc = Td+ Te+"[/iln]";
-			T = T.replace(Td,"<span class=\"iliasiln\" "+Tb+">");
+			T = T.replace(Td,"<a class=\"iliasiln\" "+Tb+">");
 			
 		}
-		T = replaceAll(T,"[/iln]","</span>");
+		T = replaceAll(T,"[/iln]","</a>");
 
         while (T.indexOf("\n")>-1) 
 		{ 
