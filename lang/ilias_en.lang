@@ -34,7 +34,6 @@
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#close#:#Close
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
@@ -86,7 +85,6 @@ common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
-common#:#mob#:#Media Object
 common#:#cat_a#:#a category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -117,6 +115,7 @@ common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
 common#:#clipboard#:#Clipboard
+common#:#close#:#Close
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#comment
 common#:#compose#:#Compose
@@ -391,6 +390,7 @@ common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
+common#:#mob#:#Media Object
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Month
