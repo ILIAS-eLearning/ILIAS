@@ -12,15 +12,6 @@ require_once "classes/class.Explorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
 
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","courses.php");
-$tpl->setVariable("BTN_TXT", $lng->txt("courses"));
-$tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("btn_row");
-$tpl->parseCurrentBlock();
-
 $lessons = array();
 
 //go through valid objects and filter out the lessons only
