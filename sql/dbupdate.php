@@ -4309,7 +4309,7 @@ if ($res->numRows() > 1)
 ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
 
 <#260>
-//<-257
+# <-257
 DELETE FROM rbac_ta WHERE (typ_id=38 or typ_id=39);
 
 <?php
