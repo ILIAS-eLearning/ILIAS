@@ -442,7 +442,7 @@ class ilMediaObject extends ilObjMediaObject
 
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -455,7 +455,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -468,7 +468,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -481,7 +481,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -494,7 +494,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -505,27 +505,22 @@ class ilMediaObject extends ilObjMediaObject
 
 	function setAliasCaption($a_caption)
 	{
-		// get Layout node
+		// get MediaItem node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='il_Caption']";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
-			$par_node =& $res->nodeset[0];
-			$par_node->set_attribute("Value", $a_caption);
-		}
-		else if (count($res->nodeset) == 0)
-		{
-			$xpc = xpath_new_context($this->dom);
-			$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject";
-			$res =& xpath_eval($xpc, $path);
-			if (count($res->nodeset) == 1)
+			$item_node =& $res->nodeset[0];
+			if ($a_caption != "")
 			{
-				$med_node =& $res->nodeset[0];
-				$par_node =& $this->dom->create_element("Parameter");
-				$par_node =& $med_node->append_child($par_node);
-				$par_node->set_attribute("Name", "il_Caption");
-				$par_node->set_attribute("Value", $a_caption);
+				ilDOMUtil::setFirstOptionalElement($this->dom, $item_node, "Caption",
+					array("Parameter", "MapArea"), $a_caption,
+					array("Align" => "bottom"));
+			}
+			else
+			{
+				ilDOMUtil::deleteAllChildsByName($item_node, array("Caption"));
 			}
 		}
 	}
@@ -535,12 +530,12 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='il_Caption']";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='Standard']/Caption[1]";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
-			$par_node =& $res->nodeset[0];
-			return $par_node->get_attribute("Value");
+			$cap_node =& $res->nodeset[0];
+			return $cap_node->get_content();
 		}
 	}
 

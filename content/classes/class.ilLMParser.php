@@ -355,7 +355,6 @@ class ilLMParser extends ilSaxParser
 					$this->current_object->assignMetaData($this->meta_data);
 					if(get_class($this->current_object) == "ilobjlearningmodule")
 					{
-//echo "starting new meta data for lm<br>";
 						$this->meta_data->setId($this->lm_object->getId());
 						$this->meta_data->setType("lm");
 					}

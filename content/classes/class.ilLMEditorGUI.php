@@ -22,6 +22,7 @@
 */
 
 require_once ("content/classes/class.ilLMObjectFactory.php");
+require_once ("classes/class.ilDOMUtil.php");
 require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilObjLearningModuleGUI.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");

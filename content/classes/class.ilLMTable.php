@@ -283,89 +283,13 @@ class ilLMTable extends ilPageContent
 	{
 		if ($a_content != "")
 		{
-			$this->setFirstOptionalElement("Caption",
+			ilDOMUtil::setFirstOptionalElement($this->dom, $this->tab_node, "Caption",
 				array("Summary", "TableRow"), $a_content,
 				array("Align" => $a_align));
 		}
 		else
 		{
-			$this->deleteAllChildsByName(array("Caption"));
-		}
-	}
-
-	function deleteAllChildsByName($a_node_names)
-	{
-		$childs = $this->tab_node->child_nodes();
-		foreach($childs as $child)
-		{
-			$child_name = $child->node_name();
-			if (in_array($child_name, $a_node_names))
-			{
-				$child->unlink_node();
-			}
-		}
-	}
-
-	function setFirstOptionalElement($a_node_name, $a_predecessors, $a_content, $a_attributes)
-	{
-		$search = $a_predecessors;
-		$search[] = $a_node_name;
-
-		$childs = $this->tab_node->child_nodes();
-		$cnt_childs = count($childs);
-		$found = false;
-		foreach($childs as $child)
-		{
-			$child_name = $child->node_name();
-			if (in_array($child_name, $search))
-			{
-				$found = true;
-				break;
-			}
-		}
-		// didn't found element
-		if(!$found)
-		{
-			$new_node =& $this->dom->create_element($a_node_name);
-			if($cnt_childs == 0)
-			{
-				$new_node =& $this->tab_node->append_child($new_node);
-			}
-			else
-			{
-				$new_node =& $childs[0]->insert_before($new_node, $childs[0]);
-			}
-			$new_node->set_content($a_content);
-			$this->set_attributes($new_node, $a_attributes);
-		}
-		else
-		{
-//echo "Hier:$child_name:$a_node_name:<br>";
-			if ($child_name == $a_node_name)
-			{
-				$childs2 = $child->child_nodes();
-				for($i=0; $i<count($childs2); $i++)
-				{
-					$child->remove_child($childs2[$i]);
-				}
-				$child->set_content($a_content);
-				$this->set_attributes($child, $a_attributes);
-			}
-			else
-			{
-				$new_node =& $this->dom->create_element($a_node_name);
-				$new_node =& $child->insert_before($new_node, $child);
-				$new_node->set_content($a_content);
-				$this->set_attributes($new_node, $a_attributes);
-			}
-		}
-	}
-
-	function set_attributes(&$a_node, $a_attributes)
-	{
-		foreach ($a_attributes as $attribute => $value)
-		{
-			$a_node->set_attribute($attribute, $value);
+			ilDOMUtil::deleteAllChildsByName($this->tab_node, array("Caption"));
 		}
 	}
 
