@@ -62,11 +62,12 @@ $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 
+
 if (isset($_GET["ref_id"]) and ($_GET["ref_id"] != 1))
 {
-	$path = "";		
+	$path = "";
 
-	$tmpPath = $tree->getPathFull($_GET["ref_id"]);		
+	$tmpPath = $tree->getPathFull($_GET["ref_id"]);
 	// count -1, to exclude the forum itself
 	for ($i = 0; $i < (count($tmpPath)); $i++)
 	{
@@ -74,9 +75,9 @@ if (isset($_GET["ref_id"]) and ($_GET["ref_id"] != 1))
 		{
 			$path .= " > ";
 		}
-			$path .= $tmpPath[$i]["title"];						
+			$path .= $tmpPath[$i]["title"];
 	}
-	
+
 	$tpl->setVariable("TARGET_LOCATOR",$lng->txt("at_location").": ".$path);
 }
 
