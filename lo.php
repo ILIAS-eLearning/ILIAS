@@ -1,6 +1,7 @@
 <?php
 /**
- * startpage for ilias
+ * learning objects mainpage
+ * 
  * this file decides if a frameset is used or not
  * 
  * @author Peter Gabriel <pgabriel@databay.de>
@@ -19,7 +20,7 @@ if (file_exists($startfilename))
 }
 else
 {
-	header("location: lo_content.php");
+	header("location: lo_content.php?expand=1");
 }
 
 ?>

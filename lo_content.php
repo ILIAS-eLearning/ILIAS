@@ -8,6 +8,7 @@
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
+require_once "classes/class.Explorer.php";
 
 $tpl = new Template("tpl.lessons.html", true, true);
 
@@ -56,6 +57,36 @@ $tpl->setCurrentBlock("category");
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_SUBSCRIPTION", $lng->txt("subscription"));
 $tpl->parseCurrentBlock();
+
+if ($tpl->includeTree() == true)
+{
+	if ($_GET["expand"] == "")
+	{
+		$expanded = "1";
+	}
+	else
+		$expanded = $_GET["expand"];
+	
+	$tplTree = new Template("explorer.html",true,true);
+	$exp = new Explorer("lo_content.php");
+	$exp->setExpand($expanded);
+	
+	//filter object types
+	$exp->addFilter("cat");
+	$exp->addFilter("grp");
+	$exp->addFilter("crs");
+	$exp->setFiltered(true);
+	$exp->setFrameTarget("");
+	//build html-output
+	$exp->setOutput(0);
+	$output = $exp->getOutput();
+	
+	$tplTree->setVariable("EXPLORER",$output);
+	$tplTree->setVariable("ACTION", "lo_content.php?expand=".$_GET["expand"]);
+	
+	$tpl->setVariable("TREE", $tplTree->get());
+	
+}
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
