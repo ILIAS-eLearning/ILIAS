@@ -108,7 +108,7 @@ class ilObjCourseGroupingGUI
 		$this->grp_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->grp_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->grp_obj->setUniqueField($_POST['unique']);
-		if($this->grp_obj->create($this->crs_obj->getId()))
+		if($this->grp_obj->create($this->crs_obj->getRefId(),$this->crs_obj->getId()))
 		{
 			sendInfo($this->lng->txt('crs_grp_added_grouping'));
 			$this->ctrl->redirectByClass('ilObjCourseGUI','listGroupings');
@@ -264,10 +264,10 @@ class ilObjCourseGroupingGUI
 			}
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($course_data['ref_id']);
 
-			if(ilObjCourseGrouping::_isInGrouping($tmp_obj->getId()))
-			{
-				continue;
-			}
+			#if(ilObjCourseGrouping::_isInGrouping($tmp_obj->getId()))
+			#{
+			#	continue;
+			#}
 			if(strlen($tmp_obj->getDescription()))
 			{
 				$this->tpl->setCurrentBlock("description");
@@ -411,7 +411,7 @@ class ilObjCourseGroupingGUI
 
 		global $rbacsystem,$tree;
 
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		if(!$rbacsystem->checkAccess("write", $this->crs_obj->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -425,7 +425,7 @@ class ilObjCourseGroupingGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
 		$this->tpl->parseCurrentBlock();
 
-		if(!count($groupings = ilObjCourseGrouping::_getAllGroupings($this->crs_obj->getRefId())))
+		if(!count($groupings = ilObjCourseGrouping::_getAllGroupings($this->crs_obj->getRefId(),false)))
 		{
 			sendInfo($this->lng->txt('crs_no_groupings_crs_can_be_assigned_to'));
 		
@@ -439,14 +439,15 @@ class ilObjCourseGroupingGUI
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("HEADER_UNAMBIGUOUSNESS",$this->lng->txt('unambiguousness'));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_ASSIGN",$this->lng->txt('assign'));
-		$this->tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('deassign'));
+		$this->tpl->setVariable("BTN_ASSIGN",$this->lng->txt('crs_grouping_assign'));
 		
 		
 		$counter = 0;
 		foreach($groupings as $grouping_id)
 		{
 			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
+
+			$tmp_crs = ilObjectFactory::getInstanceByRefId($tmp_obj->getCourseRefId());
 
 			if(strlen($tmp_obj->getDescription()))
 			{
@@ -462,9 +463,15 @@ class ilObjCourseGroupingGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			$disabled = !$rbacsystem->checkAccess('write',$tmp_obj->getCourseRefId());
+
 			$this->tpl->setCurrentBlock("grouping_row");
-			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("CHECK_GRP",ilUtil::formCheckbox(0,'grouping[]',$grouping_id));
+			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle().' ('.$tmp_crs->getTitle().')');
+			$this->tpl->setVariable("CHECK_GRP",ilUtil::formCheckbox((int) $tmp_obj->isAssigned($this->crs_obj->getId()),
+																	 'grouping[]',
+																	 $grouping_id,
+																	 $disabled));
+										
 			$this->tpl->setVariable("AMB_GRP",$this->lng->txt($tmp_obj->getUniqueField()));
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 
@@ -479,9 +486,40 @@ class ilObjCourseGroupingGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}	
-	}		
-	
+	}
 
+	function otherAssign()
+	{
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+
+		global $rbacsystem,$tree;
+
+		if(!$rbacsystem->checkAccess("write", $this->crs_obj->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$_POST['grouping'] = $_POST['grouping'] ? $_POST['grouping'] : array();
+		foreach(ilObjCourseGrouping::_getAllGroupings($this->crs_obj->getRefId()) as $grouping_id)
+		{
+			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
+
+			if($tmp_obj->isAssigned($this->crs_obj->getId()) and !in_array($grouping_id,$_POST['grouping']))
+			{
+				$tmp_obj->deassign($this->crs_obj->getRefId(),$this->crs_obj->getId());
+				continue;
+			}
+			if(!$tmp_obj->isAssigned($this->crs_obj->getId()) and in_array($grouping_id,$_POST['grouping']))
+			{
+				$tmp_obj->assign($this->crs_obj->getRefId(),$this->crs_obj->getId());
+				continue;
+			}
+		}
+		sendInfo($this->lng->txt('crs_grouping_modified_assignment'));
+		$this->otherSelectAssign();
+		
+		return true;
+	}
 	// PRIVATE
 	function __initGroupingObject()
 	{

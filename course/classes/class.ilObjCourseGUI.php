@@ -2302,11 +2302,14 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_grouping'));
 		$this->tpl->parseCurrentBlock();
 
-		#$this->tpl->setCurrentBlock("btn_cell");
-		#$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
-		#$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','otherSelectAssign'));
-		#$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_assign_grouping'));
-		#$this->tpl->parseCurrentBlock();
+		if(ilObjCourseGrouping::_getAllGroupings($this->object->getRefId(),false))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','otherSelectAssign'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_other_groupings'));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if(!count($groupings = ilObjCourseGrouping::_getGroupings($this->object->getId())))
 		{

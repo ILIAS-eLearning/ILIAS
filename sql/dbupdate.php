@@ -5769,3 +5769,12 @@ CREATE TABLE IF NOT EXISTS `role_desktop_items` (
   `item_type` char(16) NOT NULL default '',
   KEY `role_item_id` (`role_item_id`,`role_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+<#413>
+<?php
+$ilDB->query("DELETE FROM conditions WHERE operator = 'not_member'");
+$ilDB->query('DELETE FROM crs_groupings');
+?>
+
+<#414>
+ALTER TABLE `crs_groupings` ADD `crs_ref_id` INT( 11 ) NOT NULL AFTER `crs_grp_id` ;

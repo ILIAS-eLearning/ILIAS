@@ -299,40 +299,56 @@ class ilCourseRegisterGUI
 		include_once './classes/class.ilConditionHandler.php';
 		include_once './course/classes/class.ilCourseMembers.php';
 
+		$trigger_ids = array();
 		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
-				$trigger_id = $condition['trigger_obj_id'];
+				$trigger_ids[] = $condition['trigger_obj_id'];
 				break;
 			}
 		}
-		if(!$trigger_id)
+		if(!count($trigger_ids))
 		{
 			return false;
 		}
-		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+
+		foreach($trigger_ids as $trigger_id)
 		{
-			if($condition['operator'] == 'not_member')
+			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 			{
-				switch($condition['value'])
+				if($condition['operator'] == 'not_member')
 				{
-					case 'matriculation':
-						if(!strlen($ilUser->getMatriculation()))
+					switch($condition['value'])
+					{
+						case 'matriculation':
+							if(!strlen($ilUser->getMatriculation()))
+							{
+								if(!$matriculation_message)
+								{
+									$matriculation_message = $this->lng->txt('crs_grp_matriculation_required');
+								}
+							}
+					}
+					if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
+					{
+						if(!$assigned_message)
 						{
-							$this->course_obj->appendMessage($this->lng->txt('crs_grp_matriculation_required'));
-
-							return false;
+							$assigned_message = $this->lng->txt('crs_grp_already_assigned');
 						}
-				}
-				if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
-				{
-					$this->course_obj->appendMessage($this->lng->txt('crs_grp_already_assigned'));
-
-					return false;
+					}
 				}
 			}
 		}
+		if($matriculation_message)
+		{
+			$this->course_obj->appendMessage($matriculation_message);
+		}
+		elseif($assigned_message)
+		{
+			$this->course_obj->appendMessage($assigned_message);
+		}
+		return false;
 	}
 	function __getGroupingCourses()
 	{
@@ -341,23 +357,31 @@ class ilCourseRegisterGUI
 		include_once './classes/class.ilConditionHandler.php';
 		include_once './course/classes/class.ilCourseMembers.php';
 
+		$trigger_ids = array();
 		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
-				$trigger_id = $condition['trigger_obj_id'];
+				$trigger_ids[] = $condition['trigger_obj_id'];
 			}
 		}
-		if(!$trigger_id)
+		if(!count($trigger_ids))
 		{
 			return false;
 		}
-		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+		foreach($trigger_ids as $trigger_id)
 		{
-			if($condition['operator'] == 'not_member')
+			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 			{
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
-				$courses .= (' <br/>'.$this->__formatPath($tree->getPathFull($tmp_obj->getRefId())));
+				if($condition['operator'] == 'not_member')
+				{
+					if(!$hash_table[$condition['target_ref_id']])
+					{
+						$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
+						$courses .= (' <br/>'.$this->__formatPath($tree->getPathFull($tmp_obj->getRefId())));
+					}
+					$hash_table[$condition['target_ref_id']] = true;
+				}
 			}
 		}
 		return $courses;

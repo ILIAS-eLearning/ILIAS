@@ -65,6 +65,22 @@ class ilObjCourseGrouping
 	{
 		return $this->id;
 	}
+	function setCourseRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+	function getCourseRefId()
+	{
+		return $this->ref_id;
+	}
+	function setCourseObjId($a_obj_id)
+	{
+		$this->obj_id = $a_obj_id;
+	}
+	function getCourseObjId()
+	{
+		return $this->obj_id;
+	}
 	function setType($a_type)
 	{
 		$this->type = $a_type;
@@ -101,9 +117,7 @@ class ilObjCourseGrouping
 
 	function getCountAssignedCourses()
 	{
-		include_once './classes/class.ilConditionHandler.php';
-
-		return count(ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId()));
+		return count($this->getAssignedCourses());
 	}
 
 	function getAssignedCourses()
@@ -136,7 +150,7 @@ class ilObjCourseGrouping
 		return false;
 	}
 
-	function create($a_course_id)
+	function create($a_course_ref_id,$a_course_id)
 	{
 		global $ilUser;
 
@@ -160,7 +174,8 @@ class ilObjCourseGrouping
 
 		// INSERT in crs_groupings
 		$query = "INSERT INTO crs_groupings ".
-			"SET crs_id = '".$a_course_id."',".
+			"SET crs_ref_id = '".$a_course_ref_id."', ".
+			"crs_id = '".$a_course_id."',".
 			"crs_grp_id = '".$this->getId()."', ".
 			"unique_field = '".$this->getUniqueField()."'";
 
@@ -201,6 +216,18 @@ class ilObjCourseGrouping
 		return false;
 	}
 
+	function isAssigned($a_course_id)
+	{
+		foreach($this->getAssignedCourses() as $condition_data)
+		{
+			if($a_course_id == $condition_data['target_obj_id'])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function read()
 	{
 		$query = "SELECT * FROM object_data ".
@@ -220,15 +247,26 @@ class ilObjCourseGrouping
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setUniqueField($row->unique_field);
+			$this->setCourseRefId($row->crs_ref_id);
+			$this->setCourseObjId($row->crs_id);
 		}
 
 		return true;
 	}
 
-	function _getAllGroupings($a_crs_ref_id)
+	function _getAllGroupings($a_crs_ref_id,$a_check_write = true)
 	{
+		if($a_check_write)
+		{
+			$courses = ilUtil::getObjectsByOperations('crs','write',false);
+		}
+		else
+		{
+			$courses = ilUtil::getObjectsByOperations('crs','visible',false);
+		}
+
 		$groupings = array();
-		foreach(ilUtil::getObjectsByOperations('crs','write',false) as $crs_data)
+		foreach($courses as $crs_data)
 		{
 			if($a_crs_ref_id != $crs_data['ref_id'])
 			{
@@ -238,11 +276,70 @@ class ilObjCourseGrouping
 		return $groupings ? $groupings : array();
 	}
 
+	function assign($a_crs_ref_id,$a_course_id)
+	{
+		// Add the parent course of grouping
+		$this->__addCondition($this->getCourseRefId(),$this->getCourseObjId());
+		$this->__addCondition($a_crs_ref_id,$a_course_id);
+
+		return true;
+	}
+
+	function deassign($a_crs_ref_id,$a_course_id)
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+
+		$condh =& new ilConditionHandler();
+
+		// DELETE also original course if its the last
+		if($this->getCountAssignedCourses() == 2)
+		{
+			$condh->deleteByObjId($this->getId());
+
+			return true;
+		}
 		
+		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$this->getId()) as $cond_data)
+		{
+
+			if($cond_data['target_ref_id'] == $a_crs_ref_id and
+			   $cond_data['target_obj_id'] == $a_course_id)
+			{
+				$condh->deleteCondition($cond_data['id']);
+			}
+		}
+
+		return true;
+			
+	}
 	// PRIVATE
+	function __addCondition($a_target_ref_id,$a_target_obj_id)
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		$tmp_condh =& new ilConditionHandler();
+		$tmp_condh->enableAutomaticValidation(false);
+
+		$tmp_condh->setTargetRefId($a_target_ref_id);
+		$tmp_condh->setTargetObjId($a_target_obj_id);
+		$tmp_condh->setTargetType('crs');
+		$tmp_condh->setTriggerRefId(0);
+		$tmp_condh->setTriggerObjId($this->getId());
+		$tmp_condh->setTriggerType('crsg');
+		$tmp_condh->setOperator('not_member');
+		$tmp_condh->setValue($this->getUniqueField());
+
+		if(!$tmp_condh->checkExists())
+		{
+			$tmp_condh->storeCondition();
+
+			return true;
+		}
+		return false;
+	}
 	
 	// STATIC
-
 	function _deleteAll($a_course_id)
 	{
 		global $ilDB;
