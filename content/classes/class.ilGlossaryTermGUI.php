@@ -81,6 +81,7 @@ class ilGlossaryTermGUI
 		{
 
 			case "iltermdefinitioneditorgui":
+				$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit =& new ilTermDefinitionEditorGUI();
 				$ret =& $def_edit->executeCommand();
 				break;
@@ -105,6 +106,7 @@ class ilGlossaryTermGUI
 		global $ilUser;
 
 		$this->getTemplate();
+		$this->displayLocator();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_new_term"));
 		$this->setTabs();
 
@@ -154,8 +156,11 @@ class ilGlossaryTermGUI
 	*/
 	function editTerm()
 	{
+		//$this->displayLocator();
 		$this->getTemplate();
+		$this->displayLocator();
 		$this->setTabs();
+		//$this->displayLocator();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
 
 		// load template for table
@@ -185,9 +190,10 @@ class ilGlossaryTermGUI
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
-
+/*
 	function output()
 	{
+
 		require_once("content/classes/class.ilGlossaryDefinition.php");
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
@@ -241,6 +247,7 @@ class ilGlossaryTermGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+*/
 
 	/**
 	* list definitions
@@ -248,6 +255,7 @@ class ilGlossaryTermGUI
 	function listDefinitions()
 	{
 		$this->getTemplate();
+		$this->displayLocator();
 		$this->setTabs();
 
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -300,8 +308,9 @@ class ilGlossaryTermGUI
 			{
 				$this->tpl->setCurrentBlock("up");
 				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
+				$this->ctrl->setParameter($this, "def", $def["id"]);
 				$this->tpl->setVariable("LINK_UP",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]);
+					$this->ctrl->getLinkTarget($this, "moveUp"));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -309,17 +318,20 @@ class ilGlossaryTermGUI
 			{
 				$this->tpl->setCurrentBlock("down");
 				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
+				$this->ctrl->setParameter($this, "def", $def["id"]);
 				$this->tpl->setVariable("LINK_DOWN",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
+					$this->ctrl->getLinkTarget($this, "moveDown"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("submit_btns");
 			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$this->ctrl->setParameter($this, "def", $def["id"]);
+			$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
 			$this->tpl->setVariable("LINK_EDIT",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"));
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
+				$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("definition");
@@ -333,6 +345,82 @@ class ilGlossaryTermGUI
 
 
 	/**
+	* deletion confirmation screen
+	*/
+	function confirmDefinitionDeletion()
+	{
+		$this->getTemplate();
+		$this->displayLocator();
+		$this->setTabs();
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("HEADER",
+			$this->lng->txt("cont_term").": ".$this->term->getTerm());
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
+
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$page =& new ilPageObject("gdf", $definition->getId());
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->setTemplateOutput(false);
+		$output = $page_gui->preview();
+
+		$this->tpl->setCurrentBlock("definition");
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("LINK_CANCEL",
+			$this->ctrl->getLinkTarget($this, "cancelDefinitionDeletion"));
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
+		$this->ctrl->setParameter($this, "def", $definition->getId());
+		$this->tpl->setVariable("LINK_CONFIRM",
+			$this->ctrl->getLinkTarget($this, "deleteDefinition"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function cancelDefinitionDeletion()
+	{
+		$this->ctrl->redirect($this, "listDefinitions");
+	}
+
+
+	function deleteDefinition()
+	{
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->delete();
+		$this->ctrl->redirect($this, "listDefinitions");
+	}
+
+
+	/**
+	* move definition upwards
+	*/
+	function moveUp()
+	{
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->moveUp();
+		$this->ctrl->redirect($this, "listDefinitions");
+	}
+
+
+	/**
+	* move definition downwards
+	*/
+	function moveDown()
+	{
+		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition->moveDown();
+		$this->ctrl->redirect($this, "listDefinitions");
+	}
+
+
+	/**
 	* add definition
 	*/
 	function addDefinition()
@@ -341,23 +429,7 @@ class ilGlossaryTermGUI
 		$this->setTabs();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
 
-		//$this->prepareOutput();
-		if (empty($_GET["term_id"]))
-		{
-			if (count($_POST["id"]) < 1)
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
-			}
-
-			if (count($_POST["id"]) > 1)
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
-			}
-		}
-
-		$term_id = empty($_GET["term_id"])
-			? $_POST["id"][0]
-			: $_GET["term_id"];
+		$term_id = $_GET["term_id"];
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -413,6 +485,7 @@ class ilGlossaryTermGUI
 	function getTemplate()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		sendInfo();
 	}
 
@@ -430,6 +503,20 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 	}
+
+	/**
+	* display locator
+	*/
+	function displayLocator()
+	{
+		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc->setTerm($this->term);
+		$gloss_loc->setGlossary($this->glossary);
+		//$gloss_loc->setDefinition($this->definition);
+		$gloss_loc->display();
+	}
+
 
 	/**
 	* get tabs

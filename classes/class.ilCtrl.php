@@ -463,6 +463,17 @@ class ilCtrl
 	}
 
 	/**
+	* set return command
+	*/
+	function setReturnByClass($a_class, $a_cmd)
+	{
+		$script = $this->getTargetScript();
+		$script = $this->getUrlParameters(strtolower($a_class), $script, $a_cmd);
+//echo "<br>setReturn:".get_class($a_gui_obj).":".$script.":<br>";
+		$this->return[strtolower($a_class)] = $script;
+	}
+
+	/**
 	* redirects to next parent class that used setReturn
 	*/
 	function returnToParent(&$a_gui_obj)

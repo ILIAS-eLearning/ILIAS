@@ -749,6 +749,26 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 	}
 
+
+	/**
+	* add definition
+	*/
+	function addDefinition()
+	{
+		if (count($_POST["id"]) < 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->ctrl->setParameterByClass("ilGlossaryTermGUI", "term_id", $_POST["id"][0]);
+		$this->ctrl->redirectByClass("ilGlossaryTermGUI", "addDefinition");
+	}
+
 	function getTemplate()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
