@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.65 2003/11/14 18:58:22 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.66 2003/11/17 12:44:38 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -148,6 +148,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
@@ -156,7 +157,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
-				if ($key != "default_role" and $key != "language")
+				if ($key != "default_role" and $key != "language" and $key != "skin_style")
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
@@ -190,6 +191,44 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
+		
+		// skin & style selection
+		$this->ilias->getSkins();
+		
+		// preselect previous chosen skin/style otherwise default skin/style
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
+		{
+			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
+			
+			$selected_style = $sknst[1];
+			$selected_skin = $sknst[0];	
+		}
+		else
+		{
+			$selected_style = $this->object->prefs["style"];
+			$selected_skin = $this->object->skin;	
+		}
+			
+		foreach ($this->ilias->skins as $skin)
+		{
+			// get styles for skin
+			$this->ilias->getStyles($skin["name"]);
+
+			foreach($this->ilias->styles as $style)
+			{
+				$this->tpl->setCurrentBlock("selectskin");
+		
+				if ($selected_skin == $skin["name"] &&
+					$selected_style == $style["name"])
+				{
+					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+				}
+		
+				$this->tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
+				$this->tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		} // END skin & style selection
 	}
 
 	/**
@@ -300,7 +339,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 
-				if ($key != "default_role" and $key != "language")
+				if ($key != "default_role" and $key != "language" and $key != "skin_style")
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
@@ -348,6 +387,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
@@ -370,6 +410,44 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
+		
+		// skin & style selection
+		$this->ilias->getSkins();
+		
+		// preselect previous chosen skin/style otherwise default skin/style
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
+		{
+			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
+			
+			$selected_style = $sknst[1];
+			$selected_skin = $sknst[0];	
+		}
+		else
+		{
+			$selected_style = $this->object->prefs["style"];
+			$selected_skin = $this->object->skin;	
+		}
+			
+		foreach ($this->ilias->skins as $skin)
+		{
+			// get styles for skin
+			$this->ilias->getStyles($skin["name"]);
+
+			foreach($this->ilias->styles as $style)
+			{
+				$this->tpl->setCurrentBlock("selectskin");
+		
+				if ($selected_skin == $skin["name"] &&
+					$selected_style == $style["name"])
+				{
+					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+				}
+		
+				$this->tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
+				$this->tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		} // END skin & style selection
 
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
@@ -479,37 +557,21 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// setup user preferences
 		$userObj->setLanguage($_POST["Fobject"]["language"]);
+		
+		//set user skin and style
+		$sknst = explode(":", $_POST["Fobject"]["skin_style"]);
+			
+		if ($userObj->getPref("style") != $sknst[1] ||
+			$userObj->getPref("skin") != $sknst[0])
+		{
+			$userObj->setPref("skin", $sknst[0]);
+			$userObj->setPref("style", $sknst[1]);
+		}
+
 		$userObj->writePrefs();
 
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
-
-		//create new usersetting entry
-		/*
-		$settingObj = new ilObject();
-		$settingObj->setType("uset");
-		$settingObj->setTitle($user->getFullname());
-		$settingObj->setDescription("User Setting Folder");
-		$settingObj->create();
-		$settingObj->createReference();
-		*/
-		//create usertree from class.user.php
-		// tree_id is the obj_id of user not ref_id!
-		// this could become a problem with same ids
-		//$this->tree->addTree($user->getId(), $settingObj->getRefId());
-
-		//add notefolder to user tree
-		//$userTree = new ilTree(0,0,$user->getId());
-		/*
-		require_once ("classes/class.ilObjNoteFolder.php");
-		$notfObj = new ilObjNoteFolder();
-		$notfObj->setType("notf");
-		$notfObj->setTitle($user->getFullname());
-		$notfObj->setDescription("Note Folder Object");
-		$notfObj->create();
-		$notfObj->createReference();
-		//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
-		* */
 
 		// CREATE ENTRIES FOR MAIL BOX
 		include_once ("classes/class.ilMailbox.php");
@@ -590,6 +652,17 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->object->setLanguage($_POST["Fobject"]["language"]);
+		
+		//set user skin and style
+		$sknst = explode(":", $_POST["Fobject"]["skin_style"]);
+			
+		if ($this->object->getPref("style") != $sknst[1] ||
+			$this->object->getPref("skin") != $sknst[0])
+		{
+			$this->object->setPref("skin", $sknst[0]);
+			$this->object->setPref("style", $sknst[1]);
+		}
+
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
