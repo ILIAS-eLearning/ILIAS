@@ -4668,4 +4668,9 @@ ALTER TABLE `tst_tests` CHANGE `ects_fx` `ects_fx` FLOAT DEFAULT NULL;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#297>
+ALTER  TABLE  `tst_tests`  ADD `ects_a` DOUBLE DEFAULT  '90' NOT  NULL;
+ALTER  TABLE  `tst_tests`  ADD `ects_b` DOUBLE DEFAULT  '65' NOT  NULL;
+ALTER  TABLE  `tst_tests`  ADD `ects_c` DOUBLE DEFAULT  '35' NOT  NULL;
+ALTER  TABLE  `tst_tests`  ADD `ects_d` DOUBLE DEFAULT  '10' NOT  NULL;
+ALTER  TABLE  `tst_tests`  ADD `ects_e` DOUBLE DEFAULT  '0' NOT  NULL;

@@ -1229,20 +1229,56 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->object->mark_schema->sort();
 		}
-
+	
+		if (count($_POST))
+		{
+			$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
+			$this->object->ects_grades["B"] = $_POST["ects_grade_b"];
+			$this->object->ects_grades["C"] = $_POST["ects_grade_c"];
+			$this->object->ects_grades["D"] = $_POST["ects_grade_d"];
+			$this->object->ects_grades["E"] = $_POST["ects_grade_e"];
+		}
+		
 		if ($_POST["cmd"]["save"]) {
-			$this->object->mark_schema->saveToDb($this->object->getTestId());
-			$this->object->saveCompleteStatus();
-			if ($this->object->getReportingDate())
+			if ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
 			{
-				$fxpercent = "";
-				if ($_POST["chbUseFX"])
-				{
-					$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
-				}
-				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent);
+				sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
 			}
-			sendInfo($this->lng->txt("msg_obj_modified"), true);
+			elseif (($_POST["ects_grade_a"] > 100) or ($_POST["ects_grade_a"] < 0))
+			{
+				sendInfo($this->lng->txt("ects_range_error_a"), true);
+			}
+			elseif (($_POST["ects_grade_b"] > 100) or ($_POST["ects_grade_b"] < 0))
+			{
+				sendInfo($this->lng->txt("ects_range_error_b"), true);
+			}
+			elseif (($_POST["ects_grade_c"] > 100) or ($_POST["ects_grade_c"] < 0))
+			{
+				sendInfo($this->lng->txt("ects_range_error_c"), true);
+			}
+			elseif (($_POST["ects_grade_d"] > 100) or ($_POST["ects_grade_d"] < 0))
+			{
+				sendInfo($this->lng->txt("ects_range_error_d"), true);
+			}
+			elseif (($_POST["ects_grade_e"] > 100) or ($_POST["ects_grade_e"] < 0))
+			{
+				sendInfo($this->lng->txt("ects_range_error_e"), true);
+			}
+			else 
+			{
+				$this->object->mark_schema->saveToDb($this->object->getTestId());
+				$this->object->saveCompleteStatus();
+				if ($this->object->getReportingDate())
+				{
+					$fxpercent = "";
+					if ($_POST["chbUseFX"])
+					{
+						$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
+					}
+					$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
+				}
+				sendInfo($this->lng->txt("msg_obj_modified"), true);
+			}
 		}
 
 		if ($_POST["cmd"]["cancel"]) {

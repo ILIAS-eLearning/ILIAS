@@ -670,7 +670,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function saveECTSStatus($ects_output = 0, $fx_support = "") 
+	function saveECTSStatus($ects_output = 0, $fx_support = "", $ects_a = 90, $ects_b = 65, $ects_c = 35, $ects_d = 10, $ects_e = 0) 
 	{
     global $ilDB;
     if ($this->test_id > 0) {
@@ -683,8 +683,13 @@ class ilObjTest extends ilObject
 			{
 				$fx_support = "NULL";
 			}
-      $query = sprintf("UPDATE tst_tests SET ects_output = %s, ects_fx = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s WHERE test_id = %s",
 				$ilDB->quote("$ects_output"),
+				$ilDB->quote($ects_a . ""),
+				$ilDB->quote($ects_b . ""),
+				$ilDB->quote($ects_c . ""),
+				$ilDB->quote($ects_d . ""),
+				$ilDB->quote($ects_e . ""),
         $fx_support,
 				$this->getTestId()
       );
@@ -743,7 +748,7 @@ class ilObjTest extends ilObject
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_fx, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId()),
         $db->quote($this->author),
         $db->quote($this->test_type),
@@ -758,6 +763,11 @@ class ilObjTest extends ilObject
         $db->quote($this->ending_time),
 				$db->quote("$complete"),
 				$db->quote($this->ects_output . ""),
+				$db->quote($this->ects_grades["A"] . ""),
+				$db->quote($this->ects_grades["B"] . ""),
+				$db->quote($this->ects_grades["C"] . ""),
+				$db->quote($this->ects_grades["D"] . ""),
+				$db->quote($this->ects_grades["E"] . ""),
 				$ects_fx,
         $db->quote($created)
       );
@@ -767,7 +777,7 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_fx = %s, complete = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
@@ -780,6 +790,11 @@ class ilObjTest extends ilObject
         $db->quote($this->starting_time), 
         $db->quote($this->ending_time), 
 				$db->quote($this->ects_output . ""),
+				$db->quote($this->ects_grades["A"] . ""),
+				$db->quote($this->ects_grades["B"] . ""),
+				$db->quote($this->ects_grades["C"] . ""),
+				$db->quote($this->ects_grades["D"] . ""),
+				$db->quote($this->ects_grades["E"] . ""),
 				$ects_fx,
 				$db->quote("$complete"),
         $db->quote($this->test_id)
@@ -853,6 +868,13 @@ class ilObjTest extends ilObject
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
 				$this->ects_output = $data->ects_output;
+				$this->ects_grades = array(
+					"A" => $data->ects_a,
+					"B" => $data->ects_b,
+					"C" => $data->ects_c,
+					"D" => $data->ects_d,
+					"E" => $data->ects_e
+				);
 				$this->ects_fx = $data->ects_fx;
 				$this->mark_schema->flush();
 				$this->mark_schema->loadFromDb($this->test_id);
