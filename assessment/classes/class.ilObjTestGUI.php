@@ -1381,6 +1381,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = true;
 				}
 				$active = $this->object->getActiveTestUser();
+				$this->tpl->setCurrentBlock("percentage");
+				$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+				$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+				$this->tpl->parseCurrentBlock();
 				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
 			} else {
 				// finish test
