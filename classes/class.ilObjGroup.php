@@ -298,7 +298,7 @@ class ilObjGroup extends ilObject
 	}
 
 	
-		/**
+	/**
 	* set group status
 	* @access	public
 	* @param	integer	group id (optional)
@@ -322,9 +322,7 @@ class ilObjGroup extends ilObject
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
 
 			foreach ($arr_globalRoles as $globalRole)
-
 			{
-				
 				if($this->getGroupStatus() != NULL)
 					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
 
@@ -334,13 +332,9 @@ class ilObjGroup extends ilObject
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
 
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 
 				//the assignment stops the inheritation
-
-
-
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["parent"],'n');
 
 			}//END foreach
@@ -375,8 +369,7 @@ class ilObjGroup extends ilObject
 
 			$this->m_grpStatus = 2;
 		}
-
-
+		
 		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res		= $this->ilias->db->query($sql_query1);
 
@@ -386,7 +379,6 @@ class ilObjGroup extends ilObject
 			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getId()."'";
 
 		$res = $this->ilias->db->query($sql_query);
-
 	}
 
 	/**
@@ -404,16 +396,7 @@ class ilObjGroup extends ilObject
 		else
 			return $row["status"];
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	
+
 	/**
 	* get group member status
 	* @access	public
@@ -555,7 +538,7 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	integer	role folder id (reference)
 	*/
-	function createGroupRoles($rolfId)
+	function createDefaultGroupRoles($rolfId)
 	{
 		include_once("./classes/class.ilObjRole.php");
 
@@ -762,7 +745,7 @@ class ilObjGroup extends ilObject
 		$this->ilias->db->query($q2);
 			
 		
-		
+
 		//var_dump($this->grp_tree);
 		//return $this->grp_tree;
 	}
@@ -852,53 +835,27 @@ class ilObjGroup extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
-		
+	{
+
 		// put here group specific stuff
-		
-		// always call parent delete function at the end!!		
+
+		// always call parent delete function at the end!!
 		return (parent::delete()) ? true : false;
 	}
-	
+
 	/**
 	* init default roles settings
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
 	function initRoleFolder()
-	{	
-		global $rbacadmin;
-		
-		// create a local role folder
-		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		return $rfoldObj;
-	}
-	
-	/**
-	* init default roles settings
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles($rfoldObj)
 	{
 		global $rbacadmin;
-		
+
 		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of group obj_no.".$this->getId());
 
-		// create moderator role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("Administrator","Administrator of group obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
-		
-		// create moderator role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("Memebr","Member of group obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
-		
-		unset($rfoldObj);
-		unset($roleObj);
-
-		return $roles ? $roles : array();
+		return $rfoldObj;
 	}
 
 } //END class.ilObjGroup
