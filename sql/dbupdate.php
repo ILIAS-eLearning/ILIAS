@@ -1529,3 +1529,8 @@ CREATE TABLE `scorm_tracking` (
 	`mastery_score` decimal(10,0) NOT NULL default '0',
 	PRIMARY KEY  (`sc_item_id`,`sc_item_id`,`usr_id`)
 ) TYPE=MyISAM;
+
+<#87>
+ALTER TABLE media_item ADD COLUMN location VARCHAR(200);
+ALTER TABLE media_item ADD COLUMN location_type ENUM('LocalFile', 'Reference') NOT NULL DEFAULT 'LocalFile';
+ALTER TABLE media_item ADD COLUMN format VARCHAR(200);

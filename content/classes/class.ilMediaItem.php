@@ -35,6 +35,9 @@
 class ilMediaItem
 {
 	var $purpose;
+	var $location;
+	var $location_type;
+	var $format;
 	var $width;
 	var $height;
 	var $caption;
@@ -55,6 +58,36 @@ class ilMediaItem
 	function getPurpose()
 	{
 		return $this->purpose;
+	}
+
+	function setLocation($a_location)
+	{
+		$this->location = $a_location;
+	}
+
+	function getLocation()
+	{
+		return $this->location;
+	}
+
+	function setLocationType($a_type)
+	{
+		$this->location_type = $a_type;
+	}
+
+	function getLocationType()
+	{
+		return $this->location_type;
+	}
+
+	function setFormat($a_format)
+	{
+		$this->format = $a_format;
+	}
+
+	function getFormat()
+	{
+		return $this->format;
 	}
 
 	/**

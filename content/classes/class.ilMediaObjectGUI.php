@@ -119,6 +119,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 			// set real meta and object data
 			$format = ilMediaObject::getMimeType($file);
+			$media_item->setFormat($format);
+			$media_item->setLocation($_FILES['standard_file']['name']);
+			$media_item->setLocationType("LocalFile");
 			$meta_technical->addFormat($format);
 			$meta_technical->setSize($_FILES['standard_file']['size']);
 			$meta_technical->addLocation("LocalFile", $_FILES['standard_file']['name']);
@@ -127,6 +130,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		else	// standard type: reference
 		{
 			$format = ilMediaObject::getMimeType($_POST["standard_reference"]);
+			$media_item->setFormat($format);
+			$media_item->setLocation($_POST["standard_reference"]);
+			$media_item->setLocationType("Reference");
 			$meta_technical->addFormat($format);
 			$meta_technical->setSize(0);
 			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
@@ -178,6 +184,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 					// set real meta and object data
 					$format = ilMediaObject::getMimeType($file);
+					$media_item->setFormat($format);
+					$media_item->setLocation($_FILES['full_file']['name']);
+					$media_item->setLocationType("LocalFile");
 					$meta_technical->addFormat($format);
 					$meta_technical->setSize($meta_technical->getSize()
 					 + $_FILES['full_file']['size']);
@@ -189,6 +198,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				if ($_POST["full_reference"] != "")
 				{
 					$format = ilMediaObject::getMimeType($_POST["full_reference"]);
+					$media_item->setFormat($format);
+					$media_item->setLocation($_POST["full_reference"]);
+					$media_item->setLocationType("Reference");
 					$meta_technical->addFormat($format);
 					$meta_technical->addLocation("Reference", $_POST["full_reference"]);
 				}

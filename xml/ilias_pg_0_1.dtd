@@ -40,17 +40,22 @@
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
-<!ELEMENT MediaObject ((MetaData | MediaAlias), MediaItem+)>
+<!ELEMENT MediaObject ((MetaData, MediaItem+) | (MediaAlias, MediaAliasItem+))>
 <!-- MediaAlias -->
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
 	OriginId CDATA #REQUIRED
 >
+<!-- MediaAliasItem -->
+<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*)>
+<!ATTLIST MediaAliasItem
+	Purpose (Standard | Fullscreen | Additional) #REQUIRED
+>
 <!-- MediaObject is not an alias -->
 <!-- Every MediaItem belongs to a corresponding format/location pair in the technical
 	 Section of Meta Data -->
-<!ELEMENT MediaItem (Layout?, Caption?, Parameter*, MapArea*)>
+<!ELEMENT MediaItem (Location, Format?, Layout?, Caption?, Parameter*, MapArea*)>
 <!ATTLIST MediaItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
@@ -62,6 +67,14 @@
 	Href CDATA #IMPLIED
 	Alt CDATA #REQUIRED
 >
+
+
+<!ELEMENT Format (#PCDATA)>
+<!ELEMENT Location (#PCDATA)>
+<!ATTLIST Location
+	Type (LocalFile | Reference) #REQUIRED
+>
+
 
 <!-- Paragraph -->
 <!-- All textual content of a PageObject has to be divided in single paragraphs -->
