@@ -708,7 +708,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			// link
 			$this->ctrl->setParameter($this, "backcmd", "");
-			$this->ctrl->setParameter($this, "obj_id", "");
+			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
 			$this->tpl->setVariable("LINK_TARGET",
 				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view", array(get_class($this))));
 
@@ -787,7 +787,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			// link
 			$this->ctrl->setParameter($this, "backcmd", "");
-			$this->ctrl->setParameter($this, "obj_id", $page["obj_id"]);
+			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $page["obj_id"]);
 //echo "<br>:".$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view").":";
 			$this->tpl->setVariable("LINK_TARGET",
 				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view", array(get_class($this))));

@@ -370,6 +370,7 @@ class ilLMObjectGUI
 		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->confirmedDelete($this->obj->getId());
+		$this->ctrl->redirect($this, $_GET["backcmd"]);
 	}
 
 
