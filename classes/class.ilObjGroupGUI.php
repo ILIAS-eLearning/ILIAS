@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.9 2003/06/04 12:23:37 neiken Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.10 2003/06/18 13:53:45 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -138,6 +138,9 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		//0=public,1=private,2=closed
 		$newGrp->setGroupStatus($_POST["group_status_select"]);
+		
+		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
+		$newGrp->createNewGroupTree();
 		
 		header("Location: adm_object.php?".$this->link_params);
 		exit();

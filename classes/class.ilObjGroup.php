@@ -518,5 +518,15 @@ class ilObjGroup extends ilObject
 		return false;
 
 	}
+	
+	function createNewGroupTree()
+	{
+	
+	$this->grp_tree = new ilTree($this->getRefId());
+	$this->grp_tree->setTableNames("grp_tree","obj_data");
+	$this->grp_tree->addTree($this->getRefId());
+	
+	}	
+	
 } //END class.GroupObject
 ?>
