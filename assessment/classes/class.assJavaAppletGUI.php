@@ -180,10 +180,10 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("JAVAAPPLET_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", $this->object->getComment());
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", $this->object->getAuthor());
-		$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", htmlspecialchars($this->object->getTitle()));
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", htmlspecialchars($this->object->getComment()));
+		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
