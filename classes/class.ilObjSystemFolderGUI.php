@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.31 2004/04/08 20:49:03 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.32 2004/04/16 16:26:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -84,7 +84,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				continue;
 			}
-			
+
 			// hide object types in devmode
 			if ($this->objDefinition->getDevMode($val["type"]))
 			{
@@ -340,7 +340,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 		////////////////////////////////////////////////////////////
 		// load user modified settings again
-		
+
 				// basic data
 				$settings["feedback_recipient"] = $_POST["feedback_recipient"];
 				$settings["error_recipient"] = $_POST["error_recipient"];
@@ -377,7 +377,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				if ($_POST["default_skin_style"] != "")
 				{
 					$sknst = explode(":", $_POST["default_skin_style"]);
-					
+
 					if ($this->ilias->ini->readVariable("layout","style") != $sknst[1] ||
 						$this->ilias->ini->readVariable("layout","skin") != $sknst[0])
 					{
@@ -436,6 +436,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DEFAULT_LANGUAGE", $this->lng->txt("default_language"));
 		$this->tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $this->lng->txt("feedback_recipient"));
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
+		$this->tpl->setVariable("TXT_HEADER_TITLE", $this->lng->txt("header_title"));
+		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
+		$this->tpl->setVariable("LINK_HEADER_TITLE", "adm_object?ref_id=".
+			$_GET["ref_id"]."&cmd=changeHeaderTitle");
+		$this->tpl->setVariable("VAL_HEADER_TITLE",
+			ilObjSystemFolder::_getHeaderTitle());
 
 		include_once ("./classes/class.ilDBUpdate.php");
 		$dbupdate = new ilDBUpdate($this->ilias->db,true);
@@ -535,7 +541,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("LANGVALUE", $lang_key);
-			$this->tpl->setVariable("LANGOPTION", $this->lng->txt("lang_".$lang_key));	
+			$this->tpl->setVariable("LANGOPTION", $this->lng->txt("lang_".$lang_key));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -552,7 +558,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		// pathes to tools
 		$not_set = $this->lng->txt("path_not_set");
-		
+
 		$this->tpl->setVariable("CONVERT_PATH",(PATH_TO_CONVERT) ? PATH_TO_CONVERT : $not_set);
 		$this->tpl->setVariable("ZIP_PATH",(PATH_TO_ZIP) ? PATH_TO_ZIP : $not_set);
 		$this->tpl->setVariable("UNZIP_PATH",(PATH_TO_UNZIP) ? PATH_TO_UNZIP : $not_set);
@@ -627,10 +633,226 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
 		}
 	}
-	
+
+	/**
+	* edit header title form
+	*
+	* @access	private
+	*/
+	function changeHeaderTitleObject()
+	{
+		global $rbacsystem, $styleDefinition;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.header_title_edit.html");
+
+		$array_push = true;
+
+		if ($_SESSION["error_post_vars"])
+		{
+			$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
+			$_GET["mode"] = "session";
+			$array_push = false;
+		}
+
+		// load from db if edit category is called the first time
+		if (($_GET["mode"] != "session"))
+		{
+			$data = $this->object->getHeaderTitleTranslations();
+			$_SESSION["translation_post"] = $data;
+			$array_push = false;
+		}	// remove a translation from session
+		elseif ($_GET["entry"] != 0)
+		{
+			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
+
+			if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
+			{
+				$_SESSION["translation_post"]["default_language"] = "";
+			}
+		}
+
+		$data = $_SESSION["translation_post"];
+
+		// add additional translation form
+		if (!$_GET["entry"] and $array_push)
+		{
+			$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
+		}
+		else
+		{
+			$count = count($data["Fobject"]);
+		}
+
+		// stripslashes in form?
+		$strip = isset($_SESSION["translation_post"]) ? true : false;
+
+		foreach ($data["Fobject"] as $key => $val)
+		{
+			// add translation button
+			if ($key == $count -1)
+			{
+				$this->tpl->setCurrentBlock("addTranslation");
+				$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// remove translation button
+			if ($key != 0)
+			{
+				$this->tpl->setCurrentBlock("removeTranslation");
+				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
+				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// lang selection
+			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
+			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
+
+			include_once("classes/class.ilMetaData.php");
+
+			$languages = ilMetaData::getLanguages();
+
+			foreach ($languages as $code => $language)
+			{
+				$this->tpl->setCurrentBlock("lg_option");
+				$this->tpl->setVariable("VAL_LG", $code);
+				$this->tpl->setVariable("TXT_LG", $language);
+
+				if ($code == $val["lang"])
+				{
+					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// object data
+			$this->tpl->setCurrentBlock("obj_form");
+
+			if ($key == 0)
+			{
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("change_header_title"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
+			}
+
+			if ($key == $data["default_language"])
+			{
+				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
+			}
+
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+			$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
+			$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+			$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
+			$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
+			$this->tpl->setVariable("NUM", $key);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// global
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveHeaderTitle");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+	}
+
+	/**
+	* save header title
+	*/
+	function saveHeaderTitleObject()
+	{
+		$data = $_POST;
+
+		// default language set?
+		if (!isset($data["default_language"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// prepare array fro further checks
+		foreach ($data["Fobject"] as $key => $val)
+		{
+			$langs[$key] = $val["lang"];
+		}
+
+		$langs = array_count_values($langs);
+
+		// all languages set?
+		if (array_key_exists("",$langs))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_language_selected"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// no single language is selected more than once?
+		if (array_sum($langs) > count($langs))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// copy default translation to variable for object data entry
+		$_POST["Fobject"]["title"] = $_POST["Fobject"][$_POST["default_language"]]["title"];
+		$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
+
+		// first delete all translation entries...
+		$this->object->removeHeaderTitleTranslations();
+
+		// ...and write new translations to object_translation
+		foreach ($data["Fobject"] as $key => $val)
+		{
+			if ($key == $data["default_language"])
+			{
+				$default = 1;
+			}
+			else
+			{
+				$default = 0;
+			}
+
+			$this->object->addHeaderTitleTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
+		}
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		header("Location:".$this->getReturnLocation("update","adm_object.php?".$this->link_params));
+		exit();
+	}
+
+	/**
+	* adds a translation form & save post vars to session
+	*
+	* @access	public
+	*/
+	function addHeaderTitleTranslationObject()
+	{
+		$_SESSION["translation_post"] = $_POST;
+		header("Location:".$this->getReturnLocation("addTranslation",
+			"adm_object.php?cmd=changeHeaderTitle&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
+		exit();
+	}
+
+	/**
+	* removes a translation form & save post vars to session
+	*
+	* @access	public
+	*/
+	function removeTranslationObject()
+	{
+		header("location: adm_object.php?cmd=changeHeaderTitle&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
+		exit();
+	}
+
+
 	function startValidator($a_mode,$a_log)
 	{
-		global $rbacsystem; 
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{

@@ -1103,9 +1103,11 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#move#:#Move
+common#:#header_title#:#Header Title
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_to#:#Move to
+common#:#change_header_title#:#Edit Header Title
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared

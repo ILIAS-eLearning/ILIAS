@@ -2680,3 +2680,20 @@ ALTER TABLE frm_threads ADD import_name TEXT;
 
 <#170>
 ALTER TABLE content_object ADD COLUMN toc_mode ENUM('chapters','pages') DEFAULT 'chapters';
+
+<#171>
+<?php
+
+// add create media pool operation to categories
+$query = "SELECT obj_id FROM object_data WHERE type='adm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$adm_id = $row["obj_id"];
+
+$query = "INSERT INTO object_translation (obj_id, title, description, ".
+	"lang_code, lang_default) VALUES ('".$adm_id."','Open Source eLearning'".
+	",'','en','1')";
+$this->db->query($query);
+?>
+
+
