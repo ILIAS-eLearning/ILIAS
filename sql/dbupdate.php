@@ -4209,3 +4209,10 @@ ALTER TABLE usr_data ADD COLUMN `time_limit_until` int(10) default '0';
 
 <#252>
 UPDATE usr_data SET time_limit_unlimited = '1';
+
+<#253>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

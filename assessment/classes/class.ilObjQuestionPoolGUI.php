@@ -90,7 +90,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-//echo "<br>qpGUI_executeComm";
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
@@ -114,14 +113,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
-				//if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
-				//{
-				//	$gloss_loc->display();
-				//}
 				$this->setPageEditorTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
-//echo "<br>ID:".$_GET["q_id"];
+
 				$page =& new ilPageObject("qpl", $_GET["q_id"]);
 				$page_gui =& new ilPageObjectGUI($page);
 				$page_gui->setQuestionXML($question->to_xml(false, false, true));
@@ -140,6 +135,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						));*/
 				$page_gui->setPresentationTitle($question->getTitle());
 				//$page_gui->executeCommand();
+
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 
 				break;

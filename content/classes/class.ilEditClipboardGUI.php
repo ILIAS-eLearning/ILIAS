@@ -126,7 +126,7 @@ class ilEditClipboardGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.clipboard_tbl_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.clipboard_tbl_row.html", "content");
 
 		$num = 0;
 

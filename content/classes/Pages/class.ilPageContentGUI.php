@@ -147,6 +147,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
+
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
