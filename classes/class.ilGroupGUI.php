@@ -130,7 +130,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 		//$title = $this->object->getTitle();
-
+		$locatorscript = "group.php?cmd=switchview&";
 		infoPanel();
 		sendInfo();
 
@@ -206,34 +206,18 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-		if (strcmp ($obj_data->getType(), "grp") == 0)
-		{
-			if ($_SESSION["viewmode"] == "tree")
-			{
 
-				$this->tpl = new ilTemplate("tpl.group.html", false, false);
-				$this->tpl->setVariable ("SOURCE", "group.php?cmd=".$_SESSION["LAST_LOCATION"]."&ref_id=".$_GET["ref_id"]);
-				$this->tpl->show();
-			}
-			else
-			{
-				$this->$_SESSION["LAST_LOCATION"]();
-			}
+		if ($_SESSION["viewmode"] == "tree")
+		{
+			$this->tpl = new ilTemplate("tpl.group.html", false, false);
+			$this->tpl->setVariable ("SOURCE", "group.php?cmd=".$_SESSION["LAST_LOCATION"]."&ref_id=".$_GET["ref_id"]);
+			$this->tpl->show();
 		}
 		else
 		{
-			if ($_SESSION["viewmode"] == "tree")
-			{
-
-				$this->tpl = new ilTemplate("tpl.group.html", false, false);
-				$this->tpl->setVariable ("SOURCE", "group.php?cmd=".$_SESSION["LAST_LOCATION"]."&ref_id=".$_GET["ref_id"]);
-				$this->tpl->show();
-			}
-			else
-			{
-				$this->$_SESSION["LAST_LOCATION"]();
-			}
+			$this->$_SESSION["LAST_LOCATION"]();
 		}
+
 	}
 
 
@@ -1080,7 +1064,7 @@ class ilGroupGUI extends ilObjectGUI
 
 //------------------------------------------------------------------------------------------------------------------------------
 
-	function removeMember()
+	function removeMemberObject()
 	{
 		$user_ids = array();
 		if(isset($_POST["user_id"]))
@@ -1090,7 +1074,7 @@ class ilGroupGUI extends ilObjectGUI
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
-			$cancel  = "canceled";
+			$cancel  = "cancel";
 			$info	 = "info_delete_sure";
 			$status  = "";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status);
@@ -1106,7 +1090,7 @@ class ilGroupGUI extends ilObjectGUI
 	* remove members from group
 	* @access public
 	*/
-/*
+
 	function confirmedRemoveMember()
 	{
 		global $rbacsystem,$ilias;
@@ -1157,110 +1141,96 @@ class ilGroupGUI extends ilObjectGUI
 		unset($_SESSION["saved_post"]);
 		header("Location: group.php?".$this->link_params."&cmd=groupmembers");
 	}
-*/
+
 	/**
 	* displays confirmation form
 	* @access public
 	*/
+
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$call_by_reference="n")
 	{
-		$this->data["cols"] = array("type", "title", "description", "last_change");
-
+		$this->prepareOutput(false);
+		$this->tpl->setVariable("HEADER", $this->lng->txt("confirm_action"));
+		sendInfo ($info);
+		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
+		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
+		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
 		if(is_array($user_id))
+		{
+
 			foreach($user_id as $id)
 			{
 				if($call_by_reference == 'y')
+				{
 					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+				}
 				else
+				{
 					$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-				$this->data["data"]["$id"] = array(
-					"type"        => $obj_data->getType(),
-					"title"       => $obj_data->getTitle(),
-					"desc"        => $obj_data->getDescription(),
-					"last_update" => $obj_data->getLastUpdateDate(),
-
-					);
+				}
+				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
+				$this->tpl->setVariable("TITLE", $obj_data->getTitle());
+				$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType($obj_data->getType(),$this->tpl->tplPath));
+				$this->tpl->setVariable("LAST_UPDATE", $obj_data->getLastUpdateDate());
+				$this->tpl->parseCurrentBlock();
 			}
+		}
 		else
 		{
 			if($call_by_reference == 'y')
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+			}
 			else
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
-
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate(),
-				);
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			}
+			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
+			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
+			$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType($obj_data->getType(),$this->tpl->tplPath));
+			$this->tpl->setVariable("LAST_UPDATE", $obj_data->getLastUpdateDate());
+			$this->tpl->parseCurrentBlock();
 		}
 
-		//write  in sessionvariables
 		if(is_array($user_id))
+		{
 			$_SESSION["saved_post"]["user_id"] = $user_id;
+		}
 		else
+		{
 			$_SESSION["saved_post"]["user_id"][0] = $user_id;
+		}
 
 		if(isset($status))
+		{
 			$_SESSION["saved_post"]["status"] = $status;
-
-		$this->data["buttons"] = array( $confirm  => $this->lng->txt("confirm"),
-						$cancel  => $this->lng->txt("cancel"));
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.obj_confirm.html");
-
-		infoPanel();
-
-		sendInfo($this->lng->txt($info));
-
-
-		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
 		}
 
-		$counter = 0;
 
-		foreach ($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
+		$this->tpl->setVariable("COLUMN_COUNTS", "4");
 
-				// CREATE TEXT STRING
-				if($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", $confirm);
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("confirm"));
+		$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", $cancel);
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
 
-		// BEGIN OPERATION_BTN
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$tbl = new ilTableGUI();
+		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
+		$tbl->setHeaderVars(array("typ","title","description","last_change"));
+		$tbl->setColumnWidth(array("3%","16%","22%","*"));
+		$tbl->setTitle($this->lng->txt("confirm_action"),"icon_grp_b.gif",$this->lng->txt("group_details"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("content");
+		//$tbl->disable("footer");
+		$tbl->render();
+
+		$this->tpl->show();
 	}
 
 
@@ -1362,7 +1332,7 @@ class ilGroupGUI extends ilObjectGUI
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
 
-		$this->data["buttons"] = array( "removeMember"  => $this->lng->txt("remove"),
+		$this->data["buttons"] = array( "DeassignMember"  => $this->lng->txt("remove"),
 						"changeMember"  => $this->lng->txt("change"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
@@ -1882,9 +1852,9 @@ class ilGroupGUI extends ilObjectGUI
 		if (count($operations) > 0)
 		{
 			foreach ($operations as $val)
-			{	
-				
-				
+			{
+
+
 				$this->tpl->setCurrentBlock("tbl_action_btn");
 				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
@@ -2146,9 +2116,9 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 		$user_ids = array();
 
-		if(isset($_POST["id"]))
+		if(isset($_POST["user_id"]))
 		{
-			$user_ids = $_POST["id"];
+			$user_ids = $_POST["user_id"];
 
 
 		}
@@ -2160,7 +2130,7 @@ class ilGroupGUI extends ilObjectGUI
 			$cancel  = "canceldelete";
 			$info	 = "info_delete_sure";
 			$status  = "";
-			$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status);
+			$this->confirmation($user_ids, $confirm, $cancel, $info, $status);
 			//$this->tpl->show();
 		}
 
@@ -2363,7 +2333,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		
+
 		//$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
 		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
 
@@ -2383,6 +2353,7 @@ class ilGroupGUI extends ilObjectGUI
 	function newMembersObject()
 	{
 		$this->prepareOutput();
+		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
 		$_SESSION["LAST_LOCATION"] = "newmembersobject";
 		$this->tpl->addBlockFile("CONTENT", "newmember","tpl.grp_newmember.html");
 
@@ -2492,113 +2463,8 @@ class ilGroupGUI extends ilObjectGUI
 			}
 			unset($_SESSION["status"]);
 		}
-
+		echo ($this->link_params);
 		header("Location: adm_object.php?".$this->link_params);
 	}
-
-/*
-	function confirmationobject($user_id="", $confirm, $cancel, $info="", $status="")
-	{
-
-  		$this->tpl->addBlockfile("CONTENT", "content", "tpl.confirmation.html");
-		$this->tpl->addBlockfile("TBL", "tbl", "tpl.table.html");
-
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.confirmation_tbl.html");
-
-		$this->tpl->setCurrentBlock("tbl_form_header");
-		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-		$this->setLocator();
-		if(is_array($user_id))
-		{
-			foreach($user_id as $id)
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-				$obj_icon = "icon_".$obj_data->getType()."_b.gif";
-				$this->tpl->setVariable("TITLE", $obj_data->getTitle());
-				$this->tpl->setVariable("IMG", $obj_icon);
-				//$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
-				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($obj_data->getLastUpdateDate()));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
-			$this->tpl->setCurrentBlock("tbl_content");
-
-			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-			$num++;
-			$obj_icon = "icon_".$obj_data->getType()."_b.gif";
-			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
-
-			$this->tpl->setVariable("IMG", $obj_icon);
-			//$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
-			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-
-			$this->tpl->setVariable("LAST_VISIT", "N/A");
-			$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($obj_data->getLastUpdate()));
-
-			//$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
-			$this->tpl->parseCurrentBlock();
-
-		}
-		InfoPanel();
-		sendInfo($this->lng->txt($info));
-
-		$_SESSION["saved_post"] = array();
-		if(is_array($user_id))
-			$_SESSION["saved_post"] = $user_id;
-		else
-			$_SESSION["saved_post"][0] = $user_id;
-
-		//write  in sessionvar
-		if(isset($status))
-			$_SESSION["status"] = $status;
-
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		//$tbl->setTitle($this->lng->txt("group_details"),"icon_grp_b.gif",$this->lng->txt("group_details"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("title","description","last_change"));
-		$tbl->setColumnWidth(array("3%","6%","22%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
-		$tbl->setMaxCount($maxcount);
-
-		//$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->SetVariable("COLUMN_COUNTS", "3");
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", $confirm);
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("confirm"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("BTN_NAME", $cancel);
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->parseCurrentBlock();
-		//$this->(true);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("content");
-		//$tbl->disable("footer");
-
-		// render table
-		$tbl->render();
-
-		//$this->tpl->show();
-	}
-*/
 }
 ?>
