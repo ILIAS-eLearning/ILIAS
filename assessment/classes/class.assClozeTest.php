@@ -35,6 +35,7 @@ define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
 * ASS_ClozeText is a class for cloze tests using text or select gaps.
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>* @version	$Id$
+* @version	$Id$
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment
 */
@@ -198,7 +199,8 @@ class ASS_ClozeTest extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s, solution_hint = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s, solution_hint = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
 				$db->quote($this->author),
@@ -288,7 +290,7 @@ class ASS_ClozeTest extends ASS_Question
             array_push($this->gaps, $answer_array);
             $counter = $data->gap_id;
           }
-          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle));
+          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle, $data->answer_id));
         }
       }
     }

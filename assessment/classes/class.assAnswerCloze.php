@@ -76,10 +76,11 @@ class ASS_AnswerCloze extends ASS_AnswerBinaryState {
     $state = 0,
 		$cloze_type = 0,
 		$name = "",
-		$shuffle = 1
+		$shuffle = 1,
+		$id = -1
   )
   {
-    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state);
+    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state, $id);
     $this->cloze_type = $cloze_type;
 		$this->name = $name;
 		$this->shuffle = $shuffle;

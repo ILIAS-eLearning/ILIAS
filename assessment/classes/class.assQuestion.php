@@ -1153,6 +1153,102 @@ class ASS_Question
     }
   }
 
+/**
+* Returns the number of answerblocks of a question
+* 
+* Returns the number of answerblocks of a question
+*
+* @return integer Number of answerblocks
+* @access private
+*/
+	function getAnswerblockCount()
+	{
+		$query = sprintf("SELECT count(answerblock_id) FROM qpl_answerblock WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow();
+			return $row[0];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+/**
+* Adds an answerblock to the question
+* 
+* Adds an answerblock to the question
+*
+* @return integer The id of the created answerblock
+* @access private
+*/
+	function addAnswerblock()
+	{
+		$count = $this->getAnswerblockCount();
+		$query = sprintf("INSERT INTO qpl_answerblock (answerblock_id, answerblock_index, question_fi, subquestion_index, points, feedback) VALUES (NULL, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($count . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote("0"),
+			$this->ilias->db->quote("0")
+		);
+		$result = $this->ilias->db->query($query);
+		$answerblock_id = $this->ilias->db->getLastInsertId();
+		return $answerblock_id;
+	}
+
+/**
+* Returns an array with all answerblocks of the question
+* 
+* Returns an array with all answerblocks of the question
+*
+* @return array An array containing the answerblocks of the question
+* @access private
+*/
+	function &getAnswerblocks()
+	{
+		$answerblocks = array();
+		$query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($answerblocks, $row);
+			}
+		}
+		return $answerblocks;
+	}
+
+/**
+* Returns an array with all connections of an answerblock
+* 
+* Returns an array with all connections of an answerblock
+*
+* @return array An array containing the connections of the answerblock
+* @access private
+*/
+	function &getAnswerblockConnections($answerblock_id)
+	{
+		$connections = array();
+		$query = sprintf("SELECT * FROM qpl_answer_enhanced WHERE answerblock_fi = %s ORDER BY enhanced_order",
+			$this->ilias->db->quote($answerblock_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($connections, $row);
+			}
+		}
+		return $connections;
+	}
 }
 
 ?>

@@ -1460,9 +1460,9 @@
 							</xsl:if>
 							<xsl:if test = "material/matimage">
 								<a target="_new">
-									<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+									<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
 									<img border="0">
-										<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+										<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 									</img>
 								</a>
 							</xsl:if>
@@ -1510,7 +1510,7 @@
 			</xsl:for-each>
 			</map>
 			<img border="0" usemap="#qmap">
-				<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="render_hotspot/material/matimage/@label"/></xsl:attribute>
+				<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="render_hotspot/material/matimage/@label"/></xsl:attribute>
 			</img>
 			</td></tr>
 			</table>
@@ -1543,12 +1543,12 @@
 				<xsl:when test="../mattext/@label='java_code'">
 					<xsl:attribute name="code"><xsl:value-of select="../mattext"/></xsl:attribute>
 					<xsl:if test="contains(@uri, '.class')">
-						<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/</xsl:attribute>
+						<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/java/</xsl:attribute>
 					</xsl:if>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:if test="contains(@uri, '.jar')">
-				<xsl:attribute name="archive"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/<xsl:value-of select="@uri"/></xsl:attribute>
+				<xsl:attribute name="archive"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/java/<xsl:value-of select="@uri"/></xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
 			<xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute>
@@ -1715,9 +1715,9 @@
 						</xsl:if>
 						<xsl:if test = "material/matimage">
 							<a target="_new">
-								<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+								<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
 								<img border="0">
-									<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+									<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 								</img>
 							</a>
 						</xsl:if>
@@ -1772,12 +1772,12 @@
     						<tr><td align="left">
 	    					<img border="0">
 	    						<xsl:attribute name="id">definition_<xsl:value-of select="@ident"/></xsl:attribute>
-	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 	    					</img>
     						</td>
     						<td valign="top">
 									<a target="_new">
-										<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+										<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
 										<img border="0">
 											<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 										</img>
@@ -1792,7 +1792,13 @@
         </xsl:if>
     </xsl:for-each>
 </xsl:template>    
-    
+
+<xsl:template name="replace-qtiident">
+    <xsl:param name="original"/>
+    <xsl:param name="substring"/>
+    <xsl:value-of select="substring-after($original, $substring)"/>
+</xsl:template>
+
 <!-- dump language variable data -->
 <xsl:template match="LV"/>
 <xsl:template match="LVs"/>

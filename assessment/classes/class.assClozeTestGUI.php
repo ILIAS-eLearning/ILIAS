@@ -660,5 +660,27 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->getQuestionTemplate("qt_cloze");
 		parent::addSuggestedSolution();
 	}
+
+	function fillAnswerblockOptions($select_id)
+	{
+		foreach ($this->object->gaps as $key => $value)
+		{
+			foreach ($value as $answer_id => $answer_obj)
+			{
+				$this->tpl->setCurrentBlock("option_value");
+				$this->tpl->setVariable("ANSWER_ID", $answer_obj->getId());
+				$this->tpl->setVariable("ANSWER_TEXT", $answer_obj->get_name() . "." . $answer_obj->get_answertext());
+				if ($answer_obj->getId() == $select_id)
+				{
+					$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("option_value");
+			$this->tpl->setVariable("ANSWER_ID", "-1");
+			$this->tpl->setVariable("ANSWER_TEXT", "----------------------");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 }
 ?>

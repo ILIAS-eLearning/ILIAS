@@ -3649,9 +3649,9 @@ class ilObjTest extends ilObject
 						}
 						if ($question)
 						{
+							$question->setObjId($questionpool_id);
 							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
 							{
-								$question->setObjId($questionpool_id);
 								$question->saveToDb();
 								$q_1_id = $question->getId();
 								$question_id = $question->duplicate(true);
