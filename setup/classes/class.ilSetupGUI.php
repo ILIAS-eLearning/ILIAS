@@ -970,7 +970,7 @@ class ilSetupGUI extends ilSetup
 
 		// common
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
-		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway);
+		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway");
 
 		// build table
 		include_once "../classes/class.ilTableGUI.php";
