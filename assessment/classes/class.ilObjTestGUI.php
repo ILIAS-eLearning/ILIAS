@@ -703,7 +703,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setTitle(ilUtil::prepareFormOutput($data["title"]));
 		$this->object->setDescription(ilUtil::prepareFormOutput($data["description"]));
 		$this->object->setAuthor(ilUtil::prepareFormOutput($data["author"]));
-		$this->object->setIntroduction(ilUtil::prepareFormOutput($data["introduction"]));
+		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setScoreReporting($data["score_reporting"]);
 		$this->object->setReportingDate($data["reporting_date"]);
@@ -2317,7 +2317,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
 			}
-		}
+		}		
 		$introduction = $this->object->getIntroduction();
 		$introduction = preg_replace("/\n/i", "<br />", $introduction);
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
