@@ -388,17 +388,58 @@ class ASS_QuestionGUI
 	*/
 	function cancel()
 	{
-		if ($_GET["q_id"] > 0)
+		if ($_GET["calling_test"])
 		{
-			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+			$_GET["ref_id"] = $_GET["calling_test"];
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
+		elseif ($_GET["test_ref_id"])
+		{
+			$_GET["ref_id"] = $_GET["test_ref_id"];
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
 		}
 		else
 		{
-			$this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+			if ($_GET["q_id"] > 0)
+			{
+				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+				$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+			}
+			else
+			{
+				$this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+			}
 		}
 	}
 
+	function originalSyncForm()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_tst_sync_original.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function sync()
+	{
+		$original_id = $this->object->original_id;
+		if ($original_id)
+		{
+			$this->object->syncWithOriginal();
+		}
+		$_GET["ref_id"] = $_GET["calling_test"];
+		ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+	}
+
+	function cancelSync()
+	{
+		$_GET["ref_id"] = $_GET["calling_test"];
+		ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+	}
+		
 	/**
 	* save question
 	*/
@@ -406,7 +447,21 @@ class ASS_QuestionGUI
 	{
 		$this->writePostData();
 		$this->object->saveToDb();
-		if ($_GET["test_ref_id"] == "")
+		if ($_GET["calling_test"])
+		{
+			//$_GET["ref_id"] = $_GET["calling_test"];
+			$this->originalSyncForm();
+			///ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
+		elseif ($_GET["test_ref_id"])
+		{
+			require_once ("assessment/classes/class.ilObjTest.php");
+			$_GET["ref_id"] = $_GET["test_ref_id"];
+			$test =& new ilObjTest($_GET["test_ref_id"], true);
+			$test->insertQuestion($this->object->getId());
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+		}
+		else
 		{
 			$_GET["q_id"] = $this->object->getId();
 			$this->editQuestion();
@@ -421,14 +476,6 @@ class ASS_QuestionGUI
 			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 		}
-		else
-		{
-			require_once ("assessment/classes/class.ilObjTest.php");
-			$_GET["ref_id"] = $_GET["test_ref_id"];
-			$test =& new ilObjTest($_GET["test_ref_id"], true);
-			$test->insertQuestion($this->object->getId());
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
-		}
 	}
 
 	/**
@@ -439,7 +486,21 @@ class ASS_QuestionGUI
 		$old_id = $_GET["q_id"];
 		$this->writePostData();
 		$this->object->saveToDb();
-		if ($_GET["test_ref_id"] == "")
+		if ($_GET["calling_test"])
+		{
+			//$_GET["ref_id"] = $_GET["calling_test"];
+			$this->originalSyncForm();
+//			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["calling_test"]);
+		}
+		elseif ($_GET["test_ref_id"])
+		{
+			require_once ("assessment/classes/class.ilObjTest.php");
+			$_GET["ref_id"] = $_GET["test_ref_id"];
+			$test =& new ilObjTest($_GET["test_ref_id"], true);
+			$test->insertQuestion($this->object->getId());
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+		}
+		else
 		{
 			$_GET["q_id"] = $this->object->getId();
 			if ($_GET["q_id"] !=  $old_id)
@@ -460,14 +521,6 @@ class ASS_QuestionGUI
 			}
 //			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 //			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
-		}
-		else
-		{
-			require_once ("assessment/classes/class.ilObjTest.php");
-			$_GET["ref_id"] = $_GET["test_ref_id"];
-			$test =& new ilObjTest($_GET["test_ref_id"], true);
-			$test->insertQuestion($this->object->getId());
-			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
 		}
 	}
 

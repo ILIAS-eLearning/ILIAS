@@ -653,6 +653,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$this->title = $data->title;
 				$this->obj_id = $data->obj_fi;
 				$this->comment = $data->comment;
+				$this->original_id = $data->original_id;
 				$this->author = $data->author;
 				$this->owner = $data->owner;
 				$this->question = $data->question_text;
@@ -1209,6 +1210,61 @@ class ASS_OrderingQuestion extends ASS_Question
 		//    parent::saveWorkingData($limit_to);
 		}
 		return $saveWorkingDataResult;
+	}
+
+	function syncWithOriginal()
+	{
+		global $ilias;
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete())
+			{
+				$complete = 1;
+			}
+			$db = & $ilias->db;
+	
+			$estw_time = $this->getEstimatedWorkingTime();
+			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+	
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->question . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->ordering_type . ""),
+				$db->quote($this->points . ""),
+				$db->quote($complete . ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $db->query($query);
+
+			if ($result == DB_OK)
+			{
+				// write answers
+				// delete old answers
+				$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+					$db->quote($this->original_id)
+				);
+				$result = $db->query($query);
+	
+				foreach ($this->answers as $key => $value)
+				{
+					$answer_obj = $this->answers[$key];
+					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, solution_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($this->original_id . ""),
+						$db->quote($answer_obj->get_answertext() . ""),
+						$db->quote($answer_obj->get_points() . ""),
+						$db->quote($answer_obj->get_order() . ""),
+						$db->quote($answer_obj->get_solution_order() . "")
+					);
+					$answer_result = $db->query($query);
+				}
+			}
+			parent::syncWithOriginal();
+		}
 	}
 }
 

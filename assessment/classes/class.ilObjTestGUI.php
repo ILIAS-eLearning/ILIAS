@@ -1338,6 +1338,11 @@ class ilObjTestGUI extends ilObjectGUI
 		global $rbacsystem;
 		$add_parameter = $this->getAddParameter();
 
+		if ($_GET["eqid"] and $_GET["eqpl"])
+		{
+			header("Location:questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+		}
+		
 		if ($_GET["up"] > 0)
 		{
 			$this->object->questionMoveUp($_GET["up"]);
@@ -1608,8 +1613,10 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
-				if ($data->owner == $this->ilias->account->id) {
-					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
+				if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+					$q_id = $data->question_id;
+					$qpl_ref_id = $this->object->_getRefIdFromObjId($data->obj_fi);
+					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
 				} else {
 					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
 				}
