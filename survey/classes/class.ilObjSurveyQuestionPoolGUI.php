@@ -23,6 +23,7 @@
 
 require_once "class.SurveyNominalQuestionGUI.php";
 require_once "class.SurveyTextQuestionGUI.php";
+require_once "class.SurveyMetricQuestionGUI.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -174,6 +175,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			case "qt_nominal":
 				$question = new SurveyNominalQuestionGUI();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestionGUI();
 				break;
 			case "qt_text":
 				$question = new SurveyTextQuestionGUI();
