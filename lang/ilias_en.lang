@@ -85,7 +85,7 @@ administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#View last Scanlog
 administration#:#view_log#:#View details
-assessment#:#0_unlimited#:#(0 = unlimited)
+assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
 assessment#:#add_answer_yn#:#Add yes/no answers
