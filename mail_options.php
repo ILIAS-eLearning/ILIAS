@@ -9,7 +9,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new Template("tpl.mail.html", true, true);
+$tpl = new Template("tpl.mail_options.html", false, false);
 
 $lng = new Language($ilias->account->data["language"]);
 
