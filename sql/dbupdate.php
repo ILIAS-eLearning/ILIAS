@@ -4909,5 +4909,25 @@ CREATE TABLE IF NOT EXISTS `qpl_suggested_solutions` (
   PRIMARY KEY  (`suggested_solution_id`),
   KEY `question_fi` (`question_fi`)
 );
-
+<#325>
+<?php>
+// convert suggested solutions from prior format to new suggested solutions table
+$query = "SELECT * FROM qpl_questions WHERE solution_hint > 0";
+$res = $this->db->query($query);
+if ($res->numRows())
+{
+	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$qinsert = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+			$this->db->quote($row["question_id"] . ""),
+			$this->db->quote("il__lm_" . $row["solution_hint"]),
+			$this->db->quote(""),
+			$this->db->quote("0")
+		);
+		$result = $this->db->query($qinsert);
+	}
+}
+?>
+<#326>
+ALTER TABLE `qpl_questions` DROP `solution_hint`;
 
