@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_matching_pair#:#dodaj pasującą parę
 assessment#:#answer#:#Odpowiedź
@@ -77,6 +78,8 @@ assessment#:#question_type#:#Typ pytania
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Resetuj filtr
+assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
+assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#solution_order#:#Porządek rozwiązywania
@@ -112,12 +115,15 @@ assessment#:#tst_sequence_properties#:#Cechy sekwencji
 assessment#:#tst_session_settings#:#Ustawienia sesji
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
+assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Typy testów
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
+assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
+chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
 chat#:#chat_add_ip#:#Please add the server ip.###05 Mar 2004 new variable
 chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
 chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
@@ -289,6 +295,7 @@ common#:#cat_read#:#Prawo czytania Kategorii
 common#:#cat_visible#:#Kategoria jest widoczna
 common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
+common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
 common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
@@ -633,6 +640,7 @@ common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
 common#:#import#:#Import
+common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
@@ -868,6 +876,7 @@ common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następują
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Roli.
+common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Nie możesz przydzielić użytkowników do roli Administratora Systemu nie mając sam takiej roli.
