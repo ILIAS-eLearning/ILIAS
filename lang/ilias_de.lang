@@ -214,6 +214,7 @@ common#:#inform_user_mail#:#Benutzer per Email über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#inifile#:#Ini-Datei
 common#:#input_error#:#Eingabefehler
+common#:#insert#:#Insert###30 May 2003 new variable
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname

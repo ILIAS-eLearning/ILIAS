@@ -144,7 +144,6 @@ common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
-common#:#insert#:#Insert
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
@@ -215,6 +214,7 @@ common#:#inform_user_mail#:#Send email to inform user about changes
 common#:#information_abbr#:#Info
 common#:#inifile#:#Ini-File
 common#:#input_error#:#Input error
+common#:#insert#:#Insert
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info
 common#:#inst_name#:#Installation Name
