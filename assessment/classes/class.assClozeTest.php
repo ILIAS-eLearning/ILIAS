@@ -32,7 +32,7 @@ define("CLOZE_SELECT", "1");
 *
 * ASS_ClozeText is a class for cloze tests using text or select gaps.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment
@@ -189,7 +189,7 @@ class ASS_ClozeTest extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -219,7 +219,7 @@ class ASS_ClozeTest extends ASS_Question
 
 			// Antworten schreiben
 
-			// alte Antworten löschen
+			// alte Antworten lï¿½schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -238,7 +238,7 @@ class ASS_ClozeTest extends ASS_Question
 						$db->quote($answer_obj->get_cloze_type()),
 						$db->quote($answer_obj->get_name()),
 						$db->quote($answer_obj->get_shuffle()),
-						$db->quote($answer_obj->get_correctness())
+						$db->quote($answer_obj->getState())
 						);
 					$answer_result = $db->query($query);
 				}
@@ -492,7 +492,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
 					$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
 					$linkrefid = "";
-					if ($answer->is_true())
+					if ($answer->isStateSet())
 					{
 						$linkrefid = "$i" . "_True";
 					}
@@ -548,7 +548,7 @@ class ASS_ClozeTest extends ASS_Question
 				{
 					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 					$linkrefid = "";
-					if ($answer->is_true())
+					if ($answer->isStateSet())
 					{
 						$linkrefid = "$i" . "_True";
 					}
@@ -577,7 +577,7 @@ class ASS_ClozeTest extends ASS_Question
 				{
 					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 					$linkrefid = "";
-					if ($answer->is_true())
+					if ($answer->isStateSet())
 					{
 						$linkrefid = "$i" . "_True_$index";
 					}
@@ -668,15 +668,15 @@ class ASS_ClozeTest extends ASS_Question
 			}
 			if ($type == CLOZE_TEXT)
 			{
-				$default_correctness = TRUE;
+				$default_state = 1;
 			}
 			else
 			{
-				$default_correctness = FALSE;
+				$default_state = 0;
 			}
 			foreach ($cloze_words as $index => $text)
 			{
-				array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, $type, $name, $shuffle));
+				array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_state, $type, $name, $shuffle));
 			}
 			array_push($this->gaps, $answer_array);
 		}
@@ -910,8 +910,13 @@ class ASS_ClozeTest extends ASS_Question
     if ($add_gaptext == 1)    {
     	$arr = $this->gaps[$index][0];
     	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) {
+				$default_state = 0;
+				if ($arr->get_cloze_type() == CLOZE_TEXT)
+				{
+					$default_state = 1;
+				}
     		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, 0, count($this->gaps[$index]),
-    			$arr->get_correctness(), $arr->get_cloze_type(),
+    			$default_state, $arr->get_cloze_type(),
     			$arr->get_name(), $arr->get_shuffle()));
     		$this->rebuild_cloze_text();
     	}
@@ -1015,9 +1020,9 @@ class ASS_ClozeTest extends ASS_Question
 				$this->gaps[$index][$key]->set_cloze_type($cloze_type);
 				$this->gaps[$index][$key]->set_points(0);
 				if ($cloze_type == CLOZE_TEXT) {
-					$this->gaps[$index][$key]->set_correctness(TRUE);
+					$this->gaps[$index][$key]->setState(1);
 				} else {
-					$this->gaps[$index][$key]->set_correctness(FALSE);
+					$this->gaps[$index][$key]->setState(0);
 				}
 			}
 			// change/add the <gap> attribute
@@ -1106,25 +1111,25 @@ class ASS_ClozeTest extends ASS_Question
   }
 
 /**
-* Sets the correctness of a gap answer
+* Sets the state of a gap answer
 *
-* Sets the correctness of a gap answer with a given index. The index of the first
+* Sets the state of a gap answer with a given index. The index of the first
 * gap is 0, the index of the second gap is 1 and so on.
 *
 * @param integer $index_gaps A nonnegative index of the n-th gap
 * @param integer $index_answerobject A nonnegative index of the n-th answer in the specified gap
-* @param boolean $correctness The correctness of the answer
+* @param boolean $state The state of the answer
 * @access public
 * @see $gaps
 */
-  function set_single_answer_correctness($index_gaps = 0, $index_answerobject = 0, $correctness = FALSE) {
+  function set_single_answer_state($index_gaps = 0, $index_answerobject = 0, $state = 0) {
     if ($index_gaps < 0) return;
     if (count($this->gaps) < 1) return;
     if ($index_gaps >= count($this->gaps)) return;
     if ($index_answerobject < 0) return;
     if (count($this->gaps[$index_gaps]) < 1) return;
     if ($index_answerobject >= count($this->gaps[$index_gaps])) return;
-    $this->gaps[$index_gaps][$index_answerobject]->set_correctness($correctness);
+    $this->gaps[$index_gaps][$index_answerobject]->setState($state);
   }
 
 /**
@@ -1159,7 +1164,7 @@ class ASS_ClozeTest extends ASS_Question
           }
         }
       } else {
-        if (($this->gaps[$value][$found_value2[$key]])&&($this->gaps[$value][$found_value2[$key]]->is_true())) {
+        if (($this->gaps[$value][$found_value2[$key]])&&($this->gaps[$value][$found_value2[$key]]->isStateSet())) {
           $points += $this->gaps[$value][$found_value2[$key]]->get_points();
         }
       }
@@ -1216,7 +1221,7 @@ class ASS_ClozeTest extends ASS_Question
 					"true" => 0,
 					"value" => $found_value2[$key]
 				);
-        if ($this->gaps[$value][$found_value1[$key]]->is_true()) {
+        if ($this->gaps[$value][$found_value1[$key]]->isStateSet()) {
 					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->get_points();
 					$solution["true"] = 1;
         }
@@ -1242,7 +1247,7 @@ class ASS_ClozeTest extends ASS_Question
         $points += $value[0]->get_points();
       } else {
         foreach ($value as $key2 => $value2) {
-          if ($value2->is_true()) {
+          if ($value2->isStateSet()) {
             $points += $value2->get_points();
           }
         }

@@ -148,6 +148,9 @@ class ASS_MatchingQuestion extends ASS_Question
 		$this->domxml = domxml_open_mem($xml_header);
 		$root = $this->domxml->document_element();
 
+		// qti comment with version information
+		$qtiComment = $this->domxml->create_element("qticomment");
+
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
 		$qtiIdent->set_attribute("ident", $this->getId());

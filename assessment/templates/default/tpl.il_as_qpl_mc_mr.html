@@ -23,15 +23,9 @@
 <tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
-  <td colspan="2" class="tblheader">{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
-  <td class="tblheader">{TEXT_POINTS}</td>
-  <td colspan="2" class="tblheader"></td>
-</tr>
-<tr>
-  <td class="option">{TEXT_ANSWER_TEXT}:</td>
+  <td class="option">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
   <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
-  <td class="option_value"><input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="10" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /></td>
-  <td class="option_value"><input type="checkbox" name="checkbox_{ANSWER_ORDER}" id="checkbox_{ANSWER_ORDER}" value="{ANSWER_ORDER}"{CHECKED_ANSWER} /><label for="checkbox_{ANSWER_ORDER}">&nbsp;{VALUE_TRUE}</label></td>
+  <td class="option_value" colspan="2">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="5" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <select name="status_{ANSWER_ORDER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select></td>
   <td class="option_value">
 <!-- BEGIN deletebutton -->
 <input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" />
