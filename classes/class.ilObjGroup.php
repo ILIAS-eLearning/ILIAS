@@ -90,7 +90,7 @@ class ilObjGroup extends ilObject
 		$local_group_Roles = $this->getLocalGroupRoles();
 		return $local_group_Roles["il_grp_member_".$this->getRefId()];
 	}
-
+	
 	/**
 	* returns object id of created default adminstrator role
 	* @access	public
@@ -111,19 +111,9 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin;
 		$grp_DefaultRoles = $this->getDefaultGroupRoles();
-
-		if ($a_mem_status == 0)
-		{
-			$a_member_role = $grp_DefaultRoles["grp_member_role"];
-		}
-		else
-		{
-			$a_member_role = $grp_DefaultRoles["grp_admin_role"];
-		}
-		
 		if(isset($a_user_id) && isset($a_mem_status) && !$this->isMember($a_user_id) )
 		{
-			$this->join($a_user_id,$a_member_role);
+			$this->join($a_user_id,$a_mem_status);
 			return true;
 		}
 		else
@@ -302,13 +292,9 @@ class ilObjGroup extends ilObject
 				$arr_grpDefaultRoles["grp_admin_role"] = $role_Obj->getId();
 		}
 
-
 		return $arr_grpDefaultRoles;
 
 	}
-
-
-
 
 	function getLocalGroupRoles($a_grp_id="")
 	{
@@ -332,7 +318,6 @@ class ilObjGroup extends ilObject
 				$arr_grpDefaultRoles[$role_Obj->getTitle()] = $role_Obj->getId();
 			}
 		}
-
 		return $arr_grpDefaultRoles;
 
 	}
