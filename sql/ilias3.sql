@@ -3541,7 +3541,7 @@ INSERT INTO `settings` VALUES ('admin_title', '');
 INSERT INTO `settings` VALUES ('babylon_path', '');
 INSERT INTO `settings` VALUES ('convert_path', '');
 INSERT INTO `settings` VALUES ('crs_enable', '');
-INSERT INTO `settings` VALUES ('db_version', '0');
+INSERT INTO `settings` VALUES ('db_version', '35');
 INSERT INTO `settings` VALUES ('admin_institution', '');
 INSERT INTO `settings` VALUES ('group_file_sharing', '');
 INSERT INTO `settings` VALUES ('ilias_version', '3.0.0_alpha5');
