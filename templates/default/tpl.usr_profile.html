@@ -31,30 +31,38 @@ body { margin:0px; }
     <td class="std">{TXT_PUBLIC_PROFILE}</td>
     <td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB} /></td>
 </tr>
+<!-- BEGIN gender -->
 <tr>
     <td class="option">{TXT_GENDER}</td>
     <td class="option_value">
-    <input type="radio" name="usr_gender" value="f" {BTN_GENDER_F} /> {TXT_GENDER_F}
-    &nbsp;&nbsp;&nbsp;<input type="radio" name="usr_gender" value="m" {BTN_GENDER_M} /> {TXT_GENDER_M}
+    <input type="radio" id="gender_f" name="usr_gender" value="f" {BTN_GENDER_F}{DISABLED_GENDER} /> <label for="gender_f">{TXT_GENDER_F}<label>
+    &nbsp;&nbsp;&nbsp;<input type="radio" id="gender_m" name="usr_gender" value="m" {BTN_GENDER_M}{DISABLED_GENDER} /> <label for="gender_m">{TXT_GENDER_M}</label>
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END gender -->
+<!-- BEGIN firstname -->
 <tr>
     <td class="option">{TXT_FIRSTNAME}</td>
-    <td class="option_value"><input type="text" name="usr_firstname" maxlength="32" size="40" value="{FIRSTNAME}" /></td>
+    <td class="option_value"><input type="text" name="usr_firstname" maxlength="32" size="40" value="{FIRSTNAME}"{DISABLED_FIRSTNAME} /></td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END firstname -->
+<!-- BEGIN lastname -->
 <tr>
     <td class="option">{TXT_LASTNAME}</td>
-    <td class="option_value"><input type="text" name="usr_lastname" maxlength="32" size="40" value="{LASTNAME}" /></td>
+    <td class="option_value"><input type="text" name="usr_lastname" maxlength="32" size="40" value="{LASTNAME}"{DISABLED_LASTNAME} /></td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END lastname -->
+<!-- BEGIN title -->
 <tr>
     <td class="option">{TXT_TITLE}</td>
-    <td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}" /></td>
+    <td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"{DISABLED_TITLE} /></td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
-
+<!-- END title -->
+<!-- BEGIN upload -->
 <tr>
     <td class="option">{TXT_UPLOAD}
         <!-- BEGIN pers_image -->
@@ -62,7 +70,7 @@ body { margin:0px; }
         <img src="{IMG_PERSONAL}" border="0">
         <!-- END pers_image -->
     </td>
-    <td class="option_value"><input type="file" name="userfile" />
+    <td class="option_value"><input type="file" name="userfile"{DISABLED_UPLOAD} />
         <input class="submit" type="submit" name="usr_upload" value="{UPLOAD}" />
         <!-- BEGIN remove_pic -->
         <br /><br />
@@ -71,6 +79,7 @@ body { margin:0px; }
     </td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD} /></center></td>
 </tr>
+<!-- END upload -->
 
 <!-- BEGIN change_password -->
 <tr class="tblheader">
@@ -127,93 +136,120 @@ body { margin:0px; }
 <tr class="tblheader">
     <td class="std" colspan="4">{TXT_CONTACT_DATA}</td>
 </tr>
+<!-- BEGIN institution -->
 <tr>
     <td class="option">{TXT_INSTITUTION}</td>
-    <td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}" /></td>
+    <td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"{DISABLED_INSTITUTION} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_institution" {CHK_INSTITUTION} /></center></td>
 </tr>
+<!-- END institution -->
+<!-- BEGIN department -->
 <tr>
     <td class="option">{TXT_DEPARTMENT}</td>
-    <td class="option_value"><input type="text" name="usr_department" maxlength="80" size="40" value="{DEPARTMENT}" /></td>
+    <td class="option_value"><input type="text" name="usr_department" maxlength="80" size="40" value="{DEPARTMENT}"{DISABLED_DEPARTMENT} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_department" {CHK_DEPARTMENT} /></center></td>
 </tr>
+<!-- END department -->
+<!-- BEGIN street -->
 <tr>
     <td class="option">{TXT_STREET}</td>
-    <td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}" /></td>
+    <td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"{DISABLED_STREET} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_street" {CHK_STREET} /></center></td>
 </tr>
+<!-- END street -->
+<!-- BEGIN zipcode -->
 <tr>
     <td class="option">{TXT_ZIPCODE}</td>
-    <td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}" /></td>
+    <td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"{DISABLED_ZIPCODE} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_zip" {CHK_ZIP} /></center></td>
 </tr>
+<!-- END zipcode -->
+<!-- BEGIN city -->
 <tr>
     <td class="option">{TXT_CITY}</td>
-    <td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}" /></td>
+    <td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"{DISABLED_CITY} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_city" {CHK_CITY} /></center></td>
 </tr>
+<!-- END city -->
+<!-- BEGIN country -->
 <tr>
     <td class="option">{TXT_COUNTRY}</td>
-    <td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}" /></td>
+    <td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"{DISABLED_COUNTRY} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY} /></center></td>
 </tr>
+<!-- END country -->
+<!-- BEGIN phone_office -->
 <tr>
     <td class="option">{TXT_PHONE_OFFICE}</td>
-    <td class="option_value"><input type="text" name="usr_phone_office" maxlength="40" size="40" value="{PHONE_OFFICE}" /></td>
+    <td class="option_value"><input type="text" name="usr_phone_office" maxlength="40" size="40" value="{PHONE_OFFICE}"{DISABLED_PHONE_OFFICE} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_office" {CHK_PHONE_OFFICE} /></center></td>
 </tr>
+<!-- END phone_office -->
+<!-- BEGIN phone_home -->
 <tr>
     <td class="option">{TXT_PHONE_HOME}</td>
-    <td class="option_value"><input type="text" name="usr_phone_home" maxlength="40" size="40" value="{PHONE_HOME}" /></td>
+    <td class="option_value"><input type="text" name="usr_phone_home" maxlength="40" size="40" value="{PHONE_HOME}"{DISABLED_PHONE_HOME} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_home" {CHK_PHONE_HOME} /></center></td>
 </tr>
+<!-- END phone_home -->
+<!-- BEGIN phone_mobile -->
 <tr>
     <td class="option">{TXT_PHONE_MOBILE}</td>
-    <td class="option_value"><input type="text" name="usr_phone_mobile" maxlength="40" size="40" value="{PHONE_MOBILE}" /></td>
+    <td class="option_value"><input type="text" name="usr_phone_mobile" maxlength="40" size="40" value="{PHONE_MOBILE}"{DISABLED_PHONE_MOBILE} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_phone_mobile" {CHK_PHONE_MOBILE} /></center></td>
 </tr>
+<!-- END phone_mobile -->
+<!-- BEGIN fax -->
 <tr>
     <td class="option">{TXT_FAX}</td>
-    <td class="option_value"><input type="text" name="usr_fax" maxlength="40" size="40" value="{FAX}" /></td>
+    <td class="option_value"><input type="text" name="usr_fax" maxlength="40" size="40" value="{FAX}"{DISABLED_FAX} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_fax" {CHK_FAX} /></center></td>
 </tr>
+<!-- END fax -->
+<!-- BEGIN email -->
 <tr>
     <td class="option">{TXT_EMAIL}</td>
-    <td class="option_value"><input type="text" name="usr_email" maxlength="80" size="40" value="{EMAIL}" /></td>
+    <td class="option_value"><input type="text" name="usr_email" maxlength="80" size="40" value="{EMAIL}"{DISABLED_EMAIL} /></td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_email" {CHK_EMAIL} /></center></td>
 </tr>
-
+<!-- END email -->
+<!-- BEGIN hobby -->
 <tr>
     <td class="option">{TXT_HOBBY}</td>
     <td class="option_value">
-    <textarea name="usr_hobby" rows="3" cols="45">{HOBBY}</textarea>
+    <textarea name="usr_hobby" rows="3" cols="45"{DISABLED_HOBBY}>{HOBBY}</textarea>
     </td>
     <td class="option_value" colspan="2"><center><input type="checkbox" name="chk_hobby" {CHK_HOBBY} /></center></td>
 </tr>
+<!-- END hobby -->
+<!-- BEGIN referral_comment -->
 <tr>
     <td class="option">{TXT_REFERRAL_COMMENT}</td>
     <td class="option_value">
-    <textarea name="usr_referral_comment" rows="3" cols="45">{REFERRAL_COMMENT}</textarea>
+    <textarea name="usr_referral_comment" rows="3" cols="45"{DISABLED_REFERRAL_COMMENT}>{REFERRAL_COMMENT}</textarea>
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END referral_comment -->
+<!-- BEGIN matriculation -->
 <tr class="tblheader">
 	<td class="std" colspan="4">{TXT_OTHER}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_MATRICULATION}</td>
-	<td class="option_value"><input type="text" name="usr_matriculation" maxlength="40" size="40" value="{MATRICULATION}" /></td>
+	<td class="option_value"><input type="text" name="usr_matriculation" maxlength="40" size="40" value="{MATRICULATION}"{DISABLED_MATRICULATION} /></td>
 	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_matriculation" {CHK_MATRICULATION} /></center></td>
 </tr>
-
+<!-- END matriculation -->
 <tr class="tblheader">
     <td class="std" colspan="4">{TXT_SETTINGS}</td>
 
 </tr>
+<!-- BEGIN language -->
 <tr>
     <td class="option">{TXT_LANGUAGE}</td>
     <td class="option_value">
-    <select name="usr_language">
+    <select name="usr_language"{DISABLED_LANGUAGE}>
 <!-- BEGIN sel_lang -->
         <option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
 <!-- END sel_lang -->
@@ -221,10 +257,12 @@ body { margin:0px; }
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END language -->
+<!-- BEGIN skin_style -->
 <tr>
     <td class="option">{TXT_USR_SKIN_STYLE}</td>
     <td class="option_value">
-    <select name="usr_skin_style">
+    <select name="usr_skin_style"{DISABLED_SKIN_STYLE}>
 <!-- BEGIN selectskin -->
         <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
 <!-- END selectskin -->
@@ -232,6 +270,7 @@ body { margin:0px; }
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END skin_style -->
 <tr>
     <td class="option">{TXT_USR_HITS_PER_PAGE}</td>
     <td class="option_value">

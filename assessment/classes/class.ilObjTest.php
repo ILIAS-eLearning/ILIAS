@@ -5110,5 +5110,29 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 	}
 	
+/**
+* Returns the ILIAS test object id for a given test id
+* 
+* Returns the ILIAS test object id for a given test id
+*
+* @param integer $test_id The test id
+* @return mixed The ILIAS test object id or FALSE if the query was not successful
+* @access public
+*/
+	function _getObjectIDFromTestID($test_id)
+	{
+		global $ilDB;
+		$object_id = FALSE;
+		$query = sprintf("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$object_id = $row["obj_fi"];
+		}
+		return $object_id;
+	}
 } // END class.ilObjTest
 ?>

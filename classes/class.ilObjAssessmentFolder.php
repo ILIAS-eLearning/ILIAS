@@ -233,5 +233,30 @@ class ilObjAssessmentFolder extends ilObject
 		return (boolean) $ilias->getSetting("assessment_logging");
 	}
 	
+	/**
+	* Retrieve assessment log datasets from the database
+	*
+	* Retrieve assessment log datasets from the database
+	*
+	* @param string $ts_from Timestamp of the starting date/time period
+	* @param string $ts_to Timestamp of the ending date/time period
+	* @param integer $test_id Database id of the ILIAS test object
+	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
+	*/
+	function &getLog($ts_from, $ts_to, $test_id)
+	{
+		$log = array();
+		$query = sprintf("SELECT * FROM ass_log WHERE obj_fi = %s AND TIMESTAMP > %s AND TIMESTAMP < %s ORDER BY TIMESTAMP",
+			$this->ilias->db->quote($test_id . ""),
+			$this->ilias->db->quote($ts_from . ""),
+			$this->ilias->db->quote($ts_to . "")
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($log, $row);
+		}
+		return $log;
+	}
 } // END class.ilObjAssessmentFolder
 ?>

@@ -214,6 +214,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = "";
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
+		$data["fields"]["matriculation"] = "";
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["create_date"] = "";
 		$data["fields"]["approve_date"] = "";
@@ -273,6 +274,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
 
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
@@ -580,6 +582,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = $this->object->getFax();
 		$data["fields"]["email"] = $this->object->getEmail();
 		$data["fields"]["hobby"] = $this->object->getHobby();
+		$data["fields"]["matriculation"] = $this->object->getMatriculation();
 		$data["fields"]["referral_comment"] = $this->object->getComment();
 		$data["fields"]["create_date"] = $this->object->getCreateDate();
 		$data["fields"]["approve_date"] = $this->object->getApproveDate();
@@ -766,6 +769,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
 
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
@@ -1284,6 +1288,7 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
                     $this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
                     $this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
+										$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
                     $this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
                     $this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
                     $this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
@@ -1858,5 +1863,6 @@ class ilObjUserGUI extends ilObjectGUI
         parent::hitsperpageObject();
         $this->roleassignmentObject();
 	}
+	
 } // END class.ilObjUserGUI
 ?>

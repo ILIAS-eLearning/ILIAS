@@ -1,0 +1,22 @@
+<h2>{TXT_HEADER_PROFILE}</h2>
+<p>{TXT_EXPLANATION_PROFILE}</p>
+<form name="frm_global_user_settings" action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std">{HEADER_PROFILE_DATA}</td>
+	<td class="std">{HEADER_DISABLE}</td>
+	<td class="std">{HEADER_HIDE}</td>
+</tr>
+<!-- BEGIN profile_settings -->
+<tr>
+	<td class="option">{TXT_PROFILE_DATA}</td>
+	<td class="option_value"><input type="checkbox" name="chb[{PROFILE_OPTION_DISABLE}]" value="1"{CHECKED_DISABLE}/></td>
+	<td class="option_value"><input type="checkbox" name="chb[{PROFILE_OPTION_HIDE}]" value="1"{CHECKED_HIDE}/></td>
+</tr>
+<!-- END profile_settings -->
+<tr class="tblfooter">
+	<td colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[saveGlobalUserSettings]" value="{TXT_SAVE}" /></div></td>
+</tr>
+</table>
+</form>
+

@@ -1360,5 +1360,107 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->viewObject();
 	}
 
+/**
+* Global user settings
+*
+* Allows to define global settings for user accounts
+*/
+	function settingsObject()
+	{
+		global $ilias;
+		
+		$this->getTemplateFile("settings","usr");
+
+		$profile_fields = array(
+			"gender",
+			"firstname",
+			"lastname",
+			"title",
+			"upload",
+			"institution",
+			"department",
+			"street",
+			"city",
+			"zipcode",
+			"country",
+			"phone_office",
+			"phone_home",
+			"phone_mobile",
+			"fax",
+			"email",
+			"hobby",
+			"matriculation",
+			"referral_comment",
+			"language",
+			"skin_style"
+		);
+		foreach ($profile_fields as $field)
+		{
+			$this->tpl->setCurrentBlock("profile_settings");
+			$this->tpl->setVariable("TXT_PROFILE_DATA", $this->lng->txt($field));
+			$this->tpl->setVariable("PROFILE_OPTION_DISABLE", "disable_" . $field);
+			$this->tpl->setVariable("PROFILE_OPTION_HIDE", "hide_" . $field);
+			if ($ilias->getSetting("usr_settings_disable_" . $field) == 1)
+			{
+				$this->tpl->setVariable("CHECKED_DISABLE", " checked=\"checked\"");
+			}
+			if ($ilias->getSetting("usr_settings_hide_" . $field) == 1)
+			{
+				$this->tpl->setVariable("CHECKED_HIDE", " checked=\"checked\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("TXT_HEADER_PROFILE", $this->lng->txt("usr_settings_header_profile"));
+		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));
+		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
+		$this->tpl->setVariable("HEADER_DISABLE", $this->lng->txt("disable"));
+		$this->tpl->setVariable("HEADER_HIDE", $this->lng->txt("hide"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+	}
+	
+	function saveGlobalUserSettingsObject()
+	{
+		global $ilias;
+		
+		$profile_fields = array(
+			"gender",
+			"firstname",
+			"lastname",
+			"title",
+			"upload",
+			"institution",
+			"department",
+			"street",
+			"city",
+			"zipcode",
+			"country",
+			"phone_office",
+			"phone_home",
+			"phone_mobile",
+			"fax",
+			"email",
+			"hobby",
+			"matriculation",
+			"referral_comment",
+			"language",
+			"skin_style"
+		);
+		foreach ($profile_fields as $field)
+		{
+			$ilias->deleteSetting("usr_settings_disable_" . $field);
+			$ilias->deleteSetting("usr_settings_hide_" . $field);
+			if ($_POST["chb"]["hide_" . $field])
+			{
+				$ilias->setSetting("usr_settings_hide_" . $field, "1");
+			}
+			if ($_POST["chb"]["disable_" . $field])
+			{
+				$ilias->setSetting("usr_settings_disable_" . $field, "1");
+			}
+		}
+		sendInfo($this->lng->txt("usr_settings_saved"));
+		$this->settingsObject();
+	}
 } // END class.ilObjUserFolderGUI
 ?>
