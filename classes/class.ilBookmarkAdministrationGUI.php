@@ -1,8 +1,8 @@
 <?php
 /**
-* GUI class for bookmark handling. It manages personal folders and bookmarks.
-* The two corresponding core classes are ilBookmarkFolder and ilBookmark.
-* Their methods are called through this User Interface class.
+* GUI class for personal bookmark administration. It manages folders and bookmarks
+* with the help of the two corresponding core classes ilBookmarkFolder and ilBookmark.
+* Their methods are called in this User Interface class.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -13,7 +13,7 @@
 require_once ("./classes/class.ilBookmarkFolder.php");
 require_once ("./classes/class.ilBookmark.php");
 
-class ilBookmarkFolderGUI
+class ilBookmarkAdministrationGUI
 {
 	/**
 	* User Id
@@ -40,7 +40,7 @@ class ilBookmarkFolderGUI
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmarkFolderGUI($bmf_id = 0)
+	function ilBookmarkAdministrationGUI($bmf_id = 0)
 	{
 		global $ilias, $tpl, $lng;
 
@@ -668,7 +668,5 @@ class ilBookmarkFolderGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
-
 }
 ?>
