@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.8 2003/04/01 12:39:47 akill Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.9 2003/04/01 14:36:07 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -30,11 +30,10 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin;
+		global $rbacsystem,$rbacadmin;
 
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
-		//if (!$rbacsystem->checkAccess("write",$a_obj_id))
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
@@ -54,7 +53,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
 			$roleObj->create();
-			$parent_id = $tree->getParentId($_GET["ref_id"]);
+			$parent_id = $this->tree->getParentId($_GET["ref_id"]);
 			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],$parent_id,'y');
 		}
 		
@@ -411,6 +410,40 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		exit();
+	}
+	
+	/**
+	* update role object
+	*/
+	function updateObject()
+	{
+		global $rbacsystem, $rbacadmin;
+
+		// check write access
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to modify role",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// check if role title is unique
+			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+			}
+
+			// create new role object
+			require_once("./classes/class.ilObjRole.php");
+			$roleObj = new ilObjRole($this->object->getId());
+			$roleObj->setTitle($_POST["Fobject"]["title"]);
+			$roleObj->setDescription($_POST["Fobject"]["desc"]);
+			$roleObj->update();
+		}
+		
+		sendInfo($this->lng->txt("saved_successfully"),true);
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 } // END class.RoleObjectOut
