@@ -1379,7 +1379,7 @@ class ilCourseContentInterface
 		
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
 		{
-			return array();
+			return $this->accomplished = array();
 		}
 		$this->accomplished = array();
 		foreach($objective_ids as $objective_id)
