@@ -271,7 +271,9 @@ class ilRbacReview
 
 		if (!count($role_arr))
 		{
-			$this->ilias->raiseError("No assigned roles found or user doesn't exists!",$this->ilias->error_obj->WARNING);
+			$message = get_class($this)."::assignedRoles(): No assigned roles found or user doesn't exists!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		return $role_arr;
