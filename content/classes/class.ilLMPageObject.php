@@ -83,18 +83,20 @@ class ilLMPageObject extends ilLMObject
 	{
 		parent::read();
 
-		$this->page_object =& new ilPageObject("lm", $this->id);
+		$this->page_object =& new ilPageObject($this->content_object->getType(), $this->id);
 	}
 
 	function create()
 	{
 		parent::create();
-		$this->page_object =& new ilPageObject("lm");
+		if(!is_object($this->page_object))
+		{
+			$this->page_object =& new ilPageObject($this->content_object->getType());
+		}
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($this->getLMId());
 		$this->page_object->create();
 	}
-
 
 	/**
 	*

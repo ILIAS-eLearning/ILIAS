@@ -622,6 +622,10 @@ class ilPageObject
 	*/
 	function createFromXML()
 	{
+		if($this->getXMLContent() == "")
+		{
+			$this->setXMLContent("<PageObject></PageObject>");
+		}
 		// create object
 		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
 			"('".$this->getId()."', '".$this->getParentId()."','".addslashes($this->getXMLContent()).
@@ -679,11 +683,13 @@ class ilPageObject
 
 	function create()
 	{
+		$this->createFromXML();
+		/*
 		$this->setXMLContent("<PageObject></PageObject>");
 		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
 			"('".$this->getId()."', '".$this->getParentId()."','".$this->getXMLContent().
 			"', '".$this->getParentType()."')";
-		$this->ilias->db->query($query);
+		$this->ilias->db->query($query);*/
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 
 	}
