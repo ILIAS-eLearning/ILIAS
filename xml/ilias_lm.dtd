@@ -384,6 +384,6 @@
 <!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
 <!ELEMENT Parameter EMPTY>
 <!ATTLIST Parameter
-	ParameterName CDATA #REQUIRED
-	ParameterValue CDATA #REQUIRED
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
 >
