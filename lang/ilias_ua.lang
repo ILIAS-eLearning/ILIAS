@@ -1552,15 +1552,15 @@ common#:#lm_added#:#Учбовий Модуль ILIAS доданий
 common#:#lm_create#:#Створити ILIAS Учбовий Модуль
 common#:#lm_delete#:#Видалити ILIAS Учбовий Модуль
 common#:#lm_edit_permission#:#Змінити настройки прав
-common#:#lm_join#:#Підписатись на Учбовий Модуль###24 Sep 2004 content changed
-common#:#lm_leave#:#Відписатись від Учбового Модуля###24 Sep 2004 content changed
-common#:#lm_new#:#Новий Учбовий Модуль###24 Sep 2004 content changed
-common#:#lm_read#:#Доступ на читання до Учбового Модуля###24 Sep 2004 content changed
-common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
-common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
-common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#Учбовий Модуль є видимим###24 Sep 2004 content changed
-common#:#lm_write#:#Редагувати Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_join#:#Підписатись на ILIAS Учбовий Модуль
+common#:#lm_leave#:#Відписатись від Учбового Модуля ILIAS
+common#:#lm_new#:#Новий ILIAS Учбовий Модуль
+common#:#lm_read#:#Доступ на читання до Учбового Модуля ILIAS
+common#:#lm_type_aicc#:#AICC
+common#:#lm_type_hacp#:#HACP
+common#:#lm_type_scorm#:#SCORM
+common#:#lm_visible#:#Учбовий Модуль ILIAS є видимим
+common#:#lm_write#:#Редагувати ILIAS Учбовий Модуль
 common#:#lng#:#Мова
 common#:#lngf#:#Мови
 common#:#lngf_edit_permission#:#Змінити настройки прав
@@ -1572,9 +1572,9 @@ common#:#lo_categories#:#LO Категорії
 common#:#lo_edit#:#Редагувати Учбовий Об'єкт
 common#:#lo_new#:#Новий Учбовий Об'єкт
 common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Доступним
-common#:#lo_other_langs#:#LO's в інших Мовах###14 Sep 2004 content changed
-common#:#lo_overview#:#LO Огляд
-common#:#local#:#Local###11 Sep 2004 new variable
+common#:#lo_other_langs#:#УО на інших Мовах
+common#:#lo_overview#:#Огляд УО
+common#:#local#:#Локальний
 common#:#locator#:#Місцезнаходження:
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
