@@ -776,6 +776,24 @@ td.doubleComment
 }
 
 /* --- content styles (will move to content.css) --- */
+table.ilc_Page {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.ilc_Page
+{
+	padding:20px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
 div.ilc_DefinitionHeader
 {
 	margin-top: 10px;

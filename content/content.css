@@ -91,25 +91,6 @@ div.ilc_Page
 	padding: 0px;
 }
 
-table.ilc_Page {
-	border-width: 0px;
-	border-spacing: 0px;
-	margin: 0px;
-	padding: 0px;
-	background-color:#EEEEEE;
-	width:100%;
-}
-
-td.ilc_Page
-{
-	padding:20px;
-	border-style: outset;
-	border-color: #EEEEEE;
-	border-width: 1px;
-	margin-bottom: 0px;
-}
-
-
 td.ilc_Cell1
 {
 	background-color:#FFCCCC;
