@@ -185,16 +185,17 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function processIntLinks()
 	{
+		/*
 		$pg_mapping = array();
 		foreach($this->pg_mapping as $key => $value)
 		{
 			$pg_mapping[$key] = "il__pg_".$value;
-		}
+		}*/
 		foreach($this->pages_with_int_links as $page_id)
 		{
 			$page_obj =& new ilPageObject($this->content_object->getType(), $page_id);
 			$page_obj->buildDom();
-			$page_obj->mapIntLinks($pg_mapping);
+			$page_obj->resolveIntLinks();
 			$page_obj->update(false);
 			unset($page_obj);
 		}

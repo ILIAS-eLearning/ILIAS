@@ -219,7 +219,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
-//echo "PARupdate:".$this->content_obj->input2xml($_POST["par_content"]).":<br>"; exit;
+//echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":<br>"; exit;
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
 
 		if ($this->updated !== true)

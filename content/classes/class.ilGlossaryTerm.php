@@ -79,6 +79,27 @@ class ilGlossaryTerm
 
 	}
 
+	/**
+	* get current term id for import id (static)
+	*
+	* @param	int		$a_import_id		import id
+	*
+	* @return	int		id
+	*/
+	function _getIdForImportId($a_import_id)
+	{
+		$q = "SELECT * FROM glossary_term WHERE import_id = '".$a_import_id."'".
+			" ORDER BY create_date DESC LIMIT 1";
+		$term_set = $this->ilias->db->query($q);
+		if ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $term_rec["id"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
 	/**
 	* set glossary term id (= glossary item id)
