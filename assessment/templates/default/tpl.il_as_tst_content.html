@@ -8,15 +8,19 @@ body { margin:0px; }
 <div class="il_Header">
 <table width="100%">
 <tr>
-<td><h1>{HEADER}</h1></td>
+<td colspan="2"><h1>{HEADER}</h1></td>
+</tr>
+<tr>
+<td align="left">
+<!-- BEGIN prev -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev -->
+</td>
 <td align="right">
 <!-- BEGIN postpone -->
 <input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
 &nbsp;&nbsp;
 <!-- END postpone -->
-<!-- BEGIN prev -->
-<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
-<!-- END prev -->
 <!-- BEGIN next -->
 <input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
 <!-- END next -->
