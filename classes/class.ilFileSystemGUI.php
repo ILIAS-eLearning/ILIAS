@@ -496,11 +496,10 @@ class ilFileSystemGUI
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
-		if (is_file($_FILES["new_file"]["tmp_name"]))
-		{
-			move_uploaded_file($_FILES["new_file"]["tmp_name"],
-				$cur_dir."/".$_FILES["new_file"]["name"]);
-		}
+			
+		ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"],
+			$_FILES["new_file"]["name"], $cur_dir."/".$_FILES["new_file"]["name"]);
+			
 		$this->ctrl->saveParameter($this, "cdir");
 
 		ilUtil::renameExecutables($this->main_dir);

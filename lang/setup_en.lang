@@ -326,6 +326,7 @@ save#:#Save
 save_error#:#Save Error!
 saved_successfully#:#Saved successfully
 scan_command#:#Scan Command
+clean_command#:#Clean Command
 select_client#:#Select a Client
 server_info#:#Server Information
 server_software#:#Server software

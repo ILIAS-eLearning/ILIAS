@@ -156,7 +156,6 @@ class ilVirusScanner
 		$this->ilias = & $ilias;
 		$this->lng = & $lng;
 		$this->log = & $log;
-
 		$this->scanCommand = $a_scancommand;
 		$this->cleanCommand = $a_cleancommand;
 		
@@ -208,6 +207,7 @@ class ilVirusScanner
 		}
 	}
 	
+	
 	/**
 	* clean an infected file
 	*
@@ -252,6 +252,16 @@ class ilVirusScanner
 			$this->logCleanResult();
 			return "";
 		}
+	}
+	
+	/**
+	* returns wether file has been cleaned successfully or not
+	*
+	* @return	boolean		true, if last clean operation has been successful
+	*/
+	function fileCleaned()
+	{
+		return $this->cleanFileIsCleaned;
 	}
 	
 	/**

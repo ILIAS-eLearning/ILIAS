@@ -646,6 +646,13 @@ common#:#access#:#Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
+common#:#upload_error_file_not_found#:#Upload error: File not found.
+common#:#file_is_infected#:#The file is infected by a virus.
+common#:#cleaned_file#:#File has been cleaned.
+common#:#repeat_scan#:#Repeating virus scan...
+common#:#repeat_scan_failed#:#Repeat scan failed.
+common#:#repeat_scan_succeded#:#Repeat scan succeded.
+common#:#cleaning_failed#:#Cleaning failed.
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
@@ -2392,6 +2399,7 @@ content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
+content#:#cont_create_export_file#:#Create Export File
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition

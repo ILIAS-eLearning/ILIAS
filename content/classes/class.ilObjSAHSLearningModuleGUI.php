@@ -248,7 +248,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		// copy uploaded file to data directory
 		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
-		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
+		
+		ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
+			$_FILES["scormfile"]["name"], $file_path);
+
+		//move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());

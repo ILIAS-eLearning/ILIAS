@@ -249,7 +249,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$newObj = new ilObjGlossary();
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle("dummy");
-		$newObj->setDescription("dummy");
+		//$newObj->setDescription("dummy");
 		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
@@ -262,7 +262,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+		
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
+			$_FILES["xmldoc"]["name"], $full_path);
+		
+		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// unzip file
 		ilUtil::unzip($full_path);
@@ -280,9 +284,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// not allowed here: move to glossary class!
 		if (is_object($newObj->meta_data))
 		{
-			$newObj->meta_data->read();
-			$newObj->setTitle($newObj->meta_data->getTitle());
-			$newObj->setDescription($newObj->meta_data->getDescription());
+			//$newObj->meta_data->read();
+			//$newObj->setTitle($newObj->meta_data->getTitle());
+			//$newObj->setDescription($newObj->meta_data->getDescription());
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
@@ -918,7 +922,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.glo_export_file_row.html", true);
 
 		$num = 0;
 

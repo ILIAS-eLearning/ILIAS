@@ -155,6 +155,26 @@ class ILIAS
 		define ("PATH_TO_JAVA",$this->ini_ilias->readVariable("tools","java"));
 		define ("PATH_TO_HTMLDOC",$this->ini_ilias->readVariable("tools","htmldoc"));
 		define ("PATH_TO_FOP",$this->ini_ilias->readVariable("tools","fop"));
+		
+		// read virus scanner settings
+		switch ($this->ini_ilias->readVariable("tools", "vscantype"))
+		{
+			case "sophos":
+				define("IL_VIRUS_SCANNER", "Sophos");
+				define("IL_VIRUS_SCAN_COMMAND", $this->ini_ilias->readVariable("tools", "scancommand"));
+				define("IL_VIRUS_CLEAN_COMMAND", $this->ini_ilias->readVariable("tools", "cleancommand"));
+				break;
+				
+			case "antivir":
+				define("IL_VIRUS_SCANNER", "AntiVir");
+				define("IL_VIRUS_SCAN_COMMAND", $this->ini_ilias->readVariable("tools", "scancommand"));
+				define("IL_VIRUS_CLEAN_COMMAND", $this->ini_ilias->readVariable("tools", "cleancommand"));
+				break;
+				
+			default:
+				define("IL_VIRUS_SCANNER", "None");
+				break;
+		}
 
 		// set to default client if empty
 		if (!$a_client_id)
