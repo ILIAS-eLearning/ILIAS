@@ -686,7 +686,7 @@ class ilObjGroup extends ilObject
 	* @param	integer	ref_id of the new object
 	* @param	integer	ref_id of of the parent node
 	* @param	integer	ref_id of the group (tree_id)
-	* @param	integer	obj_id of the new object
+	* @param	(obsolete)integer	obj_id of the new object
 	*/
 	function insertGroupNode($new_node_ref_id,$parent_ref_id,$grp_tree_id,$new_node_obj_id=-1 )
 	{	
@@ -694,24 +694,23 @@ class ilObjGroup extends ilObject
 		$grp_tree = new ilGroupTree($grp_tree_id);
 		
 		$grp_tree->insertNode($new_node_ref_id,$parent_ref_id);
-
-		if (isset($new_node_obj_id) && $new_node_obj_id > 0)
+		
+		$new_node_obj=& $this->ilias->obj_factory->getInstanceByRefId($new_node_ref_id);
+		
+		if ($new_node_obj->getType()=="fold" or $new_node_obj->getType()=="file")
 		{
-			$q1 = "UPDATE grp_tree SET obj_id=".$new_node_obj_id." WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
+			$q1 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q1);
-			
-
-			$q2 = "UPDATE grp_tree SET perm=1 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
-			$this->ilias->db->query($q2);
 		}
 		else
-		{	
-			$q1 = "UPDATE grp_tree SET obj_id=-1 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
+		{
+			$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
 			$this->ilias->db->query($q1);
-		
-			$q2 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
-			$this->ilias->db->query($q2);
 		}
+		
+		$q2 = "UPDATE grp_tree SET obj_id=".$new_node_obj->getId()." WHERE parent=".$parent_ref_id." AND child=".$new_node_ref_id;
+		$this->ilias->db->query($q2);
+		
 	}
 	
 	/**
