@@ -561,9 +561,6 @@ class ilTree
 			 "END ".
 			 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
-
-		// TODO: DO WE NEED THIS INFORMATION????
-		//$this->parent_id = $a_node["parent"];
 	}
 
 	/**
@@ -869,7 +866,7 @@ class ilTree
 	* get data of a specific node from tree and object_data
 	* @access	public
 	* @param	integer		node id
-	* @return	object		db result object
+	* @return	array		2-dim (int/str) node_data
 	*/
 	function getNodeData($a_node_id)
 	{
