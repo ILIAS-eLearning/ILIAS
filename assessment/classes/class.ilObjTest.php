@@ -505,6 +505,11 @@ class ilObjTest extends ilObject
 		
 		$this->removeAllTestEditings();
 		
+		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		
 		// delete export files
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		$directory = $tst_data_dir."/tst_".$this->getId();
@@ -1014,9 +1019,32 @@ class ilObjTest extends ilObject
       $result = $db->query($query);
     }
     if ($result == DB_OK) {
-			$this->saveQuestionsToDb();
+			if (!$this->isRandomTest())
+			{
+				$this->saveQuestionsToDb();
+			}
       $this->mark_schema->saveToDb($this->test_id);
     }
+		if ($this->isRandomTest())
+		{
+			// delete eventually set questions of a previous non-random test
+			$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+		}
+		else
+		{
+			// delete eventually set random question pools of a previous random test
+			$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+		}
   }
 
 /**
@@ -3024,7 +3052,6 @@ class ilObjTest extends ilObject
 	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "")
 	{
 		global $rbacsystem;
-		
 		if ($questionpool != 0)
 		{
 			// retrieve object id
@@ -3046,7 +3073,10 @@ class ilObjTest extends ilObject
 		$original_ids = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 		{
-			array_push($original_ids, $row[0]);
+			if (strcmp($row[0], "") != 0)
+			{
+				array_push($original_ids, $row[0]);
+			}
 		}
 		$original_clause = "";
 		if (count($original_ids))
@@ -3437,7 +3467,10 @@ class ilObjTest extends ilObject
 		$original_ids = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 		{
-			array_push($original_ids, $row[0]);
+			if (strcmp($row[0], "") != 0)
+			{
+				array_push($original_ids, $row[0]);
+			}
 		}
 		$original_clause = " ISNULL(qpl_questions.original_id)";
 		if (count($original_ids))
