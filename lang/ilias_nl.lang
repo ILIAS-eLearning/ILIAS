@@ -150,6 +150,7 @@ common#:#appointment_list#:#Afsprakenlijst
 common#:#archive#:#Archief
 common#:#are_you_sure#:#Weet u het zeker?
 common#:#assign#:#Toewijzen
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#Leerobject-forum toewijzen
 common#:#assign_user_to_role#:#Gebruikersrol toewijzen
 common#:#at_location#:#op locatie
@@ -543,8 +544,11 @@ common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
 common#:#import#:#Importeren
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#SCORM-package importeren
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Gebruikers-taal
 common#:#inbox#:#Inbox
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Rol gewist
 common#:#role_edit#:#Wijzigen rol
 common#:#role_new#:#Nieuwe rol
 common#:#roles#:#Rollen
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#Rol Map###13 Jan 2004 content changed
 common#:#rolf_added#:#Rolmap toegevoegd
 common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable

@@ -150,6 +150,7 @@ common#:#appointment_list#:#Lista appuntamenti
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#assign#:#Assegna
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#Assegna il forum
 common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo
 common#:#at_location#:#alla locazione
@@ -543,8 +544,11 @@ common#:#ilias_version#:#Versione ILIAS3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importa Learningmodule
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Importa SCORM Package
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Ruolo eliminato
 common#:#role_edit#:#Modifica ruolo
 common#:#role_new#:#Nuovo ruolo
 common#:#roles#:#Ruoli
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#Cartella di ruoli
 common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo

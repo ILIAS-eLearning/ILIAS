@@ -167,6 +167,7 @@ common#:#appointment_list#:#约会列表
 common#:#archive#:#存档
 common#:#are_you_sure#:#您肯定吗？
 common#:#assign#:#指定
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#指定学习对象论坛
 common#:#assign_user_to_role#:#为用户指定角色
 common#:#at_location#:#地点为
@@ -560,8 +561,11 @@ common#:#ilias_version#:#ILIAS版本
 common#:#image#:#图象
 common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。
 common#:#import#:#导入
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#导入学习模块
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#导入SCORM包
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#于
 common#:#in_use#:#用户语言
 common#:#inbox#:#收件箱
@@ -1044,6 +1048,7 @@ common#:#role_deleted#:#已删除角色
 common#:#role_edit#:#编辑角色
 common#:#role_new#:#新角色
 common#:#roles#:#角色
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#角色夹
 common#:#rolf_added#:#已增加角色夹
 common#:#rolf_create_role#:#创建新角色定义

@@ -150,6 +150,7 @@ common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign#:#Zuordnen
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
@@ -543,8 +544,11 @@ common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Import Lernmodul
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM-Datei
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen

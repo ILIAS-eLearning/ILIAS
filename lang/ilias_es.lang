@@ -150,6 +150,7 @@ common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#archive
 common#:#are_you_sure#:#Est�s seguro?
 common#:#assign#:#Assign###26 Sep 2003 new variable
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#assign lo forum
 common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
 common#:#at_location#:#at location###06 Aug 2003 new variable
@@ -543,8 +544,11 @@ common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image###08 Nov 2003 new variable
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###08 Nov 2003 new variable
 common#:#import#:#import
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#in###01 Nov 2003 new variable
 common#:#in_use#:#user language
 common#:#inbox#:#inbox
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
 common#:#role_edit#:#Edit Role###30 Oct 2003 new variable
 common#:#role_new#:#New Role###30 Oct 2003 new variable
 common#:#roles#:#roles
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#rolf###13 Jan 2004 content changed
 common#:#rolf_added#:#Role Folder added###16 Jul 2003 new variable
 common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
