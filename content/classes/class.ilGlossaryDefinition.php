@@ -207,7 +207,7 @@ class ilGlossaryDefinition
 
 		// insert new definition record
 		$q = "INSERT INTO glossary_definition (term_id, short_text, nr)".
-			" VALUES ('".$this->getTermId()."','".$this->getShortText()."', '".($max + 1)."')";
+			" VALUES ('".$this->getTermId()."','".ilUtil::prepareDBString($this->getShortText())."', '".($max + 1)."')";
 		$this->ilias->db->query($q);
 
 		// unlock glossary definition table
@@ -363,7 +363,7 @@ class ilGlossaryDefinition
 		$q = "UPDATE glossary_definition SET ".
 			" term_id = '".$this->getTermId()."', ".
 			" nr = '".$this->getNr()."', ".
-			" short_text = '".$this->getShortText()."' ".
+			" short_text = '".ilUtil::prepareDBString($this->getShortText())."' ".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}

@@ -80,7 +80,6 @@ class ilTermDefinitionEditorGUI
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
-
 		if($_GET["mode"] == "page_edit")
 		{
 			$page_gui->showPageEditor();

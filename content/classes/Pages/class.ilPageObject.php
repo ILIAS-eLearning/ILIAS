@@ -663,7 +663,7 @@ class ilPageObject
 		}
 		// create object
 		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
-			"('".$this->getId()."', '".$this->getParentId()."','".addslashes($this->getXMLContent()).
+			"('".$this->getId()."', '".$this->getParentId()."','".ilUtil::prepareDBString($this->getXMLContent()).
 			"', '".$this->getParentType()."')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
@@ -675,7 +675,7 @@ class ilPageObject
 	function updateFromXML()
 	{
 		$query = "UPDATE page_object ".
-			"SET content = '".addslashes($this->getXMLContent())."' ".
+			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
 		$this->ilias->db->query($query);
 	}
@@ -694,7 +694,7 @@ class ilPageObject
 		if(empty($errors))
 		{
 			$query = "UPDATE page_object ".
-				"SET content = '".addslashes($this->getXMLFromDom())."' ".
+				"SET content = '".ilUtil::prepareDBString(($this->getXMLFromDom()))."' ".
 				"WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
 			$this->ilias->db->query($query);

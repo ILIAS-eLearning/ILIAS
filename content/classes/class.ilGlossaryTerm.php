@@ -141,7 +141,7 @@ class ilGlossaryTerm
 	function create()
 	{
 		$q = "INSERT INTO glossary_term (glo_id, term, language, import_id)".
-			" VALUES ('".$this->getGlossaryId()."', '".$this->term.
+			" VALUES ('".$this->getGlossaryId()."', '".ilUtil::prepareDBString($this->term).
 			"', '".$this->language."','".$this->getImportId()."')";
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
@@ -165,7 +165,7 @@ class ilGlossaryTerm
 	{
 		$q = "UPDATE glossary_term SET ".
 			" glo_id = '".$this->getGlossaryId()."', ".
-			" term = '".$this->getTerm()."', ".
+			" term = '".ilUtil::prepareDBString($this->getTerm())."', ".
 			" import_id = '".$this->getImportId()."', ".
 			" language = '".$this->getLanguage()."' ".
 			" WHERE id = '".$this->getId()."'";

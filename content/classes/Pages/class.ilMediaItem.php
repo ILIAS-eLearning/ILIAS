@@ -81,7 +81,7 @@ class ilMediaItem
 			"location_type, format, width, ".
 			"height, halign, caption, nr) VALUES ".
 			"('".$this->getMobId()."',".
-			"'".$this->getPurpose()."','".$this->getLocation()."','".
+			"'".$this->getPurpose()."','".ilUtil::prepareDBString($this->getLocation())."','".
 			$this->getLocationType()."','".$this->getFormat()."','".
 			$this->getWidth()."','".$this->getHeight()."','".$this->getHAlign().
 			"','".$this->getCaption()."','".($i+1)."')";

@@ -35,7 +35,6 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
-
 // check write permission
 if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 {

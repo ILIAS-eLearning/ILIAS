@@ -186,7 +186,8 @@ class ilMetaDataGUI
 		$title = $this->meta_obj->getElement("Title", "General");
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("meta_title"));
 		$tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-		$tpl->setVariable("VAL_TITLE", htmlentities(stripslashes(utf8_decode($title[0]["value"]))));
+		//$tpl->setVariable("VAL_TITLE", htmlentities(stripslashes(utf8_decode($title[0]["value"]))));
+		$tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($title[0]["value"]));
 		$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 		$tpl->setVariable("VAL_TITLE_LANGUAGE", $this->showLangSel("meta[Title][Language]", $title[0]["Language"]));
 

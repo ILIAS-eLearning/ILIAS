@@ -177,6 +177,8 @@ class ilPageEditorGUI
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
 		if ($ctype != "mob" || !is_object ($cont_obj))
 		{
 			$this->tpl->setVariable("HEADER", $this->getHeader());
