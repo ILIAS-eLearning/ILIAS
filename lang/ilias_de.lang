@@ -303,16 +303,10 @@ common#:#lo_categories#:#Kategorien
 common#:#lo_edit#:#Lernmodule editieren
 common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
-<<<<<<< ilias_de.lang
-common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
-common#:#lo_overview#:#LE &Uuml;bersicht
-common#:#locator#:#Locator:###04 Aug 2003 new variable
-common#:#choose_location#:#Position w&auml;hlen
-=======
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
->>>>>>> 1.162
+common#:#choose_location#:#Position w&auml;hlen
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
