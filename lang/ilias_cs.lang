@@ -547,6 +547,9 @@ common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
+common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
+common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
 common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
 common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
@@ -785,6 +788,7 @@ common#:#err_1_param#:#Pouze 1 parametr!
 common#:#err_2_param#:#Pouze 2 parametry!
 common#:#err_count_param#:#Důvod: Chybný počet parametrů
 common#:#err_in_line#:#Chyba na řádce
+common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Jazykový soubor nebyl nalezen!
 common#:#err_no_param#:#Žádný parametr!
 common#:#err_over_3_param#:#Více než 3 parametry!
@@ -1153,8 +1157,14 @@ common#:#last_visit#:#Poslední návštěva
 common#:#lastname#:#Příjmení
 common#:#launch#:#Spustit
 common#:#ldap#:#LDAP### identical translation###16 Mar 2004 new variable
+common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
+common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Change permission settings###16 Mar 2004 new variable
+common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Read access to LDAP settings###16 Mar 2004 new variable
+common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
+common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
+common#:#ldap_tls#:#Use LDAP TLS###28 Jul 2004 new variable
 common#:#ldap_visible#:#LDAP settings are visible###16 Mar 2004 new variable
 common#:#ldap_write#:#Edit LDAP settings###16 Mar 2004 new variable
 common#:#learning module#:#Learning Module###24 Jun 2004 new variable

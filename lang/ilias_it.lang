@@ -547,6 +547,9 @@ common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
+common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
+common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
 common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
 common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
@@ -785,6 +788,7 @@ common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_count_param#:#Causa: errato numero dei parametri.
 common#:#err_in_line#:#Errore nella linea
+common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
@@ -1153,8 +1157,14 @@ common#:#last_visit#:#Ultima visita
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
+common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
+common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Accesso in lettura alle impostazioni del LDAP
+common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
+common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
+common#:#ldap_tls#:#Use LDAP TLS###28 Jul 2004 new variable
 common#:#ldap_visible#:#Le impostazioni LDAP sono visibili
 common#:#ldap_write#:#Modificare le impostazioni LDAP
 common#:#learning module#:#Modulo
