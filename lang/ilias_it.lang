@@ -81,8 +81,8 @@ administration#:#searching_invalid_refs#:#Sto cercando i riferimenti non validi 
 administration#:#searching_missing_objs#:#Sto cercando gli oggetti mancanti ...
 administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ...
 administration#:#skipped#:#saltato
-administration#:#start_scan#:#Start!
-administration#:#stop_scan#:#Stop!###new variable 17 June 2004
+administration#:#start_scan#:#Inizia!
+administration#:#stop_scan#:#Ferma!
 administration#:#systemcheck#:#Controllo sistema
 administration#:#view_last_log#:#Vedi l'ultimo log di esame
 administration#:#view_log#:#Vedi dettagli
@@ -91,38 +91,38 @@ assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
-assessment#:#add_area#:#Add area###15 Jun 2004 new variable
+assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
-assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
+assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Rispondi
 assessment#:#answer_picture#:#Rispondi alla figura
-assessment#:#answer_text#:#Rispondi il testo
+assessment#:#answer_text#:#Testo della risposta
 assessment#:#applet_attributes#:#Attributi dell'applet
 assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
 assessment#:#applet_parameters#:#Parametri dell'applet
-assessment#:#apply#:#Esegui
+assessment#:#apply#:#Conferma
 assessment#:#ass_questions#:#Domande
 assessment#:#by#:#da
-assessment#:#circle#:#Circle###15 Jun 2004 new variable
-assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
+assessment#:#circle#:#Circonferenza
+assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area desiderata.
+assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
-assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
+assessment#:#coordinates#:#Coordinate
 assessment#:#create_date#:#Creata
 assessment#:#create_gaps#:#Crea un vuoto
-assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
+assessment#:#create_imagemap#:#Crea una immaggine con mappa
 assessment#:#create_new#:#Crea nuovo
-assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
-assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
+assessment#:#delete_area#:#Elimina area
+assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
+assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
 assessment#:#duplicate#:#Duplica
 assessment#:#end_tag#:#Fine tag
-assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
-assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
+assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
+assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
@@ -140,20 +140,20 @@ assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le coppie 
 assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un'altra risposta!
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
-assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
+assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
-assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
-assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
-assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
-assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
-assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
+assessment#:#imagemap_source#:#Immagine a mappa
+assessment#:#insert_after#:#Inserisci dopo
+assessment#:#insert_before#:#Inserisci prima
+assessment#:#internal_links#:#Link interno
+assessment#:#internal_links_update#:#Aggiorna
 assessment#:#javaapplet#:#Applet Java
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
@@ -168,23 +168,23 @@ assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
-assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
-assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
+assessment#:#next_question_rows#:#Domande %d - %d di %d >>
+assessment#:#no_question_selected_for_move#:#Per favore seleziona la domanda che vuoi spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
-assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
+assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arrivo!
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
-assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
-assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
-assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
+assessment#:#polygon#:#Poligono
+assessment#:#polygon_click_next_or_save#:#Per favore clicca sul punto successivo del poligono o salva l'area. (Non &#232; necessario cliccare di nuovo sul punto di partenza del poligono !)
+assessment#:#polygon_click_next_point#:#Per favore clicca sul punto successivo del poligono.
+assessment#:#polygon_click_starting_point#:#Per favore clicca sul punto di partenza del poligono.
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
 assessment#:#preview#:#Anteprima
-assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
+assessment#:#previous_question_rows#:#<< Domande %d - %d di %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazione per la domanda selezionata. La domanda non &#232; mai stata usata in un test.
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte
@@ -210,9 +210,9 @@ assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automat
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#random_selection#:#Selezione casuale
-assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
-assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
+assessment#:#rectangle#:#Rettangolo
+assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore destro dell'area desiderata.
+assessment#:#rectangle_click_tl_corner#:#Per favore clicca sull'angolo superiore sinistro dell'area desiderata.
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
@@ -228,7 +228,7 @@ assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#set_filter#:#Imposta filtro
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
-assessment#:#shuffle_answers#:#Trascina le risposte
+assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
@@ -243,8 +243,8 @@ assessment#:#tst_browse_for_questions#:#Cerca le domande
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo
-assessment#:#tst_eval_total_finished#:#Test totali finiti###12 Jun 2004 content changed
-assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test finiti###12 Jun 2004 content changed
+assessment#:#tst_eval_total_finished#:#Test di valutazione completati
+assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
 assessment#:#tst_eval_total_passed#:#Test totali passati
 assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test passati
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno inserito il test
@@ -327,7 +327,7 @@ assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
-assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
+assessment#:#upload_imagemap#:#Upload una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#width#:#Larghezza
 assessment#:#working_time#:#Tempo di esecuzione
@@ -365,7 +365,7 @@ bibitem#:#bibitem_manual#:#Manuale
 bibitem#:#bibitem_master_thesis#:#Tesi
 bibitem#:#bibitem_middle_name#:#Secondo nome
 bibitem#:#bibitem_month#:#Mese
-bibitem#:#bibitem_new_element#:#Elemento nuovo
+bibitem#:#bibitem_new_element#:#Nuovo elemento
 bibitem#:#bibitem_newspaper_article#:#Articolo di giornale
 bibitem#:#bibitem_not_found#:#Informazioni bibliografiche non disponibili.
 bibitem#:#bibitem_note#:#Note
@@ -505,7 +505,7 @@ common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi uten
 common#:#and#:#e
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
-common#:#answers#:#Rispondi
+common#:#answers#:#Risposta
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
 common#:#appointment#:#Appuntamento
@@ -571,13 +571,13 @@ common#:#cat_create_slm#:#Creare un modulo SCORM
 common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
-common#:#cat_delete#:#eliminare un categoria
+common#:#cat_delete#:#Eliminare un categoria
 common#:#cat_edit#:#Modificare un categoria
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi di una categoria
 common#:#cat_new#:#Nuova categoria
 common#:#cat_read#:#Accedere in lettura alla categoria
 common#:#cat_visible#:#Vedere una categoria
-common#:#cat_write#:#Modifica categoria
+common#:#cat_write#:#Modificare una categoria
 common#:#categories#:#Categorie
 common#:#categories_imported#:#Imporazione categorie completata.
 common#:#cc#:#CC
@@ -610,7 +610,7 @@ common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
 common#:#chat#:#Chat
 common#:#chat_add#:#Aggiungere una chat
-common#:#chat_delete#:#eliminare una chat
+common#:#chat_delete#:#Eliminare una chat
 common#:#chat_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chat_new#:#Nuova chat
 common#:#chat_read#:#Accedere in lettura/scrittura alla chat
@@ -628,7 +628,7 @@ common#:#choose_location#:#Scegli la cartella
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.
 common#:#city#:#Citt&#224;
 common#:#clear#:#Annulla
-common#:#client ip#:#Client Ip###24 Jun 2004 new variable
+common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
 common#:#clipboard#:#Appunti
 common#:#close#:#Chiudi
@@ -640,11 +640,11 @@ common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
 common#:#context#:#Contesto
-common#:#continue_work#:#Continue###16 Jun 2004 new variable
+common#:#continue_work#:#Continua
 common#:#copy#:#Copia
 common#:#copyPage#:#Copia
 common#:#copy_of#:#Copia di
-common#:#count#:#Count###24 Jun 2004 new variable
+common#:#count#:#Conta
 common#:#country#:#Nazione
 common#:#course#:#Corso
 common#:#courses#:#Corsi
@@ -656,21 +656,21 @@ common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
 common#:#crs_available#:#Corsi disponibili
-common#:#crs_create#:#Crea un corso
-common#:#crs_create_frm#:#Crea un forum
-common#:#crs_create_glo#:#Crea un glossario
-common#:#crs_create_lm#:#Crea un modulo
-common#:#crs_create_slm#:#Crea un modulo SCORM
-common#:#crs_delete#:#Cancella un corso
-common#:#crs_edit#:#Modifica corso
-common#:#crs_edit_permission#:#Modifica le impostazioni dei permessi
-common#:#crs_join#:#Iscriviti al corso
-common#:#crs_leave#:#Cancellati dal corso
+common#:#crs_create#:#Creare un corso
+common#:#crs_create_frm#:#Creare un forum
+common#:#crs_create_glo#:#Creare un glossario
+common#:#crs_create_lm#:#Creare un modulo
+common#:#crs_create_slm#:#Creare un modulo SCORM
+common#:#crs_delete#:#Cancellare un corso
+common#:#crs_edit#:#Modificare un corso
+common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#crs_join#:#Iscrivere al corso
+common#:#crs_leave#:#Cancellare dal corso
 common#:#crs_management_system#:#Sistema di gestione corsi
 common#:#crs_new#:#Nuovo corso
-common#:#crs_read#:#Accesso in lettura al corso
-common#:#crs_visible#:#Corso &#232; visibile
-common#:#crs_write#:#Modifica il corso
+common#:#crs_read#:#Accedere in lettura al corso
+common#:#crs_visible#:#Vedere il corso
+common#:#crs_write#:#Modificare il corso
 common#:#cumulative_time#:#Tempo totale
 common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_password#:#Password attuale
@@ -695,12 +695,12 @@ common#:#dbk_a#:#un libro digitale
 common#:#dbk_add#:#Aggiungi libro digitale
 common#:#dbk_added#:#Libro digitale aggiunto
 common#:#dbk_create#:#Crea un libro digitale
-common#:#dbk_delete#:#Cancella un libro digitale
-common#:#dbk_edit_permission#:#Cambia le impostazioni dei permessi
+common#:#dbk_delete#:#Cancellare i libri digitali
+common#:#dbk_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#dbk_new#:#Nuovo libro digitale
-common#:#dbk_read#:#Accesso in lettura al libro digitale
-common#:#dbk_visible#:#Il libro digitale &#232; visibile
-common#:#dbk_write#:#Modifica il libro digitale
+common#:#dbk_read#:#Accedere in lettura ai libri digitali
+common#:#dbk_visible#:#Vedere i libri digitali
+common#:#dbk_write#:#Modificare i libri digitali
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
 common#:#default_perm_settings#:#Impostazioni predefinite dei permessi
@@ -719,7 +719,7 @@ common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
-common#:#disabled#:#Disabilitato
+common#:#disabled#:#Disabilitata
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
@@ -762,7 +762,7 @@ common#:#exc_assign_usr#:#Assegna utente
 common#:#exc_create#:#Crea un esercizio
 common#:#exc_date_not_valid#:#La data non &#232; valida
 common#:#exc_deassign_members#:#Elimina membro(i)
-common#:#exc_delete#:#eliminare l&#039;esercizio
+common#:#exc_delete#:#Eliminare l'esercizio
 common#:#exc_edit#:#Creato nuovo esercizio
 common#:#exc_edit_exercise#:#Modifica l&#039;esercizio
 common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi dell&#039;esercizio
@@ -770,7 +770,7 @@ common#:#exc_edit_until#:#Data scadenza
 common#:#exc_files#:#File
 common#:#exc_groups#:#Gruppi
 common#:#exc_header_members#:#Esercizio(membri)
-common#:#exc_instruction#:#Istruzioni di lavoro
+common#:#exc_instruction#:#Istruzioni per l'esecuzione
 common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati assegnati a questo esercizio
 common#:#exc_members_assigned#:#Membri assegnati
 common#:#exc_new#:#Nuovo esercizio
@@ -803,18 +803,18 @@ common#:#file#:#File
 common#:#file_a#:#un file
 common#:#file_add#:#Upload del file
 common#:#file_added#:#Upload del file eseguito
-common#:#file_delete#:#Cancella file
-common#:#file_edit#:#Modifica file
-common#:#file_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#file_delete#:#Cancellare un file
+common#:#file_edit#:#Modificare un file
+common#:#file_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
-common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
-common#:#file_read#:#Scarica il file
+common#:#file_notice#:#Per favore, ricordati che la dimensione massima del file deve essere di
+common#:#file_read#:#Scaricare un file
 common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
-common#:#file_visible#:#Il file non &#232; visibile
-common#:#file_write#:#Scrivi il file
+common#:#file_visible#:#Vedere un file
+common#:#file_write#:#Creare un file
 common#:#files#:#File
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
@@ -824,16 +824,16 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_chat#:#Crea Chat
-common#:#fold_create_file#:#Crea File
-common#:#fold_create_fold#:#Crea Cartella
-common#:#fold_create_frm#:#Crea Forum
-common#:#fold_create_glo#:#Crea Glossario
-common#:#fold_create_lm#:#Crea Modulo
-common#:#fold_create_slm#:#Crea Modulo SCORM
-common#:#fold_delete#:#Cancella cartella
-common#:#fold_edit#:#Modifica cartella
-common#:#fold_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#fold_create_chat#:#Creare chat
+common#:#fold_create_file#:#Creare file
+common#:#fold_create_fold#:#Creare cartelle
+common#:#fold_create_frm#:#Creare forum
+common#:#fold_create_glo#:#Creare glossari
+common#:#fold_create_lm#:#Creare moduli
+common#:#fold_create_slm#:#Creare moduli SCORM
+common#:#fold_delete#:#Cancellare cartelle
+common#:#fold_edit#:#Modificare cartelle
+common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#fold_new#:#Nuova cartella
 common#:#fold_read#:#Accedere in lettura alla cartella
 common#:#fold_visible#:#Vedere la cartella
@@ -842,7 +842,7 @@ common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
-common#:#forgot_password#:#Forgot password?###new variable 17 June 2004
+common#:#forgot_password#:#Dimenticata la password?
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importa forum
@@ -857,11 +857,11 @@ common#:#frm_a#:#Un forum
 common#:#frm_add#:#Aggiungi forum
 common#:#frm_added#:#Forum aggiunto
 common#:#frm_create#:#Crea un forum
-common#:#frm_delete#:#Cancella il forum
-common#:#frm_delete_post#:#Cancella un post
+common#:#frm_delete#:#Cancellare un forum
+common#:#frm_delete_post#:#Cancellare un post
 common#:#frm_edit#:#Modifica forum
-common#:#frm_edit_permission#:#Modifica le impostazioni dei permessi
-common#:#frm_edit_post#:#Modifica un post
+common#:#frm_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#frm_edit_post#:#Modificare un post
 common#:#frm_new#:#Nuovo forum
 common#:#frm_read#:#Accedere in lettura ai forum
 common#:#frm_visible#:#Vedere i forum
@@ -880,9 +880,9 @@ common#:#glo_a#:#un glossario
 common#:#glo_add#:#Aggiungi glossario
 common#:#glo_added#:#Glossario aggiunto
 common#:#glo_create#:#Crea un glossario
-common#:#glo_delete#:#eliminare il glossario
+common#:#glo_delete#:#Eliminare il glossario
 common#:#glo_edit_permission#:#Modificare le impostazioni dei permessi del glossario
-common#:#glo_join#:#Iscriversi al glossario
+common#:#glo_join#:#Iscrivere al glossario
 common#:#glo_leave#:#Annullare l&#039;iscrizione al glossario
 common#:#glo_new#:#Nuovo glossario
 common#:#glo_read#:#Accedere in lettura al glossario
@@ -922,7 +922,7 @@ common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi esser
 common#:#group_reset#:#Azzeramento del gruppo
 common#:#group_status#:#Stato del gruppo
 common#:#group_status_closed#:#Chiuso
-common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
+common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Open: il gruppo &#232; visibile; gli utenti possono iscriversi. <br/> Closed: il gruppo non &#232; visible ai non-membri; gli utenti devono essere invitati da un membro per poterne far parte.
 common#:#group_status_public#:#Pubblico
 common#:#groups#:#Gruppi
 common#:#groups_overview#:#Descrizione gruppi
@@ -940,13 +940,13 @@ common#:#grp_create_file#:#Eseguire upload di file
 common#:#grp_create_fold#:#Creare cartelle
 common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_glo#:#Creare glossario
-common#:#grp_create_htlm#:#Create moduli HTML
+common#:#grp_create_htlm#:#Creare moduli HTML
 common#:#grp_create_lm#:#Creare moduli
-common#:#grp_create_mep#:#Create raccolte multimediali
+common#:#grp_create_mep#:#Creare raccolte multimediali
 common#:#grp_create_slm#:#Creare moduli SCORM
-common#:#grp_delete#:#eliminare il gruppo
+common#:#grp_delete#:#Eliminare il gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
-common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione dal gruppo?###19 Jun 2004 content changed
+common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
 common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
@@ -956,7 +956,7 @@ common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminat
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
 common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
-common#:#grp_join#:#Iscriversi al gruppo
+common#:#grp_join#:#Iscrivere al gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
@@ -982,12 +982,12 @@ common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
 common#:#htlm#:#Modulo HTML
-common#:#htlm_add#:#Aggiungere un modulo HTML
+common#:#htlm_add#:#Aggiungi modulo HTML
 common#:#htlm_delete#:#Cancellare un modulo HTML
 common#:#htlm_edit#:#Modificare un modulo HTML
 common#:#htlm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#htlm_new#:#Aggiungere un modulo HTML
-common#:#htlm_read#:#Leggere un modulo HTML
+common#:#htlm_new#:#Nuovo modulo HTML
+common#:#htlm_read#:#Accedere in lettura ad un modulo HTML
 common#:#htlm_visible#:#Vedere un modulo HTML
 common#:#htlm_write#:#Modificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
@@ -1003,7 +1003,7 @@ common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
-common#:#import_glossary#:#Import Glossario
+common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
@@ -1094,11 +1094,11 @@ common#:#last_visit#:#Ultima visita
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#ldap_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#ldap_read#:#Accesso in lettura alle impostazioni del LDAP
 common#:#ldap_visible#:#Le impostazioni LDAP sono visibili
-common#:#ldap_write#:#Modifica le impostazioni LDAP
-common#:#learning module#:#Learning Module###24 Jun 2004 new variable
+common#:#ldap_write#:#Modificare le impostazioni LDAP
+common#:#learning module#:#Modulo
 common#:#learning_objects#:#Unit&#224; didattica
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
@@ -1117,15 +1117,15 @@ common#:#lm_delete#:#Eliminare il modulo
 common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi del modulo
 common#:#lm_join#:#Iscrivere al modulo
 common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo
-common#:#lm_new#:#Creare un modulo
+common#:#lm_new#:#Nuovo modulo
 common#:#lm_read#:#Accedere in lettura al modulo
 common#:#lm_visible#:#Vedere il modulo
 common#:#lm_write#:#Modificare il modulo
 common#:#lng#:#Lingua
 common#:#lngf#:#Lingua
-common#:#lngf_edit_permission#:#Modificare le impostazioni dei permessi di una lingua
-common#:#lngf_read#:#Accedere in lettura alle impostazioni della lingua
-common#:#lngf_visible#:#Vedere le impostazioni della lingua
+common#:#lngf_edit_permission#:#Modificare le impostazioni dei permessi delle lingue
+common#:#lngf_read#:#Accedere in lettura alle impostazioni delle lingue
+common#:#lngf_visible#:#Vedere le impostazioni delle lingue
 common#:#lo#:#Unit&#224; didattica
 common#:#lo_available#:#Unit&#224; didattiche disponibili
 common#:#lo_categories#:#Categorie delle unit&#224; didattiche
@@ -1192,11 +1192,11 @@ common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
 common#:#mep#:#Libreria multimediale
 common#:#mep_add#:#Aggiungi libreria multimediale
 common#:#mep_added#:#Aggiunta libreria multimediale
-common#:#mep_delete#:#Cancella libreria multimediale
+common#:#mep_delete#:#Cancellare una libreria multimediale
 common#:#mep_edit#:#Modifica libreria multimediale
-common#:#mep_edit_permission#:#Modifica le impostazioni dei permessi della libreria multimediale
-common#:#mep_new#:#Creare una libreria multimediale
-common#:#mep_read#:#Visionare una libreria multimediale
+common#:#mep_edit_permission#:#Modificare le impostazioni dei permessi della libreria multimediale
+common#:#mep_new#:#Nuova libreria multimediale
+common#:#mep_read#:#Accedere il lettura ad una libreria multimediale
 common#:#mep_visible#:#Vedere una libreria multimediale
 common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
 common#:#message#:#Messaggio
@@ -1369,7 +1369,7 @@ common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
 common#:#obj_lm#:#Modulo
 common#:#obj_lng#:#Lingua
-common#:#obj_lngf#:#Impostazioni lingua
+common#:#obj_lngf#:#Impostazioni lingue
 common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
 common#:#obj_lo#:#Unit&#224; didattica
 common#:#obj_mail#:#Impostazioni posta
@@ -1397,9 +1397,9 @@ common#:#obj_slm#:#Modulo SCORM
 common#:#obj_spl#:#Raccolta di domande (verifica)
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Verifica
-common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
-common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
-common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_tax#:#Tassonomia
+common#:#obj_taxf#:#Tassonomie
+common#:#obj_taxf_desc#:#Cartella per le tassonomie
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1466,7 +1466,7 @@ common#:#passwd#:#Password
 common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
 common#:#passwd_wrong#:#La password inserita &#232; sbagliata!
-common#:#password#:#Password
+common#:#password#:#Con password
 common#:#paste#:#Incolla
 common#:#pasteChapter#:#Incolla capitolo
 common#:#pastePage#:#Incolla pagina
@@ -1517,10 +1517,10 @@ common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione
 common#:#qpl#:#Raccolta di domande
-common#:#qpl_add#:#Aggiungere una raccolta di domande
-common#:#qpl_delete#:#eliminare una raccolta di domande
+common#:#qpl_add#:#Aggiungi raccolta di domande
+common#:#qpl_delete#:#Eliminare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#qpl_new#:#Creare una raccolta di domande
+common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
@@ -1543,7 +1543,7 @@ common#:#registered_users#:#utenti registrati
 common#:#registration#:#Nuova registrazione
 common#:#registration_expired#:#Periodo di prova della registrazione terminato...
 common#:#remove#:#Elimina
-common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
+common#:#remove_personal_picture#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
 common#:#rename#:#Rinomina
 common#:#rename_file#:#Rinomina il file
@@ -1600,9 +1600,9 @@ common#:#save_return#:#Salva e invia
 common#:#save_settings#:#Salva le impostazioni
 common#:#saved#:#Salvato
 common#:#saved_successfully#:#Modifiche effettuate con successo
-common#:#search#:#Cerca
-common#:#search_for#:#Search For###24 Jun 2004 new variable
-common#:#search_in#:#Cerca in
+common#:#search#:#Ricerca
+common#:#search_for#:#Ricerca per
+common#:#search_in#:#Ricerca in
 common#:#search_new#:#Nuova ricerca
 common#:#search_recipient#:#Ricerca destinario
 common#:#search_result#:#Risultati ricerca
@@ -1634,7 +1634,7 @@ common#:#show_list#:#Mostra lista
 common#:#show_members#:#Mostra membri
 common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
-common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
+common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
 common#:#slm#:#Modulo SCORM
 common#:#slm_added#:#Aggiungere un modulo SCORM
@@ -1648,11 +1648,11 @@ common#:#slm_visible#:#Vedere il modulo SCORM
 common#:#slm_write#:#Modificare il modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
-common#:#spl#:#Raccolta di domande (cerifica)
-common#:#spl_add#:#Aggiungere una raccolta di domande
-common#:#spl_delete#:#eliminare una raccolta di domande
+common#:#spl#:#Raccolta di domande (verifica)
+common#:#spl_add#:#Aggiungi raccolta di domande
+common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#spl_new#:#Creare una raccolta di domande
+common#:#spl_new#:#Nuova raccolta di domande
 common#:#spl_read#:#Accedere in lettura alle raccolte di domande
 common#:#spl_visible#:#Raccolte di domande sono visibili
 common#:#spl_write#:#Modificare una raccolta di domande
@@ -1670,17 +1670,17 @@ common#:#structure#:#Struttura
 common#:#subcat_name#:#Nome sottocategoria
 common#:#subchapter_new#:#Nuovo paragrafo
 common#:#subject#:#Oggetto
-common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
+common#:#subject_module#:#Argomento del modulo
 common#:#submit#:#Invia
-common#:#subobjects#:#sotto oggetti
+common#:#subobjects#:#Sotto categorie
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
 common#:#svy#:#Verifica
-common#:#svy_add#:#Aggiungere una verifica
-common#:#svy_delete#:#eliminare una verifica
+common#:#svy_add#:#Aggiungi verifica
+common#:#svy_delete#:#Eliminare una verifica
 common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
 common#:#svy_invite#:#Invitare utenti alla verifica
-common#:#svy_new#:#Creare una verifica
+common#:#svy_new#:#Nuova verifica
 common#:#svy_participate#:#Participare alla verifica
 common#:#svy_read#:#Accedere in lettura alla verifica
 common#:#svy_visible#:#Vedere la verifica
@@ -1693,28 +1693,28 @@ common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
-common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
-common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
-common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
-common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
-common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
-common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
-common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
+common#:#tax_delete#:#Cancellare le tassonomie
+common#:#tax_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#tax_read#:#Accedere in lettura alle tassonomie
+common#:#tax_visible#:#Vedere le tassonomie
+common#:#tax_write#:#Accedere in scrittura alle tassonomie
+common#:#taxf_edit_permission#:#Modificare le impostazioni dei permessi alla cartella delle tassonomie
+common#:#taxf_read#:#Accedere in lettura alla cartella delle tassonomie
+common#:#taxf_visible#:#Vedere la cartella delle tassonomie
+common#:#taxf_write#:#Accedere in scrittura alla cartella delle tassonomie
 common#:#term#:#Termine
-common#:#test#:#Test###24 Jun 2004 new variable
+common#:#test#:#Test
 common#:#test_intern#:#Test interno
-common#:#test_module#:#Test Module###24 Jun 2004 new variable
+common#:#test_module#:#Modulo test
 common#:#tests#:#Test
 common#:#time#:#Ora
-common#:#time_d#:#Day###24 Jun 2004 new variable
-common#:#time_h#:#Hour###24 Jun 2004 new variable
-common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
+common#:#time_d#:#Giorno
+common#:#time_h#:#Ora
+common#:#time_segment#:#Intervallo di tempo
 common#:#title#:#Titolo
 common#:#to#:#A:
 common#:#to_client_list#:#Vai alla lista di Client
-common#:#to_desktop#:#Copia sul desktop
+common#:#to_desktop#:#Invia sul desktop
 common#:#today#:#Oggi
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
@@ -1722,10 +1722,10 @@ common#:#translation#:#Traduzione
 common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
 common#:#tst#:#Test
-common#:#tst_add#:#Aggiungere un test
+common#:#tst_add#:#Aggiungi test
 common#:#tst_delete#:#eliminare un test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#tst_new#:#Creare un test
+common#:#tst_new#:#Nuovo test
 common#:#tst_read#:#Accedere in lettura al test
 common#:#tst_visible#:#Vedere il test
 common#:#tst_write#:#Modificare il test
@@ -1761,7 +1761,7 @@ common#:#username#:#Nome utente
 common#:#users#:#Utenti
 common#:#users_not_imported#:#I seguenti utenti non esistono, i loro messaggi non possono essere importati
 common#:#users_online#:#Utenti online
-common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
+common#:#usertracking#:#Tracciamento utente
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
 common#:#usr_add#:#Aggiungi utente
@@ -1775,7 +1775,7 @@ common#:#usr_skin_style#:#Tema / Stile
 common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
 common#:#usrf_create_user#:#Creare un nuovo utente
-common#:#usrf_delete#:#eliminare un utente
+common#:#usrf_delete#:#Eliminare un utente
 common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
 common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#usrf_read#:#Accedere in lettura alla registrazione utente
@@ -1820,7 +1820,7 @@ content#:#cont_Rect#:#Rettangolo
 content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
-content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
+content#:#cont_TableContent#:#Indice
 content#:#cont_Unordered#:#Non ordinato
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
@@ -1891,7 +1891,7 @@ content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_disable_media#:#Disabilita Multimedia
-content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
+content#:#cont_download_title#:#Download titolo
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -1899,7 +1899,7 @@ content#:#cont_edit_mob_alias_prop#:#Modifica propriet&#224; dell&#039;istanza d
 content#:#cont_edit_mob_files#:#File oggetto
 content#:#cont_edit_mob_properties#:#Modifica propriet&#224; dell&#039;oggetto multimediale
 content#:#cont_edit_par#:#Modifica paragrafo
-content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
+content#:#cont_edit_src#:#Modifica codice sorgente
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
@@ -1927,7 +1927,7 @@ content#:#cont_insert_list#:#Inserisci lista
 content#:#cont_insert_mob#:#Inserisci oggetto multimediale
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
-content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
+content#:#cont_insert_src#:#Inserisci codice sorgente
 content#:#cont_insert_table#:#Inserisci tabella
 content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#Collegamento interno
@@ -1959,7 +1959,7 @@ content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriet&#224; del Modulo
-content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
+content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
@@ -2014,7 +2014,7 @@ content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
-content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
+content#:#cont_rvalue#:#Valori
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
@@ -2026,7 +2026,7 @@ content#:#cont_sc_stat_failed#:#Fallito
 content#:#cont_sc_stat_incomplete#:#Incompleto
 content#:#cont_sc_stat_not_attempted#:#Non eseguito
 content#:#cont_sc_stat_passed#:#Superato
-content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
+content#:#cont_sc_stat_running#:#In esecuzione
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
@@ -2051,11 +2051,11 @@ content#:#cont_set_width#:#Imposta larghezza
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
-content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
+content#:#cont_show_line_numbers#:#Mostra i numeri di linea
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
-content#:#cont_src#:#Source code###16 Jun 2004 new variable
-content#:#cont_src_other#:#other###18 Jun 2004 new variable
+content#:#cont_src#:#Codice sorgente
+content#:#cont_src_other#:#altro
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
 content#:#cont_status#:#Stato
@@ -2135,7 +2135,7 @@ dateplaner#:#Th_long#:#Giovedi
 dateplaner#:#Th_short#:#Gi
 dateplaner#:#Tu_long#:#Martedi
 dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Vedi:
+dateplaner#:#View#:#Impostazioni della vista:
 dateplaner#:#We_long#:#Mercoledi
 dateplaner#:#We_short#:#Me
 dateplaner#:#Week_long#:#Vista settimanale
@@ -2144,7 +2144,7 @@ dateplaner#:#app_#:#Appuntamenti del gruppo in ingresso
 dateplaner#:#app_date#:#Inserisci appuntamento
 dateplaner#:#app_day#:#Vista giornaliera
 dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
-dateplaner#:#app_inbox#:#Appuntamenti dei gruppi in ingresso
+dateplaner#:#app_inbox#:#Appuntamenti del gruppo
 dateplaner#:#app_list#:#Lista appuntamenti
 dateplaner#:#app_month#:#Vista mensile
 dateplaner#:#app_properties#:#Propriet&#224;
@@ -2155,7 +2155,7 @@ dateplaner#:#back#:#Indietro
 dateplaner#:#begin_date#:#Inizio appuntamento:
 dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
-dateplaner#:#changeTo#:#Modifica a:
+dateplaner#:#changeTo#:#Modifica in:
 dateplaner#:#changedDates#:#Appuntamenti modificati:
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
@@ -2202,7 +2202,7 @@ dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
-dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
+dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
 dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
@@ -2253,7 +2253,7 @@ dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con s
 dateplaner#:#k_alldates#:#tutti gli appuntamenti
 dateplaner#:#keep#:#Tieni
 dateplaner#:#keyword#:#Chiave
-dateplaner#:#keywords#:#Chiavi
+dateplaner#:#keywords#:#Definizione delle chiavi
 dateplaner#:#last_change#:#Data ultima modifica
 dateplaner#:#long_01#:#Gennaio
 dateplaner#:#long_02#:#Febbraio
@@ -2275,7 +2275,7 @@ dateplaner#:#more#:#ancora
 dateplaner#:#mweek#:#Settimana precedente
 dateplaner#:#myeahr#:#Anno precedente
 dateplaner#:#newDates#:#Nuovo appuntamento
-dateplaner#:#newKeyword#:#Nuovo:
+dateplaner#:#newKeyword#:#Nuova:
 dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#no_entry#:#Nessun appuntamento disponibile
 dateplaner#:#o_day_date#:#Appuntamento di 24h
@@ -2318,7 +2318,7 @@ dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda Ilias
 dateplaner#:#to#:#a
 dateplaner#:#today#:#Oggi
-dateplaner#:#viewlist#:#Vedi
+dateplaner#:#viewlist#:#Vista
 dateplaner#:#week#:#Settimana
 dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
@@ -2374,10 +2374,10 @@ mail#:#mail_add_type#:#Per favore, specifica il tipo di mail che vuoi inviare
 mail#:#mail_addr_entries#:#Indirizzi
 mail#:#mail_attachments#:#Allegati
 mail#:#mail_bc_not_valid#:#Il campo BC non &#232; valido
-mail#:#mail_bc_search#:#Cerca in BC
+mail#:#mail_bc_search#:#Cerca nel campo BC
 mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#Il campo CC non &#232; valido
-mail#:#mail_cc_search#:#Cerca in CC
+mail#:#mail_cc_search#:#Cerca nel campo CC
 mail#:#mail_change_to_folder#:#Spostare nella cartella:
 mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &#232; valido
 mail#:#mail_compose#:#Scrivi Messaggio
@@ -2430,10 +2430,10 @@ mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le mail selezionate
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato
 mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata
-mail#:#mail_to_search#:#Cerca in
+mail#:#mail_to_search#:#Ricerca in
 mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di email valido
-mail#:#search_bc_recipient#:#Cerca destinatario in BC
-mail#:#search_cc_recipient#:#Cerca destinatario in CC
+mail#:#search_bc_recipient#:#Ricerca destinatario in BC
+mail#:#search_cc_recipient#:#Ricerca destinatario in CC
 meta#:#meta_accessibility_restrictions#:#Restrizioni nell&#039;accesso
 meta#:#meta_active#:#Attivo
 meta#:#meta_add#:#Aggiungi
@@ -2959,7 +2959,7 @@ meta#:#meta_very_easy#:#Molto facile
 meta#:#meta_very_high#:#Molto alto
 meta#:#meta_very_low#:#Molto basso
 meta#:#meta_yes#:#Si
-search#:#search_all_results#:#Tutti i risultati
+search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_concatenation#:#Concatenazione
 search#:#search_content#:#Contenuto della pagina
 search#:#search_dbk_content#:#Libraria digitale (contenuto)
@@ -2987,10 +2987,10 @@ search#:#search_one_action#:#Seleziona una azione.
 search#:#search_rename_title#:#Rinomina il titolo
 search#:#search_results_saved#:#Ricerca i risultati salvati
 search#:#search_save_as_select#:#Salva come:
-search#:#search_search_for#:#Cerca per
+search#:#search_search_for#:#Ricerca per
 search#:#search_search_no_results_saved#:#Non ci sono risultati salvati
-search#:#search_search_results#:#Cerca risultati
-search#:#search_search_term#:#Cerca termine
+search#:#search_search_results#:#Ricerca risultati
+search#:#search_search_term#:#Ricerca termine
 search#:#search_select_exactly_one_object#:#Devi selezionare un solo oggetto.
 search#:#search_select_one#:#Seleziona una cartella
 search#:#search_select_one_action#:#--Scegli una azione--
@@ -3003,11 +3003,11 @@ survey#:#add_category#:#Aggiungi categoria
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
 survey#:#add_phrase#:#Aggiungi frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
-survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###new variable 18 June 2004
+survey#:#already_completed_survey#:#Hai gi&#224; completato la verifica! Non puoi eseguirla di nuovo!
 survey#:#answer#:#Risposta
 survey#:#apply#:#Esegui
 survey#:#arithmetic_mean#:#Valore aritmetico
-survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
+survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nella verifica?
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande alla verifica?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
@@ -3017,11 +3017,11 @@ survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria d
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
 survey#:#concatenation#:#Concatenazione
 survey#:#constraints#:#Vincoli
-survey#:#contains#:#Contains###10 Jun 2004 new variable
+survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
 survey#:#create_new#:#Nuova creazione
-survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
+survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#accordo
 survey#:#dc_always#:#sempre
 survey#:#dc_definitelyfalse#:#falso
@@ -3047,10 +3047,10 @@ survey#:#dc_rarely#:#raramente
 survey#:#dc_should#:#dovrebbe
 survey#:#dc_shouldnot#:#non dovrebbe
 survey#:#dc_sometimes#:#talvolta
-survey#:#dc_stronglyagree#:#strongly agree###23 May 2004 new variable
-survey#:#dc_stronglydesired#:#strongly desired###23 May 2004 new variable
-survey#:#dc_stronglydisagree#:#strongly disagree###23 May 2004 new variable
-survey#:#dc_stronglyundesired#:#strongly undesired###23 May 2004 new variable
+survey#:#dc_stronglyagree#:#sicuramente d'accordo
+survey#:#dc_stronglydesired#:#sicuramente desiderato
+survey#:#dc_stronglydisagree#:#sicuramente non d'accordo
+survey#:#dc_stronglyundesired#:#sicuramente non desideratro
 survey#:#dc_true#:#vero
 survey#:#dc_undecided#:#indeciso
 survey#:#dc_undesired#:#indesiderato
@@ -3059,7 +3059,7 @@ survey#:#dc_verygood#:#molto buono
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
 survey#:#disinvite#:#Annulla invito
-survey#:#display_all_available#:#Display all available###10 Jun 2004 new variable
+survey#:#display_all_available#:#Mostra tutto
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
@@ -3090,21 +3090,21 @@ survey#:#enter_phrase_title#:#Per favore inserisci il titolo
 survey#:#enter_value#:#Inserisci un valore
 survey#:#evaluation#:#Prova
 survey#:#evaluation_access#:#Accesso di prova
-survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
+survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Esci
-survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
-survey#:#fill_out_all_category_fields#:#Per favore riempi tutti i campi categoria prima di aggiungerne uno nuovo!
+survey#:#export_data_as#:#Esporta i dati come
+survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
 survey#:#filter#:#Filtro
-survey#:#finished#:#finito###12 Jun 2004 content changed
-survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
+survey#:#finished#:#finito
+survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
 survey#:#harmonic_mean#:#Significato armonico
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima
-survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!###10 Jun 2004 new variable
-survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!###10 Jun 2004 new variable
+survey#:#insert_missing_question#:#Per favore, seleziona almeno una domanda da inserire nella verifica!
+survey#:#insert_missing_questionblock#:#Per favore, seleziona almeno un blocco di domande da inserire nella verifica!
 survey#:#introduction#:#Introduzione
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
 survey#:#invitation#:#Invito
@@ -3118,50 +3118,50 @@ survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#median#:#Median###02 Jun 2004 new variable
-survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###new varuiable 18 June 2004
-survey#:#minimum#:#Minimum value###22 May 2004 new variable
-survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
-survey#:#mode#:#Most selected value###02 Jun 2004 new variable
-survey#:#mode_nr_of_selections#:#Nr of selections###02 Jun 2004 new variable
-survey#:#mode_text#:#Most selected value (Text)###12 Jun 2004 new variable
-survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
-survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
-survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
-survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!###22 May 2004 new variable
-survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
-survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
-survey#:#no_question_selected_for_move#:#Please check at least one question to move it!###24 May 2004 new variable
-survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
-survey#:#no_questionblocks_available#:#There are no questionblocks available###10 Jun 2004 new variable
-survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
-survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new variable
-survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
-survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
+survey#:#metric_question_out_of_bounds#:#Il valore che hai inserito non &#232; compreso tra i valori minimo e massimo!
+survey#:#minimum#:#Valore minimo
+survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore e superiore!
+survey#:#mode#:#Valore pi&#249; selezionato
+survey#:#mode_nr_of_selections#:#Nr di selezioni
+survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
+survey#:#multiple_choice_multiple_response#:#Scelta multipla (risposta multipla)
+survey#:#multiple_choice_single_response#:#Scelta multipla (risposta singola)
+survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
+survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
+survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!
+survey#:#no_constraints_checked#:#Per favore, scegli almeno una domanda o un blocco di domande per modificare i vincoli!
+survey#:#no_question_selected_for_move#:#Per favore, scegli almeno una domanda da spostare!
+survey#:#no_question_selected_for_removal#:#Per favore, scegli almeno una domanda o un blocco di domande da eliminare!
+survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibili!
+survey#:#no_questions_available#:#Non ci sono domande disponibili!
+survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
+survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
+survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
-survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
+survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
-survey#:#not_finished#:#not finished###07 Jun 2004 new variable
-survey#:#not_started#:#not started###12 Jun 2004 new variable
-survey#:#obligatory#:#obligatory###24 May 2004 new variable
-survey#:#off#:#off###23 May 2004 new variable
-survey#:#offline#:#offline###23 May 2004 new variable
-survey#:#on#:#on###23 May 2004 new variable
-survey#:#online#:#online###23 May 2004 new variable
-survey#:#or#:#or###24 May 2004 new variable
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
-survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
-survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
-survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
-survey#:#preview#:#Preview###21 May 2004 new variable
+survey#:#not_finished#:#non terminato
+survey#:#not_started#:#non iniziato
+survey#:#obligatory#:#obbligatorio
+survey#:#off#:#inattivo
+survey#:#offline#:#offline
+survey#:#on#:#attivo
+survey#:#online#:#online
+survey#:#or#:#o
+survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
+survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
+survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
+survey#:#predefined_users#:#Utenti predefiniti
+survey#:#preview#:#Anteprima
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
-survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?###22 May 2004 new variable
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!###07 Jun 2004 new variable
-survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!###23 May 2004 new variable
+survey#:#qpl_confirm_delete_questions#:#Sei sicuro di voler cancellare le seguenti domande?
+survey#:#qpl_copy_select_none#:#Per favore, scegli almeno una domanda da copiare!
+survey#:#qpl_define_questionblock_select_missing#:#Per favore, seleziona almeno due domande se vuoi definire un blocco!
 survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it###28 Jun 2004 new variable
-survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!###22 May 2004 new variable
-survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!###22 May 2004 new variable
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!###07 Jun 2004 new variable
-survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?###07 Jun 2004 new variable
+survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le la(e) domanda(e)!
+survey#:#qpl_delete_select_none#:#Per favore, seleziona almeno una domanda da cancellare!
+survey#:#qpl_duplicate_select_none#:#Per favore, seleziona almeno una domanda da duplicare!
+survey#:#qpl_past_questions_confirmation#:#Sei sicuro di voler incollare le seguenti domande nella raccolta?
 survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.###28 Jun 2004 new variable
 survey#:#qpl_questions_deleted#:#Question(s) deleted.###22 May 2004 new variable
 survey#:#qpl_questions_pasted#:#Question(s) pasted.###07 Jun 2004 new variable
