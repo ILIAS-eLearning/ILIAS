@@ -983,6 +983,7 @@ common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#export#:#Export
+common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#Exportieren als HTML-Datei###14 Sep 2004 content changed
 common#:#export_xml#:#Exportieren als XML-Datei###14 Sep 2004 content changed
 common#:#faq_exercise#:#FAQ/übungskapitel
@@ -3523,30 +3524,83 @@ meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
+payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
+payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
+payment#:#duration#:#Dauer
+payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
 payment#:#pay_header#:#Payment###02 Oct 2004 new variable
 payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
+payment#:#paya_access#:#Zugriff
+payment#:#paya_add_price#:#Neuen Preis anlegen
+payment#:#paya_add_price_title#:#Neuer Preis
+payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbeiten Sie nun die Bezahlart und Preise
+payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
 payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
+payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
+payment#:#paya_buyable#:#Kaufbar
+payment#:#paya_count_purchaser#:#Anzahl Käufer
+payment#:#paya_customer#:#Käufer
+payment#:#paya_delete_price#:#Preis löschen
 payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
+payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
+payment#:#paya_deleted_object#:#Das Payment wurde für dieses Objekt aufgelöst. Alle zugehörigen Daten wurden entfernt.
+payment#:#paya_details_updated#:#Die Änderungen wurden übernommen.
 payment#:#paya_disabled#:#Ausgeschaltet
+payment#:#paya_edit_details#:#Details bearbeiten
+payment#:#paya_edit_pay_method#:#Bezahlart bearbeiten
+payment#:#paya_edit_prices#:#Preise bearbeiten
+payment#:#paya_edit_prices_first#:#Bitte bearbeiten Sie zuerst die Preise.
 payment#:#paya_enabled#:#Eingeschaltet
 payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
+payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
+payment#:#paya_error_update_booking#:#Fehler beim Speichern.
+payment#:#paya_expires#:#Bezahlung auslaufen lassen
 payment#:#paya_header#:#Paymentverwaltung
+payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_locator#:#Paymentverwaltung
+payment#:#paya_months#:#Monat(e)
+payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
+payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
+payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
+payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
+payment#:#paya_no_prices_selected#:#Bitte wählen Sie mindestens einen Preis aus
+payment#:#paya_no_settings_necessary#:#Bei der ausgewählten Bezahlart sind keine weiteren Einstellungen nötig
 payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
 payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
+payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
 payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
+payment#:#paya_not_buyable#:#Nicht kaufbar
 payment#:#paya_object#:#Objekte
+payment#:#paya_object_not_purchasable#:#Dieses Objekt kann nicht verkauft werden.
+payment#:#paya_order_date#:#Bestelldatum
+payment#:#paya_pay_method#:#Bezahlart
+payment#:#paya_pay_method_not_specified#:#Nicht festgelegt
+payment#:#paya_payed#:#Bezahlt
+payment#:#paya_payed_access#:#Bezahlt/Zugriff
 payment#:#paya_perm_obj#:#Objekte bearbeiten
 payment#:#paya_perm_stat#:#Statistiken bearbeiten
+payment#:#paya_price_not_valid#:#Die Angaben sind nicht gültig. Bitte geben Sie ausschliesslich Ganzzahlen ein
+payment#:#paya_select_object_to_sell#:#Bitte wählen Sie das zu verkaufende Objekt aus.
+payment#:#paya_select_pay_method_first#:#Bitte legen Sie zuerst die Bezahlart fest.
+payment#:#paya_sell_object#:#Objekt verkaufen
 payment#:#paya_shopping_cart#:#Warenkorb
 payment#:#paya_statistic#:#Statistik
+payment#:#paya_sure_delete_object#:#Sind Sie sicher, dass dieses Objekt nicht mehr verkauft werden soll? Alle zugehörigen Daten werden gelöscht.
+payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wirklich gelöscht werden?
 payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
+payment#:#paya_sure_delete_stat#:#Sind Sie sicher, dass dieser Datensatz gelöscht werden soll?
+payment#:#paya_transaction#:#Transaktion
 payment#:#paya_trustee_table#:#Verwalter
 payment#:#paya_trustees#:#Verwalter
+payment#:#paya_update_price#:#Preise aktualisieren
+payment#:#paya_updated_booking#:#Der Datensatz wurde aktualisiert.
+payment#:#paya_updated_prices#:#Die Preise wurden aktualisiert.
 payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
 payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
-payment#:#pays_active_bookings#:#Bitte löschen Sie zuerst alle noch aktiven Verkaufsvorgänge.
+payment#:#paya_vendor#:#Verkäufer
+payment#:#pays_active_bookings#:#Bitte löschen Sie zuerst alle noch aktiven Verkaufsvorgänge.###04 Oct 2004 content changed
 payment#:#pays_add_vendor#:#Verkäufer anlegen
 payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:###14 Sep 2004 content changed
@@ -3570,6 +3624,8 @@ payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewä
 payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
 payment#:#pays_user_already_assigned#:#Dieser Benutzer ist bereits zugeordnet.
 payment#:#pays_vendor#:#Verkäufer
+payment#:#price_a#:#Preis
+payment#:#update#:#Aktualisieren
 search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Alle Resultate
 search#:#search_and#:#and###14 Sep 2004 new variable
@@ -3712,6 +3768,7 @@ survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
+survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#excel#:#Microsoft Excel
@@ -3740,6 +3797,7 @@ survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
+survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
@@ -3748,6 +3806,7 @@ survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
+survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -3842,7 +3901,9 @@ survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
+survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
 survey#:#subtype#:#Untertyp
+survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
@@ -3866,6 +3927,8 @@ survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
 survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
+survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
@@ -3879,58 +3942,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-payment#:#paya_sell_object#:#Objekt verkaufen
-payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
-payment#:#paya_buyable#:#Kaufbar
-payment#:#paya_not_buyable#:#Nicht kaufbar
-payment#:#paya_expires#:#Bezahlung auslaufen lassen
-payment#:#paya_pay_method_not_specified#:#Nicht festgelegt
-payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
-payment#:#paya_edit_details#:#Details bearbeiten
-payment#:#paya_edit_prices#:#Preise bearbeiten
-payment#:#paya_vendor#:#Verkäufer
-payment#:#paya_count_purchaser#:#Anzahl Käufer
-payment#:#paya_pay_method#:#Bezahlart
-payment#:#paya_select_pay_method_first#:#Bitte legen Sie zuerst die Bezahlart fest.
-payment#:#paya_no_settings_necessary#:#Bei der ausgewählten Bezahlart sind keine weiteren Einstellungen nötig
-payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
-payment#:#paya_add_price#:#Neuen Preis anlegen
-payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wirklich gelöscht werden?
-payment#:#paya_delete_price#:#Preis löschen
-payment#:#paya_months#:#Monat(e)
-payment#:#currency_euro#:#Euro
-payment#:#currency_cent#:#Cent
-payment#:#paya_update_price#:#Preise aktualisieren
-payment#:#duration#:#Dauer
-payment#:#price_a#:#Preis
-payment#:#paya_add_price_title#:#Neuer Preis
-payment#:#paya_price_not_valid#:#Die Angaben sind nicht gültig. Bitte geben Sie ausschliesslich Ganzzahlen ein
-payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
-payment#:#paya_no_prices_selected#:#Bitte wählen Sie mindestens einen Preis aus
-payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
-payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
-payment#:#paya_updated_prices#:#Die Preise wurden aktualisiert.
-payment#:#paya_edit_prices_first#:#Bitte bearbeiten Sie zuerst die Preise.
-payment#:#paya_details_updated#:#Die Änderungen wurden übernommen.
-payment#:#paya_select_object_to_sell#:#Bitte wählen Sie das zu verkaufende Objekt aus.
-payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
-payment#:#paya_object_not_purchasable#:#Dieses Objekt kann nicht verkauft werden.
-payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbeiten Sie nun die Bezahlart und Preise
-payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
-payment#:#paya_edit_pay_method#:#Bezahlart bearbeiten
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
-payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
-payment#:#paya_transaction#:#Transaktion
-payment#:#paya_order_date#:#Bestelldatum
-payment#:#paya_payed#:#Bezahlt
-payment#:#paya_access#:#Zugriff
-payment#:#paya_updated_booking#:#Der Datensatz wurde aktualisiert.
-payment#:#paya_error_update_booking#:#Fehler beim Speichern.
-payment#:#paya_sure_delete_stat#:#Sind Sie sicher, dass dieser Datensatz gelöscht werden soll?
-payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
-payment#:#paya_customer#:#Käufer
-payment#:#paya_payed_access#:#Bezahlt/Zugriff
-payment#:#update#:#Aktualisieren
-payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
-payment#:#paya_sure_delete_object#:#Sind Sie sicher, dass dieses Objekt nicht mehr verkauft werden soll? Alle zugehörigen Daten werden gelöscht.
-payment#:#paya_deleted_object#:#Das Payment wurde für dieses Objekt aufgelöst. Alle zugehörigen Daten wurden entfernt.

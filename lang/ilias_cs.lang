@@ -984,6 +984,7 @@ common#:#exc_write#:#Edit exercise###16 Mar 2004 new variable
 common#:#excs#:#Cvičení
 common#:#execute#:#Vykonat
 common#:#export#:#Export###20 Mar 2004 new variable
+common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#exportovat jako html soubor###14 Sep 2004 content changed
 common#:#export_xml#:#exportovat jako xml soubor###14 Sep 2004 content changed
 common#:#faq_exercise#:#Cvičení FAQ
@@ -3527,29 +3528,82 @@ meta#:#meta_very_easy#:#Velmi snadné
 meta#:#meta_very_high#:#Velmi vysoká
 meta#:#meta_very_low#:#Velmi nízká
 meta#:#meta_yes#:#Ano
+payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
+payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
+payment#:#duration#:#Duration###04 Oct 2004 new variable
+payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
 payment#:#pay_header#:#Payment###02 Oct 2004 new variable
 payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
+payment#:#paya_access#:#Access###04 Oct 2004 new variable
+payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
+payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
+payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.###04 Oct 2004 new variable
+payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
 payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
+payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
+payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
+payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
+payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
+payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
 payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
+payment#:#paya_deleted_last_price#:#The last price has been deleted.###04 Oct 2004 new variable
+payment#:#paya_deleted_object#:#Stoped payment for the selected object.###04 Oct 2004 new variable
+payment#:#paya_details_updated#:#Details updated.###04 Oct 2004 new variable
 payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
+payment#:#paya_edit_details#:#Edit details###04 Oct 2004 new variable
+payment#:#paya_edit_pay_method#:#Edit pay method###04 Oct 2004 new variable
+payment#:#paya_edit_prices#:#Edit prices###04 Oct 2004 new variable
+payment#:#paya_edit_prices_first#:#Please edit the prices first.###04 Oct 2004 new variable
 payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
 payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
+payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
+payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
+payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
 payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
 payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_months#:#Month(s)###04 Oct 2004 new variable
+payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given###04 Oct 2004 new variable
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
+payment#:#paya_no_object_selected#:#Please select one object.###04 Oct 2004 new variable
+payment#:#paya_no_objects_assigned#:#There are no sellable objects.###04 Oct 2004 new variable
+payment#:#paya_no_price_available#:#No prices available###04 Oct 2004 new variable
+payment#:#paya_no_prices_selected#:#Please select one price###04 Oct 2004 new variable
+payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method###04 Oct 2004 new variable
 payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
 payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
+payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.###04 Oct 2004 new variable
 payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
+payment#:#paya_not_buyable#:#Not buyable###04 Oct 2004 new variable
 payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
+payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.###04 Oct 2004 new variable
+payment#:#paya_order_date#:#Order date###04 Oct 2004 new variable
+payment#:#paya_pay_method#:#Pay method###04 Oct 2004 new variable
+payment#:#paya_pay_method_not_specified#:#Not specified###04 Oct 2004 new variable
+payment#:#paya_payed#:#Payed###04 Oct 2004 new variable
+payment#:#paya_payed_access#:#Payed/Access###04 Oct 2004 new variable
 payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
 payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
+payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers###04 Oct 2004 new variable
+payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.###04 Oct 2004 new variable
+payment#:#paya_select_pay_method_first#:#Please select one pay method first.###04 Oct 2004 new variable
+payment#:#paya_sell_object#:#Sell object###04 Oct 2004 new variable
 payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
 payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
+payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.###04 Oct 2004 new variable
+payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?###04 Oct 2004 new variable
 payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
+payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?###04 Oct 2004 new variable
+payment#:#paya_transaction#:#Transaction###04 Oct 2004 new variable
 payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
 payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_update_price#:#Update prices###04 Oct 2004 new variable
+payment#:#paya_updated_booking#:#Updated statistic.###04 Oct 2004 new variable
+payment#:#paya_updated_prices#:#Updated prices###04 Oct 2004 new variable
 payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
 payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
+payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
 payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
@@ -3574,6 +3628,8 @@ payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the s
 payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
+payment#:#price_a#:#Price###04 Oct 2004 new variable
+payment#:#update#:#Update###04 Oct 2004 new variable
 search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Všechny výsledky
 search#:#search_and#:#and###14 Sep 2004 new variable
@@ -3716,6 +3772,7 @@ survey#:#end_date#:#End date###23 May 2004 new variable
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new variable
 survey#:#enter_value#:#Enter a value###26 May 2004 new variable
+survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
 survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
 survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
 survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
@@ -3744,6 +3801,7 @@ survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
 survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
 survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
 survey#:#invited_users#:#Invited users###27 May 2004 new variable
+survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
 survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
@@ -3752,6 +3810,7 @@ survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#median#:#Median###02 Jun 2004 new variable
 survey#:#median_between#:#between###01 Sep 2004 new variable
+survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
@@ -3846,7 +3905,9 @@ survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Start survey###25 May 2004 new variable
+survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
+survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
@@ -3870,6 +3931,8 @@ survey#:#svy_status_missing#:#There are required elements missing in this survey
 survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
+survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
