@@ -687,14 +687,14 @@ common#:#frm_add#:#增加论坛
 common#:#frm_added#:#论坛已增加
 common#:#frm_create#:#创建论坛
 common#:#frm_delete#:#删除论坛
-common#:#frm_delete_post#:#删除帖子
+common#:#frm_delete_post#:#删除帖子###30 Mar 2004 content changed
 common#:#frm_edit#:#编辑论坛
 common#:#frm_edit_permission#:#更改许可设置
-common#:#frm_edit_post#:#编辑帖子
+common#:#frm_edit_post#:#编辑帖子###30 Mar 2004 content changed
 common#:#frm_new#:#新论坛
 common#:#frm_read#:#论坛设为读访问
 common#:#frm_visible#:#论坛可视Forum is visible
-common#:#frm_write#:#编辑论坛
+common#:#frm_write#:#编辑论坛###30 Mar 2004 content changed
 common#:#from#:#从
 common#:#fullname#:#名字
 common#:#functions#:#功能

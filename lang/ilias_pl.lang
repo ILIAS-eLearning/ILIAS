@@ -670,14 +670,14 @@ common#:#frm_add#:#Dodaj Forum
 common#:#frm_added#:#Forum dodane
 common#:#frm_create#:#Twórz Forum
 common#:#frm_delete#:#Usuń Forum
-common#:#frm_delete_post#:#Usuń wiadomość
+common#:#frm_delete_post#:#Usuń wiadomość###30 Mar 2004 content changed
 common#:#frm_edit#:#Edytuj Forum
 common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
-common#:#frm_edit_post#:#Edytuj wiadomość
+common#:#frm_edit_post#:#Edytuj wiadomość###30 Mar 2004 content changed
 common#:#frm_new#:#Nowe Forum
 common#:#frm_read#:#Prawo czytania Forum
 common#:#frm_visible#:#Forum jest widoczne
-common#:#frm_write#:#Edycja Forum
+common#:#frm_write#:#Edycja Forum###30 Mar 2004 content changed
 common#:#from#:#Od
 common#:#fullname#:#Pełna nazwa
 common#:#functions#:#Funkcje

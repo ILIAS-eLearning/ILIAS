@@ -670,14 +670,14 @@ common#:#frm_add#:#Forum toevoegen
 common#:#frm_added#:#Forum toegevoegd
 common#:#frm_create#:#Creëer forum
 common#:#frm_delete#:#Verwijder forum
-common#:#frm_delete_post#:#Verwijder een bijdrage
+common#:#frm_delete_post#:#Verwijder een bijdrage###30 Mar 2004 content changed
 common#:#frm_edit#:#Wijzig forum
 common#:#frm_edit_permission#:#Wijzig rechten-instellingen
-common#:#frm_edit_post#:#Wijzig een bijdrage
+common#:#frm_edit_post#:#Wijzig een bijdrage###30 Mar 2004 content changed
 common#:#frm_new#:#Nieuw Forum
 common#:#frm_read#:#Lees-recht op forum
 common#:#frm_visible#:#Forum is zichtbaar
-common#:#frm_write#:#Wijzig forum/schrijf een bijdrage
+common#:#frm_write#:#Wijzig forum/schrijf een bijdrage###30 Mar 2004 content changed
 common#:#from#:#Van
 common#:#fullname#:#Volledige naam
 common#:#functions#:#Functies
