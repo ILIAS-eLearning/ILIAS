@@ -177,7 +177,7 @@ class RoleTemplateObject extends Object
 			$tplContent->setVariable($this->ilias->ini["layout"]);
 			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 
-			$role_data = getObject($_GET["obj_id"]);
+			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tplContent->setVariable("MESSAGE_TOP","Permissions of template: ".$role_data["title"]);
 
 			$obj_data = getTypeList();
@@ -228,7 +228,7 @@ class RoleTemplateObject extends Object
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],$_GET["parent_parent"]);
+			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 
 			foreach ($parent_role_ids as $key => $par)
 			{
@@ -255,9 +255,7 @@ class RoleTemplateObject extends Object
 	{
 		global $tree, $rbacadmin, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			// Alle Template Eintraege loeschen
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
@@ -273,7 +271,8 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
 
-		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
+			   "&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 		exit;
 	}
 
@@ -285,12 +284,10 @@ class RoleTemplateObject extends Object
 	{
 		global $rbacadmin, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
 		}
 		else
@@ -298,7 +295,9 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
+			   "&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+
 		exit;
 	}
 } // END class.RoleTemplateObject

@@ -474,29 +474,8 @@ class Object
 			$a_id_parent = $_GET["parent"];
 		}
 		$path = $tree->getPathFull($a_id,$a_id_parent);
-//		var_dump("<pre>",$path,"</pre");
 		return $tree->showPath($path,"content.php");
 	}
-
-	/**
-	* get role and template ids of all parent role folder 
-	* @access private
-	* @param string object id of start node
-	* @param string object id of parent start node
-	* @return string 
-	*/
-	function getParentRoleTemplateIds($a_start_node, $a_start_parent)
-	{
-		global $rbacadmin, $tree;
-		
-
-		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
-		
-		$pathIds[0] = SYSTEM_FOLDER_ID;
-		
-		return $rbacadmin->getParentRoles($pathIds,'',true);
-	}
-	
 	/**
 	* returns the parent object id of $_GET["parent"]
 	* @access private
