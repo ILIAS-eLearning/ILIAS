@@ -399,70 +399,73 @@ class ilObjGroup extends ilObject
 	*/
 	function createGroupRoles($rolfId)
 	{
-		require_once("./classes/class.ilObjRole.php");
+		include_once("./classes/class.ilObjRole.php");
+
 		global $rbacadmin;
 
 		// create new role objects
-		if(isset($rolfId))
+		if (isset($rolfId))
 		{
-
 			//set permissions for MEMBER ROLE
 			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Member_rolt' AND description='Member role template of groups'";
-
-			$res = $this->ilias->db->query($q);
-
+			$res = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
 
 			//TODO: errorhandling
-			if($res->numRows() == 1)
-
+			if ($res->obj_id)
 			{
-				//member-role
+				// create MEMBER role
 				$roleObj = new ilObjRole();
 				$roleObj->setTitle("grp_Member");
-				$roleObj->setDescription("automatic generated Group-Memberrole");
+				$roleObj->setDescription("automatic generated Group-Memberrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
-				$roleObj->createReference();
-				$parent_id = $this->getRefId();
-				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
 
+				// put the role into local role folder...
+				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
+		
+				// set member role id for group object
 				$this->m_roleMemberId = $roleObj->getId();
-				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$rbacadmin->copyRolePermission($res->obj_id,ROLE_FOLDER_ID,$rolfId,$roleObj->getId());		
 
-				$rbacadmin->copyRolePermission($row["obj_id"],8, $rolfId,$roleObj->getId()  );
-
+				// dump role object & $res
 				unset($roleObj);
+				unset($res);
 			}
 			else
+			{
 				$this->ilias->raiseError("Error! Could not find the needed role template to set role permissions for group member!");
+			}
 
 			//$ops = array(2,4,8);	//2=visible, 3=read, 8=leave
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
-
-
-			//set permissions for admin-role
+			//set permissions for ADMIN ROLE
 			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Admin_rolt' AND description='Administrator role template of groups'";
-			$res = $this->ilias->db->query($q);
+			$res = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
+		
 			//TODO: errorhandling, if query return more than 1 id matching this query
-
-			if($res->numRows() == 1)
+			if ($res->obj_id)
 			{
-				//admin-role
+				// create ADMIN role
 				$roleObj = new ilObjRole();
 				$roleObj->setTitle("grp_Administrator");
-				$roleObj->setDescription("automatic generated Group-Adminrole");
+				$roleObj->setDescription("automatic generated Group-Adminrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
-				$roleObj->createReference();
-				$parent_id = $this->getRefId();
-				$rbacadmin->assignRoleToFolder($roleObj->getId(), $rolfId, $parent_id,'y');
 
+				// put the role into local role folder...
+				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
+		
+				// set adimn role id for group object
 				$this->m_roleAdminId = $roleObj->getId();
+				$rbacadmin->copyRolePermission($res->obj_id,ROLE_FOLDER_ID,$rolfId,$roleObj->getId());
 
-				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				$rbacadmin->copyRolePermission($row["obj_id"],8, $rolfId, $roleObj->getId() );
+				// dump role object & $res
 				unset($roleObj);
+				unset($res);
 			}
+			else
+			{
 				$this->ilias->raiseError("Error! Could not find the needed role template to set role permissions for group administrator!");
+			}
 			//$ops = array(1,2,3,4,6,8);
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
@@ -488,6 +491,7 @@ class ilObjGroup extends ilObject
 				unset($roleObj);
 			}
 			*/
+
 			//create permissionsettings for grp_admin and grp_member
 			$grp_DefaultRoles = $this->getDefaultGroupRoles();
 
@@ -495,8 +499,6 @@ class ilObjGroup extends ilObject
 			$rbacadmin->grantPermission($grp_DefaultRoles["grp_member_role"],$ops,$this->getRefId());
 			$ops = array(1,2,3,4,5,6,7,8);
 			$rbacadmin->grantPermission($grp_DefaultRoles["grp_admin_role"],$ops,$this->getRefId());
-
-
 		}
 	}
 
@@ -600,6 +602,57 @@ class ilObjGroup extends ilObject
 	$this->grp_tree->addTree($this->getRefId());
 	
 	}	
-	
+
+	/**
+	* copy all prperties and subobjects of a group.
+	* Does not copy the settings in the group's local role folder. Instead a new local role folder is created from
+	* the template settings (same process as creating a new group manually)
+	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
+	* 
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
+
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// get object instance
+		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
+
+		// create role folder and set up default local roles (like in saveObject)
+		include_once ("classes/class.ilObjRoleFolder.php");
+		$rfoldObj = new ilObjRoleFolder();
+		$rfoldObj->setTitle("Local roles");
+		$rfoldObj->setDescription("Role Folder of group ref_no.".$groupObj->getRefId());
+		$rfoldObj->create();
+		$rfoldObj->createReference();
+		$rfoldObj->putInTree($groupObj->getRefId());
+		$rfoldObj->setPermissions($groupObj->getRefId());
+
+		//the order is very important, please do not change: first create roles and join group, then setGroupStatus !!!
+		$groupObj->createGroupRoles($rfoldObj->getRefId());
+
+		//creator becomes admin of group
+		$groupObj->joinGroup($groupObj->getOwner(),"admin");
+		
+		// TODO: function getGroupStatus returns integer but setGroupStatus expects a string.
+		// I disabled this function. Please investigate
+		// shofmann@databay.de	4.7.03
+		// copy group status
+		// 0=public,1=private,2=closed
+		//$groupObj->setGroupStatus($this->getGroupStatus());
+		
+		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
+		$groupObj->createNewGroupTree();
+
+		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
+		unset($groupObj);
+		unset($rfoldObj);
+		unset($roleObj);
+
+		return $new_ref_id;
+	}
 } //END class.GroupObject
 ?>

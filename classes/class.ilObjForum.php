@@ -146,18 +146,44 @@ class ilObjForum extends ilObject
 	}
 
 	/**
-	* copy all entries of a forum object !!! IT MUST RETURN THE NEW OBJECT ID !!
-	* @param	integer	a_obj_id
-	* @param	integer	a_parent
-	* @param	integer	a_dest_id
-	* @param	integer	a_dest_parent
+	* copy all entries of a forum object.
+	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
+	* 
 	* @access	public
-	* @return	integer	new object id
+	* @return	integer	new ref id
 	*/
 	function clone($a_parent_ref)
 	{		
-		$new_obj_id = parent::clone($a_parent_ref);
+		global $rbacadmin;
+
+		$new_ref_id = parent::clone($a_parent_ref);
 		
+		// get object instance
+		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
+
+		// create role folder and set up default local roles (like in saveObject)
+		include_once ("classes/class.ilObjRoleFolder.php");
+		$rfoldObj = new ilObjRoleFolder();
+		$rfoldObj->setTitle("Local roles");
+		$rfoldObj->setDescription("Role Folder of forum ref_no.".$forumObj->getRefId());
+		$rfoldObj->create();
+		$rfoldObj->createReference();
+		$rfoldObj->putInTree($forumObj->getRefId());
+		$rfoldObj->setPermissions($forumObj->getRefId());
+
+		// create moderator role...
+		include_once ("classes/class.ilObjRole.php");
+		$roleObj = new ilObjRole();
+		$roleObj->setTitle("moderator_".$forumObj->getRefId());
+		$roleObj->setDescription("moderator of forum ref_no.".$forumObj->getRefId());
+		$roleObj->create();
+			
+		// ...and put the role into local role folder...
+		$rbacadmin->assignRoleToFolder($roleObj->getId(),$rfoldObj->getRefId(),$forumObj->getRefId(),"y");
+		
+		// ...finally assign moderator role to creator of forum object
+		$rbacadmin->assignUser($roleObj->getId(), $forumObj->getOwner(), "n");		
+
 		// get forum data
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
 		$topData = $this->Forum->getOneTopic();	
@@ -166,14 +192,11 @@ class ilObjForum extends ilObject
 		$q = "INSERT INTO frm_data ";
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id,visits,top_update,update_user) ";
 		$q .= "VALUES ";
-		$q .= "('".$new_obj_id."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$topData["top_mods"]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
+		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$topData["top_mods"]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
 		$this->ilias->db->query($q);
 		
 		// get last insert id and return it
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();
-		$new_top_pk = $lastInsert[0];
+		$new_top_pk = getLastInsertId();
 		
 		// get threads from old forum and insert them as copys
 		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
@@ -187,10 +210,7 @@ class ilObjForum extends ilObject
 			$this->ilias->db->query($q);
 			
 			// get last insert id and return it
-			$query = "SELECT LAST_INSERT_ID()";
-			$res = $this->ilias->db->query($query);
-			$lastInsert = $res->fetchRow();
-			$new_thr_pk = $lastInsert[0];
+			$new_thr_pk = getLastInsertId();
 						
 			// get posts from old thread and insert them as copys
 			$resPosts = $this->Forum->getPostList($topData["top_pk"], $thrData["thr_pk"]);
@@ -204,10 +224,7 @@ class ilObjForum extends ilObject
 				$this->ilias->db->query($q2);
 				
 				// get last insert id and return it
-				$query2 = "SELECT LAST_INSERT_ID()";
-				$res2 = $this->ilias->db->query($query2);
-				$lastInsert2 = $res2->fetchRow();
-				$new_pos_pk = $lastInsert2[0];	
+				$new_pos_pk = getLastInsertId();	
 				
 				// get tree data from old post and insert copy
 			    $q3 = "SELECT * FROM frm_posts_tree ";
@@ -222,7 +239,12 @@ class ilObjForum extends ilObject
 			}
 		}
 
-		return $new_obj_id;
+		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
+		unset($forumObj);
+		unset($rfoldObj);
+		unset($roleObj);
+
+		return $new_ref_id;
 	}
 } // END class.ForumObject
 ?>

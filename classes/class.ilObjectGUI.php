@@ -653,7 +653,7 @@ class ilObjectGUI
 	}
 
 	/**
-	* clear clipboard
+	* clear clipboard and go back to last object
 	*
 	* @access	public
 	*/
@@ -663,7 +663,6 @@ class ilObjectGUI
 		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-
 	}
 
 	/**
@@ -836,11 +835,12 @@ class ilObjectGUI
 		}
 
 		// NOW CLONE ALL OBJECTS
-		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach($_SESSION["clipboard"]["ref_ids"] as $id)
+		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
+		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
 		{
 			$this->cloneNodes($id,$this->ref_id);
 		}
+
 		$this->clearObject();
 	}
 
@@ -870,6 +870,7 @@ class ilObjectGUI
 				$this->cloneNodes($child["ref_id"],$new_ref_id);
 			}
 		}
+
 		return true;
 	}
 
