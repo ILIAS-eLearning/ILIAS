@@ -76,7 +76,7 @@ class ilCronClients extends PEAR
 
 			(int) $timest = fread($fp,filesize('cron.lock'));
 			
-			if($timest > time() - 2)
+			if($timest > time() - 60 * 60 * 12)
 			{
 				return true;
 			}
@@ -96,6 +96,11 @@ class ilCronClients extends PEAR
 		$this->log['enabled'] = $ini_file_obj->readVariable('log','enabled');
 		$this->log['path'] = $ini_file_obj->readVariable('log','path');
 		$this->log['file'] = $ini_file_obj->readVariable('log','file');
+
+		$this->web_enabled = $ini_file_obj->readVariable('cron','web_enabled');
+		$this->web_pass = $ini_file_obj->readVariable('cron','web_pass');
+		$this->__checkAccess();
+
 
 		$this->client_data = $ini_file_obj->readGroup('clients');
 		unset($ini_file_obj);
@@ -206,6 +211,28 @@ class ilCronClients extends PEAR
 			}
 		}
 	}
+
+	function __checkAccess()
+	{
+		if($_SERVER['REQUEST_URI'])
+		{
+			if(!$this->web_enabled or ($_GET['web_pass'] !== $this->web_pass))
+			{
+				if($this->log['enabled'])
+				{
+					include_once '../classes/class.ilLog.php';
+
+					$this->log =& new ilLog($this->log['path'],$this->log['file']);
+
+					$this->log->write('Cron: __checkAccess() failed');
+					
+					exit;
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 	function __ilCronClients()
