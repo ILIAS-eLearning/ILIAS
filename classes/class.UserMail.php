@@ -1,71 +1,72 @@
 <?php
 /**
- * user mail
- * 
- * this class handles user mails 
- * 
- * explanation of flags:
- * 1 : new/unread mail
- * 2 : read mail
- * 3 : deleted mail
- *  
- * @author Peter Gabriel <pgabriel@databay.de>
- * 
- * @package application
- * @version $Id$
- */
+* user mail
+* 
+* this class handles user mails 
+* 
+* explanation of flags:
+* 1 : new/unread mail
+* 2 : read mail
+* 3 : deleted mail
+*  
+* @author	Peter Gabriel <pgabriel@databay.de>
+* 
+* @extends	PEAR
+* @package	application
+* @version $Id$
+*/
 class UserMail extends PEAR
 {
-    /**
-     * User Id
-     *
-	 * @var integer
-     */
-    var $id;					
+	/**
+	* User Id
+	*
+	* @var integer
+	*/
+	var $id;
 
-    /**
-     * database handler
-     *
-     * @var object DB
-     */	
-    var $db;
+	/**
+	* database handler
+	*
+	* @var object DB
+	*/	
+	var $db;
 
-    /**
-     * Constructor
-     *
-     * setup an usermail object
-     *
-     * @param object database handler
-     * @param string UserID
-     */
-    function UserMail(&$dbhandle, $aUsrId = "")
-    {
+	/**
+	* Constructor
+	*
+	* setup an usermail object
+	*
+	* @param object database handler
+	* @param string UserID
+	*/
+	function UserMail(&$dbhandle, $aUsrId = "")
+	{
 
 		// Initiate variables
 		$this->db =& $dbhandle;
 
 		if (!empty($aUsrId) and ($aUsrId > 0))
 		{
-		    $this->id = $aUsrId;
+			$this->id = $aUsrId;
 		}
-    }
+	}
 
 
-    /**
+	/**
 	* delete a mail
-    * @param int
+	* @param int
 	* @return boolean
 	* @access public
-    */
-	 function rcpDelete ($aMsgId)
-	 {
-		 if (empty($aMsgId))
-		 {
-		 	return true;
-		 }
-		 else
-		 {
-		 	//delete mail here
+	*/
+	function rcpDelete ($aMsgId)
+	{
+		if (empty($aMsgId))
+		{
+			return true;
+		}
+		else
+		{
+			//delete mail here
 			//TODO: security, only delete if it is allowed
 			
 			$sql = "UPDATE mail SET rcp_folder='trash' WHERE id=".$aMsgId;
@@ -73,30 +74,29 @@ class UserMail extends PEAR
 			$this->db->query($sql);
 
 			return true;
-		 }
-	 }
-	 
-	
-    /**
+		}
+	}
+
+	/**
 	* set mailstatus
 	* 
 	* set the status of a mail. valid stati are
 	* 1: new, 2: read, 3: deleted, 4: erased, 5: saved, 6: sent
 	* 
-    * @param int
+	* @param int
 	* @param string rcp or snd
 	* @param string
 	* @return boolean
 	* @access public
-    */
-	 function setStatus($aMsgId, $who, $status)
-	 {
-		 if (empty($aMsgId) || ($who != "rcp" && $who != "snd") || $status=="")
-		 {
-		 	return false;
-		 }
-		 else
-		 {
+	*/
+	function setStatus($aMsgId, $who, $status)
+	{
+		if (empty($aMsgId) || ($who != "rcp" && $who != "snd") || $status=="")
+		{
+			return false;
+		}
+		else
+		{
 			//TODO: security, only perform an action if allowed to
 			switch ($status)
 			{
@@ -127,103 +127,103 @@ class UserMail extends PEAR
 			$this->db->query($sql);
 
 			return true;
-		 }
-	 }
-	 
-		 
-	 /**
-	  * get mail
-	  *
-	  * @param string
-	  * @return array mails
-	  * @access public
-	  */
-	 function getMail($folder = "inbox")
-	 {
-		 global $lng;
+		}
+	}
 
-			//initialize array
-			$mails = array();
-			$mails["count"] = 0;
-			$mails["unread"] = 0;
-			$mails["read"] = 0;
-			//initialize msg-array
-			$mails["msg"] = array();
-			//query
-			$sql = "SELECT * FROM mail
-			              WHERE rcp='".$this->id."'
-				 AND rcp_folder='".$folder."'
-				 AND (rcp_flag=1 OR rcp_flag=2)";
-			$r = $this->db->query($sql);
+	/**
+	* get mail
+	*
+	* @param string
+	* @return array mails
+	* @access public
+	*/
+	function getMail($folder = "inbox")
+	{
+		global $lng;
 
-		 
-		 while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		 {
-			 if ($row["rcp_flag"]==1)
-			 	$mails["unread"]++;
-			 if ($row["rcp_flag"]==2)
-			 	$mails["read"]++;
+		//initialize array
+		$mails = array();
+		$mails["count"] = 0;
+		$mails["unread"] = 0;
+		$mails["read"] = 0;
+		//initialize msg-array
+		$mails["msg"] = array();
+		//query
+		$sql = "SELECT * FROM mail
+				WHERE rcp='".$this->id."'
+				AND rcp_folder='".$folder."'
+				AND (rcp_flag=1 OR rcp_flag=2)";
 
-			 $mails["msg"][] = array(
-				 "id" => $row["id"],
-				 "from" => $row["snd"],
-				 "email" => $row["email"],
-				 "subject" => $row["subject"],
-				 "body" => $row["body"],
-				 "datetime" => $lng->fmtDateTime($row["date_send"]),
-				 "new" => $row["new"]
-			 );
-		 }
-		 		 
-		 $mails["count"] = $mails["read"] + $mails["unread"];
-		 return $mails;
-	 }
+		$r = $this->db->query($sql);
 
-	 /**
-	  * get one mail
-	  *
-	  * @param int
-	  * @return array mail
-	  * @access public
-	  */
-	 function getOneMail($id)
-	 {
-		 global $lng;
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($row["rcp_flag"]==1)
+				$mails["unread"]++;
+			if ($row["rcp_flag"]==2)
+				$mails["read"]++;
 
-		 //initialize array
-		 $mail = array();
+			$mails["msg"][] = array(
+				"id" => $row["id"],
+				"from" => $row["snd"],
+				"email" => $row["email"],
+				"subject" => $row["subject"],
+				"body" => $row["body"],
+				"datetime" => $lng->fmtDateTime($row["date_send"]),
+				"new" => $row["new"]
+			);
+		}
 
-		 //query
-		 $sql = "SELECT * FROM mail
-                 WHERE rcp='".$this->id."'
-				 AND id='".$id."'";
-		 $r = $this->db->query($sql);
-	 
-		 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-		 //if mail is marked as unread mark it as read now
-		 if ($row["rcp_flag"]==1)
-			 $this->setStatus($id, "rcp", "read");
+		$mails["count"] = $mails["read"] + $mails["unread"];
+		return $mails;
+	}
 
-		 $mail = array(
-			 "id" => $row["id"],
-			 "from" => $row["snd"],
-			 "email" => $row["email"],
-			 "subject" => $row["subject"],
-			 "body" => $row["body"],
-			 "datetime" => $lng->fmtDateTime($row["date_send"]),
-			 "new" => 0
-			 );
-		 return $mail;
-	 }
+	/**
+	* get one mail
+	*
+	* @param int
+	* @return array mail
+	* @access public
+	*/
+	function getOneMail($id)
+	{
+		global $lng;
 
-	 /**
-	 * get MailFolder of the User
-	 * @return array
-	 * @access public
-	 */
-	 function getMailFolders()
-	 {
-	 	$folders = array();
+		//initialize array
+		$mail = array();
+
+		//query
+		$sql = "SELECT * FROM mail
+				WHERE rcp='".$this->id."'
+				AND id='".$id."'";
+		$r = $this->db->query($sql);
+
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		//if mail is marked as unread mark it as read now
+		if ($row["rcp_flag"]==1)
+			$this->setStatus($id, "rcp", "read");
+
+		$mail = array(
+			"id" => $row["id"],
+			"from" => $row["snd"],
+			"email" => $row["email"],
+			"subject" => $row["subject"],
+			"body" => $row["body"],
+			"datetime" => $lng->fmtDateTime($row["date_send"]),
+			"new" => 0
+			);
+		return $mail;
+	}
+
+	/**
+	* get MailFolder of the User
+	* @return array
+	* @access public
+	*/
+	function getMailFolders()
+	{
+		$folders = array();
 		$folders[] = array(
 			"name" => "inbox"
 		);
@@ -240,25 +240,25 @@ class UserMail extends PEAR
 			"name" => "trash"
 		);
 		return $folders;
-	 }
-		 	 
-	 /**
-	  * send mail to recipient
-	  *
-	  * @param int
-	  * @param string
-	  * @param string
-	  * @access public
-	  */
- 	 function sendMail($rcp, $subject, $body)
-	 {
+	}
+
+	/**
+	* send mail to recipient
+	*
+	* @param int
+	* @param string
+	* @param string
+	* @access public
+	*/
+	function sendMail($rcp, $subject, $body)
+	{
 		$sql = "INSERT INTO mail
 				(snd, rcp, subject, body, snd_flag, rcp_flag, date_send)
 				VALUES
 				('".$this->id."', '".$rcp."', '".$subject."', '".$body."','6', '1', NOW())";
 
 		$this->db->query($sql);
-	 }
-	 
-} // END class user
+	}
+
+} // END classMail
 ?>
