@@ -104,6 +104,15 @@ foreach ($taken_array as $key => $value) {
 	}
 	$tpl->setVariable("TEST_TITLE", $value["test"]["test"]->getTitle() . $resume);
 	$tpl->parseCurrentBlock();
+	$counter++;
+}
+
+if (!$counter) {
+	// there are no taken tests
+	$tpl->setCurrentBlock("emptyrow");
+	$tpl->setVariable("NO_TAKEN_TESTS", $lng->txt("tst_no_taken_tests"));
+	$tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+	$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("adm_content");
 $tpl->setVariable("TEST_TITLE", $lng->txt("title"));
