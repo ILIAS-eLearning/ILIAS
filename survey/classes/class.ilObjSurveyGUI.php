@@ -3829,31 +3829,132 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 */
 
+	/*
+	* list all export files
+	*/
 	function exportObject()
 	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-			if ($_POST["cmd"]["export"])
+		global $tree;
+
+		//$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "survey.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("svy_create_export_file"));
+		$this->tpl->parseCurrentBlock();
+
+		$export_dir = $this->object->getExportDirectory();
+		$export_files = $this->object->getExportFiles($export_dir);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "survey.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+
+		$tbl->setTitle($this->lng->txt("svy_export_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("svy_file"),
+			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "export", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
 			{
-				ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
 			}
-			$add_parameter = $this->getAddParameter();
-			if (!defined("ILIAS_MODULE"))
-			{
-				define("ILIAS_MODULE", "survey");
-			}
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_export.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORMACTION", $add_parameter);
-			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
 			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* create export file
+	*/
+	function createExportFileObject()
+	{
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			require_once("survey/classes/class.ilSurveyExport.php");
+			$survey_exp = new ilSurveyExport($this->object);
+			$survey_exp->buildExportFile();
+			$this->exportObject();
 		}
 		else
 		{
-			sendInfo("cannot_export_test");
+			sendInfo("cannot_export_survey");
 		}
 	}
-	
+
 	/**
 	* display dialogue for importing tests
 	*
@@ -3896,7 +3997,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function uploadObject()
+	function uploadObject($redirect = true)
 	{
 		if ($_POST["spl"] < 1)
 		{
@@ -3930,8 +4031,240 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$newObj->update();
 		$newObj->saveToDb();
-		ilUtil::redirect("adm_object.php?".$this->link_params);
+		if ($redirect)
+		{
+			ilUtil::redirect("adm_object.php?".$this->link_params);
+		}
 	}
 
+	/**
+	* form for new content object creation
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$this->getTemplateFile("create", $new_type);
+
+			require_once("./survey/classes/class.ilObjSurvey.php");
+			$svy = new ilObjSurvey();
+			
+			$surveys =& ilObjSurvey::_getAvailableSurveys(true);
+			if (count($surveys) > 0)
+			{
+				foreach ($surveys as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("option_svy");
+					$this->tpl->setVariable("OPTION_VALUE_SVY", $key);
+					$this->tpl->setVariable("TXT_OPTION_SVY", $value);
+					if ($_POST["svy"] == $key)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED_SVY", " selected=\"selected\"");				
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
+			$questionpools =& $svy->getAvailableQuestionpools(true);
+			if (count($questionpools) > 0)
+			{
+				foreach ($questionpools as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("option_spl");
+					$this->tpl->setVariable("OPTION_VALUE", $key);
+					$this->tpl->setVariable("TXT_OPTION", $value);
+					if ($_POST["spl"] == $key)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");				
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_short"));
+			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->tpl->setVariable("TXT_IMPORT_SVY", $this->lng->txt("import_svy"));
+			$this->tpl->setVariable("TXT_SVY_FILE", $this->lng->txt("svy_upload_file"));
+			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+			$this->tpl->setVariable("TXT_DUPLICATE_SVY", $this->lng->txt("duplicate_svy"));
+			$this->tpl->setVariable("TXT_SELECT_SVY", $this->lng->txt("obj_svy"));
+			$this->tpl->setVariable("OPTION_SELECT_SVY", $this->lng->txt("select_svy_option"));
+			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
+		}
+	}
+	
+	/**
+	* form for new test object duplication
+	*/
+	function cloneAllObject()
+	{
+		if ($_POST["svy"] < 1)
+		{
+			sendInfo($this->lng->txt("svy_select_surveys"));
+			$this->createObject();
+			return;
+		}
+		require_once "./survey/classes/class.ilObjSurvey.php";
+		ilObjSurvey::_clone($_POST["svy"]);
+		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+	}
+	
+	/**
+	* form for new survey object import
+	*/
+	function importFileObject()
+	{
+		if ($_POST["spl"] < 1)
+		{
+			sendInfo($this->lng->txt("svy_select_questionpools"));
+			$this->createObject();
+			return;
+		}
+		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
+		{
+			sendInfo($this->lng->txt("svy_select_file_for_import"));
+			$this->createObject();
+			return;
+		}
+		$this->uploadObject(false);
+		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+	}
+
+	/**
+	* download export file
+	*/
+	function downloadExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//$this->setTabs();
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", "survey.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFileObject()
+	{
+		session_unregister("ilExportFiles");
+		ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
+	}
+
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFileObject()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+			if (@is_dir($exp_dir))
+			{
+				ilUtil::delDir($exp_dir);
+			}
+		}
+		ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
+	}
+
+	
 } // END class.ilObjSurveyGUI
 ?>

@@ -983,6 +983,11 @@ class SurveyQuestion {
 		);
 		$result = $this->ilias->db->query($query);
 
+		$query = sprintf("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
 		$query = sprintf("DELETE FROM survey_survey_question WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
@@ -1033,5 +1038,38 @@ class SurveyQuestion {
     }
   }
 
+/**
+* Returns the original id of a question
+*
+* Returns the original id of a question
+*
+* @param integer $question_id The database id of the question
+* @return integer The database id of the original question
+* @access public
+*/
+	function _getOriginalId($question_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["original_id"] > 0)
+			{
+				return $row["original_id"];
+			}
+			else
+			{
+				return $row["question_id"];
+			}
+		}
+		else
+		{
+			return "";
+		}
+	}
 }
 ?>
