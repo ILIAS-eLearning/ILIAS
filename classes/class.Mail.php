@@ -114,7 +114,7 @@ class Mail
 	/**
 	* get all mails of a specific folder
 	* @access	public
-	* @param	int id of folder
+	* @param	integer id of folder
 	* @return	array	mails
 	*/
 	function getMailsOfFolder($a_folder_id)
