@@ -8,14 +8,6 @@
 class xml2sql
 {
 	/**
-	* domxml object
-	* 
-	* @var object domxml
-	* @access public 
-	*/
-	var $domxml;
-
-	/**
 	* unique object id
 	* 
 	* @var integer obj_id
@@ -306,6 +298,40 @@ class xml2sql
 		}
 		
 		return $data;
+	}
+
+	// information saved in $mapping how the LOs are connected in the this Module is
+	// written to tree
+	function insertStructureIntoTree($a_nodes,$a_id)
+	{
+		// init tree
+		$lm_tree = new Tree($a_id,$a_id,$a_id,$a_id);
+		
+		//prepare array and kick all nodes with no children
+		foreach ($a_nodes as $key => $nodes)
+		{
+			if (!is_array($nodes[key($nodes)]))
+			{
+				array_splice($a_nodes,$key);
+				break;
+			}
+		}
+
+		// insert first_node
+		$parent_id = $a_id;
+		$lm_tree->insertNode(key($a_nodes[0]),$parent_id,0);
+		
+		// traverse array to build tree structure by inserting nodes to db-table tree
+		foreach ($a_nodes as $key => $nodes)
+		{
+			$parent_parent_id = $parent_id;
+			$parent_id = key($nodes);
+
+			foreach (array_reverse($nodes[$parent_id]) as $child_id)
+			{
+				$lm_tree->insertNode($child_id,$parent_id,$parent_parent_id);
+			}
+		}
 	}
 } // END class xml2sql
 ?>
