@@ -40,6 +40,32 @@ body { margin:0px; }
 </td>
 
 <td width="50%" valign="top">
+<!-- BEGIN tbl_bm -->
+<h2>{TXT_BM_HEADER}</h2>
+<table class="fullwidth">
+  <tr class="tblheader">
+	<td class="std"><b>{TXT_BM_TITLE}</b></td>
+  </tr>
+<!-- BEGIN tbl_bm_row -->
+  <tr class="{ROWCOL}">
+	<td class="std"><a href="{BM_LINK}" CLASS="navigation" target="bottom">{BM_TITLE}</a>
+	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	</td>
+  </tr>
+<!-- END tbl_bm_row -->
+<!-- BEGIN tbl_no_bm -->
+  <tr class="{ROWCOL}">
+	<td class="std">{TXT_NO_BM}</td>
+  </tr>
+<!-- END tbl_no_bm -->
+</table>
+<!-- END tbl_bm -->
+    </td>
+
+  </tr>
+  <tr>
+  
+<td width="50%" valign="top">
 <!-- BEGIN tbl_frm -->
 <h2>{TXT_FRM_HEADER}</h2>
 <table class="fullwidth">
@@ -61,10 +87,37 @@ body { margin:0px; }
 </table>
 <!-- END tbl_frm -->
     </td>
+	
+	<td>
+	<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" />
+	</td>
+
+<td width="50%" valign="top">
+<!-- BEGIN tbl_grp -->
+<h2>{TXT_GRP_HEADER}</h2>
+<table class="fullwidth">
+  <tr class="tblheader">
+	<td class="std"><b>{TXT_GRP_TITLE}</b></td>
+  </tr>
+<!-- BEGIN tbl_grp_row -->
+  <tr class="{ROWCOL}">
+	<td class="std"><a href="{GRP_LINK}" CLASS="navigation" target="bottom">{GRP_TITLE}</a>
+	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	</td>
+  </tr>
+<!-- END tbl_grp_row -->
+<!-- BEGIN tbl_no_grp -->
+  <tr class="{ROWCOL}">
+	<td class="std">{TXT_NO_GRP}</td>
+  </tr>
+<!-- END tbl_no_grp -->
+</table>
+<!-- END tbl_grp -->
+    </td>
 
   </tr>
   <tr>
-  
+
     <td width="50%" valign="top">
 <!-- BEGIN tbl_users -->
 <h2>{TXT_USERS_ONLINE}</h2>
