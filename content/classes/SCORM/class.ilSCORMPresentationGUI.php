@@ -314,7 +314,7 @@ class ilSCORMPresentationGUI
 		if ($lesson_mode == "normal")
 		{
 			$this->tpl->setVariable("CREDIT_MODE",
-				str_replace("_", " ", $this->slm->getCreditMode()));
+				str_replace("_", "-", $this->slm->getCreditMode()));
 		}
 		else
 		{
