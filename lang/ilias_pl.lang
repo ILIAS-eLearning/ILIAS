@@ -491,6 +491,7 @@ common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
 common#:#member#:#Członek
 common#:#members#:#Członkowie
+common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
 common#:#message#:#Wiadomość
 common#:#message_content#:#Zawartość wiadomości
 common#:#message_to#:#Wiadomość do:
@@ -564,7 +565,7 @@ common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwą
 common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
 common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz inną nazwę.
 common#:#msg_roleassignment_active_changed#:#Zmieniono przydział aktywnych stanowisk.
-common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.
+common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.###25 Nov 2003 content changed
 common#:#msg_roleassignment_changed#:#Przydział stanowisk został zmieniony.
 common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie może być usunięte.
 common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień stanowiska systemowego nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do stanowiska systemowego posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
@@ -647,6 +648,7 @@ common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
+common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
 common#:#objs_delete#:#Usuń obiekty
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
@@ -1003,6 +1005,7 @@ content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_mob_files#:#Pliki obiektowe
 content#:#cont_mob_inst_prop#:#Właściwości instancji
 content#:#cont_mob_prop#:#Właściwości obiektu
+content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
 content#:#cont_month#:#Miesiąc
 content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu 
 content#:#cont_new_assignment#:#Nowy przydział
@@ -1181,6 +1184,7 @@ mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
 mail#:#mail_options_of#:#Opcje
+mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
 mail#:#mail_s#:#Wiadomości
 mail#:#mail_s_unread#:#Nieprzeczytane wiadomości

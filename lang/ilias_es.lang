@@ -491,6 +491,7 @@ common#:#mark_all_read#:#mark all as read
 common#:#mark_all_unread#:#mark all as unread
 common#:#member#:#Member###04 Nov 2003 new variable
 common#:#members#:#members
+common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
 common#:#message#:#message
 common#:#message_content#:#message content
 common#:#message_to#:#message to:
@@ -647,6 +648,7 @@ common#:#obj_usrf#:#User Administration###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Manage user accounts here.###01 Oct 2003 new variable
 common#:#objects#:#objects
 common#:#objf#:#objf###02 Oct 2003 content changed
+common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
 common#:#objs_delete#:#Delete objects###02 Oct 2003 new variable
 common#:#of#:#de
 common#:#offline_version#:#offline version
@@ -1006,6 +1008,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variabl
 content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
 content#:#cont_mob_inst_prop#:#Instance Properties###27 Oct 2003 new variable
 content#:#cont_mob_prop#:#Object Properties###27 Oct 2003 new variable
+content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
 content#:#cont_month#:#Month###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#New assignment###26 Sep 2003 new variable
@@ -1184,6 +1187,7 @@ mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#No attachments found###16 Apr 2003 new variable
 mail#:#mail_options_of#:#Options:###16 Apr 2003 new variable
+mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#The recipient is not valid###16 Apr 2003 new variable
 mail#:#mail_s#:#Mail(s)###16 Apr 2003 new variable
 mail#:#mail_s_unread#:#Unread Mail(s)###16 Apr 2003 new variable
