@@ -542,6 +542,7 @@ common#:#cont_object#:#Objeto
 common#:#contact_data#:#Información de Contacto
 common#:#container#:#Contenedor
 common#:#context#:#context
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#-copy-
 common#:#copy_of#:#-Copia de-
 common#:#country#:#país
@@ -1724,6 +1725,7 @@ content#:#cont_derive_from_obj#:#Derivar del Objeto
 content#:#cont_details#:#Detalles
 content#:#cont_dir_file#:#Directorio/Fichero
 content#:#cont_disable_media#:#Deshabilitar Multimedia
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Editar Area
 content#:#cont_edit_file_list_properties#:#Editar Propiedades de la Lista de Ficheros
 content#:#cont_edit_mob#:#Editar Objeto Media
@@ -1731,6 +1733,7 @@ content#:#cont_edit_mob_alias_prop#:#Editar Propiedades de la Instancia del Medi
 content#:#cont_edit_mob_files#:#Ficheros del Objeto
 content#:#cont_edit_mob_properties#:#Editar Propiedades de Media Object
 content#:#cont_edit_par#:#Editar Párrafo
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Propiedades de Tabla
 content#:#cont_edit_term#:#Editar Término
 content#:#cont_edition#:#Edición
@@ -1758,6 +1761,7 @@ content#:#cont_insert_list#:#Insertar Lista
 content#:#cont_insert_mob#:#Insertar Media Object
 content#:#cont_insert_par#:#Insertar Párrafo
 content#:#cont_insert_search#:#Por favor introduzca un término de búsqueda
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Insertar Tabla
 content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#enlace interno
@@ -1873,8 +1877,10 @@ content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Show###19 Sep 2003 new variable
 content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###27 Oct 2003 new variable

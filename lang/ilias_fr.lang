@@ -613,6 +613,7 @@ common#:#cont_object#:#Objet
 common#:#contact_data#:#Informations de contact
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Contexte
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copie
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copie de
@@ -1837,6 +1838,7 @@ content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Détails
 content#:#cont_dir_file#:#Répertoire/fichier
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers
 content#:#cont_edit_mob#:#Modifier objet média
@@ -1844,6 +1846,7 @@ content#:#cont_edit_mob_alias_prop#:#Modifier propriétés de l'instance de l'ob
 content#:#cont_edit_mob_files#:#Fichiers objets
 content#:#cont_edit_mob_properties#:#Modifier propriétés de l'objet média
 content#:#cont_edit_par#:#Modifier paragraphe
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Propriétés du tableau
 content#:#cont_edit_term#:#Modifier terme
 content#:#cont_edition#:#Edition
@@ -1871,6 +1874,7 @@ content#:#cont_insert_list#:#Inérer liste
 content#:#cont_insert_mob#:#Insérer objet média
 content#:#cont_insert_par#:#Insérer paragraphe
 content#:#cont_insert_search#:#Veuillez insérer un terme de recherche
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Insérer tableau
 content#:#cont_internal#:#internal###14 Feb 2004 new variable
 content#:#cont_internal_link#:#lien interne
@@ -1993,8 +1997,10 @@ content#:#cont_set_width#:#Fixer la largeur
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Afficher
 content#:#cont_show_citation#:#Afficher avec citation
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Taille (octets)
 content#:#cont_source#:#Source###01 Apr 2004 content changed
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Titre de chapitre
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable

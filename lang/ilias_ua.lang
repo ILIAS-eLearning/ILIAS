@@ -613,6 +613,7 @@ common#:#cont_object#:#Об'єкт
 common#:#contact_data#:#Контактна Інформація
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Контекст
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Копіювати
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Копія
@@ -1837,6 +1838,7 @@ content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Деталі
 content#:#cont_dir_file#:#Директорія/Файл
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів
 content#:#cont_edit_mob#:#Редагувати Медіа Об'єкт
@@ -1844,6 +1846,7 @@ content#:#cont_edit_mob_alias_prop#:#Редагувати Властивості
 content#:#cont_edit_mob_files#:#Файли Об'єкта
 content#:#cont_edit_mob_properties#:#Редагувати Властивості Медіа Об'єкта
 content#:#cont_edit_par#:#Редагувати Параграф
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Властивості Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випуск
@@ -1871,6 +1874,7 @@ content#:#cont_insert_list#:#Вставити Список
 content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
 content#:#cont_insert_par#:#Вставити Параграф
 content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Вставити Таблицю
 content#:#cont_internal#:#внутрішній
 content#:#cont_internal_link#:#внутрішнє посилання
@@ -1993,8 +1997,10 @@ content#:#cont_set_width#:#Встановити Ширину
 content#:#cont_shape#:#Форма
 content#:#cont_show#:#Показати
 content#:#cont_show_citation#:#Показати з цитуванням
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Розмір (Байтів)
 content#:#cont_source#:#Quelle###01 Apr 2004 content changed
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Назва Глави
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable

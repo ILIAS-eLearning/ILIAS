@@ -461,7 +461,6 @@ common#:#actions#:#Actions
 common#:#activation#:#Activation
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#continue_work#:#Continue
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
@@ -614,6 +613,7 @@ common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
 common#:#container#:#Container
 common#:#context#:#Context
+common#:#continue_work#:#Continue
 common#:#copy#:#Copy
 common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
@@ -1846,8 +1846,8 @@ content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mob_files#:#Object Files
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties
 content#:#cont_edit_par#:#Edit Paragraph
-content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_src#:#Edit source code
+content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_enable_media#:#Enable Media
@@ -1976,7 +1976,6 @@ content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_show_line_numbers#:#Show line numbers
 content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
@@ -1998,6 +1997,7 @@ content#:#cont_set_width#:#Set Width
 content#:#cont_shape#:#Shape
 content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
+content#:#cont_show_line_numbers#:#Show line numbers
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_src#:#Source code
