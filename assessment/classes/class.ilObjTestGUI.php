@@ -1350,24 +1350,31 @@ class ilObjTestGUI extends ilObjectGUI
 		$add_parameter = $this->getAddParameter();
 		$available_qpl =& $this->object->getAvailableQuestionpools(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", true);
-		if (!array_key_exists("countqpl_0", $_POST))
+		$found_qpls = array();
+		if (count($_POST) == 0)
 		{
-			// create first questionpool row automatically
-			foreach ($available_qpl as $key => $value)
+			$found_qpls = $this->object->getRandomQuestionpools();
+		}
+		if (count($found_qpls) == 0)
+		{
+			if (!array_key_exists("countqpl_0", $_POST))
 			{
-				$this->tpl->setCurrentBlock("qpl_value");
-				$this->tpl->setVariable("QPL_ID", $key);
-				$this->tpl->setVariable("QPL_TEXT", $value);
+				// create first questionpool row automatically
+				foreach ($available_qpl as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("qpl_value");
+					$this->tpl->setVariable("QPL_ID", $key);
+					$this->tpl->setVariable("QPL_TEXT", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("questionpool_row");
+				$this->tpl->setVariable("COUNTQPL", "0");
+				$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
+				$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+				$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("questionpool_row");
-			$this->tpl->setVariable("COUNTQPL", "0");
-			$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
-			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-			$this->tpl->parseCurrentBlock();
 		}
-		$found_qpls = array();
 		$qpl_unselected = 0;
 		foreach ($_POST as $key => $value)
 		{
@@ -1467,6 +1474,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->saveRandomQuestionCount($_POST["total_questions"]);
 			$this->object->saveRandomQuestionpools($found_qpls);
+			$this->object->saveCompleteStatus();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_SELECT_RANDOM_QUESTIONS", $this->lng->txt("tst_select_random_questions"));
@@ -2071,6 +2079,29 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
 		{
+			if ($_POST["cmd"]["start"] && $this->object->isRandomTest())
+			{
+				if ($this->object->getRandomQuestionCount() > 0)
+				{
+				}
+				else
+				{
+					$qpls =& $this->object->getRandomQuestionpools();
+					foreach ($qpls as $key => $value)
+					{
+						if ($value["count"] > 0)
+						{
+							$rndquestions = $this->object->randomSelectQuestions($value["count"], $value["qpl"], 1);
+							foreach ($rndquestions as $question_id)
+							{
+								$this->object->saveRandomQuestion($question_id);
+							}
+							$this->object->loadQuestions();
+						}
+					}
+				}
+			}
+			
 			// create new time dataset and set start time
 			$active_time_id = $this->object->startWorkingTime($ilUser->id);
 			$_SESSION["active_time_id"] = $active_time_id;
