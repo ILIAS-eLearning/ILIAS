@@ -6,10 +6,7 @@
 
 <body>
 
-Popup footnote!
-<p>
-
-<b>Fussnoten / Footnotes</b>
+<b>{TXT_FOOTNOTES}</b>
 
 <ul>
 
@@ -25,18 +22,18 @@ Popup footnote!
 	
 <form name='form'>
 <hr size=1>
-Neue Fussnote eintragen:<br>
+{TXT_INSERT_NEW_FOOTNOTES}:<br>
 <input type='text' size=30 style='width:100%' name='fn'>
 <p>
 <table cellspacing=0 cellpadding=0 width=100%>
 	<tr>
 		<td>
 			<input 	type='button' 
-					value='Fussnote eintragen' 
+					value='{BTN_SUBMIT}' 
 					onClick="opener.addFussnote(document.form.fn.value);opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');window.close();">
 		</td>
 		<td align=right>
-			<input type='button' value='Fenster schliessen' onClick='window.close();'>
+			<input type='button' value='{BTN_CLOSE}' onClick='window.close();'>
 		</td>
 	</tr>
 </table>

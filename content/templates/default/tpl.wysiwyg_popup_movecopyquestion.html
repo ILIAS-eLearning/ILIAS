@@ -12,18 +12,18 @@
 
 <form name="form">
 <br><br>
-	<input type="radio" name="position" value="after" checked>Dahinter einfügen<br>
-	<input type="radio" name="position" value="before">Davor einfügen<br>
+	<input type="radio" name="position" value="after" checked>{TXT_SET_AFTER}<br> <!-- Dahinter einfügen -->
+	<input type="radio" name="position" value="before">{TXT_SET_BEFORE}<br> <!-- Davor einfügen -->
 	<p>
-	<input type="radio" name="copymove" value="move" checked>Objekt verschieben<br>
-	<input type="radio" name="copymove" value="copy">Objekt kopieren<br>
+	<input type="radio" name="copymove" value="move" checked>{TXT_MOVE_OBJECT}<br> <!-- Objekt verschieben -->
+	<input type="radio" name="copymove" value="copy">{TXT_COPY_OBJECT}<br>	<!-- Objekt kopieren -->
 	<p>
 <br><br>	
 	<table cellspacing=0 cellpadding=0 width=100%><tr>
 		<td>
-			<input type="button" value="Ausführen" onClick="doAction();" class="submit">
+			<input type="button" value="{BTN_SUBMIT}" onClick="doAction();" class="submit">
 		</td><td align=right>
-			<input type="button" value="Schließen" onClick="window.close();" class="submit">
+			<input type="button" value="{BTN_CLOSE}" onClick="window.close();" class="submit">
 		</td>
 	</tr></table>
 		
