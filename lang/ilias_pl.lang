@@ -138,6 +138,7 @@ assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#circle_click_circle#:#Kliknij na punkt okręgu wybranego obszaru.
 assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#code#:#Kod
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią utworzoną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
 assessment#:#coordinates#:#Koordynaty
 assessment#:#correct_solution_is#:#Prawidłowa odpowiedź to
@@ -326,10 +327,10 @@ assessment#:#result#:#Wynik
 assessment#:#save_before_upload_imagemap#:#Musisz zastosować zmiany przed załadowaniem mapy bitowej!
 assessment#:#save_before_upload_javaapplet#:#Musisz zastosować zmiany przed załadowaniem apletu javy!
 assessment#:#save_edit#:#Modyfikuj i Zapisz zawartość
-assessment#:#save_finish#:#Zachowaj i zakończ test
-assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
-assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
-assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania
+assessment#:#save_finish#:#Zachowaj i zakończ test###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu###21 Dec 2004 content changed
+assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania###21 Dec 2004 content changed
+assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Przejrzyj opis szczegółowy sugerowanych rozwiązań
@@ -4069,6 +4070,8 @@ survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Musisz wybrać conajmniej jedną kategorię dla zapisania frazy!
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Połączenie
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią wykonaną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
 survey#:#constraints#:#Ograniczenia wyboru
 survey#:#contains#:#Zawiera
@@ -4146,6 +4149,7 @@ survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
 survey#:#enter_anonymous_id#:#Kod dostępu do Ankiety
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Dodaj nagłówek!

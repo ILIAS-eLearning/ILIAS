@@ -135,6 +135,7 @@ assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désir�
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée
 assessment#:#cloze_text#:#Texte de closure
 assessment#:#code#:#Code
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?###19 Nov 2004 content changed
 assessment#:#coordinates#:#Coordonnées
 assessment#:#correct_solution_is#:#La solution correcte est
@@ -320,10 +321,10 @@ assessment#:#reset_filter#:#Remettre le filtre à zéro
 assessment#:#result#:#Resultat
 assessment#:#save_before_upload_imagemap#:#Vous devez appliquer vos changements avant de pouvoir télécharger une image réactive.
 assessment#:#save_before_upload_javaapplet#:#Vous devez appliquer vos changements avant de pouvoir télécharger une applet Java
-assessment#:#save_finish#:#Enregistrer et terminer le test
-assessment#:#save_introduction#:#Enregistrer et aller à l'introduction
-assessment#:#save_next#:#Enregistrer et aller à la prochaine question
-assessment#:#save_previous#:#Enregistrer et aller à la question précédente
+assessment#:#save_finish#:#Enregistrer et terminer le test###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Enregistrer et aller à l'introduction###21 Dec 2004 content changed
+assessment#:#save_next#:#Enregistrer et aller à la prochaine question###21 Dec 2004 content changed
+assessment#:#save_previous#:#Enregistrer et aller à la question précédente###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Voir détails pour les solutions proposées
@@ -4038,6 +4039,8 @@ survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Concaténation
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#La question que vous avez modifiée est une copie qui a été créée pour l'utilisation dans le sondage en cours. Voulez-vous également modifier l'original de cette question ?
 survey#:#constraints#:#Contraintes
 survey#:#contains#:#Contient
@@ -4115,6 +4118,7 @@ survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
 survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Saisissez une valeur
 survey#:#error_add_heading#:#Veuillez ajouter un titre.

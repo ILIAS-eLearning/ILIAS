@@ -138,6 +138,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
@@ -326,10 +327,10 @@ assessment#:#result#:#Ergebnis
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
-assessment#:#save_finish#:#Speichern und Test fertigstellen
-assessment#:#save_introduction#:#Speichern und zur Einführung
-assessment#:#save_next#:#Speichern und zur nächsten Frage
-assessment#:#save_previous#:#Speichern und zur vorigen Frage
+assessment#:#save_finish#:#Speichern und Test fertigstellen###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Speichern und zur Einführung###21 Dec 2004 content changed
+assessment#:#save_next#:#Speichern und zur nächsten Frage###21 Dec 2004 content changed
+assessment#:#save_previous#:#Speichern und zur vorigen Frage###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Gefundene Gruppen
 assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
@@ -4069,6 +4070,8 @@ survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangscodes
 survey#:#concatenation#:#Verknüpfung
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraints#:#Beschränkungen
 survey#:#contains#:#Beinhaltet
@@ -4146,6 +4149,7 @@ survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
