@@ -127,7 +127,7 @@ assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l'esecuzione del test!
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
-assessment#:#direct_feedback#:#Controlla la tua soluzione
+assessment#:#direct_feedback#:#Controlla la soluzione
 assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#Hai scelto due volte la stessa risposta!
 assessment#:#duplicate_order_values_entered#:#Hai messo due volte lo stesso valore!
@@ -158,8 +158,8 @@ assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che fallisc
 assessment#:#ects_use_fx_grade_part2#:#percentuale dei punti totali.
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
+assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
+assessment#:#error_image_upload_wrong_format#:#Per favore indica un formato di immagine valida! I formati consentiti sono gif, jpeg e png.
 assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#error_open_java_file#:#Errore nell'apertura dell'applet java!
@@ -306,11 +306,11 @@ assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo tes
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi di cui hai bisogno per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
+assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
-assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
+assessment#:#tst_delete_results#:#Azzera il test
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_enter_questionpool#:#Per favore inserisci il nome della raccolta di domande nella quale verr&#224; inserita la domanda
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi
@@ -592,7 +592,7 @@ common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
-common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
+common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
@@ -605,7 +605,7 @@ common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
 common#:#all_authors#:#Tutti gli autori
 common#:#all_global_roles#:#Ruoli globali
 common#:#all_lms#:#Tutti i moduli
-common#:#all_local_roles#:#Ruoli local (tutti)
+common#:#all_local_roles#:#Ruoli locali (tutti)
 common#:#all_objects#:#Tutti gli oggetti
 common#:#all_roles#:#Tutti i ruoli
 common#:#all_tsts#:#Tutti i test
@@ -620,8 +620,8 @@ common#:#alm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#alm_join#:#Iscrivere ad un modulo AICC
 common#:#alm_leave#:#Annullare iscrizione ad un modulo AICC
 common#:#alm_read#:#Accedere in lettura ad un modulo AICC
-common#:#alm_visible#:#Vedere i moduli AICC
-common#:#alm_write#:#Modificare i moduli AICC
+common#:#alm_visible#:#Vedere un modulo AICC
+common#:#alm_write#:#Modificare un modulo AICC
 common#:#and#:#e
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
@@ -698,7 +698,7 @@ common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lin
 common#:#cannot_unzip_file#:#Non posso decomprimere il file.
 common#:#cat#:#Categoria
 common#:#cat_a#:#Una categoria
-common#:#cat_add#:#Aggiungi categoria
+common#:#cat_add#:#Aggiungi una categoria
 common#:#cat_added#:#Categoria aggiunta
 common#:#cat_cat_administrate_users#:#Amministrare utenti locali
 common#:#cat_create#:#Crea una categoria
@@ -708,7 +708,7 @@ common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
 common#:#cat_create_exc#:#Creare un esercizio
-common#:#cat_create_file#:#Upload di file
+common#:#cat_create_file#:#Upload di un file
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
@@ -723,9 +723,9 @@ common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Eliminare un categoria
 common#:#cat_edit#:#Modificare un categoria
-common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi di una categoria
+common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#cat_new#:#Nuova categoria
-common#:#cat_read#:#Accedere in lettura alla categoria
+common#:#cat_read#:#Accedere in lettura ad una categoria
 common#:#cat_read_users#:#Accedere in lettura agli utenti locali
 common#:#cat_visible#:#Vedere una categoria
 common#:#cat_write#:#Modificare una categoria
@@ -764,9 +764,9 @@ common#:#chat_add#:#Aggiungere una chat
 common#:#chat_delete#:#Eliminare una chat
 common#:#chat_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chat_new#:#Nuova chat
-common#:#chat_read#:#Accedere in lettura/scrittura alla chat
-common#:#chat_visible#:#Vedere le chat
-common#:#chat_write#:#Modificare le chat
+common#:#chat_read#:#Accedere in lettura/scrittura ad una chat
+common#:#chat_visible#:#Vedere una chat
+common#:#chat_write#:#Modificare una chat
 common#:#check#:#Controlla
 common#:#check_all#:#Controlla tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
@@ -833,19 +833,19 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#crs_join#:#Iscrivere al corso
-common#:#crs_leave#:#Cancellare dal corso
+common#:#crs_join#:#Iscrivere ad un corso
+common#:#crs_leave#:#Annullare iscrizione ad un corso
 common#:#crs_management_system#:#Sistema di gestione corsi
 common#:#crs_member_not_passed#:#Non superato
 common#:#crs_member_passed#:#Superato
 common#:#crs_new#:#Nuovo corso
 common#:#crs_no_content#:#Senza contenuto
-common#:#crs_read#:#Accedere in lettura al corso
+common#:#crs_read#:#Accedere in lettura ad un corso
 common#:#crs_status_blocked#:#[Accesso negato]
 common#:#crs_status_pending#:#[In attesa della registrazione]
 common#:#crs_subscribers_assigned#:#Nuovo utente iscritto
-common#:#crs_visible#:#Vedere il corso
-common#:#crs_write#:#Modificare il corso
+common#:#crs_visible#:#Vedere un corso
+common#:#crs_write#:#Modificare un corso
 common#:#cumulative_time#:#Tempo totale
 common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_password#:#Password attuale
@@ -871,15 +871,15 @@ common#:#dbk_a#:#un libro digitale
 common#:#dbk_add#:#Aggiungi libro digitale
 common#:#dbk_added#:#Libro digitale aggiunto
 common#:#dbk_create#:#Crea un libro digitale
-common#:#dbk_delete#:#Cancellare i libri digitali
+common#:#dbk_delete#:#Cancellare un libro digitalo
 common#:#dbk_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#dbk_new#:#Nuovo libro digitale
-common#:#dbk_read#:#Accedere in lettura ai libri digitali
-common#:#dbk_visible#:#Vedere i libri digitali
-common#:#dbk_write#:#Modificare i libri digitali
+common#:#dbk_read#:#Accedere in lettura ad un libro digitale
+common#:#dbk_visible#:#Vedere un libro digitale
+common#:#dbk_write#:#Modificare un libro digitale
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
-common#:#default_perm_settings#:#Impostazioni predefinite dei permessi
+common#:#default_perm_settings#:#Impostazione dei permessi
 common#:#default_role#:#Ruolo predefinito
 common#:#default_roles#:#Ruoli predefiniti
 common#:#default_skin#:#Tema predefinito
@@ -948,10 +948,10 @@ common#:#exc_assign_usr#:#Assegna utente
 common#:#exc_create#:#Crea un esercizio
 common#:#exc_date_not_valid#:#La data non &#232; valida
 common#:#exc_deassign_members#:#Elimina membro(i)
-common#:#exc_delete#:#Eliminare l'esercizio
+common#:#exc_delete#:#Eliminare un esercizio
 common#:#exc_edit#:#Creato nuovo esercizio
 common#:#exc_edit_exercise#:#Modifica l&#039;esercizio
-common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi dell&#039;esercizio
+common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#exc_edit_until#:#Data scadenza 
 common#:#exc_files#:#File
 common#:#exc_groups#:#Gruppi
@@ -963,7 +963,7 @@ common#:#exc_new#:#Nuovo esercizio
 common#:#exc_no_members_assigned#:#Nessun membro assegnato
 common#:#exc_notices#:#Note
 common#:#exc_obj#:#Esercizio
-common#:#exc_read#:#Accedere in lettura all&#039;esercizio
+common#:#exc_read#:#Accedere in lettura ad un esercizio
 common#:#exc_roles#:#Ruoli
 common#:#exc_save_changes#:#Salva
 common#:#exc_search_for#:#Ricerca
@@ -975,8 +975,8 @@ common#:#exc_status_saved#:#Esercizio aggiornato
 common#:#exc_status_solved#:#Risolto
 common#:#exc_upload_error#:#Errore nell&#039; upload del file
 common#:#exc_users#:#Utenti
-common#:#exc_visible#:#Vedere l&#039;esercizio
-common#:#exc_write#:#Modificare l&#039;esercizio
+common#:#exc_visible#:#Vedere un esercizio
+common#:#exc_write#:#Modificare un esercizio
 common#:#excs#:#Esercizi
 common#:#execute#:#Esegui
 common#:#export#:#Esporta
@@ -1008,26 +1008,26 @@ common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#filter#:#Filtro:
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
-common#:#fold#:#Cartelle
+common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
-common#:#fold_add#:#Aggiungi cartella
+common#:#fold_add#:#Aggiungi una cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_alm#:#Creare moduli AICC
-common#:#fold_create_chat#:#Creare chat
-common#:#fold_create_file#:#Creare file
-common#:#fold_create_fold#:#Creare cartelle
-common#:#fold_create_frm#:#Creare forum
-common#:#fold_create_glo#:#Creare glossari
-common#:#fold_create_hlm#:#Creare moduli HACP
-common#:#fold_create_lm#:#Creare moduli ILIAS
-common#:#fold_create_sahs#:#Creare moduli SCORM/AICC
-common#:#fold_delete#:#Cancellare cartelle
-common#:#fold_edit#:#Modificare cartelle
+common#:#fold_create_alm#:#Creare una moduli AICC
+common#:#fold_create_chat#:#Creare una chat
+common#:#fold_create_file#:#Creare un file
+common#:#fold_create_fold#:#Creare una cartella
+common#:#fold_create_frm#:#Creare un forum
+common#:#fold_create_glo#:#Creare un glossario
+common#:#fold_create_hlm#:#Creare un modulo HACP
+common#:#fold_create_lm#:#Creare un modulo ILIAS
+common#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
+common#:#fold_delete#:#Cancellare una cartella
+common#:#fold_edit#:#Modificare una cartella
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#fold_new#:#Nuova cartella
-common#:#fold_read#:#Accedere in lettura alla cartella
-common#:#fold_visible#:#Vedere la cartella
-common#:#fold_write#:#Modificare la cartella
+common#:#fold_read#:#Accedere in lettura ad una cartella
+common#:#fold_visible#:#Vedere una cartella
+common#:#fold_write#:#Modificare una cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
@@ -1048,14 +1048,14 @@ common#:#frm_add#:#Aggiungi forum
 common#:#frm_added#:#Forum aggiunto
 common#:#frm_create#:#Crea un forum
 common#:#frm_delete#:#Cancellare un forum
-common#:#frm_delete_post#:#Cancellare un post
+common#:#frm_delete_post#:#Cancellare un messaggio
 common#:#frm_edit#:#Modifica forum
 common#:#frm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#frm_edit_post#:#Modificare un post
+common#:#frm_edit_post#:#Modificare un messaggio
 common#:#frm_new#:#Nuovo forum
-common#:#frm_read#:#Accedere in lettura ai forum
-common#:#frm_visible#:#Vedere i forum
-common#:#frm_write#:#Modificare i forum
+common#:#frm_read#:#Accedere in lettura ad un forum
+common#:#frm_visible#:#Vedere un forum
+common#:#frm_write#:#Modificare un forum
 common#:#from#:#da:
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funzioni
@@ -1070,15 +1070,15 @@ common#:#glo_a#:#un glossario
 common#:#glo_add#:#Aggiungi glossario
 common#:#glo_added#:#Glossario aggiunto
 common#:#glo_create#:#Crea un glossario
-common#:#glo_delete#:#Eliminare il glossario
-common#:#glo_edit_permission#:#Modificare le impostazioni dei permessi del glossario
-common#:#glo_join#:#Iscrivere al glossario
-common#:#glo_leave#:#Annullare l&#039;iscrizione al glossario
+common#:#glo_delete#:#Eliminare un glossario
+common#:#glo_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#glo_join#:#Iscrivere ad un glossario
+common#:#glo_leave#:#Annullare l&#039;iscrizione ad un glossario
 common#:#glo_new#:#Nuovo glossario
-common#:#glo_read#:#Accedere in lettura al glossario
+common#:#glo_read#:#Accedere in lettura ad un glossario
 common#:#glo_upload_file#:#File
-common#:#glo_visible#:#Vedere il glossario
-common#:#glo_write#:#Modificare il glossario
+common#:#glo_visible#:#Vedere un glossario
+common#:#glo_write#:#Modificare un glossario
 common#:#global#:#Globale
 common#:#global_user#:#Utenti globali
 common#:#glossaries#:#Glossari
@@ -1127,24 +1127,24 @@ common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspe
 common#:#grp_back#:#Indietro
 common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
-common#:#grp_create_alm#:#Creare moduli AICC
-common#:#grp_create_chat#:#Creare Chat
-common#:#grp_create_dbk#:#Creare Libri digitali
-common#:#grp_create_exc#:#Create Esercizi
-common#:#grp_create_file#:#Eseguire upload di file
-common#:#grp_create_fold#:#Creare cartelle
-common#:#grp_create_frm#:#Creare forum
-common#:#grp_create_glo#:#Creare glossario
-common#:#grp_create_hlm#:#Creare moduli HACP
-common#:#grp_create_htlm#:#Creare moduli HTML
-common#:#grp_create_lm#:#Creare moduli ILIAS
-common#:#grp_create_mep#:#Creare raccolte multimediali
+common#:#grp_create_alm#:#Creare un modulo AICC
+common#:#grp_create_chat#:#Creare una chat
+common#:#grp_create_dbk#:#Creare un libro digitali
+common#:#grp_create_exc#:#Create un esercizio
+common#:#grp_create_file#:#Eseguire upload di un file
+common#:#grp_create_fold#:#Creare una cartella
+common#:#grp_create_frm#:#Creare un forum
+common#:#grp_create_glo#:#Creare un glossario
+common#:#grp_create_hlm#:#Creare un modulo HACP
+common#:#grp_create_htlm#:#Creare un modulo HTML
+common#:#grp_create_lm#:#Creare un modulo ILIAS
+common#:#grp_create_mep#:#Creare una raccolta multimediale
 common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#grp_delete#:#Eliminare il gruppo
+common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
 common#:#grp_edit#:#Modificare il gruppo
-common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
+common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Per ogni gruppo &#232; obbligatorio almeno un amministratore
 common#:#grp_err_error#:#Si &#232; verificato un errore
@@ -1153,10 +1153,10 @@ common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
 common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
 common#:#grp_header_edit_members#:#Modifica membri
-common#:#grp_join#:#Iscrivere al gruppo
-common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
+common#:#grp_join#:#Iscrivere ad un gruppo
+common#:#grp_leave#:#Annullare l&#039;iscrizione ad un gruppo
 common#:#grp_list_users#:#Elenco utenti
-common#:#grp_mem_change_status#:#Cambia lo stato del membro
+common#:#grp_mem_change_status#:#Cambia il ruolo del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
 common#:#grp_msg_applicants_assigned#:#Richiedenti ammessi come membri del gruppo
@@ -1170,13 +1170,13 @@ common#:#grp_no_groups_selected#:#Non &#232; stato selezionato nessun gruppo
 common#:#grp_no_results_found#:#Non &#232; stato trovato nessun risultato
 common#:#grp_no_roles_selected#:#Non &#232; stato selezionato nessun ruolo
 common#:#grp_options#:#Opzioni
-common#:#grp_read#:#Accedere in lettura al gruppo
+common#:#grp_read#:#Accedere in lettura ad un gruppo
 common#:#grp_register#:#Registra
 common#:#grp_registration_completed#:#Registrazione completata
 common#:#grp_search_enter_search_string#:#Per favore indica cosa vuoi ricercare
 common#:#grp_search_members#:#Ricerca utenti
-common#:#grp_visible#:#Vedere il gruppo
-common#:#grp_write#:#Modificare il gruppo
+common#:#grp_visible#:#Vedere un gruppo
+common#:#grp_write#:#Modificare un gruppo
 common#:#guest#:#Ospite
 common#:#guests#:#Ospiti
 common#:#header_title#:#Intestazione
@@ -1190,10 +1190,10 @@ common#:#hlm_create#:#Creare un modulo HACP
 common#:#hlm_delete#:#Eliminare un modulo HACP
 common#:#hlm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#hlm_join#:#Iscrivere ad un modulo HACP
-common#:#hlm_leave#:#Annullare iscrizione ad un modulo HACP
-common#:#hlm_read#:#Accedere in lettura ai moduli HACP
-common#:#hlm_visible#:#Vedere i moduli HACP
-common#:#hlm_write#:#Modificare i moduli HACP
+common#:#hlm_leave#:#Annullare l'iscrizione ad un modulo HACP
+common#:#hlm_read#:#Accedere in lettura ad un modulo HACP
+common#:#hlm_visible#:#Vedere un modulo HACP
+common#:#hlm_write#:#Modificare un modulo HACP
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
@@ -1349,22 +1349,22 @@ common#:#lm_a#:#un Modulo ILIAS
 common#:#lm_add#:#Aggiungi modulo ILIAS
 common#:#lm_added#:#Modulo ILIAS aggiunto
 common#:#lm_create#:#Crea un modulo ILIAS
-common#:#lm_delete#:#Eliminare il modulo ILIAS
-common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi del modulo ILIAS
-common#:#lm_join#:#Iscrivere al modulo ILIAS
-common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo ILIAS
+common#:#lm_delete#:#Eliminare un modulo ILIAS
+common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#lm_join#:#Iscrivere ad un modulo ILIAS
+common#:#lm_leave#:#Annullare l&#039;iscrizione ad un modulo ILIAS
 common#:#lm_new#:#Nuovo modulo ILIAS
-common#:#lm_read#:#Accedere in lettura al modulo ILIAS
+common#:#lm_read#:#Accedere in lettura ad un moduli ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Vedere il modulo ILIAS
-common#:#lm_write#:#Modificare il modulo ILIAS
+common#:#lm_visible#:#Vedere un modulo ILIAS
+common#:#lm_write#:#Modificare un modulo ILIAS
 common#:#lng#:#Lingua
 common#:#lngf#:#Lingua
-common#:#lngf_edit_permission#:#Modificare le impostazioni dei permessi delle lingue
-common#:#lngf_read#:#Accedere in lettura alle impostazioni delle lingue
-common#:#lngf_visible#:#Vedere le impostazioni delle lingue
+common#:#lngf_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#lngf_read#:#Accedere in lettura all'impostazione delle lingue
+common#:#lngf_visible#:#Vedere l'impostazione delle lingue
 common#:#lo#:#Unit&#224; didattica
 common#:#lo_available#:#Unit&#224; didattiche disponibili
 common#:#lo_categories#:#Categorie delle unit&#224; didattiche
@@ -1398,7 +1398,7 @@ common#:#mail_d_drafts#:#Bozze
 common#:#mail_delete_error#:#Errore nella cancellazione delle mail
 common#:#mail_delete_error_file#:#Errore nella cancellazione del file
 common#:#mail_e_sent#:#Inviate
-common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi della posta
+common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#mail_folders#:#Cartelle di posta
 common#:#mail_import#:#Importazione della posta
 common#:#mail_import_file#:#File di importazione da ILIAS 2
@@ -1436,8 +1436,8 @@ common#:#mep#:#Libreria multimediale
 common#:#mep_add#:#Aggiungi libreria multimediale
 common#:#mep_added#:#Aggiunta libreria multimediale
 common#:#mep_delete#:#Cancellare una libreria multimediale
-common#:#mep_edit#:#Modifica libreria multimediale
-common#:#mep_edit_permission#:#Modificare le impostazioni dei permessi della libreria multimediale
+common#:#mep_edit#:#Modificare un libreria multimediale
+common#:#mep_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#mep_new#:#Nuova libreria multimediale
 common#:#mep_read#:#Accedere il lettura ad una libreria multimediale
 common#:#mep_visible#:#Vedere una libreria multimediale
@@ -1551,7 +1551,7 @@ common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. 
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato
 common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato
-common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui &#232; stato assegnato, l'accesso illimitato a tutti gli oggetti e tutte le funzioni.
+common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di amministratore non possono essere cambiate. Il ruolo di amministratore garantisce agli utenti a cui &#232; stato assegnato, l'accesso illimitato a tutti gli oggetti ed a tutte le funzioni.
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:
@@ -1610,7 +1610,7 @@ common#:#obj_auth#:#Autenticazione
 common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (locale, LDAP, ...)
 common#:#obj_cat#:#Categoria
 common#:#obj_cen#:#Evento principale
-common#:#obj_chac#:#Impostazioni chat
+common#:#obj_chac#:#Impostazioni delle chat
 common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
@@ -1627,10 +1627,10 @@ common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
 common#:#obj_lm#:#Modulo ILIAS
 common#:#obj_lng#:#Lingua
-common#:#obj_lngf#:#Impostazioni lingue
+common#:#obj_lngf#:#Impostazioni delle lingue
 common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
 common#:#obj_lo#:#Unit&#224; didattica
-common#:#obj_mail#:#Impostazioni posta
+common#:#obj_mail#:#Impostazioni della posta
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
 common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
@@ -1886,10 +1886,10 @@ common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Eliminare un ruolo o un template di ruolo
 common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
-common#:#rolf_edit_userassignment#:#Modificare i ruoli assegnati agli utenti
-common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
-common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
-common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
+common#:#rolf_edit_userassignment#:#Modificare l'assegnamento di un ruolo
+common#:#rolf_read#:#Accedere in lettura ad un ruolo o ad un template di ruolo
+common#:#rolf_visible#:#Vedere un ruolo o un template di ruolo
+common#:#rolf_write#:#Modificare un ruolo o un template di ruolo
 common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo
 common#:#rolt_add#:#Aggiungi template di ruolo
@@ -1907,11 +1907,11 @@ common#:#sahs_added#:#Aggiunto modulo SCORM/AICC
 common#:#sahs_create#:#Creare un modulo SCORM/AICC
 common#:#sahs_delete#:#Eliminare un modulo SCORM/AICC
 common#:#sahs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#sahs_join#:#Iscrivere a moduli SCORM/AICC
-common#:#sahs_leave#:#Annullare iscrizione a moduli SCORM/AICC
-common#:#sahs_read#:#Accedere in lettura a moduli SCORM/AICC
-common#:#sahs_visible#:#Vedere moduli SCORM/AICC
-common#:#sahs_write#:#Modificare moduli SCORM/AICC
+common#:#sahs_join#:#Iscrivere ad un modulo SCORM/AICC
+common#:#sahs_leave#:#Annullare l'iscrizione ad un modulo SCORM/AICC
+common#:#sahs_read#:#Accedere in lettura ad un modulo SCORM/AICC
+common#:#sahs_visible#:#Vedere un modulo SCORM/AICC
+common#:#sahs_write#:#Modificare un modulo SCORM/AICC
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
@@ -1972,9 +1972,9 @@ common#:#spl_add#:#Aggiungi raccolta di domande
 common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
-common#:#spl_read#:#Accedere in lettura alle raccolte di domande
-common#:#spl_visible#:#Vedere le raccolte di domande
-common#:#spl_write#:#Modificare le raccolta di domande
+common#:#spl_read#:#Accedere in lettura ad una raccolta di domande
+common#:#spl_visible#:#Vedere una raccolta di domande
+common#:#spl_write#:#Modificare una raccolta di domande
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
@@ -1998,16 +1998,16 @@ common#:#summary#:#Riassunto
 common#:#sure_delete_selected_users#:#Sei sicuro di voler eliminare gli utenti selezionati
 common#:#svy#:#Questionario
 common#:#svy_add#:#Aggiungi questionario
-common#:#svy_delete#:#Eliminare il questionario
+common#:#svy_delete#:#Eliminare un questionario
 common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
-common#:#svy_invite#:#Invitare utenti al questionario
+common#:#svy_invite#:#Invitare utenti ad un questionario
 common#:#svy_new#:#Nuovo questionario
-common#:#svy_participate#:#Participare al questionario
-common#:#svy_read#:#Accedere in lettura al questionario
-common#:#svy_visible#:#Vedere il questionario
-common#:#svy_write#:#Modificare il questionario
+common#:#svy_participate#:#Participare ad un questionario
+common#:#svy_read#:#Accedere in lettura ad un questionario
+common#:#svy_visible#:#Vedere un questionario
+common#:#svy_write#:#Modificare un questionario
 common#:#system#:#Sistema
-common#:#system_check#:#Controllo sistema
+common#:#system_check#:#Verifica del sistema
 common#:#system_choose_language#:#Lingua di sistema scelta
 common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
@@ -2017,17 +2017,17 @@ common#:#system_message#:#Messaggio di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#tax#:#Tassonomia
 common#:#tax_add#:#Aggiungi tassonomia
-common#:#tax_delete#:#Eliminare le tassonomie
+common#:#tax_delete#:#Eliminare una tassonomia
 common#:#tax_edit#:#Modificare le tassonomie
 common#:#tax_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tax_new#:#Nuova tassonomia
-common#:#tax_read#:#Accedere in lettura alle tassonomie
-common#:#tax_visible#:#Vedere le tassonomie
-common#:#tax_write#:#Accedere in scrittura alle tassonomie
-common#:#taxf_edit_permission#:#Modificare le impostazioni dei permessi alla cartella delle tassonomie
-common#:#taxf_read#:#Accedere in lettura alla cartella delle tassonomie
-common#:#taxf_visible#:#Vedere la cartella delle tassonomie
-common#:#taxf_write#:#Accedere in scrittura alla cartella delle tassonomie
+common#:#tax_read#:#Accedere in lettura ad una tassonomia
+common#:#tax_visible#:#Vedere una tassonomia
+common#:#tax_write#:#Modificare una tassonomia
+common#:#taxf_edit_permission#:#Modificare le impostazioni dei permessi di una cartella di tassonomie
+common#:#taxf_read#:#Accedere in lettura ad una cartella di tassonomie
+common#:#taxf_visible#:#Vedere una cartella di tassonomie
+common#:#taxf_write#:#Modificare una cartella di tassonomie
 common#:#term#:#Termine
 common#:#test#:#Test
 common#:#test_intern#:#Test interno
@@ -2067,12 +2067,12 @@ common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
 common#:#tst#:#Test
 common#:#tst_add#:#Aggiungi test
-common#:#tst_delete#:#Eliminare il test
+common#:#tst_delete#:#Eliminare un test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tst_new#:#Nuovo test
-common#:#tst_read#:#Accedere in lettura al test
-common#:#tst_visible#:#Vedere il test
-common#:#tst_write#:#Modificare il test
+common#:#tst_read#:#Accedere in lettura ad un test
+common#:#tst_visible#:#Vedere un test
+common#:#tst_write#:#Modificare un test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 3 con il tuo utente.
@@ -2099,7 +2099,7 @@ common#:#url_description#:#Descrizione URL
 common#:#user#:#Utente
 common#:#user_access#:#Accesso utente
 common#:#user_added#:#Utente aggiunto
-common#:#user_assignment#:#Utente assegnato
+common#:#user_assignment#:#Utenti assegnati
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
 common#:#user_imported#:#Importazione utenti completata.
@@ -2525,7 +2525,7 @@ crs#:#crs_archive_type#:#Tipo di archivi
 crs#:#crs_archive_type_disabled#:#Accesso disabilitato
 crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
 crs#:#crs_auto_fill#:#Riempimento automatico
-crs#:#crs_blocked#:#Accesso rifiutao
+crs#:#crs_blocked#:#Accesso negato
 crs#:#crs_blocked_member#:#Iscrizioni al corso
 crs#:#crs_blocked_member_body#:#La tua iscrizione al corso &#232; terminata.
 crs#:#crs_cancel_subscription#:#Cancellazioni dal Corso
@@ -2895,31 +2895,31 @@ forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
 forum#:#forums_delete_file#:#Cancella l&#039;allegato
 forum#:#forums_download_attachment#:#Download dell'allegato
-forum#:#forums_edit_post#:#Modifica articolo
-forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo articolo?
-forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo articolo?
-forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo articolo comprese tutte le risposte?
-forum#:#forums_last_post#:#Ultimo articolo
+forum#:#forums_edit_post#:#Modifica messaggio
+forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo messaggio?
+forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
+forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
+forum#:#forums_last_post#:#Ultimo messaggio
 forum#:#forums_moderators#:#Moderatori
 forum#:#forums_new_entries#:#Nuovi forum
 forum#:#forums_new_thread#:#Nuovo argomento
 forum#:#forums_not_available#:#Forum non disponbile
 forum#:#forums_overview#:#Visione generale forum
-forum#:#forums_post_deleted#:#L&#039;articolo &#232; stato cancellato
-forum#:#forums_post_modified#:#L&#039;articolo &#232; stato modificato
-forum#:#forums_post_new_entry#:#un nuovo articolo &#232; stato inserito
-forum#:#forums_posts#:#Tutti gli articoli
-forum#:#forums_posts_not_available#:#Articoli non disponibili
-forum#:#forums_print_thread#:#Stampa questo tema
+forum#:#forums_post_deleted#:#Il messaggio &#232; stato cancellato
+forum#:#forums_post_modified#:#Il messaggio &#232; stato modificato
+forum#:#forums_post_new_entry#:#Il messaggio &#232; stato inserito
+forum#:#forums_posts#:#Tutti i messaggi
+forum#:#forums_posts_not_available#:#Messaggi non disponibili
+forum#:#forums_print_thread#:#Stampa questo argomento
 forum#:#forums_quote#:#Citazione
 forum#:#forums_respond#:#Rispondi ad un articolo
 forum#:#forums_subject#:#Oggetto
-forum#:#forums_the_post#:#Articolo
+forum#:#forums_the_post#:#Messaggio
 forum#:#forums_thread#:#Argomento
-forum#:#forums_thread_articles#:#Articoli dell'argomento
+forum#:#forums_thread_articles#:#Messaggi dell'argomento
 forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
-forum#:#forums_thread_new_entry#:#Un nuovo tema &#232; stato inseritochanged
+forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
 forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
