@@ -294,6 +294,7 @@ class ilObjContentObject extends ilObject
 			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
 				.") not writeable.",$this->ilias->error_obj->FATAL);
 		}
+
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
 		if(!@is_dir($lm_dir))
@@ -305,6 +306,7 @@ class ilObjContentObject extends ilObject
 		{
 			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
 		}
+
 		// create import subdirectory (data_dir/lm_data/lm_<id>/import)
 		$import_dir = $lm_dir."/import";
 		if(!@is_dir($import_dir))

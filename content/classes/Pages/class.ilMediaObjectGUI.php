@@ -403,8 +403,18 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function edit()
 	{
-		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
-		//$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// edit object button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
+			"&cmd=editFiles");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_edit_mob_files"));
+		$this->tpl->parseCurrentBlock();
+
+		// standard item
 		$std_item =& $this->content_obj->getMediaItem("Standard");
 
 		// edit media alias template
@@ -511,6 +521,134 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		header("Location: ".$this->getReturnLocation());
 		exit;
+	}
+
+	function editFiles()
+	{
+		if($_GET["limit"] == 0 )
+		{
+			$_GET["limit"] = 10;
+		}
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// edit object button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
+			"&cmd=createDir");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_dir"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
+			"&cmd=uploadFile");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_upload_file"));
+		$this->tpl->parseCurrentBlock();
+
+		// standard item
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		if($this->content_obj->hasFullscreenItem())
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		}
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=post");
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("cont_files"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
+			$this->lng->txt("cont_size")));
+
+		$cols = array("", "", "dir_file", "size");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "editFiles");
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "1%", "49%", "49%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		/*
+		// delete button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "clipboardDeletion");
+		$this->tpl->setVariable("BTN_VALUE", "delete");
+		$this->tpl->parseCurrentBlock();
+
+		// add list
+		$opts = ilUtil::formSelect("","new_type",array("mob" => "mob"));
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("BTN_NAME", "createMediaInClipboard");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->parseCurrentBlock();*/
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		//require_once("./content/classes/class.ilObjMediaObject.php");
+		//$cont_obj =& new ilObjContentObject($content_obj, true);
+
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = $mob_dir;
+		$entries = ilUtil::getDir($cur_dir);
+
+		//$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
+		$tbl->setMaxCount(count($entries));
+
+		$tbl->render();
+		if(count($entries) > 0)
+		{
+			$i=0;
+			foreach($entries as $entry)
+			{
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				//$this->tpl->setVariable("ICON", $obj["title"]);
+				$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
+				$this->tpl->setVariable("TXT_SIZE", $entry["size"]);
+				//$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
 	}
 
 

@@ -699,5 +699,10 @@ class ilMediaObject extends ilObjMediaObject
 
 		return $types_map;
 	}
+
+	function getDataDirectory()
+	{
+		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
+	}
 }
 ?>

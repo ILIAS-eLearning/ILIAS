@@ -1057,10 +1057,10 @@ class ilUtil
 		umask(0000);
 		return @mkdir($a_dir,fileperms($path));
 	}
-	
+
 	/**
 	* removes a dir and all its content (subdirs and files) recursively
-	* 
+	*
 	* @access	public
 	* @param	string	dir to delete
 	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
@@ -1068,7 +1068,7 @@ class ilUtil
 	function delDir($a_dir)
 	{
 		$current_dir = opendir($a_dir);
-		
+
 		while($entryname = readdir($current_dir))
 		{
 			if(is_dir($a_dir."/".$entryname) and ($entryname != "." and $entryname!=".."))
@@ -1080,11 +1080,39 @@ class ilUtil
 				unlink(${a_dir}."/".${entryname});
 			}
 		}
-		
+
 		closedir($current_dir);
 		rmdir(${a_dir});
 	}
-	
+
+
+	/**
+	* get directory
+	*/
+	function getDir($a_dir)
+	{
+		$current_dir = opendir($a_dir);
+
+		while($entry = readdir($current_dir))
+		{
+			if(is_dir($a_dir."/".$entry))
+			{
+				$dirs[$entry] = array("type" => "dir", "entry" => $entry);
+			}
+			else
+			{
+				$size = filesize($a_dir."/".$entry);
+				$files[$entry] = array("type" => "file", "entry" => $entry,
+					"size" => $size);
+			}
+		}
+		ksort($dirs);
+		ksort($files);
+
+		return array_merge($dirs, $files);
+	}
+
+
 	/**
 	* get the tree_id of a group where an object with the passed ref_id belongs to.
 	* @param	string	ref_id of an object that is in a group
@@ -1098,7 +1126,7 @@ class ilUtil
 		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
 		$r = $ilias->db->query($q);
 		$row = $r->fetchRow();
-		
+
 		return $row[0] ? $row[0] : false;
 	}
 
