@@ -281,6 +281,56 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
+	function uploadQplObject()
+	{
+		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
+		{
+			sendInfo($this->lng->txt("error_upload"));
+			$this->importObject();
+			return;
+		}
+		$newObj = new ilObjQuestionpool();
+		$newObj->setType($_GET["new_type"]);
+		$newObj->setTitle("dummy");
+		$newObj->setDescription("dummy");
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		// create import directory
+		$newObj->createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filename of xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		$qti_file = $newObj->getImportDirectory()."/".$subdir."/".
+			str_replace("qpl", "qti", $subdir).".xml";
+		
+		// import qti data
+		$qtiresult = $newObj->importObject($qti_file);
+		// import page data
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+		$contParser->setQuestionMapping($newObj->getImportMapping());
+		$contParser->startParsing();
+
+		$newObj->update();
+		ilUtil::redirect("adm_object.php?".$this->link_params);
+	}
+	
+	/**
+	* imports question(s) into the questionpool
+	*/
 	function uploadObject()
 	{
 		// check if file was uploaded
@@ -355,7 +405,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* display the import form to import questions into the questionpool
 	*/
-		function importObject()
+		function importQuestionsObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_import_question.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
@@ -366,6 +416,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* display dialogue for importing questionpools
+	*
+	* @access	public
+	*/
+	function importObject()
+	{
+		$this->getTemplateFile("import", "qpl");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
+		$this->tpl->setVariable("BTN_NAME", "uploadQpl");
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_IMPORT_QPL", $this->lng->txt("import_qpl"));
+		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+	}
+	
 	/**
 	* create new question
 	*/
