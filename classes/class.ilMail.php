@@ -861,7 +861,6 @@ class ilMail
 	{
 		global $lng,$rbacsystem;
 
-
 		$error_message = '';
 		$message = '';
 

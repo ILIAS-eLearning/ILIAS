@@ -1986,7 +1986,6 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->initCourseContentInterface();
 		$this->cci_edit();
-
 		return true;;
 	}
 

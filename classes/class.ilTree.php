@@ -344,6 +344,30 @@ class ilTree
 	}
 
 	/**
+	* get child nodes of given node (exclude filtered obj_types)
+	* @access	public
+	* @param	array		objects to filter (e.g array('rolf'))
+	* @param	integer		node_id
+	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
+	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
+	* @return	array		with node data of all childs or empty array
+	*/
+	function getFilteredChilds($a_filter,$a_node,$a_order = "",$a_direction = "ASC")
+	{
+		$childs = $this->getChilds($a_node,$a_order,$a_direction);
+
+		foreach($childs as $child)
+		{
+			if(!in_array($child["type"],$a_filter))
+			{
+				$filtered[] = $child;
+			}
+		}
+		return $filtered ? $filtered : array();
+	}
+		
+
+	/**
 	* get child nodes of given node by object type
 	* @access	public
 	* @param	integer		node_id
@@ -551,7 +575,30 @@ class ilTree
 			$subtree[] = $this->fetchNodeData($row);
 		}
 
-		return $subtree;
+		return $subtree ? $subtree : array();
+	}
+
+	/**
+	* get types of nodes in the subtree under specified node
+	*
+	* @access	public
+	* @param	array		node_id
+	* @param	array		object types to filter e.g array('rolf')
+	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
+	*/
+	function getSubTreeTypes($a_node,$a_filter = 0)
+	{
+		$a_filter = $a_filter ? $a_filter : array();
+
+		foreach($this->getSubtree($this->getNodeData($a_node)) as $node)
+		{
+			if(in_array($node["type"],$a_filter))
+			{
+				continue;
+			}
+			$types["$node[type]"] = $node["type"];
+		}
+		return $types ? $types : array();
 	}
 
 	/**

@@ -2816,6 +2816,14 @@ class ilRepositoryGUI
 
 		if (is_array($subobj))
 		{
+			if($this->tree->checkForParentType($this->cur_ref_id,'crs'))
+			{
+				$this->tpl->setCurrentBlock("get_from_repos");
+				$this->tpl->setVariable("GET_REPOS_CMD",'copySelector');
+				$this->tpl->setVariable("TXT_GET_REPOS",$this->lng->txt('copy'));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->parseCurrentBlock("commands");
 			// possible subobjects
 			$opts = ilUtil::formSelect("", "new_type", $subobj);
@@ -3034,6 +3042,163 @@ class ilRepositoryGUI
 	{
 		$this->executeAdminCommand();
 	}
+
+	function copySelector()
+	{
+		if(is_array($_POST["cmd"]))
+		{
+			$_SESSION["copy_new_type"] = $_POST["new_type"];
+		}
+
+		include_once ("classes/class.ilRepositoryCopySelector.php");
+
+		$this->prepareOutput();
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_selector.html");
+
+		sendInfo($this->lng->txt("step_one")." ".$this->lng->txt("select_object_to_copy"));
+
+		$exp = new ilRepositoryCopySelector($this->ctrl->getLinkTarget($this,'copySelector'));
+		$exp->setExpand($_GET["rep_copy_expand"] ? $_GET["rep_copy_expand"] : $this->tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'copySelector'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		$exp->addFilter($_SESSION["copy_new_type"]);
+		$exp->setSelectableType($_SESSION["copy_new_type"]);
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->setCurrentBlock("objects");
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
+	function copyChilds()
+	{
+		$this->prepareOutput();
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_childs.html");
+
+		if(!count($this->tree->getFilteredChilds(array('rolf'),(int) $_GET["source_id"])))
+		{
+			$tmp_target =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
+			$tmp_source =& ilObjectFactory::getInstanceByRefId((int) $_GET["source_id"]);
+		
+			$info = $this->lng->txt("copy").": '".$tmp_source->getTitle()."' ".$this->lng->txt("to")." '".$tmp_target->getTitle()."' ?";
+			sendInfo($info);
+
+			$this->tpl->setCurrentBlock("confirm");
+			$this->tpl->setVariable("CMD_CONFIRM_CANCEL",'cancel');
+			$this->tpl->setVariable("TXT_CONFIRM_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("CMD_CONFIRM_COPY",'performCopy');
+			$this->tpl->setVariable("TXT_CONFIRM_COPY",$this->lng->txt("copy"));
+			$this->tpl->parseCurrentBlock();
+
+			unset($tmp_source);
+			unset($tmp_target);
+		}
+		else
+		{
+			// OBJECT is grp,crs or folder
+			$tmp_source =& ilObjectFactory::getInstanceByRefId((int) $_GET["source_id"]);
+			$sub_types = $this->tree->getSubTreeTypes((int) $_GET["source_id"],array('rolf'));
+
+			foreach($sub_types as $type)
+			{
+				switch($type)
+				{
+					case "grp":
+					case "fold":
+					case "crs":
+						$actions = array('copy' => $this->lng->txt("copy"));
+						break;
+					default:
+						$actions = array('copy' => $this->lng->txt("copy"),
+										 'link' => $this->lng->txt("link"));
+				}
+
+				$this->tpl->setCurrentBlock("object_options");
+				$this->tpl->setVariable("OBJECT_TYPE",$this->lng->txt("obj_".$type));
+				$this->tpl->setVariable("SELECT_OBJ",ilUtil::formSelect('copy',$type,$actions,false,true));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("container");
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("CMD_SUBMIT",'performCopy');
+			$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("copy"));
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_".$tmp_source->getType()."_b.gif"));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_".$tmp_source->getType()));
+			$this->tpl->setVariable("TITLE",$this->lng->txt("options_for_subobjects"));
+		}
+			
+		$this->ctrl->setParameterByClass('ilrepositorygui','source_id',(int) $_GET['source_id']);
+		$this->tpl->setVariable("COPY_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->show();
+	}
+
+	function performCopy()
+	{
+		if(!count($this->tree->getFilteredChilds(array('rolf'),(int) $_GET["source_id"])))
+		{
+			$this->copyObject($this->cur_ref_id,(int) $_GET["source_id"]);
+		}
+		else
+		{
+			// call recursive copy link method
+			$this->duplicate($_POST,$this->cur_ref_id,(int) $_GET["source_id"]);
+		}
+		sendInfo($this->lng->txt("copied_object"),true);
+		
+		$this->ctrl->redirect($this,'showList');
+	}
+
+	function duplicate($post,$a_target,$a_source)
+	{
+		$tmp_object =& ilObjectFactory::getInstanceByRefId($a_source);
+		$type = $tmp_object->getType();
+
+		switch($post[$type])
+		{
+			case "copy":
+				$new_ref = $this->copyObject($a_target,$a_source);
+				break;
+			case "link":
+				$new_ref = $this->linkObject($a_target,$a_source);
+				break;
+			default:
+				echo "ilRepositoryGUI:: duplicate(): not possible";
+		}
+
+		foreach($this->tree->getFilteredChilds(array('rolf'),$a_source) as $child)
+		{
+			$this->duplicate($post,$new_ref,$child["child"]);
+		}
+		return true;
+	}
+	function copyObject($a_target,$a_source)
+	{
+		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
+		$new_ref = $tmp_source->clone($a_target);
+		unset($tmp_source);
+
+		return $new_ref;
+	}
+	function linkObject($a_target,$a_source)
+	{
+		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
+
+		$new_ref = $tmp_source->createReference();
+		$this->tree->insertNode($new_ref,$a_target);
+		$tmp_source->setPermissions($new_ref);
+		$tmp_source->initDefaultRoles();
+
+		return $new_ref;
+	}
+
+
 } // END class.ilRepository
 
 ?>

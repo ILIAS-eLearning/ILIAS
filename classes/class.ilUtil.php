@@ -59,7 +59,7 @@ class ilUtil
 	{
 		global $ilias, $styleDefinition;
 
-		if(defined("ILIAS_MODULE"))
+		if(defined("ILIAS_MODULE") and !defined("KEEP_IMAGE_PATH"))
 		{
 			$dir = ".";
 		}
@@ -85,34 +85,14 @@ class ilUtil
 		$default = $base."default/images/".$img;
 		if (@file_exists($user_skin_and_style) && $st_image_dir != "")
 		{
-			if(@file_exists($dir.$user_skin_and_style))
-			{
-				return $dir.$user_skin_and_style;
-			}
-			else
-			{
-				return substr($dir.$user_skin_and_style,1);
-			}
+			return $dir.$user_skin_and_style;
 		}
 		else if (file_exists($user_skin))
 		{
-			if(@file_exists($dir.$user_skin))
-			{
-				return $dir.$user_skin;
-			}
-			else
-			{
-				return substr($dir.$user_skin,1);
-			}
+			return $dir.$user_skin;
 		}
-		else if(@file_exists($dir.$default))
-		{
-			return $dir.$default;
-		}
-		else
-		{
-			return substr($dir.$default,1);
-		}
+		
+		return $dir.$default;
 	}
 
 	function getJSPath($a_js)

@@ -523,7 +523,7 @@ class ilCourseMembers
 		return false;
 	}
 
-	function sendNotification($a_type, $a_usr_id = 0)
+	function sendNotification($a_type, $a_usr_id)
 	{
 		include_once("./classes/class.ilFormatMail.php");
 
@@ -563,8 +563,8 @@ class ilCourseMembers
 				$body = $this->lng->txt("crs_status_changed_body");
 				break;
 
-
 			case $this->NOTIFY_ADMINS:
+				$this->sendNotificationToAdmins($a_usr_id);
 				break;
 		}
 
@@ -574,6 +574,29 @@ class ilCourseMembers
 		return true;
 	}
 
+	function sendNotificationToAdmins($a_usr_id)
+	{
+		include_once("./classes/class.ilFormatMail.php");
+
+		$mail =& new ilFormatMail($a_usr_id);
+		$subject = $this->lng->txt("crs_new_subscription")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+		$body = $this->lng->txt("crs_new_subscription_body");
+
+		$query = "SELECT usr_id FROM crs_members ".
+			"WHERE status = '".$this->STATUS_NOTIFY."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
+
+			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+			unset($tmp_user);
+		}
+		unset($mail);
+
+		return true;
+	}
 	// PRIVATE METHODS
 	function __getDefaultAdminStatus()
 	{

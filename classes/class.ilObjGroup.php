@@ -910,6 +910,8 @@ class ilObjGroup extends ilObject
 		unset($rfoldObj);
 		unset($roleObj);
 
+		$roles[] = $this->m_roleAdminId;
+		$roles[] = $this->m_roleMemberId;
 		return $roles ? $roles : array();
 	}
 
