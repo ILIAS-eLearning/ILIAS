@@ -3319,6 +3319,16 @@ class ilRepositoryGUI
 	}
 	function addToDeskCourse()
 	{
+		global $tree;
+		
+		/*$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
+		
+		while ($tmp_obj->getType() != 'crs')
+		{
+		    $parent_ref_id = $tree->getParentId($tmp_obj->getRefId());
+			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($parent_ref_id);
+		}*/
+
 		if ($_GET["item_ref_id"] and $_GET["type"])
 		{
 			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
@@ -3330,16 +3340,16 @@ class ilRepositoryGUI
 			{
 				foreach ($_POST["items"] as $item)
 				{
-					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
-					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
-					unset($tmp_obj);
+					$tmp_obj_item =& $this->ilias->obj_factory->getInstanceByRefId($item);
+					$this->ilias->account->addDesktopItem($item, $tmp_obj_item->getType());
+					unset($tmp_obj_item);
 				}
 			}
 			//$this->showList();
 		}
-		include_once("./course/classes/class.ilObjCourseGUI.php");
-
-		$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
+//		include_once("./course/classes/class.ilObjCourseGUI.php");
+//var_dump($_GET["item_ref_id"],$this->cur_ref_id);exit;
+//		$this->gui_obj =& new ilObjCourseGUI("",$tmp_obj->getRefId(),true,false);
 
 		$this->prepareOutput();
 		$ret =& $this->gui_obj->viewObject();
