@@ -34,6 +34,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+###27 May 2004 new variable
 administration#:#analyze_data#:#Analysiere Datenintegrität
 administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#analyzing#:#Analysiert...
@@ -3068,4 +3069,3 @@ survey#:#survey_questions#:#Fragen
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Hochgeladene Materialien
-survey#:#view_phrase#:#Phrase ansehen
