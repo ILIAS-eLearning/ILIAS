@@ -1806,3 +1806,164 @@ ALTER TABLE chat_user ADD chat_id INT( 11 ) NOT NULL AFTER usr_id ;
 
 <#119>
 ALTER TABLE usr_data ADD i2passwd VARCHAR(32) NOT NULL DEFAULT '';
+
+<#120>
+CREATE TABLE `xml_attribute_idx` (
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0',
+  `value_id` smallint(5) unsigned NOT NULL default '0',
+  KEY `node_id` (`node_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_attribute_name` (
+  `attribute_id` smallint(5) unsigned NOT NULL auto_increment,
+  `attribute` char(32) NOT NULL default '',
+  PRIMARY KEY  (`attribute_id`),
+  UNIQUE KEY `attribute` (`attribute`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_attribute_namespace` (
+  `attribute_id` smallint(5) unsigned NOT NULL auto_increment,
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `namespace` char(64) NOT NULL default '',
+  PRIMARY KEY  (`attribute_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_attribute_value` (
+  `value_id` smallint(5) unsigned NOT NULL auto_increment,
+  `value` char(32) NOT NULL default '0',
+  PRIMARY KEY  (`value_id`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_cdata` (
+  `node_id` int(10) unsigned NOT NULL auto_increment,
+  `cdata` text NOT NULL,
+  PRIMARY KEY  (`node_id`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_comment` (
+  `node_id` int(10) unsigned NOT NULL auto_increment,
+  `comment` text NOT NULL,
+  PRIMARY KEY  (`node_id`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_element_idx` (
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `element_id` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`node_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_element_name` (
+  `element_id` smallint(5) unsigned NOT NULL auto_increment,
+  `element` char(32) NOT NULL default '',
+  PRIMARY KEY  (`element_id`),
+  UNIQUE KEY `element` (`element`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_element_namespace` (
+  `element_id` smallint(5) unsigned NOT NULL auto_increment,
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `namespace` char(64) NOT NULL default '',
+  PRIMARY KEY  (`element_id`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_entity_reference` (
+  `element_id` smallint(5) unsigned NOT NULL auto_increment,
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `entity_reference` char(128) NOT NULL default '',
+  PRIMARY KEY  (`element_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_node_type` (
+  `node_type_id` int(11) NOT NULL auto_increment,
+  `description` varchar(50) default NULL,
+  `lft_delimiter` varchar(10) default NULL,
+  `rgt_delimiter` varchar(10) default NULL,
+  PRIMARY KEY  (`node_type_id`)
+) TYPE=MyISAM;
+
+INSERT INTO `xml_node_type` (`node_type_id`, `description`, `lft_delimiter`, `rgt_delimiter`) VALUES (1, 'ELEMENT_NODE', '<', '>'),
+(2, 'ATTRIBUTE_NODE(not used)', '"', '"'),
+(3, 'TEXT_NODE', NULL, NULL),
+(5, 'ENTITY_REF_NODE', '&', ';'),
+(4, 'CDATA_SECTION_NODE', '<![CDATA[', ']]>'),
+(8, 'COMMENT_NODE', '<!--', '-->'),
+(9, 'DOCUMENT_NODE', NULL, NULL),
+(10, 'DOCUMENT_TYPE_NODE', NULL, NULL),
+(6, 'ENTITY_NODE', '&', ';');
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_object` (
+  `ID` int(11) NOT NULL auto_increment,
+  `version` varchar(5) NOT NULL default '',
+  `encoding` varchar(40) default NULL,
+  `charset` varchar(40) default NULL,
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`ID`)
+) TYPE=MyISAM COMMENT='Master Table for XML objects';
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_pi_data` (
+  `leaf_id` int(10) unsigned NOT NULL auto_increment,
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `leaf_text` text NOT NULL,
+  PRIMARY KEY  (`leaf_id`)
+) TYPE=MyISAM ;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_pi_target` (
+  `leaf_id` int(10) unsigned NOT NULL auto_increment,
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `leaf_text` text NOT NULL,
+  PRIMARY KEY  (`leaf_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_text` (
+  `node_id` int(10) unsigned NOT NULL default '0',
+  `textnode` text NOT NULL,
+  PRIMARY KEY  (`node_id`),
+  FULLTEXT KEY `textnode` (`textnode`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+CREATE TABLE `xml_tree` (
+  `node_id` int(10) unsigned NOT NULL auto_increment,
+  `xml_id` mediumint(8) unsigned NOT NULL default '0',
+  `parent_node_id` int(10) unsigned NOT NULL default '0',
+  `lft` smallint(5) unsigned NOT NULL default '0',
+  `rgt` smallint(5) unsigned NOT NULL default '0',
+  `node_type_id` tinyint(3) unsigned NOT NULL default '0',
+  `depth` smallint(5) unsigned NOT NULL default '0',
+  `prev_sibling_node_id` int(10) unsigned NOT NULL default '0',
+  `next_sibling_node_id` int(10) unsigned NOT NULL default '0',
+  `first_child_node_id` int(10) unsigned NOT NULL default '0',
+  `struct` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`node_id`),
+  KEY `xml_id` (`xml_id`)
+) TYPE=MyISAM;
