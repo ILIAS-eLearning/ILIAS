@@ -417,8 +417,15 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
 		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
-		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
+		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", true);
 
+		$questionpools =& $this->object->get_qpl_titles();
+
+		$filter_text = "";
+		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		{
+			$filter_text = $_POST["filter_text"];
+		}
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
 			"comment" => $this->lng->txt("description"),
@@ -428,7 +435,7 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($filter_fields as $key => $value) {
 			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
 			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-			if (!$_POST["cmd"]["reset"]) {
+			if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) {
 				if (strcmp($_POST["sel_filter_type"], $key) == 0) {
 					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
 				}
@@ -436,12 +443,50 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$filter_question_type = "";
+		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		{
+			$filter_question_type = $_POST["sel_question_type"];
+		}
+		$questiontypes =& $this->object->_getQuestiontypes();
+		foreach ($questiontypes as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("questiontype_row");
+			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value);
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value));
+			if (strcmp($filter_question_type, $value) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
+		{
+			$filter_questionpool = $_POST["sel_questionpool"];
+		}
+		foreach ($questionpools as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("questionpool_row");
+			$this->tpl->setVariable("VALUE_QUESTIONPOOL", $key);
+			$this->tpl->setVariable("TEXT_QUESTIONPOOL", $value);
+			if (strcmp($filter_questionpool, $key) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_QUESTIONPOOL", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("filter_questions");
+		$this->tpl->setVariable("SHOW_QUESTION_TYPES", $this->lng->txt("filter_show_question_types"));
+		$this->tpl->setVariable("TEXT_ALL_QUESTION_TYPES", $this->lng->txt("filter_all_question_types"));
+		$this->tpl->setVariable("SHOW_QUESTIONPOOLS", $this->lng->txt("filter_show_questionpools"));
+		$this->tpl->setVariable("TEXT_ALL_QUESTIONPOOLS", $this->lng->txt("filter_all_questionpools"));
 		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
 		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-		if (!$_POST["cmd"]["reset"])
+		if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) 
 		{
-			$this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
+			$this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
 		}
 		$this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
 		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
@@ -458,10 +503,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("QTab");
 
-		if ($_POST["cmd"]["reset"])
-		{
-			$_POST["filter_text"] = "";
-		}
 		$startrow = 0;
 		if ($_GET["prevrow"])
 		{
@@ -480,11 +521,10 @@ class ilObjTestGUI extends ilObjectGUI
 			// default sort order
 			$_GET["sort"] = array("title" => "ASC");
 		}
-		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow, 1);
+		$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $_POST["sel_filter_type"], $startrow, 1, $filter_question_type, $filter_questionpool);
 		// display all questions in accessable question pools
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$questionpools =& $this->object->get_qpl_titles();
 		$existing_questions =& $this->object->getExistingQuestions();
 		foreach ($table["rows"] as $data)
 		{
