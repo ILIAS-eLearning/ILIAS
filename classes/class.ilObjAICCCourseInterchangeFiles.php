@@ -1,7 +1,5 @@
 <?
 
-include_once("include/inc.convertcharset.php");
-
 class ilObjAICCCourseInterchangeFiles {
 	
 	var $coursefiles;
@@ -173,11 +171,11 @@ class ilObjAICCCourseInterchangeFiles {
 					if (array_key_exists($header[$col], $data2)) {
 						$value=$data2[$header[$col]];
 						if (!is_array($value))
-							$data2[$header[$col]]=array($value, iso_to_utf8($data[$col]));
+							$data2[$header[$col]]=array($value, utf8_encode($data[$col]));
 						else
-							$data2[$header[$col]][]=iso_to_utf8($data[$col]);
+							$data2[$header[$col]][]=utf8_encode($data[$col]);
 					} else
-						$data2[$header[$col]]=iso_to_utf8($data[$col]);
+						$data2[$header[$col]]=utf8_encode($data[$col]);
 				}
 				$rows[]=$data2;	
 			}

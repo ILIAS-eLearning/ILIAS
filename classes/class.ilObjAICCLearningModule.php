@@ -90,16 +90,16 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		
 		// delete aicc data
 		// this is highly dependent on the database
-		$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.alm_id=".$ilDB->quote($this->getId());
+		$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		
-		$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.alm_id=".$ilDB->quote($this->getId());
+		$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		
 		$q = "DELETE FROM scorm_tree WHERE slm_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		
-		$q = "DELETE FROM aicc_object WHERE alm_id = ".$ilDB->quote($this->getId());
+		$q = "DELETE FROM aicc_object WHERE slm_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
 

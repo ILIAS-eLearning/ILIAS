@@ -121,8 +121,8 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		//$maxFileSize=ini_get('upload_max_filesize');
 
 		// create and insert object in objecttree
-		include_once("classes/class.ilObjHACPLearningModule.php");
-		$newObj = new ilObjHACPLearningModule();
+		include_once("classes/class.ilObjAICCLearningModule.php");
+		$newObj = new ilObjAICCLearningModule();
 		//$newObj->setType("alm");
 		//$dummy_meta =& new ilMetaData();
 		//$dummy_meta->setObject($newObj);

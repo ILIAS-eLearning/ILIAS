@@ -29,22 +29,50 @@
 *
 * @package content
 */
+
+			
 chdir("..");
+
+			$fp=fopen("./content/scorm.log", "a+");
+			fputs($fp, "scorm\n");	
+			foreach($_GET as $key=>$value)
+				fputs($fp, "key=$key  value=$value\n");
+			
+			fputs($fp, "test 2 refid=$ref_id\n");	
+			fclose($fp);	
 
 $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
 
-require_once "./include/inc.header.php";
-
 	$ref_id=$_GET["ref_id"];
 	
-	//read type of cbt
-	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
-	$lm_set = $ilias->db->query($q);
-	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-	$type=$lm_rec["type"];	
+	//get type of cbt
+	if (!empty($ref_id)) {
 
+		require_once "./include/inc.header.php";
+			
+		//read by ref_id
+		$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
+		$lm_set = $ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$type=$lm_rec["type"];	
+
+	} else {	
+
+		//ensure HACP
+		$requiredKeys=array("command", "version", "session_id", "aicc_data");
+		if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($HTTP_POST_VARS, CASE_LOWER))))==0) {
+			$type="hlm";
+			
+			//now we need to get a connection to the database and global params
+			//but that doesnt work because of missing logindata of the contentserver
+			//require_once "./include/inc.header.php";
+			
+
+		}
+	}
+	
 	switch ($type) {
 		case "slm":
 					//SCORM
