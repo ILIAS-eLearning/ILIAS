@@ -774,7 +774,7 @@ class ilMail
 			}
 			else
 			{
-				if (!$group->groupNameExists(addslashes(substr($rcp,1))))
+				if (!$ilGroup::_groupNameExists(addslashes(substr($rcp,1))))
 				{
 					$wrong_rcps .= "<BR/>".$rcp;
 					continue;

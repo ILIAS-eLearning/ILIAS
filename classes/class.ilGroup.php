@@ -69,8 +69,9 @@ class ilGroup
 	* @param	string	groupname
 	* @param	integer	obj_id of group to exclude from the check. 
 	* @return	boolean	true if exists
+	* @static
 	*/
-	function groupNameExists($a_group_name,$a_id = 0)
+	function _groupNameExists($a_group_name,$a_id = 0)
 	{
 		global $ilDB,$ilErr;
 		

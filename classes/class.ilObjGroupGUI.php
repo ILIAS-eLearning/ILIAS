@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.70 2004/03/23 15:28:00 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.71 2004/04/12 13:46:52 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -206,7 +206,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		// check groupname
-		if ($grp->groupNameExists($_POST["Fobject"]["title"]))
+		if (ilGroup::_groupNameExists($_POST["Fobject"]["title"]))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_name_exists"),$this->ilErr->MESSAGE);
 		}
@@ -253,7 +253,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->lng->txt("grp_err_registration_data"),$this->ilErr->MESSAGE);
 		}
 		// check groupname
-		if (ilGroup::groupNameExists(ilUtil::stripSlashes($_POST["Fobject"]["title"]),$this->object->getId()))
+		if (ilGroup::_groupNameExists(ilUtil::stripSlashes($_POST["Fobject"]["title"]),$this->object->getId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("grp_name_exists"),$this->ilErr->MESSAGE);
 		}
