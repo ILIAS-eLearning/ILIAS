@@ -175,7 +175,11 @@ class ilGroupImportParser extends ilSaxParser
 			case "folderTitle":
 				$this->folder = $this->cdata;
 				$this->__saveFolder();
+				break;
 
+			case "group":
+				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
+				$this->__save();
 				break;
 		}
 		$this->cdata = '';
