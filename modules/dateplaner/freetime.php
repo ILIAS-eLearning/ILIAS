@@ -178,7 +178,7 @@ for($i=$startDisplayQuarters; $i <=$endDisplayQuarters-1; $i++){
 	}
 	$htmlBuffer=$htmlBuffer."</TR>\n";
 }
-
+}
 eval ("\$main = \"".$Gui->getTemplate("freetime_main")."\";");
 // -----------------------------------------  fixed ---------------------------------//
 // frameset template not used
