@@ -2733,7 +2733,13 @@ class ilObjectGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
-	}		
+	}
+
+	function hitsperpageObject()
+	{
+        $_SESSION["tbl_limit"] = $_POST["hitsperpage"];
+        $_GET["limit"] = $_POST["hitsperpage"];
+	}
 
 } // END class.ilObjectGUI
 ?>
