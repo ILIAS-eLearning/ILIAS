@@ -162,6 +162,7 @@ common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
+common#:#down#:#Down###02 Sep 2003 new variable
 common#:#download#:#Herunterladen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
@@ -682,6 +683,7 @@ common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
+common#:#up#:#Up###02 Sep 2003 new variable
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
@@ -732,6 +734,7 @@ content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_added_term#:#Begriff hinzugefügt
+content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_bottom#:#Unten
