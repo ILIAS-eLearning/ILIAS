@@ -1738,13 +1738,43 @@ class ilObjTest extends ilObject
 	}
 
 	/**
+	* init meta data object if needed
+	*/
+	function initMeta()
+	{
+		if (!is_object($this->meta_data))
+		{
+			if ($this->getId())
+			{
+				$new_meta =& new ilMetaData($this->getType(), $this->getId());
+			}	
+			else
+			{
+				$new_meta =& new ilMetaData();
+			}
+			$this->assignMetaData($new_meta);
+		}
+	}
+
+	/**
 	* update meta data only
 	*/
 	function updateMetaData()
 	{
+		$this->initMeta();
 		$this->meta_data->update();
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
 		parent::update();
 	}
 	

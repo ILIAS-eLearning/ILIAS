@@ -276,9 +276,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
 
+		/* update title and description in object data */
 		// not allowed here: move to glossary class!
-		$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
-		$this->ilias->db->query($q);
+		if (is_object($newObj->meta_data))
+		{
+			$newObj->meta_data->read();
+			$newObj->setTitle($newObj->meta_data->getTitle());
+			$newObj->setDescription($newObj->meta_data->getDescription());
+			$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
+			$this->ilias->db->query($q);
+		}
 
 		sendInfo($this->lng->txt("glo_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
