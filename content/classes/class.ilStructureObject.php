@@ -43,10 +43,10 @@ class ilStructureObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject()
+	function ilStructureObject($a_id = 0)
 	{
-		parent::ilLMObject();
 		$this->setType("st");
+		parent::ilLMObject($a_id);
 	}
 
 	function create()

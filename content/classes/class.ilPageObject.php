@@ -688,7 +688,11 @@ class ilPageObject extends ilLMObject
 		if ($tree->isInTree($this->getId()))
 		{
 			$pred_node = $tree->fetchPredecessorNode($this->getId(), "st");
-			return $pred_node["title"];		// this is evil; todo: make it better
+			/*
+			require_once("content/classes/class.ilStructureObject.php");
+			$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
+			return $struct_obj->getTitle();*/
+			return $pred_node["title"];
 		}
 		else
 		{

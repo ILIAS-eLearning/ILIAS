@@ -45,11 +45,9 @@ class ilLMPresentationGUI
 		global $ilias;
 
 		$this->ilias =& $ilias;
-
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
 
 		// Todo: check lm id
-
 		$this->lm =& new ilLearningModule($_GET["ref_id"]);
 
 		$this->$cmd();
@@ -107,6 +105,7 @@ class ilLMPresentationGUI
 				? true
 				: false;
 			$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
@@ -269,8 +268,6 @@ class ilLMPresentationGUI
 			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
 			: "";
 
-		$output = "";
-
 		// determine target frame
 		$framestr = (!empty($_GET["frame"]))
 			? "frame=".$_GET["frame"]."&"
@@ -278,18 +275,29 @@ class ilLMPresentationGUI
 
 		if($pre_node != "")
 		{
-			$output .= "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
+			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
+			$pre_page =& new ilPageObject($pre_node["obj_id"]);
+			$pre_page->setLMId($this->lm->getId());
+			$pre_title = $pre_page->getPresentationTitle();
+			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">".$pre_node["obj_id"]."&lt;</a>";
+				"\">&lt; ".$pre_title."</a>";
+			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
+			$this->tpl->parseCurrentBlock();
 		}
 		if($succ_node != "")
 		{
-			$output .= " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
+			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
+			$succ_page =& new ilPageObject($succ_node["obj_id"]);
+			$succ_page->setLMId($this->lm->getId());
+			$succ_title = $succ_page->getPresentationTitle();
+			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">&gt;".$succ_node["obj_id"]."</a>";
-		}
+				"\">".$succ_title." &gt;</a>";
+			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);
+			$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("LMNAVIGATION_CONTENT", $output);
+		}
 
 
 	}

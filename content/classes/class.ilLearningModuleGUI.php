@@ -71,7 +71,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 
 	function view()
 	{
-		//add template for buttons
+		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
@@ -79,6 +79,28 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
+
+		// lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
+		$layouts = ilObjLearningModule::getAvailableLayouts();
+		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
+			$layouts, false, true);
+		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function saveProperties()
+	{
+		$this->object->setLayout($_POST["lm_layout"]);
+		$this->object->updateProperties();
+		$this->view();
 	}
 
 	function chapters()
