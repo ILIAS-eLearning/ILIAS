@@ -206,7 +206,7 @@ class RoleObject extends Object
 	**/
 	function permObject() 
 	{
-		global $tree, $tplContent, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
+		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
@@ -218,6 +218,7 @@ class RoleObject extends Object
 			$o = array();
 			$o["LINK1"] = "content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"];
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
+//			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
 			$tpl->setVariable("TABS", TUtil::showTabs(3,$o));	
@@ -279,21 +280,16 @@ class RoleObject extends Object
 			$tpl->setVariable("COL_ANZ",count($obj_data));
 			$tpl->setVariable("CHECK_BOTTOM",$box);
 			$tpl->setVariable("MESSAGE_TABLE","Change existing objects");		
-
 		
 			// USER ASSIGNMENT
 			if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 			{
-				$tpl->setCurrentBlock("ASSIGN");
 				$users = getUserList();
 				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 
-				$tpl->setVariable("MESSAGE_BOTTOM","Assign User To Role");
-				$tpl->setCurrentBLock("TABLE_USER");
-				$tpl->setVariable("ASSIGN_PAR",$_GET["parent_parent"]);
-
 				foreach ($users as $key => $user)
 				{
+					$tpl->setCurrentBLock("TABLE_USER");
 					$tpl->setVariable("CSS_ROW_USER",$key % 2 ? "tblrow1" : "tblrow2");
 					$checked = in_array($user["obj_id"],$assigned_users);
 					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
@@ -301,6 +297,10 @@ class RoleObject extends Object
 					$tpl->setVariable("USERNAME",$user["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				
+				$tpl->setCurrentBlock("ASSIGN");
+				$tpl->setVariable("MESSAGE_BOTTOM","Assign User To Role");
+				$tpl->setVariable("ASSIGN_PAR",$_GET["parent_parent"]);
 
 				$tpl->setVariable("ASSIGN_OBJ_ID",$_GET["obj_id"]);
 				$tpl->setVariable("ASSIGN_TPOS",$_GET["parent"]);
@@ -310,7 +310,6 @@ class RoleObject extends Object
 			$tpl->setVariable("MESSAGE_MIDDLE","Adopt Permissions from Role Template");
 			
 			// BEGIN ADOPT_PERMISSIONS
-			$tpl->setCurrentBlock("ADOPT_PERMISSIONS");
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 
 			// sort output for correct color changing
@@ -318,6 +317,7 @@ class RoleObject extends Object
 
 			foreach ($parent_role_ids as $key => $par)
 			{
+				$tpl->setCurrentBlock("ADOPT_PERMISSIONS");			
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
 				$tpl->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key, "tblrow1", "tblrow2"));
 				$tpl->setVariable("CHECK_ADOPT",$radio);
@@ -334,7 +334,6 @@ class RoleObject extends Object
 
 			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tpl->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
-
 			$tpl->parseCurrentBlock();
 			
 		}

@@ -14,7 +14,7 @@ else
 
 
 $methode = $cmd."Object"; 
-
+//echo $type."::".$methode;
 switch ($type)
 {
     case "le":
