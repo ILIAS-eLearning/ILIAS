@@ -1,16 +1,15 @@
 <?php
-include_once("./classes/class.IniFile.php");
-include_once("./classes/class.DBx.php");
-
 /**
 * ILIAS base class
+* perform basic setup: init database handler, load configuration file,
+* init user authentification & error handler, load object type definitions
 *
-* class to setup ILIAS
-*
+* @version $Id$
 * @author Sascha Hofmann <shofmann@databay.de>
+*
+* @extends PEAR
 * @package ilias-core
 * @access public
-* @version $Id$
 */
 class ILIAS extends PEAR
 {
@@ -81,10 +80,11 @@ class ILIAS extends PEAR
 								"le"   => "'rolf'",
 								"crs"  => "'le','frm','grp','file','rolf'",
 								"file" => "'rolf'",
-								"adm"  => "'usrf','rolf','objf'",
+								"adm"  => "'usrf','rolf','objf','lngf'",
 								"usrf" => "'user'",
 								"rolf" => "'role','rolt'",
-								"objf" => "'type'"
+								"objf" => "'type'",
+								"lngf" => "'lang'"
 							);
 	/**
 	* system settings
@@ -103,8 +103,7 @@ class ILIAS extends PEAR
 	/**
 	* Constructor
 	* setup ILIAS global object
-	* 
-	* @return boolean
+	* @access	public
 	*/
 	function ILIAS()
 	{
@@ -149,7 +148,7 @@ class ILIAS extends PEAR
 
 	/**
 	* destructor
-	* 
+	* @access	private
 	* @return boolean
 	*/
 	function _ILIAS()
@@ -164,9 +163,9 @@ class ILIAS extends PEAR
 
 	/**
 	* read string value from settingstable
-	* @access public
-	* @param string key
-	* @return string value
+	* @access	public
+	* @param	string	keyword
+	* @return	string	value
 	*/
 	function getSettingsStr($key)
 	{
@@ -185,9 +184,9 @@ class ILIAS extends PEAR
 
 	/**
 	* read integer value from settingstable
-	* @access public
-	* @param string key
-	* @return int value
+	* @access	public
+	* @param	string		keyword
+	* @return	integer		value
 	*/
 	function getSettingsInt($key)
 	{
@@ -207,10 +206,10 @@ class ILIAS extends PEAR
 
 	/**
 	* write integer value to settingstable
-	* @access public
-	* @param string key
-	* @param int value
-	* @return int value
+	* @access	public
+	* @param	string		keyword
+	* @param	integer		value
+	* @return	integer		value
 	*/
 	function setSettingsInt($key, $value)
 	{
@@ -221,5 +220,5 @@ class ILIAS extends PEAR
 		$r = $this->db->query($sql);
 		return true;
 	}
-}
+} // END class.ILIAS
 ?>
