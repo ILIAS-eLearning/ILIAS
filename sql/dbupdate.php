@@ -729,3 +729,24 @@ $query = "INSERT INTO rbac_ta VALUES('19','".$max_ops_id."')";
 $this->db->query($query);
 
 ?>
+
+<#28>
+<?php
+// ADD NEW OPERATION system messages
+$query = "SELECT MAX(ops_id) FROM rbac_operations ";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$max_ops_id = $row["MAX(ops_id)"];
+}
+++$max_ops_id;
+
+// INSERT NEW OPERAION system message
+$query = "INSERT INTO rbac_operations ".
+         "VALUES('".$max_ops_id."','system message','allow to send system messages')";
+$res = $this->db->query($query);
+
+// ADD OPERATION smtp mail FOR OBJECT MAIL
+$query = "INSERT INTO rbac_ta VALUES('19','".$max_ops_id."')";
+$this->db->query($query);
+?>

@@ -192,8 +192,19 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 // TYPE
 $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
 $tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
-$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
 
+// ONLY IF SYSTEM MAILS ARE ALLOWED
+if($rbacsystem->checkAccess("system message",$umail->getMailObjectReferenceId()))
+{
+	$tpl->setCurrentBlock("system_message");
+	$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
+	if($mail_data["m_type"] == 'system')
+	{
+		$tpl->setVariable("CHECKED_SYSTEM",'CHECKED');
+	}
+	$tpl->parseCurrentBlock();
+}
+	
 // ONLY IF SMTP MAILS ARE ALLOWED
 if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
 {
@@ -244,10 +255,6 @@ if(count($mail_data["attachments"]))
 if($mail_data["m_type"] == 'normal' or !$mail_data["m_type"])
 {
 	$tpl->setVariable("CHECKED_NORMAL",'CHECKED');
-}
-if($mail_data["m_type"] == 'system')
-{
-	$tpl->setVariable("CHECKED_SYSTEM",'CHECKED');
 }
 $tpl->setVariable("M_MESSAGE",$mail_data["m_message"]);
 $tpl->parseCurrentBlock();
