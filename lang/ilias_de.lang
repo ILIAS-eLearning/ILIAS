@@ -35,10 +35,13 @@ common#:#absolute_path#:#Absoluter Pfad
 common#:#who_is_online#:#Wer ist Online?
 common#:#users_online#:#Aktive Benutzer
 common#:#login_time#:#Onlinezeit
+common#:#user_assignment#:#Benutzerzuweisung
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
+common#:#search_user#:#Benutzer suchen
+common#:#change_assignment#:#Zuweisung &auml;ndern
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#add#:#hinzuf&uuml;gen
 common#:#add_author#:#Autor hinzuf&uuml;gen

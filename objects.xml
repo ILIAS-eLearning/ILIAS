@@ -192,6 +192,7 @@
 <object name="role" class_name="Role" checkbox="1" inherit="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
+	<property name="userassignment">user_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="rolf" class_name="RoleFolder" checkbox="0" inherit="0">
