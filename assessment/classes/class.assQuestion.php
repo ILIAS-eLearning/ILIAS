@@ -761,8 +761,8 @@ class ASS_Question
 	*/
 	function getJavaPathWeb()
 	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/java/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
 	/**
@@ -775,8 +775,8 @@ class ASS_Question
 	*/
 	function getImagePathWeb()
 	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/images/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
 	/**
@@ -1367,17 +1367,17 @@ class ASS_Question
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
-					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "PageObject":
 				case "StructureObject":
-					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "GlossaryItem":
-					$href = ILIAS_HTTP_PATH ."/goto.php?target=" . $type . "_" . $target_id;
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) ."/goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "MediaObject":
-					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					$href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
 					break;
 			}
 		}

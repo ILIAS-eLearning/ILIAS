@@ -2261,6 +2261,12 @@ $a_allow = "<strong><em><code><cite><gap>";
 
          return $ret;
     }
-
+	
+	function removeTrailingPathSeparators($path)
+	{
+		$path = preg_replace("/[\/\\\]+$/", "", $path);
+		return $path;
+	}
+	
 } // END class.ilUtil
 ?>

@@ -1060,7 +1060,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE")) {
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"], "");
+				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"], "");
 			}
 		} else {
 			foreach ($path as $key => $row)
@@ -1070,7 +1070,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				if ($this->ref_id == $row["child"]) {
 					$param = "&cmd=questions";
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/survey/questionpool.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/questionpool.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
 					switch ($_GET["cmd"]) {
 						case "questions":
 							$id = $_GET["edit"];
@@ -1080,13 +1080,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 							if ($question_title) {
 								if ($id > 0)
 								{
-									$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/survey/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
+									$ilias_locator->navigate($i++, $question_title, ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=questions&edit=$id","target=\"bottom\"");
 								}
 							}
 							break;
 					}
 				} else {
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?ref_id=".$row["child"],"target=\"bottom\"");
 				}
 			}
 	

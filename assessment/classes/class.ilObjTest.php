@@ -3056,8 +3056,8 @@ class ilObjTest extends ilObject
 * @access public
 */
 	function getImagePathWeb() {
-		$webdir = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/images/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
   function &createQuestionGUI($question_type, $question_id = -1) {

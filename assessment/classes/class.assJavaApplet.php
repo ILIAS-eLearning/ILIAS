@@ -283,7 +283,7 @@ class ASS_JavaApplet extends ASS_Question
 				$qtiMaterial->append_child($qtiMatText);
 				$qtiMatText = $this->domxml->create_element("mattext");
 				$qtiMatText->set_attribute("label", "post_url");
-				$qtiAppletParams = $this->domxml->create_text_node(ILIAS_HTTP_PATH . "/assessment/save_java_question_result.php");
+				$qtiAppletParams = $this->domxml->create_text_node(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/save_java_question_result.php");
 				$qtiMatText->append_child($qtiAppletParams);
 				$qtiMaterial->append_child($qtiMatText);
 				$info = $this->getReachedInformation($ilUser->id, $test_output);
