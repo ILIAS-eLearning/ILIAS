@@ -26,6 +26,8 @@ class ilObjMailGUI extends ilObjectGUI
 	function editObject()
 	{
 		parent::editObject();
+		
+		$this->lng->loadLanguageModule("mail");
 
 		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.mail_basicdata.html");
 		$this->tpl->setCurrentBlock("systemsettings");
