@@ -723,5 +723,28 @@ class ilObject
 		
 		return $rfoldObj;
 	}
+
+	/**
+	* notifys an object about an event occured
+	* Bese on the event passed, each object may decide how it reacts.
+	* TODO: add optional array to pass parameters
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @return	boolean
+	*/
+	function notify(&$a_event,&$a_ref_id)
+	{
+		global $tree;
+
+		if ($parent_id = $tree->getParentId($a_ref_id))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
+			$obj_data->notify($a_event,$a_ref_id);
+		}
+				
+		return true;
+	}
 } // END class.ilObject
 ?>

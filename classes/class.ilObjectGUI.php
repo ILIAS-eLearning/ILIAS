@@ -502,6 +502,10 @@ class ilObjectGUI
 		{
 			// CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
+			
+			// inform other objects in hierarchy about cut operation
+			// TODO: pass a mapping array with old ref_ids and new ref_ids
+			$this->object->notify("copy", $_GET["ref_id"]);			
 			return true;
 		}
 
@@ -544,6 +548,8 @@ class ilObjectGUI
 					}
 				}
 			}
+			// inform other objects in hierarchy about cut operation
+			$this->object->notify("cut", $_GET["ref_id"]);
 		} // END CUT
 
 		// process LINK command
@@ -557,6 +563,7 @@ class ilObjectGUI
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
 			}
+
 			// now move all subtrees to new location
 			foreach ($subnodes as $key => $subnode)
 			{
@@ -612,6 +619,9 @@ class ilObjectGUI
 					}
 				}
 			}
+			// inform other objects in hierarchy about link operation
+			// TODO: pass mapping array
+			$this->object->notify("link", $_GET["ref_id"]);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -642,7 +652,6 @@ class ilObjectGUI
 	{
 		session_unregister("clipboard");
 
-		//var_dump("<pre>",$_POST,"</pre>");exit;
 		if (isset($_POST["cmd"]["clear"]))
 		{
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
