@@ -1079,7 +1079,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
-		switch ($_POST["conflict_handling_rule"])
+		switch ($_POST["conflict_handling_choice"])
 		{
 			case "update_on_conflict" :
 				$rule = IL_UPDATE_ON_CONFLICT;

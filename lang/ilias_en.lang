@@ -1839,6 +1839,7 @@ common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
+common#:#no_import_file_found#:#No import file found
 common#:#no_invalid_links#:#No invalid links found.
 common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
