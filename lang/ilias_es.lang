@@ -652,6 +652,7 @@ common#:#rename#:#Rename###28 Mar 2003 new variable
 common#:#reply#:#reply
 common#:#required_field#:#required
 common#:#reset#:#reset
+common#:#resources#:#Resources###25 Oct 2003 new variable
 common#:#retype_password#:#retype password
 common#:#right#:#right
 common#:#rights#:#rights

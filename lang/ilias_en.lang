@@ -269,7 +269,6 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
-common#:#resources#:#Resources
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
 common#:#grp_mem_change_status#:#Change member status
@@ -656,6 +655,7 @@ common#:#rename#:#Rename
 common#:#reply#:#Reply
 common#:#required_field#:#Required Field
 common#:#reset#:#Reset
+common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
 common#:#right#:#Right
 common#:#rights#:#Rights
