@@ -56,6 +56,7 @@ administration#:#purge_missing_desc#:#Remove all missing and unbound objects fou
 administration#:#purge_trash#:#Purge deleted objects###16 Mar 2004 new variable
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###16 Mar 2004 new variable
 administration#:#purging#:#Purging...###16 Mar 2004 new variable
+administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
 administration#:#purging_trash#:#Purging trash...###16 Mar 2004 new variable
 administration#:#purging_unbound_objs#:#Purging unbound objects...###16 Mar 2004 new variable
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...###16 Mar 2004 new variable
@@ -674,17 +675,17 @@ common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
 common#:#file_added#:#Datei hochgeladen
-common#:#file_edit#:#Datei bearbeiten
-common#:#file_new#:#Neue Datei
-common#:#file_read#:#Datei runterladen
-common#:#file_visible#:#Datei ist sichtbar
-common#:#file_write#:#Datei bearbeiten
 common#:#file_delete#:#Datei löschen
+common#:#file_edit#:#Datei bearbeiten
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
+common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
+common#:#file_read#:#Datei runterladen
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
+common#:#file_visible#:#Datei ist sichtbar
+common#:#file_write#:#Datei bearbeiten
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
@@ -694,21 +695,21 @@ common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
-common#:#fold_edit#:#Ordner bearbeiten
-common#:#fold_new#:#Neuer Ordner
-common#:#folder#:#Ordner
-common#:#fold_read#:#Lesezugriff auf Ordner
-common#:#fold_visible#:#Ordner ist sichtbar
-common#:#fold_write#:#Ordner bearbeiten
-common#:#fold_delete#:#Ordner löschen
-common#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_create_chat#:#Neuen Chat anlegen
 common#:#fold_create_file#:#Neue Datei hochladen
 common#:#fold_create_fold#:#Neuen Ordner anlegen
 common#:#fold_create_frm#:#Neues Forum anlegen
+common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_lm#:#Neues Lernmodul anlegen
 common#:#fold_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#fold_create_glo#:#Neues Glossar anlegen
+common#:#fold_delete#:#Ordner löschen
+common#:#fold_edit#:#Ordner bearbeiten
+common#:#fold_edit_permission#:#Rechteeinstellungen ändern
+common#:#fold_new#:#Neuer Ordner
+common#:#fold_read#:#Lesezugriff auf Ordner
+common#:#fold_visible#:#Ordner ist sichtbar
+common#:#fold_write#:#Ordner bearbeiten
+common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
@@ -797,12 +798,12 @@ common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_file#:#Neue Datei hochladen
-common#:#grp_create_fold#:#Neuen Ordner anlegen
+common#:#grp_create_file#:#Neue Datei hochladen###17 Apr 2004 content changed
+common#:#grp_create_fold#:#Neuen Ordner anlegen###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Neues Forum anlegen
+common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.
@@ -1691,6 +1692,7 @@ content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_format#:#Format
+content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen

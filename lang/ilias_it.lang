@@ -56,6 +56,7 @@ administration#:#purge_missing_desc#:#Rimuovi tutti gli oggetti mancanti o scoll
 administration#:#purge_trash#:#Libera gli oggetti cancellati
 administration#:#purge_trash_desc#:#Rimuovi dal sistema tutti gli oggetti nel cestino.
 administration#:#purging#:#Sto liberando ...
+administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
 administration#:#purging_trash#:#Sto svuotando il cestino ...
 administration#:#purging_unbound_objs#:#Sto liberando gli oggetti scollegati ...
 administration#:#removing_invalid_childs#:#Rimuovi le voci non valide dall'albero ...
@@ -78,7 +79,7 @@ administration#:#searching_invalid_childs#:#Sto cercando gli elementi non validi
 administration#:#searching_invalid_refs#:#Sto cercando i riferimenti non validi ...
 administration#:#searching_missing_objs#:#Sto cercando gli oggetti mancanti ...
 administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ...
-administration#:#skippede#:#saltata
+administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Controllo sistema
 administration#:#view_last_log#:#Vedi l'ultimo log di esame
@@ -674,12 +675,17 @@ common#:#file#:#File
 common#:#file_a#:#un file
 common#:#file_add#:#Upload del file
 common#:#file_added#:#Upload del file eseguito
+common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
+common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
+common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
+common#:#file_visible#:#File is visible###17 Apr 2004 new variable
+common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
@@ -689,8 +695,20 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
+common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
+common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
+common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
+common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
+common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#fold_new#:#Nuova cartella
+common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
+common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
+common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
@@ -780,9 +798,10 @@ common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_chat#:#Creare Chat
-common#:#grp_create_file#:#Eseguire upload di file
-common#:#grp_create_fold#:#Creare cartelle
+common#:#grp_create_file#:#Eseguire upload di file###17 Apr 2004 content changed
+common#:#grp_create_fold#:#Creare cartelle###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Creare forum
+common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Cancellare il gruppo
@@ -1673,6 +1692,7 @@ content#:#cont_external#:#esterno
 content#:#cont_file#:#File
 content#:#cont_files#:#File
 content#:#cont_format#:#Formato
+content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
 content#:#cont_get_link#:#restituisci il collegamento
