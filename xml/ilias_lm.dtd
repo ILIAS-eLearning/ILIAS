@@ -243,17 +243,18 @@
 <!-- Code -->
 <!ELEMENT Code (#PCDATA)>
 <!ATTLIST Code
-	Id ID #REQUIRED
+	Id ID #IMPLIED
 	ProgrammingLanguage CDATA #IMPLIED
 >
 <!-- Formula -->
 <!ELEMENT Formula (#PCDATA)>
 <!ATTLIST Formula
-	Id ID #REQUIRED
+	Id ID #IMPLIED
 >
 <!-- List -->
 <!ELEMENT List (Title?, Item+)>
 <!ATTLIST List
+	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
 >
 <!ELEMENT Item (Paragraph+)>
