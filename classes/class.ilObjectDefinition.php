@@ -181,34 +181,35 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getSubObjects($a_obj_name)
 	{
-		// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
-		if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_name == "grp"))
+		$subs = array();
+		if($subobjects = $this->obj_data[$a_obj_name]["subobjects"])
 		{
-			$subs = array();
-			foreach ($this->obj_data[$a_obj_name]["subobjects"] as $data => $sub)
+			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
+			if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_name == "grp"))
 			{
-				if($sub["module"] != 1)
+				foreach ($subobjects as $data => $sub)
 				{
-					$subs[$data] = $sub;
+					if($sub["module"] != 1)
+					{
+						$subs[$data] = $sub;
+					}
 				}
-			}
 
-			return $subs;
-		}
-		else
-		{
-			$subs = array();
-			foreach ($this->obj_data[$a_obj_name]["subobjects"] as $data => $sub)
+				return $subs;
+			}
+			else
 			{
-				if($sub["module"] != "n")
+				foreach ($subobjects as $data => $sub)
 				{
-					$subs[$data] = $sub;
+					if($sub["module"] != "n")
+					{
+						$subs[$data] = $sub;
+					}
 				}
+				return $subs;
 			}
-
-			return $subs;
 		}
-		
+		return $subs;
 		// original code temp. disabled
 		//return $this->obj_data[$a_obj_name]["subobjects"];
 	}
