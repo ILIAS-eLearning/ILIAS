@@ -81,7 +81,7 @@ $limit = intval($_GET["limit"]);
 
 if ($limit == 0)
 {
-	$limit = 2;	// TODO: move to user settings 
+	$limit = 10;	// TODO: move to user settings 
 }
 
 // set default sort column
