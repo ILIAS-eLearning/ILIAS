@@ -177,6 +177,23 @@ class ilPaymentBookings
 		}
 		return 0;
 	}
+
+	function _hasAccess($a_pobject_id,$a_user_id = 0)
+	{
+		global $ilDB,$ilias;
+
+		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
+		
+		$query = "SELECT * FROM payment_statistic ".
+			"WHERE pobject_id = '".$a_pobject_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->access ? true : false;
+		}
+		return false;
+	}
 	
 	function _getCountBookingsByPayMethod($a_pm)	
 	{
