@@ -806,6 +806,11 @@ content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
+content#:#cont_create_dir#:#Create Directory
+content#:#cont_upload_file#:#Upload File
+content#:#cont_dir_file#:#Directory/File
+content#:#cont_size#:#Size
+content#:#cont_purpose#:#Purpose
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
