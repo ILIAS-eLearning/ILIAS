@@ -200,7 +200,7 @@ $tbl = new ilTableGUI();
 
 // title & header columns
 $tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
-$tbl->setHelp("tbl_help.php","icon_le.gif",$lng->txt("help"));
+$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 $tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("status"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
 $tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"));
 //$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
