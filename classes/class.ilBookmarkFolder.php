@@ -168,5 +168,68 @@ class ilBookmarkFolder
 		$this->parent = $a_parent_id;
 	}
 
+	/**
+	* static
+	*/
+	function getObjects($a_id)
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+
+		if(empty($a_id))
+		{
+			$a_id = $tree->getRootId();
+		}
+
+		$childs = $tree->getChilds($a_id, "title");
+
+		$objects = array();
+		$bookmarks = array();
+
+		foreach ($childs as $key => $child)
+		{
+			switch ($child["type"])
+			{
+				case "bmf":
+					$objects[] = $child;
+					break;
+
+				case "bm":
+					$bookmarks[] = $child;
+					break;
+			}
+		}
+		foreach ($bookmarks as $key => $bookmark)
+		{
+			$objects[] = $bookmark;
+		}
+		return $objects;
+	}
+
+	function isRootFolder($a_id)
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+
+		if ($a_id == $tree->getRootId())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function getRootFolder()
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+
+		return $tree->getRootId();
+	}
 }
 ?>
