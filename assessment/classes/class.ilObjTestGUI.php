@@ -707,7 +707,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAuthor($data["author"]);
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
-		$this->object->setScoreReporting($data["score_reporting"]);
+		if ($this->object->getTestType() == TYPE_ASSESSMENT)
+		{
+			$this->object->setScoreReporting(REPORT_AFTER_TEST);
+		}
+		else
+		{
+			$this->object->setScoreReporting($data["score_reporting"]);
+		}
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
@@ -2022,30 +2029,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function moveQuestionsObject()
 	{
-		$checked_move = 0;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
-			{
-				$checked_move++;
-				$this->tpl->setCurrentBlock("move");
-				$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-				$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		if ($checked_move)
-		{
-			sendInfo($this->lng->txt("select_target_position_for_move_question"));
-			$this->tpl->setCurrentBlock("move_buttons");
-			$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-			$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			sendInfo($this->lng->txt("no_question_selected_for_move"));
-		}
 		$this->questionsObject();
 	}
 	
@@ -2189,6 +2172,34 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", true);
 		$this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
 
+		if (strcmp($this->ctrl->getCmd(), "moveQuestions") == 0)
+		{
+			$checked_move = 0;
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					$checked_move++;
+					$this->tpl->setCurrentBlock("move");
+					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
+					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			if ($checked_move)
+			{
+				sendInfo($this->lng->txt("select_target_position_for_move_question"));
+				$this->tpl->setCurrentBlock("move_buttons");
+				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_question_selected_for_move"));
+			}
+		}
+		
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
 			$this->ilias->db->quote($this->object->getTestId())
 		);
