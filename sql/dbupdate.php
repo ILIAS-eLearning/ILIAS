@@ -3707,3 +3707,124 @@ CREATE TABLE `ut_access` (
   `acc_time` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
+
+<#227>
+<?php
+
+// get visible id
+$query = "SELECT * FROM rbac_operations WHERE operation='visible'";
+$result = $this->db->query($query);
+$visible_id = "";
+if ($result->numRows() == 1)
+{
+	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$visible_id = $row["ops_id"];
+}
+
+// get participate id
+$query = "SELECT * FROM rbac_operations WHERE operation='participate'";
+$result = $this->db->query($query);
+$participate_id = "";
+if ($result->numRows() == 1)
+{
+	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$participate_id = $row["ops_id"];
+}
+
+// check if User role still exists
+$query = "SELECT * FROM object_data WHERE type='role' AND title='User'";
+$result = $this->db->query($query);
+$user_id = "";
+if ($result->numRows() == 1)
+{
+	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$user_id = $row["obj_id"];
+}
+
+// check if Guest role still exists
+$query = "SELECT * FROM object_data WHERE type='role' AND title='Guest'";
+$result = $this->db->query($query);
+$guest_id = "";
+if ($result->numRows() == 1)
+{
+	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$guest_id = $row["obj_id"];
+}
+
+// create default roles for assessment tests
+
+if ($user_id and $visible_id)
+{
+	// tests visible for users
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($user_id),
+		$this->db->quote("tst"),
+		$this->db->quote($visible_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+if ($guest_id and $visible_id)
+{
+	// tests visible for guests
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($guest_id),
+		$this->db->quote("tst"),
+		$this->db->quote($visible_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+// create default roles for surveys
+
+if ($user_id and $visible_id)
+{
+	// surveys visible for users
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($user_id),
+		$this->db->quote("svy"),
+		$this->db->quote($visible_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+if ($guest_id and $visible_id)
+{
+	// surveys visible for guests
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($guest_id),
+		$this->db->quote("svy"),
+		$this->db->quote($visible_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+if ($user_id and $participate_id)
+{
+	// users can participate surveys
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($user_id),
+		$this->db->quote("svy"),
+		$this->db->quote($participate_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+if ($guest_id and $participate_id)
+{
+	// guests can participate surveys
+	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+		$this->db->quote($guest_id),
+		$this->db->quote("svy"),
+		$this->db->quote($participate_id),
+		ROLE_FOLDER_ID
+	);
+	$result = $this->db->query($query);
+}
+
+?>
