@@ -7,8 +7,6 @@
 * @version $Id$
 * 
 * @package ilias-core
-* @todo maybe only container should be visible, because the number of objects could be to big for recursion
-* implement a sort function
 */
 class Explorer
 {
@@ -79,6 +77,7 @@ class Explorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
+
 	function setOutput($a_parent, $a_depth = 1)
 	{
 		global $rbacadmin, $rbacsystem;

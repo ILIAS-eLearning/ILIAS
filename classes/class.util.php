@@ -362,13 +362,15 @@ class TUtil
 	* recursive method
 	* 
 	* @access	public
-	* @param	string	type
-	* @param	string	permissions to check e.g. 'visible','read'
+	* @param	string	type or 'all' to get all objects
+	* @param	string	permissions to check e.g. 'visible','read' 
 	*/
 	function getObjectsByOperations($a_type,$a_operation,$a_node = 0)
 	{
 		global $tree, $rbacsystem;
 		static $objects = array();
+
+		$all = $a_type == 'all' ? true : false;
 
 		if($childs = $tree->getChilds($a_node))
 		{
@@ -377,7 +379,7 @@ class TUtil
 				// CHECK IF CONTAINER OBJECT IS VISIBLE
 				if($rbacsystem->checkAccess('visible',$child["obj_id"],$child["parent"],$a_type))
 				{
-					if($child["type"] == $a_type)
+					if($all or $child["type"] == $a_type)
 					{
 						// NOW CHECK FOR ASKED OPERATION
 						if($rbacsystem->checkAccess($a_operation,$child["obj_id"],$child["parent"],$a_type))

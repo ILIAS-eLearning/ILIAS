@@ -882,6 +882,24 @@ class Tree
 	   return true;
 	}
 	/**
+	* save node: copy a node (defined by obj_id and parent) to a new tree
+    *      with tree_id -obj_id.This is neccessary for link
+ 	* @param	integer	tree_id
+ 	* @param	integer	obj_id
+    * @param    integer parent
+	* @return	integer
+	* @access	public
+	*/
+	function saveNode($a_obj_id,$a_parent,$a_tree)
+	{
+	   // SAVE NODE
+		$query = "INSERT INTO tree ".
+			"VALUES ('".-$a_obj_id."','".$a_obj_id."','".$a_parent."','1','2','1')";
+		$res = $this->ilias->db->query($query);
+		return true;
+	}
+
+	/**
 	* get data saved/deleted nodes
 	* @return	array data
 	* @param id of parent object of saved object
