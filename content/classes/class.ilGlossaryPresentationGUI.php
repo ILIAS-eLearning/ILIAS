@@ -189,7 +189,7 @@ class ilGlossaryPresentationGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		$term_list = $this->glossary->getTermList();
+//		$term_list = $this->glossary->getTermList();
 		$tbl->setMaxCount(count($term_list));
 
 		// sorting array
