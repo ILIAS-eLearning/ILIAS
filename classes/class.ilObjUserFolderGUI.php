@@ -998,22 +998,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
 								$path .= " > ";
 							}
 
-							$path .= $tmpPath[$i]["title"];
+							// workaround: gets to long, take only last one
+							$path = $tmpPath[$i]["title"];
 						}
 					}
 					else
 					{
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
-					if (strlen($path) > 30)
+					
+					// workaround
+					if (strlen($path) > 50)
 					{
-						$path = strlen($path,0,14).'...'.substr($path,strlen($path)-14);
+						//$path = substr($path,0,14).'...'.substr($path,strlen($path)-14);
+						$path = substr($path,0,45)."...";
 					}
-
 
 					if ($loc_role["role_type"] != "Global")
 					{
-						$l_roles[$loc_role["obj_id"]] = $path.": ".$loc_role["title"];
+						$l_roles[$loc_role["obj_id"]] = $loc_role["title"]." ($path)";
 					}
 					if ($loc_role["title"] == $role["name"])
 					{
