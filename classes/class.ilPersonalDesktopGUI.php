@@ -64,6 +64,8 @@ class ilPersonalDesktopGUI
 			"types" => "grp"),
 			array("title" => $this->lng->txt("objs_svy"),
 			"types" => "svy"),
+			array("title" => $this->lng->txt("objs_crs"),
+			"types" => "crs"),
 			array("title" => $this->lng->txt("objs_exc"),
 				  "types" => "exc")
 			);

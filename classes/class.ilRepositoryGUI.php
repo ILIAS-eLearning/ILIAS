@@ -2657,6 +2657,19 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
+					!$this->ilias->account->isDesktopItem($cont_data["ref_id"], "crs"))
+				{
+					$tpl->setCurrentBlock("crs_desklink");
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$cont_data["ref_id"].
+						"&type=crs&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
+					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
+
 
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
@@ -3121,7 +3134,7 @@ class ilRepositoryGUI
 
 				$this->tpl->setCurrentBlock("object_options");
 				$this->tpl->setVariable("OBJECT_TYPE",$this->lng->txt("obj_".$type));
-				$this->tpl->setVariable("SELECT_OBJ",ilUtil::formSelect('copy',$type,$actions,false,true));
+				$this->tpl->setVariable("SELECT_OBJ",ilUtil::formSelect('copy',"action[$type]",$actions,false,true));
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -3147,8 +3160,17 @@ class ilRepositoryGUI
 		}
 		else
 		{
+			if(in_array("link",$_POST["action"]))
+			{
+				if(!$this->checkDuplicateAccess($_POST["action"],$_GET["source_id"]))
+				{
+					sendInfo($this->lng->txt("no_access_link_object"),true);
+					
+					$this->ctrl->redirect($this,'showList');
+				}
+			}
 			// call recursive copy link method
-			$this->duplicate($_POST,$this->cur_ref_id,(int) $_GET["source_id"]);
+			$this->duplicate($_POST["action"],$this->cur_ref_id,(int) $_GET["source_id"]);
 		}
 		sendInfo($this->lng->txt("copied_object"),true);
 		
@@ -3196,6 +3218,24 @@ class ilRepositoryGUI
 		$tmp_source->initDefaultRoles();
 
 		return $new_ref;
+	}
+	function checkDuplicateAccess($a_types,$a_source_id)
+	{
+		foreach($this->tree->getSubTree($this->tree->getNodeData($a_source_id)) as $node)
+		{
+			if($node["type"] == 'rolf')
+			{
+				continue;
+			}
+			if($a_types["$node[type]"] == 'link')
+			{
+				if(!$this->rbacsystem->checkAccess('delete',$node["child"]))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 
