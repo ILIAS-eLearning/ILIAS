@@ -42,7 +42,7 @@ common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#also_as_email#:#auch als eMail
+common#:#also_as_email#:#Auch als eMail
 common#:#announce#:#ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
@@ -291,41 +291,42 @@ common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
 common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
-common#:#mail_a_root#:#Mailbox
+common#:#mail_a_root#:#Nachrichten
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_attachments#:#Attachments
-common#:#mail_b_inbox#:#Inbox
-common#:#mail_bc_search#:#BC search
-common#:#mail_c_trash#:#Trash
-common#:#mail_cc_search#:#CC search
-common#:#mail_d_drafts#:#Drafts
-common#:#mail_delete_error#:#Error deleting mail(s)
-common#:#mail_deleted#:#The mail(s) have been deleted
-common#:#mail_e_sent#:#Sent
+common#:#mail_b_inbox#:#Posteingang
+common#:#mail_bc_search#:#BC Empfänger suchen
+common#:#mail_c_trash#:#Papierkorb
+common#:#mail_cc_search#:#CC Empfänger suchen
+common#:#mail_d_drafts#:#Entwürfe
+common#:#mail_delete_error#:#Fehler beim Löschen
+common#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
+common#:#mail_e_sent#:#Gesendete
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Mails of
-common#:#mail_mark_read#:#Mark mails read
-common#:#mail_mark_unread#:#Mark mails unread
+common#:#mail_mails_of#:#Nachrichten von:
+common#:#mail_mark_read#:#Als gelesen markieren
+common#:#mail_mark_unread#:#Als ungelesen markieren
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxsize_mail#:#Max. Mailgrösse
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails 
-common#:#mail_message_send#:#The message is send
-common#:#mail_move_error#:#Error moving mail(s)
-common#:#mail_move_to#:#Move mails to
-common#:#mail_moved#:#The mail(s) have been moved
-common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
-common#:#mail_s#:#Mail(s)
-common#:#mail_s_unread#:#Ungelesene Mail(s)
-common#:#mail_saved#:#The message is saved
-common#:#mail_search_word#:#Search word
-common#:#mail_select_one#:#You have to select one mail.
-common#:#mail_send_error#:#Error sending mail
-common#:#mail_sent#:#Mail erfolgreich versendet!
-common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
-common#:#mail_to_search#:#To search
-common#:#mail_z_local#:#User Folders
+common#:#mail_message_send#:#Ihre Nachricht wurde versandt
+common#:#mail_move_error#:#Fehler beim Senden der Nachricht
+common#:#mail_move_to#:#Nachricht(en) verschieben
+common#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+common#:#mail_moved#:#Ihre Nachrichten wurden verschoben
+common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
+common#:#mail_s#:#Nachrichten
+common#:#mail_s_unread#:#Ungelesene Nachrichten
+common#:#mail_saved#:#Ihre Nachricht wurde gespeichert
+common#:#mail_search_word#:#Suche
+common#:#mail_select_one#:#Sie müßen mindestens eine Nachricht auswählen
+common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
+common#:#mail_sent#:#Ihre Nachricht wurde versandt
+common#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
+common#:#mail_to_search#:#Empfänger suchen
+common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
@@ -534,4 +535,19 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#download#:#Herunterladen
+common#:#attachments#:#Attachments
+common#:#attachment#:#Attachment
+common#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
+common#:#mail_addressbook#:#Adressbuch
+common#:#persons#:#Personen
+common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
+common#:#search_system#:#Systemsuche
+common#:#search_addressbook#:#Adressbuchsuche
+common#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
+common#:#mail_addr_entries#:#Einträge
+common#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
+common#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
+common#:#mail_deleted_entry#:#die Einträge wurden gelöscht
+common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
 common#:#new_mail#:#Neue Mail!

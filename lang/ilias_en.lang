@@ -299,7 +299,7 @@ common#:#mail_bc_search#:#BC search
 common#:#mail_c_trash#:#Trash
 common#:#mail_cc_search#:#CC search
 common#:#mail_d_drafts#:#Drafts
-common#:#mail_delete_error#:#Error deleting mail(s)
+common#:#mail_delete_error#:#Error while deleting
 common#:#mail_deleted#:#The mail(s) have been deleted
 common#:#mail_e_sent#:#Sent
 common#:#mail_intern_enable#:#Enable
@@ -315,6 +315,7 @@ common#:#mail_message_send#:#The message is send
 common#:#mail_move_error#:#Error moving mail(s)
 common#:#mail_move_to#:#Move mails to
 common#:#mail_moved#:#The mail(s) have been moved
+common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
@@ -534,4 +535,19 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#download#:#Download
+common#:#attachments#:#Attachments
+common#:#attachment#:#Attachment
+common#:#mail_insert_query#:#Please insert a query
+common#:#mail_addressbook#:#Addressbook
+common#:#persons#:#Personen
+common#:#mail_search_no#:#No entries found
+common#:#search_system#:#System search
+common#:#search_addressbook#:#Addressbook search
+common#:#mail_add_to_addressbook#:#Add to addressbook
+common#:#mail_addr_entries#:#Entries
+common#:#mail_select_one_entry#:#You have to select one entry
+common#:#mail_select_one_file#:#You have to select one file
+common#:#mail_deleted_entry#:#The entries are deleted
+common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 common#:#new_mail#:#New mail!
