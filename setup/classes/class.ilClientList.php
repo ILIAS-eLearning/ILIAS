@@ -52,17 +52,14 @@ class ilClientList
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (strlen($entry) == 32)
+			if (is_file($this->path."/".$entry."/client.ini.php"))
 			{
-				if (is_file($this->path."/".$entry."/client.ini.php"))
-				{
-					$client = new ilClient($entry);
-					$client->init();
-					
-					$this->clients[$entry] = $client;
-					
-					unset($client);
-				}
+				$client = new ilClient($entry);
+				$client->init();
+				
+				$this->clients[$entry] = $client;
+				
+				unset($client);
 			}
 		}
 		

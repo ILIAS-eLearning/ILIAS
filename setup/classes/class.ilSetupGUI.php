@@ -65,7 +65,7 @@ class ilSetupGUI extends ilSetup
 		
 		//CVS - REVISION - DO NOT MODIFY
 		$this->revision = "$Revision$";
-		$this->version = substr(substr($this->revision,2),0,-2);
+		$this->version = "2.".substr(substr($this->revision,2),0,-2);
 		$this->lang = $this->lng->lang_key;
 		
 		// init setup	
@@ -110,8 +110,8 @@ class ilSetupGUI extends ilSetup
 		// main cmd handling
 		if (!$this->isAuthenticated())
 		{
-			// check for first time installation
-			if (!$this->isInstalled())
+			// check for first time installation or migrate an old one first
+			if (!$this->isInstalled() or !($this->ini->readVariable("clients","path")))
 			{
 				$this->cmdInstall();
 			}
@@ -223,7 +223,15 @@ class ilSetupGUI extends ilSetup
 		{
 			case NULL:
 			case "view":
-				$this->displayClientOverview();
+				if ($this->client->db_exists)
+				{
+					$this->displayClientOverview();
+				}
+				else
+				{
+					$this->cmd = "db";
+					$this->displayDatabase();
+				}
 				break;
 				
 			case "ini":
@@ -244,19 +252,51 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "contact":
-				$this->displayContactData();
+				if (!$this->client->db_exists)
+				{
+					$this->cmd = "db";
+					$this->displayDatabase();
+				}
+				else
+				{
+					$this->displayContactData();
+				}
 				break;
 	
 			case "nic":
-				$this->displayNIC();
+				if (!$this->client->db_exists)
+				{
+					$this->cmd = "db";
+					$this->displayDatabase();
+				}
+				else
+				{
+					$this->displayNIC();
+				}
 				break;
 	
 			case "lang":
-				$this->displayLanguages();
+				if (!$this->client->db_exists)
+				{
+					$this->cmd = "db";
+					$this->displayDatabase();
+				}
+				else
+				{
+					$this->displayLanguages();
+				}
 				break;
 
 			case "finish":
-				$this->displayFinishSetup();
+				if (!$this->client->db_exists)
+				{
+					$this->cmd = "db";
+					$this->displayDatabase();
+				}
+				else
+				{
+					$this->displayFinishSetup();
+				}
 				break;
 
 			case "changeaccess":
@@ -291,8 +331,13 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
 
-		$settings = $this->client->getAllSettings();
+		if ($this->client->db_exists)
+		{
+			$settings = $this->client->getAllSettings();
+		}
 		
+		$txt_no_database = "no database";
+
 		$access_status = ($this->client->status["access"]["status"]) ? "online" : "disabled";
 		$access_button = ($this->client->status["access"]["status"]) ? "disable" : "enable";
 		$access_link = "&nbsp;&nbsp;[<a href=\"setup.php?cmd=changeaccess&client_id=".$this->client->getId()."&back=view\">".$access_button."</a>]";
@@ -330,11 +375,11 @@ class ilSetupGUI extends ilSetup
 		// display formula data
 
 		// client data
-		$this->tpl->setVariable("INST_ID",$settings["inst_id"]);
+		$this->tpl->setVariable("INST_ID",($this->client->db_exists) ? $settings["inst_id"] : $txt_no_database);
 		$this->tpl->setVariable("CLIENT_ID2",$this->client->getId());
 		$this->tpl->setVariable("INST_NAME",$this->client->getName());
 		$this->tpl->setVariable("INST_INFO",$this->client->getDescription());
-		$this->tpl->setVariable("DB_VERSION",$settings["db_version"]);
+		$this->tpl->setVariable("DB_VERSION",($this->client->db_exists) ? $settings["db_version"] : $txt_no_database);
 		$this->tpl->setVariable("ACCESS_STATUS",$access_status.$access_link);
 
 		// server data
@@ -345,10 +390,10 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);	// not used
 		$this->tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 		$this->tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
-		$this->tpl->setVariable("ILIAS_VERSION",$settings["ilias_version"]);
+		$this->tpl->setVariable("ILIAS_VERSION",($this->client->db_exists) ? $settings["ilias_version"] : $txt_no_database);
 
-		$this->tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
-		$this->tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
+		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->client->db_exists) ? $settings["feedback_recipient"] : $txt_no_database);
+		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_exists) ? $settings["error_recipient"] : $txt_no_database);
 
 		// pathes to tools
 		$not_set = "path_not_set";
@@ -796,11 +841,6 @@ class ilSetupGUI extends ilSetup
 
 	function displayClientList()
 	{
-		if ($_POST["access"])
-		{
-			echo "blubb";exit;
-		}
-		
 		$_SESSION["ClientId"] = "";
 
 		$clientlist = new ilClientList();
@@ -815,7 +855,7 @@ class ilSetupGUI extends ilSetup
 		$data = array();
 		$data["data"] = array();
 		$data["ctrl"] = array();
-		$data["cols"] = array("","name", "login","details","status","access");
+		$data["cols"] = array("","name","id","login","details","status","access");
 
 		foreach ($list as $key => $client)
 		{
@@ -869,6 +909,7 @@ class ilSetupGUI extends ilSetup
 			$data["data"][] = array(
 							"default"		=> "<input type=\"radio\" name=\"form[default]\" value=\"".$key."\"".$default."/>",
 							"name"			=> $client->getName()."#separator#".$client->getDescription(),
+							"id"			=> $key,
 							"login"			=> $login,
 							"details"		=> "<a href=\"setup.php?cmd=view&client_id=".$key."\">Details</a>",
 							"status"		=> $status,
@@ -910,7 +951,7 @@ class ilSetupGUI extends ilSetup
 
 		//$header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id,"cmd" => "edit");
 		$tbl->setHeaderVars($data["cols"],$header_params);
-		$tbl->setColumnWidth(array("5%","40%","10%","10%","20%","15%"));
+		$tbl->setColumnWidth(array("5%","30%","10%","10%","10%","20%","15%"));
 		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -1073,9 +1114,9 @@ class ilSetupGUI extends ilSetup
 		if ($_POST["form"])
 		{
 			// check client name
-			if (!$_POST["form"]["client_name"])
+			if (!$_POST["form"]["client_id"])
 			{
-				$this->raiseError($this->lng->txt("no_client_name_given"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("no_client_id_given"),$this->error_obj->MESSAGE);
 			}
 			
 			// check database
@@ -1099,8 +1140,9 @@ class ilSetupGUI extends ilSetup
 			if (!$this->ini_client_exists)
 			{
 				// create random hash for client directory
-				mt_srand ((double)microtime()*1000000);
-				$client_id = md5(uniqid(mt_rand()));
+				//mt_srand ((double)microtime()*1000000);
+				//$client_id = md5(uniqid(mt_rand()));
+				$client_id = $_POST["form"]["client_id"];
 				
 				// check for existing client dir (only for newly created clients not renaming)
 				if (!$this->ini_client_exists and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$client_id))
@@ -1115,8 +1157,8 @@ class ilSetupGUI extends ilSetup
 			$old_db_name = $this->client->getDbName();
 			
 			// set client data 
-			$this->client->setName($_POST["form"]["client_name"]);
-			$this->client->setDescription($_POST["form"]["client_info"]);
+			//$this->client->setName($_POST["form"]["client_name"]);
+			$this->client->setId($_POST["form"]["client_id"]);
 			$this->client->setDbHost($_POST["form"]["db_host"]);
 			$this->client->setDbName($_POST["form"]["db_name"]);
 			$this->client->setDbUser($_POST["form"]["db_user"]);
@@ -1170,8 +1212,8 @@ class ilSetupGUI extends ilSetup
 		// display default values, loaded valus or saved error values
 		if ($_SESSION["error_post_vars"]["form"])
 		{
-			$this->tpl->setVariable("CLIENT_NAME", $_SESSION["error_post_vars"]["form"]["client_name"]);
-			$this->tpl->setVariable("CLIENT_INFO", $_SESSION["error_post_vars"]["form"]["client_info"]);
+			$this->tpl->setVariable("CLIENT_ID", $_SESSION["error_post_vars"]["form"]["client_id"]);
+			//$this->tpl->setVariable("CLIENT_INFO", $_SESSION["error_post_vars"]["form"]["client_info"]);
 			$this->tpl->setVariable("DB_HOST", $_SESSION["error_post_vars"]["form"]["db_host"]);	
 			$this->tpl->setVariable("DB_NAME", $_SESSION["error_post_vars"]["form"]["db_name"]);		
 			$this->tpl->setVariable("DB_USER", $_SESSION["error_post_vars"]["form"]["db_user"]);		
@@ -1179,8 +1221,8 @@ class ilSetupGUI extends ilSetup
 		}
 		else
 		{
-			$this->tpl->setVariable("CLIENT_NAME", $this->client->getName());
-			$this->tpl->setVariable("CLIENT_INFO", $this->client->getDescription());
+			$this->tpl->setVariable("CLIENT_ID", $this->client->getId());
+			//$this->tpl->setVariable("CLIENT_INFO", $this->client->getDescription());
 			$this->tpl->setVariable("DB_HOST", $this->client->getDbHost());	
 			$this->tpl->setVariable("DB_NAME", $this->client->getDbName());		
 			$this->tpl->setVariable("DB_USER", $this->client->getDbUser());		
@@ -1472,7 +1514,7 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->checkDisplayMode("setup_languages");
 
-		if ($this->client->status["db"]["status"] == false)
+		if (!$this->client->db_exists)
 		{
 			$message = "No database found! Please install database first.";
 			sendInfo($message);

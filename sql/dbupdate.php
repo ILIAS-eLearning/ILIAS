@@ -703,11 +703,12 @@ $this->db->query($query2);
 <#61>
 <?php
 // check if setup migration is required
-$ini = new ilIniFile("./ilias.ini.php");
+$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini.php");
+$res = $ini->read();
 
 $migrate = true;
 
-if ($ini->read())
+if ($res)
 {
 	if ($ini->readVariable("clients","path") !== false)
 	{
@@ -730,10 +731,10 @@ if ($migrate)
 	mt_srand ((double)microtime()*1000000);
 	$client_id = md5(uniqid(mt_rand()));
 
-	rename("./ilias.ini.php","./ilias.ini_copied.php");
+	rename(ILIAS_ABSOLUTE_PATH."/ilias.ini.php",ILIAS_ABSOLUTE_PATH."/ilias.ini_copied.php");
 
-	$ini_old = new ilIniFile("./ilias.ini_copied.php");
-	$ini_old->read();
+	$ini_old = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini_copied.php");
+	$res = $ini_old->read();
 
 	$datadir = $ini_old->readVariable("server","data_dir");
 	$datadir_client = $datadir."/".$client_id;
@@ -763,7 +764,7 @@ if ($migrate)
 	ilUtil::rcopy($webdir."/lm_data",$webdir_client."/lm_data");
 	ilUtil::rcopy($webdir."/usr_images",$webdir_client."/usr_images");
 
-	$client_master = "./setup/client.master.ini.php";
+	$client_master = ILIAS_ABSOLUTE_PATH."/setup/client.master.ini.php";
 	$ini_new = new ilIniFile($webdir_client."/client.ini.php");
 	$ini_new->GROUPS = parse_ini_file($client_master,true);
 
@@ -778,7 +779,7 @@ if ($migrate)
 	$ini_new->setVariable("layout","skin",$ini_old->readVariable("layout","skin"));
 	$ini_new->setVariable("layout","style",$ini_old->readVariable("layout","style"));
 
-	$ilias_master = "./setup/ilias.master.ini.php";
+	$ilias_master = ILIAS_ABSOLUTE_PATH."/setup/ilias.master.ini.php";
 	$ini_il = new ilIniFile($ini_old->readVariable("server","absolute_path")."/ilias.ini.php");
 	$ini_il->GROUPS = parse_ini_file($ilias_master,true);
 
@@ -809,12 +810,12 @@ if ($migrate)
 		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
 		$this->db->query($query);
 	}
-}
 
-if (!isset($settings["nic_enabled"]))
-{
-	$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
-	$this->db->query($query);
+	if (!isset($settings["nic_enabled"]))
+	{
+		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
+		$this->db->query($query);
+	}
 }
 ?>
 
