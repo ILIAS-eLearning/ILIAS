@@ -44,7 +44,7 @@ $tpl->setCurrentBlock("adminitem");
 $tpl->setVariable("TXT_ITEM", $lng->txt("rights"));
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminblock");
-$tpl->setVariable("TXT_HEADLINE", strtoupper($lng->txt("lessons")));
+$tpl->setVariable("TXT_HEADLINE", strtoupper($lng->txt("los")));
 $tpl->parseCurrentBlock();
 
 //Basic-Administration

@@ -87,15 +87,14 @@ languages_generate_from_file	generate languages from file	Sprachdateien generier
 languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
 last_change	last change	letzte Änderung	ultimo cambio	last_change
 lastname	lastname	Nachname	cognome	lastname
-lesson	lesson	Lerneinheit	lezione	lesson
-lessons	lessons	Lerneinheiten	lezioni	lessons
 level	level	Stufe	level	level
 literature_bookmarks	literature bookmarks	Literatur Favoriten	bookmarks  letteratura	literature bookmarks
-lo	lesson	Lerneinheit	lezione	lesson
-lo_available	available lessons	verfügbare Lerneinheiten	lezioni disponibili	available lessons
-lo_edit	edit lessons	Lerneinheiten editieren	edit lessons	edit lessons
-lo_last_visited	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last visited lessons
-lo_new	new lesson	neue Lerneinheit	nuova lezione	new lesson
+lo	learning object	Lerneinheit	lezione	lesson
+los	learning objects	Lerneinheiten	lezioni	lessons
+lo_available	available learning objects	verfügbare Lerneinheiten	lezioni disponibili	available lessons
+lo_edit	edit learning object	Lerneinheiten editieren	edit lessons	edit lessons
+los_last_visited	last visited learning objects	zuletzt besuchte Lerneinheiten	ultima lezioni visitata	last visited lessons
+lo_new	new learning object	neue Lerneinheit	nuova lezione	new lesson
 login	login	Login	login	login
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login_to_ilias
 mail	mail	Mail	Posta 	mail
