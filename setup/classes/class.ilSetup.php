@@ -177,6 +177,7 @@ class ilSetup extends PEAR
 	{
 		return true;
 		var_dump("<pre>",$this->client,"</pre>");exit;
+
 		if ($a_old_client_id != $this->client->getId())
 		{
 			// check for existing client dir

@@ -62,7 +62,7 @@ class ilClientList
 				unset($client);
 			}
 		}
-		
+
 		chdir($tmpPath);
 	}
 	
