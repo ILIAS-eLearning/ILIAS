@@ -3115,3 +3115,5 @@ survey#:#qpl_duplicate_select_none#:#Please check at least one question to dupli
 survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
 survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
 survey#:#qpl_questions_pasted#:#Question(s) pasted.
+survey#:#finished#:#finished
+survey#:#not_finished#:#not finished

@@ -1899,6 +1899,7 @@ class ilRepositoryGUI
 			// counter for rowcolor change
 			$num = 0;
 			global $ilDB;
+			global $ilUser;
 			foreach ($surveys as $key => $svy_data) {
 				$q = sprintf("SELECT * FROM survey_survey WHERE ref_fi=%s",
 					$ilDB->quote($svy_data["ref_id"])
@@ -1909,6 +1910,19 @@ class ilRepositoryGUI
 					$surveys[$key]["complete"] = $row->complete;
 					$surveys[$key]["evaluation_access"] = $row->evaluation_access;
 					$surveys[$key]["status"] = $row->status;
+					$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+						$ilDB->quote($row->survey_id),
+						$ilDB->quote($ilUser->id)
+					);
+					$result = $ilDB->query($q);
+					if ($result->numRows() == 1) {
+						$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+						$surveys[$key]["finished"] = $row->state;
+					}
+					else
+					{
+						$surveys[$key]["finished"] = "";
+					}
 				}
 			}
 			
@@ -1965,6 +1979,20 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("svy_evaluation");
 					$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$svy_data["ref_id"]);
 					$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
+					$tpl->parseCurrentBlock();
+				}
+				
+				if (strcmp($svy_data["finished"], "") != 0)
+				{
+					$tpl->setCurrentBlock("svy_finished");
+					if ($svy_data["finished"] == 1)
+					{
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
+					}
+					else
+					{
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
+					}
 					$tpl->parseCurrentBlock();
 				}
 
