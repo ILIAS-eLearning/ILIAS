@@ -1377,6 +1377,8 @@ restore starts here
 	*/
 	function purgeUnboundObjects($a_nodes = NULL)
 	{
+		global $ilLog;
+		
 		// check mode: purge
 		if ($this->mode["purge"] !== true)
 		{

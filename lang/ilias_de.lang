@@ -124,6 +124,7 @@ assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
@@ -734,7 +735,7 @@ common#:#approve_date#:#Freigegeben am
 common#:#approve_recipient#:#Freigegeben durch (Login ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
-common#:#articels_unread#:#Ungelesene Beiträge
+common#:#articels_unread#:#Ungelesene Beiträge###14 Feb 2005 content changed
 common#:#as_of#:#Stand
 common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
 common#:#assessment_log_datetime#:#Datum/Uhrzeit

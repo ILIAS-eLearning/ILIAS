@@ -124,6 +124,7 @@ assessment#:#ass_questions#:#Kérdések
 assessment#:#ass_size#:#Size###05 Nov 2004 new variable
 assessment#:#available_points#:#Available points###05 Nov 2004 new variable
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#létrehozta
 assessment#:#cancel_test#:#Cancel the test###05 Nov 2004 new variable
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable

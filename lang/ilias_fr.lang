@@ -122,6 +122,7 @@ assessment#:#ass_questions#:#Questions
 assessment#:#ass_size#:#Taille
 assessment#:#available_points#:#Points disponibles
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Annuler le test
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable

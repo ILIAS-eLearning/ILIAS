@@ -124,6 +124,7 @@ assessment#:#ass_questions#:#Pytania
 assessment#:#ass_size#:#Rozmiar
 assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#average_reached_points#:#Punkty powyżej średniej
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
@@ -733,7 +734,7 @@ common#:#approve_date#:#Zatwierdzony
 common#:#approve_recipient#:#Login ID zatwierdzonego
 common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
-common#:#articels_unread#:#Nieprzeczytane artykuły:
+common#:#articels_unread#:#Nieprzeczytane artykuły:###14 Feb 2005 content changed
 common#:#as_of#:#jako
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
 common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
