@@ -40,8 +40,9 @@ $lng->loadLanguageModule("content");
 
 $ref_id=$_GET["ref_id"];
 
-if (!$rbacsystem->checkAccess("read", $_GET["ref_id"])) {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 }
 
 $obj_id = ilObject::_lookupObjectId($ref_id);

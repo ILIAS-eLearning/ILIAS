@@ -1156,7 +1156,7 @@ class ilContObjParser extends ilSaxParser
 				}
 				break;
 
-			// TECHNICAL: Location
+			// Location
 			case "Location":
 				// TODO: adapt for files in "real" subdirectories
 				if ($this->in_media_item)
@@ -1170,7 +1170,34 @@ class ilContObjParser extends ilSaxParser
 				}
 				if ($this->in_file_item)
 				{
+					// set file name from xml file
 					$this->file_item->setFileName(trim($this->chr_data));
+					
+					// special handling for file names with special characters
+					// (e.g. "&gt;")
+					if ($this->file_item->getType() == "file" &&
+						is_int(strpos($this->chr_data, "&")) &&
+						is_int(strpos($this->chr_data, ";")))
+					{
+						$imp_dir = $this->content_object->getImportDirectory();
+						$source_dir = $imp_dir."/".$this->subdir."/objects/".
+							$this->file_item->getImportId();
+						
+						// read "physical" file name from directory
+						if ($dir = opendir($source_dir))
+						{
+						   while (false !== ($file = readdir($dir)))
+						   {
+							   if ($file != "." && $file != "..")
+							   {
+								   $this->file_item->setFileName($file);
+							   }
+						   }
+						   closedir($dir);
+						}
+					}
+					
+					// set file item title
 					$this->file_item->setTitle(trim($this->chr_data));
 				}
 				break;

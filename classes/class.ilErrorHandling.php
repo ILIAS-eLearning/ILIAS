@@ -96,7 +96,7 @@ class ilErrorHandling extends PEAR
 		{
 			$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
-
+//echo $a_error_obj->getCode().":"; exit;
 		if ($a_error_obj->getCode() == $this->FATAL)
 		{
 			die (stripslashes($a_error_obj->getMessage()));

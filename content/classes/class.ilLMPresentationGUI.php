@@ -45,7 +45,7 @@ class ilLMPresentationGUI
 
 	function ilLMPresentationGUI()
 	{
-		global $ilias, $lng, $tpl;
+		global $ilias, $lng, $tpl, $rbacsystem;
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
@@ -78,6 +78,16 @@ class ilLMPresentationGUI
 				break;
 		}
 		$this->lm =& $this->lm_gui->object;
+		
+		// check, if learning module is online
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			if (!$this->lm->getOnline())
+			{
+				$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+			}
+		}
+
 
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);

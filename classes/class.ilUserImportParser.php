@@ -178,7 +178,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin;
+		global $ilias, $rbacadmin, $ilUser;
 
 		// extract roles mode
 		if ($this->mode == IL_EXTRACT_ROLES)
@@ -217,6 +217,7 @@ class ilUserImportParser extends ilSaxParser
 						$this->userObj->setTimeLimitUnlimited($ilias->account->getTimeLimitUnlimited());
 						$this->userObj->setTimeLimitFrom($ilias->account->getTimeLimitFrom());
 						$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
+						$this->userObj->setActive(true , $ilUser->getId());
 						
 						$this->userObj->create();
 

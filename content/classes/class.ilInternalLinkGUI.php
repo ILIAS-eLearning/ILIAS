@@ -164,7 +164,7 @@ class ilInternalLinkGUI
 	{
 		$target_str = ($this->link_target == "")
 			? ""
-			: " target=\"".$this->link_target."\" ";
+			: " target=\"".$this->link_target."\"";
 
 		if(($this->link_type == "GlossaryItem") &&
 			empty($_SESSION["il_link_glossary"]))
@@ -600,7 +600,7 @@ class ilInternalLinkGUI
 								default:
 									$tpl->setCurrentBlock("chapter_row");
 									$tpl->setVariable("ROWCLASS", $css_row);
-									$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 									if ($target_str != "")
 									{
 										$tpl->setVariable("LINK_CHAPTER",
