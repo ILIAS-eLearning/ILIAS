@@ -435,13 +435,16 @@ switch($_GET["cmd"])
 		//$data = $obj->getSubObjects();
 		foreach ($objData["subobjects"] as $row)
 		{
+			//@todo max value abfragen und entsprechend evtl aus der liste streichen
+			if ($row) {
+			    
+			}
 			$subobj[] = $row;
 		}		
 
 		
 		if (is_array($subobj))
 		{
-			//@todo max value abfragen und entsprechend evtl aus der liste streichen
 			//build form
 			$opts = TUtil::formSelect(12,"type",$subobj);
 	
