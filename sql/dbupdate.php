@@ -1420,3 +1420,7 @@ $this->db->query($query);
 
 <#88>
 DELETE FROM usr_session;
+
+<#89>
+ALTER TABLE rbac_pa CHANGE obj_id ref_id INT(11) DEFAULT '0' NOT NULL;
+DELETE FROM usr_session;
