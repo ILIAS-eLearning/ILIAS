@@ -1301,6 +1301,19 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("VALUE_PERCENT_FX", sprintf("value=\"%s\" ", $this->object->ects_fx));
 			}
 			$this->tpl->setVariable("TEXT_PERCENT", $this->lng->txt("ects_use_fx_grade_part2"));
+			$this->tpl->setVariable("ECTS_GRADE", $this->lng->txt("ects_grade"));
+			$this->tpl->setVariable("PERCENTILE", $this->lng->txt("percentile"));
+			$this->tpl->setVariable("ECTS_GRADE_A", "A - " . $this->lng->txt("ects_grade_a_short"));
+			$this->tpl->setVariable("VALUE_GRADE_A", $this->object->ects_grades["A"]);
+			$this->tpl->setVariable("ECTS_GRADE_B", "B - " . $this->lng->txt("ects_grade_b_short"));
+			$this->tpl->setVariable("VALUE_GRADE_B", $this->object->ects_grades["B"]);
+			$this->tpl->setVariable("ECTS_GRADE_C", "C - " . $this->lng->txt("ects_grade_c_short"));
+			$this->tpl->setVariable("VALUE_GRADE_C", $this->object->ects_grades["C"]);
+			$this->tpl->setVariable("ECTS_GRADE_D", "D - " . $this->lng->txt("ects_grade_d_short"));
+			$this->tpl->setVariable("VALUE_GRADE_D", $this->object->ects_grades["D"]);
+			$this->tpl->setVariable("ECTS_GRADE_E", "E - " . $this->lng->txt("ects_grade_e_short"));
+			$this->tpl->setVariable("VALUE_GRADE_E", $this->object->ects_grades["E"]);
+			
 			$this->tpl->parseCurrentBlock();
 		}
 
