@@ -9,9 +9,9 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tpl = new Template("tpl.mail_new.html", true, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 
 include "./include/inc.mail_buttons.php";
 
@@ -37,7 +37,7 @@ if ($_GET["func"] != "")
 		$rcp = $mail["from"];
 	}
 }
-
+$tpl->setCurrentBlock("content");
 $tpl->setVariable("ACTION", "mail_new.php");
 $tpl->setVariable("TXT_RECIPIENT", $lng->txt("to"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
@@ -60,7 +60,7 @@ $tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
 $tpl->setVariable("RECIPIENT", $rcp);
 $tpl->setVariable("CONTENT", $body);
 $tpl->setVariable("SUBJECT", $subject);
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
 ?>

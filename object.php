@@ -13,7 +13,6 @@ else
 }
 
 $methode = $cmd."Object"; 
-
 switch ($type)
 {
     case "le":
@@ -111,7 +110,11 @@ switch ($type)
 		break;
 }
 
-$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
-$tplmain->show();
+if (is_object($tplContent))
+{
+	$tpl->setVariable("CONTENT", $tplContent->get());	
+}
+
+$tpl->show();
 
 ?>

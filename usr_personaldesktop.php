@@ -11,25 +11,32 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_profile.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("personal_profile"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_password.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("chg_password"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","usr_agreement.php");
-$tplbtn->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+//add template for content
+$tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
 
-$tpl = new Template("tpl.usr_personaldesktop.html", true, true);
+//add template for buttons
+$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_profile.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_password.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_agreement.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+$tpl->parseCurrentBlock();
+
+$tpl->touchBlock("btn_row");
+
+$tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+$tpl->parseCurrentBlock();
 
 //mails
 $myMails = new UserMail($ilias->account->Id);
@@ -133,6 +140,6 @@ if (count($courses)>0)
         $tpl->parseCurrentBlock();
 }
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

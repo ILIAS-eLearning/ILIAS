@@ -104,6 +104,6 @@ $eingebunden = true;
 require_once("./adm_basicdata.php");
 $tplContent->setVariable("SYSTEMSETTINGS",$tpl->get());
 
-$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
-$tplmain->show();
+$tpl->setVariable("CONTENT", $tplContent->get());	
+$tpl->show();
 ?>

@@ -15,7 +15,7 @@ if ($folder == "")
 if ($folder == "")
 	$folder = "inbox";
 
-$tpl = new Template("tpl.mail.html", true, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
 
 //get mails from user
 $myMails = new UserMail($ilias->account->Id);
@@ -72,8 +72,6 @@ if ($_POST["func"] != "")
 			break;
 	}
 }
-
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");
 
@@ -142,8 +140,10 @@ foreach ($mails["msg"] as $row)
 
 //headline
 //get parameter
+$tpl->setCurrentBlock("content");
 $tpl->setVariable("FOLDERNAME", $lng->txt($folder));
-$tpl->setVariable("TXT_MAIL", $lng->txt("mail_s"));
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+$tpl->setVariable("TXT_MAIL_S", $lng->txt("mail_s"));
 $tpl->setVariable("TXT_UNREAD", $lng->txt("unread"));
 $tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
 $tpl->setVariable("TXT_READ", $lng->txt("read"));
@@ -151,15 +151,16 @@ $tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 
 $tpl->setVariable("MAIL_COUNT", $mails["count"]);
 $tpl->setVariable("MAIL_COUNT_UNREAD", $mails["unread"]);
-$tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
+$tpl->setVariable("TXT_UNREAD_MAIL_S",$lng->txt("mail_s_unread"));
+$tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s"));
 //columns headlines
 $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 //	$tpl->setVariable("MAIL_SORT_SUBJ","link");
 $tpl->setVariable("TXT_DATE",$lng->txt("date"));
 $tpl->setVariable("DIRECTION", "up");
-//	$tpl->setVariable("MAIL_SORT_DATE","link");
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

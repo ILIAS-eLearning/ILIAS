@@ -10,18 +10,16 @@
 require_once "./include/ilias_header.inc";
 require_once "classes/class.Explorer.php";
 
-$tpl = new Template("tpl.lessons.html", true, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","courses.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("courses"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","courses.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("courses"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
 $lessons = array();
 
@@ -88,7 +86,10 @@ if ($tpl->includeTree() == true)
 	$tpl->setVariable("TREE", $tplTree->get());
 }
 
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

@@ -41,8 +41,26 @@ if($obj["type"] == 'type')
 	exit;
 }
 
-// Template-Engine anschmeissen
-$tplContent = new Template("content_main.html",true,true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
+
+//administration content, could be table, or input form or just information
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_table.html");
+
+//show tabs
+$o = array();
+$o["LINK1"] = "./content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+$tpl->setVariable("TABS", TUtil::showTabs(1,$o));
+
+// show path, where am i?
+$tpl->setCurrentBlock("locator");
+$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+$path = $tree->showPath($tree->getPathFull(),"content.php");
+$tpl->setVariable("TREEPATH",$path);
+$tpl->parseCurrentBlock();
 
 // was a command submitted?
 if (isset($_POST["cmd"]))
@@ -56,19 +74,19 @@ if (isset($_POST["cmd"]))
 // show paste & clear buttons if something was cut or copied
 if (!empty($clipboard))
 {
-	$tplContent->touchBlock("btn_paste");
-	$tplContent->touchBlock("btn_clear");
+	$tpl->touchBlock("btn_paste");
+	$tpl->touchBlock("btn_clear");
 }
 
 // determine sort direction
 if (!$_GET["direction"] || $_GET["direction"] == 'ASC')
 {
-	$tplContent->setVariable("DIR",'DESC');
+	$tpl->setVariable("DIR",'DESC');
 }
 
 if ($_GET["direction"] == 'DESC')
 {
-	$tplContent->setVariable("DIR",'ASC');
+	$tpl->setVariable("DIR",'ASC');
 }
 
 // set sort column
@@ -77,12 +95,8 @@ if (empty($_GET["order"]))
 	$_GET["order"] = "title";
 }
 
-// display path
-$path = $tree->showPath($tree->getPathFull(),"content.php");
-$tplContent->setVariable("TREEPATH",$path);
-
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
-$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."parent=".$_GET["parent"]);
+$tpl->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."parent=".$_GET["parent"]);
 
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
@@ -112,29 +126,32 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 
 		$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 
-		$tplContent->setCurrentBlock("row");
-		$tplContent->setVariable("LINK_TARGET",$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]);
-		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
-		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
-		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-		$tplContent->setVariable("IMG_TYPE","icon_".$val["type"]."_b.gif");
-		$tplContent->setVariable("ALT_IMG_TYPE",$val["type"]);
-		$tplContent->setVariable("CSS_ROW",$css_row);
-		$tplContent->setVariable("OBJ_ID",$val["id"]);
-		$tplContent->setVariable("CHECKBOX",$checkbox);
-		$tplContent->parseCurrentBlock();
+		$tpl->setCurrentBlock("row");
+		$tpl->setVariable("LINK_TARGET",$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]);
+		$tpl->setVariable("OBJ_TITLE",$val["title"]);
+		$tpl->setVariable("OBJ_DESC",$val["desc"]);
+		$tpl->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
+		$tpl->setVariable("IMG_TYPE","icon_".$val["type"]."_b.gif");
+		$tpl->setVariable("ALT_IMG_TYPE",$val["type"]);
+		$tpl->setVariable("CSS_ROW",$css_row);
+		$tpl->setVariable("OBJ_ID",$val["id"]);
+		$tpl->setVariable("CHECKBOX",$checkbox);
+		$tpl->parseCurrentBlock();
     }
-	$tplContent->touchBlock("options");
+
+	//object functions: cut, copy, paste
+	$tpl->touchBlock("options");
 }
 else
 {
-	$tplContent->touchBlock("notfound");
+	$tpl->setCurrentBlock("notfound");
+	$tpl->setVariable("TXT_OBJECT_NOT_FOUND", $lng->txt("object_not_found"));
 }
-
 
 // display category options
 $type = $obj["type"];
 
+//add new objects
 if (!empty($ilias->typedefinition[$type]))
 {
 	// Show only objects with permission 'create'
@@ -151,49 +168,30 @@ if (!empty($ilias->typedefinition[$type]))
 	if (count($createable))
 	{
 		$opts = TUtil::formSelect(12,"type",$createable);
-		$tplContent->setCurrentBlock("type");
-		$tplContent->setVariable("SELECT_OBJTYPE",$opts);
-		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-		$tplContent->setVariable("TPOS",$_GET["parent"]);
-		$tplContent->parseCurrentBlock("opt_type","type",true);
+
+		$tpl->addBlockFile("ADD_OBJ", "add_obj", "tpl.adm_add_obj.html");
+		$tpl->setCurrentBlock("add_obj");
+		$tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+		$tpl->setVariable("TPOS",$_GET["parent"]);
+		$tpl->setVariable("TXT_ADD", $lng->txt("add"));
+		$tpl->parseCurrentBlock();
 	}
 }
 
-$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-$tplContent->setVariable("TPOS",$_GET["parent"]);
-
-//show tabs
-$o = array();
-$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
-$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
-$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
-$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-$tplContent->setVariable("TABS", TUtil::showTabs(1,$o));
+$tpl->setCurrentBlock("adm_content");
+$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tpl->setVariable("TPOS",$_GET["parent"]);
+$tpl->parseCurrentBlock("table");
 
 if ($_GET["message"])
 {
-	$tplContent->setCurrentBlock("sys_message");
-	$tplContent->setVariable("ERROR_MESSAGE",stripslashes($_GET["message"]));
-	$tplContent->parseCurrentBlock();
+	$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("MSG",stripslashes($_GET["message"]));
+	$tpl->parseCurrentBlock();
 }
 
-//testing
-/*
-$flat = $tree->calculateFlatTree(1);
-$flat_tree = "<table>\n<tr>\n<th>\nno.</th>\n<th>\nname</th>\n<th>\nnode_id</th>\n<th>\nsucc</th>\n<th>\ndepth</th>\n<th>\nbrother</th>\n<th>\nlft</th>\n<th>\nrgt</th>\n</tr>\n";
-
-foreach ($flat as $key => $node)
-{
-	$flat_tree .= "<tr>\n<td>\n".$key."</td>\n<td>\n".$node["title"]."</td>\n<td>\n".$node["child"]."</td>\n<td>\n".$node["successor"]."</td>\n<td>\n".$node["depth"]."</td>\n<td>\n".$node["brother"]."</td>\n<td>\n".$node["lft"]."</td>\n<td>\n".$node["rgt"]."</td>\n</tr>\n";
-}
-
-$flat_tree .= "</table>\n";
-
-$tplContent->setVariable("TESTING",$flat_tree);
-*/
-
-$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
-$tplmain->show();
+$tpl->show();
 
 ?>

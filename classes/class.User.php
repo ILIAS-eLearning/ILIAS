@@ -63,6 +63,7 @@ class User
 			$this->prefs = array();
 			//language
 			$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
+			
 			//skin and pda support
 			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
 				$this->skin = "pda";
@@ -72,7 +73,6 @@ class User
 			//style
 			$style = "style_".$this->skin;			
 		 	$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
-			
 		}
 	}
 
@@ -89,70 +89,51 @@ class User
 		
 		if ($res->numRows() > 0)
 		{
-			$data = $res->FetchRow(DB_FETCHMODE_ASSOC);
+			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 			$this->data = array(
-							"Id"		 => $this->Id,
-							"login"      => $data["login"],
-							"passwd"     => $data["passwd"],
-							"Gender"	 => $data["gender"],
-							"Title"      => $data["title"],
-							"FirstName"  => $data["firstname"],
-							"SurName"    => $data["surname"],
-							"Email"      => $data["email"],
-							"Role"       => $data["rol_id"],
-							"LastLogin"  => $data["last_login"],
-								);
+				"Id"		 => $this->Id,
+				"login"      => $data["login"],
+				"passwd"     => $data["passwd"],
+				"Gender"	 => $data["gender"],
+				"Title"      => $data["title"],
+				"FirstName"  => $data["firstname"],
+				"SurName"    => $data["surname"],
+				"Email"      => $data["email"],
+				"Role"       => $data["rol_id"],
+				"LastLogin"  => $data["last_login"],
+			);
 
 			//get userpreferences from user_pref table
 			$this->readPrefs();
+
 			//set language to default if not set
 			if ($this->prefs["language"] == "")
 			{
 				$this->prefs["language"] = $this->oldPrefs["language"];
 			}
-			
+
 			//check skin-setting
-			if (($this->prefs["skin"] != "" && 
-			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]) == false)
-				|| $this->prefs["skin"] == "")
+			if ($this->prefs["skin"] == "" || file_exists($this->ilias->tplPath."/".$this->prefs["skin"]) == false)
 			{
-				$this->prefs["skin"] == $this->oldPrefs["skin"];
+				$this->prefs["skin"] = $this->oldPrefs["skin"];
 			}
 
 			//pda support
 			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
-			{
 				$this->skin = "pda";
-			}
 			else
-			{
-				//set template to default if not set
-				if ($this->prefs["skin"] == "")
-				{
-				 	$this->skin = $this->oldPrefs["skin"];
-				}
-				else
-				{
-					$this->skin = $this->prefs["skin"];
-				}
-			}
+				$this->skin = $this->prefs["skin"];
 			
-			$style = "style_".$this->prefs["skin"];			
+			//assign style
+			$style = "style_".$this->skin;
+			
 			//check style-setting (skins could have more than one stylesheet
-			if (($this->prefs[$style] != "" && 
-			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]."/".$this->prefs[$style].".css") == false)
-				|| $this->prefs[$style] == "")
+			if ($this->prefs[$style] == "" || file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs[$style].".css") == false)
 			{
-				$this->prefs[$style] == $this->oldPrefs[$style];
+				$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
 			}
 
-			//set template to default if not set
-			if ($this->prefs[$style] == "")
-			{
-			 	$this->prefs[$style] = $this->oldPrefs[$style];
-			}
-			
 		}
 		else
 		{
@@ -653,5 +634,19 @@ class User
 	{
 		$this->skin = $skin;
 	}
+	
+	function getUserId($AccountId)
+	{
+		$res = $this->ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$this->ilias->auth->getUsername()."'");
+		//query has got a result
+		if ($res->numRows() > 0)
+		{
+			$data = $res->fetchRow();
+			$this->id = $data[0];
+			return $this->id;
+		}
+		return false;
+	}
+	
 } // END class.User
 ?>

@@ -10,19 +10,9 @@
 */
 require_once "./include/ilias_header.inc";
 
+$tpl->addBlockFile("CONTENT", "navigation", "tpl.main_buttons.html");
 include("./include/inc.mainmenu.php");
 
-//user stylehandling
-if ($ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
-{
-	$style = $ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css";
-}
-else
-{
-	$style = "style.css";
-}
+$tpl->show();
 
-$tplnav->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
-
-$tplnav->show();
 ?>

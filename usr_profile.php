@@ -41,9 +41,15 @@ if ($_POST["u_id"]!="")
 	$ilias->account->setLanguage($_POST["usr_language"]);
 
 	//set user skin
-	$ilias->account->setPref("skin", $_POST["usr_skin"]);
-	//set user style
-	$ilias->account->setPref("style_".$_POST["usr_skin"], $_POST["usr_style"]);
+	if ($_POST["usr_skin"] != "")
+	{
+		$ilias->account->setPref("skin", $_POST["usr_skin"]);
+
+		//set user style
+		if ($_POST["usr_style"] != "") {
+			$ilias->account->setPref("style_".$_POST["usr_skin"], $_POST["usr_style"]);
+		}
+	}
 
 	//update userdata
 	if ($ilias->account->update() == false)

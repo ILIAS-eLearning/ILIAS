@@ -105,3 +105,8 @@ a.btn:hover {
 .tabinactive {
 	background-color:#bbbbbb;
 }
+
+/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
+img {
+        display: block;
+}

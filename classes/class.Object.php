@@ -35,27 +35,30 @@ class Object
 	function createObject()
 	{
 		// Creates a child object
-		global $tplContent, $rbacsystem;
+		global $tpl, $rbacsystem;
 
 		if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-		
-			// Zur Ausgabe des 'Path' wird die Private-Methode createPath() aufgerufen 
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-			$tplContent->setVariable("CMD","save");
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("TYPE",$_POST["type"]);
-			
+
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_form.html");
+
 			//show tabs
 			$o = array();
 			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tplContent->setVariable("TABS", TUtil::showTabs(2,$o));			
+			$tpl->setVariable("TABS", TUtil::showTabs(2,$o));			
+			
+			$tpl->setCurrentBlock("adm_content");
+			$tpl->setVariable("TREEPATH",$this->getPath());
+			$tpl->setVariable("CMD", "save");
+			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+			$tpl->setVariable("TPOS",$_GET["parent"]);
+			$tpl->setVariable("TYPE",$_POST["type"]);
+			$tpl->parseCurrentBlock();
+			
 		}
 		else
 		{
@@ -94,25 +97,20 @@ class Object
 		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 		exit;
 	}
-	
+
 	/**
 	* edit object
 	* @access	public
 	**/
 	function editObject()
 	{
-		global $tplContent,$rbacsystem;
+		global $tpl,$rbacsystem, $lng;
 
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-			$tplContent->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-			$tplContent->setVariable("CMD","update");
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_form.html");
+			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
 			//show tabs
 			$o = array();
@@ -120,14 +118,26 @@ class Object
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tplContent->setVariable("TABS", TUtil::showTabs(2,$o));			
+			$tpl->setVariable("TABS", TUtil::showTabs(2,$o));			
 
+			//show locator
+			$tpl->setCurrentBlock("locator");
+			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+			$tpl->setVariable("TREEPATH",$this->getPath());
+			$tpl->parseCurrentBlock();
+			
 			$obj = getObject($_GET["obj_id"]);
 
-			$tplContent->setVariable("TYPE",$obj["type"]);
-			$tplContent->setVariable("OBJ_ID",$obj["obj_id"]);
-			$tplContent->setVariable("OBJ_TITLE",$obj["title"]);
-			$tplContent->setVariable("OBJ_DESC",$obj["desc"]);
+			$tpl->setCurrentBlock("adm_content");
+			$tpl->setVariable($this->ilias->ini["layout"]);
+			$tpl->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+			$tpl->setVariable("CMD","update");
+			$tpl->setVariable("TPOS",$_GET["parent"]);
+			$tpl->setVariable("TYPE",$obj["type"]);
+			$tpl->setVariable("OBJ_ID",$obj["obj_id"]);
+			$tpl->setVariable("OBJ_TITLE",$obj["title"]);
+			$tpl->setVariable("OBJ_DESC",$obj["desc"]);
+			$tpl->parseCurrentBlock();
 		}
 		else
 		{
@@ -163,20 +173,22 @@ class Object
 	**/
 	function permObject()
 	{
-		global $tplContent,$rbacsystem,$rbacreview,$rbacadmin;
+		global $tpl, $lng, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
 
 		$obj = getObject($_GET["obj_id"]);
 
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tplContent = new Template("object_permission.html",true,true);
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm.html");
+			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");	
 
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-			$tplContent->setVariable("MESSAGE_TOP","Permissions of: ".$obj["title"]);
+			//show locator
+			$tpl->setCurrentBlock("locator");
+			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+			$tpl->setVariable("TREEPATH",$this->getPath());
+			$tpl->parseCurrentBlock();
 
 			//show tabs
 			$o = array();
@@ -184,28 +196,31 @@ class Object
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tplContent->setVariable("TABS", TUtil::showTabs(3,$o));	
+			$tpl->setVariable("TABS", TUtil::showTabs(3,$o));	
 						
+			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+			$tpl->setVariable("TPOS",$_GET["parent"]);
+
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 			$parentRoles = $rbacadmin->getParentRoleIds();
 		
 			// BEGIN ROLENAMES
-			$tplContent->setCurrentBlock("ROLENAMES");
+			$tpl->setCurrentBlock("ROLENAMES");
 
 			foreach ($parentRoles as $r)
 			{
-				$tplContent->setVariable("ROLE_NAME",$r["title"]);
-				$tplContent->parseCurrentBlock();
+				$tpl->setVariable("ROLE_NAME",$r["title"]);
+				$tpl->parseCurrentBlock();
 			}
 			
 			// BEGIN CHECK_INHERIT
-			$tplContent->setCurrentBLock("CHECK_INHERIT");
+			$tpl->setCurrentBLock("CHECK_INHERIT");
 
 			foreach ($parentRoles as $r)
 			{
 				$box = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
-				$tplContent->setVariable("CHECK_INHERITANCE",$box);
-				$tplContent->parseCurrentBlock();
+				$tpl->setVariable("CHECK_INHERITANCE",$box);
+				$tpl->parseCurrentBlock();
 			}
 			
 			$ope_list = getOperationList($obj["type"]);
@@ -216,23 +231,23 @@ class Object
 				$num++;
 				
 				// BEGIN CHECK_PERM
-				$tplContent->setCurrentBlock("CHECK_PERM");
+				$tpl->setCurrentBlock("CHECK_PERM");
 				
 				foreach ($parentRoles as $role)
 				{
 					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
-					$tplContent->setVariable("CHECK_PERMISSION",$box);
-					$tplContent->parseCurrentBlock();
+					$tpl->setVariable("CHECK_PERMISSION",$box);
+					$tpl->parseCurrentBlock();
 				}
 				
 				// END CHECK_PERM
-				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
+				$tpl->setCurrentBlock("TABLE_DATA_OUTER");
 				$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
-				$tplContent->setVariable("CSS_ROW",$css_row);
-				$tplContent->setVariable("PERMISSION",$operation["operation"]);
-				$tplContent->parseCurrentBlock();
+				$tpl->setVariable("CSS_ROW",$css_row);
+				$tpl->setVariable("PERMISSION",$operation["operation"]);
+				$tpl->parseCurrentBlock();
 			}
 			// END TABLE_DATA_OUTER
 		}
@@ -259,11 +274,11 @@ class Object
 			if ($child_objects["rolf"])
 			{
 				// ADD LOCAL ROLE
-				$tplContent->setCurrentBlock("LOCAL_ROLE");
-				$tplContent->setVariable("MESSAGE_BOTTOM","You can also add local roles");
-				$tplContent->setVariable("LR_OBJ_ID",$_GET["obj_id"]);
-				$tplContent->setVariable("LR_TPOS",$_GET["parent"]);
-				$tplContent->parseCurrentBlock();
+				$tpl->setCurrentBlock("LOCAL_ROLE");
+				$tpl->setVariable("MESSAGE_BOTTOM","You can also add local roles");
+				$tpl->setVariable("LR_OBJ_ID",$_GET["obj_id"]);
+				$tpl->setVariable("LR_TPOS",$_GET["parent"]);
+				$tpl->parseCurrentBlock();
 			}
 		}
 	}
@@ -425,15 +440,11 @@ class Object
 	**/
 	function ownerObject()
 	{
-		global $tplContent,$tree,$lng;
+		global $tpl, $tree, $lng;
 
-		$tplContent = new Template("object_owner.html",true,true);
-		$tplContent->setVariable($ilias->ini["layout"]);
-	
-		$tplContent->setVariable("TREEPATH",$this->getPath());
-		$tplContent->setVariable("CMD","update");
-		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-		$tplContent->setVariable("TPOS",$_GET["parent"]);
+		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_owner.html");
+		$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");	
 
 		//show tabs
 		$o = array();
@@ -441,18 +452,25 @@ class Object
 		$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
 		$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
 		$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-		$tplContent->setVariable("TABS", TUtil::showTabs(4,$o));
+		$tpl->setVariable("TABS", TUtil::showTabs(4,$o));
+
+		//show locator
+		$tpl->setCurrentBlock("locator");
+		$tpl->setVariable("TXT_PATH", $lng->txt("path"));
+		$tpl->setVariable("TREEPATH",$this->getPath());
+		$tpl->parseCurrentBlock();
 					
 		$owner = TUtil::getOwner($_GET["obj_id"]);
 		
+		$tpl->setCurrentBlock("adm_content");
 		if (is_object($owner))
-		{
-			$tplContent->setVariable("OWNER_NAME",$owner->buildFullName());
-		}
+			$tpl->setVariable("OWNER_NAME",$owner->buildFullName());
 		else
-		{
-			$tplContent->setVariable("OWNER_NAME",$lng->txt("unknown"));
-		}
+			$tpl->setVariable("OWNER_NAME",$lng->txt("unknown"));
+		$tpl->setVariable("CMD","update");
+		$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
+		$tpl->setVariable("TPOS",$_GET["parent"]);
+		$tpl->parseCurrentBlock();
 	}
 
 	/**

@@ -59,7 +59,7 @@ $ilias->auth->start();
 // start logging
 $log = new Log("ilias.log");
 
-//instantiate user object in every script
+//instantiate user object
 $ilias->account =& new User();
 
 //but in login.php and index.php don't check for authentication 
@@ -76,36 +76,29 @@ if ($script != "login.php" && $script != "index.php")
 	//get user id
 	if (empty($AccountId))
 	{
-		$res = $ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$ilias->auth->getUsername()."'");
-	
-		//query has got a result
-		if ($res->numRows() > 0)
-		{
-			$data = $res->fetchRow();
-			$AccountId = $data[0];
-			$_SESSION["AccountId"] = $AccountId;
-		}
-
+		$_SESSION["AccountId"] = $ilias->account->getUserId($AccountId);
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new RbacReviewH();
-		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
+		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);	
 	}
+	else
+	{
+		// init user
+		$ilias->account->setId($AccountId);
+	}
+	$ilias->account->getUserdata();
+	
+	//init language
+	$lng = new Language($ilias->account->prefs["language"]);
 
 	// init rbac
 	$rbacsystem = new RbacSystemH();
 	$rbacadmin = new RbacAdminH();
 	$rbacreview = new RbacReviewH();
 
-	// TODO: rbacAdmin should only started when using admin-functions.
+	// TODO: rbacAdmin should only start when using admin-functions.
 	// At the moment the method in the 3 main classes are not separated properly
 	// to do this. All rbac-classes need to be cleaned up
-		
-	// init user
-	$ilias->account->setId($AccountId);
-	$ilias->account->getUserdata();
-	
-	//init language
-	$lng = new Language($ilias->account->prefs["language"]);
 
 	// init obj_id & parent; on first start obj_id is set to 1
 	$obj_id = $obj_id ? $obj_id : ROOT_FOLDER_ID; // for downward compatibility
@@ -119,33 +112,18 @@ if ($script != "login.php" && $script != "index.php")
 }	
 
 // instantiate main template
-$tplmain = new Template("tpl.main.html", true, false);
+$tpl = new Template("tpl.main.html", true, true);
 
 //navigation things
 if ($script != "login.php" && $script != "index.php")
 {
-	if ($tplmain->includeNavigation() == true)
+	if ($tpl->includeNavigation() == true)
 	{
+		$tpl->addBlockFile("NAVIGATION", "navigation", "tpl.main_buttons.html");
 		include("./include/inc.mainmenu.php");		
-		$tplmain->setVariable("NAVIGATION", $tplnav->get());
 	}
 }
 
-//pda support
-if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
-{
-	$ilias->account->setSkin = "pda";
-}
-
-//user stylehandling
-if (is_object($ilias->account) && $ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
-{
-	$style = $ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css";
-}
-else
-{
-	$style = "style.css";
-}
-$tplmain->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
+$tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css");
 
 ?>

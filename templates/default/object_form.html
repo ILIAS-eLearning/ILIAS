@@ -4,31 +4,6 @@ body { margin:0px; }
 
 {TABS}
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr class="locator">
-  <td align="left" valign="top">
-    <strong>Properties of {TREEPATH}</strong>
-  </td>
-</tr>
-</table>
+{LOCATOR}
 
-<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd={CMD}" method="post">
-<input type="HIDDEN" name="type" value="{TYPE}" />
-<input type="HIDDEN" name="role" value="{VALUE}" />
-<table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
-<tr>
-  <td align="right">Title<sup>*</sup></td>
-  <td><input type="text" name="Fobject[title]"  value="{OBJ_TITLE}" size="30" maxsize="70" /></td>
-</tr>
-<tr>
-  <td align="right">Description&nbsp;</td>
-  <td><textarea type="text" name="Fobject[desc]" rows="3" cols="25">{OBJ_DESC}</textarea></td>
-</tr>
-<tr>
-  <td colspan="2" align="center">
-    <input type="submit" value="OK">&nbsp;
-  </td>
-</tr>
-</table>
-<p class="infotext"><sup>*</sup> Required.</p>
-</form>
+{FORM}

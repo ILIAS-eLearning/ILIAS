@@ -9,6 +9,7 @@ absolute_path	absolute path	absoluter Pfad	percorso assoluto	absolute path
 accept_usr_agreement	accept user agreement?	Benutzer-Lizenz akzeptieren?	Accetti accordo utente?	accept user agreement?
 access	access	Zugang	accesso	access
 actions	actions	Aktionen	azioni	actions
+add	add	hinzufügen	aggiungi	add
 add_author	add author	Autor hinzufügen	aggiungi autore	add author
 add_member	add member	Mitglied hinzufügen	aggiungi membro	add member
 administrate	administrate	administrieren	amministrare	administrate
@@ -197,6 +198,7 @@ owner	owner	Besitzer	proprietario	owner
 page	page	Seite	pagina	page
 page_edit	edit page	Seite bearbeiten	editare pagina	edit page
 password	password	Passwort	password	password
+path	path	Pfad	path	path
 path_to_babylon	path to babylon	BABYLON Befehlszeile	percorso BABYLON	path to babylon
 path_to_convert	path to convert	CONVERT Befehlszeile	percorso CONVERT	path to convert
 path_to_java	path to java	JAVA Befehlszeile	percorso JAVA	path to java
@@ -305,3 +307,4 @@ write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
 zipcode	zip code	Postleitzahl	codice postale	zip code
+object_not_found	object not found	Kein Objekt gefunden	object_not_found	object_not_found

@@ -9,9 +9,9 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tpl = new Template("tpl.forums.html", true, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("forums_available"));
+$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_available"));
 
 for ($i = 0; $i < 3; $i++)
 {
@@ -27,6 +27,7 @@ for ($i = 0; $i < 3; $i++)
         $tpl->setVAriable("TITLE","Title $i");
         $tpl->parseCurrentBlock();
 }
+
 $tpl->setCurrentBlock("forum");
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_of_your_groups"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
@@ -34,6 +35,6 @@ $tpl->setVariable("TXT_OWNER", $lng->txt("owner"));
 $tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
 $tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>
