@@ -2076,3 +2076,16 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#obj_chac#:#Chatinstellungen
+common#:#chac_edit_permission#:#Rechteeinstellungen ändern
+common#:#chac_visible#:#Chateinstellungen sind sichtbar
+common#:#chac_read#:#Lesezugriff auf Chateinstellungen
+common#:#chac_write#:#Chateinstellungen bearbeiten
+common#:#obj_chat#:#Chat
+common#:#chat_visible#:#Chat ist sichtbar
+common#:#chat_read#:#Lese/Schreibzugriff auf Chat
+common#:#chat_write#:#Chat bearbeiten
+common#:#chat_delete#:#Chat löschen
+common#:#chat_edit_permission#:#Rechteeinstellungen ändern
+common#:#cat_create_chat#:#Neuen Chat anlegen
+common#:#group_create_chat#:#Neuen Chat anlegen
