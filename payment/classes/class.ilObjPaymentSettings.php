@@ -45,8 +45,8 @@ class ilObjPaymentSettings extends ilObject
 	*/
 	function ilObjPaymentSettings($a_id = 0,$a_call_by_reference = true)
 	{
-		define("ILIAS_MODULE","payment");
-		define("KEEP_IMAGE_PATH",1);
+		#define("ILIAS_MODULE","payment");
+		#define("KEEP_IMAGE_PATH",1);
 
 		$this->type = "pays";
 		$this->ilObject($a_id,$a_call_by_reference);

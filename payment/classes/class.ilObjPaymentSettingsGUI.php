@@ -130,7 +130,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_SESSION["pay_statistics"]["vendor"] = $_POST["vendor"];
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_statistic.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_statistic.html','payment');
 		
 		$this->tpl->setVariable("TXT_FILTER",$this->lng->txt('pay_filter'));
 		$this->tpl->setVariable("FORM_ACTION",$this->ctrl->getFormAction($this));
@@ -277,7 +277,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->__showButton('statistic',$this->lng->txt('back'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_edit_statistic.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_edit_statistic.html','payment');
 		$this->ctrl->setParameter($this,'booking_id',(int) $_GET['booking_id']);
 
 		// confirm delete
@@ -449,7 +449,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_general_settings.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_general_settings.html",'payment');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif'));
@@ -557,7 +557,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$_SESSION['pays_vendor'] = is_array($_SESSION['pays_vendor']) ?  $_SESSION['pays_vendor'] : array();
 		
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_vendors.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_vendors.html",'payment');
 		
 		$this->__showButton('searchUser',$this->lng->txt('search_user'));
 
@@ -761,7 +761,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_pay_methods.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_pay_methods.html",'payment');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif'));
@@ -939,7 +939,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return true;
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pays_vendor.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pays_vendor.html','payment');
 
 		$this->tpl->setVariable("VENDOR_FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -1034,7 +1034,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.pays_user_search.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.pays_user_search.html",'payment');
 
 		$this->lng->loadLanguageModule('search');
 
@@ -1074,7 +1074,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_usr_selection.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_usr_selection.html",'payment');
 		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		
 		$counter = 0;
