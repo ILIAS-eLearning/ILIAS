@@ -1781,3 +1781,4 @@ search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 common#:#to_client_list#:#Zur Mandantenauswahl
 content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
+search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.

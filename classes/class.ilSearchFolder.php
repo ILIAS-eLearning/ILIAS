@@ -63,6 +63,12 @@ class ilSearchFolder
 
 		$this->__init();
 		$this->__initTreeObject();
+
+		// CHECK USER TREE IF HAS BEEN CREATED
+		if(!$this->__treeExists())
+		{
+			$this->__createNewTree();
+		}
 	}
 
 	// SET/GET
@@ -197,12 +203,6 @@ class ilSearchFolder
 
 	function &create($a_title)
 	{
-		// CHECK USER TREE IF HAS BEEN CREATED
-		if(!$this->__treeExists())
-		{
-			$this->__createNewTree();
-		}
-
 		// CREATE FOLDER
 		$query = "INSERT INTO ".TABLE_SEARCH_DATA ." ".
 			"SET user_id = '".$this->getUserId()."', ".
