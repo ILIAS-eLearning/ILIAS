@@ -511,10 +511,18 @@ class ilInternalLinkGUI
 					$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 					$tpl->parseCurrentBlock();
-					$objs = $this->ilias->account->getClipboardObjects("mob");
+					$mobjs = $this->ilias->account->getClipboardObjects("mob");
+					// sort by name
+					$objs = array();
+					foreach ($mobjs as $obj)
+					{
+						$objs[$obj["title"].":".$obj["id"]] = $obj;
+					}
+					ksort($objs);
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_media_source"));
 					$tpl->setVariable("TXT_CONT_TITLE", $this->lng->txt("cont_personal_clipboard"));
+					$tpl->setVariable("COLSPAN", "2");
 
 					foreach($objs as $obj)
 					{
@@ -523,6 +531,10 @@ class ilInternalLinkGUI
 							case "link":
 								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
 								ilObjMediaObjectGUI::_recoverParameters();
+								$tpl->setCurrentBlock("link_row");
+								$this->outputThumbnail($tpl, $obj["id"], "link");
+								$tpl->setCurrentBlock("link_row");
+
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
@@ -536,6 +548,8 @@ class ilInternalLinkGUI
 								break;
 
 							default:
+								$tpl->setCurrentBlock($chapterRowBlock);
+								$this->outputThumbnail($tpl, $obj["id"]);
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 								$tpl->setVariable("ROWCLASS", "tblrow1");
@@ -563,14 +577,34 @@ class ilInternalLinkGUI
 					require_once("./content/classes/class.ilObjMediaPool.php");
 					$med_pool =& new ilObjMediaPool($_SESSION["il_link_mep"], true);
 
-					// get media objects
-					$objs = $med_pool->getChilds($_SESSION["il_link_mep_obj"]);
+					// get current folders
+					$fobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "fold");
+					$f2objs = array();
+					foreach ($fobjs as $obj)
+					{
+						$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+					}
+					ksort($f2objs);
+
+					// get current media objects
+					$mobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "mob");
+					$m2objs = array();
+					foreach ($mobjs as $obj)
+					{
+						$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+					}
+					ksort($m2objs);
+					
+					// merge everything together
+					$objs = array_merge($f2objs, $m2objs);
+					
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("mep"));
 					$tpl->setVariable("TXT_CONT_TITLE", $med_pool->getTitle());
 					$tpl->setCurrentBlock("change_cont_obj");
 					$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+					$tpl->setVariable("COLSPAN", "2");
 					$tpl->parseCurrentBlock();
 
 					if ($parent_id = $med_pool->getParentId($_SESSION["il_link_mep_obj"]))
@@ -585,6 +619,8 @@ class ilInternalLinkGUI
 						$this->ctrl->setParameter($this, "mep_fold", $parent_id);
 						$tpl->setVariable("LINK",
 							$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
+						$tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
 					}
 
@@ -616,9 +652,8 @@ class ilInternalLinkGUI
 								case "link":
 									require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
 									ilObjMediaObjectGUI::_recoverParameters();
-									$tpl->setCurrentBlock("icon");
-									$tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_mob.gif"));
-									$tpl->parseCurrentBlock();
+									$tpl->setCurrentBlock("link_row");
+									$this->outputThumbnail($tpl, $obj["obj_id"], "link");
 									$tpl->setCurrentBlock("link_row");
 									$tpl->setVariable("ROWCLASS", $css_row);
 									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
@@ -632,6 +667,8 @@ class ilInternalLinkGUI
 									break;
 
 								default:
+									$tpl->setCurrentBlock($chapterRowBlock);
+									$this->outputThumbnail($tpl, $obj["obj_id"]);
 									$tpl->setCurrentBlock($chapterRowBlock);
 									$tpl->setVariable("ROWCLASS", $css_row);
 									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
@@ -667,6 +704,56 @@ class ilInternalLinkGUI
 		$tpl->show();
 		exit;
 	}
+	
+	
+	/**
+	* output thumbnail
+	*/
+	function outputThumbnail(&$tpl, $a_id, $a_mode = "")
+	{
+		// output thumbnail
+		$mob =& new ilObjMediaObject($a_id);
+		$med =& $mob->getMediaItem("Standard");
+		$target = $med->getThumbnailTarget("small");
+		if ($a_mode == "link")
+		{
+			$tpl->setCurrentBlock("thumbnail_link");
+		}
+		else if ($this->isEnabledJavaScript())
+		{
+			$tpl->setCurrentBlock("thumbnail_js");
+		}
+		else
+		{
+			$tpl->setCurrentBlock("thumbnail");
+		}
+		if ($target != "")
+		{
+			$tpl->setCurrentBlock("thumb");
+			$tpl->setVariable("SRC_THUMB", $target);
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setVariable("NO_THUMB", "&nbsp;");
+		}
+		
+		if ($a_mode == "link")
+		{
+			$tpl->setCurrentBlock("thumbnail_link");
+		}
+		else if ($this->isEnabledJavaScript())
+
+		{
+			$tpl->setCurrentBlock("thumbnail_js");
+		}
+		else
+		{
+			$tpl->setCurrentBlock("thumbnail");
+		}
+		$tpl->parseCurrentBlock();
+	}
+
 
 	/**
 	* change link type

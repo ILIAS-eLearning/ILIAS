@@ -378,9 +378,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("cont_content"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
 
-		$cols = array("", "type", "title");
+		$cols = array("", "", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"],
 			"obj_id" => $_GET["obj_id"], "cmd" => "listMedia");
 		$tbl->setHeaderVars($cols, $header_params);
@@ -417,8 +417,30 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
+		
+							
+		// get current folders
+		$fobjs = $this->object->getChilds($_GET["obj_id"], "fold");
+		$f2objs = array();
+		foreach ($fobjs as $obj)
+		{
+			$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+		}
+		ksort($f2objs);
 
-		$objs = $this->object->getChilds($_GET["obj_id"]);
+		// get current media objects
+		$mobjs = $this->object->getChilds($_GET["obj_id"], "mob");
+		$m2objs = array();
+		foreach ($mobjs as $obj)
+		{
+			$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+		}
+		ksort($m2objs);
+		
+		// merge everything together
+		$objs = array_merge($f2objs, $m2objs);
+
+		//$objs = $this->object->getChilds($_GET["obj_id"]);
 
 		$tbl->setMaxCount(count($objs));
 		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
@@ -438,10 +460,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->tpl->setVariable("LINK_VIEW",
 							$this->ctrl->getLinkTarget($this, "listMedia"));
 						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("link");
-						$this->tpl->setVariable("TXT_TITLE", "[".$this->lng->txt("edit")."]");
+						$this->tpl->setCurrentBlock("edit");
+						$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 						$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $obj["obj_id"]);
-						$this->tpl->setVariable("LINK_VIEW",
+						$this->tpl->setVariable("EDIT_LINK",
 							$this->ctrl->getLinkTargetByClass("ilobjfoldergui", "edit"));
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->setCurrentBlock("tbl_content");
@@ -473,6 +495,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						{
 							$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
 						}
+						
+						// output media info
+						include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+						$this->tpl->setVariable("MEDIA_INFO",
+							ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
+
 						break;
 				}
 
@@ -699,12 +727,15 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		include_once("content/classes/class.ilEditClipboardGUI.php");
 		$ids = ilEditClipboardGUI::_getSelectedIDs();
 		$not_inserted = array();
-		foreach ($ids as $id)
+		if (is_array($ids))
 		{
-			if (!$this->object->insertInTree($id, $_GET["obj_id"]))
+			foreach ($ids as $id)
 			{
-				$not_inserted[] = ilObject::_lookupTitle($id)." [".
-					$id."]";
+				if (!$this->object->insertInTree($id, $_GET["obj_id"]))
+				{
+					$not_inserted[] = ilObject::_lookupTitle($id)." [".
+						$id."]";
+				}
 			}
 		}
 		if (count($not_inserted) > 0)

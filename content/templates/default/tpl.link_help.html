@@ -41,13 +41,13 @@ body { margin:0px; }
 <!-- BEGIN chapter_list -->
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std">{TXT_CONTENT_OBJECT}</td>
+	<td class="std" colspan="{COLSPAN}">{TXT_CONTENT_OBJECT}</td>
 </tr>
 <tr class="std">
-	<td class="option_value">{TXT_CONT_TITLE}</td>
+	<td class="option_value" colspan="{COLSPAN}">{TXT_CONT_TITLE}</td>
 </tr>
 <tr>
-	<td class="submit">
+	<td class="submit" colspan="{COLSPAN}">
 	<!-- BEGIN change_cont_obj -->
 	<input type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}">
 	<!-- END change_cont_obj -->
@@ -60,22 +60,34 @@ body { margin:0px; }
 
 	<!-- BEGIN chapter_row -->
 		<tr class="{ROWCLASS}">
+			<!-- BEGIN thumbnail -->
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail -->
 			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}</td>
 		</tr>
 	<!-- END chapter_row -->
 
 	<!-- BEGIN chapter_row_js -->
 		<tr class="{ROWCLASS}">
+			<!-- BEGIN thumbnail_js -->
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail_js -->
 			<td class="std"><b><a href="#" onClick="opener.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a></b></td>
 		</tr>
 	<!-- END chapter_row_js -->
 	
 	<!-- BEGIN link_row -->
 		<tr class="{ROWCLASS}">
-			<td class="std" nowrap="1">
+			<!-- BEGIN thumbnail_link -->
+			<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail_link -->
+
 			<!-- BEGIN icon -->
+				<td class="std" nowrap="1" width="1">
 				<img border="0" src="{ICON_SRC}"/>
+				</td>
 			<!-- END icon -->
+			<td class="std" nowrap="1">
 			<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
 		</tr>
 	<!-- END link_row -->
