@@ -50,12 +50,15 @@ require_once "Auth/Auth.php";
 if (!class_exists(IntegratedTemplateExtension))
 {
 	include_once "HTML/Template/ITX.php";
-	include_once "classes/class.ilTemplate2.php";
+	//include_once "classes/class.ilTemplate2.php";
+	include_once "class.ilTemplateHMTLITX.php";
 }
 else
 {
-	include_once "classes/class.ilTemplate.php";
+	//include_once "classes/class.ilTemplate.php";
+	include_once "classes/class.ilTemplateITX.php";
 }
+require_once "classes/class.ilTemplate.php";
 
 //include classes and function libraries
 require_once "include/inc.db_session_handler.php";

@@ -129,6 +129,8 @@ class ilTemplate extends ilTemplateX
 	*/
 	function show($part = "DEFAULT")
 	{
+		header('Content-type: text/html; charset=UTF-8');
+
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		if ($_SESSION["message"] || $_SESSION["info"])
 		{
@@ -159,11 +161,11 @@ class ilTemplate extends ilTemplateX
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
 		{
 			$_SESSION["post_vars"] = $_POST;
-			
+
 			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
 			// this is a workaround to display formular again in case of error and if the referer points to another page
 			$url_parts = parse_url($_SERVER["REQUEST_URI"]);
-			
+
 			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
 				foreach ($_POST as $key => $val)
@@ -172,11 +174,11 @@ class ilTemplate extends ilTemplateX
 					{
 						$val = key($val);
 					}
-				
+
 					$str .= "&".$key."=".$val;
 				}
-				
-				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);				
+
+				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
 			}
 			else
 			{
