@@ -60,7 +60,7 @@ class ilObjFile extends ilObject
 		parent::create();
 
 		require_once("classes/class.ilHistory.php");
-		ilHistory::_createEntry($this->getId(), "create", $this->getFileName());
+		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."'".
 			",'"."1"."')";
@@ -267,7 +267,6 @@ class ilObjFile extends ilObject
 		return ilUtil::stripSlashes($row->version);
 	}
 
-
 	function sendFile($a_hist_entry_id = null)
 	{	
 		if (is_null($a_hist_entry_id))
@@ -287,19 +286,26 @@ class ilObjFile extends ilObject
 			
 			if ($entry === false)
 			{
-				return false;
+				echo "3";return false;
 			}
 
 			$data = explode(",",$entry["info_params"]);
+			
+			// bugfix: first created file had no version number
+			// this is a workaround for all files created before the bug was fixed
+			if (empty($data[1]))
+			{
+				$data[1] = "1";
+			}
 
 			$file = $this->getDirectory($data[1])."/".$data[0];
 			
-			// if not found lookup for file in file object's main directory for downward c	ompability
+			// if not found lookup for file in file object's main directory for downward compability
 			if (@!is_file($file))
 			{
 				$file = $this->getDirectory()."/".$data[0];
 			}
-			
+
 			if (@is_file($file))
 			{
 				ilUtil::deliverFile($file, $data[0]);
