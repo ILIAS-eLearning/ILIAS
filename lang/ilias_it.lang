@@ -291,7 +291,7 @@ assessment#:#reset_filter#:#Annulla il filtro
 assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
-assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
+assessment#:#save_edit#:#Salva e vedi il contenuto
 assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
@@ -312,7 +312,7 @@ assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
-assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!###19 Oct 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
@@ -377,7 +377,7 @@ assessment#:#tst_score_reporting#:#Rapporto con i risultati
 assessment#:#tst_score_reporting_date#:#Data del rapporto
 assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
-assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
+assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
 assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; saltare alcune domande ed eseguirle alla fine del test
@@ -420,8 +420,8 @@ assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo del test. Tutti i test precedentemente svolti sono stati eliminati!
 assessment#:#tst_type_comment#:#Attenzione: modificando il tipo di un test disponibile, verranno eliminati tutti i test svolti precedentemente!
 assessment#:#tst_types#:#Tipo di test
-assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"###19 Oct 2004 content changed
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
+assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
+assessment#:#tst_your_ects_mark_is#:#Il tuo voto ECTS &#232;
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
@@ -593,7 +593,7 @@ common#:#account_expires_body#:#La tua iscrizione &#232; limitata, scadr&#224; i
 common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
-common#:#activate_https#:#Attivato HTTPS (Pagamento, Login)###18 Oct 2004 content changed
+common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
 common#:#active#:#Attivo
@@ -616,7 +616,7 @@ common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
-common#:#all_authors#:#tutti gli utenti###simone
+common#:#all_authors#:#tutti gli utenti
 common#:#all_global_roles#:#Ruoli globali
 common#:#all_lms#:#Tutti i moduli
 common#:#all_local_roles#:#Ruoli locali (tutti)
@@ -668,7 +668,7 @@ common#:#auth_configure#:#configura...
 common#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
-common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
+common#:#auth_ldap_not_configured#:#LDAP non &#232; ancora stato configurato
 common#:#auth_local#:#Database ILIAS
 common#:#auth_local_desc#:#Autenticazione degli utenti tramite database locale (predefinito)
 common#:#auth_mode#:#Modalit&#224; di autenticazione
@@ -695,15 +695,15 @@ common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Impostazioni Benchmark
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Dati bibliografici
-common#:#bm#:#Segnalibri
-common#:#bmf#:#Cartella dei segnalibri
-common#:#bookmark_edit#:#Modifica il segnalibro
-common#:#bookmark_folder_edit#:#Modifica la cartella dei segnalibri
-common#:#bookmark_folder_new#:#Nuova cartella di segnalibri
-common#:#bookmark_new#:#Nuovo segnalibro
+common#:#bm#:#Preferiti
+common#:#bmf#:#Cartella dei preferiti
+common#:#bookmark_edit#:#Modifica il preferito
+common#:#bookmark_folder_edit#:#Modifica la cartella dei preferiti
+common#:#bookmark_folder_new#:#Nuova cartella di preferiti
+common#:#bookmark_new#:#Nuovo preferito
 common#:#bookmark_target#:#Indirizzo
-common#:#bookmarks#:#Segnalibri
-common#:#bookmarks_of#:#Segnalibri di
+common#:#bookmarks#:#Preferiti
+common#:#bookmarks_of#:#Preferiti di
 common#:#btn_remove_system#:#Rimuovi dal sistema
 common#:#btn_undelete#:#Annulla la cancellazione
 common#:#by#:#da
@@ -761,9 +761,9 @@ common#:#centra_account#:#Amministratore principale
 common#:#centra_rooms#:#Stanze principali
 common#:#centra_server#:#Server principale
 common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#chac_read#:#Accedere in lettura alle impostazioni delle chat
-common#:#chac_visible#:#Vedere le impostazioni delle chat
-common#:#chac_write#:#Modificare le impostazioni delle chat
+common#:#chac_read#:#Accedere in lettura alle impostazioni della chat
+common#:#chac_visible#:#Vedere le impostazioni della chat
+common#:#chac_write#:#Modificare le impostazioni della chat
 common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia l&#039;assegnazione attiva
 common#:#change_assignment#:#Cambia l&#039;assegnazione
@@ -1251,8 +1251,8 @@ common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo ILIAS
 common#:#import_root_user#:#Importa utente root
-common#:#import_sahs#:#Import un modulo SCORM/AICC
-common#:#import_tst#:#Import Test###14 Oct 2004 new variable
+common#:#import_sahs#:#Importa modulo SCORM/AICC
+common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
 common#:#imported#:#importato
 common#:#in#:#in
@@ -1311,8 +1311,8 @@ common#:#lang_en#:#Inglese
 common#:#lang_es#:#Spagnolo
 common#:#lang_fi#:#Finnico
 common#:#lang_fr#:#Francese
-common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
-common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
+common#:#lang_ge#:#Georgiano
+common#:#lang_hu#:#Ungherese
 common#:#lang_id#:#Indonesiano
 common#:#lang_it#:#Italiano
 common#:#lang_ja#:#Giapponese
@@ -1369,7 +1369,7 @@ common#:#linked_pages#:#Pagine collegate
 common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
 common#:#literature#:#Letteratura
-common#:#literature_bookmarks#:#Segnalibri letteratura
+common#:#literature_bookmarks#:#Preferiti letteratura
 common#:#lm#:#Modulo ILIAS
 common#:#lm_a#:#un Modulo ILIAS
 common#:#lm_add#:#Aggiungi modulo ILIAS
@@ -1586,7 +1586,7 @@ common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a ques
 common#:#msg_user_last_role2#:#Per favore, cancella gli utenti o assegna loro un altro ruolo se vuoi eliminare questo ruolo.
 common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.
 common#:#multimedia#:#Multimedia
-common#:#my_bms#:#I miei segnalibri
+common#:#my_bms#:#I miei preferiti
 common#:#my_frms#:#I miei forum
 common#:#my_grps#:#I miei gruppi
 common#:#my_los#:#Le mie unit&#224; didattiche
@@ -1603,7 +1603,7 @@ common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
-common#:#no_bm_in_personal_list#:#Nessun segnalibro definito.
+common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data
@@ -1622,8 +1622,8 @@ common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
 common#:#no_users_applied#:#Per favore scegli un utente.
 common#:#no_users_selected#:#Per favore seleziona un utente.
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
-common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
+common#:#no_xml_file_found_in_zip#:#Non &#232; stato trovato il file XML dentro lo zip:
+common#:#no_zip_file#:#Non &#232; stato trovato il file zip.
 common#:#non_internal_local_roles_only#:#Ruoli locali (definiti dall'utente)
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
@@ -1640,7 +1640,7 @@ common#:#obj_auth#:#Autenticazione
 common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (locale, LDAP, ...)
 common#:#obj_cat#:#Categoria
 common#:#obj_cen#:#Evento principale
-common#:#obj_chac#:#Impostazioni delle chat
+common#:#obj_chac#:#Impostazioni chat
 common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
@@ -1657,10 +1657,10 @@ common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
 common#:#obj_lm#:#Modulo ILIAS
 common#:#obj_lng#:#Lingua
-common#:#obj_lngf#:#Impostazioni delle lingue
+common#:#obj_lngf#:#Impostazioni lingue
 common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
 common#:#obj_lo#:#Unit&#224; didattica
-common#:#obj_mail#:#Impostazioni della posta
+common#:#obj_mail#:#Impostazioni posta
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
 common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
@@ -1974,8 +1974,8 @@ common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
 common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#select_object_to_link#:#Per favore seleziona l'oggetto che vuoi collegare
-common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
-common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
+common#:#select_questionpool#:#Raccolta di domande per Test
+common#:#select_questionpool_option#:#Per favore scegli una raccolta di domande
 common#:#selected#:#Selezionati
 common#:#selected_items#:#Elementi selezionati
 common#:#send#:#Invia
@@ -2135,7 +2135,7 @@ common#:#user#:#Utente
 common#:#user_access#:#Accessi utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
+common#:#user_cant_receive_mail#:#l'utente non pu&#242; usare la mail di sistema
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
 common#:#user_imported#:#Importazione utenti completata.
@@ -2621,7 +2621,7 @@ crs#:#crs_no_archive_selected#:#Nessun archivio &#232; stato scelto
 crs#:#crs_no_archives_available#:#Non ci sono archivi disponibili
 crs#:#crs_no_archives_selected#:#Per favore scegli uin archivio
 crs#:#crs_no_groups_selected#:#Per favore scegli un gruppo
-crs#:#crs_no_items_found#:#Non ci sono corsi
+crs#:#crs_no_items_found#:#Non sono stati definiti oggetti
 crs#:#crs_no_language#:#Nessuna lingua
 crs#:#crs_no_member_selected#:#Per favore scegli almeno un iscritto
 crs#:#crs_no_members_assigned#:#Non ci sono iscritti a questo corso
@@ -3340,7 +3340,7 @@ meta#:#meta_kind#:#Tipo
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
 meta#:#meta_l_af#:#africano
-meta#:#meta_l_am#:#amharic###14 Sep 2004 content changed
+meta#:#meta_l_am#:#amaraico
 meta#:#meta_l_ar#:#arabo
 meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
 meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
@@ -3613,7 +3613,7 @@ payment#:#paya_order_date#:#Data dell'ordine
 payment#:#paya_pay_method#:#Metodo di pagamento
 payment#:#paya_pay_method_not_specified#:#Non specificato
 payment#:#paya_payed#:#Pagato
-payment#:#paya_payed_access#:#Payed/Access###04 Oct 2004 new variable
+payment#:#paya_payed_access#:#Pagato/Accessi
 payment#:#paya_perm_obj#:#Modifica oggetti
 payment#:#paya_perm_stat#:#Modifica statistiche
 payment#:#paya_price_not_valid#:#Questo prezzo non &#232; valido. Per favore indica solo cifre.
@@ -3803,7 +3803,7 @@ survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del sondaggio
 survey#:#enter_value#:#Inserisci un valore
-survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
+survey#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
 survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!
 survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
@@ -3822,7 +3822,7 @@ survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
 survey#:#harmonic_mean#:#Significato armonico
-survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
+survey#:#import_question#:#Importa domande
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima
 survey#:#insert_missing_question#:#Per favore, seleziona almeno una domanda da inserire nel sondaggio!
@@ -3889,7 +3889,7 @@ survey#:#qpl_delete_phrase_select_none#:#Per favore, seleziona almeno una frase 
 survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le domande!
 survey#:#qpl_delete_select_none#:#Per favore, seleziona almeno una domanda da cancellare!
 survey#:#qpl_duplicate_select_none#:#Per favore, seleziona almeno una domanda da duplicare!
-survey#:#qpl_export_select_none#:#Please check at least one question to export it###15 Oct 2004 new variable
+survey#:#qpl_export_select_none#:#Per favore scegli almeno una domanda da esportare
 survey#:#qpl_past_questions_confirmation#:#Sei sicuro di voler incollare le seguenti domande nella raccolta?
 survey#:#qpl_phrases_deleted#:#Frasi eliminate
 survey#:#qpl_questions_deleted#:#Domande cancellate
@@ -3960,7 +3960,7 @@ survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
 survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propriet&#224; del sondaggio! Per favore inserisci il nome dell'autore.
 survey#:#svy_missing_questions#:#Non hai inserito nessuna domanda nel sondaggio! Per favore aggiungi almeno una domanda al sondaggio.
 survey#:#svy_missing_title#:#Non hai indicato il titolo del sondaggio! Per favore vai nella sezione dei metadati e specifica il titolo.
-survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
+survey#:#svy_select_questionpools#:#Per favore scegli la raccolta nella quale inserire le domande importate
 survey#:#svy_statistical_evaluation#:#Valutazione statistica
 survey#:#svy_status_missing#:#Ci sono elementi obbligatori che mancano nel sondaggio!
 survey#:#svy_status_missing_elements#:#I seguenti elementi sono mancanti:
