@@ -34,7 +34,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-
 administration#:#analyze_data#:#Analyze data Integrity
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#analyzing#:#Analyzing...
@@ -515,6 +514,7 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
+common#:#forgot_password#:#Forgot password?
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
