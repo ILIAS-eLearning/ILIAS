@@ -659,7 +659,7 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
-common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Die folgenden Zeichen sind erlaubt (mind. sechs Zeichen): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Die folgenden Zeichen sind erlaubt (mind. sechs Zeichen): A-Z a-z 0-9 _.-+*@!$%~###15 Nov 2003 content changed
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
