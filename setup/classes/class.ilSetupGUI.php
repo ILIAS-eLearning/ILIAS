@@ -1893,8 +1893,6 @@ class ilSetupGUI extends ilSetup
 				
 				$checksum = md5($nic_key.$nic_by_email);
 				
-				var_dump($checksum);
-				
 				if (!$nic_by_email or $_POST["form"]["nic_checksum"] != $checksum)
 				{
 					$message = $this->lng->txt("nic_reg_enter_correct_id");		
