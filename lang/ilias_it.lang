@@ -95,6 +95,7 @@ assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
+assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
 assessment#:#answer_is_right#:#La soluzione &#232; giusta.
@@ -111,6 +112,7 @@ assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Selezionato
 assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
@@ -280,6 +282,7 @@ assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore
 assessment#:#rectangle_click_tl_corner#:#Per favore clicca sull'angolo superiore sinistro dell'area desiderata.
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
+assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
 assessment#:#reset_filter#:#Annulla il filtro
 assessment#:#result#:#Risultato
@@ -295,6 +298,7 @@ assessment#:#selected_image#:#Immagine selezionata
 assessment#:#set_filter#:#Imposta filtro
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
+assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!

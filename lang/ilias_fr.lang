@@ -95,6 +95,7 @@ assessment#:#add_area#:#Ajouter zone
 assessment#:#add_gap#:#Ajouter texte à trous
 assessment#:#add_imagemap#:#Ajouter image réactive
 assessment#:#add_matching_pair#:#Ajouter appariements
+assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Tous les jeux de questions disponibles
 assessment#:#answer#:#Réponse
 assessment#:#answer_is_right#:#Votre solution est correcte
@@ -111,6 +112,7 @@ assessment#:#available_points#:#Points disponibles
 assessment#:#by#:#par
 assessment#:#cannot_maintain_test#:#Vous n'avez pas de permission suffisante pour assurer la maintenance du test
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -271,6 +273,7 @@ assessment#:#rectangle_click_br_corner#:#Veuillez cliquer sur le coin inférieur
 assessment#:#rectangle_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée.
 assessment#:#region#:#Zone
 assessment#:#remove_question#:#Supprimer
+assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
 assessment#:#report_date_not_reached#:#Vous n'avez pas atteint la date de rapport. Vous pourrez voir les résultats du test le %s
 assessment#:#reset_filter#:#Remettre le filtre à zéro
 assessment#:#result#:#Resultat
@@ -286,6 +289,7 @@ assessment#:#selected_image#:#Image sélectionnée
 assessment#:#set_filter#:#Définir le filtre
 assessment#:#shape#:#Forme
 assessment#:#shuffle_answers#:#Mélanger les réponses
+assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Ordre correct
 assessment#:#start_tag#:#Point de départ
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
