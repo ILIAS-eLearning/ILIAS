@@ -401,7 +401,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
 		}
-
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);

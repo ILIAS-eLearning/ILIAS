@@ -32,7 +32,6 @@
 * @package ilias-core
 */
 
-
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilBenchmark.php";
@@ -52,7 +51,7 @@ require_once "Auth/Auth.php";
 // wrapper for php 4.3.2 & higher
 @include_once "HTML/ITX.php";
 
-if (!class_exists(IntegratedTemplateExtension))
+if (!class_exists("IntegratedTemplateExtension"))
 {
 	include_once "HTML/Template/ITX.php";
 	//include_once "classes/class.ilTemplate2.php";
@@ -81,6 +80,7 @@ require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilCtrl.php";
+require_once "classes/class.ilConditionHandler.php";
 
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
@@ -111,6 +111,7 @@ if (!db_set_save_handler())
 	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
 	$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 }
+
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
 if ($_SESSION["message"])

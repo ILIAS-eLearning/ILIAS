@@ -4199,3 +4199,5 @@ PRIMARY KEY ( `id` )
 );
 <#249>
 ALTER TABLE `crs_members` ADD `passed` TINYINT( 1 ) ;
+<#250>
+ALTER TABLE `conditions` CHANGE `operation` `operator` VARCHAR( 64 ) DEFAULT NULL;
