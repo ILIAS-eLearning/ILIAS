@@ -126,6 +126,48 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* output table of content
+	*/
+	function explorer2($a_target = "scorm_content")
+	{
+		$this->tpl = new ilTemplate("tpl.scorm_exp_main.html", true, true, true);
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
+		require_once("./content/classes/SCORM/class.ilSCORMExplorer.php");
+		$exp = new ilSCORMExplorer("scorm_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
+		$exp->setTargetGet("obj_id");
+		$exp->setFrameTarget($a_target);
+		//$exp->setFiltered(true);
+
+		if ($_GET["mexpand"] == "")
+		{
+			$mtree = new ilSCORMTree($this->slm->getId());
+			$expanded = $mtree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["mexpand"];
+		}
+		$exp->setExpand($expanded);
+		$exp->setAPI(2);
+
+		// build html-output
+		//666$exp->setOutput(0);
+		$exp->setOutput(0);
+
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->tpl->setVariable("ACTION", "scorm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+			"&ref_id=".$this->slm->getRefId()."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
 	function view()
 	{
 		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
