@@ -217,7 +217,7 @@ class ilObjSurvey extends ilObject
 		$this->questions = array();
 		$this->invitation = INVITATION_OFF;
 		$this->invitation_mode = MODE_PREDEFINED_USERS;
-		$this->anonymize = ANONYMIZE_ON;
+		$this->anonymize = ANONYMIZE_OFF;
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
 	}
 
@@ -1353,6 +1353,48 @@ class ilObjSurvey extends ilObject
 */
   function getStatus() {
     return $this->status;
+  }
+
+/**
+* Gets the survey status
+*
+* Gets the survey status
+*
+* @return integer true if status is online, false otherwise
+* @access public
+* @see $status
+*/
+  function isOnline() 
+	{
+    if ($this->status == STATUS_ONLINE)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+  }
+
+/**
+* Gets the survey status
+*
+* Gets the survey status
+*
+* @return integer true if status is online, false otherwise
+* @access public
+* @see $status
+*/
+  function isOffline() 
+	{
+    if ($this->status == STATUS_OFFLINE)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
   }
 
 /**
