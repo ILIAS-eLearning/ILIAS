@@ -264,7 +264,7 @@
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
 	Language (%langcode;) #REQUIRED
-	Characteristic (Headline | Example | Citation | Mnemonic | Additional | List) #IMPLIED
+	Characteristic (Headline1 | Headline2 | Headline3 | Example | Citation | Mnemonic | Additional | List | Remark) #IMPLIED
 >
 
 <!-- br -->

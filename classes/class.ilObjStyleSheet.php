@@ -105,11 +105,13 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-width" ,"value" => "1px"),
 			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-style" ,"value" => "solid"),
 			array("tag" => "div", "class" => "PageTitle", "parameter" => "border-color" ,"value" => "#000000"),
+
 			array("tag" => "span", "class" => "Strong", "parameter" => "font-weight" ,"value" => "bold"),
 			array("tag" => "span", "class" => "Emph", "parameter" => "font-style" ,"value" => "italic"),
 			array("tag" => "span", "class" => "Comment", "parameter" => "color" ,"value" => "green"),
 			array("tag" => "span", "class" => "Quotation", "parameter" => "color" ,"value" => "brown"),
 			array("tag" => "span", "class" => "Quotation", "parameter" => "font-style" ,"value" => "italic"),
+
 			array("tag" => "a", "class" => "FootnoteLink", "parameter" => "color" ,"value" => "blue"),
 			array("tag" => "a", "class" => "FootnoteLink", "parameter" => "font-weight" ,"value" => "normal"),
 			array("tag" => "a", "class" => "FootnoteLink:hover", "parameter" => "color" ,"value" => "#000000"),
@@ -150,10 +152,20 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "3px"),
 			array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "3px"),
 
-			array("tag" => "p", "class" => "Headline", "parameter" => "margin-top" ,"value" => "5px"),
-			array("tag" => "p", "class" => "Headline", "parameter" => "margin-bottom" ,"value" => "10px"),
-			array("tag" => "p", "class" => "Headline", "parameter" => "font-size" ,"value" => "20px"),
-			array("tag" => "p", "class" => "Headline", "parameter" => "font-weight" ,"value" => "bold"),
+			array("tag" => "p", "class" => "Headline1", "parameter" => "margin-top" ,"value" => "15px"),
+			array("tag" => "p", "class" => "Headline1", "parameter" => "margin-bottom" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Headline1", "parameter" => "font-size" ,"value" => "22px"),
+			array("tag" => "p", "class" => "Headline1", "parameter" => "font-weight" ,"value" => "bold"),
+
+			array("tag" => "p", "class" => "Headline2", "parameter" => "margin-top" ,"value" => "15px"),
+			array("tag" => "p", "class" => "Headline2", "parameter" => "margin-bottom" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Headline2", "parameter" => "font-size" ,"value" => "18px"),
+			array("tag" => "p", "class" => "Headline2", "parameter" => "font-weight" ,"value" => "bold"),
+
+			array("tag" => "p", "class" => "Headline3", "parameter" => "margin-top" ,"value" => "15px"),
+			array("tag" => "p", "class" => "Headline3", "parameter" => "margin-bottom" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Headline3", "parameter" => "font-size" ,"value" => "14px"),
+			array("tag" => "p", "class" => "Headline3", "parameter" => "font-weight" ,"value" => "bold"),
 
 			array("tag" => "p", "class" => "Example", "parameter" => "padding-left" ,"value" => "20px"),
 			array("tag" => "p", "class" => "Example", "parameter" => "border-left" ,"value" => "3px"),
@@ -174,10 +186,21 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "p", "class" => "Additional", "parameter" => "padding" ,"value" => "10px"),
 			array("tag" => "p", "class" => "Additional", "parameter" => "border" ,"value" => "1px"),
 			array("tag" => "p", "class" => "Additional", "parameter" => "border-style" ,"value" => "solid"),
-			array("tag" => "p", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue")
+			array("tag" => "p", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue"),
 
+			array("tag" => "p", "class" => "Remark", "parameter" => "padding" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Remark", "parameter" => "border" ,"value" => "1px"),
+			array("tag" => "p", "class" => "Remark", "parameter" => "border-style" ,"value" => "solid"),
+			array("tag" => "p", "class" => "Remark", "parameter" => "border-color" ,"value" => "#909090"),
+			array("tag" => "p", "class" => "Remark", "parameter" => "background-color" ,"value" => "#D0D0D0"),
+			array("tag" => "p", "class" => "Remark", "parameter" => "text-align" ,"value" => "right"),
+
+			array("tag" => "table", "class" => "Media", "parameter" => "background-color" ,"value" => "#F5F5F5"),
+			array("tag" => "table", "class" => "Media", "parameter" => "padding" ,"value" => "0px"),
+			array("tag" => "table", "class" => "Media", "parameter" => "margin" ,"value" => "10px"),
+
+			array("tag" => "td", "class" => "MediaCaption", "parameter" => "padding" ,"value" => "5px")
 		);
-
 
 
 		// default style settings
@@ -311,12 +334,13 @@ class ilObjStyleSheet extends ilObject
 	function getAvailableTags()
 	{
 		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
-		 	"a.ExtLink", "a.ExtLink:hover",
+			"a.ExtLink", "a.ExtLink:hover",
 			"div.Footnote", "div.LMNavigation", "div.Page", "div.PageTitle", "span.Comment",
 			"span.Emph", "span.Quotation", "span.Strong",
 			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",
-			"p.Standard", "p.List", "p.Headline", "p.Example", "p.Citation", "p.Mnemonic",
-			"p.Additional");
+			"p.Standard", "p.List", "p.Headline1", "p.Headline2", "p.Headline3",
+			"p.Example", "p.Citation", "p.Mnemonic", "p.Additional", "p.Remark",
+			"table.Media", "td.MediaCaption");
 
 		return $tags;
 	}

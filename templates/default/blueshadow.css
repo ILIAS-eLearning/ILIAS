@@ -631,22 +631,6 @@ td.doubleComment
 }
 
 /* --- content styles (will move to content.css) --- */
-table.ilc_Media
-{
-	background-color: #F5F5F5;
-	border-color: #D0D0D0;
-	border-width: 1px;
-	border-style: solid;
-	border-spacing: 0px;
-	padding: 0px;
-	margin: 10px;
-}
-
-td.ilc_MediaCaption
-{
-	padding:5px;
-}
-
 div.ilc_DefinitionHeader
 {
 	margin-top: 10px;
