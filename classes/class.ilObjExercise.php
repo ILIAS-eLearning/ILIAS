@@ -122,7 +122,7 @@ class ilObjExercise extends ilObject
 
 	function addUploadedFile($a_http_post_files)
 	{
-		$this->file_obj->storeUploadedFile($a_http_post_files);
+		$this->file_obj->storeUploadedFile($a_http_post_files, true);
 		
 		return true;
 	}

@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.9 2004/10/06 06:47:26 hschottm Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.10 2004/10/06 06:57:49 hschottm Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -386,7 +386,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function uploadFileObject()
 	{
 		global $rbacsystem;
-
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -491,8 +490,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 				++$counter;
 			}
 			$this->__showMembersTableContent($this->__showMembersTable($f_result));
+			
+			$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html");
+			$this->tpl->setCurrentBlock("download_all");
+			$this->tpl->setVariable("BUTTON_DOWNLOAD_ALL", $this->lng->txt("download_all_returned_files"));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("downloadAll", "exercise.php?cmd=downloadAll&ref_id=".$this->ref_id));
+			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	function downloadAllObject()
+	{
+		$members = array();
+		foreach($this->object->members_obj->getMembers() as $member_id)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
+			$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+			unset($tmp_obj);
+		}
+		$this->object->file_obj->downloadAllDeliveredFiles($members);
+	}
+	
 	function newMembersObject()
 	{
 		global $rbacsystem;
