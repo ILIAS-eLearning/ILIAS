@@ -88,8 +88,8 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
-common#:#check_languages#:#Check Languages
 common#:#check_langfile#:#Please check your language file.
+common#:#check_languages#:#Check Languages
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -197,12 +197,12 @@ common#:#group_members#:#Group Members
 common#:#group_name#:#Groupname
 common#:#group_new#:#New Group
 common#:#group_not_available#:#any group available
-common#:#groups_overview#:#Groups Overview
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_private#:#Private
 common#:#group_status_public#:#Public
 common#:#groups#:#Groups
+common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#help#:#Help
 common#:#host#:#Host
@@ -446,6 +446,7 @@ common#:#quote#:#Quote
 common#:#read#:#Read
 common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
+common#:#refresh_languages#:#Refresh Languages
 common#:#refresh_list#:#Refresh List
 common#:#registered_since#:#Registered since
 common#:#rename#:#Rename
@@ -1065,4 +1066,3 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
-common#:#refresh_languages#:#Refresh Languages
