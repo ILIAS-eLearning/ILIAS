@@ -33,10 +33,10 @@
 * @package assessment
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "classes/class.ilMetaDataGUI.php";
-require_once "class.assQuestionGUI.php";
-require_once 'classes/Spreadsheet/Excel/Writer.php';
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilMetaDataGUI.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once './classes/Spreadsheet/Excel/Writer.php';
 
 define ("TYPE_XLS", "excel");
 define ("TYPE_SPSS", "csv");

@@ -32,15 +32,15 @@
 * @package assessment
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once("classes/class.ilMetaData.php");
-require_once "class.assQuestion.php";
-require_once "class.assClozeTestGUI.php";
-require_once "class.assImagemapQuestionGUI.php";
-require_once "class.assJavaAppletGUI.php";
-require_once "class.assMatchingQuestionGUI.php";
-require_once "class.assMultipleChoiceGUI.php";
-require_once "class.assOrderingQuestionGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilMetaData.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assClozeTestGUI.php";
+require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
+require_once "./assessment/classes/class.assJavaAppletGUI.php";
+require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
+require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
+require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 
 class ilObjQuestionPool extends ilObject
 {

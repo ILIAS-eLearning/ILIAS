@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyQuestion.php";
+require_once "./survey/classes/class.SurveyQuestion.php";
 
 /**
 * Text survey question

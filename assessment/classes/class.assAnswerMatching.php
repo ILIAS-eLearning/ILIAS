@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assAnswerSimple.php";
+require_once "./assessment/classes/class.assAnswerSimple.php";
 
 /**
 * Class for simple answers

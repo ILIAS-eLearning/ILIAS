@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assAnswerTrueFalse.php";
+require_once "./assessment/classes/class.assAnswerTrueFalse.php";
 
 /**
 * Class for cloze question answers

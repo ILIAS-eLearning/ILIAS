@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "classes/class.ilUtil.php";
+require_once "./classes/class.ilUtil.php";
 
 /**
 * Image map image preview creator

@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestionGUI.php";
-require_once "class.assJavaApplet.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once "./assessment/classes/class.assJavaApplet.php";
 
 /**
 * Java applet question GUI representation

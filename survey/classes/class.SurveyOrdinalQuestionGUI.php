@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyOrdinalQuestion.php";
+require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 
 /**
 * Ordinal survey question GUI representation

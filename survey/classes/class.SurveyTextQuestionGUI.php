@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyTextQuestion.php";
+require_once "./survey/classes/class.SurveyTextQuestion.php";
 
 /**
 * Text survey question GUI representation

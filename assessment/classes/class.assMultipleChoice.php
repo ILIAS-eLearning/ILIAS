@@ -20,8 +20,8 @@
    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
-require_once "class.assQuestion.php";
-require_once "class.assAnswerTrueFalse.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assAnswerTrueFalse.php";
 
 define("RESPONSE_SINGLE", "0");
 define("RESPONSE_MULTIPLE", "1");

@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestionGUI.php";
-require_once "class.assMultipleChoice.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once "./assessment/classes/class.assMultipleChoice.php";
 
 /**
 * Multiple choice question GUI representation

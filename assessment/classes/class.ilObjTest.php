@@ -33,16 +33,16 @@
 */
 // ALTER  TABLE  `qpl_questions`  ADD  `original_id` INT AFTER  `created` ;
 
-require_once "classes/class.ilObject.php";
-require_once "class.assMarkSchema.php";
-require_once("classes/class.ilMetaData.php");
-require_once "class.assQuestion.php";
-require_once "class.assClozeTest.php";
-require_once "class.assImagemapQuestion.php";
-require_once "class.assJavaApplet.php";
-require_once "class.assMatchingQuestion.php";
-require_once "class.assMultipleChoice.php";
-require_once "class.assOrderingQuestion.php";
+require_once "./classes/class.ilObject.php";
+require_once "./assessment/classes/class.assMarkSchema.php";
+require_once "./classes/class.ilMetaData.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assClozeTest.php";
+require_once "./assessment/classes/class.assImagemapQuestion.php";
+require_once "./assessment/classes/class.assJavaApplet.php";
+require_once "./assessment/classes/class.assMatchingQuestion.php";
+require_once "./assessment/classes/class.assMultipleChoice.php";
+require_once "./assessment/classes/class.assOrderingQuestion.php";
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);

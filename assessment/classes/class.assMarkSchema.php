@@ -22,7 +22,7 @@
 */
 
 require_once "PEAR.php";
-require_once "class.assMark.php";
+require_once "./assessment/classes/class.assMark.php";
 
 /**
 * A class defining mark schemas for assessment test objects

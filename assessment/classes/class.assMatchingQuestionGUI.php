@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestionGUI.php";
-require_once "class.assMatchingQuestion.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once "./assessment/classes/class.assMatchingQuestion.php";
 
 /**
 * Java applet question GUI representation
@@ -115,6 +115,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
 			$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
+			$pair = "#pair_" . $thispair->get_order();
 			$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
 			$this->tpl->setVariable("ANSWER_ORDER", $i);
 			$this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
@@ -149,7 +150,9 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
-			$this->tpl->setVariable("ANSWER_ID", $this->object->get_random_id("answer"));
+			$id = $this->object->get_random_id("answer");
+			$this->tpl->setVariable("ANSWER_ID", $id);
+			$pair = "#pair_$id";
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
@@ -196,7 +199,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_matching");
+		$this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_matching$pair");
 		$this->tpl->parseCurrentBlock();
   }
 

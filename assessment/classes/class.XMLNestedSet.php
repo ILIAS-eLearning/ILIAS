@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.XML2SQL.php";
-require_once "class.SQL2XML.php";
+require_once "./assessment/classes/class.XML2SQL.php";
+require_once "./assessment/classes/class.SQL2XML.php";
 
 /**
 * This class provides a nested set wrapper for DOM XML trees

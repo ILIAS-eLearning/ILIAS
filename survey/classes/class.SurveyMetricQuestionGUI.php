@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyMetricQuestion.php";
+require_once "./survey/classes/class.SurveyMetricQuestion.php";
 
 /**
 * Metric survey question GUI representation
