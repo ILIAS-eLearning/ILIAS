@@ -273,6 +273,7 @@ common#:#grp_edit#:#Modifica gruppo###01 Sep 2003 new variable
 common#:#grp_mem_change_status#:#Change member status###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Dismiss member from group###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Send member a message###02 Oct 2003 new variable
+common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.###17 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
 common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
