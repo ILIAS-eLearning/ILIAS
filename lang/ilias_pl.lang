@@ -123,6 +123,7 @@ assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#Kopiuj
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
+assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
@@ -151,6 +152,7 @@ assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#height#:#Wysokość
 assessment#:#imagemap#:#Mapa bitowa
 assessment#:#imagemap_source#:#Źródło mapy bitowej
+assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#internal_links#:#Łączniki wewnętrzne
 assessment#:#internal_links_update#:#Uaktualnij
 assessment#:#javaapplet#:#Java Aplet Javy
@@ -483,6 +485,8 @@ common#:#HH:MM#:#GG:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Dostęp
+common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
+common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
@@ -494,6 +498,7 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Dodaj członka
 common#:#add_members#:#dodaj członków
 common#:#add_translation#:#Dodaj tłumaczenie
+common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
 common#:#adm_visible#:#Ustawienia systemowe są widoczne
@@ -676,6 +681,7 @@ common#:#compose#:#Utwórz nową
 common#:#condition#:#Condition###14 Aug 2004 new variable
 common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
 common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
+common#:#condition_deleted#:#Condition deleted.###25 Aug 2004 new variable
 common#:#condition_passed#:#Passed###14 Aug 2004 new variable
 common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
 common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
@@ -2309,6 +2315,7 @@ crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
 crs#:#crs_contact_phone#:#Telephone###07 Aug 2004 new variable
 crs#:#crs_contact_responsibility#:#Responsibility###07 Aug 2004 new variable
 crs#:#crs_content#:#Course content###07 Aug 2004 new variable
+crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories###25 Aug 2004 new variable
 crs#:#crs_count_members#:#Number of members###07 Aug 2004 new variable
 crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
 crs#:#crs_dates#:#Dates###07 Aug 2004 new variable

@@ -127,6 +127,7 @@ assessment#:#duplicate#:#Duplicate###16 Mar 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
+assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
@@ -155,6 +156,7 @@ assessment#:#gap_selection#:#Gap selection###16 Mar 2004 new variable
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###16 Mar 2004 new variable
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
 assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
 assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
@@ -496,6 +498,8 @@ common#:#HH:MM#:#HH:MM###16 Mar 2004 new variable
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement#:#Akceptovat uživatelské ujednání?
 common#:#access#:#Přístup
+common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
+common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
 common#:#action_aborted#:#Akce přerušena
 common#:#actions#:#Akce
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
@@ -507,6 +511,7 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Přidat člena
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Přidat překlad
+common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#adm_read#:#Read access to System settings###16 Mar 2004 new variable
 common#:#adm_visible#:#Systemsettings are visible###16 Mar 2004 new variable
@@ -690,6 +695,7 @@ common#:#compose#:#Vytvořit
 common#:#condition#:#Condition###14 Aug 2004 new variable
 common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
 common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
+common#:#condition_deleted#:#Condition deleted.###25 Aug 2004 new variable
 common#:#condition_passed#:#Passed###14 Aug 2004 new variable
 common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
 common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
@@ -2335,6 +2341,7 @@ crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
 crs#:#crs_contact_phone#:#Telephone###07 Aug 2004 new variable
 crs#:#crs_contact_responsibility#:#Responsibility###07 Aug 2004 new variable
 crs#:#crs_content#:#Course content###07 Aug 2004 new variable
+crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories###25 Aug 2004 new variable
 crs#:#crs_count_members#:#Number of members###07 Aug 2004 new variable
 crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
 crs#:#crs_dates#:#Dates###07 Aug 2004 new variable
