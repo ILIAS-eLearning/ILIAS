@@ -578,7 +578,7 @@ class ilObjectGUI
 				
 				// ... store mapping of old ref_id => new_ref_id in hash array ...
 				$mapping[$new_ref_id] = $key;
-				
+
 				// ... insert subtree of top_node if any subnodes exist ...
 				if (count($subnode) > 0)
 				{
@@ -823,7 +823,7 @@ class ilObjectGUI
 		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 		$new_ref_id = $source_obj->clone($a_dest_id);
 		unset($source_obj);
-		
+
 		$mapping[$new_ref_id] = $a_source_id;
 
 		// GET ALL CHILDS OF SOURCE OBJECT AND CALL THIS METHOD FOR OF THEM
@@ -1637,7 +1637,7 @@ class ilObjectGUI
 				//}
 			//}
 		}
-	
+
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
 		header("Location: ".$this->getReturnLocation("permSave","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
