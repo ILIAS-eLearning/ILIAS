@@ -25,7 +25,7 @@ class ilBookmarkFolder
 	var $ilias;
 
 	var $id;
-	var $name;
+	var $title;
 	var $parent;
 
 	/**
@@ -33,20 +33,57 @@ class ilBookmarkFolder
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmarkFolder($bmf_id = 0, $tree_id = 0)
+	function ilBookmarkFolder($a_bmf_id = 0, $a_tree_id = 0)
 	{
 		global $ilias;
 
 		// Initiate variables
 		$this->ilias =& $ilias;
-		if ($tree_id == 0)
+		if ($a_tree_id == 0)
 		{
-			$tree_id = $_SESSION["AccountId"];
+			$a_tree_id = $_SESSION["AccountId"];
 		}
 
-		$this->tree = new ilTree($tree_id);
+		$this->tree = new ilTree($a_tree_id);
 		$this->tree->setTableNames('bookmark_tree','bookmark_data');
-		//$this->root_id = $this->tree->readRootId();
+		$this->id = $a_bmf_id;
+
+		if(!empty($this->id))
+		{
+			$this->read();
+		}
+	}
+
+	/**
+	* read bookmark folder data from db
+	*/
+	function read()
+	{
+		global $log, $ilias;
+
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = '".$this->id."'";
+		$bmf_set = $this->ilias->db->query($q);
+		if ($bmf_set->numRows() == 0)
+		{
+			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->id." not found!";
+			$log->writeWarning($message);
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+		}
+		else
+		{
+			$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->setTitle($bmf["title"]);
+			$this->setParent($this->tree->getParentId($this->id));
+		}
+	}
+
+	/**
+	* delete object data
+	*/
+	function delete()
+	{
+		$q = "DELETE FROM bookmark_data WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
 	}
 
 	/**
@@ -60,17 +97,23 @@ class ilBookmarkFolder
 	/**
 	* creates new bookmark folder in db
 	*
-	* note: parent and name must be set
+	* note: parent and title must be set
 	*/
 	function create()
 	{
 		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
-				"VALUES ('".$_SESSION["AccountId"]."','".$this->getName()."','','bmf')";
+				"VALUES ('".$_SESSION["AccountId"]."','".$this->getTitle()."','','bmf')";
 		$this->ilias->db->query($q);
-echo $q."<br>";
+
 		$this->setId(getLastInsertId());
-echo "id:".$this->getId().":parent:".$this->getParent().":<br>";
+
 		$this->tree->insertNode($this->getId(), $this->getParent());
+	}
+
+	function update()
+	{
+		$q = "UPDATE bookmark_data SET title = '".$this->getTitle()."' WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
 	}
 
 	function getId()
@@ -83,14 +126,14 @@ echo "id:".$this->getId().":parent:".$this->getParent().":<br>";
 		$this->id = $a_id;
 	}
 
-	function getName()
+	function getTitle()
 	{
-		return $this->name;
+		return $this->title;
 	}
 
-	function setName($a_name)
+	function setTitle($a_title)
 	{
-		$this->name = $a_name;
+		$this->title = $a_title;
 	}
 
 	function getParent()

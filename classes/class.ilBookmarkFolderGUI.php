@@ -69,25 +69,26 @@ class ilBookmarkFolderGUI
 		//{
 			$this->tpl->setVariable("HEADER", $lng->txt("bookmarks"));
 		//}
-
+		$this->displayLocator();
 
 	}
 
 	/*
 	* display content of bookmark folder
 	*/
-	function display()
+	function view()
 	{
 		global $tree, $rbacsystem;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."$obj_str&cmd=gateway");
+
+		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=post");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "title", "target");
+		$cols = array("", "type", "title", "bookmark_target");
 		foreach ($cols as $key)
 		{
 			if ($key != "")
@@ -107,12 +108,12 @@ class ilBookmarkFolderGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		
+
 		$this->objectList = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 		$childs = $this->tree->getChilds($this->id, "title");
-		
+
 		$objects = array();
 		$bookmarks = array();
 		foreach ($childs as $key => $child)
@@ -141,7 +142,7 @@ class ilBookmarkFolderGUI
 
 			// surpress checkbox for particular object types
 			$this->tpl->setCurrentBlock("checkbox");
-			$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+			$this->tpl->setVariable("CHECKBOX_ID", $object["type"].":".$object["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("table_cell");
@@ -181,8 +182,8 @@ class ilBookmarkFolderGUI
 
 				// type icon
 				$link = ($object["type"] == "bmf") ?
-					"bookmarks.php?cmd=edit&type=bmf&bmf_id=".$object["obj_id"] :
-					"bookmarks.php?cmd=edit&type=bm&bm_id=".$object["obj_id"];
+					"bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
+					"bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
 				$img_type = ($object["type"] == "bmf") ? "cat" : $object["type"];
 				$val = ilUtil::getImageTagByType($img_type, $this->tpl->tplPath);
 
@@ -217,7 +218,10 @@ class ilBookmarkFolderGUI
 		$this->showPossibleSubObjects();
 
 	}
-	
+
+	/**
+	* output a cell in object list
+	*/
 	function add_cell($val, $link = "")
 	{
 		if(!empty($link))
@@ -236,6 +240,74 @@ class ilBookmarkFolderGUI
 	}
 
 	/**
+	* display locator
+	*/
+	function displayLocator()
+	{
+		global $lng;
+
+		if(empty($this->id))
+		{
+			return;
+		}
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $this->tree->getPathFull($this->id);
+
+		$modifier = 1;
+		/*
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
+		}*/
+
+		foreach ($path as $key => $row)
+		{
+			if ($key < count($path)-$modifier)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$title = ($row["child"] == 1) ?
+				$lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname() :
+				$row["title"];
+			$this->tpl->setVariable("ITEM", $title);
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "bookmarks.php?bmf_id=".$row["child"]);
+			$this->tpl->parseCurrentBlock();
+
+		}
+
+		/*
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$this->tpl->setCurrentBlock("locator");
+
+		//$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+		/*
+		if ($_GET["cmd"] == "confirmDeleteAdm")
+		{
+			$prop_name = "delete_object";
+		} */
+
+		//$this->tpl->setVariable("TXT_PATH",$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
 	* display new bookmark folder form
 	*/
 	function newFormBookmarkFolder()
@@ -243,69 +315,75 @@ class ilBookmarkFolderGUI
 		global $tpl, $lng;
 
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
-		//$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		//$tpl->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
-		//$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmark_new"));
-		$tpl->setVariable("TXT_URL", $lng->txt("url"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
-
-		// folder selection list
-		/*
-		$folders = $bookmarks->getFolders();
-		foreach ($folders as $folder)
-		{
-			$tpl->setCurrentBlock("selfolders");
-			$tpl->setVariable("SEL_OPTION", $folder["name"]);
-			$tpl->setVariable("SEL_VALUE", $folder["id"]);
-			$tpl->parseCurrentBlock();
-		} */
-
-		$tpl->setVariable("TXT_TOP", $lng->txt("top"));
-		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
-		$tpl->setVariable("TXT_FOLDER", $lng->txt("folder"));
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
-		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
+		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_new"));
 		$tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=createBookmarkFolder");
-		//$tpl->parseCurrentBlock();
-
-		//$tpl->setVariable("PAGECONTENT",$tpl->get());
-		//$tpl->show();
 	}
 
-	
+
+	/**
+	* display edit bookmark folder form
+	*/
+	function editFormBookmarkFolder()
+	{
+		global $tpl, $lng;
+
+		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
+
+		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
+
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+		$tpl->setVariable("TITLE", $bmf->getTitle());
+		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_edit"));
+		$tpl->setVariable("FORMACTION", "bookmarks.php?obj_id=".$_GET["obj_id"].
+			"&bmf_id=".$this->id."&cmd=updateBookmarkFolder");
+	}
+
+
 	/**
 	* display new bookmark form
 	*/
 	function newFormBookmark()
 	{
 		global $tpl, $lng;
-		
+
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
-		//$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		//$tpl->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_new"));
-		$tpl->setVariable("TXT_URL", $lng->txt("url"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+		$tpl->setVariable("TXT_TARGET", $lng->txt("bookmark_target"));
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+		$tpl->setVariable("TARGET", "http://");
 
-		// folder selection list
-		/*
-		$folders = $bookmarks->getFolders();
-		foreach ($folders as $folder)
-		{
-			$tpl->setCurrentBlock("selfolders");
-			$tpl->setVariable("SEL_OPTION", $folder["name"]);
-			$tpl->setVariable("SEL_VALUE", $folder["id"]);
-			$tpl->parseCurrentBlock();
-		}*/
-
-		$tpl->setVariable("TXT_TOP", $lng->txt("top"));
-		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
-		$tpl->setVariable("TXT_FOLDER", $lng->txt("folder"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
-		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
+
 		$tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=createBookmark");
+		$tpl->parseCurrentBlock();
+	}
+
+	/**
+	* display edit bookmark form
+	*/
+	function editFormBookmark()
+	{
+		global $tpl, $lng;
+
+		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
+
+		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_edit"));
+		$tpl->setVariable("TXT_TARGET", $lng->txt("bookmark_target"));
+		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+
+		$Bookmark = new ilBookmark($_GET["obj_id"]);
+		$tpl->setVariable("TITLE", $Bookmark->getTitle());
+		$tpl->setVariable("TARGET", $Bookmark->getTarget());
+
+		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+
+		$tpl->setVariable("FORMACTION", "bookmarks.php?obj_id=".$_GET["obj_id"].
+			"&bmf_id=".$this->id."&cmd=updateBookmark");
 		$tpl->parseCurrentBlock();
 	}
 
@@ -316,12 +394,22 @@ class ilBookmarkFolderGUI
 	function createBookmarkFolder()
 	{
 		$bmf = new ilBookmarkFolder();
-		$bmf->setName($_POST["name"]);
+		$bmf->setTitle($_POST["title"]);
 		$bmf->setParent($this->id);
-echo "increate:parent:".$bmf->getParent().":<br>";
+
 		$bmf->create();
 
-		$this->display();
+		$this->view();
+	}
+
+
+	function updateBookmarkFolder()
+	{
+		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
+		$bmf->setTitle($_POST["title"]);
+		$bmf->update();
+
+		$this->view();
 	}
 
 
@@ -331,187 +419,158 @@ echo "increate:parent:".$bmf->getParent().":<br>";
 	function createBookmark()
 	{
 		$bm = new ilBookmark();
-		$bm->setName($_POST["name"]);
+		$bm->setTitle($_POST["title"]);
 		$bm->setTarget($_POST["target"]);
 		$bm->setParent($this->id);
 		$bm->create();
 
-		$this->display();
+		$this->view();
 	}
 
+	function updateBookmark()
+	{
+		$bm = new ilBookmark($_GET["obj_id"]);
+		$bm->setTitle($_POST["title"]);
+		$bm->setTarget($_POST["target"]);
+		$bm->update();
+
+		$this->view();
+	}
 
 	/**
-	* display object list
+	* display deletion conformation screen
 	*/
-	function displayList()
+	function delete()
 	{
-		global $tree, $rbacsystem;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
-	    //$this->getTemplateFile("view");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
-		$num = 0;
+		sendInfo($this->lng->txt("info_delete_sure"));
+		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=post");
 
-		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."$obj_str&cmd=gateway");
-
-		//table header
-		$this->tpl->setCurrentBlock("table_header_cell");
-
-		foreach ($this->data["cols"] as $key)
+		// output table header
+		$cols = array("type", "title", "target");
+		foreach ($cols as $key)
 		{
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-			$num++;
-
-			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
-
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (is_array($this->data["data"][0]))
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		foreach($_POST["id"] as $id)
 		{
-			$cnt = 0;
-			// output childs (we are going two times through the whole array
-			for ($j=0; $j < (2 * count($this->data["data"])); $j++)
+			list($type, $obj_id) = explode(":", $id);
+			switch($type)
 			{
-				// first time: output all bookmark folders
-				if ($j < count($this->data["data"]))
-				{
-					$i = $j;
-					if ($this->data["ctrl"][$i]["type"] != "bmf")
-					{
-						continue;
-					}
-				}
-				else	// second time: output all bookmark
-				{
-					$i = $j - count($this->data["data"]);
-					if ($this->data["ctrl"][$i]["type"] != "bm")
-					{
-						continue;
-					}
-				}
-				$data = $this->data["data"][$i];
-				$ctrl = $this->data["ctrl"][$i];
+				case "bmf":
+					$BookmarkFolder = new ilBookmarkFolder($obj_id);
+					$title = $BookmarkFolder->getTitle();
+					$target = "&nbsp;";
+					unset($BookmarkFolder);
+					break;
 
-				// color changing
-				$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
+				case "bm":
+					$Bookmark = new ilBookmark($obj_id);
+					$title = $Bookmark->getTitle();
+					$target = $Bookmark->getTarget();
+					unset($Bookmark);
+					break;
+			}
 
-				// surpress checkbox for particular object types
-				$this->tpl->setCurrentBlock("checkbox");
-				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
+			// output type icon
+			$this->tpl->setCurrentBlock("table_cell");
+			$img_type = ($type == "bmf") ? "cat" : $type;
+			$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($img_type, $this->tpl->tplPath));
+			$this->tpl->parseCurrentBlock();
 
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->parseCurrentBlock();
+			// output title
+			$this->tpl->setCurrentBlock("table_cell");
+			$this->tpl->setVariable("TEXT_CONTENT", $title);
+			$this->tpl->parseCurrentBlock();
 
-				foreach ($data as $key => $val)
-				{
-					//build link
-					switch($key)
-					{
-						case "type":
-							$link = "bookmarks.php?cmd=edit&";
+			// output target
+			$this->tpl->setCurrentBlock("table_cell");
+			$this->tpl->setVariable("TEXT_CONTENT", $target);
+			$this->tpl->parseCurrentBlock();
 
-							$n = 0;
-
-							foreach ($ctrl as $key2 => $val2)
-							{
-								$link .= $key2."=".$val2;
-
-								if ($n < count($ctrl)-1)
-								{
-						    		$link .= "&";
-									$n++;
-								}
-							}
-							break;
-						
-						case "title":
-							if($ctrl["type"] == "bmf")
-								$link = "bookmarks.php?bmf_id=".$ctrl["bmf_id"];
-							else
-								$link = $val;
-							break;
-						
-						case "target":
-							$link = $val;
-							break;
-					}
-
-					if ($key == "title" || $key == "type" || $key == "target")
-					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
-
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
-
-					// process clipboard information
-					/*
-					if (isset($_SESSION["clipboard"]))
-					{
-						$cmd = $_SESSION["clipboard"]["cmd"];
-						$parent = $_SESSION["clipboard"]["parent"];
-
-						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
-						{
-							if ($ctrl["ref_id"] == $clip_id)
-							{
-								if ($cmd == "cut" and $key == "title")
-								{
-									$val = "<del>".$val."</del>";
-								}
-
-								if ($cmd == "copy" and $key == "title")
-								{
-									$val = "<font color=\"green\">+</font>  ".$val;
-								}
-
-								if ($cmd == "link" and $key == "title")
-								{
-									$val = "<font color=\"black\"><</font> ".$val;
-								}
-							}
-						}
-					}*/
-
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-
-				} //foreach
-
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			// output table row
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
 		}
 
-		// SHOW VALID ACTIONS
-		$this->showActions();
-
-		// SHOW POSSIBLE SUB OBJECTS
-		$this->showPossibleSubObjects();
+		// cancel and confirm button
+		$buttons = array( "cancel"  => $this->lng->txt("cancel"),
+			"confirm"  => $this->lng->txt("confirm"));
+		foreach($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
 
 	}
+
+	/**
+	* cancel deletion
+	*/
+	function cancel()
+	{
+		session_unregister("saved_post");
+		$this->view();
+	}
+
+	/**
+	* deletion confirmed -> delete folders / bookmarks
+	*/
+	function confirm()
+	{
+		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
+
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($_SESSION["saved_post"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			list($type, $id) = explode(":", $id);
+
+			// get node data and subtree nodes
+			$node_data = $this->tree->getNodeData($id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
+
+			// delete tree
+			$this->tree->deleteTree($node_data);
+
+			// delete objects of subtree nodes
+			foreach ($subtree_nodes as $node)
+			{
+				switch ($node["type"])
+				{
+					case "bmf":
+						$BookmarkFolder = new ilBookmarkFolder($node["obj_id"]);
+						$BookmarkFolder->delete();
+						break;
+
+					case "bm":
+						$Bookmark = new ilBookmark($node["obj_id"]);
+						$Bookmark->delete();
+						break;
+				}
+			}
+		}
+
+		// Feedback
+		sendInfo($this->lng->txt("info_deleted"),true);
+
+		$this->view();
+	}
+
 
 
 	/**
