@@ -145,12 +145,21 @@ class ilUtil
 	*					they are handled as language variable keys and the corresponding
 	*					language variable is displayed
 	*/
-	function formSelect ($selected,$varname,$options,$multiple = false,$direct_text = false)
+	function formSelect ($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0")
 	{
 		global $lng;
 
-		$multiple ? $multiple = " multiple=\"multiple\"" : "";
-		$str = "<select name=\"".$varname ."\"".$multiple.">\n";
+		if($multiple == true)
+		{
+			$multiple = "multiple";
+		}
+		else
+		{
+			$multiple = "";
+			$size = 0;
+		}
+
+		$str = "<select name=\"".$varname ."\"".$multiple." size=\"".$size."\">\n";
 
 		foreach ($options as $key => $val)
 		{
@@ -163,7 +172,12 @@ class ilUtil
 				$str .= " <option value=\"".$val."\"";
 			}
 
-			if ($selected == $key)
+			if(is_array($selected) )
+			{
+				if(in_array($key,$selected))
+					$str .= " selected=\"selected\"";
+			}
+			else if ($selected == $key)
 			{
 				$str .= " selected=\"selected\"";
 			}
