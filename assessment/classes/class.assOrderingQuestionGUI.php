@@ -95,6 +95,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion($ok = true)
 	{
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_ordering");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);

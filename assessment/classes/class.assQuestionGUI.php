@@ -349,8 +349,8 @@ class ASS_QuestionGUI
 		else
 		{
 			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($q_type);
+			$this->tpl->setVariable("HEADER", $title);
 		}
-		$this->tpl->setVariable("HEADER", $title);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 	}
 
@@ -438,6 +438,6 @@ class ASS_QuestionGUI
 		$_GET["q_id"] = $this->object->getId();
 		$this->editQuestion();
 	}
-
+	
 }
 ?>

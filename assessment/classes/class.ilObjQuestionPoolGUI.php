@@ -105,7 +105,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			if ($_GET["test_ref_id"] == "")
 			{
-				$this->setAdminTabs($_POST["new_type"]);
+				if (preg_match("/^ass_/", $next_class))
+				{
+					$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+					include_once "./classes/class.ilTabsGUI.php";
+					$tabs_gui =& new ilTabsGUI();
+					if ($_GET["q_id"])
+					{
+						$tabs_gui->addTarget("preview",
+							$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
+							"ilPageObjectGUI");
+					}
+					$tabs_gui->addTarget("back",
+						$this->ctrl->getLinkTarget($this, "questions"), "questions",
+						"ilObjQuestionPoolGUI");
+					// output tabs
+					$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+				}
+				else
+				{
+					$this->setAdminTabs($_POST["new_type"]);
+				}
 			}
 			else
 			{
@@ -132,7 +152,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$count = $question->isInUse();
 				if ($count)
 				{
-					sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+					global $rbacsystem;
+					if ($rbacsystem->checkAccess("write", $this->ref_id))
+					{
+						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+					}
 				}
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");

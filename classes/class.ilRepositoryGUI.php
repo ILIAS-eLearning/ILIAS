@@ -2490,51 +2490,35 @@ class ilRepositoryGUI
 			{
           $obj_link = "survey/questionpool.php?ref_id=" . $spl_data["ref_id"];
 
-				//if ($this->rbacsystem->checkAccess('read',$spl_data["ref_id"]))
-				//{
-				//	$tpl->setCurrentBlock("spl_read");
-				//	$tpl->setVariable("VIEW_LINK", $obj_link);
-				//	$tpl->setVariable("VIEW_TARGET", "bottom");
-				//	$tpl->setVariable("R_TITLE", $spl_data["title"]);
-				//	$tpl->parseCurrentBlock();
-				//}
-				//else
-				//{
-					$tpl->setCurrentBlock("spl_visible");
-					$tpl->setVariable("V_TITLE", $spl_data["title"]);
-					$tpl->parseCurrentBlock();
-				//}
-
 				if ($this->rbacsystem->checkAccess('write',$spl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("spl_edit");
-					$tpl->setVariable("EDIT_LINK","survey/questionpool.php?ref_id=".$spl_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK",$obj_link . "&cmd=questions");
 					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->setVariable("V_TITLE", $spl_data["title"]);
 					$tpl->parseCurrentBlock();
 
-
-                                        if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($spl_data["ref_id"], "spl"))
-                                        {
-                                                $tpl->setCurrentBlock("spl_desklink");
-                                                $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-                                                        "&item_ref_id=".$spl_data["ref_id"].
-                                                        "&type=spl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-                                                        "&sort_by=".$_GET["sort_by"]);
-                                                $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-                                                $tpl->parseCurrentBlock();
-                                        }
-				}
-				else if ($this->rbacsystem->checkAccess('read', $spl_data["ref_id"]))
+					if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($spl_data["ref_id"], "spl"))
+					{
+						$tpl->setCurrentBlock("spl_desklink");
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$spl_data["ref_id"].
+							"&type=spl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&sort_by=".$_GET["sort_by"]);
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+						$tpl->parseCurrentBlock();
+					}
+				} 
+				elseif ($this->rbacsystem->checkAccess('read',$spl_data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("spl_edit");
-					$tpl->setVariable("EDIT_LINK","survey/questionpool.php?ref_id=".$spl_data["ref_id"]);
-					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->setCurrentBlock("spl_view");
+					$tpl->setVariable("VIEW_LINK", $obj_link . "&cmd=questions");
+					$tpl->setVariable("VIEW_TARGET","bottom");
+					$tpl->setVariable("VIEW_TEXT", $this->lng->txt("view"));
+					$tpl->setVariable("V_TITLE", $spl_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
 				
-
 				if ($this->rbacsystem->checkAccess('delete', $spl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("spl_delete");
@@ -2619,48 +2603,34 @@ class ilRepositoryGUI
 
 			foreach ($qpool as $qpl_data)
 			{
-          $obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"] . "&cmd=questions";
-
-				//if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
-				//{
-				//	$tpl->setCurrentBlock("qpl_read");
-				//	$tpl->setVariable("VIEW_LINK", $obj_link);
-				//	$tpl->setVariable("VIEW_TARGET", "bottom");
-				//	$tpl->setVariable("R_TITLE", $qpl_data["title"]);
-				//	$tpl->parseCurrentBlock();
-				//}
-				//else
-				//{
-					$tpl->setCurrentBlock("qpl_visible");
-					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
-					$tpl->parseCurrentBlock();
-				//}
+				$obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"] . "&cmd=questions";
 
 				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_edit");
 					$tpl->setVariable("EDIT_LINK",$obj_link . "&cmd=questions");
 					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
 					$tpl->parseCurrentBlock();
 
-                                        if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($qpl_data["ref_id"], "qpl"))
-                                        {
-                                                $tpl->setCurrentBlock("qpl_desklink");
-                                                $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-                                                        "&item_ref_id=".$qpl_data["ref_id"].
-                                                        "&type=qpl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-                                                        "&sort_by=".$_GET["sort_by"]);
-                                                $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-                                                $tpl->parseCurrentBlock();
-                                        }
+					if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($qpl_data["ref_id"], "qpl"))
+					{
+						$tpl->setCurrentBlock("qpl_desklink");
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$qpl_data["ref_id"].
+							"&type=qpl&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&sort_by=".$_GET["sort_by"]);
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+						$tpl->parseCurrentBlock();
+					}
 				} 
 				elseif ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("qpl_edit");
-					$tpl->setVariable("EDIT_LINK", $obj_link . "&cmd=questions");
-					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->setCurrentBlock("qpl_view");
+					$tpl->setVariable("VIEW_LINK", $obj_link . "&cmd=questions");
+					$tpl->setVariable("VIEW_TARGET","bottom");
+					$tpl->setVariable("VIEW_TEXT", $this->lng->txt("view"));
+					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
 				

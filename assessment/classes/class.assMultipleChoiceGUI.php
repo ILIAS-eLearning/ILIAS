@@ -97,6 +97,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		// single response
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{
