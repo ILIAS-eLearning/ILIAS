@@ -1863,8 +1863,8 @@ dateplaner#:#changedDates#:#Changed dates
 dateplaner#:#checkforfreetime#:#Check for free time
 dateplaner#:#created#:#Created
 dateplaner#:#date#:#Date
-dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
-dateplaner#:#date_format_middle#:#m/d/y//month/day/Year
+dateplaner#:#date_format#:#m/d/Y H:i
+dateplaner#:#date_format_middle#:#m/d/y
 dateplaner#:#del_all#:#delete all dates
 dateplaner#:#del_one#:#delete one date
 dateplaner#:#delete#:#delete
@@ -1977,6 +1977,7 @@ dateplaner#:#more#:#more
 dateplaner#:#mweek#:#last week
 dateplaner#:#myeahr#:#last year
 dateplaner#:#newDates#:#New dates
+dateplaner#:#execute#:#execute choices
 dateplaner#:#newKeyword#:#New:
 dateplaner#:#new_doc#:#create new date
 dateplaner#:#no_entry#:#no dates available

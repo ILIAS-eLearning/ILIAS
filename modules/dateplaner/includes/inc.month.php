@@ -287,7 +287,7 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 					$month_float = $month_float."<span ".$DP_CSS[small]."><a TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$shortext."</a> </span><br>"; 
 				}else {
 					$month_float = $month_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$shortext."</a> </span><br>"; 
-					$month_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
+					$month_float.= $Gui->setToolTip($starttime, $endtime, $Dates[$i][5], $text, $id );
 				}
 
 
@@ -332,7 +332,7 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 					$month_float = $month_float."<span ".$DP_CSS[small]."><a TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$starttime."</a> - ".$shortext."</a> </span><br>"; 
 				}else {
 					$month_float = $month_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')   href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime."</a> - ".$shortext." </span><br>"; 
-					$month_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
+					$month_float.= $Gui->setToolTip($starttime, $endtime, $Dates[$i][5], $text, $id );
 				}
 
 		}

@@ -47,17 +47,6 @@ if ($_GET[action] == "show") {
 	// Ilias2 + GD <1.6.1
 	//ImageGif($im);
 
-}elseif($_GET[action] == "next"){
-		$year = $year + 1;
-		$minical_show = setMinicalendar($_GET[month],$_GET[year], $_GET[DP_Lang]);
-}elseif($_GET[action] == "last"){
-		$year = $year - 1;
-		$minical_show = setMinicalendar($_GET[month],$_GET[year], $_GET[DP_Lang]);
-}else {
-	if(!$month || !$year){
-		$month = date(m);
-		$year = date(Y);	
-	}
 }
 
 
@@ -242,8 +231,9 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 * 	@param int $month
 * 	@param int $year
 */
-function setMinicalendar($month,$year, $DP_Lang, $app)
+function setMinicalendar($month, $year, $DP_Lang, $app)
 {
+		
 	
 	if(!$month || !$year)
 	{
