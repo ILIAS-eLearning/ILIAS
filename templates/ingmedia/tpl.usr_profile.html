@@ -4,11 +4,11 @@ body { margin:0px; }
 </style>
 {STATUSLINE}
 <div class="invisible_border">
-<div class="il_Header"><!-- ING:<h1>{TXT_PAGEHEADLINE}</h1> -->
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
 <div class="il_Tab">
 {TABS}	  
 </div>
-</div> 
+</div>
 <br/>
 {BUTTONS}
 {MESSAGE}
@@ -22,8 +22,8 @@ body { margin:0px; }
 	<td class="option_value" colspan="3">{NICKNAME}</td>
 </tr>
 <tr>
-	<td class="option">{TXT_DEFAULT_ROLE}</td>
-	<td class="option_value" colspan="3">{DEFAULT_ROLE}</td>
+	<td class="option">{TXT_DEFAULT_ROLES}</td>
+	<td class="option_value" colspan="3">{DEFAULT_ROLES}</td>
 </tr>
 <tr class="tblheader">
 	<td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
@@ -55,7 +55,12 @@ body { margin:0px; }
 </tr>
 
 <tr>
-	<td class="option">{TXT_UPLOAD}</td>
+	<td class="option">{TXT_UPLOAD}
+	<!-- BEGIN pers_image -->
+	<br />
+	<img src="{IMG_PERSONAL}" border="0">
+	<!-- END pers_image -->
+	</td>
 	<td class="option_value"><input type="file" name="userfile" >
 	 <input class="submit" type="submit" name="usr_upload" VALUE="{UPLOAD}">
 	</td>
@@ -170,23 +175,12 @@ body { margin:0px; }
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<td class="option">{TXT_USR_SKIN}</td>
+	<td class="option">{TXT_USR_SKIN_STYLE}</td>
 	<td class="option_value">
-	<select name="usr_skin">
+	<select name="usr_skin_style">
 <!-- BEGIN selectskin -->
 		<option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
 <!-- END selectskin -->
-	</select>
-	</td>
-	<td class="option_value" colspan="2">&nbsp;</td>
-</tr>
-<tr>
-	<td class="option">{TXT_USR_STYLE}</td>
-	<td class="option_value">
-	<select name="usr_style">
-<!-- BEGIN selectstyle -->
-		<option value="{STYLEVALUE}" {STYLESELECTED}>{STYLEOPTION}</option>
-<!-- END selectstyle -->
 	</select>
 	</td>
 	<td class="option_value" colspan="2">&nbsp;</td>
