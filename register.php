@@ -111,7 +111,7 @@ function saveForm()
 	}
 
 	// validate password
-	if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
+	if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
 	{
 		$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
 	}
@@ -305,7 +305,6 @@ function getUserAgreement()
 	chdir($agrPath);
 
 	$agreement = "agreement_".$lng->lang_user.".html";
-
 	if ($agreement)
 	{
 		if ($content = file($agreement))

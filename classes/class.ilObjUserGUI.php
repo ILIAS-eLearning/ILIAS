@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.63 2003/11/07 18:02:00 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.64 2003/11/08 09:55:59 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -126,7 +126,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			}
-			
+
 			if ($this->prepare_output)
 			{
 				$this->tpl->parseCurrentBlock();
@@ -255,17 +255,24 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$path = "";
 
-				$tmpPath = $this->tree->getPathFull($rolf[0]);
-
-				// count -1, to exclude the role folder itself
-				for ($i = 0; $i < (count($tmpPath)-1); $i++)
+				if ($this->tree->isInTree($rolf[0]))
 				{
-					if ($path != "")
-					{
-						$path .= " > ";
-					}
+					$tmpPath = $this->tree->getPathFull($rolf[0]);
 
-					$path .= $tmpPath[$i]["title"];
+					// count -1, to exclude the role folder itself
+					for ($i = 0; $i < (count($tmpPath)-1); $i++)
+					{
+						if ($path != "")
+						{
+							$path .= " > ";
+						}
+
+						$path .= $tmpPath[$i]["title"];
+					}
+				}
+				else
+				{
+					$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
 				}
 
 				if (in_array($role,$active_roles))
@@ -440,7 +447,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// validate password
-		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
+		if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -555,7 +562,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// validate password
-		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
+		if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -780,28 +787,35 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// get all assignable roles
 		$list = $rbacreview->getAssignableRoles();
-
+//echo "2";
 		foreach ($list as $key => $val)
 		{
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
-
+//echo "3";
 			// only list roles that are not deleted
 			if (!$rbacreview->isDeleted($rolf[0]))
 			{
 				$path = "";
-
-				$tmpPath = $this->tree->getPathFull($rolf[0]);
-
-				// count -1, to exclude the role folder itself
-				for ($i = 1; $i < (count($tmpPath)-1); $i++)
+//echo "4";
+				if ($this->tree->isInTree($rolf[0]))
 				{
-					if ($path != "")
+					$tmpPath = $this->tree->getPathFull($rolf[0]);
+//echo "5";
+					// count -1, to exclude the role folder itself
+					for ($i = 1; $i < (count($tmpPath)-1); $i++)
 					{
-						$path .= " > ";
-					}
+						if ($path != "")
+						{
+							$path .= " > ";
+						}
 
-					$path .= $tmpPath[$i]["title"];
+						$path .= $tmpPath[$i]["title"];
+					}
+				}
+				else
+				{
+					$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$val["obj_id"].")</b>";
 				}
 
 				//visible data part

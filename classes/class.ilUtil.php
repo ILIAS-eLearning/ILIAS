@@ -27,6 +27,7 @@
 * various functions, usage as namespace
 *
 * @author Sascha Hofmann <shofmann@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * @package ilias-core
 */
@@ -712,13 +713,21 @@ class ilUtil
 	* @return	boolean	true if valid
 	* TODO: populate function with restrictions for passwords :-)
 	*/
-	function is_password($a_passwd)
+	function isPassword($a_passwd)
 	{
 		if (empty($a_passwd))
 		{
 			return false;
 		}
-
+		if (strlen($a_passwd) < 6)
+		{
+			return false;
+		}
+		//if (!ereg("[A-Za-z0-9_\.\+\-\*\@!$\%\~]", $a_passwd))
+		if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -1360,10 +1369,13 @@ class ilUtil
 			}
 			$target_str = implode(", ", $target_arr);
 		}
-		
+
 		return $target_str;
 	}
 
+	/**
+	* dumps ord values of every character of string $a_str
+	*/
 	function dumpString($a_str)
 	{
 		$ret = $a_str.": ";
