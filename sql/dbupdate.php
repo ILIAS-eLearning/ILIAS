@@ -5873,3 +5873,7 @@ CREATE TABLE `webr_items` (
   `valid` tinyint(1) NOT NULL default '0',
   KEY `link_id` (`link_id`,`webr_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+<#418>
+ALTER TABLE benchmark MODIFY module VARCHAR(150);
+ALTER TABLE benchmark MODIFY benchmark VARCHAR(150);
