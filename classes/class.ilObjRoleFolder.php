@@ -47,6 +47,17 @@ class ilObjRoleFolder extends ilObject
 		$this->type = "rolf";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+	
+	function read($a_force_db = false)
+	{
+		parent::read();
+		
+		if ($this->getId() != ROLE_FOLDER_ID)
+		{
+			$this->setTitle($this->lng->txt("obj_".$this->getType()."_local"));
+			$this->setDescription("obj_".$this->getType()."_local_desc");
+		}
+	}
 
 	/**
 	* copy all properties and subobjects of an rolefolder.
