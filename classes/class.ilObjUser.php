@@ -1582,6 +1582,7 @@ class ilObjUser extends ilObject
 			case "tst":
 			case "dbk":
 			case "slm":
+			case "htlm":
 				$q = "SELECT oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
@@ -1605,6 +1606,12 @@ class ilObjUser extends ilObject
 						$link = "content/scorm_presentation.php?ref_id=".$item_rec["ref_id"].
 							"&obj_id=".$item_rec["parameters"];
 						$target = "bottom";
+					}
+					elseif ($a_type == "htlm")
+					{
+						$link = "content/fblm_presentation.php?ref_id=".$item_rec["ref_id"];
+						$edit_link = "content/fblm_edit.php?ref_id=".$item_rec["ref_id"];
+						$target = "ilContObj".$item_rec["obj_id"];
 					}
 					elseif ($a_type == "tst")
 					{
