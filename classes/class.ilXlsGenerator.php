@@ -45,13 +45,13 @@ class  ilXlsGenerator extends PEAR
 	/**
 	* Constructor, writting begin of  Excel file
 	* @access public
-    * @param $download boolean  true, if ask for "Save/Open", false -
-    *    if open Excel (application/x-exel).
-    */
+  * @param $download boolean  true, if ask for "Save/Open", false -
+  *    if open Excel (application/x-exel).
+  */
     function ilXlsGenerator($download = "true")
     {
-        $this->download = $download;
-        $this->Begin();
+			$this->download = $download;
+			$this->Begin();
     }
 
 
@@ -64,17 +64,17 @@ class  ilXlsGenerator extends PEAR
     */
     function _Header($filename)
     {
-        header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
-        header ("Cache-Control: no-cache, must-revalidate");
-        header ("Pragma: no-cache");
-        if ($this->download) {
-            header ("Content-type: Application/vnd.ms-excel");
-            header ("Content-Disposition: attachment; filename=$filename" );
-        } else {
-            header ("Content-type: Application/vnd.ms-excel");
-        }
-            header ("Content-Description: PHP Generated Data" );
+			header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+			header ("Cache-Control: no-cache, must-revalidate");
+			header ("Pragma: no-cache");
+			if ($this->download) {
+				header ("Content-type: Application/vnd.ms-excel");
+				header ("Content-Disposition: attachment; filename=$filename" );
+			} else {
+				header ("Content-type: Application/vnd.ms-excel");
+			}
+			header ("Content-Description: PHP Generated Data" );
     }
 
    /**
@@ -82,9 +82,9 @@ class  ilXlsGenerator extends PEAR
     */
     function Begin()
     {
-        $str = pack("ssssss", 0x809, 0x8, 0x0, 0x10, 0x0, 0x0);
-        $this->xls_data = $str;
-        return $str;
+			$str = pack("ssssss", 0x809, 0x8, 0x0, 0x10, 0x0, 0x0);
+			$this->xls_data = $str;
+			return $str;
     }
 
    /**
@@ -92,9 +92,9 @@ class  ilXlsGenerator extends PEAR
     */
     function EOF()
     {
-        $str = pack("ss", 0x0A, 0x00);
-        $this->xls_data .=  $str;
-        return $str;
+			$str = pack("ss", 0x0A, 0x00);
+			$this->xls_data .=  $str;
+			return $str;
     }
 
    /**
@@ -108,10 +108,10 @@ class  ilXlsGenerator extends PEAR
     */
     function WriteNumber($Row, $Col, $Value)
     {
-        $str = pack("sssss", 0x203, 14, $Row, $Col, 0x0);
-        $str .= pack("d", $Value);
-        $this->xls_data .= $str;
-        return $str;
+			$str = pack("sssss", 0x203, 14, $Row, $Col, 0x0);
+			$str .= pack("d", $Value);
+			$this->xls_data .= $str;
+			return $str;
     }
 
 
@@ -125,11 +125,11 @@ class  ilXlsGenerator extends PEAR
     */
     function WriteLabel($Row, $Col, $Value )
     {
-        $L = strlen($Value);
-        $str = pack("ssssss", 0x204, 8 + $L, $Row, $Col, 0x0, $L);
-        $str .= $Value;
-        $this->xls_data .=  $str;
-        return $str;
+			$L = strlen($Value);
+			$str = pack("ssssss", 0x204, 8 + $L, $Row, $Col, 0x0, $L);
+			$str .= $Value;
+			$this->xls_data .=  $str;
+			return $str;
     }
 
    /**
@@ -138,11 +138,11 @@ class  ilXlsGenerator extends PEAR
     * @param $filename string -  name of file (actually, if $download = true)
     *
     */
-    function SendFile($filename = "test.xls")
+    function SendFile($filename = "excelfile.xls")
     {
-        $this->_Header($filename);
-        echo $this->xls_data;
-        echo $this->EOF();
+			$this->_Header($filename);
+			echo $this->xls_data;
+			echo $this->EOF();
     }
 
    /**
@@ -153,8 +153,8 @@ class  ilXlsGenerator extends PEAR
     */
     function GetData($eof = "true")
     {
-        if ($eof) return $xls_data . $this->EOF();
-        else return $xls_data;
+			if ($eof) return $xls_data . $this->EOF();
+				else return $xls_data;
     }
 
 
@@ -164,16 +164,16 @@ class  ilXlsGenerator extends PEAR
     * @param $efile string - File name.
     *
     */
-    function toFile($file = "test.xls")
+    function toFile($file = "excelfile.xls")
     {
-        $fp = @fopen($file,"w");
-        if (is_resource($fp)) {
-            fwrite($fp, $this->xls_data);
-            fclose($fp);
-            return true;
-        } else {
-            return $this->raiseError("Can't access to '$file' for writting!",-1);
-        }
+			$fp = @fopen($file,"w");
+			if (is_resource($fp)) {
+				fwrite($fp, $this->xls_data);
+				fclose($fp);
+				return true;
+			} else {
+				return $this->raiseError("Can't access to '$file' for writting!",-1);
+			}
     }
 
 } // End of class ilXlsGenerator.

@@ -1574,7 +1574,7 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
-        $output = preg_replace("/" . preg_quote($this->question->get_start_tag()) . preg_quote($this->question->get_gap_text_list($gapIndex)) . preg_quote($this->question->get_end_tag()) . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
+        $output = preg_replace("/" . preg_quote($this->question->get_start_tag(), "/") . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
@@ -1599,7 +1599,7 @@ class ASS_QuestionGUI extends PEAR {
           $select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
         }
         $select .= "</select>";
-        $output = preg_replace("/" . preg_quote($this->question->get_start_tag()) . preg_quote($this->question->get_gap_text_list($gapIndex)) . preg_quote($this->question->get_end_tag()) . "/", $select, $output);
+        $output = preg_replace("/" . preg_quote($this->question->get_start_tag(), "/") . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
