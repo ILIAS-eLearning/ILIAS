@@ -1135,8 +1135,12 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_multiple_choice_question($test_id = "") {
 		$solutions = array();
+		$postponed = "";
 		if ($test_id) {
 			$solutions =& $this->question->get_solution_values($test_id);
+			if ($solutions[0]->postponed) {
+				$postponed = " (" . $this->lng->txt("postponed") . ")";
+			}
 		}
     $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
     if ($this->question->response == RESPONSE_SINGLE) {
@@ -1166,7 +1170,7 @@ class ASS_QuestionGUI extends PEAR {
     }
 
     $this->tpl->setCurrentBlock("multiple_choice");
-    $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->question->get_title() . $postponed);
     $this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1180,8 +1184,12 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_cloze_question($test_id = "") {
 		$solutions = array();
+		$postponed = "";
 		if ($test_id) {
 			$solutions =& $this->question->get_solution_values($test_id);
+			if ($solutions[0]->postponed) {
+				$postponed = " (" . $this->lng->txt("postponed") . ")";
+			}
 		}
     $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
     if ($this->question->cloze_type == CLOZE_TEXT) {
@@ -1225,7 +1233,7 @@ class ASS_QuestionGUI extends PEAR {
     }
 
     $this->tpl->setCurrentBlock("cloze_test");
-    $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->question->get_title() . $postponed);
     $this->tpl->parseCurrentBlock();
   }
 
@@ -1238,8 +1246,12 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_matching_question($test_id = "") {
 		$solutions = array();
+		$postponed = "";
 		if ($test_id) {
 			$solutions =& $this->question->get_solution_values($test_id);
+			if ($solutions[0]->postponed) {
+				$postponed = " (" . $this->lng->txt("postponed") . ")";
+			}
 		}
     foreach ($this->question->matchingpairs as $key => $value) {
       $array_matching[$value->get_order()] = $value->get_answertext();
@@ -1276,7 +1288,7 @@ class ASS_QuestionGUI extends PEAR {
     }
 
     $this->tpl->setCurrentBlock("matching");
-    $this->tpl->setVariable("MATCHING_QUESTION_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("MATCHING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
     $this->tpl->setVariable("MATCHING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1290,8 +1302,12 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_ordering_question($test_id = "") {
 		$solutions = array();
+		$postponed = "";
 		if ($test_id) {
 			$solutions =& $this->question->get_solution_values($test_id);
+			if ($solutions[0]->postponed) {
+				$postponed = " (" . $this->lng->txt("postponed") . ")";
+			}
 		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
     $this->tpl->setCurrentBlock("orderingQuestion");
@@ -1307,7 +1323,7 @@ class ASS_QuestionGUI extends PEAR {
     }
 
     $this->tpl->setCurrentBlock("ordering");
-    $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
     $this->tpl->setVariable("ORDERING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1320,6 +1336,14 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function out_working_imagemap_question($test_id = "") {
+		$solutions = array();
+		$postponed = "";
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+			if ($solutions[0]->postponed) {
+				$postponed = " (" . $this->lng->txt("postponed") . ")";
+			}
+		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
@@ -1327,7 +1351,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents());
 		$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename();
     $this->tpl->setVariable("IMAGE", $imagepath);
-    $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title());
+    $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title() . $postponed);
 
     $this->tpl->parseCurrentBlock();
   }
@@ -1375,7 +1399,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_question($sequence = 1, $finish = false, $test_id) {
+  function out_working_question($sequence = 1, $finish = false, $test_id, $postpone = false) {
     $question_type = $this->get_question_type($this->question);
     
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
@@ -1409,6 +1433,9 @@ class ASS_QuestionGUI extends PEAR {
 	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
 		} else {
 	    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
+		}
+		if ($postpone) {
+	    $this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
 		}
     $this->tpl->parseCurrentBlock();
   }

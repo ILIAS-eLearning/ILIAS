@@ -60,6 +60,8 @@ assessment#:#matching_pair#:#Matching pair
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
 assessment#:#possible_gap_text#:#Possible gap text
+assessment#:#postpone#:#Postpone question
+assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
