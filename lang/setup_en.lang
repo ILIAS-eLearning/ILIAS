@@ -360,3 +360,4 @@ list_disabled#:#Client selection disabled
 list_enabled#:#Client selection enabled
 display_clientlist#:#Display client selection
 hide_clientlist#:#Hide client selection
+langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files
