@@ -41,6 +41,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	*/
 	// personal data
+
 	var $login;		// username in system
 	var $passwd;	// md5 hash of password
 	var $gender;	// 'm' or 'f'
@@ -48,6 +49,7 @@ class ilObjUser extends ilObject
 	var $firstname;
 	var $lastname;
 	var $fullname;	// title + firstname + lastname in one string
+	//var $archive_dir = "./image";  // point to image file (should be flexible)
  	// address data
 	var $institution;
 	var $street;
@@ -56,6 +58,8 @@ class ilObjUser extends ilObject
 	var $country;
 	var $phone;
 	var $email;
+	var $hobbie;
+
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -221,7 +225,8 @@ class ilObjUser extends ilObject
 		$this->setCountry($a_data["country"]);
 		$this->setPhone($a_data["phone"]);
 		$this->setEmail($a_data["email"]);
-		
+		$this->setHobbie($a_data["hobbie"]);
+
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
 		$this->setLastUpdate($a_data["last_update"]);
@@ -237,13 +242,14 @@ class ilObjUser extends ilObject
 	{
 		$q = "INSERT INTO usr_data ".
 			 "(usr_id,login,passwd,firstname,lastname,title,gender,".
-			 "email,institution,street,city,zipcode,country,".
+			 "email,hobbie,institution,street,city,zipcode,country,".
 			 "phone,last_login,last_update,create_date) ".
 			 "VALUES ".
 			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
 			 "'".$this->firstname."','".$this->lastname."', ".
 			 "'".$this->utitle."','".$this->gender."', ".
-			 "'".$this->email."','".$this->institution."','".$this->street."', ".
+			 "'".$this->email."','".$this->hobbie."','".
+			 "'".$this->institution."','".$this->street."', ".
 			 "'".$this->city."','".$this->zipcode."','".$this->country."', ".
 			 "'".$this->phone."', 0, now(), now())";
 
@@ -264,6 +270,7 @@ class ilObjUser extends ilObject
 			 "firstname='".$this->firstname."', ".
 			 "lastname='".$this->lastname."', ".
 			 "email='".$this->email."', ".
+			 "hobbie='".$this->hobbie."', ".
 			 "institution='".$this->institution."', ".
 			 "street='".$this->street."', ".
 			 "city='".$this->city."', ".
@@ -293,10 +300,10 @@ class ilObjUser extends ilObject
 		$q = "UPDATE usr_data SET ".
 			 "last_login = '".date("Y-m-d H:i:s")."' ".
 			 "WHERE usr_id = '".$this->id."'";
-	
-		$this->ilias->db->query($q);	
+
+		$this->ilias->db->query($q);
 	}
-	
+
 	/**
 	* updates password
 	* @param	string	old password
@@ -311,7 +318,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		if (!isset($a_old) or !isset($a_new1) or !isset($a_new2))
 		{
 			return false;
@@ -321,7 +328,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		// is catched by isset() ???
 		if ($a_new1 == "" || $a_old == "")
 		{
@@ -333,7 +340,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		//update password
 		$this->passwd = md5($a_new1);
 
@@ -358,7 +365,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		if (!isset($a_new1) or !isset($a_new2))
 		{
 			return false;
@@ -368,7 +375,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		//update password
 		$this->passwd = md5($a_new1);
 
@@ -379,7 +386,7 @@ class ilObjUser extends ilObject
 
 		return true;
 	}
-	
+
 	/**
 	* update login name
 	* @param	string	new login
@@ -392,7 +399,7 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
-		
+
 		if (!isset($a_login))
 		{
 			return false;
@@ -455,7 +462,15 @@ class ilObjUser extends ilObject
 			$this->ilias->db->query($q);
 		}
 	}
-
+/*
+	function selectUserpref()
+	{
+		$q="SELECT FROM urs_pref ".
+			"WHERE usr_id='".$this->id."'";
+		this->ilias->db->query($q);
+		echo "Hallo World";
+	}
+*/
 	/**
 	* set a user preference
 	* @param	string	name of parameter
@@ -469,7 +484,7 @@ class ilObjUser extends ilObject
 			$this->prefs[$a_keyword] = $a_value;
 		}
 	}
-	
+
 	/**
 	* get a user preference
 	* @param	string	name of parameter
@@ -479,7 +494,7 @@ class ilObjUser extends ilObject
 	{
 		return $this->prefs[$a_keyword];
 	}
-	
+
 	/**
 	* get all user preferences
 	* @access	private
@@ -491,20 +506,29 @@ class ilObjUser extends ilObject
 		{
 			$this->oldPrefs = $this->prefs;
 		}
-		
+
 		$this->prefs = array();
-		
-		$q = "SELECT * FROM usr_pref WHERE usr_id='".$this->id."'";	
+
+		$q = "SELECT * FROM usr_pref WHERE usr_id='".$this->id."'";
+	//	$q = "SELECT * FROM usr_pref WHERE value='"y"'";
 		$r = $this->ilias->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->prefs[$row["keyword"]] = $row["value"];
-		} // while	 
+		} // while
 
 		return $r->numRows();
 	}
 
+// Adding new function by
+// ratanatyrupp@yahoo.com
+// purpose: for unsing in usr_profile.php
+
+
+// End of testing purpose
+//
+//
 	/**
 	* deletes a user
 	* @access	public
@@ -535,7 +559,7 @@ class ilObjUser extends ilObject
 	function setFullname ()
 	{
 		$this->fullname = "";
-		
+
 		if ($this->utitle)
 		{
 			$this->fullname = $this->utitle." ";
@@ -545,14 +569,14 @@ class ilObjUser extends ilObject
 		{
 			$this->fullname .= $this->firstname." ";
 		}
-				
-		$this->fullname .= $this->lastname;			
+
+		$this->fullname .= $this->lastname;
 	}
-	
+
 	/**
 	* get fullname
 	* @access	public
-	*/	
+	*/
 	function getFullname()
 	{
 		return $this->fullname;
@@ -574,7 +598,7 @@ class ilObjUser extends ilObject
 		$q = "SELECT * FROM lessons ".
 			 "WHERE user_fk='".$this->id."' ".
 			 "AND read='1'";
-				
+
 			$lessons[] = array(
 					"id" => 1,
 					"title" => "Lesson 1",
@@ -690,7 +714,7 @@ class ilObjUser extends ilObject
 	function setPasswd($a_str)
 	{
 		$this->passwd = $a_str;
-	}	
+	}
 
 	/**
 	* get password (md5 hash)
@@ -710,7 +734,7 @@ class ilObjUser extends ilObject
 	{
 		$this->gender = substr($a_str,-1);
 	}
-	
+
 	/**
 	* get gender
 	* @access	public
@@ -914,6 +938,25 @@ class ilObjUser extends ilObject
 		return $this->email;
 	}
 
+
+	/**
+	* set hobbie
+	* @access	public
+	* @param	string	hobbie
+	*/
+	function setHobbie($a_str)
+	{
+		$this->hobbie = $a_str;
+	}
+
+	/**
+	* get hobbie
+	* @access	public
+	*/
+	function getHobbie()
+	{
+		return $this->hobbie;
+	}
 	/**
 	* set user language
 	* @access	public
@@ -971,11 +1014,11 @@ class ilObjUser extends ilObject
 	* @param	string	directory name of template set
 	*/
 	function setSkin($a_str)
-	{	
+	{
 		// TODO: exception handling (dir exists)
 		$this->skin = $a_str;
 	}
-	
+
 	/*
 	* check user id with login name
 	* @param	integer	account id
@@ -1056,6 +1099,8 @@ class ilObjUser extends ilObject
 		}
 		return $ids ? $ids : array();
 	}
+
+
 
 } // END class ilObjUser
 ?>
