@@ -36,6 +36,10 @@
 */
 require_once "./include/inc.header.php";
 
+// ### AA 03.10.17 added new locator GUI class ###
+// navigate locator
+$ilias_locator->navigate(0,"Personal desktop","./start.php","_top");		//  ######## LANG FILE ENTRY ###########
+
 // define here on what page to enter the system the first time
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
