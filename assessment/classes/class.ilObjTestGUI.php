@@ -25,7 +25,7 @@
 /**
 * Class ilObjTestGUI
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI

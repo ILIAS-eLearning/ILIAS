@@ -39,7 +39,7 @@ define("LIMIT_TIME_ONLY", 1);
 * The ASS_Question class defines and encapsulates basic methods and attributes
 * for assessment question types to be used for all parent classes.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assQuestion.php
 * @modulegroup   Assessment
@@ -730,9 +730,23 @@ class ASS_Question extends PEAR
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
-	* @access public
+	* @access public static
 	*/
 	function _getReachedPoints($user_id, $test_id)
+	{
+		return 0;
+	}
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedPoints($user_id, $test_id)
 	{
 		return 0;
 	}
@@ -1232,6 +1246,33 @@ class ASS_Question extends PEAR
 			$this->page->updateFromXML();
 		}
 	}
+
+/**
+* Returns the question type of a question with a given id
+* 
+* Returns the question type of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question type string
+* @access private
+*/
+  function _getQuestionType($question_id) {
+		global $ilDB;
+
+    if ($question_id < 1)
+      return "";
+
+    $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+      $ilDB->quote($question_id)
+    );
+    $result = $ilDB->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      return $data->type_tag;
+    } else {
+      return "";
+    }
+  }
 
 }
 

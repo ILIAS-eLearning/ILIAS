@@ -32,7 +32,7 @@ define ("OQ_TERMS", 1);
 *
 * ASS_OrderingQuestion is a class for ordering questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assOrderingQuestion.php
 * @modulegroup   Assessment
@@ -376,7 +376,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -405,7 +405,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			$this->saveMaterialsToDb();
 
 			// Antworten schreiben
-			// alte Antworten löschen
+			// alte Antworten lï¿½schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -417,10 +417,10 @@ class ASS_OrderingQuestion extends ASS_Question
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, solution_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($answer_obj->get_answertext()),
-					$db->quote($answer_obj->get_points()),
-					$db->quote($answer_obj->get_order()),
-					$db->quote($answer_obj->get_solution_order())
+					$db->quote($answer_obj->get_answertext() . ""),
+					$db->quote($answer_obj->get_points() . ""),
+					$db->quote($answer_obj->get_order() . ""),
+					$db->quote($answer_obj->get_solution_order() . "")
 				);
 				$answer_result = $db->query($query);
 			}
@@ -642,7 +642,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		if ($found >= 0)
 		{
-			// Antwort einfügen
+			// Antwort einfï¿½gen
 			$answer = new ASS_AnswerOrdering($answertext, $points, $found, $solution_order);
 			array_push($this->answers, $answer);
 			for ($i = $found + 1; $i < count($this->answers); $i++)
@@ -653,7 +653,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		else
 		{
-			// Anwort anhängen
+			// Anwort anhï¿½ngen
 			$answer = new ASS_AnswerOrdering($answertext, $points,
 				count($this->answers), $solution_order);
 			array_push($this->answers, $answer);

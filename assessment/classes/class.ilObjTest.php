@@ -24,7 +24,7 @@
 /**
 * Class ilObjTest
 * 
-* @author Helmut Schottmüller <hschottm@tzi.de> 
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de> 
 * @version $Id$
 *
 * @extends ilObject
@@ -1311,30 +1311,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 
-		$questiontype = $this->getQuestionType($question_id);
-		switch ($questiontype)
-		{
-			case "qt_imagemap":
-				$question = new ASS_ImagemapQuestion();
-				break;
-			case "qt_cloze":
-				$question = new ASS_ClozeTest();
-				break;
-			case "qt_javaapplet":
-				$question = new ASS_JavaApplet();
-				break;
-			case "qt_ordering":
-				$question = new ASS_OrderingQuestion();
-				break;
-			case "qt_matching":
-				$question = new ASS_MatchingQuestion();
-				break;
-			case "qt_multiple_choice_sr":
-			case "qt_multiple_choice_mr":
-				$question = new ASS_MultipleChoice();
-				break;
-		}
-		$question->loadFromDb($question_id);
+		$question =& ilObjTest::_instanciateQuestion($question_id);
 		$duplicate_id = $question->duplicate(true);
 
 		return $duplicate_id;
@@ -1629,40 +1606,35 @@ class ilObjTest extends ilObject
 		$db->query($query);
 	}
 	
+	
+/**
+* Calculates the results of a test for a given user
+* 
+* Calculates the results of a test for a given user
+* and returns an array with all test results
+*
+* @return array An array containing the test results for the given user
+* @access public
+*/
 	function &getTestResult($user_id) {
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
+		
+		// retrieve the active test dataset for the user containing
+		// questions sequence and other information 
 		$active = $this->getActiveTestUser($user_id);
 		$sequence_array = split(",", $active->sequence);
 		sort($sequence_array, SORT_NUMERIC);
+
 		$key = 1;
 		$result_array = array();
     foreach ($sequence_array as $idx => $seq) {
 			$value = $this->questions[$seq];
-      $question_type = $this->getQuestionType($value);
-      switch ($question_type) {
-        case "qt_cloze":
-          $question = new ASS_ClozeTest();
-          break;
-        case "qt_matching":
-          $question = new ASS_MatchingQuestion();
-          break;
-        case "qt_ordering":
-          $question = new ASS_OrderingQuestion();
-          break;
-				case "qt_imagemap":
-					$question = new ASS_ImagemapQuestion();
-					break;
-        case "qt_multiple_choice_sr":
-        case "qt_multiple_choice_mr":
-          $question = new ASS_MultipleChoice();
-          break;
-      }
-      $question->loadFromDb($value);
+			$question =& ilObjTest::_instanciateQuestion($value);
       $max_points = $question->getMaximumPoints();
       $total_max_points += $max_points;
-      $reached_points = $question->_getReachedPoints($user_id, $this->getTestId());
+      $reached_points = $question->getReachedPoints($user_id, $this->getTestId());
       $total_reached_points += $reached_points;
 			if ($max_points > 0) {
 				$percentvalue = $reached_points / $max_points;
@@ -2199,26 +2171,7 @@ class ilObjTest extends ilObject
 	function getEstimatedWorkingTime() {
 		$time_in_seconds = 0;
 		foreach ($this->questions as $question_id) {
-      $question_type = $this->getQuestionType($question_id);
-      switch ($question_type) {
-        case "qt_cloze":
-          $question = new ASS_ClozeTest();
-          break;
-        case "qt_matching":
-          $question = new ASS_MatchingQuestion();
-          break;
-        case "qt_ordering":
-          $question = new ASS_OrderingQuestion();
-          break;
-				case "qt_imagemap":
-					$question = new ASS_ImagemapQuestion();
-					break;
-        case "qt_multiple_choice_sr":
-        case "qt_multiple_choice_mr":
-          $question = new ASS_MultipleChoice();
-          break;
-      }
-      $question->loadFromDb($question_id);
+			$question =& ilObjTest::_instanciateQuestion($question_id);
 			$est_time = $question->getEstimatedWorkingTime();
 			$time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
 		}
@@ -2374,6 +2327,40 @@ class ilObjTest extends ilObject
 			$question->object->loadFromDb($question_id);
 		}
 		return $question;
+  }
+
+/**
+* Move questions to another position
+*
+* Move questions to another position
+*
+* @param array $move_questions An array with the question id's of the questions to move
+* @param integer $target_index The question id of the target position
+* @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
+* @access public
+*/
+  function &_instanciateQuestion($question_id) {
+      $question_type = ASS_Question::_getQuestionType($question_id);
+      switch ($question_type) {
+        case "qt_cloze":
+          $question = new ASS_ClozeTest();
+          break;
+        case "qt_matching":
+          $question = new ASS_MatchingQuestion();
+          break;
+        case "qt_ordering":
+          $question = new ASS_OrderingQuestion();
+          break;
+				case "qt_imagemap":
+					$question = new ASS_ImagemapQuestion();
+					break;
+        case "qt_multiple_choice_sr":
+        case "qt_multiple_choice_mr":
+          $question = new ASS_MultipleChoice();
+          break;
+      }
+      $question->loadFromDb($question_id);
+			return $question;
   }
 
 /**

@@ -232,13 +232,13 @@ class ASS_ClozeTest extends ASS_Question
 					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 						$db->quote($this->id),
 						$db->quote($key),
-						$db->quote($answer_obj->get_answertext()),
-						$db->quote($answer_obj->get_points()),
-						$db->quote($answer_obj->get_order()),
-						$db->quote($answer_obj->get_cloze_type()),
-						$db->quote($answer_obj->get_name()),
-						$db->quote($answer_obj->get_shuffle()),
-						$db->quote($answer_obj->getState())
+						$db->quote($answer_obj->get_answertext() . ""),
+						$db->quote($answer_obj->get_points() . ""),
+						$db->quote($answer_obj->get_order() . ""),
+						$db->quote($answer_obj->get_cloze_type() . ""),
+						$db->quote($answer_obj->get_name() . ""),
+						$db->quote($answer_obj->get_shuffle() . ""),
+						$db->quote($answer_obj->getState() . "")
 						);
 					$answer_result = $db->query($query);
 				}
@@ -1164,9 +1164,23 @@ class ASS_ClozeTest extends ASS_Question
           }
         }
       } else {
-        if (($this->gaps[$value][$found_value2[$key]])&&($this->gaps[$value][$found_value2[$key]]->isStateSet())) {
-          $points += $this->gaps[$value][$found_value2[$key]]->get_points();
-        }
+				foreach ($this->gaps[$value] as $answerkey => $answer)
+				{
+					if ($answer->isStateChecked())
+					{
+						if ($found_value2[$value] == $answerkey)
+						{
+							$points += $answer->get_points();
+						}
+					}
+					else
+					{
+						if ($found_value2[$value] != $answerkey)
+						{
+							$points += $answer->get_points();
+						}
+					}
+				}
       }
     }
     return $points;
@@ -1247,9 +1261,7 @@ class ASS_ClozeTest extends ASS_Question
         $points += $value[0]->get_points();
       } else {
         foreach ($value as $key2 => $value2) {
-          if ($value2->isStateSet()) {
-            $points += $value2->get_points();
-          }
+					$points += $value2->get_points();
         }
       }
     }
