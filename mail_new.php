@@ -48,11 +48,11 @@ if(isset($_POST["cmd"]))
 										$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
 										$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
 			{
-				$ilias->error_obj->sendInfo("Ihre Nachricht wurde gespeichert .");
+				$ilias->error_obj->sendInfo($lng->txt("mail_saved"));
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo("Fehler beim Speichern.");
+				$ilias->error_obj->sendInfo($lng->txt("mail_send_error"));
 			}
 			break;
 
@@ -62,17 +62,17 @@ if(isset($_POST["cmd"]))
 		
 		case $lng->txt("mail_to_search"):
 			$_SESSION["mail_search"] = 'to';
-			$ilias->error_obj->sendInfo("Bitte geben Sie einen Suchbegriff ein.");
+			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("mail_cc_search"):
 			$_SESSION["mail_search"] = 'cc';
-			$ilias->error_obj->sendInfo("Bitte geben Sie einen Suchbegriff ein.");
+			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("mail_bc_search"):
 			$_SESSION["mail_search"] = 'bc';
-			$ilias->error_obj->sendInfo("Bitte geben Sie einen Suchbegriff ein.");
+			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("edit"):
@@ -190,7 +190,7 @@ $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 $tpl->setVariable("TXT_ALSO_AS_EMAIL", $lng->txt("also_as_email"));
 
 // ATTACHMENT
-$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
+$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("mail_attachments"));
 $tpl->setVariable("BUTTON_EDIT",$lng->txt("edit"));
 
 // MESSAGE
