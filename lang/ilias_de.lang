@@ -125,7 +125,7 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
+assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
@@ -4038,7 +4038,7 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
+survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span>.<br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
@@ -4051,9 +4051,9 @@ survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
-survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
-survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrecht, um den Fragenpool zu exportieren!
-survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Umfrage zu exportieren!
+survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten.
+survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
+survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu exportieren!
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
