@@ -72,7 +72,6 @@
 <object name="crs" class_name="Course" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm">lm</subobj>
-	<subobj name="grp">grp</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
