@@ -198,7 +198,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       foreach ($this->answers as $key => $value) {
         $answer_obj = $this->answers[$key];
         //print "id:".$this->id." answer tex:".$answer_obj->get_answertext()." answer_obj->get_order():".$answer_obj->get_order()." answer_obj->get_coords():".$answer_obj->get_coords()." answer_obj->get_area():".$answer_obj->get_area();
-        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, `order`, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
           $db->quote($this->id),
           $db->quote($answer_obj->get_answertext()),
           $db->quote($answer_obj->get_points()),
@@ -245,13 +245,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $this->points = $data->points;
         $this->materials = $data->materials;
       }
-      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY `order` ASC",
+      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
         $db->quote($question_id)
       );
       $result = $db->query($query);
       if (strcmp(get_class($result), db_result) == 0) {
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-          array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->order, $data->correctness, $data->coords, $data->area));
+          array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->correctness, $data->coords, $data->area));
         }
       }
     }

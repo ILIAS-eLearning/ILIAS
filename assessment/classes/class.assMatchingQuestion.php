@@ -175,7 +175,7 @@ class ASS_MatchingQuestion extends ASS_Question {
       // Anworten wegschreiben
       foreach ($this->matchingpairs as $key => $value) {
         $matching_obj = $this->matchingpairs[$key];
-        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, `order`, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
           $db->quote($this->id),
           $db->quote($matching_obj->get_answertext()),
           $db->quote($matching_obj->get_points()),
@@ -226,7 +226,7 @@ class ASS_MatchingQuestion extends ASS_Question {
       $result = $db->query($query);
       if (strcmp(get_class($result), db_result) == 0) {
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-          array_push($this->matchingpairs, new ASS_AnswerMatching($data->answertext, $data->points, $data->order, $data->matchingtext, $data->matching_order));
+          array_push($this->matchingpairs, new ASS_AnswerMatching($data->answertext, $data->points, $data->aorder, $data->matchingtext, $data->matching_order));
         }
       }
     }
