@@ -58,6 +58,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
+
+		parent::createObject();
+		return;
+
+		// TEMPORALIY DISABLED
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		//$meta_gui->setObject($this->object);
@@ -100,7 +105,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			
 			// setup rolefolder & default local roles (moderator)
 			$roles = $newObj->initDefaultRoles();
-
 			// assign author role to creator of forum object
 			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
