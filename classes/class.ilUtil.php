@@ -1182,10 +1182,10 @@ class ilUtil
 	/**
 	*   deliver data for download via browser.
 	*/
-	function deliverData($a_data, $a_filename)
+	function deliverData($a_data, $a_filename, $mime = "application/octet-stream")
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
-		$mime = "application/octet-stream"; // or whatever the mime type is
+//		$mime = "application/octet-stream"; // or whatever the mime type is
 
 		if (isset($_SERVER["HTTPS"])) {
 			/**
@@ -2093,6 +2093,11 @@ class ilUtil
 			}
 		}
 		return true;
+	}
+	
+	function isAPICall () {
+		return  strpos($_SERVER["SCRIPT_FILENAME"],"api") !== false ||
+				  strpos($_SERVER["SCRIPT_FILENAME"],"dummy") !== false;
 	}
 
 } // END class.ilUtil
