@@ -963,7 +963,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				}
 			}
 			$counter++;
-			$user_result[$value] = $solution;
+			array_push($user_result, $solution);
 		}
 		return $user_result;
   }
@@ -994,7 +994,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->getId()),
-			$db->quote($_GET["selimage"])
+			$db->quote($_GET["selImage"])
 		);
 		$result = $db->query($query);
 //    parent::saveWorkingData($limit_to);

@@ -1308,7 +1308,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$directfeedback = 0;
 		// catch feedback message
 		sendInfo();
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selimage"]))
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selImage"]))
 		{
 			// set new finish time for test
 			if ($_SESSION["active_time_id"])
@@ -1668,6 +1668,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
+		global $ilUser;
+		
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -1704,6 +1706,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			case "qt_imagemap":
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction);
+				$info =& $question_gui->object->getReachedInformation($ilUser->id, $test_id);
+				if (strcmp($info[0]["value"], "") != 0)
+				{
+					$formaction .= "&selImage=" . $info[0]["value"];
+				}
 				break;
 
 			default:
@@ -1768,7 +1775,7 @@ class ilObjTestGUI extends ilObjectGUI
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, "", $formaction, 1);
+				$question_gui->outWorkingForm($test_id, "", 1, $formaction);
 				break;
 			default:
 				$question_gui->outWorkingForm($test_id, "", 1);
