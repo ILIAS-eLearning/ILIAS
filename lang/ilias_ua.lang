@@ -33,9 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Dec 2003
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###27 Jan 2004 new variable
-common#:#HH:MM#:#HH:MM###13 Jan 2004 new variable
+common#:#3rd_party_software#:#програмне забезпечення третіх виробників
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Абсолютний Шлях
 common#:#accept_usr_agreement#:#Прийняти угоду користувача?
 common#:#access#:#Доступ
@@ -46,10 +46,10 @@ common#:#add#:#Додати
 common#:#add_author#:#Додати Автора
 common#:#add_member#:#Додати Члена
 common#:#add_translation#:#Додати переклад
-common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
-common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
-common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
+common#:#adm_edit_permission#:#Змінити настройки прав
+common#:#adm_read#:#Доступ на читання до Базових настроювань системи
+common#:#adm_visible#:#Системні настройки є видимі
+common#:#adm_write#:#Редагувати Базові системні настройки
 common#:#administrate#:#Адмініструвати
 common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
@@ -61,7 +61,7 @@ common#:#and#:#та
 common#:#announce#:#Анонсувати
 common#:#announce_changes#:#Анонсувати Зміни
 common#:#answers#:#Відповіді
-common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
+common#:#application_completed#:#Програма завершена
 common#:#application_date#:#Дата програми
 common#:#appointment#:#Призначення
 common#:#appointment_list#:#Список Призначення
@@ -96,26 +96,26 @@ common#:#cancel#:#Відмінити
 common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
 common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
 common#:#cat#:#Категорія
-common#:#cat_a#:#категорія###13 Jan 2004 content changed
+common#:#cat_a#:#Категорія
 common#:#cat_add#:#Додати Категорію
 common#:#cat_added#:#Категорію додано
-common#:#cat_create#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
-common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
-common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
-common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
-common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
+common#:#cat_create#:#Створити Категорію
+common#:#cat_create_cat#:#Створити Категорію
+common#:#cat_create_crs#:#Створити Курс
+common#:#cat_create_dbk#:#Створити Електронну книжку
+common#:#cat_create_exc#:#Створити Вправу
+common#:#cat_create_frm#:#Створити Форум
+common#:#cat_create_glo#:#Створити Глосарій
+common#:#cat_create_grp#:#Створити Групу
+common#:#cat_create_lm#:#Створити Учбовий Модуль
+common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
-common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#cat_new#:#Нова категорія###13 Jan 2004 content changed
-common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
-common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
-common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
+common#:#cat_edit_permission#:#Змінити настройки прав
+common#:#cat_new#:#Нова категорія
+common#:#cat_read#:#Доступ на читання до Категорії
+common#:#cat_visible#:#Категорія є видима
+common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
 common#:#cc#:#CC
 common#:#censorship#:#Цензура
@@ -133,7 +133,7 @@ common#:#chapter_title#:#Назва Глави
 common#:#check#:#Перевірити
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
-common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
 common#:#choose_language#:#Виберіть Вашу Мову
@@ -164,21 +164,21 @@ common#:#crs_a#:#Курс
 common#:#crs_add#:#Додати Курс
 common#:#crs_added#:#Курс додано
 common#:#crs_available#:#Доступні Курси
-common#:#crs_create#:#Create Course###13 Jan 2004 new variable
-common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
+common#:#crs_create#:#Створити Курс
+common#:#crs_create_frm#:#Створити Форум
+common#:#crs_create_glo#:#Створити Глосарій
+common#:#crs_create_lm#:#Створити Учбовий Модуль
+common#:#crs_create_slm#:#Створити SCORM Учбовий Модуль
+common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
-common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
-common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
+common#:#crs_edit_permission#:#Змінити настройки прав
+common#:#crs_join#:#Підписатись на Курс
+common#:#crs_leave#:#Відписатись від Курсу
 common#:#crs_management_system#:#Система Управління Курсом
 common#:#crs_new#:#Новий Курс
-common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
-common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
-common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
+common#:#crs_read#:#Доступ на читання до Курсу
+common#:#crs_visible#:#Курс є видимим
+common#:#crs_write#:#Редагувати Курс
 common#:#current_password#:#Поточний Пароль
 common#:#cut#:#Вирізати
 common#:#cutPage#:#Вирізати
@@ -186,7 +186,7 @@ common#:#database#:#База даних
 common#:#database_version#:#Поточна Версія Бази даних
 common#:#dataset#:#Пункт
 common#:#date#:#Дата
-common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
+common#:#dateplaner#:#Органайзер
 common#:#day#:#День
 common#:#days#:#Дні
 common#:#db_host#:#Хост з Базою даних
@@ -200,16 +200,16 @@ common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#a Digilib Book
 common#:#dbk_add#:#Додати Digilib Book
 common#:#dbk_added#:#Digilib Book додана
-common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
-common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
-common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#dbk_create#:#Створити Digibook
+common#:#dbk_delete#:#Видалити Digibook
+common#:#dbk_edit_permission#:#Змінити настройки прав
 common#:#dbk_new#:#Нова Digilib Book
-common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
-common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
-common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
+common#:#dbk_read#:#Доступ на читання до Digibook
+common#:#dbk_visible#:#Digibook є видимою
+common#:#dbk_write#:#Редагувати Digibook
 common#:#default#:#Умовчання
 common#:#default_language#:#Мова за Умовчанням
-common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
+common#:#default_perm_settings#:#Права по замовчанню
 common#:#default_role#:#Роль по Замовчанню
 common#:#default_roles#:#Ролі по Замовчанню
 common#:#default_skin#:#Вигляд по Замовчанню
@@ -249,7 +249,7 @@ common#:#err_in_line#:#Помилка в стрічці
 common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
 common#:#err_no_param#:#Немає параметру!
 common#:#err_over_3_param#:#Більш ніж 3 параметри!
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
+common#:#err_role_not_assignable#:#Ви не можете призначити користувача на цю роль в цьому місці
 common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
 common#:#err_wrong_header#:#Причина: Невірний заголовок.
 common#:#err_wrong_login#:#Невірний Логін
@@ -259,13 +259,13 @@ common#:#exc_add#:#Додати Вправу
 common#:#exc_added#:#Вправу додано
 common#:#exc_ask_delete#:#Видалити файл?
 common#:#exc_assign_usr#:#Призначити Користувача
-common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
+common#:#exc_create#:#Створити вправу
 common#:#exc_date_not_valid#:#Дата не є корректною
 common#:#exc_deassign_members#:#Видалити члена(ів)
-common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
+common#:#exc_delete#:#Видалити вправу
 common#:#exc_edit#:#Нова вправа створена
 common#:#exc_edit_exercise#:#Редагувати вправу
-common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#exc_edit_permission#:#Змінити настройки прав
 common#:#exc_edit_until#:#Редагувати поки
 common#:#exc_files#:#Файли
 common#:#exc_groups#:#Групи
@@ -277,10 +277,10 @@ common#:#exc_new#:#Нова вправа
 common#:#exc_no_members_assigned#:#Жодного члену не призначено
 common#:#exc_notices#:#Повідомлення
 common#:#exc_obj#:#Вправа
-common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
+common#:#exc_read#:#Вправа доступу
 common#:#exc_save_changes#:#Зберігти
 common#:#exc_search_for#:#Пошук
-common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
+common#:#exc_select_one_file#:#Будь ласка виберіть рівно один файл.
 common#:#exc_send_exercise#:#Послати вправу
 common#:#exc_sent#:#Вправу було послано відміченим користувачам
 common#:#exc_status_returned#:#Повернений
@@ -288,9 +288,9 @@ common#:#exc_status_saved#:#Впарву обновлено
 common#:#exc_status_solved#:#Вирішено
 common#:#exc_upload_error#:#Помилка завантаження файлу
 common#:#exc_users#:#Коритсувачі
-common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
-common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
-common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#exc_visible#:#Вправа видима
+common#:#exc_write#:#Редагувати вправу
+common#:#excs#:#Вправи
 common#:#execute#:#Виконати
 common#:#export_html#:#експортувати як html файл
 common#:#export_xml#:#експортувати як xml файл
@@ -316,7 +316,7 @@ common#:#fold_a#:#Папка
 common#:#fold_add#:#Додати Папку
 common#:#fold_added#:#Папка додана
 common#:#fold_new#:#Нова Папка
-common#:#folder#:#folder###11 Dec 2003 new variable
+common#:#folder#:#папка
 common#:#folders#:#Папки
 common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
 common#:#forename#:#Ім'я
@@ -328,16 +328,16 @@ common#:#frm#:#Форум
 common#:#frm_a#:#Форум
 common#:#frm_add#:#Додати Форум
 common#:#frm_added#:#Форум доданий
-common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
-common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
-common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
+common#:#frm_create#:#Створити Форум
+common#:#frm_delete#:#Видалити Форум
+common#:#frm_delete_post#:#Видалити пост
 common#:#frm_edit#:#Редагувати Форум
-common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
+common#:#frm_edit_permission#:#Змінити настройки прав
+common#:#frm_edit_post#:#Редагувати пост
 common#:#frm_new#:#Новий Форум
-common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
-common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
-common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
+common#:#frm_read#:#Доступ на читання до Форума
+common#:#frm_visible#:#Форум є видимим
+common#:#frm_write#:#Редагувати форум
 common#:#from#:#Від
 common#:#fullname#:#Повне ім'я
 common#:#functions#:#Функції
@@ -350,16 +350,16 @@ common#:#generate#:#Сгенерувати
 common#:#glo#:#Глосарій
 common#:#glo_a#:#Глосарій
 common#:#glo_add#:#Додати Глосарій
-common#:#glo_added#:#Глосарій доданий###13 Jan 2004 content changed
-common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
-common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
-common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
-common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
+common#:#glo_added#:#Глосарій доданий
+common#:#glo_create#:#Створити Глосарій
+common#:#glo_delete#:#Видалити Глосарій
+common#:#glo_edit_permission#:#Змінити настройки прав
+common#:#glo_join#:#Підписатить на Глосарій
+common#:#glo_leave#:#Відписатись від Глосарію
 common#:#glo_new#:#Новий Глосарій
-common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
-common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
-common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
+common#:#glo_read#:#Доступ на читання до Глосарію
+common#:#glo_visible#:#Глосарій є видимим
+common#:#glo_write#:#Редагувати Глосарій
 common#:#glossaries#:#Глосарії
 common#:#glossary#:#Глосарій
 common#:#glossary_added#:#Глосарій доданий
@@ -381,13 +381,13 @@ common#:#group_objects#:#Об'єкти групи
 common#:#group_password_registration_expired_msg#:#Період реєстрації цієї групи скінчився, повідомлення більше не є можливими. Будь ласка зв'яжіться з власником відповідної групи або адміністратором.
 common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.
 common#:#group_registration_expiration_date#:#Дата закінчення терміну дії
-common#:#group_registration_expiration_time#:#Expiration Time##17 Dec 2003 new variable
+common#:#group_registration_expiration_time#:#Час закінчення терміну дії
 common#:#group_registration_expired#:#Період реєстрації скінчився
 common#:#group_registration_mode#:#Режим Реєстрації
 common#:#group_req_password#:#Потрібен реєстраційний пароль
 common#:#group_req_registration#:#Потрібна реєстрація
 common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.
-common#:#group_reset#:#Reset Group Permissions###17 Dec 2003 new variable
+common#:#group_reset#:#Скинути Права Групи
 common#:#group_status#:#Статус Групи
 common#:#group_status_closed#:#Закрита
 common#:#group_status_public#:#Публічна
@@ -397,35 +397,35 @@ common#:#grp#:#Група
 common#:#grp_a#:#Група
 common#:#grp_add#:#Додати Групу
 common#:#grp_added#:#Група додана
-common#:#grp_create#:#Create Group###13 Jan 2004 new variable
-common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
-common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
-common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
+common#:#grp_create#:#Створити Групу
+common#:#grp_create_file#:#Користувач може завантажувати Файли
+common#:#grp_create_fold#:#Користувач може створювати Папки
+common#:#grp_create_frm#:#Створити Форум
+common#:#grp_create_lm#:#Створити Учбовий Модуль
+common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#grp_delete#:#Видалити Групу
 common#:#grp_edit#:#Редагувати Групу
-common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###17 Dec 2003 new variable
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
-common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###17 Dec 2003 new variable
-common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###17 Dec 2003 new variable
-common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###17 Dec 2003 new variable
-common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###17 Dec 2003 new variable
-common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
-common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
+common#:#grp_edit_permission#:#Змінити настройки прав
+common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Кожна група потребує принаймні одного адміністратора
+common#:#grp_err_error#:#Трапилась помилка
+common#:#grp_err_last_member#:#Останній член не може бути видалений, будь ласка видаліть усю групу натомість.
+common#:#grp_err_member_could_not_be_removed#:#Член не може бути видалений. Будь ласка перевірте усі залежності для цього користувача.
+common#:#grp_err_no_permission#:#Ви не володієте правами для цієї операції.
+common#:#grp_err_registration_data#:#Будь ласка введіть пароль, дату закінчення та час для дійсного періоду реєстрації !
+common#:#grp_join#:#Користувач може приєднатись до групи
+common#:#grp_leave#:#Користувач може залишити групу
 common#:#grp_mem_change_status#:#Змінити статус члена
 common#:#grp_mem_leave#:#Виключити члена з групи
 common#:#grp_mem_send_mail#:#Послати члену повідомлення
-common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
+common#:#grp_msg_membership_annulled#:#Членство анульоване
 common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
 common#:#grp_new#:#Нова Група
-common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
+common#:#grp_read#:#Доступ на читання до Групи
 common#:#grp_register#:#Зареєструватись
 common#:#grp_registration_completed#:#Реєстрація закінчена
-common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
-common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
+common#:#grp_visible#:#Група видима
+common#:#grp_write#:#Редагувати Групу
 common#:#guest#:#Гість
 common#:#guests#:#Гості
 common#:#help#:#Допомога
@@ -488,32 +488,32 @@ common#:#is_already_your#:#вже ваша
 common#:#item#:#Елемент
 common#:#kb#:#КілоБайт
 common#:#keywords#:#Ключові слова
-common#:#lang_cz#:#Czech###11 Dec 2003 new variable
+common#:#lang_cz#:#Чеська
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Німецька
 common#:#lang_dk#:#Датська
 common#:#lang_en#:#Англійська
 common#:#lang_es#:#Іспанська
-common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
+common#:#lang_fi#:#Фінська
 common#:#lang_fr#:#Французська
-common#:#lang_gr#:#Greek###11 Dec 2003 new variable
+common#:#lang_gr#:#Грецька
 common#:#lang_id#:#Індонезійська
 common#:#lang_it#:#Італійська
-common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
-common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
-common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
-common#:#lang_no#:#Норвезька###11 Dec 2003 content changed
+common#:#lang_ja#:#Японська
+common#:#lang_lt#:#Літовська
+common#:#lang_nl#:#Датська
+common#:#lang_no#:#Норвезька
 common#:#lang_path#:#Шлях до Мов
 common#:#lang_pl#:#Польська
-common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
+common#:#lang_pt#:#Португальська
 common#:#lang_se#:#Шведська
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
+common#:#lang_ua#:#Українська
 common#:#lang_version#:#1
 common#:#lang_xx#:#Вибір
-common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
+common#:#lang_zh#:#Спрощена Кітайська
 common#:#langfile_found#:#Мовний файл знайдено
 common#:#language#:#Мова
 common#:#language_not_installed#:#не установлена. Будь ласка встановіть цю мову спочатку
@@ -526,10 +526,10 @@ common#:#last_visit#:#Останній Візит
 common#:#lastname#:#Останнє ім'я
 common#:#launch#:#Запустити
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
-common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
-common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
+common#:#ldap_edit_permission#:#Змінити настройки прав
+common#:#ldap_read#:#Доссут на читання до LDAP настроювань
+common#:#ldap_visible#:#LDAP настройки є видимі
+common#:#ldap_write#:#Редагувати LDAP настройки
 common#:#learning_objects#:#Учбові Об'єкти
 common#:#learning_resources#:#Учбові Ресурси
 common#:#level#:#Рівень
@@ -540,23 +540,23 @@ common#:#list_of_questions#:#Список Питань
 common#:#literature#:#Література
 common#:#literature_bookmarks#:#Літературні Закладки
 common#:#lm#:#Учбовий Модуль
-common#:#lm_a#:#Учбовий Модуль###13 Jan 2004 content changed
+common#:#lm_a#:#Учбовий Модуль
 common#:#lm_add#:#Додати Учбовий Модудь
-common#:#lm_added#:#Учбовий Модуль доданий###13 Jan 2004 content changed
-common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
-common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
-common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
-common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
+common#:#lm_added#:#Учбовий Модуль доданий
+common#:#lm_create#:#Створити Учбовий Модуль
+common#:#lm_delete#:#Видалити Учбовий Модель
+common#:#lm_edit_permission#:#Змінити настройки прав
+common#:#lm_join#:#Підписатись на Учбовий Модуль
+common#:#lm_leave#:#Відписатись від Учбового Модуля
 common#:#lm_new#:#Новий Учбовий Модуль
-common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
-common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
-common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
+common#:#lm_read#:#Доступ на читання до Учбового Модуля
+common#:#lm_visible#:#Учбовий Модуль є видимим
+common#:#lm_write#:#Редагувати Учбовий Модуль
 common#:#lng#:#Мова
-common#:#lngf#:#Папка з Мовами###13 Jan 2004 content changed
-common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
-common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
+common#:#lngf#:#Мови
+common#:#lngf_edit_permission#:#Змінити настройки прав
+common#:#lngf_read#:#Доступ на читання до настроювань Мови
+common#:#lngf_visible#:#Настройки Мови є видимі
 common#:#lo#:#Учбовий Об'єкт
 common#:#lo_available#:#Огляд Учбових Модулів та Курсів
 common#:#lo_categories#:#LO Категорії
@@ -586,7 +586,7 @@ common#:#mail_d_drafts#:#Чернетки
 common#:#mail_delete_error#:#Помилка при видаленні
 common#:#mail_delete_error_file#:#Помилка видалення файлу
 common#:#mail_e_sent#:#Відіслати
-common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#mail_edit_permission#:#Змінити настройки прав
 common#:#mail_folders#:#Папка з Поштою
 common#:#mail_intern_enable#:#Дозволити
 common#:#mail_mails_of#:#Пошта
@@ -596,24 +596,24 @@ common#:#mail_maxsize_mail#:#Максимальний розмір пошти
 common#:#mail_maxtime_attach#:#Максимальна кількість днів для зберігання прикріплення
 common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти
 common#:#mail_not_sent#:#Пошта не видіслана!
-common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
+common#:#mail_read#:#Доступ на читання до настроювань Пошти
 common#:#mail_search_no#:#Входжень не знайдено
 common#:#mail_search_word#:#Шукати слово
 common#:#mail_select_one#:#Ви маєте вибреати один лист
 common#:#mail_send_error#:#Помилка при відсиланні пошти
 common#:#mail_sent#:#Пошта відіслана!
-common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
+common#:#mail_smtp_mail#:#Користувач може відіслати пошту через SMTP
 common#:#mail_system#:#Системне Повідомлення
-common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
-common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
-common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
+common#:#mail_system_message#:#Користувач може відсилати внутрішні системні повідомлення
+common#:#mail_visible#:#Настройки Пошти є видимі
+common#:#mail_write#:#Редагувати Поштові настройки
 common#:#mail_z_local#:#Папки Користувача
 common#:#mails#:#Пошта
 common#:#mark_all_read#:#Помітити усе як прочитане
 common#:#mark_all_unread#:#Помітити усе як непрочитане
 common#:#member#:#Член
 common#:#members#:#Члени
-common#:#membership_annulled#:#Ваше членство було відмінено###11 Dec 2003 content changed
+common#:#membership_annulled#:#Ваше членство було відмінено
 common#:#message#:#Повідомлення
 common#:#message_content#:#Зміст Повідомлення
 common#:#message_to#:#Повідомлення для:
@@ -623,7 +623,7 @@ common#:#mob#:#Медіа Об'єкт
 common#:#module#:#модуль
 common#:#modules#:#Модулі
 common#:#month#:#Місяць
-common#:#move#:#Move###13 Jan 2004 new variable
+common#:#move#:#Перемістити
 common#:#moveChapter#:#Перемістити
 common#:#movePage#:#Перемістити
 common#:#move_to#:#Перемістити в
@@ -651,7 +651,6 @@ common#:#msg_multi_language_selected#:#Ви вибрали одну і ту ж �
 common#:#msg_no_default_language#:#Мова по замовчанню не вказана! Ви маєте визначити один переклад як переклад по замовчанню.
 common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
 common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
 common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
 common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
@@ -674,7 +673,6 @@ common#:#msg_no_rolf_allowed1#:#Об'єкт
 common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Папку Ролі
 common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
 common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
 common#:#msg_not_possible_link#:#Не є можливим стоврити посилання об'єкта: Тип
@@ -723,7 +721,7 @@ common#:#no_grp_in_personal_list#:#Немає груп в особистому �
 common#:#no_import_available#:#Імпорт не доступний для цього типу
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
 common#:#no_objects#:#Немає об'єктів
-common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
+common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
 common#:#no_title#:#Немає Назви
 common#:#none#:#Ніщо
 common#:#normal#:#Нормальний
@@ -735,7 +733,7 @@ common#:#obj_adm_desc#:#Папка з головними системними н
 common#:#obj_cat#:#Категорія
 common#:#obj_crs#:#Курс
 common#:#obj_dbk#:#Digilib Книга
-common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
+common#:#obj_exc#:#Вправа
 common#:#obj_file#:#Файл
 common#:#obj_fold#:#Папка
 common#:#obj_frm#:#Форум
@@ -750,7 +748,7 @@ common#:#obj_lngf_desc#:#Управляйте вашими системними 
 common#:#obj_lo#:#Учбовий Об'єкт
 common#:#obj_mail#:#Настойки Пошти
 common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
-common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
+common#:#obj_mob#:#Мультимедіа Об'єкт
 common#:#obj_not_found#:#Об'єкт Не Знайдений
 common#:#obj_note#:#Примітка
 common#:#obj_notf#:#Адмініструввання Примітками
@@ -764,8 +762,8 @@ common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
 common#:#obj_rolf_local#:#Локальні Ролі
 common#:#obj_rolf_local_desc#:#Містить локальні ролі об'єкта №
 common#:#obj_rolt#:#Шаблон Ролі
-common#:#obj_root#:#root###13 Jan 2004 content changed
-common#:#obj_slm#:#SCORM LM###31 Jan 2004 content changed
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM LM
 common#:#obj_st#:#Глава
 common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
@@ -775,11 +773,11 @@ common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
 common#:#objects#:#Об'єкти
 common#:#objf#:#Визначення об'єктів
-common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
-common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
-common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
-common#:#objs_confirm#:#Підтвердити Видалення###11 Dec 2003 content changed
+common#:#objf_edit_permission#:#CЗмінити настройки прав
+common#:#objf_read#:#Доступ на читання до визначень Об'єкта
+common#:#objf_visible#:#Визначення Об'єкта є видимі
+common#:#objf_write#:#Редагувати Визначення Об'єкта
+common#:#objs_confirm#:#Підтвердити Дію
 common#:#objs_delete#:#Видалити об'єкти
 common#:#of#:#Of
 common#:#offline_version#:#Оффлайн Версія
@@ -820,7 +818,7 @@ common#:#payment_system#:#Платіжна Система
 common#:#perm_settings#:#Права
 common#:#permission#:#Права
 common#:#permission_denied#:#В Доступі Відмовлено
-common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#permission_settings#:#Настройки прав
 common#:#personal_data#:#Особиста інформація
 common#:#personal_desktop#:#Особстий Робочий Стіл
 common#:#personal_picture#:#Особиста Картинка
@@ -866,7 +864,7 @@ common#:#registered_since#:#Зареєстрований з
 common#:#registered_user#:#зареєстрований Користувач
 common#:#registered_users#:#зареєстровані Користувачі
 common#:#registration#:#Новий акаунт реєстрації
-common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
+common#:#registration_expired#:#Період реєстрації скінчився...
 common#:#remove#:#Вилучити
 common#:#remove_translation#:#Видалити переклад
 common#:#rename#:#Переіменувати
@@ -888,28 +886,28 @@ common#:#role_deleted#:#Роль видалена
 common#:#role_edit#:#Редагувати Роль
 common#:#role_new#:#Нова Роль
 common#:#roles#:#Ролі
-common#:#rolf#:#Папка з Ролями###13 Jan 2004 content changed
+common#:#rolf#:#Ролі
 common#:#rolf_added#:#Папка з Ролями додана
-common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
-common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
-common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
-common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
-common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_create_role#:#Сторити нове визначення Ролі
+common#:#rolf_create_rolt#:#Стоврити новий шаблон визначення Ролі
+common#:#rolf_delete#:#Видалити Ролі/шаблони Ролі
+common#:#rolf_edit_permission#:#Змінити настройки прав
+common#:#rolf_edit_userassignment#:#Змінити призначити користувача Ролі
+common#:#rolf_read#:#Доступ на читання до Ролі/шаблонів Ролі
+common#:#rolf_visible#:#Ролі/шаблони Ролі є видимі
+common#:#rolf_write#:#Редагувати Ролі/шаблони Ролі
 common#:#rolt#:#Шаблон Ролі
 common#:#rolt_a#:#Шаблон Ролі
 common#:#rolt_add#:#Додати Шаблон Ролі
 common#:#rolt_added#:#Шаблон ролі доданий
 common#:#rolt_edit#:#Редагувати Шаблон Ролі
 common#:#rolt_new#:#Новий Шаблон Ролі
-common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
-common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
-common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
-common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
+common#:#root_create_cat#:#Користувач може створювати Категорії
+common#:#root_edit#:#Редагувати системний rootnode
+common#:#root_edit_permission#:#Змінити настройки прав
+common#:#root_read#:#Доступ на читання до системи ILIAS
+common#:#root_visible#:#Система ILIAS є видима
+common#:#root_write#:#Редагувати ILIAS root node data
 common#:#salutation#:#Привітання
 common#:#salutation_f#:#Місс/Місіс
 common#:#salutation_m#:#Містер
@@ -952,16 +950,16 @@ common#:#show_members#:#Показати Членів
 common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
 common#:#signature#:#Сігнатура
-common#:#slm#:#SCORM LM###13 Jan 2004 content changed
-common#:#slm_added#:#SCORM Учбовий модуль доданий###13 Jan 2004 content changed
-common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm#:#SCORM Учбовий Модуль
+common#:#slm_added#:#SCORM Учбовий модуль доданий
+common#:#slm_create#:#Створити SCORM Учбовий Модуль
+common#:#slm_delete#:#Видалити SCORM Учбовий Модуль
+common#:#slm_edit_permission#:#Змынити настройки прав
+common#:#slm_join#:#Підписатись на SCORM Учбовий Модуль
+common#:#slm_leave#:#Відписатись від SCORM Учбового Модуля
+common#:#slm_read#:#Доступ на читання до SCORM Учбового Модуля
+common#:#slm_visible#:#SCORM Учбовий Модуль є видимим
+common#:#slm_write#:#Редагувати SCORM Учбовий Модуль
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#st_a#:#глава
@@ -993,7 +991,7 @@ common#:#test_intern#:#Тест Intern
 common#:#time#:#Час
 common#:#title#:#Назва
 common#:#to#:#
-common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
+common#:#to_client_list#:#До Клієнтського вибору
 common#:#to_desktop#:#Підписатися
 common#:#today#:#Сьогодні
 common#:#total#:#Загалом
@@ -1024,7 +1022,7 @@ common#:#user_added#:#Користувач доданий
 common#:#user_assignment#:#Призначення Користувача
 common#:#user_deleted#:#Користувач Видалений
 common#:#user_language#:#Мова Користувача
-common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
+common#:#user_not_chosen#:#Ви не вибрали члена групи!
 common#:#userdata#:#Дані користувача
 common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
@@ -1039,14 +1037,14 @@ common#:#usr_edit#:#Редагувати Користувача
 common#:#usr_new#:#Новий Користувач
 common#:#usr_skin_style#:#Скін / Стиль
 common#:#usr_style#:#Стиль Користувача
-common#:#usrf#:#Папка Користувача###13 Jan 2004 content changed
-common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
-common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
-common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
-common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
-common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
-common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
+common#:#usrf#:#Аккаунти Користувача
+common#:#usrf_create_user#:#Створити новий аккаунт користувача
+common#:#usrf_delete#:#Видалити аккаунти користувача
+common#:#usrf_edit_permission#:#Змінити настройки прав
+common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувача
+common#:#usrf_read#:#Доступ на читання до акаунтів користувача
+common#:#usrf_visible#:#Акаунти користувача є видимі
+common#:#usrf_write#:#Редагувати акаунти користувача
 common#:#validate#:#Перевірити достовірність
 common#:#value#:#Значення
 common#:#version#:#Версія
@@ -1055,8 +1053,8 @@ common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
 common#:#week#:#Тиждень
-common#:#welcome#:#Welcome###13 Jan 2004 new variable
-common#:#who_is_online#:#Хто є онлайн?
+common#:#welcome#:#Ласкаво Просимо
+common#:#who_is_online#:#Хто щє онлайн?
 common#:#with#:#з
 common#:#write#:#Писати
 common#:#yes#:#Так
@@ -1069,7 +1067,7 @@ content#:#PDF export#:#Експорт PDF
 content#:#Pages#:#Сторінки
 content#:#all#:#Асі
 content#:#cont_Alphabetic#:#Алфавіт A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#Коло
 content#:#cont_Citation#:#Цитата
 content#:#cont_Example#:#Приклад
 content#:#cont_Headline1#:#Заголовок 1
@@ -1079,13 +1077,13 @@ content#:#cont_List#:#Список
 content#:#cont_LocalFile#:#Локальний Файл
 content#:#cont_Mnemonic#:#Мнемонічний
 content#:#cont_Number#:#Число
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:#Полігон
+content#:#cont_Rect#:#Прямокутник
 content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...
 content#:#cont_Unordered#:#Невпорядкований
-content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
+content#:#cont_add_area#:#Додати Область
 content#:#cont_add_definition#:#Додати Визначення
 content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
@@ -1111,13 +1109,13 @@ content#:#cont_choose_glossary#:#Виберіть Глосарій
 content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
 content#:#cont_citations#:#Цитати
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
+content#:#cont_click_center#:#Будь ласка клікніть на центр бажаної області.
+content#:#cont_click_circle#:#Будь ласка клікніть на точку на колі вибраної області.
+content#:#cont_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
-content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
+content#:#cont_coords#:#Координати
 content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
@@ -1146,7 +1144,7 @@ content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
+content#:#cont_imagemap#:#Карта Зображення
 content#:#cont_import_id#:#ідентифікатор
 content#:#cont_insert_file_item#:#Вставити Елемент Файлу
 content#:#cont_insert_file_list#:#Вставити Список Файлів
@@ -1162,7 +1160,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
-content#:#cont_link#:#Link###14 Jan 2004 new variable
+content#:#cont_link#:#Посилання
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
 content#:#cont_list_properties#:#Властивості Списку
@@ -1179,16 +1177,16 @@ content#:#cont_lk_term#:#Термін Глосарія
 content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
 content#:#cont_lm_properties#:#Властивості Учбового Модуля
 content#:#cont_manifest#:#Маніфест
-content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
+content#:#cont_map_areas#:#Області Посилання
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Файли Об'єкта
 content#:#cont_mob_inst_prop#:#Властивості Екземпляру
 content#:#cont_mob_prop#:#Властивості Об'єкта
-content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
+content#:#cont_mob_usages#:#Використання
 content#:#cont_month#:#Місяць
 content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
-content#:#cont_name#:#Name###14 Jan 2004 new variable
+content#:#cont_name#:#Ім'я
 content#:#cont_new_assignment#:#Нове призначення
 content#:#cont_new_dir#:#Нова Директорія
 content#:#cont_new_file#:#Новий Файл
@@ -1225,15 +1223,15 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
-content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_saved_map_data#:#Зберегти дані карти
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
 content#:#cont_select_max_one_term#:#Будь ласка виберіть тільки один термін
-content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
+content#:#cont_select_one_edition#:#Будь ласка виберіть принаймні одну версію.
 content#:#cont_select_one_translation#:#Будь ласка виберіть тільки один переклад
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
+content#:#cont_select_one_translation_warning#:#Не є можливим показати більше ніж один переклад.
 content#:#cont_select_term#:#Виберіть термін
 content#:#cont_select_translation#:#Будь ласка виберіть призначення зі списку вище
 content#:#cont_series#:#Серії
@@ -1242,7 +1240,7 @@ content#:#cont_series_title#:#Назва серій
 content#:#cont_series_volume#:#Гучність серій
 content#:#cont_set_class#:#Встановити Класс
 content#:#cont_set_width#:#Встановити Ширину
-content#:#cont_shape#:#Shape###14 Jan 2004 new variable
+content#:#cont_shape#:#Форма
 content#:#cont_show#:#Показати
 content#:#cont_show_citation#:#Показати з цитуванням
 content#:#cont_size#:#Розмір (Байтів)
@@ -1265,7 +1263,7 @@ content#:#cont_toc#:#Зміст
 content#:#cont_top#:#Вершина
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
-content#:#cont_update#:#Update###15 Jan 2004 new variable
+content#:#cont_update#:#Обновити
 content#:#cont_upload_file#:#Завантажити Файл
 content#:#cont_url#:#URL
 content#:#cont_version#:#версія
@@ -1917,38 +1915,38 @@ search#:#search_concatenation#:#Об'єднання
 search#:#search_content#:#Вміст Сторінки
 search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
 search#:#search_dbk_meta#:#Цифрова Бібліотека (мета дані)
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
-search#:#search_group#:#Groups###11 Dec 2003 new variable
+search#:#search_delete_sure#:#Об'єкт та його вміст буде остаточно знищений
+search#:#search_group#:#Групи
 search#:#search_in_result#:#Пошук всередині результатів
 search#:#search_lm_content#:#Учбові матеріали (вміст)
 search#:#search_lm_meta#:#Учбові матеріали (мета дані)
 search#:#search_meta#:#Мета дані
 search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
+search#:#search_move_folder_not_allowed#:#Папка не може бути переміщена.
+search#:#search_move_to#:#Перемістити в:
+search#:#search_my_search_results#:#Результати пошуку
+search#:#search_new_folder#:#Нова папка
 search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку
 search#:#search_no_match#:#Ваш пошук не приніс жодного результату
-search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
+search#:#search_no_results_saved#:#Не збережено жодних результатів.
 search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну
-search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
+search#:#search_no_selection#:#Ви не зробили вибір.
+search#:#search_object_renamed#:#Об'єкт переіменований.
+search#:#search_objects_deleted#:#Об'єкт(и) видалений.
+search#:#search_objects_moved#:#Об'єкти переміщені.
+search#:#search_one_action#:#Виберіть одну дію.
+search#:#search_rename_title#:#Переіменувати назву
+search#:#search_results_saved#:#Результати пошуку збережені
+search#:#search_save_as_select#:#Зберігти як:
 search#:#search_search_for#:#Шукати
-search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
-search#:#search_search_results#:#Search results###11 Dec 2003 new variable
+search#:#search_search_no_results_saved#:#Немає збережених результатів пошуку
+search#:#search_search_results#:#Результати пошуку
 search#:#search_search_term#:#Пошуковий термін
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
+search#:#search_select_exactly_one_object#:#Ви маєте вибрати рівно один об'єкт.
+search#:#search_select_one#:#Виберіть одну папку
+search#:#search_select_one_action#:#--Виберіть одну дію--
+search#:#search_select_one_folder_select#:#--Виберіть одну папку--
+search#:#search_select_one_result#:#Виберіть принаймні один результат пошуку
+search#:#search_select_one_select#:#--Виберіть одну папку--
 search#:#search_show_result#:#Показати
 search#:#search_user#:#Користувачі
