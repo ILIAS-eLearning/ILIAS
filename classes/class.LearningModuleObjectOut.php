@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.9 2003/02/25 17:47:47 akill Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.10 2003/02/26 15:29:02 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -106,7 +106,12 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=gateway&type=".$_GET["type"].
 						  "&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
+		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
+		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+
 	}
 	
 	/**

@@ -82,7 +82,7 @@ if ($mails["unread"]>0)
 		$tpl->setVariable("MAIL_ID", $row["id"]);
 		$tpl->setVariable("MAIL_FROM", $row["from"]);
 		$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-		$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"]));
+		$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"],"date"));
 		$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
 		$tpl->setVariable("MAIL_LINK_DEL", "");
 		$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
@@ -99,7 +99,6 @@ if ($mails["unread"]>0)
    	$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
    	$tpl->parseCurrentBlock();
 }
-
 //if there are lessons output them
 if (count($lessonsLastVisited)>0)
 {
@@ -109,7 +108,7 @@ if (count($lessonsLastVisited)>0)
                 $i++;
                 $tpl->setCurrentBlock("tbl_lo_row");
                 $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-                $tpl->setVAriable("LO_TIME", Format::formatDate($row["datetime"]));
+                $tpl->setVAriable("LO_TIME", Format::formatDate($row["datetime"],"date"));
                 $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["id"]);
                 $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["id"]."&amp;page=".$row["pageid"]);
                 $tpl->setVAriable("LO_TITLE", $row["title"]);

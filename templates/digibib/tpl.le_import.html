@@ -1,23 +1,23 @@
 <form enctype="multipart/form-data" action="{FORMACTION}" method="post">
 <table border="1" cellspacing="0" cellpadding="2">
 <tr>
-  <td>Select file:&nbsp;</td>
+  <td>{TXT_SELECT_FILE}:&nbsp;</td>
   <td>
     <input type="file" name="xmldoc" value="{TXT_SAVE}" />&nbsp;
   </td>
 </tr>
 <tr>
-  <td>Select mode:&nbsp;</td>
+  <td>{TXT_SELECT_MODE}:&nbsp;</td>
   <td align="center">
-    parse only<input type="radio" name="parse_mode" value="0" checked="checked" />
+    {TXT_PARSE}<input type="radio" name="parse_mode" value="0" checked="checked" />
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	validate<input type="radio" name="parse_mode" value="1" />
+	{TXT_VALIDATE}<input type="radio" name="parse_mode" value="1" />
   </td>
 </tr>
 <tr>
   <td>&nbsp;</td>
   <td align="right">
-    <input type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SAVE}" />&nbsp;
+    <input type="submit" name="cmd[{BTN_NAME}]" value="{TXT_UPLOAD}" />&nbsp;
   </td>
 </tr>
 </table>
