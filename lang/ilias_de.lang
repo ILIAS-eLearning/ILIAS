@@ -4529,7 +4529,7 @@ crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernzie
 crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
 crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
 crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
-crs#:#crs_objective_assign_lm#:#Lernmaterial zuorden
+crs#:#crs_objective_assign_lm#:#Lernmaterial zuordnen
 crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
 crs#:#crs_lm_deassign#:#Zuornung entfernen
@@ -4552,3 +4552,18 @@ common#:#update#:#Übernehmen
 crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
+crs#:#crs_objectives_assigned_questions#:#Zugeordnete Fragen
+crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
+crs#:#crs_objective_assign_question#:#Frage zuordnen
+crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
+crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
+crs#:#crs_objectives_qst_deassigned#:#Die ausgewählten Fragen wurden entfernt.
+crs#:#crs_objective_question_assignment#:#Fragenzuordnung
+crs#:#crs_count_questions#:#Anzahl von Fragen
+crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
+crs#:#crs_test_status_complete#:#Fertiggestellt
+crs#:#crs_test_status_random#:#Zufallstest
+crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
+crs#:#assigned#:#Zugeordnet
+crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
+crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.

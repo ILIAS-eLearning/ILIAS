@@ -5476,4 +5476,13 @@ $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
 
 ?>
-
+<#389>
+DROP TABLE IF EXISTS `crs_objective_qst`;
+CREATE TABLE `crs_objective_qst` (
+  `qst_ass_id` int(11) NOT NULL auto_increment,
+  `objective_id` int(11) NOT NULL default '0',
+  `ref_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `question_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`qst_ass_id`)
+) TYPE=MyISAM;

@@ -4373,6 +4373,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
 		$result_array =& $this->object->getTestResult($user_id);
+
 		if (!$result_array["test"]["total_max_points"])
 		{
 			$percentage = 0;
