@@ -64,7 +64,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
-		//$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();
@@ -80,11 +79,6 @@ class ilGroupGUI extends ilObjectGUI
 		// get the object
 		$this->assignObject();
 		//$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-		$this->lng =& $this->object->lng;
-
-
-
-
 		$this->lng =& $this->object->lng;
 
 		if (isset($_GET["tree_id"]))
@@ -128,7 +122,7 @@ class ilGroupGUI extends ilObjectGUI
 	* @param	multidimensional array for additional tabs; is only passed on;optional
 	* @param	script that is used for linking in loacator;optional; default: "group.php"
 	**/
-	function prepareOutput($tabs=true, $addtab="", $locatorscript="group.php")
+	function prepareOutput($tabs=true, $addtab="")
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 		//$title = $this->object->getTitle();
@@ -196,31 +190,6 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
-	function switchview()
-	{
-		if (isset($_GET["viewmode"]))
-		{
-			$_SESSION["viewmode"] = $_GET["viewmode"];
-		}
-
-		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
-		if ($_SESSION["viewmode"] == "tree")
-		{
-			$this->tpl = new ilTemplate("tpl.group.html", false, false);
-			$this->tpl->setVariable ("SOURCE", "group.php?cmd=".$_SESSION["LAST_LOCATION"]."&ref_id=".$_GET["ref_id"]);
-			$this->tpl->show();
-		}
-		else
-		{
-			$this->$_SESSION["LAST_LOCATION"]();
-		}
-
-	}
-
-
-
-
 	/**
 	* calls current view mode (tree frame or list)
 	*/
@@ -249,8 +218,9 @@ class ilGroupGUI extends ilObjectGUI
 
 
 	/**
-	*
+	* displays list of groups that are located under the node given by ref_id
 	*/
+
 	function displayList()
 	{
 
@@ -486,30 +456,20 @@ class ilGroupGUI extends ilObjectGUI
 
 		global $tree, $tpl, $lng, $rbacsystem;
 
-
-		/*if (strcmp ($_SESSION["viewmode"],"flat") == 0)
-		{
-			$linktarget = "bottom";
-		}
-		else
-		{
-			$linktarget = "content";
-		}
-
-		if (strcmp ($_SESSION["viewmode"],"flat") == 0)
-		{
-			$tab[1] = array ();
-			$tab[1]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
-			$tab[1]["ftabtype"] = 'tabinactive';
-			$tab[1]["target"] = $linktarget;
-			$tab[1]["tab_text"] = 'groups_overview';
-		}*/
 		$tab = array();
+
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
-		$tab[0]["ftabtype"] = 'tabinactive';
+		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
+		$tab[0]["ftabtype"] = 'tabactive';
 		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'show_members';
+		$tab[0]["tab_text"] = 'group_objects';
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
+		$tab[1]["ftabtype"] = 'tabinactive';
+		$tab[1]["target"] = "bottom";
+		$tab[1]["tab_text"] = 'group_members';
+
 
 
 		$this->prepareOutput(false, $tab);
@@ -538,11 +498,17 @@ class ilGroupGUI extends ilObjectGUI
 			$_GET["sort_by"] = "title";
 		}
 
+		$newGrp = new ilObjGroup($_GET["ref_id"],true);
+		$admin_ids = $newGrp->getGroupAdminIds();
 
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("add_member"));
-		$this->tpl->parseCurrentBlock();
+		if(in_array($_SESSION["AccountId"], $admin_ids))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("add_member"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 
 		$cont_arr = array();
 
@@ -1137,7 +1103,7 @@ class ilGroupGUI extends ilObjectGUI
 			$status  = "";
 			$call_by_reference="n";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,$call_by_reference);
-			//$this->tpl->show();
+			$this->tpl->show();
 
 		}
 		else
@@ -1223,7 +1189,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
-		
+
 		if(is_array($user_id))
 		{
 
@@ -1301,7 +1267,7 @@ class ilGroupGUI extends ilObjectGUI
 		//$tbl->disable("footer");
 		$tbl->render();
 
-		$this->tpl->show();
+		//$this->tpl->show();
 	}
 
 
@@ -1320,10 +1286,22 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$tab = array();
-		$tab[0] = array();
+
+		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
-		$tab[0]["tab_text"] = 'group_details';
+		$tab[0]["target"] = "bottom";
+		$tab[0]["tab_text"] = 'group_objects';
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
+		$tab[1]["ftabtype"] = 'tabactive';
+		$tab[1]["target"] = "bottom";
+		$tab[1]["tab_text"] = 'group_members';
+
+
+
+
 		$this->prepareOutput(false, $tab);
 
 
@@ -1337,6 +1315,7 @@ class ilGroupGUI extends ilObjectGUI
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
 		$admin_ids = $newGrp->getGroupAdminIds($_GET["ref_id"]);
+
 
 		foreach($member_ids as $member_id)
 		{
@@ -1393,6 +1372,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 		}
+
 
 
 
@@ -2117,7 +2097,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'show_members';
+		$tab[0]["tab_text"] = 'group_members';
 
 
 		$this->prepareOutput(false, $tab);
@@ -2428,6 +2408,12 @@ class ilGroupGUI extends ilObjectGUI
 			//sort data array
 			include_once "./include/inc.sort.php";
 			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+
+			if(!isset($_GET["offset"]))
+			$_GET["offset"] = 0;
+	 		if(!isset($_GET["limit"]))
+			$_GET["limit"]	= 10;
+
 			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 			// create table
@@ -2465,17 +2451,22 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			//let new members join the group
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-			foreach($_SESSION["saved_post"] as $new_member)
+			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				if(!$newGrp->joinGroup($new_member, $_SESSION["status"]) )
+				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
+
+				}
+
 			}
 			unset($_SESSION["status"]);
 		}
-		echo ($this->link_params);
-		header("Location: adm_object.php?".$this->link_params);
+		//echo ($this->link_params);
+		header("Location: group.php?cmd=show_content&".$this->link_params);
+
 	}
-	
+
 	/**
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
@@ -2486,11 +2477,12 @@ class ilGroupGUI extends ilObjectGUI
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedAssignMember";
-			$cancel  = "canceledelete";
+			$cancel  = "canceldelete";
 			$info	 = "info_assign_sure";
-			$status  = $_SESSION["post_vars"]["status"];
+			$status  = $_SESSION["status"];
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status);
 			$this->tpl->show();
+			
 		}
 		else
 		{
