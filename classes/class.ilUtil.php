@@ -1268,7 +1268,7 @@ class ilUtil
 	*/
 	function resizeImage($a_from, $a_to, $a_width, $a_height)
 	{
-		$size = " -resize ".$a_width."x".$a_height." ";
+		$size = " -resize ".$a_width."x".$a_height."! ";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
 			ilUtil::escapeShellArg($a_from)." ".$size.ilUtil::escapeShellArg($a_to);
 		system($convert_cmd);

@@ -50,6 +50,10 @@
 	&nbsp;
 	<input class="submit" type="submit" name="cmd[{CMD_SIZE}]" value="{TXT_GET_SIZE}" />
 	<!-- END get_size -->
+	<!-- BEGIN orig_size -->
+	<br />
+	<span class="il_Helptext">({TXT_ORIGINAL_SIZE}: {VAL_ORIG_WIDTH}x{VAL_ORIG_HEIGHT})</span>
+	<!-- END orig_size -->
 	</td>
 </tr>
 <!-- Caption -->
@@ -116,6 +120,10 @@
 	&nbsp;
 	<input class="submit" type="submit" name="cmd[{CMD_FULL_SIZE}]" value="{TXT_GET_FULL_SIZE}" />
 	<!-- END get_full_size -->
+	<!-- BEGIN orig_full_size -->
+	<br />
+	<span class="il_Helptext">({TXT_ORIGINAL_SIZE}: {VAL_ORIG_WIDTH}x{VAL_ORIG_HEIGHT})</span>
+	<!-- END orig_full_size -->
 	</td>
 </tr>
 <!-- Caption -->
@@ -141,16 +149,16 @@
 <tr>
 	<td class="submit" colspan="2">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_RESIZE}]" value="{TXT_RESIZE}" />
 		<!-- BEGIN remove_full -->
-		&nbsp;
 		<input class="submit" type="submit" name="cmd[{CMD_REMOVE_FULL}]" value="{TXT_REMOVE_FULL}" />
 		<!-- END remove_full -->
 		<!-- BEGIN add_full -->
-		&nbsp;
 		<input class="submit" type="submit" name="cmd[{CMD_ADD_FULL}]" value="{TXT_ADD_FULL}" />
 		<!-- END add_full -->
 	</td>
 </tr>
 <!-- END commands -->
 </table>
+<br />[*] {TXT_RESIZE_EXPLANATION}
 </form>
