@@ -34,6 +34,13 @@
 * @package ilias-setup
 */
 
+// get pear
+// look for embedded pear
+if (is_dir("../pear"))
+{
+	ini_set("include_path", "../pear:".ini_get("include_path"));
+}
+
 require_once "./include/inc.setup_header.php";
 
 // display info messages

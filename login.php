@@ -32,6 +32,9 @@
 * @package ilias-layout
 */
 
+// get pear
+include("include/inc.get_pear.php");
+
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
