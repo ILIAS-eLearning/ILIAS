@@ -44,7 +44,7 @@ class ilObjFileGUI extends ilObjectGUI
 	function ilObjFileGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "file";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
 //var_dump("<pre>",$a_data,$a_id,$a_call_by_reference,$this->type,"</pre>");
 	}
@@ -122,7 +122,7 @@ class ilObjFileGUI extends ilObjectGUI
 //		{
 //			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 //		}
-		
+
 		// create and insert file in grp_tree
 		include_once("classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
@@ -133,7 +133,6 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->createReference();
 		//insert file in grp_tree
 		$fileObj->putInTree($_GET["ref_id"]);
-		
 		// upload file to filesystem
 		$file_dir = ilUtil::getWebspaceDir()."/files/file_".$fileObj->getId();
 		ilUtil::makeDir($file_dir);
