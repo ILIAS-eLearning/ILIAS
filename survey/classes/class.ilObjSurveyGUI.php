@@ -1662,10 +1662,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TYPE", $eval["QUESTION_TYPE"]);
 			$this->tpl->setVariable("MODE", $eval["MODE"]);
 			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-			$this->tpl->setVariable("MEDIAN", "");
-			$this->tpl->setVariable("ARITHMETIC_MEAN", "");
-			$this->tpl->setVariable("GEOMETRIC_MEAN", "");
-			$this->tpl->setVariable("HARMONIC_MEAN", "");
+			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
+			$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
+			$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
+			$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
