@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -37,6 +37,7 @@
 administration#:#analyze_data#:#Analysiere Datenintegrität
 administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nichtzugeordneten Objekten
 administration#:#analyzing#:#Analysiert...
+common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt 
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen

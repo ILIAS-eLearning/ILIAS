@@ -107,6 +107,7 @@ class ilObjFileGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+		$this->tpl->setVariable("TXT_TITLE_NOTE", $this->lng->txt("if_no_title_then_filename"));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -139,7 +140,8 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if (empty($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
+			$_POST["Fobject"]["title"] = $_FILES["Fobject"]["name"]["file"];
+			//$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create and insert file in grp_tree
