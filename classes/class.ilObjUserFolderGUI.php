@@ -796,7 +796,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function getImportDir()
 	{
-		return ilUtil::getDataDir()."/user_import";
+		// FIXME - The following code does not work properly. $ilUser->getId()
+		//		   always returns 0. It should return the usr_id of the current
+		//         user.
+
+		// For each user a different directory must be used, to prevent
+		// that one user overwrites the import data that another user is
+		// currently importing.
+		global $ilUser;
+		return ilUtil::getDataDir()."/user_import/usr_".$ilUser->getId();
 	}
 
 	/**
@@ -806,7 +814,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilObjRole.php';
 
-		global $rbacreview;
+		global $rbacreview, $rbacsystem, $tree;
 		
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
@@ -821,33 +829,55 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$import_dir = $this->getImportDir();
 
-		// create user import directory if necessary
-		if (!@is_dir($import_dir))
+		// recreate user import directory
+		if (@is_dir($import_dir))
 		{
-			ilUtil::createDirectory($import_dir);
+			ilUtil::delDir($import_dir);
 		}
+		ilUtil::createDirectory($import_dir);
 
 		// move uploaded file to user import directory
 		$file_name = $_FILES["importFile"]["name"];
 		$parts = pathinfo($file_name);
 		$full_path = $import_dir."/".$file_name;
 
-		// check zip file		
-		if (!is_file($_FILES["importFile"]["tmp_name"]) ||
-			strtolower($parts["extension"]) != "zip")
+		// check if import file exists
+		if (!is_file($_FILES["importFile"]["tmp_name"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_zip_file"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_import_file_found")
+				, $this->ilias->error_obj->MESSAGE);
 		}
-		
 		ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"],
 			$_FILES["importFile"]["name"], $full_path);
-		
-		// unzip file
-		ilUtil::unzip($full_path);
 
-		$subdir = basename($parts["basename"],".".$parts["extension"]);
-		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
-		
+		// handle zip file		
+		if (strtolower($parts["extension"]) == "zip")
+		{
+			// unzip file
+			ilUtil::unzip($full_path);
+
+			$xml_file = null;
+			$file_list = ilUtil::getDir($import_dir);
+			foreach ($file_list as $a_file)
+			{
+				if (substr($a_file['entry'],-4) == '.xml')
+				{
+					$xml_file = $import_dir."/".$a_file['entry'];
+					break;
+				}
+			}
+			if (is_null($xml_file))
+			{
+				$subdir = basename($parts["basename"],".".$parts["extension"]);
+				$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+			}
+		}
+		// handle xml file
+		else
+		{
+			$xml_file = $full_path;
+		}
+
 		// check xml file		
 		if (!is_file($xml_file))
 		{
@@ -858,6 +888,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
 
 		require_once("classes/class.ilUserImportParser.php");
+
+		// Verify the data
+		$importParser = new ilUserImportParser($xml_file, IL_VERIFY);
+		$importParser->startParsing();
+		if (! $importParser->isSuccess())
+		{
+			$this->ilias->raiseError($this->lng->txt("verification_failed")
+				.$importParser->getProtocolAsHTML(), $this->ilias->error_obj->MESSAGE);
+		}
+
+		// Extract the roles
 		$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
 		$importParser->startParsing();
 		$roles = $importParser->getCollectedRoles();
@@ -867,7 +908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$gl_roles = array();
 		foreach ($all_gl_roles as $obj_data)
 		{
-			// check assignmetn permission if called from lokal admin
+			// check assignment permission if called from local admin
 			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 			{
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
@@ -889,39 +930,42 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// global roles
 		foreach($roles as $role_id => $role)
 		{
-			if ($role["type"] == "Local")
+			if ($role["type"] == "Global")
 			{
-				continue;
+
+				// pre selection for role
+				$pre_select = array_search($role[name], $gl_roles);
+				if (! $pre_select)
+				{
+					switch($role["name"])
+					{
+						case "Administrator":	// ILIAS 2/3 Administrator
+							$pre_select = array_search("Administrator", $gl_roles);
+							break;
+
+						case "Autor":			// ILIAS 2 Author
+							$pre_select = array_search("User", $gl_roles);
+							break;
+
+						case "Lerner":			// ILIAS 2 Learner
+							$pre_select = array_search("User", $gl_roles);
+							break;
+
+						case "Gast":			// ILIAS 2 Guest
+							$pre_select = array_search("Guest", $gl_roles);
+							break;
+
+						default:
+							$pre_select = array_search("User", $gl_roles);
+							break;
+					}
+				}
+				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
+				$this->tpl->setCurrentBlock("role");
+				$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
+				$this->tpl->setVariable("SELECT_ROLE", $role_select);
+				$this->tpl->parseCurrentBlock();
 			}
-
-			// pre selection for "known" roles
-			switch($role["name"])
-			{
-				case "Administrator":	// ILIAS 2/3 Administrator
-					$pre_select = array_search("Administrator", $gl_roles);
-					break;
-
-				case "Autor":			// ILIAS 2 Author
-					$pre_select = array_search("User", $gl_roles);
-					break;
-
-				case "Lerner":			// ILIAS 2 Learner
-					$pre_select = array_search("User", $gl_roles);
-					break;
-
-				case "Gast":			// ILIAS 2 Guest
-					$pre_select = array_search("Guest", $gl_roles);
-					break;
-
-				default:
-					$pre_select = array_search("User", $gl_roles);
-					break;
-			}
-			$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
-			$this->tpl->setCurrentBlock("role");
-			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
-			$this->tpl->setVariable("SELECT_ROLE", $role_select);
-			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("role_section");
 		$this->tpl->parseCurrentBlock();
@@ -932,13 +976,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$l_roles = array();
 		foreach ($loc_roles as $key => $loc_role)
 		{
-			if (substr($loc_role["title"],0,3) != "il_")
-			{
 				// fetch context path of role
 				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
 
-				// only list roles that are not set to status "deleted"
-				if (!$rbacreview->isDeleted($rolf[0]))
+				// only list roles that are not set to status "deleted" and
+				// for which the user has write permissions.
+				//
+				// FIXME: As a temporary hack, we must not list il_crs_... roles,
+				//        because assigning a user to one of these roles is not
+				//        sufficient, to become a member of a course.
+				//
+				if (!$rbacreview->isDeleted($rolf[0])
+				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
+				&& substr($loc_role["title"],6) != 'il_crs'
+				)
 				{
 					$path = "";
 					if ($this->tree->isInTree($rolf[0]))
@@ -959,37 +1010,28 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					{
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
-					/*
-					$l_roles[] = array(
-								"type"			=> $loc_role["type"],
-								"role"			=> $loc_role["title"]."#separator#".$loc_role["desc"],
-								"role_type"		=> $loc_role["role_type"],
-								"context"		=> $path,
-								"obj_id"		=> $loc_role["obj_id"]
-							);*/
 					if ($loc_role["role_type"] != "global")
 					{
-						$l_roles[$loc_role["obj_id"]] = $loc_role["title"];
+						$l_roles[$loc_role["obj_id"]] = $path.": ".$loc_role["title"];
 					}
 				}
-			} // if substr
 		} //foreach role
 
 		// local roles
+		natsort($l_roles);
 		$got_locals = false;
 		foreach($roles as $role_id => $role)
 		{
-			if ($role["type"] == "Global")
+			if ($role["type"] == "Local")
 			{
-				continue;
-			}
-			$got_locals = true;
+				$got_locals = true;
 
-			$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
-			$this->tpl->setCurrentBlock("role");
-			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
-			$this->tpl->setVariable("SELECT_ROLE", $role_select);
-			$this->tpl->parseCurrentBlock();
+				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
+				$this->tpl->setCurrentBlock("role");
+				$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
+				$this->tpl->setVariable("SELECT_ROLE", $role_select);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		if ($got_locals)
 		{
@@ -1008,10 +1050,38 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		require_once("classes/class.ilUserImportParser.php");
 		$importParser = new ilUserImportParser($_POST["xml_file"]);
 		$importParser->setFolderId($this->object->getRefId());
+
+		// Catch hack attempts
+		// We check here again, if the role folders are in the tree, and if the
+		// user has write permission on the roles.
+		if ($_POST["role_assign"])
+		{
+			foreach ($_POST["role_assign"] as $role_id)
+			{
+				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+				if ($rbacreview->isDeleted($rolf[0])
+					|| $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+				{
+					$this->ilias->raiseError($this->lng->txt("import_into_specified_role_not_permitted"), 
+						$this->ilias->error_obj->MESSAGE);
+					return;
+				}
+			}
+		}
+
 		$importParser->setRoleAssignment($_POST["role_assign"]);
 		$importParser->startParsing();
 
-		sendInfo($this->lng->txt("user_imported"), true);
+		if ($importParser->isSuccess())
+		{
+			sendInfo($this->lng->txt("user_imported"), true);
+		}
+		else
+		{
+			$this->ilias->raiseError($this->lng->txt("import_failed")
+				.$importParser->getProtocolAsHTML(), $this->ilias->error_obj->MESSAGE);
+			return;
+		}
 
 		if($this->ctrl->getTargetScript() == 'adm_object.php')
 		{
