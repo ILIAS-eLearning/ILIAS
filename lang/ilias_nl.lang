@@ -95,6 +95,7 @@ assessment#:#add_area#:#Toevoegen gebieden
 assessment#:#add_gap#:#Voeg gat-tekst toe
 assessment#:#add_imagemap#:#Importeren grafische kaart
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
+assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Alle beschikbare vraagpools
 assessment#:#answer#:#Antwoord
 assessment#:#answer_is_right#:#Uw oplossing is goed
@@ -110,6 +111,7 @@ assessment#:#ass_questions#:#Vragen
 assessment#:#available_points#:#Beschikbare punten
 assessment#:#by#:#door
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
 assessment#:#circle#:#Cirkel
@@ -274,6 +276,7 @@ assessment#:#rectangle_click_br_corner#:#Klik op de hoek rechtsonder van het gew
 assessment#:#rectangle_click_tl_corner#:#Klik op de hoek linksboven van het gewenste gebied.
 assessment#:#region#:#Streek
 assessment#:#remove_question#:#Verwijder
+assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
 assessment#:#report_date_not_reached#:#De verslagdatum van de testgegevens is nog niet bereikt. U kunt de restresulaten zien op %s
 assessment#:#reset_filter#:#Terugzetten filter
 assessment#:#result#:#Resultaat
@@ -289,6 +292,7 @@ assessment#:#selected_image#:#Plaatje geselecteerd
 assessment#:#set_filter#:#Instellen filter
 assessment#:#shape#:#Vorm
 assessment#:#shuffle_answers#:#Antwoorden mengen
+assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#start_tag#:#Start-tag
 assessment#:#starting_time_not_reached#:#De start-tijd is nog niet bereikt

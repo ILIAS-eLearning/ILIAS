@@ -94,6 +94,7 @@ assessment#:#add_applet_parameter#:#Dodaj parametr apletu
 assessment#:#add_area#:#Dodaj obszar
 assessment#:#add_gap#:#Dodaj tekst odstępu
 assessment#:#add_matching_pair#:#dodaj pasującą parę
+assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
 assessment#:#answer#:#Odpowiedź
 assessment#:#answer_is_right#:#Twoja odpowiedź jest prawidłowa
@@ -110,6 +111,7 @@ assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#przez
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Wybrany
 assessment#:#checkbox_unchecked#:#Nie wybrany
 assessment#:#circle#:#Koło
@@ -262,6 +264,7 @@ assessment#:#rectangle#:#Prostokąt
 assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
+assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
 assessment#:#report_date_not_reached#:#Teraz nie możesz przeglądać raportu. Będziesz mógł przejrzeć rezultaty %s
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
@@ -276,6 +279,7 @@ assessment#:#selected_image#:#Wybrany obrazek
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#shape#:#Kształt
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
+assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
 assessment#:#symbol#:#Symbol

@@ -95,6 +95,7 @@ assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
+assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
@@ -111,6 +112,7 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Tests warten zu dürfen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
+assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -280,6 +282,7 @@ assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
+assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
@@ -295,6 +298,7 @@ assessment#:#selected_image#:#Ausgewählte Grafik
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
+assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
