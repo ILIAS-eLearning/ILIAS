@@ -254,11 +254,21 @@ class ilSetupGUI extends ilSetup
 				$this->displayDatabase();
 				break;
 	
-			case "contact":
-				if (!$this->client->status["lang"]["status"])
+			case "lang":
+				if (!$this->client->status["finish"]["status"])
 				{
-					$this->cmd = "db";
-					$this->displayDatabase();
+					$this->jumpToFirstUnfinishedSetupStep();
+				}
+				else
+				{
+					$this->displayLanguages();
+				}
+				break;
+
+			case "contact":
+				if (!$this->client->status["finish"]["status"])
+				{
+					$this->jumpToFirstUnfinishedSetupStep();
 				}
 				else
 				{
@@ -267,10 +277,9 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->status["contact"]["status"])
+				if (!$this->client->status["finish"]["status"])
 				{
-					$this->cmd = "db";
-					$this->displayDatabase();
+					$this->jumpToFirstUnfinishedSetupStep();
 				}
 				else
 				{
@@ -278,18 +287,6 @@ class ilSetupGUI extends ilSetup
 				}
 				break;
 	
-			case "lang":
-				if (!$this->client->status["db"]["status"])
-				{
-					$this->cmd = "db";
-					$this->displayDatabase();
-				}
-				else
-				{
-					$this->displayLanguages();
-				}
-				break;
-
 			case "finish":
 				if (!$this->client->db_installed)
 				{
@@ -2206,6 +2203,38 @@ class ilSetupGUI extends ilSetup
 		}
 
 		return true;
+	}
+	
+	function jumpToFirstUnfinishedsetupStep()
+	{
+		if (!$this->client->status["db"]["status"])
+		{
+			$this->cmd = "db";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayDatabase();
+		}
+		elseif (!$this->client->status["lang"]["status"])
+		{
+			$this->cmd = "lang";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayLanguages();		
+		}
+		elseif (!$this->client->status["contact"]["status"])
+		{
+			$this->cmd = "contact";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayContactData();		
+		}
+		elseif (!$this->client->status["nic"]["status"])
+		{
+			$this->cmd = "nic";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayNIC();		
+		}
+		else
+		{
+			return false;
+		}
 	}
 } // END class.ilSetupGUI
 ?>
