@@ -88,35 +88,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function updateObject() {
 		$this->update = $this->object->update();
-		$this->object->save_to_db();
+		$this->object->saveToDb();
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 	}
 
-  function get_add_parameter()
+  function getAddParameter()
   {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
-
-	function RTESafe($strText) {
-		//returns safe code for preloading in the RTE
-		$tmpString = trim($strText);
-
-		//convert all types of single quotes
-		$tmpString = str_replace(chr(145), chr(39), $tmpString);
-		$tmpString = str_replace(chr(146), chr(39), $tmpString);
-		$tmpString = str_replace("'", "&#39;", $tmpString);
-
-		//convert all types of double quotes
-		$tmpString = str_replace(chr(147), chr(34), $tmpString);
-		$tmpString = str_replace(chr(148), chr(34), $tmpString);
-	//	$tmpString = str_replace("\"", "\"", $tmpString);
-
-		//replace carriage returns & line feeds
-		$tmpString = str_replace(chr(10), " ", $tmpString);
-		$tmpString = str_replace(chr(13), " ", $tmpString);
-
-		return $tmpString;
-	}
 
   function propertiesObject()
   {
@@ -192,15 +171,15 @@ class ilObjTestGUI extends ilObjectGUI
 				);
 			}
 		} else {
-			$data["sel_test_types"] = $this->object->get_test_type();
+			$data["sel_test_types"] = $this->object->getTestType();
 			$data["author"] = $this->object->getAuthor();
-			$data["introduction"] = $this->object->get_introduction();
-			$data["sequence_settings"] = $this->object->get_sequence_settings();
-			$data["score_reporting"] = $this->object->get_score_reporting();
-			$data["reporting_date"] = $this->object->get_reporting_date();
-			$data["nr_of_tries"] = $this->object->get_nr_of_tries();
-			$data["enable_processing_time"] = $this->object->get_enable_processing_time();
-			$data["processing_time"] = $this->object->get_processing_time();
+			$data["introduction"] = $this->object->getIntroduction();
+			$data["sequence_settings"] = $this->object->getSequenceSettings();
+			$data["score_reporting"] = $this->object->getScoreReporting();
+			$data["reporting_date"] = $this->object->getReportingDate();
+			$data["nr_of_tries"] = $this->object->getNrOfTries();
+			$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
+			$data["processing_time"] = $this->object->getProcessingTime();
 			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0) {
 				$proc_time = $this->object->getEstimatedWorkingTime();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
@@ -209,23 +188,23 @@ class ilObjTestGUI extends ilObjectGUI
 					$proc_time["s"]
 				);
 			}
-			$data["starting_time"] = $this->object->get_starting_time();
+			$data["starting_time"] = $this->object->getStartingTime();
 		}
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
-		$this->object->set_test_type($data["sel_test_types"]);
+		$this->object->setTestType($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
-		$this->object->set_author($data["author"]);
-		$this->object->set_introduction($data["introduction"]);
-		$this->object->set_sequence_settings($data["sequence_settings"]);
-		$this->object->set_score_reporting($data["score_reporting"]);
-		$this->object->set_reporting_date($data["reporting_date"]);
-		$this->object->set_nr_of_tries($data["nr_of_tries"]);
-		$this->object->set_starting_time($data["starting_time"]);
-		$this->object->set_processing_time($data["processing_time"]);
-		$this->object->set_enable_processing_time($data["enable_processing_time"]);
-    $add_parameter = $this->get_add_parameter();
+		$this->object->setAuthor($data["author"]);
+		$this->object->setIntroduction($data["introduction"]);
+		$this->object->setSequenceSettings($data["sequence_settings"]);
+		$this->object->setScoreReporting($data["score_reporting"]);
+		$this->object->setReportingDate($data["reporting_date"]);
+		$this->object->setNrOfTries($data["nr_of_tries"]);
+		$this->object->setStartingTime($data["starting_time"]);
+		$this->object->setProcessingTime($data["processing_time"]);
+		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
+    $add_parameter = $this->getAddParameter();
     if ($_POST["cmd"]["save"]) {
 			$this->updateObject();
       sendInfo($this->lng->txt("msg_obj_modified"), true);
@@ -352,7 +331,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function questionBrowser() {
     global $rbacsystem;
 
-    $add_parameter = $this->get_add_parameter() . "&insert_question=1";
+    $add_parameter = $this->getAddParameter() . "&insert_question=1";
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
@@ -389,13 +368,13 @@ class ilObjTestGUI extends ilObjectGUI
       if (strlen($_POST["filter_text"]) > 0) {
         switch($_POST["sel_filter_type"]) {
           case "title":
-            $where = " AND qpl_questions.title LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            $where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
             break;
           case "comment":
-            $where = " AND qpl_questions.comment LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            $where = " AND qpl_questions.comment LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
             break;
           case "author":
-            $where = " AND qpl_questions.author LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            $where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $_POST["filter_text"] . "%");
             break;
         }
       }
@@ -456,7 +435,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$questionpools =& $this->object->get_qpl_titles();
     if ($query_result->numRows() > 0)
     {
-			$existing_questions =& $this->object->get_existing_questions();
+			$existing_questions =& $this->object->getExistingQuestions();
       while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
       {
         if (($rbacsystem->checkAccess("read", $data->ref_fi)) and (!in_array($data->question_id, $existing_questions))) {
@@ -527,7 +506,7 @@ class ilObjTestGUI extends ilObjectGUI
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", true);
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$this->ilias->db->quote($this->object->get_test_id())
+			$this->ilias->db->quote($this->object->getTestId())
 		);
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
@@ -562,7 +541,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -610,14 +589,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
 
 	function questionpoolSelect()
 	{
 		global $ilUser;
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		foreach ($questionpools as $key => $value)
@@ -642,7 +621,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function randomSelect()
 	{
 		global $ilUser;
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", true);
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		$this->tpl->setCurrentBlock("option");
@@ -672,14 +651,14 @@ class ilObjTestGUI extends ilObjectGUI
 	function randomQuestionOffer()
 	{
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$questionpools =& $this->object->get_qpl_titles();
 		foreach ($question_array as $question_id)
 		{
-			$dataset = $this->object->get_question_dataset($question_id);
+			$dataset = $this->object->getQuestionDataset($question_id);
 			$this->tpl->setCurrentBlock("QTab");
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
@@ -721,13 +700,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function questionsObject() {
 		global $rbacsystem;
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 
 		if ($_GET["up"] > 0) {
-			$this->object->question_move_up($_GET["up"]);
+			$this->object->questionMoveUp($_GET["up"]);
 		}
 		if ($_GET["down"] > 0) {
-			$this->object->question_move_down($_GET["down"]);
+			$this->object->questionMoveDown($_GET["down"]);
 		}
 		if ($_POST["cmd"]["create_question"])
 		{
@@ -825,10 +804,10 @@ class ilObjTestGUI extends ilObjectGUI
 			// insert questions from test after confirmation
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					$this->object->insert_question($matches[1]);
+					$this->object->insertQuestion($matches[1]);
 				}
 			}
-			$this->object->save_complete_status();
+			$this->object->saveCompleteStatus();
 			sendInfo($this->lng->txt("tst_questions_inserted"));
 		}
 
@@ -843,9 +822,9 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			foreach ($checked_questions as $key => $value) {
-				$this->object->remove_question($value);
+				$this->object->removeQuestion($value);
 			}
-			$this->object->save_complete_status();
+			$this->object->saveCompleteStatus();
 		}
 
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
@@ -874,7 +853,7 @@ class ilObjTestGUI extends ilObjectGUI
     $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
 
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$this->ilias->db->db->quote($this->object->get_test_id())
+			$this->ilias->db->quote($this->object->getTestId())
 		);
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
@@ -1046,7 +1025,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function marksObject() {
 		global $rbacsystem;
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 
 		if ($_POST["cmd"]["new_simple"]) {
 			$this->object->mark_schema->create_simple_schema("failed", "failed", 0, 0, "passed", "passed", 50, 1);
@@ -1076,8 +1055,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		if ($_POST["cmd"]["save"]) {
-			$this->object->mark_schema->save_to_db($this->object->get_test_id());
-			$this->object->save_complete_status();
+			$this->object->mark_schema->saveToDb($this->object->getTestId());
+			$this->object->saveCompleteStatus();
       sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
@@ -1086,8 +1065,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["apply"]) {
       sendInfo($this->lng->txt("msg_obj_modified"));
-			$this->object->mark_schema->save_to_db($this->object->get_test_id());
-			$this->object->save_complete_status();
+			$this->object->mark_schema->saveToDb($this->object->getTestId());
+			$this->object->saveCompleteStatus();
 		}
 
 		if ($_POST["cmd"]["cancel"]) {
@@ -1148,7 +1127,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function runObject() {
 		global $ilUser;
 
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -1159,17 +1138,17 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"])) {
 			// save question solution
 			$question_gui = new ASS_QuestionGui();
-			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
-			$question_gui->question->saveWorkingData($this->object->get_test_id());
+			$question_gui->create_question("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
+			$question_gui->question->saveWorkingData($this->object->getTestId());
 			// set new finish time for test
 			if ($_SESSION["active_time_id"]) {
-				$this->object->update_working_time($_SESSION["active_time_id"]);
+				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
 			}
 		}
 
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"]) {
 			// create new time dataset and set start time
-			$active_time_id = $this->object->start_working_time($ilUser->id);
+			$active_time_id = $this->object->startWorkingTime($ilUser->id);
 			$_SESSION["active_time_id"] = $active_time_id;
 		}
 
@@ -1189,28 +1168,28 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_GET["evaluation"]) {
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $_GET["evaluation"]);
-			$question_gui->out_evaluation($this->object->get_test_id());
+			$question_gui->out_evaluation($this->object->getTestId());
 			return;
 		}
 
 		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"])) {
-			$this->out_test_results();
+			$this->outTestResults();
 			return;
 		}
 
 		if (!$this->sequence) {
 			// show introduction page
-			$active = $this->object->get_active_test_user();
+			$active = $this->object->getActiveTestUser();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
 			$this->tpl->setCurrentBlock("info_row");
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
-			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->get_test_type()]));
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("description") . ":");
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
-			if ($this->object->get_sequence_settings() == TEST_FIXED_SEQUENCE) {
+			if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE) {
 				$seq_setting = "tst_sequence_fixed";
 			} else {
 				$seq_setting = "tst_sequence_postpone";
@@ -1218,7 +1197,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
-			if ($this->object->get_score_reporting() == REPORT_AFTER_QUESTION) {
+			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION) {
 				$score_reporting = "tst_report_after_question";
 			} else {
 				$score_reporting = "tst_report_after_test";
@@ -1226,7 +1205,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($score_reporting));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
-			$num_of = $this->object->get_nr_of_tries();
+			$num_of = $this->object->getNrOfTries();
 			if (!$num_of) {
 				$num_of = $this->lng->txt("unlimited");
 			}
@@ -1243,7 +1222,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($active) {
 				$this->tpl->setCurrentBlock("resume");
 				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
-				if (($active->tries >= $this->object->get_nr_of_tries()) and ($this->object->get_nr_of_tries() != 0)) {
+				if (($active->tries >= $this->object->getNrOfTries()) and ($this->object->getNrOfTries() != 0)) {
 					$this->tpl->setVariable("DISABLED", " disabled");
 					$test_disabled = true;
 					$add_sequence = "";
@@ -1257,7 +1236,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				if (!$this->object->canViewResults()) {
 					$this->tpl->setCurrentBlock("report_date_not_reached");
-					preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->get_reporting_date(), $matches);
+					preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
 					$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
 					$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
 					$this->tpl->parseCurrentBlock();
@@ -1271,37 +1250,37 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($test_disabled) {
 				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
 			}
-			$introduction = $this->object->get_introduction();
+			$introduction = $this->object->getIntroduction();
 			$introduction = preg_replace("/0n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
 		} else {
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
-			if ($this->sequence <= $this->object->get_question_count()) {
+			if ($this->sequence <= $this->object->getQuestionCount()) {
 				// show next/previous question
 				$postpone = "";
 				if ($_POST["cmd"]["postpone"]) {
 					$postpone = $this->sequence;
 				}
-				$this->object->set_active_test_user($this->sequence, $postpone);
+				$this->object->setActiveTestUser($this->sequence, $postpone);
 				$question_gui = new ASS_QuestionGui();
-				$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($this->sequence));
-				if ($this->sequence == $this->object->get_question_count()) {
+				$question_gui->create_question("", $this->object->getQuestionIdFromActiveUserSequence($this->sequence));
+				if ($this->sequence == $this->object->getQuestionCount()) {
 					$finish = true;
 				} else {
 					$finish = false;
 				}
 				$postpone = false;
-				if ($this->object->get_sequence_settings() == TEST_POSTPONE) {
+				if ($this->object->getSequenceSettings() == TEST_POSTPONE) {
 					$postpone = true;
 				}
-				$active = $this->object->get_active_test_user();
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active, $postpone, $user_question_order);
+				$active = $this->object->getActiveTestUser();
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
 			} else {
 				// finish test
-				$this->object->set_active_test_user(1, "", true);
-				$this->out_test_results();
+				$this->object->setActiveTestUser(1, "", true);
+				$this->outTestResults();
 			}
 		}
 	}
@@ -1337,7 +1316,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 		}
 		
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -1603,10 +1582,10 @@ class ilObjTestGUI extends ilObjectGUI
 				switch ($_POST["export_type"])
 				{
 					case TYPE_XLS:
-						$worksheet->write(0, $column++, $this->object->get_question_title($i), $format_title);
+						$worksheet->write(0, $column++, $this->object->getQuestionTitle($i), $format_title);
 						break;
 					case TYPE_SPSS:
-						array_push($csvrow, $this->object->get_question_title($i));
+						array_push($csvrow, $this->object->getQuestionTitle($i));
 						break;
 				}
 			}
@@ -1655,7 +1634,7 @@ class ilObjTestGUI extends ilObjectGUI
 						{
 							$this->tpl->setCurrentBlock("legendrow");
 							$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("question_short") . " " . $i);
-							$this->tpl->setVariable("TXT_MEANING", $this->object->get_question_title($value1["nr"]));
+							$this->tpl->setVariable("TXT_MEANING", $this->object->getQuestionTitle($value1["nr"]));
 							$this->tpl->parseCurrentBlock();
 							$i++;
 						}
@@ -1962,7 +1941,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -2039,7 +2018,7 @@ class ilObjTestGUI extends ilObjectGUI
 *
 * @access public
 */
-  function out_test_results() {
+  function outTestResults() {
 		global $ilUser;
 
 		function sort_percent($a, $b) {
@@ -2069,13 +2048,13 @@ class ilObjTestGUI extends ilObjectGUI
       return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
 		}
 
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 		$user_id = $ilUser->id;
     $color_class = array("tblrow1", "tblrow2");
     $counter = 0;
     $this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
-		$result_array =& $this->object->get_test_result($user_id);
+		$result_array =& $this->object->getTestResult($user_id);
 		$img_title_percent = "";
 		$img_title_nr = "";
 		switch ($_GET["sortres"]) {
@@ -2215,8 +2194,8 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
 					if ($this->sequence) {
-						if (($this->sequence <= $this->object->get_question_count()) and (!$_POST["cmd"]["showresults"])) {
-							$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+						if (($this->sequence <= $this->object->getQuestionCount()) and (!$_POST["cmd"]["showresults"])) {
+							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
 						} else {
 						}
 					}

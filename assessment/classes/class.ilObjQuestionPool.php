@@ -172,7 +172,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			foreach ($questions as $question_id)
 			{
-				$this->delete_question($question_id);
+				$this->deleteQuestion($question_id);
 			}
 		}
 	}
@@ -277,7 +277,7 @@ class ilObjQuestionPool extends ilObject
 * @param integer $question_id The database id of the question
 * @access private
 */
-  function delete_question($question_id) 
+  function deleteQuestion($question_id) 
   {
     if ($question_id < 1)
       return;

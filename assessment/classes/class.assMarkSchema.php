@@ -121,7 +121,7 @@ class ASS_MarkSchema extends PEAR {
 * @param integer $test_id The database id of the related test
 * @access public
 */
-  function save_to_db($test_id)
+  function saveToDb($test_id)
   {
 		global $ilias;
 		$db =& $ilias->db->db;

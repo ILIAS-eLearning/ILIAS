@@ -96,7 +96,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 		$question->outPreviewForm();
     $this->tpl->setCurrentBlock("adm_content");
-    $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
+    $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->getAddParameter());
     $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
     $this->tpl->parseCurrentBlock();
 	}
@@ -174,7 +174,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_GET["locked"] == 1) {
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_askunlock.html", true);
 	    $this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&edit=" . $_GET["edit"]);
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&edit=" . $_GET["edit"]);
 			$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("unlock"));
 			$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->isInUse($_GET["edit"])));
@@ -269,7 +269,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->tpl->parseCurrentBlock();
   }
   
-  function get_add_parameter() 
+  function getAddParameter() 
   {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
@@ -326,7 +326,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOCKED", $this->lng->txt("locked"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -357,7 +357,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
-    $add_parameter = $this->get_add_parameter();
+    $add_parameter = $this->getAddParameter();
 
     // create an array of all checked checkboxes
     $checked_questions = array();
@@ -409,7 +409,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 			}
       foreach ($checked_questions as $key => $value) {
-        $this->object->delete_question($value);
+        $this->object->deleteQuestion($value);
       }
 		}
 
