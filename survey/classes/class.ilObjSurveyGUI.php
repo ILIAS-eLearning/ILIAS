@@ -649,6 +649,38 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Creates a form to select a survey question pool for storage
+*
+* Creates a form to select a survey question pool for storage
+*
+* @access public
+*/
+	function questionpoolSelectForm()
+	{
+		global $ilUser;
+    $add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", true);
+		$questionpools =& $this->object->getAvailableQuestionpools();
+		foreach ($questionpools as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("VALUE_OPTION", $key);
+			$this->tpl->setVariable("TEXT_OPTION", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
@@ -755,6 +787,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
+		if ($_POST["cmd"]["create_question"]) {
+			$this->questionpoolSelectForm();
+			return;
+		}
+
 		if ($_POST["cmd"]["create_question_execute"])
 		{
 			$_SESSION["survey_id"] = $this->object->getRefId();
@@ -762,21 +799,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 			exit();
 		}
 
-/*		if ($_GET["add"])
+		if ($_GET["add"])
 		{
+			// called after a new question was created from a questionpool
 			$selected_array = array();
 			array_push($selected_array, $_GET["add"]);
-			$total = $this->object->evalTotalPersons();
-			if ($total) {
+//			$total = $this->object->evalTotalPersons();
+//			if ($total) {
 				// the test was executed previously
-				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-			} else {
-				sendInfo($this->lng->txt("tst_insert_questions"));
-			}
-			$this->insertQuestions($selected_array);
+//				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+//			} else {
+				sendInfo($this->lng->txt("ask_insert_questions"));
+//			}
+			$this->insertQuestionsForm($selected_array);
 			return;
 		}
-*/
+
 		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
 			$show_questionbrowser = true;
 			if ($_POST["cmd"]["insert"]) {
@@ -810,10 +848,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($_POST["cmd"]["create_question"]) {
-			header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
-		}
-
 		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
 		{
 			// insert questions from test after confirmation

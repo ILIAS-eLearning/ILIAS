@@ -811,9 +811,6 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 			}
 		}
-		if ($_POST["cmd"]["create_question"]) {
-			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
-		}
 
 		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
 		{
