@@ -2573,7 +2573,6 @@ class ilObjSurvey extends ilObject
 			case "qt_nominal":
 				$result_array["MEDIAN"] = "";
 				$result_array["ARITHMETIC_MEAN"] = "";
-				$result_array["GEOMETRIC_MEAN"] = "";
 				$prefix = "";
 				if (strcmp(key($cumulated), "") != 0)
 				{
@@ -2625,6 +2624,10 @@ class ilObjSurvey extends ilObject
 					if (($total % 2) == 0)
 					{
 						$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+						if (round($median_value) != $median_value)
+						{
+							$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $variables[floor($median_value)-1]->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $variables[ceil($median_value)-1]->title . ")";
+						}
 					}
 					else
 					{
@@ -2636,7 +2639,6 @@ class ilObjSurvey extends ilObject
 					$median_value = "";
 				}
 				$result_array["ARITHMETIC_MEAN"] = "";
-				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
@@ -2675,13 +2677,20 @@ class ilObjSurvey extends ilObject
 						}
 					}
 				}
-				if (($total % 2) == 0)
+				if ($total > 0)
 				{
-					$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+					if (($total % 2) == 0)
+					{
+						$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+					}
+					else
+					{
+						$median_value = $median[(($total+1)/2)-1];
+					}
 				}
 				else
 				{
-					$median_value = $median[(($total+1)/2)-1];
+					$median_value = "";
 				}
 				if ($total > 0)
 				{
@@ -2698,27 +2707,11 @@ class ilObjSurvey extends ilObject
 				{
 					$result_array["ARITHMETIC_MEAN"] = "";
 				}
-				if (($questions[$question_id]["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
-				{
-					if ($p_i > 0)
-					{
-						$result_array["GEOMETRIC_MEAN"] = sprintf("%.2f", (double)pow($p_i, 1/$total));
-					}
-					else
-					{
-						$result_array["GEOMETRIC_MEAN"] = "";
-					}
-				}
-				else
-				{
-					$result_array["GEOMETRIC_MEAN"] = "";
-				}
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
 			case "qt_text":
 				$result_array["ARITHMETIC_MEAN"] = "";
-				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["MEDIAN"] = "";
 				$result_array["MODE"] = "";
 				$result_array["MODE_NR_OF_SELECTIONS"] = "";
