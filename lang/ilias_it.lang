@@ -1053,8 +1053,8 @@ common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_mep#:#Creare raccolte multimediali
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Eliminare il gruppo
-common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
-common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
+common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?###02 Sep 2004 content changed
+common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?###02 Sep 2004 content changed
 common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!

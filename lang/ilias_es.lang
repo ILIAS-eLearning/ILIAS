@@ -1055,7 +1055,7 @@ common#:#grp_create_lm#:#Crear Módulo de Aprendizaje
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Crear Módulo de Aprendizaje SCORM
 common#:#grp_delete#:#Eliminar Grupo
-common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
+common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?###19 Jun 2004 content changed
 common#:#grp_edit#:#Editar Grupo
 common#:#grp_edit_permission#:#Cambiar configuración de permisos
