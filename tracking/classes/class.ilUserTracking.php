@@ -111,7 +111,10 @@ class ilUserTracking {
 			$q = "INSERT INTO ut_access ("
 				."user_id, action_type, php_script, client_ip,"
 				."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
-				."language, browser, session_id, acctime"
+// changed following line to " limit 1 "; because acctime doesn't exist in table
+// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
+//				."language, browser, session_id, acctime"
+				."language, browser, session_id"
 				.") VALUES ("
 				.$ilDB->quote($user_id).","
 				.$ilDB->quote($a_action_type).","
@@ -123,7 +126,10 @@ class ilUserTracking {
 				.$ilDB->quote($a_sub_id).","
 				.$ilDB->quote($language).","
 				.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
-				.$ilDB->quote($session_id).", now()"
+// changed following line to " limit 1 "; because acctime doesn't exist in table
+// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
+//				.$ilDB->quote($session_id).", now()"
+				.$ilDB->quote($session_id)
 				.")";
 		   $ilDB->query($q);
 		}
