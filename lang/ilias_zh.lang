@@ -30,16 +30,16 @@
 	+-----------------------------------------------------------------------------+
     | ILIAS open source （开放代码软件）                                           |
     +-----------------------------------------------------------------------------+
-    | 版权 (c) 1998-2001 ILIAS 开放代码软件，University of Cologne （科隆大学）     |
+    | 版权 (c) 1998-2001 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
     |                                                                             |
-    | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下     |
-    | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。        |
+    | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下|
+    | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。   |
     |                                                                             |
-    | 分发本程序的目的是希望本程序有一定用途，但本程序没有任何担保；甚至没有为达到     |
-    | 某种目的的商品性或适切性的暗示间接的担保。详细见GNU公共版权许可证（GPL）。       |
+    | 分发本程序的目的是希望本程序有一定用途，但本程序没有任何担保；甚至没有为达到|
+    | 某种目的的商品性或适切性的暗示间接的担保。详细见GNU公共版权许可证（GPL）。  |
     |                                                                             |
-    | 同本程序一起你应该已经收到一份GNU公共版权许可证（GPL）的拷贝；如果没有，请写     |
-    | 信给自由软件基金会#:#                                                         |
+    | 同本程序一起你应该已经收到一份GNU公共版权许可证（GPL）的拷贝；如果没有，请写|
+    | 信给自由软件基金会#:#                                                       |
     | Free Software Foundation, Inc.                                              |
     | 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.                   |
     +-----------------------------------------------------------------------------+
@@ -50,48 +50,48 @@
 // NOTICE#:# Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#apply#:#Apply###05 Feb 2004 new variable
-assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-assessment#:#by#:#by###05 Feb 2004 new variable
-assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
-assessment#:#create_date#:#Created###05 Feb 2004 new variable
-assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
-assessment#:#create_new#:#Create new###05 Feb 2004 new variable
-assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#export#:#Export###05 Feb 2004 new variable
-assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#filter#:#Filter###05 Feb 2004 new variable
-assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
-assessment#:#last_update#:#Last update###05 Feb 2004 new variable
-assessment#:#matches#:#matches###05 Feb 2004 new variable
-assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
-assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
-assessment#:#preview#:#Preview###07 Feb 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
-assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
-assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
-assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
-assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
-assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
-assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
-assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#add_answer#:#增加答案
+assessment#:#add_matching_pair#:#增加匹配对
+assessment#:#answer#:#答案
+assessment#:#answer_text#:#答案文本
+assessment#:#apply#:#申请
+assessment#:#ass_questions#:#问题
+assessment#:#by#:#由
+assessment#:#cloze_text#:#填充测验文本
+assessment#:#create_date#:#已创建
+assessment#:#create_gaps#:#创建间隔
+assessment#:#create_new#:#创建新的
+assessment#:#duplicate#:#复制
+assessment#:#export#:#导出
+assessment#:#false#:#否
+assessment#:#filter#:#过滤程序
+assessment#:#gap_selection#:#间隔选择
+assessment#:#last_update#:#上次更新
+assessment#:#matches#:# 匹配
+assessment#:#matching_pair#:# 匹配对
+assessment#:#no_questions_available#:#无可用问题！
+assessment#:#points#:#分数
+assessment#:#possible_gap_text#:#可能的间隔文本
+assessment#:#preview#:#预览
+assessment#:#qpl_delete_rbac_error#:#您没有删除此问题的权限！
+assessment#:#qpl_delete_select_none#:#请至少选择一个问题删除
+assessment#:#qpl_duplicate_select_none#:#请至少选择一个问题复制
+assessment#:#qpl_edit_rbac_error#:#您没有编辑此问题的权限！
+assessment#:#qpl_edit_select_multiple#:#请只选择一个问题进行编辑
+assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑
+assessment#:#qpl_export_select_none#:#请至少选择一个问题导出
+assessment#:#qt_cloze#:#填充测验问题
+assessment#:#qt_matching#:#匹配问题
+assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
+assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
+assessment#:#qt_ordering#:#排序问题
+assessment#:#question_type#:#问题类型
+assessment#:#reset_filter#:#重置过滤程序
+assessment#:#select_gap#:#选择间隔
+assessment#:#set_filter#:#设置过滤程序
+assessment#:#solution_order#:#解答次序
+assessment#:#text_gap#:#文本间隔
+assessment#:#true#:#是
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
@@ -108,9 +108,9 @@ assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new var
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
-common#:#3rd_party_software#:#3rd party software###17 Dec 2003 new variable
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
-common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
+common#:#3rd_party_software#:#第三方软件
+common#:#DD.MM.YYYY#:#日（二位数字）.月（二位数字）.年（四位数字）
+common#:#HH:MM#:#小时（二位数字）:分（二位数字）
 common#:#absolute_path#:#绝对路径
 common#:#accept_usr_agreement#:#接受用户协议？
 common#:#access#:#访问
@@ -121,10 +121,10 @@ common#:#add#:#增加
 common#:#add_author#:#增加作者
 common#:#add_member#:#增加成员
 common#:#add_translation#:#增加翻译
-common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
-common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
-common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
+common#:#adm_edit_permission#:#更改许可设置
+common#:#adm_read#:#基本系统设置为读访问
+common#:#adm_visible#:#系统设置可视
+common#:#adm_write#:#编辑基本系统设置
 common#:#administrate#:#管理
 common#:#administration#:#管理
 common#:#administrator#:#管理员
@@ -136,7 +136,7 @@ common#:#and#:#及
 common#:#announce#:#发布
 common#:#announce_changes#:#发布更改
 common#:#answers#:#答案
-common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
+common#:#application_completed#:#申请已完成
 common#:#application_date#:#申请日期
 common#:#appointment#:#约会
 common#:#appointment_list#:#约会列表
@@ -171,28 +171,28 @@ common#:#cancel#:#撤销
 common#:#cannot_uninstall_language_in_use#:#您不可能卸载当前正使用的语言！
 common#:#cannot_uninstall_systemlanguage#:#您不能卸载系统语言！
 common#:#cat#:#类别
-common#:#cat_a#:#一个类别###13 Jan 2004 content changed
+common#:#cat_a#:#一个类别
 common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
-common#:#cat_create#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
-common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
-common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
-common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
-common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
-common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
+common#:#cat_create#:#创建类别
+common#:#cat_create_cat#:#创建类别
+common#:#cat_create_crs#:#创建课程
+common#:#cat_create_dbk#:#创建电子图书
+common#:#cat_create_exc#:#创建练习
+common#:#cat_create_frm#:#创建论坛
+common#:#cat_create_glo#:#创建术语表
+common#:#cat_create_grp#:#创建组
+common#:#cat_create_lm#:#创建学习模块
+common#:#cat_create_qpl#:#创建问题集
+common#:#cat_create_slm#:#创建SCORM学习模块
+common#:#cat_create_tst#:#创建测试
+common#:#cat_delete#:#删除类别
 common#:#cat_edit#:#编辑类别
-common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#cat_new#:#新类别###13 Jan 2004 content changed
-common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
-common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
-common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
+common#:#cat_edit_permission#:#更改许可设置
+common#:#cat_new#:#新类别
+common#:#cat_read#:#类别设为读访问
+common#:#cat_visible#:#类别可视
+common#:#cat_write#:#编辑类别
 common#:#categories#:#类别
 common#:#cc#:#抄送
 common#:#censorship#:#审查
@@ -210,7 +210,7 @@ common#:#chapter_title#:#章标题
 common#:#check#:#检查
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
-common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#check_max_allowed_packet_size#:#页内容太长。
 common#:#chg_language#:#更改语言
 common#:#chg_password#:#更改口令
 common#:#choose_language#:#选择语言
@@ -218,7 +218,7 @@ common#:#choose_location#:#选择地点
 common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市
 common#:#clear#:#清除
-common#:#client_id#:#Client ID###17 Dec 2003 new variable
+common#:#client_id#:#客户身份
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
 common#:#comma_separated#:#逗号分隔
@@ -241,21 +241,21 @@ common#:#crs_a#:#一种课程
 common#:#crs_add#:#增加课程
 common#:#crs_added#:#已增加课程
 common#:#crs_available#:#可提供的课程
-common#:#crs_create#:#Create Course###13 Jan 2004 new variable
-common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
+common#:#crs_create#:#创建课程
+common#:#crs_create_frm#:#创建论坛
+common#:#crs_create_glo#:#创建术语表
+common#:#crs_create_lm#:#创建学习模块
+common#:#crs_create_slm#:#创建SCORM学习模块
+common#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
-common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
-common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
+common#:#crs_edit_permission#:#更改许可设置
+common#:#crs_join#:#注册课程
+common#:#crs_leave#:#注销课程
 common#:#crs_management_system#:#课程管理系统
 common#:#crs_new#:#新课程
-common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
-common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
-common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
+common#:#crs_read#:#课程设为读访问
+common#:#crs_visible#:#课程可视
+common#:#crs_write#:#编辑课程
 common#:#current_password#:#当前口令
 common#:#cut#:#剪切
 common#:#cutPage#:#剪切
@@ -263,34 +263,34 @@ common#:#database#:#数据库
 common#:#database_version#:#当前数据库版本
 common#:#dataset#:#数据集合
 common#:#date#:#日期
-common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
+common#:#dateplaner#:#日期计划
 common#:#day#:#天
 common#:#days#:#天
 common#:#db_host#:#数据库主机
 common#:#db_name#:#数据库名称
-common#:#db_need_update#:#Database needs an update!###17 Dec 2003 new variable
+common#:#db_need_update#:#数据库需要更新！
 common#:#db_pass#:#数据库口令
 common#:#db_type#:#数据库类型
 common#:#db_user#:#数据库用户
 common#:#db_version#:#数据库版本
-common#:#dbk#:#数字图书
-common#:#dbk_a#:#一本数字图书
-common#:#dbk_add#:#加入数字图书
-common#:#dbk_added#:#数字图书已加入
-common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
-common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
-common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#dbk#:#电子图书
+common#:#dbk_a#:#一本电子图书
+common#:#dbk_add#:#加入电子图书
+common#:#dbk_added#:#电子图书已加入
+common#:#dbk_create#:#创建电子图书
+common#:#dbk_delete#:#删除电子图书
+common#:#dbk_edit_permission#:#更改许可设置
 common#:#dbk_new#:#新数字图书
-common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
-common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
-common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
+common#:#dbk_read#:#电子图书设为读访问
+common#:#dbk_visible#:#电子图书可视
+common#:#dbk_write#:#编辑电子图书
 common#:#default#:#缺省
 common#:#default_language#:#缺省语言
-common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
+common#:#default_perm_settings#:#缺省许可
 common#:#default_role#:#缺省角色
 common#:#default_roles#:#缺省角色
 common#:#default_skin#:#缺省外观
-common#:#default_skin_style#:#Default Skin / Style###17 Dec 2003 new variable
+common#:#default_skin_style#:#缺省外壳/风格
 common#:#default_style#:#缺省风格
 common#:#delete#:#删除
 common#:#delete_all#:#全部删除
@@ -326,7 +326,7 @@ common#:#err_in_line#:#行内出错
 common#:#err_no_langfile_found#:#未找到语言文件！
 common#:#err_no_param#:#无参数！
 common#:#err_over_3_param#:#多于三个参数！
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
+common#:#err_role_not_assignable#:#您不能在此处将用户设置为此角色
 common#:#err_session_expired#:#您的对话已过期！
 common#:#err_wrong_header#:#原因错误文件头！
 common#:#err_wrong_login#:#错误登录。
@@ -336,13 +336,13 @@ common#:#exc_add#:#增加练习
 common#:#exc_added#:#练习已增加
 common#:#exc_ask_delete#:#删除文件？
 common#:#exc_assign_usr#:#指定用户
-common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
+common#:#exc_create#:#创建练习
 common#:#exc_date_not_valid#:#日期无效
 common#:#exc_deassign_members#:#删除用户
-common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
+common#:#exc_delete#:#删除练习
 common#:#exc_edit#:#已创建新练习
 common#:#exc_edit_exercise#:#编辑练习
-common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#exc_edit_permission#:#更改许可设置
 common#:#exc_edit_until#:#编辑到
 common#:#exc_files#:#文件
 common#:#exc_groups#:#组
@@ -354,10 +354,10 @@ common#:#exc_new#:#新练习
 common#:#exc_no_members_assigned#:#无成员被指定
 common#:#exc_notices#:#通知
 common#:#exc_obj#:#练习
-common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
+common#:#exc_read#:#访问练习
 common#:#exc_save_changes#:#保存
 common#:#exc_search_for#:#搜寻
-common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
+common#:#exc_select_one_file#:#请确实选择一个文件。
 common#:#exc_send_exercise#:#发送练习
 common#:#exc_sent#:#练习已发送给选定的用户
 common#:#exc_status_returned#:#已返回
@@ -365,9 +365,9 @@ common#:#exc_status_saved#:#练习已更新
 common#:#exc_status_solved#:#已解决
 common#:#exc_upload_error#:#上载文件出错
 common#:#exc_users#:#用户
-common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
-common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
-common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#exc_visible#:#练习可视
+common#:#exc_write#:#编辑练习
+common#:#excs#:#练习
 common#:#execute#:#执行
 common#:#export_html#:#导出为html文件
 common#:#export_xml#:#导出为xml文件
@@ -393,31 +393,31 @@ common#:#fold_a#:#一个文件夹
 common#:#fold_add#:#增加文件夹
 common#:#fold_added#:#文件夹已增加
 common#:#fold_new#:#新文件夹
-common#:#folder#:#folder###11 Dec 2003 new variable
+common#:#folder#:#文件夹
 common#:#folders#:#文件夹
 common#:#force_accept_usr_agreement#:#您必须接受用户协议！
 common#:#forename#:#名
 common#:#form_empty_fields#:#请填写这些域
 common#:#forum#:#论坛
-common#:#forum_notification#:#Notification###06 Feb 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
+common#:#forum_notification#:#通知
+common#:#forum_notify_me#:#张贴答复时通知我
+common#:#forum_post_replied#:#论坛中您的条目已被回答。
 common#:#forums#:#论坛
 common#:#forums_overview#:#论坛概观
 common#:#frm#:#论坛
 common#:#frm_a#:#一个论坛
 common#:#frm_add#:#增加论坛
 common#:#frm_added#:#论坛已增加
-common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
-common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
-common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
+common#:#frm_create#:#创建论坛
+common#:#frm_delete#:#删除论坛
+common#:#frm_delete_post#:#删除帖子
 common#:#frm_edit#:#编辑论坛
-common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
+common#:#frm_edit_permission#:#更改许可设置
+common#:#frm_edit_post#:#编辑帖子
 common#:#frm_new#:#新论坛
-common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
-common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
-common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
+common#:#frm_read#:#论坛设为读访问
+common#:#frm_visible#:#论坛可视Forum is visible
+common#:#frm_write#:#编辑论坛
 common#:#from#:#从
 common#:#fullname#:#名字
 common#:#functions#:#功能
@@ -430,17 +430,17 @@ common#:#generate#:#生成
 common#:#glo#:#词汇表
 common#:#glo_a#:#一个词汇表
 common#:#glo_add#:#增加词汇表
-common#:#glo_added#:#词汇表已增加###13 Jan 2004 content changed
-common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
-common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
-common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
-common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
+common#:#glo_added#:#词汇表已增加
+common#:#glo_create#:#创建术语表
+common#:#glo_delete#:#删除术语表
+common#:#glo_edit_permission#:#更改许可设置
+common#:#glo_join#:#注册术语表
+common#:#glo_leave#:#注销术语表
 common#:#glo_new#:#新词汇表
-common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
-common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
-common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
-common#:#glossaries#:#Glossaries###17 Dec 2003 new variable
+common#:#glo_read#:#术语表设为读访问
+common#:#glo_visible#:#术语表可视
+common#:#glo_write#:#编辑术语表
+common#:#glossaries#:#术语表
 common#:#glossary#:#词汇表
 common#:#glossary_added#:#词汇表已增加
 common#:#group_access_denied#:#拒绝访问
@@ -461,13 +461,13 @@ common#:#group_objects#:#组对象
 common#:#group_password_registration_expired_msg#:#注册此组的期限已过，不能再发布。请联系相应组的拥有者或管理员。
 common#:#group_password_registration_msg#:#加入此组您必须输入此组管理员提供口令。<br>如果口令正确，您将自动被指派到此组。
 common#:#group_registration_expiration_date#:#过期日
-common#:#group_registration_expiration_time#:#Expiration Time###17 Dec 2003 new variable
+common#:#group_registration_expiration_time#:#过期时间
 common#:#group_registration_expired#:#注册期限已过
 common#:#group_registration_mode#:#注册模式
 common#:#group_req_password#:#需要注册口令
 common#:#group_req_registration#:#需要注册
 common#:#group_req_registration_msg#:#加入此组您必须注册。组管理员将分配您加入此组。请填写标题说明申请的原因。 <br>当您被分配到此组后，您将收到通知消息。
-common#:#group_reset#:#Reset Group Permissions
+common#:#group_reset#:#重置组许可
 common#:#group_status#:#组状态
 common#:#group_status_closed#:#关闭
 common#:#group_status_public#:#公共
@@ -477,37 +477,37 @@ common#:#grp#:#组
 common#:#grp_a#:#一个组
 common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
-common#:#grp_create#:#Create Group###13 Jan 2004 new variable
-common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
-common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
-common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
+common#:#grp_create#:#创建组
+common#:#grp_create_file#:#用户可以上载文件
+common#:#grp_create_fold#:#用户可以创建文件夹
+common#:#grp_create_frm#:#创建论坛
+common#:#grp_create_lm#:#创建学习模块
+common#:#grp_create_slm#:#创建SCORM学习模块
+common#:#grp_delete#:#删除组
+common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？
+common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？
 common#:#grp_edit#:#编辑组
-common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###17 Dec 2003 new variable
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
-common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###17 Dec 2003 new variable
-common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###17 Dec 2003 new variable
-common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###17 Dec 2003 new variable
-common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###17 Dec 2003 new variable
-common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
-common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
+common#:#grp_edit_permission#:#更改许可设置e
+common#:#grp_err_administrator_required#:#不能删除成员，每个组至少要求一个管理员！
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#每个组至少需要一个组管理员！
+common#:#grp_err_error#:#出现错误
+common#:#grp_err_last_member#:#不能删除最后一名成员，请删除组代之。
+common#:#grp_err_member_could_not_be_removed#:#不能删除成员。请验证此成员的全部从属关系。
+common#:#grp_err_no_permission#:#您没有进行此项操作的许可。
+common#:#grp_err_registration_data#:#请输入一个口令以及一个有效注册期间的截止日期和时间！
+common#:#grp_join#:#用户可以加入组
+common#:#grp_leave#:#用户可以离开组
 common#:#grp_mem_change_status#:#更改组状态
 common#:#grp_mem_leave#:#从组中删除成员
 common#:#grp_mem_send_mail#:#给成员发消息
-common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
+common#:#grp_msg_membership_annulled#:#成员资格已取消
 common#:#grp_name_exists#:#已有一个组使用这个名字！请选择另一名字！
 common#:#grp_new#:#新组
-common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
-common#:#grp_register#:#Register###17 Dec 2003 new variable
-common#:#grp_registration_completed#:#Registration completed###17 Dec 2003 new variable
-common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
-common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
+common#:#grp_read#:#组设为读访问
+common#:#grp_register#:#注册
+common#:#grp_registration_completed#:#注册成功
+common#:#grp_visible#:#组可视
+common#:#grp_write#:#编辑组
 common#:#guest#:#客人
 common#:#guests#:#客人
 common#:#help#:#帮助
@@ -520,8 +520,8 @@ common#:#http_path#:#Http路径
 common#:#id#:#身份
 common#:#identifier#:# 标识符
 common#:#ilias_version#:#ILIAS版本
-common#:#image#:#Image###17 Dec 2003 new variable
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###17 Dec 2003 new variable
+common#:#image#:#图象
+common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。
 common#:#import#:#导入
 common#:#import_lm#:#导入学习模块
 common#:#import_slm#:#导入SCORM包
@@ -570,32 +570,32 @@ common#:#is_already_your#:#已是您的
 common#:#item#:#条
 common#:#kb#:#K字节
 common#:#keywords#:#关键字
-common#:#lang_cz#:#Czech###11 Dec 2003 new variable
+common#:#lang_cz#:#捷克语
 common#:#lang_dateformat#:#年－月－日
 common#:#lang_de#:#德语
 common#:#lang_dk#:#丹麦语
 common#:#lang_en#:#英语
 common#:#lang_es#:#西班牙语
-common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
+common#:#lang_fi#:#芬兰语
 common#:#lang_fr#:#法语
-common#:#lang_gr#:#Greek###11 Dec 2003 new variable
+common#:#lang_gr#:#希腊语
 common#:#lang_id#:#印度尼西亚语
 common#:#lang_it#:#意大利语
-common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
-common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
-common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
-common#:#lang_no#:#挪威语###11 Dec 2003 content changed
+common#:#lang_ja#:#日语
+common#:#lang_lt#:#立陶宛语
+common#:#lang_nl#:#荷兰语
+common#:#lang_no#:#挪威语
 common#:#lang_path#:#语言路径
 common#:#lang_pl#:#波兰语
-common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
+common#:#lang_pt#:#葡萄牙语
 common#:#lang_se#:#瑞典语
-common#:#lang_sep_decimal#:#.
-common#:#lang_sep_thousand#:#,
+common#:#lang_sep_decimal#:#。
+common#:#lang_sep_thousand#:#，
 common#:#lang_timeformat#:#小时分秒
-common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
+common#:#lang_ua#:#乌克兰语
 common#:#lang_version#:#1
 common#:#lang_xx#:#自定义
-common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
+common#:#lang_zh#:#简体汉语
 common#:#langfile_found#:#找到语言文件
 common#:#language#:#语言
 common#:#language_not_installed#:#未安装。请先语言
@@ -608,10 +608,10 @@ common#:#last_visit#:#上次访问
 common#:#lastname#:#姓
 common#:#launch#:#推出
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
-common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
-common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
+common#:#ldap_edit_permission#:#更改许可设置
+common#:#ldap_read#:#LDAP设置为读访问
+common#:#ldap_visible#:#LDAP设置可视
+common#:#ldap_write#:#编辑LDAP设置
 common#:#learning_objects#:#学习对象
 common#:#learning_resources#:#学习资源
 common#:#level#:#水平
@@ -622,23 +622,23 @@ common#:#list_of_questions#:#问题列表
 common#:#literature#:#文献
 common#:#literature_bookmarks#:#文献书签
 common#:#lm#:#学习模块
-common#:#lm_a#:#一个学习模块###13 Jan 2004 content changed
+common#:#lm_a#:#一个学习模块
 common#:#lm_add#:#增加学习模块
-common#:#lm_added#:#学习模块已增加###13 Jan 2004 content changed
-common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
-common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
-common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
-common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
+common#:#lm_added#:#学习模块已增加
+common#:#lm_create#:#创建学习模块
+common#:#lm_delete#:#删除学习模块
+common#:#lm_edit_permission#:#更改许可设置
+common#:#lm_join#:#注册到学习模块
+common#:#lm_leave#:#从学习模块中注销
 common#:#lm_new#:#新学习模块
-common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
-common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
-common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
+common#:#lm_read#:#学习模块设为读访问
+common#:#lm_visible#:#学习模块可视
+common#:#lm_write#:#编辑学习模块
 common#:#lng#:#语言
-common#:#lngf#:#语言文件夹###13 Jan 2004 content changed
-common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
-common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
+common#:#lngf#:#语言文件夹
+common#:#lngf_edit_permission#:#更改许可设置
+common#:#lngf_read#:#语言设置为读访问
+common#:#lngf_visible#:#语言设置可视
 common#:#lo#:#学习对象
 common#:#lo_available#:#学习模块及课程概观
 common#:#lo_categories#:#学习对象类别
@@ -668,7 +668,7 @@ common#:#mail_d_drafts#:#草稿
 common#:#mail_delete_error#:#删除时出错
 common#:#mail_delete_error_file#:#删除文件时出错
 common#:#mail_e_sent#:#发送
-common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#mail_edit_permission#:#更改语言设置
 common#:#mail_folders#:#邮件夹
 common#:#mail_intern_enable#:#激活
 common#:#mail_mails_of#:#邮件
@@ -678,24 +678,24 @@ common#:#mail_maxsize_mail#:#邮件最大字节数
 common#:#mail_maxtime_attach#:#附件保存最多天数
 common#:#mail_maxtime_mail#:#邮件保存最多天数
 common#:#mail_not_sent#:#邮件未被发送！
-common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
+common#:#mail_read#:#邮件设置为读访问
 common#:#mail_search_no#:#未找到条目
 common#:#mail_search_word#:#搜索词
 common#:#mail_select_one#:#您必须选择一个邮件
 common#:#mail_send_error#:#发送邮件出错
 common#:#mail_sent#:#邮件已发送！
-common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
+common#:#mail_smtp_mail#:#用户可通过SMTP发送邮件
 common#:#mail_system#:#系统消息
-common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
-common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
-common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
+common#:#mail_system_message#:#用户可以发送内部系统消息
+common#:#mail_visible#:#邮件设置可视
+common#:#mail_write#:#编辑邮件设置
 common#:#mail_z_local#:#用户文件夹
 common#:#mails#:#邮件
 common#:#mark_all_read#:#全部邮件标记为已读
 common#:#mark_all_unread#:#全部邮件标记为未读
 common#:#member#:#成员
-common#:#members#:#成�
-common#:#membership_annulled#:#Your membership has been cancelled�###17 Dec 2003 new variable
+common#:#members#:#成员
+common#:#membership_annulled#:#您的成员资格已被取消!
 common#:#message#:#消息
 common#:#message_content#:#消息内容
 common#:#message_to#:#消息发送到
@@ -705,7 +705,7 @@ common#:#mob#:#媒体对象
 common#:#module#:#模块
 common#:#modules#:#模块
 common#:#month#:#月
-common#:#move#:#Move###20 Jan 2004 new variable
+common#:#move#:#移
 common#:#moveChapter#:#移
 common#:#movePage#:#移
 common#:#move_to#:#移到
@@ -733,7 +733,7 @@ common#:#msg_multi_language_selected#:#您为不同的翻译选择了相同的�
 common#:#msg_no_default_language#:#未指定缺省语言！您必须定义一个语言为缺省语言。
 common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
+common#:#msg_no_perm_assign_role_to_user#:#您没有更改用户角色分配的许可
 common#:#msg_no_perm_copy#:#您无权限拷贝下列对象
 common#:#msg_no_perm_create#:#您无权限创建下列对象
 common#:#msg_no_perm_create_object1#:#您无权限创建
@@ -750,20 +750,20 @@ common#:#msg_no_perm_modify_rolt#:#您无权限修改角色模板
 common#:#msg_no_perm_modify_user#:#您无权限修改用户日期　
 common#:#msg_no_perm_paste#:#您无权限粘贴下列对象
 common#:#msg_no_perm_perm#:#您无权限编辑权限设置
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###17 Dec 2003 new variable
+common#:#msg_no_perm_undelete#:#您没有恢复下列对象的许可
 common#:#msg_no_perm_write#:#您无写权限
 common#:#msg_no_rolf_allowed1#:#对象
 common#:#msg_no_rolf_allowed2#:#不允许包含角色夹
 common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管理员角色，您不可以指定其他用户为系统管理员角色
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
+common#:#msg_not_possible_link#:#不可以创建对象联接类型
 common#:#msg_nothing_found#:#无任何发现
 common#:#msg_obj_created#:#已创建对象。
 common#:#msg_obj_exists#:#此对象已存在于文件夹中
 common#:#msg_obj_modified#:#已保存修改。
-common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
 common#:#msg_perm_adopted_from1#:#权限设置取纳于
 common#:#msg_perm_adopted_from2#:#（已保存设置！）
 common#:#msg_perm_adopted_from_itself#:#您不能从当前角色或角色模板本身取得权限。
@@ -805,7 +805,7 @@ common#:#no_grp_in_personal_list#:#个人列表中无组。
 common#:#no_import_available#:#类型无导入
 common#:#no_lo_in_personal_list#:#个人列表中无学习对象。
 common#:#no_objects#:#无对象
-common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
+common#:#no_permission_to_join#:#您不允许加入此组！
 common#:#no_title#:#无标题
 common#:#none#:#无
 common#:#normal#:#正常
@@ -817,7 +817,7 @@ common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部
 common#:#obj_cat#:#类别
 common#:#obj_crs#:#课程
 common#:#obj_dbk#:#数字图书
-common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
+common#:#obj_exc#:#练习
 common#:#obj_file#:#文件
 common#:#obj_fold#:#文件夹
 common#:#obj_frm#:#论坛
@@ -832,7 +832,7 @@ common#:#obj_lngf_desc#:#在此管理系统语言
 common#:#obj_lo#:#学习对象
 common#:#obj_mail#:#邮件设置
 common#:#obj_mail_desc#:#在此配置全局邮件设置
-common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
+common#:#obj_mob#:#多媒体对象
 common#:#obj_not_found#:#未找到对象
 common#:#obj_note#:#注解
 common#:#obj_notf#:#注解管理
@@ -840,17 +840,17 @@ common#:#obj_objf#:#对象定义
 common#:#obj_objf_desc#:#管理ILIAS对象类型和对象权限。（只适用于专家！）
 common#:#obj_owner#:#此对象拥有者为
 common#:#obj_pg#:#页
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_qpl#:#问题集
 common#:#obj_role#:#角色
 common#:#obj_rolf#:#角色
 common#:#obj_rolf_desc#:#在此管理角色
 common#:#obj_rolf_local#:#局部角色
 common#:#obj_rolf_local_desc#:#所包含的局部角色的对象为
 common#:#obj_rolt#:#角色模板
-common#:#obj_root#:#根目录###13 Jan 2004 content changed
-common#:#obj_slm#:#SCORM学习模块###31 Jan 2004 content changed
+common#:#obj_root#:#根目录
+common#:#obj_slm#:#SCORM学习模块
 common#:#obj_st#:#章
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#测试
 common#:#obj_typ#:#对象类型定义
 common#:#obj_type#:#对象类型定义
 common#:#obj_uset#:#用户设置
@@ -859,12 +859,12 @@ common#:#obj_usrf#:#用户账号
 common#:#obj_usrf_desc#:#在此管理用户账号
 common#:#objects#:#对象
 common#:#objf#:#对象定义
-common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
-common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
-common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
+common#:#objf_edit_permission#:#更改许可设置
+common#:#objf_read#:#对象定义设为读访问
+common#:#objf_visible#:#对象定义可视
+common#:#objf_write#:#编辑对象定义
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
-common#:#objs_confirm#:#Confirm Action###17 Dec 2003 new variable
+common#:#objs_confirm#:#确定操作
 common#:#objs_crs#:#Courses###18 Feb 2004 new variable
 common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
 common#:#objs_delete#:#删除对象
@@ -915,10 +915,10 @@ common#:#paste#:#粘贴
 common#:#pasteChapter#:#粘贴
 common#:#pastePage#:#粘贴
 common#:#path#:#路径
-common#:#path_not_set#:#Path not set###17 Dec 2003 new variable
+common#:#path_not_set#:#未设定路径
 common#:#path_to_babylon#:#到Babylon翻译器的路径
 common#:#path_to_convert#:#到转换器的路径
-common#:#path_to_htmldoc#:#Path to HTMLdoc###17 Dec 2003 new variable
+common#:#path_to_htmldoc#:#到HTMLdoc的路径
 common#:#path_to_java#:#到Java的路径
 common#:#path_to_unzip#:#到Unzip的路径
 common#:#path_to_zip#:#到Zip的路径
@@ -927,7 +927,7 @@ common#:#payment_system#:#付费系统
 common#:#perm_settings#:#权限
 common#:#permission#:#权限
 common#:#permission_denied#:#权限被拒绝
-common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#permission_settings#:#许可设置
 common#:#personal_data#:#个人信息
 common#:#personal_desktop#:#个人桌面
 common#:#personal_picture#:#个人图片
@@ -951,7 +951,7 @@ common#:#presentation_options#:#演示选项
 common#:#previous#:#前一个
 common#:#print#:#打印
 common#:#profile_changed#:#您的档案已更改
-common#:#profile_of#:#Profile of###17 Dec 2003 new variable
+common#:#profile_of#:#简历
 common#:#properties#:#属性
 common#:#pub_section#:#公共部分
 common#:#public_profile#:#公共档案
@@ -959,16 +959,16 @@ common#:#publication#:#公布
 common#:#publication_date#:#公布日期
 common#:#published#:#已出版
 common#:#publishing_organisation#:#出版组织
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#问题集
+common#:#qpl_add#:#增加问题集
+common#:#qpl_delete#:#删除问题集
+common#:#qpl_edit_permission#:#更改许可设置
+common#:#qpl_new#:#新问题集
+common#:#qpl_read#:#问题集设为读访问
+common#:#qpl_visible#:#问题集可视
+common#:#qpl_write#:#编辑问题集
 common#:#question#:#问题
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#问题集
 common#:#quit#:#离开
 common#:#quote#:#引用
 common#:#read#:#读
@@ -977,12 +977,12 @@ common#:#refresh#:#更新
 common#:#refresh_languages#:#更新语言
 common#:#refresh_list#:#更新列表
 common#:#register#:#注册
-common#:#register_info#:#请填写表格注册（标记星号的格为必填项）。###09 Feb 2004 content changed
+common#:#register_info#:#请填写表格注册（标记星号的格为必填项）。
 common#:#registered_since#:#注册于
 common#:#registered_user#:#已注册用户
 common#:#registered_users#:#已注册用户
 common#:#registration#:#新账号注册
-common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
+common#:#registration_expired#:#注册时间已过期...
 common#:#remove#:#撤除
 common#:#remove_translation#:#删除翻译
 common#:#rename#:#重新命名
@@ -1004,28 +1004,28 @@ common#:#role_deleted#:#已删除角色
 common#:#role_edit#:#编辑角色
 common#:#role_new#:#新角色
 common#:#roles#:#角色
-common#:#rolf#:#角色夹###13 Jan 2004 content changed
+common#:#rolf#:#角色夹
 common#:#rolf_added#:#已增加角色夹
-common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
-common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
-common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
-common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
-common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_create_role#:#创建新角色定义
+common#:#rolf_create_rolt#:#创建新角色定义模板
+common#:#rolf_delete#:#删除角色模板
+common#:#rolf_edit_permission#:#更改许可设置
+common#:#rolf_edit_userassignment#:#更改角色的用户分配
+common#:#rolf_read#:#角色模板设为读访问
+common#:#rolf_visible#:#角色模板可视
+common#:#rolf_write#:#编辑角色模板
 common#:#rolt#:#角色模板
 common#:#rolt_a#:#一个角色模板
 common#:#rolt_add#:#增加角色模板
 common#:#rolt_added#:#已增加角色模板
 common#:#rolt_edit#:#编辑角色模板
 common#:#rolt_new#:#新角色模板
-common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
-common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
-common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
-common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
+common#:#root_create_cat#:#用户可以创建类别
+common#:#root_edit#:#编辑系统根节点
+common#:#root_edit_permission#:#更改许可设置
+common#:#root_read#:#ILIAS系统设为读访问
+common#:#root_visible#:#ILIAS系统可视
+common#:#root_write#:#编辑ILIAS根节点数据
 common#:#salutation#:#问候
 common#:#salutation_f#:#先生/女士
 common#:#salutation_m#:#先生
@@ -1054,7 +1054,7 @@ common#:#sent#:#已发送
 common#:#sequence#:#顺序
 common#:#sequences#:#顺序
 common#:#server#:#服务器
-common#:#server_data#:#Server data ###17 Dec 2003 new variable
+common#:#server_data#:#服务器数据
 common#:#server_software#:#服务器软件
 common#:#set#:#设定
 common#:#setSystemLanguage#:#设定系统语言
@@ -1068,16 +1068,16 @@ common#:#show_members#:#显示成员
 common#:#show_owner#:#显示拥有者
 common#:#show_structure#:#激活结构化视图
 common#:#signature#:#签名
-common#:#slm#:#SCORM学习模块###13 Jan 2004 content changed
-common#:#slm_added#:#已增加SCORM学习模块###13 Jan 2004 content changed
-common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm#:#SCORM学习模块
+common#:#slm_added#:#已增加SCORM学习模块
+common#:#slm_create#:#创建SCORM学习模块
+common#:#slm_delete#:#删除SCORM学习模块
+common#:#slm_edit_permission#:#更改许可设置
+common#:#slm_join#:#注册到SCORM学习模块
+common#:#slm_leave#:#从SCORM学习模块中注销
+common#:#slm_read#:#SCORM学习模块设为读访问
+common#:#slm_visible#:#SCORM学习模块可视
+common#:#slm_write#:#编辑SCORM学习模块
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#根据此列分类
 common#:#st_a#:#一章
@@ -1106,11 +1106,11 @@ common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#term#:#术语
 common#:#test_intern#:#内部测试
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#测试
 common#:#time#:#时间
 common#:#title#:#标题
 common#:#to#:#到
-common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
+common#:#to_client_list#:#到客户选择
 common#:#to_desktop#:#订阅
 common#:#today#:#今日
 common#:#total#:#总计
@@ -1118,14 +1118,14 @@ common#:#tpl_path#:#模板路径
 common#:#translation#:#翻译
 common#:#trash#:#拉圾箱
 common#:#treeview#:#树形视图
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#测验e
+common#:#tst_add#:#增加测验
+common#:#tst_delete#:#删除测验
+common#:#tst_edit_permission#:#更改许可设置
+common#:#tst_new#:#新测验
+common#:#tst_read#:#测试设为读访问
+common#:#tst_visible#:#测验可视
+common#:#tst_write#:#编辑测验
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。
@@ -1149,7 +1149,7 @@ common#:#user_added#:#用户已增加
 common#:#user_assignment#:#用户指派
 common#:#user_deleted#:#用户已删除
 common#:#user_language#:#用户语言
-common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
+common#:#user_not_chosen#:#您没有选择一个组成员！
 common#:#userdata#:#用户数据
 common#:#username#:#用户名
 common#:#users#:#用户
@@ -1162,16 +1162,16 @@ common#:#usr_agreement#:#用户协议
 common#:#usr_agreement_empty#:#协议无文本
 common#:#usr_edit#:#编辑用户
 common#:#usr_new#:#新用户
-common#:#usr_skin_style#:#Skin / Style###17 Dec 2003 new variable
+common#:#usr_skin_style#:#外壳/风格
 common#:#usr_style#:#用户风格
-common#:#usrf#:#用户文件夹###13 Jan 2004 content changed
-common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
-common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
-common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
-common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
-common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
-common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
+common#:#usrf#:#用户文件夹
+common#:#usrf_create_user#:#创建新用户账号
+common#:#usrf_delete#:#删除用户账号
+common#:#usrf_edit_permission#:#更改许可设置
+common#:#usrf_edit_roleassignment#:#更改用户账号角色分配
+common#:#usrf_read#:#用户账号设为读访问
+common#:#usrf_visible#:#用户账号可视
+common#:#usrf_write#:#编辑用户账号
 common#:#validate#:#验证
 common#:#value#:#值
 common#:#version#:#版本
@@ -1180,21 +1180,21 @@ common#:#view_content#:#视图内容
 common#:#visible_layers#:#可见层
 common#:#visits#:#访问
 common#:#week#:#星期
-common#:#welcome#:#Welcome###20 Jan 2004 new variable
+common#:#welcome#:#欢迎
 common#:#who_is_online#:#谁在线？
 common#:#with#:#同
 common#:#write#:#白色
 common#:#yes#:#是
 common#:#you_may_add_local_roles#:#您可以增加局部角色
 common#:#your_message#:#您的消息
-common#:#zip#:#Postal Code###17 Dec 2003 new variable
+common#:#zip#:#邮政编码
 common#:#zipcode#:#邮政编码
 content#:#HTML export#:#HTML导出t
 content#:#PDF export#:#PDF导出
 content#:#Pages#:#页
 content#:#all#:#全部
 content#:#cont_Alphabetic#:#按照字母次序 A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#圆
 content#:#cont_Citation#:#引用
 content#:#cont_Example#:#例子
 content#:#cont_Headline1#:#标题　１
@@ -1204,19 +1204,19 @@ content#:#cont_List#:#列表
 content#:#cont_LocalFile#:#局部文件
 content#:#cont_Mnemonic#:#记忆的
 content#:#cont_Number#:#数字
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:# 多边形
+content#:#cont_Rect#:#长方形
 content#:#cont_Reference#:#参考
 content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...
 content#:#cont_Unordered#:#未排序的
-content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
+content#:#cont_add_area#:#增加区域
 content#:#cont_add_definition#:#增加定义
 content#:#cont_added_term#:#术语已增加
 content#:#cont_all_definitions#:#全部定义
 content#:#cont_all_pages#:#全部页
 content#:#cont_alphabetic#:#按照字母次序 a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#映射已删除的区域。
 content#:#cont_assign_full#:#指定全屏幕
 content#:#cont_assign_std#:#指定标准
 content#:#cont_assign_translation#:#指定翻译
@@ -1237,16 +1237,16 @@ content#:#cont_choose_glossary#:#选择术语表
 content#:#cont_citation_err_one#:#您必须确实选择一个版本
 content#:#cont_citation_selection_not_valid#:#您的选择无效
 content#:#cont_citations#:#引用
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#请点击目标区域右下角。
+content#:#cont_click_center#:#请点击目标区域中心。
+content#:#cont_click_circle#:#请点击目标区域圆周上一点。
+content#:#cont_click_next_or_save#:#请点击多边形的下一点或保存此区域。（不必再次点击此多边形的起始点！）
+content#:#cont_click_next_point#:#请点击此多边形的下一点。
+content#:#cont_click_starting_point#:#请点击此多边形的起始点。
+content#:#cont_click_tl_corner#:#请点击目标区域的左上角。
 content#:#cont_content#:#内容
 content#:#cont_content_obj#:#内容对象
-content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
+content#:#cont_coords#:#坐标
 content#:#cont_create_dir#:#创建目录
 content#:#cont_cross_reference#:#交叉参考
 content#:#cont_data_from_lms#:#adlcp来自于学习管理系统的数据
@@ -1267,17 +1267,17 @@ content#:#cont_edit_par#:#编辑段落
 content#:#cont_edit_tab_properties#:#表格属性
 content#:#cont_edit_term#:#编辑术语
 content#:#cont_edition#:#版本
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#外部的
 content#:#cont_file#:#文件
 content#:#cont_files#:#文件
 content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。
 content#:#cont_fullscreen#:#全屏幕
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#获取链接
 content#:#cont_height#:#高
 content#:#cont_how_published#:#如何发行的
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
+content#:#cont_imagemap#:#图象图
 content#:#cont_import_id#:#标识
 content#:#cont_insert_file_item#:#插入文件项
 content#:#cont_insert_file_list#:#插入文件列表
@@ -1286,7 +1286,7 @@ content#:#cont_insert_mob#:#插入媒体对象
 content#:#cont_insert_par#:#插入段落
 content#:#cont_insert_search#:#请插入一个搜索术语
 content#:#cont_insert_table#:#插入表格
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#内部的
 content#:#cont_internal_link#:#内部链接
 content#:#cont_is_visible#:#可见
 content#:#cont_isbn#:#ISBN
@@ -1294,9 +1294,9 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#项
 content#:#cont_journal#:#杂志
 content#:#cont_keyword#:#关键字
-content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link#:#链接
+content#:#cont_link_ext#:#链接（外部）
+content#:#cont_link_int#:#链接（内部）
 content#:#cont_link_select#:#内部链接
 content#:#cont_link_type#:#链接类型
 content#:#cont_list_properties#:#列表属性
@@ -1313,17 +1313,17 @@ content#:#cont_lk_term#:#术语表中的术语
 content#:#cont_lk_term_new#:#术语表中的术语（新框架）
 content#:#cont_lm_properties#:#学习模块属性
 content#:#cont_manifest#:#声明
-content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
+content#:#cont_map_areas#:#链接区域
 content#:#cont_mastery_score#:#adlcp技能分数
 content#:#cont_max_time_allowed#:#adlcp允许的最长时间
 content#:#cont_mob_files#:#对象文件
 content#:#cont_mob_inst_prop#:#即时属性
 content#:#cont_mob_prop#:#对象属性
-content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
+content#:#cont_mob_usages#:#应用
 content#:#cont_month#:#月
 content#:#cont_msg_multiple_editions#:#不能显示多个版本的详细情况
-content#:#cont_name#:#Name###14 Jan 2004 new variable
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_name#:#名字
+content#:#cont_new_area#:#新链接区域
 content#:#cont_new_assignment#:#新作业
 content#:#cont_new_dir#:#新目录
 content#:#cont_new_file#:#新文件
@@ -1360,16 +1360,16 @@ content#:#cont_resource#:#资源
 content#:#cont_resource_type#:#类型
 content#:#cont_resources#:#资源
 content#:#cont_roman#:#罗马数字 i, ii, …
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
-content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_saved_map_area#:#已存映射区域
+content#:#cont_saved_map_data#:#已存映射日期
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校
 content#:#cont_scorm_type#:#adlcpscorm类型
 content#:#cont_select_max_one_item#:#请只选择一项
 content#:#cont_select_max_one_term#:#只选择一项
-content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
+content#:#cont_select_one_edition#:#请至少选择一个版本。
 content#:#cont_select_one_translation#:#请选择一种翻译
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
+content#:#cont_select_one_translation_warning#:#最多只能显示一个的翻译。
 content#:#cont_select_term#:#选择一项
 content#:#cont_select_translation#:#请从上述列表选择任务
 content#:#cont_series#:#系列
@@ -1378,11 +1378,11 @@ content#:#cont_series_title#:#系列标题
 content#:#cont_series_volume#:#系列卷
 content#:#cont_set_class#:#设置班级
 content#:#cont_set_width#:#设置宽度
-content#:#cont_shape#:#Shape###14 Jan 2004 new variable
+content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
 content#:#cont_show_citation#:#具有引用的显示
 content#:#cont_size#:#大小（字节）
-content#:#cont_source#:#Quelle
+content#:#cont_source#:#原始资料
 content#:#cont_st_title#:#章标题
 content#:#cont_std_is_in_dir#:#不能删除。标准视图文件在目录中。
 content#:#cont_std_view#:#标准视图
@@ -1401,7 +1401,7 @@ content#:#cont_toc#:#目录
 content#:#cont_top#:#向上
 content#:#cont_translations#:#翻译
 content#:#cont_translations_assigned#:#已指定翻译
-content#:#cont_update#:#Update###15 Jan 2004 new variable
+content#:#cont_update#:#更新
 content#:#cont_upload_file#:#上载文件
 content#:#cont_url#:#URL
 content#:#cont_version#:#版本
@@ -1421,8 +1421,8 @@ forum#:#forums_articles#:#文章
 forum#:#forums_attachments#:#附件
 forum#:#forums_attachments_add#:#增加附件
 forum#:#forums_attachments_edit#:#编辑附件
-forum#:#forums_available#:#可用论�
-forum#:#forums_censor_comment#:#Comment of Censor�###17 Dec 2003 new variable
+forum#:#forums_available#:#可用论坛
+forum#:#forums_censor_comment#:#审查注释
 forum#:#forums_count#:#论坛数
 forum#:#forums_count_art#:#文章数
 forum#:#forums_count_thr#:#论题数
@@ -1443,7 +1443,7 @@ forum#:#forums_post_modified#:#文章已修改
 forum#:#forums_post_new_entry#:#新文章已登记
 forum#:#forums_posts#:#全部文章
 forum#:#forums_posts_not_available#:#文章不可用
-forum#:#forums_print_thread#:#Print Thread###17 Dec 2003 new variable
+forum#:#forums_print_thread#:#打印线索
 forum#:#forums_quote#:#引用
 forum#:#forums_respond#:#张贴答复
 forum#:#forums_the_post#:#文章
@@ -1491,10 +1491,10 @@ mail#:#mail_folder_name_changed#:#文件夹已改名
 mail#:#mail_folder_options#:#文件夹选项
 mail#:#mail_following_rcp_not_valid#:#下列收件人无效
 mail#:#mail_global_options#:#全局选项
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
+mail#:#mail_incoming#:#进入的邮件
+mail#:#mail_incoming_both#:#本地的和转发的
+mail#:#mail_incoming_local#:#只是本地的
+mail#:#mail_incoming_smtp#:#转发到邮件地址
 mail#:#mail_insert_folder_name#:#请插入文件夹名
 mail#:#mail_insert_query#:#请插入询问
 mail#:#mail_intern#:#内部的
@@ -1509,9 +1509,9 @@ mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
 mail#:#mail_new_file#:#增加新文件
 mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
 mail#:#mail_no_attachments_found#:#未找到附件
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#您具有写外部邮件的许可
 mail#:#mail_options_of#:#选项
-mail#:#mail_options_saved#:#Options saved###17 Dec 2003 new variable
+mail#:#mail_options_saved#:#选项已存
 mail#:#mail_recipient_not_valid#:#收件人无效
 mail#:#mail_s#:#邮件
 mail#:#mail_s_unread#:#未读邮件
@@ -2058,38 +2058,38 @@ search#:#search_concatenation#:#连接
 search#:#search_content#:#页内容
 search#:#search_dbk_content#:#数字图书馆（内容）
 search#:#search_dbk_meta#:#数字图书馆（元数据）
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
-search#:#search_group#:#Groups###11 Dec 2003 new variable
+search#:#search_delete_sure#:#此对象及其内容将被永久删除
+search#:#search_group#:#组
 search#:#search_in_result#:#在结果中搜索
 search#:#search_lm_content#:#学习材料（内容）
 search#:#search_lm_meta#:#学习材料（元数据）
 search#:#search_meta#:#元数据
 search#:#search_minimum_three#:#搜索必须至少三个字符长
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
+search#:#search_move_folder_not_allowed#:#文件夹不能移动。
+search#:#search_move_to#:#移到：e
+search#:#search_my_search_results#:#我的搜索结果
+search#:#search_new_folder#:#新文件夹
 search#:#search_no_category#:#您未选择任何搜索种类
 search#:#search_no_match#:#搜索无任何匹配结果
-search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
+search#:#search_no_results_saved#:#未存任何结果。
 search#:#search_no_search_term#:#您未选择任何搜索术语
-search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
+search#:#search_no_selection#:#您未做任何选择。
+search#:#search_object_renamed#:#对象已更名。
+search#:#search_objects_deleted#:#对象已删除。
+search#:#search_objects_moved#:#对象已移动。
+search#:#search_one_action#:#选择一项操作。
+search#:#search_rename_title#:#题目更名
+search#:#search_results_saved#:#搜索已存结果
+search#:#search_save_as_select#:#存为：
 search#:#search_search_for#:#搜索
-search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
-search#:#search_search_results#:#Search results###11 Dec 2003 new variable
+search#:#search_search_no_results_saved#:#无任何已存搜索结果
+search#:#search_search_results#:#搜索结果
 search#:#search_search_term#:#搜索术语
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
+search#:#search_select_exactly_one_object#:#您只能选择一个对象。
+search#:#search_select_one#:#选择一个文件夹
+search#:#search_select_one_action#:#--选择一项操作--
+search#:#search_select_one_folder_select#:#--选择一个文件夹--
+search#:#search_select_one_result#:#至少选择一个搜索结果
+search#:#search_select_one_select#:#--选择一个文件夹--
 search#:#search_show_result#:#显示
 search#:#search_user#:#用户
