@@ -607,7 +607,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$right = 0;
 				foreach ($gap as $gapkey => $answer)
 				{
-					if (strcmp($results[$key]["value"], $answer->get_answertext()) == 0)
+					if (strcmp(strtolower($results[$key]["value"]), strtolower($answer->get_answertext())) == 0)
 					{
 						$right = 1;
 					}
