@@ -1,115 +1,120 @@
 <?php
-require_once('HTML/ITX.php');
-
 /**
 * special template class to simplify handling of ITX/PEAR
-* @author Stefan Kesseler <skesseler@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
-* @version $Id$
-* @package application
+* @author	Stefan Kesseler <skesseler@databay.de>
+* @author	Sascha Hofmann <shofmann@databay.de>
+* @version	$Id$
+* @package	application
 */
+
+require_once "HTML/ITX.php";
+
 class Template extends IntegratedTemplateExtension
 {
-    /**
+	/**
 	* variablen die immer in jedem block ersetzt werden sollen
-    * @var array
-    */
-    var $vars;
+	* @var	array
+	*/
+	var $vars;
 
-    /**
-    * Aktueller Block
-    * Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
-    * vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
-    */
-    var $activeBlock;
+	/**
+	* Aktueller Block
+	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
+	* vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
+	* @var	string
+	*/
+	var $activeBlock;
 
 	/**
 	* constructor
-	* @param string $file templatefile (mit oder ohne pfad)
-	* @param boolean $flag1 wie in IntegratedTemplate
-	* @param boolean $flag1 wie in IntegratedTemplate
-	* @param array $vars zu ersetzenden Variablen
-	* @access public
+	* @param	string	$file templatefile (mit oder ohne pfad)
+	* @param	boolean	$flag1 wie in IntegratedTemplate
+	* @param	boolean	$flag1 wie in IntegratedTemplate
+	* @param	array	$vars zu ersetzenden Variablen
+	* @access	public
 	*/
 	function Template($file,$flag1,$flag2,$vars="DEFAULT")
 	{
-        global $ilias;
+		global $ilias;
+
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 
-        if (strpos($file,"/")===false)
+		if (strpos($file,"/") === false)
 		{
-            $fname = $ilias->tplPath;
-		    $fname .= $ilias->account->skin."/";
+			$fname = $ilias->tplPath;
+			$fname .= $ilias->account->skin."/";
 			$fname .= basename($file);
-        }
+		}
 		else
 		{
-            $fname = $file;
-        }
+			$fname = $file;
+		}
+
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
 		
-        if (!file_exists($fname)) {
-            $ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);
-            return false;
-        }
+		if (!file_exists($fname))
+		{
+			$ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);
+			return false;
+		}
 
-        $this->IntegratedTemplateExtension(dirname($fname));
-        $this->loadTemplatefile(basename($fname), $flag1, $flag2);
+		$this->IntegratedTemplateExtension(dirname($fname));
+		$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
 
-        return true;
-    }
+		return true;
+	}
 
-/**
-* @param string
-*/
-    function get($part = "DEFAULT") {
+	/**
+	* ???
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	function get($part = "DEFAULT")
+	{
+		if ($part == "DEFAULT")
+		{
+			return parent::get();
+		}
+		else
+		{
+			return parent::get($part);
+		}
+	}
 
-        if ($part == "DEFAULT") {
-            return parent::get();
-        } else {
-            return parent::get($part);
-        }
-    }
+	/**
+	* @access	public
+	* @param	string
+	*/
+	function show($part = "DEFAULT")
+	{
+		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
+		if ($_SESSION["message"] || $_SESSION["info"])
+		{
+			$this->addBlockFile("MESSAGE", "message", "tpl.message.html");
+			$this->setCurrentBlock("message");
 
-/**
-* @param string
-*/
-    function show($part = "DEFAULT") {
+			$this->setVariable("MSG", $_SESSION["message"]);
+			session_unregister("message");
+
+			$this->parseCurrentBlock();
+		}
 
 		$this->fillVars();
 
-        // ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
-		if ($_SESSION["message"] || $_SESSION["info"])
+		if ($part == "DEFAULT")
 		{
-		   $this->addBlockFile("MESSAGE", "message", "tpl.message.html");
-		   $this->setCurrentBlock("message");
-   
-		   if($_SESSION["message"])
-		   {
-			  $this->setVariable("MSG", $_SESSION["message"]);
-			  session_unregister("message");
-		   }
-		   else
-		   {
-			  $this->setVariable("INFO",$_SESSION["info"]);
-			  session_unregister("info");
-		   }
-		   $this->parseCurrentBlock();
+			parent::show();
 		}
-
-        if ($part == "DEFAULT")
-		{
-            parent::show();
-        }
 		else
 		{
-            parent::show($part);
-        }
+			parent::show($part);
+		}
 
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
@@ -117,17 +122,20 @@ class Template extends IntegratedTemplateExtension
 			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
 			$_SESSION["post_vars"] = $_POST;
 		}
-    }
+	}
 
 	/**
-	* added by pg
+	* all template vars defined in $vars will be replaced automatically
+	* without setting and parsing them with setVariable & parseCurrentBlock
+	* @access	private
+	* @return	integer
 	*/
 	function fillVars()
 	{
-        $count = 0;
+		$count = 0;
 		reset($this->vars);
 
-        while(list($key, $val) = each($this->vars))
+		while(list($key, $val) = each($this->vars))
 		{
 			if (is_array($this->blockvariables[$this->activeBlock]))
 			{
@@ -138,148 +146,174 @@ class Template extends IntegratedTemplateExtension
 					$this->setVariable($key, $val);
 				}
 			}
-        }
+		}
 		
 		return $count;
 	}
 	
-    /**
-    *	überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
-    * @param string
-    */
-    function setCurrentBlock($part = "DEFAULT") {
-	    $this->activeBlock = $part;
+	/**
+	* überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
+	function setCurrentBlock ($part = "DEFAULT")
+	{
+		$this->activeBlock = $part;
 
-        if ($part == "DEFAULT") {
-            return parent::setCurrentBlock();
-        } else {
-            return parent::setCurrentBlock($part);
-        }
-    }
+		if ($part == "DEFAULT")
+		{
+			return parent::setCurrentBlock();
+		}
+		else
+		{
+			return parent::setCurrentBlock($part);
+		}
+	}
 
+	/**
+	* overwrites ITX::touchBlock.
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
 	function touchBlock($block)
 	{
 		$this->setCurrentBlock($block);
 		$count = $this->fillVars();
 		$this->parseCurrentBlock();
 		
-		if ($count == 0 )
+		if ($count == 0)
 		{
 			parent::touchBlock($block);
 		}
-		
 	}
 	
-    /**
-    *	überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
-    * @param string
-    */
-    function parseCurrentBlock($part = "DEFAULT") {
-
-	    // Hier erst noch ein replace aufrufen
-        if ($part != "DEFAULT") {
-	        $tmp = $this->activeBlock;
-	        $this->activeBlock = $part;
+	/**
+	* überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	function parseCurrentBlock($part = "DEFAULT")
+	{
+		// Hier erst noch ein replace aufrufen
+		if ($part != "DEFAULT")
+		{
+			$tmp = $this->activeBlock;
+			$this->activeBlock = $part;
 		}
 
-        if ($part != "DEFAULT") {
-	        $this->activeBlock = $tmp;
+		if ($part != "DEFAULT")
+		{
+			$this->activeBlock = $tmp;
 		}
 
 		$this->fillVars();
 
 		$this->activeBlock = "__global__";
 
-        if ($part == "DEFAULT") {
-            return parent::parseCurrentBlock();
-        } else {
-            return parent::parseCurrentBlock($part);
-        }
-    }
-
-
-    /**
-    *		$block = "anzeige_loop";
-            $conv = array("kd_pk"=>"kategorie_value",
-                "name"=>"kategorie_text");
-            $select = array("id"=>"kd_pk",
-                "value"=>$herecopy["pd_kategorie"],
-                "field"=>"kategorie_selected",
-                "text"=>"selected"
-                );
-		* @param string
-		* @param string
-		* @param string
-		* @param string
-    */
-    function replaceFromDatabase(&$DB,$block,$conv,$select="default") {
-
-       $res = $DB->selectDbAll();
-       while ($DB->getDbNextElement($res)) {
-          $this->setCurrentBlock($block);
-          $result = array();
-          reset($conv);
-          while (list ($key,$val) = each ($conv)) {
-              $result[$val]=$DB->element->data[$key];
-          }
-
-          if (
-                ($select != "default")
-                &&
-                (
-                    $DB->element->data[$select["id"]]==$select["value"]
-                    ||
-                    (
-                        strtolower($select["text"]) == "checked"
-                        &&
-                        strpos( ",,".$select["value"].",," , ",".$DB->element->data[$select["id"]]."," )!=false
-                    )
-                )
-              ) {
-              $result[$select["field"]] = $select["text"];
-          }
-          $this->replace($result);
-          $this->parseCurrentBlock($block);
-       }
-    }
-
-       /**
-       *    Wird angewendet, wenn die Daten in ein Formular replaced werden sollen,
-       *    Dann wird erst noch ein htmlspecialchars drumherum gemacht.
-       * @param string
-       */
-    function prepareForFormular($vars) {
-        if (!is_array($vars))  return;
-        reset($vars);
-        while(list($i) = each($vars)) {
-            $vars[$i] = stripslashes($vars[$i]);
-            $vars[$i] = htmlspecialchars($vars[$i]);
-        }
-        return($vars);
-    }
-
-    /**
-    * @param string
-    * @param string
-    */
-    function replace()
-	{
-        reset($this->vars);
-        while(list($key, $val) = each($this->vars))
+		if ($part == "DEFAULT")
 		{
-            $this->setVariable($key, $val);
-        }
-    }
+			return parent::parseCurrentBlock();
+		}
+		else
+		{
+			return parent::parseCurrentBlock($part);
+		}
+	}
 
-    function replaceDefault() {
-	    $this->replace($this->vars);
-    }
+	/**
+	* ???
+	* TODO: Adjust var names to ilias. This method wasn't used so far
+	* and isn't translated yet
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	string
+	* @param	string
+	*/
+	function replaceFromDatabase(&$DB,$block,$conv,$select="default")
+	{
+		$res = $DB->selectDbAll();
+
+		while ($DB->getDbNextElement($res))
+		{
+			$this->setCurrentBlock($block);
+			$result = array();
+			reset($conv);
+
+			while (list ($key,$val) = each ($conv))
+			{
+				$result[$val]=$DB->element->data[$key];
+			}
+
+			if (($select != "default")
+				&& ($DB->element->data[$select["id"]]==$select["value"]
+				|| (strtolower($select["text"]) == "checked"
+				&& strpos( ",,".$select["value"].",," , ",".$DB->element->data[$select["id"]]."," )!=false)))
+			{
+				$result[$select["field"]] = $select["text"];
+			}
+			
+			$this->replace($result);
+			$this->parseCurrentBlock($block);
+		}
+	}
+
+	/**
+	* Wird angewendet, wenn die Daten in ein Formular replaced werden sollen,
+	* Dann wird erst noch ein htmlspecialchars drumherum gemacht.
+	* @access	public
+	* @param	string
+	*/
+	function prepareForFormular($vars)
+	{
+		if (!is_array($vars))
+		{
+			return;
+		}
+
+		reset($vars);
+
+		while (list($i) = each($vars))
+		{
+			$vars[$i] = stripslashes($vars[$i]);
+			$vars[$i] = htmlspecialchars($vars[$i]);
+		}
+
+		return($vars);
+	}
+
+	/**
+	* ???
+	* @access	public
+	*/
+	function replace()
+	{
+		reset($this->vars);
+
+		while(list($key, $val) = each($this->vars))
+		{
+			$this->setVariable($key, $val);
+		}
+	}
+
+	/**
+	* ???
+	* @access	public
+	*/
+	function replaceDefault()
+	{
+		$this->replace($this->vars);
+	}
 
 	/**
 	* checks for a topic in the template
-	* @param	string
-	* @param	string
 	* @access	private
+ 	* @param	string
+	* @param	string
+	* @return	boolean
 	*/
 	function checkTopic($a_block, $a_topic)
 	{
@@ -288,7 +322,8 @@ class Template extends IntegratedTemplateExtension
 	
 	/**
 	* check if there is a NAVIGATION-topic
-	* @access public
+	* @access	public
+	* @return	boolean
 	*/
 	function includeNavigation()
 	{
@@ -297,18 +332,32 @@ class Template extends IntegratedTemplateExtension
 	
 	/**
 	* check if there is a TREE-topic
-	* @access public
+	* @access	public
+	* @return	boolean
 	*/
 	function includeTree()
 	{
 		return $this->checkTopic("__global__", "TREE");
 	}
-	
+
+	/**
+	* check if a file exists
+	* @access	public
+	* @return	boolean
+	*/
 	function fileExists($filename)
 	{
 		return file_exists($this->tplPath."/".$filename);
 	}
 	
+	/**
+	* overwrites ITX::addBlockFile
+	* @access	public
+	* @param	string
+	* @param	string
+	* @param	string
+	* @return	boolean/string
+	*/
 	function addBlockFile($var, $block, $tplname)
 	{
 		if (DEBUG)
@@ -318,11 +367,11 @@ class Template extends IntegratedTemplateExtension
 		
 		if (file_exists($this->tplPath."/".$tplname) == false)
 		{
-		    echo "<br/>Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...";
+			echo "<br/>Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...";
 			return false;
 		}
+
 		return parent::addBlockFile($var, $block, $tplname);
 	}
 }
-
 ?>
