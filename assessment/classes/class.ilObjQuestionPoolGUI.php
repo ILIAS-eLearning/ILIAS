@@ -95,8 +95,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 *
 * @access private
 */
-  function cancel_action() {
-    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+  function cancel_action($question_id = "") {
+		if ($_SESSION["test_id"])
+		{
+			if ($question_id) {
+				$add_question = "&add=$question_id";
+			}
+	    header("location:" . "test.php" . "?ref_id=" . $_SESSION["test_id"] . "&cmd=questions$add_question");
+		} 
+			else
+		{
+	    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+		}
   }
 
 /**
@@ -153,7 +163,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       // Save and back to question pool
       if (!$missing_required_fields) {
         $question->save_to_db();
-        $this->cancel_action();
+        $this->cancel_action($question->get_id());
         exit();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
@@ -241,10 +251,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       return;
     }
 
+		if ($_GET["create"]) 
+		{
+			// create a new question out of a test
+			$this->set_question_form($_GET["create"]);
+			return;
+		}
+		
     if ($_POST["cmd"]["create"]) {
       $this->set_question_form($_POST["sel_question_types"]);
       return;
     }
+
+		// reset test_id SESSION variable
+		$_SESSION["test_id"] = "";
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
     $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
