@@ -623,6 +623,7 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
+common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue
 common#:#copy#:#Copy
 common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
+common#:#count#:#Count
 common#:#country#:#Country
 common#:#course#:#Course
 common#:#courses#:#Courses
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Change permission settings
 common#:#ldap_read#:#Read access to LDAP settings
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
+common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
@@ -1482,7 +1485,6 @@ common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
 common#:#personal_profile#:#Personal Profile
 common#:#persons#:#Personen
-common#:#remove_personal_picture#:#Remove
 common#:#pg_a#:#a page
 common#:#pg_add#:#Add page
 common#:#pg_added#:#Page added
@@ -1536,6 +1538,7 @@ common#:#registered_users#:#registered Users
 common#:#registration#:#New account registration
 common#:#registration_expired#:#Registration period expired...
 common#:#remove#:#Remove
+common#:#remove_personal_picture#:#Remove
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#rename_file#:#Rename File
@@ -1593,6 +1596,7 @@ common#:#save_settings#:#Save Settings
 common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
+common#:#search_for#:#Search For
 common#:#search_in#:#Search in
 common#:#search_new#:#New Search
 common#:#search_recipient#:#Search Recipient
@@ -1661,6 +1665,7 @@ common#:#structure#:#Structure
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Subject
+common#:#subject_module#:#Subject Module
 common#:#submit#:#Submit
 common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
@@ -1693,9 +1698,14 @@ common#:#taxf_read#:#Read access to taxonomy folder
 common#:#taxf_visible#:#Taxonomy folder is visible
 common#:#taxf_write#:#Write access to taxonomy folder
 common#:#term#:#Term
+common#:#test#:#Test
 common#:#test_intern#:#Test Intern
+common#:#test_module#:#Test Module
 common#:#tests#:#Tests
 common#:#time#:#Time
+common#:#time_d#:#Day
+common#:#time_h#:#Hour
+common#:#time_segment#:#Time Segment
 common#:#title#:#Title
 common#:#to#:#To
 common#:#to_client_list#:#To Client selection
@@ -1746,6 +1756,7 @@ common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Users online
+common#:#usertracking#:#User Tracking
 common#:#usr#:#User
 common#:#usr_a#:#a User
 common#:#usr_add#:#Add User
@@ -2062,17 +2073,6 @@ content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total Time
 content#:#cont_tracking_data#:#Tracking Data
 content#:#cont_tracking_items#:#Tracking Items
-common#:#usertracking#:#User Tracking
-common#:#subject_module#:#Subject Module
-common#:#test_module#:#Test Module
-common#:#time_segment#:#Time Segment
-common#:#search_for#:#Search For
-common#:#time_h#:#Hour
-common#:#time_d#:#Day
-common#:#test#:#Test
-common#:#learning module#:#Learning Module
-common#:#client ip#:#Client Ip
-common#:#count#:#Count
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_update#:#Update

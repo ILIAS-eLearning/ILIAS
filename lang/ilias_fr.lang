@@ -623,6 +623,7 @@ common#:#choose_location#:#Choisissez l'emplacement
 common#:#choose_only_one_language#:#Veuillez ne choisir qu'une langue
 common#:#city#:#Ville
 common#:#clear#:#Effacer
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client IDe###26 Nov 2003 new variable
 common#:#clipboard#:#Presse-papier
 common#:#close#:#Fermer
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copie
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copie de
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Pays
 common#:#course#:#Cours
 common#:#courses#:#Cours
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new var
 common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
 common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
 common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Cours
 common#:#learning_resources#:#Ressources d'apprentissage
 common#:#level#:#Niveau
@@ -1535,6 +1538,7 @@ common#:#registered_users#:#Utilisateurs abonnés
 common#:#registration#:#Nouvel enregistrement de compte
 common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
 common#:#remove#:#Annuler###25 Mar 2004 content changed
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Supprimer la traduction
 common#:#rename#:#Renommer
 common#:#rename_file#:#Rename File###03 May 2004 new variable
@@ -1592,6 +1596,7 @@ common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
 common#:#saved#:#Enregistré
 common#:#saved_successfully#:#Enregistré avec succès
 common#:#search#:#Rechercher
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Rechercher dans
 common#:#search_new#:#Nouvelle recherche
 common#:#search_recipient#:#Rechercher destinataire
@@ -1660,6 +1665,7 @@ common#:#structure#:#Structure
 common#:#subcat_name#:#Nom de sous-catégorie
 common#:#subchapter_new#:#Nouveau sous-chapitre
 common#:#subject#:#Sujet
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Envoyer
 common#:#subobjects#:#SOus-objets
 common#:#subscription#:#Abonnement
@@ -1692,9 +1698,14 @@ common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
 common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Terme
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Test Interne
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#Heure
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Titre
 common#:#to#:#à
 common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
@@ -1745,6 +1756,7 @@ common#:#username#:#Nom d'utilisateur
 common#:#users#:#Utilisateurs
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Utilisateurs en ligne
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Utilisateur
 common#:#usr_a#:#un utilisateur
 common#:#usr_add#:#Ajouter utilisateur

@@ -623,6 +623,7 @@ common#:#choose_location#:#Виберіть Місце Знаходження
 common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
 common#:#city#:#Місто
 common#:#clear#:#Очистити
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID Клієнта
 common#:#clipboard#:#Буфер обміну
 common#:#close#:#Закрити
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Копіювати
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Копія
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Країна
 common#:#course#:#Курс
 common#:#courses#:#Курси
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Змінити настройки прав
 common#:#ldap_read#:#Доссут на читання до LDAP настроювань
 common#:#ldap_visible#:#LDAP настройки є видимі
 common#:#ldap_write#:#Редагувати LDAP настройки
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Учбові Об'єкти
 common#:#learning_resources#:#Учбові Ресурси
 common#:#level#:#Рівень
@@ -1535,6 +1538,7 @@ common#:#registered_users#:#зареєстровані Користувачі
 common#:#registration#:#Новий акаунт реєстрації
 common#:#registration_expired#:#Період реєстрації скінчився...
 common#:#remove#:#Вилучити###25 Mar 2004 content changed
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Видалити переклад
 common#:#rename#:#Переіменувати
 common#:#rename_file#:#Rename File###03 May 2004 new variable
@@ -1592,6 +1596,7 @@ common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
 common#:#saved#:#Збережено
 common#:#saved_successfully#:#Збережено Вдало
 common#:#search#:#Пошук
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Пошук в
 common#:#search_new#:#Новий Пошук
 common#:#search_recipient#:#Шукати Одержувача
@@ -1660,6 +1665,7 @@ common#:#structure#:#Структура
 common#:#subcat_name#:#Ім'я Підкатегорії
 common#:#subchapter_new#:#Нова Підглава
 common#:#subject#:#Тема
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Підтвердити
 common#:#subobjects#:#Підоб'єкти
 common#:#subscription#:#Підписка
@@ -1692,9 +1698,14 @@ common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
 common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Термін
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Тест Intern
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Тести
 common#:#time#:#Час
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Назва
 common#:#to#:#
 common#:#to_client_list#:#До Клієнтського вибору
@@ -1745,6 +1756,7 @@ common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Користувачі онлайн
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач
 common#:#usr_add#:#Додати Користувача

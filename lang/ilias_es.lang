@@ -623,6 +623,7 @@ common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#city#:#ciudad
 common#:#clear#:#-clear-
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID de Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#-Cerrar-
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#-copy-
 common#:#copyPage#:#Copy###07 June 2004 new variable
 common#:#copy_of#:#-Copia de-
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#país
 common#:#course#:#course
 common#:#courses#:#courses
@@ -1090,6 +1092,7 @@ common#:#ldap_edit_permission#:#Cambiar configuración de permisos
 common#:#ldap_read#:#Acceso de Lectura a LDAP
 common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Objetos de Aprendizaje
 common#:#learning_resources#:#Recursos de Aprendizaje
 common#:#level#:#nivel
@@ -1534,6 +1537,7 @@ common#:#registered_users#:#Usuarios registrados
 common#:#registration#:#Nuevo registro de cuenta
 common#:#registration_expired#:#Período de Registro expiró...
 common#:#remove#:#-Descartar-
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Eliminar traducción
 common#:#rename#:#Renombrar
 common#:#rename_file#:#Rename File###07 June 2004 new variable
@@ -1591,6 +1595,7 @@ common#:#save_settings#:#Guardar Configuración
 common#:#saved#:#guardado
 common#:#saved_successfully#:#guardado con éxito
 common#:#search#:#buscar
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#buscar en
 common#:#search_new#:#Nueva Búsqueda
 common#:#search_recipient#:#buscar destinatario
@@ -1659,6 +1664,7 @@ common#:#structure#:#estructura
 common#:#subcat_name#:#nombre de subcategoría
 common#:#subchapter_new#:#nuevo subcapítulo
 common#:#subject#:#asunto
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#enviar
 common#:#subobjects#:#Subobjetos
 common#:#subscription#:#subscripción
@@ -1691,9 +1697,14 @@ common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
 common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Term###16 Aug 2003 new variable
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#test intern
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#-time-
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#título
 common#:#to#:#to:
 common#:#to_client_list#:#Seleccionar Instalación
@@ -1744,6 +1755,7 @@ common#:#username#:#username
 common#:#users#:#usuarios
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados
 common#:#users_online#:#Usuarios online
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#usuario
 common#:#usr_a#:#un Usuario
 common#:#usr_add#:#Añadir Usuario
