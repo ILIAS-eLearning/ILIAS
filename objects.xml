@@ -380,7 +380,7 @@
 	<action name="clear">clear</action>
 	<action name="link">link</action>
 </object>
-<object name="qpl" class_name="QuestionPool" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="qpl" class_name="QuestionPool" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view" module="n">view</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="editMeta">meta_data</property>
@@ -389,7 +389,7 @@
 	<action name="delete">delete</action>
 	<action name="link">link</action>
 </object>
-<object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
@@ -401,7 +401,7 @@
 	<action name="delete">delete</action>
 	<action name="link">link</action>
 </object>
-<object name="svy" class_name="Survey" module="survey" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="svy" class_name="Survey" module="survey" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
@@ -413,7 +413,7 @@
 	<action name="delete">delete</action>
 	<action name="link">link</action>
 </object>
-<object name="spl" class_name="SurveyQuestionPool" module="survey" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="spl" class_name="SurveyQuestionPool" module="survey" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view" module="n">view</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="phrases" module="1">manage_phrases</property>
