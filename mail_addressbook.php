@@ -153,14 +153,42 @@ $tpl->setVariable("ACTION_SELECTED",$_POST["cmd"] == 'delete' ? 'selected' : '')
 $tpl->parseCurrentBlock();
 
 $entries = $abook->getEntries();
+$entries_count = count($entries);
+
+// TODO: READ FROM MAIL_OPTIONS
+$entries_max_hits = 20;
 
 // SHOW ENTRIES
 if($entries)
 {
 	$counter = 0;
 	$tpl->setCurrentBlock("addr_search");
+
 	foreach($entries as $entry)
 	{
+		// LINKBAR
+		if($entries_count > $entries_max_hits)
+		{
+			$params = array(
+				"mobj_id"		=> $_GET["mobj_id"]);
+		}
+		$start = $_GET["offset"];
+		$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$entries_count,$entries_max_hits,$start,$params);
+		if ($linkbar)
+		{
+			$tpl->setVariable("LINKBAR", $linkbar);
+		}
+		if($counter >= ($start+$entries_max_hits))
+		{
+			break;
+		}
+		if($counter < $start)
+		{
+			++$counter;
+			continue;
+		}
+		// END LINKBAR
+
 		$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 		if(is_array($_POST["entry_id"]))
 		{

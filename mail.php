@@ -216,9 +216,36 @@ $tpl->setVariable("ACTION_FLAT","mail.php");
 
 // BEGIN MAILS
 $mail_data = $umail->getMailsOfFolder($_GET["mobj_id"]);
+$mail_count = count($mail_data);
+
+// TODO: READ FROM MAIL_OPTIONS
+$mail_max_hits = 20;
 $counter = 0;
 foreach ($mail_data as $mail)
 {
+	// LINKBAR
+	if($mail_count > $mail_max_hits)
+	{
+		$params = array(
+			"mobj_id"		=> $_GET["mobj_id"]);
+	}
+	$start = $_GET["offset"];
+	$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$mail_count,$mail_max_hits,$start,$params);
+	if ($linkbar)
+	{
+		$tpl->setVariable("LINKBAR", $linkbar);
+	}
+	if($counter >= ($start+$mail_max_hits))
+	{
+		break;
+	}
+	if($counter < $start)
+	{
+		++$counter;
+		continue;
+	}
+
+	// END LINKBAR
 	++$counter;
 	$tpl->setCurrentBlock("mails");
 	$tpl->setVariable("ROWCOL","tblrow".(($counter % 2)+1));
