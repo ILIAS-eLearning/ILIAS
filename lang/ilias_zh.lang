@@ -251,6 +251,7 @@ common#:#exc_notices#:#通知
 common#:#exc_obj#:#练习
 common#:#exc_save_changes#:#保存
 common#:#exc_search_for#:#搜寻
+common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
 common#:#exc_send_exercise#:#发送练习
 common#:#exc_sent#:#练习已发送给选定的用户
 common#:#exc_status_returned#:#已返回

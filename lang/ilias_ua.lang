@@ -234,6 +234,7 @@ common#:#exc_notices#:#Повідомлення
 common#:#exc_obj#:#Вправа
 common#:#exc_save_changes#:#Зберігти
 common#:#exc_search_for#:#Пошук
+common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
 common#:#exc_send_exercise#:#Послати вправу
 common#:#exc_sent#:#Вправу було послано відміченим користувачам
 common#:#exc_status_returned#:#Повернений

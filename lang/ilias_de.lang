@@ -234,6 +234,7 @@ common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
 common#:#exc_save_changes#:#Änderungen speichern
 common#:#exc_search_for#:#Suchen nach
+common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
 common#:#exc_send_exercise#:#Übung verschicken
 common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
 common#:#exc_status_returned#:#Beantwortet
@@ -1798,4 +1799,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.

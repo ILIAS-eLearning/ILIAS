@@ -234,6 +234,7 @@ common#:#exc_notices#:#Uwagi
 common#:#exc_obj#:#Ćwiczenie
 common#:#exc_save_changes#:#Zachowaj
 common#:#exc_search_for#:#Szukaj
+common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
 common#:#exc_send_exercise#:#Wyślij ćwiczenie
 common#:#exc_sent#:#Ćwiczenie zostało wysłane do wybranego użytkownika.
 common#:#exc_status_returned#:#Zwrócone
