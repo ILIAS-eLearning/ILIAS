@@ -1526,6 +1526,14 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
+		if ($_POST["cmd"]["cancelTest"])
+		{
+			sendInfo($this->lng->txt("test_cancelled"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
+		
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1703,6 +1711,9 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
 				$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("cancel_test");
+				$this->tpl->setVariable("BUTTON_CANCELTEST", $this->lng->txt("cancel_test"));
 				$this->tpl->parseCurrentBlock();
 
 				if ($this->object->getEnableProcessingTime())
