@@ -1243,7 +1243,7 @@ class ilObjTest extends ilObject
 	*/
 	function setDescription($a_description)
 	{
-//		parent::setTitle($a_title);
+		parent::setDescription($a_description);
 		$this->meta_data->setDescription($a_description);
 	}
 
@@ -1263,6 +1263,7 @@ class ilObjTest extends ilObject
 	*/
 	function setTitle($a_title)
 	{
+		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
 	}
 
