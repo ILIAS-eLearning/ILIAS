@@ -81,13 +81,9 @@ common#:#courses#:#Kurse
 common#:#create#:#erstellen
 common#:#create_in#:#erstellen in
 common#:#crs_available#:#verfügbare Kurse
-common#:#crs_management_system#:#CRS Management System
+common#:#crs_management_system#:#Kursmanagement-System
 common#:#current_password#:#derzeitiges Passwort
 common#:#database#:#Datenbank
-common#:#database_exists#:#Datenbank existiert bereits
-common#:#database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
-common#:#database_needs_update#:#Datenbank benötigt Update
-common#:#database_update#:#Datenbank aktualisieren
 common#:#database_version#:#Ihre Datenbankversion
 common#:#date#:#Datum
 common#:#db_host#:#Datenbank Host
@@ -112,7 +108,6 @@ common#:#email#:#eMail
 common#:#employee#:#Angestellter
 common#:#enable#:#aktivieren
 common#:#enumerate#:#nummerieren
-common#:#err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#ausführen
@@ -162,8 +157,6 @@ common#:#keywords#:#Schlüsselwörter
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#language#:#Sprache
 common#:#languages#:#Sprachen
-common#:#languages_generate_from_file#:#Sprachdateien generieren aus Datei
-common#:#languages_generate_from_upload#:#Sprachdateien generieren aus hochgeladener Datei
 common#:#last_change#:#letzte Änderung
 common#:#lastname#:#Nachname
 common#:#ldap#:#LDAP
@@ -288,9 +281,6 @@ common#:#server_software#:#Server Software
 common#:#set#:#setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
-common#:#setup#:#setup
-common#:#setup_ready#:#Setup wurde erfolgreich beendet
-common#:#setup_welcome#:#Willkommen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#startpage#:#Startseite

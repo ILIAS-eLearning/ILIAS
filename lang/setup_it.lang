@@ -3,8 +3,6 @@ available_languages#:#lingue disponibili
 choose_language#:#scegli la Tua lingua
 database#:#banca-dati
 database_exists#:#banca-dati già esistente
-database_is_uptodate#:#banca-dati uptodate
-database_needs_update#:#banca-dati ha bisogno di un update
 database_update#:#update banca-dati
 database_version#:#vesione attuale della banca-dati
 date#:#data
@@ -14,7 +12,7 @@ db_pass#:#password banca-dati
 db_type#:#tipo banca-dati
 db_user#:#utente banca-dati
 db_version#:#versione banca dati
-default#:##default
+default#:#default
 delete#:#eliminare
 err_create_database_failed#:#creazione banca-dati fallita
 err_wrong_login#:#wrong login
@@ -30,12 +28,11 @@ login_to_ilias#:#login a ILIAS
 password#:#password
 setup#:#setup
 setup_ready#:#Setup finito. you may now proceed with the login and check further system settings.
-setup_welcome#:#Benvenuti
 setup_inifile#:#create ini-file
 setup_database#:#setup database
 setup_languages#:#install languages
 setup_password#:#setup password
-setup_welcome#:#Welcome to ILIAS setup. This setup-routine helps you to
+setup_welcome#:#Benvenuti a ILIAS 3 setup. This setup-routine helps you to
 setup_inifile_desc#:#create the ini-file for your installation
 setup_database_desc#:#setup the database
 setup_languages_desc#:#install additional languages
@@ -69,24 +66,24 @@ enter_password#:#Please enter password
 choose_password#:#Please choose a password
 languages_installed#:#Languages installed.
 lang_error_occurred#:#Encountered an error. Action aborted.
-passwd_set#:#Das Passwort wurde gespeichert.
-passwd_changed#:#Das Passwort wurde geändert.
-setup_menu#:#setup menü
+password_set#:#Password saved.
+password_changed#:#Password changed.
+setup_menu#:#Setup menu
 inifile_exists#:#An ini-file exists. Note that this Installation process deletes previous settings.
-inifile_can_write#:#ILIAS3 setup can write your ini-file.
+inifile_can_write#:#ILIAS 3 setup can write your ini-file.
 en_by_default#:#(English is installed by default and cannot be deleted).
-intro_install#:#This is the main page of ILIAS3 setup. From here you can step through the installation.
+intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
 setup_mainmenu#:#Setup mainmenu
-version#:#Version
+version#:#Versione
 preliminaries#:#Preliminaries
 environment#:#Environment
 with#:#with
-env_using#:#ILIAS3 will be running on
+env_using#:#ILIAS 3 will be running on
 env_ok#:#Ok. Sounds good.
 env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
-pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
-pre_php_version#:#PHP version
-pre_folder_write#:#Writable ILIAS3 folder
+pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS 3 on your system.
+pre_php_version#:#PHP versione
+pre_folder_write#:#Writable ILIAS 3 folder
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
 inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
@@ -95,8 +92,7 @@ inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check wr
 inifile_written#:#The ini-file has been successfully saved on your host.
 inifile_content#:#Your ini-file has this content:
 choose_languages#:#Please choose additional languages and/or remove selected languages.
-password_info#:#To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.
-password_set#:#Password set.
+password_info#:#To protect your configuration data against other users you will need a password to access ILIAS 3 setup later again.
 wrong_password#:#Wrong password!
 fill_both_fields#:#Please fill out both fields!
 password_empty#:#No password given!

@@ -27,8 +27,7 @@ login#:#einloggen
 login_to_ilias#:#bei ILIAS anmelden
 password#:#Passwort
 setup#:#setup
-setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS3 einloggen.
-setup_welcome#:#Willkommen
+setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
 setup_inifile#:#ini-Datei erzeugen
 setup_database#:#Datenbank anlegen
 setup_languages#:#Sprachen installieren
@@ -73,13 +72,13 @@ setup_menu#:#setup menü
 inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
 inifile_can_write#:#ILIAS 3 setup kann eine neue ini-Datei erzeugen.
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
-intro_install#:#Das ist das Hauptmenü von ILIAS3 setup. Hier können Sie Schritt für Schritt die Installation von ILIAS3 durchführen.
+intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS 3 durchführen.
 setup_mainmenu#:#Setup Hauptmenü
 version#:#Version
 preliminaries#:#Vorbereitende Massnahmen
 environment#:#Softwareumgebung
 with#:#mit
-env_using#:#ILIAS3 wird betrieben auf
+env_using#:#ILIAS 3 wird betrieben auf
 env_ok#:#Ok. Hört sich gut an.
 env_warning#:#ILIAS 3 wurde nur auf Linux und Windows mit einem Apache-Webserver getestet!<br />Möglicherweise läuft die Software auch in dieser Softwareumgebung.
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
@@ -94,7 +93,6 @@ inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
 inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
 choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
 password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um evtl. später Ihre Konfiguration zu ändern oder die Datenbank zu aktualisieren.
-password_set#:#Passwort gesetzt.
 wrong_password#:#Falsches Passwort!
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 password_empty#:#Kein Passwort angegeben!
