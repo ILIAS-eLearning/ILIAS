@@ -351,7 +351,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    editor.surroundHTML('<span class="ilc_Strong">', '</span>');
+				  	if (checkAllowTagInside("str"))
+					{
+                    	editor.surroundHTML('<span class="ilc_Strong">', '</span>');
+					}
                   }
     });
 
@@ -363,7 +366,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id)
 	  			  {
-                    editor.surroundHTML('<span class="ilc_Emph">', '</span>');
+				  	if (checkAllowTagInside("emp"))
+					{
+                    	editor.surroundHTML('<span class="ilc_Emph">', '</span>');
+					}
                   }
     });
 
@@ -375,7 +381,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    editor.surroundHTML('<span class="ilc_Comment">', '</span>');
+				  	if (checkAllowTagInside("com"))
+					{
+                    	editor.surroundHTML('<span class="ilc_Comment">', '</span>');
+					}
                   }
     });
 
@@ -387,7 +396,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
-                    editor.surroundHTML('<span class="ilc_Quotation">', '</span>');
+				  	if (checkAllowTagInside("quot"))
+					{
+                    	editor.surroundHTML('<span class="ilc_Quotation">', '</span>');
+					}
                   }
     });
     
@@ -399,7 +411,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    editor.surroundHTML('<code>', '</code>');
+				  	if (checkAllowTagInside("code"))
+					{
+                    	editor.surroundHTML('<code>', '</code>');
+					}
                   }
     });
 
@@ -444,7 +459,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	cfg.statusBar = false;
+	//cfg.statusBar = false;
 	
 	cfg.toolbar = [
 		[ 
@@ -488,6 +503,45 @@ function initEditor(TextAreaName)
 
 }
 
+var notAllowedTagsInside = new Array();
+function addNATI(which, inWhich, inClass) 
+{
+	a = new Array();
+	a[0] = which;
+	a[1] = inWhich;
+	a[2] = inClass;
+	notAllowedTagsInside[notAllowedTagsInside.length] = a;
+}
+//      which | in which | classname
+addNATI("str",	"str",	"ilc_Strong");
+addNATI("str",	"code",	"code");
+addNATI("code",	"code",	"code");
+addNATI("emp",	"emp",	"ilc_Emph");
+addNATI("com",	"com",	"ilc_Comment");
+addNATI("quot",	"quot",	"ilc_Quotation");
+
+
+function checkAllowTagInside(which) 
+{
+	var ancestors = editor.getAllAncestors();
+	var el = ancestors[0];
+	var cl = el.className;
+	var tn = el.tagName.toLowerCase();
+	
+	for (i=0;i<notAllowedTagsInside.length;i++) 
+	{
+		a = notAllowedTagsInside[i];
+		if (a[0] == which) 
+		{
+			if (a[2] == cl || a[2] == tn)
+			{
+				alert("Error.");
+				return(false);
+			}
+		}
+	}
+	return(true);
+}
 
 
 function replaceAll(heystack, needle, newneedle) 
@@ -662,7 +716,6 @@ function buttonInternalLink()
 	}
 
 </script>
-
 
 <!-- BEGIN initwysiwygeditor -->
 <script type="text/javascript">
