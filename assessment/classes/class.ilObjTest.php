@@ -2034,47 +2034,6 @@ class ilObjTest extends ilObject
 		$mark = $test->mark_schema->get_matching_mark($pct);
 		return $mark;
 	}
-	
-	/**
-	* get description of content object
-	*
-	* @return	string		description
-	*/
-	function getDescription()
-	{
-//		return parent::getDescription();
-		return $this->meta_data->getDescription();
-	}
-
-	/**
-	* set description of content object
-	*/
-	function setDescription($a_description)
-	{
-		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
-	}
-
-	/**
-	* get title of glossary object
-	*
-	* @return	string		title
-	*/
-	function getTitle()
-	{
-		//return $this->title;
-		return parent::getTitle();
-		//return $this->meta_data->getTitle();
-	}
-
-	/**
-	* set title of glossary object
-	*/
-	function setTitle($a_title)
-	{
-		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
-	}
 
 	/**
 	* assign a meta data object to glossary object
@@ -3817,6 +3776,24 @@ class ilObjTest extends ilObject
 		return $this->mark_schema->checkMarks();
 	}
 	
+	/**
+	* Set the title and the description for the meta data
+	*/
+	function updateTitleAndDescription()
+	{
+		$this->initMeta();
+		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
+	}
+
+	/**
+	* Set the title and the description for the meta data
+	*/
+	function updateTitleAndDescription()
+	{
+		$this->initMeta();
+		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
+	}
+
 	/**
 	* update meta data only
 	*/

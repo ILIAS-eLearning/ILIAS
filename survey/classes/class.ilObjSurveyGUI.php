@@ -103,16 +103,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	function updateObject() {
+		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
 		$this->object->saveToDb();
 		if (strcmp($_SESSION["info"], "") != 0)
 		{
-			sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+			sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("msg_obj_modified"), false);
+			sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
 
 /**
@@ -129,6 +131,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function writePropertiesFormData()
 	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$result = $this->object->setStatus($_POST["status"]);
 		if ($result)

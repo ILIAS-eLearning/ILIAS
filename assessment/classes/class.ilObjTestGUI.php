@@ -150,9 +150,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function updateObject()
 	{
+		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
 		$this->object->saveToDb();
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
 
 	function getAddParameter()
@@ -537,8 +539,8 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$deleteuserdata = true;
 			}
-			//$data["title"] = ilUtil::stripSlashes($_POST["title"]);
-			//$data["description"] = ilUtil::stripSlashes($_POST["description"]);
+			$data["title"] = ilUtil::stripSlashes($_POST["title"]);
+			$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 			$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 			$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 			$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
@@ -649,9 +651,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$data["starting_time"] = $this->object->getStartingTime();
 			$data["ending_time"] = $this->object->getEndingTime();
+			$data["title"] = $this->object->getTitle();
+			$data["description"] = $this->object->getDescription();
 		}
-		$data["title"] = $this->object->getTitle();
-		$data["description"] = $this->object->getDescription();
 		$this->object->setTestType($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
