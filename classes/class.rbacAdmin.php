@@ -359,9 +359,9 @@ class RbacAdmin
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
 
-		$q = "INSERT INTO rbac_pa ".
+		$q = "INSERT INTO rbac_pa (rol_id,ops_id,obj_id,set_id) ".
 			 "VALUES ".
-			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
+			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."','".$a_ref_id."')";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -425,7 +425,7 @@ class RbacAdmin
 		$q = "SELECT ops_id FROM rbac_templates ".
 			 "WHERE rol_id='".$a_rol_id."' ".
 			 "AND type='".$a_type."' ".
-			 "AND parent='".$a_parent_id."'";
+			 "AND parent='".$a_ref_id."'";
 		$r = $this->ilias->db->query($q);
 
 		if ($r->numRows() > 0)

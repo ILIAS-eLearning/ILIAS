@@ -7,17 +7,18 @@
 	<form action="{FORMACTION}" name="objectItems" method="post">
 	  <table class="fullwidth">
 		  <tr class="tblheader">
-			<td class="std">
-			  <div class="list-item"><strong>Permission</strong></div>
+			<td class="std" width="30%" align="left">
 			</td>
-			<td class="std" colspan="50" align="left"><div class="list-item"><strong>Object Type</strong></div></td>
+			<td class="std" colspan="50" align="left">
+			{TXT_OBJ_TYPE}
+			</td>
 		  </tr>
 		  <tr class="tblheader">
-			<td class="std">
-			  &nbsp
+			<td class="std" width="30%" align="left">
+			{TXT_PERMISSION}
 			</td>
 			<!-- BEGIN OBJECT_TYPES -->
-			<td class="std"><strong>{OBJ_TYPES}</strong></td>
+			<td class="std">{OBJ_TYPES}</td>
 			<!-- END OBJECT_TYPES -->
 		  </tr>
 		  <!-- BEGIN TABLE_DATA_OUTER -->
@@ -31,7 +32,7 @@
 		  <tr class="tblrow2">
 			<td class="std"><font color="red">{MESSAGE_TABLE}</font></td>
 			<td class="std">{CHECK_BOTTOM}</td>
-			<td class="std" colspan="{COL_ANZ}"><input class="submit" type="submit" value="submit" /></td>
+			<td class="std" colspan="{COL_ANZ}"><input class="submit" type="submit" value="{TXT_SAVE}" /></td>
 		  </tr>
 	  </table>
 	</form>
@@ -46,8 +47,8 @@
 	  <table class="std">
 		  <tr class="tblheader">
 			<td class="std">&nbsp;</td>
-			<td class="std"><div class="list-item"><strong>Role</strong></div></td>
-			<td class="std"><div class="list-item"><strong>Type</strong></div></td>
+			<td class="std">Role</strong></td>
+			<td class="std">Type</strong></td>
 		  </tr>
 			<!-- BEGIN ADOPT_PERMISSIONS -->
 			<tr class={CSS_ROW_ADOPT}>

@@ -576,3 +576,5 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#obj_type#:#Objekttyp
+common#:#stop_inheritance#:#Vererbung unterbrechen
