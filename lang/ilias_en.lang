@@ -611,6 +611,7 @@ common#:#adm_edit_permission#:#Change permission settings
 common#:#adm_read#:#Read access to System settings
 common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
+common#:#adm_create_tax#:#Create taxonomy
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -847,6 +848,30 @@ common#:#crs_create#:#Create Course
 common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_frm#:#Create Forum
 common#:#crs_create_glo#:#Create Glossary
+common#:#crs_create_grp#:#Create Group
+common#:#crs_create_dbk#:#Create Digilib Book
+common#:#crs_create_exc#:#Create Exercise
+common#:#crs_create_file#:#Upload File
+common#:#crs_create_fold#:#Create Folder
+common#:#crs_create_tst#:#Create Test
+common#:#crs_create_qpl#:#Create Question Pool for Test
+common#:#crs_create_chat#:#Create Chat
+common#:#crs_create_mep#:#Create Media Pool
+common#:#crs_create_htlm#:#Create HTML Learning Module
+common#:#crs_create_svy#:#Create Survey
+common#:#crs_create_spl#:#Create Question Pool for Survey
+common#:#fold_create_dbk#:#Create Digilib Book
+common#:#fold_create_exc#:#Create Exercise
+common#:#fold_create_tst#:#Create Test
+common#:#fold_create_qpl#:#Create Question Pool for Test
+common#:#fold_create_mep#:#Create Media Pool
+common#:#fold_create_htlm#:#Create HTML Learning Module
+common#:#fold_create_svy#:#Create Survey
+common#:#fold_create_spl#:#Create Question Pool for Survey
+common#:#grp_create_tst#:#Create Test
+common#:#grp_create_qpl#:#Create Question Pool for Test
+common#:#grp_create_svy#:#Create Survey
+common#:#grp_create_spl#:#Create Question Pool for Survey
 common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_create_lm#:#Create ILIAS Learning Module
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
