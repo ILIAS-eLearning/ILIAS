@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.25 2004/03/05 17:45:17 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.26 2004/03/08 16:21:45 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -51,6 +51,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		$this->type = "adm";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		
+		$this->lng->loadLanguageModule("administration");
 	}
 
 	/**
@@ -601,28 +603,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			if (is_array($last_scan))
 			{
-				$this->tpl->setVariable("TXT_VIEW_LOG", "View last scanlog");
+				$this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
 			}
 
-			$this->tpl->setVariable("TXT_TITLE", "Systemcheck");
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("systemcheck"));
 			$this->tpl->setVariable("COLSPAN", 3);
-			$this->tpl->setVariable("TXT_OPTIONS", "Options");
-			$this->tpl->setVariable("TXT_ANALYZE_TITLE", "Analyze data integrity");
-			$this->tpl->setVariable("TXT_ANALYZE", "Scan only");
-			$this->tpl->setVariable("TXT_ANALYZE_DESC", "Scan system for corrupted/invalid/missing objects (object registry only!)");
-			$this->tpl->setVariable("TXT_CLEAN", "Clean");
-			$this->tpl->setVariable("TXT_CLEAN_DESC", "Remove invalid references & tree entries. Close gaps in tree structure.");
-			$this->tpl->setVariable("TXT_RESTORE", "Restore missing objects");
-			$this->tpl->setVariable("TXT_RESTORE_DESC", "Restore missing and unbound objects to RecoveryFolder.");
-			$this->tpl->setVariable("TXT_PURGE", "Purge missing objects");
-			$this->tpl->setVariable("TXT_PURGE_DESC", "Remove all missing and unbound objects found from system.");
-			$this->tpl->setVariable("TXT_RESTORE_TRASH", "Restore deleted objects");
-			$this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", "Restore all objects in trash bin to RecoveryFolder.");
-			$this->tpl->setVariable("TXT_PURGE_TRASH", "Purge trash bin");
-			$this->tpl->setVariable("TXT_PURGE_TRASH_DESC", "Remove all objects in trash bin from system.");
-			$this->tpl->setVariable("TXT_LOG_SCAN", "Log scan results");
-			$this->tpl->setVariable("TXT_LOG_SCAN_DESC", "Write scan results to 'scanlog.log' in client data diretory.");
-			$this->tpl->setVariable("TXT_SUBMIT", "Start!");
+			$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+			$this->tpl->setVariable("TXT_ANALYZE_TITLE", $this->lng->txt("analyze_data"));
+			$this->tpl->setVariable("TXT_ANALYZE", $this->lng->txt("scan_only"));
+			$this->tpl->setVariable("TXT_ANALYZE_DESC", $this->lng->txt("analyze_desc"));
+			$this->tpl->setVariable("TXT_CLEAN", $this->lng->txt("clean"));
+			$this->tpl->setVariable("TXT_CLEAN_DESC", $this->lng->txt("clean_desc"));
+			$this->tpl->setVariable("TXT_RESTORE", $this->lng->txt("restore_missing"));
+			$this->tpl->setVariable("TXT_RESTORE_DESC", $this->lng->txt("restore_missing_desc"));
+			$this->tpl->setVariable("TXT_PURGE", $this->lng->txt("purge_missing"));
+			$this->tpl->setVariable("TXT_PURGE_DESC", $this->lng->txt("purge_missing_desc"));
+			$this->tpl->setVariable("TXT_RESTORE_TRASH", $this->lng->txt("restore_trash"));
+			$this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", $this->lng->txt("restore_trash_desc"));
+			$this->tpl->setVariable("TXT_PURGE_TRASH", $this->lng->txt("purge_trash"));
+			$this->tpl->setVariable("TXT_PURGE_TRASH_DESC", $this->lng->txt("purge_trash_desc"));
+			$this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
+			$this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
 		}
 	}
 	
@@ -644,95 +646,98 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$validator->setMode($mode,(bool) $value);
 		}
-		//$validator->setMode("purge_trash",true);
 		
 		// STEP 1: Analyzing: Get all incomplete entries
-		$scan_log .= "Analyzing...";
+		$scan_log .= $this->lng->txt("analyzing");
 		
 		if (!$validator->isModeEnabled("analyze"))
 		{
-			$scan_log .= "disabled.";
+			$scan_log .= $this->lng->txt("disabled");
 		}
 		else
 		{
-			$scan_log .= "<br/>Searching for invalid references...";
+			$scan_log .= "<br />".$this->lng->txt("searching_invalid_refs");
 			if ($validator->findInvalidReferences())
 			{
-				$scan_log .= "done (".count($validator->getInvalidReferences())." found).";
+				$scan_log .= count($validator->getInvalidReferences())." ".$this->lng->txt("found");
 			}
 			else
 			{
-				$scan_log .= "nothing found.";
+				$scan_log .= $this->lng->txt("found_none");
 			}
 			
-			$scan_log .= "<br/>Searching for invalid tree entries...";
+			$scan_log .= "<br />".$this->lng->txt("searching_invalid_childs");
 			if ($validator->findInvalidChilds())
 			{
-				$scan_log .= "done (".count($validator->getInvalidChilds())." found).";
+				$scan_log .= count($validator->getInvalidChilds())." ".$this->lng->txt("found");
+
 			}
 			else
 			{
-				$scan_log .= "nothing found.";
+				$scan_log .= $this->lng->txt("found_none");
 			}
 			
-			$scan_log .= "<br/>Searching for missing objects...";
+			$scan_log .= "<br />".$this->lng->txt("searching_missing_objs");
 			if ($validator->findMissingObjects())
 			{
-				$scan_log .= "done (".count($validator->getMissingObjects())." found).";
+				$scan_log .= count($validator->getMissingObjects())." ".$this->lng->txt("found");
+
 			}
 			else
 			{
-				$scan_log .= "nothing found.";
+				$scan_log .= $this->lng->txt("found_none");
 			}
 		
-			$scan_log .= "<br/>Searching for unbound objects...";
+			$scan_log .= "<br />".$this->lng->txt("searching_unbound_objs");
 			if ($validator->findUnboundObjects())
 			{
-				$scan_log .= "done (".count($validator->getUnboundObjects())." found).";
+				$scan_log .=  count($validator->getUnboundObjects())." ".$this->lng->txt("found");
+
 			}
 			else
 			{
-				$scan_log .= "nothing found.";
+				$scan_log .= $this->lng->txt("found_none");
 			}
 		
-			$scan_log .= "<br/>Searching for deleted objects...";
+			$scan_log .= "<br />".$this->lng->txt("searching_deleted_objs");
 			if ($validator->findDeletedObjects())
 			{
-				$scan_log .= "done (".count($validator->getDeletedObjects())." found).";
+				$scan_log .= count($validator->getDeletedObjects())." ".$this->lng->txt("found");
+
 			}
 			else
 			{
-				$scan_log .= "nothing found.";
+				$scan_log .= $this->lng->txt("found_none");
 			}
 		}
 		
 		// STEP 2: Cleaning: Remove unbound references & tree entries
-		$scan_log .= "<br/><br/>Cleaning...";
+		$scan_log .= "<br /><br />".$this->lng->txt("cleaning");
 		
 		if (!$validator->isModeEnabled("clean"))
 		{
-			$scan_log .= "disabled.";
+			$scan_log .= $this->lng->txt("disabled");
 		}
 		else
 		{
-			$scan_log .= "<br/>Removing invalid references...";
+			$scan_log .= "<br />".$this->lng->txt("removing_invalid_refs");
 			if ($validator->removeInvalidReferences())
 			{
-				$scan_log .= "done.";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to remove. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
 			
-			$scan_log .= "<br/>Removing invalid tree entries...";
+			$scan_log .= "<br />".$this->lng->txt("removing_invalid_childs");
 			if ($validator->removeInvalidChilds())
 			{
-				$scan_log .= "done.";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to remove. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
 		}
 		
@@ -740,84 +745,100 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$validator->findUnboundObjects();
 		
 		// STEP 3: Restore objects
-		$scan_log .= "<br/><br/>Restoring...";
+		$scan_log .= "<br /><br />".$this->lng->txt("restoring");
 		
 		if (!$validator->isModeEnabled("restore"))
 		{
-			$scan_log .= "disabled.";
+			$scan_log .= $this->lng->txt("disabled");
 		}
 		else
 		{
-			$scan_log .= "<br/>Restoring missing Objects...";
+			$scan_log .= "<br />".$this->lng->txt("restoring_missing_objs");
 			if ($validator->restoreMissingObjects())
 			{
-				$scan_log .= "done.";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to restore. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
 			}
 			
-			$scan_log .= "<br/>Restoring unbound objects & subobjects...";
+			$scan_log .= "<br />".$this->lng->txt("restoring_unbound_objs");
 			if ($validator->restoreUnboundObjects())
 			{
-				$scan_log .= "done.";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to restore. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
 			}
 		}
 		
 		// STEP 4: Restoring Trash
-		if ($validator->isModeEnabled("restore_trash"))
+		$scan_log .= "<br /><br />".$this->lng->txt("restoring_trash");
+		
+		if (!$validator->isModeEnabled("restore_trash"))
 		{
-			$scan_log .= "<br/><br/>Restoring trash...";
+			$scan_log .= $this->lng->txt("disabled");
+		}
+		else
+		{
 			if ($validator->restoreTrash())
 			{
-				$scan_log .= "done";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to restore. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_restore").$this->lng->txt("skipped");
 			}
 		}
 		
 		// STEP 5: Purging...
-		if ($validator->isModeEnabled("purge"))
+		$scan_log .= "<br /><br />".$this->lng->txt("purging");
+		
+		if (!$validator->isModeEnabled("purge"))
 		{
-			$scan_log .= "<br/><br/>Purging unbound objects...";
+			$scan_log .= $this->lng->txt("disabled");
+		}
+		else
+		{
+			$scan_log .= "<br />".$this->lng->txt("purging_unbound_objs");
 			if ($validator->purgeUnboundObjects())
 			{
-				$scan_log .= "done";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to purge. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
 			}
 		}
 		
-		// STEP 6: Purging...
-		if ($validator->isModeEnabled("purge_trash"))
+		// STEP 6: Purging trash...
+		$scan_log .= "<br /><br />".$this->lng->txt("purging_trash");
+		
+		if (!$validator->isModeEnabled("purge_trash"))
 		{
-			$scan_log .= "<br/><br/>Purging trash...";
+			$scan_log .= $this->lng->txt("disabled");
+		}
+		else
+		{
 			if ($validator->purgeTrash())
 			{
-				$scan_log .= "done";
+				$scan_log .= strtolower($this->lng->txt("done"));
 			}
 			else
 			{
-				$scan_log .= "nothing to purge. Skipped.";
+				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
 			}
 		}
 		
 		// STEP 6: Close gaps in tree
 		if ($validator->isModeEnabled("clean"))
 		{
-			$scan_log .= "<br/><br/>Final cleaning...";
+			$scan_log .= "<br /><br />".$this->lng->txt("cleaning_final");
 			if ($validator->closeGapsInTree())
 			{
-				$scan_log .= "<br/>Closing gaps in tree...done";
+				$scan_log .= "<br />".$this->lng->txt("closing_gaps")." ".strtolower($this->lng->txt("done"));
 			}
 		}
 		
@@ -830,25 +851,25 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$arr[] = $mode."[".(int)$value."]";
 		}
 		
-		$scan_log .= "<br/><br/>Scan completed.";
+		$scan_log .= "<br /><br />".$this->lng->txt("scan_completed");
 
 	
-		$mode = "Mode used: ".implode(', ',$arr);
+		$mode = $this->lng->txt("scan_modes").": ".implode(', ',$arr);
 		
 		// output
 		$this->getTemplateFile("scan");
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=check");
-		$this->tpl->setVariable("TXT_TITLE", "Scanning system...");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scanning_system"));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
 		$this->tpl->setVariable("TXT_MODE", $mode);
 		
 		if ($logging === true)
 		{
-			$this->tpl->setVariable("TXT_VIEW_LOG", "View Details");
+			$this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_log"));
 		}
 
-		$this->tpl->setVariable("TXT_DONE", "Done");
+		$this->tpl->setVariable("TXT_DONE", $this->lng->txt("done"));
 		
 		$validator->writeScanLogLine($mode);
 	}
@@ -871,10 +892,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		// output
 		$this->getTemplateFile("scan");
-		$this->tpl->setVariable("TXT_TITLE", "Scan details");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scan_details"));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
-		$this->tpl->setVariable("TXT_DONE", "Done");
+		$this->tpl->setVariable("TXT_DONE", $this->lng->txt("done"));
 	}
 } // END class.ilObjSystemFolderGUI
 ?>

@@ -332,7 +332,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
   </object>
-<object name="recf" class_name="RecoveryFolder" checkbox="0" inherit="0" translate="0" rbac="1">
+<object name="recf" class_name="RecoveryFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="frm">frm</subobj>
