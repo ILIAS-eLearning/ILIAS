@@ -1050,10 +1050,6 @@ class ilLMPresentationGUI
 						break;
 
 					case "GlossaryItem":
-						if ($targetframe == "None")
-						{
-							$targetframe = "Glossary";
-						}
 						$ltarget = $a_layoutframes[$targetframe]["Frame"];
 						$nframe = ($ltarget == "")
 							? $_GET["frame"]
