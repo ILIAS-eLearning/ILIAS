@@ -786,7 +786,7 @@ class ilObjTestGUI extends ilObjectGUI
     $this->tpl->setVariable("USER_FEEDBACK", sprintf("You have reached $total_reached_points out of $total_max_points points, this is %2.2f percent of the test.$mark", $percentage));
     $this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
   }
 		

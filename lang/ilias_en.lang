@@ -110,6 +110,7 @@ assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
+assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
 assessment#:#tst_score_reporting_date#:#Score reporting date
