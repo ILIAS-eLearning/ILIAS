@@ -114,7 +114,18 @@ if ($script != "login.php" && $script != "index.php")
 	
 	// instantiate main template
 	$tplmain = new Template("tpl.main.html", false, false);
-	$tplmain->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/style.css");
+	
+	//user stylehandling
+	if ($ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
+	{
+		$style = $ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css";
+	}
+	else
+	{
+		$style = "style.css";
+	}
+	$tplmain->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
+	
 
 	if ($tplmain->includeNavigation() == true)
 	{

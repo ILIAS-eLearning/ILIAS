@@ -44,7 +44,10 @@ if ($_POST["u_id"]!="")
 
 	//set user skin
 	$ilias->account->setPref("skin", $_POST["usr_skin"]);
-	
+	//set user style
+	$ilias->account->setPref("style_".$_POST["usr_skin"], $_POST["usr_style"]);
+
+	//update userdata
 	if ($ilias->account->update() == false)
 	{
 		$tpl->setCurrentBlock("message");
@@ -53,12 +56,7 @@ if ($_POST["u_id"]!="")
 	}
 	else
 	{
-//	commented out by pgabriel 2002-08-06: 
-// better use header location for eventual language change (then languages change
-// have direct effect)
-		//header("location: ./start.php");
-     $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
- 
+		$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 //		$tpl->setCurrentBlock("message");
 //		$tpl->setVariable("MSG", $lng->txt("msg_changes_ok"));
 //		$tpl->parseCurrentBlock();		
@@ -105,6 +103,7 @@ $tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
 $tpl->setVariable("TXT_SYS_GRP",$lng->txt("system_grp"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
+$tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
 
 
 
@@ -122,6 +121,22 @@ foreach ($ilias->skins as $row)
 	$tpl->setVariable("SKINOPTION", $row["name"]);
 	$tpl->parseCurrentBlock();
 }
+
+//what styles are available for current skin
+$ilias->getStyles($ilias->account->prefs["skin"]);
+$style = "style_".$ilias->account->prefs["skin"];
+foreach ($ilias->styles as $row)
+{
+	$tpl->setCurrentBlock("selectstyle");
+	if ($ilias->account->prefs[$style] == $row["name"])
+	{
+		$tpl->setVariable("STYLESELECTED", "selected");
+	}
+	$tpl->setVariable("STYLEVALUE", $row["name"]);
+	$tpl->setVariable("STYLEOPTION", $row["name"]);
+	$tpl->parseCurrentBlock();
+}
+
 
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->data["login"]);
