@@ -84,8 +84,6 @@ $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."parent=".$_GET["parent"]);
 
-$tplContent->setCurrentBlock("row",true);
-
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
 	$num = 1;
@@ -113,6 +111,8 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		}
 
 		$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+
+		$tplContent->setCurrentBlock("row");
 		$tplContent->setVariable("LINK_TARGET",$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]);
 		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
