@@ -110,6 +110,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	/**
 	* confirmObject
+	* handles deletion of roles!!
 	* 
 	* @access	public
 	*/
