@@ -1804,7 +1804,7 @@ class ilRepositoryGUI
 				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 			
-				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]) or $this->rbacsystem->checkAccess('join',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("group_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
