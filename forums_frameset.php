@@ -21,6 +21,7 @@ if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 	$frm = new ilForum();
 
 	$frm->setForumId($forumObj->getId());
+	$frm->setForumRefId($forumObj->getRefId());
 
 	$dead_thr = $frm->deletePost($_GET["pos_pk"]);		
 		

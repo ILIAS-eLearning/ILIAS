@@ -79,6 +79,22 @@ class ilForum
 		
 		$this->id = $a_obj_id;
 	}
+
+	/**
+	* set reference id which refers to ILIAS obj_id
+	* @param	integer	object id
+	* @access	public
+	*/
+	function setForumRefId($a_ref_id)
+	{
+		if (!isset($a_ref_id))
+		{
+			$message = get_class($this)."::setForumRefId(): No ref_id given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);	
+		}
+		
+		$this->ref_id = $a_ref_id;
+	}
 	
 	/**
 	* get forum id
@@ -88,6 +104,16 @@ class ilForum
 	function getForumId()
 	{
 		return $this->id;
+	}
+	
+	/**
+	* get forum ref_id
+	* @access	public
+	* @return	integer	reference id of forum
+	*/
+	function getForumRefId()
+	{
+		return $this->ref_id;
 	}
 	
 	/**
@@ -670,7 +696,7 @@ class ilForum
 		{
 			return true;
 		}
-		elseif ($rbacsystem->checkAccess("edit post", $this->id))
+		elseif ($rbacsystem->checkAccess("edit post", $this->getForumRefId()))
 		{
 			return true;		
 		}
