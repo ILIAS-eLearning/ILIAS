@@ -513,11 +513,11 @@ class ilObject
 	*
 	* @todo	role/rbac stuff
 	*/
-	function putInTree($a_parent)
+	function putInTree($a_parent_ref)
 	{
 		global $tree, $rbacadmin;
 
-		$tree->insertNode($this->getRefId(), $a_parent);
+		$tree->insertNode($this->getRefId(), $a_parent_ref);
 	}
 
 	/**
@@ -526,11 +526,11 @@ class ilObject
 	* @param	integer	reference_id of parent object
 	* @access	public
 	*/
-	function setPermissions($a_parent)
+	function setPermissions($a_parent_ref)
 	{
 		global $rbacadmin,$rbacreview;
 		
-		$parentRoles = $rbacreview->getParentRoleIds($a_parent);
+		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
 
 		foreach ($parentRoles as $parRol)
 		{
@@ -591,10 +591,13 @@ class ilObject
 
 	/**
 	* clone object into tree
+	* basic clone function. Register new object in object_data, creates reference and
+	* insert reference ID in tree. All object specific data must be copied in the clone function of the appropriate object class.
+	* Look in ilObjForum::clone() for example code
 	* 
 	* @access	public
-	* @param	integer		$a_parent_ref		parent ref id
-	* @return	new object id
+	* @param	integer		$a_parent_ref		ref id of parent object
+	* @return	integer		new ref id
 	*/
 	function clone($a_parent_ref)
 	{
@@ -606,17 +609,10 @@ class ilObject
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->create();
 		$new_ref_id = $new_obj->createReference();
+		$new_obj->putInTree($a_parent_ref);
+		$new_obj->setPermissions($a_parent_ref);
 		unset($new_obj);
 
-		$tree->insertNode($new_ref_id,$a_parent_ref);
-
-		$parentRoles = $rbacreview->getParentRoleIds($new_ref_id);
-
-		foreach ($parentRoles as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_ref_id);
-		}
 		return $new_ref_id;
 	}
 
