@@ -252,13 +252,13 @@ class ilCourseRegisterGUI
 	{
 		$this->course_obj->setMessage('');
 
-		if($this->course_obj->members_obj->isBlocked($this->user_id))
-		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_blocked"));
-		}
 		if($this->course_obj->members_obj->isAssigned($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_assigned"));
+		}
+		if($this->course_obj->members_obj->isBlocked($this->user_id))
+		{
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_blocked"));
 		}
 		if($this->course_obj->members_obj->isSubscriber($this->user_id))
 		{

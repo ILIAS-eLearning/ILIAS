@@ -497,7 +497,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-
 		// CREATE UNIX TIMESTAMPS FROM SELECT
 		$this->object->setSyllabus(ilUtil::stripSlashes($_POST["crs"]["syllabus"]));
 		$this->object->setContactName(ilUtil::stripSlashes($_POST["crs"]["contact_name"]));
@@ -889,6 +888,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		// INFO NO MEMBERS
 		$this->object->initCourseMemberObject();
+
 		if(!count($this->object->members_obj->getAssignedUsers()) and
 		   !count($this->object->member_obj->getSubscribers()))
 		{
