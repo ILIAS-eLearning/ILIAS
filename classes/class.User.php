@@ -134,13 +134,11 @@ class User
 				$this->skin = $this->prefs["skin"];
 			}
 			
-			//assign style
-			$style = "style_".$this->skin;
-			
 			//check style-setting (skins could have more than one stylesheet
 			if ($this->prefs["style"] == "" || file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs["style"].".css") == false)
 			{
-				$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
+				//load default (css)
+		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 			}
 
 		}
