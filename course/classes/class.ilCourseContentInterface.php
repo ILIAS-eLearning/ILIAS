@@ -218,7 +218,7 @@ class ilCourseContentInterface
 							$tmp_array["lng"] = $this->lng->txt("crs_move_down");
 							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",
 																	  $this->cci_client_obj->object->getRefId());
-							$this->cci_client_obj->ctrl->setParameter($this,"item_id",-$cont_data["child"]);
+							$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",-$cont_data["child"]);
 							$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciMove");
 							$tmp_array["tar"] = "";
 
