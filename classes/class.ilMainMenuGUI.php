@@ -230,7 +230,7 @@ class ilMainMenuGUI
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
 
-		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.gif"));
+		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
 		include_once("classes/class.ilObjSystemFolder.php");
 		$this->tpl->setVariable("TXT_HEADER_TITLE", ilObjSystemFolder::_getHeaderTitle());
