@@ -213,7 +213,6 @@ common#:#frm_added#:#Forum angelegt
 common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
-common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
@@ -239,11 +238,8 @@ common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_new#:#Neue Gruppe
 common#:#guest#:#Gast
-common#:#guest#:#Gast
-common#:#guests#:#Gäste
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
-common#:#hide_details#:#Details ausblenden
 common#:#hide_details#:#Details ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#host#:#Host
@@ -616,7 +612,6 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
-common#:#show_details#:#Details anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
