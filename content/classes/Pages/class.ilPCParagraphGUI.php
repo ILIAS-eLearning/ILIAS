@@ -131,6 +131,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
+		global $ilUser;
+
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
@@ -157,10 +159,21 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		else
 		{
-			// set characteristic of new paragraphs in list items to "List"
-			if (is_object($this->content_obj))
+			if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 			{
-				if ($this->content_obj->getType() == "li")
+				$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+			}
+			else
+			{
+				$s_lang = $ilUser->getLanguage();
+			}
+
+			// set characteristic of new paragraphs in list items to "List"
+			$cont_obj =& $this->pg_obj->getContentObject($this->getHierId());
+			if (is_object($cont_obj))
+			{
+				if ($cont_obj->getType() == "li" ||
+					($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
 				{
 					$s_char = "List";
 				}
@@ -249,6 +262,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
+
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];
+
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
 		if ($this->updated !== true)

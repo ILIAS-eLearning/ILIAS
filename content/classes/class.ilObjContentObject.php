@@ -69,10 +69,16 @@ class ilObjContentObject extends ilObject
 	*/
 	function create($a_upload = false)
 	{
+		global $ilUser;
+
 		parent::create();
 		$this->createProperties();
 		if (!$a_upload)
 		{
+			if (is_object($ilUser))
+			{
+				//$this->meta_data->setLanguage($ilUser->getLanguage());
+			}
 			$this->meta_data->setId($this->getId());
 			$this->meta_data->setType($this->getType());
 			$this->meta_data->setTitle($this->getTitle());

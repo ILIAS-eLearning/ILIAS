@@ -204,6 +204,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
+		global $ilUser;
+
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
@@ -221,10 +223,19 @@ class ilPCTableGUI extends ilPageContentGUI
 			$nr[$i] = $i;
 		}
 
+		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+		{
+			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+		}
+		else
+		{
+			$s_lang = $ilUser->getLanguage();
+		}
+
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMetaData::getLanguages();
-		$select_language = ilUtil::formSelect ("","tab_language",$lang,false,true);
+		$select_language = ilUtil::formSelect ($s_lang, "tab_language", $lang, false, true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("TXT_COLS", $this->lng->txt("cont_nr_cols"));
 		$select_cols = ilUtil::formSelect ("2","nr_cols",$nr,false,true);
@@ -253,6 +264,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
 		$this->content_obj->setLanguage($_POST["tab_language"]);
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["tab_language"];
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
