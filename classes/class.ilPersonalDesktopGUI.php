@@ -416,17 +416,13 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
 
 
-		$mail_max_hits = 20;
-		$counter = 0;
-
 		foreach ($mail_data as $mail)
 		{
+			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
+			if($unreadmails != $mail_counter["unread"])
+				{
 
-			$zahl = $mail_counter["unread"];
-			if($zahl>"0")
-			{
-
-
+				$unreadmails++;
 				$this->tpl->setCurrentBlock("tbl_mails");
 				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
 				$this->tpl->setVariable("NEW_MAIL",$this->lng->txt("email"));
