@@ -167,7 +167,10 @@ class ilConditionHandlerInterface
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("condition"),
 								   $this->lng->txt("value")));
 		$tbl->setHeaderVars(array("","title","condition","value"), 
-							array("ref_id" => $this->target_obj->getRefId(),"cmdClass" => "ilobjcoursegui","cmdNode" => $_GET["cmdNode"]));
+							array("ref_id" => $this->target_obj->getRefId(),
+								  "cmdClass" => "ilobjcoursegui",
+								  "cmdNode" => $_GET["cmdNode"],
+								  "cmd" => "cci_edit"));
 		$tbl->setColumnWidth(array("1%","40%","30%","30%"));
 
 		$tbl->setLimit($_GET["limit"]);
@@ -176,6 +179,7 @@ class ilConditionHandlerInterface
 
 		// footer
 		$tbl->disable("footer");
+		$tbl->disable('sort');
 
 		// render table
 		$tbl->setTemplate($tpl);

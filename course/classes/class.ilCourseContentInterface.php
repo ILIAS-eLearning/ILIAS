@@ -297,7 +297,9 @@ class ilCourseContentInterface
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
 									   $this->lng->txt("activation"),$this->lng->txt("options")));
 			$tbl->setHeaderVars(array("type","title","activation","options"), 
-								array("ref_id" => $this->ref_id,"cmdClass" => "ilobjcoursegui","cmdNode" => $_GET["cmdNode"]));
+								array("ref_id" => $this->cci_course_obj->getRefId(),
+									  "cmdClass" => "ilobjcoursegui",
+									  "cmdNode" => $_GET["cmdNode"]));
 			$tbl->setColumnWidth(array("1%","69%","20%","10%"));
 		}
 		else
@@ -305,7 +307,9 @@ class ilCourseContentInterface
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
 									   $this->lng->txt("activation")));
 			$tbl->setHeaderVars(array("type","title","activation","options"), 
-								array("ref_id" => $this->ref_id,"cmdClass" => "ilobjcoursegui","cmdNode" => $_GET["cmdNode"]));
+								array("ref_id" => $this->cci_course_obj->getRefId(),
+									  "cmdClass" => "ilobjcoursegui",
+									  "cmdNode" => $_GET["cmdNode"]));
 			$tbl->setColumnWidth(array("1%","89%","20%"));
 		}
 
@@ -315,6 +319,7 @@ class ilCourseContentInterface
 
 		// footer
 		$tbl->disable("footer");
+		$tbl->disable('sort');
 
 		// render table
 		$tbl->setTemplate($tpl);
