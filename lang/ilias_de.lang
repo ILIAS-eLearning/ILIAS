@@ -3559,9 +3559,9 @@ survey#:#not_finished#:#noch nicht abgeschlossen
 survey#:#not_started#:#noch nicht gestartet
 survey#:#obligatory#:#verpflichtend
 survey#:#off#:#aus
-survey#:#offline#:#nicht aktiviert
+survey#:#offline#:#offline (nicht aktiviert)
 survey#:#on#:#an
-survey#:#online#:#aktiviert
+survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
