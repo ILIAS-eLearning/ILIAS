@@ -178,6 +178,59 @@ class ASS_QuestionGUI
 	}
 
 	/**
+	* output assessment
+	*/
+	function assessment()
+	{
+echo "<br>ASS_QuestionGUI->assessmentObject()";
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		// catch feedback message
+		sendInfo();
+
+		$this->setLocator();
+
+		$title = $this->lng->txt("qpl_assessment_of_questions");
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		//$question =& $this->object->createQuestion("", $_GET["edit"]);
+		$total_of_answers = $this->object->getTotalAnswers();
+		$counter = 0;
+		$color_class = array("tblrow1", "tblrow2");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", true);
+		if (!$total_of_answers)
+		{
+			$this->tpl->setCurrentBlock("emptyrow");
+			$this->tpl->setVariable("TXT_NO_ASSESSMENT", $this->lng->txt("qpl_assessment_no_assessment_of_questions"));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_answers"));
+			$this->tpl->setVariable("TXT_VALUE", $total_of_answers);
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_right_answers"));
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $this->object->getTotalRightAnswers() * 100.0) . " %");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_QUESTION_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
+		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
 	* Sets the other data i.e. materials uris of a question from a posted create/edit form
 	*
 	* Sets the other data i.e. materials uris of a question from a posted create/edit form

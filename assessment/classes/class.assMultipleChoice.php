@@ -753,20 +753,24 @@ echo "<br>addAnswer";
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
+	* Note: This method should be able to be invoked static - do not
+	* use $this inside this class
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedPoints($user_id, $test_id)
+	function _getReachedPoints($user_id, $test_id)
 	{
+		global $ilDB;
+
 		$found_values = array();
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-		$this->ilias->db->quote($user_id),
-		$this->ilias->db->quote($test_id),
-		$this->ilias->db->quote($this->getId())
+			$ilDB->quote($user_id),
+			$ilDB->quote($test_id),
+			$ilDB->quote($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($found_values, $data->value1);
