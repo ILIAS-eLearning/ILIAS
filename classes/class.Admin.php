@@ -152,13 +152,15 @@ class Admin
 				if ($not_pastable)
 				{
 					$not_pastable = implode(",",$not_pastable);
-					$this->ilias->raiseError("You have no permission to copy object(s) No. ".$not_deletable." io this place.<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError("You have no permission to copy object(s) No. ".
+											 $not_deletable." io this place.<br />Action aborted",$this->ilias->error_obj->MESSAGE);
 				}
 
 				if ($not_empty)
 				{
 					$not_empty = implode(",",$not_empty);
-					$this->ilias->raiseError("Following objects contain objects with no permission to create: ".$not_empty."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError("Following objects contain objects with no permission to create: ".
+											 $not_empty."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
 				}
 
 				// conduct pasting	
@@ -314,13 +316,15 @@ class Admin
 			if ($not_deletable)
 			{
 				$not_deletable = implode(",",$not_deletable);
-				$this->ilias->raiseError("You have no permission to delete object(s) No. ".$not_deletable."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError("You have no permission to delete object(s) No. ".
+										 $not_deletable."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
 			}
 
 			if ($not_empty)
 			{
 				$not_empty = implode(",",$not_empty);
-				$this->ilias->raiseError("Following objects contain objects with no permission to delete: ".$not_empty."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError("Following objects contain objects with no permission to delete: ".
+										 $not_empty."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
 			}
 			
 			// all chosen nodes & their subnodes are deletable => perform deletion 
@@ -373,7 +377,6 @@ class Admin
 						}
 					}
 				}
-				
 				$this->ilias->raiseError("Object(s) deleted!",$this->ilias->error_obj->MESSAGE);
 			}
 		}

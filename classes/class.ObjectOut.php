@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.2 2002/12/05 15:16:31 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -318,7 +318,7 @@ class ObjectOut
 				else
 				{
 					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["id"]);
+					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
