@@ -1,7 +1,7 @@
 <form action="{FORMACTION}" name="post" method="post">
 <table class="std">
 <tr class="tblheader">
-	<td class="std" colspan="2">
+	<td class="std" colspan="3">
 		{TXT_ACTION}
 	</td>
 </tr>
@@ -9,7 +9,7 @@
 	<td class="option">
 	{TXT_LANGUAGE}
 	</td>
-	<td class="option_value">
+	<td class="option_value" colspan="2">
 	{SELECT_LANGUAGE}
 	</td>
 </tr>
@@ -17,7 +17,7 @@
 	<td class="option">
 	{TXT_COLS}
 	</td>
-	<td class="option_value">
+	<td class="option_value"  colspan="2">
 	{SELECT_COLS}
 	</td>
 </tr>
@@ -25,13 +25,33 @@
 	<td class="option">
 	{TXT_ROWS}
 	</td>
-	<td class="option_value">
+	<td class="option_value" colspan="2">
 	{SELECT_ROWS}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_HTML_IMPORT}*
+	</td>
+	<td class="option_value">
+		<TEXTAREA name="htmltable" id="htmltable" rows="10" cols="50">
+			<table width="50%" border="5" cellpadding="10" cellspacing="15" class="Test">
+				<tr>
+					<td class="cell1">Hallo 1</td>
+					<td class="cell2">Hallo 2</td>
+				</tr>
+				<tr>
+					<td class="cell3">Hallo 2</td>
+					<td class="cell4">Hallo 3</td>
+				</tr>
+			</table>
+		</TEXTAREA><br>
+		<span class="asterisk">*</span><span class="small"> {TXT_HTML_IMPORT_INFO}</span>
 	</td>
 </tr>
 <!-- BEGIN commands -->
 <tr>
-	<td class="submit" colspan="2">
+	<td class="submit" colspan="3">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 	</td>
 </tr>
