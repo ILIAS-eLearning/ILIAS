@@ -87,7 +87,10 @@ class ilObjectGUI
 	var $formaction;		// special formation (array "cmd" => "formaction")
 	var $return_location;	// special return location (array "cmd" => "location")
 	var $target_frame;	// special target frame (array "cmd" => "location")
-	
+
+	var $tab_target_script;
+	var $actions;
+
 	/**
 	* Constructor
 	* @access	public
@@ -107,6 +110,8 @@ class ilObjectGUI
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
+		$this->tab_target_script = "adm_object.php";
+		$this->actions = "";
 
 		$this->data = $a_data;
 		$this->id = $a_id;
@@ -124,19 +129,7 @@ class ilObjectGUI
 		//prepare output
 		if ($a_prepare_output)
 		{
-			$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$title = $this->object->getTitle();
-
-			// catch feedback message
-			sendInfo();
-
-			if (!empty($title))
-			{
-				$this->tpl->setVariable("HEADER", $title);
-			}
-
-			$this->setAdminTabs();
-			$this->setLocator();
+			$this->prepareOutput();
 		}
 
 		// set offset & limit for
@@ -193,6 +186,23 @@ class ilObjectGUI
 		}
 	}
 
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		$this->setAdminTabs();
+		$this->setLocator();
+	}
+
 	/**
 	* set admin tabs
 	* @access	public
@@ -245,14 +255,14 @@ class ilObjectGUI
 						  $show = false;
 					  }
 					  break;
-	
+
 				  case 'edit':
 					  if (!$rbacsystem->checkAccess('write',$this->ref_id))
 					  {
 						  $show = false;
 					  }
 					  break;
-	
+
 				  case 'perm':
 					  if (!$rbacsystem->checkAccess('edit permission',$this->ref_id))
 					  {
@@ -278,10 +288,20 @@ class ilObjectGUI
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
 			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
 			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", "adm_object.php?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
+			$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	function setTabTargetScript($a_script = "adm_object.php")
+	{
+		$this->tab_target_script = $a_script;
+	}
+
+	function setActions($a_actions = "")
+	{
+		$this->actions = $a_actions;
 	}
 
 	/**
@@ -1741,18 +1761,18 @@ class ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		
+
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
 		}
-		
+
 		$tbl->setHeaderNames($header_names);
-		
+
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("15","15","30%","45%","25%"));
-		
+
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
@@ -1772,12 +1792,12 @@ class ilObjectGUI
 					$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 					$this->showActions(true);
 					break;
-				}				
+				}
 			}
 		}*/
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));		
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		$this->showActions(true);
-		
+
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
@@ -1874,7 +1894,7 @@ class ilObjectGUI
 								{
 									$val = "<del>".$val."</del>";
 								}
-								
+
 								if ($cmd == "copy" and $key == "title")
 								{
 									$val = "<font color=\"green\">+</font>  ".$val;
@@ -1892,10 +1912,10 @@ class ilObjectGUI
 
 					if ($key == "type")
 					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
@@ -1995,7 +2015,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
 
@@ -2204,19 +2224,19 @@ class ilObjectGUI
 		if ($this->object->getType() != "rolf")
 		{
 			$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
-	
+
 			// is there already a rolefolder?
 			if (!($rolf_id = $rolf_data["child"]))
 			{
 				// can the current object contain a rolefolder?
 				$mods = $rbacreview->getModules($this->object->getType(),$_GET["ref_id"]);
-	
+
 				if (!isset($mods["rolf"]))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
 											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
 				}
-	
+
 				// CHECK ACCESS 'create' rolefolder
 				if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
 				{
@@ -2233,12 +2253,12 @@ class ilObjectGUI
 					$rolfObj->createReference();
 					$rolfObj->putInTree($this->object->getRefId());
 					$rolfObj->setPermissions($_GET["ref_id"]);
-	
+
 					$rolf_id = $rolfObj->getRefId();
-	
+
 					// Suche aller Parent Rollen im Baum
 					$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
-	
+
 					foreach ($parentRoles as $parRol)
 					{
 						// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -2272,14 +2292,14 @@ class ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);
-		
+
 		header("Location: ".$this->getReturnLocation("addRole","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
 
 	/**
 	* show possible action (form buttons)
-	* 
+	*
 	* @param	boolean
 	* @access	public
  	*/
@@ -2302,7 +2322,14 @@ class ilObjectGUI
 
 		$operations = array();
 
-		$d = $this->objDefinition->getActions($_GET["type"]);
+		if($this->actions == "")
+		{
+			$d = $this->objDefinition->getActions($_GET["type"]);
+		}
+		else
+		{
+			$d = $this->actions;
+		}
 
 		foreach ($d as $row)
 		{
@@ -2317,7 +2344,7 @@ class ilObjectGUI
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("tbl_action_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}

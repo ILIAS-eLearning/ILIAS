@@ -443,12 +443,16 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#Your are not logged in
 common#:#obj#:#Object
+common#:#glo_added#:#Added glossary
 common#:#obj_adm#:#System Settings
 common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
 common#:#obj_frm#:#Forum
 common#:#obj_grp#:#Group
+common#:#obj_st#:#Chapter
+common#:#obj_glo#:#Glossary
+common#:#obj_pg#:#Page
 common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
@@ -739,6 +743,8 @@ content#:#cont_reference#:#Reference
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
+content#:#cont_term#:#Term
+content#:#cont_terms#:#Terms
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_sc_title#:#title
 content#:#cont_scorm_type#:#adlcp:scormtype
