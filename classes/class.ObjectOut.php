@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.20 2003/01/22 09:37:13 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.21 2003/01/30 14:59:16 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -620,7 +620,6 @@ class ObjectOut
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
 		foreach ($d as $row)
 		{
-			//@todo max value abfragen und entsprechend evtl aus der liste streichen
 		    $count = 0;
 			if ($row["max"] > 0)
 			{

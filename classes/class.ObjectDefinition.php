@@ -1,17 +1,41 @@
 <?php
 /**
-* object definition class
-* 
+* parses the objects.xml 
 * it handles the xml-description of all ilias objects
 *
-* @author Peter Gabriel <peter@gabriel-online.net>
+* @author Stefan Meyer <smeyer@databay>
 * @version $Id$
 *
 * @extends PEAR
 * @package ilias-core
 */
-class ObjectDefinition extends PEAR
+
+include_once("./classes/class.SaxParser.php");
+
+class ObjectDefinition extends SaxParser
 {
+
+	/**
+	 * object id of specific object
+	 * @var obj_id
+	 * @access private
+	 */
+	var $obj_id;
+	
+	/**
+	 * parent id of object
+	 * @var parent id
+	 * @access private
+	 */
+	var $parent;
+
+	/**
+	 * array representation of objects
+	 * @var objects
+	 * @access private
+	 */
+	var $obj_data;
+
 	/**
 	* Constructor
 	* setup ILIAS global object
@@ -19,130 +43,184 @@ class ObjectDefinition extends PEAR
 	*/
 	function ObjectDefinition()
 	{
-		$this->PEAR();
-
-		//********XML***********************************************
-		//objects-typedefinition in XML
-		$data = file("objects.xml");
-		$data = implode($data,"");
-		$this->rawdata = databay_XML2OBJ($data);
-		unset($data);
-		
-		$this->buildList();
-		//debug for xml-objectdefinitions
-		//echo $this->objDef->ChildNodes[0]->countElements("object");
-		//echo nl2br(htmlspecialchars(databay_OBJ2XML($this->objDef)));		
+		parent::SaxParser("./objects.xml");
 	}
 
-	function buildList()
+// PUBLIC METHODS
+	/**
+	* get object definition by type
+	* 
+	* @access	public
+	*/
+	function getDefinition($a_obj_name)
 	{
-		$this->data = array();
-
-		for ($i=0; $i<count($this->rawdata->ChildNodes[0]->ChildNodes); $i++)
-		{
-			$obj = $this->rawdata->ChildNodes[0]->ChildNodes[$i];
-
-			$data["name"] = $obj->getAttr("NAME");
-			$data["class_name"] = $obj->getAttr("CLASS_NAME");
-			$data["chkbox"] = (bool) $obj->getAttr("CHKBOX");
-			$data["subobjects"] = array();
-			$data["properties"] = array();
-			$data["actions"] = array();
-			foreach ($obj->ChildNodes as $row)
-			{
-				if ($row->Name == "SUBOBJ")
-				{
-					$d = array();
-					foreach ($row->getAttrs() as $k => $v)
-					{
-						$d[strtolower($k)] = $v;
-					}
-					if ($row->Data)
-						$d["lng"] = $row->Data;
-					else
-						$d["lng"] = $d["name"];
-					$data["subobjects"][$d["name"]] = $d;
-				}
-				if ($row->Name == "PROPERTY")
-				{
-					$d = array();
-					foreach ($row->getAttrs() as $k => $v)
-					{
-						$d[strtolower($k)] = $v;
-					}
-					if ($row->Data)
-						$d["lng"] = $row->Data;
-					else
-						$d["lng"] = $d["name"];
-					$data["properties"][$d["name"]] = $d;
-				}
-				if ($row->Name == "ACTION")
-				{
-					$d = array();
-					foreach ($row->getAttrs() as $k => $v)
-					{
-						$d[strtolower($k)] = $v;
-					}
-					if ($row->Data)
-						$d["lng"] = $row->Data;
-					else
-						$d["lng"] = $d["name"];
-					$data["actions"][$d["name"]] = $d;
-				}
-			} //foreach
-			$this->data[$data["name"]] = $data;
-		} //for
-
-	} //function
-
-	
-	function getDefinition($a_objname)
-	{
-		return $this->data[$a_objname];
+		return $this->obj_data[$a_obj_name];
 	}
-
-	function getClassName($a_objname)
+	/**
+	* get class name by type
+	* 
+	* @access	public
+	*/
+	function getClassName($a_obj_name)
 	{
-		return $this->data[$a_objname]["class_name"];
+		return $this->obj_data[$a_obj_name]["class_name"];
 	}
-	
-	function hasCheckbox($a_objname)
+	/**
+	* should the object get a checkbox (needed for 'cut','copy' ...)
+	* 
+	* @access	public
+	*/
+	function hasCheckbox($a_obj_name)
 	{
-		return $this->data[$a_objname]["chkbox"];
+		return (bool) $this->obj_data[$a_obj_name]["checkbox"];
 	}
-	
-	function getProperties($a_objname)
+	/**
+	* get properties by type
+	* 
+	* @access	public
+	*/
+	function getProperties($a_obj_name)
 	{
-		return $this->data[$a_objname]["properties"];
+		return $this->obj_data[$a_obj_name]["properties"];
 	}
-		
-	function getSubObjects($a_objname)
+	/**
+	* get subobjects by type
+	* 
+	* @access	public
+	*/
+	function getSubObjects($a_obj_name)
 	{
-		return $this->data[$a_objname]["subobjects"];
+		return $this->obj_data[$a_obj_name]["subobjects"];
 	}
-
-	function getActions($a_objname)
+	/**
+	* get possible actions by type
+	* 
+	* @access	public
+	*/
+	function getActions($a_obj_name)
 	{
-		return $this->data[$a_objname]["actions"];
+		return $this->obj_data[$a_obj_name]["actions"];
 	}
-
-	function getFirstProperty($a_objname)
+	/**
+	* get default property by type
+	* 
+	* @access	public
+	*/
+	function getFirstProperty($a_obj_name)
 	{
-		$data = array_keys($this->data[$a_objname]["properties"]);
+		$data = array_keys($this->obj_data[$a_obj_name]["properties"]);
 		return $data[0];
 	}
-	
-	function getPropertyName($a_cmd, $a_type)
+	/**
+	* get name of property by type
+	* 
+	* @access	public
+	*/
+	function getPropertyName($a_cmd, $a_obj_name)
 	{
-		return $this->data[$a_type]["properties"][$a_cmd]["lng"];
+		return $this->obj_data[$a_obj_name]["properties"][$a_cmd]["lng"];
 	}
-	
-	function getSubObjectsAsString($a_objname)
+	/**
+	* get a string of all subobjects by type
+	* 
+	* @access	public
+	*/
+	function getSubObjectsAsString($a_obj_name)
 	{
-	  $data = array_keys($this->data[$a_objname]["subobjects"]);
-	  $string = "'".implode("','", $data)."'";
-	  return $string;
+		$data = array_keys($this->obj_data[$a_obj_name]["subobjects"]);
+		$string = "'".implode("','", $data)."'";
+		return $string;
 	}
 
-} // class
+// PRIVATE METHODS
+	/**
+	* set event handler
+	* 
+	* @access	private
+	*/
+	function setHandlers($a_xml_parser)
+	{
+		xml_set_object($a_xml_parser,$this);
+		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
+		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+	}
+	/**
+	* start tag handler
+	* 
+	* @access	private
+	*/
+	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
+	{
+		switch($a_name)
+		{
+			case 'objects':
+				$this->current_tag = '';
+				break;
+			case 'object':
+				$this->parent_tag_name = $a_attribs["name"];
+				$this->current_tag = '';
+				$this->obj_data["$a_attribs[name]"]["name"] = $a_attribs["name"];
+				$this->obj_data["$a_attribs[name]"]["class_name"] = $a_attribs["class_name"];
+				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
+				break;
+			case 'subobj':
+				$this->current_tag = "subobj";
+				$this->current_tag_name = $a_attribs["name"];
+				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["name"] = $a_attribs["name"];
+				// NUMBER OF ALLOWED SUBOBJECTS (NULL means no limit)
+				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["max"] = $a_attribs["max"];
+				break;
+			case 'property':
+				$this->current_tag = "property";
+				$this->current_tag_name = $a_attribs["name"];
+				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
+				break;
+			case 'action':
+				$this->current_tag = "action";
+				$this->current_tag_name = $a_attribs["name"];
+				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
+				break;
+		}
+				
+
+	}
+	/**
+	* end tag handler
+	* 
+	* @access	private
+	*/
+	function handlerCharacterData($a_xml_parser,$a_data)
+	{
+		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
+		$a_data = preg_replace("/\n/","",$a_data);
+		$a_data = preg_replace("/\t+/","",$a_data);
+		if(!empty($a_data))
+		{
+			switch($this->current_tag)
+			{
+				case "subobj":
+					$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["lng"] = $a_data;
+					break;
+				case "action" :
+					$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["lng"] = $a_data;
+					break;
+				case "property" :
+					$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["lng"] = $a_data;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	/**
+	* end tag handler
+	* 
+	* @access	private
+	*/
+	function handlerEndTag($a_xml_parser,$a_name)
+	{
+		$this->current_tag = '';
+		$this->current_tag_name = '';
+	}
+}
 ?>
