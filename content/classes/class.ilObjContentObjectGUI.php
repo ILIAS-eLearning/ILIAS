@@ -378,7 +378,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//$this->tpl->touchBlock("includejavascript");
 			
 			$IDS = "";
-			for ($i=0;$i<count($exp->iconList);$i++) {
+			for ($i=0;$i<count($exp->iconList);$i++) 
+			{
 				if ($i>0) $IDS .= ",";
 				$IDS .= "'".$exp->iconList[$i]."'";
 			}

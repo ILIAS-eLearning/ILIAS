@@ -4124,6 +4124,7 @@ survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
 content#:#cont_set_after#:#insert after
 content#:#cont_set_before#:#insert before
+content#:#cont_set_into#:#insert into
 content#:#cont_move_object#:#move object
 content#:#cont_copy_object#:#copy object
 content#:#cont_external_url#:#external url
@@ -4131,3 +4132,4 @@ content#:#cont_title#:#title
 content#:#cont_title_footnotes#:#Footnotes
 content#:#cont_insert_new_footnote#:#insert new footnore
 content#:#cont_set_cancel#:#cancel
+content#:#cont_st_on_pg#:#this function is not allowed.
