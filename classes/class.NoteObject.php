@@ -95,8 +95,8 @@ class NoteObject extends Object
 		$create_date = date("Y-m-d G:i:s");
 		if(strlen($note_text) > 40)
 		{
-			$note_text  			= substr($note_text,0,37);
-			$note_text			   .= "...";
+			$obj_title   			= substr($note_text,0,37);
+			$obj_title			   .= "...";
 		}
 	
 		//update table note_data
@@ -104,7 +104,8 @@ class NoteObject extends Object
 				    "important='".$rate["important"]."', good='".$rate["good"]."', ".
    				    "bad='".$rate["bad"]."' WHERE note_id='".$obj_id."'";
 		//update table object_data
-		$query_od = "UPDATE object_data SET description='".$note_text."' WHERE obj_id='".$obj_id."'";
+		$query_od = "UPDATE object_data SET description='".$obj_title."' WHERE obj_id='".$obj_id."'";
+
 		$res1 = $this->ilias->db->query($query_nd);
 		$res2 = $this->ilias->db->query($query_od);
 		
