@@ -18,7 +18,7 @@ default#:#default
 delete#:#delete
 err_create_database_failed#:#creation of database failed
 ilias_version#:#ILIAS version
-inifile#:#INI-file
+inifile#:#ini-file
 inst_name#:#installation name
 install#:#install
 installed#:#installed
@@ -26,7 +26,7 @@ language#:#language
 languages#:#languages
 login#:#login
 login_to_ilias#:#login to ILIAS
-re#:#server software
+password#:#password
 set#:#set
 set_offline#:#set offline
 setup#:#setup
