@@ -199,7 +199,7 @@ class ilTree
 			 "WHERE lft = (rgt -1) ".
 			 "AND tree = '".$this->tree->id."'";
 		$r = $this->ilias->db->query($q);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$leafs[] = $this->fetchNodeData($row);
@@ -669,7 +669,7 @@ class ilTree
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
-		
+
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $this->fetchNodeData($row);
@@ -797,7 +797,7 @@ class ilTree
 			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
 
 		$this->ilias->db->query($q);
-		
+
 		return true;
 	}
 
@@ -838,12 +838,12 @@ class ilTree
 			 "AND ".$this->table_tree.".rgt BETWEEN '".$left."' AND '".$right."' ".
 			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$data[] = $this->fetchNodeData($row);
 		}
-		
+
 		return $data;
 	}
 
@@ -886,7 +886,7 @@ class ilTree
 			 "WHERE tree = '".$this->tree_id."' ".
 			 "AND child = '".$a_node_id."' ";
 		$r = $this->ilias->db->query($q);
-	
+
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$lft = $row->lft;
@@ -954,10 +954,11 @@ class ilTree
 			$this->ilias->raiseError(get_class($this)."::getSavedNodeData(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		$q = "SELECT * FROM ".$this->table_tree.",".$this->table_obj_data." ".
-			 "WHERE ".$this->table_tree.".tree < 0 ".
-			 "AND ".$this->table_tree.".parent = '".$a_parent_id."' ".
-			 "AND ".$this->table_tree.".child = ".$this->table_obj_data.".".$this->obj_pk;
+		$q =	"SELECT * FROM ".$this->table_tree." ".
+				$this->buildJoin().
+				"WHERE ".$this->table_tree.".tree < 0 ".
+				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
+
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -967,7 +968,7 @@ class ilTree
 
 		return $saved;
 	}
-	
+
 	/**
 	* get parent id of given node
 	* @access	public

@@ -224,7 +224,7 @@ class ilObjectGUI
 		{
 			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
 		}
-		
+
 		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
 
 		if ($_GET["cmd"] == "confirmDeleteAdm")
@@ -740,7 +740,7 @@ class ilObjectGUI
 	/**
 	* get object back from trash
 	*/
-	function btn_undeleteObject()
+	function undeleteObject()
 	{
 		global $rbacsystem;
 
@@ -812,13 +812,14 @@ class ilObjectGUI
 	}
 
 	/**
-	* confirm deletion if objects (todo: find better name for operation)
+	* confirmed deletion if object -> objects are moved to trash
+	*
 	* However objects are only removed from tree!! That means that the objects
 	* itself stay in the database but are not linked in any context within the system.
 	* Trash Bin Feature: Objects can be refreshed in trash
 	* @access	public
 	*/
-	function confirmObject()
+	function confirmedDeleteObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
 
@@ -887,12 +888,10 @@ class ilObjectGUI
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
 				}
-
 				$tree->saveSubTree($id);
 				$tree->deleteTree($tree->getNodeData($id));
 			}
 		}
-
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
@@ -903,9 +902,9 @@ class ilObjectGUI
 
 
 	/**
-	* cancel deletion (todo: find better operation name)
+	* cancel deletion of object
 	*/
-	function cancelObject()
+	function cancelDeleteObject()
 	{
 		session_unregister("saved_post");
 		
@@ -917,13 +916,13 @@ class ilObjectGUI
 
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
-	* (todo: find better operation name)
+	*
 	* @param	array	array of id to remove
 	* @param	integer	obj_id
 	* @param	integer	parent_id
 	* @access	public
 	*/
-	function btn_remove_systemObject()
+	function removeFromSystemObject()
 	{
 		global $rbacsystem,$tree;
 
@@ -973,73 +972,6 @@ class ilObjectGUI
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
 		exit();
-	}
-
-
-	/**
-	* gateway for all button actions
-	* @access	public
-	*/
-	function gatewayObject()
-	{
-
-//echo "MKK:".key($_POST["cmd"]).":<br>";
-		switch(key($_POST["cmd"]))
-		{
-			case "cut":
-				$this->cutObject();
-				break;
-
-			case "copy":
-				$this->copyObject();
-				break;
-
-			case "link":
-				$this->linkObject();
-				break;
-
-			case "paste":
-				$this->pasteObject();
-				break;
-
-			case "clear":
-				$this->clearObject();
-				break;
-
-			case "delete":
-				$this->deleteObject();
-				break;
-
-			case "btn_undelete":
-				$this->btn_undeleteObject();
-				break;
-
-			case "btn_remove_system":
-				$this->btn_remove_systemObject();
-				break;
-
-			case "cancel":
-				$this->cancelObject();
-				break;
-
-			case "create":
-				$this->createObject();
-				break;
-
-			case "confirm":
-				$this->confirmObject();
-				break;
-
-			default:
-				$this->data = false;
-		}
-
-		if ((key($_POST["cmd"]) != "delete") &&
-			(key($_POST["cmd"]) != "create"))
-		{
-			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-			exit();
-		}
 	}
 
 	/**
@@ -1700,7 +1632,7 @@ class ilObjectGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);			
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 			}
 			else
 			{
@@ -1714,8 +1646,8 @@ class ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancel"  => $this->lng->txt("cancel"),
-								  "confirm"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
+								  "confirmedDelete"  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
@@ -1797,8 +1729,8 @@ class ilObjectGUI
 					"desc"        => $obj_data["desc"],
 					"last_update" => $obj_data["last_update"]);
 			}
-			$this->data["buttons"] = array( "btn_undelete"  => $lng->txt("btn_undelete"),
-									  "btn_remove_system"  => $lng->txt("btn_remove_system"));
+			$this->data["buttons"] = array( "undelete"  => $lng->txt("btn_undelete"),
+									  "removeFromSystem"  => $lng->txt("btn_remove_system"));
 		}
 
 		$this->getTemplateFile("confirm");
@@ -1807,7 +1739,7 @@ class ilObjectGUI
 		{
 			return;
 		}
-		
+
 		sendInfo($this->lng->txt("info_trash"));
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");

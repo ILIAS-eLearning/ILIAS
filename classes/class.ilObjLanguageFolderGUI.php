@@ -24,49 +24,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		$this->type = "lngf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
-		
+
 		// TODO: was soll der quatsch??
 		//$this->LangFolderObject =& new ilObjLanguageFolder($_GET["obj_id"]);
 	}
 
-	/**
-	* Overwritten method from class.Object.php
-	* It handles all button commands from Learning Modules
-	*
-	* @access public
-	*/
-	function gatewayObject()
-	{
-		switch(key($_POST["cmd"]))
-		{
-			case "install":
-				$this->installObject();
-				break;
-
-			case "uninstall":
-				$this->uninstallObject();
-				break;
-
-			case "refresh":
-				$this->refreshObject();
-				break;
-
-			case "set_system_language":
-				$this->setsyslangObject();
-				break;
-
-			case "change_language":
-				$this->setuserlangObject();
-				break;
-
-			case "check_language":
-				$this->checklangObject();
-				break;
-
-		}
-
-		parent::gatewayObject();
-	}
 
 	/**
 	* show installed languages
@@ -146,7 +108,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 						"remark" => $remark,
 						"last_change" => ilFormat::formatDate($lang_data["last_update"])
 						);
-			
+
 			foreach ($data as $key => $val)
 			{
 				$this->tpl->setCurrentBlock("text");
@@ -305,7 +267,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	/**
 	* set user language
 	*/
-	function setuserlangObject()
+	function setUserLanguageObject()
 	{
 		require_once "classes/class.ilObjUser.php";
 
@@ -347,7 +309,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	/**
 	* set the system language
 	*/
-	function setsyslangObject ()
+	function setSystemLanguageObject ()
 	{
 		if (!isset($_POST["id"]))
 		{
@@ -388,7 +350,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	/**
 	* check all languages
 	*/
-	function checklangObject ()
+	function checkLanguageObject ()
 	{
 		//$langFoldObj = new ilObjLanguageFolder($_GET["obj_id"]);
 		//$this->data = $langFoldObj->checkAllLanguages();
