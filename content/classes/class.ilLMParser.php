@@ -245,6 +245,9 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->page_object->appendContent($this->paragraph);
 				break;
 
+			case "Table":
+				break;
+
 			case "MetaData":
 				//$this->in_meta = true;
 				$this->meta_data =& new ilMetaData();

@@ -149,6 +149,10 @@ class ilPageObject extends ilLMObject
 			{
 				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
 			}
+			if (get_class($co_object) == "illmtable")
+			{
+				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
+			}
 		}
 		$utfstr = ($a_utf8_encoded)
 			? "encoding=\"UTF-8\""
