@@ -830,6 +830,9 @@ content#:#cont_chapters#:#Kapitel
 content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
+content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
+content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
+content#:#cont_citations#:#Zitate
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
 content#:#cont_cross_reference#:#Verweis
@@ -935,6 +938,7 @@ content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_show#:#Anzeigen
+content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_std_view#:#Standardsicht
@@ -1605,7 +1609,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
-content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
-content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
-content#:#cont_citations#:#Zitate
