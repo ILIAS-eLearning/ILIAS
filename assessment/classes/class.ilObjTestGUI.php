@@ -412,9 +412,9 @@ class ilObjTestGUI extends ilObjectGUI
           //if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
           //  $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&edit=$data->question_id\">$data->title</a>");
           //} else {
-            $this->tpl->setVariable("QUESTION_TITLE", $data->title);
+            $this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
           //}
-          $this->tpl->setVariable("PREVIEW", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>");
+          $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
           $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
@@ -511,6 +511,54 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function insertQuestions($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_insert_questions.html", true);
+		$where = "";
+		foreach ($checked_questions as $id) {
+			$where .= sprintf(" OR qpl_questions.question_id = %s", $this->ilias->db->quote($id));
+		}
+		$where = preg_replace("/^ OR /", "", $where);
+		$where = "($where)";
+    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND $where";
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
 
@@ -524,17 +572,24 @@ class ilObjTestGUI extends ilObjectGUI
 			$show_questionbrowser = true;
 			if ($_POST["cmd"]["insert"]) {
 				// insert selected questions into test
-				$selected_counter = 0;
+				$selected_array = array();
 				foreach ($_POST as $key => $value) {
 					if (preg_match("/cb_(\d+)/", $key, $matches)) {
-						$this->object->insert_question($matches[1]);
-						$selected_counter++;
+						array_push($selected_array, $matches[1]);
 					}
 				}
-				if (!$selected_counter) {
+				if (!count($selected_array)) {
 					sendInfo($this->lng->txt("tst_insert_missing_question"));
 				} else {
-					$show_questionbrowser = false;
+					$total = $this->object->evalTotalPersons();
+					if ($total) {
+						// the test was executed previously
+						sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+					} else {
+						sendInfo($this->lng->txt("tst_insert_questions"));
+					}
+					$this->insertQuestions($selected_array);
+					return;
 				}
 			}
 			if ($_POST["cmd"]["back"]) {	
@@ -547,6 +602,17 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($_POST["cmd"]["create_question"]) {
 			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
+		}
+
+		if (strlen($_POST["cmd"]["confirm_insert"]) > 0) 
+		{
+			// insert questions from test after confirmation
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/id_(\d+)/", $key, $matches)) {
+					$this->object->insert_question($matches[1]);
+				}
+			}
+			sendInfo($this->lng->txt("tst_questions_inserted"));
 		}
 
 		if (strlen($_POST["cmd"]["confirm_remove"]) > 0) 
