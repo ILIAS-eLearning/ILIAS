@@ -416,6 +416,7 @@ common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
+common#:#personal_picture#:#Personal Picture
 common#:#personal_profile#:#Personal Profile
 common#:#persons#:#Personen
 common#:#phone#:#Phone
@@ -438,7 +439,6 @@ common#:#question#:#Question
 common#:#quit#:#Quit
 common#:#quote#:#Quote
 common#:#read#:#Read
-common#:#personal_picture#:#Personal Picture
 common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
 common#:#refresh_list#:#Refresh List
@@ -563,12 +563,12 @@ content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_meta_data#:#Meta Data
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
+content#:#cont_preview#:#Preview
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#st#:#Chapter
-content#:#cont_preview#:#Preview
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_available#:#Available Forums
