@@ -2054,8 +2054,10 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
+			print "schleife<br>";
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
+			print "in der schleife<br>";
 				$result_array[$row->ref_id] = $row->title;
 			}
 		}

@@ -200,50 +200,84 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$page = $this->object->getNextPage($_GET["qid"], 0);
 				foreach ($page as $data)
 				{
+					$save_answer = 0;
 					$error = 0;
 					if (strcmp($data["type_tag"], "qt_metric") == 0)
 					{
 						// there is a metric question -> check input
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$data["question_id"] . "_metric_question"], "") == 0) or (($_POST[$data["question_id"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$data["question_id"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0))))
+						if ((($_POST[$data["question_id"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$data["question_id"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0))))
 						{
 							// there is an error: value is not in bounds
 							$errormsg .= $this->lng->txt("metric_question_out_of_bounds") . "<br />";
 							$error = 1;
 						}
+						if ((strcmp($_POST[$data["question_id"] . "_metric_question"], "") == 0) && ($data["obligatory"]))
+						{
+							// there is an error: value is not in bounds
+							$errormsg .= $this->lng->txt("metric_question_out_of_bounds") . "<br />";
+							$error = 1;
+						}
+						if (($error == 0) && (strcmp($_POST[$data["question_id"] . "_metric_question"], "") != 0))
+						{
+							$save_answer = 1;
+						}
 					}
 					if (strcmp($data["type_tag"], "qt_nominal") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR))
+						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
 							$errormsg .= $this->lng->txt("nominal_question_not_checked")  . "<br />";
 							$error = 1;
 						}
+						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR) and (!$data["obligatory"])) {
+							$save_answer = 0;
+						}
+						else
+						{
+							$save_answer = 1;
+						}
 					}
 					if (strcmp($data["type_tag"], "qt_ordinal") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (strcmp($_POST[$data["question_id"] . "_value"], "") == 0)
+						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
 							$errormsg .= $this->lng->txt("ordinal_question_not_checked")  . "<br />";
 							$error = 1;
 						}
+						if ((strcmp($_POST[$data["question_id"] . "_value"], "") == 0) && !$error)
+						{
+							$save_answer = 0;
+						}
+						else
+						{
+							$save_answer = 1;
+						}
 					}
 					if (strcmp($data["type_tag"], "qt_text") == 0)
 					{
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0)
+						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && ($data["obligatory"]))
 						{
 							// none of the radio buttons was checked
 							$errormsg .= $this->lng->txt("text_question_not_filled_out")  . "<br />";
 							$error = 1;
 						}
+						if ((strcmp($_POST[$data["question_id"] . "_text_question"], "") == 0) && (!$data["obligatory"]))
+						{
+							$save_answer = 0;
+						}
+						else
+						{
+							$save_answer = 1;
+						}
 					}
 					$page_error += $error;
-					if (!$error)
+					if ((!$error) && ($save_answer))
 					{
 						// save user input
 						$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
@@ -679,6 +713,8 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", true);
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", true);
 
+		$questionpools =& $this->object->getQuestionpoolTitles();
+
 		$filter_type = $_GET["sel_filter_type"];
 		if (!$filter_type)
 		{
@@ -850,7 +886,6 @@ class ilObjSurveyGUI extends ilObjectGUI
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
 		$questionblock_id = 0;
-		$questionpools =& $this->object->getQuestionpoolTitles();
 		if ($browsequestions)
 		{
 			foreach ($table["rows"] as $data)
@@ -869,7 +904,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_id"]]);
+					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
