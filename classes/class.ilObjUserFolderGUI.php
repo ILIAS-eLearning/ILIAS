@@ -901,8 +901,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// ------------------------------
 		$this->tpl->setCurrentBlock("role_selection_form");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
-		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_global_role"));
 		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
 		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
@@ -938,10 +936,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		// global roles
+		$got_globals = false;
 		foreach($roles as $role_id => $role)
 		{
 			if ($role["type"] == "Global")
 			{
+				if (! $got_globals)
+				{
+					$got_globals = true;
+
+					$this->tpl->setCurrentBlock("global_role_section");
+					$this->tpl->setVariable("TXT_GLOBAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
+					$this->tpl->setVariable("TXT_GLOBAL_ROLES", $this->lng->txt("assign_global_role"));
+				}
 
 				// pre selection for role
 				$pre_select = array_search($role[name], $gl_roles);
@@ -970,10 +977,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							break;
 					}
 				}
-				$this->tpl->setCurrentBlock("role");
+				$this->tpl->setCurrentBlock("global_role");
 				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
-				$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
-				$this->tpl->setVariable("SELECT_ROLE", $role_select);
+				$this->tpl->setVariable("TXT_IMPORT_GLOBAL_ROLE", $role["name"]." [".$role_id."]");
+				$this->tpl->setVariable("SELECT_GLOBAL_ROLE", $role_select);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -1041,21 +1048,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			if ($role["type"] == "Local")
 			{
-				$got_locals = true;
+				if (! $got_locals)
+				{
+					$got_locals = true;
+
+					$this->tpl->setCurrentBlock("local_role_section");
+					$this->tpl->setVariable("TXT_LOCAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_local"));
+					$this->tpl->setVariable("TXT_LOCAL_ROLES", $this->lng->txt("assign_local_role"));
+				}
 
 				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
-				$this->tpl->setCurrentBlock("role");
-				$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
-				$this->tpl->setVariable("SELECT_ROLE", $role_select);
+				$this->tpl->setCurrentBlock("local_role");
+				$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]." [".$role_id."]");
+				$this->tpl->setVariable("SELECT_LOCAL_ROLE", $role_select);
 				$this->tpl->parseCurrentBlock();
 			}
-		}
-		if ($got_locals)
-		{
-			$this->tpl->setCurrentBlock("role_section");
-			$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_local"));
-			$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_local_role"));
-			$this->tpl->parseCurrentBlock();
 		}
 
 		// 
@@ -1075,6 +1082,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
+		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilUserImportParser.php';
 
 		global $rbacreview, $rbacsystem, $tree, $lng;
@@ -1097,15 +1105,29 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// user has write permission on the roles.
 		if ($_POST["role_assign"])
 		{
+			$global_roles = $rbacreview->getGlobalRoles();
 			foreach ($_POST["role_assign"] as $role_id)
 			{
-				$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
-				if ($rbacreview->isDeleted($rolf[0])
-					|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+				if (in_array($role_id, $global_roles))
 				{
-					$this->ilias->raiseError($this->lng->txt("import_into_specified_role_not_permitted"), 
-						$this->ilias->error_obj->MESSAGE);
-					return;
+					if ($role_id == SYSTEM_ROLE_ID 
+					&& ! ilObjRole::_getAssignUsersStatus($role_id))
+					{
+						$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 
+							$this->ilias->error_obj->MESSAGE);
+					}
+				}
+				else
+				{
+					$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
+					if ($rbacreview->isDeleted($rolf[0])
+						|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+					{
+
+						$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 
+							$this->ilias->error_obj->MESSAGE);
+						return;
+					}
 				}
 			}
 		}
