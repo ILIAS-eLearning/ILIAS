@@ -573,7 +573,7 @@ class ilObjTest extends ilObject
         $db->quote(sprintf("%d", $this->processing_time)),
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -592,7 +592,7 @@ class ilObjTest extends ilObject
         $db->quote(sprintf("%d", $this->processing_time)), 
         $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($this->test_id) 
       );
       $result = $db->query($query);

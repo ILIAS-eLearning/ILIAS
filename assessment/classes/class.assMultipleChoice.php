@@ -165,7 +165,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $db->quote($this->owner),
         $db->quote($this->question),
         $db->quote($this->response),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -184,7 +184,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->question),
         $db->quote($this->response),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);

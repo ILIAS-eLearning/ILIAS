@@ -162,7 +162,7 @@ class ASS_MatchingQuestion extends ASS_Question {
         $db->quote($this->question),
 				$db->quote($this->matching_type),
         $db->quote($this->points),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -182,7 +182,7 @@ class ASS_MatchingQuestion extends ASS_Question {
         $db->quote($this->question),
 				$db->quote($this->matching_type),
         $db->quote($this->points),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);
