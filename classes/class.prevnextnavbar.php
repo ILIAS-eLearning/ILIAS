@@ -1,12 +1,10 @@
 <?php
-/*
-+---------------------------------------------------------------+
-/ classes/class.prevnextnavbar.php                              /
-/                                                               /
-/ Hilfsmodul-Klasse von ILIAS3                                  /
-/ Funktion: siehe unten                                         /
-/ ´                                                             /
-+---------------------------------------------------------------+
+/**
+* classes/class.prevnextnavbar.php                              /
+*                                                               /
+* Hilfsmodul-Klasse von ILIAS3                                  /
+* @version $Id$
+* @package ilias-core
 */
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,8 @@
 <?
-/*
-+---------------------------------------------------------------+
-/ classes/class.group.php                                       /
-/                                                               /
-/ Gruppen-Klasse von ILIAS3                                     /
-/ 	                                    						/
-/                                                               /
-+---------------------------------------------------------------+
+/**
+ * Gruppen
+ * @version $Id$
+ * @package ilias-core
 */
 
 class TGroup 

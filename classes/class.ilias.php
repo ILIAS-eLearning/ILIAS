@@ -5,7 +5,7 @@
 * class to setup ILIAS
 *
 * @author Sascha Hofmann <shofmann@databay.de>
-* @package ILIAS
+* @package ilias-core
 * @access public
 * @version $Id$
 */

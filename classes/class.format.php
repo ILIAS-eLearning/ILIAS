@@ -1,5 +1,11 @@
 <?php
 
+/**
+* format conversions
+* @version $Id$
+* @package application
+*/
+
 ////////////////////////////////////////////////////////////////////////////////
 // Name: class.format.php
 // Appl: ILIAS3

@@ -1,12 +1,8 @@
 <?php
 /*
-+---------------------------------------------------------------+
-/ classes/class.resource.php                                    /
-/                                                               /
-/ Objekt-Klasse von ILIAS3                                      /
-/                                                               /
-/                                                               /
-+---------------------------------------------------------------+
+* Objekt-Klasse von ILIAS3                                      /
+* @version $Id$
+* @package ilias-core
 */
 
 

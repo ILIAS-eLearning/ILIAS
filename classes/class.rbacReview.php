@@ -2,7 +2,8 @@
 /**
  * class RbacReview
  * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
+ * @version $Id$ 
+ * @package rbac
  * 
  */
 class RbacReview

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Error Handling
+ * @version $Id$
+ * @author Stefan Meyer <smeyer@databay.de>
+ * @package application
+ */
 class ErrorHandling
 {
 	var $DEBUG_ENV;

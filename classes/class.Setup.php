@@ -5,7 +5,7 @@
 * class to setup ILIAS first and maintain the ini-settings and the database
 *
 * @author Peter Gabriel <pgabriel@databay.de>
-* @package ILIAS
+* @package application
 * @access public
 * @version $Id$
 */

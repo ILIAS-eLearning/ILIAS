@@ -1,12 +1,9 @@
 <?php
 /*
-+---------------------------------------------------------------+
-/ classes/class.groupmember.php                                 /
-/                                                               /
-/ Gruppenmitglieder-Klasse von ILIAS3                           /
-/ Was jetzt hier drin steht geh÷rt dort nicht hin :)            /
-/                                                               /
-+---------------------------------------------------------------+
+* Gruppenmitglieder-Klasse von ILIAS3                           /
+* @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
+* @package ilias-core
 */
 
 class TGroupmember
