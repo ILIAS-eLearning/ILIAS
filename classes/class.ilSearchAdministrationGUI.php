@@ -75,8 +75,6 @@ class ilSearchAdministrationGUI
 
 		// DEFINE SOME CONSTANTS
 		define("RESULT_LIMIT",10);
-		define("ROOT_ID",1);
-
 		
 		// Initiate variables
 		$this->ilias	=& $ilias;
@@ -92,14 +90,14 @@ class ilSearchAdministrationGUI
 		$this->sort_order = $_GET["sort_order"];
 		
 		$this->setUserId($a_user_id);
-		$this->setFolderId($_GET["folder_id"]);
 		$this->setViewmode($_GET["viewmode"]);
 
 		// INITIATE SEARCH OBJECT
 		$this->search =& new ilSearch($a_user_id);
-		$this->folder_obj =& new ilSearchFolder($this->getUserId(),$this->getFolderId());
+		$this->folder_obj =& new ilSearchFolder($this->getUserId(),$_GET["folder_id"]);
 		$this->tree = new ilTree(1);
 
+		$this->setFolderId($_GET["folder_id"] ? $_GET["folder_id"] : $this->folder_obj->getRootId());
 
 		$this->performAction();
 	}
@@ -189,7 +187,7 @@ class ilSearchAdministrationGUI
 	}
 	function setFolderId($a_folder_id)
 	{
-		$this->folder_id = $a_folder_id ? $a_folder_id : 1;
+		$this->folder_id = $a_folder_id;
 	}
 	function getFolderId()
 	{
@@ -469,7 +467,7 @@ class ilSearchAdministrationGUI
 
 	function __showHeader()
 	{
-		if($this->getFolderId() == ROOT_ID)
+		if($this->getFolderId() == $this->folder_obj->getRootId())
 		{
 			$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("search_search_results"));
 		}
@@ -577,7 +575,7 @@ class ilSearchAdministrationGUI
 				{
 					$prefix .= "&nbsp;&nbsp;";
 				}
-				if($node["obj_id"] == ROOT_ID)
+				if($node["obj_id"] == $this->folder_obj->getRootId())
 				{
 					$options[$node["obj_id"]] = $prefix.$this->lng->txt("search_search_results");
 				}
@@ -604,7 +602,7 @@ class ilSearchAdministrationGUI
 	{
 		$items = $this->getChildFolders();
 
-		if(count($items) or $this->getFolderId() != ROOT_ID)
+		if(count($items) or $this->getFolderId() != $this->folder_obj->getRootId())
 		{
 			$counter = $this->__appendParentLink(count($items)) ? 0 : 1;
 			foreach($items as $item)
@@ -648,7 +646,7 @@ class ilSearchAdministrationGUI
 
 	function __appendParentLink($nr_items)
 	{
-		if($this->getFolderId() == ROOT_ID)
+		if($this->getFolderId() == $this->folder_obj->getRootId())
 		{
 			return false;
 		}

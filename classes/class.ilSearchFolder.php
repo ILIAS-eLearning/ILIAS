@@ -39,6 +39,7 @@ class ilSearchFolder
 	var $ilias;
 
 	var $user_id;
+	var $root_id;
 	var $folder_id;
 	var $parent_id;
 	var $title;
@@ -47,28 +48,31 @@ class ilSearchFolder
 	* Constructor
 	* @access	public
 	*/
-	function ilSearchFolder($a_user_id,$a_folder_id)
+	function ilSearchFolder($a_user_id,$a_folder_id = 0)
 	{
 		global $ilias;
 
 		define("TABLE_SEARCH_TREE","search_tree");
 		define("TABLE_SEARCH_DATA","search_data");
-		define("ROOT_FOLDER_ID",1);
 
 		$this->ilias =& $ilias;
-		
 
 		$this->user_id = $a_user_id;
-		$this->folder_id = $a_folder_id;
+		
+		$this->__readRootId();
 
-		$this->__init();
+		// IF NO FOLDER ID IS GIVEN DEFAULT TO ROOT ID
+		$this->setFolderId($a_folder_id ? $a_folder_id : $this->getRootId());
+
 		$this->__initTreeObject();
 
-		// CHECK USER TREE IF HAS BEEN CREATED
 		if(!$this->__treeExists())
 		{
 			$this->__createNewTree();
 		}
+		$this->__init();
+
+		// CHECK USER TREE IF HAS BEEN CREATED
 	}
 
 	// SET/GET
@@ -76,7 +80,15 @@ class ilSearchFolder
 	{
 		return "seaf";
 	}
-
+	
+	function getRootId()
+	{
+		return $this->root_id;
+	}
+	function setRootId($a_root_id)
+	{
+		$this->root_id = $a_root_id;
+	}
 	function setFolderId($a_folder_id)
 	{
 		$this->folder_id = $a_folder_id;
@@ -121,7 +133,7 @@ class ilSearchFolder
 	}
 	function countFolders()
 	{
-		$childs = $this->s_tree->getChilds(ROOT_FOLDER_ID,"type","DESC");
+		$childs = $this->s_tree->getChilds($this->getRootId(),"type","DESC");
 
 		$counter = 0;
 		while(true)
@@ -137,7 +149,7 @@ class ilSearchFolder
 
 	function getPath()
 	{
-		return $this->s_tree->getPathFull($this->getFolderId(),ROOT_FOLDER_ID);
+		return $this->s_tree->getPathFull($this->getFolderId(),$this->getRootId());
 	}
 
 	function setParentId($a_parent_id)
@@ -222,7 +234,7 @@ class ilSearchFolder
 	{
 		$tmp_folder_id = $this->getFolderId();
 
-		$this->setFolderId(ROOT_FOLDER_ID);
+		$this->setFolderId($this->getRootId());
 		
 		$tree_data = $this->getSubtree();
 		$this->setFolderId($tmp_folder_id);
@@ -263,7 +275,7 @@ class ilSearchFolder
 
 	function  __initTreeObject()
 	{
-		$this->s_tree = new ilTree($this->getUserId(),ROOT_FOLDER_ID);
+		$this->s_tree = new ilTree($this->getUserId(),$this->getRootId());
 		$this->s_tree->setTableNames(TABLE_SEARCH_TREE,TABLE_SEARCH_DATA);
 
 		return true;
@@ -281,16 +293,45 @@ class ilSearchFolder
 
 	function __createNewTree()
 	{
-		$this->s_tree->addTree($this->getUserId(),ROOT_FOLDER_ID);
-
 		// ADD ENTRY search_data
 		$query = "INSERT INTO ".TABLE_SEARCH_DATA." ".
-			"SET obj_id = '1', ".
-			"user_id = '".$this->getUserId()."', ".
+			"SET user_id = '".$this->getUserId()."', ".
 			"type = 'seaf'";
+		
+		$res = $this->ilias->db->query($query);
+		$root_id = $this->__getLastInsertId();
+
+		$this->s_tree->addTree($this->getUserId(),$root_id);
+		
+		// SET MEMBER VARIABLES
+		$this->setFolderId($root_id);
+		$this->setRootId($root_id);
+
+		return true;
+	}
+
+	function __readRootId()
+	{
+		$query = "SELECT child FROM ".TABLE_SEARCH_TREE." ".
+			"WHERE tree = '".$this->getUserId()."' ".
+			"AND parent = '0'";
 
 		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setRootId($row->child);
+		}
+		return true;
 	}
+
+	function __getLastInsertId()
+	{
+		$query = "SELECT LAST_INSERT_ID()";
+
+		$res = $this->ilias->db->query($query);
+		$row = $res->fetchRow();
+		return $row[0];
+	}		
 	
 } // END class.Search
 ?>

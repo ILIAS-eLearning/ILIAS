@@ -76,8 +76,6 @@ class ilSearchGUI
 
 		// DEFINE SOME CONSTANTS
 		define("RESULT_LIMIT",10);
-		define("ROOT_ID",1);
-
 		
 		// Initiate variables
 		$this->ilias	=& $ilias;
@@ -102,7 +100,7 @@ class ilSearchGUI
 		$this->tree = new ilTree(1);
 
 		// INITIATE SEARCH FOLDER OBJECT
-		$this->folder_obj =& new ilSearchFolder($a_user_id,ROOT_ID);
+		$this->folder_obj =& new ilSearchFolder($a_user_id);
 
 		$this->performAction();
 	}
@@ -200,11 +198,11 @@ class ilSearchGUI
 		$subtree = $this->folder_obj->getSubtree();
 
 		$options[0] = $this->lng->txt("search_select_one_folder_select");
-		$options[1] = $this->lng->txt("search_save_as_select")." ".$this->lng->txt("search_search_results");
+		$options[$this->folder_obj->getRootId()] = $this->lng->txt("search_save_as_select")." ".$this->lng->txt("search_search_results");
 		
 		foreach($subtree as $node)
 		{
-			if($node["obj_id"] == ROOT_ID)
+			if($node["obj_id"] == $this->folder_obj->getRootId())
 			{
 				continue;
 			}
@@ -430,7 +428,7 @@ class ilSearchGUI
 
 	function __showHeader()
 	{
-		if($this->getFolderId() == ROOT_ID)
+		if($this->getFolderId() == $this->folder_obj->getRootId())
 		{
 			$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("search"));
 		}
