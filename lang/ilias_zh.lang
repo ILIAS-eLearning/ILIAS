@@ -647,6 +647,7 @@ common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#申请已完成
 common#:#application_date#:#申请日期
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#apply#:#Apply###02 Oct 2004 new variable
 common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#约会
 common#:#appointment_list#:#约会列表
@@ -1764,6 +1765,7 @@ common#:#path_to_java#:#到Java的路径
 common#:#path_to_unzip#:#到Unzip的路径
 common#:#path_to_zip#:#到Zip的路径
 common#:#pathes#:#路径###14 Sep 2004 content changed
+common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
 common#:#payment_system#:#付费系统
 common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
@@ -3540,12 +3542,36 @@ meta#:#meta_very_easy#:#很容易
 meta#:#meta_very_high#:#很高
 meta#:#meta_very_low#:#很低
 meta#:#meta_yes#:#是
+payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
+payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
+payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
+payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
+payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
+payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
+payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
+payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
+payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
+payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
+payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
+payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
+payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
+payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
+payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
+payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
+payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
 payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
 payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
 payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:###31 Aug 2004 new variable
 payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:###31 Aug 2004 new variable
+payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
+payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Cost center###31 Aug 2004 new variable
 payment#:#pays_delete_vendor#:#Deassign user###31 Aug 2004 new variable
 payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:###31 Aug 2004 new variable
@@ -3554,7 +3580,13 @@ payment#:#pays_no_username_given#:#No username given###31 Aug 2004 new variable
 payment#:#pays_no_valid_username_given#:#No valid username given###31 Aug 2004 new variable
 payment#:#pays_no_vendor_selected#:#No vendor selected###31 Aug 2004 new variable
 payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
+payment#:#pays_online#:#Online###02 Oct 2004 new variable
+payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
+payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
 search#:#search_active#:#Include active users###14 Sep 2004 new variable

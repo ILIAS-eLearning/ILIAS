@@ -629,6 +629,7 @@ common#:#any_language#:#Alle Sprachen
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
 common#:#applied_users#:#Angelegte Benutzer
+common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
@@ -1744,6 +1745,7 @@ common#:#path_to_java#:#JAVA Befehlszeile
 common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
 common#:#pathes#:#Pfade###14 Sep 2004 content changed
+common#:#pay_methods#:#Bezahlarten
 common#:#payment_system#:#Bezahlungssystem
 common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
 common#:#pays_edit_permission#:#Rechteeinstellungen ändern
@@ -3520,12 +3522,36 @@ meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
+payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
+payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
+payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
+payment#:#paya_disabled#:#Ausgeschaltet
+payment#:#paya_enabled#:#Eingeschaltet
+payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
+payment#:#paya_header#:#Paymentverwaltung
+payment#:#paya_locator#:#Paymentverwaltung
+payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
+payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
+payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
+payment#:#paya_object#:#Objekte
+payment#:#paya_perm_obj#:#Objekte bearbeiten
+payment#:#paya_perm_stat#:#Statistiken bearbeiten
+payment#:#paya_shopping_cart#:#Warenkorb
+payment#:#paya_statistic#:#Statistik
+payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
+payment#:#paya_trustee_table#:#Verwalter
+payment#:#paya_trustees#:#Verwalter
+payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
+payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
 payment#:#pays_active_bookings#:#Verkaufsvorgänge
 payment#:#pays_add_vendor#:#Verkäufer anlegen
 payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:###14 Sep 2004 content changed
 payment#:#pays_assigned_vendors#:#Die folgende Anzahl an Verkäufern wurde angelegt:###14 Sep 2004 content changed
+payment#:#pays_bill#:#Rechnung
+payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Kostenstelle
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:###14 Sep 2004 content changed
@@ -3534,7 +3560,13 @@ payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#pays_no_valid_username_given#:#Der angegebene Benutzername ist nicht gültig.
 payment#:#pays_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
 payment#:#pays_number_bookings#:#Verkaufsvorgänge
+payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden.
+payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
+payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
+payment#:#pays_online#:#Online###02 Oct 2004 new variable
+payment#:#pays_pay_methods#:#Bezahlarten
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
+payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
 payment#:#pays_user_already_assigned#:#Dieser Benutzer ist bereits zugeordnet.
 payment#:#pays_vendor#:#Verkäufer
 search#:#search_active#:#Include active users###14 Sep 2004 new variable
@@ -3843,35 +3875,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-payment#:#paya_disabled#:#Ausgeschaltet
-payment#:#paya_enabled#:#Eingeschaltet
-payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
-payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
-payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
-payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
-payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
-payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
-payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
-payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
-payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
-payment#:#paya_trustee_table#:#Verwalter
-common#:#apply#:#Übernehmen
-payment#:#paya_perm_stat#:#Statistiken bearbeiten
-payment#:#paya_perm_obj#:#Objekte bearbeiten
-payment#:#paya_trustees#:#Verwalter
-payment#:#paya_header#:#Paymentverwaltung
-payment#:#pay_header#:#Payment
-payment#:#paya_locator#:#Paymentverwaltung
-payment#:#pay_locator#:#Payment
-payment#:#paya_statistic#:#Statistik
-payment#:#paya_object#:#Objekte
-payment#:#paya_shopping_cart#:#Warenkorb
-common#:#pay_methods#:#Bezahlarten
-payment#:#pays_pay_methods#:#Bezahlarten
-payment#:#pays_offline#:#Offline
-payment#:#pays_bill#:#Rechnung
-payment#:#pays_online#:#Online
-payment#:#pays_bmf#:#BMF
-payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
