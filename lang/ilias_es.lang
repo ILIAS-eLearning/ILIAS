@@ -793,7 +793,7 @@ common#:#is_already_your#:#is already your###20 Mar 2003 new variable
 common#:#item#:#item
 common#:#kb#:#KByte###25 Mar 2003 new variable
 common#:#keywords#:#keywords
-common#:#lang_cz#:#Czech###11 Dec 2003 new variable
+common#:#lang_cs#:#Czech###17 Mar 2004 new variable
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Aleman
 common#:#lang_dk#:#Dinamarqu&eacute;s
