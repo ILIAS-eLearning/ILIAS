@@ -144,17 +144,15 @@ if ($script != "login.php" && $script != "index.php")
 }
 $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
-/*
-$mbox = new ilMailbox($_SESSION["AccountId"]);
-if ($mail_id = $mbox->hasNewMail())
+if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 {
+	$mbox = new ilMailbox($_SESSION["AccountId"]);
 	$folder_id = $mbox->getInboxFolder();
-
+	
 	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".
 									htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
 									"img"	=> "icon_mail.gif"
 									);
 }
-*/
 ?>

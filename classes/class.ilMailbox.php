@@ -191,17 +191,28 @@ class ilMailbox
 	}
 
 	/**
-	* check if new mail exists in inbox folder
-	* @access	public
-	* @return	integer id of last mail or 0
-	*/
-	function hasNewMail()
+	 * Static method 
+	 * check if new mail exists in inbox folder
+	 * @access	public
+	 * @static
+	 * @return	integer id of last mail or 0
+	 */
+	function hasNewMail($a_user_id)
 	{
-		$tmp_mail = new ilMail($this->user_id);
-		$tmp_mail_data = $tmp_mail->getMailsOfFolder($this->getInboxFolder());
-		$tmp_mail_counter = $tmp_mail->getMailCounterData();
-		
-		return $tmp_mail_counter["unread"] ? $tmp_mail_data[0]["mail_id"] : 0;
+		global $ilias;
+
+		if(!$a_user_id)
+		{
+			return 0;
+		}
+		$query = "SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo ".
+			"WHERE m.user_id = mo.user_id ".
+			"AND m.folder_id = mo.obj_id ".
+			"AND mo.type = 'inbox' ".
+			"AND m.user_id = '".$a_user_id."' ".
+			"AND m.m_status = 'unread'";
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		return $row ? $row->mail_id : 0;
 	}
 
 	/**
