@@ -305,8 +305,8 @@ class ilGroupGUI extends ilObjectGUI
 			{
 				$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
 				$role_title = strtolower($_POST["Fobject"]["title"]);
-//				$rfoldObj->createRole("il_grp_".$_POST["Fobject"]["title"]."_".$this->grp_id,$_POST["Fobject"]["desc"]);
-				$rfoldObj->createRole("il_grp_".$role_title."_".$this->grp_id,$_POST["Fobject"]["desc"]);
+//				$rfoldObj->createRole("il_grp_".$role_title."_".$this->grp_id,$_POST["Fobject"]["desc"]);
+				$rfoldObj->createRole($role_title,$_POST["Fobject"]["desc"]);
 			}
 		}
 
@@ -341,7 +341,7 @@ class ilGroupGUI extends ilObjectGUI
 			{
 //				$this->joinGroupObject();
 				$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
-				sendInfo($this->lng->txt("registration_completed"),true);
+				sendInfo($this->lng->txt("grp_registration_completed"),true);
 
 			}
 			else if(strcmp($this->object->getPassword(),$_POST["subject"]) != 0 && $this->object->registrationPossible()==true)
@@ -464,13 +464,13 @@ class ilGroupGUI extends ilObjectGUI
 		foreach($member_ids as $member_id)
 		{
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
-			$mem_status = $newGrp->getMemberStatus($member_id);
+			$mem_status = $newGrp->getMemberRoles($member_id);
 
 			$this->data["data"][$member->getId()]= array(
 				"login"        => $member->getLogin(),
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
-				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."]",$stati,false,true)
+				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3)
 				);
 			unset($member);
 		}
@@ -712,7 +712,6 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function confirmedLeaveGroupObject()
 	{
-
 		switch($this->object->leaveGroup())
 		{
 			case 0: sendInfo($this->lng->txt("membership_annulled"),true);
@@ -742,7 +741,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds() ))
+		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') )
 		{
 			//User needs to have administrative rights to remove members...
 			foreach($_SESSION["saved_post"]["user_id"] as $member_id)
@@ -1678,7 +1677,7 @@ class ilGroupGUI extends ilObjectGUI
 			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		}
 	}
-	
+
 	/**
 	* remove member object from group preparation(messages,link)
 	* @access	public
@@ -1754,11 +1753,7 @@ class ilGroupGUI extends ilObjectGUI
 		$applications = $this->object->getApplicationList();
 
 		$img_contact = "pencil";
-		$img_change = "change";
-		$img_leave = "group_out";
 		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-		$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
-		$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
 
 //		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 
@@ -1789,7 +1784,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-		
+
 		$this->data["buttons"] = array( "Cancel"  => $this->lng->txt("cancel"),
 						"AssignApplicants"  => $this->lng->txt("assign"));
 
@@ -2218,21 +2213,14 @@ class ilGroupGUI extends ilObjectGUI
 		$expanded = array();
 
 		if ($_GET["grp_expand"] == "")
+		{
 			$expanded = $this->grp_tree->readRootId();
+		}
 		else
+		{
 			$expanded = $_GET["grp_expand"];
-		
-//			$_SESSION["grp_expanded"] = $expanded;
-/*
-			echo "<br><br>POST:";print_r($_POST);
-			echo "<br><br>GET:";print_r($_GET);
-			echo "<br><br>SESSION:";print_r($_SESSION);
-*/
+		}
 
-
-//			$expanded = array(0=>264,1=>265);
-
-//			$exp->setExpand($_GET["grp_expand"]);
 		$exp->setExpand($expanded);
 
 			// build html-output
@@ -2393,12 +2381,12 @@ class ilGroupGUI extends ilObjectGUI
 
 
 	/**
+	* method checks fields filled correctly and calls core methods
 	* @access	public
 	*/
 	function updateGroupStatusObject()
 	{
 		global $rbacsystem;
-
 		// check required fields
 		if (empty($_POST["Fobject"]["title"]))
 		{
@@ -2424,7 +2412,7 @@ class ilGroupGUI extends ilObjectGUI
 					$this->grp_object->setGroupStatus($_POST["group_status"]);
 				}
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
-				if(!ilUtil::isPassword($_POST["password"]))
+				if($_POST["enable_registration"] == 2 && !ilUtil::isPassword($_POST["password"]))
 				{
 					$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 				}
@@ -2493,7 +2481,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 
 			//build function
-			if ($rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
+			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ) )
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
@@ -2503,18 +2491,36 @@ class ilGroupGUI extends ilObjectGUI
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 
-			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
+//!!!			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
+//			$grp_role_id = $newGrp->getMemberStatus($member->getId());
+			$grp_role_id = $newGrp->getMemberRoles($member->getId());
+			$str_member_roles ="";
+			if(is_array($grp_role_id))
+			{
+				$count = count($grp_role_id);
+				foreach($grp_role_id as $role_id)
+				{
+					$count--;
+					$newObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+					$str_member_roles .= $newObj->getTitle();
+					if($count > 0)
+						$str_member_roles .= ",";
+				}
+			}
+			else
+			{
+				$newObj =& $this->ilias->obj_factory->getInstanceByObjId($grp_role_id);
+				$str_member_roles = $newObj->getTitle();
+			}
 
-			$newObj =& $this->ilias->obj_factory->getInstanceByObjId($grp_role_id);
-
-			if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId()))
 			{
 				$this->data["data"][$member->getId()]= array(
 					"check"		=> ilUtil::formCheckBox(0,"user_id[]",$member->getId()),
 					"login"        => $member->getLogin(),
 					"firstname"       => $member->getFirstname(),
 					"lastname"        => $member->getLastname(),
-					"grp_role" => $newObj->getTitle(),
+					"grp_role" => $str_member_roles,
 					"functions" => "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions
 					);
 
@@ -2552,7 +2558,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TPLPATH",$this->tplPath);
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
+		if ($rbacsystem->checkAccess("write,delete",$this->object->getRefId() ))
 		{
 			//user is administrator
 			$this->tpl->setVariable("COLUMN_COUNTS",6);
@@ -2591,7 +2597,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId() ))
+		if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ))
 		{
 			//user must be administrator
 			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
