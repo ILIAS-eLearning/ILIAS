@@ -239,10 +239,12 @@ class ILIAS
 
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
+
 		/*
 		$this->auth->setIdle($this->ini->readVariable("session","expire"),true);
 		*/
 		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
+		//$this->auth->setIdle(20, false);
 		$this->auth->setExpire(0);
 
 		// Error Handling
