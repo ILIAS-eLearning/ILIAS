@@ -11,7 +11,7 @@
 */
 
 // load message template
-$tpl->addBlockFile("MSG","sys_message","tpl.message.html");
+//$tpl->addBlockFile("MSG","sys_message","tpl.message.html");
 
 // load all settings. later we overwrite posted settings
 $settings = $ilias->getAllSettings();
@@ -54,12 +54,16 @@ if (isset($_POST["save_settings"]))  // formular sent
 	
 	if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
 	{
-		// values from formular
+////////////////////////////////////////////////////////////
+// load user modified settings again
+		
+		// basic data
 		$settings["inst_name"] = $_POST["inst_name"];
 		$settings["inst_info"] = $_POST["inst_info"];
 		$settings["feedback_recipient"] = $_POST["feedback_recipient"];
 		$settings["error_recipient"] = $_POST["error_recipient"];
 
+		// pathes
 		$settings["tpl_path"] = $_POST["tpl_path"];
 		$settings["lang_path"] = $_POST["lang_path"];
 		$settings["convert_path"] = $_POST["convert_path"];
@@ -68,21 +72,33 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$settings["java_path"] = $_POST["java_path"];
 		$settings["babylon_path"] = $_POST["babylon_path"];
 
+		// modules
 		$settings["pub_section"] = $_POST["pub_section"];
 		$settings["news"] = $_POST["news"];
 		$settings["payment_system"] = $_POST["payment_system"];
 		$settings["group_file_sharing"] = $_POST["group_file_sharing"];
 		$settings["crs_enable"] = $_POST["crs_enable"];
 
+		// ldap
 		$settings["ldap_enable"] = $_POST["ldap_enable"];
 		$settings["ldap_server"] = $_POST["ldap_server"];
 		$settings["ldap_port"] = $_POST["ldap_port"];
 		$settings["ldap_basedn"] = $_POST["ldap_basedn"];
 
-		$settings["mail_enable"] = $_POST["mail_enable"];
+		// mail server
 		$settings["mail_server"] = $_POST["mail_server"];
 		$settings["mail_port"] = $_POST["mail_port"];
 
+		// internal mail
+		$settings["mail_intern_enable"] = $_POST["mail_intern_enable"];
+		$settings["mail_allow_smtp"] = $_POST["mail_allow_smtp"];
+		$settings["mail_maxsize_mail"] = $_POST["mail_maxsize_mail"];
+		$settings["mail_maxsize_attach"] = $_POST["mail_maxsize_attach"];
+		$settings["mail_maxsize_box"] = $_POST["mail_maxsize_box"];
+		$settings["mail_maxtime_mail"] = $_POST["mail_maxtime_mail"];
+		$settings["mail_maxtime_attach"] = $_POST["mail_maxtime_attach"];
+		
+		// contact
 		$settings["admin_firstname"] = $_POST["admin_firstname"];
 		$settings["admin_lastname"] = $_POST["admin_lastname"];
 		$settings["admin_title"] = $_POST["admin_title"];
@@ -97,32 +113,55 @@ if (isset($_POST["save_settings"]))  // formular sent
 	}
 	else // all required fields ok
 	{
+
+////////////////////////////////////////////////////////////
+// write new settings
+
+		// basic data
 		$ilias->setSetting("inst_name",$_POST["inst_name"]);
 		$ilias->setSetting("inst_info",$_POST["inst_info"]);
 		$ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
 		$ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-
+		$ilias->ini->setVariable("server","tpl_path",$_POST["tpl_path"]);
+		$ilias->ini->setVariable("language","path",$_POST["lang_path"]);
+		$ilias->ini->setVariable("language","default",$_POST["default_language"]);
+		$ilias->ini->setVariable("layout","skin",$_POST["default_skin"]);
+		$ilias->ini->setVariable("layout","style",$_POST["default_style"]);
+		
+		// pathes
 		$ilias->setSetting("convert_path",$_POST["convert_path"]);
 		$ilias->setSetting("zip_path",$_POST["zip_path"]);
 		$ilias->setSetting("unzip_path",$_POST["unzip_path"]);
 		$ilias->setSetting("java_path",$_POST["java_path"]);
 		$ilias->setSetting("babylon_path",$_POST["babylon_path"]);
 
+		// modules
 		$ilias->setSetting("pub_section",$_POST["pub_section"]);
 		$ilias->setSetting("news",$_POST["news"]);
 		$ilias->setSetting("payment_system",$_POST["payment_system"]);
 		$ilias->setSetting("group_file_sharing",$_POST["group_file_sharing"]);
 		$ilias->setSetting("crs_enable",$_POST["crs_enable"]);
 
+		// ldap
 		$ilias->setSetting("ldap_enable",$_POST["ldap_enable"]);
 		$ilias->setSetting("ldap_server",$_POST["ldap_server"]);
 		$ilias->setSetting("ldap_port",$_POST["ldap_port"]);
 		$ilias->setSetting("ldap_basedn",$_POST["ldap_basedn"]);
 
-		$ilias->setSetting("mail_enable",$_POST["mail_enable"]);
+		// mail server
 		$ilias->setSetting("mail_server",$_POST["mail_server"]);
 		$ilias->setSetting("mail_port",$_POST["mail_port"]);
 
+		// internal mail
+		$ilias->setSetting("mail_intern_enable",$_POST["mail_intern_enable"]);
+		$ilias->setSetting("mail_allow_smtp",$_POST["mail_allow_smtp"]);
+		$ilias->setSetting("mail_maxsize_mail",$_POST["mail_maxsize_mail"]);
+		$ilias->setSetting("mail_maxsize_attach",$_POST["mail_maxsize_attach"]);
+		$ilias->setSetting("mail_maxsize_box",$_POST["mail_maxsize_box"]);
+		$ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
+		$ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
+
+		// contact
 		$ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
 		$ilias->setSetting("admin_lastname",$_POST["admin_lastname"]);
 		$ilias->setSetting("admin_title",$_POST["admin_title"]);
@@ -135,22 +174,22 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$ilias->setSetting("admin_phone",$_POST["admin_phone"]);
 		$ilias->setSetting("admin_email",$_POST["admin_email"]);
 
-		$ilias->ini->setVariable("server","tpl_path",$_POST["tpl_path"]);
-		$ilias->ini->setVariable("language","path",$_POST["lang_path"]);
-		$ilias->ini->setVariable("language","default",$_POST["default_language"]);
-		$ilias->ini->setVariable("layout","skin",$_POST["default_skin"]);
-		$ilias->ini->setVariable("layout","style",$_POST["default_style"]);
+		// write ini settings
 		$ilias->ini->write();
 
-		$tpl->setVariable("MSG", $lng->txt("saved_successfully"));
-		
 		$settings = $ilias->getAllSettings();
+
+		// feedback
+		$tpl->setVariable("MSG", $lng->txt("saved_successfully"));
 	}
 }
 
 $tpl->setVariable("TXT_BASIC_DATA", $lng->txt("basic_data"));
 
-//language things
+////////////////////////////////////////////////////////////
+// setting language vars
+
+// basic data
 $tpl->setVariable("TXT_ILIAS_VERSION", $lng->txt("ilias_version"));
 $tpl->setVariable("TXT_DB_VERSION", $lng->txt("db_version"));
 $tpl->setVariable("TXT_INST_ID", $lng->txt("inst_id"));
@@ -160,7 +199,6 @@ $tpl->setVariable("TXT_SERVER_PORT", $lng->txt("port"));
 $tpl->setVariable("TXT_SERVER_SOFTWARE", $lng->txt("server_software"));
 $tpl->setVariable("TXT_HTTP_PATH", $lng->txt("http_path"));
 $tpl->setVariable("TXT_ABSOLUTE_PATH", $lng->txt("absolute_path"));
-
 $tpl->setVariable("TXT_INST_NAME", $lng->txt("inst_name"));
 $tpl->setVariable("TXT_INST_INFO", $lng->txt("inst_info"));
 $tpl->setVariable("TXT_DEFAULT_SKIN", $lng->txt("default_skin"));
@@ -169,6 +207,7 @@ $tpl->setVariable("TXT_DEFAULT_LANGUAGE", $lng->txt("default_language"));
 $tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $lng->txt("feedback_recipient"));
 $tpl->setVariable("TXT_ERROR_RECIPIENT", $lng->txt("error_recipient"));
 
+// pathes
 $tpl->setVariable("TXT_PATHES", $lng->txt("pathes"));
 $tpl->setVariable("TXT_TPL_PATH", $lng->txt("tpl_path"));
 $tpl->setVariable("TXT_LANG_PATH", $lng->txt("lang_path"));
@@ -178,6 +217,7 @@ $tpl->setVariable("TXT_UNZIP_PATH", $lng->txt("path_to_unzip"));
 $tpl->setVariable("TXT_JAVA_PATH", $lng->txt("path_to_java"));
 $tpl->setVariable("TXT_BABYLON_PATH", $lng->txt("path_to_babylon"));
 
+// modules
 $tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
 $tpl->setVariable("TXT_PUB_SECTION", $lng->txt("pub_section"));
 $tpl->setVariable("TXT_NEWS", $lng->txt("news"));
@@ -185,17 +225,29 @@ $tpl->setVariable("TXT_PAYMENT_SYSTEM", $lng->txt("payment_system"));
 $tpl->setVariable("TXT_GROUP_FILE_SHARING", $lng->txt("group_filesharing"));
 $tpl->setVariable("TXT_CRS_MANAGEMENT_SYSTEM", $lng->txt("crs_management_system"));
 
+// ldap
 $tpl->setVariable("TXT_LDAP", $lng->txt("ldap"));
 $tpl->setVariable("TXT_LDAP_ENABLE", $lng->txt("enable"));
 $tpl->setVariable("TXT_LDAP_SERVER", $lng->txt("server"));
 $tpl->setVariable("TXT_LDAP_PORT", $lng->txt("port"));
 $tpl->setVariable("TXT_LDAP_BASEDN", $lng->txt("basedn"));
 
-$tpl->setVariable("TXT_MAIL", $lng->txt("mail")." (".$lng->txt("smtp").")");
-$tpl->setVariable("TXT_MAIL_ENABLE", $lng->txt("enable"));
+// mail server
+$tpl->setVariable("TXT_MAIL_SMTP", $lng->txt("mail")." (".$lng->txt("smtp").")");
 $tpl->setVariable("TXT_MAIL_SERVER", $lng->txt("server"));
 $tpl->setVariable("TXT_MAIL_PORT", $lng->txt("port"));
 
+// internal mail
+$tpl->setVariable("TXT_MAIL_INTERN", $lng->txt("mail")." (".$lng->txt("internal_system").")");
+$tpl->setVariable("TXT_MAIL_INTERN_ENABLE", $lng->txt("mail_intern_enable"));
+$tpl->setVariable("TXT_MAIL_ALLOW_SMTP", $lng->txt("mail_allow_smtp"));
+$tpl->setVariable("TXT_MAIL_MAXSIZE_MAIL", $lng->txt("mail_maxsize_mail"));
+$tpl->setVariable("TXT_MAIL_MAXSIZE_ATTACH", $lng->txt("mail_maxsize_attach"));
+$tpl->setVariable("TXT_MAIL_MAXSIZE_BOX", $lng->txt("mail_maxsize_box"));
+$tpl->setVariable("TXT_MAIL_MAXTIME_MAIL", $lng->txt("mail_maxtime_mail"));
+$tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $lng->txt("mail_maxtime_attach"));
+
+// contact
 $tpl->setVariable("TXT_CONTACT_INFORMATION", $lng->txt("contact_information"));
 $tpl->setVariable("TXT_MUST_FILL_IN", $lng->txt("must_fill_in"));
 $tpl->setVariable("TXT_ADMIN", $lng->txt("administrator"));
@@ -212,7 +264,10 @@ $tpl->setVariable("TXT_PHONE", $lng->txt("phone"));
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-//values
+///////////////////////////////////////////////////////////
+// display formula data
+
+// basic data
 $loc = "adm_object.php?ref_id=".$_GET["ref_id"];
 $tpl->setVariable("FORMACTION_BASICDATA", $loc);
 $tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"]));
@@ -222,49 +277,13 @@ $tpl->setVariable("SERVER_PORT", $_SERVER["SERVER_PORT"]);
 $tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);	// not used
 $tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 $tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
-
-//Daten aus INI holen
-$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
-$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
-
-//Daten aus Settings holen
 $tpl->setVariable("DB_VERSION",$settings["db_version"]);
 $tpl->setVariable("ILIAS_VERSION",$settings["ilias_version"]);
 $tpl->setVariable("INST_ID",$settings["inst_id"]);
 $tpl->setVariable("INST_NAME",$settings["inst_name"]);
 $tpl->setVariable("INST_INFO",$settings["inst_info"]);
-$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
-$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
-$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
-$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
-$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
 $tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
 $tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
-
-if ($settings["pub_section"]=="y")
-{
-	$tpl->setVariable("PUB_SECTION","checked=\"checked\"");
-}
-
-if ($settings["news"]=="y")
-{
-	$tpl->setVariable("NEWS","checked=\"checked\"");
-}
-
-if ($settings["payment_system"]=="y")
-{
-	$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
-}
-
-if ($settings["group_file_sharing"]=="y")
-{
-	$tpl->setVariable("GROUP_FILE_SHARING","checked=\"checked\"");
-}
-
-if ($settings["crs_enable"]=="y")
-{
-	$tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked=\"checked\"");
-}
 
 // skin selection
 $ilias->getSkins();
@@ -314,6 +333,42 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
+// pathes
+$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
+$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
+$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
+$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
+$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
+$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
+$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
+
+// modules
+if ($settings["pub_section"]=="y")
+{
+	$tpl->setVariable("PUB_SECTION","checked=\"checked\"");
+}
+
+if ($settings["news"]=="y")
+{
+	$tpl->setVariable("NEWS","checked=\"checked\"");
+}
+
+if ($settings["payment_system"]=="y")
+{
+	$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
+}
+
+if ($settings["group_file_sharing"]=="y")
+{
+	$tpl->setVariable("GROUP_FILE_SHARING","checked=\"checked\"");
+}
+
+if ($settings["crs_enable"]=="y")
+{
+	$tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked=\"checked\"");
+}
+
+// ldap
 if ($settings["ldap_enable"] == "y")
 {
 	$tpl->setVariable("LDAP_ENABLE","checked=\"checked\"");
@@ -323,14 +378,28 @@ $tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
 $tpl->setVariable("LDAP_PORT",$settings["ldap_port"]);
 $tpl->setVariable("LDAP_BASEDN",$settings["ldap_basedn"]);
 
-if ($settings["mail_enable"] == "y")
-{
-	$tpl->setVariable("MAIL_ENABLE","checked=\"checked\"");
-}
-
+// mail server
 $tpl->setVariable("MAIL_SERVER",$settings["mail_server"]);
 $tpl->setVariable("MAIL_PORT",$settings["mail_port"]);
 
+// internal mail
+if ($settings["mail_intern_enable"] == "y")
+{
+	$tpl->setVariable("MAIL_INTERN_ENABLE","checked=\"checked\"");
+}
+
+if ($settings["mail_allow_smtp"] == "y")
+{
+	$tpl->setVariable("MAIL_ALLOW_SMTP","checked=\"checked\"");
+}
+
+$tpl->setVariable("MAIL_MAXSIZE_MAIL", $settings["mail_maxsize_mail"]);
+$tpl->setVariable("MAIL_MAXSIZE_ATTACH", $settings["mail_maxsize_attach"]);
+$tpl->setVariable("MAIL_MAXSIZE_BOX", $settings["mail_maxsize_box"]);
+$tpl->setVariable("MAIL_MAXTIME_MAIL", $settings["mail_maxtime_mail"]);
+$tpl->setVariable("MAIL_MAXTIME_ATTACH", $settings["mail_maxtime_attach"]);
+
+// contact
 $tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
 $tpl->setVariable("ADMIN_LASTNAME",$settings["admin_lastname"]);
 $tpl->setVariable("ADMIN_TITLE",$settings["admin_title"]);
@@ -343,6 +412,7 @@ $tpl->setVariable("ADMIN_COUNTRY",$settings["admin_country"]);
 $tpl->setVariable("ADMIN_PHONE",$settings["admin_phone"]);
 $tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
 
-$tpl->setCurrentBlock("sys_message");
-$tpl->parseCurrentBlock();
+// common
+$tpl->setVariable("TXT_DAYS",$lng->txt("days"));
+$tpl->setVariable("TXT_IN_KB","(".$lng->txt("in_kb").")");
 ?>
