@@ -179,6 +179,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getDevMode($a_obj_name)
 	{
+		// always return false if devmode is enabled
 		if (DEVMODE)
 		{
 			return false;
@@ -195,6 +196,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getDevModeAll()
 	{
+		// always return empty array if devmode is enabled
 		if (DEVMODE)
 		{
 			return array();
@@ -211,6 +213,17 @@ class ilObjectDefinition extends ilSaxParser
 		}
 
 		return $devtypes ? $devtypes : array();
+	}
+
+	/**
+	* checks if linking of an object type is allowed
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function allowLink($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["allow_link"];
 	}
 
 	/**
