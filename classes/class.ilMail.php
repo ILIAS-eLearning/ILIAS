@@ -188,8 +188,8 @@ class ilMail
 		$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
 			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
 			"AND object_data.type = 'mail' ".
-			"AND object_data.obj_id = tree.child ".
-			"AND object_reference.obj_id = tree.child";
+			"AND object_reference.ref_id = tree.child ".
+			"AND object_reference.obj_id = object_data.obj_id";
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
