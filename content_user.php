@@ -20,7 +20,7 @@ $tplContent->setVariable("TYPE","user");
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 // Wegen short circuit evaluation muss die Rechte Abfrage zuerst erfolgen
-if( $rbacsystem->checkAccess($obj_id,"read") and $user_data = getUserList() )
+if( $rbacsystem->checkAccess("read") and $user_data = getUserList() )
 {
 	foreach($user_data as $key => $val)
 	{

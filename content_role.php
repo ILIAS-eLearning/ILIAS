@@ -20,7 +20,7 @@ $tplContent->setVariable("TYPE","role");
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 $rbacadmin = new RbacAdminH($ilias->db);
-if($role_list = $rbacadmin->getRoleListByObject($obj_id))
+if($rbacsystem->checkAccess('read') and $role_list = $rbacadmin->getRoleListByObject($obj_id))
 {
 	foreach($role_list as $key => $val)
 	{
@@ -48,7 +48,9 @@ if($role_list = $rbacadmin->getRoleListByObject($obj_id))
 }
 else
 {
-	echo "No users found";
+	$tplContent->setCurrentBlock("notfound");
+	$tplContent->setVariable("MESSAGE","No Permission to read");
+	$tplContent->parseCurrentBlock();
 }
 
 include_once "include/ilias_footer.inc";

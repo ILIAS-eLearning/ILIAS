@@ -144,12 +144,16 @@ class User extends PEAR
                  (usr_id,login,passwd,firstname,surname,title,gender,email,language,
                    last_login,last_update,create_date)
                   VALUES
-                  ('".$this->data["Id"]."','".$this->data[Login]."',
-                   '".md5($this->data[Passwd])."','".$this->data[FirstName]."',
-                   '".$this->data[SurName]."','".$this->data[Title]."',
-                   '".$this->data[Gender]."','".$this->data[Email]."','".$this->data[language]."',0,now(),now())";
+                  ('".$this->data["Id"]."','".$this->data["Login"]."',
+                   '".md5($this->data["Passwd"])."','".$this->data["FirstName"]."',
+                   '".$this->data["SurName"]."','".$this->data["Title"]."',
+                   '".$this->data["Gender"]."','".$this->data["Email"]."','".$this->data["language"]."',0,now(),now())";
 
-		$this->db->query($query);
+		$res = $this->db->query($query);
+		if(DB::isError($res))
+		{
+			die ($res->getMessage());
+		}
 		$this->Id = $this->data["Id"];
 	 }
 

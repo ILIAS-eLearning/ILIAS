@@ -55,10 +55,10 @@ if ($tree->getChilds())
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?
-//		if(!$rbacsystem->checkAccess($val["id"],"visible"))
-//		{
-//			continue;
-//		}
+		if(!$rbacsystem->checkAccess("visible"))
+		{
+			continue;
+		}
 		
 		$zaehler++;
 		

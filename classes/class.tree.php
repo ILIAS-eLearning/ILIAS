@@ -301,6 +301,9 @@ class Tree extends PEAR
         foreach ($delete as $val)
         {
             $res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
+			$res = $this->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
+			$res = $this->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
+			$res = $this->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
         }
 
         // delete subtree

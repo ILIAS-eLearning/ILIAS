@@ -62,17 +62,19 @@ class UserObject extends Object
 	function saveObject()
 	{
 		$Fuserdata = $_POST["Fuserdata"];
+		$rbacsystem = new RbacSystemH($this->ilias->db);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		if($rbacsystem->checkAccess('create','user'))
+		{
+			// create object
+			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
+			$Fobject["desc"] = "nix";
+			$Fuserdata["Id"] = createNewObject("user",$Fobject);
 
-        // create object
-        $Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
-        $Fobject["desc"] = "nix";
-        $Fuserdata["Id"] = createNewObject("user",$Fobject);
-
-        // insert user data
-        $user = new User($this->ilias->db);
-		$user->setUserdata($Fuserdata);
-        $user->saveAsNew();
-
+			// insert user data
+			$rbacadmin->addUser($Fuserdata);
+			$rbacadmin->assignUser($Fuserdata["Role"],$Fuserdata["Id"]);
+		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 	function deleteObject()
@@ -133,7 +135,7 @@ class UserObject extends Object
 		// TODO: Passwort muss gesondert abgefragt werden
 
 // Hart gecodet: wenn sich die Id des SystemFolders ändert muss parent=9 geändert werden
-		header("Location: content_user.php?obj_id=$_GET[parent]&parent=9");
+		header("Location: content_user.php?obj_id=$_GET[parent]&parent=$this->SYSTEM_FOLDER_ID");
 
 	}
 
