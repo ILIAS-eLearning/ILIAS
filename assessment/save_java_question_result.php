@@ -5,6 +5,12 @@ require_once "./include/inc.header.php";
 if ($_POST["test_id"] > 0)
 {
 	global $ilDB;
+	$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$ilDB->quote($_POST["user_id"]),
+		$ilDB->quote($_POST["test_id"]),
+		$ilDB->quote($_POST["question_id"])
+	);
+	$result = $ilDB->query($query);
 	foreach ($_POST as $key => $value)
 	{
 		if (preg_match("/value_(\d+)_1/", $key, $matches))
