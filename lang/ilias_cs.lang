@@ -761,6 +761,7 @@ common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#Přiřadit uživateli roli
 common#:#assigned_roles#:#Assigned roles###16 Sep 2004 new variable
 common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
+common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#umístění
 common#:#attachment#:#Příloha
 common#:#attachments#:#Přílohy
@@ -815,6 +816,7 @@ common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Není možné odinstalovat aktuálně používaný jazyk!
 common#:#cannot_uninstall_systemlanguage#:#Není možné odinstalovat systémový jazyk!
 common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
 common#:#cat#:#Kategorie
 common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
@@ -932,6 +934,7 @@ common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktní informace
 common#:#container#:#Container###11 Apr 2004 new variable
+common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Kontext
 common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copied_object#:#Copied object###07 Aug 2004 new variable
@@ -1024,6 +1027,7 @@ common#:#dbk_new#:#Nová Digilib učebnice
 common#:#dbk_read#:#Read access to Digibook###16 Mar 2004 new variable
 common#:#dbk_visible#:#Digibook is visible###16 Mar 2004 new variable
 common#:#dbk_write#:#Edit Digibook###16 Mar 2004 new variable
+common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Výchozí
 common#:#default_language#:#Výchozí jazyk
 common#:#default_perm_settings#:#Default permissions###16 Mar 2004 new variable
@@ -1714,6 +1718,7 @@ common#:#move#:#Move###16 Mar 2004 new variable
 common#:#moveChapter#:#Přesunout
 common#:#movePage#:#Přesunout
 common#:#move_to#:#Přesunout do
+common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Akce stornována
 common#:#msg_changes_ok#:#Změny byly v pořádku
 common#:#msg_clear_clipboard#:#Schránka vyčištěna
@@ -1843,6 +1848,7 @@ common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Není instalován
 common#:#not_logged_in#:#Nejste přihlášen(a)
+common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#Objekt
@@ -1902,8 +1908,8 @@ common#:#obj_root#:#kořen
 common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Kapitola
-common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
-common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
+common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
+common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
 common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
@@ -2270,6 +2276,11 @@ common#:#stop_inheritance#:#Ukončit dědičnost
 common#:#street#:#Ulice
 common#:#structure#:#Struktura
 common#:#sty#:#Style###01 Mar 2005 new variable
+common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
+common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
+common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
+common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
+common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
 common#:#subcat_name#:#Název podkategorie
 common#:#subchapter_new#:#Nová podkapitola
 common#:#subject#:#Předmět
@@ -2298,6 +2309,7 @@ common#:#system_grp#:#Systémová skupina
 common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Systémový jazyk
 common#:#system_message#:#Systémová zpráva
+common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#tax#:#Taxonomy###15 Jul 2004 new variable
 common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
@@ -2949,6 +2961,7 @@ crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
 crs#:#crs_from#:#From:###07 Aug 2004 new variable
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
+crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -2961,6 +2974,7 @@ crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
 crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
 crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
 crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
 crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable

@@ -761,6 +761,7 @@ common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#Atribuir utilizador ao papel
 common#:#assigned_roles#:#Assigned roles###16 Sep 2004 new variable
 common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
+common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#na localização
 common#:#attachment#:#Anexo
 common#:#attachments#:#Anexos
@@ -815,6 +816,7 @@ common#:#cannot_find_xml#:#Não pode encontrar nenhum ficheiro XML.
 common#:#cannot_uninstall_language_in_use#:#Não pode desinstalar a linguagem actualmente em utilizacão!
 common#:#cannot_uninstall_systemlanguage#:#Não pode desinstalar a linguagem de sistema!
 common#:#cannot_unzip_file#:#Não pode descompactar o ficheiro.
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
 common#:#cat#:#Categoria
 common#:#cat_a#:#uma Categoria
 common#:#cat_add#:#Adicionar Categoria
@@ -932,6 +934,7 @@ common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Objecto
 common#:#contact_data#:#Informação de Contacto
 common#:#container#:#Container###11 Apr 2004 new variable
+common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Contexto
 common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copied_object#:#Copied object###07 Aug 2004 new variable
@@ -1024,6 +1027,7 @@ common#:#dbk_new#:#Novo Livro Digilib
 common#:#dbk_read#:#Acesso de Leitura ao Digibook###24 Sep 2004 content changed
 common#:#dbk_visible#:#O Digibook é visível###24 Sep 2004 content changed
 common#:#dbk_write#:#Editar Digibook###24 Sep 2004 content changed
+common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Defeito
 common#:#default_language#:#Linguagem Defeito
 common#:#default_perm_settings#:#Permissões default
@@ -1714,6 +1718,7 @@ common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
 common#:#move_to#:#Mover para
+common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Acção cancelada
 common#:#msg_changes_ok#:#As mudanças foram bem sucedidas
 common#:#msg_clear_clipboard#:#Clipboard limpo
@@ -1843,6 +1848,7 @@ common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Não Instalado
 common#:#not_logged_in#:#Você não está ligado
+common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Número de registos
 common#:#obj#:#Objecto
@@ -1902,8 +1908,8 @@ common#:#obj_root#:#Nó raiz do ILIAS
 common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Capítulo
-common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
-common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
+common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
+common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
 common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
@@ -2270,6 +2276,11 @@ common#:#stop_inheritance#:#Parar herança
 common#:#street#:#Rua
 common#:#structure#:#Estrutura
 common#:#sty#:#Style###01 Mar 2005 new variable
+common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
+common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
+common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
+common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
+common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
 common#:#subcat_name#:#Nome da Subcategoria
 common#:#subchapter_new#:#Novo Subcapítulo
 common#:#subject#:#Assunto
@@ -2298,6 +2309,7 @@ common#:#system_grp#:#Grupo do Sistema
 common#:#system_information#:#System Information###14 Sep 2004 new variable
 common#:#system_language#:#Linguagem de Sistema
 common#:#system_message#:#Mensagem de Sistema
+common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Importar mensagens do ILIAS 2###30 Apr 2004 content changed
 common#:#tax#:#Taxonomy###15 Jul 2004 new variable
 common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
@@ -2949,6 +2961,7 @@ crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
 crs#:#crs_from#:#From:###07 Aug 2004 new variable
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
+crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -2961,6 +2974,7 @@ crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
 crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
 crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
 crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
 crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable

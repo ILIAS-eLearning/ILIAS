@@ -670,18 +670,11 @@ common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#num_users#:#Number of users
-common#:#style_activation#:#Style Activation
-common#:#content_styles#:#Content Styles
-common#:#system_style_settings#:#System Style Settings
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
-common#:#at_least_one_style#:#At least one style must remain activated.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
-common#:#move_users_to_style#:#Move users to style
 common#:#activate_assessment_logging#:#Activate Test&Assessment logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
@@ -768,6 +761,7 @@ common#:#assign_local_role#:#Assign to local role
 common#:#assign_user_to_role#:#Assign User to Role
 common#:#assigned_roles#:#Assigned roles
 common#:#assigned_users#:#Assigned users
+common#:#at_least_one_style#:#At least one style must remain activated.
 common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
@@ -822,6 +816,7 @@ common#:#cannot_find_xml#:#Cannot find any XML-file.
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat#:#Category
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
@@ -939,6 +934,7 @@ common#:#confirmation#:#Confirmation
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
 common#:#container#:#Container
+common#:#content_styles#:#Content Styles
 common#:#context#:#Context
 common#:#continue_work#:#Continue
 common#:#copied_object#:#Copied object
@@ -1031,6 +1027,7 @@ common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digilib Book
 common#:#dbk_visible#:#Digilib Book is visible
 common#:#dbk_write#:#Edit Digilib Book
+common#:#def_repository_view#:#Default repository view
 common#:#default#:#Default
 common#:#default_language#:#Default Language
 common#:#default_perm_settings#:#Default permissions
@@ -1178,7 +1175,6 @@ common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
-common#:#def_repository_view#:#Default repository view
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
@@ -1722,6 +1718,7 @@ common#:#move#:#Move
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_to#:#Move to
+common#:#move_users_to_style#:#Move users to style
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
@@ -1851,6 +1848,7 @@ common#:#not_accessed#:#Not accessed
 common#:#not_implemented_yet#:#Not implemented yet
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#Your are not logged in
+common#:#num_users#:#Number of users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
@@ -1912,10 +1910,6 @@ common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_stys#:#Style Settings 
 common#:#obj_stys_desc#:#Manage system skin and style settings here
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
 common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
@@ -2282,6 +2276,11 @@ common#:#stop_inheritance#:#Stop inheritance
 common#:#street#:#Street
 common#:#structure#:#Structure
 common#:#sty#:#Style
+common#:#style_activation#:#Style Activation
+common#:#stys_edit_permission#:#Change permission settings
+common#:#stys_read#:#Read access to style settings
+common#:#stys_visible#:#Style settings are visible
+common#:#stys_write#:#Edit style settings
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Subject
@@ -2310,6 +2309,7 @@ common#:#system_grp#:#System Group
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
+common#:#system_style_settings#:#System Style Settings
 common#:#table_mail_import#:#Mail import
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
@@ -2961,6 +2961,7 @@ crs#:#crs_file_name#:#File name
 crs#:#crs_from#:#From:
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
+crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_groupings_ask_delete#:#Delete course grouping
@@ -2973,6 +2974,7 @@ crs#:#crs_grp_crs_assignment#:#Course assignment
 crs#:#crs_grp_deassigned_courses#:#Delete assignment
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
 crs#:#crs_grp_modified_grouping#:#Saved modifications.
 crs#:#crs_grp_no_course_selected#:#Please select one course.
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
@@ -4702,5 +4704,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
-crs#:#crs_grouping_deleted#:#Deleted course grouping.
