@@ -527,7 +527,7 @@ class ilMapArea
 	* @param	int			$c1			color identifier 1
 	* @param	int			$c3			color identifier 2
 	*/
-	function draw_circ(&$im, $coords, $c1, $c2)
+	function drawCircle(&$im, $coords, $c1, $c2)
 	{
 		$c = explode(",", $coords);
 		imagearc($im, $c[0], $c[1], ($c[2]+1)*2, ($c[2]+1)*2, 1, 360, $c1);

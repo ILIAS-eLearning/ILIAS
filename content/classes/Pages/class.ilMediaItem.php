@@ -333,6 +333,26 @@ class ilMediaItem
 	}
 
 	/**
+	* delete map area
+	*/
+	function deleteMapArea($nr)
+	{
+		for ($i=1; $i<=$this->map_cnt; $i++)
+		{
+			if($i > $nr)
+			{
+				$this->mapareas[$i-2] =& $this->mapareas[$i-1];
+				$this->mapareas[$i-2]->setNr($i-1);
+			}
+		}
+		if($nr <= $this->map_cnt)
+		{
+			unset($this->mapareas[$this->map_cnt - 1]);
+			$this->map_cnt--;
+		}
+	}
+
+	/**
 	* get width
 	*/
 	function getWidth()
@@ -547,7 +567,25 @@ class ilMediaItem
 		$this->saveMapWorkImage();
 	}
 
-	//function addAreaToMapWorkCopy("Rect", $coords);
+
+	/**
+	* draw a new area in work image
+	*
+	* @param	string		$a_shape		shape
+	* @param	string		$a_coords		coordinates string
+	*/
+	function addAreaToMapWorkCopy($a_shape, $a_coords)
+	{
+		$this->buildMapWorkImage();
+
+		// add new area to work image
+		$area = new ilMapArea();
+		$area->setShape($a_shape);
+		$area->setCoords($a_coords);
+		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+
+		$this->saveMapWorkImage();
+	}
 
 	/**
 	* output raw map work copy file
