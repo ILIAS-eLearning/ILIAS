@@ -190,8 +190,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->showActions();
 		
 		// footer
-		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->disable("footer");
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
 		
 		// render table
 		$tbl->render();
