@@ -287,7 +287,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 		$limit_error = 0;
-		if ($_GET["edit"])
+		if ($_GET["edit"] > 0)
 		{
 			$question->object->loadFromDb($_GET["edit"]);
 		}
