@@ -2012,7 +2012,7 @@ content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
-content#:#cont_fix_tree#:#Fix tree
+content#:#cont_fix_tree#:#Fix structure
 content#:#cont_tree_fixed#:#Tree structure has been fixed.
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
