@@ -127,9 +127,11 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
+assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
+assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#checkbox_checked#:#Ausgewählt
@@ -900,7 +902,6 @@ common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Opti
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
-common#:#conflict_handling#:#Konfliktbehandlung
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
@@ -932,6 +933,7 @@ common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
 common#:#confirmation#:#Aktion bestätigen
+common#:#conflict_handling#:#Konfliktbehandlung
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
@@ -2313,6 +2315,7 @@ common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
+common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_upload_file#:#Datei hochladen
@@ -2385,6 +2388,7 @@ common#:#tst_add#:#Test hinzufügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
+common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_visible#:#Test ist sichtbar
@@ -2436,9 +2440,9 @@ common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsyste
 common#:#user_comment#:#User-Kommentar
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
+common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
-common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#user_profile_other#:#Weitere Informationen
@@ -2475,20 +2479,20 @@ common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#usrimport_action_failed#:#Aktion %1$s fehlgeschlagen.
-common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
+common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
+common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist).
+common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
+common#:#usrimport_login_is_not_unique#:#Login ist nicht eindeutig.
 common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist ungültig.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist nicht anwendbar bei Aktion "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar.
-common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
-common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
-common#:#usrimport_login_is_not_unique#:#Login ist nicht eindeutig.
 common#:#validate#:#Validieren
 common#:#value#:#Wert
 common#:#vcard#:#Visitenkarte
@@ -2496,8 +2500,8 @@ common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
 common#:#verification_failed#:#Überprüfung fehlgeschlagen
 common#:#verification_failure_log#:#Überprüfung Fehler Log
-common#:#verification_warning_log#:#Überprüfung Warnungen Log
 common#:#verification_log#:#Überprüfungslog
+common#:#verification_warning_log#:#Überprüfung Warnungen Log
 common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen
@@ -4427,6 +4431,8 @@ survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte,
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
+survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie

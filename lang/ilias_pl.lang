@@ -128,9 +128,11 @@ assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
+assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
 assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień do eksportu testu!
 assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
+assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień dla zachowania meta danych!
 assessment#:#change_solution#:#Zmień sugerowaną odpowiedź
 assessment#:#checkbox_checked#:#Wybrany
@@ -932,6 +934,7 @@ common#:#condition_update#:#Zapisz
 common#:#conditions_updated#:#Warunki zostały zachowane
 common#:#confirm#:#Zatwierdź
 common#:#confirmation#:#Zatwierdzenie
+common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
 common#:#container#:#Kontener
@@ -1429,6 +1432,7 @@ common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
 common#:#if_no_title_then_url#:#Pozostaw puste dla wyświetlenia URL
+common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
 common#:#ilias_version#:#Wersja ILIAS
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
@@ -1438,6 +1442,7 @@ common#:#import#:#Import
 common#:#import_alm#:#Import pakietu AICC
 common#:#import_categories#:#Import kategorii
 common#:#import_dbk#:#Import Książki Cyfrowej
+common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
 common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości.
@@ -1453,6 +1458,7 @@ common#:#import_spl#:#Import Puli Pytań Ankiety
 common#:#import_svy#:#Import Ankiety
 common#:#import_tst#:#Import Testu
 common#:#import_users#:#Import Użytkowników
+common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
 common#:#imported#:#zaimportowany
 common#:#in#:#w
 common#:#in_use#:#Język użytkownika
@@ -2310,6 +2316,7 @@ common#:#svy_delete#:#Usuń ankietę
 common#:#svy_edit_permission#:#Zmiana uprawnień dostępu
 common#:#svy_invite#:#Zaproś użytkowników do ankiety
 common#:#svy_new#:#Nowa ankieta
+common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
 common#:#svy_participate#:#Branie udziału w ankiecie
 common#:#svy_read#:#Prawo czytania ankiety
 common#:#svy_upload_file#:#Załaduj plik
@@ -2382,6 +2389,7 @@ common#:#tst_add#:#Dodaj test
 common#:#tst_delete#:#Usuń Test
 common#:#tst_edit_permission#:#Zmień ustawienia uprawnień
 common#:#tst_new#:#Nowy test
+common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
 common#:#tst_read#:#Prawo czytania testu
 common#:#tst_upload_file#:#Załaduj plik
 common#:#tst_visible#:#Test jest widoczny
@@ -2407,6 +2415,7 @@ common#:#up#:#W górę
 common#:#update#:#Edit###01 Mar 2005 new variable
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
+common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
 common#:#upload#:#Wyślij
 common#:#upload_error_file_not_found#:#Błąd załadowania: Nie znaleziono pliku.
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
@@ -2432,7 +2441,9 @@ common#:#user_cant_receive_mail#:#użytkownik nie może używać systemu poczty 
 common#:#user_comment#:#Komentarz użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
+common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
 common#:#user_imported#:#Zakończony import użytkowników.
+common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#user_profile_other#:#Inne informacje
@@ -2468,11 +2479,30 @@ common#:#usrf_read#:#Prawo czytania kont użytkowników
 common#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
 common#:#usrf_visible#:#Konta użytkowników są widoczne
 common#:#usrf_write#:#Edycja kont użytkowników
+common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
+common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
+common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
+common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
 common#:#validate#:#Zatwierdź
 common#:#value#:#Wartość
 common#:#vcard#:#Wizytówka
 common#:#vcard_download#:#Pobierz wizytówkę
 common#:#vendors#:#Sprzedawcy
+common#:#verification_failed#:#Verification failed###09 Mar 2005 new variable
+common#:#verification_failure_log#:#Verification failure log###09 Mar 2005 new variable
+common#:#verification_log#:#Verification log###09 Mar 2005 new variable
+common#:#verification_warning_log#:#Verification warning log###09 Mar 2005 new variable
 common#:#version#:#Wersja
 common#:#versions#:#Wersje
 common#:#view#:#Widok
@@ -4402,6 +4432,8 @@ survey#:#cannot_export_survey#:#Nie posiadasz wystarczających uprawnień dla ek
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!
 survey#:#cannot_manage_phrases#:#Nie masz prawa zapisu do zarządzania frazą!
 survey#:#cannot_participate_survey#:#Nie masz uprawnień do uczestnictwa w przeglądzie!
+survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
 survey#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień do zapisu meta  danych!
 survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot; ponieważ brak pytań w teście!
 survey#:#category#:#Kategoria
