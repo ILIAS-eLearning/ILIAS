@@ -56,6 +56,7 @@ common#:#appointment#:#Appointment###01 Sep 2003 new variable
 common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#archivio
 common#:#are_you_sure#:#Sei sicuro?
+common#:#assign#:#Assign###26 Sep 2003 new variable
 common#:#assign_lo_forum#:#assegnare LO forum
 common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
 common#:#at_location#:#at location###06 Aug 2003 new variable
@@ -763,6 +764,8 @@ content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
+content#:#cont_assign_translation#:#Assign translation###26 Sep 2003 new variable
+content#:#cont_assignments_deleted#:#The assignments have been deleted###26 Sep 2003 new variable
 content#:#cont_booktitle#:#Booktitle###19 Sep 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
 content#:#cont_caption#:#Caption###11 Jun 2003 new variable
@@ -781,6 +784,7 @@ content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
 content#:#cont_definition#:#Definition###01 Sep 2003 new variable
 content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
+content#:#cont_del_assignment#:#Delete assignment###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
 content#:#cont_details#:#Details###19 Sep 2003 new variable
 content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
@@ -801,6 +805,7 @@ content#:#cont_import_id#:#identifier###04 Aug 2003 new variable
 content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
+content#:#cont_insert_search#:#Please insert a search term###26 Sep 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
 content#:#cont_internal_link#:#internal link###06 Sep 2003 new variable
 content#:#cont_is_visible#:#isvisible###04 Aug 2003 new variable
@@ -828,8 +833,11 @@ content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
 content#:#cont_month#:#Month###19 Sep 2003 new variable
+content#:#cont_new_assignment#:#New assignment###26 Sep 2003 new variable
 content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#New Term###16 Aug 2003 new variable
+content#:#cont_no_assign_itself#:#The object cannot be assigned to itself###26 Sep 2003 new variable
+content#:#cont_no_object_found#:#Could not find any object with this title###26 Sep 2003 new variable
 content#:#cont_none#:#None###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
@@ -861,7 +869,9 @@ content#:#cont_school#:#School###19 Sep 2003 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
 content#:#cont_select_max_one_item#:#Please select one item only###19 Sep 2003 new variable
 content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
+content#:#cont_select_one_translation#:#Please select one translation###26 Sep 2003 new variable
 content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
+content#:#cont_select_translation#:#Please select the assignment from the list above###26 Sep 2003 new variable
 content#:#cont_series#:#Series###19 Sep 2003 new variable
 content#:#cont_series_editor#:#Series editor###19 Sep 2003 new variable
 content#:#cont_series_title#:#Series title###19 Sep 2003 new variable
@@ -885,6 +895,8 @@ content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
 content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
+content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
+content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable
 content#:#cont_where_published#:#Where published###19 Sep 2003 new variable
