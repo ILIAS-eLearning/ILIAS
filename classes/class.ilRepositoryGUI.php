@@ -1909,6 +1909,7 @@ class ilRepositoryGUI
 				if ($result->numRows() == 1) {
 					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 					$surveys[$key]["complete"] = $row->complete;
+					$surveys[$key]["evaluation_access"] = $row->evaluation_access;
 				}
 			}
 			
@@ -1949,7 +1950,7 @@ class ilRepositoryGUI
 				}
 
 				// add to desktop link
-				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($svy_data["ref_id"], "svy") and ($svy_data["complete"]))
+				if (($this->rbacsystem->checkAccess('participate',$svy_data["ref_id"])) and !$ilias->account->isDesktopItem($svy_data["ref_id"], "svy") and ($svy_data["complete"]))
 				{
 					$tpl->setCurrentBlock("svy_subscribe");
 					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -1959,8 +1960,8 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
-				// add statistical evaluation tool
-				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]) and ($svy_data["complete"]))
+				// add evaluation tool link
+				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]) and ($svy_data["complete"]) and ($svy_data["evaluation_access"]))
 				{
 					$tpl->setCurrentBlock("svy_evaluation");
 					$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$svy_data["ref_id"]);

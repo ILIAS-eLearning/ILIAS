@@ -1591,6 +1591,7 @@ class ilObjUser extends ilObject
 				case "lm":
 				case "glo":
 				case "tst":
+				case "svy":
 				case "dbk":
 				case "slm":
 				case "htlm":
@@ -1681,6 +1682,12 @@ class ilObjUser extends ilObject
 							$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
 							$target = "bottom";
 							$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
+							$edit_link = "";
+						}
+						elseif ($a_type == "svy")
+						{
+							$link = "survey/survey.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
+							$target = "bottom";
 							$edit_link = "";
 						}
 						elseif ($a_type == "mep")
