@@ -699,7 +699,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		if(count($rbacreview->getGlobalAssignableRoles()))
+		if(count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
 			// add user button
 			$this->tpl->setCurrentBlock("btn_cell");
@@ -717,7 +717,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
 			return true;
-		}			
+		}
 		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'])))
 		{
 			sendInfo($this->lng->txt('no_local_users'));
@@ -861,8 +861,15 @@ class ilObjCategoryGUI extends ilObjectGUI
 		{
 			$check_disable = false;
 		}
-
-		$roles = array_merge($rbacreview->getGlobalAssignableRoles(),
+		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			$global_roles = $rbacreview->getGlobalAssignableRoles();
+		}
+		else
+		{
+			$global_roles = $rbacreview->getGlobalRoles();
+		}
+		$roles = array_merge($global_roles,
 							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
 
 		if(!count($roles))
@@ -931,7 +938,15 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		// De-assign roles
-		$roles = array_merge($rbacreview->getGlobalAssignableRoles(),
+		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			$global_roles = $rbacreview->getGlobalAssignableRoles();
+		}
+		else
+		{
+			$global_roles = $rbacreview->getGlobalRoles();
+		}
+		$roles = array_merge($global_roles,
 							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
 
 		$new_role_ids = $_POST['role_ids'] ? $_POST['role_ids'] : array();
@@ -963,8 +978,16 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$assigned = $rbacreview->assignedRoles((int) $_GET['obj_id']);
 
 		// all assignable globals
-		$ga = array();
-		$ga = $rbacreview->getGlobalAssignableRoles();
+		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			$ga = $rbacreview->getGlobalAssignableRoles();
+		}
+		else
+		{
+			$ga = $rbacreview->getGlobalRoles();
+		}
+		#$ga = array();
+		#$ga = $rbacreview->getGlobalAssignableRoles();
 		foreach($ga as $role)
 		{
 			$global_assignable[] = $role['obj_id'];
