@@ -1286,7 +1286,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
 
-			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rolefolders");
+			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rolfs");
 			if ($validator->removeInvalidRolefolders())
 			{
 				$scan_log .= strtolower($this->lng->txt("done"));
