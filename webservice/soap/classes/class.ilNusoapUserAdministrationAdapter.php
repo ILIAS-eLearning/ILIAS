@@ -96,8 +96,7 @@ class ilNusoapUserAdministrationAdapter
 
 		// logout()
 		$this->server->register('logout',
-								array('client' => 'xsd:string',
-									  'sid' => 'xsd:string'),
+								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#logout',
@@ -144,55 +143,63 @@ class ilNusoapUserAdministrationAdapter
 												  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
 												  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
 												  'user_language' => array('name' => 'user_languaage', 'type' => 'xsd:string')));
+
+		// lookupUser()
+		$this->server->register('lookupUser',
+								array('sid' => 'xsd:string',
+									  'user_name' => 'xsd:string'),
+								array('usr_id' => 'xsd:integer'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#lookupUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS lookupUser(): check if username exists. Return usr_id or 0 if lookup fails.');
 		
-		// lookup()
-		$this->server->register('lookup',
-								array('client' => 'xsd:string',
-									  'sid' => 'xsd:string',
+		
+		// getUser()
+		$this->server->register('getUser',
+								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:integer'),
 								array('user_data' => 'tns:ilUserData'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#lookup',
+								SERVICE_NAMESPACE.'#getUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS lookup() user.');
-		// update()
-		$this->server->register('update',
-								array('client' => 'xsd:string',
-									  'sid' => 'xsd:string',
+								'ILIAS getUser(): get complete set of user data.');
+		// updateUser()
+		$this->server->register('updateUser',
+								array('sid' => 'xsd:string',
 									  'user_data' => 'tns:ilUserData'),
-								array('user_data' => 'tns:ilUserData'),
+								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#update',
+								SERVICE_NAMESPACE.'#updateUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS update() user. Updates all user data. '.
-								'Use lookup, then modify desired fields and finally start the update() call.');
+								'ILIAS updateUser(). Updates all user data. '.
+								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
 
-		// add()
-		$this->server->register('add',
-								array('client' => 'xsd:string',
-									  'sid' => 'xsd:string',
+		// addUser()
+		$this->server->register('addUser',
+								array('sid' => 'xsd:string',
 									  'user_data' => 'tns:ilUserData',
 									  'global_role_id' => 'xsd:integer'),
 								array('user_id' => 'xsd:integer'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#add',
+								SERVICE_NAMESPACE.'#addUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS add() user. Add new ILIAS user. Requires complete or subset of user_data structure');
+								'ILIAS addUser() user. Add new ILIAS user. Requires complete or subset of user_data structure');
 
-		// delete()
-		$this->server->register('delete',
-								array('client' => 'xsd:string',
-									  'sid' => 'xsd:string',
+		// deleteUser()
+		$this->server->register('deleteUser',
+								array('sid' => 'xsd:string',
 									  'user_id' => 'xsd:integer'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#delete',
+								SERVICE_NAMESPACE.'#deleteUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS delete() user.');
+								'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...)');
 		return true;
 	}
 		
