@@ -561,6 +561,7 @@ class ilLMPresentationGUI
 			$output =  $this->tpl->get();
 			$output = str_replace("&#123;", "{", $output);
 			$output = str_replace("&#125;", "}", $output);
+			header('Content-type: text/html; charset=UTF-8');
 			echo $output;
 		}
 
