@@ -86,7 +86,7 @@ function db_session_write($session_id, $data)
 	//var_dump("<pre>",session_decode($data),"</pre>");exit;
 	$expires = time() + ini_get("session.gc_maxlifetime");
 	$q = "REPLACE INTO usr_session (session_id, expires, data, ctime,user_id) ".
-		 "VALUES('".addslashes($session_id)."','".$expires."','".addslashes($data).
+		 "VALUES('".ilUtil::prepareDBString($session_id)."','".$expires."','".ilUtil::prepareDBString($data).
 		 "','".time()."','".$_SESSION["AccountId"]."')";
 	$ilDB->query($q);	 
 		 
