@@ -86,7 +86,7 @@ if (empty($cmd)) // if no cmd is given default to first property
 if ($_GET["cmd"] == "post")
 {
 	$cmd = key($_POST["cmd"]);
-	unset($_GET["cmd"]);
+	//unset($_GET["cmd"]);
 }
 
 // determine object type
@@ -113,13 +113,24 @@ $module_dir = ($module == "")
 
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+
 //echo $class_constr.":".$method;
+
 if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"]) or (strcmp($_GET["cmd"], "assessment") == 0)) {
 	$prepare_output = false;
 } else {
 	$prepare_output = true;
 }
-$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
-$obj->$method();
+//$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
+
+
+$ilCtrl->setTargetScript("questionpool.php");
+$ilCtrl->getCallStructure("ilobjquestionpoolgui");
+$qp_gui =& new ilObjQuestionPoolGUI("", $_GET["ref_id"], true, $prepare_output);
+$ilCtrl->forwardCommand($qp_gui);
+
+
+//$obj->$method();
 $tpl->show();
+
 ?>

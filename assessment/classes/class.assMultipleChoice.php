@@ -40,82 +40,86 @@ define("OUTPUT_RANDOM", "1");
 * @module   class.assMultipleChoice.php
 * @modulegroup   Assessment
 */
-class ASS_MultipleChoice extends ASS_Question {
-/**
-* Question string
-*
-* The question string of the multiple choice question
-*
-* @var string
-*/
-  var $question;
-/**
-* The given answers of the multiple choice question
-*
-* $answers is an array of the given answers of the multiple choice question
-*
-* @var array
-*/
-  var $answers;
-/**
-* Response type
-*
-* This is the response type of the multiple choice question. You can select
-* RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
-*
-* @var integer
-*/
-  var $response;
-/**
-* Output type
-*
-* This is the output type for the answers of the multiple choice question. You can select
-* OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-*
-* @var integer
-*/
-  var $output_type;
+class ASS_MultipleChoice extends ASS_Question
+{
+	/**
+	* Question string
+	*
+	* The question string of the multiple choice question
+	*
+	* @var string
+	*/
+	var $question;
 
-/**
-* ASS_MultipleChoice constructor
-*
-* The constructor takes possible arguments an creates an instance of the ASS_MultipleChoice object.
-*
-* @param string $title A title string to describe the question
-* @param string $comment A comment string to describe the question
-* @param string $author A string containing the name of the questions author
-* @param integer $owner A numerical ID to identify the owner/creator
-* @param string $question The question string of the multiple choice question
-* @param integer $response Indicates the response type of the multiple choice question
-* @param integer $output_type The output order of the multiple choice answers
-* @access public
-* @see ASS_Question:ASS_Question()
-*/
-  function ASS_MultipleChoice(
-    $title = "",
-    $comment = "",
-    $author = "",
-    $owner = -1,
-    $question = "",
-    $response = RESPONSE_SINGLE,
-    $output_type = OUTPUT_ORDER
-  )
-  {
-    $this->ASS_Question($title, $comment, $author, $owner);
-    $this->question = $question;
-    $this->response = $response;
-    $this->output_type = $output_type;
-    $this->answers = array();
-  }
+	/**
+	* The given answers of the multiple choice question
+	*
+	* $answers is an array of the given answers of the multiple choice question
+	*
+	* @var array
+	*/
+	var $answers;
 
-/**
-* Returns true, if a multiple choice question is complete for use
-*
-* Returns true, if a multiple choice question is complete for use
-*
-* @return boolean True, if the multiple choice question is complete for use, otherwise false
-* @access public
-*/
+	/**
+	* Response type
+	*
+	* This is the response type of the multiple choice question. You can select
+	* RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
+	*
+	* @var integer
+	*/
+	var $response;
+
+	/**
+	* Output type
+	*
+	* This is the output type for the answers of the multiple choice question. You can select
+	* OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
+	*
+	* @var integer
+	*/
+	var $output_type;
+
+	/**
+	* ASS_MultipleChoice constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the ASS_MultipleChoice object.
+	*
+	* @param string $title A title string to describe the question
+	* @param string $comment A comment string to describe the question
+	* @param string $author A string containing the name of the questions author
+	* @param integer $owner A numerical ID to identify the owner/creator
+	* @param string $question The question string of the multiple choice question
+	* @param integer $response Indicates the response type of the multiple choice question
+	* @param integer $output_type The output order of the multiple choice answers
+	* @access public
+	* @see ASS_Question:ASS_Question()
+	*/
+	function ASS_MultipleChoice(
+		$title = "",
+		$comment = "",
+		$author = "",
+		$owner = -1,
+		$question = "",
+		$response = RESPONSE_SINGLE,
+		$output_type = OUTPUT_ORDER
+	  )
+	{
+		$this->ASS_Question($title, $comment, $author, $owner);
+		$this->question = $question;
+		$this->response = $response;
+		$this->output_type = $output_type;
+		$this->answers = array();
+	}
+
+	/**
+	* Returns true, if a multiple choice question is complete for use
+	*
+	* Returns true, if a multiple choice question is complete for use
+	*
+	* @return boolean True, if the multiple choice question is complete for use, otherwise false
+	* @access public
+	*/
 	function isComplete()
 	{
 		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
@@ -127,16 +131,16 @@ class ASS_MultipleChoice extends ASS_Question {
 			return false;
 		}
 	}
-	
-/**
-* Returns a QTI xml representation of the question
-*
-* Returns a QTI xml representation of the question and sets the internal
-* domxml variable with the DOM XML representation of the QTI xml representation
-*
-* @return string The QTI xml representation of the question
-* @access public
-*/
+
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
 	function to_xml()
 	{
 		if (!empty($this->domxml))
@@ -144,7 +148,7 @@ class ASS_MultipleChoice extends ASS_Question {
 			$this->domxml->free();
 		}
 		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);		
+		$this->domxml = domxml_open_mem($xml_header);
 		$root = $this->domxml->document_element();
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
@@ -266,7 +270,7 @@ class ASS_MultipleChoice extends ASS_Question {
 			$qtiResprocessing->append_child($qtiRespcondition);
 		}
 		$qtiIdent->append_child($qtiResprocessing);
-		
+
 		// PART III: qti itemfeedback
 		foreach ($this->answers as $index => $answer)
 		{
@@ -303,24 +307,25 @@ class ASS_MultipleChoice extends ASS_Question {
 		}
 		return $this->domxml->dump_mem(true);
 	}
-	
-/**
-* Saves a ASS_MultipleChoice object to a database
-*
-* Saves a ASS_MultipleChoice object to a database (experimental)
-*
-* @param object $db A pear DB object
-* @access public
-*/
-  function saveToDb($original_id = "")
-  {
-    global $ilias;
+
+	/**
+	* Saves a ASS_MultipleChoice object to a database
+	*
+	* Saves a ASS_MultipleChoice object to a database (experimental)
+	*
+	* @param object $db A pear DB object
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+		global $ilias;
 
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete())
+		{
 			$complete = 1;
 		}
-    $db = & $ilias->db;
+		$db = & $ilias->db;
 
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
@@ -334,132 +339,149 @@ class ASS_MultipleChoice extends ASS_Question {
 			$original_id = "NULL";
 		}
 
-    if ($this->id == -1) {
-      // Neuen Datensatz schreiben
-      $now = getdate();
-      if ($this->response == RESPONSE_SINGLE) {
-        $question_type = 1;
-      } else {
-        $question_type = 2;
-      }
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $db->quote($question_type),
-        $db->quote($this->ref_id),
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->owner),
-        $db->quote($this->question),
-        $db->quote($estw_time),
+		if ($this->id == -1)
+		{
+			// Neuen Datensatz schreiben
+			$now = getdate();
+			if ($this->response == RESPONSE_SINGLE)
+			{
+				$question_type = 1;
+			}
+			else
+			{
+				$question_type = 2;
+			}
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($question_type),
+				$db->quote($this->ref_id),
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->owner),
+				$db->quote($this->question),
+				$db->quote($estw_time),
 				$db->quote("$this->shuffle"),
-        $db->quote($this->response),
+				$db->quote($this->response),
 				$db->quote("$complete"),
-        $db->quote($created),
+				$db->quote($created),
 				$original_id
-      );
-      $result = $db->query($query);
-      if ($result == DB_OK) {
-        $this->id = $this->ilias->db->getLastInsertId();
-        // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-        if ($this->getTestId() > 0) {
-          $this->insertIntoTest($this->getTestId());
-        }
-      }
-    } else {
-      // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->question),
-        $db->quote($estw_time),
+			);
+			$result = $db->query($query);
+			if ($result == DB_OK)
+			{
+				$this->id = $this->ilias->db->getLastInsertId();
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				if ($this->getTestId() > 0)
+				{
+				$this->insertIntoTest($this->getTestId());
+				}
+			}
+		}
+		else
+		{
+			// Vorhandenen Datensatz aktualisieren
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->question),
+				$db->quote($estw_time),
 				$db->quote("$this->shuffle"),
-        $db->quote($this->response),
+				$db->quote($this->response),
 				$db->quote("$complete"),
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-    }
-    if ($result == DB_OK) {
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+		}
+		if ($result == DB_OK)
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
 
-      // Antworten schreiben
-      // alte Antworten löschen
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-      // Anworten wegschreiben
-      foreach ($this->answers as $key => $value) {
-        $answer_obj = $this->answers[$key];
-        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-          $db->quote($this->id),
-          $db->quote($answer_obj->get_answertext()),
-          $db->quote($answer_obj->get_points()),
-          $db->quote($answer_obj->get_order()),
-          $db->quote($answer_obj->get_correctness())
-        );
-        $answer_result = $db->query($query);
-      }
-    }
-  }
+			// Antworten schreiben
+			// alte Antworten löschen
+			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
 
-/**
-* Loads a ASS_MultipleChoice object from a database
-*
-* Loads a ASS_MultipleChoice object from a database (experimental)
-*
-* @param object $db A pear DB object
-* @param integer $question_id A unique key which defines the multiple choice test in the database
-* @access public
-*/
-  function loadFromDb($question_id)
-  {
-    global $ilias;
+			// Anworten wegschreiben
+			foreach ($this->answers as $key => $value)
+			{
+				$answer_obj = $this->answers[$key];
+				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($this->id),
+				$db->quote($answer_obj->get_answertext()),
+				$db->quote($answer_obj->get_points()),
+				$db->quote($answer_obj->get_order()),
+				$db->quote($answer_obj->get_correctness())
+				);
+				$answer_result = $db->query($query);
+			}
+		}
+	}
 
-    $db = & $ilias->db;
-    $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
-      $db->quote($question_id)
-    );
-    $result = $db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
-      if ($result->numRows() == 1) {
-        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-        $this->id = $question_id;
-        $this->title = $data->title;
-        $this->comment = $data->comment;
-        $this->ref_id = $data->ref_fi;
-        $this->author = $data->author;
-        $this->owner = $data->owner;
-        $this->question = $data->question_text;
-        $this->response = $data->choice_response;
+	/**
+	* Loads a ASS_MultipleChoice object from a database
+	*
+	* Loads a ASS_MultipleChoice object from a database (experimental)
+	*
+	* @param object $db A pear DB object
+	* @param integer $question_id A unique key which defines the multiple choice test in the database
+	* @access public
+	*/
+	function loadFromDb($question_id)
+	{
+		global $ilias;
+
+		$db = & $ilias->db;
+		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+		$db->quote($question_id));
+		$result = $db->query($query);
+
+		if (strcmp(get_class($result), db_result) == 0)
+		{
+			if ($result->numRows() == 1)
+			{
+				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->id = $question_id;
+				$this->title = $data->title;
+				$this->comment = $data->comment;
+				$this->ref_id = $data->ref_fi;
+				$this->author = $data->author;
+				$this->owner = $data->owner;
+				$this->question = $data->question_text;
+				$this->response = $data->choice_response;
 				$this->setShuffle($data->shuffle);
-        $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-      }
-      // loads materials uris from database
-      $this->loadMaterialFromDb($question_id);
+				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			}
 
-      $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
-        $db->quote($question_id)
-      );
-      $result = $db->query($query);
-      if (strcmp(get_class($result), db_result) == 0) {
-        while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-          array_push($this->answers, new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->aorder, $data->correctness));
-        }
-      }
-    }
-  }
+			// loads materials uris from database
+			$this->loadMaterialFromDb($question_id);
 
-/**
-* Duplicates an ASS_MultipleChoiceQuestion
-*
-* Duplicates an ASS_MultipleChoiceQuestion
-*
-* @access public
-*/
+			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
+				$db->quote($question_id));
+
+			$result = $db->query($query);
+
+			if (strcmp(get_class($result), db_result) == 0)
+			{
+				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					array_push($this->answers, new ASS_AnswerTrueFalse($data->answertext, $data->points, $data->aorder, $data->correctness));
+				}
+			}
+		}
+	}
+
+	/**
+	* Duplicates an ASS_MultipleChoiceQuestion
+	*
+	* Duplicates an ASS_MultipleChoiceQuestion
+	*
+	* @access public
+	*/
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
 	{
 		if ($this->id <= 0)
@@ -500,296 +522,331 @@ class ASS_MultipleChoice extends ASS_Question {
 		return $clone->id;
 	}
 
-/**
-* Gets the multiple choice question
-*
-* Gets the question string of the ASS_MultipleChoice object
-*
-* @return string The question string of the ASS_MultipleChoice object
-* @access public
-* @see $question
-*/
-  function get_question() {
-    return $this->question;
-  }
+	/**
+	* Gets the multiple choice question
+	*
+	* Gets the question string of the ASS_MultipleChoice object
+	*
+	* @return string The question string of the ASS_MultipleChoice object
+	* @access public
+	* @see $question
+	*/
+	function get_question()
+	{
+		return $this->question;
+	}
 
-/**
-* Sets the multiple choice question
-*
-* Sets the question string of the ASS_MultipleChoice object
-*
-* @param string $question A string containing the multiple choice question
-* @access public
-* @see $question
-*/
-  function set_question($question = "") {
-    $this->question = $question;
-  }
+	/**
+	* Sets the multiple choice question
+	*
+	* Sets the question string of the ASS_MultipleChoice object
+	*
+	* @param string $question A string containing the multiple choice question
+	* @access public
+	* @see $question
+	*/
+	function set_question($question = "")
+	{
+		$this->question = $question;
+	}
 
-/**
-* Gets the multiple choice response type
-*
-* Gets the multiple choice response type which is either RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
-*
-* @return integer The response type of the ASS_MultipleChoice object
-* @access public
-* @see $response
-*/
-  function get_response() {
-    return $this->response;
-  }
+	/**
+	* Gets the multiple choice response type
+	*
+	* Gets the multiple choice response type which is either RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
+	*
+	* @return integer The response type of the ASS_MultipleChoice object
+	* @access public
+	* @see $response
+	*/
+	function get_response()
+	{
+		return $this->response;
+	}
 
-/**
-* Sets the multiple choice response type
-*
-* Sets the response type of the ASS_MultipleChoice object
-*
-* @param integer $response A nonnegative integer value specifying the response type. It is RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
-* @access public
-* @see $response
-*/
-  function set_response($response = "") {
-    $this->response = $response;
-  }
+	/**
+	* Sets the multiple choice response type
+	*
+	* Sets the response type of the ASS_MultipleChoice object
+	*
+	* @param integer $response A nonnegative integer value specifying the response type. It is RESPONSE_SINGLE (=0) or RESPONSE_MULTI (=1).
+	* @access public
+	* @see $response
+	*/
+	function set_response($response = "")
+	{
+		$this->response = $response;
+	}
 
-/**
-* Gets the multiple choice output type
-*
-* Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-*
-* @return integer The output type of the ASS_MultipleChoice object
-* @access public
-* @see $output_type
-*/
-  function get_output_type() {
-    return $this->output_type;
-  }
+	/**
+	* Gets the multiple choice output type
+	*
+	* Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
+	*
+	* @return integer The output type of the ASS_MultipleChoice object
+	* @access public
+	* @see $output_type
+	*/
+	function get_output_type()
+	{
+		return $this->output_type;
+	}
 
-/**
-* Sets the multiple choice output type
-*
-* Sets the output type of the ASS_MultipleChoice object
-*
-* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-* @access public
-* @see $response
-*/
-  function set_output_type($output_type = OUTPUT_ORDER) {
-    $this->output_type = $output_type;
-  }
+	/**
+	* Sets the multiple choice output type
+	*
+	* Sets the output type of the ASS_MultipleChoice object
+	*
+	* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
+	* @access public
+	* @see $response
+	*/
+	function set_output_type($output_type = OUTPUT_ORDER)
+	{
+		$this->output_type = $output_type;
+	}
 
-/**
-* Adds a possible answer for a multiple choice question
-*
-* Adds a possible answer for a multiple choice question. A ASS_AnswerTrueFalse object will be
-* created and assigned to the array $this->answers.
-*
-* @param string $answertext The answer text
-* @param double $points The points for selecting the answer (even negative points can be used)
-* @param boolean $correctness Defines the answer as correct (TRUE) or incorrect (FALSE)
-* @param integer $order A possible display order of the answer
-* @access public
-* @see $answers
-* @see ASS_AnswerTrueFalse
-*/
-  function add_answer(
-    $answertext = "",
-    $points = 0.0,
-    $correctness = FALSE,
-    $order = 0
-  )
-  {
-    $found = -1;
-    foreach ($this->answers as $key => $value) {
-      if ($value->get_order() == $order) {
-        $found = $order;
-      }
-    }
-    if ($found >= 0) {
-      // Antwort einfügen
-      $answer = new ASS_AnswerTrueFalse($answertext, $points, $found, $correctness);
-      array_push($this->answers, $answer);
-      for ($i = $found + 1; $i < count($this->answers); $i++) {
-        $this->answers[$i] = $this->answers[$i-1];
-      }
-      $this->answers[$found] = $answer;
-    } else {
-      // Anwort anhängen
-      $answer = new ASS_AnswerTrueFalse($answertext, $points, count($this->answers), $correctness);
-      array_push($this->answers, $answer);
-    }
-  }
-
-/**
-* Returns the number of answers
-*
-* Returns the number of answers
-*
-* @return integer The number of answers of the multiple choice question
-* @access public
-* @see $answers
-*/
-  function get_answer_count() {
-    return count($this->answers);
-  }
-
-/**
-* Returns an answer
-*
-* Returns an answer with a given index. The index of the first
-* answer is 0, the index of the second answer is 1 and so on.
-*
-* @param integer $index A nonnegative index of the n-th answer
-* @return object ASS_AnswerTrueFalse-Object containing the answer
-* @access public
-* @see $answers
-*/
-  function get_answer($index = 0) {
-    if ($index < 0) return NULL;
-    if (count($this->answers) < 1) return NULL;
-    if ($index >= count($this->answers)) return NULL;
-    return $this->answers[$index];
-  }
-
-/**
-* Deletes an answer
-*
-* Deletes an answer with a given index. The index of the first
-* answer is 0, the index of the second answer is 1 and so on.
-*
-* @param integer $index A nonnegative index of the n-th answer
-* @access public
-* @see $answers
-*/
-  function delete_answer($index = 0) {
-    if ($index < 0) return;
-    if (count($this->answers) < 1) return;
-    if ($index >= count($this->answers)) return;
-    unset($this->answers[$index]);
-    $this->answers = array_values($this->answers);
-    for ($i = 0; $i < count($this->answers); $i++) {
-      if ($this->answers[$i]->get_order() > $index) {
-        $this->answers[$i]->set_order($i);
-      }
-    }
-  }
-
-/**
-* Deletes all answers
-*
-* Deletes all answers
-*
-* @access public
-* @see $answers
-*/
-  function flush_answers() {
-    $this->answers = array();
-  }
-
-/**
-* Returns the maximum points, a learner can reach answering the question
-*
-* Returns the maximum points, a learner can reach answering the question
-*
-* @access public
-* @see $points
-*/
-  function getMaximumPoints() {
-    $points = 0;
-    foreach ($this->answers as $key => $value) {
-			if ($value->is_true()) {
-	      $points += $value->get_points();
+	/**
+	* Adds a possible answer for a multiple choice question
+	*
+	* Adds a possible answer for a multiple choice question. A ASS_AnswerTrueFalse object will be
+	* created and assigned to the array $this->answers.
+	*
+	* @param string $answertext The answer text
+	* @param double $points The points for selecting the answer (even negative points can be used)
+	* @param boolean $correctness Defines the answer as correct (TRUE) or incorrect (FALSE)
+	* @param integer $order A possible display order of the answer
+	* @access public
+	* @see $answers
+	* @see ASS_AnswerTrueFalse
+	*/
+	function add_answer(
+		$answertext = "",
+		$points = 0.0,
+		$correctness = FALSE,
+		$order = 0
+	)
+	{
+echo "<br>addAnswer";
+		$found = -1;
+		foreach ($this->answers as $key => $value)
+		{
+			if ($value->get_order() == $order)
+			{
+				$found = $order;
 			}
-    }
-    return $points;
-  }
+		}
+		if ($found >= 0)
+		{
+			// Antwort einfügen
+			$answer = new ASS_AnswerTrueFalse($answertext, $points, $found, $correctness);
+			array_push($this->answers, $answer);
+			for ($i = $found + 1; $i < count($this->answers); $i++)
+			{
+				$this->answers[$i] = $this->answers[$i-1];
+			}
+			$this->answers[$found] = $answer;
+		}
+		else
+		{
+			// Anwort anhängen
+			$answer = new ASS_AnswerTrueFalse($answertext, $points, count($this->answers), $correctness);
+			array_push($this->answers, $answer);
+		}
+	}
 
-/**
-* Returns the points, a learner has reached answering the question
-*
-* Returns the points, a learner has reached answering the question
-*
-* @param integer $user_id The database ID of the learner
-* @param integer $test_id The database Id of the test containing the question
-* @access public
-*/
-  function getReachedPoints($user_id, $test_id) {
-    $found_values = array();
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->quote($user_id),
-      $this->ilias->db->quote($test_id),
-      $this->ilias->db->quote($this->getId())
-    );
-    $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-      array_push($found_values, $data->value1);
-    }
-    $points = 0;
-    foreach ($found_values as $key => $value) {
-      if (strlen($value) > 0) {
+	/**
+	* Returns the number of answers
+	*
+	* Returns the number of answers
+	*
+	* @return integer The number of answers of the multiple choice question
+	* @access public
+	* @see $answers
+	*/
+	function get_answer_count()
+	{
+		return count($this->answers);
+	}
+
+	/**
+	* Returns an answer
+	*
+	* Returns an answer with a given index. The index of the first
+	* answer is 0, the index of the second answer is 1 and so on.
+	*
+	* @param integer $index A nonnegative index of the n-th answer
+	* @return object ASS_AnswerTrueFalse-Object containing the answer
+	* @access public
+	* @see $answers
+	*/
+	function get_answer($index = 0)
+	{
+		if ($index < 0) return NULL;
+		if (count($this->answers) < 1) return NULL;
+		if ($index >= count($this->answers)) return NULL;
+
+		return $this->answers[$index];
+	}
+
+	/**
+	* Deletes an answer
+	*
+	* Deletes an answer with a given index. The index of the first
+	* answer is 0, the index of the second answer is 1 and so on.
+	*
+	* @param integer $index A nonnegative index of the n-th answer
+	* @access public
+	* @see $answers
+	*/
+	function delete_answer($index = 0)
+	{
+		if ($index < 0) return;
+		if (count($this->answers) < 1) return;
+		if ($index >= count($this->answers)) return;
+		unset($this->answers[$index]);
+		$this->answers = array_values($this->answers);
+		for ($i = 0; $i < count($this->answers); $i++)
+		{
+			if ($this->answers[$i]->get_order() > $index)
+			{
+				$this->answers[$i]->set_order($i);
+			}
+		}
+	}
+
+	/**
+	* Deletes all answers
+	*
+	* Deletes all answers
+	*
+	* @access public
+	* @see $answers
+	*/
+	function flush_answers()
+	{
+		$this->answers = array();
+	}
+
+	/**
+	* Returns the maximum points, a learner can reach answering the question
+	*
+	* Returns the maximum points, a learner can reach answering the question
+	*
+	* @access public
+	* @see $points
+	*/
+	function getMaximumPoints()
+	{
+		$points = 0;
+		foreach ($this->answers as $key => $value)
+		{
+			if ($value->is_true())
+			{
+				$points += $value->get_points();
+			}
+		}
+		return $points;
+	}
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedPoints($user_id, $test_id)
+	{
+		$found_values = array();
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$this->ilias->db->quote($user_id),
+		$this->ilias->db->quote($test_id),
+		$this->ilias->db->quote($this->getId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_values, $data->value1);
+		}
+		$points = 0;
+		foreach ($found_values as $key => $value)
+		{
+			if (strlen($value) > 0)
+			{
 				$points += $this->answers[$value]->get_points();
-      }
-    }
-    return $points;
-  }
+			}
+		}
+		return $points;
+	}
 
-/**
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* Returns the evaluation data, a learner has entered to answer the question
-*
-* @param integer $user_id The database ID of the learner
-* @param integer $test_id The database Id of the test containing the question
-* @access public
-*/
-  function getReachedInformation($user_id, $test_id) {
-    $found_values = array();
-    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->quote($user_id),
-      $this->ilias->db->quote($test_id),
-      $this->ilias->db->quote($this->getId())
-    );
-    $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-      array_push($found_values, $data->value1);
-    }
-    $counter = 1;
+	/**
+	* Returns the evaluation data, a learner has entered to answer the question
+	*
+	* Returns the evaluation data, a learner has entered to answer the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedInformation($user_id, $test_id)
+	{
+		$found_values = array();
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+		$this->ilias->db->quote($user_id),
+		$this->ilias->db->quote($test_id),
+		$this->ilias->db->quote($this->getId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_values, $data->value1);
+		}
+		$counter = 1;
 		$user_result = array();
-    foreach ($found_values as $key => $value) {
+		foreach ($found_values as $key => $value)
+		{
 			$solution = array(
 				"order" => "$counter",
 				"points" => 0,
 				"true" => 0,
 				"value" => "",
-			);
-      if (strlen($value) > 0) {
-        $solution["value"] = $this->answers[$value]->get_answertext();
-				$solution["points"] = $this->answers[$value]->get_points();
-        if ($this->answers[$value]->is_true()) {
-          $solution["true"] = 1;
-        }
-      }
+				);
+			if (strlen($value) > 0)
+			{
+				$solution["value"] = $this->answers[$value]->get_answertext();
+						$solution["points"] = $this->answers[$value]->get_points();
+				if ($this->answers[$value]->is_true())
+				{
+					$solution["true"] = 1;
+				}
+			}
 			$counter++;
 			array_push($user_result, $solution);
-    }
-    return $user_result;
-  }
+		}
+		return $user_result;
+	}
 
-/**
-* Saves the learners input of the question to the database
-*
-* Saves the learners input of the question to the database
-*
-* @param integer $test_id The database id of the test containing this question
-* @access public
-* @see $answers
-*/
-  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
-    global $ilDB;
+	/**
+	* Saves the learners input of the question to the database
+	*
+	* Saves the learners input of the question to the database
+	*
+	* @param integer $test_id The database id of the test containing this question
+	* @access public
+	* @see $answers
+	*/
+	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
+	{
+		global $ilDB;
 		global $ilUser;
-    $db =& $ilDB->db;
 
-    if ($this->response == RESPONSE_SINGLE) {
+		$db =& $ilDB->db;
+
+		if ($this->response == RESPONSE_SINGLE)
+		{
 			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
@@ -798,12 +855,14 @@ class ASS_MultipleChoice extends ASS_Question {
 			$result = $db->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
-			if ($update) {
+			if ($update)
+			{
 				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
 					$db->quote($_POST["multiple_choice_result"]),
-					$db->quote($update)
-				);
-			} else {
+					$db->quote($update));
+			}
+			else
+			{
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
@@ -811,28 +870,33 @@ class ASS_MultipleChoice extends ASS_Question {
 					$db->quote($_POST["multiple_choice_result"])
 				);
 			}
-      $result = $db->query($query);
-    } else {
+			$result = $db->query($query);
+		}
+		else
+		{
 			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->getId())
 			);
 			$result = $db->query($query);
-      foreach ($_POST as $key => $value) {
-        if (preg_match("/multiple_choice_result_(\d+)/", $key, $matches)) {
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/multiple_choice_result_(\d+)/", $key, $matches))
+				{
 					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 						$db->quote($ilUser->id),
 						$db->quote($test_id),
 						$db->quote($this->getId()),
 						$db->quote($value)
 					);
-          $result = $db->query($query);
-        }
-      }
-    }
-    //parent::saveWorkingData($limit_to);
-  }
+					$result = $db->query($query);
+				}
+			}
+		}
+		//parent::saveWorkingData($limit_to);
+	}
+
 }
 
 ?>

@@ -23,8 +23,8 @@
 
 /**
 * Class ilObjQuestionPool
-* 
-* @author Helmut Schottmüller <hschottm@tzi.de> 
+*
+* @author Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
 * @extends ilObject
@@ -87,15 +87,15 @@ class ilObjQuestionPool extends ilObject
 	function update()
 	{
 		if (!parent::update())
-		{			
+		{
 			return false;
 		}
 
 		// put here object specific stuff
-		
+
 		return true;
 	}
-	
+
 /**
 	* read object data from db into object
 	* @param	boolean
@@ -106,21 +106,21 @@ class ilObjQuestionPool extends ilObject
 		parent::read($a_force_db);
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
-	
+
 	/**
 	* copy all entries of your object.
-	* 
+	*
 	* @access	public
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
 	*/
 	function clone($a_parent_ref)
-	{		
+	{
 		global $rbacadmin;
 
 		// always call parent clone function first!!
 		$new_ref_id = parent::clone($a_parent_ref);
-		
+
 		// get object instance of cloned object
 		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
@@ -128,7 +128,7 @@ class ilObjQuestionPool extends ilObject
 		//$roles = $newObj->initDefaultRoles();
 
 		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 
 		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
 		//unset($newObj);
@@ -138,32 +138,33 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
-	* delete object and all related data	
+	* delete object and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
 		//put here your module specific stuff
 		$this->deleteQuestionpool();
-		
+
 		return true;
 	}
 
 	function deleteQuestionpool()
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s",
-			$this->ilias->db->quote($this->getRefId())
-		);
+			$this->ilias->db->quote($this->getRefId()));
+
 		$result = $this->ilias->db->query($query);
 		$questions = array();
+
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			array_push($questions, $row["question_id"]);
@@ -177,20 +178,20 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 	}
-	
+
 	/**
 	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
+	*
+	* If your module does not require any default roles, delete this method
 	* (For an example how this method is used, look at ilObjForum)
-	* 
+	*
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
 	function initDefaultRoles()
 	{
 		global $rbacadmin;
-		
+
 		// create a local role folder
 		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
 
@@ -207,10 +208,10 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
-	* 
+	*
 	* If you are not required to handle any events related to your module, just delete this method.
 	* (For an example how this method is used, look at ilObjGroup)
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
@@ -220,45 +221,45 @@ class ilObjQuestionPool extends ilObject
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
-		
+
 		switch ($a_event)
 		{
 			case "link":
-				
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "cut":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-				
+
 			case "copy":
-			
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 
 			case "paste":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "new":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 		}
-		
+
 		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
 		if ($a_node_id==$_GET["ref_id"])
-		{	
+		{
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
 			if($parent_type == $this->getType())
@@ -266,56 +267,62 @@ class ilObjQuestionPool extends ilObject
 				$a_node_id = (int) $tree->getParentId($a_node_id);
 			}
 		}
-		
+
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
-  
-/**
-* Deletes a question from the question pool
-* 
-* Deletes a question from the question pool
-*
-* @param integer $question_id The database id of the question
-* @access private
-*/
-  function deleteQuestion($question_id) 
-  {
+
+	/**
+	* Deletes a question from the question pool
+	*
+	* Deletes a question from the question pool
+	*
+	* @param integer $question_id The database id of the question
+	* @access private
+	*/
+	function deleteQuestion($question_id)
+	{
 		$question = new ASS_Question();
 		$question->delete($question_id);
-  }
-	
-/**
-* Returns the question type of a question with a given id
-* 
-* Returns the question type of a question with a given id
-*
-* @param integer $question_id The database id of the question
-* @result string The question type string
-* @access private
-*/
-  function getQuestiontype($question_id) 
-  {
-    if ($question_id < 1)
-      return;
-      
-    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
-      $this->ilias->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+	}
+
+	/**
+	* Returns the question type of a question with a given id
+	*
+	* Returns the question type of a question with a given id
+	*
+	* @param integer $question_id The database id of the question
+	* @result string The question type string
+	* @access private
+	*/
+	function getQuestiontype($question_id)
+	{
+		if ($question_id < 1)
+		{
+			return;
+		}
+
+		$query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
+			$this->ilias->db->quote($question_id));
+
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			return $data->type_tag;
-    } else {
-      return;
-    }
-  }
-	
+		}
+		else
+		{
+			return;
+		}
+	}
+
 	function get_total_answers($question_id)
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
+			$this->ilias->db->quote($question_id));
+
 		$result = $this->ilias->db->query($query);
+
 		if ($result->numRows() == 0)
 		{
 			return 0;
@@ -325,18 +332,19 @@ class ilObjQuestionPool extends ilObject
 		{
 			array_push($found_id, $row->question_id);
 		}
+
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
-			join($found_id, ",")
-		);
-    $result = $this->ilias->db->query($query);
-		return $result->numRows();	
+			join($found_id, ","));
+
+		$result = $this->ilias->db->query($query);
+		return $result->numRows();
 	}
 
 	function get_total_right_answers($question_id)
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
+			$this->ilias->db->quote($question_id));
+
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 0)
 		{
@@ -348,19 +356,21 @@ class ilObjQuestionPool extends ilObject
 			array_push($found_id, $row->question_id);
 		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
-			join($found_id, ",")
-		);
-    $result = $this->ilias->db->query($query);
+			join($found_id, ","));
+
+		$result = $this->ilias->db->query($query);
 		$answers = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-    	$question =& $this->createQuestion("", $row->question_fi);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+    		$question =& $this->createQuestion("", $row->question_fi);
 			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
 			$max = $question->object->getMaximumPoints();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
 		$reached = 0.0;
-		foreach ($answers as $key => $value) {
+		foreach ($answers as $key => $value)
+		{
 			$max += $value["max"];
 			$reached += $value["reached"];
 		}
@@ -438,140 +448,165 @@ class ilObjQuestionPool extends ilObject
 		parent::update();
 	}
 
-/**
-* Checks whether the question is in use or not
-*
-* Checks whether the question is in use or not
-*
-* @param integer $question_id The question id of the question to be checked
-* @return boolean The number of datasets which are affected by the use of the query.
-* @access public
-*/
-	function isInUse($question_id) {
+
+	/**
+	* Checks whether the question is in use or not
+	*
+	* Checks whether the question is in use or not
+	*
+	* @param integer $question_id The question id of the question to be checked
+	* @return boolean The number of datasets which are affected by the use of the query.
+	* @access public
+	*/
+	function isInUse($question_id)
+	{
 		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
-			$this->ilias->db->quote("$question_id")
-		);
+			$this->ilias->db->quote("$question_id"));
+
 		$result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+
 		return $row->solution_count;
 	}
 
-  function &createQuestion($question_type, $question_id = -1) {
-    if ((!$question_type) and ($question_id > 0)) {
+	function &createQuestion($question_type, $question_id = -1)
+	{
+		if ((!$question_type) and ($question_id > 0))
+		{
 			$question_type = $this->getQuestiontype($question_id);
-    }
-    switch ($question_type) {
-      case "qt_multiple_choice_sr":
-        $question =& new ASS_MultipleChoiceGUI();
-        $question->object->set_response(RESPONSE_SINGLE);
-        break;
-      case "qt_multiple_choice_mr":
-        $question =& new ASS_MultipleChoiceGUI();
-        $question->object->set_response(RESPONSE_MULTIPLE);
-        break;
-      case "qt_cloze":
-        $question =& new ASS_ClozeTestGUI();
-        break;
-      case "qt_matching":
-        $question =& new ASS_MatchingQuestionGUI();
-        break;
-      case "qt_ordering":
-        $question =& new ASS_OrderingQuestionGUI();
-        break;
-      case "qt_imagemap":
-        $question =& new ASS_ImagemapQuestionGUI();
-        break;
+		}
+
+		switch ($question_type)
+		{
+			case "qt_multiple_choice_sr":
+				$question =& new ASS_MultipleChoiceGUI();
+				$question->object->set_response(RESPONSE_SINGLE);
+				break;
+
+			case "qt_multiple_choice_mr":
+				$question =& new ASS_MultipleChoiceGUI();
+				$question->object->set_response(RESPONSE_MULTIPLE);
+				break;
+
+			case "qt_cloze":
+				$question =& new ASS_ClozeTestGUI();
+				break;
+
+			case "qt_matching":
+				$question =& new ASS_MatchingQuestionGUI();
+				break;
+
+			case "qt_ordering":
+				$question =& new ASS_OrderingQuestionGUI();
+				break;
+
+			case "qt_imagemap":
+				$question =& new ASS_ImagemapQuestionGUI();
+				break;
+
 			case "qt_javaapplet":
 				$question =& new ASS_JavaAppletGUI();
 				break;
-    }
+		}
+
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
 		}
+
 		return $question;
-  }
+	}
 
-/**
-* Duplicates a question for a questionpool
-*
-* Duplicates a question for a questionpool
-*
-* @param integer $question_id The database id of the question
-* @access public
-*/
-  function duplicateQuestion($question_id) {
+	/**
+	* Duplicates a question for a questionpool
+	*
+	* Duplicates a question for a questionpool
+	*
+	* @param integer $question_id The database id of the question
+	* @access public
+	*/
+	function duplicateQuestion($question_id)
+	{
 		global $ilUser;
-		
-		$question =& $this->createQuestion("", $question_id);
-    $counter = 2;
-    while ($question->object->questionTitleExists($question->object->getTitle() . " ($counter)")) {
-      $counter++;
-    }
-		$question->object->duplicate(false, $question->object->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
-  }
 
-/**
-* Calculates the data for the output of the questionpool
-*
-* Calculates the data for the output of the questionpool
-*
-* @access public
-*/
+		$question =& $this->createQuestion("", $question_id);
+		$counter = 2;
+		while ($question->object->questionTitleExists($question->object->getTitle() . " ($counter)"))
+		{
+			$counter++;
+		}
+
+		$question->object->duplicate(false, $question->object->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
+	}
+
+	/**
+	* Calculates the data for the output of the questionpool
+	*
+	* Calculates the data for the output of the questionpool
+	*
+	* @access public
+	*/
 	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
 		$where = "";
-		if (strlen($filter_text) > 0) {
-			switch($sel_filter_type) {
+		if (strlen($filter_text) > 0)
+		{
+			switch($sel_filter_type)
+			{
 				case "title":
 					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
+
 				case "comment":
 					$where = " AND qpl_questions.comment LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
+
 				case "author":
 					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
-  
-    // build sort order for sql query
+
+	    // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) {
-      foreach ($sortoptions as $key => $value) {
-        switch($key) {
-          case "title":
-            $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "comment":
-            $order = " ORDER BY comment $value";
-            $images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "type":
-            $order = " ORDER BY question_type_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "author":
-            $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "created":
-            $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-          case "updated":
-            $order = " ORDER BY TIMESTAMP $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-            break;
-        }
-      }
-    }
+		if (count($sortoptions))
+		{
+			foreach ($sortoptions as $key => $value)
+			{
+				switch($key)
+				{
+					case "title":
+						$order = " ORDER BY title $value";
+						$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+					case "comment":
+						$order = " ORDER BY comment $value";
+						$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+					case "type":
+						$order = " ORDER BY question_type_id $value";
+						$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+					case "author":
+						$order = " ORDER BY author $value";
+						$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+					case "created":
+						$order = " ORDER BY created $value";
+						$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+					case "updated":
+						$order = " ORDER BY TIMESTAMP $value";
+						$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+				}
+			}
+		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
-    $query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
+		$query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -582,8 +617,8 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
+		$query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -612,6 +647,6 @@ class ilObjQuestionPool extends ilObject
 			"rowcount" => $max
 		);
 	}
-		
+
 } // END class.ilObjQuestionPool
 ?>

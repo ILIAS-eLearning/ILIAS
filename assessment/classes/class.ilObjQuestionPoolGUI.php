@@ -28,6 +28,9 @@
 * @author Helmut Schottmüller <hschottm@tzi.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 * @package assessment
@@ -46,10 +49,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function ilObjQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-    		global $lng;
+    	global $lng, $ilCtrl;
+
 		$this->type = "qpl";
-    		$lng->loadLanguageModule("assessment");
+    	$lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, "ref_id");
+
 		if (!defined("ILIAS_MODULE"))
 		{
 			$this->setTabTargetScript("adm_object.php");
@@ -58,10 +65,110 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->setTabTargetScript("questionpool.php");
 		}
-		if ($a_prepare_output) {
+		if ($a_prepare_output)
+		{
 			$this->prepareOutput();
 		}
+//echo "<br>ilObjQuestionPool_End of constructor.";
 	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+echo "<br>nextclass:$next_class:cmd:$cmd:";
+		switch($next_class)
+		{
+			case "ass_multiplechoicegui":
+				if ($_GET["q_id"] < 1)
+				{
+					$q_type = ($_POST["sel_question_types"] != "")
+						? $_POST["sel_question_types"]
+						: $_GET["sel_question_types"];
+				}
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type);
+				$q_gui->object->setRefId($_GET["ref_id"]);
+				$this->getQuestionTemplate($q_gui, $q_type);
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				$this->tpl->setCurrentBlock("adm_content");
+				$this->tpl->parseCurrentBlock();
+				break;
+
+			case "ass_clozetestgui":
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_cloze");
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "ass_orderingquestiongui":
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_ordering");
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "ass_matchingquestiongui":
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_matching");
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "ass_imagemapquestiongui":
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_imagemap");
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "ass_javaquestiongui":
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_java");
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			default:
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+		}
+	}
+
+
+	/**
+	* set question list filter
+	*/
+	function filterObject()
+	{
+		$this->questionsObject();
+	}
+
+	/**
+	* resets filter
+	*/
+	function resetFilterObject()
+	{
+		$_POST["filter_text"] = "";
+		$_POST["sel_filter_type"] = "";
+		$this->questionsObject();
+	}
+
+	/**
+	* create new question
+	*/
+	function &createQuestionObject()
+	{
+		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("createForm");
+
+		$ret =& $this->executeCommand();
+		return $ret;
+
+		$this->editQuestionForm($_POST["sel_question_types"]);
+		$question =& $this->object->createQuestion($type);
+		$question->showEditForm();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
+
+	}
+
 
 	/**
 	* save object
@@ -81,68 +188,95 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
 
 		// put here object specific stuff
-			
+
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
-		
+
 		header("Location:".$this->getReturnLocation("save","questionpool.php?".$this->link_params));
 		exit();
 	}
 
-/**
-* Displays a preview of a question
-*
-* Displays a preview of a question
-*
-* @param string $question_id The database id of the question
-* @access public
-*/
+	/**
+	* Displays a preview of a question
+	*
+	* Displays a preview of a question
+	*
+	* @param string $question_id The database id of the question
+	* @access public
+	*/
 	function outPreviewForm($question_id)
 	{
+echo "<br>ilObjQuestionPoolGUI->outPreviewForm()";
 		$question =& $this->object->createQuestion("", $question_id);
-    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 		$question->outPreviewForm();
-    $this->tpl->setCurrentBlock("adm_content");
-    $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->getAddParameter());
-    $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
-    $this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->getAddParameter());
+		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+		$this->tpl->parseCurrentBlock();
 	}
 
-/**
-* Cancels actions editing this question
-*
-* Cancels actions editing this question
-*
-* @access private
-*/
-  function cancel_action($question_id = "") {
+	/**
+	* Cancels actions editing this question
+	*
+	* Cancels actions editing this question
+	*
+	* @access private
+	*/
+	function cancel_action($question_id = "")
+	{
+echo "<br>ilObjQuestionPoolGUI->cancel_action()";
 		if ($_SESSION["test_id"])
 		{
-			if ($question_id) {
+			if ($question_id)
+			{
 				$add_question = "&add=$question_id";
 			}
-	    header("location:" . "test.php" . "?ref_id=" . $_SESSION["test_id"] . "&cmd=questions$add_question");
-		} 
+			header("location:" . "test.php" . "?ref_id=" . $_SESSION["test_id"] . "&cmd=questions$add_question");
+		}
 			else
 		{
-	    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
 		}
-  }
+	}
 
-/**
-* Creates the create/edit template form of a question
-*
-* Creates the create/edit template form of a question and fills it with
-* that data of the question.
-*
-* @access public
-*/
-  function editQuestionForm($type) {
-		if ($_POST["cmd"]["unlock_no"]) {
-	    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+	/**
+	* get question template
+	*/
+	function getQuestionTemplate(&$question_gui, $q_type)
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		// set screen title (Edit/Create Question)
+		if ($question_gui->object->id > 0)
+		{
+			$title = $this->lng->txt("edit") . " " . $this->lng->txt($q_type);
+		}
+		else
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($q_type);
+		}
+		$this->tpl->setVariable("HEADER", $title);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
+	}
+
+	/**
+	* Creates the create/edit template form of a question
+	*
+	* Creates the create/edit template form of a question and fills it with
+	* that data of the question.
+	*
+	* @access public
+	*/
+	function editQuestionForm($type)
+	{
+echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
+		if ($_POST["cmd"]["unlock_no"])
+		{
+	    	header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
 			exit;
 		}
-		
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -153,86 +287,117 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// catch feedback message
 		sendInfo();
+
+		// First of all: Load question data from database
 		$question =& $this->object->createQuestion($type);
-    if (($_POST["id"] > 0) or ($_GET["edit"] > 0)) {
-      // First of all: Load question data from database
-      $question->object->loadFromDb($_POST["id"] + $_GET["edit"]);
-    }
+		if (($_POST["id"] > 0) or ($_GET["edit"] > 0))
+		{
+			$question->object->loadFromDb($_POST["id"] + $_GET["edit"]);
+		}
+
 
 		$this->setLocator("", "", "", $question->object->getTitle());
-    $missing_required_fields = 0;
+		$missing_required_fields = 0;
 
-    if (strlen($_POST["cmd"]["cancel"]) > 0) {
-      // Cancel
-      $this->cancel_action();
-      exit();
-    }
+		// cancel action
+		if (strlen($_POST["cmd"]["cancel"]) > 0)
+		{
+			// Cancel
+			$this->cancel_action();
+			exit();
+		}
 
-    $question->object->setRefId($_GET["ref_id"]);
-    $question_type = $question->getQuestionType();
+		$question->object->setRefId($_GET["ref_id"]);
+		$question_type = $question->getQuestionType();
 
-    if ($question->object->id > 0) {
-      $title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
-    } else {
-      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($question_type);
-    }
+		// set screen title (Edit/Create Question)
+		if ($question->object->id > 0)
+		{
+			$title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
+		}
+		else
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($question_type);
+		}
 		$this->tpl->setVariable("HEADER", $title);
 
-		if ($_GET["locked"] == 1) {
+		// lock confirmation
+		if ($_GET["locked"] == 1)
+		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_askunlock.html", true);
-	    $this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&edit=" . $_GET["edit"]);
 			$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("unlock"));
 			$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->isInUse($_GET["edit"])));
 			$this->tpl->parseCurrentBlock();
 			return;
-		}		
-		
+		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"])) {
-      $missing_required_fields = $question->writePostData();
-    }
-		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
+		if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]))
+		{
+			$missing_required_fields = $question->writePostData();
+		}
+
+
+		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
+		{
 			$in_use = $question->object->isInUse();
-			if ($in_use) {
+			if ($in_use)
+			{
 				// ???do you really want to delete the test data???
 				// either use a session variable and store $question
 				// or collect all GET's and POST's and build new form to submit that data
 			}
 		}
-    if (strlen($_POST["cmd"]["save"]) > 0) {
-      // Save and back to question pool
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
+
+		// save
+		if (strlen($_POST["cmd"]["save"]) > 0)
+		{
+			// Save and back to question pool
+			if (!$missing_required_fields)
+			{
+				$question->object->saveToDb();
 				// remove all references to the question in test solutions
 				$question->object->removeAllQuestionReferences();
-        $this->cancel_action($question->object->getId());
-        exit();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
-    if (strlen($_POST["cmd"]["apply"]) > 0) {
-      // Save and continue editing
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
+				$this->cancel_action($question->object->getId());
+				exit();
+			}
+			else
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			}
+		}
+
+		// apply
+		if (strlen($_POST["cmd"]["apply"]) > 0)
+		{
+			// Save and continue editing
+			if (!$missing_required_fields)
+			{
+				$question->object->saveToDb();
+
 				// remove all references to the question in test solutions
 				$question->object->removeAllQuestionReferences();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
+			}
+			else
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			}
+		}
 
-    $question->showEditForm();
+		$question->showEditForm();
 
-    $this->tpl->setCurrentBlock("adm_content");
-    $this->tpl->parseCurrentBlock();
-  }
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
+	}
 
-  function assessmentObject() 
+
+	function assessmentObject()
 	{
+echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -246,17 +411,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-    $question =& $this->object->createQuestion("", $_GET["edit"]);
-		$total_of_answers = $this->object->get_total_answers($_GET["edit"]);		
+		$question =& $this->object->createQuestion("", $_GET["edit"]);
+		$total_of_answers = $this->object->get_total_answers($_GET["edit"]);
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", true);
-		if (!$total_of_answers) {
+		if (!$total_of_answers)
+		{
 			$this->tpl->setCurrentBlock("emptyrow");
 			$this->tpl->setVariable("TXT_NO_ASSESSMENT", $this->lng->txt("qpl_assessment_no_assessment_of_questions"));
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
-		} else {
+		}
+		else
+		{
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_answers"));
 			$this->tpl->setVariable("TXT_VALUE", $total_of_answers);
@@ -269,36 +437,40 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
-    $this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question->object->getTitle());
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-    $this->tpl->parseCurrentBlock();
-  }
-  
-  function getAddParameter() 
-  {
-    return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
-  }
-  
-	function questionObject() 
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function getAddParameter()
 	{
-    $type = $_GET["sel_question_types"];
+		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
+	}
+
+	function questionObject()
+	{
+echo "<br>ilObjQuestionPoolGUI->questionObject()";
+		$type = $_GET["sel_question_types"];
 		$this->editQuestionForm($type);
-//    $this->set_question_form($type, $_GET["edit"]);
+		//    $this->set_question_form($type, $_GET["edit"]);
 	}
 
 	function deleteQuestions($checked_questions)
 	{
+echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", true);
+
+		// buidling SQL statements is not allowed in GUI classes!
 		$whereclause = join($checked_questions, " OR qpl_questions.question_id = ");
 		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
 		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
+		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
 		if ($query_result->numRows() > 0)
 		{
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -307,7 +479,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("row");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($this->object->isInUse($data->question_id)) {
+					if ($this->object->isInUse($data->question_id))
+					{
 						$this->tpl->setVariable("TXT_LOCKED", $img_locked);
 					}
 					$this->tpl->setVariable("TXT_TITLE", $data->title);
@@ -337,177 +510,202 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-  function questionsObject()
-  {
-    global $rbacsystem;
+	function questionsObject()
+	{
+echo "<br>ilObjQuestionPoolGUI->questionsObject()";
+		global $rbacsystem;
 
-    $type = $_GET["sel_question_types"];
-    if ($_GET["preview"]) {
-      $this->outPreviewForm($_GET["preview"]);
-      return;
-    }
+		$type = $_GET["sel_question_types"];
 
-		if ($_GET["create"]) 
+		if ($_GET["preview"])
+		{
+			$this->outPreviewForm($_GET["preview"]);
+			return;
+		}
+
+		if ($_GET["create"])
 		{
 			// create a new question out of a test
 			$this->editQuestionForm($_GET["create"]);
 			return;
 		}
-		
-    if ($_POST["cmd"]["create"]) {
-			$this->editQuestionForm($_POST["sel_question_types"]);
-      return;
-    }
+
 
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
-    $add_parameter = $this->getAddParameter();
+		$add_parameter = $this->getAddParameter();
 
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
-    
-    if (strlen($_POST["cmd"]["edit"]) > 0) {
-      // edit button was pressed
-      if (count($checked_questions) > 1) {
-        sendInfo($this->lng->txt("qpl_edit_select_multiple"));
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_edit_select_none"));
-      } else {
-        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-          header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question" . "&edit=" . $checked_questions[0]);
-          exit();
-        } else {
-          sendInfo($this->lng->txt("qpl_edit_rbac_error"));
-        }
-      }
-    }
-    
-    if (strlen($_POST["cmd"]["delete"]) > 0) {
-      // delete button was pressed
-      if (count($checked_questions) > 0) {
-        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+		// create an array of all checked checkboxes
+		$checked_questions = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				array_push($checked_questions, $matches[1]);
+			}
+		}
+
+		if (strlen($_POST["cmd"]["edit"]) > 0)
+		{
+			// edit button was pressed
+			if (count($checked_questions) > 1)
+			{
+				sendInfo($this->lng->txt("qpl_edit_select_multiple"));
+			}
+			elseif (count($checked_questions) == 0)
+			{
+				sendInfo($this->lng->txt("qpl_edit_select_none"));
+			}
+			else
+			{
+				if ($rbacsystem->checkAccess('edit', $this->ref_id))
+				{
+					header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question" . "&edit=" . $checked_questions[0]);
+					exit();
+				}
+				else
+				{
+					sendInfo($this->lng->txt("qpl_edit_rbac_error"));
+				}
+			}
+		}
+
+		if (strlen($_POST["cmd"]["delete"]) > 0)
+		{
+			// delete button was pressed
+			if (count($checked_questions) > 0)
+			{
+				if ($rbacsystem->checkAccess('edit', $this->ref_id))
+				{
 					sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
 					$this->deleteQuestions($checked_questions);
 					return;
-				} else {
-          sendInfo($this->lng->txt("qpl_delete_rbac_error"));
-        }
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_delete_select_none"));
-      }
-    }
-    
+				}
+				else
+				{
+					sendInfo($this->lng->txt("qpl_delete_rbac_error"));
+				}
+			}
+			elseif (count($checked_questions) == 0)
+			{
+				sendInfo($this->lng->txt("qpl_delete_select_none"));
+			}
+		}
+
 		if (strlen($_POST["cmd"]["confirm_delete"]) > 0)
 		{
 			// delete questions after confirmation
 			sendInfo($this->lng->txt("qpl_questions_deleted"));
 			$checked_questions = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/id_(\d+)/", $key, $matches))
+				{
 					array_push($checked_questions, $matches[1]);
 				}
 			}
-      foreach ($checked_questions as $key => $value) {
-        $this->object->deleteQuestion($value);
-      }
+			foreach ($checked_questions as $key => $value)
+			{
+				$this->object->deleteQuestion($value);
+			}
 		}
 
-    if (strlen($_POST["cmd"]["duplicate"]) > 0) {
-      // duplicate button was pressed
-      if (count($checked_questions) > 0) {
-        foreach ($checked_questions as $key => $value) {
+		if (strlen($_POST["cmd"]["duplicate"]) > 0)
+		{
+			// duplicate button was pressed
+			if (count($checked_questions) > 0)
+			{
+				foreach ($checked_questions as $key => $value)
+				{
 					$this->object->duplicateQuestion($value);
-        }
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_duplicate_select_none"));
-      }
-    }
-    
-    if (strlen($_POST["cmd"]["export"]) > 0) {
-      // export button was pressed
-      if (count($checked_questions) > 0) {
-				foreach ($checked_questions as $key => $value) {
+				}
+			}
+			elseif (count($checked_questions) == 0)
+			{
+				sendInfo($this->lng->txt("qpl_duplicate_select_none"));
+			}
+		}
+
+		if (strlen($_POST["cmd"]["export"]) > 0)
+		{
+			// export button was pressed
+			if (count($checked_questions) > 0)
+			{
+				foreach ($checked_questions as $key => $value)
+				{
 					$question =& $this->object->createQuestion("", $value);
 					$xml .= $question->object->to_xml();
 				}
 				if (count($checked_questions) > 1)
 				{
 					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
-
 				}
 				$questiontitle = $question->object->getTitle();
 				$questiontitle = preg_replace("/[\s]/", "_", $questiontitle);
 				ilUtil::deliverData($xml, "$questiontitle.xml");
 				exit();
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_export_select_none"));
-      }
-    }
+			}
+			elseif (count($checked_questions) == 0)
+			{
+				sendInfo($this->lng->txt("qpl_export_select_none"));
+			}
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
-	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-  	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
-	    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
-		}
-    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
-
-    // create filter form
-    $filter_fields = array(
-      "title" => $this->lng->txt("title"),
-      "comment" => $this->lng->txt("description"),
-      "author" => $this->lng->txt("author"),
-    );
-    $this->tpl->setCurrentBlock("filterrow");
-    foreach ($filter_fields as $key => $value) {
-      $this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
-      $this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-      if (!$_POST["cmd"]["reset"]) {
-        if (strcmp($_POST["sel_filter_type"], $key) == 0) {
-          $this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
-        }
-      }
-      $this->tpl->parseCurrentBlock();
-    }
-    
-    $this->tpl->setCurrentBlock("filter_questions");
-    $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
-    $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-    if (!$_POST["cmd"]["reset"]) {
-      $this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
-    }
-    $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-    $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-    $this->tpl->parseCurrentBlock();
-    
-		// create edit buttons & table footer
-		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-				$this->tpl->setCurrentBlock("standard");
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-				$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
-				$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-				$this->tpl->parseCurrentBlock();
-		}    
-    
-    $this->tpl->setCurrentBlock("QTab");
-		
-		// reset the filter
-		if ($_POST["cmd"]["reset"])
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
-			$_POST["filter_text"] = "";
+			$this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
+			$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
 		}
+		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
+
+		// create filter form
+		$filter_fields = array(
+			"title" => $this->lng->txt("title"),
+			"comment" => $this->lng->txt("description"),
+			"author" => $this->lng->txt("author"),
+		);
+		$this->tpl->setCurrentBlock("filterrow");
+		foreach ($filter_fields as $key => $value)
+		{
+			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
+			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
+			if (strcmp($_POST["sel_filter_type"], $key) == 0)
+			{
+				$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("filter_questions");
+		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
+		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
+		$this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
+		$this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
+		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
+		$this->tpl->parseCurrentBlock();
+
+		// create edit buttons & table footer
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			$this->tpl->setCurrentBlock("standard");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("Footer");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("QTab");
+
+		// reset the filter
 		$startrow = 0;
 		if ($_GET["prevrow"])
 		{
 			$startrow = $_GET["prevrow"];
-		}		
+		}
 		if ($_GET["nextrow"])
 		{
 			$startrow = $_GET["nextrow"];
@@ -517,18 +715,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$startrow = $_GET["startrow"];
 		}
 		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
-    $colors = array("tblrow1", "tblrow2");
-   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
-    $counter = 0;
+		$colors = array("tblrow1", "tblrow2");
+		$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
+		$counter = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
 		{
-			if (($data["private"] != 1) or ($data["owner"] == $this->ilias->account->id)) {
+			if (($data["private"] != 1) or ($data["owner"] == $this->ilias->account->id))
+			{
 				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-				if ($editable) {
-					if ($this->object->isInUse($data["question_id"])) {
+				if ($editable)
+				{
+					if ($this->object->isInUse($data["question_id"]))
+					{
+						//$link = $this->ctrl->getLinkTarget("
 						$this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "&locked=1\">" . $img_locked . "</a>");
-					} else {
+					}
+					else
+					{
 						$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
 					}
 				}
@@ -544,7 +748,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
-    }
+		}
+
 		if ($table["rowcount"] > count($table["rows"]))
 		{
 			$this->tpl->setCurrentBlock("navigation_bottom");
@@ -565,14 +770,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
-    // if there are no questions, display a message
-    if ($counter == 0) {
-      $this->tpl->setCurrentBlock("Emptytable");
-      $this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
-      $this->tpl->parseCurrentBlock();
-    }
-    
-	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+
+		// if there are no questions, display a message
+		if ($counter == 0)
+		{
+			$this->tpl->setCurrentBlock("Emptytable");
+			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
 			// "create question" form
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
@@ -588,36 +796,41 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
 			$this->tpl->parseCurrentBlock();
 		}
-    // define the sort column parameters
-    $sort = array(
-      "title" => $_GET["sort"]["title"],
-      "comment" => $_GET["sort"]["comment"],
-      "type" => $_GET["sort"]["type"],
-      "author" => $_GET["sort"]["author"],
-      "created" => $_GET["sort"]["created"],
-      "updated" => $_GET["sort"]["updated"]
-    );
-    foreach ($sort as $key => $value) {
-      if (strcmp($value, "ASC") == 0) {
-        $sort[$key] = "DESC";
-      } else {
-        $sort[$key] = "ASC";
-      }
-    }
-    
-    $this->tpl->setCurrentBlock("adm_content");
-    // create table header
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-    $this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-    $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
-    $this->tpl->parseCurrentBlock();
-  }
-  
+
+		// define the sort column parameters
+		$sort = array(
+			"title" => $_GET["sort"]["title"],
+			"comment" => $_GET["sort"]["comment"],
+			"type" => $_GET["sort"]["type"],
+			"author" => $_GET["sort"]["author"],
+			"created" => $_GET["sort"]["created"],
+			"updated" => $_GET["sort"]["updated"]
+		);
+		foreach ($sort as $key => $value)
+		{
+			if (strcmp($value, "ASC") == 0)
+			{
+				$sort[$key] = "DESC";
+			}
+			else
+			{
+				$sort[$key] = "ASC";
+			}
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		// create table header
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	function editMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -625,8 +838,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			"questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
-	
-		function saveMetaObject()
+
+	function saveMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -705,8 +918,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->deleteMetaObject("questionpool.php?ref_id=".
 			$this->object->getRefId());
 	}
-	
-	function updateObject() {
+
+	function updateObject()
+	{
 		$this->update = $this->object->updateMetaData();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
@@ -719,7 +933,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function permObject()
 	{
 		global $rbacsystem, $rbacreview;
-
 		static $num = 0;
 
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
@@ -917,6 +1130,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
+echo "<br>ilObjQuestionPoolGUI->setLocator()";
 		$ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{
@@ -941,7 +1155,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$path[] = array(
 				"id"	 => $a_ref_id,
 				"title"  => $this->lng->txt($subObj->getTitle())
-				);
+			);
 		}
 
 		// this is a stupid workaround for a bug in PEAR:IT
@@ -955,36 +1169,46 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
-		if (!defined("ILIAS_MODULE")) {
+		if (!defined("ILIAS_MODULE"))
+		{
 			foreach ($path as $key => $row)
 			{
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"bottom");
 			}
-		} else {
+		}
+		else
+		{
 			foreach ($path as $key => $row)
 			{
-				if (strcmp($row["title"], "ILIAS") == 0) {
+				if (strcmp($row["title"], "ILIAS") == 0)
+				{
 					$row["title"] = $this->lng->txt("repository");
 				}
-				if ($this->ref_id == $row["child"]) {
+				if ($this->ref_id == $row["child"])
+				{
 					$param = "&cmd=questions";
 					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"bottom");
-					switch ($_GET["cmd"]) {
+					switch ($_GET["cmd"])
+					{
 						case "question":
 							$id = $_GET["edit"];
-							if (!$id) {
+							if (!$id)
+							{
 								$id = $_POST["id"];
 							}
-							if ($question_title) {
+							if ($question_title)
+							{
 								$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","bottom");
 							}
 							break;
 					}
-				} else {
+				}
+				else
+				{
 					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 				}
 			}
-	
+
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);

@@ -935,14 +935,23 @@ class ASS_Question extends PEAR {
     return $array;
 	}
 
-  function getQuestionTypeFromDb($question_id) {
-    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-      $this->ilias->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-    return $data->type_tag;
-  }
+	/**
+	* get question type for question id
+	*
+	* note: please don't use $this in this class to allow static calls
+	*/
+	function getQuestionTypeFromDb($question_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			$ilDB->quote($question_id));
+
+		$result = $ilDB->query($query);
+		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return $data->type_tag;
+	}
 
 	function duplicateMaterials($question_id)
 	{
