@@ -1273,8 +1273,7 @@ class ilNestedSetXML
  */
 	function replace_content( &$node, &$new_content )
 	{
-		$dom =& $node->owner_document();
-		$newnode =& $dom->create_element( $node->tagname );
+		$newnode =& $this->dom->create_element( $node->tagname );
 		$newnode->set_content( $new_content );
 		$atts =& $node->attributes();
 		foreach ( $atts as $att )

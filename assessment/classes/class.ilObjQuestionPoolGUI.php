@@ -608,18 +608,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// export button was pressed
 		if (count($_POST["q_id"]) > 0)
 		{
-			foreach ($_POST["q_id"] as $key => $value)
-			{
-				$question =& $this->object->createQuestion("", $value);
-				$xml .= $question->object->to_xml();
-			}
-			if (count($_POST["q_id"]) > 1)
-			{
-				$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
-			}
-			$questiontitle = $question->object->getTitle();
-			$questiontitle = preg_replace("/[\s]/", "_", $questiontitle);
-			ilUtil::deliverData($xml, "$questiontitle.xml");
+			require_once("assessment/classes/class.ilQuestionpoolExport.php");
+			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
+			$export_file = $qpl_exp->buildExportFile();
+			$filename = $export_file;
+			$filename = preg_replace("/.*\//", "", $filename);
+			ilUtil::deliverFile($export_file, $filename);
 			exit();
 		}
 		else
