@@ -1063,7 +1063,6 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukraniano
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese###07 June 2004 new variable
-common#:#lang_xx#:#Custom###07 June 2004 new variable
 common#:#lang_xx#:#Propio
 common#:#lang_zh#:#Chino simplificado
 common#:#langfile_found#:#Fichero de Idioma encontrado
@@ -1804,7 +1803,6 @@ content#:#cont_added_term#:#-Término- añadido
 content#:#cont_all_definitions#:#Todas las Definiciones
 content#:#cont_all_pages#:#Todas las Páginas
 content#:#cont_alphabetic#:#Alfabético a, b, ...
-content#:#cont_alphabetic#:#Alphabetic a, b, ...###new variable 07 June 2004
 content#:#cont_api_adapter#:#API Adapter Name###new variable 07 June 2004
 content#:#cont_areas_deleted#:#Map-areas eliminadas
 content#:#cont_assign_full#:#Asignar Pantall Completa
