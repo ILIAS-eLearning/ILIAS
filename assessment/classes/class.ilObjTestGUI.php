@@ -591,10 +591,11 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 		
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"]) {
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or isset($_GET["selimage"])) {
 			// save question solution
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
+			$question_gui->question->save_working_data($this->object->get_test_id());
 		}
 
 		$this->sequence = $_GET["sequence"];

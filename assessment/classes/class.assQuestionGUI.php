@@ -1335,7 +1335,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_imagemap_question($test_id = "", $is_postponed = false) {
+  function out_working_imagemap_question($test_id = "", $is_postponed = false, &$formaction) {
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) {
@@ -1344,15 +1344,31 @@ class ASS_QuestionGUI extends PEAR {
 		if ($is_postponed) {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
-    $this->tpl->addBlockFile("ORDERING_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
+    $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
-    $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents());
-		$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename();
+    $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents($formaction));
+		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) {
+			$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("region_already_selected"));
+			$formaction .= "&selimage=" . $solutions[0]->value1;
+			if (strcmp($this->question->answers[$solutions[0]->value1]->get_area(), "rect") == 0) {
+				$imagepath_working = $this->question->get_image_path() . $this->question->get_image_filename();
+				$coords = $this->question->answers[$solutions[0]->value1]->get_coords();
+				$coords = preg_replace("/(\d+,\d+),(\d+,\d+)/", "$1 $2", $coords);
+				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.selected.jpg";
+				system($convert_cmd);
+			}
+		} else {
+			$this->tpl->setVariable("TEXT_REGION_SELECTED", $this->lng->txt("no_region_selected"));
+		}
+		if (file_exists($this->question->get_image_path() . $this->question->get_image_filename() . ".selected.jpg")) {
+			$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename() . ".selected.jpg";
+		} else {
+			$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename();
+		}
     $this->tpl->setVariable("IMAGE", $imagepath);
     $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title() . $postponed);
-
     $this->tpl->parseCurrentBlock();
   }
   
@@ -1412,6 +1428,7 @@ class ASS_QuestionGUI extends PEAR {
 		}
     
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
+		$formaction = $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence";
     switch($question_type)
     {
       case "qt_cloze":
@@ -1428,11 +1445,11 @@ class ASS_QuestionGUI extends PEAR {
         $this->out_working_matching_question($test_id, $is_postponed);
         break;
       case "qt_imagemap":
-        $this->out_working_imagemap_question($test_id, $is_postponed);
+        $this->out_working_imagemap_question($test_id, $is_postponed, $formaction);
         break;
     }
     $this->tpl->setCurrentBlock("adm_content");
-    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence");
+    $this->tpl->setVariable("FORMACTION", $formaction);
 		if ($sequence == 1) {
     	$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
 		} else {
