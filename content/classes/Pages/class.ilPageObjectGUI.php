@@ -22,6 +22,7 @@
 */
 
 require_once("./content/classes/Pages/class.ilPageObject.php");
+require_once("./classes/class.ilDOMUtil.php");
 
 /**
 * Class ilPageObjectGUI
