@@ -523,6 +523,7 @@ common#:#administration#:#管理
 common#:#administrator#:#管理员
 common#:#adopt#:#采用
 common#:#adopt_perm_from_template#:#从角色模板选定许可设置
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#所有对象
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -667,6 +668,7 @@ common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市
 common#:#clear#:#清除
 common#:#client ip#:#用户地址
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
 common#:#comma_separated#:#逗号分隔
@@ -1474,6 +1476,7 @@ common#:#obj_uset#:#用户设置
 common#:#obj_usr#:#用户
 common#:#obj_usrf#:#用户账号
 common#:#obj_usrf_desc#:#在此管理用户账号
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#对象
 common#:#objf#:#对象定义
@@ -1839,9 +1842,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#用户已增加
 common#:#user_assignment#:#用户指派
 common#:#user_deleted#:#用户已删除
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#用户语言
 common#:#user_not_chosen#:#您没有选择一个组成员！
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#用户数据
 common#:#username#:#用户名
 common#:#users#:#用户

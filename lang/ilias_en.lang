@@ -506,10 +506,10 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
+common#:#all_authors#:#All authors
 common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
 common#:#all_tsts#:#All tests
-common#:#all_authors#:#All authors
 common#:#allow_register#:#Available in registration form for new users
 common#:#alm#:#AICC Learning Module
 common#:#alm_added#:#AICC Learning Module added
@@ -650,9 +650,9 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
-common#:#client_ip#:#Client Ip
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
+common#:#client_ip#:#Client Ip
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
 common#:#comma_separated#:#Comma Separated
@@ -1398,7 +1398,6 @@ common#:#not_logged_in#:#Your are not logged in
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
-common#:#object#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_alm#:#AICC Learning Module
@@ -1461,6 +1460,7 @@ common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
@@ -1826,9 +1826,11 @@ common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted
+common#:#user_detail#:#Detail Data
 common#:#user_imported#:#User import complete.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
+common#:#user_statistics#:#Statistical Data
 common#:#userdata#:#User data
 common#:#username#:#User name
 common#:#users#:#Users
@@ -1844,8 +1846,6 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
-common#:#user_statistics#:#Statistical Data
-common#:#user_detail#:#Detail Data
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts

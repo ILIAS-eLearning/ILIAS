@@ -506,6 +506,7 @@ common#:#administration#:#Administração
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar definições de permissões de Modelo de Papel
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Todos os Objectos
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#Cidade
 common#:#clear#:#Limpar
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID de cliente
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Clipboard
 common#:#close#:#Fechar
 common#:#comma_separated#:#Separado por Vírgulas
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Definições de Utilizador
 common#:#obj_usr#:#Utilizador
 common#:#obj_usrf#:#Contas de utilizadores
 common#:#obj_usrf_desc#:#Gira aqui as contas de utilizadores.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Objecto adicionado
 common#:#objects#:#Objectos
 common#:#objf#:#Definições de Objectos
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilizador adicionado
 common#:#user_assignment#:#Atribuição de Utilizador
 common#:#user_deleted#:#Utilizador apagado
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importação de utilizador completa.
 common#:#user_language#:#Linguagem de Utilizador
 common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Dados do utilizador
 common#:#username#:#Nome do utilizador
 common#:#users#:#Utilizadores

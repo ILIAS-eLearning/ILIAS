@@ -506,6 +506,7 @@ common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
 common#:#adopt#:#прийняти
 common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
+common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Усі Об'єкти
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
@@ -651,6 +652,7 @@ common#:#city#:#Місто
 common#:#clear#:#Очистити
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID Клієнта
+common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Буфер обміну
 common#:#close#:#Закрити
 common#:#comma_separated#:#Розділений Комами
@@ -1458,6 +1460,7 @@ common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
+common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Об'єкти
 common#:#objf#:#Визначення об'єктів
@@ -1823,9 +1826,11 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Користувач доданий
 common#:#user_assignment#:#Призначення Користувача
 common#:#user_deleted#:#Користувач Видалений
+common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#Мова Користувача
 common#:#user_not_chosen#:#Ви не вибрали члена групи!
+common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Дані користувача
 common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
