@@ -53,7 +53,7 @@ if (!$validator->isModeEnabled("analyze"))
 }
 else
 {
-	echo "<br/>Search for invalid references...";
+	echo "<br/>Searching for invalid references...";
 	if ($validator->findInvalidReferences())
 	{
 		echo "done (".count($validator->getInvalidReferences())." found).";
@@ -63,7 +63,7 @@ else
 		echo "nothing found.";
 	}
 	
-	echo "<br/>Search for invalid tree entries...";
+	echo "<br/>Searching for invalid tree entries...";
 	if ($validator->findInvalidChilds())
 	{
 		echo "done (".count($validator->getInvalidChilds())." found).";
@@ -73,7 +73,7 @@ else
 		echo "nothing found.";
 	}
 	
-	echo "<br/>Search for missing objects...";
+	echo "<br/>Searching for missing objects...";
 	if ($validator->findMissingObjects())
 	{
 		echo "done (".count($validator->getMissingObjects())." found).";
@@ -83,7 +83,7 @@ else
 		echo "nothing found.";
 	}
 
-	echo "<br/>Search for unbound objects...";
+	echo "<br/>Searching for unbound objects...";
 	if ($validator->findUnboundObjects())
 	{
 		echo "done (".count($validator->getUnboundObjects())." found).";
@@ -93,7 +93,7 @@ else
 		echo "nothing found.";
 	}
 
-	echo "<br/>Search for deleted objects...";
+	echo "<br/>Searching for deleted objects...";
 	if ($validator->findDeletedObjects())
 	{
 		echo "done (".count($validator->getDeletedObjects())." found).";
