@@ -382,8 +382,10 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 		include_once "./classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table_ut.html");
+		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.tracking_result.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$tpl->addBlockfile("TRACK_TABLE", "track_table", "tpl.table.html");
+
 		//$usertracking->_locator();
 		//$usertracking->_tables();
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
@@ -443,11 +445,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 		else //user not selected
 		{
-			$title_new = array("count","learning module","language","time");
+			$title_new = array("time", "count", "");
 
 			include_once "./classes/class.ilTableGUI.php";
 			$tbl = new ilTableGUI();
-			$tbl->setTitle($lng->txt("search_result"),0,0);
+			$tbl->setTitle($lng->txt("obj_trac"),0,0);
 			foreach ($title_new as $val)
 			{
 				$header_names[] = $lng->txt($val);
@@ -472,6 +474,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 					$tbl->setMaxCount($num);
 				}
 			}
+			$tbl->setStyle("table", "std");
 			$tbl->render();
 
 			// contition
@@ -480,6 +483,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			if($_POST["stat"]=='h')		//hours of day
 			{
 				$time = $usertracking->selectTime($from,$to,$condition);
+				$max = 0;
 				for($i=0;$i<24;$i++)
 				{
 					$k = $i+1;
@@ -502,17 +506,17 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 							$cou=$cou+1;
 						}
 					}
-					$data[0] = $cou;
-					if ($_POST["lm"] != 0) //lm selected
-					{
-						$data[1] = $_POST["lm"];
-					}
-					else
-					{
-						$data[1] = "all of your subjects!";
-					}
-					$data[2] = $_POST["language"];
-					$data[3] = $i.":00:00  ~  ".$k.":00:00";
+					$count[$i] = $cou;
+					$max = ($cou > $max) ? $cou : $max;
+				}
+
+				for($i=0;$i<24;$i++)
+				{
+					$k = $i+1;
+					$data[0] = $i.":00:00  ~  ".$k.":00:00";
+					$data[1] = $count[$i];
+					$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+						"width=\"".round($count[$i] / $max * 100)."\" height=\"10\"/>";
 					$css_row = $i%2==0?"tblrow1":"tblrow2";
 					foreach ($data as $key => $val)
 					{
@@ -562,6 +566,48 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				} //for
 			}
 		}//else
+		$tpl->setCurrentBlock("adm_content");
+
+		// output statistic settings
+		$tpl->setVariable("TXT_TIME_PERIOD", $lng->txt("time_segment"));
+		switch ($_POST["stat"])
+		{
+			case "h":
+				$tpl->setVariable("TXT_STATISTIC", $lng->txt("hours_of_day"));
+				break;
+
+			case "u":
+				$tpl->setVariable("TXT_STATISTIC", $lng->txt("user_access"));
+				break;
+
+			case "d":
+				$tpl->setVariable("TXT_STATISTIC", $lng->txt("days_of_period"));
+				break;
+		}
+		$tpl->setVariable("VAL_DATEF", date("Y-m-d", mktime(0,0,0,$monthf,$dayf,$yearf)));
+		$tpl->setVariable("TXT_TO", $lng->txt("to"));
+		$tpl->setVariable("VAL_DATET", date("Y-m-d", mktime(0,0,0,$montht,$dayt,$yeart)));
+		$tpl->setVariable("TXT_USER_LANGUAGE", $lng->txt("user_language"));
+		if ($_POST["language"] == "0")
+		{
+			$tpl->setVariable("VAL_LANGUAGE", $lng->txt("any_language"));
+		}
+		else
+		{
+			$tpl->setVariable("VAL_LANGUAGE", $lng->txt("lang_".$_POST["language"]));
+		}
+		$tpl->setVariable("TXT_TRACKED_OBJECTS", $lng->txt("tracked_objects"));
+		if ($_POST[$_POST["object_type"]] != 0)
+		{
+			$tpl->setVariable("VAL_TRACKED_OBJECTS",
+				ilObject::_lookupTitle($_POST[$_POST["object_type"]]));
+		}
+		else
+		{
+			$tpl->setVariable("VAL_TRACKED_OBJECTS",
+				$lng->txt("all_".$_POST["object_type"]."s"));
+		}
+		$tpl->parseCurrentBlock();
 	}
 
 	/**
