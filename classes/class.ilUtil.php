@@ -20,6 +20,13 @@ class ilUtil
 		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" border=\"0\"/>";
 	}
 
+	/**
+	* build image tag (for images located in a template directory)
+	*
+	* @param	string		full image filename (e.g. myimage.gif)
+	* @param	boolean		should be set to true, if the image is within a module
+	*						template directory (e.g. content/templates/default/images/test.gif)
+	*/
 	function getImageTag($img, $in_module = false)
 	{
 		global $ilias;
@@ -52,6 +59,9 @@ class ilUtil
 		return "<img src=\"".$default."\" border=\"0\"/>";
 	}
 
+	/**
+	* get full style sheet file name (path inclusive) of current user
+	*/
 	function getStyleSheetLocation()
 	{
 		global $ilias;
