@@ -1,5 +1,6 @@
 <?php
 include_once("./classes/class.Setup.php");
+include_once("HTML/IT.php");
 /**
 * setup file for ilias
 * 
@@ -10,42 +11,10 @@ include_once("./classes/class.Setup.php");
 * @author Peter Gabriel <pgabriel@databay.de>
 */
 
+$myTpl = new IntegratedTemplate("./templates");
+$myTpl->loadTemplatefile("tpl.setup.html");
+
 $mySetup = new Setup();
-
-/**
-* html start
-*/
-function html_start()
-{
-?>
-
-	<html>
-	<head>
-		<title>ILIAS - Installation</title>
-		<link rel="stylesheet" type="text/css" href="ilias.css">
-	</head>	
-	<body>
-		<table width="100%">
-		<tr class="head">
-			<td>ILIAS - Installation</td>
-			<td>Setup Version 0.9</td>
-		</tr>
-		</table>
-<?php
-}
-
-/**
-* html end
-*/
-function html_end()
-{
-?>
-	</body>
-	</html>
-<?php
-}
-
-
 
 /**
 * step 1
@@ -115,28 +84,20 @@ function step1()
 			echo " selected";
 		echo ">$v</option>";
 	} 
-	echo "</select></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<td>Database-Host</td>";
-	echo "<td><input type=\"text\" size=40 name=\"dbhost\" value=\"".$dbhost."\"></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<td>Database-Name</td>";
-	echo "<td><input type=\"text\" size=40 name=\"dbname\" value=\"".$dbname."\"></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<td>User</td>";
-	echo "<td><input type=\"text\" name=\"dbuser\" value=\"".$dbuser."\"></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<td>Password</td>";
-	echo "<td><input type=\"text\" name=\"dbpass\" value=\"".$dbpass."\"></td>";
-	echo "</tr>";
-	echo "</table>";
-	echo "<input type=\"submit\" name=\"butSubmit\" value=\"submit\">&nbsp;";
-	echo "<input type=\"reset\" name=\"butReset\" value=\"reset\">";
-	echo "</form>\n";
+
+	$lng = new Language("en");
+	$myTpl->setVariable("TXT_DB_HOST", $lng->txt("db_host"));
+	$myTpl->setVariable("TXT_DB_NAME", $lng->txt("db_name"));
+	$myTpl->setVariable("TXT_DB_TYPE", $lng->txt("db_type"));
+	$myTpl->setVariable("TXT_DB_USER", $lng->txt("db_user"));
+	$myTpl->setVariable("TXT_DB_PASS", $lng->txt("db_pass"));
+
+	$myTpl->setVariable("DB_HOST", $dbhost);
+	$myTpl->setVariable("DB_NAME", $dbname);
+	$myTpl->setVariable("DB_TYPE", $dbtype);
+	$myTpl->setVariable("DB_USER", $dbuser);
+	$myTpl->setVariable("DB_PASS", $dbpass);
+
 }
 
 /**
@@ -185,9 +146,11 @@ if ($step == 2)
 if ($step == 1)
 {
 	//html output
-	html_start();
+
 	step1();		
-	html_end();
+
 }
+
+$myTpl->show();
 
 ?>

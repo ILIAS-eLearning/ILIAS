@@ -92,8 +92,10 @@ class User extends PEAR
 				 "Email"      => $data["email"],
 				 "Role"       => $data["rol_id"],
 				 "LastLogin"  => $data["last_login"],
-				 "language" => "en"
+				 "language" => $data["language"]
 				 );
+			 if ($this->data["language"] == "")
+				 $this->data["language"] = "en";
 		 }
 		 else
 		 {
@@ -139,13 +141,13 @@ class User extends PEAR
 	 {
 		 // fill user_data
 		 $query = "INSERT INTO user_data
-                 (usr_id,login,passwd,firstname,surname,title,gender,email,
+                 (usr_id,login,passwd,firstname,surname,title,gender,email,language,
                    last_login,last_update,create_date)
                   VALUES
                   ('".$this->data["Id"]."','".$this->data[Login]."',
                    '".md5($this->data[Passwd])."','".$this->data[FirstName]."',
                    '".$this->data[SurName]."','".$this->data[Title]."',
-                   '".$this->data[Gender]."','".$this->data[Email]."',0,now(),now())";
+                   '".$this->data[Gender]."','".$this->data[Email]."','".$this->data[language]."',0,now(),now())";
 
 		$this->db->query($query);
 		$this->Id = $this->data["Id"];
@@ -167,7 +169,8 @@ class User extends PEAR
                   title='".$this->data[Title]."',
                   firstname='".$this->data[FirstName]."',
                   surname='".$this->data[SurName]."',
-                  email='".$this->data[Email]."'
+                  email='".$this->data[Email]."',
+                  language='".$this->data[language]."'
                   WHERE usr_id='".$this->Id."'";
 
 		 $this->db->query($query);
@@ -471,7 +474,7 @@ class User extends PEAR
 	  */
 	 function setLanguage($str)
 	 {
-		 $this->data["Language"] = $str;
+		 $this->data["language"] = $str;
 	 }
 	 
 } // END class user
