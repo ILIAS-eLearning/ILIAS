@@ -10,7 +10,7 @@ if (document.images)
 
 	imag = new Array();
 	imag[0]  = "{IMG_DESK}";
-	imag[1]  = "{IMG_COURSE}";
+	imag[1]  = "{IMG_CATALOG}";
 	imag[2]  = "{IMG_BOOKMA}";
 	imag[3]  = "{IMG_SEARCH}";
 	imag[4]  = "{IMG_LITERAT}";
@@ -21,7 +21,7 @@ if (document.images)
 	imag[9]  = "{IMG_FEEDB}";
 	imag[10] = "{IMG_LOGOUT}";
 	imag[11] = "{IMG_DESK_O}";
-	imag[12] = "{IMG_COURSE_O}";
+	imag[12] = "{IMG_CATALOG_O}";
 	imag[13] = "{IMG_BOOKMA_O}";
 	imag[14] = "{IMG_SEARCH_O}";
 	imag[15] = "{IMG_LITERAT_O}";
@@ -92,7 +92,7 @@ if (document.images)
 
 <!-- BEGIN userisadmin -->
       <td><img class="spacer" border="0" src="{IMG_SPACE2}" width="5" /></td>
-      <td><a href="{SCRIPT_ADMIN}" target="{TARGET2}" onmouseover="swtchon(27,admin,'{TXT_ADMINISTRATION}');return true;" onmouseout="swtch(26,admin)">
+      <td><a href="javascript:ZweiFrames('{SCRIPT_ADMIN}','bottom','./usr_pdesktop_menu.php?cmd=search','left')" onmouseover="swtchon(27,admin,'{TXT_ADMINISTRATION}');return true;" onmouseout="swtch(26,admin)">
 	    <img border="0" src="{IMG_ADMIN}" width="36" height="36" alt="{TXT_ADMINISTRATION}" title="{TXT_ADMINISTRATION}" name="admin" /></a></td>
 <!-- END userisadmin -->
        <td><img class="spacer" border="0" src="{IMG_SPACE}" width="200" height="40"/></td>
@@ -101,11 +101,11 @@ if (document.images)
 	    <img border="0" src="{IMG_SEARCH}" width="36" height="36" alt="{TXT_SEARCH}" title="{TXT_SEARCH}" name="srch" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="10" height="40"/></td>
       
-      
+<!--      
       <td><a href="{SCRIPT_COURSE}" target="{TARGET}" onmouseover="swtchon(12,courses,'{TXT_LO_OVERVIEW}');return true;" onmouseout="swtch(1,courses)">
 	    <img border="0" src="{IMG_COURSE}" width="36" height="36" alt="{TXT_LO_OVERVIEW}" title="{TXT_LO_OVERVIEW}" name="courses" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="50" height="40"/></td>
-
+-->
 
 <!-- buttons disabled
       <td><a href="{SCRIPT_LITERAT}" target="{TARGET}" onmouseover="swtchon(15,literat,'{TXT_LITERATURE}');return true;" onmouseout="swtch(4,literat)">
@@ -120,7 +120,8 @@ if (document.images)
 	    <img border="0" src="{IMG_MAIL}" width="36" height="36" alt="{TXT_MAIL}" title="{TXT_MAIL}" name="mail" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE_MAIL}" width="10" height="40"/></td>
 <!-- END mailbutton -->
-	  
+
+<!--	  
       <td><a href="javascript:ZweiFrames('{SCRIPT_FORUMS}','bottom','./usr_pdesktop_menu.php?cmd=forum','left')" onmouseover="swtchon(17,newsgr,'{TXT_FORUMS}');return true;" onmouseout="swtch(6,newsgr)">
 	    <img border="0" src="{IMG_FORUMS}" width="36" height="36" alt="{TXT_FORUMS}" title="{TXT_FORUMS}" name="newsgr" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="10" height="40"/></td>
@@ -128,6 +129,10 @@ if (document.images)
       <td><a href="javascript:ZweiFrames('{SCRIPT_GROUPS}','bottom','./usr_pdesktop_menu.php?cmd=groups','left')" onmouseover="swtchon(18,groups,'{TXT_GROUPS}');return true;" onmouseout="swtch(7,groups)">
 	    <img border="0" src="{IMG_GROUPS}" width="36" height="36" alt="{TXT_GROUPS}" title="{TXT_GROUPS}" name="groups" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="10" height="40"/></td>
+-->
+	  <td><a href="javascript:ZweiFrames('{SCRIPT_CATALOG}','bottom','./usr_pdesktop_menu.php?cmd=repos','left')" onmouseover="swtchon(12,courses,'{TXT_CATALOG}');return true;" onmouseout="swtch(1,courses)">
+	    <img border="0" src="{IMG_CATALOG}" width="36" height="36" alt="{TXT_CATALOG}" title="{TXT_CATALOG}" name="courses" /></a></td>
+      <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
 
       <td><a href="javascript:ZweiFrames('{SCRIPT_FEEDB}','bottom','./usr_pdesktop_menu.php?cmd=feedback','left')" onmouseover="swtchon(20,feed,'{TXT_FEEDBACK}');return true;" onmouseout="swtch(9,feed)">
 	    <img  border="0" src="{IMG_FEEDB}" width="36" height="36" alt="{TXT_FEEDBACK}" title="{TXT_FEEDBACK}" name="feed" /></a></td>
