@@ -1405,12 +1405,12 @@ class ilObjTest extends ilObject
 	
 	function &getExistingQuestions() {
 		$existing_questions = array();
-		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
+		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			array_push($existing_questions, $data->question_fi);
+			array_push($existing_questions, $data->original_id);
 		}
 		return $existing_questions;
 	}
