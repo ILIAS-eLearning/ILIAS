@@ -4032,3 +4032,51 @@ $rbacadmin->assignRoleToFolder($member_id,ROLE_FOLDER_ID,"n");
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#239>
+CREATE TABLE `crs_items` (
+  `parent_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `activation_unlimited` tinyint(2) default NULL,
+  `activation_start` int(8) default NULL,
+  `activation_end` int(8) default NULL,
+  `position` int(11) default NULL,
+  PRIMARY KEY  (`parent_id`,`obj_id`)
+) TYPE=MyISAM;
+CREATE TABLE `crs_members` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `status` tinyint(2) NOT NULL default '0',
+  `role` tinyint(2) NOT NULL default '0',
+  PRIMARY KEY  (`obj_id`,`usr_id`)
+) TYPE=MyISAM;
+CREATE TABLE `crs_settings` (
+  `obj_id` int(11) NOT NULL default '0',
+  `syllabus` text,
+  `contact_name` varchar(255) default NULL,
+  `contact_responsibility` varchar(255) default NULL,
+  `contact_phone` varchar(255) default NULL,
+  `contact_email` varchar(255) default NULL,
+  `contact_consultation` text,
+  `activation_unlimited` tinyint(2) default NULL,
+  `activation_start` int(11) default NULL,
+  `activation_end` int(11) default NULL,
+  `activation_offline` int(1) default NULL,
+  `subscription_unlimited` tinyint(2) default NULL,
+  `subscription_start` int(11) default NULL,
+  `subscription_end` int(11) default NULL,
+  `subscription_type` int(2) default NULL,
+  `subscription_password` varchar(32) default NULL,
+  `subscription_max_members` int(4) default NULL,
+  `subscription_notify` int(2) default NULL,
+  `sortorder` int(2) default NULL,
+  `archive_start` int(11) default NULL,
+  `archive_end` int(11) default NULL,
+  `archive_type` int(2) default NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+CREATE TABLE `crs_subscribers` (
+  `usr_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `sub_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`obj_id`)
+) TYPE=MyISAM;
