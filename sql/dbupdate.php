@@ -353,7 +353,7 @@ ALTER TABLE `rbac_fa` DROP PRIMARY KEY, ADD PRIMARY KEY (rol_id,parent);
 ALTER TABLE `tree` CHANGE `tree` `tree` INT(10) DEFAULT '0' NOT NULL;
 
 <#15>
-#drop unnecessary col
+#drop unnecessary column
 <?php
 $query = "DESCRIBE note_data";
 $result = $this->db->query($query);
@@ -369,4 +369,21 @@ if (in_array("last_update",$data))
 	$this->db->query($query);
 }
 ?>
+<#16>
+#modified usr_data
+ALTER TABLE usr_data CHANGE surname lastname CHAR( 30 ) NOT NULL;
+ALTER TABLE usr_data ADD institution VARCHAR( 80 ) AFTER email ,
+ADD street VARCHAR( 40 ) AFTER institution ,
+ADD city VARCHAR( 40 ) AFTER street ,
+ADD zipcode VARCHAR( 10 ) AFTER city ,
+ADD country VARCHAR( 40 ) AFTER zipcode ,
+ADD phone VARCHAR( 40 ) AFTER country ;
 
+<#17>
+#introducing reference id table
+DROP TABLE IF EXISTS object_reference;
+CREATE TABLE object_reference (
+ref_id INT NOT NULL AUTO_INCREMENT,
+obj_id INT NOT NULL ,
+PRIMARY KEY ( ref_id )
+);

@@ -66,7 +66,7 @@ class RoleTemplateObject extends Object
 										 $a_data["title"]."' already exists! <br />Please choose another name.",
 										 $this->ilias->error_obj->WARNING);
 			}
-			$new_obj_id = createNewObject($a_new_type, $a_data);
+			$new_obj_id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id, $a_obj_id, $a_parent,'n');
 		}
 		else
@@ -127,7 +127,7 @@ class RoleTemplateObject extends Object
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			updateObject($this->id, $this->type, $a_data);
+			updateObject($this->id,$a_data["title"],$a_data["desc"]);
 
 			return true;
 		}
@@ -147,9 +147,9 @@ class RoleTemplateObject extends Object
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$obj_data = getTypeList();
-			// BEGIN OBJECT_TYPES
+			$obj_data = getObjectList("typ","title","ASC");
 
+			// BEGIN OBJECT_TYPES
 			foreach ($obj_data as $data)
 			{
 				$output["obj_types"][] = $data["title"];

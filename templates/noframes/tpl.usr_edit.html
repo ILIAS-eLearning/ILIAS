@@ -2,11 +2,11 @@
 <table cellspacing="3" cellpadding="0">
   <tr>
     <td align="right">{TXT_LOGIN}<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Login]"  value="{LOGIN}" size="20" maxsize="30" /></td>
+    <td><input type="text" name="Fobject[login]"  value="{LOGIN}" size="20" maxsize="30" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_PASSWD}<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Passwd]"  value="{PASSWD}" size="20" maxsize="30" /></td>
+    <td><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="20" maxsize="32" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_GENDER}<sup>*</sup></td>
@@ -18,19 +18,43 @@
   </tr>
   <tr>
     <td align="right">{TXT_FIRSTNAME}<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[FirstName]" value="{FIRSTNAME}" size="20" maxsize="20" /></td>
+    <td><input type="text" name="Fobject[firstname]" value="{FIRSTNAME}" size="20" maxsize="20" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_LASTNAME}<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[SurName]" value="{LASTNAME}" size="20" maxsize="30" /></td>
+    <td><input type="text" name="Fobject[lastname]" value="{LASTNAME}" size="20" maxsize="30" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_TITLE}&nbsp;</td>
-    <td><input type="text" name="Fuserdata[Title]" value="{TITLE}" size="20" maxsize="20" /></td>
+    <td><input type="text" name="Fobject[title]" value="{TITLE}" size="20" maxsize="20" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_INSTITUTION}&nbsp;</td>
+    <td><input type="text" name="Fobject[institution]" value="{INSTITUTION}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_STREET}&nbsp;</td>
+    <td><input type="text" name="Fobject[street]" value="{STREET}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_CITY}&nbsp;</td>
+    <td><input type="text" name="Fobject[city]" value="{CITY}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_ZIPCODE}&nbsp;</td>
+    <td><input type="text" name="Fobject[zipcode]" value="{ZIPCODE}" size="10" maxsize="10" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_COUNTRY}&nbsp;</td>
+    <td><input type="text" name="Fobject[country]" value="{COUNTRY}" size="20" maxsize="40" /></td>
+  </tr>
+  <tr>
+    <td align="right">{TXT_PHONE}&nbsp;</td>
+    <td><input type="text" name="Fobject[phone]" value="{PHONE}" size="20" maxsize="30" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_EMAIL}<sup>*</sup></td>
-    <td><input type="text" name="Fuserdata[Email]" value="{EMAIL}" size="20" maxsize="40" /></td>
+    <td><input type="text" name="Fobject[email]" value="{EMAIL}" size="20" maxsize="40" /></td>
   </tr>
   <tr>
     <td align="right">{TXT_DEFAULT_ROLE}<sup>*</sup></td>
@@ -52,10 +76,10 @@
 <!-- BEGIN ACTIVE_ROLE -->
 <br><br>
 	<strong>
-      Add Active Roles
+      Active Roles
 	</strong>
 <br><br>
-	<form action="object.php?obj_id={ACTIVE_ROLE_OBJ_ID}&parent={ACTIVE_ROLE_TPOS}&parent_parent={ACTIVE_ROLE_PAR}&cmd=activeRoleSave" name="objectItems" method="post">
+	<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="tblheader">
 			<td width="20%" align="left">
@@ -67,7 +91,7 @@
 			</td>
 		  </tr>
 			<!-- BEGIN TABLE_ROLES -->
-			<tr class="{CSS_ROW_ROLE}">
+			<tr class="{ACTIVE_ROLE_CSS_ROW}">
 			  <td>
 				{CHECK_ROLE}
 			  </td>
@@ -76,6 +100,7 @@
 			  </td>
 			</tr>
 			<!-- END TABLE_ROLES -->
+		  <!-- BEGIN TABLE_SUBMIT -->
 			<tr class="tblheader">
 			  <td>
 				<img src="images/pfeil_rechts.gif" />
@@ -84,6 +109,7 @@
 				<input type="submit" value="assign" />
 			  </td>
 			</tr>
+		  <!-- END TABLE_SUBMIT -->
 	  </table>
 	  </form>
 <!-- END ACTIVE_ROLE -->

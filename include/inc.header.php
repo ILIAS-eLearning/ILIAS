@@ -99,7 +99,7 @@ if ($script != "login.php" && $script != "index.php")
 		// init user
 		$ilias->account->setId($_SESSION["AccountId"]);				
 	}
-	$ilias->account->getUserdata();
+	$ilias->account->getData();
 	
 	if ($script == "logout.php") {
 		$ilias->account->refreshLogin();		

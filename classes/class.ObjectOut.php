@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.22 2003/02/04 11:26:59 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.23 2003/02/06 15:34:16 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -359,28 +359,35 @@ class ObjectOut
 								$_GET["parent"]."&cmd=gateway");
 		
 		//table header
+		$this->tpl->setCurrentBlock("table_header_cell");
+
 		foreach ($this->data["cols"] as $key)
 		{
-			$this->tpl->setCurrentBlock("table_header_cell");
 			if ($key != "")
+			{
 			    $out = $this->lng->txt($key);
+			}
 			else
+			{
 				$out = "&nbsp;";
-			$this->tpl->setVariable("TEXT", $out);
-			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			}
+			
+			$this->tpl->setVariable("HEADER_TEXT", $out);
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
+
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		if (is_array($this->data["data"][0]))
 		{
 			//table cell
-			for ($i=0; $i< count($this->data["data"]); $i++)
+			for ($i=0; $i < count($this->data["data"]); $i++)
 			{
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
-		
+
 				$num++;
 		
 				// color changing
@@ -398,10 +405,10 @@ class ObjectOut
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
+
 				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->setVariable("TEXT", "");
 				$this->tpl->parseCurrentBlock();
-			
+				
 				//data
 				foreach ($data as $key => $val)
 				{
@@ -409,13 +416,17 @@ class ObjectOut
 					$link = "adm_object.php?";
 					
 					if ($_GET["type"] == "lo" && $key == "type")
-					$link = "lo_view.php?";
-				
+					{
+						$link = "lo_view.php?";
+					}
+
 					foreach ($ctrl as $key2 => $val2)
 					{
 						$link .= $key2."=".$val2;
 						if ($key2 != $ctrl[count($ctrl)-1][$key2])
+						{
 					    	$link .= "&";
+						}
 					}
 					
 					if ($key == "title" || $key == "type")
@@ -659,16 +670,21 @@ class ObjectOut
 		}
 	}
 
-	function getTemplateFile($a_cmd,$a_type = '')
+	function getTemplateFile($a_cmd,$a_type = "")
 	{
+		// <get rid of $_GET variable
 		if(!$a_type)
+		{
 			$a_type = $_GET["type"];
+		}
 
 		$template = "tpl.".$a_type."_".$a_cmd.".html";
+
 		if(!$this->tpl->fileExists($template))
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 }

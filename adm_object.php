@@ -46,8 +46,6 @@ $class_constr = $class_name."Object";
 require_once("./classes/class.".$class_name."Object.php");
 $obj = new $class_constr($_GET["obj_id"]);
 
-//echo "$class_constr().$method<br>";
-
 // call object method
 switch ($_GET["cmd"])
 {
@@ -101,8 +99,6 @@ switch ($_GET["cmd"])
 		break;
 }
 
-
-
 // CALL OUTPUT METHOD OF OBJECT
 $class_constr = $class_name."ObjectOut";
 
@@ -120,5 +116,6 @@ if ($_GET["cmd"] == "view" && $type == "adm")
 	require_once("./include/inc.basicdata.php");
 	$tpl->parseCurrentBlock();
 }
+
 $tpl->show();
 ?>

@@ -49,7 +49,11 @@ class NoteObject extends Object
 	*/
 	function createObject($lo_title, $note_text)
 	{
-		global $rbacadmin, $rbacsystem;
+		global $rbacadmin, $rbacsystem;		// not used (see below)
+		
+		// The following code is deprecated.
+		// Shortening text is done by function createNewObject itself
+		/*
 		if(strlen($lo_title) > 70)
 		{
 			$lo_title 				= substr($lo_title,0,67);		//title in object_data has only 70digits
@@ -62,7 +66,9 @@ class NoteObject extends Object
 			$note_text			   .= "...";
 		}
 		$FNoteObject["desc"]  	= $note_text;
-		$note_id	 			= createNewObject("note",$FNoteObject);
+		*/
+		$note_id = createNewObject("note",$lo_title,$note_text);
+
 /*		
 		//get own role id
 		$my_roleId = $rbacadmin->assignedRoles(
@@ -92,22 +98,29 @@ class NoteObject extends Object
 
 	function updateNote($obj_id, $note_text, $rate)
 	{
-		$create_date = date("Y-m-d G:i:s");
+		$create_date = date("Y-m-d G:i:s");	// not used
+		
+		// deprecated
+		/*
 		if(strlen($note_text) > 40)
 		{
 			$obj_title   			= substr($note_text,0,37);
 			$obj_title			   .= "...";
 		}
+		*/
 	
 		//update table note_data
-		$query_nd = "UPDATE note_data SET text='".$note_text."', question='".$rate["question"]."', ".
-				    "important='".$rate["important"]."', good='".$rate["good"]."', ".
-   				    "bad='".$rate["bad"]."' WHERE note_id='".$obj_id."'";
-		//update table object_data
-		$query_od = "UPDATE object_data SET description='".$obj_title."' WHERE obj_id='".$obj_id."'";
+		$q = "UPDATE note_data SET text='".$note_text."', question='".$rate["question"]."', ".
+			 "important='".$rate["important"]."', good='".$rate["good"]."', ".
+			 "bad='".$rate["bad"]."' WHERE note_id='".$obj_id."'";
+		$this->ilias->db->query($q);
 
-		$res1 = $this->ilias->db->query($query_nd);
-		$res2 = $this->ilias->db->query($query_od);
+		//update table object_data
+		updateObject($obj_id,$note_text,$note_text,37);
+		
+		// deprecated
+		//$query_od = "UPDATE object_data SET description='".$obj_title."' WHERE obj_id='".$obj_id."'";
+		//$res2 = $this->ilias->db->query($query_od);
 		
 	}
 	function edit()
@@ -117,10 +130,5 @@ class NoteObject extends Object
 	function owner()
 	{
 	}
-	
-	
-
 }
-
-
 ?>

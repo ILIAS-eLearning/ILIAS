@@ -62,7 +62,7 @@ class RoleObject extends Object
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 			}
 
-			$new_obj_id = createNewObject('role',$a_data);
+			$new_obj_id = createNewObject("role",$a_data["title"],$a_data["desc"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$a_obj_id,$a_parent,'y');
 		}
 		else
@@ -134,7 +134,7 @@ class RoleObject extends Object
 		// TODO: get rid of $_GET variables
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			updateObject($this->id, $this->type, $a_data);
+			updateObject($this->id,$a_data["title"],$a_data["desc"]);
 			return true;
 		}
 		else
@@ -153,9 +153,9 @@ class RoleObject extends Object
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$obj_data = getTypeList();
-			// BEGIN OBJECT_TYPES
+			$obj_data = getObjectList("typ","title","ASC");
 
+			// BEGIN OBJECT_TYPES
 			foreach ($obj_data as $data)
 			{
 				$output["obj_types"][] = $data["title"];
@@ -203,7 +203,7 @@ class RoleObject extends Object
 			// USER ASSIGNMENT
 			if ($rbacadmin->isAssignable($this->id,$_GET["parent"]))
 			{
-				$users = getUserList();
+				$users = getObjectList("usr","title","ASC");
 				$assigned_users = $rbacreview->assignedUsers($this->id);
 
 				foreach ($users as $key => $user)

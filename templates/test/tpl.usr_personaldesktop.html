@@ -1,83 +1,83 @@
-
 <h1>{TXT_PAGEHEADLINE}</h1>
+<!-- BEGIN subtitle -->
+<p>{TXT_SUBTITLE}</p>
+<!-- END subtitle -->
 
 {BUTTONS}
 
-
 <!-- BEGIN tbl_mail -->
 <h2>{MAIL_COUNT} {TXT_MAIL_S}</h2>
-<table class="normal">
-	<tr class="tblheader">
-		<td class="cell"><b>{TXT_SENDER}</b></td>
-		<td class="cell"><b>{TXT_SUBJECT}</b></td>
-		<td class="cell"><b>{TXT_DATETIME}</b>&nbsp;<img src="./images/a_up.gif" width="12" height="6" border="0" alt="Date up" title="Date up" /></a></td>
-	</tr>
-	<!-- BEGIN tbl_mail_row -->
-	<tr class="{ROWCOL}">
-		<td class="cell">{MAIL_FROM}</td>
-		<td class="cell"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
-		<td class="cell">{MAIL_DATE}</td>
-	</tr>
-	<!-- END tbl_mail_row -->
-</table>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr class="tblheader">
+      <td>&nbsp;<b>{TXT_SENDER}</b></td>
+      <td>&nbsp;<b>{TXT_SUBJECT}</b></td>
+      <td>&nbsp;<b>{TXT_DATETIME}</b>&nbsp;<img src="./images/a_up.gif" width="12" height="6" border="0" alt="Date up" title="Date up" /></a></td>
+    </tr>
+<!-- BEGIN tbl_mail_row -->
+<tr class="{ROWCOL}">
+  <td valign="middle">&nbsp;{MAIL_FROM}</td>
+  <td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJ}</a></td>
+  <td valign="middle">&nbsp;{MAIL_DATE}</td>
+</tr>
+<!-- END tbl_mail_row -->
+    </table>
 <!-- END tbl_mail -->
-
 
 <!-- BEGIN tbl_lo -->
 <h2>{TXT_LO_HEADER}</h2>
-<table class="normal">
-	<tr class="tblheader">
-		<td class="cell"><b>{TXT_LO_TIME}</b></td>
-		<td class="cell"><b>{TXT_LO_TITLE}</b></td>
-		<td class="cell"><b>{TXT_LO_PAGE}</b></td>
-	</tr>
-	<!-- BEGIN tbl_lo_row -->
-	<tr class="{ROWCOL}">
-		<td class="cell">{LO_TIME}</td>
-		<td class="cell"><a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
-		<td class="cell"><a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
-	</tr>
-	<!-- END tbl_lo_row -->
-</table>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr class="tblheader">
+      <td>&nbsp;<b>{TXT_LO_TIME}</b></td>
+      <td>&nbsp;<b>{TXT_LO_TITLE}</b></td>
+      <td>&nbsp;<b>{TXT_LO_PAGE}</b></td>
+    </tr>
+<!-- BEGIN tbl_lo_row -->
+    <tr class="{ROWCOL}">
+      <td>&nbsp;{LO_TIME}</td>
+      <td>&nbsp;<a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
+      <td>&nbsp;<a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
+    </tr>
+<!-- END tbl_lo_row -->
+    </table>
 <!-- END tbl_lo -->
 
 <!-- BEGIN tbl_crs -->
 <h2>{TXT_COURSES}</h2>
-<table class="normal">
-	<tr class="tblheader">
-		<td class="cell"><b>{TXT_TITLE}</b></td>
-		<td class="cell"><b>{TXT_DESC}</b></td>
-		<td></td>
-	</tr>
-	<!-- BEGIN tbl_crs_row -->
-	<tr class="{ROWCOL}">
-		<td class="cell"><a href="{CRS_LINK}">{CRS_TITLE}</a></td>
-		<td class="cell">{CRS_DESC}</td>
-		<td class="cell"><a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></td>
-	</tr>
-	<!-- END tbl_crs_row -->
-</table>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr class="tblheader">
+      <td>&nbsp;<b>{TXT_TITLE}</b></td>
+      <td>&nbsp;<b>{TXT_DESC}</b></td>
+      <td>&nbsp;</td>
+    </tr>
+<!-- BEGIN tbl_crs_row -->
+    <tr class="{ROWCOL}">
+      <td>&nbsp;<a href="{CRS_LINK}">{CRS_TITLE}</a></td>
+      <td>&nbsp;{CRS_DESC}</td>
+      <td>&nbsp;<a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></td>
+    </tr>
+<!-- END tbl_crs_row -->
+    </table>
 <!-- END tbl_crs -->
 
 <!-- BEGIN tbl_frm -->
 <h2>{TXT_FORUMS}</h2>
-<table class="normal">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">    
 	<!-- BEGIN show_btn -->
-	<tr class="tblrow1">
-		<td class="cell"><b>></b>{LIST_BUTTON}</td>
-	</tr>
+	<tr>
+      <td valign=top>&nbsp;<b>></b>{LIST_BUTTON}&nbsp;</td>      
 	<!-- END show_btn -->
+	
 	<!-- BEGIN show_list -->
 	<tr class="tblheader">
-		<td class="cell"><b>{TXT_TITLE}</b></td>
-		<td class="cell"><b>{TXT_LASTPOST}</b></td>
-	</tr>
-	<!-- END show_list -->
-	<!-- BEGIN tbl_frm_row -->
-	<tr class="{ROWCOL}">
-		<td class="cell">{FRM_TITLE}</td>
-		<td class="cell">{LAST_POST}</td>
-	</tr>
-	<!-- END tbl_frm_row -->
-</table>
+      <td valign=top width="60%">&nbsp;<b>{TXT_TITLE}</b></td>
+      <td valign=top>&nbsp;<b>{TXT_LASTPOST}</b></td> 
+	<!-- END show_list -->     
+    </tr>
+<!-- BEGIN tbl_frm_row -->
+    <tr class="{ROWCOL}">
+      <td valign=top width="60%">&nbsp;{FRM_TITLE}</td>
+      <td valign=top>&nbsp;{LAST_POST}</td>      
+    </tr>
+<!-- END tbl_frm_row -->
+    </table>
 <!-- END tbl_frm -->

@@ -1,40 +1,51 @@
 <?php
 /**
- * Class LearningObjectOut
- * 
- * @author Stefan Meyer <smeyer@databay.de> 
- * @author Sascha Hofmann <shofmann@databay.de> 
- * @extends ObjectOut
- * @package ilias-core
- */
+* Class LearningObjectObjectOut
+* 
+* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Sascha Hofmann <shofmann@databay.de>
+* @version	$Id$
+*
+* @extends	ObjectOut
+* @package	ilias-core
+*/
 class LearningObjectObjectOut extends ObjectOut
 {
-    /**
-     * Constructor
-     * 
-     * @access public 
-     */
-    function LearningObjectObjectOut($a_data)
-    {
-        $this->ObjectOut($a_data);
-    } 
+	/**
+	* Constructor
+	* 
+	* @access public 
+	*/
+	function LearningObjectObjectOut($a_data)
+	{
+		$this->ObjectOut($a_data);
+	} 
 
-    function viewObject()
-    {
-        global $lotree;
+	/**
+	* DESC MISSING
+	* 
+	* 
+	*/
+	function viewObject()
+	{
+		global $lotree;
 		
 		parent::viewObject();
 		
 		//$lotree = new Tree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
-        //$this->tree->tree_id = $this->id; //_GET["lm_id"];
+		//$this->tree->tree_id = $this->id; //_GET["lm_id"];
 		if (empty($_GET["lo_parent"]))
 		{
 			$_GET["lo_parent"] = $_GET["lm_id"];
 		}
 
-        $this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
-    } 
+		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
+	}
 
+	/**
+	* DESC MISSING
+	* 
+	*/
 	function setLOLocator($a_tree = "", $a_obj_id = "", $a_parent = "", $a_parent_parent = "")
 	{
 		if (!is_object($a_tree))
@@ -70,7 +81,7 @@ class LearningObjectObjectOut extends ObjectOut
 			$path = $a_tree->getPathFull($a_obj_id, $a_parent);
 		}
 
-        //check if object isn't in tree, this is the case if parent_parent is set
+		//check if object isn't in tree, this is the case if parent_parent is set
 		if ($a_parent_parent)
 		{
 			$subObj = getObject($a_obj_id);
@@ -104,33 +115,33 @@ class LearningObjectObjectOut extends ObjectOut
 		}
 
 		$this->tpl->setCurrentBlock("locator");
-		
+
 		$this->tpl->setVariable("TXT_PATH","LO-Path: ");
 		$this->tpl->parseCurrentBlock();
 	}
 
-    /**
-     * display tree structure of a LearningObject
-     * DEBUG function
-     * 
-     * @access public 
-     */
-    function displayStructure ($a_tree)
-    {
-        echo "<table border=\"1\">" . "<tr>" . "<th>id</th>" . "<th>value</th>" . "<th>name</th>" . "<th>type</th>" . "<th>depth</th>" . "<th>parent</th>" . "<th>first</th>" . "<th>prev</th>" . "<th>next</th>" . "<th>left</th>" . "<th>right</th>" . "<th>db_id</th>" . "</tr>";
+	/**
+	* display tree structure of a LearningObject
+	* DEBUG function
+	* 
+	* @access public 
+	*/
+	function displayStructure ($a_tree)
+	{
+		echo "<table border=\"1\">" . "<tr>" . "<th>id</th>" . "<th>value</th>" . "<th>name</th>" . "<th>type</th>" . "<th>depth</th>" . "<th>parent</th>" . "<th>first</th>" . "<th>prev</th>" . "<th>next</th>" . "<th>left</th>" . "<th>right</th>" . "<th>db_id</th>" . "</tr>";
 
-        foreach ($a_tree as $id => $node)
+		foreach ($a_tree as $id => $node)
 		{
-            echo "<tr>";
-            echo "<td>" . $id . "</td>";
+			echo "<tr>";
+			echo "<td>" . $id . "</td>";
 
-            foreach ($node as $key => $value)
+			foreach ($node as $key => $value)
 			{
-                echo "<td>" . $value . "</td>";
-            } 
-            echo "</tr>";
-        } 
-        echo "</table>";
-    } 
+				echo "<td>" . $value . "</td>";
+			} 
+			echo "</tr>";
+		} 
+		echo "</table>";
+	}
 } // END class.LeraningObject
 ?>
