@@ -467,6 +467,50 @@ class ilObjTestGUI extends ilObjectGUI
     $this->tpl->parseCurrentBlock();
 	}
 
+	function removeQuestions($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", true);
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+			$this->ilias->db->quote($this->object->get_test_id())
+		);
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
 
@@ -504,6 +548,22 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["create_question"]) {
 			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
 		}
+
+		if (strlen($_POST["cmd"]["confirm_remove"]) > 0) 
+		{
+			// remove questions from test after confirmation
+			sendInfo($this->lng->txt("tst_questions_removed"));
+			$checked_questions = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/id_(\d+)/", $key, $matches)) {
+					array_push($checked_questions, $matches[1]);
+				}
+			}
+			foreach ($checked_questions as $key => $value) {
+				$this->object->remove_question($value);
+			}
+		}
+		
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
 			$checked_questions = array();
 			foreach ($_POST as $key => $value) {
@@ -512,9 +572,15 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			if (count($checked_questions) > 0) {
-				foreach ($checked_questions as $key => $value) {
-					$this->object->remove_question($value);
+				$total = $this->object->evalTotalPersons();
+				if ($total) {
+					// the test was executed previously
+					sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
+				} else {
+					sendInfo($this->lng->txt("tst_remove_questions"));
 				}
+				$this->removeQuestions($checked_questions);
+				return;
 			} elseif (count($checked_questions) == 0) {
 				sendInfo($this->lng->txt("tst_no_question_selected_for_removal"));
 			}

@@ -439,7 +439,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
           if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
             $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
           }
-          $this->tpl->setVariable("QUESTION_TITLE", $data->title);
+          $this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
           $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
