@@ -170,6 +170,8 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###16 Mar 2004 new variable
 assessment#:#tst_general_properties#:#General properties###16 Mar 2004 new variable
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###16 Mar 2004 new variable
+assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
+assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_introduction#:#Introduction###16 Mar 2004 new variable
 assessment#:#tst_mark#:#Mark###16 Mar 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###16 Mar 2004 new variable
@@ -189,7 +191,11 @@ assessment#:#tst_processing_time#:#Max. processing time###16 Mar 2004 new variab
 assessment#:#tst_question_no#:#Order###16 Mar 2004 new variable
 assessment#:#tst_question_title#:#Title###16 Mar 2004 new variable
 assessment#:#tst_question_type#:#Question type###16 Mar 2004 new variable
+assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
+assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
 assessment#:#tst_reached_points#:#Reached points###16 Mar 2004 new variable
+assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
+assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###16 Mar 2004 new variable
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###16 Mar 2004 new variable
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###16 Mar 2004 new variable

@@ -170,6 +170,8 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
 assessment#:#tst_general_properties#:#Cechy ogólne
 assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
+assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
+assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_introduction#:#Wstęp
 assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Twórz nową pozycję wyboru
@@ -189,7 +191,11 @@ assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
 assessment#:#tst_question_title#:#Tytuł
 assessment#:#tst_question_type#:#Typ pytania
+assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
+assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
 assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
+assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
+assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
