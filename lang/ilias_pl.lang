@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
+common#:#3rd_party_software#:#Oprogramowanie innych firm
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Akces
@@ -119,7 +119,7 @@ common#:#choose_location#:#wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
-common#:#client_id#:#Client ID###19 Nov 2003 new variable
+common#:#client_id#:#ID Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#comma_separated#:#Odzielony przecinkiem
@@ -157,7 +157,7 @@ common#:#day#:#Dzień
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
-common#:#db_need_update#:#Database needs an update!###19 Nov 2003 new variable
+common#:#db_need_update#:#Baza danych wymaga uaktualnienia!
 common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#Użytkownik bazy danych
@@ -172,7 +172,7 @@ common#:#default_language#:#Domyślny język
 common#:#default_role#:#Domyślne stanowisko
 common#:#default_roles#:#Domyślne stanowiska
 common#:#default_skin#:#Domyślna skórka
-common#:#default_skin_style#:#Default Skin / Style###19 Nov 2003 new variable
+common#:#default_skin_style#:#Domyślna Skórka / Styl
 common#:#default_style#:#Domyślny styl
 common#:#delete#:#Usuń
 common#:#delete_all#:#Usuń wszystko
@@ -316,13 +316,13 @@ common#:#group_objects#:#Obiekty grupy
 common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minął.  Skontakuj się z właścicielem grupy lub administratorem
 common#:#group_password_registration_msg#:#Aby przystąpić do tej grupy musisz podać hasło dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeśli hasło będzie poprawne.
 common#:#group_registration_expiration_date#:#Rejestracja do
-common#:#group_registration_expiration_time#:#Expiration Time###26 Nov 2003 new variable
+common#:#group_registration_expiration_time#:#Data ważności
 common#:#group_registration_expired#:#Okres rejestracji minął.
 common#:#group_registration_mode#:#Tryb rejestracji
 common#:#group_req_password#:#Wymagane hasło rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
 common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
-common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
+common#:#group_reset#:#Przywróć ustawienia domyslne grupy
 common#:#group_status#:#Status grupy
 common#:#group_status_closed#:#Zamknięta
 common#:#group_status_public#:#Publiczna
@@ -333,21 +333,21 @@ common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_edit#:#Edytuj Grupę
-common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
+common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
 common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###26 Nov 2003 new variable
-common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
-common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
-common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
+common#:#grp_err_last_member#:#Ostatni członek grupy nie może być usunięty, usuń raczej grupę.
+common#:#grp_err_member_could_not_be_removed#:#Członek grupy nie może być usunięty. Sprawdź wszystkie zależności dotyczące tego użytkownika.
+common#:#grp_err_no_permission#:#Nie masz uprawnień do wykonania tej operacji.
+common#:#grp_err_registration_data#:#Podaj hasło, datę i czas ważności dla okresu rejestracji!
 common#:#grp_mem_change_status#:#Zmień status członka
 common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
-common#:#grp_register#:#Register###21 Nov 2003 new variable
-common#:#grp_registration_completed#:#Registration completed###21 Nov 2003 new variable
+common#:#grp_register#:#Zarejestruj się
+common#:#grp_registration_completed#:#Rejestracja dokonana
 common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#help#:#Pomoc
@@ -424,7 +424,7 @@ common#:#lang_it#:#Włoski
 common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
 common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
 common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
-common#:#lang_no#:#Norweski###11 Dec 2003 content changed
+common#:#lang_no#:#Norweski
 common#:#lang_path#:#Ścieżka języka
 common#:#lang_pl#:#Polski
 common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
@@ -514,7 +514,7 @@ common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
 common#:#member#:#Członek
 common#:#members#:#Członkowie
-common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
+common#:#membership_annulled#:#Twoje członkostwo zostało anulowane.
 common#:#message#:#Wiadomość
 common#:#message_content#:#Zawartość wiadomości
 common#:#message_to#:#Wiadomość do:
@@ -567,7 +567,7 @@ common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###19 Nov 2003 new variable
+common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następujących obiektów:
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Stanowiska.
@@ -588,7 +588,7 @@ common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwą
 common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
 common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz inną nazwę.
 common#:#msg_roleassignment_active_changed#:#Zmieniono przydział aktywnych stanowisk.
-common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.###25 Nov 2003 content changed
+common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.
 common#:#msg_roleassignment_changed#:#Przydział stanowisk został zmieniony.
 common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie może być usunięte.
 common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień stanowiska systemowego nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do stanowiska systemowego posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
@@ -672,7 +672,7 @@ common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
-common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
+common#:#objs_confirm#:#Potwierdź usunięcie
 common#:#objs_delete#:#Usuń obiekty
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
@@ -701,10 +701,10 @@ common#:#paste#:#Wklej
 common#:#pasteChapter#:#Wklej rozdział
 common#:#pastePage#:#Wklej stronę
 common#:#path#:#Scieżka
-common#:#path_not_set#:#Path not set###19 Nov 2003 new variable
+common#:#path_not_set#:#Ścieżka nie została ustawiona.
 common#:#path_to_babylon#:#Ścieżka do Babylon
 common#:#path_to_convert#:#Ściezka do Convert
-common#:#path_to_htmldoc#:#Path to HTMLdoc###19 Nov 2003 new variable
+common#:#path_to_htmldoc#:#Ścieżka do HTMLdoc
 common#:#path_to_java#:#Ścieżka do Javy
 common#:#path_to_unzip#:#Ściezka do Unzip
 common#:#path_to_zip#:#Ścieżka do Zip
@@ -816,7 +816,7 @@ common#:#sent#:#Wyślij
 common#:#sequence#:#Sekwencja
 common#:#sequences#:#Sekwencje
 common#:#server#:#Serwer
-common#:#server_data#:#Server data ###19 Nov 2003 new variable
+common#:#server_data#:#Dane serwera
 common#:#server_software#:#Oprogramowanie serwera
 common#:#set#:#Ustaw
 common#:#setSystemLanguage#:#Ustaw język systemowy
@@ -1035,9 +1035,9 @@ content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_mob_files#:#Pliki obiektowe
 content#:#cont_mob_inst_prop#:#Właściwości instancji
 content#:#cont_mob_prop#:#Właściwości obiektu
-content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
+content#:#cont_mob_usages#:#Użycie
 content#:#cont_month#:#Miesiąc
-content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu 
+content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu
 content#:#cont_new_assignment#:#Nowy przydział
 content#:#cont_new_dir#:#Nowy katalog
 content#:#cont_new_file#:#Nowy plik
@@ -1132,14 +1132,14 @@ forum#:#forums_attachments#:#Załączniki
 forum#:#forums_attachments_add#:#Dodaj załączniki
 forum#:#forums_attachments_edit#:#Edytuj załącznik
 forum#:#forums_available#:#Dostepne Fora
-forum#:#forums_censor_comment#:#Comment of Censor###20 Nov 2003 new variable
+forum#:#forums_censor_comment#:#Komentarz cenzora
 forum#:#forums_count#:#Ilość Forów
 forum#:#forums_count_art#:#Ilość artykułów
 forum#:#forums_count_thr#:#Ilość wątków
 forum#:#forums_delete_file#:#Usuń załącznik
 forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
-forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?###21 Nov 2003 content changed
+forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
 forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
 forum#:#forums_last_post#:#Ostatni artykuł
@@ -1216,7 +1216,7 @@ mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
 mail#:#mail_options_of#:#Opcje
-mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
+mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
 mail#:#mail_s#:#Wiadomości
 mail#:#mail_s_unread#:#Nieprzeczytane wiadomości
