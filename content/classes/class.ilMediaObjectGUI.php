@@ -254,13 +254,26 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	/**
 	* edit properties form
 	*/
-	function edit()
+	function editAlias()
 	{
+
 		/*
 		$meta =& $this->content_obj->getMetaData();
 		$meta_tech =& $meta->getTechnicalSection();
 		$locations = $meta_tech->getLocations();
 		$formats = $meta_tech->getFormats();*/
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
+			"&cmd=edit");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_edit_mob"));
+		$this->tpl->parseCurrentBlock();
+
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
@@ -330,7 +343,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_NAME", "saveAliasProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
@@ -340,7 +353,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	/**
 	* save table properties in db and return to page edit screen
 	*/
-	function saveProperties()
+	function saveAliasProperties()
 	{
 		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
@@ -365,6 +378,82 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->pg_obj->addHierIDs();
 			$this->edit();
 		}
+	}
+
+
+	function edit()
+	{
+		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+
+		// edit media alias template
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", true);
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_properties"));
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
+		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
+			"&hier_id=".$this->hier_id."&cmd=edpost");
+
+		$this->displayValidationError();
+
+		// content is in utf-8, todo: set globally
+		//header('Content-type: text/html; charset=UTF-8');
+
+		// width
+		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
+		$this->tpl->setVariable("INPUT_MOB_WIDTH", "mob_width");
+		$this->tpl->setVariable("VAL_MOB_WIDTH", $std_alias_item->getWidth());
+
+		// height
+		$this->tpl->setVariable("TXT_MOB_HEIGHT", $this->lng->txt("cont_height"));
+		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
+		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_alias_item->getHeight());
+
+		// caption
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
+		$this->tpl->setVariable("VAL_CAPTION", $std_alias_item->getCaption());
+		$this->tpl->parseCurrentBlock();
+
+		// fullscreen view
+		if($this->content_obj->hasFullScreenItem())
+		{
+			$this->tpl->setCurrentBlock("fullscreen");
+			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+			// edit media alias template
+			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
+			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+
+			// width
+			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
+			$this->tpl->setVariable("INPUT_FULL_WIDTH", "full_width");
+			$this->tpl->setVariable("VAL_FULL_WIDTH", $full_alias_item->getWidth());
+
+			// height
+			$this->tpl->setVariable("TXT_FULL_HEIGHT", $this->lng->txt("cont_height"));
+			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
+			$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_alias_item->getHeight());
+
+			// caption
+			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
+			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
+			$this->tpl->setVariable("VAL_FULL_CAPTION", $full_alias_item->getCaption());
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// operations
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
 	}
 
 
