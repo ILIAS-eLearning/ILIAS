@@ -2506,6 +2506,7 @@ content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_export_file_html#:#Create Export File (HTML)
 content#:#cont_create_export_file_xml#:#Create Export File (XML)
+content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
