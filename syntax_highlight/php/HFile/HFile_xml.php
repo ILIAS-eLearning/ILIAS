@@ -29,9 +29,10 @@ $this->unindent          	= array();
 
 // String characters and delimiters
 
-$this->stringchars       	= array();
+$this->stringchars       	= array("\"","'");
 $this->delimiters        	= array("~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "=", "|", "\\", "{", "}", ";", "\"", "'", "<", ">", " ", ",", "	", " ");
 $this->escchar           	= "";
+$this->tagbased			= true;
 
 // Comment settings
 
