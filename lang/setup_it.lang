@@ -33,9 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#Software di terze parti###08 Jan 2004 content changed
+3rd_party_software#:#Software di terze parti
 absolute_path#:#Percorso assoluto
-access#:#Accedi###08 Jan 2004 content changed
+access#:#Accedi
 access_status#:#Stato dell&#039; accesso
 admin_login#:#Entra come Amministratore
 available_clients#:#Client disponibili
@@ -89,7 +89,7 @@ database_version#:#Versione attuale del database
 datadir_path#:#Percorso della cartella data
 datadir_path_comment1#:#Obbligatorio
 datadir_path_comment2#:#non pu&#242; essere cambiato in questa versione dell&#039;installazione
-datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.###20 Dec 2003 new variable
+datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la cartella creata all&#039;interno del webspace. Per favore, scegli per i dati una cartella all&#039;esterno del webspace.
 date#:#Data
 db_conn#:#Connessione al Database
 db_host#:#Macchina con il database
@@ -207,7 +207,7 @@ lang_no#:#Norvegese
 lang_none_installed#:#Nessuna lingua installata
 lang_pl#:#Polacco
 lang_se#:#Svedese
-lang_ua#:#Ukrainian###15 Jan 2004 new variable
+lang_ua#:#Ucraino
 lang_xx#:#Custom
 lang_zh#:#Cinese semplificato
 langs_not_valid_not_installed#:#Le seguenti lingue non sono state installate perch&#232; i file corrispondenti non sono validi
@@ -273,7 +273,7 @@ password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
 password_enter_old#:#You must enter your old password first!
-password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&#249; tardi una password di accesso all'installazione di ILIAS3.
+password_info#:#Per proteggere i dati della configurazione, in futuro dovrai specificare questa password per poter accedere all'installazione di ILIAS3.
 password_new_master#:#Specifica la nuova password
 password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
@@ -373,7 +373,7 @@ username#:#utente
 version#:#Versione
 webspace_dir#:#Percorso della cartella webdata
 with#:#con
-wrong_password#:#Password errata!###08 Jan 2004 content changed
+wrong_password#:#Password errata!
 zip_path#:#Percorso dello Zip
 zip_path_comment#:#Richiesto per l&#039;importazione dei Learning module
 zipcode#:#Codice Postale
