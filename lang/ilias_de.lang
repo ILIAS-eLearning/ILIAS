@@ -85,7 +85,7 @@ administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
-assessment#:#0_unlimited#:#(0 = unlimited)
+assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
@@ -224,7 +224,7 @@ assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragentyp
-assessment#:#tst_questions_inserted#:#Frage(n) eingefügt!
+assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
