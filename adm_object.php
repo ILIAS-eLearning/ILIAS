@@ -93,9 +93,8 @@ switch ($_GET["cmd"])
 	case "edit":
 		break;
 
-	// create object
+	// no more create() here! all calls moved to "out" class
 	case "create":
-		$data = $obj->createObject($id, $_POST["new_type"]);
 		break;
 
 	// show permission templates of object

@@ -20,30 +20,6 @@ class RoleObject extends Object
 		$this->type = "role";
 	}
 
-	/**
-	* create a role object 
-	* @access	public
-	*/
-	function createObject($a_id, $a_new_type)
-	{
-		// Creates a child object
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("write", $a_id, $_GET["parent"]))
-		{
-			$data = array();
-			$data["fields"] = array();
-			
-			$data["fields"]["title"] = "";
-			$data["fields"]["desc"] = "";
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-	}
-
 
 	/**
 	* delete a role object

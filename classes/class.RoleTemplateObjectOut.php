@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.4 2003/03/13 21:24:57 akill Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.5 2003/03/14 16:25:06 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -28,7 +28,7 @@ class RoleTemplateObjectOut extends ObjectOut
 	**/
 	function saveObject()
 	{
-		global $rbacadmin, $rbacsystem; 
+		global $rbacadmin, $rbacsystem;
 
 
 		// CHECK ACCESS 'write' to role folder
@@ -52,7 +52,8 @@ class RoleTemplateObjectOut extends ObjectOut
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
-		return true;
+		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		exit();
 	}
 
 

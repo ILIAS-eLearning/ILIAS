@@ -4,6 +4,7 @@
 * Basic functions for all objects
 *
 * @author Stefan Meyer <smeyer@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package ilias-core
@@ -517,32 +518,6 @@ class Object
 			$this->insertSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
 		}
 		$this->clearObject();
-	}
-
-
-	/**
-	* create object in admin interface
-	* @access	public
-	*/
-	function createObject($a_ref_id, $a_new_type)
-	{
-		// creates a child object
-		global $rbacsystem;
-
-		// TODO: get rid of $_GET variable
-		if ($rbacsystem->checkAccess("create", $a_ref_id, $a_new_type))
-		{
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = "";
-			$data["fields"]["desc"] = "";
-
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
 	}
 
 

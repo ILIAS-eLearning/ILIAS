@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ObjectOut.php,v 1.38 2003/03/14 16:25:06 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.39 2003/03/14 22:01:47 akill Exp $
 *
 * @package ilias-core
 */
@@ -320,19 +320,39 @@ class ObjectOut
 		}
 	}
 
+
+	/**
+	* create new object form
+	*/
 	function createObject()
 	{
-		$this->getTemplateFile("edit");
-		foreach ($this->data["fields"] as $key => $val)
-		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$this->id."&new_type=".$_POST["new_type"]);
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		// creates a child object
+		global $rbacsystem;
 
+		// TODO: get rid of $_GET variable
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = "";
+			$data["fields"]["desc"] = "";
+
+			$this->getTemplateFile("edit");
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+				"&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
 	}
 
 
