@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Read access to Objectdefinitions###16 Mar 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###16 Mar 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###16 Mar 2004 new variable
 common#:#objs_cat#:#Categories###16 Mar 2004 new variable
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Potvrdit akci
 common#:#objs_crs#:#Courses###16 Mar 2004 new variable
 common#:#objs_dbk#:#Digilib Books###16 Mar 2004 new variable
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Vybrat vše
 common#:#select_file#:#Vybrat soubor
 common#:#select_mode#:#Vybrat mód
 common#:#selected#:#Vybrané
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Odeslat
 common#:#sender#:#Odesilatel
 common#:#sent#:#Odeslané### identical translation

@@ -1234,6 +1234,7 @@ common#:#objf_read#:#Acesso de Leitura às Definições de Objectos
 common#:#objf_visible#:#Definições de Objectos são visíveis
 common#:#objf_write#:#Editar Definições de Objectos
 common#:#objs_cat#:#Categorias
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Confirmar Acção
 common#:#objs_crs#:#Cursos
 common#:#objs_dbk#:#Livros Digilib
@@ -1422,6 +1423,7 @@ common#:#select_all#:#Seleccionar Todos
 common#:#select_file#:#Seleccionar ficheiro
 common#:#select_mode#:#Seleccionar modo
 common#:#selected#:#Seleccionado
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Enviar
 common#:#sender#:#Remetente
 common#:#sent#:#Enviado

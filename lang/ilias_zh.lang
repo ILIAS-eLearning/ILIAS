@@ -1251,6 +1251,7 @@ common#:#objf_read#:#对象定义设为读访问
 common#:#objf_visible#:#对象定义可视
 common#:#objf_write#:#编辑对象定义
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
+common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#确定操作
 common#:#objs_crs#:#Courses###18 Feb 2004 new variable
 common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
@@ -1439,6 +1440,7 @@ common#:#select_all#:#全部选择
 common#:#select_file#:#选择文件
 common#:#select_mode#:#选择模式
 common#:#selected#:#已选
+common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#发送
 common#:#sender#:#发送人
 common#:#sent#:#已发送
