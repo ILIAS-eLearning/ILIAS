@@ -32,6 +32,7 @@ class LearningObject extends Object
 	
 	/**
 	* fetch Title & Description from MetaData-Section of domDocument
+	* 
 	* @return	array	Titel & Description
 	* @access	public
 	*/ 
@@ -65,6 +66,24 @@ class LearningObject extends Object
 		
 		return $arr;
 	}
-	
+
+	/**
+	* get all LO references in Learning Object
+	* 
+	* @return	array	object ids of LearningObjects
+	* @access	public
+	*/ 
+	function getReferences()
+	{
+		if ($nodes = $this->domxml->getElementsByTagname("LO"))
+		{
+			foreach ($nodes as $node)
+			{
+				$attr[] = $node->get_attribute("id");			
+			}
+		}
+
+		return $attr;
+	}
 } // END class.LearningObject
 ?>

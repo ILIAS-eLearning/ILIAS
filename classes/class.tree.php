@@ -255,14 +255,13 @@ class Tree
 
 		$res = $this->ilias->db->query($query);
 	
-		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"]) + 1;
-		
 		// insert node
 		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 				 "VALUES ".
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
-				 
 		$res = $this->ilias->db->query($query);
+	
+		$this->updateDepth($a_node_id, $a_parent_id);
 	}
 
 	/**
@@ -662,24 +661,19 @@ class Tree
 	* @access	public
 	* @param	integer		node_id of node in question
 	* @param	integer		node_id of parent node
-	* @param	integer		tree_id (optional)
 	* @return	integer		depth of node
 	*/
-	function getDepth($a_child, $a_parent, $a_tree = 0)
+	function getDepth($a_node_id, $a_parent_id)
 	{
-		if (empty($a_tree))
-		{
-			$a_tree = $this->tree_id;
-		}
-		
 		$query = "SELECT depth FROM tree ".
-				 "WHERE child = '".$a_child."' ".
-				 "AND parent = '".$a_parent."' ".
-				 "AND tree = '".$a_tree."'";
+				 "WHERE child = '".$a_node_id."' ".
+				 "AND parent = '".$a_parent_id."' ".
+				 "AND tree = '".$this->tree_id."'";
 
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
 		return $row->depth;
 	}
 
@@ -709,7 +703,6 @@ class Tree
 				 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
 				 "AND (v.child != s.child OR s.lft = '1') ".
 				 "AND s.tree = '".$a_tree_id."' ".
-//				 "AND type  = 'cat' ".
 				 "GROUP BY s.child ".
 				 "ORDER BY s.lft";
 
@@ -740,8 +733,14 @@ class Tree
 	* @param	integer		parent id 
 	* @return	object	db	db result object
 	*/
-	function getNodeData($a_obj_id,$a_parent_id)
+	function getNodeData($a_obj_id,$a_parent_id = 0)
 	{
+
+		if (empty($a_parent_id))
+		{
+			$a_parent_id = $this->parent_id;
+		}
+
 		$query = "SELECT * FROM object_data,tree ".
 				 "WHERE object_data.obj_id = tree.child ".
 				 "AND tree.child = '".$a_obj_id."' ".
@@ -784,15 +783,15 @@ class Tree
 	/**
 	* get data of parent node from tree and object_data
 	* @access	public
- 	* @param	integer		object id
+ 	* @param	integer		node id
 	* @param	integer		parent id
 	* @return	array
 	*/
-	function getParentNodeData($a_obj_id,$a_parent_id)
+	function getParentNodeData($a_node_id,$a_parent_id)
 	{
 		$query = "SELECT * FROM tree s,tree v, object_data ".
 				 "WHERE object_data.obj_id = v.child ".
-				 "AND s.child = '".$a_obj_id."' ".
+				 "AND s.child = '".$a_node_id."' ".
 				 "AND s.parent = '".$a_parent_id."' ".
 				 "AND s.parent = v.child ".
 				 "AND s.lft > v.lft ".
@@ -812,7 +811,7 @@ class Tree
 	* @param	integer		parent id of start node
 	* @param    integer     object id of query node
 	* @param    integer     parent id of query node
-	* @return	boolean
+	* @return	boolean		false if result set is empty
 	*/
 	function isGrandChild($a_start_node,$a_start_parent,$a_query_node,$a_query_parent)
 	{
@@ -897,6 +896,21 @@ class Tree
 	function setParentId($a_parent_id)
 	{
 		$this->parent_id = $a_parent_id;
+	}
+	
+	// Nonsense. Will update node_depth always to 2
+	function updateDepth($a_node_id,$a_parent_id)
+	{
+		$depth = (integer) $this->getDepth($a_node_id, $a_parent_id);
+
+		$depth = $depth + 1;
+		
+		$query = $query = "UPDATE tree SET ".
+						  "depth = '".$depth."' ".
+						  "WHERE tree = '".$this->tree_id."' ".
+						  "AND child = '".$a_node_id."' ".
+						  "AND parent = '".$a_parent_id."'";
+		$res = $this->ilias->db->query($query);
 	}
 } // END class.tree
 ?>

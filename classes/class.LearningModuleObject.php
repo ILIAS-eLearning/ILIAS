@@ -58,6 +58,7 @@ class LearningModuleObject extends Object
 		require_once "classes/class.xml2sql.php";
 		require_once "classes/class.domxml.php";
 		require_once "classes/class.LearningObjectObject.php";
+		require_once "classes/class.LearningObjectObjectOut.php";
 		
 		// check if file is posted
 		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
@@ -77,15 +78,15 @@ class LearningModuleObject extends Object
 				
 		//get XML-file, parse and/or validate the document
 		$file = $HTTP_POST_FILES["xmldoc"]["name"];
-		$domxml->loadDocument(basename($source),dirname($source),$_POST["parse_mode"]);
+		$root = $domxml->loadDocument(basename($source),dirname($source),$_POST["parse_mode"]);
 
 		// remove empty text nodes
 		$domxml->trimDocument();
-
-		// step 1: Identify Leaf-LOS (LOs not containing other LOs)			
+		
+		// Identify Leaf-LOS (LOs not containing other LOs)			
 		while (count($elements = $domxml->getElementsByTagname("LearningObject")) > 1)
 		{
-			// delete first element since its always the root LearningObject
+			// delete first element since this is always the root LearningObject
 			array_shift($elements);
 			
 			foreach ($elements as $element)
@@ -93,7 +94,7 @@ class LearningModuleObject extends Object
 				if ($domxml->isLeafElement($element,"LearningObject",1))
 				{
 					$leaf_elements[] = $element;
-			
+					
 					// copy whole LearningObject to $subtree
 					$subtree = $element->clone_node(true);
 					$parent = $element->parent_node();
@@ -112,15 +113,17 @@ class LearningModuleObject extends Object
 					$lo_id = createNewObject("lo",$obj_data);
 					
 					// prepare LO for database insertion
-					$lo->domxml->trimDocument(); // maybe obsolete?
 					$lotree = $lo->domxml->buildTree();
+					
+					// create a reference in main file with global obj_id of inserted LO
+					$domxml->appendReferenceNodeForLO ($parent,$lo_id);
 					
 					// insert LO into lo_database
 					$xml2sql = new xml2sql($lotree,$lo_id);
 					$xml2sql->insertDocument();
-					
-					// create a reference in main file with global obj_id of inserted LO
-					$domxml->appendReferenceNodeForLO ($parent,$lo_id);
+
+					//fetch internal element id, parent_id and save them to reconstruct tree later on
+					$mapping[] = array ($lo_id => $lo->getReferences());
 				}
 			}
 		} // END: while. Continue until only the root LO is left in main file
@@ -138,6 +141,44 @@ class LearningModuleObject extends Object
 
 		// copying file to server if document is valid (soon...)
 		//move_uploaded_file($a_source,$path()."/".$a_obj_id."_".$a_name);
+		$last[$lo_id] = $lo->getReferences();
+		array_push($mapping,$last);
+		
+		$this->insertStructureIntoTree(array_reverse($mapping));
+		
+		// for output
+		return $data;
+	}
+	
+	// information saved in $mapping how the LOs are connected in the this Module is
+	// written to tree
+	function insertStructureIntoTree($a_nodes)
+	{
+		// init tree
+		$lm_tree = new Tree($this->id,$this->id,$this->id,$this->id);
+		
+		//prepare array and kick all nodes with no children
+		foreach ($a_nodes as $key => $nodes)
+		{
+			if (!is_array($nodes[key($nodes)]))
+			{
+				array_splice($a_nodes,$key);
+				break;
+			}
+		}
+
+		$lm_tree->insertNode(key($a_nodes[0]));
+		
+		// traverse array to build tree structure by inserting nodes to db-table tree
+		foreach ($a_nodes as $key => $nodes)
+		{
+			$parent_id = key($nodes);
+
+			foreach (array_reverse($nodes[$parent_id]) as $child_id)
+			{
+				$lm_tree->insertNode($child_id,$parent_id);
+			}
+		}
 	}
 } // END class.LearningModuleObject
 ?>
