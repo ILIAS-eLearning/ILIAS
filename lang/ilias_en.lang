@@ -2621,6 +2621,20 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
+common#:#obj_cen#:#Centra Event
+common#:#cen#:#Centra Event
+common#:#domain#:#Domain
+common#:#centra_server#:#Centra Server
+common#:#centra_account#:#Centra Admin Account
+common#:#centra_rooms#:#Centra Rooms
+common#:#cen_new#:#New Centra Event
+common#:#cen_add#:#Add Centra Event
+common#:#cen_added#:#Centra Event added
+common#:#cen_edit#:#Edit Centra Event
+common#:#cen_save#:#Save Centra Event
+common#:#cen_delete#:#Delete Centra Event
+common#:#object_added#:#Object added
+common#:#attend#:#Attend
 search#:#search_all_results#:#All results
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
