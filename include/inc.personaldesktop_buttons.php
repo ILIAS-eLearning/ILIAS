@@ -48,7 +48,7 @@ $inhalt1[] = array($inc_type,"usr_personaldesktop.php",$lng->txt("overview"),"bo
 
 // user profile
 $inc_type = $script_name == "usr_profile.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array(inc_type ,"usr_profile.php",$lng->txt("personal_profile"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+$inhalt1[] = array($inc_type ,"usr_profile.php",$lng->txt("personal_profile"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
