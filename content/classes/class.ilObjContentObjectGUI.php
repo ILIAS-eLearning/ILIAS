@@ -501,6 +501,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->ctrl->setParameter($this, "lmexpand", $_GET["lmexpand"]);
 		//$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&lmexpand=".$_GET["lmexpand"]);
@@ -2642,6 +2643,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
 
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ONCLICK",$js_pages);
 		$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
@@ -2998,6 +3000,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
 
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ONCLICK",$js_pages);
 		$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));

@@ -218,67 +218,6 @@ class ilLMEditorGUI
 	}
 
 	/**
-	* output explorer tree
-	*/
-	/*
-	function explorer()
-	{
-		switch ($this->lm_obj->getType())
-		{
-			case "lm":
-				$gui_class = "ilobjlearningmodulegui";
-				break;
-
-			case "dlb":
-				$gui_class = "ilobjdlbookgui";
-				break;
-		}
-
-
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-		// get learning module object
-		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-
-		require_once ("content/classes/class.ilLMEditorExplorer.php");
-		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId(),
-			$this->lm_obj, $gui_class);
-
-		$exp->setTargetGet("obj_id");
-
-		if ($_GET["lmexpand"] == "")
-		{
-			$mtree = new ilTree($this->lm_obj->getId());
-			$mtree->setTableNames('lm_tree','lm_data');
-			$mtree->setTreeTablePK("lm_id");
-			$expanded = $mtree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["lmexpand"];
-		}
-
-		$exp->setExpand($expanded);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
-		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&lmexpand=".$_GET["lmexpand"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->show(false);
-
-	}*/
-
-
-	/**
 	* show image map
 	*/
 	function showImageMap()
