@@ -38,6 +38,24 @@
   </tr>
 <!-- END tbl_content_row -->
 {TBL_CONTENT}
+<!-- BEGIN tbl_footer -->
+  <tr class="tblfooter">
+    <td colspan="{COLUMN_COUNT}">
+	<table class="fullwidth_invisible">
+	  <tr class="tblfooter">
+	    <td>
+<!-- BEGIN tbl_footer_numinfo -->
+          {NUMINFO}
+<!-- END tbl_footer_numinfo -->
+	    </td>
+<!-- BEGIN tbl_footer_linkbar -->
+	    <td class="tblfooter" align="right">{LINKBAR}</td>
+<!-- END tbl_footer_linkbar -->
+	  </tr>
+	</table>	
+	</td>
+  </tr>
+<!-- END tbl_footer -->
 <!-- BEGIN tbl_action_row -->
   <tr>
 	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
@@ -62,24 +80,6 @@
     </td>
   </tr>
 <!-- END tbl_action_row -->
-<!-- BEGIN tbl_footer -->
-  <tr class="tblfooter">
-    <td colspan="{COLUMN_COUNT}">
-	<table class="fullwidth_invisible">
-	  <tr class="tblfooter">
-	    <td>
-<!-- BEGIN tbl_footer_numinfo -->
-          {NUMINFO}
-<!-- END tbl_footer_numinfo -->
-	    </td>
-<!-- BEGIN tbl_footer_linkbar -->
-	    <td class="tblfooter" align="right">{LINKBAR}</td>
-<!-- END tbl_footer_linkbar -->
-	  </tr>
-	</table>	
-	</td>
-  </tr>
-<!-- END tbl_footer -->
 </table>
 <!-- BEGIN tbl_form_footer -->
 </form>
