@@ -45,8 +45,13 @@ require_once "classes/class.rbacReviewH.php";
 // include error_handling
 require_once "classes/class.ErrorHandling.php";
 
-// i think this file is just for debugging. SH
-include_once "./include/inc.main.php";
+// DEBUG: formatted var_dump
+function vd($mixed)
+{
+	echo "<pre>";
+	var_dump($mixed);
+	echo "</pre>";
+}
 
 session_start();
 
