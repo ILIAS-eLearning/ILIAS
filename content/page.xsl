@@ -1526,9 +1526,41 @@
 
 <!-- t&a: text -->
 <xsl:template match="material">
-	<xsl:value-of select="mattext"/>
+	<xsl:for-each select="mattext">
+		<xsl:choose>
+			<xsl:when test="@label='applet params'"></xsl:when>
+			<xsl:when test="@label"></xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="text()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:for-each>
+	<xsl:for-each select="matapplet">
+		<p>
+		<applet>
+			<xsl:choose>
+				<xsl:when test="../mattext/@label='java_code'">
+					<xsl:attribute name="code"><xsl:value-of select="../mattext"/></xsl:attribute>
+					<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:if test="contains(@uri, '.jar')">
+				<xsl:attribute name="archive"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/<xsl:value-of select="@uri"/></xsl:attribute>
+			</xsl:if>
+			<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+			<xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute>
+			<xsl:for-each select="../mattext">
+				<xsl:choose>
+					<xsl:when test="@label='java_code'"></xsl:when>
+					<xsl:otherwise>
+						&lt;param name=&quot;<xsl:value-of select="@label"/>&quot; value=&quot;<xsl:value-of select="text()"/>&quot; /&gt;
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:for-each>
+		</applet>
+		</p>
+	</xsl:for-each>
 </xsl:template>
-
 
 <!-- t&a: response_str -->
 <xsl:template match="response_str">
