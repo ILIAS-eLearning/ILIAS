@@ -39,5 +39,5 @@ $menu->setTemplate($tpl);
 $menu->addMenuBlock("CONTENT", "navigation");
 $menu->setTemplateVars();
 
-$tpl->show();
+$tpl->show(false);
 ?>
