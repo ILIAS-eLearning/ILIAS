@@ -33,7 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-###27 May 2004 new variable
 administration#:#analyze_data#:#Analizar integridad de datos
 administration#:#analyze_desc#:#Escaner sistema en busca de objetos corruptos/inválidos/inexistentes/sobredimensionados
 administration#:#analyzing#:#Analizando...
