@@ -1210,7 +1210,7 @@ class ilObjectGUI
 		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -1229,7 +1229,7 @@ class ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
-				
+
 				if ($this->prepare_output)
 				{
 					$this->tpl->parseCurrentBlock();

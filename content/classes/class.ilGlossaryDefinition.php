@@ -58,7 +58,12 @@ class ilGlossaryDefinition
 		$this->tpl =& $tpl;
 
 		$this->id = $a_id;
-		if ($a_id != 0)
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
+		else
 		{
 			$this->read();
 		}
@@ -146,6 +151,46 @@ class ilGlossaryDefinition
 		return $this->page_object;
 	}
 
+	/**
+	* get title of content object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+//		return parent::getTitle();
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of content object
+	*/
+	function setTitle($a_title)
+	{
+//		parent::setTitle($a_title);
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*/
+	function setDescription($a_description)
+	{
+//		parent::setTitle($a_title);
+		$this->meta_data->setDescription($a_description);
+	}
+
 	function create()
 	{
 		$term =& new ilGlossaryTerm($this->getTermId());
@@ -177,10 +222,16 @@ class ilGlossaryDefinition
 		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 
-
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
+		$this->meta_data->setTitle($this->getTitle());
+		$this->meta_data->setDescription($this->getDescription());
+		$this->meta_data->setObject($this);
 		$this->meta_data->create();
+
+		//$this->meta_data->setId($this->getId());
+		//$this->meta_data->setType($this->getType());
+		//$this->meta_data->create();
 		$this->page_object =& new ilPageObject("gdf");
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($term->getGlossaryId());

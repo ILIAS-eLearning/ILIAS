@@ -327,8 +327,12 @@ common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#lm#:#Learning Module
 common#:#lm_a#:#a Learning module
 common#:#lm_add#:#Add Learning Module
+common#:#glo_add#:#Add Glossary
 common#:#lm_added#:#LearningModule added
 common#:#lm_new#:#New Learning Module
+common#:#glo_new#:#New Glossary
+common#:#gdf_new#:#New Definition
+common#:#gdf_add#:#Add Definition
 common#:#lng#:#Language
 common#:#lngf#:#Language Folder
 common#:#lo#:#Learning Object
