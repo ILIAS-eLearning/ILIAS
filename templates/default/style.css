@@ -131,3 +131,7 @@ a.btn:hover {
 img {
         display: block;
 }
+
+sup {
+	color:ff0000;
+}
