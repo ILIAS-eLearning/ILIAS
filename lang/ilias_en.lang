@@ -330,6 +330,7 @@ common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
 common#:#msg_changes_ok#:#The changes were OK
+common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -343,6 +344,8 @@ common#:#msg_not_possible_link#:#It's not possible to create a link of the objec
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
+common#:#msg_user_last_role1#:#The following users are only assigned to this role:
+common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#New
@@ -1081,6 +1084,3 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
-common#:#msg_error_copy#:#Copy Error
-common#:#msg_user_last_role1#:#The following users are only assigned to this role:
-common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
