@@ -189,7 +189,7 @@ class ILIAS extends PEAR
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$arr[$row[keyword]] = $row[value];
+			$arr[$row["keyword"]] = $row["value"];
 		}
 		
 		return $arr;

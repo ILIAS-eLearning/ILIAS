@@ -108,27 +108,27 @@ function databay_startElement($parser, $name, $attrs) {
 	global $depth;
 	$depth[$parser]++;
 	$N = new databay_XMLobj($name, $attrs);
-	$N->ParentNode = &$GLOBALS[databay_AktObj];
+	$N->ParentNode = &$GLOBALS["databay_AktObj"];
 	$N->Depth = $depth[$parser];
-	$GLOBALS[databay_AktObj]->ChildNodes[] = &$N;
-	$GLOBALS[databay_AktObj] = &$N;
+	$GLOBALS["databay_AktObj"]->ChildNodes[] = &$N;
+	$GLOBALS["databay_AktObj"] = &$N;
 }
 
 function databay_endElement($parser, $name) {
 	global $depth;
 	$depth[$parser]--;
-	$GLOBALS[databay_AktObj] = &$GLOBALS[databay_AktObj]->ParentNode;
+	$GLOBALS["databay_AktObj"] = &$GLOBALS["databay_AktObj"]->ParentNode;
 }
 function databay_characterData($parser, $data) {
     	global $depth;
     	if (trim($data)!="") {
-		$GLOBALS[databay_AktObj]->Data = $data;
+		$GLOBALS["databay_AktObj"]->Data = $data;
 	}
 }
 
 function databay_XML2OBJ($xmldata) {
-	$GLOBALS[databay_AktObj] = new databay_XMLobj("root", "");
-	$GLOBALS[databay_Root] = &$GLOBALS[databay_AktObj];
+	$GLOBALS["databay_AktObj"] = new databay_XMLobj("root", "");
+	$GLOBALS["databay_Root"] = &$GLOBALS["databay_AktObj"];
 
 	$xml_parser = xml_parser_create();
 	xml_set_element_handler($xml_parser, "databay_startElement", "databay_endElement");
@@ -139,7 +139,7 @@ function databay_XML2OBJ($xmldata) {
 	}
 	xml_parser_free($xml_parser);
 	                                         
-	return($GLOBALS[databay_Root]);
+	return($GLOBALS["databay_Root"]);
 }	
 
 function databay_OBJ2XML($O) {
