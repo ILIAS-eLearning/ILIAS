@@ -1401,18 +1401,9 @@ class ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			$this->object->setTitle($_POST["Fobject"]["title"]);
-			$this->object->setDescription($_POST["Fobject"]["desc"]);
-			$this->update = $this->object->update();
-		}
+		$this->object->setTitle($_POST["Fobject"]["title"]);
+		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		
