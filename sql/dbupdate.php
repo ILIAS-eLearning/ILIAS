@@ -3917,3 +3917,6 @@ UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_vers
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
+<#236>
+ALTER TABLE `aicc_object` CHANGE `alm_id` `slm_id` INT( 11 ) DEFAULT '0' NOT NULL

@@ -33,14 +33,6 @@
 			
 chdir("..");
 
-			$fp=fopen("./content/scorm.log", "a+");
-			fputs($fp, "scorm\n");	
-			foreach($_GET as $key=>$value)
-				fputs($fp, "key=$key  value=$value\n");
-			
-			fputs($fp, "test 2 refid=$ref_id\n");	
-			fclose($fp);	
-
 $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
