@@ -21,53 +21,20 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
-
 /**
-* Class ilLearningModule
-*
-* This class handles Learning Modules like ilObjLearningModule
-* , maybe they will be merged sometime. This class is only an
-* intermediate test class. All object_data storage and the like is done
-* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
+* learning module presentation script
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @package content
 */
-class ilLearningModule
-{
-	var $ilias;
-	var $meta_data;
-	var $id;
+require_once "../include/inc.header.php";
 
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilLearningModule($a_id)
-	{
-		global $ilias;
+// learning module presentation class does the rest
+require_once "./content/class.ilLMPresentationGUI.php";
+$lm_presentation = new ilLMPresentationGUI();
 
-		$this->ilias =& $ilias;
+//$tpl->show();
 
-		$this->id = $a_id;
-
-		//$this->read(); todo
-	}
-
-	function getLayout()
-	{
-		// todo: make it real
-		return "toc2win";
-	}
-
-
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
-}
 ?>

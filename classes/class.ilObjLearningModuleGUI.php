@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.7 2003/04/25 12:22:30 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.8 2003/04/25 18:18:09 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -93,7 +93,13 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 
 	}
 
-
+	/**
+	* test implementation, will be moved or deleted
+	*/
+	function view2Object()
+	{
+		header("Location: content/lm_presentation.php?lm_id=".$this->object->getID());
+	}
 
 	/**
 	* display status information or report errors messages

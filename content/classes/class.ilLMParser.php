@@ -78,7 +78,7 @@ echo "2";
 echo "3";
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 echo "4";
-		$this->lm_tree->addTree($a_lm_id);
+		$this->lm_tree->addTree($a_lm_id, 1);
 echo "5"; //exit;
 
 	}
@@ -143,7 +143,7 @@ echo "5"; //exit;
 		}
 
 	}
-	
+
 	/**
 	* generate a tag with given name and attributes
 	*
@@ -266,13 +266,16 @@ echo "create page object:".$this->page_object->getId()."<br>";
 					else
 					{
 						$parent_id = $this->lm_tree->getRootId();
+echo "getRootId:".$parent_id."<br>";
 					}
-					
+
 					// create structure object and put it in tree
 echo "create structure object:".$this->current_object->getId().":".
 	$this->current_object->getType()."<br>";
 					$this->current_object->create();
+echo "call insert node :".$this->current_object->getId().":".$parent_id.":<br>";
 					$this->lm_tree->insertNode($this->current_object->getId(), $parent_id);
+echo "after insert node";
 				}
 				break;
 

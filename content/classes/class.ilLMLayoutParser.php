@@ -21,52 +21,70 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
-
 /**
-* Class ilLearningModule
-*
-* This class handles Learning Modules like ilObjLearningModule
-* , maybe they will be merged sometime. This class is only an
-* intermediate test class. All object_data storage and the like is done
-* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
+* Learning Module Layout Parser
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @extends ilSaxParser
+* @package content
 */
-class ilLearningModule
+class ilLMLayoutParser extends ilSaxParser
 {
-	var $ilias;
-	var $meta_data;
-	var $id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModule($a_id)
+	function ilLMLayoutParser($a_xml_file)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-
-		$this->id = $a_id;
-
-		//$this->read(); todo
+		parent::ilSaxParser($a_xml_file);
 	}
 
-	function getLayout()
+	/**
+	* set event handler
+	* should be overwritten by inherited class
+	* @access	private
+	*/
+	function setHandlers($a_xml_parser)
 	{
-		// todo: make it real
-		return "toc2win";
+		xml_set_object($a_xml_parser,$this);
+		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
+		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
 
 
-	function assignMetaData(&$a_meta_data)
+	/**
+	* handler for begin of element
+	*/
+	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		$this->meta_data =& $a_meta_data;
+		switch($a_name)
+		{
+			case "LearningModule":
+				break;
+		}
+	}
+
+	/**
+	* handler for end of element
+	*/
+	function handlerEndTag($a_xml_parser,$a_name)
+	{
+		switch($a_name)
+		{
+			case "PageObject":
+				break;
+		}
+	}
+
+	/**
+	* handler for character data
+	*/
+	function handlerCharacterData($a_xml_parser,$a_data)
+	{
+
 	}
 
 }
