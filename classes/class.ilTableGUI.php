@@ -435,6 +435,15 @@ class ilTableGUI
 		// table header
 		foreach ($this->header_names as $key => $tbl_header_cell)
 		{
+			if(!$this->enabled["sort"])
+			{
+				$this->tpl->setCurrentBlock("tbl_header_no_link");
+				$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$this->column_width[$key]."\"");
+				$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",$tbl_header_cell);
+				$this->tpl->parseCurrentBlock();
+
+				continue;
+			}
 			if (($key == $this->order_column) && ($this->order_direction != ""))
 			{
 				$this->tpl->setCurrentBlock("tbl_order_image");
