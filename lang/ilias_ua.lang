@@ -2478,14 +2478,14 @@ common#:#users_online#:#Користувачі онлайн
 common#:#usertracking#:#Спостереження за Користувачем
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач
-common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
+common#:#usr_active_only#:#Тільки Активні Користувачі
 common#:#usr_add#:#Додати Користувача
 common#:#usr_added#:#Користувач доданий
 common#:#usr_agreement#:#Угода Користувача
 common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
 common#:#usr_hits_per_page#:#Хіти/сторінки в таблицях
-common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
+common#:#usr_inactive_only#:#Тільки Неактивні Користувачі
 common#:#usr_new#:#Новий Користувач
 common#:#usr_settings_explanation_profile#:#Відмітьте запропоновані чекбокси щоб заблокувати або скрити настройки особистого профілю для усіх користувачів на вкладці персонального профілю на особистому робочому столі. Усі заблоковані або скриті настройки особистого профілю можна редагувати тільки використовуючи адміністраторське дерево / акаунти користувачів.  
 common#:#usr_settings_header_profile#:#Настройки профілю користувача
@@ -4210,23 +4210,23 @@ meta#:#meta_very_easy#:#Дуже Легкий
 meta#:#meta_very_high#:#Даже Високий
 meta#:#meta_very_low#:#Дуже Низький
 meta#:#meta_yes#:#Так
-payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
-payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
-payment#:#duration#:#Duration###04 Oct 2004 new variable
-payment#:#excel_export#:#Excel export###29 Nov 2004 new variable
-payment#:#info#:#Informations about the pay method###29 Nov 2004 new variable
-payment#:#pay_add_to_shopping_cart#:#Add to shopping cart###29 Nov 2004 new variable
-payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.###29 Nov 2004 new variable
-payment#:#pay_all#:#All###29 Nov 2004 new variable
-payment#:#pay_article#:#Article###29 Nov 2004 new variable
-payment#:#pay_bank_data#:#Bank data###29 Nov 2004 new variable
-payment#:#pay_bill_no#:#Incoice no.###29 Nov 2004 new variable
-payment#:#pay_bmf_account_holder#:#Account holder###29 Nov 2004 new variable
-payment#:#pay_bmf_account_number#:#Account number###29 Nov 2004 new variable
-payment#:#pay_bmf_back#:#back###29 Nov 2004 new variable
-payment#:#pay_bmf_bank_code#:#Bank code###29 Nov 2004 new variable
-payment#:#pay_bmf_card_holder#:#Card holder###29 Nov 2004 new variable
-payment#:#pay_bmf_card_number#:#Card number###29 Nov 2004 new variable
+payment#:#currency_cent#:#Cent
+payment#:#currency_euro#:#Euro
+payment#:#duration#:#Тривалість
+payment#:#excel_export#:#Excel експорт
+payment#:#info#:#Інформація стосовно методу оплати
+payment#:#pay_add_to_shopping_cart#:#Додати до корзини
+payment#:#pay_added_to_shopping_cart#:#Товари додані в корзину.
+payment#:#pay_all#:#Усе
+payment#:#pay_article#:#Стаття
+payment#:#pay_bank_data#:#Банківські дані
+payment#:#pay_bill_no#:#Рахунок номер
+payment#:#pay_bmf_account_holder#:#Власник акаунту
+payment#:#pay_bmf_account_number#:#Номер акаунту
+payment#:#pay_bmf_back#:#назад
+payment#:#pay_bmf_bank_code#:#Банківський код
+payment#:#pay_bmf_card_holder#:#Власник картки
+payment#:#pay_bmf_card_number#:#Номер картки
 payment#:#pay_bmf_check_number#:#Check number###29 Nov 2004 new variable
 payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
 payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
