@@ -1241,7 +1241,7 @@ class ilObjUser extends ilObject
 
 		$where_condition = $a_search_obj->getWhereCondition("like",array("login","firstname","lastname","title",
 																		 "email","institution","street","city",
-																		 "zipcode","country","phone"));
+																		 "zipcode","country","phone_home","fax"));
 		$in = $a_search_obj->getInStatement("usr_id");
 
 		$query = "SELECT usr_id FROM usr_data ".
