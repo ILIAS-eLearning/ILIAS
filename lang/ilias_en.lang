@@ -476,9 +476,11 @@ common#:#retype_password#:#Retype Password
 common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role#:#Role
+common#:#role_added#:#Role added
 common#:#roles#:#Roles
 common#:#rolf#:#Role Folder
 common#:#rolt#:#Role Template
+common#:#rolt_added#:#Role template added
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -557,6 +559,7 @@ common#:#upload#:#Upload
 common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
+common#:#user_added#:#User added
 common#:#user_language#:#User Language
 common#:#userdata#:#Userdata
 common#:#username#:#Username
@@ -578,6 +581,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#user_added#:#User added
-common#:#role_added#:#Role added
-common#:#rolt_added#:#Role template added

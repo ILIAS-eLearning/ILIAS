@@ -476,9 +476,11 @@ common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
+common#:#role_added#:#Rolle angelegt
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
 common#:#rolt#:#Rollenvorlage
+common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -557,6 +559,7 @@ common#:#upload#:#Hochladen
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
+common#:#user_added#:#Benutzer angelegt
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
@@ -578,6 +581,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#user_added#:#Benutzer angelegt
-common#:#role_added#:#Rolle angelegt
-common#:#rolt_added#:#Rollenvorlage angelegt
