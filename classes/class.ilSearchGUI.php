@@ -257,6 +257,7 @@ class ilSearchGUI
 	{
 		// SHOW SEARCH PAGE
 		$this->tpl->addBlockFile("CONTENT","content","tpl.search.html");
+		$this->tpl->addBlockFile("STATUSLINE","statusline","tpl.statusline.html");
 		infoPanel();
 		$this->tpl->setVariable("SEARCH_ACTION","./search.php");
 		$this->tpl->setVariable("TXT_SEARCH",$this->lng->txt("search"));
@@ -317,7 +318,7 @@ class ilSearchGUI
 
 	function __showLocator()
 	{
-		$this->tpl->addBlockFile("STATUSLINE","locator","tpl.locator.html");
+		$this->tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
 
 		$this->tpl->setCurrentBlock("locator_separator");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
