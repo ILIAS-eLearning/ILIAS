@@ -97,8 +97,8 @@ assessment#:#add_imagemap#:#Imagemap anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
-assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
-assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
+assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
+assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#applet_attributes#:#Applet-Attribute
@@ -116,7 +116,7 @@ assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umk
 assessment#:#cloze_text#:#Lückentext
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
-assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
+assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
@@ -240,7 +240,7 @@ assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
-assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
+assessment#:#selected_image#:#Ausgewählte Grafik
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
@@ -284,7 +284,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
-assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
+assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Versuche
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
 assessment#:#tst_question_no#:#Reihenfolge
@@ -340,7 +340,7 @@ assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_not_entered#:#unbearbeitet
 assessment#:#tst_status_progress#:#in Bearbeitung
-assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
+assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
@@ -354,9 +354,9 @@ assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
-assessment#:#with_order#:#with order###30 Aug 2004 new variable
+assessment#:#with_order#:#mit der Reihenfolge
 assessment#:#working_time#:#Bearbeitungszeit
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points###30 Aug 2004 new variable
+assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#AV
@@ -682,7 +682,7 @@ common#:#chat_read#:#Lese/Schreibzugriff auf Chat
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
 common#:#check#:#Prüfen
-common#:#check_all#:#Check all###26 Aug 2004 new variable
+common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
