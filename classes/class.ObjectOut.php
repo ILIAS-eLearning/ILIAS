@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.32 2003/03/10 13:59:34 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.33 2003/03/11 20:14:37 akill Exp $
 *
 * @package ilias-core
 */
@@ -314,7 +314,6 @@ class ObjectOut
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
 
 
-		//$obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			// create and insert object in objecttree
@@ -440,9 +439,38 @@ class ObjectOut
 		$this->tpl->parseCurrentBlock();
 	}
 
+
+	/**
+	* alter operations
+	*/
 	function alterOperationsOnObject()
 	{
+		global $rbacadmin,$rbacreview;
+
+		$ops_valid = $rbacadmin->getOperationsOnType($_GET["ref_id"]);
+
+		foreach ($_POST["id"] as $ops_id => $status)
+		{
+			if ($status == 'enabled')
+			{
+				if (!in_array($ops_id,$ops_valid))
+				{
+					$rbacreview->assignPermissionToObject($_GET["ref_id"],$ops_id);
+				}
+			}
+
+			if ($status == 'disabled')
+			{
+				if (in_array($ops_id,$ops_valid))
+				{
+					$rbacreview->deassignPermissionFromObject($_GET["ref_id"],$ops_id);
+//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
+				}
+			}
+		}
+		return true;
 	}
+
 
 	function displayList()
 	{

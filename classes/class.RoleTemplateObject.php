@@ -14,9 +14,10 @@ class RoleTemplateObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleTemplateObject($a_id,$a_call_by_reference = "")
+	function RoleTemplateObject($a_id = 0,$a_call_by_reference = "")
 	{
 		$this->Object($a_id,$a_call_by_reference);
+		$this->type = "rolt";
 	}
 
 	//
@@ -48,33 +49,6 @@ class RoleTemplateObject extends Object
 		}
 	}
 
-	/**
-	* save a new role template object
-	* @access	public
-	**/
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
-	{
-		global $rbacadmin, $rbacsystem; 
-
-
-		// CHECK ACCESS 'write' to role folder
-		if ($rbacsystem->checkAccess('write', $a_obj_id, $a_parent))
-		{
-			if ($rbacadmin->roleExists($a_data["title"]))
-			{
-				$this->ilias->raiseError("A role with the name '".
-										 $a_data["title"]."' already exists! <br />Please choose another name.",
-										 $this->ilias->error_obj->WARNING);
-			}
-			$new_obj_id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id, $a_obj_id, $a_parent,'n');
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-		return true;
-	}
 
 	/**
 	* delete a role template object 

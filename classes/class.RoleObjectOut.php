@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.3 2003/03/12 13:05:57 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -28,13 +28,11 @@ class RoleObjectOut extends ObjectOut
 		exit();
 	}
 
-		/**
+	/**
 	* save a new role object
 	* @access	public
 	* @return new ID
 	*/
-	//$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
-	//function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	function saveObject()
 	{
 		global $rbacsystem, $rbacadmin;
@@ -57,6 +55,7 @@ class RoleObjectOut extends ObjectOut
 			}
 
 			// create new role object
+			require_once("./classes/class.RoleObject.php");
 			$roleObj = new RoleObject();
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);

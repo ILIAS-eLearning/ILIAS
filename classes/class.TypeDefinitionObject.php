@@ -14,9 +14,10 @@ class TypeDefinitionObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function TypeDefinitionObject($a_id,$a_call_by_reference = "")
+	function TypeDefinitionObject($a_id = 0,$a_call_by_reference = "")
 	{
 		$this->Object($a_id,$a_call_by_reference);
+		$this->type = "typ";
 	}
 
 
@@ -78,11 +79,6 @@ class TypeDefinitionObject extends Object
 		//{
 		//	$this->ilias->raiseError("No permission to edit operations",$this->ilias->error_obj->WARNING);
 		//}
-	}
-	
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
-	{
-		$this->alterOperationsOnObject();
 	}
 	
 	

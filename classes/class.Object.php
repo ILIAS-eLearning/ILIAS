@@ -540,52 +540,6 @@ class Object
 		}
 	}
 
-	/**
-	* saves new object in admin interface
-	*
-	* @param	integer		obj_id
-	* @param	integer		parent_id
-	* @param	string		obj_type
-	* @param	string		new_obj_type
-	* @param	array		title & description
-	* @return	integer		new obj_id
-	* @access	public
-	**/
-	function saveObject($a_parent_ref_id, $a_type, $a_new_type, $a_data)
-	{
-		/*global $rbacsystem,$rbacreview,$rbacadmin,$tree;
-
-		// $_GET["obj_id"], $_GET["parent"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]
-		
-		//if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_GET["new_type"]))
-
-		if ($rbacsystem->checkAccess("create",$a_parent_ref_id,$a_new_type))
-		{
-			// create and insert object in objecttree
-			//$this->id = createNewObject($_GET["new_type"], $a_data["title"], $a_data["desc"]);
-			//$tree->insertNode($this->id,$a_obj_id,$a_parent);
-			$this->id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
-			$this->ref_id = createNewReference($this->id);
-			$tree->insertNode($this->ref_id,$a_parent_ref_id);
-
-			// TODO: first param is required
-			$parentRoles = $rbacadmin->getParentRoleIds();
-
-			foreach ($parentRoles as $parRol)
-			{
-				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-				$ops = $rbacreview->getOperations($parRol["obj_id"], $a_new_type, $parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $this->ref_id, $a_parent_ref_id);
-			}
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		} */
-
-		// NOT CHANGED
-		return $this->id;
-	}
 
 	/**
 	* edit object
@@ -854,39 +808,6 @@ class Object
 		}
 	}
 
-	/**
-	* add a new permission to an object
-	* @access	public
-	* 
-	**/
-	function alterOperationsOnObject()
-	{
-		global $rbacadmin,$rbacreview;
-
-		$ops_valid = $rbacadmin->getOperationsOnType($_GET["ref_id"]);
-
-		foreach ($_POST["id"] as $ops_id => $status)
-		{
-			if ($status == 'enabled')
-			{
-				if (!in_array($ops_id,$ops_valid))
-				{
-					$rbacreview->assignPermissionToObject($_GET["ref_id"],$ops_id);
-				}
-			}
-
-			if ($status == 'disabled')
-			{
-				if (in_array($ops_id,$ops_valid))
-				{
-					$rbacreview->deassignPermissionFromObject($_GET["ref_id"],$ops_id);
-//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
-				}
-			}
-		}
-		return true;
-	}
-
 
 	/**
 	* This method is called automatically from class.Admin.php
@@ -911,6 +832,7 @@ class Object
 
 		return true;
 	}
+
 
 	function trashObject()
 	{

@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.5 2003/02/11 14:43:22 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.6 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -76,6 +76,66 @@ class UserObjectOut extends ObjectOut
 		   $this->tpl->touchBlock("TABLE_SUBMIT");
 	    }
 	}
+
+
+	/**
+	* save user data
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacsystem,$rbacadmin,$tree;
+		
+		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		{
+			$user = new User();
+			$user->setData($_POST["Fobject"]);
+			
+			//create new UserObject
+			$userObj = new UserObject();
+			$userObj->setTitle($user->getFullname());
+			$userObj->setDescription($user->getEmail());
+			$userObj->create();
+
+			$user->setId($userObj->getId());
+
+			//insert user data in table user_data
+			$user->saveAsNew();
+
+			//set role entries
+			$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
+			
+			//create new usersetting entry 
+			$settingObj = new Object();
+			$settingObj->setType("uset");
+			$settingObj->setTitle($user->getFullname());
+			$settingObj->setDescription("User Setting Folder");
+			$settingObj->create();
+			$settingObj->createReference();
+			//$uset_id = createNewObject("uset",$user->getFullname(),"User Setting Folder");
+			//$uset_ref = createNewReference($uset_id);
+			
+			//create usertree from class.user.php
+			// tree_id is the obj_id of user not ref_id!
+			// this could become a problem with same ids
+			$tree->addTree($user->getId(), $settingObj->getRefId());
+			
+			//add notefolder to user tree
+			$userTree = new tree(0,0,$user->getId());
+			require_once ("classes/class.NoteFolderObject.php");
+			$notfObj = new NoteFolderObject();
+			$notfObj->setTitle($user->getFullname());
+			$notfObj->setDescription("Note Folder Object");
+			$notfObj->create();
+			$notfObj->createReference();
+			$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
+		}
+	}
+
 
 	function activeRoleSaveObject()
 	{
