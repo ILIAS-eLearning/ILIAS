@@ -193,7 +193,7 @@ function getLangList ($a_order = '',$a_direction = '')
 function createNewObject ($AObjType,$AObjData)
 {
 	global $ilias;
-
+	
 	$query = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update) ".
 			 "VALUES ".
@@ -351,4 +351,25 @@ function isUserLoggedIn ()
 
 	return true;
 }
+
+/**
+* removes spaces and tabs within text strings
+* @param	string	string to be trimmed
+* @return	string 	trimmed string
+* @access	public
+*/
+function trimDeluxe ($a_text)
+{
+	str_replace("\t"," ",$a_text);
+
+	for ($i=0;$i<50;$i++)
+	{
+		str_replace("  "," ",$a_text);
+	}
+
+	$a_text = trim($a_text);
+
+	return $a_text;
+}
+
 ?>
