@@ -109,9 +109,9 @@ class ilSCORMObject
 	}
 
     /**
-    * Create database record for SCORM object.
-    *
-    */
+     * Create database record for SCORM object.
+     *
+     */
     function create()
     {
         global $ilDB;
@@ -124,9 +124,9 @@ class ilSCORMObject
     }
 
     /**
-    * Updates database record for SCORM object.
-    *
-    */
+     * Updates database record for SCORM object.
+     *
+     */
     function update()
     {
         global $ilDB;
