@@ -4,10 +4,11 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-* 
 * @extends Object
 * @package ilias-core
 */
+require_once "classes/class.Object.php";
+
 class UserObject extends Object
 {
 	/**

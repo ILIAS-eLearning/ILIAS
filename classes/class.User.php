@@ -2,12 +2,11 @@
 /**
 * user class for ilias
 * 
-* @author Sascha Hofmann <shofmann@databay.de>
-* @author Stefan Meyer <smeyer@databay.de>
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
-* 
-* @package ilias-core
+* @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Peter Gabriel <pgabriel@databay.de>
+* @version	$Id$
+* @package	ilias-core
 */
 class User
 {
@@ -82,7 +81,7 @@ class User
 		if (!empty($a_user_id))
 		{
 			$this->setId($a_user_id);
-			$this->getData();
+			$this->read();
 		}
 		else
 		{
@@ -113,7 +112,7 @@ class User
 	* loads a record "user" from database
 	* @access private
 	*/
-	function getData ()
+	function read ()
 	{
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM usr_data ".
@@ -168,18 +167,8 @@ class User
 	}
 	
 	/**
-	* set userdata
-	* @access	public
-	* @param	array		userdata
-	*/
-	function setData ($a_data)
-	{
-		$this->assignData($a_data);
-	}
-
-	/**
 	* loads a record "user" from array
-	* @access	private
+	* @access	public
 	* @param	array		userdata
 	*/
 	function assignData($a_data)
@@ -255,6 +244,8 @@ class User
 		$this->ilias->db->query($q);
 		
 		$this->writePrefs();
+		
+		$this->read();
 		
 		return true;
 	}

@@ -101,7 +101,7 @@ if ($script != "login.php" && $script != "index.php")
 		$ilias->account->setId($_SESSION["AccountId"]);				
 	}
 
-	$ilias->account->getData();
+	$ilias->account->read();
 	
 	if ($script == "logout.php")
 	{

@@ -85,24 +85,27 @@ if ($_GET["cmd"] == "save")
 		}
 		
 		// save user data
-		if ($ilias->account->update() == false)
+		$ilias->account->update();
+		
+		// update object_data
+		require_once "classes/class.UserObject.php";
+		$userObj = new UserObject($ilias->account->getId());
+		$userObj->setTitle($ilias->account->getFullname());
+		$userObj->setDescription($ilias->account->getEmail());
+		$userObj->update();
+		
+		// feedback
+		$ilias->error_obj->sendInfo($lng->txt("saved_successfully"),true);
+
+		// reload page only if skin or style were changed
+		if ($reload)
 		{
-			$ilias->error_obj->sendInfo($lng->txt($ilias->account->getErrorMsg()));
+			$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 		}
 		else
 		{
-			// feddback
-			$ilias->error_obj->sendInfo($lng->txt("saved_successfully"),true);
-			// reload page only if skin or style were changed
-			if ($reload)
-			{
-				$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
-			}
-			else
-			{
-				header ("Location: usr_personaldesktop.php");			
-				exit;
-			}
+			header ("Location: usr_personaldesktop.php");			
+			exit;
 		}
 	}
 }
