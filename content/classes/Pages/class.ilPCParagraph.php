@@ -210,20 +210,49 @@ class ilPCParagraph extends ilPageContent
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(iln$ws((page|chap|term)$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
+		while (eregi("\[(iln$ws((page|chap|term)$ws=$ws([\"0-9])*)$ws(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws)\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
+			// pages
 			if (isset($attribs["page"]))
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[page]."\" Type=\"PageObject\">", $a_text);
+				if (!empty($found[7]))
+				{
+					$tframestr = " TargetFrame=\"".$found[7]."\" ";
+				}
+				else
+				{
+					$tframestr = "";
+				}
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.">", $a_text);
 			}
+			// chapters
 			else if (isset($attribs["chap"]))
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"st_".$attribs[chap]."\" Type=\"StructureObject\">", $a_text);
+				if (!empty($found[7]))
+				{
+					$tframestr = " TargetFrame=\"".$found[7]."\" ";
+				}
+				else
+				{
+					$tframestr = "";
+				}
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"st_".$attribs[chap]."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
 			}
+			// glossary terms
 			else if (isset($attribs["term"]))
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[term]."\" Type=\"GlossaryItem\">", $a_text);
+				switch ($found[7])
+				{
+					case "New":
+						$tframestr = " TargetFrame=\"New\" ";
+						break;
+
+					default:
+						$tframestr = " TargetFrame=\"Glossary\" ";
+						break;
+				}
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
 			}
 			else
 			{
@@ -291,12 +320,26 @@ class ilPCParagraph extends ilPageContent
 			{
 				case "PageObject":
 					$target = explode("_", $attribs["Target"]);
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target[1]."\"]",$a_text);
+					$tframestr = (!empty($attribs["TargetFrame"]))
+						? " target=\"".$attribs["TargetFrame"]."\" "
+						: "";
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target[1]."\"$tframestr]",$a_text);
 					break;
 
 				case "StructureObject":
 					$target = explode("_", $attribs["Target"]);
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln chap=\"".$target[1]."\"]",$a_text);
+					$tframestr = (!empty($attribs["TargetFrame"]))
+						? " target=\"".$attribs["TargetFrame"]."\" "
+						: "";
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln chap=\"".$target[1]."\"$tframestr]",$a_text);
+					break;
+
+				case "GlossaryItem":
+					$target = explode("_", $attribs["Target"]);
+					$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
+						? ""
+						: " target=\"".$attribs["TargetFrame"]."\" ";
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln term=\"".$target[1]."\"".$tframestr."]",$a_text);
 					break;
 
 				default:
