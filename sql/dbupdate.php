@@ -1344,3 +1344,20 @@ ALTER TABLE media_item MODIFY id INT NOT NULL DEFAULT '0' AUTO_INCREMENT;
 <#72>
 ALTER TABLE meta_techn_loc ADD COLUMN type ENUM ('LocalFile', 'Reference')
 	NOT NULL DEFAULT 'LocalFile';
+<#73>
+<?php
+$query = "SELECT value FROM settings WHERE keyword='setup_passwd'";
+$res = $this->db->query($query);
+
+if ($res->numRows())
+{
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$encrypted_passwd = md5($row->value);
+	
+	$query = "DELETE FROM settings WHERE keyword='setup_passwd'";
+	$this->db->query($query);
+
+	$query = "INSERT INTO settings (keyword,value) VALUES ('setup_passwd','".$encrypted_passwd."')";
+	$this->db->query($query);
+}
+?>
