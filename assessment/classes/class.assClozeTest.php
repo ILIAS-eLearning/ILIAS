@@ -716,7 +716,7 @@ class ASS_ClozeTest extends ASS_Question {
     $points = 0;
     $counter = 0;
     foreach ($found_value1 as $key => $value) {
-      if ($this->gaps[$value]->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) {
         foreach ($this->gaps[$value] as $k => $v) {
           if (strcmp($v->get_answertext(), $found_value2[$key]) == 0) {
             $points += $v->get_points();
@@ -756,17 +756,21 @@ class ASS_ClozeTest extends ASS_Question {
     $counter = 1;
 		$user_result = array();
     foreach ($found_value1 as $key => $value) {
-      if ($this->gaps[$value]->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) {
+				$solution = array(
+					"gap" => "$counter",
+					"points" => 0,
+					"true" => 0,
+					"value" => $found_value2[$key]
+				);
         foreach ($this->gaps[$value] as $k => $v) {
-					$solution = array(
-						"gap" => "$counter",
-						"points" => 0,
-						"true" => 0,
-						"value" => $v->get_answertext()
-					);
           if (strcmp($v->get_answertext(), $found_value2[$key]) == 0) {
-						$solution["points"] = $v->get_points();
-						$solution["true"] = 1;
+						$solution = array(
+							"gap" => "$counter",
+							"points" => $v->get_points(),
+							"true" => 1,
+							"value" => $found_value2[$key]
+						);
           }
         }
       } else {
@@ -774,10 +778,10 @@ class ASS_ClozeTest extends ASS_Question {
 					"gap" => "$counter",
 					"points" => 0,
 					"true" => 0,
-					"value" => $this->gaps[$value][$found_value2[$key]]->get_answertext()
+					"value" => $found_value2[$key]
 				);
-        if ($this->gaps[$value][$found_value2[$key]]->is_true()) {
-					$solution["points"] = $this->gaps[$value][$found_value2[$key]]->get_points();;
+        if ($this->gaps[$value][$found_value1[$key]]->is_true()) {
+					$solution["points"] = $this->gaps[$value][$found_value1[$key]]->get_points();
 					$solution["true"] = 1;
         }
       }
