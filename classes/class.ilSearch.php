@@ -160,7 +160,7 @@ class ilSearch
 
 		if(!$this->getSearchString())
 		{
-			$message .= $this->lng->txt("search_no_seach_term")."<br/>";
+			$message .= $this->lng->txt("search_no_search_term")."<br/>";
 			$ok = false;
 		}
 		$this->__parseSearchString();
