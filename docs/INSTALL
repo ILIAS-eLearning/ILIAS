@@ -60,13 +60,6 @@ software required for running an ILIAS system. The procedure has been tested
 under RedHat Linux 7.x/8.0. With minor modifications it should also apply to
 other Linux distributions, Solaris and other Unix systems.
 
-IMPORTANT NOTE ON ILIAS 3: As opposed to ILIAS 2, which is a mature software
-product, ILIAS 3 is still under development (alpha version). Its releases are
-for test purposes only and should not be used in a production environment. We do
-not assure that any data that is generated with this release will be usable or
-migrated to future releases of ILIAS 3. All data may be lost with the next
-release.
-
 The following third-party software is necessary for running ILIAS. Release
 numbers refer to the version tested and recommended for use with ILIAS. Like
 ILIAS itself, all these programs are available as Open Source software.
