@@ -724,7 +724,7 @@ class ilRepositoryGUI
 
 			foreach ($glos as $gl_data)
 			{
-				
+
 				$obj_icon = "icon_glo_b.gif";
 				$obj_link = "content/glossary_presentation.php?ref_id=".$gl_data["ref_id"];
 
@@ -772,7 +772,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
+				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
 				$tpl->setVariable("DESCRIPTION", $gl_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($gl_data["last_update"]));
 				$tpl->parseCurrentBlock();
@@ -798,8 +798,8 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("glossaries"),"icon_glo_b.gif",$this->lng->txt("glossaries"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
-		$tbl->setHeaderVars(array("", "title"),
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
 			array("ref_id" => $this->cur_ref_id));
 		$tbl->setColumnWidth(array("1%", "99%"));
 
