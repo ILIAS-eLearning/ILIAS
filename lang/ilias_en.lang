@@ -364,6 +364,7 @@ assessment#:#unlock#:#Unlock
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
+assessment#:#warning_question_not_complete#:#The question is not complete!
 assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
