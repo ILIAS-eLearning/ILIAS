@@ -209,6 +209,7 @@ class ilLOListGUI
 		{
 			case "flat":
 				$lr_arr = ilUtil::getObjectsByOperations('lm','visible');
+				$lr_arr = ilUtil::getObjectsByOperations('dbk','visible');
 				$lr_arr = ilUtil::getObjectsByOperations('slm','visible');
 				$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
 				break;
@@ -222,7 +223,7 @@ class ilLOListGUI
 				{
 					foreach ($objects as $key => $object)
 					{
-						if ((($object["type"] == "lm") ||
+						if ((($object["type"] == "lm") || $object["type"] == "dbk" || 
 							($object["type"] == "slm") ||
 							($object["type"] == "crs"))
 							&& $this->rbacsystem->checkAccess('visible',$object["child"]))
@@ -268,7 +269,7 @@ class ilLOListGUI
 				$this->tpl->setVariable("TITLE", $lr_data["title"]);
 
 				// learning modules
-				if ($lr_data["type"] == "lm")
+				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
 				{
 					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
@@ -327,9 +328,10 @@ class ilLOListGUI
 		// title & header columns
 		//$tbl->setTitle($this->lng->txt("lo_available"),"icon_crs_b.gif",$this->lng->txt("lo_available"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("status"),$this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
+		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("status"),
+								   $this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
 		$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"),
-			array("cmd" => "displayList", "ref_id" => $_GET["ref_id"]));
+							array("cmd" => "displayList", "ref_id" => $_GET["ref_id"]));
 		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
 
 		// control
@@ -421,7 +423,7 @@ class ilLOListGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if($row["name"] == "lm" || $row["name"] == "crs")
+					if($row["name"] == "lm" || $row["name"] == "dbk" || $row["name"] == "crs")
 					{
 						$subobj[] = $row["name"];
 					}
