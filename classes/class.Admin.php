@@ -1,11 +1,13 @@
 <?php
 /**
- * Class Admin
- * Core functions for Role Based Access Control
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package ilias-core
- * 
+* Class Admin
+* Objectmanagement functions
+* 
+* @author Stefan Meyer <smeyer@databay.de>
+* @author SAscha Hofamnn <shofmann@databay.de> 
+* @version $Id$
+* 
+* @package ilias-core
 */
 class Admin 
 {
@@ -30,8 +32,7 @@ class Admin
 	/**
 	* cut an object out from tree an copy information to clipboard
 	* @access public
-	* 
-	**/
+	*/
 	function cutObject()
 	{
 		global $clipboard;
@@ -65,8 +66,7 @@ class Admin
 	/**
 	* create an new reference of an object in tree
 	* @access public
-	* 
-	**/	
+	*/	
 	function copyObject()
 	{
 		global $clipboard;
@@ -101,8 +101,7 @@ class Admin
 	/**
 	* paste an object to new location in tree
 	* @access public
-	* 
-	**/	
+	*/	
 	function pasteObject()
 	{
 		global $clipboard, $tree, $rbacsystem, $rbacadmin, $rbacreview;
@@ -145,8 +144,7 @@ class Admin
 	/**
 	* delete an object from tree
 	* @access public
-	* 
-	**/
+	*/
 	function deleteObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin;
@@ -178,13 +176,11 @@ class Admin
 	/**
 	* remove clipboard from session
 	* @access public
-	* 
-	**/	
+	*/	
 	function clearObject()
 	{
 		$_SESSION["clipboard"] = "";
 		session_unregister("clipboard");	
 	}
-	
-} // end class.Admin.php
+} // END class.Admin
 ?>

@@ -1,16 +1,17 @@
 <?php
 /**
- * bookmark view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias-layout
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
-include("./classes/class.Bookmarks.php");
+* bookmark view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+* 
+* @package application
+*/
+require_once "./include/ilias_header.inc";
+require_once "./include/inc.main.php";
+require_once "./classes/class.Bookmarks.php";
 
-$myBm = new Bookmarks($ilias->db, $ilias->account->Id);
+$myBm = new Bookmarks($ilias->account->Id);
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
@@ -42,6 +43,7 @@ foreach ($bmf as $row)
 	$tpl->setVariable("SEL_VALUE", $row["id"]);
 	$tpl->parseCurrentBlock();
 }
+
 $tpl->setVariable("TXT_TOP", $lng->txt("top"));
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
 $tpl->setVariable("TXT_CREATE_IN_FOLDER", $lng->txt("create_in"));
@@ -50,5 +52,4 @@ $tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("new_folder"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

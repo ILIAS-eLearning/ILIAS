@@ -1,172 +1,167 @@
 <?php
 /**
- * bookmarks
+* Class Bookmarks
+* Bookmark management
 *
-*  * @author Peter Gabriel <pgabriel@databay.de>
- * 
- * @package ilias-core
- * @version $Id$
- */
-class Bookmarks extends PEAR
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+* 
+* @package application
+*/
+class Bookmarks
 {
 	/**
 	* User Id
-	*
 	* @var integer
-	*/
-	var $userId;
-
-	/**
-	* database handler
-	*
-	* @var object DB
-	*/	
-	var $db;
-	
-	/**
-	* error handling
-	* @var object error
-	*/
-	var $error_class;
-
-    /**
-     * Constructor
-     *
-     * @param object database handler
-     * @param string UserID
-     */
-    function Bookmarks(&$dbhandle, $AUsrId = "")
-    {
-		$this->PEAR();
-		$this->error_class = new ErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
-
-		// Initiate variables
-		$this->db =& $dbhandle;
-		$this->userId = $AUsrId;
-	}
-
-	/**
-     * loads a bookmark
-     *
-     * @access public
-     */
-     function getBookmark ()
-	 {
-		 //query
-		 if ($folder!="")
-		 	$w = "folder='".$folder."' AND ";
-			
-		 $sql = "SELECT * FROM bookmarks 
-		 		WHERE ".$w." usr_fk='".$this->userId."'
-				ORDER BY folder, pos";
-
-		 $r = $this->db->query($sql);
-	 	 if ($r->numRows()>0)
-		 {
-		 	 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-			 $bookmark = array(
-				 "id" => $row["id"],
-				 "url" => "http://".$row["url"],
-				 "name" => $row["name"],
-				 "folder" => $row["folder"],
-				 "pos" => $row["pos"]
-			 );
-			 return $bookmark;
-		 }
-		 return false;
-	 }
-
-	 /**
-	  * saves a bookmark
-	  *
-	  * public method
-	  *
-	  */
-	 function insert()
-	 {
-		 // fill user_data
-		 $query = "INSERT INTO bookmark
-                 (usr_fk, pos, url, name)
-                  VALUES
-                  ('".$this->userId."','0','".$this->url."','".$this->name."')";
-
-		$res = $this->db->query($query);
-
-		if(DB::isError($res))
-		{
-			$this->raiseError($res->getMessage(), $this->FATAL);
-		}
-	 }
-
-	 /**
-	  * updates a record "user" and write it into database
-	  *
-	  * public method
-	  *
-	  */
-	function update ()
-	{
-		if ($this->id == "")
-			return false;
-
-		 $query = "UPDATE bookmarks SET
-                  name='".$this->name."',
-                  url='".$this->url."'
-                  WHERE usr_fk='".$this->userId."'
-				  AND id='".$this->id."'";
-		 $this->db->query($query);
-		 
-		 return true;
-	 }
-
-	/**
-	* @param string
-	*/
-	 function delete ($id)
-	 {
-		 // delete bookmark
-		$sql = "DELETE FROM bookmarks WHERE id='$id'";
-		$this->db->query($sql);
-	}
-
-	/**
-	* get own bookmarks
-	* @param string
-	* @return array bookmarks
 	* @access public
 	*/
-	function getBookmarkList($folder="")
+	var $user_Id;
+
+	/**
+	* ilias object
+	* @var object ilias
+	* @access public
+	*/	
+	var $ilias;
+	
+	/**
+	* Constructor
+	* @access	public
+	* @param	integer		user_id (optional)
+	*/
+	function Bookmarks($a_user_id = 0)
 	{
-		 //initialize array
-		 $bookmarks = array();
-		 //query
-		 if ($folder!="")
-		 	$w = "folder='".$folder."' AND ";
+		global $ilias;
+		
+		// Initiate variables
+		$this->ilias =& $ilias;
+		$this->userId = $a_user_id;
+	}
+
+	/**
+	* loads a bookmark
+	* @access public
+	*/
+	function getBookmark ()
+	{
+		//query
+		// TODO: ist wohl noch nicht ganz fertig, oder?
+		if ($folder != "")
+		{
+			$w = "folder='".$folder."' AND ";
+		}
 			
-		 $sql = "SELECT * FROM bookmarks 
-		 		WHERE ".$w." usr_fk='".$this->userId."'
+		$sql = "SELECT * FROM bookmarks 
+				WHERE ".$w." usr_fk='".$this->userId."'
 				ORDER BY folder, pos";
 
-		 $r = $this->db->query($sql);
-	 	 while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		 {
-			 $bookmarks[] = array(
-				 "id" => $row["id"],
-				 "url" => "http://".$row["url"],
-				 "name" => $row["name"],
-				 "folder" => $row["folder"],
-				 "pos" => $row["pos"]
-			 );
-		 }
-		 return $bookmarks;
-	 }
+		$r = $this->ilias->db->query($sql);
+
+		if ($r->numRows()>0)
+		{
+		 	$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+			$bookmark = array(
+							"id"		=> $row["id"],
+							"url"		=> "http://".$row["url"],
+							"name"		=> $row["name"],
+							"folder"	=> $row["folder"],
+							"pos"		=> $row["pos"]
+							);
+			
+			return $bookmark;
+		}
+
+		return false;
+	}
+
+	/**
+	* saves a bookmark
+	* @access	public
+	*/
+	function insert()
+	{
+		// fill user_data
+		$query = "INSERT INTO bookmark ".
+				 "(usr_fk, pos, url, name) ".
+				 "VALUES ".
+				 "('".$this->userId."','0','".$this->url."','".$this->name."')";
+		$res = $this->ilias->db->query($query);
+	}
+
+	/**
+	* updates a record "user" and write it into database
+	* @access	public
+	*/
+	function update ()
+	{
+		if (empty($this->id))
+		{
+			return false;
+		}
+
+		$query = "UPDATE bookmarks SET ".
+				 "name='".$this->name."', ".
+				 "url='".$this->url."' ".
+				 "WHERE usr_fk='".$this->userId."' ".
+				 "AND id='".$this->id."'";
+
+		$this->ilias->db->query($query);
+		
+		return true;
+	}
+
+	/**
+	* @access	public
+	* @param	integer		bookmark_id
+	*/
+	function delete ($a_id)
+	{
+		// delete bookmark
+		$sql = "DELETE FROM bookmarks WHERE id='".$a_id."'";
+		$this->ilias->db->query($sql);
+	}
+
+	/**
+	* DESCRIPTION MISSING
+	* get own bookmarks
+	* @access	public
+	* @param	string		folder
+	* @return	array		bookmarks
+	*/
+	function getBookmarkList($a_folder = "")
+	{
+		//initialize array
+		$bookmarks = array();
+		//query
+		if ($folder!="")
+		{
+			$w = "folder='".$a_folder."' AND ";
+		}
+			
+		$sql = "SELECT * FROM bookmarks 
+				WHERE ".$w." usr_fk='".$this->userId."'
+				ORDER BY folder, pos";
+		$r = $this->ilias->db->query($sql);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$bookmarks[] = array(
+							"id" => $row["id"],
+							"url" => "http://".$row["url"],
+							"name" => $row["name"],
+							"folder" => $row["folder"],
+							"pos" => $row["pos"]
+								);
+		}
+
+		return $bookmarks;
+	}
 
 	/**
 	* get bookmarkfolders
-	*
-	* @return array bookmarks
-	* @access public
+	* @access	public
+	* @return	array	bookmarks
 	*/
 	function getFolders()
 	{
@@ -176,16 +171,15 @@ class Bookmarks extends PEAR
 		$sql = "SELECT folder FROM bookmarks 
 				WHERE usr_fk='".$this->userId."'
 				GROUP BY folder";
-
-		$r = $this->db->query($sql);
+		$r = $this->ilias->db->query($sql);
 		
 		while ($row = $r->fetchRow())
 		{
 			if ($row[0] != "top")
 			{
 				$folders[] = array(
-					 "name" => $row[0]
-				 );
+								"name" => $row[0]
+								);
 			}
 		}
 
@@ -194,37 +188,36 @@ class Bookmarks extends PEAR
 
 	/**
 	* set id
-	* @param int
-	* @access public
+	* @access	public
+	* @param	integer
 	*/
-	function setId($id)
+	function setId($a_id)
 	{
-		$this->id = $id;
+		$this->id = $a_id;
 		return true;
 	}
 
 	/**
 	* set description
-	* @param int
-	* @access public
+	* @access	public
+ 	* @param	string
 	*/
-	function setName($str)
+	function setName($a_str)
 	{
-		$this->name = $str;
+		$this->name = $a_str;
 		return true;
 	}
 
-		/**
-	* set id
-	* @param string
-	* @access public
+	/**
+	* set url
+	* @access	public
+	* @param	string
+	* TODO: heir fehlt noch ein url-check inklusive "http://"-check
 	*/
-	function setURL($str)
+	function setURL($a_url)
 	{
-		$this->url = $str;
+		$this->url = $a_url;
 		return true;
 	}
-
-
-} // END class user
+} // END class.Bookmarks
 ?>
