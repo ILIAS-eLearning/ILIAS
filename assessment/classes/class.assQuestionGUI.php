@@ -1648,6 +1648,7 @@ class ASS_QuestionGUI extends PEAR {
 			$gap = $this->question->get_gap($gapIndex);
 			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
 			{
+				// text gap
 				$solution_value = "";
 				foreach ($solutions as $idx => $solution)
 				{
@@ -1660,8 +1661,10 @@ class ASS_QuestionGUI extends PEAR {
 			}
 				else
 			{
+				// select gap
 				$select = "<select name=\"gap_$gapIndex\">";
 				$solution_value = "";
+				// get the solution value if a prior solution exists
 				foreach ($solutions as $idx => $solution)
 				{
 					if ($solution->value1 == $gapIndex)
@@ -1669,9 +1672,15 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
+				// build the combobox
 				$select .= "<option value=\"-1\" selected=\"selected\">" . $this->lng->txt("please_select") . "</option>";
-				foreach ($gap as $key => $value)
+				$keys = array_keys($gap);
+				if ($this->question->shuffle) {
+					$keys = $this->pc_array_shuffle($keys);
+				}
+				foreach ($keys as $key)
 				{
+					$value = $gap[$key];
 					$selected = "";
 					if ($solution_value == $value->get_order())
 					{
@@ -1711,6 +1720,10 @@ class ASS_QuestionGUI extends PEAR {
       $array_matching[$value->get_order()] = $value->get_answertext();
     }
     asort($array_matching);
+		$keys = array_keys($array_matching);
+		if ($this->question->shuffle) {
+			$keys = $this->pc_array_shuffle($keys);
+		}
 
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
 		if (!empty($this->question->materials)) {
@@ -1729,7 +1742,8 @@ class ASS_QuestionGUI extends PEAR {
 
     foreach ($this->question->matchingpairs as $key => $value) {
       $this->tpl->setCurrentBlock("matching_combo");
-      foreach ($array_matching as $match_key => $match_value) {
+			foreach ($keys as $match_key) {
+				$match_value = $array_matching[$match_key];
         $this->tpl->setVariable("COMBO_MATCHING_VALUE", $match_value);
         $this->tpl->setVariable("COMBO_MATCHING", $match_key);
 				$selected = "";
@@ -1794,7 +1808,12 @@ class ASS_QuestionGUI extends PEAR {
 		}
 
     $this->tpl->setCurrentBlock("orderingQuestion");
-    foreach ($this->question->answers as $key => $value) {
+		$keys = array_keys($this->question->answers);
+		if ($this->question->shuffle) {
+			$keys = $this->pc_array_shuffle($keys);
+		}
+		foreach ($keys as $key) {
+			$value = $this->question->answers[$key];		
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
 			foreach ($solutions as $idx => $solution) {
 				if ($solution->value1 == $key) {
