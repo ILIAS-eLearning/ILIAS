@@ -153,6 +153,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'qpl':
 				return "assessment/questionpool.php?cmd=questions&ref_id=".$a_node_id;
+
+			case 'crsg':
+				return "repository.php?ref_id=".$a_node_id;
+
 		}
 	}
 	
@@ -232,6 +236,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'svy':
 				return "survey/survey.php?ref_id=".$a_node_id;
+
+			case 'crsg':
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
+
 		}
 	}		
 

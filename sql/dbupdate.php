@@ -5589,3 +5589,34 @@ CREATE TABLE IF NOT EXISTS `crs_lm_history` (
   `last_access` int(11) NOT NULL default '0',
   PRIMARY KEY  (`usr_id`,`crs_ref_id`,`lm_ref_id`)
 ) TYPE=MyISAM;
+<#398>
+<#399>
+<?php
+// insert course grouping object in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'crsg', 'Course grouping object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to iLinc course object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+<#400>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
