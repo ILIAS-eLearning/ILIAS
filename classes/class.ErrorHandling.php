@@ -48,8 +48,18 @@ class ErrorHandling
 			exit;
 		}
 		if ($a_error_obj->getCode() == $this->MESSAGE)
-		{
-			header("location: ".$_SESSION["referer"]."&message=".stripslashes($a_error_obj->getMessage()));
+		{	
+			// check if already GET-Parameters exists in Referer-URI
+			if (substr($_SESSION["referer"],-4) == ".php")
+			{
+				$glue = "?";
+			}
+			else
+			{
+				$glue = "&";
+			}
+			
+			header("location: ".$_SESSION["referer"].$glue."message=".stripslashes($a_error_obj->getMessage()));
 			exit;
 		}
 	}
