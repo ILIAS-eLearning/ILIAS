@@ -37,6 +37,21 @@ if (isset($_GET["from"]))
 	$_SESSION["obj_location_back"] = $_GET["from"];
 }
 
+// determine command
+if (($cmd = $_GET["cmd"]) == "gateway")
+{
+	// TODO: temp. workaround until cmd is passed by post for lm & dbk
+	if ($_GET["new_type"] == "lm" or $_GET["new_type"] == "dbk")
+	{
+		$cmd = "save";
+	}
+	else
+	{
+		// surpress warning if POST is not set
+		@$cmd = key($_POST["cmd"]);
+	}
+}
+
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.new_obj_content.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -127,24 +142,27 @@ if (isset($_GET["ref_id"]) && ($_GET["ref_id"] != 1))
 
 		$method = $cmd."Object";
 
-		// this switch is a quick workaround, because of weird behaviour of data saved to session
+		// set return Locations
 		switch ($_GET["new_type"])
 		{
 			case "frm":
 				$obj->setReturnLocation("save","forums.php");
+				$obj->setReturnLocation("cancel","forums.php");
 				break;
 	
 			case "grp":
 				$obj->setReturnLocation("save","group.php");
+				$obj->setReturnLocation("cancel","group.php");
 				break;
 		
 			case "crs":
 			case "lm":
 				$obj->setReturnLocation("save","lo_list.php");
+				$obj->setReturnLocation("cancel","lo_list.php");
 				break;
 		}
 
-		$obj->setFormAction("save","obj_location_content.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$obj_type);
+		$obj->setFormAction("save","obj_location_content.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$obj_type);
 		$obj->setTargetFrame("save","bottom");
 
 		$obj->$method();
