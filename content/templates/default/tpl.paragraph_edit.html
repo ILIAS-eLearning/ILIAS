@@ -348,7 +348,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-str",
       tooltip   : "Strong",
-      image     : "<span class=ilc_Strong>Strong</span>",
+      image     : "<span class=ilc_Strong>Str</span>",
       textMode  : false,
 	  context   : "",
       action    : function(editor, id) 
@@ -364,7 +364,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-emp",
       tooltip   : "Italic",
-      image     : "<span class=ilc_Emph>Emphatic</span>",
+      image     : "<span class=ilc_Emph>Em</span>",
       textMode  : false,
       action    : function(editor, id)
 	  			  {
@@ -379,7 +379,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-com",
       tooltip   : "",	// Kommentar
-      image     : "<span class=ilc_Comment>C</span>",
+      image     : "<span class=ilc_Comment>Com</span>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -394,7 +394,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-quot",
       tooltip   : "",	// Quotation
-      image     : "<span class=ilc_Quotation>Q</span>",
+      image     : "<span class=ilc_Quotation>Quo</span>",
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
@@ -409,7 +409,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-code",
       tooltip   : "",	// Code
-      image     : "<code>Co</code>",
+      image     : "<code>Cod</code>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -504,8 +504,8 @@ function initEditor(TextAreaName)
 	cfg.toolbar = [
 		[ 
           
-		  //"ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator","ilias-fn", "separator",
-		  "bold", "italic", "separator",
+		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator","ilias-fn", "separator",
+		  //"bold", "italic", "separator",
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
 		  "copy", "cut", "paste", "separator"
