@@ -394,7 +394,7 @@ class ilPageObject
 				? "encoding=\"".$this->encoding."\""
 				: "";
 			return "<?xml version=\"1.0\" $ecn_str ?>".
-				"<!DOCTYPE PageObject SYSTEM \"".ILIAS_HTTP_PATH."/xml/".$this->cur_dtd."\">".
+                "<!DOCTYPE PageObject SYSTEM \"".ILIAS_ABSOLUTE_PATH."/xml/".$this->cur_dtd."\">".
 				$this->xml;
 		}
 		else
