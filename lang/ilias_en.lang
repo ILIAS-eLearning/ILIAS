@@ -617,3 +617,7 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
+common#:#censorship#:#censorship
+forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
+forum#:#forums_info_censor2_post#:#Are you sure you want to continue to hide this article?
+common#:#comment#:#comment
