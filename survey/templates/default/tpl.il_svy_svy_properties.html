@@ -24,11 +24,11 @@
 </tr>
 <tr>
   <td class="option">{TEXT_START_DATE}:</td>
-  <td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE}</td>
+  <td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE} <input type="image" alt="{TXT_START_DATE_CALENDAR}" title="{TXT_START_DATE_CALENDAR}" src="{IMG_START_DATE_CALENDAR}" id="btn_cal_start_date" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_END_DATE}:</td>
-  <td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE}</td>
+  <td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE} <input type="image" alt="{TXT_END_DATE_CALENDAR}" title="{TXT_END_DATE_CALENDAR}" src="{IMG_END_DATE_CALENDAR}" id="btn_cal_end_date" /></td>
 </tr>
 <tr>
   <td class="option">{TEXT_EVALUATION_ACCESS}:</td>
@@ -53,3 +53,17 @@
 </td></tr>
 </table>
 </form>
+<script type="text/javascript">
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_start_date",
+			inputFieldsDate : "start_date"
+		} 
+	); 
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_end_date",
+			inputFieldsDate : "end_date"
+		} 
+	); 
+</script> 
