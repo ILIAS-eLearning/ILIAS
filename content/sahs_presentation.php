@@ -67,9 +67,17 @@ switch ($type)
 				$hacp_presentation = new ilHACPPresentationGUI();
 				break;
 	default:
-				//unknown type
-				require_once "./content/classes/class.ilLMPresentationGUI.php";
-				$lm_presentation = new ilLMPresentationGUI();
+		// check if object is purchased
+		include_once './payment/classes/class.ilPaymentObject.php';
+
+		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+		{
+			ilUtil::redirect('../payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+		}
+		
+		//unknown type
+		require_once "./content/classes/class.ilLMPresentationGUI.php";
+		$lm_presentation = new ilLMPresentationGUI();
 
 }
 

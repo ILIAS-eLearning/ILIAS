@@ -86,7 +86,6 @@ class ilLMPresentationGUI
 		{
 			$cmd = key($_POST["cmd"]);
 		}
-
 		$this->$cmd();
 	}
 
