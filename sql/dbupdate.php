@@ -4657,3 +4657,5 @@ CREATE TABLE `payment_currencies` (
 ) TYPE=MyISAM;
 <#292>
 INSERT INTO `payment_currencies` VALUES (1, 'euro', 'cent');
+<#293>
+UPDATE `usr_data` SET `active`='1';
