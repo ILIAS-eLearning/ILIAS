@@ -239,6 +239,9 @@ function storeCaret(textEl) {
 //-->
 </script>
 <form action="{FORMACTION}" name="post" method="post">
+
+<input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0">
+
 <table class="fullwidth">
 <tr class="tblheader">
 	<td class="std" colspan="4">
@@ -262,6 +265,7 @@ function storeCaret(textEl) {
 
 <tr class="std">
 	<td class="std" colspan="4">
+    <div id="bbcodebuttons" style="position:relative;visibility:visible;">
 	<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="Tip: Styles can be applied quickly to selected text." />
 	<br />
 	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " style="font-weight:bold; width: 40px" onClick="bbstyle(0)" onMouseOver="helpline('b')" />
@@ -281,11 +285,12 @@ function storeCaret(textEl) {
 	<input type="button" class="button" accesskey="p" name="addbbcode14" value="Img" style="width: 40px"  onClick="bbstyle(14)" onMouseOver="helpline('p')" />
 	<input type="button" class="button" accesskey="w" name="addbbcode16" value="URL" style="text-decoration: underline; width: 40px" onClick="bbstyle(16)" onMouseOver="helpline('w')" />
 -->
+    </div>
 	</td>
 </tr>
 <tr class="std">
 <td class="std" colspan="4">
-<textarea name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <!-- BEGIN commands -->
@@ -305,3 +310,109 @@ function storeCaret(textEl) {
 <!-- END content_selection -->
 </table>
 </form>
+
+<p>----------------------------------------------------------------------------------------------------------------</p>
+
+
+<!-- Configure the path to the editor.  We make it relative now, so that the
+    example ZIP file will work anywhere, but please NOTE THAT it's better to
+    have it an absolute path, such as '/htmlarea/'. -->
+<script type="text/javascript">
+  _editor_url = "./htmlarea/";
+  _editor_lang = "de";
+</script>
+<script type="text/javascript" src="./htmlarea/htmlarea.js"></script>
+
+<script type="text/javascript">
+var editor = null;
+function initEditor(TextAreaName) {
+  editor = new HTMLArea(TextAreaName);
+
+  var cfg = editor.config; // this is the default configuration
+
+	cfg.toolbar = [
+		[ 
+		  "bold", "italic", "separator", 
+          
+		  "copy", "cut", "paste", "space", "undo", "redo","separator",
+		   "htmlmode"
+          ],
+
+	];
+
+    cfg.registerButton({
+      id        : "my-hilite",
+      tooltip   : "Highlight text",
+      image     : "ed_about.gif",
+      textMode  : false,
+      action    : function(editor, id) {
+                    editor.surroundHTML('<span class="hilite">', '</span>');
+                  }
+    });
+    
+/*
+"insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
+	cfg.toolbar = [
+		[ "fontname", "space",
+		  "fontsize", "space",
+		  "formatblock", "space",
+		  "bold", "italic", "underline", "strikethrough", "separator",
+		  "subscript", "superscript", "separator",
+		  "copy", "cut", "paste", "space", "undo", "redo" ],
+
+		[ "justifyleft", "justifycenter", "justifyright", "justifyfull", "separator",
+		  "lefttoright", "righttoleft", "separator",
+		  "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
+		  "forecolor", "hilitecolor", "separator",
+		  "inserthorizontalrule", "createlink", "insertimage", "inserttable", "htmlmode", "separator",
+		  "popupeditor", "separator", "showhelp", "about" ]
+	];
+
+*/    
+    
+  editor.config = cfg;
+  
+  // comment the following two lines to see how customization works
+  editor.generate();
+  return false;
+
+}
+</script>
+
+<script>
+    function doInit() {
+    
+        obj = document.getElementById("{PAR_TA_NAME}");
+        T = obj.value;
+        T = T.replace("[str]","<span style=\"font-weight: bold;\">");
+        T = T.replace("[/str]","</span>");
+        
+        T = T.replace("[emp]","<span style=\"font-style: italic;\">");
+        T = T.replace("[/emp]","</span>");
+
+        T = T.replace("[com]","<span style=\"color: rgb(0, 128, 0);\">");
+        T = T.replace("[/com]","</span>");
+        
+        T = T.replace("[quot]","<span style=\"color: rgb(165, 42, 42); font-style: italic;\">");
+        T = T.replace("[/quot]","</span>");
+
+        T = T.replace("[code]","<code>");
+        T = T.replace("[/code]","</code>");
+        
+        while (T.indexOf("\n")>-1) { 
+            T = T.replace("\n","<br />");
+        }
+        
+        
+        obj.value = T;
+    
+        initEditor("{PAR_TA_NAME}");
+        obj = document.getElementById("usedwsiwygeditor");
+        obj.value = "1";
+        obj = document.getElementById("bbcodebuttons");
+        obj.style.visibility = "hidden";
+    }
+    setTimeout("doInit()",200);
+</script>
+<!-- [<a href="#" onClick="doInit();return(false);">Test WYSIWYG</a>] -->  
+

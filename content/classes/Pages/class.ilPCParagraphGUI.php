@@ -23,6 +23,7 @@
 
 require_once("./content/classes/Pages/class.ilPCParagraph.php");
 require_once("./content/classes/Pages/class.ilPageContentGUI.php");
+require_once("./content/classes/Pages/class.ilWysiwygUtil.php");
 
 /**
 * Class ilPCParagraphGUI
@@ -260,6 +261,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	}
 
 
+    
 	/**
 	* update paragraph in dom and update page in db
 	*/
@@ -267,11 +269,33 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilBench;
 
+        /**
+        *   when using wysiwyg-editor convert span-tags to []-tags
+        */
+        if ($_POST["usedwsiwygeditor"] == 1) 
+        {
+            //echo htmlspecialchars(stripslashes($_POST["par_content"]));
+            
+            $xml = stripslashes($_POST["par_content"]);
+            
+            //echo htmlspecialchars($xml)."<p>";
+            
+            $wysiwygUtil = new ilWysiwygUtil();
+            $xml = $wysiwygUtil->convertFromPost($xml);
+            
+             $_POST["par_content"] = addslashes($xml);
+            
+            //echo htmlspecialchars($xml)."<p>";
+        }
+        
+        
 		$ilBench->start("Editor","Paragraph_update");
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
+        
+        
 /*
 header('Content-type: text/html; charset=UTF-8');
 echo "PARupdate:".$_POST["par_content"].":<br><br>";
@@ -307,6 +331,27 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 	*/
 	function create()
 	{
+
+        /**
+        *   when using wysiwyg-editor convert span-tags to []-tags
+        */
+        if ($_POST["usedwsiwygeditor"] == 1) 
+        {
+            //echo htmlspecialchars(stripslashes($_POST["par_content"]));
+            
+            $xml = stripslashes($_POST["par_content"]);
+            
+            //echo htmlspecialchars($xml)."<p>";
+            
+            $wysiwygUtil = new ilWysiwygUtil();
+            $xml = $wysiwygUtil->convertFromPost($xml);
+            
+             $_POST["par_content"] = addslashes($xml);
+            
+            //echo htmlspecialchars($xml)."<p>";
+        }
+        
+        
 		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
