@@ -2209,6 +2209,7 @@ content#:#cont_link_ext#:#Łącznik (zewnętrzny)
 content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#Lista plików
 content#:#cont_list_properties#:#Lista właściwości
 content#:#cont_lk_chapter#:#Rozdział

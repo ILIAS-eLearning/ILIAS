@@ -2227,7 +2227,6 @@ content#:#cont_cant_del_full#:#Deletion of full screen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
-content#:#cont_linked_mobs#:#Linked media objects
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
@@ -2358,6 +2357,7 @@ content#:#cont_link_ext#:#Link (external)
 content#:#cont_link_int#:#Link (internal)
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
+content#:#cont_linked_mobs#:#Linked media objects
 content#:#cont_list_files#:#List Files
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lk_chapter#:#Chapter

@@ -2347,6 +2347,7 @@ content#:#cont_link_ext#:#Lien (externe)
 content#:#cont_link_int#:#Lien (interne)
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_type#:#Type de lien
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#Liste des fichiers
 content#:#cont_list_properties#:#Propriétés de la liste
 content#:#cont_lk_chapter#:#Chapitre

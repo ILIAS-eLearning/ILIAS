@@ -2357,6 +2357,7 @@ content#:#cont_link_ext#:#Link (external)###16 Mar 2004 new variable
 content#:#cont_link_int#:#Link (internal)###16 Mar 2004 new variable
 content#:#cont_link_select#:#Interní Odkaz
 content#:#cont_link_type#:#Typ odkazu
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Vastnosti seznamu
 content#:#cont_lk_chapter#:#Kapitola

@@ -2349,6 +2349,7 @@ content#:#cont_link_ext#:#Link
 content#:#cont_link_int#:#Link-gebied
 content#:#cont_link_select#:#Link(extern)
 content#:#cont_link_type#:#Link (intern)
+content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
 content#:#cont_list_files#:#interne link
 content#:#cont_list_properties#:#Link-type
 content#:#cont_lk_chapter#:#Geef bestandenlijst
