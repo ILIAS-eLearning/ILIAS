@@ -6,7 +6,7 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	mail
+* @package	ilias-mail
 */
 
 class ilFile

@@ -5,7 +5,7 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	mail
+* @package	ilias-mail
 */
 require_once("classes/class.ilFileData.php");
 				
