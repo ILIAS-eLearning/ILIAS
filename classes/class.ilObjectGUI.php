@@ -173,9 +173,8 @@ class ilObjectGUI
 					  $show = false;
 				  }
 				  break;
-
 			  case 'trash':
-				  if(!$rbacsystem->checkAccess('create',$this->ref_id,$this->type))
+				  if(!$rbacsystem->checkAccess('edit permission',$this->ref_id))
 				  {
 					  $show = false;
 				  }

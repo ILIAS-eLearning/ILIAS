@@ -50,7 +50,7 @@ class ilRbacSystem
 	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
-		
+
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
@@ -63,7 +63,6 @@ class ilRbacSystem
 		}
 
 		// temp. disabled
-		//return true;
 		$create = false;
 		$operations = explode(",",$a_operations);
 		$ops_arr = array();
@@ -129,7 +128,6 @@ class ilRbacSystem
 			$in = " IN ('";
 			$in .= implode("','",$_SESSION["RoleId"]);
 			$in .= "')";
-	
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
 				 "AND obj_id = '".$a_ref_id."' ";
@@ -137,9 +135,9 @@ class ilRbacSystem
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$ops_arr = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
-			if (in_array($ops_id,$ops_arr))
+			if (in_array($ops_id,$ops))
 			{
 				continue;
 			}
@@ -212,7 +210,7 @@ class ilRbacSystem
 	*/
 	function addActiveRole()
 	{
-
+		
 	}
 
 	function dropActiveRole()
