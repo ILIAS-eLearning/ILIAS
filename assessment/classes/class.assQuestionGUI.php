@@ -638,7 +638,6 @@ class ASS_QuestionGUI
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
 				require_once "./content/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
-				print_r($_GET);
 				// get all glossary items
 				$terms = $glossary->getTermList();
 				foreach($terms as $term)

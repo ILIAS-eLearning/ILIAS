@@ -352,7 +352,6 @@
 	<property name="trash">trash</property>
 </object>
 <object name="qpl" class_name="QuestionPool" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
-	<property name="view" module="n">view</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="export" module="1">export</property>
 	<property name="editMeta">meta_data</property>
@@ -361,7 +360,6 @@
 	<action name="delete">delete</action>
 </object>
 <object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
-	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
@@ -374,7 +372,6 @@
 	<action name="delete">delete</action>
 </object>
 <object name="svy" class_name="Survey" module="survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
-	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="invite" module="1">invite_participants</property>
@@ -387,7 +384,6 @@
 	<action name="delete">delete</action>
 </object>
 <object name="spl" class_name="SurveyQuestionPool" module="survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
-	<property name="view" module="n">view</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="phrases" module="1">manage_phrases</property>
 	<property name="editMeta">meta_data</property>

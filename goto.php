@@ -60,9 +60,14 @@ switch($target_type)
 		break;
 // glossar entries
 	case "glo":
+	case "git":
 		require_once("content/classes/class.ilGlossaryTerm.php");
 		ilGlossaryTerm::_goto($target_id);
-		break;		
+		break;
+	case "lm":
+		require_once("./content/classes/class.ilObjContentObject.php");
+		ilObjContentObject::_goto($target_id);
+		break;
 }
 
 ?>

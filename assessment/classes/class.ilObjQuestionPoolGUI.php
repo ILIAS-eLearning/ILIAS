@@ -289,14 +289,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
+		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
+		// set type of questionpool object
 		$newObj->setType($_GET["new_type"]);
+		// set title of questionpool object to "dummy"
 		$newObj->setTitle("dummy");
+		// set description of questionpool object to "dummy"
 		$newObj->setDescription("dummy");
+		// create the questionpool class in the ILIAS database (object_data table)
 		$newObj->create(true);
+		// create a reference for the questionpool object in the ILIAS database (object_reference table)
 		$newObj->createReference();
+		// put the questionpool object in the administration tree
 		$newObj->putInTree($_GET["ref_id"]);
+		// get default permissions and set the permissions for the questionpool object
 		$newObj->setPermissions($_GET["ref_id"]);
+		// notify the questionpool object and all its parent objects that a "new" object was created
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
 		// create import directory
@@ -310,11 +319,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// unzip file
 		ilUtil::unzip($full_path);
 
-		// determine filename of xml file
+		// determine filenames of xml files
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-		$qti_file = $newObj->getImportDirectory()."/".$subdir."/".
-			str_replace("qpl", "qti", $subdir).".xml";
+		$qti_file = $newObj->getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 		
 		// import qti data
 		$qtiresult = $newObj->importObject($qti_file);
@@ -324,7 +332,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$contParser->setQuestionMapping($newObj->getImportMapping());
 		$contParser->startParsing();
 
-		$newObj->update();
+		/* update title and description in object data */
+		if (is_object($newObj->meta_data))
+		{
+			// read the object metadata from the nested set tables
+			$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
+			$newObj->meta_data = $meta_data;
+			$newObj->setTitle($newObj->meta_data->getTitle());
+			$newObj->setDescription($newObj->meta_data->getDescription());
+			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
+			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
+		}
+
 		ilUtil::redirect("adm_object.php?".$this->link_params);
 	}
 	
