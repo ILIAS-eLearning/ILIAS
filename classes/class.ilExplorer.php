@@ -339,7 +339,7 @@ class ilExplorer
 		{
 			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
-			$this->sortNodes($objects);
+			$objects = $this->sortNodes($objects);
 
 			foreach ($objects as $key => $object)
 			{
@@ -791,6 +791,7 @@ class ilExplorer
 	*/
 	function sortNodes($a_nodes)
 	{
+//echo "<br/>";
 		foreach ($a_nodes as $key => $node)
 		{
 			if ($node["type"] == "adm")
@@ -800,7 +801,8 @@ class ilExplorer
 				break;
 			}
 		}
-		
+
+//var_dump($match);
 		// cut off adm node
 		isset($match) ? array_splice($a_nodes,$match,1) : "";
 		
@@ -808,6 +810,8 @@ class ilExplorer
 		
 		// append adm node to end of list
 		isset ($match) ? array_push($a_nodes,$adm_node) : "";
+		
+		return $a_nodes;
 	}
 } // END class.ilExplorer
 ?>
