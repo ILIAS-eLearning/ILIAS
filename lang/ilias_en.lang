@@ -79,7 +79,6 @@ common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#change#:#Change
 common#:#change_existing_objects#:#Change existing Objects
-common#:#setUserLanguage#:#Set User Language
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
 common#:#changed_to#:#changed to
@@ -87,8 +86,8 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
-common#:#check_langfile#:#Please check your language file.
 common#:#checkLanguage#:#Check Language
+common#:#check_langfile#:#Please check your language file.
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -470,9 +469,10 @@ common#:#sequences#:#Sequences
 common#:#server#:#Server
 common#:#server_software#:#Server Software
 common#:#set#:#Set
+common#:#setSystemLanguage#:#Set System Language
+common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
-common#:#setSystemLanguage#:#Set System Language
 common#:#settings#:#Settings
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
