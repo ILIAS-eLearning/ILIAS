@@ -269,6 +269,252 @@ class ASS_ClozeTest extends ASS_Question {
   }
 
 /**
+* Returns a QTI xml representation of the question
+*
+* Returns a QTI xml representation of the question and sets the internal
+* domxml variable with the DOM XML representation of the QTI xml representation
+*
+* @return string The QTI xml representation of the question
+* @access public
+*/
+	function to_xml()
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$this->domxml = domxml_open_mem($xml_header);		
+		$root = $this->domxml->document_element();
+		// qti ident
+		$qtiIdent = $this->domxml->create_element("item");
+		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
+		$root->append_child($qtiIdent);
+		// add qti comment
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+
+		// PART I: qti presentation
+		$qtiPresentation = $this->domxml->create_element("presentation");
+		$qtiPresentation->set_attribute("label", $this->getTitle());
+		// add flow to presentation
+		$qtiFlow = $this->domxml->create_element("flow");
+		
+		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->get_cloze_text());
+		// add material with question text to presentation
+		for ($i = 0; $i <= $this->get_gap_count(); $i++)
+		{
+			// n-th text part
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMatText = $this->domxml->create_element("mattext");
+			$qtiMatTextText = $this->domxml->create_text_node($text_parts[$i]);
+			$qtiMatText->append_child($qtiMatTextText);
+			$qtiMaterial->append_child($qtiMatText);
+			$qtiFlow->append_child($qtiMaterial);
+
+			if ($i < $this->get_gap_count())
+			{
+				// add gap
+				$gap = $this->get_gap($i);
+				if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+				{
+					// comboboxes
+					$qtiResponseStr = $this->domxml->create_element("response_str");
+					$qtiResponseStr->set_attribute("ident", "gap_$i");
+					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$qtiRenderChoice = $this->domxml->create_element("render_choice");
+					// shuffle output
+					if ($gap[0]->get_shuffle())
+					{
+						$qtiRenderChoice->set_attribute("shuffle", "Yes");
+					}
+					else
+					{
+						$qtiRenderChoice->set_attribute("shuffle", "No");
+					}
+					foreach ($gap as $key => $value)
+					{
+						$qtiResponseLabel = $this->domxml->create_element("response_label");
+						$qtiResponseLabel->set_attribute("ident", $key);
+						$qtiMaterial = $this->domxml->create_element("material");
+						$qtiMatText = $this->domxml->create_element("mattext");
+						$qtiMatTextText = $this->domxml->create_text_node($value->get_answertext());
+						$qtiMatText->append_child($qtiMatTextText);
+						$qtiMaterial->append_child($qtiMatText);
+						$qtiResponseLabel->append_child($qtiMaterial);
+						$qtiRenderChoice->append_child($qtiResponseLabel);
+					}
+					$qtiResponseStr->append_child($qtiRenderChoice);
+					$qtiFlow->append_child($qtiResponseStr);
+				}
+				else
+				{
+					// text fields
+					$qtiResponseStr = $this->domxml->create_element("response_str");
+					$qtiResponseStr->set_attribute("ident", "gap_$i");
+					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$qtiRenderFib = $this->domxml->create_element("render_fib");
+					$qtiRenderFib->set_attribute("fibtype", "String");
+					$qtiRenderFib->set_attribute("prompt", "Box");
+					$qtiResponseLabel = $this->domxml->create_element("response_label");
+					$qtiResponseLabel->set_attribute("ident", $i);
+					$qtiRenderFib->append_child($qtiResponseLabel);
+					$qtiResponseStr->append_child($qtiRenderFib);
+					$qtiFlow->append_child($qtiResponseStr);
+				}
+			}
+		}
+		$qtiPresentation->append_child($qtiFlow);
+		$qtiIdent->append_child($qtiPresentation);
+
+		// PART II: qti resprocessing
+		$qtiResprocessing = $this->domxml->create_element("resprocessing");
+		$qtiOutcomes = $this->domxml->create_element("outcomes");
+		$qtiDecvar = $this->domxml->create_element("decvar");
+		$qtiOutcomes->append_child($qtiDecvar);
+		$qtiResprocessing->append_child($qtiOutcomes);
+		// add response conditions
+		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		{
+			$gap = $this->get_gap($i);
+			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			{
+				foreach ($gap as $index => $answer)
+				{
+					$qtiRespcondition = $this->domxml->create_element("respcondition");
+					$qtiRespcondition->set_attribute("continue", "Yes");
+					// qti conditionvar
+					$qtiConditionvar = $this->domxml->create_element("conditionvar");
+					$qtiVarequal = $this->domxml->create_element("varequal");
+					$qtiVarequal->set_attribute("respident", "gap_$i");
+					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
+					$qtiVarequal->append_child($qtiVarequalText);
+					$qtiConditionvar->append_child($qtiVarequal);
+					// qti setvar
+					$qtiSetvar = $this->domxml->create_element("setvar");
+					$qtiSetvar->set_attribute("action", "Add");
+					$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+					$qtiSetvar->append_child($qtiSetvarText);
+					// qti displayfeedback
+					$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+					$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+					$linkrefid = "";
+					if ($answer->is_true())
+					{
+						$linkrefid = "$i" . "_True";
+					}
+						else
+					{
+						$linkrefid = "$i" . "_False_$index";
+					}
+					$qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
+					$qtiRespcondition->append_child($qtiConditionvar);
+					$qtiRespcondition->append_child($qtiSetvar);
+					$qtiRespcondition->append_child($qtiDisplayfeedback);
+					$qtiResprocessing->append_child($qtiRespcondition);
+				}
+			}
+			else
+			{
+				foreach ($gap as $index => $answer)
+				{
+					$qtiRespcondition = $this->domxml->create_element("respcondition");
+					$qtiRespcondition->set_attribute("continue", "Yes");
+					// qti conditionvar
+					$qtiConditionvar = $this->domxml->create_element("conditionvar");
+					$qtiVarequal = $this->domxml->create_element("varequal");
+					$qtiVarequal->set_attribute("respident", "gap_$i");
+					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
+					$qtiVarequal->append_child($qtiVarequalText);
+					$qtiConditionvar->append_child($qtiVarequal);
+					// qti setvar
+					$qtiSetvar = $this->domxml->create_element("setvar");
+					$qtiSetvar->set_attribute("action", "Add");
+					$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+					$qtiSetvar->append_child($qtiSetvarText);
+					// qti displayfeedback
+					$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+					$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+					$qtiDisplayfeedback->set_attribute("linkrefid", "$i" . "_True_$index");
+					$qtiRespcondition->append_child($qtiConditionvar);
+					$qtiRespcondition->append_child($qtiSetvar);
+					$qtiRespcondition->append_child($qtiDisplayfeedback);
+					$qtiResprocessing->append_child($qtiRespcondition);
+				}
+			}
+		}
+		$qtiIdent->append_child($qtiResprocessing);
+		
+		// PART III: qti itemfeedback
+		for ($i = 0; $i < $this->get_gap_count(); $i++)
+		{
+			$gap = $this->get_gap($i);
+			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			{
+				foreach ($gap as $index => $answer)
+				{
+					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+					$linkrefid = "";
+					if ($answer->is_true())
+					{
+						$linkrefid = "$i" . "_True";
+					}
+						else
+					{
+						$linkrefid = "$i" . "_False_$index";
+					}
+					$qtiItemfeedback->set_attribute("ident", $linkrefid);
+					$qtiItemfeedback->set_attribute("view", "All");
+					// qti flow_mat
+					$qtiFlowmat = $this->domxml->create_element("flow_mat");
+					$qtiMaterial = $this->domxml->create_element("material");
+					$qtiMattext = $this->domxml->create_element("mattext");
+					// Insert response text for right/wrong answers here!!!
+					$qtiMattextText = $this->domxml->create_text_node("");
+					$qtiMattext->append_child($qtiMattextText);
+					$qtiMaterial->append_child($qtiMattext);
+					$qtiFlowmat->append_child($qtiMaterial);
+					$qtiItemfeedback->append_child($qtiFlowmat);
+					$qtiIdent->append_child($qtiItemfeedback);
+				}
+			}
+			else
+			{
+				foreach ($gap as $index => $answer)
+				{
+					$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+					$linkrefid = "";
+					if ($answer->is_true())
+					{
+						$linkrefid = "$i" . "_True_$index";
+					}
+						else
+					{
+						$linkrefid = "$i" . "_False_$index";
+					}
+					$qtiItemfeedback->set_attribute("ident", $linkrefid);
+					$qtiItemfeedback->set_attribute("view", "All");
+					// qti flow_mat
+					$qtiFlowmat = $this->domxml->create_element("flow_mat");
+					$qtiMaterial = $this->domxml->create_element("material");
+					$qtiMattext = $this->domxml->create_element("mattext");
+					// Insert response text for right/wrong answers here!!!
+					$qtiMattextText = $this->domxml->create_text_node("");
+					$qtiMattext->append_child($qtiMattextText);
+					$qtiMaterial->append_child($qtiMattext);
+					$qtiFlowmat->append_child($qtiMaterial);
+					$qtiItemfeedback->append_child($qtiFlowmat);
+					$qtiIdent->append_child($qtiItemfeedback);
+				}
+			}
+		}
+		return $this->domxml->dump_mem(true);
+	}
+
+/**
 * Evaluates the text gap solutions from the cloze text
 *
 * Evaluates the text gap solutions from the cloze text. A single or multiple text gap solutions
