@@ -107,6 +107,9 @@ assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
+assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
+assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
+assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
 assessment#:#fill_out_all_answer_fields#:#Wypełnij wszystkie pola odpowiedzi przed dodaniem nowego!
@@ -177,6 +180,7 @@ assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Tekst odstępu
+assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Prawda
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
@@ -266,6 +270,7 @@ assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczn
 assessment#:#tt_self_assessment#:#Test samooceny
 assessment#:#unlimited#:#nielimitowany
 assessment#:#uploaded_material#:#Załadowany Materiał
+assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Aktywny
 chat#:#chat_active_users#:#Użytkownik (aktywny)
 chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
