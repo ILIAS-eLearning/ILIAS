@@ -437,7 +437,7 @@ class ilLMPresentationGUI
 		switch($this->lm->getType())
 		{
 			case "dbk":
-				return $this->ilPage($a_child);
+	#			return $this->ilPage($a_child);
 				return $this->lm_gui->showAbstract();
 
 			case "lm":
