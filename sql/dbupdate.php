@@ -4972,4 +4972,14 @@ ALTER  TABLE  `usr_data`  ADD  `agree_date` DATETIME DEFAULT  '0000-00-00 00:00'
 UPDATE settings SET value = '3.2.1 2004-11-03' WHERE keyword = 'ilias_version' LIMIT 1;
 <#334>
 ALTER TABLE `survey_survey_question`  ADD `heading` VARCHAR(255) AFTER `sequence`;
+<#335>
+CREATE TABLE IF NOT EXISTS usr_pwassist (
+  pwassist_id varchar(32) NOT NULL default '',
+  expires int(11) NOT NULL default '0',
+  ctime int(11) NOT NULL default '0',
+  user_id int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (pwassist_id),
+  UNIQUE KEY user_id (user_id)
+) TYPE=MyISAM;
+
 

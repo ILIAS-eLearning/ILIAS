@@ -226,7 +226,8 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
-		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
+		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php"
+		and $script != "pwassist.php")
 {
 	// phpinfo();exit;
 

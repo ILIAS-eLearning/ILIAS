@@ -124,6 +124,14 @@ if ($ilias->getSetting("enable_registration") and AUTH_CURRENT == AUTH_LOCAL)
 	$tpl->setVariable("LANG_ID", $_GET["lang"]);
 	$tpl->parseCurrentBlock();
 }
+// allow password assistance? Surpress option if Authmode is not local database
+if ($ilias->getSetting("password_assistance") and AUTH_CURRENT == AUTH_LOCAL)
+{
+	$tpl->setCurrentBlock("password_assistance");
+	$tpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
+	$tpl->setVariable("LANG_ID", $_GET["lang"]);
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));

@@ -968,6 +968,7 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
 common#:#enter_filename_deliver#:#Geben Sie eine Bearbeitung zum Abgeben an
@@ -1819,6 +1820,8 @@ common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
+common#:#password_assistance_disabled#:#Passwort Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS Datenbank erfolgt.
+common#:#password_assistance_info#:#Wenn Password Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Password vergessen?" auf der Login-Seite von ILIAS. Benutzer können diesen Link verwenden, um ein neues Password an ihr Benutzerkonto zuzuweisen, ohne Unterstützung durch einen System Administrator in Anspruch nehmen zu müssen.
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
@@ -3740,6 +3743,18 @@ payment#:#pays_user_already_assigned#:#Dieser Benutzer ist bereits zugeordnet.
 payment#:#pays_vendor#:#Verkäufer
 payment#:#price_a#:#Preis
 payment#:#update#:#Aktualisieren
+pwassist#:#password_assistance#:#Passwort Unterstützung
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. 
+pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
+pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
+pwassist#:#pwassist_mail_subject#:#ILIAS Passwort Unterstützung
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.
+pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. 
+pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
+pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
+pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
+pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 search#:#search_active#:#Aktive Benutzer
 search#:#search_all_results#:#Alle Resultate
 search#:#search_and#:#und
