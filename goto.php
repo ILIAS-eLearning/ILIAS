@@ -33,6 +33,12 @@
 * @version $Id$
 */
 
+if (isset($_GET["client_id"]))
+{
+	setcookie("ilClientId",$_GET["client_id"]);
+	$_COOKIE["ilClientId"] = $_GET["client_id"];
+}
+
 require_once "./include/inc.header.php";
 
 $target_arr = explode("_", $_GET["target"]);
