@@ -38,14 +38,8 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#guest#:#Guest
-common#:#guests#:#Guests
-common#:#and#:#and
-common#:#show_details#:#show details
-common#:#hide_details#:#hide details
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
-common#:#fullname#:#Fullname
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -53,7 +47,7 @@ common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
-common#:#enable_registration#:#Enable new user registration
+common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
@@ -174,6 +168,7 @@ common#:#editor#:#Editor
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
+common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
@@ -217,6 +212,7 @@ common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_new#:#New Forum
 common#:#from#:#From
+common#:#fullname#:#Fullname
 common#:#functions#:#Functions
 common#:#gender#:#Gender
 common#:#generate#:#Generate
@@ -241,7 +237,10 @@ common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_new#:#New Group
+common#:#guest#:#Guest
+common#:#guests#:#Guests
 common#:#help#:#Help
+common#:#hide_details#:#hide details
 common#:#hobby#:#Interests/Hobbies
 common#:#host#:#Host
 common#:#http_path#:#Http Path
@@ -610,6 +609,7 @@ common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
 common#:#settings#:#Settings
+common#:#show_details#:#show details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
@@ -695,7 +695,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
-content#:#cont_toc#:#Table of Contents
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -784,6 +783,7 @@ content#:#cont_table_width#:#Table Width
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Table of Contents
 content#:#cont_top#:#Top
 content#:#cont_version#:#version
 content#:#cont_width#:#Width

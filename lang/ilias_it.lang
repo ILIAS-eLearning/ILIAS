@@ -47,6 +47,7 @@ common#:#adopt#:#adopt###28 Mar 2003 new variable
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###29 Mar 2003 new variable
 common#:#all_objects#:#All Objects###04 Aug 2003 new variable
 common#:#allow_register#:#Available in registration form for new users###13 Aug 2003 new variable
+common#:#and#:#and###20 Aug 2003 new variable
 common#:#announce#:#annunciare
 common#:#announce_changes#:#annunciare cambio
 common#:#answers#:#answers
@@ -167,6 +168,7 @@ common#:#editor#:#editore
 common#:#email#:#email
 common#:#email_not_valid#:#The email addess you entered is not valid!###20 Mar 2003 new variable
 common#:#enable#:#attivare
+common#:#enable_registration#:#Enable new user registration###20 Aug 2003 new variable
 common#:#enabled#:#enabled
 common#:#enumerate#:#numerare
 common#:#err_1_param#:#Only 1 parameter!###26 Mar 2003 new variable
@@ -210,6 +212,7 @@ common#:#frm_add#:#Add Forum###06 Aug 2003 new variable
 common#:#frm_added#:#Forum added###06 Aug 2003 new variable
 common#:#frm_new#:#New Forum###06 Aug 2003 new variable
 common#:#from#:#di:###25 Mar 2003 content changed
+common#:#fullname#:#Fullname###20 Aug 2003 new variable
 common#:#functions#:#funzioni
 common#:#gender#:#sesso
 common#:#generate#:#generare
@@ -234,7 +237,10 @@ common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
 common#:#grp_new#:#New Group###06 Aug 2003 new variable
+common#:#guest#:#Guest###20 Aug 2003 new variable
+common#:#guests#:#Guests###20 Aug 2003 new variable
 common#:#help#:#aiuto
+common#:#hide_details#:#hide details###20 Aug 2003 new variable
 common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
 common#:#host#:##host
 common#:#http_path#:#percorso HTTP
@@ -603,6 +609,7 @@ common#:#setUserLanguage#:#Set User Language###19 Apr 2003 new variable
 common#:#set_offline#:#mettere offline
 common#:#set_online#:#mettere online
 common#:#settings#:#Settings###25 Mar 2003 new variable
+common#:#show_details#:#show details###20 Aug 2003 new variable
 common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#proprietario
@@ -776,6 +783,7 @@ content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
 content#:#cont_term#:#Term###15 Aug 2003 new variable
 content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
+content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable
 content#:#cont_width#:#Width###08 Jul 2003 new variable
