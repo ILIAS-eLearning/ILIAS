@@ -245,7 +245,11 @@ class ilSoapUserAdministration
 
 		if(strlen($user_data['passwd']))
 		{
-			$user_obj->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
+			$user_new['passwd_type'] = IL_PASSWD_PLAIN;
+		}
+		else
+		{
+			$user_new['passwd_type'] = IL_PASSWD_MD5;
 		}
 		$this->__setUserData($user_obj,$user_new);
 
@@ -300,7 +304,7 @@ class ilSoapUserAdministration
 
 		$new_user =& new ilObjUser();
 
-		$new_user->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
+		$user_data['passwd_type'] =  IL_PASSWD_PLAIN;
 		$this->__setUserData($new_user,$user_data);
 
 
@@ -533,7 +537,7 @@ class ilSoapUserAdministration
 			$user_data['time_limit_owner'] = USER_FOLDER_ID;
 		}
 
-		$user_obj->assignData($user_data,IL_NO_PASSWD);
+		$user_obj->assignData($user_data);
 
 		if(isset($user_data['user_language']))
 		{
