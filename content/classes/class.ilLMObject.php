@@ -255,5 +255,28 @@ class ilLMObject
 		return $obj_list;
 	}
 
+
+	/**
+	* delete all objects of content object (digi book / learning module)
+	*/
+	function _deleteAllObjectData(&$a_cobj)
+	{
+		$query = "SELECT * FROM lm_data ".
+			"WHERE lm_id= '".$a_cobj->getId()."'";
+		$obj_set = $this->ilias->db->query($query);
+
+		require_once("content/classes/class.ilLMObjectFactory.php");
+		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$nested = new ilNestedSetXML();
+			$nested->init($obj_rec["obj_id"], $obj_rec["type"]);
+			$nested->deleteAllDBData();
+
+			$query = "DELETE FROM lm_data WHERE obj_id= '".$obj_rec["obj_id"]."'";
+			$this->ilias->db->query($query);
+
+		}
+	}
+
 }
 ?>
