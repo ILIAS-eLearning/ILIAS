@@ -56,7 +56,10 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 			if ($resource->getHref() != "")
 			{
-				header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
+				//header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
+				$this->tpl =& new ilTemplate("tpl.scorm_content_frameset.html", true, true, true);
+				$this->tpl->setVariable("ITEM_LOCATION", "../".$slm_obj->getDataDirectory()."/".$resource->getHref());
+				$this->tpl->show();
 				exit;
 			}
 		}
