@@ -218,7 +218,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_ordering");
 		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this) . "#bottom");

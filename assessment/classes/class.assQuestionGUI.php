@@ -396,17 +396,19 @@ class ASS_QuestionGUI
 	}
 
 	/**
-	* save question and return to page editor
+	* save question
 	*/
 	function save()
 	{
 		$this->writePostData();
 		$this->object->saveToDb();
-		$this->object->removeAllQuestionReferences();
 		if ($_GET["test_ref_id"] == "")
 		{
-			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+			$_GET["q_id"] = $this->object->getId();
+			$this->editQuestion();
+			sendInfo($this->lng->txt("msg_obj_modified"), true);
+//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
+//			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 		}
 		else
 		{

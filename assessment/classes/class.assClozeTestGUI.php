@@ -205,7 +205,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("APPLY","Apply");
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_cloze");
 		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this) . "#bottom");

@@ -2115,6 +2115,11 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tst_visible");
 					$tpl->setVariable("V_TITLE", $tst_data["title"]);
 					$tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("tst_warning");
+					$tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+					$tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_test_not_complete"));
+					$tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_test_not_complete"));
+					$tpl->parseCurrentBlock();
 				}
 
 				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
@@ -2550,7 +2555,7 @@ class ilRepositoryGUI
 
 			foreach ($qpool as $qpl_data)
 			{
-          $obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"];
+          $obj_link = "assessment/questionpool.php?ref_id=" . $qpl_data["ref_id"] . "&cmd=questions";
 
 				//if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				//{
@@ -2570,7 +2575,7 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_edit");
-					$tpl->setVariable("EDIT_LINK","assessment/questionpool.php?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK",$obj_link . "&cmd=questions");
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
@@ -2578,7 +2583,7 @@ class ilRepositoryGUI
 				elseif ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_edit");
-					$tpl->setVariable("EDIT_LINK","assessment/questionpool.php?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK", $obj_link . "&cmd=questions");
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
 					$tpl->parseCurrentBlock();

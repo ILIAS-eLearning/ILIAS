@@ -146,8 +146,8 @@ assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
-assessment#:#failed_official#:#failed###04 Sep 2004 new variable
-assessment#:#failed_short#:#failed###04 Sep 2004 new variable
+assessment#:#failed_official#:#nicht bestanden
+assessment#:#failed_short#:#nicht bestanden
 assessment#:#false#:#Falsch
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
 assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
@@ -192,8 +192,8 @@ assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswäh
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
-assessment#:#passed_official#:#passed###04 Sep 2004 new variable
-assessment#:#passed_short#:#passed###04 Sep 2004 new variable
+assessment#:#passed_official#:#bestanden
+assessment#:#passed_short#:#bestanden
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
@@ -218,7 +218,7 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
-assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
+assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qt_cloze#:#Lückentext
 assessment#:#qt_imagemap#:#ImageMap-Frage
@@ -294,7 +294,7 @@ assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeuge
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
-assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
+assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Versuche
 assessment#:#tst_percent_solved#:#Prozent gelöst

@@ -164,7 +164,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 			case "ass_multiplechoicegui":
-				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($q_gui);

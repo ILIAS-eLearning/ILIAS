@@ -809,6 +809,7 @@ class ASS_Question
 	*/
 	function removeAllQuestionReferences($question_id = "")
 	{
+	/*
 		if (!$question_id)
 		{
 			$question_id = $this->getId();
@@ -827,6 +828,7 @@ class ASS_Question
 		// delete all resultsets for this question
 		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$question_id"));
 		$deleteresult = $this->ilias->db->query($querydelete);
+		*/
 	}
 
 	/**

@@ -219,7 +219,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
 		}
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_matching");
