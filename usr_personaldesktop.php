@@ -10,7 +10,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.Mail.php";
+require_once "classes/class.ilMail.php";
 require_once "classes/class.User.php";
 
 //add template for content
@@ -55,7 +55,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 //$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
 // SYSTEM MAILS
-$umail = new Mail($_SESSION["AccountId"]);
+$umail = new ilMail($_SESSION["AccountId"]);
 $smails = $umail->getMailsOfFolder(0);
 
 //last visited lessons

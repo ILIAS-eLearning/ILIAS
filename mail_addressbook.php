@@ -10,8 +10,8 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
-require_once "classes/class.Mail.php";
-require_once "classes/class.Addressbook.php";
+require_once "classes/class.ilMail.php";
+require_once "classes/class.ilAddressbook.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_addressbook.html");
 $tpl->setVariable("TXT_ADDRESSBOOK",$lng->txt("mail_addressbook"));
@@ -23,12 +23,12 @@ setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 // BUTTONS
 include "./include/inc.mail_buttons.php";
 
-$abook = new Addressbook($_SESSION["AccountId"]);
+$abook = new ilAddressbook($_SESSION["AccountId"]);
 
 // ADD MAIL SENDER TO ADDRESSBOOK
 if($_GET["type"] == 'add')
 {
-	$umail = new Mail($_SESSION["AccountId"]);
+	$umail = new ilMail($_SESSION["AccountId"]);
 	$mail_data = $umail->getMail($_GET["mail_id"]);
 
 	$tmp_user = new User($mail_data["sender_id"]);
@@ -55,7 +55,7 @@ if(isset($_POST["cmd"]))
 			}
 			else
 			{
-				$tmp_abook = new Addressbook($_SESSION["AccountId"]);
+				$tmp_abook = new ilAddressbook($_SESSION["AccountId"]);
 				$data = $tmp_abook->getEntry($_POST["entry_id"][0]);
 			}
 			break;

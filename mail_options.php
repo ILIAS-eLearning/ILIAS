@@ -9,11 +9,11 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "./classes/class.Mailbox.php";
-require_once "./classes/class.FormatMail.php";
+require_once "./classes/class.ilMailbox.php";
+require_once "./classes/class.ilFormatMail.php";
 
-$mbox = new MailBox($_SESSION["AccountId"]);
-$umail = new FormatMail($_SESSION["AccountId"]);
+$mbox = new ilMailBox($_SESSION["AccountId"]);
+$umail = new ilFormatMail($_SESSION["AccountId"]);
 
 // CREATE OUTPUT
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_options.html");

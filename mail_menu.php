@@ -1,10 +1,10 @@
 <?php
 require_once "include/inc.header.php";
-require_once "classes/class.MailExplorer.php";
+require_once "classes/class.ilMailExplorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-$exp = new MailExplorer("mail.php",$_SESSION["AccountId"]);
+$exp = new ilMailExplorer("mail.php",$_SESSION["AccountId"]);
 $exp->setTargetGet("mobj_id");
 
 if ($_GET["mexpand"] == "")
