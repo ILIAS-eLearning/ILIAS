@@ -1087,6 +1087,14 @@ class ilRepositoryGUI
 				$obj_icon = "icon_mep_b.gif";
 				$obj_link = "content/mep_edit.php?ref_id=".$mep_data["ref_id"];
 
+				if ($this->rbacsystem->checkAccess('delete', $mep_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("mep_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$mep_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
 				if ($this->rbacsystem->checkAccess('write',$mep_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("mep_edit");
@@ -1242,6 +1250,15 @@ class ilRepositoryGUI
 					$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?ref_id=".
 									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				}
+
+				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				{
+					$tpl->setCurrentBlock("forum_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+
 				// add to desktop link
 				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($data["ref_id"], "frm"))
 				{
