@@ -1,0 +1,24 @@
+<form method="post" action="{FORMACTION}" target="print_view">
+<div class="ilc_TableOfContents">
+<a class="ilc_LMMenu" href="{LINK_BACK}" ">{TXT_BACK}</a>
+<br /><br />
+<h1 class = "ilc_TableOfContentsHeader">{HEADER}</h1>
+<br />
+<input type="submit" class="submit" name="cmd[showPrintView]" value="{TXT_SHOW_PRINT}">
+<br /><br />
+<!-- BEGIN lm_item -->
+<table cellpadding="1" cellspacing="0" border="0">
+<tr>
+<!-- BEGIN indent -->
+<td nowrap="1" valign="top" align="left"><img class="spacer" src="{IMG_BLANK}" border="0" /></td>
+<!-- END indent -->
+<td nowrap="1" valign="top" align="left"><input type="checkbox" name="item[{ITEM_ID}]" value="y" {CHECKED} /></td>
+<td nowrap="1" valign="top" align="left"><img src="{IMG_TYPE}" border="0" /></td>
+<td align="left" nowrap="1">
+{TXT_TITLE}
+</td>
+</tr>
+</table>
+<!-- END lm_item -->
+</div>
+</form>

@@ -440,13 +440,20 @@
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
 			</xsl:variable>
 
-			<a class="ilc_IntLink">
-				<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
-				<xsl:if test="$link_target != ''">
-					<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-				</xsl:if>
-				<xsl:apply-templates/>
-			</a>
+			<xsl:if test="$mode != 'print'">
+				<a class="ilc_IntLink">
+					<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+					<xsl:if test="$link_target != ''">
+						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+					</xsl:if>
+					<xsl:apply-templates/>
+				</a>
+			</xsl:if>
+			<xsl:if test="$mode = 'print'">
+				<span class="ilc_Print_IntLink">
+					<xsl:apply-templates/>
+				</span>
+			</xsl:if>
 
 		</xsl:when>
 		<!-- inline mob vri -->
@@ -742,23 +749,17 @@
 	<tr class="ilc_FileItem">
 		<td class="ilc_FileItem">
 		<xsl:call-template name="EditReturnAnchors"/>
-		<a>
-			<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
-			<xsl:value-of select="./Location"/>
-			<xsl:if test="./Size">
-				<xsl:choose>
-					<xsl:when test="./Size > 1000000">
-						(<xsl:value-of select="round(./Size div 10000) div 100"/> MB)
-					</xsl:when>
-					<xsl:when test="./Size > 1000">
-						(<xsl:value-of select="round(./Size div 10) div 100"/> KB)
-					</xsl:when>
-					<xsl:otherwise>
-						(<xsl:value-of select="./Size"/> B)
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-		</a>
+		<xsl:if test="$mode != 'print'">
+			<a>
+				<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+				<xsl:call-template name="FileItemText"/>
+			</a>
+		</xsl:if>
+		<xsl:if test="$mode = 'print'">
+			<span class="ilc_Print_FileItem">
+				<xsl:call-template name="FileItemText"/>
+			</span>
+		</xsl:if>
 		<!-- <xsl:value-of select="@HierId"/> -->
 		<xsl:if test="$mode = 'edit'">
 			<!-- checkbox -->
@@ -779,6 +780,24 @@
 
 		</td>
 	</tr>
+</xsl:template>
+
+<!-- FileItemText -->
+<xsl:template name="FileItemText">
+	<xsl:value-of select="./Location"/>
+	<xsl:if test="./Size">
+		<xsl:choose>
+			<xsl:when test="./Size > 1000000">
+				(<xsl:value-of select="round(./Size div 10000) div 100"/> MB)
+			</xsl:when>
+			<xsl:when test="./Size > 1000">
+				(<xsl:value-of select="round(./Size div 10) div 100"/> KB)
+			</xsl:when>
+			<xsl:otherwise>
+				(<xsl:value-of select="./Size"/> B)
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:if>
 </xsl:template>
 
 <!-- MediaAlias -->
@@ -1311,7 +1330,7 @@
 	<xsl:param name="cmobid"/>
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1 and
 		count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Fullscreen']) = 1 and
-		$mode != 'fullscreen'">
+		$mode != 'fullscreen' and $mode != 'print'">
 		<a target="_new">
 		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 		<img border="0" align="right">

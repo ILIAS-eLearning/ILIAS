@@ -74,7 +74,7 @@ class ilLMPresentationGUI
 				include_once("./content/classes/class.ilObjLearningModuleGUI.php");
 
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
-				
+
 				break;
 		}
 		$this->lm =& $this->lm_gui->object;
@@ -82,8 +82,11 @@ class ilLMPresentationGUI
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
 
-#		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
-		//echo $this->lm->getTitle(); exit;
+		if ($cmd == "post")
+		{
+			$cmd = key($_POST["cmd"]);
+		}
+
 		$this->$cmd();
 	}
 
@@ -683,7 +686,7 @@ class ilLMPresentationGUI
 
 	function ilLMMenu()
 	{
-		$this->tpl->setVariable("MENU",$this->lm_gui->setilLMMenu());
+		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu());
 	}
 
 	function ilLocator()
@@ -1449,6 +1452,211 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "TableOfContents");
 	}
 
+	/**
+	* table of contents
+	*/
+	function showPrintViewSelection()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "PrintViewSelection");
+
+		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_selection.html", true);
+
+		// set title header
+		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("LINK_BACK",
+			"lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+
+//		$this->tpl->setVariable("FORMACTION", "lm_presentation.php?ref_id=".$_GET["ref_id"]
+//			."&obj_id=".$_GET["obj_id"]."&cmd=post");
+
+		$tree = $this->lm->getLMTree();
+		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+
+		if (!is_array($_POST["item"]))
+		{
+			$_POST["item"][$_GET["obj_id"]] = "y";
+		}
+
+		foreach ($nodes as $node)
+		{
+
+			// indentation
+			for ($i=0; $i<$node["depth"]; $i++)
+			{
+				$this->tpl->setCurrentBlock("indent");
+				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// output title
+			$this->tpl->setCurrentBlock("lm_item");
+
+			switch ($node["type"])
+			{
+				case "pg":
+					$this->tpl->setVariable("TXT_TITLE", $node["title"]);
+					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
+					break;
+
+				case "du";
+					$this->tpl->setVariable("TXT_TITLE", "<b>".$this->lm->getTitle()."</b>");
+					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_lm.gif"));
+					break;
+
+				default:
+					$this->tpl->setVariable("TXT_TITLE", "<b>".$node["title"]."</b>");
+					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
+					break;
+			}
+
+			$this->tpl->setVariable("ITEM_ID", $node["obj_id"]);
+			if ($_POST["item"][$node["obj_id"]] == "y")
+			{
+				$this->tpl->setVariable("CHECKED", "checked=\"1\"");
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->show();
+
+		$ilBench->stop("ContentPresentation", "PrintViewSelection");
+	}
+
+	/**
+	* show print view
+	*/
+	function showPrintView()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "PrintView");
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET",ilObjStyleSheet::getContentPrintStyle());
+
+		// content style
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+
+		//$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_view.html", true);
+
+		// set title header
+		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+
+		$tree = $this->lm->getLMTree();
+		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("content/classes/class.ilLMPageObject.php");
+
+		$act_level = 99999;
+		$activated = false;
+
+		foreach ($nodes as $node)
+		{
+
+			// print all subchapters/subpages if higher chapter
+			// has been selected
+			if ($node["depth"] <= $act_level)
+			{
+				if ($_POST["item"][$node["obj_id"]] == "y")
+				{
+					$act_level = $node["depth"];
+					$activated = true;
+				}
+				else
+				{
+					$act_level = 99999;
+					$activated = false;
+				}
+			}
+
+			if ($activated)
+			{
+				$this->tpl->setCurrentBlock("print_item");
+
+				if ($node["type"] == "pg")
+				{
+					$page_id = $node["obj_id"];
+
+					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+					$page_object->buildDom();
+					//$int_links = $page_object->getInternalLinks();
+					$page_object_gui =& new ilPageObjectGUI($page_object);
+
+					// read link targets
+					//$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
+
+					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
+					$lm_pg_obj->setLMId($this->lm->getId());
+					//$page_object_gui->setLinkXML($link_xml);
+
+					// USED FOR DBK PAGE TURNS
+					//$page_object_gui->setBibId($_SESSION["bib_id"]);
+					//$page_object_gui->enableCitation((bool) $_SESSION["citation"]);
+
+					// determine target frames for internal links
+					$page_object_gui->setLinkFrame($_GET["frame"]);
+					$page_object_gui->setOutputMode("print");
+					//$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
+					//	"&amp;ref_id=".$this->lm->getRefId());
+
+					$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
+
+					// ADDED FOR CITATION
+					//$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
+					//$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+					//$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId());
+
+					//if($_SESSION["tr_id"])
+					//{
+					//	$page_object_gui->setOutputSubmode("translation");
+					//}
+
+					// content style
+					/*
+					$this->tpl->setCurrentBlock("ContentStyle");
+					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+						ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+					$this->tpl->parseCurrentBlock();
+
+					// syntax style
+					$this->tpl->setCurrentBlock("SyntaxStyle");
+					$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+						ilObjStyleSheet::getSyntaxStylePath());
+					$this->tpl->parseCurrentBlock();*/
+
+					$this->tpl->setVariable("CONTENT", $page_object_gui->showPage());
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->show(false);
+
+		$ilBench->stop("ContentPresentation", "PrintView");
+	}
 
 	// PRIVATE METHODS
 	function setSessionVars()

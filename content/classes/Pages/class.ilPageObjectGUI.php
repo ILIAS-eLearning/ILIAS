@@ -348,7 +348,8 @@ class ilPageObjectGUI
 					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "content");
 				}
 			}
-			if ($this->getOutputMode() != "presentation")
+			if ($this->getOutputMode() != "presentation" &&
+				$this->getOutputMode() != "print")
 			{
 				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}

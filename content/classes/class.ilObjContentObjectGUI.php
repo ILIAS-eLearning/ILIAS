@@ -1852,6 +1852,42 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "properties");
 	}
 
+	/**
+	* get lm menu html
+	*/
+	function setilLMMenu()
+	{
+		if (!$this->object->isActiveLMMenu())
+		{
+			return "";
+		}
+
+		include_once("./classes/class.ilTemplate.php");
+
+		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
+		$tpl_menu->setCurrentBlock("lm_menu_btn");
+
+		if ($this->object->isActiveTOC())
+		{
+			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_contents"));
+			$tpl_menu->setVariable("BTN_TARGET", "_top");
+			$tpl_menu->parseCurrentBlock();
+		}
+
+		if ($this->object->isActivePrintView())
+		{
+			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
+			$tpl_menu->setVariable("BTN_TARGET", "_top");
+			$tpl_menu->parseCurrentBlock();
+		}
+
+		return $tpl_menu->get();
+		//return "";
+	}
+
+
 	/*
 	* list all offline files
 	*/
