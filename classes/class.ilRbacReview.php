@@ -586,6 +586,7 @@ class ilRbacReview
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// exclude master role folder from list
 			if ($row->parent != ROLE_FOLDER_ID)
 			{
 				$parent[] = $row->parent;

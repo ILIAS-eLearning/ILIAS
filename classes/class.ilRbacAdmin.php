@@ -326,13 +326,15 @@ class ilRbacAdmin
 			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
 		$this->ilias->db->query($q);
 
+//var_dump("<pre>",$a_rol_id,$a_ops,$ops_ids,$a_ref_id,"</pre>");exit;
+
 		return true;
 	}
 
 	/**
-	* Revokes permissions of object. Update of table rbac_pa.
-	*  Revokes all permission for all roles for that object (with this reference).
-	*  When a role_id is given this applies only to that role
+	* Revokes permissions of an object of one role. Update of table rbac_pa.
+	* Revokes all permission for all roles for that object (with this reference).
+	* When a role_id is given this applies only to that role
 	* @access	public
 	* @param	integer	reference id of object where permissions should be revoked
 	* @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
@@ -370,6 +372,42 @@ class ilRbacAdmin
 		return true;
 	}
 
+	/**
+	* Revokes permissions of a LIST of objects of ONE role. Update of table rbac_pa.
+	* @access	public
+	* @param	array	list of object_ids to revoke permissions
+	* @param	integer	role_id
+	* @return	boolean
+	*/
+	function revokePermissionList($a_obj_ids,$a_rol_id)
+	{
+		if (!isset($a_obj_ids) or !is_array($a_obj_ids))
+		{
+			$message = get_class($this)."::revokePermissionList(): Missing parameter or parameter is not an array! object_list: ".$a_obj_ids;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		if (!isset($a_rol_id))
+		{
+			$message = get_class($this)."::revokePermissionList(): Missing parameter! rol_id: ".$a_rol_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
+
+		$object_ids = implode(",",$a_obj_ids);
+
+		// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
+		$q = "DELETE FROM rbac_pa ".
+			 "WHERE obj_id IN (".$object_ids.")";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
 
 	/**
 	* Copies template permissions of one role to another.
