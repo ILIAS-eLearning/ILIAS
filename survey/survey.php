@@ -23,12 +23,12 @@
 
 
 /**
-* assessment test script used to call the test objects
+* survey script used to call the survey objects
 *
 * @author Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
-* @package assessment
+* @package survey
 */
 define("ILIAS_MODULE", "survey");
 chdir("..");
@@ -55,7 +55,6 @@ if (!isset($_GET["ref_id"]))
 {
 	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
 }
-
 if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)
@@ -102,7 +101,6 @@ else
 {
 	$obj_type = $_GET["type"];
 }
-
 // call gui object method
 $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
@@ -113,7 +111,6 @@ $module_dir = ($module == "")
 
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-//echo $class_constr.":".$method;
 switch ($_GET["cmd"]) 
 {
 	case "run":
