@@ -70,11 +70,39 @@ class ilLMPresentationGUI
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
 				break;
 		}
+		
+		// ### AA 03.09.01 added page access logger ###
+		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
+
 #		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
 		//echo $this->lm->getTitle(); exit;
 
 		$this->$cmd();
 	}
+
+// ### AA 03.09.01 added page access logger ###
+        /**
+        * logs access to lm objects to enable retrieval of a 'last viewed lm list' and 'return to last lm'
+        * allows only ONE entry per user and lm object
+        *
+        * A.L. Ammerlaan / INGMEDIA FH-Aachen / 2003.09.08
+        */
+        function lmAccess($usr_id,$lm_id,$obj_id)
+        {
+                // first check if an entry for this user and this lm already exist, when so, delete
+                $q = "DELETE FROM lo_access ".
+                         "WHERE usr_id='".$usr_id."' ".
+                         "AND lm_id='".$lm_id."'";
+                $this->ilias->db->query($q);
+
+                // insert new entry
+                $pg_title = "";
+                $q = "INSERT INTO lo_access ".
+                         "(timestamp,usr_id,lm_id,obj_id,lm_title) ".
+                         "VALUES ".
+                         "(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".$this->lm->getTitle()."')";
+                $this->ilias->db->query($q);
+        }
 
 	function export()
 	{
