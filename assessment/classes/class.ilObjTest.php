@@ -2864,6 +2864,7 @@ class ilObjTest extends ilObject
 */
 	function moveQuestions($move_questions, $target_index, $insert_mode)
 	{
+		$this->questions = array_values($this->questions);
 		$array_pos = array_search($target_index, $this->questions);
 		if ($insert_mode == 0)
 		{
