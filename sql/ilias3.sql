@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Mar 02, 2005 at 09:00 AM
+# Generation Time: Mar 04, 2005 at 04:33 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias340beta1`
+# Database : `ilias340beta1a`
 # --------------------------------------------------------
 
 #
@@ -2432,6 +2432,7 @@ INSERT INTO `lng_data` VALUES ('common', 'department', 'en', 'Department');
 INSERT INTO `lng_data` VALUES ('common', 'desc', 'en', 'Description');
 INSERT INTO `lng_data` VALUES ('common', 'description', 'en', 'Description');
 INSERT INTO `lng_data` VALUES ('common', 'desired_password', 'en', 'Desired Password');
+INSERT INTO `lng_data` VALUES ('common', 'desktop_items', 'en', 'Personal desktop items');
 INSERT INTO `lng_data` VALUES ('common', 'disable', 'en', 'disable');
 INSERT INTO `lng_data` VALUES ('common', 'disabled', 'en', 'Disabled');
 INSERT INTO `lng_data` VALUES ('common', 'domain', 'en', 'Domain');
@@ -3521,10 +3522,15 @@ INSERT INTO `lng_data` VALUES ('common', 'role_add', 'en', 'Add Role');
 INSERT INTO `lng_data` VALUES ('common', 'role_add_local', 'en', 'Add local Role');
 INSERT INTO `lng_data` VALUES ('common', 'role_add_user', 'en', 'Add User(s) to role');
 INSERT INTO `lng_data` VALUES ('common', 'role_added', 'en', 'Role added');
+INSERT INTO `lng_data` VALUES ('common', 'role_assigned_desk_items', 'en', 'Assigned desktop items');
+INSERT INTO `lng_data` VALUES ('common', 'role_assigned_desktop_item', 'en', 'Created new assignment.');
 INSERT INTO `lng_data` VALUES ('common', 'role_assignment', 'en', 'Role Assignment');
 INSERT INTO `lng_data` VALUES ('common', 'role_assignment_updated', 'en', 'Role assignment has been updated.');
 INSERT INTO `lng_data` VALUES ('common', 'role_count_users', 'en', 'Number of users');
 INSERT INTO `lng_data` VALUES ('common', 'role_deleted', 'en', 'Role deleted');
+INSERT INTO `lng_data` VALUES ('common', 'role_deleted_desktop_items', 'en', 'Deleted assignment.');
+INSERT INTO `lng_data` VALUES ('common', 'role_desk_add', 'en', 'Assign desktop item');
+INSERT INTO `lng_data` VALUES ('common', 'role_desk_none_created', 'en', 'No desktop items assigned to this role.');
 INSERT INTO `lng_data` VALUES ('common', 'role_edit', 'en', 'Edit Role');
 INSERT INTO `lng_data` VALUES ('common', 'role_header_edit_users', 'en', 'Change userassignment');
 INSERT INTO `lng_data` VALUES ('common', 'role_list_users', 'en', 'List users');
@@ -3533,8 +3539,12 @@ INSERT INTO `lng_data` VALUES ('common', 'role_new_search', 'en', 'New search');
 INSERT INTO `lng_data` VALUES ('common', 'role_no_groups_selected', 'en', 'Please select a group');
 INSERT INTO `lng_data` VALUES ('common', 'role_no_results_found', 'en', 'No results found');
 INSERT INTO `lng_data` VALUES ('common', 'role_no_roles_selected', 'en', 'Please select a role');
+INSERT INTO `lng_data` VALUES ('common', 'role_no_users_no_desk_items', 'en', 'It is not possible to assign personal desktop items, since you cannot assign users to this role.');
 INSERT INTO `lng_data` VALUES ('common', 'role_search_enter_search_string', 'en', 'Please enter a search string');
 INSERT INTO `lng_data` VALUES ('common', 'role_search_users', 'en', 'User search');
+INSERT INTO `lng_data` VALUES ('common', 'role_select_desktop_item', 'en', 'Please select one object that will be assigned to this role.');
+INSERT INTO `lng_data` VALUES ('common', 'role_select_one_item', 'en', 'Please select one object.');
+INSERT INTO `lng_data` VALUES ('common', 'role_sure_delete_desk_items', 'en', 'Are you sure you want to delete the following assignments?');
 INSERT INTO `lng_data` VALUES ('common', 'role_templates_only', 'en', 'Role templates only');
 INSERT INTO `lng_data` VALUES ('common', 'role_user_deassign', 'en', 'Deassign user from role');
 INSERT INTO `lng_data` VALUES ('common', 'role_user_edit', 'en', 'Edit account data');
@@ -3832,6 +3842,7 @@ INSERT INTO `lng_data` VALUES ('common', 'usrf_create_user', 'en', 'Create new u
 INSERT INTO `lng_data` VALUES ('common', 'usrf_delete', 'en', 'Delete user accounts');
 INSERT INTO `lng_data` VALUES ('common', 'usrf_edit_permission', 'en', 'Change access to user accounts');
 INSERT INTO `lng_data` VALUES ('common', 'usrf_edit_roleassignment', 'en', 'Change role assignment of user accounts');
+INSERT INTO `lng_data` VALUES ('common', 'usrf_push_desktop_items', 'en', 'Allow to push items on the personal desktop.');
 INSERT INTO `lng_data` VALUES ('common', 'usrf_read', 'en', 'Read access to user accounts');
 INSERT INTO `lng_data` VALUES ('common', 'usrf_read_users', 'en', 'Role assignment for local administrators');
 INSERT INTO `lng_data` VALUES ('common', 'usrf_visible', 'en', 'User accounts are visible');
@@ -4388,7 +4399,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_max_members_reached', 'en', 'The maxi
 INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_change_status', 'en', 'Change status');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_send_mail', 'en', 'Send mail');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member', 'en', 'Member');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_member_blocked', 'en', 'Mitglied (blocked)');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_member_blocked', 'en', 'Member (blocked)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_unblocked', 'en', 'Member (unblocked)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_updated', 'en', 'The member has been updated');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_members_deleted', 'en', 'Deleted members');
@@ -4397,7 +4408,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_members_title', 'en', 'Course members
 INSERT INTO `lng_data` VALUES ('crs', 'crs_move_down', 'en', 'Move down');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_move_up', 'en', 'Move up');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_moved_item', 'en', 'Moved course item');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_moved_objective', 'en', 'Moved learing objective.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_moved_objective', 'en', 'Moved learning objective.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_new_search', 'en', 'New search');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription', 'en', 'New course subscription');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_new_subscription_body', 'en', 'A new user has been subscribed');
@@ -7098,6 +7109,7 @@ INSERT INTO `rbac_operations` VALUES (45, 'invite', 'invite');
 INSERT INTO `rbac_operations` VALUES (46, 'participate', 'participate');
 INSERT INTO `rbac_operations` VALUES (47, 'cat_administrate_users', 'Administrate local user');
 INSERT INTO `rbac_operations` VALUES (48, 'read_users', 'read local users');
+INSERT INTO `rbac_operations` VALUES (49, 'push_desktop_items', 'Allow pushing desktop items');
 # --------------------------------------------------------
 
 #
@@ -7230,6 +7242,7 @@ INSERT INTO `rbac_ta` VALUES (22, 6);
 INSERT INTO `rbac_ta` VALUES (22, 13);
 INSERT INTO `rbac_ta` VALUES (22, 41);
 INSERT INTO `rbac_ta` VALUES (22, 48);
+INSERT INTO `rbac_ta` VALUES (22, 49);
 INSERT INTO `rbac_ta` VALUES (23, 1);
 INSERT INTO `rbac_ta` VALUES (23, 2);
 INSERT INTO `rbac_ta` VALUES (23, 3);
@@ -7386,11 +7399,6 @@ INSERT INTO `rbac_ta` VALUES (120, 2);
 INSERT INTO `rbac_ta` VALUES (120, 3);
 INSERT INTO `rbac_ta` VALUES (120, 4);
 INSERT INTO `rbac_ta` VALUES (120, 6);
-INSERT INTO `rbac_ta` VALUES (121, 1);
-INSERT INTO `rbac_ta` VALUES (121, 2);
-INSERT INTO `rbac_ta` VALUES (121, 3);
-INSERT INTO `rbac_ta` VALUES (121, 4);
-INSERT INTO `rbac_ta` VALUES (121, 6);
 # --------------------------------------------------------
 
 #
@@ -7899,6 +7907,24 @@ INSERT INTO `role_data` VALUES (14, 0, '0');
 # --------------------------------------------------------
 
 #
+# Table structure for table `role_desktop_items`
+#
+
+CREATE TABLE `role_desktop_items` (
+  `role_item_id` int(11) NOT NULL auto_increment,
+  `role_id` int(11) NOT NULL default '0',
+  `item_id` int(11) NOT NULL default '0',
+  `item_type` char(16) NOT NULL default '',
+  KEY `role_item_id` (`role_item_id`,`role_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `role_desktop_items`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `sahs_lm`
 #
 
@@ -8181,7 +8207,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '408');
+INSERT INTO `settings` VALUES ('db_version', '412');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
