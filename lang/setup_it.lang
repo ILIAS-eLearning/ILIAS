@@ -56,7 +56,7 @@ choose_language#:#Scegli la Tua lingua
 choose_languages#:#Per favore, scegli alcune lingue ulteriori e/o remuovi le lingue selezionate.
 choose_password#:#Per favore, scegli una password
 city#:#Citt&#224;
-clean_command#:#Clean Command###07 Jan 2005 new variable
+clean_command#:#Ripulisci
 client#:#Client
 client_access_mode_changed#:#Tipo di accesso del client cambiato
 client_data#:#Dati del client
@@ -66,7 +66,7 @@ client_institution#:#Client associato a
 client_login#:#Entra con il tuo Client ID
 client_name#:#Nome
 client_setup_not_finished#:#L&#039;installazione del client non &#232; ancora terminata
-collation#:#Collation###23 Mar 2005 new variable
+collation#:#Ordinamento caratteri
 contact#:#Informazioni utente
 contact_data#:#Dati dell'amministratore
 convert_path#:#Percorso del programma di conversione di immagini
@@ -98,7 +98,7 @@ db_conn#:#Connessione al Database
 db_host#:#Macchina con il database
 db_name#:#Nome del database
 db_needs_update#:#Il database deve essere aggiornato
-db_not_installed#:#Database not installed###01 Mar 2005 new variable
+db_not_installed#:#Database non installato
 db_pass#:#Password dell'amministratore
 db_type#:#Tipo di database
 db_user#:#Amministratore del database
@@ -130,7 +130,7 @@ environment#:#Ambiente
 err_create_database_failed#:#Creazione database fallita
 err_wrong_login#:#Login errata
 error_recipient#:#Destinatario degli errori
-example#:#Example###23 Mar 2005 new variable
+example#:#Esempio
 feedback_recipient#:#Destinatario delle richieste
 file_does_not_exist#:#Il file non esiste.
 file_version#:#Versione del file
@@ -150,14 +150,14 @@ htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (ne
 http_path#:#percorso HTTP 
 id#:#ID
 ilias_homepage#:#Homepage ILIAS 3
-ilias_nic#:#Registrazione del NIC (Network Information Center)
+ilias_nic#:#Registrazione del NIC
 ilias_nic_id#:#NIC-ID (Network Information Center)
 ilias_setup#:#Installazione di ILIAS 3
 ilias_version#:#Versione di ILIAS 3
 info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi indicati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
 info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione <b>'Crea il database'</b>. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire (per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.
-info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
-info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
+info_text_db_collation1#:#Se desideri un ordinamento di caratteri diverso dall'UTF-8 standard, devi creare il tuo database manualmente. In ogni caso, devi essere sicuro che l'insieme dei caratteri scelti per il database sia UTF-8.
+info_text_db_collation2#:#Maggiori informazioni sull'ordinamento dei caratteri effettuato da MySQL possono essere trovate sul sito di MySQL.
 info_text_delete#:#Puoi cancellare questo client agendo cliccando sul pulsante qui sotto. Comunque, solamente il tuo file client.ini verr&#224; cancellato, tutti i file contenuti nelle cartelle di dati ed il contenuto del database saranno mantenuti. I file ed il database potranno essere rimossi successivamente manualmente dall&#039;amministratore di sistema.
 info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232; stata eseguita con successo. <br/>Clicca su 'Login' per entrare in ILIAS 3.
 info_text_finish2#:#Alcune impostazioni sono ancora mancanti o non corrette. Per favore, verifica nella sequenza dei passi della procedura cosa deve essere fatto!
@@ -167,7 +167,7 @@ info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve esser
 info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
 info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS 3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
-info_text_nic1#:#Procurati un ID di questa installazione (NIC-ID - Network Information Center Identifier) dal nostro server ILIAS 3.<br/>Il NIC-ID &#232; necessario se vuoi condividere il contenuto di questa installazione di ILIAS 3 con le altre in rete.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo NIC-ID anche via email: se vuoi utilizzare questo metodo, clicca su
+info_text_nic1#:#Procurati un ID di questa installazione (NIC-ID ovvero Network Information Center Identifier) dal nostro server ILIAS 3.<br/>Il NIC-ID &#232; necessario se vuoi condividere il contenuto di questa installazione di ILIAS 3 con le altre in rete.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo NIC-ID anche via email: se vuoi utilizzare questo metodo, clicca su
 info_text_nic2#:#ed invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo NIC-ID via email, seleziona 'registrati tramite Email' e inserisci i dati nei campi appropriati.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo NIC-ID &#232;
 info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
@@ -202,13 +202,13 @@ ip_address#:#Indirizzo IP
 java_path#:#Percorso di Java
 java_path_comment#:#Richiesto per i moduli di tipo SCORM
 lang_cs#:#Ceco
-lang_da#:#Danish###01 Mar 2005 new variable
+lang_da#:#Danese
 lang_de#:#Tedesco
 lang_en#:#Inglese
 lang_error_occurred#:#Si &#232; verificato un errore. Esecuzione interrotta.
 lang_es#:#Spagnolo
 lang_fr#:#Francese
-lang_hu#:#Hungarian###01 Mar 2005 new variable
+lang_hu#:#Ungherese
 lang_id#:#Indonesiano
 lang_it#:#Italiano
 lang_lt#:#Lituano
@@ -372,7 +372,7 @@ setup_process_step_lang#:#installa le lingue di sistema
 setup_process_step_nic#:#procurati un NIC-ID
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
-sophos#:#Sophos###18 Nov 2004 new variable
+sophos#:#Sophos
 sort_by_this_column#:#Ordina secondo questa colonna
 status#:#Stato
 step#:#Passo
