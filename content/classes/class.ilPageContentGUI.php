@@ -41,6 +41,7 @@ class ilPageContentGUI
 	var $pg_obj;
 	var $hier_id;
 	var $dom;
+	var $updated;
 
 	/**
 	* Constructor
@@ -70,9 +71,16 @@ class ilPageContentGUI
 
 	function delete()
 	{
-		$this->pg_obj->deleteContent($this->hier_id);
-		//$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$updated = $this->pg_obj->deleteContent($this->hier_id);
+		if($updated !== true)
+		{
+			$_SESSION["il_pg_error"] = $updated;
+		}
+		else
+		{
+			unset($_SESSION["il_pg_error"]);
+		}
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -97,8 +105,16 @@ class ilPageContentGUI
 		}
 //echo "PCGUItarget:".$_POST["target"][0]."<br>";
 		// move
-		$this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$updated = $this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
+		if($updated !== true)
+		{
+			$_SESSION["il_pg_error"] = $updated;
+		}
+		else
+		{
+			unset($_SESSION["il_pg_error"]);
+		}
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -123,10 +139,40 @@ class ilPageContentGUI
 		}
 
 		// move
-		$this->pg_obj->moveContentBefore($this->hier_id, $_POST["target"][0]);
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$updated = $this->pg_obj->moveContentBefore($this->hier_id, $_POST["target"][0]);
+		if($updated !== true)
+		{
+			$_SESSION["il_pg_error"] = $updated;
+		}
+		else
+		{
+			unset($_SESSION["il_pg_error"]);
+		}
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
+
+
+	/**
+	* display validation errors
+	*/
+	function displayValidationError()
+	{
+		if(is_array($this->updated))
+		{
+			$error_str = "<b>Validation Error(s):</b><br>";
+			foreach ($this->updated as $error)
+			{
+				$err_mess = implode($error, " - ");
+				if (!is_int(strpos($err_mess, ":0:")))
+				{
+					$error_str .= htmlentities($err_mess)."<br />";
+				}
+			}
+			$this->tpl->setVariable("MESSAGE", $error_str);
+		}
+	}
+
 
 }
 ?>

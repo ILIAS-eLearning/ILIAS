@@ -46,6 +46,9 @@ class ilLMTableGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
+	/**
+	* edit properties form
+	*/
 	function edit()
 	{
 		// add paragraph edit template
@@ -54,6 +57,8 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
+
+		$this->displayValidationError();
 
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
@@ -147,7 +152,8 @@ class ilLMTableGUI extends ilPageContentGUI
 				$this->content_obj->setTDWidth($hier_id, $_POST["td_width"]);
 			}
 		}
-		$this->pg_obj->update();
+		$this->updated = $this->pg_obj->update();
+		$this->pg_obj->addHierIDs();
 		$this->edit();
 	}
 
@@ -163,12 +169,13 @@ class ilLMTableGUI extends ilPageContentGUI
 				$this->content_obj->setTDClass($hier_id, $_POST["td_class"]);
 			}
 		}
-		$this->pg_obj->update();
+		$this->updated = $this->pg_obj->update();
+		$this->pg_obj->addHierIDs();
 		$this->edit();
 	}
 
 	/**
-	* save table properties and return to page edit screen
+	* save table properties in db and return to page edit screen
 	*/
 	function saveProperties()
 	{
@@ -178,13 +185,24 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->content_obj->setCellSpacing($_POST["tab_spacing"]);
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
 		$this->content_obj->setCaption($_POST["tab_caption"], $_POST["tab_cap_align"]);
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
-		exit;
-
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+				$this->pg_obj->getId());
+			exit;
+		}
+		else
+		{
+			$this->pg_obj->addHierIDs();
+			$this->edit();
+		}
 	}
 
+
+	/**
+	* insert new table form
+	*/
 	function insert()
 	{
 		// new table form (input of rows and columns)
@@ -193,6 +211,8 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
+
+		$this->displayValidationError();
 
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
@@ -203,6 +223,10 @@ class ilLMTableGUI extends ilPageContentGUI
 		}
 
 		// select fields for number of columns
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$lang = ilMetaData::getLanguages();
+		$select_language = ilUtil::formSelect ("","tab_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("TXT_COLS", $this->lng->txt("cont_nr_cols"));
 		$select_cols = ilUtil::formSelect ("2","nr_cols",$nr,false,true);
 		$this->tpl->setVariable("SELECT_COLS", $select_cols);
@@ -221,31 +245,42 @@ class ilLMTableGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* create new table in dom and update page in db
+	*/
 	function create()
 	{
-		$new_table = new ilLMTable($this->dom);
-		$new_table->createNode();
-		$this->pg_obj->insertContent($new_table, $this->hier_id, IL_INSERT_AFTER);
-		$new_table->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		$this->content_obj = new ilLMTable($this->dom);
+		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
+		$this->content_obj->setLanguage($_POST["tab_language"]);
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+				$this->pg_obj->getId());
+			exit;
+		}
+		else
+		{
+			$this->insert();
+		}
 	}
 
 	/**
 	* create table as first child of a container (e.g. a TableData Element)
 	*/
-	function create_child()
-	{
+	//function create_child()
+	//{
 		/*
 		$new_par = new ilParagraph($this->dom);
 		$new_par->createNode();
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);*/
 
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
-	}
+		//header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		//	$this->pg_obj->getId());
+	//}
 
 }
 ?>

@@ -53,8 +53,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function newRowAfter()
 	{
 		$this->content_obj->newRowAfter();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -64,8 +64,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function newRowBefore()
 	{
 		$this->content_obj->newRowBefore();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -75,8 +75,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function deleteRow()
 	{
 		$this->content_obj->deleteRow();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -87,8 +87,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function newColAfter()
 	{
 		$this->content_obj->newColAfter();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -98,8 +98,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function newColBefore()
 	{
 		$this->content_obj->newColBefore();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -109,8 +109,8 @@ class ilLMTableDataGUI extends ilPageContentGUI
 	function deleteCol()
 	{
 		$this->content_obj->deleteCol();
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 

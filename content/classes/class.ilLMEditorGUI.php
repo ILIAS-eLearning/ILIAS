@@ -136,13 +136,20 @@ class ilLMEditorGUI
 						$obj->buildDom();
 						$obj->addHierIDs();
 //echo "hier_id:$hier_id:";
-				 		$cont_obj =& $obj->getContentObject($hier_id);
-						//$cont_obj =& $content[$hier_id - 1];
+						// determine command and content object
 						$com = explode("_", $cmd);
 						$cmd = $com[0];
-						$ctype = ($cmd == "insert" || $cmd == "create")
-							? $com[1]
-							: $cont_obj->getType();
+				 		$cont_obj =& $obj->getContentObject($hier_id);
+
+						// determine content type
+						if ($cmd == "insert" || $cmd == "create")
+						{
+							$ctype = $com[1];
+						}
+						else
+						{
+							$ctype = $cont_obj->getType();
+						}
 					}
 				}
 				else		// command belongs to learning module

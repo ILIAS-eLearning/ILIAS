@@ -260,7 +260,6 @@
 </object>
 <object name="pg">
 	<property name="view">cont_content</property>
-	<property name="viewWysiwyg">cont_wysiwyg</property>
 	<property name="preview">cont_preview</property>
 	<property name="edit_meta">meta_data</property>
 	<subobj name="par">par</subobj>

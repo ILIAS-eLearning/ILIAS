@@ -50,6 +50,8 @@ class ilPageObject extends ilLMObject
 	var $xml;
 	var $encoding;
 	var $node;
+	var $cur_dtd = "ilias_pg_0_1.dtd";
+	//var $cur_dtd = "ilias_co.dtd";
 
 	/**
 	* Constructor
@@ -98,8 +100,8 @@ class ilPageObject extends ilLMObject
 
 	function buildDom()
 	{
-//echo ":xml:".htmlentities($this->xml).":";
-		$this->dom =& domxml_open_mem($this->xml);
+//echo ":xml:".htmlentities($this->getXMLContent(true)).":";
+		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
@@ -109,6 +111,14 @@ class ilPageObject extends ilLMObject
 			$this->node =& $res->nodeset[0];
 		}
 
+		if (empty($error))
+		{
+			return true;
+		}
+		else
+		{
+			return $error;
+		}
 	}
 
 	function &getDom()
@@ -166,24 +176,31 @@ class ilPageObject extends ilLMObject
 
 	function &getContentObject($a_hier_id)
 	{
+//echo "hier_id:".$a_hier_id;
 		$cont_node =& $this->getContentNode($a_hier_id);
 		switch($cont_node->node_name())
 		{
-			case "Paragraph":
+			case "PageContent":
+				$child_node =& $cont_node->first_child();
+				switch($child_node->node_name())
+				{
+					case "Paragraph":
 
-				require_once("content/classes/class.ilParagraph.php");
-				$par =& new ilParagraph($this->dom);
-				$par->setNode($cont_node);
-				$par->setHierId($a_hier_id);
-				return $par;
+						require_once("content/classes/class.ilParagraph.php");
+						$par =& new ilParagraph($this->dom);
+						$par->setNode($cont_node);
+						$par->setHierId($a_hier_id);
+						return $par;
 
-			case "Table":
+					case "Table":
 
-				require_once("content/classes/class.ilLMTable.php");
-				$tab =& new ilLMTable($this->dom);
-				$tab->setNode($cont_node);
-				$tab->setHierId($a_hier_id);
-				return $tab;
+						require_once("content/classes/class.ilLMTable.php");
+						$tab =& new ilLMTable($this->dom);
+						$tab->setNode($cont_node);
+						$tab->setHierId($a_hier_id);
+						return $tab;
+				}
+				break;
 
 			case "TableData":
 
@@ -210,7 +227,7 @@ class ilPageObject extends ilLMObject
 			$path = "//*[@HierId = '$a_hier_id']";
 		}
 		$res =& xpath_eval($xpc, $path);
-//echo "1:count:".count($res->nodeset).":hierid:$a_hier_id:";
+//echo "count:".count($res->nodeset).":hierid:$a_hier_id:";
 		if (count($res->nodeset) == 1)
 		{
 			$cont_node =& $res->nodeset[0];
@@ -218,6 +235,17 @@ class ilPageObject extends ilLMObject
 		}
 	}
 
+	// only for test purposes
+	function lookforhier($a_hier_id)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//*[@HierId = '$a_hier_id']";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+			return "YES";
+		else
+			return "NO";
+	}
 
 
 	function &getNode()
@@ -232,12 +260,12 @@ class ilPageObject extends ilLMObject
 	*
 	* @param	string		$a_xml			xml content
 	* @param	string		$a_encoding		encoding of the content (here is no conversion done!
-	*										it should be already utf-8 encoded at the time)
+	*										it must be already utf-8 encoded at the time)
 	*/
 	function setXMLContent($a_xml, $a_encoding = "UTF-8")
 	{
 		$this->encoding = $a_encoding;
-		$this->xml = "<?xml version=\"1.0\" encoding=\"$a_encoding\" ?>".$a_xml;
+		$this->xml = $a_xml;
 	}
 
 	/**
@@ -255,19 +283,44 @@ class ilPageObject extends ilLMObject
 	/**
 	* get xml content of page
 	*/
-	function getXMLContent()
+	function getXMLContent($a_incl_head = false)
 	{
-		return $this->xml;
+		if($a_incl_head)
+		{
+			$enc_str = (!empty($this->encoding))
+				? "encoding=\"".$this->encoding."\""
+				: "";
+			return "<?xml version=\"1.0\" $ecn_str ?>".
+				"<!DOCTYPE PageObject SYSTEM \"xml/".$this->cur_dtd."\">".
+				$this->xml;
+		}
+		else
+		{
+			return $this->xml;
+		}
 	}
 
 	/**
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
 	*/
-	function getXMLFromDom()
+	function getXMLFromDom($a_incl_head = false)
 	{
-		$this->xml = $this->dom->dump_mem(0, "UTF-8");
-		return $this->xml;
+		if ($a_incl_head)
+		{
+			return $this->dom->dump_mem(0, $this->encoding);
+		}
+		else
+		{
+			return $this->dom->dump_node($this->node);
+		}
+	}
+
+	function validateDom()
+	{
+		$this->stripHierIDs();
+		@$this->dom->validate($error);
+		return $error;
 	}
 
 	/**
@@ -290,7 +343,8 @@ class ilPageObject extends ilLMObject
 
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
-		$path = "//Paragraph | //Table | //TableRow | //TableData";
+		//$path = "//Paragraph | //Table | //TableRow | //TableData";
+		$path = "//PageContent | //TableRow | //TableData";
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -350,6 +404,19 @@ class ilPageObject extends ilLMObject
 		{
 			$res->nodeset[$i]->set_attribute("HierId", "pg");
 		}
+		unset($xpc);
+	}
+
+	function stripHierIDs()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//*[@HierId]";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
+		{
+			$res->nodeset[$i]->remove_attribute("HierId");
+		}
+		unset($xpc);
 	}
 
 
@@ -371,12 +438,22 @@ class ilPageObject extends ilLMObject
 	*/
 	function update()
 	{
-		parent::update();
-		$query = "UPDATE lm_page_object ".
-			"SET content = '".$this->getXMLFromDom()."' ".
-			"WHERE page_id = '".$this->getId()."'";
-		$this->ilias->db->query($query);
+		// test validating
+		$errors = $this->validateDom();
+		if(empty($errors))
+		{
+			parent::update();
+			$query = "UPDATE lm_page_object ".
+				"SET content = '".$this->getXMLFromDom()."' ".
+				"WHERE page_id = '".$this->getId()."'";
+			$this->ilias->db->query($query);
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
+			return true;
+		}
+		else
+		{
+			return $errors;
+		}
 	}
 
 	function create()
@@ -394,12 +471,17 @@ class ilPageObject extends ilLMObject
 	* delete content object with hierarchical id $a_hid
 	*
 	* @param	string		$a_hid		hierarchical id of content object
+	* @param	boolean		$a_update	update page in db (note: update deletes all
+	*									hierarchical ids in DOM!)
 	*/
-	function deleteContent($a_hid)
+	function deleteContent($a_hid, $a_update = true)
 	{
 		$curr_node =& $this->getContentNode($a_hid);
 		$curr_node->unlink_node($curr_node);
-		$this->update();
+		if ($a_update)
+		{
+			return $this->update();
+		}
 	}
 
 
@@ -508,30 +590,18 @@ class ilPageObject extends ilLMObject
 			return;
 		}
 
-		// determine move mode
-		/*
-		$target_node =& $this->getContentNode($a_target);
-		if ($target_node->node_name() == "TableData")
-		{
-			$mode = IL_INSERT_CHILD;
-		}
-		else
-		{
-			$mode = IL_INSERT_BEFORE;
-		}*/
-
 		// clone the node
 		$content =& $this->getContentObject($a_source);
 		$source_node =& $content->getNode();
 		$clone_node =& $source_node->clone_node(true);
 
 		// delete source node
-		$this->deleteContent($a_source);
+		$this->deleteContent($a_source, false);
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
 		$this->insertContent($content, $a_target, IL_INSERT_BEFORE);
-		$this->update();
+		return $this->update();
 
 	}
 
@@ -549,17 +619,6 @@ class ilPageObject extends ilLMObject
 
 //echo "move source:$a_source:to:$a_target:<br>";
 
-		// determine move mode
-		/*
-		$target_node =& $this->getContentNode($a_target);
-		if ($target_node->node_name() == "TableData")
-		{
-			$mode = IL_INSERT_CHILD;
-		}
-		else
-		{
-			$mode = IL_INSERT_AFTER;
-		}*/
 
 		// clone the node
 		$content =& $this->getContentObject($a_source);
@@ -567,12 +626,46 @@ class ilPageObject extends ilLMObject
 		$clone_node =& $source_node->clone_node(true);
 
 		// delete source node
-		$this->deleteContent($a_source);
+		$this->deleteContent($a_source, false);
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
 		$this->insertContent($content, $a_target, IL_INSERT_AFTER);
-		$this->update();
+		return $this->update();
+	}
+
+	/**
+	* transforms bbCode to corresponding xml
+	*/
+	function bbCode2XML(&$a_content)
+	{
+		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
+		$a_content = eregi_replace("\[\/com\]","</Comment>",$a_content);
+		$a_content = eregi_replace("\[emp]","<Emph>",$a_content);
+		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
+		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
+		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
+	}
+
+
+	/**
+	* presentation title doesn't have to be page title, it may be
+	* chapter title + page title or chapter title only, depending on settings
+	*/
+	function getPresentationTitle()
+	{
+		$tree = new ilTree($this->getLMId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		if ($tree->isInTree($this->getId()))
+		{
+			$pred_node = $tree->fetchPredecessorNode($this->getId(), "st");
+			return $pred_node["title"];		// this is evil; todo: make it better
+		}
+		else
+		{
+			return $this->getTitle();
+		}
 	}
 
 }
