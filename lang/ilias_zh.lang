@@ -527,6 +527,16 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#所有对象
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#可从新用户注册表中得到
+common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
+common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
+common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
 common#:#and#:#及
 common#:#announce#:#发布
 common#:#announce_changes#:#发布更改
@@ -581,6 +591,7 @@ common#:#cat_a#:#一个类别
 common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
 common#:#cat_create#:#创建类别
+common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#创建类别
 common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#创建课程
@@ -589,6 +600,7 @@ common#:#cat_create_exc#:#创建练习
 common#:#cat_create_frm#:#创建论坛
 common#:#cat_create_glo#:#创建术语表
 common#:#cat_create_grp#:#创建组
+common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#创建学习模块
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
@@ -682,8 +694,10 @@ common#:#crs_add#:#增加课程
 common#:#crs_added#:#已增加课程
 common#:#crs_available#:#可提供的课程
 common#:#crs_create#:#创建课程
+common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#创建论坛
 common#:#crs_create_glo#:#创建术语表
+common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#创建学习模块
 common#:#crs_create_slm#:#创建SCORM学习模块
 common#:#crs_delete#:#删除课程
@@ -851,11 +865,13 @@ common#:#fold#:#文件夹
 common#:#fold_a#:#一个文件夹
 common#:#fold_add#:#增加文件夹
 common#:#fold_added#:#文件夹已增加
+common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
 common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
 common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
 common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
 common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
@@ -960,6 +976,7 @@ common#:#grp_added#:#已增加组
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#创建组
+common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
 common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
@@ -967,6 +984,7 @@ common#:#grp_create_file#:#用户可以上载文件###17 Apr 2004 content change
 common#:#grp_create_fold#:#用户可以创建文件夹###17 Apr 2004 content changed
 common#:#grp_create_frm#:#创建论坛
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#创建学习模块
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
@@ -1005,6 +1023,16 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助
 common#:#hide_details#:#隐藏详情
 common#:#hide_structure#:#禁止结构化视图
+common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
+common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
+common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#兴趣/业余爱好
 common#:#home#:#首页
 common#:#host#:#主机
@@ -1026,6 +1054,7 @@ common#:#ilias_version#:#ILIAS版本
 common#:#image#:#图象
 common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。
 common#:#import#:#导入
+common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
@@ -1033,6 +1062,7 @@ common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variab
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
+common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#导入学习模块
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#导入SCORM包
@@ -1384,6 +1414,7 @@ common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
+common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#obj_cat#:#类别
 common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
@@ -1397,6 +1428,7 @@ common#:#obj_fold#:#文件夹
 common#:#obj_frm#:#论坛
 common#:#obj_glo#:#术语表
 common#:#obj_grp#:#组
+common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#LDAP设置
 common#:#obj_ldap_desc#:#在此配置LDAP
@@ -1449,6 +1481,7 @@ common#:#objf_edit_permission#:#更改许可设置
 common#:#objf_read#:#对象定义设为读访问
 common#:#objf_visible#:#对象定义可视
 common#:#objf_write#:#编辑对象定义
+common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Categories###18 Feb 2004 new variable
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#确定操作
@@ -1461,6 +1494,7 @@ common#:#objs_fold#:#Folders###18 Feb 2004 new variable
 common#:#objs_frm#:#Forums###18 Feb 2004 new variable
 common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
 common#:#objs_grp#:#Groups###18 Feb 2004 new variable
+common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
 common#:#objs_lng#:#Languages###18 Feb 2004 new variable
@@ -1731,8 +1765,12 @@ common#:#system_grp#:#系统组
 common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#tax#:#Taxonomy###15 Jul 2004 new variable
+common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
 common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
 common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
 common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
 common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable

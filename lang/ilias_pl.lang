@@ -497,6 +497,16 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Wszystkie obiekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
+common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
+common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
+common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
 common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
@@ -551,6 +561,7 @@ common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_create#:#Twórz Kategorię
+common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Twórz Kategorię
 common#:#cat_create_chat#:#Twórz czat
 common#:#cat_create_crs#:#Twórz Kurs
@@ -559,6 +570,7 @@ common#:#cat_create_exc#:#Twórz Ćwiczenie
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
+common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
@@ -651,8 +663,10 @@ common#:#crs_add#:#Dodaj kurs
 common#:#crs_added#:#Kurs został dodany
 common#:#crs_available#:#Dostępne kursy
 common#:#crs_create#:#Twórz Kurs
+common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Twórz Forum
 common#:#crs_create_glo#:#Twórz Słownik
+common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Twórz Moduł Nauczania
 common#:#crs_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#crs_delete#:#Usuń Kurs
@@ -819,11 +833,13 @@ common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
+common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Twórz czat
 common#:#fold_create_file#:#Załaduj plik
 common#:#fold_create_fold#:#Twórz Folder
 common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
+common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Twórz Moduł Nauczania
 common#:#fold_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#fold_delete#:#Usuń Folder
@@ -928,6 +944,7 @@ common#:#grp_added#:#Grupa została dodana
 common#:#grp_already_applied#:#Już jesteś wybrany do tej grupy! Czekaj na potwierdzenie
 common#:#grp_back#:#Powrót
 common#:#grp_create#:#Twórz Grupę
+common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Twórz czat
 common#:#grp_create_dbk#:#Twórz Książkę Cyfrową
 common#:#grp_create_exc#:#Twórz Ćwiczenie
@@ -935,6 +952,7 @@ common#:#grp_create_file#:#Użytkownik może przysyłać pliki
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
 common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Twórz Słownik
+common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
@@ -973,6 +991,16 @@ common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
 common#:#hide_details#:#ukryj szczegóły
 common#:#hide_structure#:#Wyłącz widok strukturalny
+common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
+common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
+common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
@@ -994,6 +1022,7 @@ common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
 common#:#import#:#Import
+common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import kategorii
 common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
@@ -1001,6 +1030,7 @@ common#:#import_finished#:#Ilość zaimportowanych wiadomości.
 common#:#import_forum_finished#:#Forum zostało zaimportowane.
 common#:#import_glossary#:#Import Słownika
 common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
+common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_slm#:#Importuj pakiet SCORM
@@ -1351,6 +1381,7 @@ common#:#number_of_records#:#Liczba rekordów
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
+common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#obj_cat#:#Kategoria
 common#:#obj_cen#:#Zdarzenie Centra
 common#:#obj_chac#:#Ustawienia czatu
@@ -1364,6 +1395,7 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
+common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#Moduł Nauczania HTML
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
@@ -1416,6 +1448,7 @@ common#:#objf_edit_permission#:#Zmień ustawienia uprawnień
 common#:#objf_read#:#Prawo czytania definicji obiektów
 common#:#objf_visible#:#Definicje obiektów są widoczne
 common#:#objf_write#:#Edycja definicji obiektów
+common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Kategorie
 common#:#objs_chat#:#Czaty
 common#:#objs_confirm#:#Potwierdź usunięcie
@@ -1428,6 +1461,7 @@ common#:#objs_fold#:#Foldery
 common#:#objs_frm#:#Fora
 common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
+common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#Moduły Nauczania HTML
 common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
@@ -1695,8 +1729,12 @@ common#:#system_grp#:#Grupa systemowa
 common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
 common#:#table_mail_import#:#Import poczty z ILIAS 2
+common#:#tax#:#Taxonomy###15 Jul 2004 new variable
+common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Usuń systematykę
+common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
 common#:#tax_edit_permission#:#Zmiana uprawnień dostępu
+common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
 common#:#tax_read#:#Prawo czytania systematyki
 common#:#tax_visible#:#Systematyka jest widoczna
 common#:#tax_write#:#Prawo zapisu do systematyki

@@ -510,6 +510,16 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Všechny objekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#K dispozici v registračním formuláři pro nové uživatele
+common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
+common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
+common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
 common#:#and#:#a
 common#:#announce#:#Oznámení
 common#:#announce_changes#:#Oznámení o změnách
@@ -564,6 +574,7 @@ common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
 common#:#cat_added#:#Kategorie přidána
 common#:#cat_create#:#Create Category###16 Mar 2004 new variable
+common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Create Category###16 Mar 2004 new variable
 common#:#cat_create_chat#:#Create Chat###16 Mar 2004 new variable
 common#:#cat_create_crs#:#Create Course###16 Mar 2004 new variable
@@ -572,6 +583,7 @@ common#:#cat_create_exc#:#Create Exercise###16 Mar 2004 new variable
 common#:#cat_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#cat_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#cat_create_grp#:#Create Group###16 Mar 2004 new variable
+common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
@@ -666,8 +678,10 @@ common#:#crs_add#:#Přidat kurz
 common#:#crs_added#:#Kurz přidán
 common#:#crs_available#:#Dostupné kurzy
 common#:#crs_create#:#Create Course###16 Mar 2004 new variable
+common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#crs_create_glo#:#Create Glossary###16 Mar 2004 new variable
+common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#crs_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
 common#:#crs_delete#:#Delete Course###16 Mar 2004 new variable
@@ -835,11 +849,13 @@ common#:#fold#:#Složka
 common#:#fold_a#:#složka
 common#:#fold_add#:#Přidat složku
 common#:#fold_added#:#Složka přidána
+common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
 common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
 common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
 common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
 common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
@@ -944,6 +960,7 @@ common#:#grp_added#:#Skupina přidána
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Create Group###16 Mar 2004 new variable
+common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###16 Mar 2004 new variable
 common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
 common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
@@ -951,6 +968,7 @@ common#:#grp_create_file#:#User may upload Files###16 Mar 2004 new variable
 common#:#grp_create_fold#:#User may create Folders###16 Mar 2004 new variable
 common#:#grp_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
@@ -989,6 +1007,16 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Nápověda
 common#:#hide_details#:#skrýt podrobnosti
 common#:#hide_structure#:#Zakázat strukturované zobrazení
+common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
+common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
+common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#Zájmy/Koníčky
 common#:#home#:#Domů
 common#:#host#:#Stroj
@@ -1010,6 +1038,7 @@ common#:#ilias_version#:#Verze ILIASu
 common#:#image#:#Obrázek
 common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.
 common#:#import#:#Importovat
+common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###16 Mar 2004 new variable
 common#:#import_file#:#Import File###16 Mar 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
@@ -1017,6 +1046,7 @@ common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variab
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
+common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_slm#:#Importovat balík SCORM
@@ -1368,6 +1398,7 @@ common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Systémová nastavení
 common#:#obj_adm_desc#:#Hlavní složka systémových nastavení obsahojící všechny panely pro administraci ILIASu.
+common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###16 Mar 2004 new variable
@@ -1381,6 +1412,7 @@ common#:#obj_fold#:#Složka
 common#:#obj_frm#:#Diskusní skupina
 common#:#obj_glo#:#Glosář
 common#:#obj_grp#:#Skupina
+common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Nastavení LDAP
 common#:#obj_ldap_desc#:#Zde proveďte globální nastavení LDAP.
@@ -1433,6 +1465,7 @@ common#:#objf_edit_permission#:#Change permission settings###16 Mar 2004 new var
 common#:#objf_read#:#Read access to Objectdefinitions###16 Mar 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###16 Mar 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###16 Mar 2004 new variable
+common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Categories###16 Mar 2004 new variable
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Potvrdit akci
@@ -1445,6 +1478,7 @@ common#:#objs_fold#:#Folders###16 Mar 2004 new variable
 common#:#objs_frm#:#Forums###16 Mar 2004 new variable
 common#:#objs_glo#:#Glossaries###16 Mar 2004 new variable
 common#:#objs_grp#:#Groups###16 Mar 2004 new variable
+common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Learning Modules###16 Mar 2004 new variable
 common#:#objs_lng#:#Languages###16 Mar 2004 new variable
@@ -1715,8 +1749,12 @@ common#:#system_grp#:#Systémová skupina
 common#:#system_language#:#Systémový jazyk
 common#:#system_message#:#Systémová zpráva
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#tax#:#Taxonomy###15 Jul 2004 new variable
+common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
 common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
 common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
 common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
 common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
