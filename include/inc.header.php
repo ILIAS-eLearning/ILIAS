@@ -156,20 +156,21 @@ if ($ilias->auth->getAuth())
 		$ilias->account->refreshLogin();
 	}	
 
-	//init language
-	$lng = new ilLanguage($ilias->account->prefs["language"]);
-
-	// init rbac
-	$rbacsystem = new ilRbacSystemH();
-	$rbacadmin = new ilRbacAdminH();
-	$rbacreview = new ilRbacReviewH();
-
-	// init ref_id on first start ref_id is set to ROOT_FOLDER_ID
-	$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
-
-	// init tree
-	$tree = new ilTree(ROOT_FOLDER_ID);
 }
+
+//init language
+$lng = new ilLanguage($ilias->account->prefs["language"]);
+
+// init rbac
+$rbacsystem = new ilRbacSystemH();
+$rbacadmin = new ilRbacAdminH();
+$rbacreview = new ilRbacReviewH();
+
+// init ref_id on first start ref_id is set to ROOT_FOLDER_ID
+$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
+
+// init tree
+$tree = new ilTree(ROOT_FOLDER_ID);
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
