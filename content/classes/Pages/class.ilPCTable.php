@@ -72,12 +72,29 @@ class ilPCTable extends ilPageContent
 		return $new_tr;
 	}
 
-	function &addCell (&$aRow) {
+	function &addCell (&$aRow, $a_data = "", $a_lang = "")
+	{
 		$new_td =& $this->dom->create_element("TableData");
 		$new_td =& $aRow->append_child($new_td);
+		
+		// insert data if given
+		if ($a_data != "")
+		{
+			$new_pg =& $this->dom->create_element("PageContent");
+			$new_par =& $this->dom->create_element("Paragraph");
+			$new_par =& $new_pg->append_child($new_par);
+			$new_par->set_attribute("Language", $a_lang);
+			$new_par->set_attribute("Characteristic", "TableContent");
+			$new_par->set_content($a_data);
+			$new_td->append_child ($new_pg);
+		}
+		
 		return $new_td;
 	}
 
+	/**
+	* add rows to table
+	*/
 	function addRows($a_nr_rows, $a_nr_cols)
 	{
 		for ($i=1; $i<=$a_nr_rows; $i++)
@@ -87,6 +104,38 @@ class ilPCTable extends ilPageContent
 			{
 				$this->addCell($aRow);
 			}
+		}
+	}
+	
+	/**
+	* import from table
+	*/
+	function importSpreadsheet($a_lang, $a_data)
+	{
+		str_replace($a_data, "\r", "\n");
+		str_replace($a_data, "\n\n", "\n");
+		$target_rows = array();
+		$rows = explode("\n", $a_data);
+		
+		// get maximum of cols in a row and
+		// put data in target_row arrays
+		foreach($rows as $row)
+		{
+			$cells = explode("\t", $row);
+			$max_cols = ($max_cols > count($cells))
+				? $max_cols
+				: count($cells);
+			$target_rows[] = $cells;
+		}
+		
+		// iterate target row arrays and insert data
+		foreach($target_rows as $row)
+		{
+			$aRow = $this->addRow();
+			for ($j=0; $j<$max_cols; $j++)
+			{
+				$this->addCell($aRow, $row[$j], $a_lang);
+			}			
 		}
 	}
 
@@ -326,6 +375,9 @@ class ilPCTable extends ilPageContent
 		}
 	}
 
+	/**
+	* set table caption
+	*/
 	function setCaption($a_content, $a_align)
 	{
 		if ($a_content != "")

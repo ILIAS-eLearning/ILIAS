@@ -2606,6 +2606,8 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.

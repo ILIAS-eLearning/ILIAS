@@ -313,9 +313,11 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
 		
 		//import html table
-		$this->tpl->setVariable("TXT_HTML_IMPORT", $this->lng->txt("cont_table_html_import"));		
+		$this->tpl->setVariable("TXT_HTML_IMPORT", $this->lng->txt("cont_table_html_import"));
+		$this->tpl->setVariable("TXT_SPREADSHEET", $this->lng->txt("cont_table_spreadsheet_import"));		
 		$this->tpl->setVariable("TXT_BTN_HTML_IMPORT", $this->lng->txt("import"));		
-		$this->tpl->setVariable("TXT_HTML_IMPORT_INFO", $this->lng->txt("cont_table_html_import_info"));		
+		$this->tpl->setVariable("TXT_HTML_IMPORT_INFO", $this->lng->txt("cont_table_html_import_info"));
+		$this->tpl->setVariable("TXT_SPREADSHEET_IMPORT_INFO", $this->lng->txt("cont_table_spreadsheet_import_info"));		
 		$this->tpl->setVariable("CMD_HTML_IMPORT", "create_tab");
 		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
 					
@@ -339,14 +341,30 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->content_obj = new ilPCTable($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["tab_language"]);
-		$html = trim($_POST["htmltable"]);
+		$import_table = trim($_POST["import_table"]);
 		
-		if (!empty ($html)) {			
-			if (!$this->content_obj->importHtml ($_POST["tab_language"], $html)) {
-				$this->insert();
-				return;	
+		// import xhtml or spreadsheet table
+		if (!empty ($import_table))
+		{
+			switch($_POST["import_type"])
+			{
+				// xhtml import
+				case "html":
+					if (!$this->content_obj->importHtml ($_POST["tab_language"], $import_table))
+					{
+						$this->insert();
+						return;	
+					}
+					break;
+					
+				// spreadsheet
+				case "spreadsheet":
+					$this->content_obj->importSpreadsheet($_POST["tab_language"], $import_table);
+					break;
 			}
-		} else {		
+		}
+		else
+		{		
 			$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
 		}
 		
