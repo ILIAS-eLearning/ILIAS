@@ -510,7 +510,7 @@ HTMLArea.prototype._createToolbar = function () {
 		}
 		if (!el && btn) {
 			el = document.createElement("div");
-			el.title = btn[0];
+			//el.title = btn[0];
 			el.className = "button";
 			// let's just pretend we have a button object, and
 			// assign all the needed information to it.
