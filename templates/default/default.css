@@ -30,6 +30,20 @@ input, textarea {
 
 /* -------------------- table formatting ------------------ */
 
+table.std {
+	border-spacing: 0px;
+}
+
+table.fullwidth {
+	width: 100%;
+	border-spacing: 0px;
+}
+
+td.std {
+	padding:3px;
+}
+
+
 .tblheader {
      color:#ffffff;
      background-color:#666677;

@@ -2,7 +2,7 @@
 {MESSAGE}
 
 <!-- BEGIN forum -->
-<h2>{TXT_FORUM_GROUP}</h2>
+<h1>{TXT_FORUM_GROUP}</h1>
 
 {COUNT_FORUM}<br>
 
@@ -16,16 +16,16 @@
 </table>
 <!-- END linkbar -->
 
-<table width="100%" cellpadding="3" cellspacing="1" border="0">
+<table class="fullwidth">
 
 <tr class="tblheader" valign="top">
-  <td width=20%><b>{TXT_TITLE}/{TXT_DESCRIPTION}</b></td>
-  <td><b>{TXT_NUM_THREADS}</b></td>
-  <td><b>{TXT_NUM_POSTS}</b></td>
-  <td><b>{TXT_NUM_VISITS}</b></td>
-  <td><b>{TXT_LAST_POST}</b></td>
-  <td><b>{TXT_MODS}</b></td>
-  <td><b>{TXT_FORUMPATH}</b></td>
+  <td class="std" width=20%><b>{TXT_TITLE}/{TXT_DESCRIPTION}</b></td>
+  <td class="std"><b>{TXT_NUM_THREADS}</b></td>
+  <td class="std"><b>{TXT_NUM_POSTS}</b></td>
+  <td class="std"><b>{TXT_NUM_VISITS}</b></td>
+  <td class="std"><b>{TXT_LAST_POST}</b></td>
+  <td class="std"><b>{TXT_MODS}</b></td>
+  <td class="std"><b>{TXT_FORUMPATH}</b></td>
 </tr>
 
 <!-- BEGIN forum_row -->
@@ -49,8 +49,8 @@
 <!-- END forum_row -->
 
 <!-- BEGIN forum_no -->
-<tr>
- <td colspan="7">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+<tr class="std">
+ <td class="std" colspan="7">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 </table>

@@ -1,62 +1,56 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+
+<table class="fullwidth">
 <!-- BEGIN tableheader -->
 <tr class="tblheader">
-  <td width="30%" align="left">
+  <td class="std" width="30%" align="left">
 	<strong>{TXT_PERMISSION}:</strong>
   </td>
-  <td width="70%" align="left">
+  <td class="std" width="70%" align="left" colspan="100">
 	<strong>{TXT_ROLES}:</strong>
   </td>
 </tr>
 <!-- END tableheader -->
-</table>
-
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="tblheader">
-  <td width="30%" align="left">&nbsp;</td>
+  <td class="std" width="30%" align="left">&nbsp;</td>
     <!-- BEGIN ROLENAMES -->
-  <td>
+  <td class="std">
     <strong>{ROLE_NAME}</strong>
   </td>
 	<!-- END ROLENAMES -->
 </tr>
 	<!-- BEGIN TABLE_DATA_OUTER -->
 <tr class="{CSS_ROW}">
-  <td width="30%" align="left">{PERMISSION}</td>
+  <td class="std" width="30%" align="left">{PERMISSION}</td>
     <!-- BEGIN CHECK_PERM -->
-  <td>{CHECK_PERMISSION}</td>
+  <td class="std">{CHECK_PERMISSION}</td>
 	<!-- END CHECK_PERM -->
 </tr>
 <!-- END TABLE_DATA_OUTER -->
 <tr class="tblrow2">
-  <td width="30%" align="left"><font color="red">Stop Inheritance</font></td>
+  <td class="std" width="30%" align="left"><font color="red">Stop Inheritance</font></td>
     <!-- BEGIN CHECK_INHERIT -->
-  <td>
+  <td class="std">
 	{CHECK_INHERITANCE}
   </td>
     <!-- END CHECK_INHERIT -->
 </tr>
-<tr class="header">
-  <td colspan="100">
-    <input type="submit" value="submit" />
-  </td>
-</tr>
 </table>
+<br />
+<input class="submit" type="submit" value="submit" />
 </form>
 <br />
 <!-- BEGIN LOCAL_ROLE -->
 {MESSAGE_BOTTOM}
 <br />
-
 <form action="{FORMACTION_LR}" method="post">
 <table>
 <tr>
-  <td>
+  <td class="std">
 	<input type="text" name="Flocal_role" size="16" />
   </td>
-  <td>
-	<input type="submit" value="{TXT_ADD}" />
+  <td class="std">
+	<input class="submit" type="submit" value="{TXT_ADD}" />
   </td>
 </tr>
 </table>
