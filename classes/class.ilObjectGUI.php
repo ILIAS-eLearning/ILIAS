@@ -1996,14 +1996,11 @@ class ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-		$this->showActions(true);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		#$tbl->disable("footer");
 
-		// render table
-		$tbl->render();
+		$this->showActions(true);
 
 		if (!empty($this->data["data"][0]))
 		{
@@ -2129,16 +2126,19 @@ class ilObjectGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
-
 		} //if is_array
 		else
 		{
-// fix this!
-            //$this->tpl->setCurrentBlock("notfound");
-			//$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			//$this->tpl->setVariable("NUM_COLS", $num);
-			//$this->tpl->parseCurrentBlock();
+            $tbl->disable("header");
+			$tbl->disable("footer");
+			
+			$this->tpl->setCurrentBlock("text");
+			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("obj_not_found"));
+			$this->tpl->parseCurrentBlock();
 		}
+		
+		// render table
+		$tbl->render();
 	}
 
 	/**

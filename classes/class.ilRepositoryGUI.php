@@ -1787,7 +1787,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -1886,7 +1886,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -1985,7 +1985,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -2690,7 +2690,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -2804,7 +2804,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
@@ -2974,7 +2974,7 @@ class ilRepositoryGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("90%","10%"));
+		$tbl->setColumnWidth(array("85%","15%"));
 
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
