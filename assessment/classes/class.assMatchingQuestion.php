@@ -233,6 +233,12 @@ class ASS_MatchingQuestion extends ASS_Question
 										case "render_choice":
 											$render_choice = $node_type;
 											$shuffle = $render_choice->get_attribute("shuffle");
+											$shuf = 0;
+											if (strcmp(strtolower($shuffle), "yes") == 0)
+											{
+												$shuf = 1;
+											}
+											$this->setShuffle($shuf);
 											$labels = $render_choice->child_nodes();
 											foreach ($labels as $lidx => $response_label)
 											{

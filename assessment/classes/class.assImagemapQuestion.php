@@ -411,7 +411,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				switch ($node->node_name())
 				{
 					case "qticomment":
-						$comment = $node->get_content();
+						$comment = $node->node_value();
 						if (strpos($comment, "ILIAS Version=") !== false)
 						{
 						}
@@ -429,7 +429,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 						}
 						break;
 					case "duration":
-						$iso8601period = $node->get_content();
+						$iso8601period = $node->node_value();
 						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 						{
 							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
@@ -443,7 +443,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 							if (strcmp($flownode->node_name(), "material") == 0)
 							{
 								$mattext = $flownode->first_child();
-								$this->set_question($mattext->get_content());
+								$this->set_question($mattext->node_value());
 							}
 							elseif (strcmp($flownode->node_name(), "response_xy") == 0)
 							{
@@ -460,7 +460,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 												$mattype = $node_type->first_child();
 												if (strcmp($mattype->node_name(), "mattext") == 0)
 												{
-													$suggested_solution = $mattype->get_content();
+													$suggested_solution = $mattype->node_value();
 													if ($suggested_solution)
 													{
 														if ($this->getId() < 1)
@@ -484,33 +484,34 @@ class ASS_ImagemapQuestion extends ASS_Question {
 													if (strcmp($mattype->node_name(), "matimage") == 0)
 													{
 														$filename = $mattype->get_attribute("label");
-														$image = base64_decode($mattype->get_content());
+														$image = base64_decode($mattype->node_value());
 													}
 												}
 												else
 												{
-													$material_children = $response_label->child_nodes();
+													$matident = $response_label->get_attribute("ident");
 													switch ($response_label->get_attribute("rarea"))
 													{
 														case "Ellipse":
-															$materials[$response_label->get_attribute("ident")]["area"] = "circle";
+															$materials[$matident]["area"] = "circle";
 															break;
 														case "Bounded":
-															$materials[$response_label->get_attribute("ident")]["area"] = "poly";
+															$materials[$matident]["area"] = "poly";
 															break;
 														case "Rectangle":
-															$materials[$response_label->get_attribute("ident")]["area"] = "rect";
+															$materials[$matident]["area"] = "rect";
 															break;
 													}
+													$material_children = $response_label->child_nodes();
 													foreach ($material_children as $midx => $childnode)
 													{
 														if (strcmp($childnode->node_name(), "#text") == 0)
 														{
-															$materials[$response_label->get_attribute("ident")]["coords"] = $childnode->get_content();
+															$materials[$matident]["coords"] = $childnode->node_value();
 														}
 														elseif (strcmp($childnode->node_name(), "material") == 0)
 														{
-															$materials[$response_label->get_attribute("ident")]["answertext"] = $childnode->get_content();
+															$materials[$matident]["answertext"] = $childnode->node_value();
 														}
 													}
 												}
