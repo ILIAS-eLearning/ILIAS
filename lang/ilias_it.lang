@@ -52,14 +52,14 @@ common#:#and#:#e###20 Aug 2003 new variable
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Rispondi
-common#:#application_date#:#Application date###06 Nov 2003 new variable
+common#:#application_date#:#Data della richiesta###06 Nov 2003 new variable
 common#:#appointment#:#Appuntamento###01 Sep 2003 new variable
 common#:#appointment_list#:#Lista appuntamenti###01 Sep 2003 new variable
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#assign#:#Assegna###26 Sep 2003 new variable
 common#:#assign_lo_forum#:#Assegna il forum
-common#:#assign_user_to_role#:#Assegna l&acute;utente al ruolo###29 Mar 2003 new variable
+common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo###29 Mar 2003 new variable
 common#:#at_location#:#at location###06 Aug 2003 new variable
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachment###28 Mar 2003 new variable
@@ -83,8 +83,8 @@ common#:#btn_undelete#:#undelete
 common#:#by#:#da
 common#:#calendar#:#Calendario###01 Sep 2003 new variable
 common#:#cancel#:#Cancella
-common#:#cannot_uninstall_language_in_use#:#Non &egrave; possibile rimuovere la lingua che &egrave; correntemente in uso!###20 Mar 2003 new variable
-common#:#cannot_uninstall_systemlanguage#:#Non &egrave; possibile rimuovere la lingua di sistema!###20 Mar 2003 new variable
+common#:#cannot_uninstall_language_in_use#:#Non &egrave; possibile rimuovere la lingua che &#232; correntemente in uso!###20 Mar 2003 new variable
+common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lingua di sistema!###20 Mar 2003 new variable
 common#:#cat#:#Categoria
 common#:#cat_a#:#Una categoria###06 Aug 2003 new variable
 common#:#cat_add#:#Aggiungi categoria###06 Aug 2003 new variable
@@ -98,7 +98,7 @@ common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia assegnazione attiva###07 Aug 2003 new variable
 common#:#change_assignment#:#Cambia assegnazione###04 Aug 2003 new variable
 common#:#change_existing_objects#:#Cambia oggetti esistenti###29 Mar 2003 new variable
-common#:#change_lo_info#:#Cambia informazioni della lezione
+common#:#change_lo_info#:#Cambia informazioni del Learning Object
 common#:#change_metadata#:#Cambia metadati
 common#:#change_sort_direction#:#Cambia direzione ordinamento###30 May 2003 new variable
 common#:#changed_to#:#cambiata in###20 Mar 2003 new variable
@@ -113,7 +113,7 @@ common#:#chg_password#:#Cambia password
 common#:#choose_language#:#Scegli la lingua
 common#:#choose_location#:#Scegli la cartella###06 Aug 2003 new variable
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.###20 Mar 2003 new variable
-common#:#city#:#Citt&agrave;
+common#:#city#:#Citt&#224;
 common#:#clear#:#Cancella
 common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
 common#:#close#:#Close###28 Sep 2003 new variable
@@ -131,7 +131,7 @@ common#:#course#:#Corso
 common#:#courses#:#Corsi
 common#:#create#:#Crea
 common#:#create_in#:#Crea in
-common#:#create_stylesheet#:#Crea folio di stile###10 Jul 2003 new variable
+common#:#create_stylesheet#:#Crea foglio di stile###10 Jul 2003 new variable
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso###06 Aug 2003 new variable
 common#:#crs_add#:#Aggiungi corso###06 Aug 2003 new variable
@@ -162,7 +162,7 @@ common#:#dbk_added#:#Libro digitale aggiunto###02 Oct 2003 new variable
 common#:#dbk_new#:#Nuovo libro digitale###02 Oct 2003 new variable
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita###20 Mar 2003 new variable
-common#:#default_role#:#Default Role###05 Nov 2003 new variable
+common#:#default_role#:#Ruolo predefinito###05 Nov 2003 new variable
 common#:#default_roles#:#Ruoli predefiniti###01 Nov 2003 new variable
 common#:#default_skin#:#Tema predefinito###20 Mar 2003 new variable
 common#:#default_style#:#Stile predefinito###20 Mar 2003 new variable
@@ -176,19 +176,19 @@ common#:#desc#:#Descrivi
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
 common#:#disabled#:#Disabilitato
-common#:#down#:#Gi&ugrave;###02 Sep 2003 new variable
+common#:#down#:#Gi&#249;###02 Sep 2003 new variable
 common#:#download#:#Download###28 Mar 2003 new variable
 common#:#drafts#:#Bozze
 common#:#drop#:#Ometti###19 Aug 2003 new variable
 common#:#edit#:#Modifica
 common#:#edit_data#:#Modifica dati
 common#:#edit_operations#:#Modifica operazioni
-common#:#edit_properties#:#Modifica propriet&agrave;
+common#:#edit_properties#:#Modifica le propriet&agrave;
 common#:#edit_stylesheet#:#Modifica stile###10 Jul 2003 new variable
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
 common#:#email#:#Email###29 Oct 2003 content changed
-common#:#email_not_valid#:#L&acute;indirizzo email non &egrave; valido!###20 Mar 2003 new variable
+common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!###20 Mar 2003 new variable
 common#:#enable#:#Abilita
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.###20 Aug 2003 new variable
 common#:#enabled#:#Abilitata
@@ -200,39 +200,39 @@ common#:#err_in_line#:#Errore nella linea###26 Mar 2003 new variable
 common#:#err_no_langfile_found#:#Non trovato il file della lingua!###26 Mar 2003 new variable
 common#:#err_no_param#:#Manca il parametro!###26 Mar 2003 new variable
 common#:#err_over_3_param#:#Ci sono pi&ugrave; 3 parametri!###26 Mar 2003 new variable
-common#:#err_session_expired#:#La sessione &egrave; scaduta!###04 Aug 2003 new variable
+common#:#err_session_expired#:#La sessione &#232; scaduta!###04 Aug 2003 new variable
 common#:#err_wrong_header#:#Causa: errata intestazione.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#Tentativo di accesso errato
 common#:#error_recipient#:#Destinatario per gli errori
-common#:#exc#:#Exercise###07 Nov 2003 new variable
-common#:#exc_add#:#Add Exercise###07 Nov 2003 new variable
-common#:#exc_added#:#Exercise added###07 Nov 2003 new variable
-common#:#exc_ask_delete#:#Delete file?###06 Nov 2003 new variable
-common#:#exc_assign_usr#:#Assign User###06 Nov 2003 new variable
-common#:#exc_date_not_valid#:#The date is not valid###06 Nov 2003 new variable
-common#:#exc_deassign_members#:#Delete member(s)###06 Nov 2003 new variable
-common#:#exc_edit#:#New exercise created###06 Nov 2003 new variable
-common#:#exc_edit_exercise#:#Edit exercise###06 Nov 2003 new variable
-common#:#exc_edit_until#:#Edit until###06 Nov 2003 new variable
-common#:#exc_files#:#Files###06 Nov 2003 new variable
-common#:#exc_groups#:#Groups###07 Nov 2003 new variable
-common#:#exc_header_members#:#Exercise(members)###06 Nov 2003 new variable
-common#:#exc_instruction#:#Work instructions###06 Nov 2003 new variable
-common#:#exc_members_already_assigned#:#These user are already assigned to this exercise###07 Nov 2003 new variable
-common#:#exc_members_assigned#:#Members assigned###06 Nov 2003 new variable
-common#:#exc_new#:#New exercise###07 Nov 2003 new variable
-common#:#exc_no_members_assigned#:#No members assigned###06 Nov 2003 new variable
-common#:#exc_notices#:#Notices###06 Nov 2003 new variable
-common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
-common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
-common#:#exc_search_for#:#Search for###07 Nov 2003 new variable
-common#:#exc_send_exercise#:#Send exercise###06 Nov 2003 new variable
-common#:#exc_sent#:#The exercise has been sent to the selected users###06 Nov 2003 new variable
-common#:#exc_status_returned#:#Returned###06 Nov 2003 new variable
-common#:#exc_status_saved#:#Exercise updated###06 Nov 2003 new variable
-common#:#exc_status_solved#:#Solved###06 Nov 2003 new variable
-common#:#exc_upload_error#:#Error uploading file###06 Nov 2003 new variable
-common#:#exc_users#:#Users###07 Nov 2003 new variable
+common#:#exc#:#Esercizio###07 Nov 2003 new variable
+common#:#exc_add#:#Aggiungi un esercizio###07 Nov 2003 new variable
+common#:#exc_added#:#Aggiunto esercizio###07 Nov 2003 new variable
+common#:#exc_ask_delete#:#Vuoi cancellare il file?###06 Nov 2003 new variable
+common#:#exc_assign_usr#:#Assigna utente###06 Nov 2003 new variable
+common#:#exc_date_not_valid#:#La data non &#232; valida###06 Nov 2003 new variable
+common#:#exc_deassign_members#:#Elimina membro(i)###06 Nov 2003 new variable
+common#:#exc_edit#:#Creato nuovo esercizio###06 Nov 2003 new variable
+common#:#exc_edit_exercise#:#Modifica esercizio###06 Nov 2003 new variable
+common#:#exc_edit_until#:#Modifica fino ###06 Nov 2003 new variable
+common#:#exc_files#:#File###06 Nov 2003 new variable
+common#:#exc_groups#:#Gruppi###07 Nov 2003 new variable
+common#:#exc_header_members#:#Esercizio(membri)###06 Nov 2003 new variable
+common#:#exc_instruction#:#Istruzioni di lavoro###06 Nov 2003 new variable
+common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati assegnati a questo esercizio###07 Nov 2003 new variable
+common#:#exc_members_assigned#:#Membri assegnati###06 Nov 2003 new variable
+common#:#exc_new#:#Nuovo esercizio###07 Nov 2003 new variable
+common#:#exc_no_members_assigned#:#Nessun membro assignato###06 Nov 2003 new variable
+common#:#exc_notices#:#Note###06 Nov 2003 new variable
+common#:#exc_obj#:#Esercizio###06 Nov 2003 new variable
+common#:#exc_save_changes#:#Salva###06 Nov 2003 new variable
+common#:#exc_search_for#:#Ricerca###07 Nov 2003 new variable
+common#:#exc_send_exercise#:#Invia l&#039;esercizio###06 Nov 2003 new variable
+common#:#exc_sent#:#L&#039;esercizio &#232; stato inviato ai seguenti utenti###06 Nov 2003 new variable
+common#:#exc_status_returned#:#Ritornato###06 Nov 2003 new variable
+common#:#exc_status_saved#:#Esercizio aggiornato###06 Nov 2003 new variable
+common#:#exc_status_solved#:#Risolto###06 Nov 2003 new variable
+common#:#exc_upload_error#:#Errore nell&#039; upload del file###06 Nov 2003 new variable
+common#:#exc_users#:#Utenti###07 Nov 2003 new variable
 common#:#execute#:#Esegui
 common#:#export_html#:#Esporta come file html###09 May 2003 new variable
 common#:#export_xml#:#Esporta come file xml###09 May 2003 new variable
@@ -259,7 +259,7 @@ common#:#fold_add#:#Aggiungi una cartella###01 Oct 2003 new variable
 common#:#fold_added#:#Cartella aggiunta###01 Oct 2003 new variable
 common#:#fold_new#:#Nuova cartella###01 Oct 2003 new variable
 common#:#folders#:#Cartelle
-common#:#force_accept_usr_agreement#:#Hai accettato l&acute;accordo utente!###29 Oct 2003 new variable
+common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!###29 Oct 2003 new variable
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
@@ -304,9 +304,9 @@ common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new varia
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
 common#:#group_password_registration_expired_msg#:#Il periodo di appartenenza a questo gruppo &#232; terminato, questo &#232; l&#039;ultimo avviso. Puoi contattare il proprietario o l&#039;amministratore del gruppo.###01 Nov 2003 new variable
 common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.###01 Nov 2003 new variable
-common#:#group_registration_expiration_date#:#Expiration Date###06 Nov 2003 new variable
+common#:#group_registration_expiration_date#:#Periodo di registrazione###06 Nov 2003 new variable
 common#:#group_registration_expired#:#Periodo di registrazione terminato###01 Nov 2003 new variable
-common#:#group_registration_mode#:#Registration Mode###06 Nov 2003 new variable
+common#:#group_registration_mode#:#Tipo di registrazione###06 Nov 2003 new variable
 common#:#group_req_password#:#E&#039; richiesta la password di registrazione###01 Nov 2003 new variable
 common#:#group_req_registration#:#E&#039; richiesta la registrazione###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.###01 Nov 2003 new variable
@@ -323,7 +323,7 @@ common#:#grp_edit#:#Modifica gruppo###01 Sep 2003 new variable
 common#:#grp_mem_change_status#:#Cambia stato del membro###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Togli il membro dal gruppo###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Invia una mail al membro###02 Oct 2003 new variable
-common#:#grp_name_exists#:#Esiste gi&agrave; un gruppo con questo nome! Per favore, scegline un altro.###17 Oct 2003 new variable
+common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegline un altro.###17 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
 common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
@@ -337,8 +337,8 @@ common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore###26 Mar 2003 new variable
 common#:#ilias_version#:#Versione ILIAS
-common#:#image#:#Image###08 Nov 2003 new variable
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###08 Nov 2003 new variable
+common#:#image#:#Immagine###08 Nov 2003 new variable
+common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.###08 Nov 2003 new variable
 common#:#import#:#Importa
 common#:#import_lm#:#Importa Learningmodule###12 Apr 2003 new variable
 common#:#import_slm#:#Importa SCORM Package###23 Jun 2003 new variable
@@ -364,8 +364,8 @@ common#:#ingmedia_level_zero#:#Livello superiore###01 Oct 2003 new variable
 common#:#ingmedia_pers_dates#:#Dati personali###01 Oct 2003 new variable
 common#:#ingmedia_reg_fo#:#Forum registrati###01 Oct 2003 new variable
 common#:#ingmedia_reg_le#:#LE registrati###01 Oct 2003 new variable
-common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&acute;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite email (!).###01 Oct 2003 new variable
-common#:#ingmedia_use_info2#:#Non &egrave; consentito l&acute;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&acute;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.###01 Oct 2003 new variable
+common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite email (!).###01 Oct 2003 new variable
+common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.###01 Oct 2003 new variable
 common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.###01 Oct 2003 new variable
 common#:#ingmedia_use_title#:#Cambia i dati utente.###01 Oct 2003 new variable
 common#:#ingmedia_user_agree#:#Autorizzazione###01 Oct 2003 new variable
@@ -375,15 +375,15 @@ common#:#ingmedia_welcome#:#, benvenuto nel tuo desktop personale!!###01 Oct 200
 common#:#inifile#:#File .ini
 common#:#input_error#:#Errore di inserimento###20 Mar 2003 new variable
 common#:#insert#:#Inserisci###30 May 2003 new variable
-common#:#inst_id#:#ID dell&acute;istallazione
-common#:#inst_info#:#Informazioni sull&acute;istallazione
-common#:#inst_name#:#Nome dell&acute;istallazione
+common#:#inst_id#:#ID dell&#039;installazione
+common#:#inst_info#:#Informazioni sull&#039;installazione
+common#:#inst_name#:#Nome dell&#039;installazione
 common#:#install#:#Installa
 common#:#installed#:#Installato
 common#:#institution#:#Istituzione
 common#:#internal_system#:#Internal system###25 Mar 2003 new variable
 common#:#ip_address#:#Indirizzo IP
-common#:#is_already_your#:#&Egrave; gi&agrave; tuo###20 Mar 2003 new variable
+common#:#is_already_your#:#&#232; gi&#224; tuo###20 Mar 2003 new variable
 common#:#item#:#item
 common#:#kb#:#KByte###25 Mar 2003 new variable
 common#:#keywords#:#Parole chiave
@@ -406,17 +406,17 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#langfile_found#:#Trovato file###26 Mar 2003 new variable
 common#:#language#:#Lingua
-common#:#language_not_installed#:#Non &egrave; installato. Per favore, prima installa la lingua.###20 Mar 2003 new variable
+common#:#language_not_installed#:#Non &#232; installato. Per favore, prima installa la lingua.###20 Mar 2003 new variable
 common#:#languages#:#Lingue
-common#:#languages_already_installed#:#Attenzione. La lingua scelta &egrave; gi&agrave; stata installata.###20 Mar 2003 new variable
-common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &egrave; gi&agrave; stata rimossa.###20 Mar 2003 new variable
+common#:#languages_already_installed#:#Attenzione. La lingua scelta &#232; gi&#224; stata installata.###20 Mar 2003 new variable
+common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&#224; stata rimossa.###20 Mar 2003 new variable
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.###20 Mar 2003 new variable
 common#:#last_change#:#Ultimo aggiornamento
 common#:#last_visit#:#Ultima visita###07 Feb 2003 new variable
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
-common#:#learning_objects#:#Lezioni###04 Aug 2003 new variable
+common#:#learning_objects#:#Learning Object###04 Aug 2003 new variable
 common#:#learning_resources#:#Risorse###29 Oct 2003 new variable
 common#:#level#:#Livello
 common#:#link#:#Collega
@@ -432,25 +432,25 @@ common#:#lm_added#:#Aggiunto Learning Module###16 Jul 2003 new variable
 common#:#lm_new#:#Nuovo Learning Module###06 Aug 2003 new variable
 common#:#lng#:#Lingua
 common#:#lngf#:#lngf
-common#:#lo#:#Lezione
-common#:#lo_available#:#Lezioni disponibili
-common#:#lo_categories#:#Categorie lezioni
-common#:#lo_edit#:#Modifica lezione
-common#:#lo_new#:#Nuova lezione
+common#:#lo#:#Learning Object
+common#:#lo_available#:#Learning Object disponibili
+common#:#lo_categories#:#Categorie Learning Object
+common#:#lo_edit#:#Modifica Learning Object
+common#:#lo_new#:#Nuova Learning Object
 common#:#lo_no_content#:#Non ci sono risorse disponibili###07 Feb 2003 new variable
-common#:#lo_other_langs#:#Lezioni in altre lingue
-common#:#lo_overview#:#Descrizione lezione
+common#:#lo_other_langs#:#Learning Object in altre lingue
+common#:#lo_overview#:#Descrizione Learning Object
 common#:#locator#:#Adesso sei in:###04 Aug 2003 new variable
 common#:#login#:#Login
 common#:#login_as#:#Sei entrato come###29 Oct 2003 new variable
-common#:#login_data#:#Dati per l&acute;accesso###25 Mar 2003 new variable
-common#:#login_exists#:#Esiste gi&agrave; un utente con questo nome! Per favore, scegline un altro.###25 Mar 2003 new variable
+common#:#login_data#:#Dati per l&#039;accesso###25 Mar 2003 new variable
+common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, scegline un altro.###25 Mar 2003 new variable
 common#:#login_time#:#Tempo di accesso###04 Aug 2003 new variable
 common#:#login_to_ilias#:#Entra in ILIAS
 common#:#logout#:#Uscita
-common#:#logout_text#:#Sei uscito da Ilias. La tua sessione &egrave; terminata.###19 Aug 2003 new variable
-common#:#los#:#Lezioni
-common#:#los_last_visited#:#Ultima lezione visitata
+common#:#logout_text#:#Sei uscito da Ilias. La tua sessione &#232; terminata.###19 Aug 2003 new variable
+common#:#los#:#Learning Object
+common#:#los_last_visited#:#Ultimo Learning Object visitata
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta###25 Mar 2003 new variable
 common#:#mail_addressbook#:#Rubrica###28 Mar 2003 new variable
@@ -473,7 +473,7 @@ common#:#mail_not_sent#:#Mail non inviata!###20 Mar 2003 new variable
 common#:#mail_search_no#:#Nessuna voce trovata###28 Mar 2003 new variable
 common#:#mail_search_word#:#Ricerca parola###25 Mar 2003 new variable
 common#:#mail_select_one#:#Devi scegliere una mail.###25 Mar 2003 new variable
-common#:#mail_send_error#:#Errore nell&acute;invio della mail###25 Mar 2003 new variable
+common#:#mail_send_error#:#Errore nell&#039;invio della mail###25 Mar 2003 new variable
 common#:#mail_sent#:#Mail inviata con successo!###20 Mar 2003 new variable
 common#:#mail_system#:#Messaggio di sistema###03 Apr 2003 new variable
 common#:#mail_z_local#:#Cartelle utente###25 Mar 2003 new variable
@@ -515,7 +515,7 @@ common#:#msg_may_not_contain#:#Questo oggetto potrebbe non contenere oggetti di 
 common#:#msg_min_one_active_role#:#Ogni utente deve avere attivo almeno un ruolo!###09 Aug 2003 new variable
 common#:#msg_min_one_role#:#Ogni utente deve avere almeno un ruolo!###09 Aug 2003 new variable
 common#:#msg_multi_language_selected#:#Hai selezionato la stessa lingua per traduzioni differenti!###01 Sep 2003 new variable
-common#:#msg_no_default_language#:#Non &egrave; stata specificata la lingua predefinita! Devi indicare una traduzione come predefinita.###01 Sep 2003 new variable
+common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predefinita! Devi indicare una traduzione come predefinita.###01 Sep 2003 new variable
 common#:#msg_no_delete_yourself#:#Non puoi cancellare il tuo stesso utente.###19 Aug 2003 new variable
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.###01 Sep 2003 new variable
 common#:#msg_no_perm_copy#:#Non hai i permessi per creare una copia dei seguenti oggetti: ###04 Jul 2003 content changed
@@ -531,26 +531,26 @@ common#:#msg_no_perm_delete#:#Non hai il permesso per cancellare i seguenti ogge
 common#:#msg_no_perm_link#:#Non hai il permesso per creare dei collegamenti dai seguenti oggetti: ###04 Jul 2003 content changed
 common#:#msg_no_perm_modify_role#:#Non hai il permesso per modificare i ruoli###08 Jul 2003 new variable
 common#:#msg_no_perm_modify_rolt#:#Non hai il permesso per modificare i template dei ruoli###08 Jul 2003 new variable
-common#:#msg_no_perm_modify_user#:#Non hai il permesso per modificare i dati dell&acute;utente###07 Jul 2003 new variable
+common#:#msg_no_perm_modify_user#:#Non hai il permesso per modificare i dati dell&#039;utente###07 Jul 2003 new variable
 common#:#msg_no_perm_paste#:#Non hai il permesso per incollare i seguenti oggetti::###08 Jul 2003 new variable
 common#:#msg_no_perm_perm#:#Non hai il permesso per modificare le impostazioni dei permessi###08 Jul 2003 new variable
 common#:#msg_no_perm_write#:#Non hai il permesso di scrittura###07 Jul 2003 new variable
-common#:#msg_no_rolf_allowed1#:#L&acute;oggetto###10 Jul 2003 new variable
-common#:#msg_no_rolf_allowed2#:#non pu&ograve; contenere una cartella di ruoli.###10 Jul 2003 new variable
+common#:#msg_no_rolf_allowed1#:#L&#039;oggetto###10 Jul 2003 new variable
+common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.###10 Jul 2003 new variable
 common#:#msg_no_search_result#:#Nessun risultato trovato###04 Aug 2003 new variable
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca###04 Aug 2003 new variable
-common#:#msg_not_in_itself#:#Non &egrave; possibile incollare l&acute;oggetto su se stesso
-common#:#msg_not_possible_link#:#Non &egrave; possibile creare il collegamento dell&acute;oggetto: Tipo
+common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
+common#:#msg_not_possible_link#:#Non &#232; possibile creare il collegamento dell&#039;oggetto: Tipo
 common#:#msg_nothing_found#:#Nessun risultato
 common#:#msg_obj_created#:#Oggetto creato.###10 Jul 2003 new variable
-common#:#msg_obj_exists#:#Questo oggetto esiste gi&agrave; nella cartella
+common#:#msg_obj_exists#:#Questo oggetto esiste gi&#224; nella cartella
 common#:#msg_obj_modified#:#Modifiche salvate.###10 Jul 2003 new variable
 common#:#msg_perm_adopted_from1#:#Impostazione dei permessi adottata da###08 Jul 2003 new variable
-common#:#msg_perm_adopted_from2#:#(l&acute;impostazione &egrave; stata salvata!)###08 Jul 2003 new variable
+common#:#msg_perm_adopted_from2#:#(l&#039;impostazione &#232; stata salvata!)###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from_itself#:#Non puoi assegnare le impostazioni dei permessi del corrente ruolo/template di ruolo a se stesso.###09 Jul 2003 new variable
 common#:#msg_removed#:#Oggetti cancellati dal sistema.###10 Jul 2003 new variable
 common#:#msg_role_exists1#:#Un ruolo/template di ruolo con il nome###08 Jul 2003 new variable
-common#:#msg_role_exists2#:#esiste gi&agrave;! Per favore, scegline un altro.###08 Jul 2003 new variable
+common#:#msg_role_exists2#:#esiste gi&#224;! Per favore, scegline un altro.###08 Jul 2003 new variable
 common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. Per favore, scegline un altro###19 Aug 2003 new variable
 common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato###04 Nov 2003 new variable
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. ###04 Nov 2003 new variable
@@ -563,8 +563,8 @@ common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.###08 Jul 200
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#I miei preferiti###29 Oct 2003 new variable
 common#:#my_frms#:#I miei forum###19 Aug 2003 new variable
-common#:#my_grps#:#I miei gruppo###29 Oct 2003 new variable
-common#:#my_los#:#I miei learning object###19 Aug 2003 new variable
+common#:#my_grps#:#I miei gruppi###29 Oct 2003 new variable
+common#:#my_los#:#I miei Learning Object###19 Aug 2003 new variable
 common#:#name#:#Nome
 common#:#new#:#Nuovo
 common#:#new_appointment#:#Nuovo appuntamento###01 Sep 2003 new variable
@@ -572,7 +572,7 @@ common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
 common#:#new_mail#:#Nuova mail!###28 Mar 2003 new variable
-common#:#news#:#Novit&agrave;
+common#:#news#:#Novit&#224;
 common#:#next#:#Successivo###30 May 2003 new variable
 common#:#nickname#:#Soprannome
 common#:#no#:#No
@@ -608,14 +608,14 @@ common#:#obj_lng#:#Lingua###15 May 2003 new variable
 common#:#obj_lngf#:#Impostazioni lingua###15 May 2003 new variable
 common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.###01 Oct 2003 new variable
 common#:#obj_lo#:#Lezioni###15 May 2003 new variable
-common#:#obj_mail#:#Impostazioni mail###15 May 2003 new variable
+common#:#obj_mail#:#Impostazioni posta###15 May 2003 new variable
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.###01 Oct 2003 new variable
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note###15 May 2003 new variable
 common#:#obj_notf#:#Gestione note###15 May 2003 new variable
 common#:#obj_objf#:#Gestione oggetti###15 May 2003 new variable
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS. (solo per utenti esperti!)###01 Oct 2003 new variable
-common#:#obj_owner#:#Questo oggetto &egrave; posseduto da###04 Jun 2003 content changed
+common#:#obj_owner#:#Questo oggetto &#232; posseduto da###04 Jun 2003 content changed
 common#:#obj_pg#:#Pagina###15 Aug 2003 new variable
 common#:#obj_role#:#Ruolo###15 May 2003 new variable
 common#:#obj_rolf#:#Gestione ruoli###15 May 2003 new variable
@@ -630,7 +630,7 @@ common#:#obj_typ#:#Definizione tipo oggetto###15 May 2003 new variable
 common#:#obj_type#:#Tipo oggetto###01 Apr 2003 new variable
 common#:#obj_uset#:#Impostazioni utente###15 May 2003 new variable
 common#:#obj_usr#:#Utente###15 May 2003 new variable
-common#:#obj_usrf#:#Gestione utente###15 May 2003 new variable
+common#:#obj_usrf#:#Gestione utenti###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Configura gli utenti qui.###01 Oct 2003 new variable
 common#:#objects#:#Oggetti
 common#:#objf#:#objf###02 Oct 2003 content changed
@@ -654,9 +654,9 @@ common#:#pages#:#Pagine###18 Sep 2003 new variable
 common#:#parameter#:#Parametro###10 Jul 2003 new variable
 common#:#parse#:#Analizza###04 Mar 2003 new variable
 common#:#passwd#:#Password
-common#:#passwd_invalid#:#La nuova password non &egrave; valida! Per favore, scegli un'altra password.###25 Mar 2003 new variable
+common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.###25 Mar 2003 new variable
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.###25 Mar 2003 new variable
-common#:#passwd_wrong#:#La password inserita &egrave; sbagliata!###25 Mar 2003 new variable
+common#:#passwd_wrong#:#La password inserita &#232; sbagliata!###25 Mar 2003 new variable
 common#:#password#:#Password
 common#:#paste#:#Incolla
 common#:#pasteChapter#:#Incolla###19 Sep 2003 new variable
@@ -687,16 +687,16 @@ common#:#phone_home#:#Telefono casa###28 Oct 2003 new variable
 common#:#phone_mobile#:#Telefono cellulare###28 Oct 2003 new variable
 common#:#phone_office#:#Telefono ufficio###28 Oct 2003 new variable
 common#:#phrase#:#Frase
-common#:#please_enter_target#:#Per favore, specifica l&acute;oggetto.###12 Apr 2003 new variable
+common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.###12 Apr 2003 new variable
 common#:#please_enter_title#:#Per favore, inserisci un titolo.###12 Apr 2003 new variable
 common#:#port#:#Porta
 common#:#position#:#Posizione
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente###30 May 2003 new variable
 common#:#print#:#Stampa
-common#:#profile_changed#:#Il tuo profilo &egrave; stato cambiato###25 Mar 2003 new variable
+common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato###25 Mar 2003 new variable
 common#:#profile_of#:#Profile of###08 Nov 2003 new variable
-common#:#properties#:#Propriet&agrave;###04 Aug 2003 new variable
+common#:#properties#:#Propriet&#224;###04 Aug 2003 new variable
 common#:#pub_section#:#Sezione pubblica
 common#:#public_profile#:#Profilo pubblico###14 May 2003 new variable
 common#:#publication#:#Pubblicazione
@@ -712,7 +712,7 @@ common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue###12 Jun 2003 new variable
 common#:#refresh_list#:#Aggiorna la lista
 common#:#register#:#Registra###12 Aug 2003 new variable
-common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&acute;asterisco sono obbligatori).###19 Aug 2003 new variable
+common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).###19 Aug 2003 new variable
 common#:#registered_since#:#Registrato dal###25 Mar 2003 content changed
 common#:#registered_user#:#Utente registrato###29 Oct 2003 new variable
 common#:#registered_users#:#Utenti registrati###29 Oct 2003 new variable
@@ -740,7 +740,7 @@ common#:#role_new#:#Nuovo ruolo###30 Oct 2003 new variable
 common#:#roles#:#Ruoli
 common#:#rolf#:#Cartella di ruoli
 common#:#rolf_added#:#Cartella di ruolo aggiunta###16 Jul 2003 new variable
-common#:#rolt#:#rolt
+common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo###30 Oct 2003 new variable
 common#:#rolt_add#:#Aggiungi template di ruolo###30 Oct 2003 new variable
 common#:#rolt_added#:#Template di ruolo aggiunto###02 Apr 2003 new variable
@@ -853,27 +853,27 @@ common#:#user_language#:#Lingua utente###20 Mar 2003 new variable
 common#:#userdata#:#Dati utente###29 Oct 2003 content changed
 common#:#username#:#Nome utente###29 Oct 2003 content changed
 common#:#users#:#Utenti
-common#:#users_online#:#Utenti online###04 Aug 2003 new variable
+common#:#users_online#:#Utenti connessi###04 Aug 2003 new variable
 common#:#usr#:#Utente
-common#:#usr_a#:#a User###30 Oct 2003 new variable
-common#:#usr_add#:#Add User###30 Oct 2003 new variable
-common#:#usr_added#:#User added###30 Oct 2003 new variable
+common#:#usr_a#:#un utente###30 Oct 2003 new variable
+common#:#usr_add#:#Aggiungi un utente###30 Oct 2003 new variable
+common#:#usr_added#:#Utente aggiunto###30 Oct 2003 new variable
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.###04 Aug 2003 new variable
 common#:#usr_edit#:#Modifica Utente###30 Oct 2003 new variable
 common#:#usr_new#:#Nuovo Utente###30 Oct 2003 new variable
-common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
-common#:#usr_style#:#Stiled ell&acute;utente
-common#:#usrf#:#usrf
+common#:#usr_skin_style#:#Tema / Stile###09 Nov 2003 new variable
+common#:#usr_style#:#Stile dell&#039;utente
+common#:#usrf#:#Cartella utente
 common#:#validate#:#Valida###04 Mar 2003 new variable
 common#:#value#:#Valore###26 Mar 2003 new variable
 common#:#version#:#Versione
-common#:#view#:#Vista###22 Jan 2003 new variable
+common#:#view#:#Vedi###22 Jan 2003 new variable
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
 common#:#week#:#Settimana###01 Sep 2003 new variable
-common#:#who_is_online#:#Chi &egrave; connesso?###04 Aug 2003 new variable
+common#:#who_is_online#:#Chi &#232; connesso?###04 Aug 2003 new variable
 common#:#with#:#con###04 Aug 2003 new variable
 common#:#write#:#Scrivi
 common#:#yes#:#Si
@@ -911,21 +911,21 @@ content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate###26 
 content#:#cont_back#:#Indietro###27 Oct 2003 new variable
 content#:#cont_booktitle#:#Titolo del libro###19 Sep 2003 new variable
 content#:#cont_bottom#:#In fondo###11 Jun 2003 new variable
-content#:#cont_cant_del_full#:#La cancellazione della modalit&agrave; di vista a schermo pieno non &egrave; possibile.###27 Oct 2003 new variable
-content#:#cont_cant_del_std#:#La cancellazione del modalit&agrave; di vista standard non &egrave; possibile.###27 Oct 2003 new variable
+content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.###27 Oct 2003 new variable
+content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.###27 Oct 2003 new variable
 content#:#cont_caption#:#Etichetta###11 Jun 2003 new variable
 content#:#cont_change_type#:#Cambia il tipo###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Capitoli e Pagine###04 Aug 2003 new variable
 content#:#cont_chap_select_target_now#:#Capitolo selezionato per lo spostamento. Scegli adesso la destinazione.###19 Sep 2003 new variable
 content#:#cont_chapters#:#Capitoli###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Caratteristica###23 Jun 2003 new variable
-content#:#cont_choose_cont_obj#:#Scegli l&acute;oggetto contenuto###10 Sep 2003 new variable
+content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Scegli il glossario###10 Sep 2003 new variable
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.###09 Oct 2003 new variable
-content#:#cont_citation_selection_not_valid#:#Questa scelta non &egrave; valida.###09 Oct 2003 new variable
+content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.###09 Oct 2003 new variable
 content#:#cont_citations#:#Citazioni###09 Oct 2003 new variable
 content#:#cont_content#:#Contenuto###12 May 2003 new variable
-content#:#cont_content_obj#:#Contenuto dell&acute;oggetto###10 Sep 2003 new variable
+content#:#cont_content_obj#:#Contenuto dell&#039;oggetto###10 Sep 2003 new variable
 content#:#cont_create_dir#:#Crea una cartella###22 Oct 2003 new variable
 content#:#cont_cross_reference#:#Riferimento incrociato###19 Sep 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
@@ -937,18 +937,18 @@ content#:#cont_del_assignment#:#Assegnamento cancellato###26 Sep 2003 new variab
 content#:#cont_dependencies#:#Dipendenze###04 Aug 2003 new variable
 content#:#cont_details#:#Dettagli###19 Sep 2003 new variable
 content#:#cont_dir_file#:#Cartella/File###22 Oct 2003 new variable
-content#:#cont_edit_file_list_properties#:#Visualizza le propriet&agrave; dell&acute; elenco di file.###14 Oct 2003 new variable
+content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Modifica oggetto multimediale###07 Aug 2003 new variable
-content#:#cont_edit_mob_alias_prop#:#Modifica propriet&agrave; dell&acute;istanza dell&acute;oggetto multimediale###04 Aug 2003 new variable
+content#:#cont_edit_mob_alias_prop#:#Modifica propriet&#224; dell&#039;istanza dell&#039;oggetto multimediale###04 Aug 2003 new variable
 content#:#cont_edit_mob_files#:#File oggetto###21 Oct 2003 new variable
-content#:#cont_edit_mob_properties#:#Modifica propriet&agrave; dell&acute;oggetto multimediale###08 Jul 2003 new variable
+content#:#cont_edit_mob_properties#:#Modifica propriet&#224; dell&#039;oggetto multimediale###08 Jul 2003 new variable
 content#:#cont_edit_par#:#Modifica paragrafo###24 May 2003 new variable
-content#:#cont_edit_tab_properties#:#Modifica propriet&agrave; della tabella###09 Jun 2003 new variable
+content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella###09 Jun 2003 new variable
 content#:#cont_edit_term#:#Modifica termine###16 Aug 2003 new variable
 content#:#cont_edition#:#Edizione###19 Sep 2003 new variable
 content#:#cont_file#:#File###08 Jul 2003 new variable
 content#:#cont_files#:#File###04 Aug 2003 new variable
-content#:#cont_full_is_in_dir#:#La cancellazione non &egrave; possibile. Il file a schermo pieno &egrave; nella cartella.###27 Oct 2003 new variable
+content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.###27 Oct 2003 new variable
 content#:#cont_fullscreen#:#A tutto schermo###04 Aug 2003 new variable
 content#:#cont_height#:#Altezza###08 Jul 2003 new variable
 content#:#cont_how_published#:#Come pubblicato###19 Sep 2003 new variable
@@ -963,7 +963,7 @@ content#:#cont_insert_par#:#Inserisci paragrafo###24 May 2003 new variable
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca###26 Sep 2003 new variable
 content#:#cont_insert_table#:#Inserisci tabella###09 Jun 2003 new variable
 content#:#cont_internal_link#:#Collegamento interno###06 Sep 2003 new variable
-content#:#cont_is_visible#:#&egrave; visibile###04 Aug 2003 new variable
+content#:#cont_is_visible#:#&#232; visibile###04 Aug 2003 new variable
 content#:#cont_isbn#:#ISBN###19 Sep 2003 new variable
 content#:#cont_issn#:#ISSN###19 Sep 2003 new variable
 content#:#cont_item#:#Elemento###04 Aug 2003 new variable
@@ -971,7 +971,7 @@ content#:#cont_journal#:#Giornaliero###19 Sep 2003 new variable
 content#:#cont_keyword#:#Chiave###19 Sep 2003 new variable
 content#:#cont_link_select#:#Collegamento interno###06 Sep 2003 new variable
 content#:#cont_link_type#:#Tipo di collegamento###06 Sep 2003 new variable
-content#:#cont_list_properties#:#Elenca Propriet&agrave;###16 Jul 2003 new variable
+content#:#cont_list_properties#:#Elenca le propriet&#224;###16 Jul 2003 new variable
 content#:#cont_lk_chapter#:#Capitolo###06 Sep 2003 new variable
 content#:#cont_lk_chapter_new#:#Capitolo (Nuovo Frame)###06 Sep 2003 new variable
 content#:#cont_lk_media_faq#:#Media (FAQ Frame)###06 Sep 2003 new variable
@@ -983,22 +983,22 @@ content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)###06 Sep 2003 new variable
 content#:#cont_lk_page_new#:#Pagina (New Frame)###06 Sep 2003 new variable
 content#:#cont_lk_term#:#Glossario###06 Sep 2003 new variable
 content#:#cont_lk_term_new#:#Glossario (New Frame)###06 Sep 2003 new variable
-content#:#cont_lm_properties#:#Propriet&agrave; Learning Module###01 Jul 2003 new variable
+content#:#cont_lm_properties#:#Propriet&#224; del Learning Module###01 Jul 2003 new variable
 content#:#cont_manifest#:#Manifesto###04 Aug 2003 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
 content#:#cont_mob_files#:#File oggetto###27 Oct 2003 new variable
-content#:#cont_mob_inst_prop#:#Propriet&agrave; dell&acute;istanza###27 Oct 2003 new variable
-content#:#cont_mob_prop#:#Propriet&agrave; dell&acute;oggetto###27 Oct 2003 new variable
+content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza###27 Oct 2003 new variable
+content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto###27 Oct 2003 new variable
 content#:#cont_month#:#Mese###19 Sep 2003 new variable
-content#:#cont_msg_multiple_editions#:#Non &egrave; possibile mostrare i dettagli di edizioni multiple###27 Sep 2003 new variable
+content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione###26 Sep 2003 new variable
 content#:#cont_new_dir#:#Nuova cartella###23 Oct 2003 new variable
 content#:#cont_new_file#:#Nuovo file###23 Oct 2003 new variable
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale###13 Sep 2003 new variable
 content#:#cont_new_term#:#Nuovo termine###16 Aug 2003 new variable
-content#:#cont_no_assign_itself#:#L&acute;oggetto non pu&ograve; essere assegnato a s&eacute; stesso###26 Sep 2003 new variable
-content#:#cont_no_object_found#:#Non &egrave; stato trovato nessun oggetto con questo titolo###26 Sep 2003 new variable
+content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso###26 Sep 2003 new variable
+content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo###26 Sep 2003 new variable
 content#:#cont_no_page#:#Nessuna pagina trovata.
 content#:#cont_none#:#Nessuno###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Numero di colonne###09 Jun 2003 new variable
@@ -1022,7 +1022,7 @@ content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
 content#:#cont_preview#:#Anteprima###07 Jun 2003 new variable
 content#:#cont_publisher#:#Editore###19 Sep 2003 new variable
 content#:#cont_purpose#:#Scopo###22 Oct 2003 new variable
-content#:#cont_ref_helptext#:#(cio&egrave; http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
+content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
 content#:#cont_reference#:#Riferimento###04 Aug 2003 new variable
 content#:#cont_resource#:#Risorsa###04 Aug 2003 new variable
 content#:#cont_resource_type#:#Tipo###04 Aug 2003 new variable
@@ -1035,7 +1035,7 @@ content#:#cont_select_max_one_item#:#Per favore, scegli solo un elemento###19 Se
 content#:#cont_select_max_one_term#:#Seleziona solo un elemento###01 Sep 2003 new variable
 content#:#cont_select_one_translation#:#Per favore, scegli una traduzione###26 Sep 2003 new variable
 content#:#cont_select_term#:#Scegli un termine###01 Sep 2003 new variable
-content#:#cont_select_translation#:#Per favore, scegli l&acute;assegnazione dalla lista sopra###26 Sep 2003 new variable
+content#:#cont_select_translation#:#Per favore, scegli l&#039;assegnazione dalla lista sopra###26 Sep 2003 new variable
 content#:#cont_series#:#Serie###19 Sep 2003 new variable
 content#:#cont_series_editor#:#Editore della serie###19 Sep 2003 new variable
 content#:#cont_series_title#:#Titolo della serie###19 Sep 2003 new variable
@@ -1047,7 +1047,7 @@ content#:#cont_show_citation#:#Mostra la citazione###09 Oct 2003 new variable
 content#:#cont_size#:#Dimensioni###22 Oct 2003 new variable
 content#:#cont_source#:#Sorgente###13 Sep 2003 new variable
 content#:#cont_st_title#:#Titolo capitolo###16 Jul 2003 new variable
-content#:#cont_std_is_in_dir#:#La cancellazione non &egrave; possibile. Il file a vista standard &egrave; nella cartella.###27 Oct 2003 new variable
+content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.###27 Oct 2003 new variable
 content#:#cont_std_view#:#Vista standard###04 Aug 2003 new variable
 content#:#cont_structure#:#Struttura###04 Aug 2003 new variable
 content#:#cont_subchapters#:#Paragrafi###28 May 2003 new variable
@@ -1056,7 +1056,7 @@ content#:#cont_table_border#:#Bordo tabella###09 Jun 2003 new variable
 content#:#cont_table_cellpadding#:#Cell Padding della tabella###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Cell Spacing della tabella###09 Jun 2003 new variable
 content#:#cont_table_width#:#Larghezza tabella###09 Jun 2003 new variable
-content#:#cont_target_within_source#:#Il destinatario non deve essere l&acute;oggetto sorgente.###19 Sep 2003 new variable
+content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.###19 Sep 2003 new variable
 content#:#cont_term#:#Termine###15 Aug 2003 new variable
 content#:#cont_terms#:#Termini###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
@@ -1077,17 +1077,17 @@ content#:#par#:#Paragrafo###12 May 2003 new variable
 content#:#pg#:#Pagina###12 May 2003 new variable
 content#:#read offline#:#Leggi offline###22 Sep 2003 new variable
 content#:#st#:#Capitolo###12 May 2003 new variable
-content#:#start export#:#Inizia l&acute;esportazione###22 Sep 2003 new variable
+content#:#start export#:#Inizia l&#039;esportazione###22 Sep 2003 new variable
 forum#:#forums#:#Forum###08 May 2003 new variable
 forum#:#forums_articles#:#Articoli nel forum
 forum#:#forums_attachments#:#Allegati###28 Oct 2003 new variable
 forum#:#forums_attachments_add#:#Aggiungi un allegato###28 Oct 2003 new variable
-forum#:#forums_attachments_edit#:#Modifica l&acute;allegato###28 Oct 2003 new variable
+forum#:#forums_attachments_edit#:#Modifica l&#039;allegato###28 Oct 2003 new variable
 forum#:#forums_available#:#Forum disponibili
 forum#:#forums_count#:#Numero di forum
 forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
-forum#:#forums_delete_file#:#Cancella l&acute;allegato###28 Oct 2003 new variable
+forum#:#forums_delete_file#:#Cancella l&#039;allegato###28 Oct 2003 new variable
 forum#:#forums_download_attachment#:#Download del file###28 Oct 2003 new variable
 forum#:#forums_edit_post#:#Modifica articolo
 forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo articolo?###13 May 2003 new variable
@@ -1099,9 +1099,9 @@ forum#:#forums_new_entries#:#Nuovi forum###17 Jan 2003 new variable
 forum#:#forums_new_thread#:#Nuovo tema
 forum#:#forums_not_available#:#Forum non disponbile
 forum#:#forums_overview#:#Visione generale forum
-forum#:#forums_post_deleted#:#L&acute;articolo &egrave; stato cancellato###17 Jan 2003 new variable
-forum#:#forums_post_modified#:#L&acute;articolo &egrave; stato modificato
-forum#:#forums_post_new_entry#:#un nuovo articolo &egrave; stato inserito
+forum#:#forums_post_deleted#:#L&#039;articolo &#232; stato cancellato###17 Jan 2003 new variable
+forum#:#forums_post_modified#:#L&#039;articolo &#232; stato modificato
+forum#:#forums_post_new_entry#:#un nuovo articolo &#232; stato inserito
 forum#:#forums_posts#:#Tutti gli articoli
 forum#:#forums_posts_not_available#:#Articoli non disponibili
 forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
@@ -1112,7 +1112,7 @@ forum#:#forums_thread#:#Tema###25 Mar 2003 content changed
 forum#:#forums_thread_articles#:#Articoli del tema###25 Mar 2003 content changed
 forum#:#forums_thread_create_date#:#Creato il###25 Mar 2003 new variable
 forum#:#forums_thread_create_from#:#Creato da###25 Mar 2003 new variable
-forum#:#forums_thread_new_entry#:#Un nuovo tema &egrave; stato inserito
+forum#:#forums_thread_new_entry#:#Un nuovo tema &#232; stato inserito
 forum#:#forums_threads#:#Temi
 forum#:#forums_threads_not_available#:#Temi non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
@@ -1123,32 +1123,32 @@ mail#:#forward#:#Inoltra###16 Apr 2003 new variable
 mail#:#linebreak#:#Interruzione###16 Apr 2003 new variable
 mail#:#mail_add_recipient#:#Per favore, specifica il destinatario###16 Apr 2003 new variable
 mail#:#mail_add_subfolder#:#Aggiungi la cartella###18 Apr 2003 new variable
-mail#:#mail_add_subject#:#Per favore, specifica l&acute;oggetto###16 Apr 2003 new variable
+mail#:#mail_add_subject#:#Per favore, specifica l&#039;oggetto###16 Apr 2003 new variable
 mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica###16 Apr 2003 new variable
 mail#:#mail_add_type#:#Per favore, specifica il tipo di mail che vuoi inviare###25 Apr 2003 new variable
 mail#:#mail_addr_entries#:#Indirizzi###16 Apr 2003 new variable
 mail#:#mail_attachments#:#Attachment###16 Apr 2003 new variable
-mail#:#mail_bc_not_valid#:#Il campo Bc non &egrave; valido###16 Apr 2003 new variable
+mail#:#mail_bc_not_valid#:#Il campo Bc non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_bc_search#:#Cerca Bc###16 Apr 2003 new variable
 mail#:#mail_byte#:#Byte###28 Oct 2003 new variable
-mail#:#mail_cc_not_valid#:#Il campo Cc non &egrave; valido###16 Apr 2003 new variable
+mail#:#mail_cc_not_valid#:#Il campo Cc non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_cc_search#:#Cerca Cc###16 Apr 2003 new variable
 mail#:#mail_change_to_folder#:#Spostare nella cartella:###24 Apr 2003 new variable
-mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &egrave; valido###16 Apr 2003 new variable
+mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_compose#:#Componi Messaggio###16 Apr 2003 new variable
 mail#:#mail_deleted#:#Le mail sono state cancellate###16 Apr 2003 new variable
 mail#:#mail_deleted_entry#:#Le voci sono state cancellate###16 Apr 2003 new variable
 mail#:#mail_email_forbidden#:#Non hai permessi per inviare email###16 Apr 2003 new variable
 mail#:#mail_entry_added#:#Aggiunta nuova voce###16 Apr 2003 new variable
-mail#:#mail_entry_changed#:#La voce &egrave; stata cambiata###16 Apr 2003 new variable
+mail#:#mail_entry_changed#:#La voce &#232; stata cambiata###16 Apr 2003 new variable
 mail#:#mail_file_name#:#Nome del file###16 Apr 2003 new variable
 mail#:#mail_file_size#:#Dimensioni del file###16 Apr 2003 new variable
 mail#:#mail_files_deleted#:#I file sono stati cancellati###16 Apr 2003 new variable
-mail#:#mail_folder_created#:#Una nuova cartella &egrave; stata creata###16 Apr 2003 new variable
+mail#:#mail_folder_created#:#Una nuova cartella &#232; stata creata###16 Apr 2003 new variable
 mail#:#mail_folder_deleted#:#La cartella &egrave stata cancellata###14 May 2003 new variable
-mail#:#mail_folder_exists#:#Esiste gi&agrave; una cartella con questo nome###16 Apr 2003 new variable
+mail#:#mail_folder_exists#:#Esiste gi&#224; una cartella con questo nome###16 Apr 2003 new variable
 mail#:#mail_folder_name#:#Nome cartella###16 Apr 2003 new variable
-mail#:#mail_folder_name_changed#:#La cartella &egrave; stata rinominata###16 Apr 2003 new variable
+mail#:#mail_folder_name_changed#:#La cartella &#232; stata rinominata###16 Apr 2003 new variable
 mail#:#mail_folder_options#:#Opzioni cartella###16 Apr 2003 new variable
 mail#:#mail_following_rcp_not_valid#:#I seguenti destinatari non sono validi:###25 Apr 2003 new variable
 mail#:#mail_global_options#:#Opzioni globali###16 Apr 2003 new variable
@@ -1157,8 +1157,8 @@ mail#:#mail_insert_query#:#Per favore, inserisci il criterio###16 Apr 2003 new v
 mail#:#mail_intern#:#Interna###26 Apr 2003 new variable
 mail#:#mail_mark_read#:#Segna la email come letta###16 Apr 2003 new variable
 mail#:#mail_mark_unread#:#Segna la email come non letta###16 Apr 2003 new variable
-mail#:#mail_maxsize_attachment_error#:#Il limite per l&acute;upload &egrave;:###28 Oct 2003 new variable
-mail#:#mail_message_send#:#Il messaggio &egrave; stato inviato###16 Apr 2003 new variable
+mail#:#mail_maxsize_attachment_error#:#Il limite per l&#039;upload &#232;:###28 Oct 2003 new variable
+mail#:#mail_message_send#:#Il messaggio &#232; stato inviato###16 Apr 2003 new variable
 mail#:#mail_move_error#:#Errore spostando la email###16 Apr 2003 new variable
 mail#:#mail_move_to#:#Sposta le email in###16 Apr 2003 new variable
 mail#:#mail_moved#:#Le email sono state spostate###16 Apr 2003 new variable
@@ -1167,10 +1167,10 @@ mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere attachment###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#Non sono stati trovati attachment###16 Apr 2003 new variable
 mail#:#mail_options_of#:#Opzioni::###16 Apr 2003 new variable
-mail#:#mail_recipient_not_valid#:#Il destinatario non &egrave; valido###16 Apr 2003 new variable
+mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_s#:#Mail###16 Apr 2003 new variable
 mail#:#mail_s_unread#:#Mail non lette###16 Apr 2003 new variable
-mail#:#mail_saved#:#La mail &egrave; stata salvata###16 Apr 2003 new variable
+mail#:#mail_saved#:#La mail &#232; stata salvata###16 Apr 2003 new variable
 mail#:#mail_search_addressbook#:#Cerca nella rubrica###30 Apr 2003 new variable
 mail#:#mail_search_system#:#Cerca nel sistema###30 Apr 2003 new variable
 mail#:#mail_select_one_entry#:#Devi selezionare almeno una voce###16 Apr 2003 new variable
@@ -1183,7 +1183,7 @@ mail#:#mail_to_search#:#Cerca To###16 Apr 2003 new variable
 mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di email valido###16 Apr 2003 new variable
 mail#:#search_bc_recipient#:#Cerca destinatario BC###16 Apr 2003 new variable
 mail#:#search_cc_recipient#:#Cerca destinatario CC###16 Apr 2003 new variable
-meta#:#meta_accessibility_restrictions#:#Restrizioni nell&acute;accesso###01 Oct 2003 new variable
+meta#:#meta_accessibility_restrictions#:#Restrizioni nell&#039;accesso###01 Oct 2003 new variable
 meta#:#meta_active#:#Attivo###01 Oct 2003 new variable
 meta#:#meta_add#:#Aggiungi###18 Sep 2003 new variable
 meta#:#meta_annotation#:#Annotazioni###01 Oct 2003 new variable
@@ -1230,7 +1230,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands###14 May 2003 new variable
 meta#:#meta_c_CF#:#Cepubblica Centro Africana###14 May 2003 new variable
 meta#:#meta_c_CG#:#Congo###14 May 2003 new variable
 meta#:#meta_c_CH#:#Svizzera###14 May 2003 new variable
-meta#:#meta_c_CI#:#Costa D&acute;avorio###14 May 2003 new variable
+meta#:#meta_c_CI#:#Costa D&#039;avorio###14 May 2003 new variable
 meta#:#meta_c_CK#:#Isole Cook###14 May 2003 new variable
 meta#:#meta_c_CL#:#Cile###14 May 2003 new variable
 meta#:#meta_c_CM#:#Camerun###14 May 2003 new variable
@@ -1412,7 +1412,7 @@ meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###14 May 2003 new variable
 meta#:#meta_c_US#:#U.S.A.###14 May 2003 new variable
 meta#:#meta_c_UY#:#Uruguay###14 May 2003 new variable
 meta#:#meta_c_UZ#:#Uzbekistan###14 May 2003 new variable
-meta#:#meta_c_VA#:#Stato Citt&agrave; del Vaticano###14 May 2003 new variable
+meta#:#meta_c_VA#:#Stato Citt&#224; del Vaticano###14 May 2003 new variable
 meta#:#meta_c_VC#:#Saint Vincent And The Grenadines###14 May 2003 new variable
 meta#:#meta_c_VE#:#Venezuela###14 May 2003 new variable
 meta#:#meta_c_VG#:#Virgin Islands (British)###14 May 2003 new variable
@@ -1429,7 +1429,7 @@ meta#:#meta_c_ZR#:#Zaire###14 May 2003 new variable
 meta#:#meta_c_ZW#:#Zimbabwe###14 May 2003 new variable
 meta#:#meta_c_ZZ#:#Altra Nazione###14 May 2003 new variable
 meta#:#meta_catalog#:#Catalogo###18 Sep 2003 new variable
-meta#:#meta_choose_element#:#Per favore, scegli l&acute;elemento che vuoi aggiungere!###18 Sep 2003 new variable
+meta#:#meta_choose_element#:#Per favore, scegli l&#039;elemento che vuoi aggiungere!###18 Sep 2003 new variable
 meta#:#meta_choose_language#:#Per favore, scegli una lingua###18 Sep 2003 new variable
 meta#:#meta_choose_section#:#Per favore, scegli una sezione###18 Sep 2003 new variable
 meta#:#meta_classification#:#Classificazione###01 Oct 2003 new variable
@@ -1444,7 +1444,7 @@ meta#:#meta_date#:#Data###01 Oct 2003 new variable
 meta#:#meta_delete#:#Cancella###18 Sep 2003 new variable
 meta#:#meta_description#:#Descrizione###18 Sep 2003 new variable
 meta#:#meta_diagramm#:#Diagramma###01 Oct 2003 new variable
-meta#:#meta_difficulty#:#Difficolt&agrave;###01 Oct 2003 new variable
+meta#:#meta_difficulty#:#Difficolt&#224;###01 Oct 2003 new variable
 meta#:#meta_dificult#:#Difficile###01 Oct 2003 new variable
 meta#:#meta_draft#:#Bozza###01 Oct 2003 new variable
 meta#:#meta_duration#:#Durata###01 Oct 2003 new variable
@@ -1452,7 +1452,7 @@ meta#:#meta_easy#:#Facile###01 Oct 2003 new variable
 meta#:#meta_education#:#Educazione###01 Oct 2003 new variable
 meta#:#meta_educational_level#:#Livello educativo###01 Oct 2003 new variable
 meta#:#meta_educational_objective#:#Scopo educativo###01 Oct 2003 new variable
-meta#:#meta_entity#:#Entit&agrave;###01 Oct 2003 new variable
+meta#:#meta_entity#:#Entit&#224;###01 Oct 2003 new variable
 meta#:#meta_entry#:#Voce###18 Sep 2003 new variable
 meta#:#meta_exam#:#Esame###01 Oct 2003 new variable
 meta#:#meta_exercise#:#Esercizio###01 Oct 2003 new variable
@@ -1473,17 +1473,17 @@ meta#:#meta_id#:#Id###01 Oct 2003 new variable
 meta#:#meta_idea#:#Idea###01 Oct 2003 new variable
 meta#:#meta_identifier#:#Identificatore###14 May 2003 new variable
 meta#:#meta_index#:#Indice###01 Oct 2003 new variable
-meta#:#meta_installation_remarks#:#Note sull&acute;installazione###01 Oct 2003 new variable
+meta#:#meta_installation_remarks#:#Note sull&#039;installazione###01 Oct 2003 new variable
 meta#:#meta_intended_end_user_role#:#Ruolo progettato per utente finale###01 Oct 2003 new variable
 meta#:#meta_interactivity_level#:#Livello di interazione###01 Oct 2003 new variable
 meta#:#meta_interactivity_type#:#Tipo di interazione###01 Oct 2003 new variable
-meta#:#meta_is_based_on#:#E&acute; basato su###01 Oct 2003 new variable
-meta#:#meta_is_basis_for#:#E&acute; la base per###01 Oct 2003 new variable
-meta#:#meta_is_format_of#:#E&acute; formato da###01 Oct 2003 new variable
-meta#:#meta_is_part_of#:#E&acute; parte di###01 Oct 2003 new variable
-meta#:#meta_is_referenced_by#:#E&acute; riferito da###01 Oct 2003 new variable
-meta#:#meta_is_required_by#:#E&acute; richiesto da###01 Oct 2003 new variable
-meta#:#meta_is_version_of#:#E&acute; la versione di###01 Oct 2003 new variable
+meta#:#meta_is_based_on#:#E&#039; basato su###01 Oct 2003 new variable
+meta#:#meta_is_basis_for#:#E&#039; la base per###01 Oct 2003 new variable
+meta#:#meta_is_format_of#:#E&#039; formato da###01 Oct 2003 new variable
+meta#:#meta_is_part_of#:#E&#039; parte di###01 Oct 2003 new variable
+meta#:#meta_is_referenced_by#:#E&#039; riferito da###01 Oct 2003 new variable
+meta#:#meta_is_required_by#:#E&#039; richiesto da###01 Oct 2003 new variable
+meta#:#meta_is_version_of#:#E&#039; la versione di###01 Oct 2003 new variable
 meta#:#meta_keyword#:#Chiave###18 Sep 2003 new variable
 meta#:#meta_kind#:#Tipo###01 Oct 2003 new variable
 meta#:#meta_l_aa#:#afar###28 May 2003 new variable
@@ -1681,10 +1681,10 @@ meta#:#meta_role#:#Ruolo###01 Oct 2003 new variable
 meta#:#meta_school#:#Scuola###01 Oct 2003 new variable
 meta#:#meta_security_level#:#Livello di sicurezza###01 Oct 2003 new variable
 meta#:#meta_self_assessment#:#Autovalutazione###01 Oct 2003 new variable
-meta#:#meta_semantic_density#:#Densit&agrave; semantica###01 Oct 2003 new variable
+meta#:#meta_semantic_density#:#Densit&#224; semantica###01 Oct 2003 new variable
 meta#:#meta_simulation#:#Simulazione###01 Oct 2003 new variable
 meta#:#meta_size#:#Dimensioni###01 Oct 2003 new variable
-meta#:#meta_skill_level#:#Livello di capacit&agrave;###01 Oct 2003 new variable
+meta#:#meta_skill_level#:#Livello di capacit&#224;###01 Oct 2003 new variable
 meta#:#meta_slide#:#Immagine###01 Oct 2003 new variable
 meta#:#meta_source#:#Sorgente###01 Oct 2003 new variable
 meta#:#meta_status#:#Stato###01 Oct 2003 new variable
@@ -1713,7 +1713,7 @@ search#:#search_concatenation#:#Concatenazione###10 Sep 2003 new variable
 search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable
 search#:#search_dbk_content#:#Libraria digitale (contenuto)###10 Sep 2003 new variable
 search#:#search_dbk_meta#:#Libraria digitale (metadata)###10 Sep 2003 new variable
-search#:#search_in_result#:#Ricerca all&acute;interno dei risultati###10 Sep 2003 new variable
+search#:#search_in_result#:#Ricerca all&#039;interno dei risultati###10 Sep 2003 new variable
 search#:#search_lm_content#:#Materiale di elearning (contenuto)###10 Sep 2003 new variable
 search#:#search_lm_meta#:#Materiale di elearning  (metadata)###10 Sep 2003 new variable
 search#:#search_meta#:#Metadata###10 Sep 2003 new variable
