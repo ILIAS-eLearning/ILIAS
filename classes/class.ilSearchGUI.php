@@ -199,7 +199,7 @@ class ilSearchGUI
 	{
 		$subtree = $this->folder_obj->getSubtree();
 
-		$options[0] = $this->lng->txt("search_select_one");
+		$options[0] = $this->lng->txt("search_select_one_select");
 		$options[1] = $this->lng->txt("search_my_search_results");
 		
 		foreach($subtree as $node)
@@ -444,15 +444,12 @@ class ilSearchGUI
 	{
 		$this->tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
 
-		$this->tpl->touchBlock("locator_separator");
 
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
 		$this->tpl->setVariable("LINK_TARGET","bottom");
 		$this->tpl->setVariable("ITEM",$this->lng->txt("mail_search_word"));
 		$this->tpl->parseCurrentBlock();
-
-		#$this->__showFolderLocator();
 
 		$this->tpl->setCurrentBlock("locator");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));

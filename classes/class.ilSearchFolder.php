@@ -94,8 +94,13 @@ class ilSearchFolder
 
 	function getChilds()
 	{
-		return $this->s_tree->getChilds($this->getFolderId());
+		return $this->s_tree->getChilds($this->getFolderId(),"type","DESC");
 	}
+	function getPath()
+	{
+		return $this->s_tree->getPathFull($this->getFolderId(),ROOT_FOLDER_ID);
+	}
+
 	function setParentId($a_parent_id)
 	{
 		$this->parent_id = $a_parent_id;

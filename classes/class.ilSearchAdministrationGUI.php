@@ -356,17 +356,40 @@ class ilSearchAdministrationGUI
 
 	function __showLocator()
 	{
+		$path_info = $this->folder_obj->getPath();
+
 		$this->tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
 
 		$this->tpl->touchBlock("locator_separator");
-
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
 		$this->tpl->setVariable("LINK_TARGET","bottom");
 		$this->tpl->setVariable("ITEM",$this->lng->txt("mail_search_word"));
 		$this->tpl->parseCurrentBlock();
 
-		#$this->__showFolderLocator();
+		if(count($path_info) > 1)
+		{
+			$this->tpl->touchBlock("locator_separator");
+		}
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("LINK_ITEM","./search_administration.php");
+		$this->tpl->setVariable("LINK_TARGET","bottom");
+		$this->tpl->setVariable("ITEM",$this->lng->txt("search_search_results"));
+		$this->tpl->parseCurrentBlock();
+
+
+		for($i = 1; $i < count($path_info); ++$i)
+		{
+			if($i < (count($path_info) - 1))
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("LINK_ITEM","./search_administration.php?folder_id=".$path_info[$i]["child"]);
+			$this->tpl->setVariable("LINK_TARGET","bottom");
+			$this->tpl->setVariable("ITEM",$path_info[$i]["title"]);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock("locator");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
