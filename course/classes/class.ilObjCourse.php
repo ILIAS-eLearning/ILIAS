@@ -233,6 +233,14 @@ class ilObjCourse extends ilObject
 	{
 		$this->subscription_password = $a_value;
 	}
+	function setObjectiveViewStatus($a_status)
+	{
+		$this->objective_view = $a_status;
+	}
+	function enabledObjectiveView()
+	{
+		return (bool) $this->objective_view;
+	}
 
 	function inSubscriptionTime()
 	{
@@ -490,6 +498,7 @@ class ilObjCourse extends ilObject
 		$new_course->setArchiveEnd($this->getArchiveEnd());
 		$new_course->setArchiveType($this->getArchiveType());
 		$new_course->setAboStatus($this->getAboStatus());
+		$new_course->setObjectiveViewStatus($this->enabledObjectiveView());
 
 		$new_course->update();
 
@@ -667,7 +676,8 @@ class ilObjCourse extends ilObject
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
 			"archive_type = '".(int) $this->getArchiveType()."', ".
-			"abo = '".(int) $this->getAboStatus()."' ".
+			"abo = '".(int) $this->getAboStatus()."', ".
+			"objective_view = '".(int) $this->enabledObjectiveView()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 
 		$res = $ilDB->query($query);
@@ -700,7 +710,8 @@ class ilObjCourse extends ilObject
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
 			"archive_type = '".(int) $this->ARCHIVE_DISABLED."', ".
-			"abo = '".(int) $this->ABO_ENABLED."'";
+			"abo = '".(int) $this->ABO_ENABLED."', ".
+			"objective_view = '0'";
 
 		$res = $ilDB->query($query);
 	}
@@ -737,6 +748,7 @@ class ilObjCourse extends ilObject
 			$this->setArchiveEnd($row->archive_end);
 			$this->setArchiveType($row->archive_type);
 			$this->setAboStatus($row->abo);
+			$this->setObjectiveViewStatus($row->objective_view);
 		}
 		return true;
 	}

@@ -4588,3 +4588,4 @@ crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
 crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription
+crs#:#crs_objective_view#:#Objective oriented view
