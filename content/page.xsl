@@ -13,39 +13,49 @@
 <!-- we dump the MetaData and Bibliography -->
 <xsl:template match="MetaData"/>
 
-<!-- start of explicit template declaration -->
+<!-- PageObject -->
+<xsl:param name="mode"/>
 <xsl:template match="PageObject">
-	<select size="1" class="ilEditSelect">
-		<xsl:attribute name="name">command0</xsl:attribute>
-	<option value="insert">insert</option>
-	</select>
-	<input class="ilEditSubmit" type="submit" value="Go">
-		<xsl:attribute name="name">cmd[exec_0]</xsl:attribute>
-	</input>
+	<xsl:if test="$mode = 'edit'">
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command0</xsl:attribute>
+		<option value="insert">insert</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_0]</xsl:attribute>
+		</input>
+	</xsl:if>
 	<xsl:apply-templates/>
 </xsl:template>
 
+<!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
-		<!-- <xsl:value-of select="@ed_id"/> -->
-		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="@ed_id"/>
-			</xsl:attribute>
-		</input>
+		<!-- checkbox -->
+		<xsl:if test="$mode = 'edit'">
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="@ed_id"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<!-- content -->
 		<xsl:apply-templates/>
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="@ed_id"/>
-			</xsl:attribute>
-		<option value="edit">edit</option>
-		<option value="insert">insert</option>
-		<option value="delete">delete</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@ed_id"/>]
-			</xsl:attribute>
-		</input>
+		<!-- command selectbox -->
+		<xsl:if test="$mode = 'edit'">
+			<select size="1" class="ilEditSelect">
+				<xsl:attribute name="name">command<xsl:value-of select="@ed_id"/>
+				</xsl:attribute>
+			<option value="edit">edit</option>
+			<option value="insert">insert</option>
+			<option value="delete">delete</option>
+			<option value="moveAfter">move after</option>
+			<option value="moveBefore">move before</option>
+			</select>
+			<input class="ilEditSubmit" type="submit" value="Go">
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@ed_id"/>]
+				</xsl:attribute>
+			</input>
+		</xsl:if>
 	</p>
 </xsl:template>
 
@@ -59,11 +69,23 @@
 		<xsl:value-of select="."/>
 	<br/>
 	</xsl:for-each>
-	<table class="Table" id="lo_view">
+	<table class="Table" id="lo_view" border="1">
 	<xsl:for-each select="TableRow">
-		<tr class="TableRow" id="lo_view">
+		<tr class="TableRow" id="lo_view" valign="top">
 			<xsl:for-each select="TableData">
 				<td class="TableData" id="lo_view">
+					<!-- insert commands -->
+					<xsl:if test="$mode = 'edit'">
+						<select size="1" class="ilEditSelect">
+							<xsl:attribute name="name">command<xsl:value-of select="@ed_id"/>
+							</xsl:attribute>
+						<option value="insert">insert</option>
+						</select>
+						<input class="ilEditSubmit" type="submit" value="Go">
+							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@ed_id"/>]</xsl:attribute>
+						</input>
+					</xsl:if>
+					<!-- content -->
 					<xsl:apply-templates/>
 				</td>
 			</xsl:for-each>
