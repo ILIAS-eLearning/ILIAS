@@ -2910,27 +2910,27 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-survey#:#survey_questions#:#Questions
-survey#:#filter#:#Filter
-survey#:#set_filter#:#Set filter
-survey#:#reset_filter#:#Reset filter
-survey#:#no_questions_available#:#There are no questions available!
-survey#:#duplicate#:#Duplicate
-survey#:#question_type#:#Question type
-survey#:#create_date#:#Created
-survey#:#last_update#:#Last update
-survey#:#qt_nominal#:#Nominal question
-survey#:#qt_metric#:#Metric question
-survey#:#qt_ordinal#:#Ordinal question
-survey#:#qt_text#:#Text question
-survey#:#create_new#:#Create new
-survey#:#questiontype#:#Question type
-survey#:#multiple_choice_single_response#:#Multiple choice (single response)
-survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
-survey#:#material_file#:#Material file
 survey#:#add_category#:#Add category
 survey#:#apply#:#Apply
-survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
-survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#category#:#Category
+survey#:#create_date#:#Created
+survey#:#create_new#:#Create new
+survey#:#duplicate#:#Duplicate
+survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
+survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
+survey#:#filter#:#Filter
+survey#:#last_update#:#Last update
+survey#:#material_file#:#Material file
+survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
+survey#:#multiple_choice_single_response#:#Multiple choice (single response)
+survey#:#no_questions_available#:#There are no questions available!
 survey#:#preview#:#Preview
+survey#:#qt_metric#:#Metric question
+survey#:#qt_nominal#:#Nominal question
+survey#:#qt_ordinal#:#Ordinal question
+survey#:#qt_text#:#Text question
+survey#:#question_type#:#Question type
+survey#:#questiontype#:#Question type
+survey#:#reset_filter#:#Reset filter
+survey#:#set_filter#:#Set filter
+survey#:#survey_questions#:#Questions
