@@ -111,7 +111,7 @@ class XML2DOM
 	{
 		$xml_parser = xml_parser_create();
 		xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
-		xml_set_object($xml_parser, &$this);
+		xml_set_object($xml_parser, $this);
 		xml_set_element_handler($xml_parser, "startElement", "endElement");
 		xml_set_character_data_handler($xml_parser, "characterData");
 					
