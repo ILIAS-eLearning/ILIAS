@@ -123,6 +123,7 @@ assessment#:#ass_file#:#Fichero
 assessment#:#ass_questions#:#Preguntas
 assessment#:#ass_size#:#Tamaño
 assessment#:#available_points#:#Puntos disponibles
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!
@@ -304,6 +305,7 @@ assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta 
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el depósito de preguntas si no quiere guardarla!
 assessment#:#question_short#:#P
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Tipo de Pregunta
 assessment#:#questionpool_not_entered#:#Por favor introduzca un nombre para un depósito de preguntas!
 assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
@@ -2420,6 +2422,7 @@ content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
 content#:#cont_create_dir#:#Crear Directorio
 content#:#cont_create_export_file#:#-Crear Fichero Exportado-
 content#:#cont_create_folder#:#Crear Carpeta
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Crear Objeto Media
 content#:#cont_credit_mode#:#Modo 'crédito' (para el modo de lección 'normal')
 content#:#cont_credit_off#:#No crédito
@@ -2588,6 +2591,8 @@ content#:#cont_nr_items#:#Número de Items
 content#:#cont_nr_rows#:#Número de Filas
 content#:#cont_obj_removed#:#Objetos eliminados.
 content#:#cont_offline#:#Versiones Offline
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Tipo de Orden
@@ -3925,6 +3930,7 @@ survey#:#category#:#Categoría
 survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguiente(s) categoría(s)?
 survey#:#category_delete_select_none#:#Por favor seleccione al menos una categoría para eliminar!
 survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categoría
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#concatenation#:#Concatenación
 survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha sido creada para usar con la encuesta activa. Quiere modificar la pregunta original también?
 survey#:#constraints#:#Restricciones

@@ -122,6 +122,7 @@ assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Questões
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
@@ -303,6 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#Questão de escolha múltipla (resposta ún
 assessment#:#qt_ordering#:#Questão de ordenação
 assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!###14 Sep 2004 content changed
 assessment#:#question_short#:#Q###05 Nov 2004 new variable
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Tipo de questão
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
@@ -2419,6 +2421,7 @@ content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Criar Directoria
 content#:#cont_create_export_file#:#Criar Ficheiro de Exportação
 content#:#cont_create_folder#:#Criar Pasta
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Criar Objecto de Média
 content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
 content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
@@ -2587,6 +2590,8 @@ content#:#cont_nr_items#:#Número de Itens
 content#:#cont_nr_rows#:#Número de Linhas
 content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online###05 Nov 2004 new variable
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Tipo de Ordem
@@ -4035,6 +4040,7 @@ survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
 survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable

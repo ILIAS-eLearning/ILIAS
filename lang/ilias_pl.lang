@@ -122,6 +122,7 @@ assessment#:#ass_file#:#Plik
 assessment#:#ass_questions#:#Pytania
 assessment#:#ass_size#:#Rozmiar
 assessment#:#available_points#:#Punkty do zdobycia
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
@@ -303,6 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowie
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Typ pytania
 assessment#:#questionpool_not_entered#:#Podaj nazwę puli pytań!
 assessment#:#questions_from#:#pytania z
@@ -2419,6 +2421,7 @@ content#:#cont_copy_to_clipboard#:#Kopiuj do schowka
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_create_export_file#:#Twórz plik eksportowy
 content#:#cont_create_folder#:#Twórz Folder
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Twórz Obiekt Medialny
 content#:#cont_credit_mode#:#Tryb kredytowy (dla trybu lekcji 'normalny')
 content#:#cont_credit_off#:#Brak kredytu
@@ -2587,6 +2590,8 @@ content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
 content#:#cont_obj_removed#:#Obiekty usunięte.
 content#:#cont_offline#:#Wersje Offline
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_or#:#lub
 content#:#cont_order#:#Typ porządkowy
@@ -4035,6 +4040,7 @@ survey#:#category#:#Kategoria
 survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?
 survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do usunięcia!
 survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kategorię
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Musisz wybrać conajmniej jedną kategorię dla zapisania frazy!
 survey#:#concatenation#:#Połączenie
 survey#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią wykonaną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
