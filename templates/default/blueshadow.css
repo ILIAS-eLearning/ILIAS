@@ -356,14 +356,14 @@ select.ilEditSelect {
 	background-color:#bbbbbb;
 }
 
+/* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
+img.imgtab {
+	display:block;
+}
+
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
 	margin:0px;
-}
-
-/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
-img {
-	display: block;
 }
 
 /* ------------------ styles for lm content, should be separated
