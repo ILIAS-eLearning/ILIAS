@@ -29,20 +29,22 @@
 	</td>
 </tr>
 <tr>
-	<td class="option" colspan="6">
+	<td class="option" colspan="3">
 		<div align="left">{TXT_RESOURCE} (Resource)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <!-- BEGIN identifier_loop -->
 <tr>
-	<td class="option" width="10" rowspan="4">&nbsp;</td>
-	<td class="option" colspan="3">
-		<div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER} (Identifier)
+	<td class="option" width="10" rowspan="5">&nbsp;</td>
+	<td class="option" colspan="2">
+		<div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER} (Identifier)<br>
 <!-- BEGIN identifier_delete -->
 		[ <a href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a> ]
 <!-- END identifier_delete -->
 		[ <a href="{IDENTIFIER_LOOP_ACTION_ADD}">{IDENTIFIER_LOOP_TXT_ADD}</a> ]</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="2">&nbsp;</td>
@@ -56,21 +58,17 @@
 <!-- END identifier_loop -->
 <!-- BEGIN description_loop -->
 <tr>
-	<td class="option" width="10" rowspan="3">&nbsp;</td>
-	<td class="option" colspan="3">
-		<div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION} (Description)
+	<td class="option" colspan="2">
+		<div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION} (Description)<br>
 <!-- BEGIN description_delete -->
 		[ <a href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a> ]
 <!-- END description_delete -->
 		[ <a href="{DESCRIPTION_LOOP_ACTION_ADD}">{DESCRIPTION_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10" rowspan="2">&nbsp;</td>
-	<td class="sub_option">{DESCRIPTION_LOOP_TXT_VALUE} (Value)</td>
 	<td class="option_value"><textarea name="meta[Resource][Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea></td>
 </tr>
 <tr>
+	<td class="option" width="10">&nbsp;</td>
 	<td class="sub_option">{DESCRIPTION_LOOP_TXT_LANGUAGE} (Language)</td>
 	<td class="option_value">{DESCRIPTION_LOOP_VAL_LANGUAGE}</td>
 </tr>

@@ -33,27 +33,25 @@
 	</td>
 </tr>
 <tr>
-	<td class="option" colspan="4"><div align="left">{TXT_VERSION}</div></td>
-</tr>
-<tr>
-	<td class="option"width="10" rowspan="2">&nbsp;</td>
-	<td class="sub_option" colspan="2">{TXT_VALUE} (Value)</td>
+	<td class="option" colspan="3"><div align="left">{TXT_VERSION} (Version)</div></td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Version][Value]" value="{VAL_VERSION}"></td>
 </tr>
 <tr>
+	<td class="option" width="10">&nbsp;</td>
 	<td class="sub_option" colspan="2">{TXT_LANGUAGE} (Language)</td>
 	<td class="option_value">{VAL_VERSION_LANGUAGE}</td>
 </tr>
 
 <!-- BEGIN contribute_loop -->
 <tr>
-	<td class="option" colspan="4">
-		<div align="left">{CONTRIBUTE_LOOP_TXT_CONTRIBUTE} (Contribute)
+	<td class="option" colspan="3">
+		<div align="left">{CONTRIBUTE_LOOP_TXT_CONTRIBUTE} (Contribute)<br>
 <!-- BEGIN contribute_delete -->
 		[ <a href="{CONTRIBUTE_LOOP_ACTION_DELETE}">{CONTRIBUTE_LOOP_TXT_DELETE}</a> ]
 <!-- END contribute_delete -->
 		[ <a href="{CONTRIBUTE_LOOP_ACTION_ADD}">{CONTRIBUTE_LOOP_TXT_ADD}</a> ]</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="{CONTRIBUTE_LOOP_ROWSPAN}">&nbsp;</td>
@@ -77,7 +75,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="sub_option"width="10">&nbsp;</td>
+	<td class="sub_option" width="10">&nbsp;</td>
 	<td class="option">{CONTRIBUTE_ENTITY_LOOP_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Contribute][{CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO}][Entity][{CONTRIBUTE_ENTITY_LOOP_NO}]" value="{CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY}"></td>
 </tr>
