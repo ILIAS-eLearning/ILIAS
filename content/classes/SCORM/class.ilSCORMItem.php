@@ -157,7 +157,6 @@ class ilSCORMItem extends ilSCORMObject
 		$this->masteryscore = $a_score;
 	}
 
-
 	function read()
 	{
 		parent::read();
