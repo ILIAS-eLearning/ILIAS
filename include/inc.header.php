@@ -138,7 +138,7 @@ if ($ilias->auth->getAuth())
 		$_SESSION["AccountId"] = $ilias->account->checkUserId();
 
         // assigned roles are stored in $_SESSION["RoleId"]
-		$rbacreview = new ilRbacReviewH();
+		$rbacreview = new ilRbacReview();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 	}
 	else
