@@ -255,7 +255,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!$this->client->status["finish"]["status"])
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "lang")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -266,7 +266,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "contact":
-				if (!$this->client->status["finish"]["status"])
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "contact")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -277,7 +277,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->status["finish"]["status"])
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "nic")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -288,10 +288,9 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "finish":
-				if (!$this->client->db_installed)
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "finish")
 				{
-					$this->cmd = "db";
-					$this->displayDatabase();
+					$this->jumpToFirstUnfinishedSetupStep();
 				}
 				else
 				{
@@ -325,11 +324,7 @@ class ilSetupGUI extends ilSetup
 	function displayClientOverview()
 	{		
 		$this->checkDisplayMode();
-		/*$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
-		// display tabs
-		include "./include/inc.client_tabs.php";
-		$this->tpl->setVariable("TXT_HEADER","Client details of \"".$this->client->getName()."\" (Id: ".$this->client->getId().")");	
-		*/		
+	
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
 
 		if ($this->client->db_installed)
@@ -423,7 +418,7 @@ class ilSetupGUI extends ilSetup
 		{
 			return false;
 		}
-
+		$ths->display_mode_old = $_SESSION["display_mode"];
 		$this->display_mode = $a_mode;
 		$_SESSION["display_mode"] = $this->display_mode;
 		
@@ -447,6 +442,7 @@ class ilSetupGUI extends ilSetup
 		
 		if ($this->cmd != "logout" and $this->isInstalled())
 		{
+			var_dump($this->display_mode);
 			// add client link
 			if ($this->isAdmin())
 			{
@@ -494,7 +490,6 @@ class ilSetupGUI extends ilSetup
 	function displayFooter()
 	{
 		// footer (not really)
-		
 		if ($this->cmd != "logout")
 		{
 			if ($this->ini_ilias_exists and $this->display_mode == "setup" and isset($_SESSION["ClientId"]))
@@ -1367,9 +1362,6 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("ERROR_MESSAGE",($a_message));
 		$this->tpl->parseCurrentBlock();
 		
-		//session_unregister("referer");
-		//unset($_SESSION["message"]);
-
 		$this->tpl->show();
 		exit();
 	}
@@ -1458,7 +1450,6 @@ class ilSetupGUI extends ilSetup
 	
 	function checkDisplayMode($a_title = "")
 	{
-
 		switch ($this->display_mode)
 		{
 			case "view":
