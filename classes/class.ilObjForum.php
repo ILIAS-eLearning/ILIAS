@@ -89,9 +89,11 @@ class ilObjForum extends ilObject
 	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
 	* 
 	* @access	public
+	* @param integer ref_id of parent object
+	* @param boolean copy with or without content (threads)
 	* @return	integer	new ref id
 	*/
-	function ilClone($a_parent_ref)
+	function ilClone($a_parent_ref,$a_with_content = true)
 	{		
 		global $rbacadmin;
 
@@ -111,9 +113,26 @@ class ilObjForum extends ilObject
 		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");
 		ilObjUser::updateActiveRoles($forumObj->getOwner());
 
+		// STOP HERE if without_content is selected
+		if(!$a_with_content)
+		{
+			$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
+			$topData = $this->Forum->getOneTopic();
+
+			$query = "INSERT INTO frm_data ".
+				"VALUES('0','".$forumObj->getId()."','".ilUtil::prepareDBString($topData['top_name'])."','".
+				ilUtil::prepareDBString($topData['top_description'])."','0','0','','".$roles[0]."',NOW(),'0',NOW(),'0','".
+				$this->ilias->account->getId()."')";
+
+			$this->ilias->db->query($query);
+
+			return $new_ref_id;
+		}
+		
+
 		// get forum data
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
-		$topData = $this->Forum->getOneTopic();	
+		$topData = $this->Forum->getOneTopic();
 		
 		// insert new forum as a copy 
 		$q = "INSERT INTO frm_data ";
