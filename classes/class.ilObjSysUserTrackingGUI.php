@@ -263,6 +263,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_STATISTIC", $lng->txt("statistic"));
 		$tpl->setVariable("TXT_STATISTIC_H", $lng->txt("hours_of_day"));
 		$tpl->setVariable("TXT_STATISTIC_D", $lng->txt("days_of_period"));
+		$tpl->setVariable("TXT_STATISTIC_O", $lng->txt("per_object"));
 		$tpl->setVariable("TXT_USER_LANGUAGE",$lng->txt("user_language"));
 		$tpl->setVariable("TXT_LM",$lng->txt("lm"));
 		$tpl->setVariable("TXT_SHOW_TR_DATA",$lng->txt("query_data"));
@@ -398,9 +399,17 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		{
 			$tpl->setVariable("D_CHK", " checked=\"1\" ");
 		}
-		else if ($_SESSION["il_track_stat"] != "u")
+		elseif ($_SESSION["il_track_stat"] == "h")
 		{
 			$tpl->setVariable("H_CHK", " checked=\"1\" ");
+		}
+		elseif($_SESSION["il_track_stat"] == "o")
+		{
+			$tpl->setVariable("O_CHK", " checked=\"1\" ");
+		}
+		elseif($_SESSION["il_track_stat"] == "u")
+		{
+			$tpl->setVariable("U_CHK", " checked=\"1\" ");
 		}
 
 		// tracked object type
@@ -706,7 +715,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 
 		}
-		else //user not selected
+		elseif($_POST["stat"] == "o")
+		{
+
+		}
+		else//user not selected
 		{
 			$title_new = array("time", "count", "");
 
