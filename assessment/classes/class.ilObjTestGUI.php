@@ -25,7 +25,7 @@
 /**
 * Class ilObjTestGUI
 *
-* @author Helmut Schottm�ller <hschottm@tzi.de>
+* @author Helmut Schottmueller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI
@@ -3229,7 +3229,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["stop_inherit"])
 		{
-			// rolefolder doesn't exists, so create one
+			// rolefolder does not exist, so create one
 			if (empty($rolf_id))
 			{
 				// create a local role folder

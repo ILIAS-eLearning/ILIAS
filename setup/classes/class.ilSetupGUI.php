@@ -94,7 +94,7 @@ class ilSetupGUI extends ilSetup
 
 		// determine display mode here
 		// TODO: depending on previous setting (session)
-		// OR switch to 'setup'-mode if someone logs in as client and client's setup wasn't finished (-> entry in settings table doesn't exists)
+		// OR switch to 'setup'-mode if someone logs in as client and client's setup wasn't finished (-> entry in settings table does not exist)
 		if ($this->isAuthenticated() and !$this->client->status["finish"]["status"] and $this->cmd != "clientlist" and $this->cmd != "")
 		{
 			$this->setDisplayMode("setup");
@@ -252,7 +252,7 @@ class ilSetupGUI extends ilSetup
 				break;
 				
 			case "ini":
-				// only allow access to ini if db not exists yet
+				// only allow access to ini if db does not exist yet
 				if ($this->client->db_installed)
 				{
 					$this->cmd = "db";
@@ -1325,7 +1325,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt("ini_no_db_user"),$this->error_obj->MESSAGE);
 			}
 
-			// create new client object if not exists !!
+			// create new client object if it does not exist
 			if (!$this->ini_client_exists)
 			{
 				$client_id = $_POST["form"]["client_id"];
@@ -1760,7 +1760,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DB_USER", $this->lng->txt("db_user"));
 		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
 		
-		// only allow to return to ini if db not exists yet
+		// only allow to return to ini if db does not exist yet
 		if (!$this->client->db_installed)
 		{
 			$this->setButtonPrev("ini");

@@ -196,7 +196,7 @@ class XML2SQL
 	{
 		$element_id = $this->getEntryId("xml_element_name","element","element_id",$a_node["name"]);
 		
-		// insert element first if it doesn't exists
+		// insert element first if it does not exist
 		if ($element_id == false)
 		{
 			$q = "INSERT INTO xml_element_name (element) ".
@@ -257,7 +257,7 @@ class XML2SQL
 			{
 				$attribute_id = $this->getEntryId("xml_attribute_name","attribute","attribute_id",$attr);
 
-				// insert attribute first if it doesn't exists
+				// insert attribute first if it does not exist
 				if ($attribute_id == false)
 				{
 					$q = "INSERT INTO xml_attribute_name (attribute) ".
@@ -269,7 +269,7 @@ class XML2SQL
 
 				//$value_id = $this->getEntryId("xml_attribute_value","value","value_id",$value);
 
-				// insert attribute value first if it doesn't exists
+				// insert attribute value first if it does not exist
 				//if ($value_id == false)
 				//{
 					$q = "INSERT INTO xml_attribute_value (value) ".

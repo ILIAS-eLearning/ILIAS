@@ -131,7 +131,7 @@
 
 
 <a name="04">&nbsp;<h3>Role Permission Templates</h3></a>
-<p>For every object exists a set of permissions linked to a role. Each role has its own set of permissions for every individual object! What happens if you create a new object is that you are required to set the permissions of the object for every existing role in the system which is first an intolerable administrative effort for the user and second a possible security hole.</p>
+<p>For every object there exists a set of permissions linked to a role. Each role has its own set of permissions for every individual object! What happens if you create a new object is that you are required to set the permissions of the object for every existing role in the system which is first an intolerable administrative effort for the user and second a possible security hole.</p>
 <p>Therefore ILIAS3 offers you the possibility to set a so called <b>Permission Template</b> for each role. That means you can create default permissions for every object type. If a specific object is created, the permissions are set accordingly to these template permissions.</p>
 <p>Furthermore it is possible to accommodate the permissions of all existing objects after changing the role template (see option description '<a href="#change_existing_objects">Change existing Objects</a>'). You can also <a href="#userassignment">assign/deassign users to roles</a>.</p>
 
@@ -465,15 +465,15 @@ A small company offers courses and seminars about the use of standard applicatio
 <li><b>object_data:</b> Contains basic data for each object in ILIAS3.</li><br/>
 <li><b>object_reference:</b> All RBAC protected object are not addressed by their object_id but with a reference_id (see <a href="#identifier">Unique Identifier</a>). Only the object's reference_id is stored in the tree table. An object may have more than 1 reference_id This allows to allocate the same object multiple times in the object hierarchy and apply individual permission settings.</li><br/>
 <li><b>tree:</b> Contains the object hierarchy. The RBAC system uses this structure information for <a href="#07">permission inheritance</a> and to determine the scope of <a href="#06">Local Roles</a>. Furthermore the tree helps to store less data for the permission information for the same object.</li><br/>
-<li><b>rbac_operations:</b> Contains all operations. If you need a specific operation that doesn't exists yet, you have to add it here.</li><br/>
+<li><b>rbac_operations:</b> Contains all operations. If you need a specific operation that does not exist yet, you have to add it here.</li><br/>
 <li><b>rbac_templates:</b> Contains the data for the <a href="#04">Role Permission Templates</a>.</li><br/>
 <li><b>rbac_ta:</b> (Type assignment) Contains the operation-object type relations. Each object type has specific sets of operations.</li><br/>
-<li><b>rbac_pa:</b> (Permission assignment). This table contains the most important information: Here are the relations between a role, the object and the permission settings stored. For each specific object exists a data base entry, which role may exercise which operation on this object. In order to keep the data set small, the operations are serialized, put down thus as string.</li><br/>
+<li><b>rbac_pa:</b> (Permission assignment). This table contains the most important information: Here are the relations between a role, the object and the permission settings stored. For each specific object there exists a data base entry, which role may exercise which operation on this object. In order to keep the data set small, the operations are serialized, put down thus as string.</li><br/>
 <li><b>rbac_ua:</b> (User assignment) Contains the user-role relations.</li><br/>
 <li><b>rbac_fa:</b> (Folder assignment) This table holds the information in which role folder a role is located. Because roles (and users) have no permission entries, the permissions of these objects are administrated by a container object 'Role Folder' (resp. 'User Folder') in which they are stored. This table is important for the <a href="#06">Local Role concept</a>. 'Linked' Local Roles are flagged 'unassignable'.</li><br/>
 </ul>
 
-<p>A specific operation (<span class="ops">visible</span>, <span class="ops">read</span>, <span class="ops">write</span> ...) is assigned to each object (Category, Learning Module, Forum …). For each specific object exists a data base entry, which role may exercise which operation on this object. In order to keep the data set small, the operations are serialized, put down thus as string, in the table rbac_pa (Rbac by permission assignment). For roles and users there are no permission entries. The permissions of these object are administrated by the containers (Role Folder ,User Folder) in which they are stored.
+<p>A specific operation (<span class="ops">visible</span>, <span class="ops">read</span>, <span class="ops">write</span> ...) is assigned to each object (Category, Learning Module, Forum …). For each specific object there exists a data base entry, which role may exercise which operation on this object. In order to keep the data set small, the operations are serialized, put down thus as string, in the table rbac_pa (Rbac by permission assignment). For roles and users there are no permission entries. The permissions of these object are administrated by the containers (Role Folder ,User Folder) in which they are stored.
 The tree table contains the information about the object hierarchy. All RBAC protected objects are stored here.</p>
 
 

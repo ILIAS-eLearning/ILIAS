@@ -170,7 +170,7 @@ class ilXML2SQL
 	{
 		$element_id = $this->getEntryId("lo_element_name","element","element_id",$a_node["name"]);
 		
-		// insert element first if it doesn't exists
+		// insert element first if it does not exist
 		if ($element_id == false)
 		{
 			$q = "INSERT INTO lo_element_name (element) ".
@@ -231,7 +231,7 @@ class ilXML2SQL
 			{
 				$attribute_id = $this->getEntryId("lo_attribute_name","attribute","attribute_id",$attr);
 
-				// insert attribute first if it doesn't exists
+				// insert attribute first if it does not exist
 				if ($attribute_id == false)
 				{
 					$q = "INSERT INTO lo_attribute_name (attribute) ".
@@ -243,7 +243,7 @@ class ilXML2SQL
 
 				$value_id = $this->getEntryId("lo_attribute_value","value","value_id",$value);
 
-				// insert attribute value first if it doesn't exists
+				// insert attribute value first if it does not exist
 				if ($value_id == false)
 				{
 					$q = "INSERT INTO lo_attribute_value (value) ".

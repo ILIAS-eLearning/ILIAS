@@ -82,7 +82,7 @@ database_install#:#Install database###05 Jan 2004 new variable
 database_installed#:#Database installed###05 Jan 2004 new variable
 database_is_uptodate#:#La base de datos es actual.
 database_needs_update#:#La base de datos necesita una actualización.
-database_not_exists_create_first#:#Database does not exists. Please create database first.###05 Jan 2004 new variable
+database_not_exists_create_first#:#Database does not exist. Please create database first.###05 Jan 2004 new variable
 database_ready#:#La base de datos está lista.
 database_update#:#actualizar base da datos
 database_version#:#versión actual de la base de datos
@@ -147,7 +147,7 @@ ilias_nic_id#:#NIC ID###28 Nov 2003 new variable
 ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
 ilias_version#:#Versión de ILIAS
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asteriks must be filled out. All informationen are stored in your database. On the next screen you may register your installation at our ILIAS-NIC server, whereby this data are transmitted to this server.###05 Jan 2004 new variable
-info_text_db#:#The database doesn't exists or is empty. Click the button below to install your database. If a database with the chosen name doesn't exists yet, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail, (e.g. due to restricted access permissions) please contact the responsible systemadministrator of the database server and ask him to create you a database with desired name in advanced.###05 Jan 2004 new variable
+info_text_db#:#The database does not exist or is empty. Click the button below to install your database. If a database with the chosen name doesn't exists yet, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail, (e.g. due to restricted access permissions) please contact the responsible systemadministrator of the database server and ask him to create you a database with desired name in advanced.###05 Jan 2004 new variable
 info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.###05 Jan 2004 new variable
 info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.###05 Jan 2004 new variable
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!###05 Jan 2004 new variable

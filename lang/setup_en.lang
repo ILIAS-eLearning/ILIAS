@@ -83,7 +83,7 @@ database_install#:#Install database
 database_installed#:#Database installed
 database_is_uptodate#:#Your database is up-to-date
 database_needs_update#:#Your database needs an update
-database_not_exists_create_first#:#Database does not exists. Please create database first.
+database_not_exists_create_first#:#Database does not exist. Please create the database first.
 database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
