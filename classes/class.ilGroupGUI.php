@@ -108,7 +108,7 @@ class ilGroupGUI extends ilObjectGUI
 		if (isset($_POST["cmd"]))
 		{
 			$cmd = key($_POST["cmd"]);
-			$fullcmd = $cmd."object";
+			$fullcmd = $cmd."Object";
 
 			//var_dump($fullcmd,$cmd);exit;
 			// only createObject!!
@@ -711,6 +711,10 @@ class ilGroupGUI extends ilObjectGUI
 			case "fold":
 				$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=show_content";
 				break;
+
+			case "file":
+				$URL = "group.php?cmd=get_file&ref_id=".$cont_data["ref_id"];
+				break;
 		}
 
 		return $URL;
@@ -1305,7 +1309,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function createobject()
+	function createObject()
 	{
 		echo $_POST["new_type"];
 		var_dump($this->id);
@@ -1313,12 +1317,42 @@ class ilGroupGUI extends ilObjectGUI
 		//TODO: check the
 		// creates a child object
 		global $rbacsystem;
+		
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		$this->prepareOutput();
+
 		// TODO: get rid of $_GET variable
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($new_type == "file")
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$data["fields"]["file"] = $_SESSION["error_post_vars"]["Fobject"]["file"];
+	
+			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.file_new.html");
+	
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->parseCurrentBlock();
+			}
+	
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 		else
 		{
@@ -1326,25 +1360,24 @@ class ilGroupGUI extends ilObjectGUI
 			$data["fields"] = array();
 			$data["fields"]["title"] = "";
 			$data["fields"]["desc"] = "";
-
-
-			//$this->tpl->setVariable("HEADER", $this->lng->txt("new_obj"));
-			$this->tpl->setVariable("HEADER", $this->lng->txt($_POST["new_type"]."_new"));
+	
 			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.obj_edit.html");
-
+	
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
-
-			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]);
+	
+			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$new_type);
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
-
+		
 		$this->tpl->show();
 	}
 
