@@ -448,21 +448,57 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		global $ilUser;
 		
 		$output = $this->outQuestionPage("ORDERING_QUESTION", $is_postponed);
+		$output = preg_replace("/&#123;/", "{", $output);
+		$output = preg_replace("/&#125;/", "}", $output);
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"order_/", "name=\"solution_order_", $solutionoutput);
 		// set solutions
+		$solution_script = "";
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
+			$solution_script .= "resetValues();\n";
+			$jssolutions = array();
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"ord".$solution_value->value1."\"";
-//echo "<br>".$repl_str;
-				$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+				if ($this->object->getOutputType() == OUTPUT_HTML)
+				{
+					$repl_str = "dummy=\"ord".$solution_value->value1."\"";
+	//echo "<br>".$repl_str;
+					$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+				}
+				else
+				{
+					$output = str_replace("initial_value_" . $solution_value->value1, $solution_value->value2, $output);
+					if ((strcmp($solution_value->value2, "") != 0) && (strcmp($solution_value->value1, "") != 0))
+					{
+						$jssolutions[$solution_value->value2] = $solution_value;
+					}
+				}
+			}
+			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				if (count($jssolutions))
+				{
+					ksort($jssolutions, SORT_NUMERIC);
+					$s = array();
+					foreach ($jssolutions as $key => $value)
+					{
+						array_push($s, $value->value1);
+					}
+					$solution_script .= "setSolution(new Array(" . join(",", $s). "));\n";
+				}
 			}
 		}
 
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			$output = str_replace("// solution_script", "", $output);
+			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
+			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
+		}
+		
 		foreach ($this->object->answers as $idx => $answer)
 		{
 			$repl_str = "dummy=\"solution_ord$idx\"";

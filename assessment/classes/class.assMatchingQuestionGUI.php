@@ -25,7 +25,7 @@ require_once "./assessment/classes/class.assQuestionGUI.php";
 require_once "./assessment/classes/class.assMatchingQuestion.php";
 
 /**
-* Java applet question GUI representation
+* Matching question GUI representation
 *
 * The ASS_MatchingQuestionGUI class encapsulates the GUI representation
 * for matching questions.
