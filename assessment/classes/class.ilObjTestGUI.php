@@ -610,7 +610,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if ($_POST["cmd"]["showresults"]) {
+		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"])) {
 			$this->out_test_results();
 			return;
 		}
@@ -726,6 +726,34 @@ class ilObjTestGUI extends ilObjectGUI
   function out_test_results() {
 		global $ilUser;
 
+		function sort_percent($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+      if ($a["percent"] == $b["percent"]) {
+	      if ($a["nr"] == $b["nr"]) return 0;
+     	 	return ($a["nr"] < $b["nr"]) ? -1 : 1;
+      }
+      return ($a["percent"] < $b["percent"]) ? $smaller : $greater;
+		}
+		
+		function sort_nr($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+      if ($a["nr"] == $b["nr"]) return 0;
+      return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
+		}
+		
+    $add_parameter = $this->get_add_parameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 		$user_id = $ilUser->id;
     $color_class = array("tblrow1", "tblrow2");
@@ -736,6 +764,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$active = $this->object->get_active_test_user();
 		$sequence_array = split(",", $active->sequence);
 		$key = 1;
+		$result_array = array();
     foreach ($sequence_array as $idx => $seq) {
 			$value = $this->object->questions[$seq];
       $question_type = $this->object->get_question_type($value);
@@ -758,29 +787,86 @@ class ilObjTestGUI extends ilObjectGUI
           break;
       }
       $question->load_from_db($value);
-      $this->tpl->setCurrentBlock("question");
-      $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-      $this->tpl->setVariable("VALUE_QUESTION_COUNTER", $key);
-      $this->tpl->setVariable("VALUE_QUESTION_TITLE", $question->get_title());
       $max_points = $question->get_maximum_points();
       $total_max_points += $max_points;
-      $this->tpl->setVariable("VALUE_MAX_POINTS", sprintf("%d", $max_points));
       $reached_points = $question->get_reached_points($user_id, $this->object->get_test_id());
       $total_reached_points += $reached_points;
-      $this->tpl->setVariable("VALUE_REACHED_POINTS", sprintf("%d", $reached_points));
-      $this->tpl->parseCurrentBlock();
-      $counter++;
+			$row = array(
+				"nr" => "$key",
+				"title" => $question->get_title(),
+				"max" => sprintf("%d", $max_points),
+				"reached" => sprintf("%d", $reached_points),
+				"percent" => sprintf("%2.2f ", ($reached_points / $max_points) * 100) . "%"
+			);
+			array_push($result_array, $row);
 			$key++;
     }
-    $this->tpl->setCurrentBlock("results");
-    $this->tpl->setVariable("QUESTION_COUNTER", "Question no.");
-    $this->tpl->setVariable("QUESTION_TITLE", "Question title");
-    $this->tpl->setVariable("MAX_POINTS", "Maximum points");
-    $this->tpl->setVariable("REACHED_POINTS", "Reached points");
+		
+		$img_title_percent = "";
+		$img_title_nr = "";
+		switch ($_GET["sortres"]) {
+			case "percent":
+				usort($result_array, "sort_percent");
+        $img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				if (strcmp($_GET["order"], "ASC") == 0) {
+					$sortpercent = "DESC";
+				} else {
+					$sortpercent = "ASC";
+				}
+				break;
+			case "nr":
+				usort($result_array, "sort_nr");
+        $img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				if (strcmp($_GET["order"], "ASC") == 0) {
+					$sortnr = "DESC";
+				} else {
+					$sortnr = "ASC";
+				}
+				break;
+		}
+		if (!$sortpercent) {
+			$sortpercent = "ASC";
+		}
+		if (!$sortnr) {
+			$sortnr = "ASC";
+		}
+		
+		foreach ($result_array as $key => $value) {
+      $this->tpl->setCurrentBlock("question");
+      $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+      $this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
+      $this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
+      $this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
+      $this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+			$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
+      $this->tpl->parseCurrentBlock();
+      $counter++;
+		}
+
     $percentage = ($total_reached_points/$total_max_points)*100;
+    $this->tpl->setCurrentBlock("question");
+		$this->tpl->setVariable("COLOR_CLASS", "std");
+		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
+		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
+		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max_points) . "</strong>");
+		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached_points) . "</strong>");
+		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
+		$this->tpl->parseCurrentBlock();
+		
+    $this->tpl->setCurrentBlock("results");
+    $this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
+    $this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+    $this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
+    $this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+    $this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
     $mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
-    $mark = "<br>Your mark is: &quot;" . $mark_obj->get_official_name() . "&quot;";
-    $this->tpl->setVariable("USER_FEEDBACK", sprintf("You have reached $total_reached_points out of $total_max_points points, this is %2.2f percent of the test.$mark", $percentage));
+		if ($mark_obj->get_passed()) {
+			$mark = $this->lng->txt("tst_result_congratulations");
+		} else {
+			$mark = $this->lng->txt("tst_result_sorry");
+		}
+    $mark .= "<br>" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+    $this->tpl->setVariable("USER_FEEDBACK", $mark);
     $this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
