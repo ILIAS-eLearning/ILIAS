@@ -95,6 +95,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 	// ********************************************************************************
 	// build location-links
+	$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_overview"));

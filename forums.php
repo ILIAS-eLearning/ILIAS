@@ -41,14 +41,12 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		
+// set locator 
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
-
-// FIRST ITEM IS INBOX
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
 $tpl->setVariable("LINK_ITEM", "forums.php");
 $tpl->parseCurrentBlock();
-
 
 // display buttons
 $tpl->setCurrentBlock("btn_cell");

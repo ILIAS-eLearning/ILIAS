@@ -131,6 +131,16 @@ class ilLOListGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
 		// add everywhere wegen sparkassen skin
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");		
+
+		// set locator 
+		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
+		$this->tpl->setVariable("LINK_ITEM", "lo_list.php");
+		$this->tpl->parseCurrentBlock();
+
 		// display infopanel if something happened
 		infoPanel();
 

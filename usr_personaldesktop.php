@@ -38,6 +38,15 @@ require_once "classes/class.ilMail.php";
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
 // catch feedback message
 sendInfo();
 // display infopanel if something happened
