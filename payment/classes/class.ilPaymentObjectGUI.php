@@ -29,6 +29,7 @@
 * @package core
 */
 include_once './payment/classes/class.ilPaymentObject.php';
+include_once './payment/classes/class.ilPaymentBookings.php';
 
 class ilPaymentObjectGUI extends ilPaymentBaseGUI
 {
@@ -123,7 +124,9 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
 
-			$f_result[$counter][] = 2;
+			// Get number of purchasers
+			
+			$f_result[$counter][] = ilPaymentBookings::_getCountBookingsByObject($data['pobject_id']);
 
 
 			// edit link
@@ -171,7 +174,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("VENDOR",$this->__showVendorSelector($this->pobject->getVendorId()));
 		$this->tpl->setVariable("TXT_COUNT_PURCHASER",$this->lng->txt('pay_count_purchaser'));
-		$this->tpl->setVariable("COUNT_PURCHASER",17);
+		$this->tpl->setVariable("COUNT_PURCHASER",ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']));
 		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('status'));
 		$this->tpl->setVariable("STATUS",$this->__showStatusSelector());
 		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
@@ -452,9 +455,20 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		{
 			$prices->delete($price_id);
 		}
+
+		// check if it was last price otherwise set status to 'not_buyable'
+		if(!count($prices->getPrices()))
+		{
+			$this->__initPaymentObject((int) $_GET['pobject_id']);
+
+			$this->pobject->setStatus($this->pobject->STATUS_NOT_BUYABLE);
+			$this->pobject->update();
+			
+			sendInfo($this->lng->txt('paya_deleted_last_price'));
+		}
 		unset($prices);
 		unset($_SESSION['price_ids']);
-
+		
 		return $this->editPrices();
 	}
 
@@ -552,10 +566,54 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
+		// read old settings
+		$old_pay_method = $this->pobject->getPayMethod();
+		$old_status = $this->pobject->getStatus();
 
-		// TODO
-		// check if object is sold
+		// check status changed from not_buyable
+		if($old_status == $this->pobject->STATUS_NOT_BUYABLE and
+		   (int) $_POST['status'] != $old_status)
+		{
+			// check pay_method edited
+			switch((int) $_POST['pay_method'])
+			{
+				case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
+					sendInfo($this->lng->txt('paya_edit_pay_method_first'));
+					$this->editDetails();
 
+					return false;
+					
+				case $this->pobject->PAY_METHOD_BILL:
+					include_once './payment/classes/class.ilPaymentBillVendor.php';
+
+					$bill_vendor =& new ilPaymentBillVendor((int) $_GET['pobject_id']);
+					if(!$bill_vendor->validate())
+					{
+						sendInfo($this->lng->txt('paya_edit_pay_method_first'));
+						$this->editDetails();
+						
+						return false;
+					}
+					break;
+
+				default:
+					;
+			}
+			// check minimum one price
+			include_once './payment/classes/class.ilPaymentPrices.php';
+
+			$prices_obj =& new ilPaymentPrices((int) $_GET['pobject_id']);
+			if(!count($prices_obj->getPrices()))
+			{
+				sendInfo($this->lng->txt('paya_edit_prices_first'));
+				$this->editDetails();
+						
+				return false;
+			}				
+		}
+		
+
+		$this->pobject->setStatus((int) $_POST['status']);
 		$this->pobject->setVendorId((int) $_POST['vendor']);
 		$this->pobject->setPayMethod((int) $_POST['pay_method']);
 		$this->pobject->update();
@@ -706,6 +764,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function __showStatusSelector()
 	{
+		$action = array();
 		$action[$this->pobject->STATUS_NOT_BUYABLE] = $this->lng->txt('paya_not_buyable');
 		$action[$this->pobject->STATUS_BUYABLE] = $this->lng->txt('paya_buyable');
 		$action[$this->pobject->STATUS_EXPIRES] = $this->lng->txt('paya_expires');
@@ -715,6 +774,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function __showPayMethodSelector()
 	{
+		$action = array();
 		$action[$this->pobject->PAY_METHOD_NOT_SPECIFIED] = $this->lng->txt('paya_pay_method_not_specified');
 		$action[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('paya_bill');
 

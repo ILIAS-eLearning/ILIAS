@@ -98,7 +98,7 @@ class ilHTTPS
 	*/
 	function _checkHTTP()
 	{
-		$port = 81;
+		$port = 80;
 		
 		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
 		{

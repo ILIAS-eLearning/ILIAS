@@ -1,4 +1,4 @@
- <#1>
+<#1>
 CREATE TABLE glossary_term
 (
 	id			INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -4713,3 +4713,37 @@ CREATE TABLE `payment_bill_vendor` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#302>
+DROP TABLE IF EXISTS `payment_statistic`;
+CREATE TABLE `payment_statistic` (
+  `booking_id` int(11) NOT NULL auto_increment,
+  `transaction` char(64) default NULL,
+  `pobject_id` int(11) NOT NULL default '0',
+  `customer_id` int(11) NOT NULL default '0',
+  `b_vendor_id` int(11) default NULL,
+  `b_pay_method` int(2) default NULL,
+  `order_date` int(9) default NULL,
+  `duration` char(16) default NULL,
+  `price` char(16) NOT NULL default '',
+  `payed` int(2) NOT NULL default '0',
+  `access` int(2) NOT NULL default '0',
+  PRIMARY KEY  (`booking_id`)
+) TYPE=MyISAM ;
+<#303>
+DROP TABLE IF EXISTS `payment_shopping_cart`;
+CREATE TABLE `payment_shopping_cart` (
+  `psc_id` int(11) NOT NULL auto_increment,
+  `customer_id` int(11) NOT NULL default '0',
+  `pobject_id` int(11) NOT NULL default '0',
+  `price_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`psc_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
+<#304>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
+
+
+
