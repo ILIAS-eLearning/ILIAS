@@ -169,6 +169,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
+
 	function view()
 	{
 		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
@@ -331,6 +332,16 @@ class ilSCORMPresentationGUI
 			}
 		}
 
+		global $lng;
+		$this->tpl->setCurrentBlock("tree_aufmotz");
+		$this->tpl->setVariable("SCO_ID", $_GET["sco_id"]);
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath('scorm/running.gif'));
+		$this->tpl->setVariable("SCO_ALT",
+			 $lng->txt("cont_status").": "
+			.$lng->txt("cont_sc_stat_running")
+		);
+		$this->tpl->parseCurrentBlock();
+
 		// lesson mode
 		$lesson_mode = $this->slm->getDefaultLessonMode();
 		if ($this->slm->getAutoReview())
@@ -358,17 +369,47 @@ class ilSCORMPresentationGUI
 		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry
 		if (!isset($re_value["cmi.core.total_time"]))
 		{
-			$item->insertTrackData("cmi.core.total_time", "0000:00:00.00", $_GET["ref_id"]);
+			$item->insertTrackData("cmi.core.total_time", "0000:00:00", $_GET["ref_id"]);
 		}
 		if (!isset($re_value["cmi.core.lesson_status"]))
 		{
-			$item->insertTrackData("cmi.core.lesson_status", "not_attempted", $_GET["ref_id"]);
+			$item->insertTrackData("cmi.core.lesson_status", "not attempted", $_GET["ref_id"]);
 		}
 		if (!isset($re_value["cmi.core.entry"]))
 		{
 			$item->insertTrackData("cmi.core.entry", "", $_GET["ref_id"]);
 		}
 
+		$this->tpl->show();
+	}
+
+	function finishSco () 
+	{
+		global $lng;
+		$this->tpl = new ilTemplate("tpl.scorm_finish_sco.html", true, true, true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		$this->tpl->setCurrentBlock("tree_aufmotz");
+		$this->tpl->setVariable("SCO_ID", $_GET["sco_id"]);
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
+			"scorm/".str_replace(" ", "_", $_GET["status"]).'.gif')
+		);
+		$this->tpl->setVariable("SCO_ALT",
+			 $lng->txt("cont_status").": "
+			.$lng->txt("cont_sc_stat_".str_replace(" ", "_", $_GET["status"])).", "
+			.$lng->txt("cont_total_time").  ": "
+			.$_GET["totime"]
+		);
+		$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
+	function unloadSco () 
+	{
+		$this->tpl = new ilTemplate("tpl.scorm_unload_sco.html", true, true, true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("SCO_ID", $_GET["sco_id"]);
 		$this->tpl->show();
 	}
 

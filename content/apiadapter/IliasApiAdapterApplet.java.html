@@ -32,9 +32,10 @@
 	<b><font color="#0000FF">private</font></b> String  IliasScoId<font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> String  IliasNextScoId<font color="#990000">;</font>
 
-	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> IliasCredit <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> isLaunched  <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> isLaunching <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> isVerbose   <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+	<b><font color="#0000FF">private</font></b> <font color="#009900">long</font>	clickTime <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
 
 	<b><font color="#0000FF">public</font></b> <b><font color="#000000">IliasApiAdapterApplet</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
 		core <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> ch<font color="#990000">.</font>ethz<font color="#990000">.</font>pfplms<font color="#990000">.</font>scorm<font color="#990000">.</font>api<font color="#990000">.</font><b><font color="#000000">ApiAdapter</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
@@ -46,10 +47,6 @@
 		IliasRefId       <font color="#990000">=</font> <b><font color="#000000">getParameter</font></b> <font color="#990000">(</font><font color="#FF0000">"ref_id"</font><font color="#990000">)</font><font color="#990000">;</font>
 		IliasStudentId   <font color="#990000">=</font> <b><font color="#000000">getParameter</font></b> <font color="#990000">(</font><font color="#FF0000">"student_id"</font><font color="#990000">)</font><font color="#990000">;</font>
 		IliasStudentName <font color="#990000">=</font> <b><font color="#000000">getParameter</font></b> <font color="#990000">(</font><font color="#FF0000">"student_name"</font><font color="#990000">)</font><font color="#990000">;</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><b><font color="#000000">getParameter</font></b> <font color="#990000">(</font><font color="#FF0000">"credit"</font><font color="#990000">)</font> <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
-			IliasCredit <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
-			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.credit=credit"</font><font color="#990000">)</font><font color="#990000">;</font>
-		<font color="#FF0000">}</font>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.student_id="</font> <font color="#990000">+</font>IliasStudentId<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.student_name="</font> <font color="#990000">+</font>IliasStudentName<font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
@@ -68,20 +65,40 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasLaunchSco</font></b> <font color="#990000">(</font>String sco_id<font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>System<font color="#990000">.</font><b><font color="#000000">currentTimeMillis</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font> clickTime <font color="#990000">+</font> <font color="#993399">1000</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Overclicked."</font><font color="#990000">)</font><font color="#990000">;</font>
+			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		<font color="#FF0000">}</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunching<font color="#990000">)</font> <font color="#FF0000">{</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SCO "</font> <font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" is launching."</font><font color="#990000">)</font><font color="#990000">;</font>
+			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		<font color="#FF0000">}</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched <font color="#990000">&amp;</font><font color="#990000">&amp;</font> sco_id<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>IliasScoId<font color="#990000">)</font><font color="#990000">)</font> <font color="#FF0000">{</font>
 			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SCO "</font> <font color="#990000">+</font>sco_id <font color="#990000">+</font><font color="#FF0000">" is already running."</font><font color="#990000">)</font><font color="#990000">;</font>
 			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<font color="#FF0000">}</font>
 		IliasScoCmi<font color="#990000">.</font><b><font color="#000000">clear</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+		clickTime <font color="#990000">=</font> System<font color="#990000">.</font><b><font color="#000000">currentTimeMillis</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Launching sco "</font> <font color="#990000">+</font>sco_id<font color="#990000">)</font><font color="#990000">;</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched<font color="#990000">)</font> <b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Sco "</font><font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
-		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
-		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-			<font color="#FF0000">"../scorm_presentation.php?cmd=launchSco"</font>
-			<font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font> sco_id
-			<font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font> IliasRefId
-		<font color="#990000">)</font><font color="#990000">;</font>
-		IliasNextScoId <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched<font color="#990000">)</font> <font color="#FF0000">{</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Sco "</font><font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
+			IliasNextScoId <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
+				 <font color="#FF0000">"../scorm_presentation.php?cmd=unloadSco"</font>
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+			<font color="#990000">)</font><font color="#990000">;</font>
+		<font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+			isLaunching <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+			IliasNextScoId <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+			IliasScoId     <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
+				 <font color="#FF0000">"../scorm_presentation.php?cmd=launchSco"</font>
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+			<font color="#990000">)</font><font color="#990000">;</font>
+		<font color="#FF0000">}</font>
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasSetValue</font></b> <font color="#990000">(</font>String l<font color="#990000">,</font> String r<font color="#990000">)</font> <font color="#FF0000">{</font>
@@ -90,17 +107,36 @@
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> IliasScoCmi<font color="#990000">.</font><b><font color="#000000">put</font></b> <font color="#990000">(</font>l<font color="#990000">,</font> r<font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
+	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasAbortSco</font></b> <font color="#990000">(</font>String sco_id<font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>IliasScoId<font color="#990000">.</font><b><font color="#000000">equals</font></b> <font color="#990000">(</font>sco_id<font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		isLaunching <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Warning: sco "</font> <font color="#990000">+</font>sco_id <font color="#990000">+</font><font color="#FF0000">" did not call LMSFinish()"</font><font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
+		core<font color="#990000">.</font><b><font color="#000000">reset</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+
 	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasInitialize</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+		isLaunching <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.student_id"</font><font color="#990000">,</font>   IliasStudentId<font color="#990000">)</font><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.student_name"</font><font color="#990000">,</font> IliasStudentName<font color="#990000">)</font><font color="#990000">;</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>IliasCredit<font color="#990000">)</font> <font color="#FF0000">{</font>
-			core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.credit"</font><font color="#990000">,</font> <font color="#FF0000">"credit"</font><font color="#990000">)</font><font color="#990000">;</font>
-			core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.lesson_mode"</font><font color="#990000">,</font> <font color="#FF0000">"normal"</font><font color="#990000">)</font><font color="#990000">;</font>
-		<font color="#FF0000">}</font>
 		core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font>IliasScoCmi<font color="#990000">)</font><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">transBegin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-		IliasScoId <font color="#990000">=</font> IliasNextScoId<font color="#990000">;</font>
-		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+		isLaunched  <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+	<font color="#FF0000">}</font>
+
+	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><font color="#009900">boolean</font> commit<font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>commit<font color="#990000">)</font> <b><font color="#000000">IliasCommit</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9A1900">// Stupid "implicit commit"</font></i>
+		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
+			<font color="#FF0000">"../scorm_presentation.php?cmd=finishSco"</font>
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;status="</font>  <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b><font color="#990000">(</font><font color="#FF0000">"cmi.core.lesson_status"</font><font color="#990000">)</font>
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;totime="</font>  <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b><font color="#990000">(</font><font color="#FF0000">"cmi.core.total_time"</font><font color="#990000">)</font>
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;launch="</font>  <font color="#990000">+</font> IliasNextScoId
+		<font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">private</font></b> <b><font color="#0000FF">final</font></b> String <b><font color="#000000">IliasCommit</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
@@ -183,18 +219,6 @@
 		<font color="#FF0000">}</font>
 	<font color="#FF0000">}</font>
 
-	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
-		<b><font color="#000000">IliasCommit</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9A1900">// Stupid "implicit commit"</font></i>
-		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-			<font color="#FF0000">"../scorm_presentation.php?cmd=view"</font>
-			<font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font> IliasScoId
-			<font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font> IliasRefId
-			<font color="#990000">+</font><font color="#FF0000">"&amp;status="</font> <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.lesson_status"</font><font color="#990000">)</font>
-			<font color="#990000">+</font><font color="#FF0000">"&amp;totime="</font> <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b> <font color="#990000">(</font><font color="#FF0000">"cmi.core.total_time"</font><font color="#990000">)</font>
-		<font color="#990000">)</font><font color="#990000">;</font>
-		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
-	<font color="#FF0000">}</font>
 
 	<i><font color="#9A1900">/*</font></i>
 <i><font color="#9A1900">	 * Liveconnect interface methods for SCO</font></i>
@@ -222,7 +246,7 @@
 		String rv <font color="#990000">=</font> core<font color="#990000">.</font><b><font color="#000000">LMSFinish</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"LMSFinish("</font><font color="#990000">+</font>s<font color="#990000">+</font><font color="#FF0000">")="</font><font color="#990000">+</font>rv<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>rv<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font><font color="#FF0000">"false"</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
-		<b><font color="#000000">IliasFinish</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#000000">IliasFinish</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">reset</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
 	<font color="#FF0000">}</font>
