@@ -1881,8 +1881,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"lastvisit" => $_POST["chb_result_lastvisit"],
 					"resultspoints" => $_POST["chb_result_resultspoints"],
 					"resultsmarks" => $_POST["chb_result_resultsmarks"],
-					"distancemedian" => $_POST["chb_result_distancemedian"],
-					"distancequintile" => $_POST["chb_result_distancequintile"]
+					"distancemedian" => $_POST["chb_result_distancemedian"]
 				);
 				$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
 			}
@@ -1898,8 +1897,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"lastvisit" => $user_settings["lastvisit"],
 					"resultspoints" => $user_settings["resultspoints"],
 					"resultsmarks" => $user_settings["resultsmarks"],
-					"distancemedian" => $user_settings["distancemedian"],
-					"distancequintile" => $user_settings["distancequintile"]
+					"distancemedian" => $user_settings["distancemedian"]
 				);
 			}
 			// bild title columns
@@ -2133,26 +2131,6 @@ class ilObjTestGUI extends ilObjectGUI
 						array_push($csvrow, $this->lng->txt("tst_stat_result_median"));
 						break;
 				}
-			}
-			if ($eval_statistical_settings["distancequintile"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancequintile") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancequintile"));
-				$this->tpl->parseCurrentBlock();
-				switch ($_POST["export_type"])
-				{
-					case TYPE_XLS:
-						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancequintile"), $format_title);
-						break;
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-						array_push($csvrow, $this->lng->txt("tst_stat_result_distancequintile"));
-						break;
-				}
-				$char++;
 			}
 			for ($i = 1; $i <= count($this->object->questions); $i++)
 			{
@@ -2490,22 +2468,6 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 				
-				if ($eval_statistical_settings["distancequintile"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancequintile"]);
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write($row, $column++, $stat_eval["distancequintile"]);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $stat_eval["distancequintile"]);
-							break;
-					}
-				}
 				$this->tpl->setCurrentBlock("row");
 				$this->tpl->setVariable("USER_ID", $key);
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -2608,7 +2570,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
 			$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
 			$this->tpl->setVariable("TXT_DISTANCEMEDIAN", $this->lng->txt("tst_stat_result_distancemedian"));
-			$this->tpl->setVariable("TXT_DISTANCEQUINTILE", $this->lng->txt("tst_stat_result_distancequintile"));
 			$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			foreach ($user_settings as $key => $value) {
@@ -2627,7 +2588,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
 			$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
 			$this->tpl->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
-			$this->tpl->setVariable("CHECKED_DISTANCEQUINTILE", $user_settings["distancequintile"]);
 			$this->tpl->parseCurrentBlock();
 		}
 

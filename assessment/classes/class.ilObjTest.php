@@ -1826,8 +1826,7 @@ class ilObjTest extends ilObject
 				"lastvisit" => "1",
 				"resultspoints" => "1",
 				"resultsmarks" => "1",
-				"distancemedian" => "1",
-				"distancequintile" => "1"
+				"distancemedian" => "1"
 			);
 		} else {
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1855,7 +1854,7 @@ class ilObjTest extends ilObject
 		if (!$update) {
 			$q = sprintf("INSERT INTO tst_eval_settings ".
 					 "(eval_settings_id, user_fi, qworkedthrough, pworkedthrough, timeofwork, atimeofwork, firstvisit, " .
-					 "lastvisit, resultspoints, resultsmarks, distancemedian, distancequintile, TIMESTAMP) VALUES " .
+					 "lastvisit, resultspoints, resultsmarks, distancemedian, TIMESTAMP) VALUES " .
 					 "(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$user_id"),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
@@ -1866,13 +1865,12 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["lastvisit"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemedian"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancequintile"]))
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemedian"]))
 			);
 		} else {
 			$q = sprintf("UPDATE tst_eval_settings SET ".
 					 "qworkedthrough = %s, pworkedthrough = %s, timeofwork = %s, atimeofwork = %s, firstvisit = %s, " .
-					 "lastvisit = %s, resultspoints = %s, resultsmarks = %s, distancemedian = %s, distancequintile = %s " .
+					 "lastvisit = %s, resultspoints = %s, resultsmarks = %s, distancemedian = %s " .
 					 "WHERE eval_settings_id = %s",
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
@@ -1883,7 +1881,6 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
 				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemedian"])),
-				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancequintile"])),
 				$this->ilias->db->quote("$update")
 			);
 		}
@@ -1992,8 +1989,7 @@ class ilObjTest extends ilObject
 			"resultspoints" => $test_result["test"]["total_reached_points"],
 			"maxpoints" => $test_result["test"]["total_max_points"],
 			"resultsmarks" => $mark_obj->get_short_name(),
-			"distancemedian" => "0",
-			"distancequintile" => "0"
+			"distancemedian" => "0"
 		);
 		foreach ($test_result as $key => $value)
 		{
