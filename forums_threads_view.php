@@ -17,7 +17,8 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
+if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
+{
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
@@ -72,7 +73,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 	$tpl->parseCurrentBlock();
 		
-	if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+	if ($rbacsystem->checkAccess("write", $_GET["obj_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
 		$tpl->setVariable("BTN_LINK","forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
@@ -184,7 +185,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
 					
-			if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) 
+			if ($rbacsystem->checkAccess("write", $_GET["obj_id"])) 
 			{
 				// reply/edit
 				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
@@ -212,7 +213,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 				else
 				{						
 					// button: delete article
-					if ($rbacsystem->checkAccess("delete post", $_GET["obj_id"], $_GET["parent"]))
+					if ($rbacsystem->checkAccess("delete post", $_GET["obj_id"]))
 					{
 						// 2. delete-level
 						if ($_GET["cmd"] == "delete" && $_GET["pos_pk"] == $node["pos_pk"])

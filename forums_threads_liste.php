@@ -20,7 +20,8 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
+if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
+{
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
@@ -40,7 +41,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 	$tpl->parseCurrentBlock();
 
-	if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+	if ($rbacsystem->checkAccess("write", $_GET["obj_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
 		$tpl->setVariable("BTN_LINK","forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);

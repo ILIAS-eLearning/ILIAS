@@ -22,7 +22,8 @@ $tpl->setVariable("HEADER", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
+if (!$rbacsystem->checkAccess("write", $_GET["obj_id"]))
+{
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 

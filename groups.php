@@ -16,12 +16,15 @@ $grp_sys[] = array("name" => "Administrator",
 
 			
 $groups = array();
+
 //go through valid objects and filter out the lessons only
-if ($objects = $tree->getChilds(1,"title"))
+$objects = $tree->getChilds(ROOT_FOLDER_ID,"title");
+
+if (count($objects) > 0)
 {
 	foreach ($objects as $key => $object)
 	{
-		if (($object["type"] == "cat" || $object["type"] == "grp") && $rbacsystem->checkAccess('visible',$object["child"],$object["parent"]))
+		if (($object["type"] == "cat" || $object["type"] == "grp") && $rbacsystem->checkAccess('visible',$object["child"]))
 		{
 			$groups[$key] = $object;
 		}
