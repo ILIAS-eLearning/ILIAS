@@ -259,7 +259,7 @@ class ilObjContentObject extends ilObject
 		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
-	function getTree()
+	function &getTree()
 	{
 		return $this->lm_tree;
 	}
