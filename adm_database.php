@@ -16,31 +16,31 @@ $tpl = new Template("tpl.adm_database.html", true, true);
 
 if ($_GET["cmd"]=="migrate")
 {
-	$myDB->applyUpdate();
-	
-	if ($myDB->updateMsg != "no_changes")
-	{
-		foreach ($myDB->updateMsg as $row)
-		{
-			$tpl->setCurrentBlock("versionmessage");
-			$tpl->setVariable("MSG", $row["msg"].": ".$row["nr"]);
-			$tpl->parseCurrentBlock();
-		}
-	}
+        $myDB->applyUpdate();
+
+        if ($myDB->updateMsg != "no_changes")
+        {
+                foreach ($myDB->updateMsg as $row)
+                {
+                        $tpl->setCurrentBlock("versionmessage");
+                        $tpl->setVariable("MSG", $row["msg"].": ".$row["nr"]);
+                        $tpl->parseCurrentBlock();
+                }
+        }
 }
 
 if ($_POST["cmd"] != "")
 {
-	$msg = $myDB->optimizeTables($key);
-	foreach ($msg as $row)
-	{
-		$tpl->setCurrentBlock("versionmessage");
-		$tpl->setVariable("MSG", $row);
-		$tpl->parseCurrentBlock();
-	}
+        $msg = $myDB->optimizeTables($key);
+        foreach ($msg as $row)
+        {
+                $tpl->setCurrentBlock("versionmessage");
+                $tpl->setVariable("MSG", $row);
+                $tpl->parseCurrentBlock();
+        }
 }
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("database"));
+$tpl->setVariable("TXT_DATABASE", $lng->txt("database"));
 $tpl->setVariable("TXT_VERSION", $lng->txt("version"));
 $tpl->setVariable("TXT_DATABASE_VERSION", $lng->txt("database_version"));
 $tpl->setVariable("DATABASE_VERSION", $myDB->currentVersion);
@@ -50,9 +50,9 @@ $tpl->setVariable("DATABASE_VERSION_STATUS", $lng->txt($myDB->getDBVersionStatus
 
 if ($myDB->getDBVersionStatus()=="database_needs_update")
 {
-	$tpl->setCurrentBlock("migrate");
-	$tpl->setVariable("TXT_MIGRATE", $lng->txt("database_update"));
-	$tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock("migrate");
+        $tpl->setVariable("TXT_MIGRATE", $lng->txt("database_update"));
+        $tpl->parseCurrentBlock();
 }
 
 
@@ -61,12 +61,12 @@ $dbtables = $myDB->getTables();
 $i = 0;
 foreach ($dbtables as $row)
 {
-	$tpl->setCurrentBlock("optrow");
-	$tpl->setVariable("TABLE", $row["name"].":".$row["status"]);
-	$tpl->setVariable("TABLEID", $row["table"]);
-	$tpl->setVariable("ROWCOL", "tblrow".(($i%2)+1));
-	$tpl->parseCurrentBlock();
-	$i++;
+        $tpl->setCurrentBlock("optrow");
+        $tpl->setVariable("TABLE", $row["name"].":".$row["status"]);
+        $tpl->setVariable("TABLEID", $row["table"]);
+        $tpl->setVariable("ROWCOL", "tblrow".(($i%2)+1));
+        $tpl->parseCurrentBlock();
+        $i++;
 }
 
 $myDB->getTableStatus("rbac_fa");

@@ -5,22 +5,34 @@ lang_version	1	1	1	1
 lang_dateformat	MM/DD/YYYY	DD.MM.YYYY	YYYY-MM-DD	YYYY-MM-DD
 sep_thousand	,	.	.	.
 sep_decimal	.	,	,	,
+absolute_path	absolute path	absoluter Pfad	percorso assoluto	absolute path
 accept_usr_agreement	accept user agreement?	Benutzer-Lizenz akzeptieren?	Accetti accordo utente?	accept user agreement?
 access	access	Zugang	accesso	access
+actions	actions	Aktionen	azioni	actions
 add_author	add author	Autor hinzufügen	aggiungi autore	add author
 add_member	add member	Mitglied hinzufügen	aggiungi membro	add member
 administrate	administrate	administrieren	amministrare	administrate
 administration	administration	Administration	amministrazione	administration
 administrator	administrator	Administrator	amministratore	administrator
+also_as_email	also as email	auch als eMail	anche come email	also as email
 announce	announce	ankündigen	annunciare	anunciar
+announce_changes	announce changes	Änderungen bekanntgeben	annunciare cambio	announce changes
+archive	archive	Archiv	archivio	archive
 are_you_sure	Are you sure?	Sind Sie Sicher?	Sei sicuro?	estás seguro?
+assign_lo_forum	assign lo forum	Lerneinheiten-Forum zuordnen	assegnare LO forum	assign lo forum
 authors	authors	Autoren	autori	autores
 available_languages	available languages	verfügbare Sprachen	lingue disponibili	available languages
+back	back	zurück	indietro	back
+basedn	BaseDN	BaseDN	BaseDN	BaseDN
 basic_data	basic data	Grunddaten	dati di base	basic data
+bc	bc	BC	bc	bc
 bookmark_new	new bookmark	Favorit hinzufügen	nuovo favorito	new bookmark
 bookmarks	bookmarks	Favoriten	favorito	bookmarks
 categories	categories	Kategorien	categorie	categories
+cc	cc	CC	cc	cc
 change	change	ändern	cambiare	change
+change_lo_info	change lo info	Lerneinheiten-Infos ändern	cambia LO Informazioni	change lo info
+change_metadata	change metadata	Metadaten ändern	cambia metadati	change metadata
 chapter	chapter	Kapitel	capitolo	chapter
 chapter_number	chapter number	Kapitelnummer	numero del capitolo	chapter number
 chapter_title	chapter title	Kapiteltitel	titolo del capitolo	chapter title
@@ -31,11 +43,14 @@ choose_language	choose your language	Bitte wählen Sie Ihre Sprache	scegli la Tua
 city	city	Stadt	città	ciudad
 comma_separated	comma separated	kommagetrennt	separati di un comma	comma separated
 compose	compose	schreiben	comporre	compose
+contact_information	contact information	Kontakt	contatto	contact information
 country	country	Land	paese	country
 course	course	Kurs	corso	course
 courses	courses	Kurse	corsi	courses
 create	create	erstellen	creare	create
+create_in	create in	erstellen in	creare in	create in
 crs_available	available courses	verfügbare Kurse	corsi disponibili	available courses
+crs_management_system	crs management system	CRS Management System	sistema management CRS	crs management system
 current_password	current password	derzeitiges Passwort	password attuale	current password
 database	database	Datenbank	banca-dati	database
 database_exists	database exists	Datenbank existiert bereits	banca-dati già esistente	database exists
@@ -49,92 +64,167 @@ db_name	database name	Datenbankname	nome banca-dati	database name
 db_pass	database password	Datenbankpassword	password banca-dati	database password
 db_type	database type	Datenbank Typ	tipo banca-dati	database type
 db_user	database user	Datenbankbenutzer	utente banca-dati	database user
+db_version	database version	Datenbankversion	versione banca dati	database version
+default	default	default	#default	default
 delete	delete	löschen	eliminare	delete
 delete_all	delete all	alle löschen	elimina tutto	delete all
 delete_selected	delete selected	Auswahl löschen	elimina selezionato	delete selected
 deleted	deleted	gelöscht	eliminato	deleted
 description	description	Beschreibung	descrizione	description
 desired_password	desired password	neues Password	nuova password	desired password
+drafts	drafts	Entwürfe	bozze	drafts
 edit	edit	bearbeiten	editare	edit
 edit_data	edit data	Daten bearbeiten	editare data	edit data
+edit_properties	edit properties	Eigenschaften	proprietà	edit properties
+editor	editor	Editor	editore	editor
 email	email	eMail	email	email
 employee	employee	Angestellter	impiegato	employee
+enable	enable	aktivieren	attivare	enable
+enumerate	enumerate	nummerieren	numerare	enumerate
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creazione banca-dati fallita	creation of database failed
+error_recipient	error recipient	Empfänger von Fehlermeldungen	recipiente di errori	error recipient
 execute	execute	ausführen	esegui	execute
 faq_exercise	faq exercise	FAQ/Übungskapitel	FAQ/esercizi	faq exercise
 feedback	feedback	Feedback	feedback	feedback
+feedback_recipient	feedback recipient	Feedback-Empfänger	recipiente feedback	feedback recipient
 file_version	version provided in file	verfügbare Version	versione disponibile	version provided in file
 files_location	files location	Dateiort	posizione dati	files location
+fill_out_all_required_fields	please fill out all required fields	Bitte füllen Sie alle benötigten Felder aus	compilare campi obbligatori	please fill out all required fields
 firstname	firstname	Vorname	nome	firstname
+folder	folder	Ordner	cartella	folder
+folders	folders	Ordner	cartelle	folders
 forename	forename	Vorname	nome 	forename
 forum	forum	Forum	forum	forum
+forum_new	new forum	Neues Forum	nuovo forum	new forum
+forums	forums	Foren	fori	forums
 forums_available	available forums	verfügbare Foren	fori disponibili	available forums
 forums_of_your_groups	forums of your groups	Foren in Ihren Gruppen	gruppi nei tuoi fori	forums of your groups
+forward	forward	Weiterleiten	inoltra messaggio	forward
+from	from:	Von	di:	from:
+functions	functions	Funktionen	funzioni	functions
 gender	gender	Geschlecht	sesso	gender
 generate	generate	generieren	generare	generate
+glossary	glossary	Glossar	glossario	glossary
+group_filesharing	group file sharing	Gruppen Filesharing	#group sharing	group file sharing
 groupname	groupname	Gruppenname	nome del gruppo	groupname
 groups	groups	Gruppen	gruppi	groups
 groupscope	groupscope	Gruppenziel	scopo del gruppo	groupscope
 guest	guest	Gast	ospite	guest
+help	help	Hilfe	aiuto	help
+host	host	Host	#host	host
+http_path	http path	HTTP Pfad	percorso HTTP	http path
+id	ID	ID	ID	ID
+ilias_version	ILIAS version	ILIAS Version	versione ILIAS	ILIAS version
 inbox	inbox	Posteingang	posta in arrivo	inbox
+information_abbr	info	Infos	informazioni 	info
 inifile	INI-file	Ini-Datei	inifile	INI-file
+inst_id	installation ID	Installations ID	ID dell´istallazione	installation ID
+inst_info	installation info	Installations-Info	informazioni per l´istallazione	installation info
+inst_name	installation name	Installationsname	nome per l´istallazione	installation name
+install	install	installieren	istallare	install
 installed	installed	installiert	istallato	installed
 institution	institution	Institution	istituzione	institution
+ip_address	IP address	IP Adresse	indirizzo IP	IP address
+item	item	Begriff	#item	item
 keywords	keywords	Schlüsselwörter	parole chiave	keywords
+lang_path	language path	Sprachdateien-Pfad	percorso lingue	language path
 language	language	Sprache 	lingua	language
 languages	languages	Sprachen	lingue	languages
 languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generare lingue del file	generate languages from file
 languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generare lingue del nuovo upload	generate languages from uploaded file
 last_change	last change	letzte Änderung	ultimo cambio	last change
 lastname	lastname	Nachname	cognome	lastname
+ldap	LDAP	LDAP	LDAP	LDAP
 level	level	Stufe	livello	level
+linebreak	linebreak	Zeilenumbruch	#linebreak	linebreak
+link	link	verknüpfen	link	link
+linked_pages	linked pages	verknüpft mit den Seiten	#linked pages	linked pages
+list_of_pages	pages list	Seitenliste	lista di pagine	pages list
+list_of_questions	question list	Fragenliste	lista di domande	question list
+literature	literature	Literatur	letteratura	literature
 literature_bookmarks	literature bookmarks	Literatur Favoriten	favoriti letteratura	literature bookmarks
 lo	learning object	Lerneinheit	lezione	learning object
-los	learning objects	Lerneinheiten	lezioni	learning objects
 lo_available	available learning objects	verfügbare Lerneinheiten	lezioni disponibili	available learning objects
+lo_categories	lo categories	Lerneinheiten Kategorien	LO categorie	lo categories
 lo_edit	edit learning object	Lerneinheiten editieren	editare lezioni	edit learning object
-los_last_visited	last visited learning objects	zuletzt besuchte Lerneinheiten	ultima lezione visitata	last visited learning objects
 lo_new	new learning object	neue Lerneinheit	nuova lezione	new learning object
+lo_other_langs	lo's in other langauges	Lerneinheiten in anderen Sprachen	LO in altre lingue	lo's in other langauges
+lo_overview	lo overview	LE Übersicht	visione generale LO	lo overview
 login	login	Login	login	login
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login to ILIAS
+logout	logout	Logout	logout	logout
+los	learning objects	Lerneinheiten	lezioni	learning objects
+los_last_visited	last visited learning objects	zuletzt besuchte Lerneinheiten	ultima lezione visitata	last visited learning objects
 mail	mail	Mail	Posta 	mail
+mail_s	mail(s)	Mail(s)	mail	mail(s)
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	unread mail(s)
 mails	mails	Mails	messaggi 	mails
+mark_all_read	mark all as read	als gelesen markieren	contrassegna tutto come letto	mark all as read
+mark_all_unread	mark all as unread	als ungelesen markieren	contrassegna tutto come non letto	mark all as unread
 members	members	Mitglieder	membri	members
+message	message	Nachricht	messaggio	message
+message_content	message content	Nachrichteninhalt	contenuto del messaggio	message content
 message_to	message to:	Nachricht an:	messaggio a:	message to:
 migrate	migrate	migrieren	migrare	migrate
+move_to	move to	ablegen in 	inserisci in cartella	move to
 msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	the changes were ok
 msg_failed	sorry, action failed	Aktion fehlgeschlagen	fallito	sorry, action failed
 msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
+multimedia	multimedia	Multimedia	multimedia	multimedia
+must_fill_in	must fill in	Felder müssen ausgefüllt werden	campi obbligatori	must fill in
 name	name	Name	nome	name
+new	new	neu	nuovo	new
 new_folder	new folder	neuer Ordner	nuova cartella	new folder
 new_group	new group	neue Gruppe	nuovo gruppo	new group
+news	news	News	novità	news
 nickname	nickname	Login	nickname	nickname
 no	no	Nein	no	no
+no_objects	no objects	keine Objekte	nessun oggetto	no objects
 no_title	no title	kein Titel	nessun titolo	no title
 none	none	keine	nessuno	none
+normal	normal	normal	normale	normal
 not_installed	not installed	nicht installiert	non istallato	not installed
 objects	objects	Objekte	oggetti	objects
 offline_version	offline version	Offline Version	versione offline	offline version
 old	old	alt	vecchio	old
 online_chapter	online chapter	Online Kapitel	capitolo online	online chapter
 online_version	online version	Online Version	versione online	online version
+optimize	optimize	Optimieren	ottimare	optimize
 options	options	Optionen	opzioni	options
 other	other	andere	altri	other
+overview	overview	Übersicht	visione generale	overview
 owner	owner	Besitzer	proprietario	owner
 page	page	Seite	pagina	page
+page_edit	edit page	Seite bearbeiten	editare pagina	edit page
 password	password	Passwort	password	password
+path_to_babylon	path to babylon	BABYLON Befehlszeile	percorso BABYLON	path to babylon
+path_to_convert	path to convert	CONVERT Befehlszeile	percorso CONVERT	path to convert
+path_to_java	path to java	JAVA Befehlszeile	percorso JAVA	path to java
+path_to_unzip	path to unzip	UNZIP Befehlszeile	percorso UNZIP	path to unzip
+path_to_zip	path to zip	ZIP Befehszeile	percorso ZIP	path to zip
+payment_system	payment system	Bezahlungssystem	sistema di pagamento	payment system
+perm_settings	permissions	Rechte	diritti	permissions
 personal_desktop	personal desktop	Personal Desktop	desktop personale	personal desktop
 personal_profile	personal profile	persönliches Profil	profilo personale	personal profile
 phone	phone	Telefon	telefono	phone
 phrase	phrase	Phrase	frase	phrase
+port	port	Port	#port	port
+position	position	Position	posizione	position
+presentation_options	presentation options	Präsentationsoptionen	opzioni di presentazione	presentation options
+print	print	Drucken	stampare	print
 profile	profile	Profil	profilo 	profile
+pub_section	public section	öffentlicher Bereich	sezione pubblica	public section
+publication	publication	Veröffentlichung 	pubblicazione	publication
+publication_date	publication date	Veröffentlichungsdatum	data di pubblicazione	publication date
 published	published	veröffentlicht	pubblicato	published
 publishing_organisation	publishing organisation	veröffentlichende Organisation	organizzazione di pubblicazione	publishing organisation
+question	question	Frage	domanda	question
 quit	quit	Logout	esci	quit
 read	read	lesen	leggi	read
+recipient	recipient	Empfänger	destinario	recipient
 refresh	refresh	aktualisieren	aggiorna	refresh
 refresh_list	refresh list	refresh list	aggiorna lista	refresh list
+reply	reply	Antworten	rispondere	reply
 reset	reset	Zurücksetzen	#reset	reset
 retype_password	retype password	Passwort wiederholen	ridigita la nuova password	retype password
 right	right	Recht	diritto	right
@@ -144,165 +234,74 @@ salutation_f	Ms./Mrs.	Frau	Signora/Signorina	Ms./Mrs.
 salutation_m	Mr.	Herr	Signore	Mr.
 save	save	speichern	salva	save
 save_and_back	save and back	speichern und zurück	salva e indietro	save and back
+save_message	save message	Nachricht speichern	salva messaggio	save message
 saved	saved	gespeichert	salvato	saved
+saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	cambiamenti salvati con successo	saved successfully
 search	search	Suchen	cercare	search
+search_bc_recipient	search bc recipient	BC Empfänger suchen	cercare bc destinario	search bc recipient
+search_cc_recipient	search cc recipient	CC Empfänger suchen	cercare cc destinario	search cc recipient
 search_in	search in	suchen in	cerca in	search in
+search_recipient	search recipient	Empfänger suchen	cercare destinario	search recipient
+sections	sections	Bereiche	sezioni	sections
+select_all	select all	Alle auswählen	selezionare tutto	select all
+selected	selected	ausgewählte	selezionati	selected
 send 	send	abschicken	invia	send
 sender	sender	Absender	mittente	sender
 sent	sent	gesendet	inviato	sent
 sequence	sequence	Sequenz 	sequenza	sequence
 sequences	sequences	Sequenzen	esquenza	sequences
+server	server	Server	#server	server
+server_software	server software	Server Software	#server software	server software
+set	set	setzen	#set	set
 set_offline	set offline	Offline setzen	mettere offline	set offline
 set_online	set online	Online stellen	mettere online	set online
 setup	setup	setup	setup	setup
 setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup finito	setup is ready
 setup_welcome	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.	Willkommen	Benvenuti	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
+show_owner	show owner	Besitzerinfo	proprietario	show owner
+signature	signature	Signatur	#signature	signature
 startpage	startpage	Startseite	#startpage	startpage
 status	status	Status	stato	status
 step	step	Schritt	passo	step
 street	street	Straße	via	street
+structure	structure	Gliederung	struttura	structure
 student	student	Student	studente	student
 subcat_name	subcategory name	Unterkategorie Name	#subcategory name	subcategory name
+subchapter_new	new subchapter	neues Unterkapitel	#new subchapter	new subchapter
 subject	subject	Betreff	oggetto	subject
 submit	submit	abschicken	invia	submit
+subscription	subscription	Abo	abonnamento	subscription
 summary	summary	Zusammenfassung	riassunto	summary
 system	system	System	sistema	system
 system_groups	system groups	Systemgruppen	gruppi del sistema	system groups
 system_grp	system group	Systemgruppe	gruppo sistema	system group
+system_message	system message	Systemnachricht	messaggio di sistema	system message
 test_intern	test intern 	interner Test	test interno	test intern 
 time	time	Zeit	ora	time
 title	title	Titel	titolo	title
+to	to:	An	per:	to:
+total	total	gesamt	totale	total
+tpl_path	template path	Template-Pfad	percorso template	template path
+trash	trash	Papierkorb	cestino	trash
+type 	type 	Typ	tipo	type 
 type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	scrivi il Tuo messaggio qua	type your message here
 uid	uid	UID	uid	uid
+unknown	UNKNOWN	UNBEKANNT	IGNOTO	UNKNOWN
+unread	unread	ungelesen	non letto	unread
 update_applied	update applied	Datenbankupdate erfolgreich	update riuscito	update applied
 url	url	URL	URL	url
+url_description	url description	URL Beschreibung	URL descrizione	url description
 user	user	Benutzer	utente	user
 userdata	userdata	Benutzerdaten	dati utente	userdata
 username	username	Benutzername	nome utente	username
 users	users	Benutzer	utenti	users
 usr_agreement	user agreement	Vereinbarung	accordo utente	user agreement
+usr_skin	user skin	Benutzeroberfläche	#user skin	user skin
+usr_style	usr style	Stil	stile	usr style
 version	version	Version	versione	version
+view_content	view content	Inhalt	contenuto	view content
 visible_layers	visible layers	sichtbare Ebenen	#visible layers	visible layers
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
-zip_code	zip code	Postleitzahl	codice postale	zip code
-recipient	recipient	Empfänger	destinario	recipient
-search_recipient	search recipient	Empfänger suchen	cercare destinario	search recipient
-cc	cc	CC	cc	cc
-search_cc_recipient	search cc recipient	CC Empfänger suchen	cercare cc destinario	search cc recipient
-bc	bc	BC	bc	bc
-search_bc_recipient	search bc recipient	BC Empfänger suchen	cercare bc destinario	search bc recipient
-type 	type 	Typ	tipo	type 
-normal	normal	normal	normale	normal
-system_message	system message	Systemnachricht	messaggio di sistema	system message
-also_as_email	also as email	auch als eMail	anche come email	also as email
-url_description	url description	URL Beschreibung	URL descrizione	url description
-message_content	message content	Nachrichteninhalt	contenuto del messaggio	message content
-save_message	save message	Nachricht speichern	salva messaggio	save message
-unread	unread	ungelesen	non letto	unread
-actions	actions	Aktionen	azioni	actions
-move_to	move to	ablegen in 	inserisci in cartella	move to
-linebreak	linebreak	Zeilenumbruch	#linebreak	linebreak
-signature	signature	Signatur	#signature	signature
-mark_all_read	mark all as read	als gelesen markieren	contrassegna tutto come letto	mark all as read
-mark_all_unread	mark all as unread	als ungelesen markieren	contrassegna tutto come non letto	mark all as unread
-mail_s	mail(s)	Mail(s)	mail	mail(s)
-select_all	select all	Alle auswählen	selezionare tutto	select all
-from	from:	Von	di:	from:
-to	to:	An	per:	to:
-reply	reply	Antworten	rispondere	reply
-forward	forward	Weiterleiten	inoltra messaggio	forward
-print	print	Drucken	stampare	print
-message	message	Nachricht	messaggio	message
-archive	archive	Archiv	archivio	archive
-drafts	drafts	Entwürfe	bozze	drafts
-trash	trash	Papierkorb	cestino	trash
-overview	overview	Übersicht	visione generale	overview
-information_abbr	info	Infos	informazioni 	info
-structure	structure	Gliederung	struttura	structure
-list_of_pages	pages list	Seitenliste	lista di pagine	pages list
-glossary	glossary	Glossar	glossario	glossary
-list_of_questions	question list	Fragenliste	lista di domande	question list
-multimedia	multimedia	Multimedia	multimedia	multimedia
-subchapter_new	new subchapter	neues Unterkapitel	#new subchapter	new subchapter
-enumerate	enumerate	nummerieren	numerare	enumerate
-page_edit	edit page	Seite bearbeiten	editare pagina	edit page
-forum_new	new forum	Neues Forum	nuovo forum	new forum
-link	link	verknüpfen	link	link
-folder	folder	Ordner	cartella	folder
-create_in	create in	erstellen in	creare in	create in
-folders	folders	Ordner	cartelle	folders
-back	back	zurück	indietro	back
-lo_categories	lo categories	Lerneinheiten Kategorien	LO categorie	lo categories
-publication_date	publication date	Veröffentlichungsdatum	data di pubblicazione	publication date
-publication	publication	Veröffentlichung 	pubblicazione	publication
-functions	functions	Funktionen	funzioni	functions
-change_metadata	change metadata	Metadaten ändern	cambia metadati	change metadata
-presentation_options	presentation options	Präsentationsoptionen	opzioni di presentazione	presentation options
-change_lo_info	change lo info	Lerneinheiten-Infos ändern	cambia LO Informazioni	change lo info
-announce_changes	announce changes	Änderungen bekanntgeben	annunciare cambio	announce changes
-assign_lo_forum	assign lo forum	Lerneinheiten-Forum zuordnen	assegnare LO forum	assign lo forum
-id	ID	ID	ID	ID
-item	item	Begriff	#item	item
-question	question	Frage	domanda	question
-linked_pages	linked pages	verknüpft mit den Seiten	#linked pages	linked pages
-sections	sections	Bereiche	sezioni	sections
-set	set	setzen	#set	set
-total	total	gesamt	totale	total
-new	new	neu	nuovo	new
-no_objects	no objects	keine Objekte	nessun oggetto	no objects
-selected	selected	ausgewählte	selezionati	selected
-subscription	subscription	Abo	abonnamento	subscription
-install	install	installieren	istallare	install
-lo_other_langs	lo's in other langauges	Lerneinheiten in anderen Sprachen	LO in altre lingue	lo's in other langauges
-unknown	UNKNOWN	UNBEKANNT	IGNOTO	UNKNOWN
-ilias_version	ILIAS version	ILIAS Version	versione ILIAS	ILIAS version
-db_version	database version	Datenbankversion	versione banca dati	database version
-installation_id	installation ID	Installations ID	ID dell´istallazione	installation ID
-host	host	Host	#host	host
-ip_address	IP address	IP Adresse	indirizzo IP	IP address
-server_port	server port	Server Port	#server port	server port
-server_software	server software	Server Software	#server software	server software
-http_path	http path	HTTP Pfad	percorso HTTP	http path
-absolute_path	absolute path	absoluter Pfad	percorso assoluto	absolute path
-inst_info	installation info	Installations-Info	informazioni per l´istallazione	installation info
-path_to_convert	path to convert	CONVERT Befehlszeile	percorso CONVERT	path to convert
-path_to_zip	path to zip	ZIP Befehszeile	percorso ZIP	path to zip
-path_to_unzip	path to unzip	UNZIP Befehlszeile	percorso UNZIP	path to unzip
-path_to_java	path to java	JAVA Befehlszeile	percorso JAVA	path to java
-path_to_babylon	path to babylon	BABYLON Befehlszeile	percorso BABYLON	path to babylon
-feedback_recipient	feedback recipient	Feedback-Empfänger	recipiente feedback	feedback recipient
-error_recipient	error recipient	Empfänger von Fehlermeldungen	recipiente di errori	error recipient
-pub_section	public section	öffentlicher Bereich	sezione pubblica	public section
-news	news	News	novità	news
-payment_system	payment system	Bezahlungssystem	sistema di pagamento	payment system
-group_filesharing	group file sharing	Gruppen Filesharing	#group sharing	group file sharing
-crs_management_system	crs management system	CRS Management System	sistema management CRS	crs management system
-enable	enable	aktivieren	attivare	enable
-server	server	Server	#server	server
-port	port	Port	#port	port
-basedn	BaseDN	BaseDN	BaseDN	BaseDN
-ldap	LDAP	LDAP	LDAP	LDAP
-contact_information	contact information	Kontakt	contatto	contact information
-must_fill_in	must fill in	Felder müssen ausgefüllt werden	campi obbligatori	must fill in
-position	position	Position	posizione	position
-inst_name	installation name	Installationsname	nome per l´istallazione	installation name
-usr_skin	user skin	Benutzeroberfläche	#user skin	user skin
-default	default	default	#default	default
-tpl_path	template path	Template-Pfad	percorso template	template path
-lang_path	language path	Sprachdateien-Pfad	percorso lingue	language path
-fill_out_all_required_fields	please fill out all required fields	Bitte füllen Sie alle benötigten Felder aus	compilare campi obbligatori	please fill out all required fields
-saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	cambiamenti salvati con successo	saved successfully
-usr_style	usr style	Stil	stile	usr style
-lo_overview	lo overview	LE Übersicht	visione generale LO	lo overview
-literature	literature	Literatur	letteratura	literature
-forums	forums	Foren	fori	forums
-editor	editor	Editor	editore	editor
-help	help	Hilfe	aiuto	help
-logout	logout	Logout	logout	logout
-view_content	view content	Inhalt	contenuto	view content
-edit_properties	edit properties	Eigenschaften	proprietà	edit properties
-perm_settings	permissions	Rechte	diritti	permissions
-show_owner	show owner	Besitzerinfo	proprietario	show owner
-optimize	optimize	Optimieren	ottimare	optimize
+zipcode	zip code	Postleitzahl	codice postale	zip code

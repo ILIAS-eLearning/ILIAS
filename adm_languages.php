@@ -5,7 +5,7 @@
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
-* 
+*
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
@@ -14,54 +14,54 @@ $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 $lng->setUserLanguage($lng->lng);
 
 $tpl = new Template("tpl.adm_languages.html", true, true);
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("languages"));
+$tpl->setVariable("TXT_LANGUAGES", $lng->txt("languages"));
 
 if ($_POST["cmd"]=="generateall")
 {
-	$lng->generateLanguageFiles();
+        $lng->generateLanguageFiles();
 }
 
 if ($_POST["action"] == "del")
-{	
-	for ($i = 0; $i<count($marker); $i++)
-	{
-		if ($lng->deinstallLanguage($marker[$i]) == false)
-		{
-			$msg = $lng->error;
-		}
-	}
+{
+        for ($i = 0; $i<count($marker); $i++)
+        {
+                if ($lng->deinstallLanguage($marker[$i]) == false)
+                {
+                        $msg = $lng->error;
+                }
+        }
 }
 
 if ($_POST["action"] == "install")
-{	
-	for ($i = 0; $i<count($marker); $i++)
-	{
-		if ($lng->installLanguage($marker[$i]) == false)
-		{
-			$msg = $lng->error;
-		}
-	}
+{
+        for ($i = 0; $i<count($marker); $i++)
+        {
+                if ($lng->installLanguage($marker[$i]) == false)
+                {
+                        $msg = $lng->error;
+                }
+        }
 }
 
 if ($_GET["cmd"] == "install")
-{	
-	if ($lng->installLanguage($_GET["id"]) == false)
-	{
-		$msg = $lng->error;
-	}
+{
+        if ($lng->installLanguage($_GET["id"]) == false)
+        {
+                $msg = $lng->error;
+        }
 }
 
 if ($_GET["cmd"] == "del")
-{	
-	if ($lng->deinstallLanguage($_GET["id"]) == false)
-	{
-		$msg = $lng->error;
-	}
+{
+        if ($lng->deinstallLanguage($_GET["id"]) == false)
+        {
+                $msg = $lng->error;
+        }
 }
 
 $tpl->setCurrentBlock("message");
 $tpl->setVariable("MSG", $msg);
-$tpl->parseCurrentBlock();		
+$tpl->parseCurrentBlock();
 
 $langs = $lng->getAvailableLanguages();
 
@@ -100,29 +100,29 @@ $tpl->setVariable("TXT_LASTCHANGE", $lng->txt("last_change"));
 
 foreach ($langs as $row)
 {
-	$i++;
-	$tpl->setCurrentBlock("language_row");
-	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVariable("ID", $row["id"]);
-	$tpl->setVariable("TITLE", $row["name"]);
-	$tpl->setVariable("STATUS", $lng->txt($row["status"]));
-	
-	if ($row["status"] == "installed")
-	{
-	    $link = "adm_languages.php?cmd=del&amp;id=".$row["id"];
-	}
+        $i++;
+        $tpl->setCurrentBlock("language_row");
+        $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+        $tpl->setVariable("ID", $row["id"]);
+        $tpl->setVariable("LNG", $row["name"]);
+        $tpl->setVariable("STATUS", $lng->txt($row["status"]));
 
-	if ($row["status"] == "not_installed")
-	{
-	    $link = "adm_languages.php?cmd=install&amp;id=".$row["id"];
-	}
-	
-	$tpl->setVariable("LINK", $link);
-	
-	if ($row["lastchange"] != "") {
-		$tpl->setVariable("LASTCHANGE", $lng->fmtDateTime($row["lastchange"]));
-	}
-	$tpl->parseCurrentBlock();
+        if ($row["status"] == "installed")
+        {
+            $link = "adm_languages.php?cmd=del&amp;id=".$row["id"];
+        }
+
+        if ($row["status"] == "not_installed")
+        {
+            $link = "adm_languages.php?cmd=install&amp;id=".$row["id"];
+        }
+
+        $tpl->setVariable("LINK", $link);
+
+        if ($row["lastchange"] != "") {
+                $tpl->setVariable("LASTCHANGE", $lng->fmtDateTime($row["lastchange"]));
+        }
+        $tpl->parseCurrentBlock();
 }
 
 $tpl->setVariable("TXT_GENERATE", $lng->txt("languages_generate_from_file"));

@@ -1,13 +1,13 @@
 <!-- $Id$ -->
 <!-- @author Eva Wenzl <ewenzl@databay.de> -->
 
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h1>{TXT_BASIC_DATA}</h1>
 
-{MESSAGEFILE}
+{MSG}
 
     <br><form action="{FORMACTION}" method="post">
 
-	<table cellpadding=2 cellspacing=0 border=0>
+        <table cellpadding=2 cellspacing=0 border=0>
     <tr class="tblrow2">
       <td>{TXT_ILIAS_RELEASE}</td>
       <td>{ILIAS_RELEASE}</td>
@@ -18,7 +18,7 @@
     </tr>
     <tr class="tblrow2">
       <td>{TXT_INST_ID}</td>
-      <td>{INSTALL_ID}</td>
+      <td>{INST_ID}</td>
     </tr>
     <tr class="tblrow1">
       <td>{TXT_HOSTNAME}</td>
@@ -29,7 +29,7 @@
       <td>{IP_ADDRESS}</td>
     </tr>
     <tr class="tblrow1">
-      <td>{TXT_SERVER_PORT}</td>
+      <td>{TXT_PORT}</td>
       <td>{SERVER_PORT}</td>
     </tr>
     <tr class="tblrow2">
@@ -84,11 +84,11 @@
     </tr>
     <tr class="tblrow2">
       <td>{TXT_FEEDBACK_RECIPIENT}</td>
-      <td><input type="text" SIZE=40 maxlength=200 name="feedback" value="{FEEDBACK}"></td>
+      <td><input type="text" SIZE=40 maxlength=200 name="feedback_recipient" value="{FEEDBACK_RECIPIENT}"></td>
     </tr>
     <tr class="tblrow1">
       <td>{TXT_ERROR_RECIPIENT}</td>
-      <td><input type="text" SIZE=40 maxlength=200 name="errors" value="{ERRORS}"></td>
+      <td><input type="text" SIZE=40 maxlength=200 name="error_recipient" value="{ERROR_RECIPIENT}"></td>
     </tr>
     <tr class="tblrow2">
       <td>{TXT_PUB_SECTION}</td>
@@ -121,11 +121,11 @@
       <td><input type="checkbox" name="crs_enable"  value="y" {CRS_MANAGEMENT_SYSTEM}></td>
     </tr>
     <tr class="tblrow1">
-        <td>{TXT_USR_SKIN}</td>
+        <td>{TXT_DEFAULT_SKIN}</td>
         <td>
-          <select name="usr_skin">
+          <select name="default_skin">
 <!-- BEGIN selectskin -->
-             <option value="{SKINVALUE}" {SKINSELECTED}>{SKIN_OPTION}</option>
+             <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
 <!-- END selectskin -->
           </select>
         </td>
@@ -134,7 +134,7 @@
 
     <h3>{TXT_LDAP}</h3>
 
-	<table cellpadding=2 cellspacing=0 border=0>
+        <table cellpadding=2 cellspacing=0 border=0>
     <tr class="tblrow2">
       <td>{TXT_ENABLE}</td>
       <td><input type="checkbox" name="ldap_enable"  value="y" {LDAP_ENABLE}></td>
@@ -156,7 +156,7 @@
 
     <h3>{TXT_CONTACT_INFORMATION}</h3>
 
-	<table cellpadding=2 cellspacing=0 border=0>
+        <table cellpadding=2 cellspacing=0 border=0>
     <tr class="">
       <td>{TXT_MUST_FILL_IN}*</td>
     </tr>
@@ -188,8 +188,8 @@
       <td><input type="text" SIZE=40 maxlength=64 name="street" value="{STREET}"></td>
     </tr>
     <tr class="tblrow2">
-      <td>{TXT_ZIP_CODE}*</td>
-      <td ><input type="text" SIZE=5 maxlength=10 name="zip_code" value="{ZIPCODE}"></td>
+      <td>{TXT_ZIPCODE}*</td>
+      <td ><input type="text" SIZE=5 maxlength=10 name="zipcode" value="{ZIPCODE}"></td>
     </tr>
     <tr class="tblrow1">
       <td>{TXT_CITY}*</td>
