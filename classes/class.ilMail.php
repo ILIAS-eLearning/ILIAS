@@ -208,15 +208,24 @@ class ilMail
 	*/
 	function readMailObjectReferenceId()
 	{
-		$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
-			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
-			"AND object_data.type = 'mail' ".
-			"AND object_reference.ref_id = tree.child ".
-			"AND object_reference.obj_id = object_data.obj_id";
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		// mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
+		if (!MAIL_SETTINGS_ID)
 		{
-			$this->mail_obj_ref_id = $row["ref_id"];
+			$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
+					"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
+					"AND object_data.type = 'mail' ".
+					"AND object_reference.ref_id = tree.child ".
+					"AND object_reference.obj_id = object_data.obj_id";
+			$res = $this->ilias->db->query($query);
+
+			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$this->mail_obj_ref_id = $row["ref_id"];
+			}
+		}
+		else
+		{
+			$this->mail_obj_ref_id = MAIL_SETTINGS_ID;
 		}
 	}
 	/**
