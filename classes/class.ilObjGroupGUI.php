@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.11 2003/06/23 11:04:50 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.12 2003/06/23 15:11:02 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -53,11 +53,11 @@ class ilObjGroupGUI extends ilObjectGUI
 		
 		$this->type = "grp";
 		//$this->lng =& $lng;
-		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 
 		
 		$this->grp_tree = new ilTree($this->object->getRefId());
-		$this->grp_tree->setTableNames("grp_tree","obj_data");
+		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
 
 	/**
@@ -156,7 +156,75 @@ class ilObjGroupGUI extends ilObjectGUI
 		exit();
 
 	}
+	
+	/**
+	* list childs of current object
+	*
+	* @access	public
+	*/
+	function viewObject()
+	{
+		global $rbacsystem,$lng;
 
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//prepare objectlist
+		$this->objectList = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+		$this->data["cols"] = array("", "type", "title", "description", "last_change");
+		
+		
+		$childs = $this->grp_tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
+
+		foreach ($childs as $key => $val)
+	    {
+			// visible
+			if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
+			{
+				continue;
+			}
+
+			//visible data part
+			$this->data["data"][] = array(
+										"type" => $val["type"],
+										"title" => $val["title"],
+										"description" => $val["desc"],
+										"last_change" => $val["last_update"],
+										"ref_id" => $val["ref_id"]
+										);
+			
+			//control information is set below
+
+	    } //foreach
+
+		$this->maxcount = count($this->data["data"]);
+		// sorting array
+		require_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$this->data["ctrl"][$key] = array(
+											"type" => $val["type"],
+											"ref_id" => $val["ref_id"],
+											"tree_id" => $_GET["ref_id"],
+											"tree_table" => $this->grp_tree->table_tree
+											);
+
+			unset($this->data["data"][$key]["ref_id"]);
+						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+		}
+
+		$this->displayList();
+	}
+	
+	
 	/**
 	* update GroupObject
 	* @access public
@@ -810,8 +878,8 @@ class ilObjGroupGUI extends ilObjectGUI
 				$obj_data->setPermissions($_GET["ref_id"]);
 				
 				//paste the node also into the "grp_tree" table
-				//TODO
-				//$this->grp_tree->insertNode($this->object->getRefId(), $parent);
+				$this->grp_tree->insertNode($obj_data->getRefId(), $_GET["ref_id"]);
+				
 				
 				// ... remove top_node from list....
 				array_shift($subnode);
@@ -820,12 +888,16 @@ class ilObjGroupGUI extends ilObjectGUI
 				if (count($subnode) > 0)
 				{
 					foreach ($subnode as $node)
-					{echo "2Klammer";
+					{
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
 						$obj_data->createReference();
 						// TODO: $node["parent"] is wrong in case of new reference!!!!
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
+						
+						//is obsolet !!!
+						//$this->grp_tree->insertNode($obj_data->getRefId(), $node["parent"]);
+					
 					}
 				}
 			}

@@ -597,7 +597,7 @@ class ilObjGroup extends ilObject
 	{
 
 	$this->grp_tree = new ilTree($this->getRefId());
-	$this->grp_tree->setTableNames("grp_tree","obj_data");
+	$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	$this->grp_tree->addTree($this->getRefId());
 	
 	}	
