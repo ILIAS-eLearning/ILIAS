@@ -60,12 +60,12 @@ function sort_func ($a, $b)
 {
 	global $array_sortby,$array_sortorder;
 	
-	if ($array_sortorder == "ASC")
+	if ($array_sortorder == "asc")
 	{
 		return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
 	}
 
-	if ($array_sortorder == "DESC")
+	if ($array_sortorder == "desc")
 	{
 		return strcasecmp($b[$array_sortby], $a[$array_sortby]);	
 	}		
@@ -86,13 +86,13 @@ function sortArray($array,$a_array_sortby,$a_array_sortorder = 0)
 
 	$array_sortby = $a_array_sortby;
 	
-	if ($a_array_sortorder == "DESC")
+	if ($a_array_sortorder == "desc")
 	{
-		$array_sortorder = "DESC";
+		$array_sortorder = "desc";
 	}
 	else
 	{
-		$array_sortorder = "ASC";	
+		$array_sortorder = "asc";	
 	}
 
 	usort($array,"sort_func");

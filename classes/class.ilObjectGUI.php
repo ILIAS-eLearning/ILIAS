@@ -83,6 +83,7 @@ class ilObjectGUI
 	var $object;
 	var $ref_id;
 	var $obj_id;
+	var $maxcount;	// contains number of child objects
 
 	/**
 	* Constructor
@@ -137,6 +138,32 @@ class ilObjectGUI
 
 			$this->setAdminTabs();
 			$this->setLocator();
+		}
+
+		// set offset & limit for
+		// TODO: init better move to inc.header.php
+		$_GET["offset"] = intval($_GET["offset"]);
+		$_GET["limit"] = intval($_GET["limit"]);
+		
+		if ($_GET["limit"] == 0)
+		{
+			$_GET["limit"] = 10;	// TODO: move to user settings
+		}
+		
+		// set default sort column
+		if (empty($_GET["sort_by"]))
+		{
+			// TODO: init sort_by better in obj class?
+			if ($this->object->getType() == "usrf" 
+				or $this->object->getType() == "rolf"
+				or $this->object->getType() == "objf")
+			{
+				$_GET["sort_by"] = "name";
+			}
+			else
+			{
+				$_GET["sort_by"] = "title";			
+			}
 		}
 	}
 
@@ -1501,30 +1528,6 @@ class ilObjectGUI
 
 		require_once "./classes/class.ilTableGUI.php";
 
-		// set offset & limit
-		// TODO: init better move to inc.header.php
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-		
-		if ($limit == 0)
-		{
-			$limit = 100;	// TODO: move to user settings
-		}
-		
-		// set default sort column
-		if (empty($_GET["sort_by"]))
-		{
-			// TODO: init sort_by better in obj class?
-			if ($this->object->getType() == "usrf" or $this->object->getType() == "rolf")
-			{
-				$_GET["sort_by"] = "name";
-			}
-			else
-			{
-				$_GET["sort_by"] = "title";			
-			}
-		}
-
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		// load template for table content data
@@ -1535,50 +1538,44 @@ class ilObjectGUI
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
-// sorting temp. disabled
-//require_once "./include/inc.sort.php";
-$maxcount = count($this->data["data"]);
-//$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-//$this->data["data"] = array_slice($this->data["data"],$offset,$limit);
-
-// create table
-$tbl = new ilTableGUI();
-
-// title & header columns
-$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
-$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-foreach ($this->data["cols"] as $val)
-{
-	$header_names[] = $this->lng->txt($val);
-}
-
-$tbl->setHeaderNames($header_names);
-
-$header_params = array("ref_id" => $this->ref_id);
-$tbl->setHeaderVars($this->data["cols"],$header_params);
-//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
-
-// control
-$tbl->setOrderColumn($_GET["sort_by"]);
-$tbl->setOrderDirection($_GET["sort_order"]);
-$tbl->setLimit($limit);
-$tbl->setOffset($offset);
-$tbl->setMaxCount($maxcount);
-
-// SHOW VALID ACTIONS
-$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-$this->showActions();
-//$this->tpl->setVariable("NUM_COLS",count($this->data["cols"]));
-//$this->showPossibleSubObjects();
-
-// footer
-$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-//$tbl->disable("content");
-//$tbl->disable("footer");
-
-// render table
-$tbl->render();
+		// create table
+		$tbl = new ilTableGUI();
+		
+		// title & header columns
+		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+		
+		$tbl->setHeaderNames($header_names);
+		
+		$header_params = array("ref_id" => $this->ref_id);
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+		
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+		
+		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+		$this->showActions();
+		//$this->tpl->setVariable("NUM_COLS",count($this->data["cols"]));
+		//$this->showPossibleSubObjects();
+		
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("content");
+		//$tbl->disable("footer");
+		
+		// render table
+		$tbl->render();
 
 		if (is_array($this->data["data"][0]))
 		{
@@ -1683,7 +1680,13 @@ $tbl->render();
 					}
 
 					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+					}
+
+					$this->tpl->setVariable("TEXT_CONTENT", $val);					
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
@@ -1747,19 +1750,34 @@ $tbl->render();
 				
 			//visible data part
 			$this->data["data"][] = array(
-					"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => ilFormat::formatDate($val["last_update"])
-			);
+										"type" => $val["type"],
+										"title" => $val["title"],
+										"description" => $val["desc"],
+										"last_change" => ilFormat::formatDate($val["last_update"]),
+										"ref_id" => $val["ref_id"]
+										);
 				
-			//control information
-			$this->data["ctrl"][] = array(
-					"type" => $val["type"],
-					"ref_id" => $val["ref_id"]
-			);
-	    } //foreach
+			//control information is set below
 
+	    } //foreach
+		
+		$this->maxcount = count($this->data["data"]);
+		// sorting array
+		require_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$this->data["ctrl"][$key] = array(
+											"type" => $val["type"],
+											"ref_id" => $val["ref_id"]
+											);		
+
+			unset($this->data["data"][$key]["ref_id"]);
+		}
+		
 		$this->displayList();
 	}
 
