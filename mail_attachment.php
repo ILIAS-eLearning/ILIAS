@@ -12,6 +12,8 @@ require_once "./include/inc.mail.php";
 require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
 
+$lng->loadLanguageModule("mail");
+
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
 // GET SAVED DATA

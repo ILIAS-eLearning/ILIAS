@@ -12,6 +12,8 @@ require_once "./include/inc.mail.php";
 require_once "./classes/class.ilMailbox.php";
 require_once "./classes/class.ilFormatMail.php";
 
+$lng->loadLanguageModule("mail");
+
 $mbox = new ilMailBox($_SESSION["AccountId"]);
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 

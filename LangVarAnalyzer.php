@@ -79,7 +79,7 @@ class ilLangVarAnalyzer
 		{
 			$cnt = count($files);
 			if ($cnt == 1)
-				$this->others[$langvar] = 1;
+				$this->others[$files[0]][] = $langvar;
 			else
 				$this->common[$langvar] = $cnt;
 		}
@@ -96,14 +96,27 @@ class ilLangVarAnalyzer
 		}
 	}
 
+
+	function printOthers()
+	{
+		reset($this->others);
+		foreach ($this->others as $file => $langvars)
+		{
+			echo $langvar." <b>".$file." (".count($langvars).")</b>: ".implode(", ", $langvars)."<br>";
+		}
+	}
+
+	//function get
+
 }
 
 $analyzer = new ilLangVarAnalyzer();
 $analyzer->setDirectories(array(".", "./classes", "./include"));
 $analyzer->setFileTypes(array(".php"));
-$analyzer->setLangFile("./lang/ilias_en.lang");
+//$analyzer->setLangFile("./lang/ilias_en.lang");
 $analyzer->parseFiles();
 $analyzer->catVars();
-$analyzer->printCommons();
+//$analyzer->printCommons();
+$analyzer->printOthers();
 
 ?>
