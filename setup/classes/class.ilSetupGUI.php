@@ -134,6 +134,7 @@ class ilSetupGUI extends ilSetup
 		if (DEBUG)
 		{
 			echo "cmd: ".$this->cmd." | access: ".$this->access_mode." | display: ".$this->display_mode;
+			var_dump($this->client->status);
 		}
 		
 		// display footer
@@ -222,7 +223,7 @@ class ilSetupGUI extends ilSetup
 		{
 			case NULL:
 			case "view":
-				if ($this->client->db_exists)
+				if ($this->client->db_installed)
 				{
 					$this->displayClientOverview();
 				}
@@ -235,7 +236,7 @@ class ilSetupGUI extends ilSetup
 				
 			case "ini":
 				// only allow access to ini if db not exists yet
-				if ($this->client->db_exists)
+				if ($this->client->db_installed)
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -251,7 +252,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "contact":
-				if (!$this->client->db_exists)
+				if (!$this->client->db_installed)
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -263,7 +264,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->db_exists)
+				if (!$this->client->db_installed)
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -275,7 +276,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!$this->client->db_exists)
+				if (!$this->client->db_installed)
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -287,7 +288,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "finish":
-				if (!$this->client->db_exists)
+				if (!$this->client->db_installed)
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -330,7 +331,7 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
 
-		if ($this->client->db_exists)
+		if ($this->client->db_installed)
 		{
 			$settings = $this->client->getAllSettings();
 		}
@@ -374,11 +375,11 @@ class ilSetupGUI extends ilSetup
 		// display formula data
 
 		// client data
-		$this->tpl->setVariable("INST_ID",($this->client->db_exists) ? $settings["inst_id"] : $txt_no_database);
+		$this->tpl->setVariable("INST_ID",($this->client->db_installed) ? $settings["inst_id"] : $txt_no_database);
 		$this->tpl->setVariable("CLIENT_ID2",$this->client->getId());
 		$this->tpl->setVariable("INST_NAME",$this->client->getName());
 		$this->tpl->setVariable("INST_INFO",$this->client->getDescription());
-		$this->tpl->setVariable("DB_VERSION",($this->client->db_exists) ? $settings["db_version"] : $txt_no_database);
+		$this->tpl->setVariable("DB_VERSION",($this->client->db_installed) ? $settings["db_version"] : $txt_no_database);
 		$this->tpl->setVariable("ACCESS_STATUS",$access_status.$access_link);
 
 		// server data
@@ -389,10 +390,10 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);	// not used
 		$this->tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 		$this->tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
-		$this->tpl->setVariable("ILIAS_VERSION",($this->client->db_exists) ? $settings["ilias_version"] : $txt_no_database);
+		$this->tpl->setVariable("ILIAS_VERSION",($this->client->db_installled) ? $settings["ilias_version"] : $txt_no_database);
 
-		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->client->db_exists) ? $settings["feedback_recipient"] : $txt_no_database);
-		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_exists) ? $settings["error_recipient"] : $txt_no_database);
+		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->client->db_installed) ? $settings["feedback_recipient"] : $txt_no_database);
+		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_installed) ? $settings["error_recipient"] : $txt_no_database);
 
 		// pathes to tools
 		$not_set = "path_not_set";
@@ -1408,6 +1409,7 @@ class ilSetupGUI extends ilSetup
 	
 	function checkDisplayMode($a_title = "")
 	{
+
 		switch ($this->display_mode)
 		{
 			case "view":
@@ -1557,7 +1559,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SETUP_TITLE","setup Database");
 		
 		// only allow to return to ini if db not exists yet
-		if (!$this->client->db_exists)
+		if (!$this->client->db_installed)
 		{
 			$this->setButtonPrev("ini");
 		}
@@ -1574,7 +1576,7 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->checkDisplayMode("setup_languages");
 
-		if (!$this->client->db_exists)
+		if (!$this->client->db_installed)
 		{
 			$message = "No database found! Please install database first.";
 			sendInfo($message);
