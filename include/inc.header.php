@@ -37,10 +37,10 @@ require_once "classes/class.ilLog.php";
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.rbacSystem.php";
-require_once "classes/class.rbacReview.php";
+require_once "classes/class.ilRbacReview.php";
 require_once "classes/class.ilRbacAdminH.php";
 require_once "classes/class.rbacSystemH.php";
-require_once "classes/class.rbacReviewH.php";
+require_once "classes/class.ilRbacReviewH.php";
 
 // include error_handling
 require_once "classes/class.ilErrorHandling.php";
@@ -91,7 +91,7 @@ if ($script != "login.php" && $script != "index.php")
 	{
 		$_SESSION["AccountId"] = $ilias->account->checkUserId($_SESSION["AccountId"]);
         // assigned roles are stored in $_SESSION["RoleId"]
-		$rbacreview = new RbacReviewH();
+		$rbacreview = new ilRbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);			
 	}
 	else
@@ -113,7 +113,7 @@ if ($script != "login.php" && $script != "index.php")
 	// init rbac
 	$rbacsystem = new RbacSystemH();
 	$rbacadmin = new ilRbacAdminH();
-	$rbacreview = new RbacReviewH();
+	$rbacreview = new ilRbacReviewH();
 
 	// TODO: rbacAdmin should only start when using admin-functions.
 	// At the moment the method in the 3 main classes are not separated properly

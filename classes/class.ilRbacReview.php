@@ -1,13 +1,13 @@
 <?php
 /**
-* class RbacReview
+* class ilRbacReview
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
 * @package rbac
 */
-class RbacReview
+class ilRbacReview
 {
     /**
 	* ilias object
@@ -20,7 +20,7 @@ class RbacReview
 	* Constructor
 	* @access	public
 	*/
-	function RbacReview()
+	function ilRbacReview()
 	{
 	    global $ilias;
 		
