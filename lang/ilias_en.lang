@@ -1080,8 +1080,8 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
-common#:#grp_no_groups_selected#:#No group selected
-common#:#grp_no_roles_selected#:#No roles selected
+common#:#grp_no_groups_selected#:#Please select a group
+common#:#grp_no_roles_selected#:#Please select a role
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Register
 common#:#grp_registration_completed#:#Registration completed
@@ -2354,7 +2354,8 @@ crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Add HTML-Archive
 crs#:#crs_add_archive_xml#:#Add XML-Archive
 crs#:#crs_add_html_archive#:#Add HTML archive
-crs#:#crs_add_member#:#Add members
+crs#:#crs_add_member#:#Add member(s)
+common#:#grp_add_member#:#Add member(s)
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
 crs#:#crs_added_member#:#Course membership
@@ -2433,6 +2434,7 @@ crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
 crs#:#crs_no_groups_selected#:#Please select a group
+crs#:#crs_no_roles_selected#:#Please select a role
 crs#:#crs_no_items_found#:#There are no course items
 crs#:#crs_no_language#:#No language
 crs#:#crs_no_member_selected#:#Please select one member

@@ -145,7 +145,7 @@ class ilSearch
 	}
 	function getResultByType($a_type)
 	{
-		return $this->result[$a_type] ? $this->result[$a_type] : array();
+        return $this->result[$a_type] ? $this->result[$a_type] : array();
 	}
 	function getSearchType()
 	{
@@ -616,6 +616,16 @@ class ilSearch
 				if($tmp_obj =& ilObjectFactory::getInstanceByObjId($user['id'],false))
 				{
 					$new_result['usr'][] = $user;
+				}
+			}
+		}
+		if(is_array($this->result['role']))
+		{
+			foreach($this->result['role'] as $user)
+			{
+				if($tmp_obj =& ilObjectFactory::getInstanceByObjId($user['id'],false))
+				{
+					$new_result['role'][] = $user;
 				}
 			}
 		}

@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.95 2004/09/03 05:27:57 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.96 2004/09/03 11:48:59 shofmann Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -746,7 +746,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-		$this->data["buttons"] = array( "canceled"  => $this->lng->txt("cancel"),
+		$this->data["buttons"] = array( "members"  => $this->lng->txt("back"),
 										"updateMemberStatus"  => $this->lng->txt("confirm"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
@@ -850,7 +850,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 					if ($count > 0)
 					{
-						$str_member_roles .= ",";
+						$str_member_roles .= ", ";
 					}
 				}
 			}
@@ -1085,10 +1085,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("SEARCH_ROW_TXT_GROUP",$this->lng->txt("exc_groups"));
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		
+        $usr = ($_POST["search_for"] == "usr" || $_POST["search_for"] == "") ? 1 : 0;
+		$grp = ($_POST["search_for"] == "grp") ? 1 : 0;
+		$role = ($_POST["search_for"] == "role") ? 1 : 0;
 
-		$this->tpl->setVariable("SEARCH_ROW_CHECK_USER",ilUtil::formRadioButton(1,"search_for","usr"));
-		$this->tpl->setVariable("SEARCH_ROW_CHECK_ROLE",ilUtil::formRadioButton(0,"search_for","role"));
-        $this->tpl->setVariable("SEARCH_ROW_CHECK_GROUP",ilUtil::formRadioButton(0,"search_for","grp"));
+		$this->tpl->setVariable("SEARCH_ROW_CHECK_USER",ilUtil::formRadioButton($usr,"search_for","usr"));
+		$this->tpl->setVariable("SEARCH_ROW_CHECK_ROLE",ilUtil::formRadioButton($role,"search_for","role"));
+        $this->tpl->setVariable("SEARCH_ROW_CHECK_GROUP",ilUtil::formRadioButton($grp,"search_for","grp"));
 
 		$this->__unsetSessionVariables();
 	}
@@ -1127,9 +1131,10 @@ class ilObjGroupGUI extends ilObjectGUI
 		
 		$counter = 0;
 		$f_result = array();
+
 		switch($_POST["search_for"])
 		{
-			case "usr":
+        	case "usr":
 				foreach($result as $user)
 				{
 					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
@@ -1151,13 +1156,25 @@ class ilObjGroupGUI extends ilObjectGUI
 			case "role":
 				foreach($result as $role)
 				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role["id"],false))
+                    // exclude anonymous role
+                    if ($role["id"] == ANONYMOUS_ROLE_ID)
+                    {
+                        continue;
+                    }
+
+                    if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role["id"],false))
 					{
 						continue;
 					}
+					
+				    // exclude roles with no users assigned to
+                    if ($tmp_obj->getCountMembers() == 0)
+                    {
+                        continue;
+                    }
+                    
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role["id"]);
-					$f_result[$counter][] = $tmp_obj->getTitle();
-					$f_result[$counter][] = $tmp_obj->getDescription();
+					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
 					
 					unset($tmp_obj);
@@ -1175,13 +1192,20 @@ class ilObjGroupGUI extends ilObjectGUI
 					{
 						continue;
 					}
+					
 					if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($group["id"],false))
 					{
 						continue;
 					}
+					
+                    // exclude myself :-)
+                    if ($tmp_obj->getId() == $this->object->getId())
+                    {
+                        continue;
+                    }
+                    
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$group["id"]);
-					$f_result[$counter][] = $tmp_obj->getTitle();
-					$f_result[$counter][] = $tmp_obj->getDescription();
+					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
 					
 					unset($tmp_obj);
@@ -1406,7 +1430,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		include_once("class.ilSearch.php");
 
 		$this->lng->loadLanguageModule("content");
-
 		$search =& new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);
 		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
@@ -1429,6 +1452,13 @@ class ilObjGroupGUI extends ilObjectGUI
 
 	function __showSearchUserTable($a_result_set,$a_cmd = "search")
 	{
+        $return_to  = "searchUserForm";
+	
+    	if ($a_cmd == "listUsersRole" or $a_cmd == "listUsersGroup")
+    	{
+            $return_to = "search";
+        }
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -1438,7 +1468,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","searchUserForm");
+		$tpl->setVariable("BTN_NAME",$return_to);
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
 		$tpl->parseCurrentBlock();
 
@@ -1466,7 +1496,7 @@ class ilObjGroupGUI extends ilObjectGUI
 								  "cmdClass" => "ilobjgroupgui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
-		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+		$tbl->setColumnWidth(array("","33%","33%","33%"));
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
 		$tbl->render();
@@ -1502,23 +1532,20 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("title"),
-								   $this->lng->txt("description"),
+								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("grp_count_members")));
 		$tbl->setHeaderVars(array("",
 								  "title",
-								  "description",
 								  "nr_members"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "search",
 								  "cmdClass" => "ilobjgroupgui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
-		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+		$tbl->setColumnWidth(array("","80%","19%"));
 
 
-		$this->__setTableGUIBasicData($tbl,$a_result_set);
-		$tbl->disable('sort');
+		$this->__setTableGUIBasicData($tbl,$a_result_set,"role");
 		$tbl->render();
 		
 		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
@@ -1528,7 +1555,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 	function __showSearchGroupTable($a_result_set)
 	{
-		$tbl =& $this->__initTableGUI();
+    	$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
 		$tpl->setCurrentBlock("tbl_form_header");
@@ -1552,19 +1579,17 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("title"),
-								   $this->lng->txt("description"),
+								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));
 		$tbl->setHeaderVars(array("",
 								  "title",
-								  "description",
 								  "nr_members"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "search",
-								  "cmdClass" => "ilobjcoursegui",
+								  "cmdClass" => "ilobjgroupgui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
-		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+		$tbl->setColumnWidth(array("","80%","19%"));
 
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"group");
@@ -1589,11 +1614,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
-
+		
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write,delete",$this->object->getRefId()))
-		{
-			//user is administrator
+		{			//user is administrator
+            $tpl->setCurrentBlock("plain_button");
+		    $tpl->setVariable("PBTN_NAME","searchUserForm");
+		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("grp_add_member"));
+		    $tpl->parseCurrentBlock();
+		    $tpl->setCurrentBlock("plain_buttons");
+		    $tpl->parseCurrentBlock();
+		
 			$tpl->setVariable("COLUMN_COUNTS",6);
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -1607,13 +1638,6 @@ class ilObjGroupGUI extends ilObjectGUI
 
             $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
-			$subobj[0] = $this->lng->txt("member");
-			$opts = ilUtil::formSelect(12,"new_type", $subobj, false, true);
-			$tpl->setCurrentBlock("add_object");
-			$tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$tpl->setVariable("BTN_NAME", "searchUserForm");
-			$tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$tpl->parseCurrentBlock();
 		}
 
 		$this->ctrl->setParameter($this,"cmd","members");
@@ -1628,14 +1652,14 @@ class ilObjGroupGUI extends ilObjectGUI
 			//user must be administrator
 			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
 			$tbl->setHeaderVars(array("","login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("","15%","30%","30%","10%","10%"));
+			$tbl->setColumnWidth(array("","22%","22%","22%","22%","10%"));
 		}
 		else
 		{
 			//user must be member
 			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
 			$tbl->setHeaderVars(array("login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("20%","30%","30%","10%","10%"));
+			$tbl->setColumnWidth(array("22%","22%","22%","22%","10%"));
 		}
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
@@ -1663,6 +1687,12 @@ class ilObjGroupGUI extends ilObjectGUI
 				break;
 
 			case "group":
+				$offset = $_GET["offset"];
+	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
+				$direction = $_GET["sort_order"];
+				break;
+				
+			case "role":
 				$offset = $_GET["offset"];
 	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
 				$direction = $_GET["sort_order"];
@@ -1738,7 +1768,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsers");
+		$this->__showSearchUserTable($f_result,"listUsersRole");
 
 		return true;
 	}
@@ -1803,7 +1833,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsers");
+		$this->__showSearchUserTable($f_result,"listUsersGroup");
 
 		return true;
 	}

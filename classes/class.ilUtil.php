@@ -260,7 +260,9 @@ class ilUtil
 			$str .= " checked=\"checked\"";
 		}
 
-		$str .= " value=\"".$value."\" />\n";
+		$str .= " value=\"".$value."\"";
+		
+		$str .= " id=\"".$value."\" />\n";
 
 		return $str;
 	}

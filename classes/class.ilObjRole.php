@@ -327,8 +327,6 @@ class ilObjRole extends ilObject
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter++]["id"]				=  $row->obj_id;
-			#$result_data[$counter]["link"]				=  "group.php?cmd=view&ref_id=".$row->ref_id;
-			#$result_data[$counter++]["target"]			=  "";
 		}
 
 		return $result_data ? $result_data : array();

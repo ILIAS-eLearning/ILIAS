@@ -1079,8 +1079,8 @@ common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
-common#:#grp_no_groups_selected#:#Keine Gruppe ausgewählt
-common#:#grp_no_roles_selected#:#Keine Rolle ausgewählt
+common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
+common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#grp_read#:#Lesezugriff auf Gruppe
 common#:#grp_register#:#Anmelden
 common#:#grp_registration_completed#:#Anmeldung abgeschlossen
@@ -2348,6 +2348,7 @@ crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
+common#:#grp_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_subscribers#:#Benutzer hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
@@ -2426,6 +2427,7 @@ crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
+crs#:#crs_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
