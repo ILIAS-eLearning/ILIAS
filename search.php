@@ -4,7 +4,6 @@ include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 include_once("./classes/class.Search.php");
 
-$lng = new Language($ilias->account->data["language"]);
 $tpl = new Template("tpl.search.html", true, true);
 
 if ($_POST["search"] != "")
