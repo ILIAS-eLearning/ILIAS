@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.62 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.63 2004/01/12 12:21:17 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -173,7 +173,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		sort($rbac_objects);
-		//unset($rbac_operations);
 			
 		foreach ($rbac_objects as $key => $obj_data)
 		{
@@ -230,9 +229,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$output["col_anz"] = count($rbac_objects);
 		$output["txt_save"] = $this->lng->txt("save");
-		$output["txt_permission"] = $this->lng->txt("permission");
-		$output["txt_obj_type"] = $this->lng->txt("obj_type");
-		$output["txt_stop_inheritance"] = $this->lng->txt("stop_inheritance");
 		$output["check_bottom"] = ilUtil::formCheckBox(0,"recursive",1);
 		$output["message_table"] = $this->lng->txt("change_existing_objects");
 
@@ -284,7 +280,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role_new.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
 
 		foreach ($rbac_objects as $obj_data)
 		{
@@ -327,12 +323,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			// END ADOPT PERMISSIONS
 		
-			$this->tpl->setCurrentBlock("tblfooter_standard");
+			$this->tpl->setCurrentBlock("tblfooter_recursive");
 			$this->tpl->setVariable("COL_ANZ",3);
-			$this->tpl->setVariable("COL_ANZ_PLUS",4);
-			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
 			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tblfooter_standard");
+			$this->tpl->setVariable("COL_ANZ_PLUS",4);
+			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -352,7 +351,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TBL_TITLE",$this->object->getTitle());
 			
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
-		$this->tpl->setVariable("TXT_OBJ_TYPE",$this->data["txt_obj_type"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->parseCurrentBlock();
 	}

@@ -1,7 +1,7 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
   <table class="fullwidth">
   <tr class="tbltitle">
-    <td colspan="3">
+    <td colspan="4">
 	<table class="fullwidth_invisible">
 	  <tr class="tbltitle">
 	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
@@ -33,11 +33,13 @@
 	</td>
   </tr>
 <!-- END tblfooter_sysrole -->
-<!-- BEGIN tblfooter_standard -->
+<!-- BEGIN tblfooter_recursive -->
   <tr class="tblfooter">
 	<td class="std"><font color="red">{MESSAGE_TABLE}</font></td>
 	<td class="std" align="left" colspan="{COL_ANZ}">{CHECK_BOTTOM}</td>
   </tr>
+<!-- END tblfooter_recursive -->
+<!-- BEGIN tblfooter_standard -->
   <tr class="std">
 	<td class="std" align="right" colspan="{COL_ANZ_PLUS}"><input class="submit" type="submit" value="{TXT_SAVE}" /></td>
   </tr>
