@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 * lessons
 *
@@ -12,6 +12,9 @@ require_once "classes/class.Explorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
 
+// add everywhere wegen sparkassen skin
+$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->touchBlock("buttons");
 $lessons = array();
 
 //go through valid objects and filter out the lessons only
@@ -34,7 +37,7 @@ foreach ($lessons as $row)
 	$tpl->setCurrentBlock("subcategory");
 	$tpl->setVariable("ROWCOL","tblrow".(($j%2)+1));
 	$tpl->setVariable("TITLE", $row["title"]);
-	$tpl->setVariable("LINK_LO", "lo_content.php?id=".$row["id"]);
+	$tpl->setVariable("LINK_LO", "lo_view.php?lm_id=".$row["id"]);
 	$tpl->setVariable("IMG_AND_LINK","img".$j);
 	$tpl->parseCurrentBlock();
 }
@@ -82,5 +85,4 @@ $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-
 ?>

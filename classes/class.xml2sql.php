@@ -80,92 +80,229 @@ class xml2sql
 
 	function insertNode ($a_node)
 	{
-		$sql = "INSERT INTO lo_tree " . "(lo_id,lft,rgt,node_type_id,depth) " . "VALUES " . "('" . $this->obj_id . "','" . $a_node["left"] . "','" . $a_node["right"] . "','" . $a_node["type"] . "','" . $a_node["depth"] . "') ";
-		$res = $this->ilias->db->query($sql);
+		$q = "INSERT INTO lo_tree ".
+			 "(lo_id,lft,rgt,node_type_id,depth,struct) ".
+			 "VALUES ".
+			 "('".$this->obj_id."','".$a_node["left"].
+			 "','".$a_node["right"]."','".$a_node["type"].
+			 "','".$a_node["depth"]."','".$a_node["struct"]."') ";
+		$this->ilias->db->query($q);
 
-		$sql = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($sql);
-		$row = $res->fetchRow();
-
-		return $row[0];
+		return $this->getLastInsertId();
 	} 
 
 	function updateNode ($a_node)
 	{
-		$sql = "UPDATE lo_tree SET " . "parent_node_id = '" . $a_node["parent"] . "'," . "prev_sibling_node_id = '" . $a_node["prev"] . "'," . "next_sibling_node_id = '" . $a_node["next"] . "'," . "first_child_node_id = '" . $a_node["first"] . "' " . "WHERE node_id = '" . $a_node["node"] . "' " . "AND lo_id = '" . $this->obj_id . "'";
-		$res = $this->ilias->db->query($sql);
+		$q = "UPDATE lo_tree SET ".
+			 "parent_node_id = '".$a_node["parent"]."',".
+			 "prev_sibling_node_id = '".$a_node["prev"]."',".
+			 "next_sibling_node_id = '".$a_node["next"]."',".
+			 "first_child_node_id = '".$a_node["first"]."' ".
+			 "WHERE node_id = '".$a_node["node"]."' ".
+			 "AND lo_id = '".$this->obj_id."'";
+		$this->ilias->db->query($q);
 	} 
 
 	function insertNodeData ($a_node)
 	{
+		//echo "<PRE>";echo var_dump($a_node);echo "</PRE>";
 		$a_node = $this->prepareData($a_node);
+		
+		//echo "<PRE>";echo var_dump($a_node);echo "</PRE>";
 
 		switch ($a_node["type"]) {
 			case 1:
 				$this->insertElement($a_node);
+				$this->insertAttributes($a_node);
 				break;
-			case 2: 
-				// $this->insertAttribute($a_node);
-				break;
+
 			case 3:
 				$this->insertText($a_node);
 				break;
+
 			case 4: 
 				// $this->insertCData($a_node);
 				break;
+
 			case 5: 
 				// $this->insertEntityRef($a_node);
 				break;
+
 			case 6: 
 				// $this->insertEntity($a_node);
 				break;
+
 			case 7: 
 				// $this->insertPI($a_node);
 				break;
+
 			case 8:
 				$this->insertComment($a_node);
 				break;
-			case 9: 
-				// $this->insertDocument($a_node);
-				break;
-			case 10: 
-				// $this->insertDoctype($a_node);
-				break;
+
 			default: 
 				// nix
 				break;
 		} // switch
 	} 
 
+	/**
+	* insertElement
+	* @access	private
+	* @param	array	node data
+	*/
 	function insertElement ($a_node)
 	{
-		$sql = "INSERT INTO lo_element_name_leaf " . "(node_id,leaf_text) " . "VALUES " . "('" . $a_node["node"] . "','" . $a_node["name"] . "')";
-
-		$res = $this->ilias->db->query($sql);
+		$element_id = $this->getEntryId("lo_element_name","element","element_id",$a_node["name"]);
+		
+		// insert element first if it doesn't exists
+		if ($element_id == false)
+		{
+			$q = "INSERT INTO lo_element_name (element) ".
+				 "VALUES ('".$a_node["name"]."')";
+			$this->ilias->db->query($q);
+			
+			$element_id = $this->getLastInsertId();
+		}
+		
+		// create reference entry
+		$q = "INSERT INTO lo_element_idx (node_id,element_id) ".
+			 "VALUES ('".$a_node["node"]."','".$element_id."')";
+		$this->ilias->db->query($q);
 	} 
 
+	/**
+	* insertText
+	* @access	private
+	* @param	array	node data
+	*/
 	function insertText ($a_node)
 	{
 		// klappt nicht, weil die spaces maskiert sind :-(
 		$content = trimDeluxe($a_node["content"]);
 	
-		$sql = "INSERT INTO lo_text_leaf " . "(node_id,leaf_text) " . "VALUES " . "('" . $a_node["node"] . "','" . $content . "')";
-
-		$res = $this->ilias->db->query($sql);
+		$q = "INSERT INTO lo_text ".
+			 "(node_id,textnode) ".
+			 "VALUES ".
+			 "('".$a_node["node"]."','".$content."')";
+		$this->ilias->db->query($q);
 	} 
 
+	/**
+	* insertComment
+	* @access	private
+	* @param	array	node data
+	*/
 	function insertComment ($a_node)
 	{
-		$sql = "INSERT INTO lo_comment_leaf " . "(node_id,leaf_text) " . "VALUES " . "('" . $a_node["node"] . "','" . $a_node["content"] . "')";
-
-		$res = $this->ilias->db->query($sql);
+		$q = "INSERT INTO lo_comment ".
+			 "(node_id,comment) ".
+			 "VALUES ".
+			 "('".$a_node["node"]."','".$a_node["content"]."')";
+		$this->ilias->db->query($q);
 	} 
 
+	/**
+	* insertAttributes
+	* @access	private
+	* @param	array	node data
+	* @return	boolean
+	*/
+	function insertAttributes ($a_node)
+	{
+		if (is_array($a_node["attr_list"]))
+		{
+			foreach ($a_node["attr_list"] as $attr => $value)
+			{
+				$attribute_id = $this->getEntryId("lo_attribute_name","attribute","attribute_id",$attr);
+
+				// insert attribute first if it doesn't exists
+				if ($attribute_id == false)
+				{
+					$q = "INSERT INTO lo_attribute_name (attribute) ".
+						 "VALUES ('".$attr."')";
+					$this->ilias->db->query($q);
+			
+					$attribute_id = $this->getLastInsertId();
+				}
+
+				$value_id = $this->getEntryId("lo_attribute_value","value","value_id",$value);
+
+				// insert attribute value first if it doesn't exists
+				if ($value_id == false)
+				{
+					$q = "INSERT INTO lo_attribute_value (value) ".
+						 "VALUES ('".$value."')";
+					$this->ilias->db->query($q);
+			
+					$value_id = $this->getLastInsertId();
+				}
+
+				// create reference entry
+				$q = "INSERT INTO lo_attribute_idx (node_id,attribute_id,value_id) ".
+					 "VALUES ".
+					 "('".$a_node["node"]."','".$attribute_id."','".$value_id."')";
+				$this->ilias->db->query($q);
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* getEntryId
+	* checks if a single value exists in database
+	* @access	private
+	* @param	string	db table name
+	* @param	string	table column
+	* @param	string	value you seek
+	* @return	boolean	true when value exists
+	*/
+	function getEntryId ($a_table,$a_column,$a_return_value,$a_value)
+	{
+		$q = "SELECT DISTINCT ".$a_return_value." FROM ".$a_table." ".
+			 "WHERE ".$a_column."='".$a_value."'";
+			 
+		$res = $this->ilias->db->query($q,DB_FETCHMODE_ASSOC);
+		
+		if ($res->numRows() == 0)
+		{
+			return false;
+		}
+
+		$row = $res->fetchRow();
+		return $row[0];
+	}
+
+	/**
+	* getLastInsertId
+	* @access	private
+	* @return	integer
+	*/
+	function getLastInsertId ()
+	{
+		$q = "SELECT LAST_INSERT_ID()";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow();
+		return $row[0];
+	}	
+
+	/**
+	* prepare db insertion with addslashes()
+	* @access	private
+	* @param	array
+	* @return	arrayr
+	*/
 	function prepareData ($a_data)
 	{
 		foreach ($a_data as $key => $value)
 		{
-			$data[$key] = addslashes($value);
+			if (is_string($value))
+				$data[$key] = addslashes($value);
+			else
+				$data[$key] = $value;			
 		}
 		
 		return $data;
