@@ -309,7 +309,7 @@ class ilPageObjectGUI
 	function showPage()
 	{
 		global $tree, $ilUser;
-
+//echo "<br><b>ilPageObjectGUI::showPage1</b>"; flush();
 		// init template
 		if($this->outputToTemplate())
 		{
@@ -342,21 +342,22 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}
 		}
-
+//echo "<br><b>ilPageObjectGUI::showPage2</b>"; flush();
 		// get content
 		$builded = $this->obj->buildDom();
-
+//echo "<br><b>ilPageObjectGUI::showPage3</b>"; flush();
 		$this->obj->addFileSizes();
+//echo "<br><b>ilPageObjectGUI::showPage3a</b>"; flush();
 		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();
 		}
 
-
+//echo "<br><b>ilPageObjectGUI::showPage4</b>"; flush();
 		$this->obj->addSourceCodeHighlighting();
-
+//echo "<br><b>ilPageObjectGUI::showPage5</b>"; flush();
 		$content = $this->obj->getXMLFromDom(false, true, true, $this->getLinkXML());
-
+//echo "<br><b>ilPageObjectGUI::showPage5</b>"; flush();
 		// check validation errors
 		if($builded !== true)
 		{

@@ -28,7 +28,7 @@ require_once "./classes/class.ilXML2DOM.php";
 * functions for storing XML-Data into nested-set-database-strcture
 *
 * @author Aresch Yavari <ay@databay.de>
-* @author Jens Conze <jc@databay.de> 
+* @author Jens Conze <jc@databay.de>
 * @version $Id: class.ilNestedSetXML.php
 *
 * @package ilias-core
@@ -172,7 +172,7 @@ class ilNestedSetXML
 	{
         // {{{
         /**
-        *   primary-key of last-content-block 
+        *   primary-key of last-content-block
         *   @var    integer    value_pk    Primary-Key of last Content-Blocks
         *   @access private
         */
@@ -180,7 +180,7 @@ class ilNestedSetXML
         
         if(trim($data)!="") {
 
-            if ($this->lastTag == "TAGVALUE") 
+            if ($this->lastTag == "TAGVALUE")
 			{
                 $Q = "UPDATE xmlvalue SET tag_value=concat(tag_value,'".addslashes($data)."') WHERE tag_value_pk='".$value_pk."' ";
                 $this->db->query($Q);
@@ -320,7 +320,7 @@ class ilNestedSetXML
 		$xml = "";
 		$lastDepth = -1;
 
-		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) 
+		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
         {
 
 			// {{{ tags
@@ -365,7 +365,7 @@ class ilNestedSetXML
 				$xml .= $Anfang;
 				$xmlE[$D] = $Ende;
 			} 
-            else if ($D>$lastDepth) 
+            else if ($D>$lastDepth)
             {
 				$xml .= $Anfang;
 				$xmlE[$D] = $Ende;
@@ -422,7 +422,7 @@ class ilNestedSetXML
     *
     *   @access public
     */
-    function getTagName() 
+    function getTagName()
 	{
 
         $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk LIMIT 1";
@@ -442,7 +442,7 @@ class ilNestedSetXML
     *
         @access public
     */
-    function setTagName($tagName) 
+    function setTagName($tagName)
 	{
         
 		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' LIMIT 1";
@@ -470,7 +470,7 @@ class ilNestedSetXML
         
         $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk=tag_pk AND ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l>='".$this->LEFT."' AND ns_r<='".$this->RIGHT."' AND tag_depth='".($this->DEPTH+1)."' ORDER BY ns_l";
 		$result = $this->db->query($query);
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) 
+        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
 		{
             if ($row[tag_name]=="TAGVALUE") 
 			{
@@ -478,7 +478,7 @@ class ilNestedSetXML
                 $result2 = $this->db->query($query);
                 $row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
                 $V[] = $row2[tag_value];
-            } 
+            }
 			else 
 			{
                 $xml = new ilNestedSetXml();
@@ -510,16 +510,16 @@ class ilNestedSetXML
         $query = "SELECT * FROM xmlnestedset,xmltags
 						LEFT JOIN xmlvalue ON xmltags.tag_pk=xmlvalue.tag_fk
 						WHERE ns_tag_fk=tag_pk AND 
-							ns_book_fk='".$this->obj_id."' AND 
-							ns_type='".$this->obj_type."' AND 
-							ns_l>='".$this->LEFT."' AND 
-							ns_r<='".$this->RIGHT."' AND 
+							ns_book_fk='".$this->obj_id."' AND
+							ns_type='".$this->obj_type."' AND
+							ns_l>='".$this->LEFT."' AND
+							ns_r<='".$this->RIGHT."' AND
 							tag_depth='".($this->DEPTH+1)."' AND
 							tag_name = 'TAGVALUE'
 							ORDER BY ns_l";
 		$result = $this->db->query($query);
 
-        if (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) 
+        if (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
 		{
 			
 			$query = "UPDATE xmlvalue SET tag_value='".addslashes($value)."' WHERE tag_value_pk='".$row["tag_value_pk"]."' ";
@@ -542,15 +542,16 @@ class ilNestedSetXML
     *   @param  object  doc
     *   @param  string  qry     path to node
     *
-    *   @return object  nodeset 
+    *   @return object  nodeset
 	*   @access    public
     */
-	function getXpathNodes(&$doc, $qry) 
+	function getXpathNodes(&$doc, $qry)
 	{
 		if (is_object($doc))
 		{
 			$xpath = $doc->xpath_init();
 			$ctx = $doc->xpath_new_context();
+//echo "<br><b>ilNestedSetXML::getXpathNodes</b>";
 			$result = $ctx->xpath_eval($qry);
 			if (is_array($result->nodeset))
 			{
@@ -563,7 +564,7 @@ class ilNestedSetXML
 	/**
 	*	inits dom-object from given xml-content
     *
-    *   @return boolean  
+    *   @return boolean
 	*   @access    public
 	*/
 	function initDom()
@@ -585,10 +586,10 @@ class ilNestedSetXML
 		$xml = $xml_test;
 */
 
-		if ($xml=="") 
+		if ($xml=="")
         {
 			return(false);
-		} 
+		}
         else 
         {
 			$this->dom = domxml_open_mem($xml);
@@ -606,9 +607,10 @@ class ilNestedSetXML
     *   @return boolean
 	*   @access    public
 	*/
-	function addXMLNode($xPath, $xml, $index = 0) 
+	function addXMLNode($xPath, $xml, $index = 0)
 	{
 		$newDOM = new XML2DOM($xml);
+//echo "<br>addXMLNode:-".htmlspecialchars($this->dom->dump_mem(0));
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 
 		if (count($nodes) > 0)
@@ -630,8 +632,9 @@ class ilNestedSetXML
     *   @return string  content of node
 	*   @access    public
 	*/
-	function getFirstDomContent($xPath) 
+	function getFirstDomContent($xPath)
 	{
+//echo "<br>ilNestedSetXML::getFirstDomContent-start-$xPath-"; flush();
 		$content = "";
 		if (is_object($this->dom))
 		{
@@ -639,9 +642,14 @@ class ilNestedSetXML
 			if (is_array($node))
 			{
 				$c = $node[0]->children();
-				$content = $c[0]->content;
+				//$content = $c[0]->content;		// ## changed
+				if (is_object($c[0]))
+				{
+					$content = $c[0]->get_content();		// ## changed
+				}
 			}
 		}
+//echo "<br>ilNestedSetXML::getFirstDomContent-stop-$content-"; flush();
 		return($content);
 	}	
 	
@@ -673,7 +681,7 @@ class ilNestedSetXML
 					$j = 0;
 					for ($i = 0; $i < count($children); $i++)
 					{
-						if ($children[$i]->tagname == $name)
+						if ($children[$i]->node_name() == $name)
 						{
 							if ($j == $indices[1])
 							{
@@ -908,7 +916,7 @@ class ilNestedSetXML
 					$xml .= '<Coverage Language="' . ilUtil::stripSlashes($meta["Coverage"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Coverage"]["Value"]) . '</Coverage>';
 				}
 				$xml .= '</General>';
-#				echo htmlspecialchars($xml);
+//echo "<br><br>".htmlspecialchars($xml);
 
 				$update = true;
 			}
@@ -1156,8 +1164,9 @@ class ilNestedSetXML
 				{
 					$xPath = "//MetaData";
 				}
+//echo "<br><br>savedA:".htmlspecialchars($this->dom->dump_mem(0));
 				$this->addXMLNode($xPath, $xml);
-				#echo htmlspecialchars($this->dom->dump_mem(0));
+//echo "<br><br>savedB:".htmlspecialchars($this->dom->dump_mem(0));
 			}
 			return true;
 		}
@@ -1165,8 +1174,8 @@ class ilNestedSetXML
 		{
 			return false;
 		}
-	}	
-	
+	}
+
 	/**
 	*	returns all contents of this node
     *
@@ -1177,7 +1186,7 @@ class ilNestedSetXML
     *   @return string  content
 	*   @access    public
 	*/
-	function getDomContent($xPath, $name = "", $index = 0) 
+	function getDomContent($xPath, $name = "", $index = 0)
 	{
 		if ($index == "")
 		{
@@ -1193,14 +1202,15 @@ class ilNestedSetXML
 				$k = 0;
 				for ($i = 0; $i < count($children); $i++)
 				{
+//echo "<br>ilNestedSetXML::getDomContent-".$children[$i]->node_name()."-".$name;
 					if ($name == "" ||
-						$children[$i]->tagname == $name)
+						$children[$i]->node_name() == $name)
 					{
 						$content[$k]["value"] = $children[$i]->get_content();
 						$a = $children[$i]->attributes();
 						for ($j = 0; $j < count($a); $j++)
 						{
-							$content[$k][$a[$j]->name] = $a[$j]->value;
+							$content[$k][$a[$j]->name()] = $a[$j]->value();
 						}
 						$k++;
 					}
@@ -1216,7 +1226,7 @@ class ilNestedSetXML
 	*	updates content of this node
     *   @param  string  xPath
     *   @param  string  name
-    *   @param  integer index   
+    *   @param  integer index
     *   @param  array   newNode
 	*   @access    public
 	*/
@@ -1231,7 +1241,7 @@ class ilNestedSetXML
 			{
 				for ($i = 0; $i < count($children); $i++)
 				{
-					if ($children[$i]->tagname == $name &&
+					if ($children[$i]->node_name() == $name &&
 						is_array($newNode))
 					{
 						foreach ($newNode as $key => $val)

@@ -54,7 +54,7 @@ class XMLStruct
 	{
 		$struct = new XMLStruct($a_name, $a_attrs);
 		$struct->parent =& $GLOBALS["lastObj"];
-		
+
 		$GLOBALS["lastObj"] =& $struct;
 		$this->childs[] =& $struct;
 	}
@@ -72,6 +72,7 @@ class XMLStruct
 	*/
 	function setContent($a_data)
 	{
+//echo "<br>XMLStruct:setContent-".$this->name."-$a_data-";
 		$this->content[] = $a_data;
 	}
 
@@ -93,7 +94,7 @@ class XMLStruct
 			reset ($this->attrs);
 			while (list ($key, $val) = each ($this->attrs)) {
 				$newNode->set_attribute($key, $val);
-			}			
+			}
 		}
 		$node = $node->append_child($newNode);
 		for ($j = 0; $j < count($this->childs); $j++)
@@ -114,7 +115,7 @@ class XML2DOM
 		xml_set_object($xml_parser, $this);
 		xml_set_element_handler($xml_parser, "startElement", "endElement");
 		xml_set_character_data_handler($xml_parser, "characterData");
-					
+
 		if (!xml_parse($xml_parser, $a_xml, true))
 		{
 			die(sprintf("XML error: %s at line %d",
@@ -138,7 +139,7 @@ class XML2DOM
 		}
 		return $attr;
 	}
-				
+
 
 	function startElement($a_parser, $a_name, $a_attrs)
 	{
