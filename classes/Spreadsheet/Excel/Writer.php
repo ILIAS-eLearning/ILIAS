@@ -32,7 +32,7 @@
 */
 
 require_once('PEAR.php');
-require_once('Writer/Workbook.php');
+require_once('classes/Spreadsheet/Excel/Writer/Workbook.php');
 
 /**
 * Class for writing Excel Spreadsheets. This class should change COMPLETELY.
