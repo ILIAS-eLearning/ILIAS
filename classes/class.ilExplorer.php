@@ -235,7 +235,7 @@ class ilExplorer
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/plus.gif"));
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -244,7 +244,7 @@ class ilExplorer
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/minus.gif"));
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -252,7 +252,7 @@ class ilExplorer
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
 				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/".$picture.".gif"));
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
 			}
 		}
