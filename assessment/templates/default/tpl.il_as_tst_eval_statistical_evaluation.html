@@ -39,20 +39,30 @@
 <td class="std" valign="top">{TXT_TITLE}</td>
 <!-- END titlecol -->
 </tr>
-<!-- BEGIN row --> 
+<!-- BEGIN row -->
 <tr class="{COLOR_CLASS}">
 <!-- BEGIN datacol -->
 <td class="{COLOR_CLASS}">{TXT_DATA}</td>
 <!-- END datacol -->
 </tr>
-<!-- END row --> 
-<!-- BEGIN emptyrow --> 
+<!-- END row -->
+<!-- BEGIN emptyrow -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}" colspan="2">{TXT_NO_ANONYMOUS_AGGREGATION}</td>
 </tr>
-<!-- END emptyrow --> 
+<!-- END emptyrow -->
 </table>
 <!-- END output -->
+</br>
+<!-- BEGIN xls_btn -->
+<table width="100%">
+<tr>
+<td width=100%>
+<input type="submit" class="submit" name="cmd[genXls]" value="{GENERATE_XLS}"
+</td></tr>
+</table>
+<!-- END xls_btn -->
+
 <!-- BEGIN legend -->
 <h2><a name="legend"></a>{TXT_LEGEND}</h2>
 <br />
@@ -61,11 +71,11 @@
 <td class="std" valign="top">{TXT_SYMBOL}</td>
 <td class="std" valign="top">{TXT_MEANING}</td>
 </tr>
-<!-- BEGIN legendrow --> 
+<!-- BEGIN legendrow -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}">{TXT_SYMBOL}</td>
 <td class="{COLOR_CLASS}">{TXT_MEANING}</td>
 </tr>
-<!-- END legendrow --> 
+<!-- END legendrow -->
 </table>
 <!-- END legend -->
