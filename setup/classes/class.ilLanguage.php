@@ -182,6 +182,11 @@ class ilLanguage
 		return $languages;
 	}
 
+	/**
+	* install languages
+	* @param	array	array with lang_keys of languages to install
+	* @return	boolean	true on success
+	*/
 	function installLanguages($a_lang_keys)
 	{
 		if (empty($a_lang_keys))
@@ -250,7 +255,10 @@ class ilLanguage
 		return ($err_lang) ? $err_lang : true;
 	}
 
-	// get already installed languages
+	/**
+	* get already installed languages (in db)
+	* @return	array	array with inforamtino of each installed language
+	*/
 	function getInstalledLanguages()
 	{
 		$arr = array();
@@ -268,7 +276,10 @@ class ilLanguage
 		return $arr;
 	}
 	
-	// get already registered languages
+	/**
+	* get already registered languages (in db)
+	* @return	array	array with information about languages that has been registered in db
+	*/
 	function getAvailableLanguages()
 	{
 		$arr = array();
@@ -285,6 +296,7 @@ class ilLanguage
 
 		return $arr;
 	}
+
 	/**
 	* validate the logical structure of a lang-file
 	*
@@ -361,7 +373,6 @@ class ilLanguage
 
 	/**
 	* remove all languagee from database
-	*
 	*/
 	function flushLanguages ()
 	{
@@ -441,6 +452,11 @@ class ilLanguage
 		return $languages;
 	}
 	
+	/**
+	* set db handler object
+	* @string	object	db handler
+	* @return	boolean	true on success
+	*/
 	function setDbHandler ($a_db_handler)
 	{
 		if (empty($a_db_handler) or !is_object($a_db_handler))

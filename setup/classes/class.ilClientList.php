@@ -42,6 +42,9 @@ class ilClientList
 		$this->init();
 	}
 
+	/**
+	* load all clients into clientlist
+	*/
 	function init()
 	{
 		// set path to directory where clients reside
@@ -66,6 +69,10 @@ class ilClientList
 		chdir($tmpPath);
 	}
 	
+	/**
+	* get all clients
+	* @return	array	array with client objects
+	*/
 	function getClients()
 	{
 		return ($this->clients) ? $this->clients : array();

@@ -115,28 +115,45 @@ class ilClient
 		$this->webspace_dir = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->id;
 	}
 	
+	/**
+	* get client name
+	* @return	string	client name
+	*/
 	function getName()
 	{
 		return $this->ini->readVariable("client","name");
 	}
 	
+	/**
+	* set client name
+	* @param	string	client name
+	*/
 	function setName($a_str)
 	{
 		$this->ini->setVariable("client","name",$a_str);
 	}
 	
+	/**
+	* get client description
+	* @return	string	client description
+	*/
 	function getDescription()
 	{
 		return $this->ini->readVariable("client","description");
 	}
 	
+	/**
+	* set client description
+	* @param	string	client description
+	*/
 	function setDescription($a_str)
 	{
 		$this->ini->setVariable("client","description",$a_str);
 	}
 
 	/**
-	* connect
+	* connect to client database
+	* @return	boolean	true on success
 	*/
 	function connect()
 	{
@@ -162,7 +179,9 @@ class ilClient
 	}
 
 	/**
-	* installed db?
+	* check if client db is installed
+	* @param	object	db object
+	* @return	boolean	true if installed
 	*/
 	function isInstalledDB(&$a_db)
 	{
@@ -188,7 +207,7 @@ class ilClient
 	}
 
 	/**
-	* set the dsns
+	* set the dsn and dsn_host
 	*/
 	function setDSN()
 	{
@@ -206,6 +225,11 @@ class ilClient
 		$this->ini->setVariable("db","host",$a_str);
 	}
 	
+	/**
+	* get db host
+	* @return	string	db host
+	* 
+	*/
 	function getDbHost()
 	{
 		return $this->ini->readVariable("db","host");
@@ -222,7 +246,7 @@ class ilClient
 
 	/**
 	* get name of database
-	* @return		string		name of database
+	* @return	string	name of database
 	*/
 	function getDbName()
 	{
@@ -230,21 +254,25 @@ class ilClient
 	}
 
 	/**
-	* set the user
-	* @param	string
+	* set db user
+	* @param	string	db user
 	*/
 	function setDbUser($a_str)
 	{
 		$this->ini->setVariable("db","user",$a_str);
 	}
 	
+	/**
+	* get db user
+	* @return	string	db user
+	*/
 	function getDbUser()
 	{
 		return $this->ini->readVariable("db","user");
 	}
 
 	/**
-	* set the password
+	* set db password
 	* @param	string
 	*/
 	function setDbPass($a_str)
@@ -252,16 +280,28 @@ class ilClient
 		$this->ini->setVariable("db","pass",$a_str);
 	}
 	
+	/**
+	* get db password
+	* @return	string	db password
+	*/
 	function getDbPass()
 	{
 		return $this->ini->readVariable("db","pass");
 	}
 
+	/**
+	* get client datadir path
+	* @return	string	client datadir path
+	*/
 	function getDataDir()
 	{
 		return ILIAS_DATA_DIR."/".$this->getId();
 	}
 
+	/**
+	* get client webspacedir path
+	* @return 	string	clietn webspacedir path
+	*/
 	function getWebspaceDir()
 	{
 		return ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId();
@@ -286,8 +326,8 @@ class ilClient
 	}
 
 	/**
-	* check database connection
-	* @return	array
+	* check database connection with database name
+	* @return	boolean
 	*/
 	function checkDatabaseExists()
 	{
@@ -362,6 +402,10 @@ class ilClient
 		return true;
 	}
 	
+	/**
+	* @param	string	url to ilias nic server
+	* @return	string	url with required parameters
+	*/
 	function getURLStringForNIC($a_nic_url)
 	{
 		$settings = $this->getAllSettings();
@@ -493,6 +537,10 @@ class ilClient
 		return true;
 	}
 
+	/**
+	* get error message and clear error var
+	* @return	string	error message
+	*/
 	function getError()
 	{
 		$error = $this->error;
@@ -501,6 +549,14 @@ class ilClient
 		return $error;
 	}
 	
+	/**
+	* delete client
+	* @param	boolean	remove ini if true
+	* @param	boolean	remove db if true
+	* @param	boolean remove files if true
+	* @return	array	confirmation messages
+	* 
+	*/
 	function delete ($a_ini = true, $a_db = false, $a_files = false)
 	{
 		if ($a_ini === true and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId()."/client.ini.php"))
@@ -526,6 +582,10 @@ class ilClient
 		return $msg;
 	}
 
+	/**
+	* create a new client and its subdirectories
+	* @return	boolean	true on success
+	*/
 	function create()
 	{
 		//var_dump($this->getDataDir());exit;
@@ -602,5 +662,5 @@ class ilClient
 
 		return true;
 	}
-}
+} // END class.ilClient
 ?>
