@@ -301,6 +301,7 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
+assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
