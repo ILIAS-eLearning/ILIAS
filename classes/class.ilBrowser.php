@@ -85,11 +85,19 @@ class ilBrowser
 		{
 			$this->BROWSER_VER   = $log_version[1];
 			$this->BROWSER_AGENT = 'iCab';
-		} 
-		elseif(ereg('Gecko',$HTTP_USER_AGENT,$log_version))
+		}
+		elseif(eregi('Mozilla ([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version) ||
+			eregi('Mozilla/([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version))
 		{
 			$this->BROWSER_VER   = $log_version[1];
-			$this->BROWSER_AGENT = 'MOZILLA';
+			if (ereg('Gecko',$HTTP_USER_AGENT,$log_version))
+			{
+				$this->BROWSER_AGENT = 'Mozilla';
+			}
+			else
+			{
+				$this->BROWSER_AGENT = 'Netscape';
+			}
 		}
 		elseif(ereg('Konqueror/([0-9].[0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version) ||
 			ereg('Konqueror/([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
@@ -131,11 +139,12 @@ class ilBrowser
 			$this->BROWSER_PLATFORM='Other';
 		}
 
-		/*
+/*
 		echo "<br>Agent: $HTTP_USER_AGENT";
 		echo "<br><b>Browser</b>";
 		echo "<br>IE: ".$this->isIE();
 		echo "<br>Netscape: ".$this->isNetscape();
+		echo "<br>Mozilla: ".$this->isMozilla();
 		echo "<br>Firefox: ".$this->isFirefox();
 		echo "<br>Safari: ".$this->isSafari();
 		echo "<br>Opera: ".$this->isOpera();
@@ -147,9 +156,9 @@ class ilBrowser
 		echo "<br>Beos: ".$this->isBeos();
 		echo "<br><b>Summary</b>";
 		echo "<br>OS: ".$this->getPlatform();
-		echo "<br>Version: ".$this->getVersion();
+		echo "<br>Version: ".$this->getVersion(false);
 		echo "<br>Agent: ".$this->getAgent();
-		*/
+*/
 
 		// The br and p functions are supposed to return the correct
 		// value for tags that do not need to be closed.  This is
@@ -171,7 +180,7 @@ class ilBrowser
 	{
 		$this->data = array(
 			'agent'    => $this->getAgent(),
-			'version'  => $this->getVersion(),
+			'version'  => $this->getVersion(false),
 			'platform' => $this->getPlatform()
 		);
 
@@ -183,9 +192,9 @@ class ilBrowser
 		return $this->BROWSER_AGENT;
 	}
 
-	function getVersion()
+	function getVersion($a_as_array = true)
 	{
-		return $this->BROWSER_VER;
+		return explode(".", $this->BROWSER_VER);
 	}
 
 	function getPlatform()
@@ -265,9 +274,27 @@ class ilBrowser
 		}
 	}
 
+	/**
+	* means: Netscape/Mozilla without Gecko engine
+	*/
 	function isNetscape()
 	{
-		if($this->getAgent()=='MOZILLA')
+		if($this->getAgent()=='Netscape')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* means: Netscape/Mozilla with Gecko engine
+	*/
+	function isMozilla()
+	{
+		if($this->getAgent()=='Mozilla')
 		{
 			return true;
 		}
@@ -288,7 +315,7 @@ class ilBrowser
 			return false;
 		}
 	}
-	
+
 	function isSafari()
 	{
 		if($this->getAgent()=='Safari')
