@@ -22,6 +22,7 @@
 */
 
 require_once("classes/class.ilTableGUI.php");
+require_once("classes/class.ilObjGroupGUI.php");
 
 /**
 * Class ilRepositoryGUI
@@ -41,6 +42,7 @@ class ilRepositoryGUI
 	var $cur_ref_id;
 	var $cmd;
 	var $mode;
+	var $ctrl;
 
 	/**
 	* Constructor
@@ -48,7 +50,8 @@ class ilRepositoryGUI
 	*/
 	function ilRepositoryGUI()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $_GET;
+		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
+			$_GET, $ilCtrl;
 
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
@@ -56,6 +59,8 @@ class ilRepositoryGUI
 		$this->tree =& $tree;
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// determine current ref id and mode
 		if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
@@ -113,19 +118,38 @@ class ilRepositoryGUI
 	}
 
 
-	function executeCommand()
+	/**
+	* get forward scripts
+	*/
+	function _forwards()
 	{
-		$cmd = (!empty($_GET["cmd"]))
-			? $_GET["cmd"]
-			: "showList";
+		return array("ilObjGroupGUI");
+	}
 
-		if ($cmd == "post")
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch ($next_class)
 		{
-			$cmd = key($_POST["cmd"]);
-		}
-		$this->cmd = $cmd;
+			case "ilobjgroupgui":
+				$group_gui = new ilObjGroupGUI("", $_GET["ref_id"], true, false);
+				$ret =& $group_gui->executeCommand();
+				$this->tpl->show();
+				return;
+				break;
 
-		$this->$cmd();
+			default:
+				$cmd = $this->ctrl->getCmd("showList");
+				$this->cmd = $cmd;
+				$this->$cmd();
+				break;
+		}
 	}
 
 
@@ -1146,12 +1170,14 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
+				$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $cont_data["ref_id"]);
+				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI", "view");
+				//$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
 				$tpl->setVariable("LINK_TARGET", "bottom");
-				
+
 				// add to desktop link
 				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
 				{
