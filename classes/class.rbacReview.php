@@ -98,7 +98,7 @@ class RbacReview
 	* @access	public
 	* @param	integer	role_id
 	* @param	string	object type
-	* @param	integer	???
+	* @param	integer	??? i think ist a ref_id
 	* @return	array	array of operation_id
 	*/
 	function getOperations($a_rol_id,$a_type,$a_parent = 0)

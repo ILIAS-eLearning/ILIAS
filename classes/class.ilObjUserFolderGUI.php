@@ -3,7 +3,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.3 2003/03/28 18:33:46 akill Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.4 2003/04/01 09:11:09 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,5 +67,37 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
 		}
 	} //function
+	
+	/**
+	* confirmObject
+	* 
+	* 
+	*/
+	function confirmObject()
+	{
+		global $rbacsystem;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
+		{
+			$perform_delete = false;
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
+						 $not_deletable,$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			require_once("class.ilObjUser.php");
+			
+			// FOR ALL SELECTED OBJECTS
+			foreach ($_SESSION["saved_post"] as $id)
+			{
+				$user = new ilObjUser($id);
+				$user->delete();
+			}
+			
+			// Feedback
+			sendInfo($this->lng->txt("info_deleted"),true);	
+		}
+	}
 } // END class.UserFolderObjectOut
 ?>

@@ -33,22 +33,18 @@ class ilObjRole extends ilObject
 	{
 		global $tree, $rbacadmin;
 		
-		if($rbacadmin->isAssignable($this->getId()))
+		if ($rbacadmin->isAssignable($this->getId(),$_GET["ref_id"]))
 		{
 			// IT'S THE BASE ROLE
-			$rbacadmin->deleteRole($this->getId());
+			$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
 			
-			//remove role entry in object_data
-			parent::delete();
-			
-			//TODO: delete references	
+			// delete object_data entry
+			deleteObject($this->getId());
 		}
 		else
 		{
 			// INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-			$rbacadmin->deleteLocalRole($this->getId());
-
-			//TODO: delete references	
+			$rbacadmin->deleteLocalRole($this->getId(),$_GET["ref_id"]);
 		}
 
 		return true;
