@@ -623,6 +623,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Mandanten ID
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
@@ -638,6 +639,7 @@ common#:#continue_work#:#Fortsetzen
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
@@ -1535,6 +1538,7 @@ common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
 common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
 common#:#remove#:#Entfernen
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
@@ -1592,6 +1596,7 @@ common#:#save_settings#:#Einstellungen speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Suchen in
 common#:#search_new#:#Neue Suche
 common#:#search_recipient#:#Empfänger suchen
@@ -1660,6 +1665,7 @@ common#:#structure#:#Gliederung
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Abschicken
 common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
@@ -1692,9 +1698,14 @@ common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
 common#:#taxf_visible#:#Taxonomienordner ist sichtbar
 common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Interner Test
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests
 common#:#time#:#Zeit
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Titel
 common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
@@ -1745,6 +1756,7 @@ common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
 common#:#usr_add#:#Neuer Benutzer

@@ -623,6 +623,7 @@ common#:#choose_location#:#Kies locatie
 common#:#choose_only_one_language#:#A.u.b. slechts  één taal kiezen
 common#:#city#:#Stad
 common#:#clear#:#Afbreken
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#Client-ID
 common#:#clipboard#:#Plakboord
 common#:#close#:#Sluiten
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copie
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copie van
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Land
 common#:#course#:#Cursus
 common#:#courses#:#Cursussen
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Wijzig rechten-instellingen
 common#:#ldap_read#:#Lees-recht tot LDAP-instellingen
 common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar
 common#:#ldap_write#:#Wijzig LDAP-instellingen
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Lesobjecten
 common#:#learning_resources#:#Leerbronnen
 common#:#level#:#Niveau
@@ -1535,6 +1538,7 @@ common#:#registered_users#:#geregistreerde gebruikers
 common#:#registration#:#Registratie van een nieuw account
 common#:#registration_expired#:#De registratie-peride is verlopen...
 common#:#remove#:#Verwijder
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Verwijder vertaling
 common#:#rename#:#Geef een nieuwe naam
 common#:#rename_file#:#Rename File###03 May 2004 new variable
@@ -1592,6 +1596,7 @@ common#:#save_settings#:#Opslaan Instellingen
 common#:#saved#:#Opgeslagen
 common#:#saved_successfully#:#Succesvol opgeslagen
 common#:#search#:#Zoeken
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Zoeken in
 common#:#search_new#:#Nieuwe zoekopdracht
 common#:#search_recipient#:#Zoek ontvanger
@@ -1660,6 +1665,7 @@ common#:#structure#:#Structuur
 common#:#subcat_name#:#Subcategorie-naam
 common#:#subchapter_new#:#Nieuwe paragraaf
 common#:#subject#:#Subject
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Verzend
 common#:#subobjects#:#Subobjecten
 common#:#subscription#:#Abonnement
@@ -1692,9 +1698,14 @@ common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
 common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Begrip
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Interne test
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Testen
 common#:#time#:#Tijd
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Titel
 common#:#to#:#Naar
 common#:#to_client_list#:#Naar klant-selectie
@@ -1745,6 +1756,7 @@ common#:#username#:#Gebruikers-naam
 common#:#users#:#Gebruikers
 common#:#users_not_imported#:#De volgende gebruikers bestaan niet, hum berichten kunnen niet geïmporteerd worden
 common#:#users_online#:#Gebruikers online
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Gebruiker
 common#:#usr_a#:#een gebruiker
 common#:#usr_add#:#Toevoegen gebruiker

@@ -623,6 +623,7 @@ common#:#choose_location#:#Vyberte umístění
 common#:#choose_only_one_language#:#Vyberte prosím pouze jeden jazyk
 common#:#city#:#Město
 common#:#clear#:#Vymazat
+common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID klienta
 common#:#clipboard#:#Schránka
 common#:#close#:#Zavřít
@@ -638,6 +639,7 @@ common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Kopírovat
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Kopie
+common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Země
 common#:#course#:#Kurz
 common#:#courses#:#Kurzy
@@ -1091,6 +1093,7 @@ common#:#ldap_edit_permission#:#Change permission settings###16 Mar 2004 new var
 common#:#ldap_read#:#Read access to LDAP settings###16 Mar 2004 new variable
 common#:#ldap_visible#:#LDAP settings are visible###16 Mar 2004 new variable
 common#:#ldap_write#:#Edit LDAP settings###16 Mar 2004 new variable
+common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_resources#:#Výukové materiály
 common#:#level#:#Úroveň
@@ -1535,6 +1538,7 @@ common#:#registered_users#:#registovaných uživatelů
 common#:#registration#:#Registrace nového účtu
 common#:#registration_expired#:#Registrační období vypršelo...
 common#:#remove#:#Opustit###25 Mar 2004 content changed
+common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Odstranit překlad
 common#:#rename#:#Přejmenovat
 common#:#rename_file#:#Rename File###03 May 2004 new variable
@@ -1592,6 +1596,7 @@ common#:#save_settings#:#Save Settings###16 Mar 2004 new variable
 common#:#saved#:#Uloženo
 common#:#saved_successfully#:#Úspěšně uloženo
 common#:#search#:#Vyhledávání
+common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Vyhledávat v
 common#:#search_new#:#Nové hledání
 common#:#search_recipient#:#Hledat příjemce
@@ -1660,6 +1665,7 @@ common#:#structure#:#Struktura
 common#:#subcat_name#:#Název podkategorie
 common#:#subchapter_new#:#Nová podkapitola
 common#:#subject#:#Předmět
+common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Odeslat
 common#:#subobjects#:#Podřízené objekty
 common#:#subscription#:#Přihlášení
@@ -1692,9 +1698,14 @@ common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
 common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
 common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Pojem
+common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Test Intern### translation not available
+common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests###16 Mar 2004 new variable
 common#:#time#:#Čas
+common#:#time_d#:#Day###24 Jun 2004 new variable
+common#:#time_h#:#Hour###24 Jun 2004 new variable
+common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Název
 common#:#to#:#Komu
 common#:#to_client_list#:#Výběr klienta
@@ -1745,6 +1756,7 @@ common#:#username#:#Uživatelské jméno
 common#:#users#:#Uživatelé
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Přihlášení uživatelé
+common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Uživatel
 common#:#usr_a#:#uživatel
 common#:#usr_add#:#Přidat uživatele
