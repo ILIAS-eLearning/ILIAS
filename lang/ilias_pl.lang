@@ -3941,6 +3941,7 @@ survey#:#geometric_mean#:#Średnia geometryczna
 survey#:#given_answers#:#Podane odpowiedzi
 survey#:#harmonic_mean#:#Średnia harmoniczna
 survey#:#heading#:#Heading###10 Nov 2004 new variable
+survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Wstaw po
 survey#:#insert_before#:#Wstaw przed
@@ -3995,6 +3996,7 @@ survey#:#on#:#wł
 survey#:#online#:#online###05 Nov 2004 new variable
 survey#:#or#:#lub
 survey#:#ordinal_question_not_checked#:#Wybierz jedną z proponowanych odpowiedzi!
+survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadzila tę wartość
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
 survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
@@ -4110,6 +4112,7 @@ survey#:#users_answered#:#Użytkownicy, którzy udzielili odpowiedzi
 survey#:#users_skipped#:#Użytkownicy, którzy pominęli odpowiedź
 survey#:#value_nr_entered#:#Ilość uzytkowników, która opodała tę wartość
 survey#:#values#:#Wartości
+survey#:#vertical#:#vertical###18 Nov 2004 new variable
 survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Pokaż frazę
 survey#:#warning_question_in_use#:#Uwaga! Pytanie, które chcesz edytować jest używane przez podane poniżej ankiety. Jeśli będziesz kontynuował i zapiszesz/zastosujesz pytanie,  wszystkie odpowiedzi poniższych ankiet zostaną usunięte. Jeśli chcesz zmienić pytanie i użyć go w innej ankiecie, wybierz powielenie w przeglądarce pytań dla utworzenia nowej wersji tego pytania.

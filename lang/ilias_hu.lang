@@ -3941,6 +3941,7 @@ survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok
 survey#:#harmonic_mean#:#Harmonic mean###05 Nov 2004 new variable
 survey#:#heading#:#Heading###10 Nov 2004 new variable
+survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Beszúrás utána
 survey#:#insert_before#:#Beszúrás előtte
@@ -3995,6 +3996,7 @@ survey#:#on#:#bekapcsolás
 survey#:#online#:#on-line
 survey#:#or#:#vagy
 survey#:#ordinal_question_not_checked#:#Ellenőrizzen egy felajánlott választ!
+survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.
 survey#:#percentage_of_selections#:#Felhasználók azon százaléka, akik kiválasztották ezt a kategóriát.
 survey#:#predefined_users#:#Előredefiniált felhasználói beállítás
@@ -4110,6 +4112,7 @@ survey#:#users_answered#:#A felhasználók válaszoltak
 survey#:#users_skipped#:#A felhasználók kihagyták
 survey#:#value_nr_entered#:#Azon felhasználók száma, akik azt az értéket adták meg
 survey#:#values#:#Értékek
+survey#:#vertical#:#vertical###18 Nov 2004 new variable
 survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés! A kérdést, amit szerkeszteni akar, használják az alább listázott felmérések. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, a felmérés minden alább listázott válasza törlődik. Ha meg akarja változtatni a kérdést és másik felmérésben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, hogy a kérdés új példányát létrehozza.

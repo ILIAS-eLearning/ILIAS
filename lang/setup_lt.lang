@@ -38,6 +38,7 @@ absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
 access_status#:#Access status###21 Nov 2003 new variable
 admin_login#:#Login as Administrator###05 Jan 2003 new variable
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Available Clients###05 Jan 2003 new variable
 available_languages#:#galimos kalbos
 back#:#atgal
@@ -268,6 +269,7 @@ no_path_zip#:#No zip path given###05 Jan 2003 new variable
 no_setup_pass_given#:#No setup password given###05 Jan 2003 new variable
 no_username#:#No username given###28 Nov 2003 new variable
 no_valid_client_id#:#No valid client ID###05 Jan 2003 new variable
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Nėra ryšio su duomenų baze.
 online#:#online###05 Jan 2003 new variable
 or#:#or###05 Jan 2003 new variable
@@ -322,6 +324,7 @@ safe_mode_enabled#:#Safe mode is enabled!###28 Nov 2003 new variable
 save#:#Save###21 Nov 2003 new variable
 save_error#:#Save Error!###28 Nov 2003 new variable
 saved_successfully#:#Saved successfully###21 Nov 2003 new variable
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Select a Client###28 Nov 2003 new variable
 server_info#:#Server Information###21 Nov 2003 new variable
 server_software#:#Server software###21 Nov 2003 new variable
@@ -362,6 +365,7 @@ setup_process_step_lang#:#install system languages###28 Nov 2003 new variable
 setup_process_step_nic#:#register at ILIAS-NIC###28 Nov 2003 new variable
 setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.
 setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sort by this column###05 Jan 2003 new variable
 status#:#Status###21 Nov 2003 new variable
 step#:#Step###21 Nov 2003 new variable
@@ -378,6 +382,7 @@ update_error#:#Atnaujinimas nesėkmingas
 update_not_found#:#Atnaujinimas nerastas!
 username#:#username###28 Nov 2003 new variable
 version#:#versija
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#Internetinis duomenų kelias###14 Sep 2004 content changed
 with#:#su
 wrong_password#:#Klaidingas slaptažodis!###15 Jan 2004 content changed

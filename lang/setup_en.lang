@@ -38,6 +38,7 @@ absolute_path#:#Absolute path
 access#:#Access
 access_status#:#Access status
 admin_login#:#Login as Administrator
+antivir#:#AntiVir
 available_clients#:#Available Clients
 available_languages#:#available languages
 back#:#back
@@ -142,11 +143,6 @@ fop_path_comment#:#required to generate PDF documents
 hide_clientlist#:#Hide client selection
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
-virus_scanner#:#Virus Scanner
-none#:#None
-sophos#:#Sophos
-antivir#:#AntiVir
-scan_command#:#Scan Command
 htmldoc_path_comment#:#required to generate PDF documents
 http_path#:#HTTP path
 id#:#ID
@@ -274,6 +270,7 @@ no_path_zip#:#No zip path given
 no_setup_pass_given#:#No setup password given
 no_username#:#No username given
 no_valid_client_id#:#No valid client ID
+none#:#None
 not_connected_to_db#:#You are not connected to database
 online#:#online
 or#:#or
@@ -328,6 +325,7 @@ safe_mode_enabled#:#Safe mode is enabled!
 save#:#Save
 save_error#:#Save Error!
 saved_successfully#:#Saved successfully
+scan_command#:#Scan Command
 select_client#:#Select a Client
 server_info#:#Server Information
 server_software#:#Server software
@@ -368,6 +366,7 @@ setup_process_step_lang#:#Install system languages
 setup_process_step_nic#:#Register at ILIAS-NIC
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
 setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
+sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
 status#:#Status
 step#:#Step
@@ -384,6 +383,7 @@ update_error#:#Error while updating
 update_not_found#:#Update not found!
 username#:#username
 version#:#Version
+virus_scanner#:#Virus Scanner
 webspace_dir#:#web space data path
 with#:#with
 wrong_password#:#Wrong password!

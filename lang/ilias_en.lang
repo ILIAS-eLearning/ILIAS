@@ -38,7 +38,10 @@ administration#:#analyze_data#:#Analyze data Integrity
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#analyzing#:#Analyzing...
 administration#:#analyzing_tree_structure#:#Analyzing tree structure...
+administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
+administration#:#check_tree#:#Check tree structure
+administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
@@ -49,10 +52,6 @@ administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
-administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
-administration#:#analyzing_tree_structure#:#Analyzing tree structure...
-administration#:#check_tree#:#Check tree structure
-administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
@@ -87,13 +86,14 @@ administration#:#searching_deleted_objs#:#Searching for deleted objects...
 administration#:#searching_invalid_childs#:#Searching for invalid tree entries...
 administration#:#searching_invalid_refs#:#Searching for invalid references...
 administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
+administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
 administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
-administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
 administration#:#skipped#:#skipped
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#System check
+administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
@@ -918,7 +918,6 @@ common#:#cutPage#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
-common#:#no_datasets#:#The table is empty
 common#:#date#:#Date
 common#:#dateplaner#:#Calendar
 common#:#day#:#Day
@@ -1675,6 +1674,7 @@ common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
+common#:#no_datasets#:#The table is empty
 common#:#no_datasets#:#The table is empty
 common#:#no_date#:#No date
 common#:#no_description#:#No description
@@ -3947,6 +3947,7 @@ survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Given answers
 survey#:#harmonic_mean#:#Harmonic mean
 survey#:#heading#:#Heading
+survey#:#horizontal#:#horizontal
 survey#:#import_question#:#Import question(s)
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
@@ -4002,8 +4003,6 @@ survey#:#online#:#online
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
-survey#:#horizontal#:#horizontal
-survey#:#vertical#:#vertical
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_selections#:#Percentage of users that selected this category
 survey#:#predefined_users#:#Predefined user set
@@ -4119,6 +4118,7 @@ survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
+survey#:#vertical#:#vertical
 survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.

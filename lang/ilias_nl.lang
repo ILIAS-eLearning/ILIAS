@@ -3941,6 +3941,7 @@ survey#:#geometric_mean#:#gereed
 survey#:#given_answers#:#Gevonden vragen
 survey#:#harmonic_mean#:#Geometrisch gemiddeld
 survey#:#heading#:#Heading###10 Nov 2004 new variable
+survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Gegeven antwoorden
 survey#:#insert_before#:#Harmonisch gemiddeld
@@ -3995,6 +3996,7 @@ survey#:#on#:#af
 survey#:#online#:#offline
 survey#:#or#:#on
 survey#:#ordinal_question_not_checked#:#online
+survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#of
 survey#:#percentage_of_selections#:#Kies één van de aangeboden antwoorden!
 survey#:#predefined_users#:#Percentage van de gebruikers die deze waarde invoerde
@@ -4110,6 +4112,7 @@ survey#:#users_answered#:#Boven grens
 survey#:#users_skipped#:#De boven grens moet groter zijn dan de onder grens!
 survey#:#value_nr_entered#:#Beantwoorde gebruikers
 survey#:#values#:#Overgeslagen gebruikers
+survey#:#vertical#:#vertical###18 Nov 2004 new variable
 survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Aantal gebruikers dat deze waarde invoerde
 survey#:#warning_question_in_use#:#Waarden

@@ -38,6 +38,7 @@ absolute_path#:#Caminho absoluto
 access#:#Acesso
 access_status#:#Estado do acesso
 admin_login#:#Entrar como Administrador
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Clientes Disponíveis
 available_languages#:#linguagens disponíveis
 back#:#voltar
@@ -268,6 +269,7 @@ no_path_zip#:#Nenhum caminho para o zip dado
 no_setup_pass_given#:#Nenhuma palavra-passe para o setup dada
 no_username#:#Nenhum nome de utilizador dado
 no_valid_client_id#:#Nenhum ID de cliente válido
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Você não está ligado à base de dados
 online#:#ligado
 or#:#ou
@@ -322,6 +324,7 @@ safe_mode_enabled#:#Modo segura está ligado!
 save#:#Guardar
 save_error#:#Erro a guardar!
 saved_successfully#:#Guardado com sucesso
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Seleccionar um Cliente
 server_info#:#Informações do Servidor
 server_software#:#Software servidor
@@ -362,6 +365,7 @@ setup_process_step_lang#:#Instalar linguagens de sistema
 setup_process_step_nic#:#Registar no ILIAS-NIC
 setup_ready#:#O setup está pronto. Você pode agora proceder com a sua entrada e verificar outras definições de sistema.
 setup_welcome#:#Benvindo ao setup do ILIAS 3. Esta rotina de setup aguda-o a
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Ordenar por esta coluna
 status#:#Estado
 step#:#Passo
@@ -378,6 +382,7 @@ update_error#:#Erro a actualizar
 update_not_found#:#Actualização não encontrada!
 username#:#nome de utilizador
 version#:#Versão
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#caminho de dados do webspace###14 Sep 2004 content changed
 with#:#com
 wrong_password#:#Palavra-passe errada!

@@ -38,6 +38,7 @@ absolute_path#:#Absoluter Pfad
 access#:#Zugang###15 Jan 2004 content changed
 access_status#:#Zugangsstatus
 admin_login#:#als Systemadministrator anmelden
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Vorhandene Mandanten
 available_languages#:#Verfügbare Sprachen
 back#:#zurück
@@ -268,6 +269,7 @@ no_path_zip#:#Zip-Pfad nicht angegeben
 no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
 no_username#:#Kein Benutzername angegeben
 no_valid_client_id#:#Keine gültige Mandanten ID
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 online#:#Online
 or#:#oder
@@ -322,6 +324,7 @@ safe_mode_enabled#:#Safe mode ist eingeschaltet
 save#:#Speichern
 save_error#:#Fehler beim Abspeichern
 saved_successfully#:#Angaben gespeichert
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Mandant wählen
 server_info#:#Informationen zum ILIAS-Server
 server_software#:#Server software
@@ -362,6 +365,7 @@ setup_process_step_lang#:#Systemsprachen installieren
 setup_process_step_nic#:#bei ILIAS-NIC registrieren
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Nach dieser Spalte sortieren
 status#:#Status
 step#:#Schritt
@@ -378,6 +382,7 @@ update_error#:#Fehler beim Update der Datenbank
 update_not_found#:#Update nicht gefunden!
 username#:#Benutzername
 version#:#Version
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#webspace data path###14 Sep 2004 content changed
 with#:#mit
 wrong_password#:#Falsches Passwort!###15 Jan 2004 content changed
