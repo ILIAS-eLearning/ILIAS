@@ -138,7 +138,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->save();
+		$meta_gui->save($_POST["meta_section"]);
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit;
 	}

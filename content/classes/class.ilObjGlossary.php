@@ -155,7 +155,6 @@ class ilObjGlossary extends ilObject
 	function update()
 	{
 		$this->updateMetaData();
-
 		// todo: glossary attributes/properties
 	}
 
