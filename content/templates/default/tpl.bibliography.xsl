@@ -16,6 +16,22 @@
           <xsl:attribute name="action">
             <xsl:value-of select="$action" />
           </xsl:attribute>
+          <!-- BEGIN TRANSLATION -->
+          <table class="fullwidth">
+            <tr class="tblheader">
+              <td class="std" colspan="2">
+                {TRANSLATION_HEADER}
+              </td>
+            </tr>
+            <!-- BEGIN TRANSLATION_ROW -->
+            <tr class="std">
+              <td class="option_value" width="5%"><input type="radio" name="tr_id" value="{ROW_ID}" /></td>
+              <td class="option_value">{ROW_TITLE}</td>
+            </tr>
+            <!-- END TRANSLATION_ROW -->
+          </table>
+          <br />
+          <!-- END TRANSLATION -->
           <table class="std" width="100%">
             <tr class="tblheader">
               <td width="5%"></td>
