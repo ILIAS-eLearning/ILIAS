@@ -898,3 +898,8 @@ CREATE TABLE search_tree (
 ) TYPE=MyISAM;
 
   DELETE FROM usr_search;
+
+<#69>
+  DELETE FROM usr_search;
+  DELETE FROM search_data;
+  DELETE FROM search_tree;
