@@ -701,6 +701,7 @@ common#:#crs_join#:#Subskrybuj Kurs
 common#:#crs_leave#:#Rezygnuję z subskrybcji kursu
 common#:#crs_management_system#:#System zarządzania kursami
 common#:#crs_new#:#Nowy kurs
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Prawo czytania Kursu
 common#:#crs_visible#:#Kurs jest widoczny
 common#:#crs_write#:#Edycja Kursu
@@ -777,6 +778,7 @@ common#:#enumerate#:#Wylicz
 common#:#err_1_param#:#Tylko 1 parametr!
 common#:#err_2_param#:#Tylko 2 parametr!
 common#:#err_count_param#:#Powód: Zła ilość parametrów
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Bląd w linii
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Nie znaleziono pliku językowego!
@@ -1150,6 +1152,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Zmień uprawnienia dostępu
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Prawo czytania ustawień LDAP
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
@@ -1620,6 +1623,7 @@ common#:#registered_since#:#Zarejestrowany od
 common#:#registered_user#:#zarejestrowany użytkownik
 common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#Termin rejestracji minął...
 common#:#remove#:#Wyklucz
 common#:#remove_translation#:#Usuń tłumaczenie

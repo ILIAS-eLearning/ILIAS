@@ -716,6 +716,7 @@ common#:#crs_join#:#Підписатись на Курс
 common#:#crs_leave#:#Відписатись від Курсу
 common#:#crs_management_system#:#Система Управління Курсом
 common#:#crs_new#:#Новий Курс
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Доступ на читання до Курсу
 common#:#crs_visible#:#Курс є видимим
 common#:#crs_write#:#Редагувати Курс
@@ -792,6 +793,7 @@ common#:#enumerate#:#Перерахувати
 common#:#err_1_param#:#Тільки 1 параметр!
 common#:#err_2_param#:#Тільки 2 параметра!
 common#:#err_count_param#:#Причина: Невірна кількість параметрів
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Помилка в стрічці
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
@@ -1166,6 +1168,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Змінити настройки прав
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Доссут на читання до LDAP настроювань
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
@@ -1637,6 +1640,7 @@ common#:#registered_since#:#Зареєстрований з
 common#:#registered_user#:#зареєстрований Користувач
 common#:#registered_users#:#зареєстровані Користувачі
 common#:#registration#:#Новий акаунт реєстрації
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#Період реєстрації скінчився...
 common#:#remove#:#Вилучити###25 Mar 2004 content changed
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable

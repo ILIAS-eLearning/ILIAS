@@ -554,8 +554,8 @@ common#:#auth_mode_changed_to#:#Modalit&#224; di autenticazione modificata in
 common#:#auth_mode_not_changed#:#(Nessuna modifica)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Autenticazione degli utenti tramite server RADIUS
-common#:#auth_read#:#Impostazioni per l'autenticazione
-common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.
+common#:#auth_read#:#Impostazioni per l'autenticazione###10 Aug 2004 content changed
+common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.###10 Aug 2004 content changed
 common#:#auth_script#:#Personale
 common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
 common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
@@ -715,6 +715,7 @@ common#:#crs_join#:#Iscrivere al corso
 common#:#crs_leave#:#Cancellare dal corso
 common#:#crs_management_system#:#Sistema di gestione corsi
 common#:#crs_new#:#Nuovo corso
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Accedere in lettura al corso
 common#:#crs_visible#:#Vedere il corso
 common#:#crs_write#:#Modificare il corso
@@ -791,6 +792,7 @@ common#:#enumerate#:#Elenca
 common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_count_param#:#Causa: errato numero dei parametri.
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Errore nella linea
 common#:#err_invalid_port#:#Porta non valida
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
@@ -1165,6 +1167,7 @@ common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#Configura la modalit&#224; di autenticazione LDAP
 common#:#ldap_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#Porta LDAP
 common#:#ldap_read#:#Accedere in lettura alle impostazioni del LDAP
 common#:#ldap_search_base#:#Ricerca basatat su LDAP
@@ -1636,6 +1639,7 @@ common#:#registered_since#:#Registrato dal
 common#:#registered_user#:#utente registrato
 common#:#registered_users#:#utenti registrati
 common#:#registration#:#Nuova registrazione
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#Periodo di prova della registrazione terminato...
 common#:#remove#:#Elimina
 common#:#remove_personal_picture#:#Elimina

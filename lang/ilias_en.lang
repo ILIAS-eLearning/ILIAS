@@ -45,7 +45,6 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
-common#:#registration_disabled#:#Only available when using local authentication
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
@@ -56,8 +55,6 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
-common#:#ldap_passwd#:#Your current password
-common#:#err_enter_current_passwd#:#Please enter your current password
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
@@ -719,6 +716,7 @@ common#:#crs_join#:#Subscribe to Course
 common#:#crs_leave#:#Unsubscribe from Course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_new#:#New Course
+common#:#crs_no_content#:#Without content
 common#:#crs_read#:#Read access to Course
 common#:#crs_visible#:#Course is visible
 common#:#crs_write#:#Edit Course
@@ -795,6 +793,7 @@ common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
 common#:#err_count_param#:#Reason: Wrong parameter count
+common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_no_langfile_found#:#No language file found!
@@ -1169,6 +1168,7 @@ common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#Configure LDAP Authentication
 common#:#ldap_edit_permission#:#Change permission settings
 common#:#ldap_login_key#:#Attribute for login name
+common#:#ldap_passwd#:#Your current password
 common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Read access to LDAP settings
 common#:#ldap_search_base#:#LDAP Search base
@@ -1640,6 +1640,7 @@ common#:#registered_since#:#Registered since
 common#:#registered_user#:#registered User
 common#:#registered_users#:#registered Users
 common#:#registration#:#New account registration
+common#:#registration_disabled#:#Only available when using local authentication
 common#:#registration_expired#:#Registration period expired...
 common#:#remove#:#Remove
 common#:#remove_personal_picture#:#Remove
@@ -3522,4 +3523,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-common#:#crs_no_content#:#Without content
