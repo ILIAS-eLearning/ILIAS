@@ -619,11 +619,62 @@ class ilvCard
 // geographical positions or regions associated with the object the
 // vCard represents.
 
-	function setTimezone()
+/**
+* Sets the value for the vCard TZ type.
+*
+* Sets the value for the vCard TZ type to specify
+* information related to the time zone of the
+* object the vCard represents.
+*
+* Type example:
+*
+* TZ:-05:00
+* TZ;VALUE=text:-05:00; EST; Raleigh/North America
+*
+* Type special notes: The type value consists of a single value.
+*
+* @param string $zone The timezone as utc-offset value
+* @access	public
+*/
+	function setTimezone($zone = "")
 	{
 	}
 	
-	function setPosition()
+/**
+* Sets the value for the vCard GEO type.
+*
+* Sets the value for the vCard GEO type to specify
+* information related to the global positioning of 
+* the object the vCard represents.
+*
+* Type example:
+*
+* GEO:37.386013;-122.082932
+*
+* Type value: A single structured value consisting of two float values
+* separated by the SEMI-COLON character (ASCII decimal 59).
+* 
+* Type special notes: This type specifies information related to the
+* global position of the object associated with the vCard. The value
+* specifies latitude and longitude, in that order (i.e., "LAT LON"
+* ordering). The longitude represents the location east and west of the
+* prime meridian as a positive or negative real number, respectively.
+* The latitude represents the location north and south of the equator
+* as a positive or negative real number, respectively. The longitude
+* and latitude values MUST be specified as decimal degrees and should
+* be specified to six decimal places. This will allow for granularity
+* within a meter of the geographical position. The text components are
+* separated by the SEMI-COLON character (ASCII decimal 59). The simple
+* formula for converting degrees-minutes-seconds into decimal degrees
+* is:
+* 
+* 		decimal = degrees + minutes/60 + seconds/3600.
+*
+* @param double $latitude The latitude of the position
+* @param double $longitude The longitude of the position
+* @access	public
+*/
+	function setPosition($latitude = "", $longitude = "")
 	{
 	}
 	
@@ -633,23 +684,156 @@ class ilvCard
 // characteristics of the organization or organizational units of the
 // object the vCard represents.
 
-	function setTitle()
+/**
+* Sets the value for the vCard TITLE type.
+*
+* Sets the value for the vCard TITLE type to specify
+* the job title, functional position or function of 
+* the object the vCard represents.
+*
+* Type example:
+*
+* TITLE:Director\, Research and Development
+*
+* Type special notes: This type is based on the X.520 Title attribute.
+*
+* @param string $title Job title
+* @access	public
+*/
+	function setTitle($title = "")
 	{
 	}
 	
-	function setRole()
+/**
+* Sets the value for the vCard ROLE type.
+*
+* Sets the value for the vCard ROLE type to specify
+* information concerning the role, occupation, or business 
+* category of the object the vCard represents.
+*
+* Type example:
+*
+* ROLE:Programmer
+*
+* Type special notes: This type is based on the X.520 Business Category
+* explanatory attribute. This property is included as an organizational
+* type to avoid confusion with the semantics of the TITLE type and
+* incorrect usage of that type when the semantics of this type is
+* intended.
+*
+* @param string $role Role title
+* @access	public
+*/
+	function setRole($role = "")
 	{
 	}
 	
-	function setLogo()
+/**
+* Sets the value for the vCard LOGO type.
+*
+* Sets the value for the vCard LOGO type to specify
+* a graphic image of a logo associated with the object 
+* the vCard represents.
+*
+* Type example:
+*
+* LOGO;VALUE=uri:http://www.abc.com/pub/logos/abccorp.jpg
+* LOGO;ENCODING=b;TYPE=JPEG:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcN
+*   AQEEBQAwdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENvbW11bm
+*   ljYXRpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
+*   <...the remainder of "B" encoded binary data...>
+*
+* Type encoding: The encoding MUST be reset to "b" using the ENCODING
+* parameter in order to specify inline, encoded binary data. If the
+* value is referenced by a URI value, then the default encoding of 8bit
+* is used and no explicit ENCODING parameter is needed.
+* 
+* Type value: A single value. The default is binary value. It can also
+* be reset to uri value. The uri value can be used to specify a value
+* outside of this MIME entity.
+* 
+* Type special notes: The type can include the type parameter "TYPE" to
+* specify the graphic image format type. The TYPE parameter values MUST
+* be one of the IANA registered image formats or a non-standard image
+* format.
+*
+* @param	string $logo A binary string containing the logo or an uri
+* @param	string $type The IANA type of the image format
+* @access	public
+*/
+	function setLogo($logo, $type = "")
+		$value = "";
+		$encoding = "";
+		if (preg_match("/^http/", $logo))
+		{
+			$value = $this->encode($logo);
+		}
+		else
+		{
+			$encoding = "BASE64";
+			$logo = base64_encode($logo);
+		}
+		$this->types["LOGO"] = array(
+			"VALUE" => $value,
+			"TYPE" => $type,
+			"ENCODING" => $encoding,
+			"LOGO" => $logo
+		);
+	}
+	
+/**
+* Sets the value for the vCard AGENT type.
+*
+* Sets the value for the vCard AGENT type to specify
+* information about another person who will act on behalf 
+* of the individual or resource associated with the vCard.
+*
+* Type example:
+*
+* AGENT;VALUE=uri:
+*   CID:JQPUBLIC.part3.960129T083020.xyzMail@host3.com
+* AGENT:BEGIN:VCARD\nFN:Susan Thomas\nTEL:+1-919-555-
+*   1234\nEMAIL\;INTERNET:sthomas@host.com\nEND:VCARD\n
+*
+* Type value: The default is a single vcard value. It can also be reset
+* to either a single text or uri value. The text value can be used to
+* specify textual information. The uri value can be used to specify
+* information outside of this MIME entity.
+* 
+* Type special notes: This type typically is used to specify an area
+* administrator, assistant, or secretary for the individual associated
+* with the vCard. A key characteristic of the Agent type is that it
+* represents somebody or something that is separately addressable.
+*
+* @param string $agent Agent type
+* @access	public
+*/
+	function setAgent($agent = "")
 	{
 	}
 	
-	function setAgent()
-	{
-	}
-	
-	function setOrganization()
+/**
+* Sets the value for the vCard ORG type.
+*
+* Sets the value for the vCard ORG type to specify
+* the organizational name and units associated with the vCard.
+*
+* Type example:
+*
+* ORG:ABC\, Inc.;North American Division;Marketing
+*
+* Type value: A single structured text value consisting of components
+* separated the SEMI-COLON character (ASCII decimal 59).
+* 
+* Type special notes: The type is based on the X.520 Organization Name
+* and Organization Unit attributes. The type value is a structured type
+* consisting of the organization name, followed by one or more levels
+* of organizational unit names.
+*
+* @param string $organization Organization description
+* @access	public
+*/
+	function setOrganization($organization = "")
 	{
 	}
 	
@@ -658,39 +842,251 @@ class ilvCard
 // These types are concerned with additional explanations, such as that
 // related to informational notes or revisions specific to the vCard.
 
-	function setCategories()
+/**
+* Sets the value for the vCard CATEGORIES type.
+*
+* Sets the value for the vCard CATEGORIES type to specify
+* application category information about the vCard.
+*
+* Type example:
+*
+* CATEGORIES:TRAVEL AGENT
+* CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY
+*
+* Type value: One or more text values separated by a COMMA character
+* (ASCII decimal 44).
+*
+* @param array $categories Category information
+* @access	public
+*/
+	function setCategories($categories)
 	{
 	}
 	
-	function setNote()
+/**
+* Sets the value for the vCard NOTE type.
+*
+* Sets the value for the vCard NOTE type to specify
+* supplemental information or a comment that is associated with the vCard.
+*
+* Type example:
+*
+* NOTE:This fax number is operational 0800 to 1715
+*   EST\, Mon-Fri.
+*
+* Type value: A single text value.
+*
+* Type special notes: The type is based on the X.520 Description
+* attribute.
+*
+* @param string $note A note or comment
+* @access	public
+*/
+	function setNote($note = "")
 	{
 	}
 	
-	function setProductId()
+/**
+* Sets the value for the vCard PRODID type.
+*
+* Sets the value for the vCard PRODID type to specify
+* the identifier for the product that created the vCard object.
+*
+* Type example:
+*
+* PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN
+*
+* Type value: A single text value.
+* 
+* Type special notes: Implementations SHOULD use a method such as that
+* specified for Formal Public Identifiers in ISO 9070 to assure that
+* the text value is unique.
+*
+* @param string $product_id Product identifier
+* @access	public
+*/
+	function setProductId($product_id = "")
 	{
 	}
 	
-	function setRevision()
+/**
+* Sets the value for the vCard REV type.
+*
+* Sets the value for the vCard REV type to specify
+* revision information about the current vCard.
+*
+* Type example:
+*
+* REV:1995-10-31T22:27:10Z
+* REV:1997-11-15
+*
+* Type value: The default is a single date-time value. Can also be
+* reset to a single date value.
+* 
+* Type special notes: The value distinguishes the current revision of
+* the information in this vCard for other renditions of the
+* information.
+*
+* @param string $revision_date Revision date
+* @access	public
+*/
+	function setRevision($revision_date = "")
 	{
 	}
 	
-	function setSortString()
+/**
+* Sets the value for the vCard SORT-STRING type.
+*
+* Sets the value for the vCard SORT-STRING type to specify
+* the family name or given name text to be used for 
+* national-language-specific sorting of the FN and N types.
+*
+* Type examples: For the case of family name sorting, the following
+* examples define common sort string usage with the FN and N types.
+* 
+*   FN:Rene van der Harten
+*   N:van der Harten;Rene;J.;Sir;R.D.O.N.
+*   SORT-STRING:Harten
+* 
+*   FN:Robert Pau Shou Chang
+*   N:Pau;Shou Chang;Robert
+*   SORT-STRING:Pau
+* 
+*   FN:Osamu Koura
+*   N:Koura;Osamu
+*   SORT-STRING:Koura
+* 
+*   FN:Oscar del Pozo
+*   N:del Pozo Triscon;Oscar
+*   SORT-STRING:Pozo
+* 
+*   FN:Chistine d'Aboville
+*   N:d'Aboville;Christine
+*   SORT-STRING:Aboville
+*
+* Type value: A single text value.
+* 
+* Type special notes: The sort string is used to provide family name or
+* given name text that is to be used in locale- or national-language-
+* specific sorting of the formatted name and structured name types.
+* Without this information, sorting algorithms could incorrectly sort
+* this vCard within a sequence of sorted vCards.  When this type is
+* present in a vCard, then this family name or given name value is used
+* for sorting the vCard.
+*
+* @param string $string Sort string
+* @access	public
+*/
+	function setSortString($string = "")
 	{
 	}
 	
-	function setSound()
+/**
+* Sets the value for the vCard SOUND type.
+*
+* Sets the value for the vCard SOUND type to specify
+* a digital sound content information that annotates some 
+* aspect of the vCard. By default this type is used to specify 
+* the proper pronunciation of the name type value of the vCard.
+*
+* Type example:
+*
+* SOUND;TYPE=BASIC;VALUE=uri:CID:JOHNQPUBLIC.part8.
+*   19960229T080000.xyzMail@host1.com
+* 
+* SOUND;TYPE=BASIC;ENCODING=b:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcN
+*   AQEEBQAwdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENvbW11bm
+*   ljYXRpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
+*   <...the remainder of "B" encoded binary data...>
+*
+* Type encoding: The encoding MUST be reset to "b" using the ENCODING
+* parameter in order to specify inline, encoded binary data. If the
+* value is referenced by a URI value, then the default encoding of 8bit
+* is used and no explicit ENCODING parameter is needed.
+* 
+* Type value: A single value. The default is binary value. It can also
+* be reset to uri value. The uri value can be used to specify a value
+* outside of this MIME entity.
+* 
+* Type special notes: The type can include the type parameter "TYPE" to
+* specify the audio format type. The TYPE parameter values MUST be one
+* of the IANA registered audio formats or a non-standard audio format.
+*
+* @param string $sound Binary string containing the sound
+* @param string $type The IANA registered sound type
+* @access	public
+*/
+	function setSound($sound = "", $type = "")
 	{
 	}
 	
-	function setUID()
+/**
+* Sets the value for the vCard UID type.
+*
+* Sets the value for the vCard UID type to specify
+* a value that represents a globally unique identifier 
+* corresponding to the individual or resource associated
+* with the vCard.
+*
+* Type example:
+*
+* UID:19950401-080045-40000F192713-0052
+*
+* Type value: A single text value.
+* 
+* Type special notes: The type is used to uniquely identify the object
+* that the vCard represents.
+* 
+* The type can include the type parameter "TYPE" to specify the format
+* of the identifier. The TYPE parameter value should be an IANA
+* registered identifier format. The value can also be a non-standard
+* format.
+*
+* @param string $uid Globally unique identifier
+* @param string $type IANA registered identifier format
+* @access	public
+*/
+	function setUID($uid = "", $type = "")
 	{
 	}
 	
-	function setURL()
+/**
+* Sets the value for the vCard URL type.
+*
+* Sets the value for the vCard URL type to specify
+* a uniform resource locator associated with the object that the 
+* vCard refers to.
+*
+* Type example:
+*
+* URL:http://www.ilias.de/index.html
+*
+* Type value: A single text value.
+*
+* @param string $uri URL
+* @access	public
+*/
+	function setURL($uri = "")
 	{
 	}
 	
-	function setVersion()
+/**
+* Sets the value for the vCard VERSION type.
+*
+* Sets the value for the vCard VERSION type to specify
+* the version of the vCard specification used
+*
+* Type example:
+*
+* VERSION:3.0
+*
+* Type special notes: The property MUST be present in the vCard object.
+* The value MUST be "3.0" if the vCard corresponds to the vCard 3.0 specification.
+*
+* @param string $version Version string
+* @access	public
+*/
+	function setVersion($version = "3.0")
 	{
 	}
 	
@@ -699,11 +1095,78 @@ class ilvCard
 // These types are concerned with the security of communication pathways
 // or access to the vCard.
 
-	function setClassification()
+/**
+* Sets the value for the vCard CLASS type.
+*
+* Sets the value for the vCard CLASS type to specify
+* the access classification for a vCard object.
+*
+* Type example:
+*
+* CLASS:PUBLIC
+* CLASS:PRIVATE
+* CLASS:CONFIDENTIAL
+*
+* Type value: A single text value.
+* 
+* Type special notes: An access classification is only one component of
+* the general security model for a directory service. The
+* classification attribute provides a method of capturing the intent of
+* the owner for general access to information described by the vCard
+* object.
+*
+* @param string $classification Classification string
+* @access	public
+*/
+	function setClassification($classification = "")
 	{
 	}
 	
-	function setKey()
+/**
+* Sets the value for the vCard KEY type.
+*
+* Sets the value for the vCard KEY type to specify
+* a public key or authentication certificate associated 
+* with the object that the vCard represents.
+*
+* Type example:
+*
+* KEY;ENCODING=b:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcNAQEEBQA
+*   wdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENbW11bmljYX
+*   Rpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
+*   ZW1zMRwwGgYDVQQDExNyb290Y2EubmV0c2NhcGUuY29tMB4XDTk3MDYwNj
+*   E5NDc1OVoXDTk3MTIwMzE5NDc1OVowgYkxCzAJBgNVBAYTAlVTMSYwJAYD
+*   VQQKEx1OZXRzY2FwZSBDb21tdW5pY2F0aW9ucyBDb3JwLjEYMBYGA1UEAx
+*   MPVGltb3RoeSBBIEhvd2VzMSEwHwYJKoZIhvcNAQkBFhJob3dlc0BuZXRz
+*   Y2FwZS5jb20xFTATBgoJkiaJk/IsZAEBEwVob3dlczBcMA0GCSqGSIb3DQ
+*   EBAQUAA0sAMEgCQQC0JZf6wkg8pLMXHHCUvMfL5H6zjSk4vTTXZpYyrdN2
+*   dXcoX49LKiOmgeJSzoiFKHtLOIboyludF90CgqcxtwKnAgMBAAGjNjA0MB
+*   EGCWCGSAGG+EIBAQQEAwIAoDAfBgNVHSMEGDAWgBT84FToB/GV3jr3mcau
+*   +hUMbsQukjANBgkqhkiG9w0BAQQFAAOBgQBexv7o7mi3PLXadkmNP9LcIP
+*   mx93HGp0Kgyx1jIVMyNgsemeAwBM+MSlhMfcpbTrONwNjZYW8vJDSoi//y
+*   rZlVt9bJbs7MNYZVsyF1unsqaln4/vy6Uawfg8VUMk1U7jt8LYpo4YULU7
+*   UZHPYVUaSgVttImOHZIKi4hlPXBOhcUQ==
+*
+* Type encoding: The encoding MUST be reset to "b" using the ENCODING
+* parameter in order to specify inline, encoded binary data. If the
+* value is a text value, then the default encoding of 8bit is used and
+* no explicit ENCODING parameter is needed.
+* 
+* Type value: A single value. The default is binary. It can also be
+* reset to text value. The text value can be used to specify a text
+* key.
+* 
+* Type special notes: The type can also include the type parameter TYPE
+* to specify the public key or authentication certificate format. The
+* parameter type should specify an IANA registered public key or
+* authentication certificate format. The parameter type can also
+* specify a non-standard format.
+*
+* @param string $key Public key
+* @param string $type IANA registered public key or authentication certificate format
+* @access	public
+*/
+	function setKey($key = "", $type = "")
 	{
 	}
 	
