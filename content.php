@@ -58,12 +58,6 @@ if (!empty($clipboard))
 	$tplContent->touchBlock("btn_paste");
 }
 
-// display path
-$path = $tree->showPath($tree->getPathFull(),"content.php");
-$tplContent->setVariable("TREEPATH",$path);
-//$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
-$tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
-
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
 {
@@ -74,10 +68,17 @@ if($_GET["direction"] == 'DESC')
 	$tplContent->setVariable("DIR",'ASC');
 }
 
+// set sort column
 if (empty($_GET["order"]))
 {
 	$_GET["order"] = "title";
 }
+
+// display path
+$path = $tree->showPath($tree->getPathFull(),"content.php");
+$tplContent->setVariable("TREEPATH",$path);
+//$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
+$tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
 
 $tplContent->setCurrentBlock("row",true);
 
