@@ -338,6 +338,7 @@ assessment#:#save_finish#:#Enregistrer et terminer le test###21 Dec 2004 content
 assessment#:#save_introduction#:#Enregistrer et aller à l'introduction###21 Dec 2004 content changed
 assessment#:#save_next#:#Enregistrer et aller à la prochaine question###21 Dec 2004 content changed
 assessment#:#save_previous#:#Enregistrer et aller à la question précédente###21 Dec 2004 content changed
+assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Voir détails pour les solutions proposées
@@ -356,6 +357,7 @@ assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de déb
 assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Vous avez défini une proposition de solution avec succès.
 assessment#:#symbol#:#Symbole
+assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#Lacune du texte
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#HH MM SS

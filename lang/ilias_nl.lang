@@ -344,6 +344,7 @@ assessment#:#save_finish#:#Sla test op en sluit test af###21 Dec 2004 content ch
 assessment#:#save_introduction#:#Sla op en ga naar introductie###21 Dec 2004 content changed
 assessment#:#save_next#:#Sla op en ga naar volgende vraag###21 Dec 2004 content changed
 assessment#:#save_previous#:#Sla op en ga naar vorige vraag###21 Dec 2004 content changed
+assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
@@ -364,6 +365,7 @@ assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbool
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
+assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#HH MM SS###05 Nov 2004 new variable

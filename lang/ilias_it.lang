@@ -344,6 +344,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
 assessment#:#search_found_groups#:#Gruppi trovati
 assessment#:#search_found_users#:#Utenti trovati
 assessment#:#see_details_for_further_information#:#Vedi dettagli per la risposta suggerita
@@ -364,6 +365,7 @@ assessment#:#statistical_data#:#Dati statistici
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
+assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#HH MM SS
