@@ -10,46 +10,6 @@
 * @package	ilias-core
 */
 
-/**
-* creates a new object entry in obj_data
-* @access	public
-* @param	string	object type
-* @param	string	object title
-* @param	string	object description
-* @param	integer	cut length of title string to given value (optional, default: MAXLENGTH_OBJ_TITLE)
-* @param	integer	cut length of description string to given value (optional, default: MAXLENGTH_OBJ_DESC)
-* @param	boolean	adding 3 dots to shortended string (optional, default: true)
-* @return	integer	object id
-*/
-function createNewObject ($a_type,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$a_len_desc=MAXLENGTH_OBJ_DESC,$a_dots=true)
-{
-	global $ilias;
-	
-	if (!isset($a_type))
-	{
-		$message = "perm::createNewObject(): No object type given!";
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
-	}
-
-	if (empty($a_title))
-	{
-		$message = "perm::createNewObject(): No title given! A title is required!";
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
-	}
-	
-	// cut length of text
-	$a_title = addslashes(shortenText($a_title,$a_len_title,$a_dots));
-	$_desc = addslashes(shortenText($a_desc,$a_len_desc,$a_dots));
-
-	$q = "INSERT INTO object_data ".
-		 "(type,title,description,owner,create_date,last_update) ".
-		 "VALUES ".
-		 "('".$a_type."','".$a_title."','".$a_desc."',".
-		 "'".$ilias->account->getId()."',now(),now())";
-	$ilias->db->query($q);
-
-	return getLastInsertId();
-}
 
 /**
 * get an object
@@ -65,13 +25,13 @@ function getObject ($a_obj_id)
 	{
 		$message = "perm::getObject(): No obj_id given!";
 		$log->writeWarning($message);
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);
 	}
 
 	$q = "SELECT * FROM object_data ".
 		 "WHERE obj_id = '".$a_obj_id."'";
 	$r = $ilias->db->query($q);
-	
+
 	if ($r->numRows() == 0)
 	{
 		$message = "perm::getObject(): Object with obj_id ".$a_obj_id." not found!";
@@ -261,28 +221,6 @@ function fetchObjectData($a_row)
 	return $arr ? $arr : array();	// maybe senseless
 }
 
-/*
-* create a reference id of an object
-* @access	public
-* @param	integer	object id
-* @return 	integer	reference id
-*/
-function createNewReference ($a_obj_id)
-{
-	global $ilias;
-	
-	if (!isset($a_obj_id))
-	{
-		$message = "perm::createNewReference(): No obj_id given!";
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
-	}
-	
-	$q = "INSERT INTO object_reference ".
-		 "(obj_id) VALUES ('".$a_obj_id."')";
-	$ilias->db->query($q);
-
-	return getLastInsertId();
-}
 
 /*
 * count how often an obejct is referenced

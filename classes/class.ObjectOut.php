@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ObjectOut.php,v 1.41 2003/03/17 11:56:22 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.42 2003/03/17 17:44:43 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -58,7 +58,7 @@ class ObjectOut
 	* @access       private
 	*/
 	var $object;
-	
+
 	var $ref_id;
 	var $obj_id;
 
@@ -88,7 +88,7 @@ class ObjectOut
 		{
 			$this->id_name = "ref_id";
 			$this->link_params = "ref_id=".$this->ref_id."&obj_id=".$this->obj_id;
-			
+
 		}
 		else
 		{
@@ -114,7 +114,7 @@ class ObjectOut
 		$this->setLocator();
 	}
 
-	
+
 	/**
 	* read corresponding object
 	*
@@ -461,9 +461,79 @@ class ObjectOut
 		exit();
 	}
 
-
+	/**
+	* show permissions of current node
+	*/
 	function permObject()
 	{
+		global $lng, $rbacsystem, $rbacreview, $rbacadmin;
+		static $num = 0;
+
+		$obj = getObjectByReference($this->object->getRefId());
+
+		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+		{
+			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
+			$parentRoles = $rbacadmin->getParentRoleIds($this->object->getRefId());
+			$data = array();
+
+			foreach ($parentRoles as $r)
+			{
+				// GET ALL LOCAL ROLE IDS
+				$role_folders = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
+				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folders["child"]);
+				$data["rolenames"][] = $r["title"];
+
+				if(!in_array($r["obj_id"],$local_roles))
+				{
+					$data["check_inherit"][] = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+				}
+				else
+				{
+					$data["check_inherit"][] = TUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
+				}
+			}
+
+			$ope_list = getOperationList($this->object->getType());
+			// BEGIN TABLE_DATA_OUTER
+			foreach ($ope_list as $key => $operation)
+			{
+				$opdata = array();
+				$opdata["name"] = $operation["operation"];
+
+				foreach ($parentRoles as $role)
+				{
+					$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
+					$opdata["values"][] = $box;
+				}
+				$data["permission"][] = $opdata;
+			}
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
+		}
+		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->object->getRefId());
+		$permission = $rolf_data ? 'write' : 'create';
+		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();
+		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
+
+		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()) &&
+		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
+		{
+			// Check if object is able to contain role folder
+			$child_objects = $rbacadmin->getModules($this->object->getType(), $this->object->getRefId());
+
+			if ($child_objects["rolf"])
+			{
+				$data["local_role"]["child"] = $this->object->getRefId();
+				$data["local_role"]["parent"] = $_GET["parent"];
+			}
+		}
+
+		// output data
 		$this->getTemplateFile("perm");
 		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
@@ -472,7 +542,7 @@ class ObjectOut
 
 		$num = 0;
 
-		foreach($this->data["rolenames"] as $name)
+		foreach($data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
 			$this->tpl->setCurrentBlock("ROLENAMES");
@@ -481,12 +551,12 @@ class ObjectOut
 
 			// BLOCK CHECK INHERIT
 			$this->tpl->setCurrentBLock("CHECK_INHERIT");
-			$this->tpl->setVariable("CHECK_INHERITANCE",$this->data["check_inherit"][$num++]);
+			$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
 			$this->tpl->parseCurrentBlock();
 		}
 		$num = 0;
 
-		foreach($this->data["permission"] as $ar_perm)
+		foreach($data["permission"] as $ar_perm)
 		{
 			foreach ($ar_perm["values"] as $box)
 			{
@@ -505,7 +575,7 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 			// END TABLE DATA OUTER
 		}
-		if ($this->data["local_role"] != "")
+		if ($data["local_role"] != "")
 		{
 			// ADD LOCAL ROLE
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
@@ -684,8 +754,6 @@ class ObjectOut
 
 		$childs = $tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
-//var_dump($childs);
-//exit;
 		foreach ($childs as $key => $val)
 	    {
 			// visible

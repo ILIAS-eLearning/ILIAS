@@ -79,7 +79,7 @@ class Tree
 
 		// set ilias
 		$this->ilias =& $ilias;
-		
+
 		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
 			$this->ilias->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilias->error_obj->WARNING);
@@ -97,7 +97,7 @@ class Tree
 		}
 
 		$this->tree_id		  = $a_tree_id;
-		$this->root_id		  = $a_root_id;		
+		$this->root_id		  = $a_root_id;
 		$this->table_tree     = 'tree';
 		$this->table_obj_data = 'object_data';
 		$this->table_obj_reference = 'object_reference';
@@ -239,7 +239,7 @@ class Tree
 			 "AND tree = '".$this->tree_id."' ".
 			 $order_clause;
 		$r = $this->ilias->db->query($q);
-		
+
 		$count = $r->numRows();
 
 		if ($count > 0)
@@ -413,14 +413,14 @@ class Tree
 			 "ORDER BY sort_col DESC";
 
 		$r = $this->ilias->db->query($q);
-		
+
 		if ($r->numRows() > 0)
 		{
 			return $r;
 		}
 		else
 		{
-		
+
 			$this->ilias->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilias->error_obj->WARNING);
 		}
 	}
@@ -470,7 +470,8 @@ class Tree
 			$this->ilias->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilias->error_obj->WARNING);
 		}
 
-		if (!isset($a_startnode_id))
+		//if (!isset($a_startnode_id))
+		if ($a_startnode_id == 0)
 		{
 			$a_startnode_id = $this->root_id;
 		}

@@ -52,8 +52,12 @@ class NoteObject extends Object
 	function createObject($lo_title, $note_text)
 	{
 		global $rbacadmin, $rbacsystem;		// not used (see below)
-		
-		$note_id = createNewObject("note",$lo_title,$note_text);
+
+		$this->setType("note");
+		$this->setTitle($lo_title);
+		$this->setDescription($note_text);
+		parent::create();
+		$note_id = $this->getId();
 
 		return $note_id;	
 	}

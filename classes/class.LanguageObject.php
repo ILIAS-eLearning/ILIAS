@@ -32,12 +32,13 @@ class LanguageObject extends Object
 	* @param	int		$a_id		object id
 	* @access public
 	*/
-	function LanguageObject($a_id,$a_call_by_reference = false)
+	function LanguageObject($a_id = 0, $a_call_by_reference = true)
 	{
 		global $lng;
 
 		$this->Object($a_id,$a_call_by_reference);
 
+		$this->type = "lng";
 		$this->key = $this->title;
 		$this->status = $this->desc;
 		$this->lang_default = $lng->lang_default;

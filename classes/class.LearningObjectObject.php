@@ -29,6 +29,7 @@ class LearningObjectObject extends Object
 		//require_once "classes/class.domxml.php";
 		//$this->domxml = new domxml();
 		$this->Object($a_id,$a_call_by_reference);
+		$this->setType("lo");
 	}
 } // END class.LearningObject
 ?>

@@ -104,9 +104,8 @@ switch ($_GET["cmd"])
 	case "create":
 		break;
 
-	// show permission templates of object
+	// no more perm() here! all calls moved to "out" class
 	case "perm":
-		$data = $obj->permObject();
 		break;
 
 	// save permission templates of object
@@ -134,6 +133,7 @@ switch ($_GET["cmd"])
 // CALL OUTPUT METHOD OF OBJECT
 $class_constr = $class_name."ObjectOut";
 require_once("./classes/class.".$class_name."ObjectOut.php");
+//echo "$class_constr().$method<br>";
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->readObject($class_name."Object");
 $obj->prepareOutput();

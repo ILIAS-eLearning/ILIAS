@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.6 2003/03/14 16:25:06 shofmann Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.7 2003/03/14 23:17:55 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -61,8 +61,115 @@ class RoleObjectOut extends ObjectOut
 	}
 
 
+	/**
+	* display permissions
+	*/
 	function permObject()
 	{
+		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
+
+		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			$obj_data = getObjectList("typ","title","ASC");
+
+			// BEGIN OBJECT_TYPES
+			foreach ($obj_data as $data)
+			{
+				$output["obj_types"][] = $data["title"];
+			}
+
+			// END OBJECT TYPES
+			$all_ops = getOperationList();
+
+			// BEGIN TABLE_DATA_OUTER
+			foreach ($all_ops as $key => $operations)
+			{
+				$operation_name = $operations["operation"];
+				// BEGIN CHECK_PERM
+
+				foreach ($obj_data as $data)
+				{
+					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
+					{
+						$selected = $rbacadmin->getRolePermission($this->object->getId(), $data["title"], $_GET["parent"]);
+
+						$checked = in_array($operations["ops_id"],$selected);
+						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
+						$output["perm"]["$operation_name"][] = $box;
+					}
+					else
+					{
+						$output["perm"]["$operation_name"][] = "";
+					}
+				}
+
+				// END CHECK_PERM
+				// color changing
+				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$output["perm"]["$operation_name"]["color"] = $css_row;
+			}
+
+			// END TABLE DATA OUTER
+			$box = TUtil::formCheckBox($checked,"recursive",1);
+
+			$output["col_anz"] = count($obj_data);
+			$output["check_bottom"] = $box;
+			$output["message_table"] = "Change existing objects";
+
+			// USER ASSIGNMENT
+			if ($rbacadmin->isAssignable($this->object->getId(),$_GET["parent"]))
+			{
+				$users = getObjectList("usr","title","ASC");
+				$assigned_users = $rbacreview->assignedUsers($this->object->getId());
+
+				foreach ($users as $key => $user)
+				{
+					$output["users"][$key]["css_row_user"] = $key % 2 ? "tblrow1" : "tblrow2";
+					$checked = in_array($user["obj_id"],$assigned_users);
+					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
+					$output["users"][$key]["check_user"] = $box;
+					$output["users"][$key]["username"] = $user["title"];
+				}
+
+				$output["message_bottom"] = "Assign User To Role";
+				$output["formaction_assign"] = "adm_object.php?cmd=assignSave&obj_id=".
+								  $this->object->getId()."&ref_id=".$_GET["ref_id"];
+			}
+
+			// ADOPT PERMISSIONS
+			$output["message_middle"] = "Adopt Permissions from Role Template";
+			// BEGIN ADOPT_PERMISSIONS
+			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
+
+			// sort output for correct color changing
+			ksort($parent_role_ids);
+
+			foreach ($parent_role_ids as $key => $par)
+			{
+				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+				$output["adopt"][$key]["css_row_adopt"] = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$output["adopt"][$key]["check_adopt"] = $radio;
+				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+				$output["adopt"][$key]["role_name"] = $par["title"];
+			}
+			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id=".
+				$this->object->getId()."&ref_id=".$_GET["ref_id"];
+
+			// END ADOPT_PERMISSIONS
+			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".
+				$_GET["ref_id"]."&obj_id=".$this->object->getId();
+			$role_data = getObject($this->object->getId());
+			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
+		}
+
+		$this->data = $output;
+
+		// generate output
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
@@ -100,7 +207,7 @@ class RoleObjectOut extends ObjectOut
 
 		foreach($this->data["adopt"] as $key => $value)
 		{
-			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");			
+			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");
 			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
 			$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
 			$this->tpl->setVariable("TYPE",$value["type"]);
@@ -132,7 +239,7 @@ class RoleObjectOut extends ObjectOut
 
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
 		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
-		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);		
+		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
@@ -140,8 +247,8 @@ class RoleObjectOut extends ObjectOut
 
 		$this->tpl->parseCurrentBlock("adm_content");
 	}
-	
-	
+
+
 	function adoptPermSaveObject()
 	{
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".

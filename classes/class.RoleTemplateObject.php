@@ -35,109 +35,24 @@ class RoleTemplateObject extends Object
 
 		// delete rbac permissions
 		$rbacadmin->deleteTemplate($a_obj_id);
-		
+
 		// delete object data entry
 		deleteObject($a_obj_id);
-		
-		//TODO: delete references	
+
+		//TODO: delete references
 
 		return true;
 	}
 
 
 	/**
-	* show permission templates of role
-	* @access public
-	**/
-	function permObject()
-	{
-		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
-		{
-			$obj_data = getObjectList("typ","title","ASC");
-
-			// BEGIN OBJECT_TYPES
-			foreach ($obj_data as $data)
-			{
-				$output["obj_types"][] = $data["title"];
-			}
-
-			// END OBJECT TYPES
-			$all_ops = getOperationList();
-
-			// BEGIN TABLE_DATA_OUTER
-			foreach ($all_ops as $key => $operations)
-			{
-				$operation_name = $operations["operation"];
-				// BEGIN CHECK_PERM
-
-				foreach ($obj_data as $data)
-				{
-					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
-					{
-						$selected = $rbacadmin->getRolePermission($this->id, $data["title"], $_GET["parent"]);
-
-						$checked = in_array($operations["ops_id"],$selected);
-						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
-						$output["perm"]["$operation_name"][] = $box;
-					}
-					else
-					{
-						$output["perm"]["$operation_name"][] = "";
-					}
-				}
-
-				// END CHECK_PERM
-				// color changing
-				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
-				$output["perm"]["$operation_name"]["color"] = $css_row;
-			}
-
-			// END TABLE DATA OUTER
-			$output["col_anz"] = count($obj_data);
-
-			// ADOPT PERMISSIONS
-			$output["message_middle"] = "Adopt Permissions from Role Template";
-			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
-
-			// sort output for correct color changing
-			ksort($parent_role_ids);
-
-			foreach ($parent_role_ids as $key => $par)
-			{
-				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$output["adopt"][$key]["css_row_adopt"] = TUtil::switchColor($key, "tblrow1", "tblrow2");
-				$output["adopt"][$key]["check_adopt"] = $radio;
-				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-				$output["adopt"][$key]["role_name"] = $par["title"];
-			}
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id="
-				.$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-
-			// END ADOPT_PERMISSIONS
-			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
-				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-			$role_data = getObject($this->id);
-			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-		return $output;
-	}
-
-	/**
-	* save permission templates of role 
+	* save permission templates of role
 	* @access	public
 	**/
 	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree, $rbacadmin, $rbacsystem;
-		
+
 		// get rid of $_GET variables
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))

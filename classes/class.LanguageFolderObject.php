@@ -203,10 +203,23 @@ class LanguageFolderObject extends Object
 			{
 				if ($lang_data["info"] == "new_language")
 				{
-					$lng_id = createNewObject("lng", $lang_key, "not_installed");
+					require_once("../classes/class.LanguageObject.php");
+					$lngObj =& new LanguageObject();
+					$lngObj->setTitle($lang_key);
+					$lngObj->setDescription("not_installed");
+					$lngObj->create();
 
-					$a_languages[$lang_key] = getObject($lng_id);
+					// must get OOP through the whole class some time
+					// (no arrays with db fields! this class doesn't know anything about table object!)
+					$a_languages[$lang_key] = array("obj_id" => $lngObj->getId(),
+													"type" => $lngObj->getType(),
+													"description" => $lngObj->getDescription(),
+													"owner" => $lngObj->getOwner(),
+													"create_date" => $lngObj->getCreateDate(),
+													"last_update" => $lngObj->getLastUpdateDate());
+
 					$a_languages[$lang_key]["info"] = "new_language";
+					unset($lngObj);			// better: the objects should be resident in an member array of this class
 				}
 			}
 		}
