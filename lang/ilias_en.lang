@@ -3902,6 +3902,7 @@ survey#:#duplicate_svy#:#Duplicate survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the constraints
 survey#:#edit_heading#:#Edit heading
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
 survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_phrase_title#:#Please enter a phrase title

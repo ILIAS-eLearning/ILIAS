@@ -1145,22 +1145,23 @@ class ASS_MatchingQuestion extends ASS_Question
 		$result = 0;
 		if (!empty($image_tempfilename))
 		{
-			require_once "./content/classes/Media/class.ilObjMediaObject.php";
-			$mimetype = ilObjMediaObject::getMimeType($image_tempfilename);
-			if (!preg_match("/^image/", $mimetype) and (strcmp($mimetype, "") != 0))
+			$imagepath = $this->getImagePath();
+			if (!file_exists($imagepath))
 			{
-				$result = 1;
+				ilUtil::makeDirParents($imagepath);
+			}
+			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
+			{
+				$result = 2;
 			}
 			else
 			{
-				$imagepath = $this->getImagePath();
-				if (!file_exists($imagepath))
+				require_once "./content/classes/Media/class.ilObjMediaObject.php";
+				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
+				if (!preg_match("/^image/", $mimetype))
 				{
-					ilUtil::makeDirParents($imagepath);
-				}
-				if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
-				{
-					$result = 2;
+					unlink($imagepath . $image_filename);
+					$result = 1;
 				}
 				else
 				{

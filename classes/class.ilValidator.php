@@ -592,6 +592,8 @@ class ilValidator extends PEAR
 	*/
 	function removeInvalidReferences($a_invalid_refs = NULL)
 	{
+		global $ilLog;
+
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
@@ -622,10 +624,35 @@ class ilValidator extends PEAR
 restore starts here
 ********************/
 
+		$message = sprintf('%s::removeInvalidReferences(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+
 		foreach ($a_invalid_refs as $entry)
 		{
 			$q = "DELETE FROM object_reference WHERE ref_id='".$entry["ref_id"]."' AND obj_id='".$entry["obj_id"]."'";
 			$this->db->query($q);
+
+			$affected_rows = $this->db->affectedRows();
+			
+			if ($affected_rows == 1)
+			{
+				$message = sprintf('%s::removeInvalidReferences(): Reference %s removed (count:%s)',
+							   get_class($this),
+							   $entry["ref_id"],
+							   $affected_rows);
+				$ilLog->write($message,$ilLog->WARNING);
+			}
+			else
+			{
+				$this->throwError(INVALID_PARAM, FATAL, DEBUG);
+				$message = sprintf('%s::removeInvalidReferences(): Reference %s NOT removed (count:%s)',
+							   get_class($this),
+							   $entry["ref_id"],
+							   $affected_rows);
+				$ilLog->write($message,$ilLog->FATAL);
+				return false;
+			}	
 			
 			$this->writeScanLogLine("Entry ".$entry["ref_id"]." removed");
 		}
@@ -644,6 +671,8 @@ restore starts here
 	*/
 	function removeInvalidChilds($a_invalid_childs = NULL)
 	{
+		global $ilLog;
+
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
@@ -675,11 +704,44 @@ restore starts here
 remove starts here
 ********************/
 
+		$message = sprintf('%s::removeInvalidChilds(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+
 		foreach ($a_invalid_childs as $entry)
 		{
 			$q = "DELETE FROM tree WHERE child='".$entry["child"]."'";
 			$this->db->query($q);
+
+			$affected_rows = $this->db->affectedRows();
 			
+			if ($affected_rows == 1)
+			{
+				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s removed (count:%s)',
+							   get_class($this),
+							   $entry["child"],
+							   $affected_rows);
+				$ilLog->write($message,$ilLog->WARNING);
+			}
+			elseif ($affected_rows > 1)
+			{
+				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s removed (count:%s)',
+							   get_class($this),
+							   $entry["child"],
+							   $affected_rows);
+				$ilLog->write($message,$ilLog->FATAL);
+			}
+			else
+			{
+				$this->throwError(INVALID_PARAM, FATAL, DEBUG);
+				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s NOT removed (count:%s)',
+							   get_class($this),
+							   $entry["child"],
+							   $affected_rows);
+				$ilLog->write($message,$ilLog->FATAL);
+				return false;
+			}				
+		
 			$this->writeScanLogLine("Entry ".$entry["child"]." removed");
 		}
 		
@@ -698,7 +760,7 @@ remove starts here
 	*/
 	function restoreMissingObjects($a_missing_objects = NULL)
 	{
-		global $tree;
+		global $tree,$ilLog;
 		
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -733,6 +795,10 @@ restore starts here
 
 		$restored = false;
 		
+		$message = sprintf('%s::restoreMissingObjects(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
 		foreach ($a_missing_objects as $missing_obj)
 		{
 			// restore ref_id in case of missing
@@ -749,7 +815,6 @@ restore starts here
 				$tree->insertNode($missing_obj["ref_id"],RECOVERY_FOLDER_ID);
 				$restored = true;
 				$this->writeScanLogLine("Created missing tree entry for object '".$missing_obj["obj_id"]."'");
-
 			}
 			
 			// TODO: process rolefolders
@@ -769,6 +834,8 @@ restore starts here
 	*/
 	function restoreReference($a_obj_id)
 	{
+		global $ilLog;
+
 		if (empty($a_obj_id))
 		{
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
@@ -777,6 +844,12 @@ restore starts here
 		
 		$q = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('0','".$a_obj_id."')";
 		$this->db->query($q);
+
+		$message = sprintf('%s::restoreReference(): new reference %s for obj_id %s created',
+						   get_class($this),
+						   $this->db->getLastInsertId(),
+						   $_obj_id);
+		$ilLog->write($message,$ilLog->WARNING);
 
 		return $this->db->getLastInsertId();
 	}
@@ -793,6 +866,8 @@ restore starts here
 	*/
 	function restoreUnboundObjects($a_unbound_objects = NULL)
 	{
+		global $ilLog;
+
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
 		{
@@ -812,6 +887,10 @@ restore starts here
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
 		}
+
+		$message = sprintf('%s::restoreUnboundObjects(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
 		
 		// start restore process
 		return $this->restoreSubTrees($a_unbound_objects);
@@ -828,6 +907,8 @@ restore starts here
 	*/
 	function restoreTrash($a_deleted_objects = NULL)
 	{
+		global $ilLog;
+
 		// check mode: restore
 		if ($this->mode["restore_trash"] !== true)
 		{
@@ -847,7 +928,11 @@ restore starts here
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
 		}
-		
+
+		$message = sprintf('%s::restoreTrash(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+	
 		// start restore process
 		$restored = $this->restoreDeletedObjects($a_deleted_objects);
 		
@@ -856,6 +941,10 @@ restore starts here
 			$q = "DELETE FROM tree WHERE tree!=1";
 			$this->db->query($q);
 
+			$message = sprintf('%s::restoreTrash(): Removed all trees with tree id <> 1',
+							   get_class($this));
+			$ilLog->write($message,$ilLog->WARNING);
+		
 			$this->writeScanLogLine("Old tree entries removed");
 		}
 		
@@ -872,7 +961,7 @@ restore starts here
 	*/
 	function restoreDeletedObjects($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilias;
+		global $tree,$rbacadmin,$ilias,$ilLog;
 //vd($a_nodes);exit;
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -887,6 +976,10 @@ restore starts here
 			$this->writeScanLogLine("none");
 			return false;
 		}
+
+		$message = sprintf('%s::restoreDeletedObjects()): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
 
 		// first delete all rolefolders
 		// don't save rolefolders, remove them
@@ -930,7 +1023,7 @@ restore starts here
 	*/
 	function restoreSubTrees ($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilias;
+		global $tree,$rbacadmin,$ilias,$ilLog;
 		
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -953,6 +1046,10 @@ restore starts here
 		$subnodes = array();
 		$topnode = array();
 
+		$message = sprintf('%s::restoreSubTrees(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
 		// process move subtree
 		foreach ($a_nodes as $node)
 		{
@@ -1028,6 +1125,8 @@ restore starts here
 	*/
 	function purgeTrash($a_nodes = NULL)
 	{
+		global $ilLog;
+		
 		// check mode: purge_trash
 		if ($this->mode["purge_trash"] !== true)
 		{
@@ -1041,6 +1140,10 @@ restore starts here
 			$a_nodes = $this->deleted_objects;
 		}
 
+		$message = sprintf('%s::purgeTrash(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
 		// start purge process
 		return $this->purgeObjects($a_nodes);
 	}
@@ -1069,6 +1172,10 @@ restore starts here
 			$a_nodes = $this->unbound_objects;
 		}
 
+		$message = sprintf('%s::purgeUnboundObjects(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
 		// start purge process
 		return $this->purgeObjects($a_nodes);
 	}
@@ -1084,6 +1191,8 @@ restore starts here
 	*/
 	function purgeMissingObjects($a_nodes = NULL)
 	{
+		global $ilLog;
+		
 		// check mode: purge
 		if ($this->mode["purge"] !== true)
 		{
@@ -1097,6 +1206,10 @@ restore starts here
 			$a_nodes = $this->missing_objects;
 		}
 
+		$message = sprintf('%s::purgeMissingObjects(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
 		// start purge process
 		return $this->purgeObjects($a_nodes);
 	}
@@ -1110,7 +1223,7 @@ restore starts here
 	*/
 	function purgeObjects($a_nodes)
 	{
-		global $ilias;
+		global $ilias,$ilLog;
 
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -1131,6 +1244,12 @@ restore starts here
 				continue;
 			}
 
+			$message = sprintf('%s::purgeObjects(): Removing object (id:%s ref:%s)',
+							   get_class($this),
+							   $ref_id,
+							   $node_obj->getId);
+			$ilLog->write($message,$ilLog->WARNING);
+		
 			$node_obj->delete();
 			ilTree::_removeEntry($node["tree"],$ref_id);
 			
@@ -1153,8 +1272,12 @@ restore starts here
 	*/
 	function closeGapsInTree()
 	{
-		global $tree;
+		global $tree,$ilLog;
 		
+		$message = sprintf('%s::closeGapsInTree(): Start re-numbering of main tree',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
