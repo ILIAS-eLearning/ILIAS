@@ -560,213 +560,213 @@ bibitem#:#bibitem_publisher#:#Видавець
 bibitem#:#bibitem_save#:#Зберегти
 bibitem#:#bibitem_school#:#Школа
 bibitem#:#bibitem_series#:#Серії
-bibitem#:#bibitem_series_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_series_title#:#Series title###06 May 2004 new variable
-bibitem#:#bibitem_series_volume#:#Volume###06 May 2004 new variable
-bibitem#:#bibitem_technical_report#:#Technical report###06 May 2004 new variable
-bibitem#:#bibitem_type#:#Type###06 May 2004 new variable
-bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
-bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
-bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
-bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
-chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
-chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
-chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
-chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
-chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
-chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
-chat#:#chat_black#:#black###05 Mar 2004 new variable
-chat#:#chat_blue#:#blue###05 Mar 2004 new variable
-chat#:#chat_bold#:#Bold###05 Mar 2004 new variable
-chat#:#chat_chatroom_body#:#Chatroom:###05 Mar 2004 new variable
-chat#:#chat_chatroom_rename#:#Edit chatroom###05 Mar 2004 new variable
-chat#:#chat_chatrooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_color#:#Font color###05 Mar 2004 new variable
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###05 Mar 2004 new variable
-chat#:#chat_drop_user#:#User kicked###09 Mar 2004 new variable
-chat#:#chat_edit#:#Edit chat ###05 Mar 2004 new variable
-chat#:#chat_face#:#Font type###05 Mar 2004 new variable
-chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
-chat#:#chat_gray#:#gray###05 Mar 2004 new variable
-chat#:#chat_green#:#green###05 Mar 2004 new variable
-chat#:#chat_hide_details#:#Hide details###05 Mar 2004 new variable
-chat#:#chat_html_export#:#HTML export###05 Mar 2004 new variable
-chat#:#chat_ilias#:#Ilias Chat module###05 Mar 2004 new variable
-chat#:#chat_inactive#:#Inaktive###05 Mar 2004 new variable
-chat#:#chat_input#:#Input###05 Mar 2004 new variable
-chat#:#chat_insert_message#:#PLease insert a message###05 Mar 2004 new variable
-chat#:#chat_invitation_body#:#Invitation to chat from:###05 Mar 2004 new variable
-chat#:#chat_invitation_subject#:#Chat invitation###05 Mar 2004 new variable
-chat#:#chat_invite_user#:#Invite user###05 Mar 2004 new variable
-chat#:#chat_italic#:#Italic###05 Mar 2004 new variable
-chat#:#chat_level_all#:#All###05 Mar 2004 new variable
-chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
-chat#:#chat_level_error#:#Error###05 Mar 2004 new variable
-chat#:#chat_level_fatal#:#Fatal###05 Mar 2004 new variable
-chat#:#chat_level_info#:#Info###05 Mar 2004 new variable
-chat#:#chat_lime#:#lime###05 Mar 2004 new variable
-chat#:#chat_maroon#:#maroon###05 Mar 2004 new variable
-chat#:#chat_messages_deleted#:#Messages have been deleted.###05 Mar 2004 new variable
-chat#:#chat_moderator_password#:#Moderator password###05 Mar 2004 new variable
-chat#:#chat_navy#:#navy###05 Mar 2004 new variable
-chat#:#chat_no_active_users#:#No users present.###05 Mar 2004 new variable
-chat#:#chat_no_connection#:#Cannot contact chatserver.###05 Mar 2004 new variable
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###05 Mar 2004 new variable
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###05 Mar 2004 new variable
-chat#:#chat_no_rename_public#:#The public room cannot be renamed###05 Mar 2004 new variable
-chat#:#chat_no_write_perm#:#No permission to write###05 Mar 2004 new variable
-chat#:#chat_olive#:#olive###05 Mar 2004 new variable
-chat#:#chat_online_users#:#User (online)###05 Mar 2004 new variable
-chat#:#chat_private_message#:#Private Message###05 Mar 2004 new variable
-chat#:#chat_public_room#:#Public chatroom###05 Mar 2004 new variable
-chat#:#chat_purple#:#purple###05 Mar 2004 new variable
-chat#:#chat_red#:#red###05 Mar 2004 new variable
-chat#:#chat_refresh#:#Refresh###05 Mar 2004 new variable
-chat#:#chat_room_added#:#Added new chatroom###05 Mar 2004 new variable
-chat#:#chat_room_name#:#Name of chatroom###05 Mar 2004 new variable
-chat#:#chat_room_renamed#:#Chatroom renamed.###05 Mar 2004 new variable
-chat#:#chat_room_select#:#Private chatroom###05 Mar 2004 new variable
-chat#:#chat_rooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###05 Mar 2004 new variable
-chat#:#chat_select_one_room#:#Please select one chatroom###05 Mar 2004 new variable
-chat#:#chat_server_allowed#:#Allowed hosts###05 Mar 2004 new variable
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###05 Mar 2004 new variable
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
-chat#:#chat_server_logfile#:#Logfile path###05 Mar 2004 new variable
-chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
-chat#:#chat_server_not_active#:#The chatserver is not active###05 Mar 2004 new variable
-chat#:#chat_server_port#:#Server Port###05 Mar 2004 new variable
-chat#:#chat_server_settings#:#Chatserver settings###05 Mar 2004 new variable
-chat#:#chat_settings_saved#:#Settings saved###05 Mar 2004 new variable
-chat#:#chat_show_details#:#Show details###05 Mar 2004 new variable
-chat#:#chat_silver#:#silver###05 Mar 2004 new variable
-chat#:#chat_status#:#Status###05 Mar 2004 new variable
-chat#:#chat_status_saved#:#The status has been changed###05 Mar 2004 new variable
-chat#:#chat_tahoma#:#Tahoma###05 Mar 2004 new variable
-chat#:#chat_teal#:#teal###05 Mar 2004 new variable
-chat#:#chat_times#:#Times###05 Mar 2004 new variable
-chat#:#chat_title_missing#:#Please insert a name.###05 Mar 2004 new variable
-chat#:#chat_to_chat_body#:#To the chat###05 Mar 2004 new variable
-chat#:#chat_type#:#Font face###05 Mar 2004 new variable
-chat#:#chat_underlined#:#Underlined###05 Mar 2004 new variable
-chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
-chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
-chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
-chat#:#chats#:#Chats###05 Mar 2004 new variable
-chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
-common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Apr 2004 content changed
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###05 Nov 2004 new variable
-common#:#HH:MM#:#HH:MM###05 Nov 2004 new variable
+bibitem#:#bibitem_series_editor#:#Редактор
+bibitem#:#bibitem_series_title#:#Назва послідовності
+bibitem#:#bibitem_series_volume#:#Том
+bibitem#:#bibitem_technical_report#:#Технічний звіт
+bibitem#:#bibitem_type#:#Тип
+bibitem#:#bibitem_unpublished#:#Неопублікований
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Де опублікований
+bibitem#:#bibitem_year#:#Рік
+chat#:#chat_active#:#Активний
+chat#:#chat_active_users#:#Користувач (активний)
+chat#:#chat_add_allowed_hosts#:#Будь вкажіть додайте адресу хостів, яким довзолений доступ до чат серверу.
+chat#:#chat_add_external_ip#:#Будь ласка вкажіть зовнішній IP сервера.
+chat#:#chat_add_internal_ip#:#Будь ласка вкажіть внутрішній IP сервера.
+chat#:#chat_add_moderator_password#:#Будь ласка вкажіть пароль модератора.
+chat#:#chat_add_port#:#Будь ласка вкажіть порт сервера.
+chat#:#chat_aqua#:#аква
+chat#:#chat_arial#:#Arial
+chat#:#chat_black#:#чорний
+chat#:#chat_blue#:#блакитний
+chat#:#chat_bold#:#Напівжирний
+chat#:#chat_chatroom_body#:#Кімната:
+chat#:#chat_chatroom_rename#:#Редагувати кімнату
+chat#:#chat_chatrooms#:#Кімнати
+chat#:#chat_color#:#Колір шрифта
+chat#:#chat_delete_sure#:#Ви впевнені, що бажаєете видалити цю кімнату
+chat#:#chat_drop_user#:#Користувача викинуто
+chat#:#chat_edit#:#Редагувати чат
+chat#:#chat_face#:#Тип шрифту
+chat#:#chat_fuchsia#:#фуксія
+chat#:#chat_gray#:#сірий
+chat#:#chat_green#:#зелений
+chat#:#chat_hide_details#:#Приховати деталі
+chat#:#chat_html_export#:#HTML експорт
+chat#:#chat_ilias#:#Ilias модуль чату
+chat#:#chat_inactive#:#Неактивний
+chat#:#chat_input#:#Ввод
+chat#:#chat_insert_message#:#Будь ласка введіть повідомлення
+chat#:#chat_invitation_body#:#Запрошення до чату від:
+chat#:#chat_invitation_subject#:#Запрошення до чату
+chat#:#chat_invite_user#:#Запросити користувача
+chat#:#chat_italic#:#Курсив
+chat#:#chat_level_all#:#Усе
+chat#:#chat_level_debug#:#Налагодження
+chat#:#chat_level_error#:#Помилка
+chat#:#chat_level_fatal#:#Фатальна
+chat#:#chat_level_info#:#Інформація
+chat#:#chat_lime#:#lime
+chat#:#chat_maroon#:#maroon
+chat#:#chat_messages_deleted#:#Повідомлення було видалено.
+chat#:#chat_moderator_password#:#Пароль модератора
+chat#:#chat_navy#:#темно-блакитний
+chat#:#chat_no_active_users#:#Немає користувачів.
+chat#:#chat_no_connection#:#Неможливо з'єднатись з чат сервером.
+chat#:#chat_no_delete_public#:#Публічна кімната не може бути видалена
+chat#:#chat_no_refresh_public#:#публічна кімната не може бути оновлена.
+chat#:#chat_no_rename_public#:#Публічна кімната не може бути переіменована
+chat#:#chat_no_write_perm#:#Немає прав на запис
+chat#:#chat_olive#:#olive
+chat#:#chat_online_users#:#Користувач (онлайн)
+chat#:#chat_private_message#:#Приватне Повідомлення
+chat#:#chat_public_room#:#Загальна кімната
+chat#:#chat_purple#:#пурпурний
+chat#:#chat_red#:#червоний
+chat#:#chat_refresh#:#Обновити
+chat#:#chat_room_added#:#Додати нову кімнату
+chat#:#chat_room_name#:#Назва кімнати
+chat#:#chat_room_renamed#:#Кімнату переіменовано.
+chat#:#chat_room_select#:#Приватна кімната
+chat#:#chat_rooms#:#Кімнати
+chat#:#chat_rooms_deleted#:#Кімнати видалено.
+chat#:#chat_select_one_room#:#Будь ласка виберіть одну кімнату
+chat#:#chat_server_allowed#:#Дозволені хости
+chat#:#chat_server_allowed_b#:#(наприклад 192.168.1.1,192.168.1.2)
+chat#:#chat_server_external_ip#:#Зовнішній IP серверу
+chat#:#chat_server_internal_ip#:#Внутрішній IP серверу
+chat#:#chat_server_logfile#:#Шлях до логфайлу
+chat#:#chat_server_loglevel#:#Рівень логування
+chat#:#chat_server_not_active#:#Чат сервер не активний
+chat#:#chat_server_port#:#Порт Сервера
+chat#:#chat_server_settings#:#Настройки час сервера
+chat#:#chat_settings_saved#:#Настройки збережені
+chat#:#chat_show_details#:#Показати деталі
+chat#:#chat_silver#:#срібний
+chat#:#chat_status#:#Статус
+chat#:#chat_status_saved#:#Статус був змінений
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#teal
+chat#:#chat_times#:#Times
+chat#:#chat_title_missing#:#Будь ласка введіть ім'я.
+chat#:#chat_to_chat_body#:#В чат
+chat#:#chat_type#:#Font face
+chat#:#chat_underlined#:#Підкреслений
+chat#:#chat_user_dropped#:#Користувач викинутий
+chat#:#chat_user_invited#:#Користувач запрошений в чат.
+chat#:#chat_yellow#:#жовтий
+chat#:#chats#:#Чати
+chat#:#my_chats#:#Мої Чати
+common#:#3rd_party_software#:#програмне забезпечення сторонніх виробників
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Абсолютний Шлях
 common#:#accept_usr_agreement#:#Прийняти угоду користувача?
 common#:#access#:#Доступ
-common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
-common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
-common#:#action#:#Action###29 Nov 2004 new variable
+common#:#account_expires_body#:#Термін дії вашого акаунту обмежений, він закінчиться:
+common#:#account_expires_subject#:#[ILIAS 3] Термін дії вашого акаунту скінчився
+common#:#action#:#Дія
 common#:#action_aborted#:#Дію перервано
 common#:#actions#:#Дії
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
-common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
-common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
-common#:#activation#:#Activation###16 Mar 2004 new variable
-common#:#active#:#Active###14 Sep 2004 new variable
+common#:#activate_assessment_logging#:#Активувати логування Тестів & Оцінок
+common#:#activate_https#:#Активувати HTTPS (Оплата, Вхід в систему)
+common#:#activate_tracking#:#Активувати Слідкування
+common#:#activation#:#Активація
+common#:#active#:#Активний
 common#:#active_roles#:#Активні Ролі
 common#:#add#:#Додати
 common#:#add_author#:#Додати Автора
-common#:#add_condition#:#Create new association###14 Aug 2004 new variable
+common#:#add_condition#:#Створити нову ассоціацію
 common#:#add_member#:#Додати Члена
-common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_members#:#Додати членів
 common#:#add_translation#:#Додати переклад
-common#:#add_user#:#Add local user###11 Sep 2004 new variable
-common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
-common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
+common#:#add_user#:#Додати локального користувача
+common#:#added_new_condition#:#Створити нову умову.
+common#:#adm_create_tax#:#Створити систематику
 common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
-common#:#adm_visible#:#Системні настройки є видимі###14 Sep 2004 content changed
+common#:#adm_visible#:#Системні настройки є видимі
 common#:#adm_write#:#Редагувати Базові системні настройки
 common#:#administrate#:#Адмініструвати
-common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
+common#:#administrate_users#:#Адміністрування локальних користувачів
 common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
 common#:#adopt#:#прийняти
 common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
-common#:#all_authors#:#All authors###21 Jul 2004 new variable
-common#:#all_global_roles#:#Global roles###16 Sep 2004 new variable
-common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
-common#:#all_local_roles#:#Local roles (all)###16 Sep 2004 new variable
+common#:#all_authors#:#Усі автори
+common#:#all_global_roles#:#Глобальні ролі
+common#:#all_lms#:#Усі учбові модулі
+common#:#all_local_roles#:#Локальні ролі (усі)
 common#:#all_objects#:#Усі Об'єкти
-common#:#all_roles#:#All Roles###16 Sep 2004 new variable
-common#:#all_tsts#:#All tests###02 Jul 2004 new variable
-common#:#all_users#:#All users###11 Sep 2004 new variable
-common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
+common#:#all_roles#:#Усі Ролі
+common#:#all_tsts#:#Усі тести
+common#:#all_users#:#Усі користувачі
+common#:#allow_assign_users#:#Дозволити призначення користувачів для локальних адміністраторів.
 common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
-common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
-common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
-common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
-common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
-common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
+common#:#alm#:#AICC Учбовий Модуль
+common#:#alm_added#:#AICC Учбовий Модуль доданий
+common#:#alm_create#:#Створити AICC Учбовий Модуль
+common#:#alm_delete#:#Видалити AICC Учбовий Модуль
+common#:#alm_edit_permission#:#Змініти настройки прав
+common#:#alm_join#:#Підписатись до AICC Учбового Модуля
+common#:#alm_leave#:#Відписатись від AICC Учбового Модуля
+common#:#alm_read#:#Доступ на читання до AICC Учбового Модуля
+common#:#alm_visible#:#AICC Учбовий Модуль є видимим
+common#:#alm_write#:#Редагувати AICC Учбовий Модуль
+common#:#already_delivered_files#:#Вже доставлені файли
 common#:#and#:#та
 common#:#announce#:#Анонсувати
 common#:#announce_changes#:#Анонсувати Зміни
 common#:#answers#:#Відповіді
-common#:#any_language#:#Any language###02 Jul 2004 new variable
+common#:#any_language#:#Будь яка мова
 common#:#application_completed#:#Програма завершена
 common#:#application_date#:#Дата програми
-common#:#applied_users#:#Applied users###14 Aug 2004 new variable
-common#:#apply#:#Apply###02 Oct 2004 new variable
-common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
+common#:#applied_users#:#Користувачі, що застосовані
+common#:#apply#:#Застосувати
+common#:#apply_filter#:#Застосувати фільтр
 common#:#appointment#:#Призначення
 common#:#appointment_list#:#Список Призначення
-common#:#approve_date#:#Approved On###14 Sep 2004 new variable
-common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
+common#:#approve_date#:#Схвалено
+common#:#approve_recipient#:#ID логіну, що схвалив
 common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
-common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
-common#:#as_of#:#as of###29 Nov 2004 new variable
-common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
-common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
-common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
-common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
-common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
+common#:#articels_unread#:#Непрочитані статті:
+common#:#as_of#:#як в
+common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання
+common#:#assf_edit_permission#:#Змінити настройки прав
+common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням
+common#:#assf_visible#:#Адміністрування Тестами & Оцінюванням є видимим
+common#:#assf_write#:#Редагувати адміністрування Тестами & Оцінюванням
 common#:#assign#:#Призначити
-common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
+common#:#assign_global_role#:#Призначити глобальну роль
 common#:#assign_lo_forum#:#Призначити LO Форум
-common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
+common#:#assign_local_role#:#Призначити локальну роль
 common#:#assign_user_to_role#:#Призначити Користувачу Роль
-common#:#assigned_roles#:#Assigned roles###16 Sep 2004 new variable
-common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
+common#:#assigned_roles#:#Призначити ролі
+common#:#assigned_users#:#Призначені користувачі
 common#:#at_location#:#знаходиться
 common#:#attachment#:#Прикріплення
 common#:#attachments#:#Прикріплення
-common#:#attend#:#Attend###03 Apr 2004 new variable
-common#:#auth_configure#:#configure...###24 Jul 2004 new variable
-common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
-common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
-common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
-common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
-common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
-common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
-common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
-common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
-common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
-common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
-common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
-common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.###24 Jul 2004 new variable
-common#:#auth_script#:#Custom###24 Jul 2004 new variable
-common#:#auth_script_desc#:#Authenticate users via external script###24 Jul 2004 new variable
-common#:#auth_select#:#Select authentication mode###24 Jul 2004 new variable
-common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new variable
+common#:#attend#:#Супроводжувати
+common#:#auth_configure#:#конфігурувати...
+common#:#auth_edit_permission#:#Змінити настройки прав
+common#:#auth_ldap#:#LDAP
+common#:#auth_ldap_desc#:#Аутентифікувати користувачів через LDAP сервер
+common#:#auth_ldap_not_configured#:#LDAP ще не сконфігурований
+common#:#auth_local#:#База даних ILIAS
+common#:#auth_local_desc#:#Аутентифікувати користувачів через локальну базу даних ILIAS (по замовчанню)
+common#:#auth_mode#:#Режим аутентифікації
+common#:#auth_mode_changed_to#:#Режим аутентифікації змінений на
+common#:#auth_mode_not_changed#:#(Нічого не змінено)
+common#:#auth_radius#:#RADIUS
+common#:#auth_radius_desc#:#Аутентифікувати користувачів через RADIUS сервер
+common#:#auth_read#:#Настройки аутентифікації
+common#:#auth_remark_non_local_auth#:#Коли вибирається інший режим аутентифікації крім режима по замовчанню, логіни та паролі користувачів більше не можуть бути змінені та опція нової реєстрації заблокована.
+common#:#auth_script#:#Заказ
+common#:#auth_script_desc#:#Аутентифікація користувачів через зовнішній скрипт
+common#:#auth_select#:#Вибір методу аутентифікації
+common#:#auth_visible#:#Настройки аутентифікації є видимі
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Автор
 common#:#authors#:#Атвори
