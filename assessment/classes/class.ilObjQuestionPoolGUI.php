@@ -25,7 +25,7 @@
 /**
 * Class ilObjQuestionPoolGUI
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de>
 * $Id$
 *
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
@@ -235,6 +235,79 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;
+	}
+
+	/**
+	* imports question(s) into the questionpool
+	*/
+	function uploadObject()
+	{
+		// check if file was uploaded
+		$source = $_FILES["qtidoc"]["tmp_name"];
+		$error = 0;
+		if (($source == 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK)
+		{
+//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		// check correct file type
+		if (strcmp($_FILES["qtidoc"]["type"], "text/xml") != 0)
+		{
+//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		if (!$error)
+		{
+			// import file into questionpool
+			$fh = fopen($source, "r") or die("");
+			$xml = fread($fh, filesize($source));
+			fclose($fh) or die("");
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case CLOZE_TEST_IDENTIFIER:
+								$question = new ASS_ClozeTest();
+								break;
+							case IMAGEMAP_QUESTION_IDENTIFIER:
+								$question = new ASS_ImagemapQuestion();
+								break;
+							case MATCHING_QUESTION_IDENTIFIER:
+								$question = new ASS_MatchingQuestion();
+								break;
+							case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+								$question = new ASS_MultipleChoice();
+								break;
+							case ORDERING_QUESTION_IDENTIFIER:
+								$question = new ASS_OrderingQuestion();
+								break;
+						}
+						$question->from_xml("<questestinterop>$item</questestinterop>");
+						$question->setObjId($this->object->getId());
+						$question->saveToDb();
+					}
+				}
+			}
+		}
+		$this->questionsObject();
+	}
+	
+	/**
+	* display the import form to import questions into the questionpool
+	*/
+		function importObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_import_question.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
+		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
+		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -770,6 +843,7 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 			$this->tpl->setCurrentBlock("CreateQuestion");
 			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
 			$this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
+			$this->tpl->setVariable("QUESTION_IMPORT", $this->lng->txt("import"));
 			$this->tpl->parseCurrentBlock();
 		}
 

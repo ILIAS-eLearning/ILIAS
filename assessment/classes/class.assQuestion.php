@@ -1246,6 +1246,12 @@ class ASS_Question
 		}
 	}
 
+	function getPageOfQuestion()
+	{
+		$page = new ilPageObject("qpl", $this->id);
+		return $page->getXMLContent();
+	}
+
 /**
 * Returns the question type of a question with a given id
 * 
