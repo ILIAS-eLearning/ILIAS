@@ -97,51 +97,66 @@
 </tr>
 </table>
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="locator">
-	<td align="left" valign="top">
-      <strong>
-            Security of {TREEPATH}
-	  </strong>
-    </td>
-  </tr>
-</table>
-
-<br>
-
-<table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
-    <form action="object.php?cmd=perms_save&obj_id={OBJ_ID}&parent={TPOS}&show={ROL_ID}" method="post">
-		<td></td>
-	    <!-- BEGIN TABLE_HEADER -->
-	    <td>
-	      {HEADER}
-	    </td>
-	    <!-- END TABLE_HEADER -->
-	    <!-- BEGIN TABLE_OUTER -->
-	    <tr>
-	      <!-- BEGIN TABLE_INNER -->
-		  <td>
-			{ERBT}
+	<table width="100%" cellspacing="0" cellpadding="2" border="0">
+		<tr class="locator">
+		  <td align="left" valign="top">
+			<strong>
+			  Security of {TREEPATH}
+			</strong>
 		  </td>
-	      <th>
-		<a href='object.php?cmd=perm&obj_id={OBJECT}&show={SHOW}&parent={PARENT}{TYPE}'>{ROLE}</a>
-	      </th>
-		<!-- BEGIN TABLE_DATA -->
-	      <td>
-		{CHECKBOX}
-	      </td>
-		<!-- END TABLE_DATA -->
-	      <!-- END TABLE_INNER -->
-	    </tr>
-	    <!-- END TABLE_OUTER -->
-	    <tr>
-	      <td colspan="{COL_ANZ}" align="center">
-		<input type="SUBMIT" value="Submit">
-	      </td>
-	    </tr>
+		</tr>
+	</table>
 
-    </form>
-</table>
+	<br>
+	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
+	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="30%" align="left">
+			  <div class="list-item"><strong>Permission:</strong>
+			  </div>
+			</td>
+			<td width="70%" align="left"><div class="list-item"> 
+				<strong>Roles:</strong></div>
+			</td>
+		  </tr>
+	  </table>
+	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="30%" align="left">&nbsp</td>
+			<!-- BEGIN ROLENAMES -->
+			<td>
+			  <strong>
+				{ROLE_NAME}
+			  </strong>
+			</td>
+			<!-- END ROLENAMES -->
+		  </tr>
+		  <!-- BEGIN TABLE_DATA_OUTER -->
+		  <tr class={CSS_ROW}>
+			<td width="30%" align="left">
+			  {PERMISSION}
+			</td>
+			<!-- BEGIN CHECK_PERM -->
+			<td>
+			  {CHECK_PERMISSION}
+			</td>
+			<!-- END CHECK_PERM -->
+		  </tr>
+		  <!-- END TABLE_DATA_OUTER -->
+		  <tr class="header">
+			<td width="30%" align="left"><font color="red">Stop Inheritance</font></td>
+			<!-- BEGIN CHECK_INHERIT -->
+			<td>
+			  {CHECK_INHERITANCE}
+			</td>
+			<!-- END CHECK_INHERIT -->
+		  </tr>
+	  </table>
+	  <br>
+	  <input type="SUBMIT" value="submit">
+
+
+
 <!-- BEGIN LOCAL_ROLES -->
 <br>
 <br>
@@ -161,8 +176,6 @@
 		  </tr>
 	  </table>
 	</form>
-
-
 <!-- END LOCAL_ROLES -->
 </body>
 </html>
