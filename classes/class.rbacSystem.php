@@ -54,7 +54,7 @@ class RbacSystem
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
-							"ref_id: ".$a_ref_id." operations: ".var_dump($a_operations),$this->ilias->error_obj->WARNING);
+							"ref_id: ".$a_ref_id." operations: ".$a_operations,$this->ilias->error_obj->WARNING);
 		}
 
 		if (!is_string($a_operations))
