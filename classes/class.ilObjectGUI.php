@@ -355,7 +355,6 @@ class ilObjectGUI
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
 
-
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
