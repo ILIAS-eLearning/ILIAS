@@ -162,6 +162,7 @@
 	<action name="setuserlang">setUserLanguage</action>
 </object>
 <object name="mail" class_name="Mail" checkbox="0" inherit="0">
+	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
