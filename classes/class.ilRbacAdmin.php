@@ -396,8 +396,9 @@ class ilRbacAdmin
 			$and1 = "";
 		}
 
+		// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
 		$q = "DELETE FROM rbac_pa ".
-			 "WHERE obj_id = '".$a_ref_id."' ";
+			 "WHERE obj_id = '".$a_ref_id."' ".
 			 $and1;
 		$this->ilias->db->query($q);
 
