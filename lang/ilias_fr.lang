@@ -451,6 +451,8 @@ common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
 common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
+common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
 common#:#grp_edit#:#Modifier groupe
 common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
@@ -1209,10 +1211,12 @@ content#:#cont_edit_par#:#Modifier paragraphe
 content#:#cont_edit_tab_properties#:#Propriétés du tableau
 content#:#cont_edit_term#:#Modifier terme
 content#:#cont_edition#:#Edition
+content#:#cont_external#:#external###14 Feb 2004 new variable
 content#:#cont_file#:#Fichier
 content#:#cont_files#:#Fichiers
 content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le répertoire.
 content#:#cont_fullscreen#:#Plein écran
+content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_height#:#Hauteur
 content#:#cont_how_published#:#Publié comment
 content#:#cont_href#:#href
@@ -1226,6 +1230,7 @@ content#:#cont_insert_mob#:#Insérer objet média
 content#:#cont_insert_par#:#Insérer paragraphe
 content#:#cont_insert_search#:#Veuillez insérer un terme de recherche
 content#:#cont_insert_table#:#Insérer tableau
+content#:#cont_internal#:#internal###14 Feb 2004 new variable
 content#:#cont_internal_link#:#lien interne
 content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
@@ -1234,6 +1239,8 @@ content#:#cont_item#:#Objet
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Mot-clé
 content#:#cont_link#:#Link###14 Jan 2004 new variable
+content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
+content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_type#:#Type de lien
 content#:#cont_list_properties#:#Propriétés de la liste

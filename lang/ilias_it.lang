@@ -451,6 +451,8 @@ common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Cancellare il gruppo
+common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
 common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
@@ -1209,10 +1211,12 @@ content#:#cont_edit_par#:#Modifica paragrafo
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
+content#:#cont_external#:#external###14 Feb 2004 new variable
 content#:#cont_file#:#File
 content#:#cont_files#:#File
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
+content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Come pubblicato
 content#:#cont_href#:#href
@@ -1226,6 +1230,7 @@ content#:#cont_insert_mob#:#Inserisci oggetto multimediale
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
 content#:#cont_insert_table#:#Inserisci tabella
+content#:#cont_internal#:#internal###14 Feb 2004 new variable
 content#:#cont_internal_link#:#Collegamento interno
 content#:#cont_is_visible#:#&#232; visibile
 content#:#cont_isbn#:#ISBN
@@ -1234,6 +1239,8 @@ content#:#cont_item#:#Elemento
 content#:#cont_journal#:#Giornaliero
 content#:#cont_keyword#:#Chiave
 content#:#cont_link#:#Collegamento
+content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
+content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
 content#:#cont_list_properties#:#Elenca le propriet&#224;

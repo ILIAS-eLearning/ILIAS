@@ -1168,8 +1168,6 @@ content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_back#:#Back
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
-content#:#cont_internal#:#internal
-content#:#cont_external#:#external
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
@@ -1213,10 +1211,12 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
+content#:#cont_external#:#external
 content#:#cont_file#:#File
 content#:#cont_files#:#Files
 content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_fullscreen#:#Fullscreen
+content#:#cont_get_link#:#get link
 content#:#cont_height#:#Height
 content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
@@ -1230,6 +1230,7 @@ content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_search#:#Please insert a search term
 content#:#cont_insert_table#:#Insert Table
+content#:#cont_internal#:#internal
 content#:#cont_internal_link#:#internal link
 content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
@@ -1240,7 +1241,6 @@ content#:#cont_keyword#:#Keyword
 content#:#cont_link#:#Link
 content#:#cont_link_ext#:#Link (external)
 content#:#cont_link_int#:#Link (internal)
-content#:#cont_get_link#:#get link
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
 content#:#cont_list_properties#:#List Properties

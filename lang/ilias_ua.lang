@@ -451,6 +451,8 @@ common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_lm#:#Створити Учбовий Модуль
 common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
 common#:#grp_delete#:#Видалити Групу
+common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
 common#:#grp_edit#:#Редагувати Групу
 common#:#grp_edit_permission#:#Змінити настройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
@@ -1209,10 +1211,12 @@ content#:#cont_edit_par#:#Редагувати Параграф
 content#:#cont_edit_tab_properties#:#Властивості Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випуск
+content#:#cont_external#:#external###14 Feb 2004 new variable
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли
 content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
 content#:#cont_fullscreen#:#Повний екран
+content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
 content#:#cont_href#:#href
@@ -1226,6 +1230,7 @@ content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
 content#:#cont_insert_par#:#Вставити Параграф
 content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
 content#:#cont_insert_table#:#Вставити Таблицю
+content#:#cont_internal#:#internal###14 Feb 2004 new variable
 content#:#cont_internal_link#:#внутрішнє посилання
 content#:#cont_is_visible#:#є видимим
 content#:#cont_isbn#:#ISBN
@@ -1234,6 +1239,8 @@ content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
 content#:#cont_link#:#Посилання
+content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
+content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
 content#:#cont_list_properties#:#Властивості Списку
