@@ -4,6 +4,14 @@ require_once "include/ilias_header.inc";
 // Template generieren
 $tplContent = new Template("content_type.html",true,true);
 
+//show tabs
+$o = array();
+$o["LINK1"] = "content_type.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+$tplContent->setVariable("TABS", TUtil::showTabs(1,$o));
+
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);
@@ -32,7 +40,6 @@ if (empty($_GET["order"]))
 }
 
 // BEGIN ROW
-$tplContent->setCurrentBlock("row",true);
 
 if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
@@ -44,6 +51,8 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$css_row = TUtil::switchColor($key,"tblrow1", "tblrow2");
 
 			$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+
+			$tplContent->setCurrentBlock("row");
 			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".
 									 $val["obj_id"]."&parent=$_GET[obj_id]&parent_parent=$_GET[parent]");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);

@@ -41,7 +41,6 @@ if (empty($_GET["order"]))
 }
 
 // BEGIN ROW
-$tplContent->setCurrentBlock("row",true);
 
 if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
@@ -53,6 +52,8 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
 
 			$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+
+			$tplContent->setCurrentBlock("row");
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"]."&cmd=edit");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);

@@ -21,6 +21,7 @@ else
 {
 	$style = "style.css";
 }
+
 $tplnav->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
 
 $tplnav->show();

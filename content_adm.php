@@ -7,10 +7,9 @@ $tplContent = new Template("content_adm.html",true,true);
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
-//$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
+
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 
-$tplContent->setCurrentBlock("row",true);
 
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
@@ -46,6 +45,8 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
 		
 		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+		
+		$tplContent->setCurrentBlock("row");
 		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
 		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
@@ -56,6 +57,7 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		$tplContent->setVariable("OBJ_ID",$val["id"]);
 		$tplContent->parseCurrentBlock();
     }
+	
 	$tplContent->touchBlock("options");
 }
 else
@@ -73,7 +75,7 @@ if (!empty($ilias->typedefinition[$type]))
 	$tplContent->setVariable("SELECT_OBJTYPE",$opts);
 	$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 	$tplContent->setVariable("TPOS",$_GET["parent"]);
-	$tplContent->parseCurrentBlock("opt_type","type",true);
+	$tplContent->parseCurrentBlock();
 }
 
 $tplContent->setVariable("OBJ_EDIT","object.php?obj_id=".$_GET["obj_id"]."&parent".$_GET["parent"]."&type=admin");

@@ -26,5 +26,5 @@ $tplnav->setVariable("TXT_GROUPS", $lng->txt("groups"));
 $tplnav->setVariable("TXT_HELP", $lng->txt("help"));
 $tplnav->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
 $tplnav->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-
+//vd($tplnav->variableCache);
 ?>
