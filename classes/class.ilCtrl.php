@@ -208,19 +208,9 @@ class ilCtrl
 	}
 
 
-	/*
-	function removeTransit()
-	{
-		reset($this->transit);
-		foreach($this->transit as $key => $transClass)
-		{
-			if ($transClass != "")
-			{
-				$this->transit[$key] = "";
-			}
-		}
-	}*/
-
+	/**
+	* get call structure of class context
+	*/
 	function getCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
 		global $ilDB;
@@ -248,51 +238,6 @@ class ilCtrl
 		$this->root_class = $a_class;
 		return $a_nr;
 	}
-
-	/*
-	function getCallStructure($a_class)
-	{
-
-		$this->called_forward[$a_class] = $a_class;
-
-		$methods = get_class_methods($a_class);
-
-		if (!is_array($methods))
-		{
-			$a_class = strtolower($a_class);
-			if ($this->parent[$a_class][0] == "")
-			{
-				echo "<b>Error in ilCtrl::getCallStructure():</b><br> $a_class is not included!";
-			}
-			else
-			{
-				echo "<b>Error in ilCtrl::getCallStructure:</b><br> $a_class is not included within ".
-					$this->parent[$a_class][0]."!<br><br>";
-				echo "$a_class is returned by ".$this->parent[$a_class][0]."::_forwards()".
-					" but $a_class is not included at the top of ".$this->parent[$a_class][0].
-					" class file.";
-			}
-			exit;
-		}
-
-		if (in_array(strtolower("_forwards"), $methods))
-		{
-			$forw = call_user_func(array($a_class, "_forwards"));
-			$this->forwards($a_class, $forw);
-			if (is_array($forw))
-			{
-				foreach($forw as $forw_class)
-				{
-					if (!isset($this->called_forward[$forw_class]))
-					{
-						$this->getCallStructure($forw_class);
-					}
-				}
-			}
-		}
-//echo "<br><br>forwards:".$a_class."<br>"; var_dump($forw);
-		$this->root_class = $a_class;
-	}*/
 
 	/**
 	* stores which classes forward to which other classes

@@ -96,7 +96,7 @@ class ilObjQuestionPool extends ilObject
 		return true;
 	}
 
-/**
+	/**
 	* read object data from db into object
 	* @param	boolean
 	* @access	public
