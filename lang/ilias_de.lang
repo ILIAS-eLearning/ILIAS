@@ -760,7 +760,7 @@ common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
-common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
+common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
@@ -815,7 +815,7 @@ common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
+common#:#cant_deactivate_if_users_assigned#:#Sie können einen Style nicht deaktivieren, wenn ihm noch Benutzer zugeordnet sind.
 common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
@@ -933,7 +933,7 @@ common#:#confirmation#:#Aktion bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
-common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
+common#:#content_styles#:#Content Styles
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
@@ -1026,7 +1026,7 @@ common#:#dbk_new#:#Neues Digilib-Buch
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
-common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
+common#:#def_repository_view#:#Standard-Magazinansicht
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
@@ -1717,7 +1717,7 @@ common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_to#:#Ablegen in
-common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
+common#:#move_users_to_style#:#Benutzer Style zuordnen
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
@@ -1847,7 +1847,7 @@ common#:#not_accessed#:#Noch nicht aufgerufen
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
-common#:#num_users#:#Number of users###02 Mar 2005 new variable
+common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
@@ -1907,8 +1907,8 @@ common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
-common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
-common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
+common#:#obj_stys#:#Skin/Style Einstellungen
+common#:#obj_stys_desc#:#Enthält Einstellungen für systemweite Styles und Styles für die Anzeige von Inhalten.
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
@@ -2275,11 +2275,11 @@ common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#sty#:#Style
-common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
-common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
-common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
-common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
-common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
+common#:#style_activation#:#Style-Aktivierung
+common#:#stys_edit_permission#:#Rechte ändern
+common#:#stys_read#:#Lesezugriff auf Style-Einstellungen
+common#:#stys_visible#:#Style-Einstellungen sind sichtbar
+common#:#stys_write#:#Style-Einstellungen ändern
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
@@ -2308,7 +2308,7 @@ common#:#system_grp#:#Systemgruppe
 common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
-common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
+common#:#system_style_settings#:#Einstellungen für System-Styles
 common#:#table_mail_import#:#Import von Nachrichten
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Taxonomie hinzufügen
@@ -2962,7 +2962,7 @@ crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
-crs#:#crs_groupings#:#Kursgruppierungen###02 Mar 2005 content changed
+crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
 crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
