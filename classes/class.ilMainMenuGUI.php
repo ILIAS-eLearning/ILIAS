@@ -100,7 +100,7 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("TARGET2", $this->target);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// mail button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
@@ -112,13 +112,19 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("TARGET_MAIL", $this->target);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
+		$link_dir = (defined("ILIAS_MODULE"))
+			? "../"
+			: "";
+
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->tpl->setCurrentBlock("userisanonymous");
 			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
 			$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
+			$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php");
+			$this->tpl->setVariable("LINK_LOGIN", $link_dir."index.php?cmd=login");
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -126,8 +132,9 @@ class ilMainMenuGUI
 			$this->tpl->setCurrentBlock("userisloggedin");
 			$this->tpl->setVariable("TXT_WELCOME",$lng->txt("welcome"));
 			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
+			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php");
 			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
-			$this->tpl->parseCurrentBlock();		
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$var2image = array( "IMG_DESK" => "navbar/desk.gif",

@@ -74,6 +74,8 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml")
 	{
+		global $tpl;
+
 		$layout = $this->lm->getLayout();
 
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
@@ -144,7 +146,14 @@ class ilLMPresentationGUI
 			$in_module = ($attributes["template_location"] == "module")
 				? true
 				: false;
-			$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+			if ($in_module)
+			{
+				$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+			}
+			else
+			{
+				$this->tpl =& $tpl;
+			}
 
 			// set style sheets
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -192,6 +201,7 @@ class ilLMPresentationGUI
 	{
 		$menu = new ilMainMenuGUI("_top", true);
 		$menu->setTemplate($this->tpl);
+		$menu->addMenuBlock("CONTENT", "navigation");
 		$menu->setTemplateVars();
 	}
 
