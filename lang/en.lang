@@ -335,3 +335,4 @@ objf#:#object folder
 role#:#role
 passwd#:#password
 desc#:#description
+default_role#:#default role

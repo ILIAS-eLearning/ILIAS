@@ -3,6 +3,7 @@ require_once "include/ilias_header.inc";
 require_once "classes/class.Object.php";	// base class for all Object Types
 
 
+
 if ($_POST["type"])
 {
 	$_GET["type"] = $_POST["type"];
@@ -13,6 +14,9 @@ if (!isset($_GET["type"]))
     $obj = getObject($_GET["obj_id"]);
     $_GET["type"] = $obj["type"];
 }
+
+//vd($_GET);
+//vd($_POST);
 
 //prepare output of administration view
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -226,7 +230,7 @@ if ($_GET["cmd"] != "create")
 else
 	$tplpart = "edit";
 	
-$template = "tpl.".$obj->type."_".$tplpart.".html";
+$template = "tpl.".$_GET["type"]."_".$tplpart.".html";
 
 if ($tpl->fileExists($template) == false)
 {
@@ -234,7 +238,6 @@ if ($tpl->fileExists($template) == false)
 }
 
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
-
 switch($_GET["cmd"])
 {
 	case "save":
@@ -246,17 +249,18 @@ switch($_GET["cmd"])
 		break;
 		
 	case "create":
-		$tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent."&cmd=save&type=".$_GET["type"]);
-		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+		foreach ($data["fields"] as $key => $val)
+		{
+			$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
+			$tpl->setVariable(strtoupper($key), $val);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable("FORMACTION", "adm_object.php?cmd=save&type=".$_GET["type"]."&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_REQUIRED_FLD", $lng->txt("required_field"));
-		$tpl->setVariable("OBJ_TITLE", $data["title"]);
-		$tpl->setVariable("OBJ_DESC", $data["desc"]);
 		break;
 		
 	case "edit":
-
 		foreach ($data["fields"] as $key => $val)
 		{
 			$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));

@@ -100,6 +100,7 @@ class TUtil
 
 		foreach ($options as $key => $val)
 		{
+		
 			$str .= " <option value=\"".$val."\"";
 			
 			if ($selected == $key)
@@ -108,6 +109,29 @@ class TUtil
 			}
 			
 			$str .= ">".$lng->txt($val)."</option>\n";
+		}
+
+		$str .= "</select>\n";
+		
+		return $str;
+	}
+
+	function formSelectWoTranslation ($selected,$varname,$options,$multiple = false)
+	{
+		$multiple ? $multiple = " multiple=\"multiple\"" : "";
+		$str = "<select name=\"".$varname ."\"".$multiple.">\n";
+
+		foreach ($options as $key => $val)
+		{
+		
+			$str .= " <option value=\"".$val."\"";
+			
+			if ($selected == $key)
+			{
+				$str .= " selected=\"selected\"";
+			}
+			
+			$str .= ">".$val."</option>\n";
 		}
 
 		$str .= "</select>\n";

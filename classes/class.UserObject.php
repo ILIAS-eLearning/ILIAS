@@ -28,8 +28,8 @@ class UserObject extends Object
 		$this->Object();
 
 		$this->gender = array(
-							  'm'    => $lng->txt("salutation_m"),
-							  'f'    => $lng->txt("salutation_f")
+							  'm'    => "salutation_m",
+							  'f'    => "salutation_f"
 							  );
 	}
 
@@ -45,32 +45,23 @@ class UserObject extends Object
 
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tpl->setVariable("STATUS","Add User");
-			$tpl->setVariable("CMD","save");
-			$tpl->setVariable("TYPE","user");
-			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tpl->setVariable("TPOS",$_GET["parent"]);
-
 			// gender selection
-			$tpl->setCurrentBlock("gender");
-			$opts = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
-			$tpl->setVariable("GENDER",$opts);
-			$tpl->parseCurrentBlock();
-
+			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection
-			$tpl->setCurrentBlock("role");
-			$role = TUtil::getRoles();
-			$opts = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$role);
-			$tpl->setVariable("ROLE",$opts);
-			$tpl->parseCurrentBlock();
+			$rol = TUtil::getRoles();
+			$role = TUtil::formSelectWoTranslation($Fuserdata["Role"],"Fuserdata[Role]",$rol);
 
-			$tpl->setVariable("USR_ID",$_GET["obj_id"]);
-			$tpl->setVariable("USR_LOGIN",$Fuserdata["Login"]);
-			$tpl->setVariable("USR_PASSWD",$Fuserdata["Passwd"]);
-			$tpl->setVariable("USR_TITLE",$Fuserdata["Title"]);
-			$tpl->setVariable("USR_FIRSTNAME",$Fuserdata["FirstName"]);
-			$tpl->setVariable("USR_SURNAME",$Fuserdata["SurName"]);
-			$tpl->setVariable("USR_EMAIL",$Fuserdata["Email"]);
+			$data["fields"] = array();
+			$data["fields"]["login"] = "";
+			$data["fields"]["passwd"] = "";
+			$data["fields"]["title"] = "";
+			$data["fields"]["gender"] = $gender;
+			$data["fields"]["firstname"] = "";
+			$data["fields"]["lastname"] = "";
+			$data["fields"]["email"] = "";
+			$data["fields"]["default_role"] = $role;
+			$data["title"] = $user->data["Title"];
+			return $data;
 		}
 		else
 		{
@@ -93,7 +84,7 @@ class UserObject extends Object
 			// create object
 			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
 			$Fobject["desc"] = $Fuserdata["Email"];
-			$Fuserdata["Id"] = createNewObject("user",$Fobject);
+			$Fuserdata["Id"] = createNewObject("usr",$Fobject);
 
 			// insert user data
 			$rbacadmin->addUser($Fuserdata);
@@ -103,9 +94,7 @@ class UserObject extends Object
 		{
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
-		
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;		
 	}
 	
 	/**
@@ -147,13 +136,14 @@ class UserObject extends Object
 			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection
 			$rol = TUtil::getRoles();
-			$role = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$rol);
+			$role = TUtil::formSelectWoTranslation($Fuserdata["Role"],"Fuserdata[Role]",$rol);
 
 			$data = array();
 
 			$data["fields"] = array();
 			$data["fields"]["login"] = $user->data["login"];
 			$data["fields"]["passwd"] = "********";
+			$data["fields"]["title"] = $user->data["title"];
 			$data["fields"]["gender"] = $gender;
 			$data["fields"]["firstname"] = $user->data["FirstName"];
 			$data["fields"]["lastname"] = $user->data["SurName"];
