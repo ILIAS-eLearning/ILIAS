@@ -96,7 +96,7 @@ class ilSearchGUI
 		$this->setUserId($a_user_id);
 
 		// INITIATE SEARCH OBJECT
-		$this->search =& new ilSearch($a_user_id);
+		$this->search =& new ilSearch($a_user_id,true);
 		$this->tree = new ilTree(1);
 
 		// INITIATE SEARCH FOLDER OBJECT
