@@ -4020,6 +4020,7 @@ survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaft
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
+survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
