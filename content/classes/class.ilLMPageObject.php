@@ -430,7 +430,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function _goto($a_target)
 	{
-		global $rbacsystem, $ilias;
+		global $rbacsystem, $ilErr, $lng;
 
 		// determine learning object
 		$lm_id = ilLMObject::_lookupContObjID($a_target);
@@ -448,7 +448,7 @@ class ilLMPageObject extends ilLMObject
 			}
 		}
 
-		$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
 }
