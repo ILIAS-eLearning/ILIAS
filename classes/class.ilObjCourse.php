@@ -136,7 +136,7 @@ class ilObjCourse extends ilObject
 		}
 		
 		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$a_ref_id)
+		if ($a_node_id==$_GET["ref_id"])
 		{	
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
