@@ -221,7 +221,7 @@ class ASS_QuestionGUI extends PEAR {
 		}
     if (!empty($this->question->materials)) {
 			$this->tpl->setCurrentBlock("mainselect_block");
-	
+
 			$this->tpl->setCurrentBlock("select_block");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("MATERIAL_VALUE", $value);
@@ -871,14 +871,14 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_cloze_question_template() {
-		$saved = false;    
+		$saved = false;
     $result = 0;
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
       $result = 1;
-      
+
 		if (($result) and ($_POST["cmd"]["add"])) {
 			// You cannot create gaps before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
@@ -892,7 +892,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding materials uris
     $saved = $saved | $this->set_question_material_from_material_template();
-    
+
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
       if ($this->question->get_cloze_type() == CLOZE_TEXT) {  // check text gaps
@@ -1003,13 +1003,13 @@ class ASS_QuestionGUI extends PEAR {
 
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
-     
+
 		if (($result) and ($_POST["cmd"]["add"])) {
 			// You cannot add matching pairs before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_add_matching"));
 			$_POST["cmd"]["add"] = "";
 		}
-		
+
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -1020,7 +1020,7 @@ class ASS_QuestionGUI extends PEAR {
 
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_matchingpairs();
-		$saved = false;    
+		$saved = false;
     // Add all answers from the form into the object
     foreach ($_POST as $key => $value) {
       if (preg_match("/left_(\d+)_(\d+)/", $key, $matches)) {
@@ -1211,7 +1211,7 @@ class ASS_QuestionGUI extends PEAR {
 			}
 			$this->question->set_materialsfile($_FILES['materialName']['name'], $_FILES['materialName']['tmp_name']);
 		}
-	
+
 		// Delete material if the delete button was pressed
 		if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
 			foreach ($_POST[materialselect] as $value) {
@@ -1329,6 +1329,18 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
+	if (!empty($this->question->materials)) {
+		$i=1;
+		$this->tpl->setCurrentBlock("material_preview");
+		foreach ($this->question->materials as $key => $value) {
+
+		    $this->tpl->setVariable("COUNTER", $i++);
+			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
     if ($this->question->response == RESPONSE_SINGLE) {
       $this->tpl->setCurrentBlock("single");
       foreach ($this->question->answers as $key => $value) {
@@ -1357,6 +1369,9 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("multiple_choice");
     $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->question->get_title() . $postponed);
+    if (!empty($this->question->materials)) {
+    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+    }
     $this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1378,6 +1393,18 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
+	if (!empty($this->question->materials)) {
+		$i=1;
+		$this->tpl->setCurrentBlock("material_preview");
+		foreach ($this->question->materials as $key => $value) {
+
+		    $this->tpl->setVariable("COUNTER", $i++);
+			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
     if ($this->question->cloze_type == CLOZE_TEXT) {
       $this->tpl->setCurrentBlock("cloze");
       $output = $this->question->get_cloze_text();
@@ -1420,6 +1447,9 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("cloze_test");
     $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->question->get_title() . $postponed);
+    if (!empty($this->question->materials)) {
+    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+    }
     $this->tpl->parseCurrentBlock();
   }
 
@@ -1445,6 +1475,18 @@ class ASS_QuestionGUI extends PEAR {
     asort($array_matching);
 
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
+	if (!empty($this->question->materials)) {
+		$i=1;
+		$this->tpl->setCurrentBlock("material_preview");
+		foreach ($this->question->materials as $key => $value) {
+
+			$this->tpl->setVariable("COUNTER", $i++);
+			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
     $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
       $this->tpl->setCurrentBlock("matching_combo");
@@ -1475,6 +1517,9 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("matching");
     $this->tpl->setVariable("MATCHING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
+    if (!empty($this->question->materials)) {
+    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+    }
     $this->tpl->setVariable("MATCHING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1496,6 +1541,18 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
+	if (!empty($this->question->materials)) {
+		$i=1;
+		$this->tpl->setCurrentBlock("material_preview");
+		foreach ($this->question->materials as $key => $value) {
+
+		    $this->tpl->setVariable("COUNTER", $i++);
+			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
     $this->tpl->setCurrentBlock("orderingQuestion");
     foreach ($this->question->answers as $key => $value) {
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
@@ -1510,6 +1567,10 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("ordering");
     $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
+	if (!empty($this->question->materials)) {
+		$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+	}
+
     $this->tpl->setVariable("ORDERING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1523,7 +1584,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_imagemap_question($test_id = "", $is_postponed = false, &$formaction) {
 		global $ilUser;
-		
+
 		$solutions = array();
 		$postponed = "";
 		if ($test_id) {
@@ -1533,8 +1594,23 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
+	if (!empty($this->question->materials)) {
+		$i=1;
+		$this->tpl->setCurrentBlock("material_preview");
+		foreach ($this->question->materials as $key => $value) {
+
+		    $this->tpl->setVariable("COUNTER", $i++);
+			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
+    if (!empty($this->question->materials)) {
+    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+    }
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents($formaction));
 		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) {
@@ -1558,8 +1634,9 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("IMAGE", $imagepath);
     $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title() . $postponed);
     $this->tpl->parseCurrentBlock();
+
   }
-  
+
 /**
 * Creates a preview of a question using the preview template
 *
@@ -1569,7 +1646,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_preview() {
     $question_type = $this->get_question_type($this->question);
-    
+
     $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
     switch($question_type)
     {
@@ -1685,7 +1762,7 @@ class ASS_QuestionGUI extends PEAR {
 				$is_postponed = true;
 			}
 		}
-    
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence";
     switch($question_type)

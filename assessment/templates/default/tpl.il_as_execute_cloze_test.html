@@ -2,12 +2,24 @@
 <tr class="tblheader">
 <td class="std"><h1>{CLOZE_TEST_HEADLINE}</h1></td>
 </tr>
+<p>
 <!-- BEGIN cloze -->
 <tr class="tblrow2"><td class="tblrow2">
-<p>
+
 {TEXT}
 {GAP}
 </p>
 </td></tr>
 <!-- END cloze -->
+</table>
+<p>
+<table class="std">
+<tr class="tblheader"><td class="std" colspan="2" >{TEXT_MATERIAL_DOWNLOAD}</td></tr>
+  <!-- BEGIN material_preview -->
+  <tr> <td class="tblrow1"> {COUNTER} </td>
+  <td align="left" class="tblrow1">
+  <a href="{URL_MATERIAL_DOWNLOAD}">{VALUE_MATERIAL_DOWNLOAD}</a>
+  </td></tr>
+  <!-- END material_preview -->
+
 </table>
