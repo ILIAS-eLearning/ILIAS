@@ -274,7 +274,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* write css file to webspace directory
 	*/
-	function writeCSSFile($a_target_file)
+	function writeCSSFile($a_target_file = "")
 	{
 		$style = $this->getStyle();
 

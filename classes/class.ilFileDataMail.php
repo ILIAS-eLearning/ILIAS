@@ -234,8 +234,13 @@ class ilFileDataMail extends ilFileData
 		{
 			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']);
-			move_uploaded_file($a_http_post_file['tmp_name'],$this->getMailPath().'/'.$this->user_id.'_'.
-							   $a_http_post_file['name']);
+			
+			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'],
+				$a_http_post_file['name'], $this->getMailPath().'/'.$this->user_id.'_'.
+				$a_http_post_file['name']);
+
+			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getMailPath().'/'.$this->user_id.'_'.
+			//				   $a_http_post_file['name']);
 			return 0;
 		}
 		return 1;

@@ -92,7 +92,9 @@ class ilFileDataImportForum extends ilFileDataImport
 			$this->unlinkLast();
 
 			// CHECK IF FILE WITH SAME NAME EXISTS
-			move_uploaded_file($a_http_post_file['tmp_name'],$this->getPath().'/'.$a_http_post_file['name']);
+			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'],
+				$a_http_post_file['name'], $this->getPath().'/'.$a_http_post_file['name']);
+			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getPath().'/'.$a_http_post_file['name']);
 
 			// UPDATE FILES LIST
 			$this->__readFiles();

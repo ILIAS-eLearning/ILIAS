@@ -839,9 +839,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_zip_file"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"],
+			$_FILES["importFile"]["name"], $full_path);
 		
-		move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
-
 		// unzip file
 		ilUtil::unzip($full_path);
 
