@@ -68,6 +68,13 @@ class ilTree
 	var $obj_pk;
 
 	/**
+	* column name containing tree id in tree table
+	* @var		string
+	* @access	private
+	*/
+	var $tree_pk;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	$a_tree_id		tree_id
@@ -103,6 +110,7 @@ class ilTree
 		$this->table_obj_reference = 'object_reference';
 		$this->ref_pk = 'ref_id';
 		$this->obj_pk = 'obj_id';
+		$this->tree_pk = 'tree';
 	}
 
 	/**
@@ -112,7 +120,7 @@ class ilTree
 	* If no reference table is specified the given tree table is directly joined
 	* with the given object_data table.
 	* The primary key in object_data table and its foreign key in reference table must have the same name!
-	* 
+	*
 	* @param	string	table name of tree table
 	* @param	string	table name of object_data table
 	* @param	string	table name of object_reference table (optional)
@@ -126,7 +134,7 @@ class ilTree
 			$this->ilias->raiseError(get_class($this)."::setTableNames(): Missing parameter! ".
 								"tree table: ".$a_table_tree." object data table: ".$a_table_obj_data,$this->ilias->error_obj->WARNING);
 		}
-		
+
 		$this->table_tree = $a_table_tree;
 		$this->table_obj_data = $a_table_obj_data;
 		$this->table_obj_reference = $a_table_obj_reference;
@@ -169,6 +177,23 @@ class ilTree
 	}
 
 	/**
+	* set column containing primary key in tree table
+	* @access	public
+	* @param	string	column name
+	* @return	boolean	true, when successfully set
+	*/
+	function setTreeTablePK($a_column_name)
+	{
+		if (!isset($a_column_name))
+		{
+			$this->ilias->raiseError(get_class($this)."::setTreeTablePK(): No column name given!",$this->ilias->error_obj->WARNING);
+		}
+
+		$this->tree_pk = $a_column_name;
+		return true;
+	}
+
+	/**
 	* build join depending on table settings
 	* @access	private
 	* @return	string
@@ -197,7 +222,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE lft = (rgt -1) ".
-			 "AND tree = '".$this->tree->id."'";
+			 "AND ".$this->tree_pk." = '".$this->tree->id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -245,7 +270,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
-			 "AND tree = '".$this->tree_id."' ".
+			 "AND ".$this->tree_pk." = '".$this->tree_id."' ".
 			 $order_clause;
 		$r = $this->ilias->db->query($q);
 
@@ -293,7 +318,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
-			 "AND tree = '".$this->tree_id."' ".
+			 "AND ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND ".$this->table_obj_data.".type='".$a_type."'";
 		$r = $this->ilias->db->query($q);
 
@@ -322,13 +347,13 @@ class ilTree
 		// get left value
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE child = '".$a_parent_id."' ".
-			 "AND tree = '".$this->tree_id."'";
+			 "AND ".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilias->db->getRow($q);
 
 		$left = $r->lft;
 		$lft = $left + 1;
 		$rgt = $left + 2;
-		
+
 		// spread tree
 		$q = "UPDATE ".$this->table_tree." SET ".
 			 "lft = CASE ".
@@ -341,14 +366,14 @@ class ilTree
 			 "THEN rgt + 2 ".
 			 "ELSE rgt ".
 			 "END ".
-			 "WHERE tree = '".$this->tree_id."'";
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 		$this->ilias->db->query($q);
 		
 		// get depth
 		$depth = $this->getDepth($a_parent_id) + 1;
 
 		// insert node
-		$q = "INSERT INTO ".$this->table_tree." (tree,child,parent,lft,rgt,depth) ".
+		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
 			 "VALUES ".
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 		$this->ilias->db->query($q);
@@ -373,7 +398,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE ".$this->table_tree.".lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-			 "AND ".$this->table_tree.".tree = '".$this->tree_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
 
 		$r = $this->ilias->db->query($q);
@@ -403,7 +428,7 @@ class ilTree
 		// delete subtree
 		$q = "DELETE FROM ".$this->table_tree." ".
 			 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
-			 "AND tree = '".$a_node["tree"]."'";
+			 "AND ".$this->tree_pk." = '".$a_node["tree"]."'";
 		$this->ilias->db->query($q);
 
 		// close gaps
@@ -418,7 +443,7 @@ class ilTree
 			 "THEN rgt - '".$diff." '".
 			 "ELSE rgt ".
 			 "END ".
-			 "WHERE tree = '".$a_node["tree"]."'";
+			 "WHERE ".$this->tree_pk." = '".$a_node["tree"]."'";
 		$this->ilias->db->query($q);
 
 		// TODO: DO WE NEED THIS INFORMATION????
@@ -452,9 +477,9 @@ class ilTree
 			 "AND T3.child = '".$a_endnode_id."' ".
 			 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 			 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
-			 "AND T1.tree = '".$this->tree_id." '".
-			 "AND T2.tree = '".$this->tree_id." '".
-			 "AND T3.tree = '".$this->tree_id." '".
+			 "AND T1.".$this->tree_pk." = '".$this->tree_id." '".
+			 "AND T2.".$this->tree_pk." = '".$this->tree_id." '".
+			 "AND T3.".$this->tree_pk." = '".$this->tree_id." '".
 			 "ORDER BY sort_col DESC";
 
 		$r = $this->ilias->db->query($q);
@@ -539,7 +564,7 @@ class ilTree
 	function checkTree()
 	{
 		$q = "SELECT lft,rgt FROM ".$this->table_tree." ".
-			 "WHERE tree = '".$this->tree_id."'";
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				 
 		$r = $this->ilias->db->query($q);
 
@@ -587,7 +612,7 @@ class ilTree
 		{
 			$q = "SELECT depth FROM ".$this->table_tree." ".
 				 "WHERE child = '".$a_node_id."' ".
-				 "AND tree = '".$this->tree_id."'";
+				 "AND ".$this->tree_pk." = '".$this->tree_id."'";
 			$r = $this->ilias->db->getRow($q);
 	
 			return $r->depth;
@@ -601,7 +626,7 @@ class ilTree
 	/**
 	* Calculates additional information for each node in tree-structure:
 	* no. of successors:	How many successors does the node have?
-	* 						Every node under the concerned node in the tree counts as a successor. 
+	* 						Every node under the concerned node in the tree counts as a successor.
 	* depth			   :	The depth-level in tree the concerned node has. (the root node has a depth of 1!)
 	* brother		   :	The no. of node which are on the same depth-level with the concerned node
 	*
@@ -628,8 +653,8 @@ class ilTree
 			 $leftjoin.
 			 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
 			 "AND (v.child != s.child OR s.lft = '1') ".
-			 "AND s.tree = '".$this->tree_id."' ".
-			 "AND v.tree = '".$this->tree_id."' ".
+			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
+			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
 			 "GROUP BY s.child ".
 			 "ORDER BY s.lft";
 		$r = $this->ilias->db->query($q);
@@ -667,7 +692,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
@@ -737,8 +762,8 @@ class ilTree
 			 "AND s.parent = v.child ".
 			 "AND s.lft > v.lft ".
 			 "AND s.rgt < v.rgt ".
-			 "AND s.tree = '".$this->tree_id."' ".
-			 "AND v.tree = '".$this->tree_id."'";
+			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
+			 "AND v.".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
@@ -763,8 +788,8 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
 			 "WHERE s.child = '".$a_startnode_id."' ".
 			 "AND v.child = '".$a_querynode_id."' ".
-			 "AND s.tree = '".$this->tree_id."' ".
-			 "AND v.tree = '".$this->tree_id."' ".
+			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
+			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND v.lft BETWEEN s.lft AND s.rgt ".
 			 "AND v.rgt BETWEEN s.lft AND s.rgt";
 		$r = $this->ilias->db->query($q);
@@ -792,7 +817,7 @@ class ilTree
 			$a_node_id = $a_tree_id;
 		}
 		
-		$q = "INSERT INTO ".$this->table_tree." (tree, child, parent, lft, rgt, depth) ".
+		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.", child, parent, lft, rgt, depth) ".
 			 "VALUES ".
 			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
 
@@ -821,7 +846,7 @@ class ilTree
 		$right = "";		// tree_right
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE tree = '".$this->tree_id."'".
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'".
 			 "AND parent = '0'";
 		$r = $this->ilias->db->query($q);
 
@@ -836,7 +861,7 @@ class ilTree
 			 "WHERE ".$this->table_obj_data.".type = '".$a_type."' ".
 			 "AND ".$this->table_tree.".lft BETWEEN '".$left."' AND '".$right."' ".
 			 "AND ".$this->table_tree.".rgt BETWEEN '".$left."' AND '".$right."' ".
-			 "AND ".$this->table_tree.".tree = '".$this->tree_id."'";
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -861,7 +886,7 @@ class ilTree
 			$this->ilias->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$q = "DELETE FROM ".$this->table_tree." WHERE tree = '".$a_tree_id."'";
+		$q = "DELETE FROM ".$this->table_tree." WHERE ".$this->tree_pk." = '".$a_tree_id."'";
 		$this->ilias->db->query($q);
 		
 		return true;
@@ -869,7 +894,7 @@ class ilTree
 
 	/**
 	* save subtree: copy a subtree (defined by node_id) to a new tree
-	* with $this->tree_id -node_id. This is neccessary for cut/copy   
+	* with $this->tree_id -node_id. This is neccessary for cut/copy
 	* @param	integer	node_id
 	* @return	integer
 	* @access	public
@@ -883,7 +908,7 @@ class ilTree
 
 		// GET LEFT AND RIGHT VALUE
 		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE tree = '".$this->tree_id."' ".
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND child = '".$a_node_id."' ";
 		$r = $this->ilias->db->query($q);
 
@@ -895,7 +920,7 @@ class ilTree
 
 		// GET ALL SUBNODES
 		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE tree = '".$this->tree_id."' ".
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND lft >= '".$lft."' ".
 			 "AND rgt <= '".$rgt."'";
 		$r = $this->ilias->db->query($q);
@@ -956,7 +981,7 @@ class ilTree
 
 		$q =	"SELECT * FROM ".$this->table_tree." ".
 				$this->buildJoin().
-				"WHERE ".$this->table_tree.".tree < 0 ".
+				"WHERE ".$this->table_tree.".".$this->tree_pk." < 0 ".
 				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
 
 		$r = $this->ilias->db->query($q);
@@ -984,7 +1009,7 @@ class ilTree
 
 		$q = "SELECT parent FROM ".$this->table_tree." ".
 			 "WHERE child='".$a_node_id."' ".
-			 "AND tree='".$this->tree_id."'";
+			 "AND ".$this->tree_pk."='".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -1002,7 +1027,7 @@ class ilTree
 	{
 		$query = "SELECT child FROM $this->table_tree ".
 			"WHERE parent = '0'".
-			"AND tree = '".$this->tree_id."'";
+			"AND ".$this->tree_pk." = '".$this->tree_id."'";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		$this->root_id = $row->child;
