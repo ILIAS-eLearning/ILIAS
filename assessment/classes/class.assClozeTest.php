@@ -793,6 +793,7 @@ class ASS_ClozeTest extends ASS_Question
 		preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
 		foreach ($matches[2] as $key => $value)
 		{
+			$value = str_replace("\,", "__VAR__comma__VAR__", $value);
 			$cloze_words = split(",", $value);
 			$answer_array = array();
 			$name = "";
@@ -839,6 +840,7 @@ class ASS_ClozeTest extends ASS_Question
 			}
 			foreach ($cloze_words as $index => $text)
 			{
+				$text = str_replace("__VAR__comma__VAR__", ",", $text);
 				array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_state, $type, $name, $shuffle));
 			}
 			array_push($this->gaps, $answer_array);
@@ -924,10 +926,10 @@ class ASS_ClozeTest extends ASS_Question
     preg_match_all("/" . "<gap.*?>(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[1] as $key => $value) {
     	if (strlen($value) == 0) {
-    		$this->cloze_text = preg_replace("/>$value</", ">".$this->get_gap_text_list($key)."<", $this->cloze_text);
+				$this->cloze_text = preg_replace("/>" . preg_quote($value) . "</", ">".$this->get_gap_text_list($key)."<", $this->cloze_text);
     	}
     	else {
-   			$this->cloze_text = preg_replace("/$value/", $this->get_gap_text_list($key), $this->cloze_text);
+   			$this->cloze_text = preg_replace("/" . preg_quote($value) . "/", $this->get_gap_text_list($key), $this->cloze_text);
    		}
     }
   }
@@ -981,7 +983,7 @@ class ASS_ClozeTest extends ASS_Question
     if ($index >= count($this->gaps)) return "";
     $result = array();
     foreach ($this->gaps[$index] as $key => $value) {
-      array_push($result, $value->get_answertext());
+			array_push($result, str_replace(",", "\,", $value->get_answertext()));
     }
     return join($separator, $result);
   }
@@ -1076,6 +1078,7 @@ class ASS_ClozeTest extends ASS_Question
 * @see $gaps
 */
   function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) {
+		$answertext = str_replace("\,", ",", $answertext);
   	if ($add_gaptext == 1)    {
     	$arr = $this->gaps[$index][0];
     	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) {
@@ -1104,7 +1107,6 @@ class ASS_ClozeTest extends ASS_Question
       $this->delete_answertext($index, $this->gaps[$index][$answertext_index]->get_answertext());
     } else {
       $this->gaps[$index][$answertext_index]->set_answertext($answertext);
-
       $this->rebuild_cloze_text();
     }
   }

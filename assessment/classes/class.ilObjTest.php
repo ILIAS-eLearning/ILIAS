@@ -1809,8 +1809,8 @@ class ilObjTest extends ilObject
 	*/
 	function getDescription()
 	{
-		return parent::getDescription();
-//		return $this->meta_data->getDescription();
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
 	}
 
 	/**
