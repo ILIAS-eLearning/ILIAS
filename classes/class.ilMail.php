@@ -142,8 +142,8 @@ class ilMail
 		$lng->loadLanguageModule("mail");
 
 		// Initiate variables
-		$this->ilias = &$ilias;
-		$this->lng   = &$lng;
+		$this->ilias =& $ilias;
+		$this->lng   =& $lng;
 		$this->table_mail = 'mail';
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
@@ -939,7 +939,7 @@ class ilMail
 		// IF EMAIL RECIPIENT
 		if($c_emails)
 		{
-			if(!$rbacsystem->checkAccess("smtp",$this->getMailObjectReferenceId()))
+			if(!$rbacsystem->checkAccess("smtp_mail",$this->getMailObjectReferenceId()))
 			{
 				return $lng->txt("mail_no_permissions_write_smtp");
 			}

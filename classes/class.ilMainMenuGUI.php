@@ -112,13 +112,20 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("TARGET_DESK", $this->target);
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("mailbutton");
-			$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
-			$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
-			$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
-			$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("mail_frameset.php"));
-			$this->tpl->setVariable("TARGET_MAIL", $this->target);
-			$this->tpl->parseCurrentBlock();
+			include_once "./classes/class.ilMail.php";
+			
+			$mail =& new ilMail($_SESSION["AccountId"]);
+
+			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
+			{
+				$this->tpl->setCurrentBlock("mailbutton");
+				$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
+				$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
+				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("mail_frameset.php"));
+				$this->tpl->setVariable("TARGET_MAIL", $this->target);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$link_dir = (defined("ILIAS_MODULE"))

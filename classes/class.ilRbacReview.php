@@ -547,6 +547,21 @@ class ilRbacReview
 
 		return $ops_arr;
 	}
+	
+	function getRoleOperationsOnObject($a_role_id,$a_ref_id)
+	{
+		$query = "SELECT * FROM rbac_pa ".
+			"WHERE rol_id = '".$a_role_id."' ".
+			"AND ref_id = '".$a_ref_id."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops = unserialize(stripslashes($row->ops_id));
+		}
+
+		return $ops ? $ops : array();
+	}
 
 	/**
 	* all possible operations of a type

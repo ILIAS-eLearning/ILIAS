@@ -40,6 +40,11 @@ require_once "classes/class.ilFormatMail.php";
 
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 
+// catch hack attempts
+if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
 
 $lng->loadLanguageModule("mail");
 

@@ -2083,3 +2083,50 @@ ALTER  TABLE  `tst_tests`  ADD  `reporting_date` VARCHAR( 14  )  AFTER  `process
 ALTER  TABLE  `qpl_questions`  ADD  `complete` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `image_file` ;
 <#135>
 ALTER  TABLE  `tst_tests`  ADD  `complete` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `starting_time` ;
+
+<#136>
+<?php
+// ADD NEW OPERATION create_chat
+$query = "INSERT INTO rbac_operations VALUES('30','mail_visible','users can use mail system')";
+$this->db->query($query);
+
+// ENABLE OPERATION FOR MAIL OBJECT
+$query = "INSERT INTO rbac_ta VALUES('19','30')";
+$this->db->query($query);
+
+?>
+<#137>
+<?php
+// MAIL REF_ID
+$query = "SELECT * FROM object_data NATURAL JOIN object_reference ".
+		"WHERE type = 'mail'";
+
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+}
+// GET ALL ROLE_IDS
+$query = "SELECT DISTINCT(rol_id) FROM rbac_pa";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$role_ids[] = $row->rol_id;
+}
+
+$rbacsystem =& new ilRbacSystem();
+$rbacadmin =& new ilRbacAdmin();
+$rbacreview =& new ilRbacReview();
+
+foreach($role_ids as $id)
+{
+	if($rbacsystem->checkPermission($ref_id,$id,"visible") and $rbacsystem->checkPermission($ref_id,$id,"read"))
+	{
+		$ops = $rbacreview->getRoleOperationsOnObject($id,$ref_id);
+		$ops[] = 30;
+		$rbacadmin->revokePermission($ref_id,$id);
+		$rbacadmin->grantPermission($id,$ops,$ref_id);
+	}
+}
+		
+?>

@@ -40,6 +40,12 @@ $lng->loadLanguageModule("mail");
 $mbox = new ilMailBox($_SESSION["AccountId"]);
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 
+// catch hack attempts
+if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
+
 // CREATE OUTPUT
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_options.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
