@@ -513,7 +513,7 @@ echo htmlentities($a_text);*/
 
 	function getType()
 	{
-		return ($this->getSubCharacteristic() != "")?"src":parent::getType();
+		return ($this->getCharacteristic() == "Code")?"src":parent::getType();
 	}
 
 }

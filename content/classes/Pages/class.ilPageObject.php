@@ -1381,19 +1381,18 @@ class ilPageObject
 	function highlightText($a_text, $proglang)
 	{
 		
-		if ($this->hasHighlighter($proglang)) {
+		if (!$this->hasHighlighter($proglang)) {
+			$proglang="plain";			
+		}
+			
 			require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
 			$classname =  "HFile_$proglang";
 			$highlighter = new Core(new $classname(), new Output_css());
+		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));			
 		
-			$a_text = $highlighter->highlight_text($a_text);
-		
-			// mask html
 			$a_text = str_replace("&","&amp;",$a_text);
-			$a_text = str_replace("<","&lt;",$a_text);
-			$a_text = str_replace(">","&gt;",$a_text);
-		} 
-		
+		$a_text = str_replace("<","&lt;", $a_text);
+		$a_text = str_replace(">","&gt;", $a_text);
 		return $a_text;
 	}
 	
@@ -1410,7 +1409,7 @@ class ilPageObject
 	function addSourceCodeHighlighting()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//Paragraph[@Characteristic = 'Code'][@SubCharacteristic != ''] | //Paragraph[@Characteristic = 'Code-Example'][@SubCharacteristic != '']";
+		$path = "//Paragraph[@Characteristic = 'Code']";
 
 		$res = & xpath_eval($xpc, $path);
 				
@@ -1424,9 +1423,6 @@ class ilPageObject
 			$showlinenumbers = $context_node->get_attribute('ShowLineNumbers');
 			$downloadtitle = $context_node->get_attribute('DownloadTitle');
 			
-			if (empty($subchar) || !$this->hasHighlighter ($subchar))
-				continue;
-
 			$content = "";
 
 
@@ -1451,26 +1447,20 @@ class ilPageObject
 
 			$content = $this->highlightText($plain_content, $subchar);
 
-			$table	="&lt;TR&gt;&lt;TD&gt;&lt;PRE&gt;";
-	 		$row  	="%s\n";
+			$rows  	 = htmlentities ("<TR valign=\"top\"><TD><PRE>");
+			$rownumbers = "";
 	
-			$rownumbers="";
-	
+			if (strcmp($showlinenumbers,"y")==0) {
 			for ($j=0; $j < $rownums; $j++)  
 			{	$indentno      = strlen($rownums) - strlen($j+1) + 2;
-				$rownumeration = str_repeat("&amp;nbsp;",$indentno).($j+1)."&amp;nbsp;&amp;nbsp;&amp;nbsp;";
-				$rownumbers   .= sprintf($row,(strcmp($showlinenumbers,"n")==0)?"&amp;nbsp;":$rownumeration);
+					$rownumeration = str_repeat("&amp;nbsp;",$indentno).($j+1)."&amp;nbsp;";
+					$rownumbers   .= $rownumeration."\n";
 			}
-			$rows = $rownumbers."&lt;/PRE&gt;&lt;/TD&gt;&lt;TD&gt;&lt;PRE&gt;".$content."&lt;/PRE&gt;&lt;/TD&gt;";
+				$rows .= $rownumbers.htmlentities ("</PRE></TD><TD><PRE>");
+			}
+			$rows .= $content.htmlentities ("</PRE></TD></TR>");			
 			
-			if (!ereg("^&lt;/TR&gt;",$rows))
-	  			$rows .= "&lt;/TR&gt;";
-	
-	
-	
-			$newcontent = $table .$rows;
-			
-			$newcontent = str_replace("\n", "<br />", $newcontent);			
+			$newcontent = str_replace("\n", "<br />", $rows);			
 	
 			$context_node->set_content($newcontent);							
 		}

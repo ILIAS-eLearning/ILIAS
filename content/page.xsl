@@ -320,10 +320,7 @@
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
 	<xsl:choose>
-		<xsl:when test="@Characteristic = 'Code' and not (@SubCharacteristic)">
-			<pre><xsl:apply-templates /></pre>
-		</xsl:when>
-		<xsl:when test="@Characteristic = 'Code' and @SubCharacteristic != ''">
+		<xsl:when test="@Characteristic = 'Code'">
 			<xsl:call-template name='Sourcecode'>
 				<xsl:with-param name="p_id" select="$p_id" />
 			</xsl:call-template>			
