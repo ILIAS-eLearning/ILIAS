@@ -239,8 +239,7 @@ class ilSCORMExplorer extends ilExplorer
 	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
-		//return "777";
-
+		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -250,10 +249,10 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 	 	if ($a_option["type"]=="sos")
-			return "666";
+			return;
 		
 		if ($a_option["type"]=="srs")
-			return "666";
+			return;
 		
 		foreach ($a_option["tab"] as $picture)
 		{
