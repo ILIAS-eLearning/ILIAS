@@ -430,6 +430,7 @@ class ilLMPresentationGUI
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
 			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, true);
+			$this->tpl->setVariable("PAGETITLE", "- ".$this->lm->getTitle());
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			$ilBench->stop("ContentPresentation", "layout_processFrameset");
 //echo nl2br(htmlentities($content));
@@ -619,6 +620,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 			$this->ilGlossary($child);
 			$this->tpl->show();
@@ -675,6 +677,7 @@ class ilLMPresentationGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_toc"));
 		$this->tpl->setVariable("EXPLORER",$output);
@@ -1146,6 +1149,7 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilMedia");
 
@@ -1419,6 +1423,7 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 
@@ -1468,6 +1473,7 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_selection.html", true);
 
@@ -1544,6 +1550,7 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "PrintView");
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
 		$this->tpl->setVariable("LOCATION_STYLESHEET",ilObjStyleSheet::getContentPrintStyle());
 
 		// content style
