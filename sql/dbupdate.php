@@ -5378,7 +5378,6 @@ ALTER TABLE `qpl_questions` CHANGE `maxNrOfChars` `maxNumOfChars` INT( 11 ) DEFA
 $query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NULL ";
 $this->db->query($query);
 ?>
-
 <#383>
 ALTER TABLE `survey_question` CHANGE `maxchars` `maxchars` INT( 11 );
 

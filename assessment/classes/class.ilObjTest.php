@@ -868,7 +868,16 @@ class ilObjTest extends ilObject
 			if ($this->isRandomTest())
 			{
 				$arr = $this->getRandomQuestionpools();
-				if (count($arr))
+				if (count($arr) && ($this->getRandomQuestionCount() > 0))
+				{
+					return true;
+				}
+				$count = 0;
+				foreach ($arr as $array)
+				{
+					$count += $array["count"];
+				}
+				if ($count)
 				{
 					return true;
 				}
@@ -1245,12 +1254,20 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 		// create new random questionpools
 		foreach ($qpl_array as $key => $value) {
-			$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getTestId() . ""),
-				$this->ilias->db->quote($value["qpl"] . ""),
-				$this->ilias->db->quote(sprintf("%d", $value["count"]) . "")
-			);
-			$result = $this->ilias->db->query($query);
+			if ($value["qpl"] > -1)
+			{
+				$count = ilObjQuestionPool::_getQuestionCount($value["qpl"]);
+				if ($value["count"] > $count)
+				{
+					$value["count"] = $count;
+				}
+				$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+					$this->ilias->db->quote($this->getTestId() . ""),
+					$this->ilias->db->quote($value["qpl"] . ""),
+					$this->ilias->db->quote(sprintf("%d", $value["count"]) . "")
+				);
+				$result = $this->ilias->db->query($query);
+			}
 		}
 	}
 
