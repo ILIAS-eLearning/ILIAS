@@ -2825,6 +2825,8 @@ content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_rvalue#:#Value
+content#:#cont_resize_image#:#Resize images
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO

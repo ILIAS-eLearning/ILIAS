@@ -1239,7 +1239,7 @@ class ilUtil
 	}
 
 	/**
-	*
+	* convert image
 	*
 	* @param	string		$a_from				source file
 	* @param	string		$a_to				target file
@@ -1255,6 +1255,22 @@ class ilUtil
 		: "";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
 		ilUtil::escapeShellArg($a_from)." ".$geometry.ilUtil::escapeShellArg($format_str.$a_to);
+		system($convert_cmd);
+	}
+
+	/**
+	* resize image
+	*
+	* @param	string		$a_from				source file
+	* @param	string		$a_to				target file
+	* @param	string		$a_width			target width
+	* @param	string		$a_height			target height
+	*/
+	function resizeImage($a_from, $a_to, $a_width, $a_height)
+	{
+		$size = " -resize ".$a_width."x".$a_height." ";
+		$convert_cmd = ilUtil::getConvertCmd()." ".
+			ilUtil::escapeShellArg($a_from)." ".$size.ilUtil::escapeShellArg($a_to);
 		system($convert_cmd);
 	}
 

@@ -478,7 +478,7 @@ class ilObjMediaObject extends ilObject
 	{
 		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
 	}
-	
+
 	/**
 	* create thumbnail directory
 	*/
@@ -844,7 +844,7 @@ class ilObjMediaObject extends ilObject
 	function _getMobsOfObject($a_type, $a_id)
 	{
 		global $ilDB;
-		
+
 		$q = "SELECT * FROM mob_usage WHERE ".
 			"usage_type = ".$ilDB->quote($a_type)." AND ".
 			"usage_id = ".$ilDB->quote($a_id);
@@ -913,6 +913,28 @@ class ilObjMediaObject extends ilObject
 		}
 
 		return $ret;
+	}
+
+	/**
+	* resize image and return new image file ("_width_height" string appended)
+	*
+	* @param	string		$a_file		full file name
+	* @param	int			$a_width	width
+	* @param	int			$a_height	height
+	*/
+	function _resizeImage($a_file, $a_width, $a_height)
+	{
+		$file_path = pathinfo($a_file);
+		$location = substr($file_path["basename"],0,strlen($file_path["basename"]) -
+			strlen($file_path["extension"]) - 1)."_".
+			$a_width."_".
+			$a_height.".".$file_path["extension"];
+		$target_file = $file_path["dirname"]."/".
+			$location;
+		ilUtil::resizeImage($a_file, $target_file,
+			(int) $a_width, (int) $a_height);
+
+		return $location;
 	}
 
 	/**
