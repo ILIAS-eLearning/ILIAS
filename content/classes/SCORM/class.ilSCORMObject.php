@@ -135,5 +135,57 @@ class ilSCORMObject
 		$ilDB->query($q);
 	}
 
+	/**
+	* get instance of specialized GUI class
+	*
+	* static
+	*/
+	function &_getInstance($a_id)
+	{
+		global $ilDB;
+
+		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =".$ilDB->quote($a_id));
+		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		switch($sc_rec["type"])
+		{
+			case "sit":					// item
+				include_once("content/classes/SCORM/class.ilSCORMItem.php");
+				$item =& new ilSCORMItem($a_id);
+				return $item;
+				break;
+
+			case "sos":					// organizations
+				include_once("content/classes/SCORM/class.ilSCORMOrganizations.php");
+				$sos =& new ilSCORMOrganizations($a_id);
+				return $sos;
+				break;
+
+			case "sor":					// organization
+				include_once("content/classes/SCORM/class.ilSCORMOrganization.php");
+				$sor =& new ilSCORMOrganization($a_id);
+				return $sor;
+				break;
+
+			case "sma":					// manifest
+				include_once("content/classes/SCORM/class.ilSCORMManifest.php");
+				$sma =& new ilSCORMManifest($a_id);
+				return $sma;
+				break;
+
+			case "srs":					// resources
+				include_once("content/classes/SCORM/class.ilSCORMResources.php");
+				$srs =& new ilSCORMResources($a_id);
+				return $srs;
+				break;
+
+			case "sre":					// resource
+				include_once("content/classes/SCORM/class.ilSCORMResource.php");
+				$sre =& new ilSCORMResource($a_id);
+				return $sre;
+				break;
+		}
+	}
+
 }
 ?>
