@@ -845,7 +845,11 @@ common#:#check#:#Controleer
 common#:#check_all#:#Selecteer alle
 common#:#check_langfile#:#Controleer A.u.b. uw taal-bestand
 common#:#check_languages#:#Talen controleren
+common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
 common#:#check_max_allowed_packet_size#:#De pagina-inhoud is te groot.
+common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Te importeren bestanden
 common#:#chg_language#:#Taal wijzigen
 common#:#chg_password#:#Wijzig wachtwoord
@@ -892,6 +896,8 @@ common#:#create#:#Creëer
 common#:#create_date#:#Gecreëerd op
 common#:#create_in#:#Creëren in
 common#:#create_stylesheet#:#Creëer stijl
+common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Cursus
 common#:#crs_a#:#een cursus
 common#:#crs_add#:#Cursus toevoegen
@@ -1475,6 +1481,13 @@ common#:#learning_objects#:#Lesobjecten
 common#:#learning_resources#:#Leerbronnen
 common#:#level#:#Niveau
 common#:#link#:#Link###05 Nov 2004 new variable
+common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
+common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
+common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
 common#:#linked_object#:#Het object is gelinked
 common#:#linked_pages#:#Gelinkte pagina's
 common#:#list_of_pages#:#Pagina-lijst
@@ -1728,6 +1741,7 @@ common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
 common#:#no_global_role_left#:#Elke gebruiker moet aan een rol toegewezen zijn.
 common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
 common#:#no_import_available#:#Importeren niet mogelijk voor type
+common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Geen limit
 common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
 common#:#no_local_users#:#Er zijn geen lokale gebruikers
@@ -4017,6 +4031,7 @@ survey#:#add_limits_for_standard_numbers#:#Gebruikers
 survey#:#add_phrase#:#Kategorie toevoegen
 survey#:#add_phrase_introduction#:#Voer een onder- en een boven-grens in voor de standaard aantallen die u wilt toevoegen als toevoegen als kategoriën.
 survey#:#already_completed_survey#:#Voeg gezegde toe
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable

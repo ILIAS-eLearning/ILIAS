@@ -845,7 +845,11 @@ common#:#check#:#Check
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
+common#:#check_link#:#Link check
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
+common#:#check_user_accounts#:#Check user accounts
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -892,6 +896,8 @@ common#:#create#:#Create
 common#:#create_date#:#Created On
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
+common#:#cron_jobs#:#Cron jobs
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
 common#:#crs#:#Course
 common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
@@ -1475,6 +1481,13 @@ common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
+common#:#link_check#:#Link check
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
+common#:#link_check_message_disabled#:#Messages diabled
+common#:#link_check_message_enabled#:#Messages enabled
+common#:#link_check_subject#:#[ILIAS 3] Link check
+common#:#link_checker_refreshed#:#Refreshed view
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#list_of_pages#:#Pages List
@@ -1728,6 +1741,7 @@ common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
+common#:#no_invalid_links#:#No invalid links found.
 common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_local_users#:#There are no local user
@@ -4017,8 +4031,8 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
@@ -4336,17 +4350,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#link_check#:#Link check
-common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
-common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.
-common#:#check_link#:#Link check
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.
-common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
-common#:#link_checker_refreshed#:#Refreshed view
-common#:#link_check_subject#:#[ILIAS 3] Link check
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
-common#:#no_invalid_links#:#No invalid links found.
-common#:#link_check_message_enabled#:#Messages enabled
-common#:#link_check_message_disabled#:#Messages diabled

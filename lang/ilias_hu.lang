@@ -845,7 +845,11 @@ common#:#check#:#Ellenőrzés
 common#:#check_all#:#Check all###05 Nov 2004 new variable
 common#:#check_langfile#:#Ellenőrizze a nyelvi fájlját
 common#:#check_languages#:#Nyelvek ellenőrzése
+common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
 common#:#check_max_allowed_packet_size#:#A lap szövegmérete túl nagy.
+common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Importálható fájlok
 common#:#chg_language#:#Nyelv cseréje
 common#:#chg_password#:#Jelszócsere
@@ -892,6 +896,8 @@ common#:#create#:#Létrehozás
 common#:#create_date#:#Created On###05 Nov 2004 new variable
 common#:#create_in#:#Készítve: 
 common#:#create_stylesheet#:#Stílus létrehozása
+common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Kurzus
 common#:#crs_a#:#egy kurzus
 common#:#crs_add#:#Kurzus hozzáadása
@@ -1475,6 +1481,13 @@ common#:#learning_objects#:#Tananyagok
 common#:#learning_resources#:#Tananyagok
 common#:#level#:#Szint
 common#:#link#:#Csatolás
+common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
+common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
+common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
 common#:#linked_object#:#The object has been linked###05 Nov 2004 new variable
 common#:#linked_pages#:#Csatolt lapok
 common#:#list_of_pages#:#Lapok listája
@@ -1728,6 +1741,7 @@ common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.###05 Nov 2004 new variable
 common#:#no_grp_in_personal_list#:#Nincs csoport a személyes listában.
 common#:#no_import_available#:#Az import nem elérhető a típus számára
+common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Nincs korlát
 common#:#no_lo_in_personal_list#:#Nincs tananyagobjektum a személyes listában.
 common#:#no_local_users#:#There are no local user###05 Nov 2004 new variable
@@ -4017,6 +4031,7 @@ survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasab
 survey#:#add_phrase#:#Mondat hozzáadása
 survey#:#add_phrase_introduction#:#Válasszon egy mondatot: 
 survey#:#already_completed_survey#:#Befejezte a felmérést! Nem tud újra belépni a felmérésbe.
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymize survey data###05 Nov 2004 new variable

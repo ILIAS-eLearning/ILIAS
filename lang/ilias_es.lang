@@ -846,7 +846,11 @@ common#:#check#:#comprobar
 common#:#check_all#:#Comprobar todo
 common#:#check_langfile#:#Por favor, compruebe su lenguaje de idioma
 common#:#check_languages#:#Comprobar Idiomas
+common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
+common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
@@ -893,6 +897,8 @@ common#:#create#:#create
 common#:#create_date#:#Creado el
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
+common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#crs
 common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
@@ -1476,6 +1482,13 @@ common#:#learning_objects#:#Objetos de Aprendizaje
 common#:#learning_resources#:#Recursos de Aprendizaje
 common#:#level#:#nivel
 common#:#link#:#enlace
+common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
+common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
+common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
 common#:#linked_object#:#El objeto ha sido enlazado
 common#:#linked_pages#:#páginas enlazadas
 common#:#list_of_pages#:#lista de páginas
@@ -1729,6 +1742,7 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
+common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
 common#:#no_local_users#:#No hay usuario local
@@ -3909,6 +3923,7 @@ survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite super
 survey#:#add_phrase#:#Añadir frase
 survey#:#add_phrase_introduction#:#Por favor seleccione una frase:
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
 survey#:#anonymize_survey_explanation#:#Cuando se activa, todos los usuarios serán anónimos y no pueden ser monitorizados
 survey#:#answer#:#Respuesta

@@ -845,7 +845,11 @@ common#:#check#:#Sprawdź
 common#:#check_all#:#Sprawdź wszystko
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
+common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
 common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
+common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Importowalne pliki
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
@@ -892,6 +896,8 @@ common#:#create#:#Twórz
 common#:#create_date#:#Utworzony
 common#:#create_in#:#Twórz w
 common#:#create_stylesheet#:#Twórz styl
+common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Kurs
 common#:#crs_a#:#Kurs
 common#:#crs_add#:#Dodaj kurs
@@ -1475,6 +1481,13 @@ common#:#learning_objects#:#Przedmioty Nauczania (PN)
 common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
 common#:#link#:#Łącznik
+common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
+common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
+common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
 common#:#linked_object#:#Obiekt został połaczony
 common#:#linked_pages#:#Strony połączone
 common#:#list_of_pages#:#Lista stron
@@ -1728,6 +1741,7 @@ common#:#no_frm_in_personal_list#:#Brak forów na prywatnej liście.
 common#:#no_global_role_left#:#Każdy użytkownik musi być przydzielony do jednej roli.
 common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
 common#:#no_import_available#:#Import nie jest dostępny dla typu
+common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Brak ograniczeń
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na prywatnej liście.
 common#:#no_local_users#:#Brak lokalnego użytkownika
@@ -4017,6 +4031,7 @@ survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numera
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span>.<br />Podaj go w poniższym polu tekstowym.
 survey#:#anonymize_resume_introduction#:#Podaj swój kod dostępu do ankiety aby wrócić do ankiety. Został on przesłany do twojej skrzynki pocztowej ILIAS, gdy rozpocząłeś ankietę.
 survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety
