@@ -151,7 +151,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(true);"));
 						break;
 					case "":
 						if ($this->object->get_answer_count() == 0)
@@ -160,7 +160,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 						}
 						else
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(true);"));
 						}
 						break;
 					default:
@@ -277,10 +277,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					case "add":
 					case "addTrueFalse":
 					case "addYesNo":
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(true);"));
 						break;
 					case "":
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_0.focus(); document.frm_multiple_choice.answer_0.scrollIntoView(\"true\");"));
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_0.focus(); document.frm_multiple_choice.answer_0.scrollIntoView(true);"));
 						break;
 					default:
 						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
