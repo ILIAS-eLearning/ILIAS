@@ -130,7 +130,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 		//$title = $this->object->getTitle();
-		$locatorscript = "group.php?cmd=switchview&";
+		$locatorscript = "group.php?cmd=choose_view&";
 		infoPanel();
 		sendInfo();
 
@@ -652,6 +652,44 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 
 		$this->tpl->show();
+	}
+	
+	/**
+	* function chooses right view depending on what kind of object is selected in locator bar
+	* and active viewmode
+	* @acess	public
+	**/
+	function choose_view()
+	{
+		if (isset($_GET["viewmode"]))
+		{
+			$_SESSION["viewmode"] = $_GET["viewmode"];
+		}
+
+		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+
+		if ($_SESSION["viewmode"] == "tree")
+		{
+			if (strcmp($obj_data->getType(), "grp") == 0)
+			{
+				$this->show_content();
+			}
+			else
+			{
+				$this->DisplayList();
+			}
+		}
+		else
+		{
+			if (strcmp($obj_data->getType(), "grp") == 0)
+			{
+				$this->show_content();
+			}
+			else
+			{
+				$this->DisplayList();
+			}
+		}
 	}
 
 	function getURLbyType($cont_data)
