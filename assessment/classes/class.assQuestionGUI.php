@@ -290,11 +290,10 @@ class ASS_QuestionGUI
 	*/
 	function &_getQuestionGUI($question_type, $question_id = -1)
 	{
-
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = ASS_Question::getQuestionTypeFromDb($question_id);
-//echo ":".$question_type;
+// echo ":".$question_type;
 		}
 		switch ($question_type)
 		{

@@ -334,9 +334,9 @@ class ASS_OrderingQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = 5;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, ordering_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, ordering_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
-				$db->quote($this->ref_id),
+				$db->quote($this->obj_id),
 				$db->quote($this->title),
 				$db->quote($this->comment),
 				$db->quote($this->author),
@@ -429,7 +429,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->id = $question_id;
 				$this->title = $data->title;
-				$this->ref_id = $data->ref_fi;
+				$this->obj_id = $data->obj_fi;
 				$this->comment = $data->comment;
 				$this->author = $data->author;
 				$this->owner = $data->owner;

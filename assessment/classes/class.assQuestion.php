@@ -129,13 +129,13 @@ class ASS_Question extends PEAR
 	var $test_id;
 
 	/**
-	* Reference id of the container object
+	* Object id of the container object
 	*
-	* Reference id of the container object
+	* Object id of the container object
 	*
 	* @var double
 	*/
-	var $ref_id;
+	var $obj_id;
 
 	/**
 	* The reference to the ILIAS class
@@ -633,31 +633,31 @@ class ASS_Question extends PEAR
 	}
 
 	/**
-	* Get the reference id of the container object
+	* Get the object id of the container object
 	*
-	* Get the reference id of the container object
+	* Get the object id of the container object
 	*
-	* @return integer The reference id of the container object
+	* @return integer The object id of the container object
 	* @access public
-	* @see $ref_id
+	* @see $obj_id
 	*/
-	function getRefId()
+	function getObjId()
 	{
-		return $this->ref_id;
+		return $this->obj_id;
 	}
 
 	/**
-	* Set the reference id of the container object
+	* Set the object id of the container object
 	*
-	* Set the reference id of the container object
+	* Set the object id of the container object
 	*
-	* @param integer $ref_id The reference id of the container object
+	* @param integer $obj_id The object id of the container object
 	* @access public
-	* @see $ref_id
+	* @see $obj_id
 	*/
-	function setRefId($ref_id = 0)
+	function setObjId($obj_id = 0)
 	{
-		$this->ref_id = $ref_id;
+		$this->obj_id = $obj_id;
 	}
 
 	/**
@@ -770,7 +770,7 @@ class ASS_Question extends PEAR
 	* @access public
 	*/
 	function getJavaPath() {
-		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/java/";
 	}
 
 	/**
@@ -783,7 +783,7 @@ class ASS_Question extends PEAR
 	*/
 	function getImagePath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/images/";
 	}
 
 	/**
@@ -796,7 +796,7 @@ class ASS_Question extends PEAR
 	*/
 	function getMaterialsPath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/materials/";
 	}
 
 	/**
@@ -809,7 +809,7 @@ class ASS_Question extends PEAR
 	*/
 	function getJavaPathWeb()
 	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
+		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/java/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
@@ -823,7 +823,7 @@ class ASS_Question extends PEAR
 	*/
 	function getImagePathWeb()
 	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
+		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
@@ -837,7 +837,7 @@ class ASS_Question extends PEAR
 	*/
 	function getMaterialsPathWeb()
 	{
-		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
+		$webdir = CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/materials/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
@@ -1061,14 +1061,14 @@ class ASS_Question extends PEAR
 		if ($question_id < 1)
 		return;
 
-		$query = sprintf("SELECT ref_fi FROM qpl_questions WHERE question_id = %s",
+		$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)
 			);
     	$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$ref_id = $row["ref_fi"];
+			$obj_id = $row["obj_fi"];
 		}
 		else
 		{
@@ -1094,7 +1094,7 @@ class ASS_Question extends PEAR
 		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 		$deleteresult = $this->ilias->db->query($querydelete);
 
-		$directory = CLIENT_WEB_DIR . "/assessment/" . $ref_id . "/$question_id";
+		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
 		if (is_dir($directory))
 		{
 			$directory = escapeshellarg($directory);

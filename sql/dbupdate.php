@@ -4092,3 +4092,55 @@ CREATE TABLE `crs_archives` (
 ) TYPE=MyISAM;
 <#241>
 ALTER TABLE `crs_archives` ADD `archive_lang` VARCHAR( 16 ) ;
+<#242>
+ALTER  TABLE  `tst_tests`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) DEFAULT  '0' NOT  NULL;
+ALTER  TABLE  `qpl_questions`  CHANGE  `ref_fi`  `obj_fi` INT( 10  ) UNSIGNED DEFAULT  '0' NOT  NULL;
+<#243>
+<?php
+
+// convert tst_tests reference id's to object id's
+$query = "SELECT object_reference.obj_id, tst_tests.obj_fi, tst_tests.test_id FROM object_reference, tst_tests WHERE tst_tests.obj_fi = object_reference.ref_id";
+$result = $this->db->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = sprintf("UPDATE `tst_tests` SET `obj_fi` = %s WHERE `test_id` = %s",
+		$this->db->quote($row["obj_id"]),
+		$this->db->quote($row["test_id"])
+	);
+	$insert_result = $this->db->query($query);
+}
+
+// convert qpl_questions reference id's to object id's
+$query = "SELECT object_reference.obj_id, qpl_questions.obj_fi, qpl_questions.question_id FROM object_reference, qpl_questions WHERE qpl_questions.obj_fi = object_reference.ref_id";
+$result = $this->db->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = sprintf("UPDATE `qpl_questions` SET `obj_fi` = %s WHERE `question_id` = %s",
+		$this->db->quote($row["obj_id"]),
+		$this->db->quote($row["question_id"])
+	);
+	$insert_result = $this->db->query($query);
+}
+
+?>
+<#244>
+<?php
+// convert material path names in web directory from CLIENT_WEB_DIR . "/assessment/ref_id/" to CLIENT_WEB_DIR . "/assessment/obj_id/";
+$d = opendir(CLIENT_WEB_DIR . "/assessment/") or die($php_errormsg);
+while (false !== ($f = readdir($d))) {
+	if (preg_match("/\d+/", $f))
+	{
+		$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
+			$this->db->quote($f)
+		);
+		$result = $this->db->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+    	rename(CLIENT_WEB_DIR . "/assessment/$f", CLIENT_WEB_DIR . "/assessment/" . $row["obj_id"]);
+		}
+	}
+}
+closedir($d);
+
+?>

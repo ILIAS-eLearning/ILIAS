@@ -438,7 +438,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$existing_questions =& $this->object->getExistingQuestions();
 		foreach ($table["rows"] as $data)
 		{
-			if (($rbacsystem->checkAccess("read", $data["ref_fi"])) and (!in_array($data["question_id"], $existing_questions))) {
+			if (($rbacsystem->checkAccess("read", $data["ref_id"])) and (!in_array($data["question_id"], $existing_questions))) {
 				if ($data["complete"]) {
 					// make only complete questions selectable
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
@@ -451,7 +451,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
+				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -680,7 +680,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->comment);
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($dataset->type_tag));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
-			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->ref_fi]);
+			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -962,7 +962,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->ref_fi]);
+				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->obj_fi]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;

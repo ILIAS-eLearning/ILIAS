@@ -159,8 +159,8 @@ class ilObjQuestionPool extends ilObject
 
 	function deleteQuestionpool()
 	{
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s",
-			$this->ilias->db->quote($this->getRefId()));
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s",
+			$this->ilias->db->quote($this->getId()));
 
 		$result = $this->ilias->db->query($query);
 		$questions = array();
@@ -636,7 +636,7 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
-		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -648,7 +648,7 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $this->getRefId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
