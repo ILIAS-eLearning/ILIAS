@@ -104,7 +104,16 @@ class ilCourseObjective
 	
 	function delete()
 	{
-		// TODOO delete question and lm assignment
+		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
+
+		$tmp_obj_qst =& new ilCourseObjectiveQuestion($this->getObjectiveId());
+		$tmp_obj_qst->deleteAll();
+
+		include_once './course/classes/class.ilCourseObjectiveLM.php';
+
+		$tmp_obj_lm =& new ilCourseObjectiveLM($this->getObjectiveId());
+		$tmp_obj_lm->deleteAll();
+
 
 		$query = "DELETE FROM crs_objectives ".
 			"WHERE crs_id = '".$this->course_obj->getId()."' ".

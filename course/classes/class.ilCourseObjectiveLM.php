@@ -129,6 +129,16 @@ class ilCourseObjectiveLM
 		return true;
 	}
 
+	function deleteAll()
+	{
+		$query = "DELETE FROM crs_objective_lm ".
+			"WHERE objective_id = '".$this->getObjectiveId()."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
 	// PRIVATE
 	function __read()
 	{

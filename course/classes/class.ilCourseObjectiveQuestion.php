@@ -50,6 +50,123 @@ class ilCourseObjectiveQuestion
 		$this->__read();
 	}
 
+	// ########################################################  Methods for test table
+	function setTestStatus($a_status)
+	{
+		$this->tst_status = $a_status;
+	}
+	function getTestStatus()
+	{
+		return (int) $this->tst_status;
+	}
+	function setTestSuggestedLimit($a_limit)
+	{
+		$this->tst_limit = $a_limit;
+	}
+	function getTestSuggestedLimit()
+	{
+		return (int) $this->tst_limit;
+	}
+	function __addTest()
+	{
+		// CHECK if entry already exists
+		$query = "SELECT * FROM crs_objective_tst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."' ".
+			"AND ref_id = '".$this->getTestRefId()."'";
+
+		$res = $this->db->query($query);
+		if($res->numRows())
+		{
+			return false;
+		}
+		$query = "INSERT INTO crs_objective_tst ".
+			"SET objective_id = '".$this->getObjectiveId()."', ".
+			"ref_id = '".$this->getTestRefId()."', ".
+			"obj_id = '".$this->getTestObjId()."', ".
+			"tst_status = '".$this->getTestStatus()."', ".
+			"tst_limit = '100'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
+	function __deleteTest()
+	{
+		// Check if there are other entries belonging to this test
+		$query = "SELECT * FROM crs_objective_qst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."' ".
+			"AND ref_id = '".$this->getTestRefId()."'";
+
+		$res = $this->db->query($query);
+		if($res->numRows())
+		{
+			return false;
+		}
+		$query = "DELETE FROM crs_objective_tst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."' ".
+			"AND ref_id = '".$this->getTestRefId()."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
+	function updateTest($a_test_objective_id)
+	{
+		$query = "UPDATE crs_objective_tst ".
+			"SET tst_status = '".$this->getTestStatus()."', ".
+			"tst_limit = '".$this->getTestSuggestedLimit()."' ".
+			"WHERE test_objective_id = '".$a_test_objective_id."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
+	function getTests()
+	{
+		$query = "SELECT * FROM crs_objective_tst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$test['test_objective_id'] = $row->test_objective_id;
+			$test['objective_id']		= $row->objective_id;
+			$test['ref_id']			= $row->ref_id;
+			$test['obj_id']			= $row->obj_id;
+			$test['tst_status']		= $row->tst_status;
+			$test['tst_limit']		= $row->tst_limit;
+
+			$tests[] = $test;
+		}
+
+		return $tests ? $tests : array();
+	}
+	
+	function _getTest($a_test_objective_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_objective_tst ".
+			"WHERE test_objective_id = '".$a_test_objective_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$test['test_objective_id'] = $row->test_objective_id;
+			$test['objective_id']		= $row->objective_id;
+			$test['ref_id']			= $row->ref_id;
+			$test['obj_id']			= $row->obj_id;
+			$test['tst_status']		= $row->tst_status;
+			$test['tst_limit']		= $row->tst_limit;
+		}
+
+		return $test ? $test : array();
+	}
+
+	// ############################################################# METHODS for question table
 	function getQuestions()
 	{
 		return $this->questions ? $this->questions : array();
@@ -90,6 +207,63 @@ class ilCourseObjectiveQuestion
 		return $this->question_id;
 	}
 
+
+	function getMaxPointsByObjective()
+	{
+		include_once './assessment/classes/class.ilObjTest.php';
+
+		$points = 0;
+		foreach($this->getQuestions() as $question)
+		{
+			$tmp_test =& ilObjectFactory::getInstanceByRefId($question['ref_id']);
+
+			$tmp_question =& ilObjTest::_instanciateQuestion($question['question_id']);
+
+			$points += $tmp_question->getMaximumPoints();
+
+			unset($tmp_question);
+			unset($tmp_test);
+		}
+		return $points;
+	}
+	
+	function getMaxPointsByTest($a_test_ref_id)
+	{
+		$points = 0;
+
+		$tmp_test =& ilObjectFactory::getInstanceByRefId($a_test_ref_id);
+
+		foreach($this->getQuestions() as $question)
+		{
+			if($question['ref_id'] == $a_test_ref_id)
+			{
+				$tmp_question =& ilObjTest::_instanciateQuestion($question['question_id']);
+
+				$points += $tmp_question->getMaximumPoints();
+
+				unset($tmp_question);
+			}
+		}
+		unset($tmp_test);
+
+		return $points;
+	}
+
+	function getNumberOfQuestionsByTest($a_test_ref_id)
+	{
+		$counter = 0;
+
+		foreach($this->getQuestions() as $question)
+		{
+			if($question['ref_id'] == $a_test_ref_id)
+			{
+				++$counter;
+			}
+		}
+		return $counter;
+	}
+
+
 	function add()
 	{
 		$query = "INSERT INTO crs_objective_qst ".
@@ -99,6 +273,8 @@ class ilCourseObjectiveQuestion
 			"question_id = '".$this->getQuestionId()."'";
 
 		$this->db->query($query);
+
+		$this->__addTest();
 
 		return true;
 	}
@@ -116,6 +292,22 @@ class ilCourseObjectiveQuestion
 
 		return true;
 	}
+
+	function deleteAll()
+	{
+		$query = "DELETE FROM crs_objective_qst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."'";
+
+		$this->db->query($query);
+
+		$query = "DELETE FROM crs_objective_tst ".
+			"WHERE objective_id = '".$this->getObjectiveId()."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
 
 	// PRIVATE
 	function __read()
@@ -138,13 +330,13 @@ class ilCourseObjectiveQuestion
 	}
 
 	// STATIC
-	function _isAssigned($a_crs_id,$a_tst_ref_id,$a_question_id)
+	function _isAssigned($a_objective_id,$a_tst_ref_id,$a_question_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT crs_qst.objective_id as objective_id FROM crs_objective_qst as crs_qst, crs_objectives as crs_obj ".
 			"WHERE crs_qst.objective_id = crs_obj.objective_id ".
-			"AND crs_id = '".$a_crs_id ."' ".
+			"AND crs_qst.objective_id = '".$a_objective_id ."' ".
 			"AND ref_id = '".$a_tst_ref_id."' ".
 			"AND question_id = '".$a_question_id."'";
 

@@ -5486,3 +5486,15 @@ CREATE TABLE `crs_objective_qst` (
   `question_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`qst_ass_id`)
 ) TYPE=MyISAM;
+
+<#390>
+
+CREATE TABLE IF NOT EXISTS `crs_objective_tst` (
+  `test_objective_id` int(11) NOT NULL auto_increment,
+  `objective_id` int(11) NOT NULL default '0',
+  `ref_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `tst_status` tinyint(2) default NULL,
+  `tst_limit` tinyint(3) default NULL,
+  PRIMARY KEY  (`test_objective_id`)
+) TYPE=MyISAM;
