@@ -20,17 +20,29 @@
 <!-- BEGIN post_save -->
 {OTHER_QUESTION_DATA}
 <tr>
+  <td class="option"><label for="imagemap_type">{TEXT_IMAGEMAP_SOURCE}:</label></td>
+  <td class="option_value" colspan="5"><select name="imagemap_source" id="imagemap_source"><option value="0"{SELECTED_UPLOAD_IMAGEMAP}>{TEXT_UPLOAD_IMAGEMAP}</option><option value="1"{SELECTED_CREATE_IMAGEMAP}>{TEXT_CREATE_IMAGEMAP}</option></select></td>
+</tr>
+<tr>
 	<td class="option">{TEXT_IMAGE}:</td>
 	<td class="option_value">
   <!-- BEGIN imageupload -->
-	{UPLOADED_IMAGE} <br>
+	<img src="{UPLOADED_IMAGE}"> <br>
   <!-- END imageupload -->
+  <!-- BEGIN createimage_block -->
+	<input name="input_image" type="image" src="{INPUT_IMAGE_CREATE}">
+	<input name="input_image_count" type="hidden" value="{IMAGE_CLICKED_COUNT}">
+	<input name="input_image_coords" type="hidden" value="{IMAGE_CLICKED_COORDS}">
+  <!-- END createimage_block -->
+
   <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
   <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
   <input name="imageName" type="file" id="image" size="30" />
  	</td>
  	<td class="option_value" colspan="3" > <input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value={VALUE_IMAGE_UPLOAD} /></td>
+
 </tr>
+<!-- BEGIN imagemap_upload_block -->
 <tr>
 	<td class="option">{TEXT_IMAGEMAP}:</td>
 	<td class="option_value">
@@ -42,7 +54,19 @@
   <input name="imagemapName" type="file" id="imagemap" size="30" />
 	</td>
 	<td class="option_value" colspan="3" > <input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value={VALUE_IMAGEMAP_UPLOAD} /></td>
+
 </tr>
+<!-- END imagemap_upload_block -->
+
+<!-- BEGIN imagemap_create_block -->
+<tr>
+
+	<td class="option"><label for="text_add_area">{TEXT_ADD_AREA}:</label></td>
+	<td class="option_value"><select name="area_type" id="area_type"><option value="0"{SELECTED_RECTANGLE}>{TEXT_RECTANGLE}</option><option value="1"{SELECTED_CIRCLE}>{TEXT_CIRCLE}</option><option value="2"{SELECTED_POLYGON}>{TEXT_POLYGON}</option></select></td>
+	<td colspan="3" class="option"><input name="cmd[addArea]" type="submit" class="submit" id="add_area" value="{TEXT_ADD_AREA}" /></td>
+</tr>
+<!-- END imagemap_create_block -->
+
 <!-- END post_save -->
 <!-- BEGIN gape -->
 <tr><td class="option_value"><br></td></tr>

@@ -23,6 +23,14 @@
 
 require_once "class.assQuestion.php";
 require_once "class.assAnswerImagemap.php";
+require_once "class.assImagemapArea.php";
+
+define("IMAGEMAP_UPLOAD", "0");
+define("IMAGEMAP_CREATE", "1");
+
+define("RECTANGLE", "0");
+define("CIRCLE", "1");
+define("POLYGON", "2");
 
 /**
 * Class for image map questions
@@ -92,6 +100,78 @@ class ASS_ImagemapQuestion extends ASS_Question {
 */
   var $imagemap_contents;
 
+/**
+* The variable about information whether imagemap is created by imagemap editor
+*
+* The variable about information whether imagemap is created by imagemap editor
+*
+* @var boolean
+*/
+  var $imagemap_source;
+
+/**
+* The variable containing imagemap area type
+*
+* The variable containing imagemap area type
+*
+* @var integer
+*/
+  var $area_type;
+
+/**
+* The variable containing information about the number of times, image is clicked
+*
+* The variable containing information about the number of times, image is clicked
+*
+* @var integer
+*/
+  var $image_clicked_count;
+
+/**
+* The variable containing information about the coordinates when creating imagemap
+*
+* The variable containing information about the coordinates when creating imagemap
+*
+* @var string
+*/
+  var $image_coords;
+
+/**
+* The variable containing an instance of imagemap area
+*
+* The variable containing an instance of imagemap area
+*
+* @var object
+*/
+  var $imagemap_area;
+
+/**
+* image map work copy image
+*
+* image map work copy image
+*
+* @var object
+*/
+var $map_image;
+
+/**
+* map area line color 1
+*
+* map area line color 1
+*
+* @var object
+*/
+var $color1;
+
+/**
+* map area line color 2
+*
+* map area line color 2
+*
+* @var object
+*/
+var $color2;
+
 
 /**
 * ASS_ImagemapQuestion constructor
@@ -116,7 +196,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $question = "",
     $imagemap_filename = "",
     $image_filename = ""
-
   )
   {
     $this->ASS_Question($title, $comment, $author, $owner);
@@ -125,6 +204,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $this->image_filename = $image_filename;
     $this->answers = array();
 		$this->points = $points;
+
+	$this->imagemap_source = IMAGEMAP_UPLOAD;
+	$this->area_type = RECTANGLE;
+	$this->image_clicked_count = 0;
+	$this->image_coords = "";
+	$this->imagemap_area =& new ASS_ImagemapArea();
+
   }
 
 /**
@@ -173,7 +259,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 6;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, points, imagemap_file, image_file, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, points, imagemap_file, image_file, imagemap_source, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($question_type),
         $db->quote($this->ref_id),
         $db->quote($this->title),
@@ -185,6 +271,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
+        $db->quote($this->imagemap_source),
 				$db->quote("$complete"),
         $db->quote($created)
       );
@@ -198,7 +285,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, imagemap_file = %s, image_file = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, imagemap_file = %s, image_file = %s, imagemap_source = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
@@ -207,6 +294,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
+        $db->quote($this->imagemap_source),
 				$db->quote("$complete"),
         $db->quote($this->id)
       );
@@ -269,6 +357,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $this->question = $data->question_text;
         $this->imagemap_filename = $data->imagemap_file;
         $this->image_filename = $data->image_file;
+        $this->imagemap_source = $data->imagemap_source;
         $this->points = $data->points;
         $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
@@ -444,6 +533,234 @@ class ASS_ImagemapQuestion extends ASS_Question {
   function set_points($points = 0.0) {
     $this->points = $points;
   }
+/**
+* Gets the information whether imagemap is created or uploaded
+*
+* Gets the information whether imagemap is created or uploaded
+*
+* @return boolean
+* @access public
+* @see $question
+*/
+  function get_imagemap_source() {
+    return $this->imagemap_source;
+  }
+
+/**
+* Sets the information whether imagemap is created or uploaded
+*
+* Sets the information whether imagemap is created or uploaded
+*
+* @param boolean
+* @access public
+* @see $question
+*/
+  function set_imagemap_source($imagemap_source = IMAGEMAP_UPLOAD) {
+    $this->imagemap_source = $imagemap_source;
+  }
+
+/**
+* Gets the imagemap area type
+*
+* Gets the imagemap area type
+*
+* @return integer
+* @access public
+* @see $question
+*/
+  function get_area_type() {
+    return $this->area_type;
+  }
+
+/**
+* Sets the imagemap area type
+*
+* Sets the imagemap area type
+*
+* @param integer
+* @access public
+* @see $question
+*/
+  function set_area_type($area_type = RECTANGLE) {
+    $this->area_type = $area_type;
+  }
+
+/**
+* Gets the area name
+*
+* Sets the area name
+*
+* @param string
+* @access public
+* @see $question
+*/
+  function get_area_name() {
+	switch($this->area_type)
+	{
+		case RECTANGLE:
+		return "RECT";
+		break;
+
+		case CIRCLE:
+		return "CIRCLE";
+		break;
+
+		case POLYGON:
+		return "POLY";
+		break;
+	}
+ }
+
+/**
+* Gets the image clicked count
+*
+* Gets the image clicked count
+*
+* @return integer
+* @access public
+* @see $question
+*/
+  function get_image_clicked_count() {
+    return $this->image_clicked_count;
+  }
+
+/**
+* Sets the image clicked count
+*
+* Sets the image clicked count
+*
+* @param integer
+* @access public
+* @see $question
+*/
+  function set_image_clicked_count($image_clicked_count) {
+    $this->image_clicked_count = $image_clicked_count;
+  }
+/**
+* Gets the image coordinates
+*
+* Gets the image coordinates
+*
+* @return string
+* @access public
+* @see $question
+*/
+  function get_image_coords() {
+    return $this->image_coords;
+  }
+
+/**
+* Sets the image coordinates
+*
+* Sets the image coordinates
+*
+* @param string
+* @access public
+* @see $question
+*/
+  function set_image_coords($image_coords) {
+    $this->image_coords = $this->image_coords.$image_coords;
+  }
+/**
+* Sets the image coordinates
+*
+* Sets the image coordinates
+*
+* @param string
+* @access public
+* @see $question
+*/
+  function add_answer_from_image_editor() {
+    $this->add_answer("area_".$this->get_answer_count(), 0.0, FALSE, $this->get_answer_count(), $this->get_image_coords(),$this->get_area_name());
+    $this->imagemap_area->setCoords($this->image_coords);
+    $this->imagemap_area->setShape($this->get_area_name());
+    $this->imagemap_area->setTitle("area_".$this->get_answer_count());
+
+    $this->buildMapWorkImage();
+    $this->imagemap_area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+    $this->saveMapWorkImage();
+
+    $this->set_image_clicked_count(3);
+  }
+
+/**
+* get image type of image map work copy
+*/
+function getMapWorkCopyType()
+{
+	$ext = explode(".", $this->get_image_filename());
+	return ilUtil::getGDSupportedImageType($ext[count($ext) - 1]);
+}
+
+/**
+* build image map work image
+*/
+function buildMapWorkImage()
+{
+	$im_type = strtolower($this->getMapWorkCopyType());
+	$imgcopy = $this->get_image_path().$this->get_image_filename();
+
+	switch ($im_type)
+	{
+		case "gif":
+			$this->map_image = ImageCreateFromGIF($imgcopy);
+			break;
+
+		case "jpg":
+			$this->map_image = ImageCreateFromJPEG($imgcopy);
+			break;
+
+		case "png":
+			$this->map_image = ImageCreateFromPNG($imgcopy);
+			break;
+	}
+
+	// try to allocate black and white as color. if this is not possible, get the closest colors
+	if (imagecolorstotal($this->map_image) > 250)
+	{
+		$this->color1 = imagecolorclosest($this->map_image, 0, 0, 0);
+		$this->color2 = imagecolorclosest($this->map_image, 255, 255, 255);
+	}
+	else
+	{
+		$this->color1 = imagecolorallocate($this->map_image, 0, 0, 0);
+		$this->color2 = imagecolorallocate($this->map_image, 255, 255, 255);
+	}
+}
+
+/**
+* save image map work image
+*/
+function saveMapWorkImage()
+{
+	$im_type = strtolower($this->getMapWorkCopyType());
+	// save image work-copy and free memory
+	switch ($im_type)
+	{
+		case "gif":
+			ImageGIF($this->map_image, $this->get_image_path().$this->get_image_filename());
+			break;
+
+		case "jpg":
+			ImageJPEG($this->map_image, $this->get_image_path().$this->get_image_filename());
+			break;
+
+		case "png":
+			ImagePNG($this->map_image, $this->get_image_path().$this->get_image_filename());
+			break;
+	}
+
+	ImageDestroy($this->map_image);
+}
+
+/**
+* get image map work image
+*/
+function &getMapWorkImage()
+{
+	return $this->map_image;
+}
+
 
 /**
 * Adds a possible answer for a imagemap question

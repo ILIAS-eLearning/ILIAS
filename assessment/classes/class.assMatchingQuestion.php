@@ -129,6 +129,188 @@ class ASS_MatchingQuestion extends ASS_Question {
 	}
 
 /**
+* Returns a QTI xml representation of the question
+*
+* Returns a QTI xml representation of the question and sets the internal
+* domxml variable with the DOM XML representation of the QTI xml representation
+*
+* @return string The QTI xml representation of the question
+* @access public
+*/
+	function to_xml()
+	{
+    if (!empty($this->domxml))
+    {
+      $this->domxml->free();
+    }
+    $xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+    $this->domxml = domxml_open_mem($xml_header);		
+    $root = $this->domxml->document_element();
+    // qti ident
+    $qtiIdent = $this->domxml->create_element("item");
+    $qtiIdent->set_attribute("ident", $this->get_id());
+    $qtiIdent->set_attribute("title", $this->get_title());
+    $root->append_child($qtiIdent);
+    // add qti comment
+    $qtiComment = $this->domxml->create_element("qticomment");
+    $qtiCommentText = $this->domxml->create_text_node($this->get_comment());
+    $qtiComment->append_child($qtiCommentText);
+    $qtiIdent->append_child($qtiComment);
+    // PART I: qti presentation
+    $qtiPresentation = $this->domxml->create_element("presentation");
+    $qtiPresentation->set_attribute("label", $this->get_title());
+    // add flow to presentation
+    $qtiFlow = $this->domxml->create_element("flow");
+    // add material with question text to presentation
+    $qtiMaterial = $this->domxml->create_element("material");
+    $qtiMatText = $this->domxml->create_element("mattext");
+    $qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+    $qtiMatText->append_child($qtiMatTextText);
+    $qtiMaterial->append_child($qtiMatText);
+    // add answers to presentation
+    $qtiFlow_label = $this->domxml->create_element("flow_label");
+    // left side
+    $qtiFlow_mat = $this->domxml->create_element("flow_mat");
+
+    foreach ($this->answers as $index => $answer)
+    {
+      $qtiMaterial = $this->domxml->create_element("material");
+      $qtiMatText = $this->domxml->create_element("mattext");
+      $qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
+      $qtiMatText->append_child($qtiMatTextText);
+      $qtiMaterial->append_child($qtiMatText);
+      $qtiFlow_mat->append_child("material");
+      $qtiResponse_num = $this->domxml->create_element("response_num");
+      $qtiResponse_num->set_attribute("ident", $this->get_id());
+      $qtiResponse_num->set_attribute("rcardinality", "single");
+      $qtiResponse_num->set_attribute("rtiming", "no");
+      $qtiRender_fib = $this->domxml->create_element("render_fib");
+      $qtiRender_fib->set_attribute("fibtype", "Decimal");
+      $qtiRender_fib->set_attribute("prompt", "Box");
+      $qtiRender_fib->set_attribute("maxchars", "3");
+      $qtiResponse_num->append_child($qtiRender_fib);
+      if (get_shuffle()){
+		    $qtiRender_choice = $this->domxml->create_element("render_choice");
+		    $qtiRender_choice ->set_attribute("shuffle", "yes");
+		    $qtiResponse_num->append_child($qtiRender_choice);
+      }
+      $qtiFlow_mat->append_child("response_num");
+    }
+
+    //right side
+    $qtiFlow_mat = $this->domxml->create_element("flow_mat");
+    foreach ($this->answers as $index => $answer)
+    {		    
+      $qtiMaterial = $this->domxml->create_element("material");
+      $qtiMatText = $this->domxml->create_element("mattext");
+      $qtiMatTextText = $this->domxml->create_text_node($answer->get_matchingtext());
+      $qtiMatText->append_child($qtiMatTextText);
+      $qtiMaterial->append_child($qtiMatText);
+      $qtiResponse_num = $this->domxml->create_element("response_num");
+      $qtiResponse_num->set_attribute("ident", $this->get_id());
+      $qtiResponse_num->set_attribute("rcardinality", "single");
+      $qtiResponse_num->set_attribute("rtiming", "no");
+      $qtiRender_fib = $this->domxml->create_element("render_fib");
+      $qtiRender_fib->set_attribute("fibtype", "Decimal");
+      $qtiRender_fib->set_attribute("prompt", "Box");
+      $qtiRrender_fib->set_attribute("maxchars", "3");
+      $qtiResponse_num->append_child($qtiRender_fib);
+      if (get_shuffle()) {
+		    $qtiRender_choice = $this->domxml->create_element("render_choice");
+		    $qtiRender_choice ->set_attribute("shuffle", "yes");
+		    $qtiResponse_num->append_child($qtiRender_choice);
+      }
+      $qtiFlow_mat->append_child("response_num");
+		}
+    $qtiFlow_label->append_child($qtiFlow_mat);
+    $qtiFlow->append_child($qtiFlow_label);
+    $qtiPresentation->append_child($qtiFlow);
+    $qtiIdent->append_child($qtiPresentation);
+    // PART II: qti resprocessing
+    $qtiResprocessing = $this->domxml->create_element("resprocessing");
+    $qtiOutcomes = $this->domxml->create_element("outcomes");
+    $qtiDecvar = $this->domxml->create_element("decvar");
+    $qtiOutcomes->append_child($qtiDecvar);
+    $qtiResprocessing->append_child($qtiOutcomes);
+    // add response conditions for true
+    foreach ($this->answers as $index => $answer)
+    {
+      $qtiRespcondition = $this->domxml->create_element("respcondition");
+      $qtiRespcondition->set_attribute("title", $answer->get_ansertext());
+      $qtiRespcondition->set_attribute("continue", "Yes");
+      $qtiConditionvar = $this->domxml->create_element("conditionvar");
+      $qtiVarsubset = $this->domxml->create_element("varsubset");
+      $qtiVarsubset  -> set_attribute("title", $this->get_title());
+      $qtiVarsubset  -> set_attribute("setmach", $answer->get_ansertext()+"_source, "+ $answer->get_machingtext()+"_match");
+      $qtiConditionvar->append_child($qtiVarsubset);
+      $qtiRespcondition->append_child($qtiConditionvar);
+      $qtiSetvar = $this->domxml->create_element("setvar");
+      $qtiSetvar -> set_attribute("action", "Set");
+      $qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+      $qtiSetvar->append_child($qtiSetvarText);
+      $qtiRespcondition->append_child($qtiSetvar);
+		
+      // qti displayfeedback for true
+      $qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+      $qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+      $qtiDisplayfeedback->set_attribute("linkrefid", "True");
+      $qtiRespcondition->append_child($qtiDisplayfeedback);
+      $qtiResprocessing->append_child($qtiRespcondition);
+    }
+    // add response conditions for false
+    $qtiRespcondition = $this->domxml->create_element("respcondition");
+    $qtiRespcondition->set_attribute("title", "false");
+    $qtiConditionvar = $this->domxml->create_element("conditionvar");
+    $qtiOr  = $this->domxml->create_element("or");
+    foreach ($this->answers as $index => $answer)
+    {
+      $qtiNot = $this->domxml->create_element("not");
+      $qtiVarsubset = $this->domxml->create_element("varsubset");
+      $qtiVarsubset  -> set_attribute("respident", $this->get_title());
+      $qtiVarsubset  -> set_attribute("setmach", $answer->get_ansertext()+"_source, "+ $answer->get_machingtext()+"_match");
+      $qtiNot->append_child($qtiVarsubset);
+      $qtiOr->append_child($qtiNot);
+    }
+    $qtiConditionvar->append_child($qtiOr);
+    $qtiRespcondition->append_child($qtiConditionvar);
+    $qtiSetvar = $this->domxml->create_element("setvar");
+    $qtiSetvar -> set_attribute("action", "Set");
+    $qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+    $qtiSetvar->append_child($qtiSetvarText);
+    $qtiRespcondition->append_child($qtiSetvar);
+    // qti displayfeedback for false
+    $qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+    $qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+    $qtiDisplayfeedback->set_attribute("linkrefid", "False");
+    $qtiRespcondition->append_child($qtiDisplayfeedback);
+    $qtiResprocessing->append_child($qtiRespcondition);
+    $qtiIdent->append_child($qtiResprocessing);
+	    
+    // PART III: qti itemfeedback for true
+    foreach ($this->answers as $index => $answer)
+    {	
+      $qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+      $qtiItemfeedback->set_attribute("ident", $answer->get_ansertext());
+      $qtiMaterial = $this->domxml->create_element("material");
+      $qtiMattext = $this->domxml->create_element("mattext");
+      $qtiMattextText = $this->domxml->create_text_node("");
+      $qtiMattext->append_child($qtiMattextText);
+      $qtiMaterial->append_child($qtiMattext);
+      $qtiItemfeedback->append_child($qtiMaterial);
+      $qtiIdent->append_child($qtiItemfeedback);
+    }
+	  $qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+    $qtiItemfeedback->set_attribute("ident", "false");
+    $qtiMaterial = $this->domxml->create_element("material");
+    $qtiMattext = $this->domxml->create_element("mattext");
+    $qtiMattextText = $this->domxml->create_text_node("");
+    $qtiMattext->append_child($qtiMattextText);
+    $qtiMaterial->append_child($qtiMattext);
+    $qtiItemfeedback->append_child($qtiMaterial);
+    $qtiIdent->append_child($qtiItemfeedback);
+	}
+    
+/**
 * Saves a ASS_MatchingQuestion object to a database
 *
 * Saves a ASS_MatchingQuestion object to a database (experimental)
@@ -347,7 +529,7 @@ class ASS_MatchingQuestion extends ASS_Question {
     } else {
       $random_number_matchingtext = $this->get_random_id("matching");
     }
-    // Anwort anhängen
+    // append answer
     $matchingpair = new ASS_AnswerMatching($answertext, $points, $random_number_answertext, $matchingtext, $random_number_matchingtext);
     array_push($this->matchingpairs, $matchingpair);
   }
