@@ -67,11 +67,23 @@ function moveDragDropSymbol()
 /**
 *   on Click show context-menu at mouse-position
 */
+
+var menuBlocked = false;
+function nextMenuClick() {
+	menuBlocked = false;
+}
+
 var openedMenu="";
 function doMouseClick(e,id,ctype) 
 {
+	// dies ist nötig, weil wenn zwei Layer übereinander liegen von beiden ein Event ausgelöst wird.
+	// Jetzt wird aber bei einem Klick das Menü geblockt für einen halbe sekunde.
+	if(menuBlocked) return;
+	menuBlocked = true;
+	setTimeout("nextMenuClick()",500);
+	
 	if (!e) var e = window.event;
-    
+	
 	clickcmdid = id.substr(7);
 	
 	if (e.pageX || e.pageY)
@@ -91,11 +103,13 @@ function doMouseClick(e,id,ctype)
 		{
 			dd.elements[openedMenu].hide();
 			openedMenu = "";
+		} 
+		else 
+		{
+			dd.elements["contextmenu_"+clickcmdid].moveTo(Mposx,Mposy-10);
+			dd.elements["contextmenu_"+clickcmdid].show();
+			openedMenu = "contextmenu_"+clickcmdid;
 		}
-		
-		dd.elements["contextmenu_"+clickcmdid].moveTo(Mposx,Mposy-10);
-		dd.elements["contextmenu_"+clickcmdid].show();
-		openedMenu = "contextmenu_"+clickcmdid;
 		doCloseContextMenuCounter=20;
 	}
 }

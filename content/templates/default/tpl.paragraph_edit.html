@@ -350,10 +350,21 @@ function initEditor(TextAreaName) {
                   }
     });
     
+    cfg.registerButton({
+      id        : "ilias-code",
+      tooltip   : "Code",
+      image     : "./htmlarea/images/ed_code.gif",
+      textMode  : false,
+      action    : function(editor, id) {
+                    editor.surroundHTML('<code>', '</code>');
+                  }
+    });
+  
+  	cfg.pageStyle = ".footnote { color:0000FF; }";
   
 	cfg.toolbar = [
 		[ 
-		  "bold", "italic", "ilias-com", "ilias-quot", "separator", 
+		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
           
 		  "copy", "cut", "paste", "space", "undo", "redo"
 		  
@@ -391,6 +402,9 @@ function initEditor(TextAreaName) {
 }
 </script>
 
+
+
+
 <script>
     function doInit() {
     
@@ -410,6 +424,15 @@ function initEditor(TextAreaName) {
 
         T = T.replace("[code]","<code>");
         T = T.replace("[/code]","</code>");
+
+		/*
+		while (T.indexOf("[fn]"!=-1) {
+			T1 = T.substr(0,);
+		}
+		*/
+		
+        T = T.replace("[fn]","<span class=\"footnote\">");
+        T = T.replace("[/fn]","</span>");
         
         while (T.indexOf("\n")>-1) { 
             T = T.replace("\n","<br />");
