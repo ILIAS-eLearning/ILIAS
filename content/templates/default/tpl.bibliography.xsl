@@ -69,6 +69,7 @@
                 <select name="action" class="ilEditSelect">
                   <option value="details">{DETAILS}</option>
                   <option value="show">{SHOW}</option>
+                  <option value="show_citation">{SHOW_CITATION}</option>
                 </select>
                 <input class="ilEditSubmit" type="submit" value="Go"></input>
               </td>

@@ -62,6 +62,52 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 
 
+	function showCitation($xml)
+	{
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+								ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		$parsed_post = $this->__parseCitationPost();
+		if(!count($parsed_post))
+		{
+			$error = true;
+			sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
+		}
+		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"content");
+		$tmp_tpl->setVariable("CITATIONS",$this->lng->txt("cont_citations"));
+
+		foreach($parsed_post as $data)
+		{
+			$tmp_tpl->setCurrentBlock("citation_row");
+			$tmp_tpl->setVariable("PAGES_ROW",$data);
+			$tmp_tpl->parseCurrentBlock();
+		}
+		$xsl = $tmp_tpl->get();
+
+		$this->object->initBibItemObject();
+		$xml = $this->object->bib_obj->getXML();
+		
+		if(empty($xml))
+		{
+			return true;
+		}
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$params = array ('target_id' => $_SESSION["bib_id"]);
+
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+
+		$this->tpl->setCurrentBlock("ilPage");
+		$this->tpl->setVariable("PAGE_CONTENT",$output);
+		$this->tpl->parseCurrentBlock();
+		
+		return true;
+	}
+
 	function showAbstract($a_target_id)
 	{
 		if(is_array($a_target_id) and count($a_target_id) > 1)
@@ -145,6 +191,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			}
 			$tmp_tpl->setVariable("DETAILS",$this->lng->txt("cont_details"));
 			$tmp_tpl->setVariable("SHOW",$this->lng->txt("cont_show"));
+			$tmp_tpl->setVariable("SHOW_CITATION",$this->lng->txt("cont_show_citation"));
 			$tmp_tpl->setVariable("GO",$this->lng->txt("go"));
 		}		
 
@@ -441,6 +488,47 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			$path .= $tmpPath[$i]["title"];
 		}
 		return $path;
+	}
+
+	function __checkCitationPost(&$message)
+	{
+		if(!$_POST["pgt_id"])
+		{
+			$message = "SELECT ONE<br />";
+			return false;
+		}
+		return true;
+	}
+
+	function __parseCitationPost()
+	{
+		if(!is_array($_POST["pgt_id"]))
+		{
+			return array();
+		}
+		foreach($_POST["pgt_id"] as $key => $id)
+		{
+			switch($_POST["ct_option"][$key])
+			{
+				case "f":
+					$output[] = $id."f";
+					break;
+				case "ff":
+					$output[] = $id."ff";
+					break;
+				case "from":
+					$start = $id."-";
+					break;
+				case "to":
+					if($start)
+					{
+						$output[] = $start."".$id;
+					}
+					unset($start);
+					break;
+			}
+		}
+		return $output ? $output : array();
 	}
 }
 	
