@@ -85,7 +85,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 

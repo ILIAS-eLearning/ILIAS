@@ -25,8 +25,8 @@
 /**
 * Class ilObjRoleTemplateGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.13 2003/06/12 14:37:40 smeyer Exp $
+* @author Stefan Meyer <smeyer@databay.de>
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.14 2003/07/07 14:28:01 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -38,7 +38,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-	* @access public
+	*
+	* @access	public
 	*/
 	function ilObjRoleTemplateGUI($a_data,$a_id,$a_call_by_reference)
 	{
@@ -49,8 +50,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 	/**
 	* save a new role template object
+	*
 	* @access	public
-	**/
+	*/
 	function saveObject()
 	{
 		global $rbacsystem,$rbacadmin, $rbacreview;
@@ -59,19 +61,19 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// TODO: check for create role permission should be better
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
 			// check if rolt title is unique
 			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
 			// create new rolt object
-			require_once("classes/class.ilObjRoleTemplate.php");
+			include_once("./classes/class.ilObjRoleTemplate.php");
 			$roltObj = new ilObjRoleTemplate();
 			$roltObj->setTitle($_POST["Fobject"]["title"]);
 			$roltObj->setDescription($_POST["Fobject"]["desc"]);
@@ -81,16 +83,19 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
 	/**
 	* display permissions
+	* 
+	* @access	public
 	*/
 	function permObject()
 	{
-		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng, $objDefinition;
+		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
@@ -145,12 +150,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 			// END TABLE DATA OUTER
 			$output["col_anz"] = count($obj_data);
-			$output["txt_save"] = $lng->txt("save");
-			$output["txt_permission"] = $lng->txt("permission");
-			$output["txt_obj_type"] = $lng->txt("obj_type");
+			$output["txt_save"] = $this->lng->txt("save");
+			$output["txt_permission"] = $this->lng->txt("permission");
+			$output["txt_obj_type"] = $this->lng->txt("obj_type");
 	
 			// ADOPT PERMISSIONS
-			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
+			$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
 
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
@@ -170,8 +175,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				.$this->object->getId()."&ref_id=".$_GET["ref_id"];
 			// END ADOPT_PERMISSIONS
 
-			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
-				$this->object->getId()."&ref_id=".$_GET["ref_id"];
+			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".$this->object->getId()."&ref_id=".$_GET["ref_id"];
 			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
 		}
 
@@ -193,7 +197,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// END BLOCK OBJECT TYPES
 
 		// BEGIN TABLE DATA OUTER
-		foreach($this->data["perm"] as $name => $operations)
+		foreach ($this->data["perm"] as $name => $operations)
 		{
 			// BEGIN CHECK PERMISSION
 			$this->tpl->setCurrentBlock("CHECK_PERM");
@@ -213,7 +217,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// END TABLE DATA OUTER
 
 		// BEGIN ADOPT PERMISSIONS
-		foreach($this->data["adopt"] as $key => $value)
+		foreach ($this->data["adopt"] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");
 			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
@@ -249,27 +253,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 	/**
 	* save permission templates of role
+	*
 	* @access	public
-	**/
+	*/
 	function permSaveObject()
 	{
-		global $tree, $rbacadmin, $rbacsystem, $rbacreview;
-
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
-		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $rbacreview->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
-			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
-		}
-		else
-		{
-			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
-		}
+		global $rbacadmin, $rbacsystem, $rbacreview;
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -282,12 +275,18 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$_GET["ref_id"]);
 			}
 		}
-		header("Location: adm_object.php?obj_id=".$this->object->getId()."&ref_id=".
-			$_GET["ref_id"]."&cmd=perm");
 
+		sendinfo($this->lng->txt("saved_successfully"),true);
+
+		header("Location: adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$_GET["ref_id"]."&cmd=perm");
+		exit();
 	}
 
-
+	/**
+	* adopting permission setting from other roles/role templates
+	*
+	* @access	public
+	*/
 	function adoptPermSaveObject()
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
@@ -301,16 +300,20 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
+		
+		$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+		sendInfo($this->lng->txt("msg_perm_adopted_from")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&ref_id=".
-			   $_GET["ref_id"]."&cmd=perm");
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
 
 	/**
 	* update role template object
+	*
+	* @access	public
 	*/
 	function updateObject()
 	{
@@ -319,7 +322,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to modify role template",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -330,17 +333,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 			}
 
-			// create new role object
-			require_once("classes/class.ilObjRoleTemplate.php");
-			$roleObj = new ilObjRoleTemplate($this->object->getId());
-			$roleObj->setTitle($_POST["Fobject"]["title"]);
-			$roleObj->setDescription($_POST["Fobject"]["desc"]);
-			$roleObj->update();
+			// update
+			$this->object->setTitle($_POST["Fobject"]["title"]);
+			$this->object->setDescription($_POST["Fobject"]["desc"]);
+			$this->object->update();
 		}
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-} // END class.RoleTemplateObjectOut
+} // END class.ilObjRoleTemplate
 ?>

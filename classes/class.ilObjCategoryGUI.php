@@ -26,7 +26,7 @@
 * Class ilObjCategoryGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -45,5 +45,5 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$this->type = "cat";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
-} // END class.LeraningObject
+} // END class.ilObjCategoryGUI
 ?>

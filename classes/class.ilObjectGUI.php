@@ -367,7 +367,7 @@ class ilObjectGUI
 	*/
 	function copyObject()
 	{
-		global $tree, $rbacsystem;
+		global $rbacsystem;
 
 		if (!isset($_POST["id"]))
 		{
@@ -378,8 +378,8 @@ class ilObjectGUI
 		foreach ($_POST["id"] as $ref_id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $tree->getNodeData($ref_id);
-			$subtree_nodes = $tree->getSubTree($node_data);
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
 			
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
@@ -399,6 +399,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
 									 $this->ilias->error_obj->MESSAGE);
 		}
+
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
@@ -414,7 +415,7 @@ class ilObjectGUI
  	*/
 	function pasteObject()
 	{
-		global $rbacsystem,$rbacadmin,$tree,$objDefinition;
+		global $rbacsystem, $rbacadmin;
 
 		// CHECK SOME THINGS
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
@@ -422,7 +423,7 @@ class ilObjectGUI
 			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
 			return true;
-			exit; // und wech... will never be executed
+			exit(); // und wech... will never be executed
 		}
 
 		// PASTE IF CMD WAS 'cut' (TODO: Could be merged with 'link' routine below in some parts)
@@ -462,7 +463,7 @@ class ilObjectGUI
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 				$obj_type = $obj_data->getType();
 			
-				if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
+				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($object->getType()))))
 				{
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
@@ -500,13 +501,13 @@ class ilObjectGUI
 			{
 
 				// get node data
-				$top_node = $tree->getNodeData($ref_id);
+				$top_node = $this->tree->getNodeData($ref_id);
 
 				// get subnodes of top nodes
-				$subnodes[$ref_id] = $tree->getSubtree($top_node);
+				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
 			
 				// delete old tree entries
-				$tree->deleteTree($top_node);
+				$this->tree->deleteTree($top_node);
 			}
 
 			// now move all subtrees to new location
@@ -572,7 +573,7 @@ class ilObjectGUI
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 				$obj_type = $obj_data->getType();
 			
-				if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
+				if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($object->getType()))))
 				{
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
@@ -606,18 +607,18 @@ class ilObjectGUI
 /////////////////////////////////////////
 // everything ok: now paste the objects to new location
 
-			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
 
 				// get node data
-				$top_node = $tree->getNodeData($ref_id);
+				$top_node = $this->tree->getNodeData($ref_id);
 			
 				// get subnodes of top nodes
-				$subnodes[$ref_id] = $tree->getSubtree($top_node);
+				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
 			}
 
 			// now move all subtrees to new location
-			foreach($subnodes as $key => $subnode)
+			foreach ($subnodes as $key => $subnode)
 			{
 				//first paste top_node....
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
@@ -648,6 +649,7 @@ class ilObjectGUI
 		
 		// TODO: sendInfo does not work in this place :-(
 		sendInfo($this->lng->txt("msg_changes_ok"),true);
+
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
@@ -672,7 +674,7 @@ class ilObjectGUI
 	*/
 	function cutObject()
 	{
-		global $tree, $rbacsystem;
+		global $rbacsystem;
 
 		if (!isset($_POST["id"]))
 		{
@@ -683,8 +685,8 @@ class ilObjectGUI
 		foreach ($_POST["id"] as $ref_id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $tree->getNodeData($ref_id);
-			$subtree_nodes = $tree->getSubTree($node_data);
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
 			
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
@@ -719,7 +721,7 @@ class ilObjectGUI
 	*/
 	function linkObject()
 	{
-		global $clipboard,$tree,$rbacsystem,$rbacadmin,$objDefinition;
+		global $clipboard, $rbacsystem, $rbacadmin;
 
 		if (!isset($_POST["id"]))
 		{
@@ -735,10 +737,8 @@ class ilObjectGUI
 			}
 
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
-			$actions = $objDefinition->getActions($object->getType());
+			$actions = $this->objDefinition->getActions($object->getType());
 			
-			
-
 			if ($actions["link"]["exec"] == 'false')
 			{
 				$no_link[] = $object->getType();
@@ -782,7 +782,7 @@ class ilObjectGUI
 	*/
 	function cloneObject($a_ref_id)
 	{
-		global $objDefinition,$tree,$rbacsystem;
+		global $rbacsystem;
 
 		if(!is_array($_SESSION["clipboard"]["ref_ids"]))
 		{
@@ -793,7 +793,7 @@ class ilObjectGUI
 		{
 			// CHECK SOME THINGS
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
-			$data = $tree->getNodeData($ref_id);
+			$data = $this->tree->getNodeData($ref_id);
 
 			// CHECK ACCESS
 			if (!$rbacsystem->checkAccess('create',$a_ref_id,$obj_data->getType()))
@@ -802,7 +802,7 @@ class ilObjectGUI
 			}
 
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if ($tree->isGrandChild($ref_id,$a_ref_id))
+			if ($this->tree->isGrandChild($ref_id,$a_ref_id))
 			{
 				$is_child[] = $ref_id;
 			}
@@ -810,7 +810,7 @@ class ilObjectGUI
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 
-			if (!in_array($obj_data->getType(),array_keys($objDefinition->getSubObjects($object->getType()))))
+			if (!in_array($obj_data->getType(),array_keys($this->objDefinition->getSubObjects($object->getType()))))
 			{
 				$not_allowed_subobject[] = $obj_data->getType();
 			}
@@ -854,18 +854,16 @@ class ilObjectGUI
 	*/
 	function cloneNodes($a_source_id,$a_dest_id)
 	{
-		global $tree;
-
 		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED
 		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 		$new_ref_id = $source_obj->clone($a_dest_id);
 		unset($source_obj);
 
 		// GET ALL CHILDS OF SOURCE OBJECT AND CALL THIS METHOD FOR OF THEM
-		foreach($tree->getChilds($a_source_id) as $child)
+		foreach ($this->tree->getChilds($a_source_id) as $child)
 		{
 			// STOP IF CHILD OBJECT IS ROLE FOLDER SINCE IT DOESN'T MAKE SENSE TO CLONE LOCAL ROLES
-			if($child["type"] != 'rolf')
+			if ($child["type"] != 'rolf')
 			{
 				$this->cloneNodes($child["ref_id"],$new_ref_id);
 			}
@@ -930,9 +928,9 @@ class ilObjectGUI
 	*/
 	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id)
 	{
-		global $tree,$rbacadmin,$rbacreview;
+		global $rbacadmin, $rbacreview;
 
-		$tree->insertNode($a_source_id,$a_dest_id);
+		$this->tree->insertNode($a_source_id,$a_dest_id);
 
 		// SET PERMISSIONS
 		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
@@ -964,7 +962,7 @@ class ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
-		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
+		global $rbacsystem, $rbacadmin;
 	
 		// TODO: move checkings to deleteObject
 		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
@@ -980,8 +978,8 @@ class ilObjectGUI
 		foreach ($_SESSION["saved_post"] as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $tree->getNodeData($id);
-			$subtree_nodes = $tree->getSubTree($node_data);
+			$node_data = $this->tree->getNodeData($id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
 
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
@@ -1029,14 +1027,15 @@ class ilObjectGUI
 			foreach ($_SESSION["saved_post"] as $id)
 			{
 				// DELETE OLD PERMISSION ENTRIES
-				$subnodes = $tree->getSubtree($tree->getNodeData($id));
+				$subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
 
 				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
 				}
-				$tree->saveSubTree($id);
-				$tree->deleteTree($tree->getNodeData($id));
+
+				$this->tree->saveSubTree($id);
+				$this->tree->deleteTree($this->tree->getNodeData($id));
 			}
 		}
 		// Feedback
@@ -1046,7 +1045,6 @@ class ilObjectGUI
 		exit();
 
 	}
-
 
 	/**
 	* cancel deletion of object
@@ -1073,7 +1071,7 @@ class ilObjectGUI
 	*/
 	function removeFromSystemObject()
 	{
-		global $rbacsystem,$tree;
+		global $rbacsystem;
 
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
@@ -1108,7 +1106,7 @@ class ilObjectGUI
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
 			// FIRST DELETE AL ENTRIES IN TREE
-			$tree->deleteTree($node_data);
+			$this->tree->deleteTree($node_data);
 
 			foreach ($subtree_nodes as $node)
 			{
@@ -1168,13 +1166,13 @@ class ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+		global $rbacsystem, $rbacreview, $rbacadmin;
 
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			// create and insert object in objecttree
-			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
-			require_once("classes/class.".$class_name.".php");
+			$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
+			include_once("classes/class.".$class_name.".php");
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
 			$newObj->setTitle($_POST["Fobject"]["title"]);
@@ -1189,8 +1187,8 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
-		header("Location:".$this->getReturnLocation("save",
-			"adm_object.php?".$this->link_params));
+
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
 
@@ -1210,7 +1208,8 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no permission"),$this->ilias->error_obj->WARNING);
 		}
 		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
-		if(!in_array($_POST["new_type"], $imp_obj))
+
+		if (!in_array($_POST["new_type"], $imp_obj))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_import_available").
 				" ".$this->lng->txt("obj_".$_POST["new_type"]),
@@ -1228,7 +1227,7 @@ class ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
@@ -1252,12 +1251,14 @@ class ilObjectGUI
 	function displayEditForm($fields)
 	{
 		$this->getTemplateFile("edit");
+
 		foreach ($fields as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -1296,13 +1297,18 @@ class ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $lng, $log, $rbacsystem, $rbacreview, $rbacadmin, $objDefinition;
-		static $num = 0;
+		global $log, $rbacsystem, $rbacreview, $rbacadmin;
 
-		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+#		static $num = 0;
+
+		if (!$rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+		}
+		else
 		{
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
-			$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+			$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId(),true);
 
 			$data = array();
 
@@ -1320,7 +1326,7 @@ class ilObjectGUI
 			{
 				$data["rolenames"][] = $r["title"];
 
-				if(!in_array($r["obj_id"],$local_roles))
+				if (!in_array($r["obj_id"],$local_roles))
 				{
 					$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 				}
@@ -1349,15 +1355,13 @@ class ilObjectGUI
 						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
 						$opdata["values"][] = $box;
 					}
+
 					$data["permission"][] = $opdata;
 				}
 			}
 		}
-		else
-		{
-			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
-		}
 
+		// TODO: needs review. $_GET[parent] doesn't exists!!!!
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();
@@ -1396,7 +1400,7 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			// BLOCK CHECK INHERIT
-			if ($objDefinition->stopInheritance($this->type))
+			if ($this->objDefinition->stopInheritance($this->type))
 			{
 				$this->tpl->setCurrentBLock("CHECK_INHERIT");
 				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
@@ -1411,7 +1415,7 @@ class ilObjectGUI
 		$num = 0;
 
 		// offer option 'stop inheritance' only to those objects where this option is permitted
-		if ($objDefinition->stopInheritance($this->type))
+		if ($this->objDefinition->stopInheritance($this->type))
 		{
 			$this->tpl->setCurrentBLock("STOP_INHERIT");
 			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
@@ -1442,8 +1446,7 @@ class ilObjectGUI
 		$this->tpl->setCurrentBlock("LOCAL_ROLE");
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 		$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
-		$this->tpl->setVariable("FORMACTION_LR",
-			$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+		$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 
 		$this->tpl->parseCurrentBlock();
 
@@ -1464,7 +1467,7 @@ class ilObjectGUI
 	*/
 	function getFormAction($a_cmd, $a_formaction ="")
 	{
-		if($this->formaction[$a_cmd] != "")
+		if ($this->formaction[$a_cmd] != "")
 		{
 			return $this->formaction[$a_cmd];
 		}
@@ -1490,7 +1493,7 @@ class ilObjectGUI
 	*/
 	function getReturnLocation($a_cmd, $a_location ="")
 	{
-		if($this->return_location[$a_cmd] != "")
+		if ($this->return_location[$a_cmd] != "")
 		{
 			return $this->return_location[$a_cmd];
 		}
@@ -1515,7 +1518,7 @@ class ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $tree,$rbacsystem,$rbacreview,$rbacadmin;
+		global $rbacsystem,$rbacreview,$rbacadmin;
 
 		// TODO: get rid of $_GET variables
 
@@ -1574,7 +1577,8 @@ class ilObjectGUI
 				{
 					$role_folder = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 					$roles_of_folder = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
-					if(!in_array($stop_inherit,$roles_of_folder))
+
+					if (!in_array($stop_inherit,$roles_of_folder))
 					{
 						$parentRoles = $rbacreview->getParentRoleIds($rolf_data["child"]);
 						$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
@@ -1590,8 +1594,8 @@ class ilObjectGUI
 		}// END STOP INHERIT
 	
 		sendinfo($this->lng->txt("saved_successfully"),true);
-		header("Location: ".$this->getReturnLocation("permSave",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
+
+		header("Location: ".$this->getReturnLocation("permSave","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
 
@@ -1602,8 +1606,6 @@ class ilObjectGUI
 	*/
 	function ownerObject()
 	{
-		global $lng;
-
 		$this->getTemplateFile("owner");
 		$this->tpl->setVariable("OWNER_NAME", $this->object->getOwnerName());
 		$this->tpl->setVariable("TXT_OBJ_OWNER", $this->lng->txt("obj_owner"));
@@ -1618,9 +1620,9 @@ class ilObjectGUI
  	*/
 	function displayList()
 	{
-		global $tree, $rbacsystem;
+		global $rbacsystem;
 
-		require_once "./classes/class.ilTableGUI.php";
+		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -1821,7 +1823,7 @@ class ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $tree,$rbacsystem,$lng;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -1834,7 +1836,7 @@ class ilObjectGUI
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
 
-		$childs = $tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
+		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
 		foreach ($childs as $key => $val)
 	    {
@@ -1859,7 +1861,7 @@ class ilObjectGUI
 
 		$this->maxcount = count($this->data["data"]);
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
@@ -1887,7 +1889,7 @@ class ilObjectGUI
  	*/
 	function deleteObject()
 	{
-		if(!isset($_POST["id"]))
+		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1924,6 +1926,7 @@ class ilObjectGUI
 		$this->getTemplateFile("confirm");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
+
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -1980,13 +1983,11 @@ class ilObjectGUI
  	*/
 	function trashObject()
 	{
-		global $lng,$tree;
-
-		$objects = $tree->getSavedNodeData($_GET["ref_id"]);
+		$objects = $this->tree->getSavedNodeData($_GET["ref_id"]);
 
 		if (count($objects) == 0)
 		{
-			sendInfo($lng->txt("msg_trash_empty"));
+			sendInfo($this->lng->txt("msg_trash_empty"));
 			$this->data["empty"] = true;
 		}
 		else
@@ -2003,8 +2004,9 @@ class ilObjectGUI
 					"desc"        => $obj_data["desc"],
 					"last_update" => $obj_data["last_update"]);
 			}
-			$this->data["buttons"] = array( "undelete"  => $lng->txt("btn_undelete"),
-									  "removeFromSystem"  => $lng->txt("btn_remove_system"));
+
+			$this->data["buttons"] = array( "undelete"  => $this->lng->txt("btn_undelete"),
+									  "removeFromSystem"  => $this->lng->txt("btn_remove_system"));
 		}
 
 		$this->getTemplateFile("confirm");
@@ -2080,7 +2082,7 @@ class ilObjectGUI
 	*/
 	function addRoleObject()
 	{
-		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
+		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
 
@@ -2096,7 +2098,7 @@ class ilObjectGUI
 			// CHECK ACCESS 'create' rolefolder
 			if ($rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
 			{
-				require_once ("classes/class.ilObjRoleFolder.php");
+				include_once ("./classes/class.ilObjRoleFolder.php");
 				$rolfObj = new ilObjRoleFolder();
 				$rolfObj->setTitle("Role Folder");
 				$rolfObj->setDescription("Automatically generated Role Folder for ref no. ".$this->object->getRefId());
@@ -2109,6 +2111,7 @@ class ilObjectGUI
 
 				// Suche aller Parent Rollen im Baum
 				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+
 				foreach ($parentRoles as $parRol)
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
@@ -2126,7 +2129,7 @@ class ilObjectGUI
 		// CHECK ACCESS 'write' of role folder
 		if ($rbacsystem->checkAccess('write',$rolf_id))
 		{
-			require_once ("classes/class.ilObjRole.php");
+			include_once ("./classes/class.ilObjRole.php");
 			$roleObj = new ilObjRole();
 			$roleObj->setTitle($_POST["Flocal_role"]);
 			$roleObj->setDescription("No description");
@@ -2139,8 +2142,7 @@ class ilObjectGUI
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: ".$this->getReturnLocation("addRole",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
+		header("Location: ".$this->getReturnLocation("addRole","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
 
@@ -2293,18 +2295,15 @@ class ilObjectGUI
  	*/
 	function getTitlesByRefId($a_ref_ids)
 	{
-		foreach($a_ref_ids as $id)
+		foreach ($a_ref_ids as $id)
 		{
 			// GET OBJECT TITLE
 			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($id);
 			$title[] = $tmp_obj->getTitle();
 			unset($tmp_obj);
 		}
+
 		return $title ? $title : array();
 	}
-
-
-
-
-}
+} // END class.ilObjectGUI
 ?>
