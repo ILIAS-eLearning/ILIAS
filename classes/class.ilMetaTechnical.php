@@ -41,7 +41,7 @@ class ilMetaTechnical
 	var $format;
 	var $size;
 	var $locations;
-	var $requirements;
+	var $requirement_sets;
 	var $install_lang;
 	var $install_remarks;
 	var $other_req;
@@ -60,6 +60,8 @@ class ilMetaTechnical
 
 		$this->ilias =& $ilias;
 		$this->meta_data =& $a_meta_data;
+		$this->locations = array();
+		$this->requirement_sets = array();
 	}
 
 
@@ -102,7 +104,6 @@ class ilMetaTechnical
 	*/
 	function create()
 	{
-//echo "MetaTechnical::create<br>";
 		$q = "INSERT INTO meta_technical ".
 			"(obj_id, obj_type, format, size, install_remarks, install_remarks_lang,".
 			"other_requirements, other_requirements_lang, duration) ".
@@ -114,7 +115,7 @@ class ilMetaTechnical
 			"'".$this->getOtherRequirements()."',".
 			"'".$this->getOtherRequirementsLanguage()."',".
 			"'".$this->getDuration()."')";
-
+//echo "MetaTechnical::create:$q<br>";
 		$this->ilias->db->query($q);
 
 		$q = "SELECT LAST_INSERT_ID() AS tech_id FROM meta_technical";
@@ -138,8 +139,30 @@ class ilMetaTechnical
 	*/
 	function readTechnicalSections(&$a_meta_obj)
 	{
+//echo "ilMetaTechnical_read:".$a_meta_obj->getId().":".$a_meta_obj->getType().":<br>";
 		$query = "SELECT * FROM meta_technical WHERE obj_id='".$a_meta_obj->getId()."' ".
 			"AND obj_type='".$a_meta_obj->getType()."'";
+		$tech_set = $this->ilias->db->query($query);
+		while ($tech_rec = $tech_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$tech_obj =& new ilMetaTechnical($a_meta_obj);
+			$tech_obj->setFormat($tech_rec["format"]);
+			$tech_obj->setSize($tech_rec["size"]);
+			$tech_obj->setInstallationRemarks($tech_rec["install_remarks"]);
+			$tech_obj->setInstallationRemarksLanguage($tech_rec["install_remarks_lang"]);
+			$tech_obj->setOtherRequirements($tech_rec["other_requirements"]);
+			$tech_obj->setOtherRequirementsLanguage($tech_rec["other_requirements_lang"]);
+			$tech_obj->setDuration($tech_rec["duration"]);
+
+			// get locations
+			$query = "SELECT * FROM meta_techn_loc WHERE tech_id='".$tech_rec["tech_id"]."'";
+			$loc_set = $this->ilias->db->query($query);
+			while ($loc_rec = $loc_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$tech_obj->addLocation($loc_rec["location"]);
+			}
+			$a_meta_obj->addTechnicalSection($tech_obj);
+		}
 	}
 
 	/**
@@ -278,13 +301,14 @@ class ilMetaTechnical
 		{
 			$xml.= "<Location>".$location."</Location>\n";
 		}
-		$req_sets =& $this->getRequirementsSets();
+		$req_sets =& $this->getRequirementSets();
 		foreach ($req_sets as $req_set)
 		{
-			$req_set->getXML();
+			$xml.= $req_set->getXML();
 		}
-		$xml.= "<Size>".$this->getSize()."</Size>\n";
 		$xml.= "</Technical>";
+
+		return $xml;
 	}
 
 }

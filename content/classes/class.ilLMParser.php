@@ -308,11 +308,13 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "MediaObject":
+//echo "<br>---NEW MEDIAOBJECT---<br>";
 				$this->in_media_object = true;
 				$this->media_object =& new ilMediaObject();
 				break;
 
 			case "MediaAlias":
+//echo "<br>---NEW MEDIAALIAS---<br>";
 				$this->media_object->setAlias(true);
 				$this->media_object->setOriginID($a_attribs["OriginId"]);
 				break;
@@ -337,6 +339,7 @@ class ilLMParser extends ilSaxParser
 			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
+//echo "<br>---NEW METADATA---<br>";
 				$this->meta_data =& new ilMetaData();
 				if(!$this->in_media_object)
 				{
@@ -350,7 +353,6 @@ class ilLMParser extends ilSaxParser
 				}
 				else
 				{
-//echo "assigning meta data to media object";
 					$this->media_object->assignMetaData($this->meta_data);
 				}
 				break;
@@ -366,6 +368,7 @@ class ilLMParser extends ilSaxParser
 
 			// GENERAL: Keyword
 			case "Keyword":
+//echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
 				$this->keyword_language = $a_attribs["Language"];
 				break;
 
@@ -381,6 +384,7 @@ class ilLMParser extends ilSaxParser
 				$this->meta_technical =& new ilMetaTechnical($this->meta_data);
 				$this->meta_data->addTechnicalSection($this->meta_technical);
 				$this->meta_technical->setFormat($a_attribs["Format"]);
+//echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
 				break;
 
 			// TECHNICAL: Size
@@ -500,7 +504,7 @@ class ilLMParser extends ilSaxParser
 				$this->in_media_object = false;
 
 				// create media object on first occurence of an OriginId
-				if(empty($this->mob_mapping[$this->media_object->getOriginId()]))
+				if(empty($this->mob_mapping[$this->media_object->getImportId()]))
 				{
 					if ($this->media_object->isAlias())
 					{
@@ -512,8 +516,9 @@ class ilLMParser extends ilSaxParser
 						$this->media_object->setDescription("dummy");
 					}
 					$this->media_object->create();
-					$this->mob_mapping[$this->media_object->getOriginId()]
+					$this->mob_mapping[$this->media_object->getImportId()]
 							= $this->media_object->getId();
+//echo "create:origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
 				}
 				else
 				{
@@ -525,7 +530,9 @@ class ilLMParser extends ilSaxParser
 					if (!$this->media_object->isAlias())
 					{
 //echo "<b>REAL UPDATING STARTS HERE</b><br>";
-						$this->media_object->setId($this->mob_mapping[$this->media_object->getOriginId()]);
+//echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
+//echo "origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
+						$this->media_object->setId($this->mob_mapping[$this->media_object->getImportId()]);
 						$this->media_object->update();
 					}
 				}

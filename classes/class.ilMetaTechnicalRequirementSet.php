@@ -43,6 +43,8 @@ class ilMetaTechnicalRequirementSet
 	{
 	}
 
+	// TODO DB storing
+
 	/**
 	* add a requirement
 	*

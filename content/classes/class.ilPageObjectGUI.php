@@ -128,7 +128,11 @@ class ilPageObjectGUI extends ilLMObjectGUI
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// output
-		$content = $this->obj->getXMLContent();
+		$builded = $this->obj->buildDom();
+		//$this->obj->addHierIDs();
+		$content = $this->obj->getXMLFromDom(false, true);
+
+		//$content = $this->obj->getXMLContent();
 
 		// convert bb code to xml
 		//$this->obj->bbCode2XML($content);
