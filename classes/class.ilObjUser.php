@@ -975,6 +975,7 @@ class ilObjUser extends ilObject
 	 * STATIC METHOD
 	 * get the user_id of a login name
 	 * @param	string login name
+	 * @return  integer id of user
 	 * @static
 	 * @access	public
 	 */
@@ -988,10 +989,11 @@ class ilObjUser extends ilObject
 		return $row->usr_id ? $row->usr_id : 0;
 	}
 
-	/*
+	/**
 	 * STATIC METHOD
-	 * get the user_id of a login name
-	 * @param	string login name
+	 * get the user_id of an email address
+	 * @param	string email of user
+	 * @return  integer id of user
 	 * @static
 	 * @access	public
 	 */
@@ -1004,11 +1006,13 @@ class ilObjUser extends ilObject
 		return $row->usr_id ? $row->usr_id : 0;
 	}
 
-	/*
-	* get the user_ids which correspond a search string
-	* @param	string search string
-	* @access	public
-	*/
+	/**
+	 * STATIC METHOD
+	 * get the user_ids which correspond a search string
+	 * @param	string search string
+	 * @static
+	 * @access	public
+	 */
 	function searchUsers($a_search_str)
 	{
 		$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ".
