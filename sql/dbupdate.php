@@ -982,6 +982,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <#44>
 # adding group tree table
 DROP TABLE IF EXISTS grp_tree;
+ALTER TABLE usr_data ADD COLUMN hobby TEXT DEFAULT '';
 
 CREATE TABLE grp_tree (
   tree int(11) NOT NULL default '0',

@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.25 2003/06/23 09:13:32 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.26 2003/06/23 11:11:20 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -48,6 +48,8 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
+
+
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usr";
@@ -62,179 +64,6 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 
-function public_profile()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_profile'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-function public_upload()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_upload'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-function public_institution()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_institution'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-
-function public_street()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_street'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-
-function public_zip()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_zip'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-function public_city()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_city'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-function public_country()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_country'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-function public_phone()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_phone'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-
-function public_email()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_email'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
-
-
-function public_hobbie()
-{
-			global $ilias;
-			// read object data
-			$q = "SELECT * FROM usr_pref ".
-			 	"WHERE usr_id='".$_GET["user"]."'".
-				"AND value ='y'".
-				"AND keyword='public_hobbie'";
-			$result = $ilias->db->query($q);
-
-			// check number of records
-			if ($row = $result->fetchRow())
-			{
-				return $row["2"];
-			}
-}
 
 	// new method
 	// To display information according check box on Destop
@@ -249,13 +78,14 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		require_once "classes/class.ilObjUser.php";
   		$userObj = new ilObjUser($_GET["user"]);
+
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");
-		//if (usr_id == $_GET["user"])
 
+		//if (usr_id == $_GET["user"])
  		// Check from Database if value
 		// of public_profile = "y" show user infomation
-		if($this->public_profile()=="y") {
+		if($userObj->getPref("public_profile")=="y") {
   		$tpl->setVariable("TXT_NAME","Name");
 		$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
 		$tpl->setVariable("LASTNAME",$userObj->getLastName());
@@ -272,11 +102,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		$tpl->setVariable("TITLE","N / A");
 		}
 
-
-		// Check from Database if value
-		// of image"y" show user infomation
-
-		if($this->public_upload()=="y") {
+		if($userObj->getPref("public_upload")=="y") {
 		//Getting the flexible path of image form ini file
 		require_once "classes/class.ilSetup.php";
 		$mySetup = new ilSetup();
@@ -293,7 +119,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show institute information
-		if($this->public_institution()=="y") {
+		if($userObj->getPref(public_institution)=="y") {
 		$tpl->setVariable("TXT_INSTITUTE","Institution");
 		$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
 		}
@@ -305,7 +131,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show institute information
-		if($this->public_street()=="y") {
+		if($userObj->getPref(public_street)=="y") {
 		$tpl->setVariable("TXT_STREET","Street");
 		$tpl->setVariable("STREET",$userObj->getStreet());
 		}
@@ -317,7 +143,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show zip code information
-		if($this->public_zip()=="y") {
+		if($userObj->getPref(public_zip)=="y") {
 		$tpl->setVariable("TXT_ZIPCODE","Zip Code");
 		$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
 		}
@@ -329,7 +155,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show city information
-		if($this->public_city()=="y") {
+		if($userObj->getPref(public_city)=="y") {
 		$tpl->setVariable("TXT_CITY","City");
 		$tpl->setVariable("CITY",$userObj->getCity());
 		}
@@ -341,7 +167,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show country information
-		if($this->public_country()=="y") {
+		if($userObj->getPref(public_country)=="y") {
 		$tpl->setVariable("TXT_COUNTRY","Country");
 		$tpl->setVariable("COUNTRY",$userObj->getCountry());
 		}
@@ -353,7 +179,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show phone information
-		if($this->public_phone()=="y") {
+		if($userObj->getPref(public_phone)=="y") {
 		$tpl->setVariable("TXT_PHONE","Phone");
 		$tpl->setVariable("PHONE",$userObj->getPhone());
 		}
@@ -365,7 +191,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// "y" show email information
-		if($this->public_email()=="y") {
+		if($userObj->getPref(public_email)=="y") {
 		$tpl->setVariable("TXT_EMAIL","Email");
 		$tpl->setVariable("EMAIL",$userObj->getEmail());
 		}
@@ -376,14 +202,14 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		}
 
 
-		if($this->public_hobbie()=="y") {
-		$tpl->setVariable("TXT_HOBBIE","Hobbie");
-		$tpl->setVariable("HOBBIE",$userObj->getHobbie());
+		if($userObj->getPref(public_hobby)=="y") {
+		$tpl->setVariable("TXT_HOBBY","hobby");
+		$tpl->setVariable("HOBBY",$userObj->getHobby());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_HOBBIE","Hobbie");
-		$tpl->setVariable("HOBBIE","N / A");
+		$tpl->setVariable("TXT_HOBBY","Hobby");
+		$tpl->setVariable("HOBBY","N / A");
 		}
 	$tpl->parseCurrentBlock($a_template_block_name);
 }
@@ -431,7 +257,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$data["fields"]["country"] = "";
 			$data["fields"]["phone"] = "";
 			$data["fields"]["email"] = "";
-			$data["fields"]["hobbie"] = "";
+			$data["fields"]["hobby"] = "";
 			$data["fields"]["default_role"] = $role;
 
 			$this->getTemplateFile("edit","usr");
@@ -464,7 +290,8 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
 			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
-$this->tpl->setVariable("HOBBIE",$_SESSION["error_post_vars"]["Fobject"]["hobbie"]);
+
+$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
 ;
 			// EMPTY SAVED VALUES
 			unset($_SESSION["error_post_vars"]);
@@ -514,7 +341,7 @@ $this->tpl->setVariable("HOBBIE",$_SESSION["error_post_vars"]["Fobject"]["hobbie
 			$data["fields"]["country"] = $this->object->getCountry();
 			$data["fields"]["phone"] = $this->object->getPhone();
 			$data["fields"]["email"] = $this->object->getEmail();
-			$data["fields"]["hobbie"] = $this->object->getHobbie();
+			$data["fields"]["hobby"] = $this->object->getHobby();
 			$data["fields"]["default_role"] = $role;
 
 			$data["active_role"]["access"] = true;
@@ -797,6 +624,7 @@ $this->tpl->setVariable("HOBBIE",$_SESSION["error_post_vars"]["Fobject"]["hobbie
 					$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
 					$this->lng->txt("phone").": ".$this->object->getPhone()."\n\r".
 					$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
+					$this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
 					$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
 			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",
