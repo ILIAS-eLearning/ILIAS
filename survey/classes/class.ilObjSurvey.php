@@ -2032,7 +2032,7 @@ class ilObjSurvey extends ilObject
 		
 		// now save the question block
 		global $ilUser;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
 			$this->ilias->db->quote($title),
 			$this->ilias->db->quote($ilUser->id)
 		);
@@ -3844,6 +3844,7 @@ class ilObjSurvey extends ilObject
 					}
 				}
 			}
+	
 			// add question blocks
 			foreach ($import_results["questionblocks"] as $questionblock)
 			{
