@@ -1617,7 +1617,8 @@ class ilObjUser extends ilObject
 						{
 							$link = "content/scorm_presentation.php?ref_id=".$item_rec["ref_id"].
 								"&obj_id=".$item_rec["parameters"];
-							$target = "bottom";
+							$edit_link = "content/scorm_edit.php?ref_id=".$item_rec["ref_id"];
+							$target = "ilContObj".$item_rec["obj_id"];
 						}
 						elseif ($a_type == "htlm")
 						{
@@ -1630,11 +1631,13 @@ class ilObjUser extends ilObject
 							$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
 							$target = "bottom";
 							$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
+							$edit_link = "";
 						}
 						elseif ($a_type == "mep")
 						{
 							$link = "content/mep_edit.php?ref_id=".$item_rec["ref_id"];
 							$target = "bottom";
+							$edit_link = "";
 						}
 						else
 						{

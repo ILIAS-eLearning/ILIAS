@@ -69,7 +69,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-//echo "<br>cmd:$cmd:next_class:$next_class:";
+
 		switch($next_class)
 		{
 			case "ilfilesystemgui":
@@ -193,8 +193,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	{
 		// display import form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_import.html");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=slm");
-		$this->tpl->setVariable("BTN_NAME", "upload");
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+			$_GET["ref_id"]."&new_type=slm"));
+		$this->tpl->setVariable("BTN_NAME", "save");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
@@ -279,8 +280,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
 		$slmParser->startParsing();
 
-		header("Location: adm_object.php?cmd=view&ref_id=".$_GET["ref_id"]);
-		exit();
+		//return $newObj;
+
+		//header("Location: adm_object.php?cmd=view&ref_id=".$_GET["ref_id"]);
+		//exit();
+	}
+
+	function upload()
+	{
+		$this->uploadObject();
 	}
 
 	/**
@@ -289,6 +297,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
+
+		$this->uploadObject();
 
 		// always call parent method first to create an object_data entry & a reference
 		// $newObj = parent::saveObject();
@@ -323,6 +333,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();*/
+
+		sendInfo($this->lng->txt("slm_added"), true);
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+
 	}
 
 	/**
@@ -656,13 +670,21 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		if ($this->ctrl->getCmd() == "delete")
+		{
+			return;
+		}
+
 		// properties
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
 
 		// file system gui tabs
-		$this->fs_gui->getTabs($tabs_gui);
+		if (is_object($this->fs_gui))
+		{
+			$this->fs_gui->getTabs($tabs_gui);
+		}
 
 		// edit meta
 		$tabs_gui->addTarget("meta_data",
