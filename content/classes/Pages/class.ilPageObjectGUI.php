@@ -321,7 +321,7 @@ class ilPageObjectGUI
 		$glossary = $_SESSION["il_link_glossary"];
 
 		if(($link_type == "GlossaryItem") &&
-			empty($_SESSION["il_link_glossary_obj"]))
+			empty($_SESSION["il_link_glossary"]))
 		{
 			$this->changeTargetObject("glossary");
 		}
@@ -382,6 +382,7 @@ class ilPageObjectGUI
 					{
 						$tpl->setCurrentBlock("chapter_row");
 						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						$tpl->setVariable("ROWCLASS", "tblrow1");
 						//$tpl->setVariable("LINK_CHAPTER",
 						//	"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
@@ -390,6 +391,7 @@ class ilPageObjectGUI
 					{
 						$tpl->setCurrentBlock("chapter_row");
 						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						$tpl->setVariable("ROWCLASS", "tblrow2");
 						$tpl->setVariable("LINK_CHAPTER",
 							"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
@@ -417,8 +419,12 @@ class ilPageObjectGUI
 				{
 					if($node["type"] == "st")
 					{
+						$css_row = ($css_row =="tblrow1")
+							? "tblrow2"
+							: "tblrow1";
 						$tpl->setCurrentBlock("chapter_row");
 						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						$tpl->setVariable("ROWCLASS", $css_row);
 						$tpl->setVariable("LINK_CHAPTER",
 							"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
@@ -443,7 +449,11 @@ class ilPageObjectGUI
 
 				foreach($terms as $term)
 				{
+					$css_row = ($css_row =="tblrow1")
+						? "tblrow2"
+						: "tblrow1";
 					$tpl->setCurrentBlock("chapter_row");
+					$tpl->setVariable("ROWCLASS", $css_row);
 					$tpl->setVariable("TXT_CHAPTER", $term["term"]);
 					$tpl->setVariable("LINK_CHAPTER",
 						"[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]");
