@@ -293,6 +293,7 @@ assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑
 assessment#:#qpl_export_select_none#:#请至少选择一个问题导出
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#填充测验问题###14 Sep 2004 content changed
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
@@ -1908,6 +1909,7 @@ common#:#qpl_delete#:#删除问题集###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#更改许可设置
 common#:#qpl_new#:#新问题集###24 Sep 2004 content changed
 common#:#qpl_read#:#问题集设为读访问###24 Sep 2004 content changed
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#问题集可视###24 Sep 2004 content changed
 common#:#qpl_write#:#编辑问题集###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
@@ -2388,6 +2390,8 @@ content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variabl
 content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
 content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
 content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
 content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
 content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
@@ -2402,6 +2406,8 @@ content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
 content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
 content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
 content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
 content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
 content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
@@ -2411,6 +2417,8 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable

@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modifica
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qpl_question_is_in_use#:#La domanda che stai per modificare &#232; inserita in %s test. Se modifichi la domanda, NON verranno modificate le domande nei test, perch&#232; il sistema crea una copia delle domande quando queste vengono inserite in un test!
 assessment#:#qpl_questions_deleted#:#Domande eliminate
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
 assessment#:#qt_cloze#:#con risposta da completare
 assessment#:#qt_imagemap#:#con immagine a mappa
 assessment#:#qt_javaapplet#:#con applet java
@@ -1890,6 +1891,7 @@ common#:#qpl_delete#:#Eliminare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
+common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
 common#:#query_data#:#Invia
@@ -2370,6 +2372,8 @@ content#:#cont_ed_align_left_float#:#allineam: left float
 content#:#cont_ed_align_right#:#allineam: a destra
 content#:#cont_ed_align_right_float#:#allineam: right float
 content#:#cont_ed_class#:#Stile
+content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
+content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#copia negli appunti
 content#:#cont_ed_delete#:#elimina
 content#:#cont_ed_delete_col#:#elimina colonna
@@ -2384,6 +2388,8 @@ content#:#cont_ed_insert_list#:#inserisci Lista
 content#:#cont_ed_insert_media#:#inserisci Media
 content#:#cont_ed_insert_par#:#inserisci Paragr.
 content#:#cont_ed_insert_table#:#inserisci Tabella
+content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
+content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
 content#:#cont_ed_moveafter#:#sposta dopo
 content#:#cont_ed_movebefore#:#sposta prima
 content#:#cont_ed_new_col_after#:#nuova colonna dopo
@@ -2393,6 +2399,8 @@ content#:#cont_ed_new_item_before#:#nuovo elemento prima
 content#:#cont_ed_new_row_after#:#nuova riga dopo
 content#:#cont_ed_new_row_before#:#nuova riga prima
 content#:#cont_ed_paste_clip#:#incolla dagli appunti
+content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
+content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_width#:#Larghezza
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
