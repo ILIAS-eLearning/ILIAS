@@ -91,7 +91,16 @@ class ilObjLinkResource extends ilObject
 			return false;
 		}
 		
-		//put here your module specific stuff
+		// delete items
+		include_once './link/classes/class.ilLinkResourceItems.php';
+		ilLinkResourceItems::_deleteAll($this->getId());
+		
+
+		// Delete notify entries
+		include_once './classes/class.ilLinkCheckNotify.php';
+		ilLinkCheckNotify::_deleteObject($this->getId());
+
+		
 		
 		return true;
 	}
