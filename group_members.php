@@ -56,7 +56,7 @@ $tpl->addBlockfile("GROUP_MEMBERS_TABLE", "member_table", "tpl.table.html");
 // load template for table content data
 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_members.html");
 $num = 0;
-
+//var_dump ($member_arr);
 
 foreach($member_arr as $member)
 	{
@@ -76,19 +76,20 @@ foreach($member_arr as $member)
 	$img_contact = "pencil";
 	$img_change = "change";
 	$img_leave = "group_out";						
-	$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-	$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
-	$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
+	$val_contact = ilUtil::getImageTagByType($img_contact, $tpl->tplPath);
+	$val_change = ilUtil::getImageTagByType($img_change, $tpl->tplPath);
+	$val_leave  = ilUtil::getImageTagByType($img_leave, $tpl->tplPath);
 	$obj_icon = "icon_usr_b.gif";
 	$tpl->setVariable("IMG", $obj_icon);
 	$tpl->setVariable("ALT_IMG", $lng->txt("obj_usr"));
-	
-	$tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"",""));
+	echo ($this->tpl->tplPath);
+		
+	$tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$member->getId()));
 	$tpl->setVariable("LOGIN",$member->getLogin());
 	$tpl->setVariable("FIRSTNAME", $member->getFirstname());
 	$tpl->setVariable("LASTNAME", $member->getLastname());
 	$tpl->setVariable("ANNOUNCEMENT_DATE", "Announcement Date");
-	$tpl->setVariable("ROLENAME", $newObj->getTitle());
+	$tpl->setVariable("ROLENAME", $lng->txt($newObj->getTitle()));
 	$tpl->setVariable("LINK_CONTACT", $link_contact);
 	$tpl->setVariable("CONTACT", $val_contact);
 	$tpl->setVariable("LINK_CHANGE", $link_change);
@@ -101,11 +102,24 @@ foreach($member_arr as $member)
 
 
 
+$tpl->setCurrentBlock("tbl_action_btn");
+$tpl->SetVariable("COLUMN_COUNTS", "6");
+$tpl->setVariable("BTN_NAME", "leave");
+$tpl->setVariable("BTN_VALUE", "Discharge Member");
+$tpl->parseCurrentBlock();
+$tpl->setVariable("BTN_NAME", "mail");
+$tpl->setVariable("BTN_VALUE", "Write mail");
+$tpl->parseCurrentBlock();
+$tpl->setVariable("BTN_NAME", "change");
+$tpl->setVariable("BTN_VALUE", "Change Status");
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("tbl_action_row");
+$tpl->parseCurrentBlock();
 
 $tbl = new ilTableGUI();
-$tbl->setHeaderNames(array("",$lng->txt("login"),$lng->txt("firstname"),$lng->txt("lastname"),$lng->txt("announcement_date"),$lng->txt("rolename"),""));
-$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
-$tbl->setColumnWidth(array("3%","7%","7%","15%","15%","6%","22%"));
+$tbl->setHeaderNames(array("",$lng->txt("login"),$lng->txt("firstname"),$lng->txt("lastname")/*,$lng->txt("announcement_date")*/,$lng->txt("role_in_group"),""));
+$tbl->setHeaderVars(array("checkbox","title","description","status"/*,"last_visit"*/,"last_change","context"));
+$tbl->setColumnWidth(array("3%","7%","7%",/*"15%",*/"15%","6%","5%"));
 
 // control
 $tbl->setOrderColumn($_GET["sort_by"]);

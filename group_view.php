@@ -177,19 +177,54 @@ $tbl->setLimit($limit);
 $tbl->setOffset($offset);
 $tbl->setMaxCount($maxcount);
 
-$tpl->setCurrentBlock("tbl_action_btn");
 
-$tpl->setVariable("BTN_NAME", "mail");
-$tpl->setVariable("BTN_VALUE", "Write new mail");
-$tpl->parseCurrentBlock();
-$tpl->setVariable("BTN_NAME", "change");
-$tpl->setVariable("BTN_VALUE", "Change Object");
-$tpl->parseCurrentBlock();
-$tpl->setVariable("BTN_NAME", "leave");
-$tpl->setVariable("BTN_VALUE", "Discharge User");
-$tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("tbl_action_row");
+
+
+$tpl->setCurrentBlock("tbl_action_btn");
 $tpl->SetVariable("COLUMN_COUNTS", "7");
+$notoperations = array();
+// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
+if (empty($_SESSION["clipboard"]))
+	{
+	$notoperations[] = "paste";
+	$notoperations[] = "clear";
+	}
+// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
+if ($_SESSION["clipboard"])
+	{
+		$notoperations[] = "cut";
+		$notoperations[] = "copy";
+		$notoperations[] = "link";
+	}
+
+$operations = array();
+$d = array ("cut", "copy","delete", "paste", "clear", "link"); 
+foreach ($d as $row)
+	{
+		if (!in_array($row, $notoperations))
+		{
+			$operations[] = $row;
+		}
+	}
+if (count($operations) > 0)
+	{
+	foreach ($operations as $val)
+		{
+			$tpl->setCurrentBlock("tbl_action_btn");
+			$tpl->setVariable("BTN_NAME", $val);
+			$tpl->setVariable("BTN_VALUE", $lng->txt($val));
+			$tpl->parseCurrentBlock();
+		}
+	}
+
+/*if ($with_subobjects === true)
+	{
+		$this->showPossibleSubObjects();
+	}*/
+//
+
+
+//$tpl->SetVariable("COLUMN_COUNTS", "7");
 			
 
 $subobj = array ("frm", "file", "lm", "crs", "fold", "rfold");
@@ -201,6 +236,9 @@ $tpl->setCurrentBlock("add_object");
 $tpl->setVariable("SELECT_OBJTYPE", $opts);
 $tpl->setVariable("BTN_NAME", "create");
 $tpl->setVariable("TXT_ADD", "add");
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("tbl_action_row");
 $tpl->parseCurrentBlock();
 		
 // footer

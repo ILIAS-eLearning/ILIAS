@@ -147,7 +147,7 @@ if ($cont_num > 0)
 { 
 	// counter for rowcolor change
 	$num = 0;
-
+//	var_dump ($cont_arr);
 	foreach ($cont_arr as $cont_data)
 	{
 		$tpl->setCurrentBlock("tbl_content");
@@ -166,11 +166,10 @@ if ($cont_num > 0)
 		$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 		$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 		$tpl->setVariable("LAST_VISIT", "N/A");
-		$tpl->setVariable("ROLE_IN_GROUP", "keine Rolle zugewiesen");
-		//$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
+		//$tpl->setVariable("ROLE_IN_GROUP", "keine Rolle zugewiesen");
+		$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]/*ilFormat::formatDate($cont_data["last_update"])*/);
 		$tpl->setVariable("CONTEXTPATH", getContextPath($cont_data["ref_id"]));
-		$tpl->parseCurrentBlock();
-		
+		$tpl->parseCurrentBlock();		
 		 
 	}
 }
@@ -188,9 +187,12 @@ $tbl = new ilTableGUI();
 //$tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
 //$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 $tbl->setHeaderNames(array(
-$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("role_in_group"),$lng->txt("context")));
-$tbl->setHeaderVars(array("title","description","owner","last_visit","role_in_group","context"));
+$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
+$tbl->setHeaderVars(array("title","description","owner","last_visit","last_change","context"));
 $tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+
+
+
 
 // control
 $tbl->setOrderColumn($_GET["sort_by"]);
