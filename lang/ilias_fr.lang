@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisatio
 common#:#forename#:#Prénom
 common#:#form_empty_fields#:#Veuillez renseigner ces champs :
 common#:#forum#:#Forum
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#Forums
 common#:#forums_overview#:#Vue générale des forums
 common#:#frm#:#Forum

@@ -375,6 +375,9 @@ common#:#force_accept_usr_agreement#:#您必须接受用户协议！
 common#:#forename#:#名
 common#:#form_empty_fields#:#请填写这些域
 common#:#forum#:#论坛
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#论坛
 common#:#forums_overview#:#论坛概观
 common#:#frm#:#论坛

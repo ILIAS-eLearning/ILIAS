@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepter
 common#:#forename#:#Familienaam
 common#:#form_empty_fields#:#AUB volgende velden invullen:
 common#:#forum#:#Forum
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#Forums
 common#:#forums_overview#:#Forums-overzicht
 common#:#frm#:#Forum

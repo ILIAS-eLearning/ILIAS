@@ -358,6 +358,9 @@ common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
+common#:#forum_notification#:#Notification###06 Feb 2004 new variable
+common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
+common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
 common#:#forums#:#Forum
 common#:#forums_overview#:#Descrizione Forum
 common#:#frm#:#Forum
