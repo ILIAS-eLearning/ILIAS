@@ -946,7 +946,7 @@ class ilObjectGUI
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			// create and insert object in objecttree
-			$class_name = $objDefinition->getClassName($_GET["new_type"])."Object";
+			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
 			$newObj->setTitle($_POST["Fobject"]["title"]);
