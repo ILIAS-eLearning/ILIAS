@@ -772,7 +772,6 @@ class ilUtil
  	* @access	public
 	* @param	string	password
 	* @return	boolean	true if valid
-	* TODO: populate function with restrictions for passwords :-)
 	*/
 	function isPassword($a_passwd)
 	{
@@ -780,15 +779,43 @@ class ilUtil
 		{
 			return false;
 		}
+
 		if (strlen($a_passwd) < 6)
 		{
 			return false;
 		}
-		//if (!ereg("[A-Za-z0-9_\.\+\-\*\@!$\%\~]", $a_passwd))
+
 		if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
 		{
 			return false;
 		}
+
+		return true;
+	}
+
+	/*
+	* validates a login
+ 	* @access	public
+	* @param	string	login
+	* @return	boolean	true if valid
+	*/
+	function isLogin($a_login)
+	{
+		if (empty($a_login))
+		{
+			return false;
+		}
+
+		if (strlen($a_login) < 4)
+		{
+			return false;
+		}
+
+		if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_login))
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -1746,7 +1773,7 @@ class ilUtil
 	function redirect($a_script)
 	{
 		header("Location: ".$a_script);
-		exit;
+		exit();
 	}
 
 	/**
