@@ -510,6 +510,16 @@ common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
 common#:#all_tsts#:#All tests
 common#:#allow_register#:#Available in registration form for new users
+common#:#alm#:#AICC Learning Module
+common#:#alm_added#:#AICC Learning Module added
+common#:#alm_create#:#Create AICC Learning Module
+common#:#alm_delete#:#Delete AICC Learning Module
+common#:#alm_edit_permission#:#Change permission settings
+common#:#alm_join#:#Subscribe to AICC Learning Module
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module
+common#:#alm_read#:#Read access to AICC Learning Module
+common#:#alm_visible#:#AICC Learning Module is visible
+common#:#alm_write#:#Edit AICC Learning Module
 common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
@@ -564,6 +574,7 @@ common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
+common#:#cat_create_alm#:#Create AICC Learning Module
 common#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
 common#:#cat_create_crs#:#Create Course
@@ -572,13 +583,12 @@ common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
+common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool (Assessment)
 common#:#cat_create_slm#:#Create SCORM Learning Module
-common#:#cat_create_alm#:#Create AICC Learning Module
-common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_spl#:#Create Question Pool (Survey)
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
@@ -668,12 +678,12 @@ common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_available#:#Available Courses
 common#:#crs_create#:#Create Course
+common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_frm#:#Create Forum
 common#:#crs_create_glo#:#Create Glossary
+common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_create_lm#:#Create Learning Module
 common#:#crs_create_slm#:#Create SCORM Learning Module
-common#:#crs_create_alm#:#Create AICC Learning Module
-common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -839,15 +849,15 @@ common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
+common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
 common#:#fold_create_file#:#Upload File
 common#:#fold_create_fold#:#Create Folder
 common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
+common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_create_lm#:#Create Learning Module
 common#:#fold_create_slm#:#Create SCORM Learning Module
-common#:#fold_create_alm#:#Create AICC Learning Module
-common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -950,6 +960,7 @@ common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 common#:#grp_back#:#Back
 common#:#grp_create#:#Create Group
+common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_dbk#:#Create Digibook
 common#:#grp_create_exc#:#Create Exercise
@@ -957,12 +968,11 @@ common#:#grp_create_file#:#Upload File
 common#:#grp_create_fold#:#Create Folder
 common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_glo#:#Create Glossary
+common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_lm#:#Create Learning Module
 common#:#grp_create_mep#:#Create Media Pool
 common#:#grp_create_slm#:#Create SCORM Learning Module
-common#:#grp_create_alm#:#Create AICC Learning Module
-common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group.
@@ -997,6 +1007,16 @@ common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide_details#:#hide details
 common#:#hide_structure#:#Disable Structured-View
+common#:#hlm#:#HACP Learning Module
+common#:#hlm_added#:#HACP Learning Module added
+common#:#hlm_create#:#Create HACP Learning Module
+common#:#hlm_delete#:#Delete HACP Learning Module
+common#:#hlm_edit_permission#:#Change permission settings
+common#:#hlm_join#:#Subscribe to HACP Learning Module
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module
+common#:#hlm_read#:#Read access to HACP Learning Module
+common#:#hlm_visible#:#HACP Learning Module is visible
+common#:#hlm_write#:#Edit HACP Learning Module
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Home
 common#:#host#:#Host
@@ -1018,6 +1038,7 @@ common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
 common#:#import#:#Import
+common#:#import_alm#:#Import AICC Package
 common#:#import_categories#:#Import Categories
 common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
@@ -1025,11 +1046,10 @@ common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
+common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
-common#:#import_alm#:#Import AICC Package
-common#:#import_hlm#:#Import HACP Package
 common#:#import_users#:#Import Users
 common#:#imported#:#imported
 common#:#in#:#in
@@ -1378,6 +1398,7 @@ common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_alm#:#AICC Learning Module
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
@@ -1391,6 +1412,7 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
+common#:#obj_hlm#:#HACP Learning Module
 common#:#obj_htlm#:#HTML Learning Module
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
@@ -1421,8 +1443,6 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
-common#:#obj_alm#:#AICC Learning Module
-common#:#obj_hlm#:#HACP Learning Module
 common#:#obj_spl#:#Question Pool (Survey)
 common#:#obj_st#:#Chapter
 common#:#obj_svy#:#Survey
@@ -1445,6 +1465,7 @@ common#:#objf_edit_permission#:#Change permission settings
 common#:#objf_read#:#Read access to Objectdefinitions
 common#:#objf_visible#:#Objectdefinitions are visible
 common#:#objf_write#:#Edit Objectdefinitions
+common#:#objs_alm#:#AICC Learning Modules
 common#:#objs_cat#:#Categories
 common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Confirm Action
@@ -1457,6 +1478,7 @@ common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
+common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_lm#:#Learning Modules
 common#:#objs_lng#:#Languages
@@ -1469,8 +1491,6 @@ common#:#objs_qpl#:#Question Pools (Assessment)
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_slm#:#SCORM Learning Modules
-common#:#objs_alm#:#AICC Learning Modules
-common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_spl#:#Question Pools (Surveys)
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
@@ -1681,26 +1701,6 @@ common#:#slm_leave#:#Unsubscribe from SCORM Learning Module
 common#:#slm_read#:#Read access to SCORM Learning Module
 common#:#slm_visible#:#SCORM Learning Module is visible
 common#:#slm_write#:#Edit SCORM Learning Module
-common#:#alm#:#AICC Learning Module
-common#:#alm_added#:#AICC Learning Module added
-common#:#alm_create#:#Create AICC Learning Module
-common#:#alm_delete#:#Delete AICC Learning Module
-common#:#alm_edit_permission#:#Change permission settings
-common#:#alm_join#:#Subscribe to AICC Learning Module
-common#:#alm_leave#:#Unsubscribe from AICC Learning Module
-common#:#alm_read#:#Read access to AICC Learning Module
-common#:#alm_visible#:#AICC Learning Module is visible
-common#:#alm_write#:#Edit AICC Learning Module
-common#:#hlm#:#HACP Learning Module
-common#:#hlm_added#:#HACP Learning Module added
-common#:#hlm_create#:#Create HACP Learning Module
-common#:#hlm_delete#:#Delete HACP Learning Module
-common#:#hlm_edit_permission#:#Change permission settings
-common#:#hlm_join#:#Subscribe to HACP Learning Module
-common#:#hlm_leave#:#Unsubscribe from HACP Learning Module
-common#:#hlm_read#:#Read access to HACP Learning Module
-common#:#hlm_visible#:#HACP Learning Module is visible
-common#:#hlm_write#:#Edit HACP Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question pool (Survey)
@@ -1749,8 +1749,12 @@ common#:#system_grp#:#System Group
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#table_mail_import#:#Mail import
+common#:#tax#:#Taxonomy
+common#:#tax_add#:#Add Taxonomy
 common#:#tax_delete#:#Delete taxonomies
+common#:#tax_edit#:#Edit Taxonomy
 common#:#tax_edit_permission#:#Change permission settings
+common#:#tax_new#:#New Taxonomy
 common#:#tax_read#:#Read access to taxonomies
 common#:#tax_visible#:#Taxonomy is visible
 common#:#tax_write#:#Write access to taxonomies
@@ -3311,7 +3315,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-common#:#tax#:#Taxonomy
-common#:#tax_new#:#New Taxonomy
-common#:#tax_add#:#Add Taxonomy
-common#:#tax_edit#:#Edit Taxonomy

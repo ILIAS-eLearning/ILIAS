@@ -510,6 +510,16 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Todos los Objetos
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Disponible en el formulario de registro para nuevos usuarios
+common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
+common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
+common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
@@ -564,6 +574,7 @@ common#:#cat_a#:#-una categoria-
 common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoria añadida
 common#:#cat_create#:#Crear Categoría
+common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Crear Categoría
 common#:#cat_create_chat#:#Crear Chat
 common#:#cat_create_crs#:#Crear Curso
@@ -572,6 +583,7 @@ common#:#cat_create_exc#:#Crear Actividad
 common#:#cat_create_frm#:#Crear Foro
 common#:#cat_create_glo#:#Crear Glosario
 common#:#cat_create_grp#:#Crear Grupo
+common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Crear Módulo de Aprendizaje HTML
 common#:#cat_create_lm#:#Crear Módulo de Aprendizaje
 common#:#cat_create_mep#:#-Crear Media Pool-
@@ -666,8 +678,10 @@ common#:#crs_add#:#Añadir Curso
 common#:#crs_added#:#Curso Añadido
 common#:#crs_available#:#Curso disponible
 common#:#crs_create#:#Crear Curso
+common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Crear Foro
 common#:#crs_create_glo#:#Crear Glosario
+common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Crear Módulo de Aprendizaje
 common#:#crs_create_slm#:#Crear Módulo de Aprendizaje SCORM
 common#:#crs_delete#:#Eliminar Curso
@@ -835,11 +849,13 @@ common#:#fold#:#Carpeta
 common#:#fold_a#:#una Carpeta
 common#:#fold_add#:#Añadir Carpeta
 common#:#fold_added#:#Carpeta Añadida
+common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Crear Chat
 common#:#fold_create_file#:#Cargar Fichero
 common#:#fold_create_fold#:#Crear Carpeta
 common#:#fold_create_frm#:#Crear Foro
 common#:#fold_create_glo#:#Crear Glosario
+common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Crear Módulo de aprendizaje
 common#:#fold_create_slm#:#Create Módulo SCORM
 common#:#fold_delete#:#Borrar Carpeta
@@ -944,6 +960,7 @@ common#:#grp_added#:#Grupo añadido
 common#:#grp_already_applied#:#Ya has solicitado tu entrada en este grupo! Por favor espere su confirmación.
 common#:#grp_back#:#Volver
 common#:#grp_create#:#Crear Grupo
+common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Crear Chat
 common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
 common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
@@ -951,6 +968,7 @@ common#:#grp_create_file#:#El Usuario puede cargar Ficheros
 common#:#grp_create_fold#:#El Usuario puede crear Carpetas
 common#:#grp_create_frm#:#Crear Foro
 common#:#grp_create_glo#:#Crear Glosario
+common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Crear Módulo de Aprendizaje
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
@@ -989,6 +1007,16 @@ common#:#header_title#:#Header Title###07 June 2004 new variable
 common#:#help#:#ayuda
 common#:#hide_details#:#ocultar detalles
 common#:#hide_structure#:#deshabilitar vista estructural
+common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
+common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
+common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#Intereses/Hobies
 common#:#home#:#Home
 common#:#host#:#host
@@ -1010,6 +1038,7 @@ common#:#ilias_version#:#version de ILIAS
 common#:#image#:#Imagen
 common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contacto con su administrador y compruebe la ruta de conversión (convert).
 common#:#import#:#importar
+common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Importar Categorías
 common#:#import_file#:#Importar Fichero
 common#:#import_file_not_valid#:#La importación del fichero no es válida
@@ -1017,6 +1046,7 @@ common#:#import_finished#:#Número de mensajes importados
 common#:#import_forum_finished#:#El foro ha sido importado
 common#:#import_glossary#:#Import Glossary###07 June 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###07 June 2004 new variable
+common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_root_user#:#Import Usuario -Root-
 common#:#import_slm#:#Importar paquete SCORM
@@ -1367,6 +1397,7 @@ common#:#number_of_records#:#Número de registros
 common#:#obj#:#obj
 common#:#obj_adm#:#Configuración del Sistema
 common#:#obj_adm_desc#:#carpeta de configuración principal del sistema conteniendo todos los paneles para administrar tu instalación ILIAS.
+common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#obj_cat#:#Categoría
 common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#configuración de Chat
@@ -1380,6 +1411,7 @@ common#:#obj_fold#:#Carpeta
 common#:#obj_frm#:#Foro
 common#:#obj_glo#:#Glosario
 common#:#obj_grp#:#Grupo
+common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#Módulo de Aprendizaje HTML
 common#:#obj_ldap#:#Configuración LDAP
 common#:#obj_ldap_desc#:#Configure las opciones globales de LDAP aquí
@@ -1432,6 +1464,7 @@ common#:#objf_edit_permission#:#Cambiar configuración de permisos
 common#:#objf_read#:#Acceso de Lectura definiciones de Objetos
 common#:#objf_visible#:#Definiciones de Objeto visibles
 common#:#objf_write#:#Editar definiciones de Objeto
+common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Categorías
 common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Confirmar eliminación
@@ -1444,6 +1477,7 @@ common#:#objs_fold#:#Carpetas
 common#:#objs_frm#:#Foros
 common#:#objs_glo#:#Glosarios
 common#:#objs_grp#:#Grupos
+common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#Módulos de Aprendizaje HTML
 common#:#objs_lm#:#Módulos de Aprendizaje
 common#:#objs_lng#:#Idiomas
@@ -1714,8 +1748,12 @@ common#:#system_grp#:#grupo de sistema
 common#:#system_language#:#idioma de sistema
 common#:#system_message#:#mensaje de sistema
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
+common#:#tax#:#Taxonomy###15 Jul 2004 new variable
+common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
 common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
 common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
 common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
 common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable

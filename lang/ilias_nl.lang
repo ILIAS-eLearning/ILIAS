@@ -510,6 +510,16 @@ common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle objecten
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Beschikbaar in registratieformulier voor nieuwe gebruikers
+common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
+common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
+common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
+common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
 common#:#and#:#en
 common#:#announce#:#Aankondigen
 common#:#announce_changes#:#Wijzigingen aankondigen
@@ -564,6 +574,7 @@ common#:#cat_a#:#een kategorie
 common#:#cat_add#:#Kategorie toevoegen
 common#:#cat_added#:#Kategorie toegevoegd
 common#:#cat_create#:#Creëer kategorie
+common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Creëer kategorie
 common#:#cat_create_chat#:#Creëer Chat
 common#:#cat_create_crs#:#Creëer cursus
@@ -572,6 +583,7 @@ common#:#cat_create_exc#:#Creëer oefening
 common#:#cat_create_frm#:#Creëer forum
 common#:#cat_create_glo#:#Creëer woordenlijst
 common#:#cat_create_grp#:#Creëer groep
+common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Creëer een HTML-lesmodule
 common#:#cat_create_lm#:#Creëer lesmodule
 common#:#cat_create_mep#:#Creëer een Media-pool
@@ -666,8 +678,10 @@ common#:#crs_add#:#Cursus toevoegen
 common#:#crs_added#:#Cursus toegevoegd
 common#:#crs_available#:#Beschikbare cursussen
 common#:#crs_create#:#Creëer cursus
+common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Creëer forum
 common#:#crs_create_glo#:#Creëer woordenlijst
+common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Creëer lesmodule
 common#:#crs_create_slm#:#Creëer SCORM lesmodule
 common#:#crs_delete#:#Verwijderen cursus
@@ -835,11 +849,13 @@ common#:#fold#:#Map
 common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
+common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
 common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
 common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
 common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
 common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
@@ -944,6 +960,7 @@ common#:#grp_added#:#Groep toegevoegd
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Creëer groep
+common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Creëer Chat
 common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
 common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
@@ -951,6 +968,7 @@ common#:#grp_create_file#:#Gebruiker mag bestanden uploaden###17 Apr 2004 conten
 common#:#grp_create_fold#:#De gebruiker mag mappen creëren###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Creëer forum
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Creëer lesmodule
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
@@ -989,6 +1007,16 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Hulp
 common#:#hide_details#:#details verbergen
 common#:#hide_structure#:#Structuurscherm verbergen
+common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
+common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
+common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
+common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
 common#:#hobby#:#Interessen/Hobbys
 common#:#home#:#Startscherm
 common#:#host#:#Host
@@ -1010,6 +1038,7 @@ common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
 common#:#import#:#Importeren
+common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Importeren Kategoriën
 common#:#import_file#:#Importeren Bestand
 common#:#import_file_not_valid#:#Het import-bestand is niet goed.
@@ -1017,6 +1046,7 @@ common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
+common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Importeer Root-gebruiker
 common#:#import_slm#:#SCORM-package importeren
@@ -1368,6 +1398,7 @@ common#:#number_of_records#:#Aantal rekords
 common#:#obj#:#Object
 common#:#obj_adm#:#Administratie
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
+common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat-instellingen
@@ -1381,6 +1412,7 @@ common#:#obj_fold#:#Map
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Verklarende woordenlijst
 common#:#obj_grp#:#Groep
+common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML-lesmodule
 common#:#obj_ldap#:#LDAP-instellingen
 common#:#obj_ldap_desc#:#Configureer de globale LDAP-instellingen hier.
@@ -1433,6 +1465,7 @@ common#:#objf_edit_permission#:#Wijzig rechten-instellingen
 common#:#objf_read#:#Lees-recht op object-definities
 common#:#objf_visible#:#Object-definities zijn zichtbaar
 common#:#objf_write#:#Wijzig object-definities
+common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
 common#:#objs_cat#:#Kategoriën
 common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Bevestig activiteit
@@ -1445,6 +1478,7 @@ common#:#objs_fold#:#Mappen
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groepen
+common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#HTML-lesmodules
 common#:#objs_lm#:#Lesmodules
 common#:#objs_lng#:#Talen
@@ -1715,8 +1749,12 @@ common#:#system_grp#:#Systeem-groep
 common#:#system_language#:#Systeem-taal
 common#:#system_message#:#Systeem-bericht
 common#:#table_mail_import#:#Importeren van ILIAS 2 Mails###30 Apr 2004 content changed
+common#:#tax#:#Taxonomy###15 Jul 2004 new variable
+common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
 common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
 common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
 common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
 common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
 common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
