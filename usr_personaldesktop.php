@@ -42,11 +42,10 @@ $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
 
-/*
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","bookmark_frameset.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
-$tpl->parseCurrentBlock();*/
+$tpl->parseCurrentBlock();
 
 $tpl->touchBlock("btn_row");
 
