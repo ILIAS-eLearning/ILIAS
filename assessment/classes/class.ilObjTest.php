@@ -1995,8 +1995,63 @@ class ilObjTest extends ilObject
     }
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
+		if ((!$total_reached_points) or (!$total_max_points)) {
+			$percentage = 0.0;
+		} else {
+			$percentage = ($total_reached_points / $total_max_points) * 100.0;
+		}
+		$mark_obj = $this->mark_schema->get_matching_mark($percentage);
+		$passed = "";
+		if ($mark_obj)
+		{
+			if ($mark_obj->get_passed())
+			{
+				$passed = 1;
+			}
+			else
+			{
+				$passed = 0;
+			}
+		}
+		$result_array["test"]["passed"] = $passed;
 		return $result_array;
 	}
+	
+/**
+* Returns a result for a condition check on the class
+* 
+* Calculates the results of a test for a given user
+* and returns true if the user passed the test, else false
+*
+* @param integer $a_exc_id object id of the test object
+* @param string $a_operator The operator which should be checked
+* @param mixed $a_value ???
+* @return boolean True if the test was passed, False otherwise
+* @access public
+*/
+	function _checkCondition($a_exc_id,$a_operator,$a_value)
+	{
+		global $ilias;
+
+		switch($a_operator)
+		{
+			case 'passed':
+				$result = ilObjTest::_getTestResult($ilias->account->getId(), $a_exc_id);
+				if ($result["test"]["passed"])
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+			default:
+				return true;
+		}
+		return true;
+	}	
+				
 	
 /**
 * Calculates the results of a test for a given user
@@ -2013,6 +2068,42 @@ class ilObjTest extends ilObject
 		$result =& $test->getTestResult($user_id);
 		return $result;
 	}
+
+/**
+* Returns a result for a condition check on the class
+* 
+* Calculates the results of a test for a given user
+* and returns true if the user passed the test, else false
+*
+* @param integer $a_exc_id object id of the test object
+* @param string $a_operator The operator which should be checked
+* @param mixed $a_value ???
+* @return boolean True if the test was passed, False otherwise
+* @access public
+*/
+	function _checkCondition($a_exc_id,$a_operator,$a_value)
+	{
+		global $ilias;
+
+		switch($a_operator)
+		{
+			case 'passed':
+				$result = ilObjTest::_getTestResult($ilias->account->getId(), $a_exc_id);
+				if ($result["test"]["passed"])
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+			default:
+				return true;
+		}
+		return true;
+	}	
+				
 	
 /**
 * Returns the resulting mark of a test for a given user
@@ -3972,6 +4063,6 @@ class ilObjTest extends ilObject
 				$question->createRandomSolution($this->getTestId(), $login["usr_id"]);
 			}
 		}
-	}
+	}	
 } // END class.ilObjTest
 ?>
