@@ -299,7 +299,7 @@ class ilObjUser extends ilObject
 	function refreshLogin ()
 	{
 		$q = "UPDATE usr_data SET ".
-			 "last_login = '".date("Y-m-d H:i:s")."' ".
+			 "last_login = now() ".
 			 "WHERE usr_id = '".$this->id."'";
 
 		$this->ilias->db->query($q);
