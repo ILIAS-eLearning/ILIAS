@@ -5,7 +5,7 @@ require_once "classes/class.ilBookmarkExplorer.php";
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 $exp = new ilBookmarkExplorer("bookmarks.php",$_SESSION["AccountId"]);
-$exp->setTargetGet("mobj_id");
+$exp->setTargetGet("bmf_id");
 
 if ($_GET["mexpand"] == "")
 {

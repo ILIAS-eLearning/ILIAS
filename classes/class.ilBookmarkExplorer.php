@@ -83,7 +83,6 @@ class ilBookmarkExplorer extends ilExplorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-
 	function setOutput($a_parent, $a_depth = 1)
 	{
 		global $lng;
@@ -99,12 +98,17 @@ class ilBookmarkExplorer extends ilExplorer
 				for($i=0;$i<count($objects);++$i)
 				{
 					//$objects[$i]["title"] = $lng->txt("mail_".$objects[$i]["title"]);
-					$objects[$i]["title"] = "TEEST";
+					//$objects[$i]["title"] = "TEEST";
 				}
 			}
 
 			foreach ($objects as $key => $object)
 			{
+				if ($object["type"] != "bmf" && $object["type"] != "dum")
+				{
+					continue;
+				}
+				
 				//ask for FILTER
 				if ($object["child"] != $this->root_id)
 				{
@@ -169,8 +173,9 @@ class ilBookmarkExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("TITLE", $lng->txt("bkm_personal")." ".strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
-
+		$tpl->setVariable("TITLE", $lng->txt("bookmarks_of")." ".$ilias->account->getFullname());
+		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=1");
+		$tpl->setVariable("TARGET", " target=\"content\"");
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();

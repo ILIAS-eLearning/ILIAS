@@ -124,19 +124,27 @@ if(empty($cmd))
 	$cmd = "display";
 }
 
-if (isset($_GET["bm_id"]))
+$type = (empty($_POST["type"])) ? $_GET["type"] : $_POST["type"];
+
+if(!empty($type))
+{
+	$cmd.= $objDefinition->getClassName($type);
+}
+
+/*if (isset($_GET["bm_id"]))
 {
 	require_once "./classes/class.ilBookmarkGUI.php";
 	$bookmarkGUI = new ilBookmarkGUI($_GET["bm_id"]);
 	$bookmarkGUI->$cmd();
 }
 else
-{
+{*/
 	require_once "./classes/class.ilBookmarkFolderGUI.php";
 	$bookmarkFolderGUI = new ilBookmarkFolderGUI($_GET["bmf_id"]);
+//echo "BMFID:".$_GET["bmf_id"].":cmd:$cmd:<br>";
 //echo "bookmarkFolderGUI->".$cmd."()<br>"; exit;
 	$bookmarkFolderGUI->$cmd();
-}
+//}
 
 $tpl->show();
 
