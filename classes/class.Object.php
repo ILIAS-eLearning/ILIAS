@@ -521,8 +521,8 @@ class Object
 	{
 		include_once ("classes/class.Admin.php");
 		
-		$admin = new Admin($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
-		return $admin->linkObject();
+		$admin = new Admin();
+		return $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 	}
 	function pasteAdmObject()
 	{
