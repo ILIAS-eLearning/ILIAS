@@ -25,6 +25,18 @@ function createNewObject ($a_type,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TI
 {
 	global $ilias;
 	
+	if (!isset($a_type))
+	{
+		$message = "perm::createNewObject(): No object type given!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+
+	if (empty($a_title))
+	{
+		$message = "perm::createNewObject(): No title given! A title is required!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+	
 	// cut length of text
 	$a_title = addslashes(shortenText($a_title,$a_len_title,$a_dots));
 	$_desc = addslashes(shortenText($a_desc,$a_len_desc,$a_dots));
@@ -47,12 +59,26 @@ function createNewObject ($a_type,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TI
 */
 function getObject ($a_obj_id)
 {
-	global $ilias;
+	global $ilias, $log;
+
+	if (!isset($a_obj_id))
+	{
+		$message = "perm::getObject(): No obj_id given!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 
 	$q = "SELECT * FROM object_data ".
 		 "WHERE obj_id = '".$a_obj_id."'";
 	$r = $ilias->db->query($q);
 	
+	if ($r->numRows() == 0)
+	{
+		$message = "perm::getObject(): Object with obj_id ".$a_obj_id." not found!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);
+	}
+
 	$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 	$arr = fetchObjectData($row);
@@ -68,13 +94,27 @@ function getObject ($a_obj_id)
 */
 function getObjectByReference ($a_ref_id)
 {
-	global $ilias;
+	global $ilias, $log;
+
+	if (!isset($a_ref_id))
+	{
+		$message = "perm::getObjectByReference(): No ref_id given!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 
 	$q = "SELECT * FROM object_data ".
 		 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 		 "WHERE object_reference.ref_id='".$a_ref_id."'";
 	$r = $ilias->db->query($q);
 	
+	if ($r->numRows() == 0)
+	{
+		$message = "perm::getObjectByReference(): Object with ref_id ".$a_ref_id." not found!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);
+	}
+
 	$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 	$arr = fetchObjectData($row);
@@ -132,10 +172,22 @@ function deleteObject ($a_obj_id)
 * @param	boolean	adding 3 dots to shortended string (optional, default: true)
 * @return	boolean	true
 */
-function updateObject ($a_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$a_len_desc=MAXLENGTH_OBJ_DESC,$a_dots=true)
+function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$a_len_desc=MAXLENGTH_OBJ_DESC,$a_dots=true)
 {
 	global $ilias;
+
+	if (!isset($a_obj_id))
+	{
+		$message = "perm::updateObject(): No obj_id given!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 	
+	if (empty($a_title))
+	{
+		$message = "perm::updateObject(): No title given! A title is required!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+
 	// cut length of text
 	$a_title = addslashes(shortenText($a_title,$a_len_title,$a_dots));
 	$_desc = addslashes(shortenText($a_desc,$a_len_desc,$a_dots));
@@ -145,7 +197,7 @@ function updateObject ($a_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$
 		 "title='".$a_title."',".
 		 "description='".$a_desc."', ".
 		 "last_update=now() ".
-		 "WHERE obj_id='".$a_id."'";
+		 "WHERE obj_id='".$a_obj_id."'";
 	$ilias->db->query($q);
 
 	return true;
@@ -159,9 +211,21 @@ function updateObject ($a_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TITLE,$
 * @param	string	value to be changed
 * @return	boolean	true on success
 */
-function updateObjectValue($a_id,$a_column,$a_value)
+function updateObjectValue($a_obj_id,$a_column,$a_value)
 {
 	global $ilias;
+	
+	if (!isset($a_obj_id))
+	{
+		$message = "perm::updateObjectValue(): No obj_id given!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+	
+	if (!isset($a_column))
+	{
+		$message = "perm::updateObjectValue(): No table column specified!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 
 	$q = "UPDATE object_data ".
 		 "SET ".$a_column."='".$a_value."',".
@@ -207,6 +271,12 @@ function createNewReference ($a_obj_id)
 {
 	global $ilias;
 	
+	if (!isset($a_obj_id))
+	{
+		$message = "perm::createNewReference(): No obj_id given!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+	
 	$q = "INSERT INTO object_reference ".
 		 "(obj_id) VALUES ('".$a_obj_id."')";
 	$ilias->db->query($q);
@@ -224,8 +294,15 @@ function createNewReference ($a_obj_id)
 */
 function countReferencesOfObject ($a_obj_id)
 {
-	global $ilias;
+	global $ilias, $log;
 	
+	if (!isset($a_obj_id))
+	{
+		$message = "perm::countReferencesOfObject(): No obj_id given!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+
 	$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
 		 "WHERE obj_id = '".$a_obj_id."'";
 	$row = $ilias->db->getRow($q);
@@ -339,6 +416,21 @@ function getOperationList ($a_type = "",$a_order= "",$a_direction = "")
 function createNewOperation ($a_operation,$a_description)
 {
 	global $ilias;
+	
+	if (!isset($a_operation))
+	{
+		$message = "perm::createNewOperation(): No operation name given!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
+	
+	// check if operation exists
+	$ops_id = getOperationId($a_operation);
+	// quit in case operation already exists 	
+	if (!empty($ops_id))
+	{
+		$message = "perm::createNewOperation(): An operation '".$a_operation."' is already defined!";
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 
 	$q = "INSERT INTO operations ".
 		 "(operation,description) ".
@@ -357,7 +449,14 @@ function createNewOperation ($a_operation,$a_description)
 */
 function getOperationId($a_operation)
 {
-	global $ilias;
+	global $ilias, $log;
+
+	if (!isset($a_operation))
+	{
+		$message = "perm::getOperationId(): No operation given!";
+		$log->writeWarning($message);
+		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
+	}
 
 	$q = "SELECT DISTINCT ops_id FROM rbac_operations ".
 		 "WHERE operation ='".$a_operation."'";		    
