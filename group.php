@@ -23,33 +23,104 @@
 
 
 /**
- * group objects mainpage
- * 
- * this file decides if a frameset is used or not
- * 
- * @author Martin Rus <pmrus@smail.uni-koeln.de>
- * @package ilias-core
- * @version $Id$
+* adm_object
+* main script for administration console
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*
+* @package ilias-core
 */
-require_once "./include/inc.header.php";
 
-//look if there is a file tpl.group.html
-$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.group.html"; 
+/*
+require_once "include/inc.header.php";
 
-if (isset($_GET["viewmode"]))
+// for security
+unset($id);
+
+//determine call mode for object classes
+//TODO: don't use same var $id for both
+if (isset($_GET["obj_id"]))
 {
-	$_SESSION["viewmode"] = $_GET["viewmode"];
-}
-
-
-if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
-{
-	$tpl = new ilTemplate("tpl.group.html", false, false);
-	$tpl->show();
+	$call_by_reference = false;
+	$id = $_GET["obj_id"];
 }
 else
 {
-	header("location: group_content.php?expand=1");
+	$call_by_reference = true;
+	$id = $_GET["ref_id"];
 }
 
+// exit if no valid ID was given
+if (!isset($_GET["ref_id"]))
+{
+	$ilias->raiseError("No valid ID given! Action aborted",$this->ilias->error_obj->MESSAGE);
+}
+
+if (!isset($_GET["type"]))
+{
+	if ($call_by_reference)
+	{
+		$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+	}
+	else
+	{
+		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+	}
+
+	$_GET["type"] = $obj->getType();
+}
+
+// determine command
+if (($cmd = $_GET["cmd"]) == "gateway")
+{
+	$cmd = key($_POST["cmd"]);
+}
+if (empty($cmd)) // if no cmd is given default to first property
+{
+	//$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
+	$cmd = $_GET["cmd"] = "content";
+}
+
+// determine object type
+if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
+{
+	$obj_type = $_POST["new_type"];
+}
+elseif ($_GET["new_type"])
+{
+	$obj_type = $_GET["new_type"];
+}
+else
+{
+	$obj_type = $_GET["type"];
+}
+
+//echo "e";
+//var_dump($_GET);
+//var_dump($_POST);
+
+// call gui object method
+$method = $cmd."Object";
+$class_name = $objDefinition->getClassName($obj_type);
+
+//$class_constr = "ilObj".$class_name."GUI";
+//require_once("./classes/class.ilObj".$class_name."GUI.php");
+
+$class_constr = "il".$class_name."GUI";
+require_once("./classes/class.il".$class_name."GUI.php");
+
+echo $class_constr.":".$method;
+$obj = new $class_constr($data, $id, $call_by_reference);
+$obj->$method();
+
+$tpl->show();*/
+
+require_once "./include/inc.header.php";
+require_once "./classes/class.ilGroupGUI.php";
+//echo $_GET["expand"];
+$grp_gui =& new ilGroupGUI();
 ?>
+

@@ -125,7 +125,7 @@ class ilGroupExplorer extends ilExplorer
 		
 		if ($a_type == "grp")
 		{
-			$tpl->setVariable("LINK_TARGET", "group_view.php?grp_id=".$a_node_id);
+			$tpl->setVariable("LINK_TARGET", "group.php?cmd=displayList&grp_id=".$a_node_id);
 		}
 		else
 		{
