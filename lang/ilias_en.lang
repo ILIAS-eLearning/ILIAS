@@ -4558,3 +4558,18 @@ common#:#update#:#Edit
 crs#:#crs_objective_modified#:#Updated learning objective.
 crs#:#crs_objective_no_title_given#:#Please enter a title.
 crs#:#crs_moved_objective#:#Moved learing objective.
+crs#:#crs_objectives_assigned_questions#:#Assigned questions
+crs#:#crs_objective_deassign_question#:#Delete assignment
+crs#:#crs_objective_assign_question#:#Assign question
+crs#:#crs_objectives_no_question_selected#:#Please select one question.
+crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?
+crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.
+crs#:#crs_objective_question_assignment#:#Question assignment
+crs#:#crs_count_questions#:#Number of questions
+crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.
+crs#:#crs_test_status_complete#:#Complete
+crs#:#crs_test_status_random#:#Random test
+crs#:#crs_test_status_not_complete#:#Not complete
+crs#:#assigned#:#Assigned
+crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.
+crs#:#crs_no_question_selected#:#Please select one question.
