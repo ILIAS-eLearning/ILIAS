@@ -359,6 +359,10 @@ class ilPageObjectGUI
 		$output = str_replace("&lt;","<",$output);
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
+
+		// prevent curly brackets from being swallowed up by template engine
+		$output = str_replace("{", "&#123;", $output);
+		$output = str_replace("{", "&#125;", $output);
 //echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
 		// output
