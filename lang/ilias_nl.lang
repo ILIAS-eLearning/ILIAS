@@ -103,6 +103,8 @@ assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You receive
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#Exporteer
 assessment#:#false#:#Verkeerd
+assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
+assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
@@ -168,6 +170,7 @@ assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
 assessment#:#tst_no_marks_defined#:#Er zijn geen markeringen gedefiniëerd, Creëer minstens één eenvoudig markerings-schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
+assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. aantal keer geprobeerd
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing tijd
