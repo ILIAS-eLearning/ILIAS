@@ -1551,7 +1551,12 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			// display number of tries of the user
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries_of_user") . ":");
-			$this->tpl->setVariable("TEXT_INFO_COL2", $active->tries);
+			$tries = $active->tries;
+			if (!$tries)
+			{
+				$tries = $this->lng->txt("tst_no_tries");
+			}
+			$this->tpl->setVariable("TEXT_INFO_COL2", $tries);
 			$this->tpl->parseCurrentBlock();
 		}
 
