@@ -16,7 +16,7 @@ class ElementList {
 
     /**
     * database handle
-    * @var object
+    * @var object DB
     * @see setDbHandle(), getDbHandle()
     * @access private
     */
@@ -24,7 +24,7 @@ class ElementList {
 
     /**
     * result handle (from query)
-    * @var object
+    * @var object DB
     * @access private
     */
 	var $result;
@@ -72,7 +72,7 @@ class ElementList {
 
     /**
     * list element
-    * @var object
+    * @var object Element
     * @access public
     */
     var $element;

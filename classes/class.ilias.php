@@ -15,7 +15,7 @@ class ILIAS extends PEAR
 {
 	/**
 	 * ini file
-	 * @var INI_FILE
+	 * @var string
 	 */
  	var $INI_FILE = "./ilias.ini";
 
