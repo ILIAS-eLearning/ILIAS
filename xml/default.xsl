@@ -143,9 +143,35 @@
 	</xsl:choose>	
 </xsl:template>
 
-<!-- we dump the MetaData, Glossary and Bibliography -->
+<xsl:template match="Glossary">
+	<div>
+		<xsl:attribute name="class">Glossary</xsl:attribute>
+		<xsl:attribute name="id">gl_view</xsl:attribute>
+		<xsl:variable name="GlossaryID" select="@Id"/>
+		<span>
+			<xsl:attribute name="class">GlossaryHeading</xsl:attribute>
+			<xsl:attribute name="id">gl_view</xsl:attribute>
+			Glossary:	
+		</span>
+		<p>
+			<xsl:for-each select="GlossaryItem">
+ 				<a>
+					<xsl:attribute name="href">
+						<xsl:text>lo_glossary.php?id=</xsl:text>
+						<xsl:value-of select="$GlossaryID"/>
+						<xsl:text>&amp;glossary=</xsl:text>
+						<xsl:value-of select="GlossaryTerm/@Definition"/>
+					</xsl:attribute>
+					<xsl:attribute name="target">new</xsl:attribute>
+					<xsl:value-of select="GlossaryTerm"/>
+				</a><br/>
+			</xsl:for-each>
+		</p>	
+	</div>
+</xsl:template>
+
+<!-- we dump the MetaData and Bibliography -->
 <xsl:template match="MetaData"/>
-<xsl:template match="Glossary"/>
 <xsl:template match="Examples"/>
 <xsl:template match="Reference"/>
 <xsl:template match="Bibliography"/>
