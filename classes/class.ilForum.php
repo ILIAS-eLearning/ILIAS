@@ -715,7 +715,7 @@ class ilForum
 		
 		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
         {
-			return  $lng->txt("today").", ".Format::formatDate($date,"time");
+			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time");
 		}
 		
 		return ilFormat::formatDate($date);
