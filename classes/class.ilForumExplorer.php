@@ -248,7 +248,7 @@ class ilForumExplorer extends ilExplorer
 		
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("TYPE", "cat");
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 
 		$tpl->parseCurrentBlock();
