@@ -156,13 +156,16 @@ class ASS_ClozeTest extends ASS_Question {
 		}
     $estw_time = $this->get_estimated_working_time();
     $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+		$shuffle = 1;
+		if (!$this->shuffle)
+			$shuffle = 0;
 
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -172,6 +175,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->owner),
         $db->quote($this->cloze_text),
         $db->quote($estw_time),
+        $db->quote("$this->shuffle"),
         $db->quote($this->start_tag),
         $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
@@ -188,12 +192,13 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s, complete = %s, start_tag = %s, end_tag = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, cloze_type = %s, complete = %s, start_tag = %s, end_tag = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($estw_time),
+				$db->quote("$this->shuffle"),
         $db->quote($this->cloze_type),
 				$db->quote("$complete"),
         $db->quote("$this->start_tag"),
@@ -259,6 +264,7 @@ class ASS_ClozeTest extends ASS_Question {
         $this->author = $data->author;
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
+				$this->shuffle = $data->shuffle;
         $this->start_tag = $data->start_tag;
         $this->end_tag = $data->end_tag;
         $this->cloze_type = $data->cloze_type;

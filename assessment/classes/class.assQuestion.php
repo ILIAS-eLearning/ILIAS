@@ -92,6 +92,15 @@ class ASS_Question extends PEAR {
   var $est_working_time;
 
 /**
+* Indicates whether the answers will be shuffled or not
+*
+* Indicates whether the answers will be shuffled or not
+*
+* @var array
+*/
+  var $shuffle;
+
+/**
 * Contains uris name and uris to additional materials
 *
 * Contains uris name and uris to additional materials
@@ -302,6 +311,28 @@ class ASS_Question extends PEAR {
   function set_comment($comment = "") {
     $this->comment = $comment;
   }
+
+
+/**
+* Sets the shuffle flag
+*
+* Sets the shuffle flag
+*
+* @param boolean $shuffle A flag indicating whether the answers are shuffled or not
+* @access public
+* @see $shuffle
+*/
+  function set_shuffle($shuffle = true) {
+		if ($shuffle)
+		{
+			$this->shuffle = 1;
+		}
+			else
+		{
+			$this->shuffle = 0;
+		}
+  }
+
 /**
 * Sets the estimated working time of a question
 *
@@ -464,6 +495,19 @@ class ASS_Question extends PEAR {
 */
   function get_id() {
     return $this->id;
+  }
+
+/**
+* Gets the shuffle flag
+*
+* Gets the shuffle flag
+*
+* @return boolean The shuffle flag
+* @access public
+* @see $shuffle
+*/
+  function get_shuffle() {
+    return $this->shuffle;
   }
 
 /**
