@@ -296,8 +296,10 @@ class ilPersonalDesktopGUI
                     if($num_unread)
                     {
                         $tpl->setCurrentBlock("frm_info");
-                        $tpl->setVariable("TXT_FRM_INFO",$this->lng->txt('articels_unread').' '.$num_unread.' '.
-                                          $this->lng->txt('forums_new_articles').': '.$num_new);
+
+						$text = $num_unread.' '.$this->lng->txt('articels_unread').' '.$this->lng->txt('and').' '.
+							$num_new.' '.$this->lng->txt('forums_new_articles');
+                        $tpl->setVariable("TXT_FRM_INFO",$text);
                         $tpl->parseCurrentBlock();
                     }
                 }
