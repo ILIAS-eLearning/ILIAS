@@ -89,7 +89,7 @@ assessment#:#0_unlimited#:#(0 = senza limite)
 assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
-assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
+assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Rispondi
@@ -127,7 +127,7 @@ assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
-assessment#:#locked#:#locked###27 Apr 2004 new variable
+assessment#:#locked#:#Bloccato
 assessment#:#mark_schema#:#Schema voti
 assessment#:#match_terms_and_definitions#:#Accoppia termini e definizioni
 assessment#:#match_terms_and_pictures#:#Accoppia termini e figure
@@ -151,7 +151,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazio
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte
 assessment#:#qpl_assessment_total_of_right_answers#:#Percentuale totale di risposte giuste (percentuale con il punteggio massimo)
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
+assessment#:#qpl_confirm_delete_questions#:#Sei sicuro di voler cancellare le seguenti domande? Se cancelli le domande bloccate, anche i risultati dei test che le contengono verranno cancellati.
 assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa raccolta di domande!
 assessment#:#qpl_delete_select_none#:#Seleziona la raccolta di domande da cancellare
 assessment#:#qpl_display_fullsize_image#:#Clicca qui per mostrare l'immagine originale!
@@ -160,7 +160,7 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
-assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
+assessment#:#qpl_questions_deleted#:#Domande cancellate
 assessment#:#qt_cloze#:#Domanda con risposta da completare
 assessment#:#qt_imagemap#:#Domanda con immagine a mappa
 assessment#:#qt_matching#:#Domanda a corrispondenza
@@ -266,9 +266,9 @@ assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
 assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
 assessment#:#tst_status_completed#:#completato
-assessment#:#tst_status_completed_more_tries_possible#:#(completato)###30 Apr 2004 content changed
-assessment#:#tst_status_not_entered#:#non inserito###30 Apr 2004 content changed
-assessment#:#tst_status_progress#:#in esecuzione###30 Apr 2004 content changed
+assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
+assessment#:#tst_status_not_entered#:#non inserito
+assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_types#:#Tipi di test
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
@@ -276,68 +276,68 @@ assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
 assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
-assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
-assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
+assessment#:#unlock#:#Sbloccato
+assessment#:#unlock_question#:#Questa domanda This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#working_time#:#Tempo di esecuzione
-bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
-bibitem#:#bibitem_author#:#Author###06 May 2004 new variable
-bibitem#:#bibitem_av#:#AV###06 May 2004 new variable
-bibitem#:#bibitem_bibitem#:#Bibliographical information###06 May 2004 new variable
-bibitem#:#bibitem_book#:#Book###06 May 2004 new variable
-bibitem#:#bibitem_booktitle#:#Booktitle###06 May 2004 new variable
-bibitem#:#bibitem_catalog#:#Catalog###06 May 2004 new variable
-bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:###06 May 2004 new variable
-bibitem#:#bibitem_cross_reference#:#Cross reference###06 May 2004 new variable
-bibitem#:#bibitem_delete#:#Delete###06 May 2004 new variable
-bibitem#:#bibitem_dissertation#:#Dissertation###06 May 2004 new variable
-bibitem#:#bibitem_edition#:#Edition###06 May 2004 new variable
-bibitem#:#bibitem_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_entry#:#Entry###06 May 2004 new variable
-bibitem#:#bibitem_first_name#:#First name###06 May 2004 new variable
-bibitem#:#bibitem_grey_literature#:#Grey literature###06 May 2004 new variable
-bibitem#:#bibitem_how_published#:#How published###06 May 2004 new variable
-bibitem#:#bibitem_identifier#:#Identifier###06 May 2004 new variable
-bibitem#:#bibitem_inbook#:#Inbook###06 May 2004 new variable
+bibitem#:#bibitem_add#:#Aggiungi
+bibitem#:#bibitem_author#:#Autore
+bibitem#:#bibitem_av#:#Disp
+bibitem#:#bibitem_bibitem#:#Informazioni bibliografiche
+bibitem#:#bibitem_book#:#Libro
+bibitem#:#bibitem_booktitle#:#Titolo
+bibitem#:#bibitem_catalog#:#Catalogo
+bibitem#:#bibitem_choose_index#:#Per favore, scegli le informazioni bibliografiche:
+bibitem#:#bibitem_cross_reference#:#Riferimenti incrociati
+bibitem#:#bibitem_delete#:#Cancella
+bibitem#:#bibitem_dissertation#:#Trattazione
+bibitem#:#bibitem_edition#:#Edizione
+bibitem#:#bibitem_editor#:#Editore
+bibitem#:#bibitem_entry#:#Voce
+bibitem#:#bibitem_first_name#:#Nome
+bibitem#:#bibitem_grey_literature#:#Scienze, tecnologia
+bibitem#:#bibitem_how_published#:#Tipo pubblicazione
+bibitem#:#bibitem_identifier#:#Identificatore
+bibitem#:#bibitem_inbook#:#Libro in arrivo
 bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
-bibitem#:#bibitem_institution#:#Institution###06 May 2004 new variable
-bibitem#:#bibitem_internet#:#Internet###06 May 2004 new variable
-bibitem#:#bibitem_isbn#:#ISBN###06 May 2004 new variable
-bibitem#:#bibitem_issn#:#ISSN###06 May 2004 new variable
-bibitem#:#bibitem_journal#:#Journal###06 May 2004 new variable
-bibitem#:#bibitem_journal_article#:#Journal article###06 May 2004 new variable
-bibitem#:#bibitem_keyword#:#Keyword###06 May 2004 new variable
-bibitem#:#bibitem_label#:#Label###06 May 2004 new variable
-bibitem#:#bibitem_language#:#Language###06 May 2004 new variable
-bibitem#:#bibitem_last_name#:#Last name###06 May 2004 new variable
-bibitem#:#bibitem_manual#:#Manual###06 May 2004 new variable
-bibitem#:#bibitem_master_thesis#:#Master thesis###06 May 2004 new variable
-bibitem#:#bibitem_middle_name#:#Middle name###06 May 2004 new variable
-bibitem#:#bibitem_month#:#Month###06 May 2004 new variable
-bibitem#:#bibitem_new_element#:#New element###06 May 2004 new variable
-bibitem#:#bibitem_newspaper_article#:#Newspaper article###06 May 2004 new variable
-bibitem#:#bibitem_not_found#:#No bibliographical information available.###06 May 2004 new variable
-bibitem#:#bibitem_note#:#Note###06 May 2004 new variable
-bibitem#:#bibitem_number#:#Number###06 May 2004 new variable
-bibitem#:#bibitem_organization#:#Organization###06 May 2004 new variable
-bibitem#:#bibitem_pages#:#Pages###06 May 2004 new variable
-bibitem#:#bibitem_phd_thesis#:#PhD thesis###06 May 2004 new variable
-bibitem#:#bibitem_please_select#:#Please select###06 May 2004 new variable
-bibitem#:#bibitem_print#:#Print###06 May 2004 new variable
+bibitem#:#bibitem_institution#:#Istituzione
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Riviste
+bibitem#:#bibitem_journal_article#:#Articolo di rivista
+bibitem#:#bibitem_keyword#:#Chiave
+bibitem#:#bibitem_label#:#Etichetta
+bibitem#:#bibitem_language#:#Lingua
+bibitem#:#bibitem_last_name#:#Cognome
+bibitem#:#bibitem_manual#:#Manuale
+bibitem#:#bibitem_master_thesis#:#Tesi
+bibitem#:#bibitem_middle_name#:#Secondo nome
+bibitem#:#bibitem_month#:#Mese
+bibitem#:#bibitem_new_element#:#Elemento nuovo
+bibitem#:#bibitem_newspaper_article#:#Articolo di giornale
+bibitem#:#bibitem_not_found#:#Informazioni bibliografiche non disponibili.
+bibitem#:#bibitem_note#:#Note
+bibitem#:#bibitem_number#:#Numero
+bibitem#:#bibitem_organization#:#Organizzazione
+bibitem#:#bibitem_pages#:#Pagine
+bibitem#:#bibitem_phd_thesis#:#Tesi scientifica
+bibitem#:#bibitem_please_select#:#Scegline una
+bibitem#:#bibitem_print#:#Stampa
 bibitem#:#bibitem_proceedings#:#Proceedings###06 May 2004 new variable
-bibitem#:#bibitem_publisher#:#Publisher###06 May 2004 new variable
-bibitem#:#bibitem_save#:#Save###06 May 2004 new variable
-bibitem#:#bibitem_school#:#School###06 May 2004 new variable
-bibitem#:#bibitem_series#:#Series###06 May 2004 new variable
-bibitem#:#bibitem_series_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_series_title#:#Series title###06 May 2004 new variable
-bibitem#:#bibitem_series_volume#:#Volume###06 May 2004 new variable
-bibitem#:#bibitem_technical_report#:#Technical report###06 May 2004 new variable
-bibitem#:#bibitem_type#:#Type###06 May 2004 new variable
-bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
-bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
-bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
-bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
+bibitem#:#bibitem_publisher#:#Editore
+bibitem#:#bibitem_save#:#Salva
+bibitem#:#bibitem_school#:#Scuola
+bibitem#:#bibitem_series#:#Serie
+bibitem#:#bibitem_series_editor#:#Editore della serie
+bibitem#:#bibitem_series_title#:#Titolo della serie
+bibitem#:#bibitem_series_volume#:#Volume
+bibitem#:#bibitem_technical_report#:#Relazione scientifica
+bibitem#:#bibitem_type#:#Tipo
+bibitem#:#bibitem_unpublished#:#Non pubblicato
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Luogo pubblicazione
+bibitem#:#bibitem_year#:#Anno
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
@@ -479,7 +479,7 @@ common#:#basic_data#:#Dati di base
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Impostazioni Benchmark
 common#:#benchmarks#:#Benchmarks
-common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
+common#:#bib_data#:#Dati bibliografici
 common#:#bm#:#Preferiti
 common#:#bmf#:#Cartella dei preferiti
 common#:#bookmark_edit#:#Modifica il preferito
@@ -514,10 +514,10 @@ common#:#cat_create_grp#:#Creare un gruppo
 common#:#cat_create_htlm#:#Creare un modulo HTML
 common#:#cat_create_lm#:#Creare un modulo
 common#:#cat_create_mep#:#Creare una libreria multimediale
-common#:#cat_create_qpl#:#Creare una raccolta di domande###07 May 2004 content changed
+common#:#cat_create_qpl#:#Creare una raccolta di domande
 common#:#cat_create_slm#:#Creare un modulo SCORM
-common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
-common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
+common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)
+common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Cancellare un categoria
 common#:#cat_edit#:#Modificare un categoria
@@ -548,7 +548,7 @@ common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia l&#039;assegnazione attiva
 common#:#change_assignment#:#Cambia l&#039;assegnazione
 common#:#change_existing_objects#:#Cambia gli oggetti esistenti
-common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
+common#:#change_header_title#:#Modifica l'intestazione
 common#:#change_lo_info#:#Cambia le informazioni della Risorsa
 common#:#change_metadata#:#Cambia i metadati
 common#:#change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
@@ -588,7 +588,7 @@ common#:#contact_data#:#Dati personali
 common#:#container#:#Contenitore
 common#:#context#:#Contesto
 common#:#copy#:#Copia
-common#:#copyPage#:#Copy###10 May 2004 new variable
+common#:#copyPage#:#Copia
 common#:#copy_of#:#Copia di
 common#:#country#:#Nazione
 common#:#course#:#Corso
@@ -829,7 +829,7 @@ common#:#glo_join#:#Iscriversi al glossario
 common#:#glo_leave#:#Annullare l&#039;iscrizione al glossario
 common#:#glo_new#:#Nuovo glossario
 common#:#glo_read#:#Accedere in lettura al glossario
-common#:#glo_upload_file#:#File###07 May 2004 new variable
+common#:#glo_upload_file#:#File
 common#:#glo_visible#:#Vedere il glossario
 common#:#glo_write#:#Modificare il glossario
 common#:#glossaries#:#Glossari
@@ -863,9 +863,9 @@ common#:#group_req_password#:#E&#039; richiesta la password di registrazione
 common#:#group_req_registration#:#E&#039; richiesta la registrazione
 common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.
 common#:#group_reset#:#Azzeramento del gruppo
-common#:#group_status#:#Stato del gruppo###08 May 2004 content changed
+common#:#group_status#:#Stato del gruppo
 common#:#group_status_closed#:#Chiuso
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
+common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
 common#:#group_status_public#:#Pubblico
 common#:#groups#:#Gruppi
 common#:#groups_overview#:#Descrizione gruppi
@@ -913,7 +913,7 @@ common#:#grp_visible#:#Vedere il gruppo
 common#:#grp_write#:#Modificare il gruppo
 common#:#guest#:#Ospite
 common#:#guests#:#Ospiti
-common#:#header_title#:#Header Title###03 May 2004 new variable
+common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
@@ -932,7 +932,7 @@ common#:#htlm_write#:#MOdificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
-common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#ilias_version#:#Versione ILIAS3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -942,13 +942,13 @@ common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
-common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
-common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossario
+common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa SCORM Package
 common#:#import_users#:#Importa utenti
-common#:#imported#:#imported###30 Apr 2004 new variable
+common#:#imported#:#importato
 common#:#in#:#in
 common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
@@ -995,10 +995,10 @@ common#:#item#:#item
 common#:#kb#:#KByte
 common#:#keywords#:#Parole chiave
 common#:#lang_cs#:#Ceco
-common#:#lang_da#:#Danish###22 Apr 2004 new variable
+common#:#lang_da#:#Danese
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Tedesco
-common#:#lang_el#:#Greek###22 Apr 2004 new variable
+common#:#lang_el#:#Greco
 common#:#lang_en#:#Inglese
 common#:#lang_es#:#Spagnolo
 common#:#lang_fi#:#Finnico
@@ -1014,11 +1014,11 @@ common#:#lang_pl#:#Polacco
 common#:#lang_pt#:#Portoghese
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
-common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
+common#:#lang_sv#:#Svedese
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ucraino
 common#:#lang_version#:#1
-common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
+common#:#lang_vi#:#Vietnamese
 common#:#lang_xx#:#Custom
 common#:#lang_zh#:#Cinese semplificato
 common#:#langfile_found#:#Trovato file
@@ -1077,7 +1077,7 @@ common#:#login#:#Login
 common#:#login_as#:#Sei entrato come
 common#:#login_data#:#Dati per l&#039;accesso
 common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, scegline un altro.
-common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
+common#:#login_invalid#:#L'utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS3
 common#:#logout#:#Uscita
@@ -1097,7 +1097,7 @@ common#:#mail_e_sent#:#Inviate
 common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi della posta
 common#:#mail_folders#:#Cartelle di posta
 common#:#mail_import#:#Importazione
-common#:#mail_import_file#:#File di eportazione di ILIAS 2###30 Apr 2004 content changed
+common#:#mail_import_file#:#File di eportazione di ILIAS 2
 common#:#mail_intern_enable#:#Abilita
 common#:#mail_mail_visible#:#L'utente pu&#242; usare la posta di sistema
 common#:#mail_mails_of#:#La tua posta
@@ -1320,7 +1320,7 @@ common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Raccolta di domande###07 May 2004 content changed
+common#:#obj_qpl#:#Raccolta di domande
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
@@ -1331,9 +1331,9 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_slm#:#SCORM LM
-common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
+common#:#obj_spl#:#Raccolta di domande (verifica)
 common#:#obj_st#:#Capitolo
-common#:#obj_svy#:#Survey###07 May 2004 new variable
+common#:#obj_svy#:#Verifica
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1368,13 +1368,13 @@ common#:#objs_mep#:#Librerie multimediali
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
-common#:#objs_qpl#:#Raccolte di domande###07 May 2004 content changed
+common#:#objs_qpl#:#Raccolte di domande
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
 common#:#objs_slm#:#Moduli SCORM
-common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
+common#:#objs_spl#:#Raccolte di domande (verifiche)
 common#:#objs_st#:#Capitoli
-common#:#objs_svy#:#Surveys###07 May 2004 new variable
+common#:#objs_svy#:#Verifiche
 common#:#objs_tst#:#Test
 common#:#objs_type#:#Tupi di oggetti
 common#:#objs_usr#:#Utenti
@@ -1449,7 +1449,7 @@ common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione
-common#:#qpl#:#Raccolta di domande###07 May 2004 content changed
+common#:#qpl#:#Raccolta di domande
 common#:#qpl_add#:#Aggiungere una raccolta di domande
 common#:#qpl_delete#:#Cancellare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1476,8 +1476,8 @@ common#:#registration#:#Nuova registrazione
 common#:#registration_expired#:#Periodo di prova della registrazione terminato...
 common#:#remove#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
-common#:#rename#:#Renomina
-common#:#rename_file#:#Rename File###03 May 2004 new variable
+common#:#rename#:#Rinomina
+common#:#rename_file#:#Rinomina il file
 common#:#reply#:#Rispondi
 common#:#repository#:#Repository
 common#:#required_field#:#Obbligatorio
@@ -1576,14 +1576,14 @@ common#:#slm_visible#:#Il modulo SCORM &#232; visibile
 common#:#slm_write#:#Modifica il modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
-common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
-common#:#spl_add#:#Add question pool###07 May 2004 new variable
-common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
-common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#spl_new#:#New question pool###07 May 2004 new variable
-common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
-common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
-common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
+common#:#spl#:#Raccolta di domande (cerifica)
+common#:#spl_add#:#Aggiungere una raccolta di domande
+common#:#spl_delete#:#Cancellare una raccolta di domande
+common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#spl_new#:#Creare una raccolta di domande
+common#:#spl_read#:#Accedere in lettura alle raccolte di domande
+common#:#spl_visible#:#Raccolte di domande sono visibili
+common#:#spl_write#:#Modificare una raccolta di domande
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
@@ -1602,14 +1602,14 @@ common#:#submit#:#Invia
 common#:#subobjects#:#sotto oggetti
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
-common#:#svy#:#Survey###07 May 2004 new variable
-common#:#svy_add#:#Add survey###07 May 2004 new variable
-common#:#svy_delete#:#Delete survey###07 May 2004 new variable
-common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#svy_new#:#New survey###07 May 2004 new variable
-common#:#svy_read#:#Read access to survey###07 May 2004 new variable
-common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
-common#:#svy_write#:#Edit survey###07 May 2004 new variable
+common#:#svy#:#Verifica
+common#:#svy_add#:#Aggiungere una verifica
+common#:#svy_delete#:#Cancellare una verifica
+common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
+common#:#svy_new#:#Creare una verifica
+common#:#svy_read#:#Accedere in lettura alla verifica
+common#:#svy_visible#:#Vedere la verifica
+common#:#svy_write#:#Modificare una verifica
 common#:#system#:#Sistema
 common#:#system_check#:#Controllo sistema
 common#:#system_choose_language#:#Lingua di sistema scelta
@@ -1617,7 +1617,7 @@ common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
-common#:#table_mail_import#:#Importazione delle mail da ILIAS 2###30 Apr 2004 content changed
+common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#term#:#Termine
 common#:#test_intern#:#Test interno
 common#:#tests#:#Test
@@ -1716,7 +1716,7 @@ content#:#cont_Additional#:#Aggiuntive
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
 content#:#cont_Circle#:#Cerchio
 content#:#cont_Citation#:#Citazione
-content#:#cont_Code#:#Code###08 May 2004 new variable
+content#:#cont_Code#:#Codice
 content#:#cont_Example#:#Esempio
 content#:#cont_Headline1#:#Intestazione 1
 content#:#cont_Headline2#:#Intestazione 2
@@ -1757,8 +1757,8 @@ content#:#cont_change_type#:#Cambia il tipo
 content#:#cont_chap_and_pages#:#Capitoli e Pagine
 content#:#cont_chap_select_target_now#:#Capitolo selezionato per lo spostamento. Scegli adesso la destinazione.
 content#:#cont_chapters#:#Capitoli
-content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
-content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
+content#:#cont_chapters_and_pages#:#Capitoli e pagine
+content#:#cont_chapters_only#:#Capitoli solamente
 content#:#cont_characteristic#:#Caratteristica
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
@@ -1782,7 +1782,7 @@ content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_mob#:#Crea un oggetto multimediale
-content#:#cont_credits#:#Credits###03 May 2004 new variable
+content#:#cont_credits#:#Ringraziamenti
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
@@ -1913,12 +1913,12 @@ content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
-content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
-content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
-content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
-content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
-content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
-content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_browsed#:#Visto
+content#:#cont_sc_stat_completed#:#Completato
+content#:#cont_sc_stat_failed#:#Fallito
+content#:#cont_sc_stat_incomplete#:#Incompleto
+content#:#cont_sc_stat_not_attempted#:#Non eseguito
+content#:#cont_sc_stat_passed#:#Superato
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
@@ -1947,7 +1947,7 @@ content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
-content#:#cont_status#:#Status###03 May 2004 new variable
+content#:#cont_status#:#Stato
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
@@ -1962,11 +1962,11 @@ content#:#cont_term#:#Termine
 content#:#cont_terms#:#Termini
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_toc#:#Tabella dei contenuti
-content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
+content#:#cont_toc_mode#:#Modalit&#224; menu
 content#:#cont_top#:#Alto
-content#:#cont_total_time#:#Total Time###03 May 2004 new variable
-content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
-content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
+content#:#cont_total_time#:#Tempo totale
+content#:#cont_tracking_data#:#Dati tracciati
+content#:#cont_tracking_items#:#Voci tracciate
 content#:#cont_translations#:#Traduzione(i)
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
 content#:#cont_update#:#Aggiorna
