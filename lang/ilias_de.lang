@@ -127,6 +127,7 @@ assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
+assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_data#:#Evaluationsdaten
@@ -155,6 +156,7 @@ assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_source#:#Imagemap Quelltext
+assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
@@ -494,6 +496,8 @@ common#:#HH:MM#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
+common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
+common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#activate_tracking#:#Tracking aktivieren
@@ -505,6 +509,7 @@ common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
+common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
@@ -687,6 +692,7 @@ common#:#compose#:#Erstellen
 common#:#condition#:#Bedingung
 common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
 common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
+common#:#condition_deleted#:#Die Vorbedingung wurde gelöscht.
 common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
 common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
@@ -2327,6 +2333,7 @@ crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
 crs#:#crs_content#:#Kursinhalt
+crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_dates#:#Termine
@@ -3592,8 +3599,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
-common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
-common#:#condition_deleted#:#Die Vorbedingung wurde gelöscht.
-common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
