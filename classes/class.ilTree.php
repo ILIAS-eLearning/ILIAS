@@ -443,7 +443,7 @@ class ilTree
 
 				// get right value of preceding child
 				$q = "SELECT * FROM ".$this->table_tree." ".
-					"WHERE child = '".$a_parent_id."' ".
+					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$r = $this->ilias->db->getRow($q);
 
