@@ -120,6 +120,8 @@ class ilObjectGUI
 	*/
 	function setAdminTabs()
 	{
+		global $rbacsystem;
+
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		$d = $this->objDefinition->getProperties($this->type);
@@ -148,7 +150,41 @@ class ilObjectGUI
 				$tabtype = "tabinactive";
 				$tab = "tab";
 			}
+			$show = true;
+			switch($row[1])
+			{
+			  case 'view':
+				  if(!$rbacsystem->checkAccess('visible',$this->ref_id))
+				  {
+					  $show = false;
+				  }
+				  break;
 
+			  case 'edit':
+				  if(!$rbacsystem->checkAccess('write',$this->ref_id))
+				  {
+					  $show = false;
+				  }
+				  break;
+
+			  case 'perm':
+				  if(!$rbacsystem->checkAccess('edit permission',$this->ref_id))
+				  {
+					  $show = false;
+				  }
+				  break;
+
+			  case 'trash':
+				  if(!$rbacsystem->checkAccess('create',$this->ref_id,$this->type))
+				  {
+					  $show = false;
+				  }
+				  break;
+			}
+			if(!$show)
+			{
+				continue;
+			}
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $tabtype);
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
