@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Importa modulo ILIAS
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Importa modulo SCORM/AICC
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
 common#:#spl_read#:#Accedere in lettura ad una raccolta di domande
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Vedere una raccolta di domande
 common#:#spl_write#:#Modificare una raccolta di domande
 common#:#st_a#:#un capitolo
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blo
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel sondaggio?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di
 survey#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!
 survey#:#select_value#:#Seleziona un valore
 survey#:#set_filter#:#Imposta filtro
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Giorno di esecuzione
 survey#:#start_date_not_reached#:#Non puoi eseguire il sondaggio fino a che la data di inizio non &#232; stata raggiunta!
 survey#:#start_survey#:#Inizia il sondaggio

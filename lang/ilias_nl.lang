@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Importeren Lesmodule
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importeren Root User
 common#:#import_sahs#:#Importeren SCORM/AICC Package
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Importeren Gebruikers
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Verwijderen vraag uit pool
 common#:#spl_edit_permission#:#Wijzige instellingen van de rechten
 common#:#spl_new#:#Nieuw vraagpool
 common#:#spl_read#:#Leesrechten op vraagpool
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Vraagpool is zichtbaar
 common#:#spl_write#:#Wijzigen Vraagpool
 common#:#st_a#:#een hoofdstuk
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Toepassen
 survey#:#ask_insert_questions#:#Rekenkundig gemiddelde
 survey#:#back#:#Weet u zeker, dat u de volgende blok(blokken) met vragen aan de enquête wilt toevoegen?
 survey#:#browse_for_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de enquête wilt toevoegen?
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#<< Terug
 survey#:#cannot_manage_phrases#:#Doorzoek op vragen
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Selecteer a.u.b. vraagpool om de gecr
 survey#:#select_target_position_for_move_question#:#Selecteer een relaties
 survey#:#select_value#:#Selecteer a.u.b. doel-positie om de kategoriën te verplaatsen en druk op één van de invoeg-buttons!
 survey#:#set_filter#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Selecteer een waarde
 survey#:#start_date_not_reached#:#Instellen filter
 survey#:#start_survey#:#Start-datum

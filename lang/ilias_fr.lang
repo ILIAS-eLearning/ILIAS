@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Importation de module d'apprentissage ILIAS
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importer utilisateur root
 common#:#import_sahs#:#Importer paquet SCORM/AICC
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Importer utilisateurs
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Détruire jeu de questions (sondage)
 common#:#spl_edit_permission#:#Changer paramètres de permission
 common#:#spl_new#:#Nouveau jeu de questions (sondage)
 common#:#spl_read#:#Accès en lecture au jeu de questions (sondage)
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Le jeu de questions (sondage) est visible
 common#:#spl_write#:#Modifier jeu de questions (sondage)
 common#:#st_a#:#un chapitre
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Etes-vous sûr(e) de vouloir insérer les b
 survey#:#ask_insert_questions#:#Etes-vous sûr(e) de vouloir insérer les questions suivantes dans le sondage ?
 survey#:#back#:#<< Retour
 survey#:#browse_for_questions#:#Rechercher des questions
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Vous n'avez pas de droit d'écriture pour maintenir le sondage.
 survey#:#cannot_manage_phrases#:#Vous n'avez pas de droit d'écriture pour gérer les expressions.
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Veuillez sélectionner une position c
 survey#:#select_target_position_for_move_question#:#Veuillez sélectionner une position cible pour déplacer les questions et presser un des boutons 'insérer'.
 survey#:#select_value#:#Selectionner une valeur
 survey#:#set_filter#:#Régler filtre
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Date de départ
 survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant que la date de départ n'est pas arrivée.
 survey#:#start_survey#:#Commencer sondage

@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Importar Módulo de Aprendizagem###14 Sep 2004 content chan
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Importar Utilizador Raiz
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Importar Utilizadores
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
 common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
 common#:#spl_new#:#New question pool###07 May 2004 new variable
 common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
 common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#um capítulo
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Please select a target position to mo
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Start survey###25 May 2004 new variable
