@@ -81,7 +81,7 @@ class Object
 	* @access	public
 	* @param	integer	reference_id NOT object_id!!!!
 	*/
-	function Object($a_id = 0, $a_call_by_reference = "true")
+	function Object($a_id = 0, $a_call_by_reference = true)
 	{
 		global $ilias, $lng;
 		
@@ -93,7 +93,7 @@ class Object
 		$this->add_dots = true;
 
 		$this->call_by_reference = $a_call_by_reference;
-
+		
 		if ($this->call_by_reference)
 		{
 			$this->ref_id = $a_id;
