@@ -240,6 +240,7 @@ function saveForm()
                 $lng->txt("email").": ".$userObj->getEmail()."\n\r".
                 $lng->txt("hobby").": ".$userObj->getHobby()."\n\r".
                 $lng->txt("referral_comment").": ".$userObj->getComment()."\n\r".
+                $lng->txt("matriculation").": ".$userObj->getMatriculation()."\n\r".
                 $lng->txt("create_date").": ".$userObj->getCreateDate()."\n\r".
                 $lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
@@ -306,7 +307,8 @@ function displayForm()
 	$data["fields"]["fax"] = "";
 	$data["fields"]["email"] = "";
 	$data["fields"]["hobby"] = "";
-    $data["fields"]["referral_comment"] = "";
+	$data["fields"]["referral_comment"] = "";
+	$data["fields"]["matriculation"] = "";
 	$data["fields"]["default_role"] = $role;
 
 	// fill presets
@@ -351,6 +353,7 @@ function displayForm()
 	$tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 	$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 	$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
+	$tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 	$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
 	$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));

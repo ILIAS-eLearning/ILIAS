@@ -584,7 +584,6 @@ $data["fields"]["approve_date"] = "";
 $data["fields"]["active"] = "";
 
 $data["fields"]["default_role"] = $role;
-
 // fill presets
 foreach($data["fields"] as $key => $val)
 {
@@ -593,7 +592,7 @@ foreach($data["fields"] as $key => $val)
     // check to see if dynamically required
     if (isset($settings["require_" . $key]) && $settings["require_" . $key])
     {
-        $str = $str . '<span class="asterisk">*</span>';
+				$str = $str . '<span class="asterisk">*</span>';
     }
 
     $tpl->setVariable("TXT_".strtoupper($key), $str);
@@ -640,7 +639,6 @@ $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_SYSTEM_INFO", $lng->txt("system_information"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 $tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
-$tpl->setVariable("TXT_MATRICULATION", $lng->txt("matriculation"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values

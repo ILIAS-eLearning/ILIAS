@@ -1920,6 +1920,7 @@ common#:#require_institution#:#Require institution
 common#:#require_lastname#:#Require last name
 common#:#require_login#:#Require login
 common#:#require_mandatory#:#mandatory
+common#:#require_matriculation#:#Require matriculation number
 common#:#require_passwd#:#Require password
 common#:#require_passwd2#:#Require retype password
 common#:#require_phone_home#:#Require home phone

@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.41.2.1 2004/10/14 10:24:59 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.42 2004/10/14 10:33:16 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -463,6 +463,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $this->ilias->setSetting("require_street",$_POST["require_street"]);
                 $this->ilias->setSetting("require_zipcode",$_POST["require_zipcode"]);
                 $this->ilias->setSetting("require_referral_comment",$_POST["require_referral_comment"]);
+                $this->ilias->setSetting("require_matriculation",$_POST["require_matriculation"]);
 
 				// write ini settings
 				$this->ilias->ini->write();
@@ -575,6 +576,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->tpl->setVariable("TXT_REQUIRE_HOBBY", $this->lng->txt("require_hobby"));
         $this->tpl->setVariable("TXT_REQUIRE_DEFAULT_ROLE", $this->lng->txt("require_default_role"));
         $this->tpl->setVariable("TXT_REQUIRE_REFERRAL_COMMENT", $this->lng->txt("require_referral_comment"));
+        $this->tpl->setVariable("TXT_REQUIRE_MATRICULATION", $this->lng->txt("require_matriculation"));
 
 		///////////////////////////////////////////////////////////
 		// display formula data
@@ -753,6 +755,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($settings["require_referral_comment"])
         {
             $this->tpl->setVariable("REQUIRE_REFERRAL_COMMENT","checked=\"checked\"");
+        }
+        if ($settings["require_matriculation"])
+        {
+            $this->tpl->setVariable("REQUIRE_MATRICULATION","checked=\"checked\"");
         }
 
 		// paths to tools
