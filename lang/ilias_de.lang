@@ -539,6 +539,7 @@ common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
+common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_search_result#:#Keine Einträge gefunden

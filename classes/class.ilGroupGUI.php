@@ -3178,7 +3178,33 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		foreach ($_POST["trash_id"] as $id)
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 
+
+			if ($obj_data->getType() == "fold" or $obj_data->getType() == "file")
+			{
+				if (!$rbacsystem->checkAccess('create',ilUtil::getGroupId($_GET["ref_id"]),"grp"))
+				{
+					$no_create[] = $id;
+				}
+			}
+			else
+			{
+				if (!$rbacsystem->checkAccess('create',ilUtil::getGroupId($_GET["ref_id"]),$obj_data->getType()))
+				{
+					$no_create[] = $id;
+				}
+			}
+		}
+
+		if (count($no_create))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
+									 implode(',',$no_create),$this->ilias->error_obj->MESSAGE);
+		}
 		//$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 		
 		// DELETE THEM
@@ -3328,8 +3354,8 @@ class ilGroupGUI extends ilObjectGUI
 
 		if (count($no_create))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_undelete")." ".
+									 implode(',',$no_create),$this->ilias->error_obj->MESSAGE);
 		}
 
 		foreach ($_POST["trash_id"] as $id)
