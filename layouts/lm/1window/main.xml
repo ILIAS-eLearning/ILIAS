@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ilLayout>
-	<ilFrame rows="43,*" frameborder="0" framespacing="0" border="0">
-		<ilFrame name="mainmenu" template="tpl.main_buttons.html" scrolling="no">
-			<ilMainMenu />
-		</ilFrame>
-		<ilFrame name="maincontent">
-			<StructureObject template="tpl.page.html" template_location="module">
-				<ilPage/>
-				<ilLMNavigation/>
-				<ilLocator/>
-			</StructureObject>
-			<PageObject template="tpl.page.html" template_location="module">
-				<ilPage/>
-				<ilLMNavigation/>
-				<ilLocator/>
-			</PageObject>
-		</ilFrame>
+	<ilFrame name="maincontent">
+		<StructureObject template="tpl.page.html" template_location="module">
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+		</StructureObject>
+		<PageObject template="tpl.page.html" template_location="module">
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+		</PageObject>
 	</ilFrame>
 	<ilLinkTargets>
 		<LinkTarget Type="New" Frame="_new"/>

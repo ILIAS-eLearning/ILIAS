@@ -2202,5 +2202,9 @@ CREATE TABLE mep_tree
 	rgt INT NOT NULL,
 	depth SMALLINT NOT NULL
 );
+
 <#143>
- ALTER  TABLE  `qpl_questions`  ADD  `ordering_type` enum('0','1') default NULL  AFTER  `matching_type` ;
+ALTER  TABLE  `qpl_questions`  ADD  `ordering_type` enum('0','1') default NULL  AFTER  `matching_type` ;
+
+<#144>
+UPDATE content_object SET default_layout = '1window' WHERE default_layout='no_menu';

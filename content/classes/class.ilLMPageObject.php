@@ -319,5 +319,36 @@ class ilLMPageObject extends ilLMObject
 		return $this->files_contained;
 	}
 
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilias;
+
+		// determine learning object
+		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_target."'";
+		$pg_set = $ilDB->query($query);
+		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_id = $pg_rec["lm_id"];
+
+		// get all references
+		$ref_ids = _ilObject::_getAllReferences($lm_id);
+
+		// check read permissions
+		foreach ($ref_ids as $ref_id)
+		{
+			if ($rbacsystem->checkAccess("read", $ref_id))
+			{
+				ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
+					"&obj_id=$a_target");
+			}
+		}
+
+		$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+	}
+
 }
 ?>
