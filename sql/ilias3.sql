@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Oct 20, 2004 at 11:28 AM
+# Generation Time: Nov 04, 2004 at 03:20 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias320rel`
+# Database : `ilias321rel`
 # --------------------------------------------------------
 
 #
@@ -1106,6 +1106,7 @@ INSERT INTO `lng_data` VALUES ('administration', 'systemcheck', 'en', 'System ch
 INSERT INTO `lng_data` VALUES ('administration', 'view_last_log', 'en', 'View last Scan log');
 INSERT INTO `lng_data` VALUES ('administration', 'view_log', 'en', 'View details');
 INSERT INTO `lng_data` VALUES ('assessment', '0_unlimited', 'en', '(0=unlimited)');
+INSERT INTO `lng_data` VALUES ('assessment', 'action', 'en', 'Action');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_answer', 'en', 'Add answer');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_answer_tf', 'en', 'Add true/false answers');
 INSERT INTO `lng_data` VALUES ('assessment', 'add_answer_yn', 'en', 'Add yes/no answers');
@@ -1134,6 +1135,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'ass_size', 'en', 'Size');
 INSERT INTO `lng_data` VALUES ('assessment', 'available_points', 'en', 'Available points');
 INSERT INTO `lng_data` VALUES ('assessment', 'by', 'en', 'by');
 INSERT INTO `lng_data` VALUES ('assessment', 'cancel_test', 'en', 'Cancel the test');
+INSERT INTO `lng_data` VALUES ('assessment', 'cannot_export_qpl', 'en', 'You do not possess sufficient permissions to export the questionpool!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_export_test', 'en', 'You do not possess sufficient permissions to export the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_maintain_test', 'en', 'You do not possess sufficient permissions to maintain the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'cannot_save_metaobject', 'en', 'You do not possess sufficient permissions to save the meta data!');
@@ -1160,6 +1162,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'direct_feedback', 'en', 'Verify yo
 INSERT INTO `lng_data` VALUES ('assessment', 'duplicate', 'en', 'Duplicate');
 INSERT INTO `lng_data` VALUES ('assessment', 'duplicate_matching_values_selected', 'en', 'You have selected duplicate matching values!');
 INSERT INTO `lng_data` VALUES ('assessment', 'duplicate_order_values_entered', 'en', 'You have entered duplicate order values!');
+INSERT INTO `lng_data` VALUES ('assessment', 'duplicate_tst', 'en', 'Duplicate test');
 INSERT INTO `lng_data` VALUES ('assessment', 'ects_allow_ects_grades', 'en', 'Show ECTS grade additional to received mark');
 INSERT INTO `lng_data` VALUES ('assessment', 'ects_fill_out_all_values', 'en', 'Please enter a value for every ECTS grade!');
 INSERT INTO `lng_data` VALUES ('assessment', 'ects_grade', 'en', 'ECTS grade');
@@ -1224,6 +1227,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'filter_show_questionpools', 'en', 
 INSERT INTO `lng_data` VALUES ('assessment', 'gap', 'en', 'Gap');
 INSERT INTO `lng_data` VALUES ('assessment', 'gap_definition', 'en', 'Gap definition');
 INSERT INTO `lng_data` VALUES ('assessment', 'gap_selection', 'en', 'Gap selection');
+INSERT INTO `lng_data` VALUES ('assessment', 'glossary_term', 'en', 'Glossary term');
 INSERT INTO `lng_data` VALUES ('assessment', 'height', 'en', 'Height');
 INSERT INTO `lng_data` VALUES ('assessment', 'imagemap', 'en', 'Image map');
 INSERT INTO `lng_data` VALUES ('assessment', 'imagemap_file', 'en', 'Image map file');
@@ -1250,8 +1254,10 @@ INSERT INTO `lng_data` VALUES ('assessment', 'material_download', 'en', 'Materia
 INSERT INTO `lng_data` VALUES ('assessment', 'material_file', 'en', 'Material file');
 INSERT INTO `lng_data` VALUES ('assessment', 'maximum_nr_of_tries_reached', 'en', 'You have reached the maximum number of tries for this test. The test cannot be entered!');
 INSERT INTO `lng_data` VALUES ('assessment', 'meaning', 'en', 'Meaning');
+INSERT INTO `lng_data` VALUES ('assessment', 'min_percentage_ne_0', 'en', 'You must define a minimum percentage of 0 percent! The mark schema wasn\'t saved.');
 INSERT INTO `lng_data` VALUES ('assessment', 'negative_points_not_allowed', 'en', 'You are not allowed to enter negative points!');
 INSERT INTO `lng_data` VALUES ('assessment', 'next_question_rows', 'en', 'Questions %d - %d of %d >>');
+INSERT INTO `lng_data` VALUES ('assessment', 'no_passed_mark', 'en', 'You must set at least one mark to PASSED! The mark schema wasn\'t saved.');
 INSERT INTO `lng_data` VALUES ('assessment', 'no_question_selected_for_move', 'en', 'Please check at least one question to move it!');
 INSERT INTO `lng_data` VALUES ('assessment', 'no_questions_available', 'en', 'There are no questions available!');
 INSERT INTO `lng_data` VALUES ('assessment', 'no_target_selected_for_move', 'en', 'You must select a target position!');
@@ -1319,8 +1325,11 @@ INSERT INTO `lng_data` VALUES ('assessment', 'save_finish', 'en', 'Save and fini
 INSERT INTO `lng_data` VALUES ('assessment', 'save_introduction', 'en', 'Save and go to introduction');
 INSERT INTO `lng_data` VALUES ('assessment', 'save_next', 'en', 'Save and go to next question');
 INSERT INTO `lng_data` VALUES ('assessment', 'save_previous', 'en', 'Save and go to previous question');
+INSERT INTO `lng_data` VALUES ('assessment', 'see_details_for_further_information', 'en', 'See details for suggested solutions');
+INSERT INTO `lng_data` VALUES ('assessment', 'select_an_answer', 'en', '--- Please select an answer ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_gap', 'en', 'Select gap');
 INSERT INTO `lng_data` VALUES ('assessment', 'select_target_position_for_move_question', 'en', 'Please select a target position to move the question(s) and press one of the insert buttons!');
+INSERT INTO `lng_data` VALUES ('assessment', 'select_tst_option', 'en', '--- Please select a test ---');
 INSERT INTO `lng_data` VALUES ('assessment', 'selected_image', 'en', 'Selected image');
 INSERT INTO `lng_data` VALUES ('assessment', 'set_filter', 'en', 'Set filter');
 INSERT INTO `lng_data` VALUES ('assessment', 'shape', 'en', 'Shape');
@@ -1329,6 +1338,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'solution_hint', 'en', 'Suggested s
 INSERT INTO `lng_data` VALUES ('assessment', 'solution_order', 'en', 'Solution order');
 INSERT INTO `lng_data` VALUES ('assessment', 'start_tag', 'en', 'Start tag');
 INSERT INTO `lng_data` VALUES ('assessment', 'starting_time_not_reached', 'en', 'You have not reached the starting time');
+INSERT INTO `lng_data` VALUES ('assessment', 'suggested_solution_added_successfully', 'en', 'You successfully set a suggested solution!');
 INSERT INTO `lng_data` VALUES ('assessment', 'symbol', 'en', 'Symbol');
 INSERT INTO `lng_data` VALUES ('assessment', 'test_cancelled', 'en', 'The test was cancelled');
 INSERT INTO `lng_data` VALUES ('assessment', 'text_gap', 'en', 'Text gap');
@@ -1399,8 +1409,10 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_resume_test', 'en', 'Resume th
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_reporting', 'en', 'Score reporting');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_reporting_date', 'en', 'Score reporting date');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_type', 'en', 'Score reporting type');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpool', 'en', 'Please select a question pool to store the created question');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpools', 'en', 'Please select a question pool to store the imported questions');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_tsts', 'en', 'Please select a test for duplication');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence', 'en', 'Sequence');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence_fixed', 'en', 'The sequence of questions is fixed');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_sequence_postpone', 'en', 'The learner may postpone a question to the end of the test');
@@ -2294,6 +2306,7 @@ INSERT INTO `lng_data` VALUES ('common', 'import_glossary', 'en', 'Import Glossa
 INSERT INTO `lng_data` VALUES ('common', 'import_grp_finished', 'en', 'Imported group without any error');
 INSERT INTO `lng_data` VALUES ('common', 'import_hlm', 'en', 'Import HACP Package');
 INSERT INTO `lng_data` VALUES ('common', 'import_lm', 'en', 'Import ILIAS Learning module');
+INSERT INTO `lng_data` VALUES ('common', 'import_qpl', 'en', 'Import Questionpool Test');
 INSERT INTO `lng_data` VALUES ('common', 'import_root_user', 'en', 'Import Root User');
 INSERT INTO `lng_data` VALUES ('common', 'import_sahs', 'en', 'Import SCORM/AICC Package');
 INSERT INTO `lng_data` VALUES ('common', 'import_tst', 'en', 'Import Test');
@@ -3014,7 +3027,7 @@ INSERT INTO `lng_data` VALUES ('common', 'select_mode', 'en', 'Select mode');
 INSERT INTO `lng_data` VALUES ('common', 'select_object_to_copy', 'en', 'Please select the object you want to copy');
 INSERT INTO `lng_data` VALUES ('common', 'select_object_to_link', 'en', 'Please select the object which you want to link');
 INSERT INTO `lng_data` VALUES ('common', 'select_questionpool', 'en', 'Question pool for Test');
-INSERT INTO `lng_data` VALUES ('common', 'select_questionpool_option', 'en', 'Please select a question pool');
+INSERT INTO `lng_data` VALUES ('common', 'select_questionpool_option', 'en', '--- Please select a question pool ---');
 INSERT INTO `lng_data` VALUES ('common', 'selected', 'en', 'Selected');
 INSERT INTO `lng_data` VALUES ('common', 'selected_items', 'en', 'Personal Items');
 INSERT INTO `lng_data` VALUES ('common', 'send', 'en', 'Send');
@@ -3145,6 +3158,7 @@ INSERT INTO `lng_data` VALUES ('common', 'tst_delete', 'en', 'Delete Test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'tst_new', 'en', 'New test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_read', 'en', 'Read access to Test');
+INSERT INTO `lng_data` VALUES ('common', 'tst_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'tst_visible', 'en', 'Test is visible');
 INSERT INTO `lng_data` VALUES ('common', 'tst_write', 'en', 'Edit Test');
 INSERT INTO `lng_data` VALUES ('common', 'txt_add_object_instruction1', 'en', 'Browse to the location where you want to add');
@@ -3644,8 +3658,8 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_max_members_reached', 'en', 'The maxi
 INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_change_status', 'en', 'Change status');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_mem_send_mail', 'en', 'Send mail');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member', 'en', 'Member');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_member_blocked', 'en', 'Mitglied (unblocked)');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_member_unblocked', 'en', 'Member (blocked)');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_member_blocked', 'en', 'Mitglied (blocked)');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_member_unblocked', 'en', 'Member (unblocked)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_member_updated', 'en', 'The member has been updated');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_members_deleted', 'en', 'Deleted members');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_members_print_title', 'en', 'Course members');
@@ -3660,7 +3674,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archive_selected', 'en', 'No archi
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archives_available', 'en', 'There are no archives available');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_archives_selected', 'en', 'Please select an archive');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_groups_selected', 'en', 'Please select a group');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_no_items_found', 'en', 'There are no course items');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_no_items_found', 'en', 'No items');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_language', 'en', 'No language');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_member_selected', 'en', 'Please select one member');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_no_members_assigned', 'en', 'There are no members assigned to this course');
@@ -4957,6 +4971,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'remove_question', 'en', 'Remove');
 INSERT INTO `lng_data` VALUES ('survey', 'remove_questions', 'en', 'Are you sure you want to remove the following question(s) and/or question block(s) from the test?');
 INSERT INTO `lng_data` VALUES ('survey', 'reset_filter', 'en', 'Reset filter');
 INSERT INTO `lng_data` VALUES ('survey', 'resume_survey', 'en', 'Resume the survey');
+INSERT INTO `lng_data` VALUES ('survey', 'save_obligatory_state', 'en', 'Save obligatory states');
 INSERT INTO `lng_data` VALUES ('survey', 'save_phrase', 'en', 'Save as phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_categories_not_checked', 'en', 'Please check at least two categories to save categories in a new phrase!');
 INSERT INTO `lng_data` VALUES ('survey', 'save_phrase_introduction', 'en', 'If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.');
@@ -4999,7 +5014,10 @@ INSERT INTO `lng_data` VALUES ('survey', 'svy_delete_all_user_data', 'en', 'Dele
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_author', 'en', 'You have not entered the author\'s name in the survey properties! Please add an authors name.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_questions', 'en', 'You do not have any questions in the survey! Please add at least one question to the survey.');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_missing_title', 'en', 'You have not entered a survey title! Please go to the metadata section and enter a title.');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_page_error', 'en', 'There was an error answering a survey question. Please refer to the question to get more information on the error!');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_page_errors', 'en', 'There were errors answering the survey questions. Please refer to the questions to get more information on the errors!');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_select_questionpools', 'en', 'Please select a question pool to store the imported questions');
+INSERT INTO `lng_data` VALUES ('survey', 'svy_show_questiontitles', 'en', 'Show question titles in survey');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_statistical_evaluation', 'en', 'Statistical evaluation');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_status_missing', 'en', 'There are required elements missing in this survey!');
 INSERT INTO `lng_data` VALUES ('survey', 'svy_status_missing_elements', 'en', 'The following elements are missing:');
@@ -5757,13 +5775,13 @@ CREATE TABLE `personal_clipboard` (
 CREATE TABLE `qpl_answer_enhanced` (
   `answer_enhanced_id` int(11) NOT NULL auto_increment,
   `answerblock_fi` int(11) NOT NULL default '0',
-  `answer_fi` int(11) NOT NULL default '0',
+  `value1` int(11) NOT NULL default '0',
+  `value2` int(11) NOT NULL default '0',
   `answer_boolean_prefix` enum('0','1') NOT NULL default '0',
-  `answer_boolean_connection` enum('0','1') NOT NULL default '1',
   `enhanced_order` tinyint(4) NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`answer_enhanced_id`),
-  KEY `answerblock_fi` (`answerblock_fi`,`answer_fi`)
+  KEY `answerblock_fi` (`answerblock_fi`,`value1`)
 ) TYPE=MyISAM COMMENT='saves combinations of test question answers which are combin';
 
 #
@@ -5873,7 +5891,6 @@ CREATE TABLE `qpl_questions` (
   `ordering_type` enum('0','1') default NULL,
   `cloze_type` enum('0','1') default NULL,
   `choice_response` enum('0','1') default NULL,
-  `solution_hint` text,
   `image_file` varchar(100) default NULL,
   `params` text,
   `complete` enum('0','1') NOT NULL default '1',
@@ -5885,6 +5902,27 @@ CREATE TABLE `qpl_questions` (
 
 #
 # Dumping data for table `qpl_questions`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `qpl_suggested_solutions`
+#
+
+CREATE TABLE `qpl_suggested_solutions` (
+  `suggested_solution_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `internal_link` varchar(50) default '',
+  `import_id` varchar(50) default '',
+  `subquestion_index` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`suggested_solution_id`),
+  KEY `question_fi` (`question_fi`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `qpl_suggested_solutions`
 #
 
 # --------------------------------------------------------
@@ -7034,8 +7072,8 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '321');
-INSERT INTO `settings` VALUES ('ilias_version', '3.2.0 2004-10-20');
+INSERT INTO `settings` VALUES ('db_version', '333');
+INSERT INTO `settings` VALUES ('ilias_version', '3.2.1 2004-11-03');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
@@ -7447,13 +7485,32 @@ CREATE TABLE `survey_question_material` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `survey_question_obligatory`
+#
+
+CREATE TABLE `survey_question_obligatory` (
+  `question_obligatory_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `obligatory` enum('0','1') NOT NULL default '1',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`question_obligatory_id`),
+  KEY `survey_fi` (`survey_fi`,`question_fi`)
+) TYPE=MyISAM COMMENT='Contains the obligatory state of questions in a survey';
+
+#
+# Dumping data for table `survey_question_obligatory`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `survey_questionblock`
 #
 
 CREATE TABLE `survey_questionblock` (
   `questionblock_id` int(11) NOT NULL auto_increment,
   `title` text,
-  `obligatory` enum('0','1') NOT NULL default '0',
   `owner_fi` int(11) NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`questionblock_id`)
@@ -7546,6 +7603,7 @@ CREATE TABLE `survey_survey` (
   `complete` enum('0','1') NOT NULL default '0',
   `created` varchar(14) NOT NULL default '',
   `anonymize` enum('0','1') NOT NULL default '0',
+  `show_question_titles` enum('0','1') NOT NULL default '1',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`survey_id`)
 ) TYPE=MyISAM;
@@ -7864,6 +7922,7 @@ CREATE TABLE `usr_data` (
   `matriculation` varchar(40) default NULL,
   `active` int(4) unsigned NOT NULL default '0',
   `approve_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `agree_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`usr_id`),
   KEY `login` (`login`,`passwd`)
 ) TYPE=MyISAM;
@@ -7872,8 +7931,8 @@ CREATE TABLE `usr_data` (
 # Dumping data for table `usr_data`
 #
 
-INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00');
-INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00');
+INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 # --------------------------------------------------------
 
 #
