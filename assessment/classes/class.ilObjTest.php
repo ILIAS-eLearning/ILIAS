@@ -2017,41 +2017,6 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 	
-/**
-* Returns a result for a condition check on the class
-* 
-* Calculates the results of a test for a given user
-* and returns true if the user passed the test, else false
-*
-* @param integer $a_exc_id object id of the test object
-* @param string $a_operator The operator which should be checked
-* @param mixed $a_value ???
-* @return boolean True if the test was passed, False otherwise
-* @access public
-*/
-	function _checkCondition($a_exc_id,$a_operator,$a_value)
-	{
-		global $ilias;
-
-		switch($a_operator)
-		{
-			case 'passed':
-				$result = ilObjTest::_getTestResult($ilias->account->getId(), $a_exc_id);
-				if ($result["test"]["passed"])
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
-			default:
-				return true;
-		}
-		return true;
-	}	
-				
 	
 /**
 * Calculates the results of a test for a given user
