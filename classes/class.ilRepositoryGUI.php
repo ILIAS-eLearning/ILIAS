@@ -551,6 +551,8 @@ class ilRepositoryGUI
 				// learning resources
 				case "lm":
 				case "slm":
+				case "hlm":
+				case "alm":
 				case "dbk":
 				case "htlm":
 					$this->learning_resources[$key] = $object;
@@ -580,6 +582,26 @@ class ilRepositoryGUI
 					{
 						include_once("classes/class.ilObjSCORMLearningModule.php");
 						$lm_obj =& new ilObjSCORMLearningModule($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					// check if aicc is online
+					if ($object["type"] == "alm")
+					{
+						include_once("classes/class.ilObjAICCLearningModule.php");
+						$lm_obj =& new ilObjAICCLearningModule($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					// check if hacp is online
+					if ($object["type"] == "hlm")
+					{
+						include_once("classes/class.ilObjHACPLearningModule.php");
+						$lm_obj =& new ilObjHACPLearningModule($object["ref_id"]);
 						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
 						{
 							unset ($this->learning_resources[$key]);
@@ -1041,6 +1063,8 @@ class ilRepositoryGUI
 						break;
 
 					case "slm":
+					case "alm":
+					case "hlm":
 						$read_link = "content/sahs_presentation.php?ref_id=".$lr_data["ref_id"];
 						$edit_link = "content/sahs_edit.php?ref_id=".$lr_data["ref_id"];
 						$desk_type = "slm";
@@ -1050,6 +1074,7 @@ class ilRepositoryGUI
 
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" ||
+					$lr_data["type"] == "alm" || $lr_data["type"] == "hlm" ||
 					$lr_data["type"] == "htlm" || $lr_data["type"] == "slm")
 				{
 
@@ -3063,7 +3088,7 @@ class ilRepositoryGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep","crs",
+					if (in_array($row["name"], array("slm", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))

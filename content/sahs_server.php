@@ -30,9 +30,18 @@
 * @package content
 */
 
-			
 chdir("..");
 
+// debug
+/*
+$fp=fopen("./content/scorm.log", "a+");
+foreach ($HTTP_POST_VARS as $key=>$value)
+	fputs($fp, "HTTP_POST_VARS[$key] = $value <br>";
+foreach ($HTTP_GET_VARS as $key=>$value)
+	fputs($fp, "HTTP_GET_VARS[$key] = $value <br>";
+fclose($fp);	
+*/
+		
 $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
@@ -53,15 +62,23 @@ $cmd = ($_GET["cmd"] == "")
 	} else {	
 
 		//ensure HACP
-		$requiredKeys=array("command", "version", "session_id", "aicc_data");
+		$requiredKeys=array("command", "version", "session_id");
 		if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($HTTP_POST_VARS, CASE_LOWER))))==0) {
-			$type="hlm";
 			
 			//now we need to get a connection to the database and global params
 			//but that doesnt work because of missing logindata of the contentserver
 			//require_once "./include/inc.header.php";
 			
-
+			//highly insecure
+			$param=urldecode($HTTP_POST_VARS["session_id"]);
+			if (!empty($param) && substr_count($param, "_")==2) {
+				list($session_id, $ref_id, $obj_id)=explode("_",$param);
+	
+				session_id($session_id);
+				require_once "./include/inc.header.php";
+				
+				$type="hlm";
+			}
 		}
 	}
 	
@@ -81,12 +98,16 @@ $cmd = ($_GET["cmd"] == "")
 		case "hlm":
 					//HACP
 					require_once "./content/classes/HACP/class.ilObjHACPTracking.php";
-					$track = new ilObjHACPTracking();
-					$track->$cmd();
+					$track = new ilObjHACPTracking($ref_id, $obj_id);
+					//$track->$cmd();
 					break;
 		default:
 					//unknown type
-					$ilias->raiseError($lng->txt("unknown type in sahs_server"),$ilias->error_obj->MESSAGE);
+					$fp=fopen("./content/scorm.log", "a+");
+					fputs($fp, "unknown type >$type< in sahs_server\n");	
+					foreach ($HTTP_POST_VARS as $k=>$v)
+						fputs($fp, "HTTP_POST_VARS[$k]=$v \n");	
+					fclose($fp);	
 	}
 
 exit;

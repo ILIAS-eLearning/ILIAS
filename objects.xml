@@ -40,8 +40,6 @@
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
-	<subobj name="alm" import="1">alm</subobj>
-	<subobj name="hlm" import="1">hlm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="exc">exc</subobj>

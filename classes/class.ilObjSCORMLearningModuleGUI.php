@@ -211,10 +211,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// print_r($this->lng);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_import.html");
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-			$_GET["ref_id"]."&new_type=slm"));
+			$_GET["ref_id"])); // ."&new_type=slm"));
+
 		$this->tpl->setVariable("BTN_NAME", "save");
+		
+		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
+		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
+		$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
+		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
+		
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
+		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
 
@@ -247,7 +254,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 		}
 		// check create permission
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
@@ -272,16 +279,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		}
 
 		$file = pathinfo($_FILES["scormfile"]["name"]);
-		$name = substr($file["basename"], 0,
-			strlen($file["basename"]) - strlen($file["extension"]) - 1);
+		$name = substr($file["basename"], 0, strlen($file["basename"]) - strlen($file["extension"]) - 1);
 		if ($name == "")
 		{
 			$name = $this->lng->txt("no_title");
 		}
 
 		// create and insert object in objecttree
-		include_once("classes/class.ilObjSCORMLearningModule.php");
-		$newObj = new ilObjSCORMLearningModule();
+		$newObj = $this->getNewObject();
 		//$newObj->setType("slm");
 		//$dummy_meta =& new ilMetaData();
 		//$dummy_meta->setObject($newObj);
@@ -303,8 +308,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
+		
+		$this->readObject($newObj);
 
-		// check if manifest file exists
+	}
+	
+	function getNewObject() {
+		// create  object in objecttree
+		include_once("classes/class.ilObjSCORMLearningModule.php");
+		return new ilObjSCORMLearningModule();
+	}
+	
+	/**
+	* @access	public
+	*/
+	function readObject($newObj)
+	{
 
 		// convert imsmanifest.xml file in iso to utf8
 		// include_once("include/inc.convertcharset.php");
@@ -317,6 +336,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 			$estimated_manifest_filesize=filesize($manifest_file) * 2;
 			$check_disc_free=disk_free_space($newObj->getDataDirectory()) - $estimated_manifest_filesize;
 		}
+		
 		
 		// if file exists and enough space left on device		
 		if ($check_for_manifest_file && ($check_disc_free > 1)) {
@@ -350,8 +370,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 			}
 		} else { 
 			// gives out the specific error
-			if (!$check_for_manifest_file) echo "Manifestfile $manifest_file not found!";
-			if (!($check_disc_free > 1)) echo "Not enough space left on device!";			
+		
+			if (!$check_for_manifest_file)
+				$this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"),$this->ilias->error_obj->MESSAGE);
+			else if (!($check_disc_free > 1))
+				$this->ilias->raiseError($this->lng->txt("Not enough space left on device!"),$this->ilias->error_obj->MESSAGE);
+			return;
 		}
 			
 		//validate the XML-Files in the SCORM-Package
@@ -387,44 +411,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
-
+	
 		$this->uploadObject();
 
-		// always call parent method first to create an object_data entry & a reference
-		// $newObj = parent::saveObject();
-		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call
-
-		// create and insert object in objecttree
-		/*
-		include_once("classes/class.ilObjSCORMLearningModule.php");
-		$newObj = new ilObjLearningModule();
-		$newObj->setType("lm");
-		$newObj->setTitle("dummy");			// set by meta_gui->save
-		$newObj->setDescription("dummy");	// set by meta_gui->save
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
-		// save meta data
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($newObj);
-		$meta_gui->save();
-
-		// create learning module tree
-		$newObj->createLMTree();
-
-		unset($newObj);
-
-		// always send a message
-		sendInfo($this->lng->txt("slm_added"),true);
-
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();*/
-
-		sendInfo($this->lng->txt("slm_added"), true);
+		sendInfo( $this->lng->txt("lm_added"), true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 
 	}

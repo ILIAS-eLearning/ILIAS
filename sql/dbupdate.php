@@ -4257,7 +4257,12 @@ if($role_id and $ops_id)
 }
 ?>
 
+<#257>
+INSERT INTO `object_data` VALUES (38, 'typ', 'alm', 'AICC Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
+INSERT INTO `object_data` VALUES (39, 'typ', 'hlm', 'HACP Learning Module', -1, '2003-08-15 10:07:28', '2003-08-15 12:23:10', '');
 
- 
+insert into rbac_ta (typ_id, ops_id) (SELECT 38, ops_id FROM rbac_ta WHERE typ_id=20);
+insert into rbac_ta (typ_id, ops_id) (SELECT 39, ops_id FROM rbac_ta WHERE typ_id=20);
+
 
 

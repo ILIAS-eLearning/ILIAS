@@ -78,7 +78,6 @@ if ($_GET["cmd"] == "gateway" or $_GET["cmd"] == "post")
 {
 	// surpress warning if POST is not set
 	@$cmd = key($_POST["cmd"]);
-
 }
 else
 {
@@ -97,7 +96,7 @@ if ($_GET["cmd"] == "post")
 }
 
 // determine object type
-if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
+if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import") || ($cmd == "save")))
 {
 	$obj_type = $_POST["new_type"];
 }

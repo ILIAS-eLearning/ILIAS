@@ -49,7 +49,7 @@ class ilPersonalDesktopGUI
 	{
 		$types = array(
 			array("title" => $this->lng->txt("learning_objects"),
-			"types" => array("lm", "dbk", "slm", "htlm")),
+			"types" => array("lm", "dbk", "slm", "alm", "hlm", "htlm")),
 			array("title" => $this->lng->txt("objs_glo"),
 			"types" => "glo"),
 			array("title" => $this->lng->txt("objs_tst"),
