@@ -548,6 +548,8 @@ common#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
 common#:#mail_addr_entries#:#Einträge
 common#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 common#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-common#:#mail_deleted_entry#:#die Einträge wurden gelöscht
+common#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
 common#:#new_mail#:#Neue Mail!
+common#:#mail_entry_changed#:#Der Eintrag wurde geändert
+common#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
