@@ -157,6 +157,9 @@ class ilMediaItem
 
 	/**
 	* set parameter
+	*
+	* @param	string	$a_name		parameter name
+	* @param	string	$a_value	parameter value
 	*/
 	function setParameter($a_name, $a_value)
 	{
@@ -164,12 +167,49 @@ class ilMediaItem
 	}
 
 	/**
-	* get all parameters
+	* reset parameters
+	*/
+	function resetParameters()
+	{
+		$this->parameters = array();
+	}
+
+	/**
+	* set alle parameters via parameter string (format: par1="value1", par2="value2", ...)
+	*
+	* @param	string		$a_par		parameter string
+	*/
+	function setParameters($a_par)
+	{
+		$this->resetParameters();
+		$par_arr = ilUtil::extractParameterString($a_par);
+		if(is_array($par_arr))
+		{
+			foreach($par_arr as $par => $val)
+			{
+				$this->setParameter($par, $val);
+			}
+		}
+	}
+
+
+	/**
+	* get all parameters (in array)
 	*/
 	function getParameters()
 	{
 		return $this->parameters;
 	}
+
+
+	/**
+	* get all parameters (as string)
+	*/
+	function getParameterString()
+	{
+		return ilUtil::assembleParameterString($this->parameters);
+	}
+
 
 	/**
 	* get a single parameter

@@ -291,3 +291,6 @@ ALTER TABLE file_data ADD file_name CHAR(128) NOT NULL AFTER file_id;
 
 <#36>
 DELETE FROM rbac_templates WHERE rol_id='83' AND type='grp' AND ops_id=3 AND parent=8;
+
+<#37>
+ALTER TABLE media_item ADD COLUMN param TEXT;

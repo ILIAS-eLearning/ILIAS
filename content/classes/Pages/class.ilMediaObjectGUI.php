@@ -166,6 +166,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$media_item->setCaption($_POST["standard_caption"]);
 		}
 
+		if ($_POST["standard_param"] != "")
+		{
+			$media_item->setParameters($_POST["standard_param"]);
+		}
+
 		$media_item->setHAlign("Left");
 
 		// fullscreen view
@@ -226,9 +231,14 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				$media_item->setHeight($_POST["full_height"]);
 			}
 
-			if ($_POST["standard_caption"] != "")
+			if ($_POST["full_caption"] != "")
 			{
-				$media_item->setCaption($_POST["standard_caption"]);
+				$media_item->setCaption($_POST["full_caption"]);
+			}
+
+			if ($_POST["full_param"] != "")
+			{
+				$media_item->setParameters($_POST["full_param"]);
 			}
 
 		}
