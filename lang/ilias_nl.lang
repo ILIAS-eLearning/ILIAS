@@ -126,6 +126,7 @@ assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#imagemap#:#Image Map
 assessment#:#last_update#:#Laatst bijgewerkt
 assessment#:#legend#:#Legende
+assessment#:#locked#:#locked###27 Apr 2004 new variable
 assessment#:#mark_schema#:#Markeer schema
 assessment#:#match_terms_and_definitions#:#Overeenkomende begrippen en definities
 assessment#:#match_terms_and_pictures#:#Overeenkomende begrippen en figuren
@@ -272,6 +273,8 @@ assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Besturen leerlings navigatie-test
 assessment#:#tt_self_assessment#:#Zelftest assessment
 assessment#:#unlimited#:#ongelimiteerd
+assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
+assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Geuploaded Materiaal
 assessment#:#working_time#:#Werktijd
 chat#:#chat_active#:#Aktieve

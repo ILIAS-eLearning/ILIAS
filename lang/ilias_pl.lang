@@ -126,6 +126,7 @@ assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#imagemap#:#Mapa bitowa
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
+assessment#:#locked#:#locked###27 Apr 2004 new variable
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
 assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
@@ -272,6 +273,8 @@ assessment#:#tt_assessment#:#Ocena testu
 assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczniów
 assessment#:#tt_self_assessment#:#Test samooceny
 assessment#:#unlimited#:#nielimitowany
+assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
+assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Załadowany Materiał
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Aktywny
