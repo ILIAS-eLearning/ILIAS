@@ -8,11 +8,9 @@
 
 <body>
 
-<a href ="" onclick="LMSCommit('d');">test</a>
-
 <applet code="IliasApiAdapterApplet" codebase="./apiadapter"
 	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
-	ID="APIAdapter" NAME="APIAdapter" width="10" height="10">
+	ID="API" NAME="API" width="10" height="10">
 <param name = "mayscript" value="true" >
 <param name = "scriptable" value="true" >
 <param name = "ref_id" value="{REF_ID}" >
@@ -23,7 +21,7 @@
 </applet>
 
 <script language="JavaScript">
-	var API = APIAdapter;
+	//var API = APIAdapter;
 
 	var code_base="{CODE_BASE}";
 	var user_id="{USER_ID}";
@@ -33,62 +31,62 @@
 
 function ILIASLaunchSCO(sco_id)
 {
- 	return document.APIAdapter.IliasLaunchSco(sco_id);
+ 	return document.API.IliasLaunchSco(sco_id);
 }
 
 function ILIASSetValue(lvalue, rvalue)
 {
- 	return document.APIAdapter.IliasSetValue(lvalue, rvalue);
+ 	return document.API.IliasSetValue(lvalue, rvalue);
 }
 
 function LMSGetValue(dataModelElement)
 {
- 	return document.APIAdapter.LMSGetValue(dataModelElement);
+ 	return document.API.LMSGetValue(dataModelElement);
 }
 
 function LMSSetValue(dataModelElement,elemValue)
 {
-	return document.APIAdapter.LMSSetValue(dataModelElement,elemValue);
+	return document.API.LMSSetValue(dataModelElement,elemValue);
 }
 
 function LMSInitialize(inString)
 {
-	document.APIAdapter.SetParameter(user_id, item_id, session_id, code_base);
+	document.API.SetParameter(user_id, item_id, session_id, code_base);
 
-	document.APIAdapter.LMSInitialize(inString);
+	document.API.LMSInitialize(inString);
 
-	//parent.parent._api.document.getElementById("APIAdapter").SetParameter(user_id, item_id, session_id, code_base);
- 	//return parent.parent._api.document.getElementById("APIAdapter").LMSInitialize(inString);
+	//parent.parent._api.document.getElementById("API").SetParameter(user_id, item_id, session_id, code_base);
+ 	//return parent.parent._api.document.getElementById("API").LMSInitialize(inString);
 }
 
 function LMSFinish(inString)
 {
-	return document.APIAdapter.LMSFinish(inString);
+	return document.API.LMSFinish(inString);
 }
 
 function LMSCommit(inString)
 {
- return document.APIAdapter.LMSCommit(inString);
+ return document.API.LMSCommit(inString);
 }
 
 function LMSGetLastError()
 {
- 	return document.APIAdapter.LMSGetLastError();
+ 	return document.API.LMSGetLastError();
 }
 
 function LMSGetErrorString(errorNumber)
 {
- 	return document.APIAdapter.LMSGetErrorString(errorNumber);
+ 	return document.API.LMSGetErrorString(errorNumber);
 }
 
 function LMSGetDiagnostics(inString)
 {
-	return document.APIAdapter.LMSGetDiagnostics(inString);
+	return document.API.LMSGetDiagnostics(inString);
 }
 
 function LMSTerminate(inString)
 {
- return document.APIAdapter.LMSFinish(inString);
+ return document.API.LMSFinish(inString);
 }
 
 </script>
