@@ -733,6 +733,14 @@ common#:#archive#:#Archief
 common#:#are_you_sure#:#Weet u het zeker?
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
@@ -1026,6 +1034,7 @@ common#:#department#:#Afdeling
 common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
 common#:#desired_password#:#Gewenste wachtwoord
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Uitgeschakeld
 common#:#domain#:#Domein
 common#:#down#:#Naar beneden
@@ -1232,6 +1241,7 @@ common#:#glo_upload_file#:#Bestand
 common#:#glo_visible#:#Woordenlijst is zichtbaar
 common#:#glo_write#:#Wijzigen woordenlijst
 common#:#global#:#Globaal
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Globale gebruikers
 common#:#glossaries#:#Glossaries###05 Nov 2004 new variable
 common#:#glossary#:#Woordenlijst
@@ -1338,6 +1348,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gasten
 common#:#header_title#:#Hoofdtitel
 common#:#help#:#Hulp
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#details verbergen
 common#:#hide_structure#:#Structuurscherm verbergen
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
@@ -2191,6 +2202,7 @@ common#:#show_structure#:#Schakelen structured-View in
 common#:#show_users_online#:#Laat online-gebruikers zien
 common#:#signature#:#Handtekening
 common#:#size#:#Size###29 Nov 2004 new variable
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#Sorteer op deze kolom
 common#:#spl#:#Vraagpool (Survey)
@@ -2366,6 +2378,10 @@ common#:#usr_agreement_empty#:#De overeenkomst bevat geen tekst
 common#:#usr_edit#:#Wijzigen gebruiker
 common#:#usr_hits_per_page#:#Treffers/bladzijden in tabellen
 common#:#usr_new#:#Nieuwe gebruiker
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#Skin / Style###05 Nov 2004 new variable
 common#:#usr_style#:#Gebruikers-stijl
 common#:#usrf#:#Gebruiker

@@ -720,6 +720,14 @@ common#:#approve_recipient#:#Login de la personne qui donné son approbation
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
@@ -1011,6 +1019,7 @@ common#:#department#:#Département
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Mot de passe souhaité
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Désactivé
 common#:#domain#:#Domaine
 common#:#down#:#Bas
@@ -1213,6 +1222,7 @@ common#:#glo_upload_file#:#Fichier
 common#:#glo_visible#:#Le glossaire est visible
 common#:#glo_write#:#Modifier glossaire
 common#:#global#:#Global
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Utilisateurs globaux
 common#:#glossaries#:#Glossaires
 common#:#glossary#:#Glossaire
@@ -1319,6 +1329,7 @@ common#:#guest#:#Invité
 common#:#guests#:#Invités
 common#:#header_title#:#Titre d'entête
 common#:#help#:#Aide
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
@@ -2168,6 +2179,7 @@ common#:#show_structure#:#Activer la vue structurée
 common#:#show_users_online#:#Afficher les utilisateurs connectés
 common#:#signature#:#Signature
 common#:#size#:#Size###29 Nov 2004 new variable
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Trié selon cette colonne
 common#:#spl#:#Jeu de questions (sondage)
@@ -2341,6 +2353,10 @@ common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
 common#:#usr_edit#:#Modifier utilisateur
 common#:#usr_hits_per_page#:#Hits/page dans les tableaux
 common#:#usr_new#:#Nouvel utilisateur
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#Thème / Style
 common#:#usr_style#:#Style utilisateur
 common#:#usrf#:#Répertoire utilisateur

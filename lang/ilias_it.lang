@@ -733,6 +733,14 @@ common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#articels_unread#:#Articoli da leggere:
 common#:#as_of#:#di
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Impostazioni Test&Valutazioni
 common#:#assf_edit_permission#:#Modificare i permessi
 common#:#assf_read#:#Accedere in lettura a Test&Valutazioni
@@ -1026,6 +1034,7 @@ common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Disabilitato
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
@@ -1232,6 +1241,7 @@ common#:#glo_upload_file#:#Scegli il file
 common#:#glo_visible#:#Vedere un glossario
 common#:#glo_write#:#Modificare un glossario
 common#:#global#:#Globale
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Utenti globali
 common#:#glossaries#:#Glossari
 common#:#glossary#:#Glossario
@@ -1338,6 +1348,7 @@ common#:#guest#:#Ospite
 common#:#guests#:#Ospiti
 common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hist_dbk:pg_create#:#Pagina creata
@@ -2191,6 +2202,7 @@ common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#spl#:#Raccolta di domande (per sondaggi)
@@ -2366,6 +2378,10 @@ common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene tes
 common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
 common#:#usr_new#:#Nuovo utente
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#Tema / Stile
 common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
