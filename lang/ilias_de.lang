@@ -868,6 +868,7 @@ meta#:#meta_identifier#:#Identifier###14 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
 common#:#forum_added#:#Forum angelegt
+common#:#forums#:#Foren
 common#:#obj_usr#:#Benutzer
 common#:#obj_le#:#Lernmodul
 common#:#obj_frm#:#Forum
