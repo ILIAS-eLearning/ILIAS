@@ -410,11 +410,12 @@ class ilPageObjectGUI
 				}
 			}
 			if ($this->getOutputMode() != "presentation" &&
+				$this->getOutputMode() != "offline" &&
 				$this->getOutputMode() != "print")
 			{
 				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}
-			
+
 			// output media object edit list (of media links)
 			if($this->getOutputMode() == "edit")
 			{
@@ -552,13 +553,22 @@ class ilPageObjectGUI
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+
 		$add_path = ilUtil::getImagePath("add.gif");
 		$col_path = ilUtil::getImagePath("col.gif");
 		$row_path = ilUtil::getImagePath("row.gif");
 		$item_path = ilUtil::getImagePath("item.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
-		$wb_path = ilUtil::getWebspaceDir("output");
+		if ($this->getOutputMode() != "offline")
+		{
+			$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+			$wb_path = ilUtil::getWebspaceDir("output");
+		}
+		else
+		{
+			$enlarge_path = "images/enlarge.gif";
+			$wb_path = ".";
+		}
 		$pg_title_class = ($this->getOutputMode() == "print")
 			? "ilc_PrintPageTitle"
 			: "";
@@ -663,10 +673,10 @@ class ilPageObjectGUI
 	/*
 	* presentation
 	*/
-	function presentation()
+	function presentation($mode = "presentation")
 	{
 		global $tree;
-		$this->setOutputMode("presentation");
+		$this->setOutputMode($mode);
 		return $this->showPage();
 	}
 

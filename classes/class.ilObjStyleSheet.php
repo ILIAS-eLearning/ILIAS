@@ -274,11 +274,18 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* write css file to webspace directory
 	*/
-	function writeCSSFile()
+	function writeCSSFile($a_target_file)
 	{
 		$style = $this->getStyle();
 
-		$css_file_name = ilUtil::getWebspaceDir()."/css/style_".$this->getId().".css";
+		if ($a_target_file == "")
+		{
+			$css_file_name = ilUtil::getWebspaceDir()."/css/style_".$this->getId().".css";
+		}
+		else
+		{
+			$css_file_name = $a_target_file;
+		}
 		$css_file = fopen($css_file_name, "w");
 
 		foreach ($style as $tag)

@@ -198,7 +198,7 @@ class ilGlossaryTermGUI
 	/**
 	* output glossary content
 	*/
-	function output()
+	function output($a_offline = false)
 	{
 		require_once("content/classes/class.ilGlossaryDefinition.php");
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -213,15 +213,31 @@ class ilGlossaryTermGUI
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
 			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
-			$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
+			if (!$a_offline)
+			{
+				$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
+			}
+			else
+			{
+				$page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
+			}
 			$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
 				"&amp;ref_id=".$_GET["ref_id"]);
+				
+			if (!$a_offline)
+			{
+				$page_gui->setOutputMode("presentation");
+			}
+			else
+			{
+				$page_gui->setOutputMode("offline");
+			}
 
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setLinkXML($this->getLinkXML());
 			$page_gui->setTemplateOutput(false);
-			$output = $page_gui->presentation();
+			$output = $page_gui->presentation($page_gui->getOutputMode());
 
 			if (count($defs) > 1)
 			{

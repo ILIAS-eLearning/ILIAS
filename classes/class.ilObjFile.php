@@ -241,6 +241,8 @@ class ilObjFile extends ilObject
 			}
 			
 		}
+		
+		return $size;
 	}
 	
 	/**
@@ -430,6 +432,31 @@ class ilObjFile extends ilObject
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"]);
+		}
+
+		return $ret;
+	}
+
+	/**
+	* get all files of an object
+	*
+	* @param	string		$a_type		object type (e.g. "lm:pg")
+	* @param	int			$a_id		object id
+	*
+	* @return	array		array of file ids
+	*/
+	function _getFilesOfObject($a_type, $a_id)
+	{
+		global $ilDB;
+
+		// get usages in learning modules
+		$q = "SELECT * FROM file_usage WHERE usage_id = ".$ilDB->quote($a_id).
+			" AND usage_type = ".$ilDB->quote($a_type);
+		$file_set = $ilDB->query($q);
+		$ret = array();
+		while($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ret[$file_rec["id"]] = $file_rec["id"];
 		}
 
 		return $ret;

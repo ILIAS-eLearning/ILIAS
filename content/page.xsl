@@ -1200,10 +1200,18 @@
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode != 'print'">
-			<a>
-				<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
-				<xsl:call-template name="FileItemText"/>
-			</a>
+			<xsl:if test="$mode != 'offline'">
+				<a>
+					<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+					<xsl:call-template name="FileItemText"/>
+				</a>
+			</xsl:if>
+			<xsl:if test="$mode = 'offline'">
+				<a>
+					<xsl:attribute name="href">./files/file_<xsl:value-of select="substring-after(./Identifier/@Entry,'file_')"/>/<xsl:value-of select="./Location"/></xsl:attribute>
+					<xsl:call-template name="FileItemText"/>
+				</a>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
 			<span class="ilc_Print_FileItem">
@@ -1806,12 +1814,25 @@
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1 and
 		count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Fullscreen']) = 1 and
 		$mode != 'fullscreen' and $mode != 'print'">
-		<a target="_new">
-		<xsl:attribute name="href"><xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
-		<img border="0" align="right">
-		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
-		</img>
-		</a>
+
+		<xsl:choose>
+		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
+			<a target="_new">
+			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
+			<img border="0" align="right">
+			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
+			</img>
+			</a>
+		</xsl:when>
+		<xsl:otherwise>
+			<a target="_new">
+			<xsl:attribute name="href"><xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
+			<img border="0" align="right">
+			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
+			</img>
+			</a>
+		</xsl:otherwise>
+		</xsl:choose>
 	</xsl:if>
 </xsl:template>
 

@@ -42,6 +42,7 @@ class ilLMPresentationGUI
 	var $tpl;
 	var $lng;
 	var $layout_doc;
+	var $offline;
 
 	function ilLMPresentationGUI()
 	{
@@ -50,6 +51,8 @@ class ilLMPresentationGUI
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
+		$this->offline = false;
+		$this->frames = array();
 
 		$cmd = (!empty($_GET["cmd"]))
 			? $_GET["cmd"]
@@ -79,6 +82,11 @@ class ilLMPresentationGUI
 		}
 		$this->lm =& $this->lm_gui->object;
 		
+		$this->lm_tree = new ilTree($this->lm->getId());
+		$this->lm_tree->setTableNames('lm_tree','lm_data');
+		$this->lm_tree->setTreeTablePK("lm_id");
+
+		
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
@@ -97,6 +105,32 @@ class ilLMPresentationGUI
 			$cmd = key($_POST["cmd"]);
 		}
 		$this->$cmd();
+	}
+	
+	
+	/**
+	* set offline mode (content is generated for offline package)
+	*/
+	function setOfflineMode($a_offline = true)
+	{
+		$this->offline = $a_offline;
+	}
+	
+	
+	/**
+	* checks wether offline content generation is activated 
+	*/
+	function offlineMode()
+	{
+		return $this->offline;
+	}
+	
+	
+	/**
+	* this dummy function is needed for offline package creation
+	*/
+	function nop()
+	{
 	}
 
 	// ### AA 03.09.01 added page access logger ###
@@ -396,6 +430,14 @@ class ilLMPresentationGUI
 	}
 
 	/**
+	* get frames of current frame set
+	*/
+	function getCurrentFrameSet()
+	{
+		return $this->frames;
+	}
+	
+	/**
 	* generates frame layout
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
@@ -412,6 +454,7 @@ class ilLMPresentationGUI
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
+
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;
 //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
@@ -428,25 +471,30 @@ class ilLMPresentationGUI
 		$node = $found[0];
 
 		$ilBench->stop("ContentPresentation", "layout_getFrameNode");
-
+//echo "<br>layout 2";
 		// ProcessFrameset
 		// node is frameset, if it has cols or rows attribute
 		$attributes = $this->attrib2arr($node->attributes());
+		$this->frames = array();
 		if((!empty($attributes["rows"])) || (!empty($attributes["cols"])))
 		{
 			$ilBench->start("ContentPresentation", "layout_processFrameset");
 			$content .= $this->buildTag("start", "frameset", $attributes);
+//echo "<br>A: reset frames"; flush();
+			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
 			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, true);
 			$this->tpl->setVariable("PAGETITLE", "- ".$this->lm->getTitle());
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			$ilBench->stop("ContentPresentation", "layout_processFrameset");
-//echo nl2br(htmlentities($content));
+			if (!$doshow)
+			{
+				$content = $this->tpl->get();
+			}
 		}
 		else	// node is frame -> process the content tags
 		{
-//echo "<br>1node:".$node->node_name();
 			// ProcessContentTag
 			$ilBench->start("ContentPresentation", "layout_processContentTag");
 			//if ((empty($attributes["template"]) || !empty($_GET["obj_type"])))
@@ -499,11 +547,20 @@ class ilLMPresentationGUI
 			}
 
 			// set style sheets
-			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			}
+			else
+			{
+				$style_name = $this->ilias->account->prefs["style"].".css";;
+				$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+			}
 
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
+
 				$child_attr = $this->attrib2arr($child->attributes());
 
 				switch ($child->node_name())
@@ -523,7 +580,7 @@ class ilLMPresentationGUI
 								unset($_SESSION["tr_id"]);
 								unset($_SESSION["bib_id"]);
 								unset($_SESSION["citation"]);
-								$page_content = $this->ilPage($child);
+								$content = $this->ilPage($child);								
 								break;
 
 							case "dbk":
@@ -531,12 +588,13 @@ class ilLMPresentationGUI
 								if((count($_POST["tr_id"]) > 1) or
 								   (!$_POST["target"] and ($_POST["action"] == "show" or $_POST["action"] == "show_citation")))
 								{
-									$pageContent = $this->lm_gui->showAbstract($_POST["target"]);
+									$content = $this->lm_gui->showAbstract($_POST["target"]);
 								}
 								else if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
 								{
 									// SHOW PAGE IF PAGE WAS SELECTED
-									$pageContent = $this->ilPage($child);
+									$content = $this->ilPage($child);
+
 									if($_SESSION["tr_id"])
 									{
 										$translation_content = $this->ilTranslation($child);
@@ -545,16 +603,15 @@ class ilLMPresentationGUI
 								else
 								{
 									// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
-									$pageContent = $this->lm_gui->showAbstract($_POST["target"]);
+									$content = $this->lm_gui->showAbstract($_POST["target"]);
 								}
 
 								break;
 						}
-
-						break;
+												break;
 
 					case "ilGlossary":
-						$pageContent = $this->ilGlossary($child);
+						$content = $this->ilGlossary($child);
 						break;
 
 					case "ilLMNavigation":
@@ -585,38 +642,40 @@ class ilLMPresentationGUI
 			}
 			$ilBench->stop("ContentPresentation", "layout_processContentTag");
 		}
+		$content =  $this->tpl->get();
 
 		if ($doShow)
 		{
 			// (horrible) workaround for preventing template engine
 			// from hiding paragraph text that is enclosed
 			// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-			$output =  $this->tpl->get();
-			$output = str_replace("&#123;", "{", $output);
-			$output = str_replace("&#125;", "}", $output);
+			$content =  $this->tpl->get();
+			$content = str_replace("&#123;", "{", $content);
+			$content = str_replace("&#125;", "}", $content);
+
 			header('Content-type: text/html; charset=UTF-8');
-			echo $output;
+			echo $content;
 		}
 
 		$ilBench->stop("ContentPresentation", "layout");
 
-		return($pageContent);
+		return($content);
 	}
 
 	function fullscreen()
 	{
-		$this->layout("fullscreen.xml");
+		return $this->layout("fullscreen.xml", !$this->offlineMode());
 	}
 
 	function media()
 	{
 		if ($_GET["frame"] != "_new")
 		{
-			$this->layout("main.xml");
+			return $this->layout("main.xml", !$this->offlineMode());
 		}
 		else
 		{
-			$this->layout("fullscreen.xml");
+			return $this->layout("fullscreen.xml", !$this->offlineMode());
 		}
 	}
 
@@ -630,9 +689,27 @@ class ilLMPresentationGUI
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
 			$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			
+			// set style sheets
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			}
+			else
+			{
+				$style_name = $this->ilias->account->prefs["style"].".css";;
+				$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+			}
+
 			$this->ilGlossary($child);
-			$this->tpl->show();
+			if (!$this->offlineMode())
+			{
+				$this->tpl->show();
+			}
+			else
+			{
+				return $this->tpl->get();
+			}
 		}
 	}
 
@@ -662,17 +739,21 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}
 
+	/**
+	* table of contents
+	*/
 	function ilTOC($a_target)
 	{
 		global $ilBench;
 
 		$ilBench->start("ContentPresentation", "ilTOC");
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
-		$exp = new ilLMTOCExplorer("lm_presentation.php?cmd=layout&frame=$a_target&ref_id=".$this->lm->getRefId(),$this->lm);
+		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", $a_target),$this->lm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		$exp->addFilter("du");
 		$exp->addFilter("st");
+		$exp->setOfflineMode($this->offlineMode());
 		if ($this->lm->getTOCMode() == "pages")
 		{
 			$exp->addFilter("pg");
@@ -682,10 +763,7 @@ class ilLMPresentationGUI
 
 		if ($_GET["lmexpand"] == "")
 		{
-			$mtree = new ilTree($this->lm->getId());
-			$mtree->setTableNames('lm_tree','lm_data');
-			$mtree->setTreeTablePK("lm_id");
-			$expanded = $mtree->readRootId();
+			$expanded = $this->lm_tree->readRootId();
 		}
 		else
 		{
@@ -698,18 +776,30 @@ class ilLMPresentationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		// set style sheets
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+		}
+
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_toc"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->lm->getRefId()."&lmexpand=".$_GET["lmexpand"]);
+		$this->tpl->setVariable("ACTION", 
+			$this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]).
+			"&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$ilBench->stop("ContentPresentation", "ilTOC");
 	}
 
 	function ilLMMenu()
 	{
-		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu());
+		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()));
 	}
 
 	function ilLocator()
@@ -718,13 +808,10 @@ class ilLMPresentationGUI
 
 		$this->tpl->setCurrentBlock("ilLocator");
 
-		$lm_tree = new ilTree($this->lm->getId());
-		$lm_tree->setTableNames('lm_tree','lm_data');
-		$lm_tree->setTreeTablePK("lm_id");
 
 		if (empty($_GET["obj_id"]))
 		{
-			$a_id = $lm_tree->getRootId();
+			$a_id = $this->lm_tree->getRootId();
 		}
 		else
 		{
@@ -734,9 +821,9 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		if($lm_tree->isInTree($a_id))
+		if($this->lm_tree->isInTree($a_id))
 		{
-			$path = $lm_tree->getPathFull($a_id);
+			$path = $this->lm_tree->getPathFull($a_id);
 
 			// this is a stupid workaround for a bug in PEAR:IT
 			$modifier = 1;
@@ -756,21 +843,21 @@ class ilLMPresentationGUI
 
 					$this->tpl->setCurrentBlock("locator_item");
 
-					if($row["child"] != $lm_tree->getRootId())
+					if($row["child"] != $this->lm_tree->getRootId())
 					{
 						$this->tpl->setVariable("ITEM", ilUtil::shortenText(
 							ilStructureObject::_getPresentationTitle($row["child"],
 							$this->lm->isActiveNumbering()),50,true));
 						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-						$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
-							$_GET["ref_id"]."&obj_id=".$row["child"]);
+						$this->tpl->setVariable("LINK_ITEM",
+							$this->getLink($_GET["ref_id"], "layout", $row["child"], $_GET["frame"], "StructureObject"));
 					}
 					else
 					{
 						$this->tpl->setVariable("ITEM", ilUtil::shortenText($this->lm->getTitle(),50,true));
 						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-						$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
-							$_GET["ref_id"]);
+						$this->tpl->setVariable("LINK_ITEM",
+							$this->getLink($_GET["ref_id"], "layout", "", $_GET["frame"]));
 					}
 
 					$this->tpl->parseCurrentBlock();
@@ -796,16 +883,16 @@ class ilLMPresentationGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $this->lm->getTitle());
-			$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
-				$_GET["ref_id"]);
+			$this->tpl->setVariable("LINK_ITEM",
+				$this->getLink($_GET["ref_id"], "layout", "", $_GET["frame"]));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("locator_item");
 			require_once("content/classes/class.ilLMObjectFactory.php");
 			$lm_obj =& ilLMObjectFactory::getInstance($this->lm, $a_id);
 			$this->tpl->setVariable("ITEM", $lm_obj->getTitle());
-			$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
-				$_GET["ref_id"]."&obj_id=".$a_id);
+			$this->tpl->setVariable("LINK_ITEM",
+				$this->getLink($_GET["ref_id"], "layout", $a_id, $_GET["frame"]));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("locator_item");
@@ -829,14 +916,11 @@ class ilLMPresentationGUI
 
 	function getCurrentPageId()
 	{
-		$lmtree = new ilTree($this->lm->getId());
-		$lmtree->setTableNames('lm_tree','lm_data');
-		$lmtree->setTreeTablePK("lm_id");
 
 		// determine object id
 		if(empty($_GET["obj_id"]))
 		{
-			$obj_id = $lmtree->getRootId();
+			$obj_id = $this->lm_tree->getRootId();
 		}
 		else
 		{
@@ -844,19 +928,19 @@ class ilLMPresentationGUI
 		}
 
 		// obj_id not in tree -> it is a unassigned page -> return page id
-		if (!$lmtree->isInTree($obj_id))
+		if (!$this->lm_tree->isInTree($obj_id))
 		{
 			return $obj_id;
 		}
 
-		$curr_node = $lmtree->getNodeData($obj_id);
+		$curr_node = $this->lm_tree->getNodeData($obj_id);
 		if($curr_node["type"] == "pg")		// page in tree -> return page id
 		{
 			$page_id = $curr_node["obj_id"];
 		}
 		else				// no page -> search for next page and return its id
 		{
-			$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
+			$succ_node = $this->lm_tree->fetchSuccessorNode($obj_id, "pg");
 			$page_id = $succ_node["obj_id"];
 
 			if ($succ_node["type"] != "pg")
@@ -873,13 +957,9 @@ class ilLMPresentationGUI
 
 	function mapCurrentPageId($current_page_id)
 	{
-		$lmtree = new ilTree($this->lm->getId());
-		$lmtree->setTableNames('lm_tree','lm_data');
-		$lmtree->setTreeTablePK("lm_id");
-		$subtree = $lmtree->getSubTree($lmtree->getNodeData(1));
-		$node = $lmtree->getNodeData($current_page_id);
+		$subtree = $this->lm_tree->getSubTree($this->lm_tree->getNodeData(1));
+		$node = $this->lm_tree->getNodeData($current_page_id);
 		$pos = array_search($node,$subtree);
-		unset($lmtree);
 
 		$this->tr_obj =& $this->ilias->obj_factory->getInstanceByRefId($_SESSION["tr_id"]);
 
@@ -1015,11 +1095,16 @@ class ilLMPresentationGUI
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
 		$page_object_gui->setLinkFrame($_GET["frame"]);
-		$page_object_gui->setOutputMode("presentation");
-		$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
-			"&amp;ref_id=".$this->lm->getRefId());
-		$page_object_gui->setFullscreenLink("lm_presentation.php?cmd=fullscreen".
-			"&amp;ref_id=".$this->lm->getRefId());
+		if (!$this->offlineMode())
+		{
+			$page_object_gui->setOutputMode("presentation");
+		}
+		else
+		{
+			$page_object_gui->setOutputMode("offline");
+		}
+		$page_object_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 		$page_object_gui->setPresentationTitle(
 			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
@@ -1036,8 +1121,15 @@ class ilLMPresentationGUI
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -1053,7 +1145,7 @@ class ilLMPresentationGUI
 
 		$ilBench->stop("ContentPresentation", "ilPage");
 
-		return $page_object_gui->presentation();
+		return $page_object_gui->presentation($page_object_gui->getOutputMode());
 
 	}
 
@@ -1072,8 +1164,15 @@ class ilLMPresentationGUI
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_preconditions.html", true);
@@ -1110,9 +1209,8 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
 		
 		// output skip chapter link
-		$lmtree =& $this->lm->getLMTree();
-		$parent = $lmtree->getParentId($topchap);
-		$childs = $lmtree->getChildsByType($parent, "st");
+		$parent = $this->lm_tree->getParentId($topchap);
+		$childs = $this->lm_tree->getChildsByType($parent, "st");
 		$next = "";
 		$j=-2; $i=1; 
 		foreach($childs as $child)
@@ -1123,7 +1221,7 @@ class ilLMPresentationGUI
 			}
 			if ($i++ == ($j+1))
 			{
-				$succ_node = $lmtree->fetchSuccessorNode($child["child"], "pg");
+				$succ_node = $this->lm_tree->fetchSuccessorNode($child["child"], "pg");
 			}
 		}
 		if($succ_node != "")
@@ -1132,8 +1230,8 @@ class ilLMPresentationGUI
 				? "frame=".$_GET["frame"]."&"
 				: "";
 			$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-			$link = "<br /><a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
-				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+			$link = "<br /><a href=\"".
+				$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
 				"\">".$this->lng->txt("cont_skip_chapter")."</a>";
 			$this->tpl->setVariable("LINK_SKIP_CHAPTER", $link);
 		}
@@ -1191,8 +1289,8 @@ class ilLMPresentationGUI
 									$ltarget="_top";
 								}
 							}
-							$href = "lm_presentation.php?obj_type=$type&amp;cmd=layout&amp;ref_id=".$_GET["ref_id"].
-								"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+							$href =
+								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type);
 						}
 						else
 						{
@@ -1217,8 +1315,8 @@ class ilLMPresentationGUI
 						$nframe = ($ltarget == "")
 							? $_GET["frame"]
 							: $ltarget;
-						$href = "lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
-							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+						$href =
+							$this->getLink($_GET["ref_id"], $a_cmd = "glossary", $target_id, $nframe, $type);
 						break;
 
 					case "MediaObject":
@@ -1226,8 +1324,8 @@ class ilLMPresentationGUI
 						$nframe = ($ltarget == "")
 							? $_GET["frame"]
 							: $ltarget;
-						$href = "lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
-							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
+						$href =
+							$this->getLink($_GET["ref_id"], $a_cmd = "media", $target_id, $nframe, $type);
 						break;
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
@@ -1265,8 +1363,15 @@ class ilLMPresentationGUI
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -1279,7 +1384,7 @@ class ilLMPresentationGUI
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 		$term_gui->setLinkXML($link_xml);
 
-		$term_gui->output();
+		$term_gui->output($this->offlineMode());
 
 		$ilBench->stop("ContentPresentation", "ilGlossary");
 	}
@@ -1294,12 +1399,30 @@ class ilLMPresentationGUI
 		$ilBench->start("ContentPresentation", "ilMedia");
 
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		// set style sheets
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+		}
+
 		$this->tpl->setCurrentBlock("ilMedia");
 
 		//$int_links = $page_object->getInternalLinks();
@@ -1345,15 +1468,21 @@ class ilLMPresentationGUI
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
-		$wb_path = ilUtil::getWebspaceDir("output");
+		if (!$this->offlineMode())
+		{
+			$wb_path = ilUtil::getWebspaceDir("output");
+		}
+		else
+		{
+			$wb_path = ".";
+		}
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$mode = ($_GET["cmd"] == "fullscreen")
 			? "fullscreen"
 			: "media";
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$fullscreen_link = "lm_presentation.php?cmd=fullscreen".
-			"&ref_id=".$this->lm->getRefId();
-
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output", $this->offlineMode());
+		$fullscreen_link =
+			$this->getLink($this->lm->getRefId(), "fullscreen");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$this->lm->getRefId(),'fullscreen_link' => $fullscreen_link,
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
@@ -1385,16 +1514,13 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		$lmtree = new ilTree($this->lm->getId());
-		$lmtree->setTableNames('lm_tree','lm_data');
-		$lmtree->setTreeTablePK("lm_id");
-		if(!$lmtree->isInTree($page_id))
+		if(!$this->lm_tree->isInTree($page_id))
 		{
 			return;
 		}
 
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchSuccessor");
-		$succ_node = $lmtree->fetchSuccessorNode($page_id, "pg");
+		$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
 		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchSuccessor");
 
 		$succ_str = ($succ_node !== false)
@@ -1402,7 +1528,7 @@ class ilLMPresentationGUI
 			: "";
 
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchPredecessor");
-		$pre_node = $lmtree->fetchPredecessorNode($page_id, "pg");
+		$pre_node = $this->lm_tree->fetchPredecessorNode($page_id, "pg");
 		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchPredecessor");
 
 		$pre_str = ($pre_node !== false)
@@ -1434,23 +1560,24 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
-			$prev_img = "<img src=\"".ilUtil::getImagePath("nav_arr_L.gif")."\" border=\"0\"/>";
+			$prev_img = "<img src=\"".
+				ilUtil::getImagePath("nav_arr_L.gif", false, "output", $this->offlineMode())."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
-				$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
-					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = "<a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"], $_GET["frame"]).
 					"\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			else if ($showViewInFrameset)
 			{
-				$output = "<a href=\"lm_presentation.php?cmd=layout&obj_id=".
-					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = "<a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]).
 					"\" target=\"bottom\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			else
 			{
-				$output = "<a href=\"lm_presentation.php?cmd=layout&obj_id=".
-					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = "<a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]).
 					"\" target=\"_top\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			
@@ -1483,23 +1610,24 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
 			$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
-			$succ_img = "<img src=\"".ilUtil::getImagePath("nav_arr_R.gif")."\" border=\"0\"/>";
+			$succ_img = "<img src=\"".
+				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode())."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
-				$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
-					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = " <a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
 					"\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			else if ($showViewInFrameset)
 			{
-				$output = " <a href=\"lm_presentation.php?cmd=layout&obj_id=".
-					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = " <a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]).
 					"\" target=\"bottom\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			else
 			{
-				$output = " <a href=\"lm_presentation.php?cmd=layout&obj_id=".
-					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				$output = " <a href=\"".
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]).
 					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			
@@ -1539,9 +1667,11 @@ class ilLMPresentationGUI
 					{
 						unset($attributes["template"]);
 						unset($attributes["template_location"]);
-						$attributes["src"] = "lm_presentation.php?ref_id=".$this->lm->getRefId().
-							"&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"];
+						$attributes["src"] =
+							$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
 						$a_content .= $this->buildTag("", "frame", $attributes);
+						$this->frames[$attributes["name"]] = $attributes["name"];
+//echo "<br>processNodes:add1 ".$attributes["name"];
 					}
 					else	// ok, no name means that we can easily output the frameset tag
 					{
@@ -1554,9 +1684,11 @@ class ilLMPresentationGUI
 				{
 					unset($attributes["template"]);
 					unset($attributes["template_location"]);
-					$attributes["src"] = "lm_presentation.php?ref_id=".$this->lm->getRefId().
-						"&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"];
+					$attributes["src"] =
+						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"]);
 					$a_content .= $this->buildTag("", "frame", $attributes);
+					$this->frames[$attributes["name"]] = $attributes["name"];
+//echo "<br>processNodes:add2 ".$attributes["name"];
 					//$a_content .= "<frame name=\"".$attributes["name"]."\" ".
 					//	"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
 				}
@@ -1606,21 +1738,41 @@ class ilLMPresentationGUI
 
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		// set style sheets
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+		}
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 
 		// set title header
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
 
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
-		$exp = new ilTableOfContentsExplorer("lm_presentation.php?ref_id=".$_GET["ref_id"]
+		$exp = new ilTableOfContentsExplorer(
+			"lm_presentation.php?ref_id=".$_GET["ref_id"]
 			, $this->lm);
 		$exp->setTargetGet("obj_id");
+		$exp->setOfflineMode($this->offlineMode());
 
 		$tree =& $this->lm->getTree();
 		if ($_GET["lmtocexpand"] == "")
@@ -1640,7 +1792,15 @@ class ilLMPresentationGUI
 
 		$this->tpl->setVariable("EXPLORER", $output);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		
+		if ($this->offlineMode())
+		{
+			return $this->tpl->get();
+		}
+		else
+		{
+			$this->tpl->show();
+		}
 
 		$ilBench->stop("ContentPresentation", "TableOfContents");
 	}
@@ -1658,8 +1818,15 @@ class ilLMPresentationGUI
 
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
@@ -1676,8 +1843,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("FORMACTION", "lm_presentation.php?ref_id=".$_GET["ref_id"]
 			."&obj_id=".$_GET["obj_id"]."&cmd=post");
 
-		$tree = $this->lm->getLMTree();
-		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
 		if (!is_array($_POST["item"]))
 		{
@@ -1765,12 +1931,29 @@ class ilLMPresentationGUI
 		$ilBench->start("ContentPresentation", "PrintView");
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		$this->tpl->setVariable("LOCATION_STYLESHEET",ilObjStyleSheet::getContentPrintStyle());
+		
+		// set style sheets
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+		}
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -1785,8 +1968,7 @@ class ilLMPresentationGUI
 		// set title header
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
 
-		$tree = $this->lm->getLMTree();
-		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
@@ -2115,6 +2297,111 @@ class ilLMPresentationGUI
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
+	}
+	
+	/**
+	* handles links for learning module presentation
+	*/
+	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "")
+	{
+		if ($a_cmd == "")
+		{
+			$a_cmd = "layout";
+		}
+		$script = "lm_presentation.php";
+		
+		// handle online links
+		if (!$this->offlineMode())
+		{
+			$link = $script."?ref_id=".$a_ref_id;
+			switch ($a_cmd)
+			{
+				case "fullscreen":
+					$link.= "&cmd=fullscreen";
+					break;
+				
+				default:
+					$link.= "&amp;cmd=".$a_cmd;
+					if ($a_frame != "")
+					{
+						$link.= "&amp;frame=".$a_frame;
+					}
+					if ($a_obj_id != "")
+					{
+						switch ($a_type)
+						{
+							case "MediaObject":
+								$link.= "&amp;mob_id=".$a_obj_id;
+								break;
+								
+							default:
+								$link.= "&amp;obj_id=".$a_obj_id;
+								break;
+						}
+					}
+					if ($a_type != "")
+					{
+						$link.= "&amp;obj_type=".$a_type;
+					}
+					break;
+			}
+		}
+		else	// handle offline links
+		{
+			switch ($a_cmd)
+			{
+				case "downloadFile":
+					break;
+					
+				case "fullscreen":
+					$link = "fullscreen.html";		// id is handled by xslt
+					break;
+					
+				case "layout":
+				
+					if ($a_obj_id == "")
+					{
+						$a_obj_id = $this->lm_tree->getRootId();
+						$pg_node = $this->lm_tree->fetchSuccessorNode($a_obj_id, "pg");
+						$a_obj_id = $pg_node["obj_id"];
+					}
+					if ($a_type == "StructureObject")
+					{
+						$pg_node = $this->lm_tree->fetchSuccessorNode($a_obj_id, "pg");
+						$a_obj_id = $pg_node["obj_id"];
+					}
+				
+					if ($a_frame != "")
+					{
+						if ($a_frame != "toc")
+						{
+							$link = "frame_".$a_obj_id."_".$a_frame.".html";
+						}
+						else	// don't save multiple toc frames (all the same)
+						{
+							$link = "frame_".$a_frame.".html";
+						}						
+					}
+					else
+					{
+						$link = "lm_pg_".$a_obj_id.".html";
+					}
+					break;
+					
+				case "glossary":
+				$link = "term_".$a_obj_id.".html";
+					break;
+				
+				case "media":
+					$link = "media_".$a_obj_id.".html";
+					break;
+					
+				default:
+					break;
+			}
+		}
+		
+		return $link;
 	}
 }
 ?>

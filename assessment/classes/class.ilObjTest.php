@@ -2234,16 +2234,17 @@ class ilObjTest extends ilObject
 	}
 	
 	
-/**
-* Calculates the results of a test for a given user
-* 
-* Calculates the results of a test for a given user
-* and returns an array with all test results
-*
-* @return array An array containing the test results for the given user
-* @access public
-*/
-	function &getTestResult($user_id) {
+	/**
+	* Calculates the results of a test for a given user
+	* 
+	* Calculates the results of a test for a given user
+	* and returns an array with all test results
+	*
+	* @return array An array containing the test results for the given user
+	* @access public
+	*/
+	function &getTestResult($user_id)
+	{
 //		global $ilBench;
 		if ($this->isRandomTest())
 		{
@@ -2261,49 +2262,59 @@ class ilObjTest extends ilObject
 
 		$key = 1;
 		$result_array = array();
-    foreach ($sequence_array as $idx => $seq) {
+		foreach ($sequence_array as $idx => $seq)
+		{
 			$value = $this->questions[$seq];
 //			$ilBench->start("getTestResult","instanciate question"); 
 			$question =& ilObjTest::_instanciateQuestion($value);
-//			$ilBench->stop("getTestResult","instanciate question"); 
-      $max_points = $question->getMaximumPoints();
-      $total_max_points += $max_points;
-      $reached_points = $question->getReachedPoints($user_id, $this->getTestId());
-      $total_reached_points += $reached_points;
-			if ($max_points > 0) {
-				$percentvalue = $reached_points / $max_points;
-			} else {
-				$percentvalue = 0;
-			}
-			if (count($question->suggested_solutions) == 1)
+//			$ilBench->stop("getTestResult","instanciate question");
+			if (is_object($question))
 			{
-				$solution_array = $question->getSuggestedSolution(0);
-				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+				$max_points = $question->getMaximumPoints();
+				$total_max_points += $max_points;
+				$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+				$total_reached_points += $reached_points;
+				if ($max_points > 0)
+				{
+					$percentvalue = $reached_points / $max_points;
+				}
+				else
+				{
+					$percentvalue = 0;
+				}
+				if (count($question->suggested_solutions) == 1)
+				{
+					$solution_array = $question->getSuggestedSolution(0);
+					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+				}
+				elseif (count($question->suggested_solutions) > 1)
+				{
+					$href = "see_details_for_further_information";
+				}
+				else
+				{
+					$href = "";
+				}
+				$row = array(
+					"nr" => "$key",
+					"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
+					"max" => sprintf("%d", $max_points),
+					"reached" => sprintf("%d", $reached_points),
+					"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
+					"solution" => $href
+				);
+				array_push($result_array, $row);
+				$key++;
 			}
-			elseif (count($question->suggested_solutions) > 1)
-			{
-				$href = "see_details_for_further_information";
-			}
-			else
-			{
-				$href = "";
-			}
-			$row = array(
-				"nr" => "$key",
-				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
-				"max" => sprintf("%d", $max_points),
-				"reached" => sprintf("%d", $reached_points),
-				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-				"solution" => $href
-			);
-			array_push($result_array, $row);
-			$key++;
-    }
+		}
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
-		if ((!$total_reached_points) or (!$total_max_points)) {
+		if ((!$total_reached_points) or (!$total_max_points))
+		{
 			$percentage = 0.0;
-		} else {
+		}
+		else
+		{
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
 		}
 		$mark_obj = $this->mark_schema->get_matching_mark($percentage);
