@@ -5006,3 +5006,16 @@ REPLACE INTO settings (keyword, value) VALUES ('enable_js_edit', 1);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#343>
+CREATE TABLE `payment_settings` (
+  `settings_id` bigint(20) NOT NULL auto_increment,
+  `currency_unit` varchar(255) NOT NULL default '',
+  `currency_subunit` varchar(255) NOT NULL default '',
+  `address` text NOT NULL,
+  `bank_data` text NOT NULL,
+  `add_info` text NOT NULL,
+  `vat_rate` varchar(255) NOT NULL default '',
+  `pdf_path` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`settings_id`)
+) TYPE=MyISAM;
+
