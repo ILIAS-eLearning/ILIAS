@@ -245,8 +245,8 @@ common#:#feedback#:#Informacja systemowa
 common#:#feedback_recipient#:#Odbiorca
 common#:#file#:#Plik
 common#:#file_a#:#Plik
-common#:#file_added#:#Plik załadowany
 common#:#file_add#:#Wyślij plik
+common#:#file_added#:#Plik załadowany
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
@@ -258,8 +258,8 @@ common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
 common#:#fold#:#Folder
 common#:#fold_a#:#Folder
-common#:#fold_added#:#Folder dodany
 common#:#fold_add#:#Dodaj Folder
+common#:#fold_added#:#Folder dodany
 common#:#fold_new#:#Nowy Folder
 common#:#folders#:#Foldery
 common#:#force_accept_usr_agreement#:#You have to accept user agreement!###14 Nov 2003 new variable
@@ -288,6 +288,7 @@ common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownia
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_new#:#Nowy słownik
+common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
 common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
 common#:#group_access_denied#:#Access Denied###14 Nov 2003 new variable
@@ -356,9 +357,9 @@ common#:#inform_user_mail#:#Wyślij email aby poinformować użytkownika o zmian
 common#:#information_abbr#:#Informacje
 common#:#ingmedia_all_offers#:#Wszystkie LE
 common#:#ingmedia_back_to_le#:#Powrót do LE
-common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_afternoon#:#Dzień dobry
 common#:#ingmedia_good_evening#:#Dobry wieczór
+common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_night#:#Dobranoc
 common#:#ingmedia_hello#:#Cześć
 common#:#ingmedia_info_about_work1#:#Na
@@ -868,7 +869,6 @@ common#:#usr_agreement#:#Zgoda użytkownika
 common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
 common#:#usr_edit#:#Edit User###14 Nov 2003 new variable
 common#:#usr_new#:#New User###14 Nov 2003 new variable
-common#:#usr_skin#:#Skórka użytkownika
 common#:#usr_style#:#Styl użytkownika
 common#:#usrf#:#Folder użytkownika
 common#:#validate#:#Zatwierdź
@@ -879,7 +879,6 @@ common#:#view_content#:#Zawartość widoku
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
 common#:#week#:#Tydzień
-common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
@@ -961,7 +960,6 @@ content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
-ontent#:#cont_insert_file_item#:#Insert File Item###14 Nov 2003 new variable
 content#:#cont_insert_file_list#:#Insert File List###14 Nov 2003 new variable
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
