@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2002-12-29, Matthias Rulinski
+2002-12-30, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -68,7 +68,17 @@ ELEMENT (id, parent)
 	element
 		id					-->		used in METADATA
 		inst				-->		used in METADATA
-		typ					-->		***
+		typ					-->		*** (type)
+									1 text
+									2 image
+									3 title
+									4 table
+									5 imagemap
+									6 multiple choice
+									7 multimedia
+									8 filelist
+									9 sourcecode
+									10 survey
 		page				-->		***
 		src					-->		*** (text formatting -> paragraph..code)
 		bsp					-->		*** (text formatting -> paragraph.characteristic)
@@ -110,24 +120,24 @@ ELEMENT (id, parent)
 									jn yes/no
 									rf right/wrong
 									mul flexible, multiple answers can be correct
-		answer				-->		*** (right answer -> not "mul")
-									jn	->	j Ja
-											n nein
-									rf	->	r richtig
-											f falsch
+		answer				-->		(right answer -> not "mul")
+									jn	->	j yes
+											n no
+									rf	->	r right
+											f wrong
 		vristr				-->		*** (testen auf VRI, sonst kein Hinweis) VRI of page (pg) or structure (st) linking to hint.
-		show_ra				-->		*** unavailable in ILIAS3
+		show_ra				-->		unavailable in ILIAS3
 									(show # of correct answers -> "mul")
 									n do not display number of correct answers
 									y display number of correct answers
 									e only inform user about the fact that multiple answers can be correct
 		
-		time_min			-->		*** unavailable in ILIAS3
-		time_sec			-->		*** unavailable in ILIAS3
+		time_min			-->		unavailable in ILIAS3
+		time_sec			-->		unavailable in ILIAS3
 		
 	mc_answer
-		text				-->		*** Text of the answer
-		mright				-->		*** (answer is)
+		text				-->		Text of the answer
+		mright				-->		(Status of the answer)
 									y right
 									n wrong
 		
@@ -268,3 +278,4 @@ Taxon -> (Entry) --> (#PCDATA), new attribute: Language (%langcode;) #REQUIRED
 Entry -> removed (not needed at all)
 Educational -> Language+ removed (obsolete)
 Definition -> (Paragraph+) --> (Paragraph | LearningObject)+
+Answer -> new attribute: Status (Right | Wrong) #IMPLIED
