@@ -2046,6 +2046,7 @@ class ilLMPresentationGUI
 
 		$glossary_links = array();
 		$output_header = false;
+		$media_links = array();
 		foreach ($nodes as $node)
 		{
 
@@ -2177,6 +2178,16 @@ class ilLMPresentationGUI
 					if ($got_mobs)
 					{
 						$page_object->buildDom();
+						$links = $page_object->getInternalLinks();
+						foreach($links as $link)
+						{
+							if ($link["Type"] == "MediaObject"
+								&& $link["TargetFrame"] != ""
+								&& $link["TargetFrame"] != "None")
+							{
+								$media_links[] = $link;
+							}
+						}
 					}
 				}
 			}
@@ -2240,6 +2251,64 @@ class ilLMPresentationGUI
 			$annex_title = $this->lng->txt("cont_annex")." ".
 				chr(64+$annex_cnt).": ".$this->lng->txt("glo");
 			$this->tpl->setVariable("TXT_GLOSSARY", $annex_title);
+			$this->tpl->parseCurrentBlock();
+
+			$annexes[] = $annex_title;
+		}
+
+		// referenced images
+		if (count($media_links) > 0)
+		{
+			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			include_once("content/classes/Media/class.ilMediaItem.php");
+			foreach($media_links as $media)
+			{
+				if (substr($media["Target"],0,4) == "il__")
+				{
+					$arr = explode("_",$media["Target"]);
+					$id = $arr[count($arr) - 1];
+					
+					$med_obj = new ilObjMediaObject($id);
+					$med_item =& $med_obj->getMediaItem("Standard");
+					if (is_object($med_item))
+					{
+						if (is_int(strpos($med_item->getFormat(), "image")))
+						{
+							$this->tpl->setCurrentBlock("ref_image");
+							
+							// image source
+							if ($med_item->getLocationType() == "LocalFile")
+							{
+								$this->tpl->setVariable("IMG_SOURCE",
+									ilUtil::getWebspaceDir("output")."/mobs/mm_".$id.
+									"/".$med_item->getLocation());
+							}
+							else
+							{
+								$this->tpl->setVariable("IMG_SOURCE",
+									$med_item->getLocation());								
+							}
+							
+							if ($med_item->getCaption() != "")
+							{
+								$this->tpl->setVariable("IMG_TITLE", $med_item->getCaption());
+							}
+							else
+							{
+								$this->tpl->setVariable("IMG_TITLE", $med_obj->getTitle());
+							}
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+				}
+			}
+			
+			// output glossary header
+			$annex_cnt++;
+			$this->tpl->setCurrentBlock("ref_images");
+			$annex_title = $this->lng->txt("cont_annex")." ".
+				chr(64+$annex_cnt).": ".$this->lng->txt("cont_ref_images");
+			$this->tpl->setVariable("TXT_REF_IMAGES", $annex_title);
 			$this->tpl->parseCurrentBlock();
 
 			$annexes[] = $annex_title;
