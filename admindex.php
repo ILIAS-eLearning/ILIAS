@@ -5,7 +5,7 @@
 </head>
 
 <frameset cols="175,*">
-<frame src="adm_menu.php" name="tree" marginwidth="0" marginheight="0" scrolling="auto"/>
+<frame src="adm_menu.php?expand=1" name="tree" marginwidth="0" marginheight="0" scrolling="auto"/>
 <frame src="content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto"/>
 <noframes>
 The administration interface requires a <b>frames-capable</b> web browser.

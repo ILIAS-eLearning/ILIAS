@@ -67,7 +67,7 @@ class Object
 			$rbacsystem = new RbacSystem($this->ilias->db);
 			// Erzeugen und Eintragen eines Objektes in Tree
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
+			$tree->insertNode($new_obj_id,$_GET["obj_id"],$tree->getDepth($_GET["obj_id"],$_GET["parent"])+1);
 
 			// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
 			$parentRoles = $this->getParentRoleIds();
@@ -259,7 +259,7 @@ class Object
 						$role_obj["title"] = 'Role Folder';
 						$role_obj["desc"] = 'Automatisch genierter Role Folder';
 						$rolf_id = createNewObject("rolf",$role_obj);
-						$tree->insertNode($rolf_id,$_GET["obj_id"]);
+						$tree->insertNode($rolf_id,$_GET["obj_id"],$tree->getDepth($_GET["obj_id"],$_GET["parent"])+1);
 
 						// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
 						$parentRoles = $this->getParentRoleIds();
@@ -325,7 +325,7 @@ class Object
 				$role_obj["title"] = 'Role Folder';
 				$role_obj["desc"] = 'Automatisch generierter Role Folder';
 				$rolf_id = createNewObject("rolf",$role_obj);
-				$tree->insertNode($rolf_id,$_GET["obj_id"]);
+				$tree->insertNode($rolf_id,$_GET["obj_id"],$tree->getDepth($_GET["obj_id"],$_GET["parent"])+1);
 				// Suche aller Parent Rollen im Baum
 				$parentRoles = $this->getParentRoleIds();
 				foreach($parentRoles as $parRol)

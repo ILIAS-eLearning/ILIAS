@@ -86,10 +86,11 @@ class Admin
 	{
 		global $tree;
 
-		if (!isset($_POST["id"]))
+		if(!isset($_POST["id"]))
 		{
-			$_SESSION["Error_Message"] = "No checkbox checked. Nothing happened. :-)";
+			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_class->WARNING);
 		}
+
 		else
 		{		
 			$rbacadmin = new RbacAdminH($this->ilias->db);
@@ -97,8 +98,6 @@ class Admin
 
 			foreach($_POST["id"] as $id)
 			{
-				$tree->deleteTree($id);
-				$rbacadmin->revokePermission($id);
 
 				// CHECK ACCESS	
 				if($rbacsystem->checkAccess('delete',$id,$_GET["obj_id"]))
@@ -108,7 +107,7 @@ class Admin
 				}
 				else
 				{
-					$_SESSION["Error_Message"] = "No permission to delete Object";
+					$this->ilias->raiseError("No permission to delete object",$this->ilias->error_class->WARNING);
 				}
 			}
 		}
