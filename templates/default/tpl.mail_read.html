@@ -3,28 +3,28 @@
 	  {BUTTONS}
 	  {MESSAGE}
     <form action="{ACTION}" method="post">
-	  <table cellpadding="4" cellspacing="1" border="0" width="100%">
+	  <table class="fullwidth">
 		  <TR class="{CSSROW_FROM}">
 			<TD ALIGN="right" class="tblheader" width="10%">{TXT_FROM}</TD>
-			<TD>{FROM}</TD>
+			<TD CLASS="STD" >{FROM}</TD>
 		  </TR>
 		  <TR class="{CSSROW_TO}">
 			<TD ALIGN="right" class="tblheader">{TXT_TO}</TD>
-			<TD>{TO}</TD>
+			<TD CLASS="STD" >{TO}</TD>
 		  </TR>
 		  <!-- BEGIN cc -->
 		  <TR class="{CSSROW_CC}">
 			<TD ALIGN="right" class="tblheader">{TXT_CC}</TD>
-			<TD>{CC}</TD>
+			<TD CLASS="STD" >{CC}</TD>
 		  </TR>
 		  <!-- END cc -->
 		  <TR class="{CSSROW_SUBJ}">
 			<TD ALIGN="right" class="tblheader">{TXT_SUBJECT}</TD>
-			<TD>{SUBJECT}</TD>
+			<TD CLASS="STD" >{SUBJECT}</TD>
 		  </TR>
 		  <TR class="{CSSROW_DATE}">
 			<TD align="right" class="tblheader">{TXT_DATE}</TD>
-			<TD>{DATE}</TD>
+			<TD CLASS="STD" >{DATE}</TD>
 		  </TR>
 	  </table>
 	  <br>
@@ -39,19 +39,19 @@
 		  </TR>
 		  <!-- BEGIN a_row -->
 		  <TR class="{A_CSSROW}">
-			<TD width="4%">
+			<TD CLASS="STD" align="center" width="4%">
 			  <input type="radio" name="filename" value="{FILE}">
 			</TD>
-			<TD>
+			<TD CLASS="STD" >
 			  {FILE_NAME}
 			</TD>
 		  </TR>
 		  <!-- END a_row -->
 		  <tr>
-			<td width="4%">
+			<td class="std"  align="center" width="4%">
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>
-			<td>
+			<td class="std" >
 			  <input type="submit" name="cmd" value="{TXT_DOWNLOAD}">
 			</td>
 		  </tr>
@@ -62,7 +62,7 @@
 			<TD ALIGN="left" VALIGN="top" class="tblheader">{TXT_MESSAGE}</TD>
 		  </tr>
 		  <tr class="tblrow2">
-			<TD colspan=2>{MAIL_MESSAGE}</TD>
+			<TD CLASS="STD"  colspan=2>{MAIL_MESSAGE}</TD>
 		  </TR>
 	  </TABLE>
   </body>
