@@ -1177,6 +1177,7 @@ common#:#user#:#Gebruiker
 common#:#user_added#:#Gebruiker toegevoegd
 common#:#user_assignment#:#Gebruiker-toewijzing
 common#:#user_deleted#:#Gebruiker gewist
+common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#Gebruikers-taal
 common#:#user_not_chosen#:#U heeft geen groeps-lid gekozen!
 common#:#userdata#:#Gebruikers-gegevens

@@ -158,7 +158,6 @@ common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
-common#:#user_imported#:#User import complete.
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
@@ -1178,6 +1177,7 @@ common#:#user#:#User
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted
+common#:#user_imported#:#User import complete.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#userdata#:#User data
