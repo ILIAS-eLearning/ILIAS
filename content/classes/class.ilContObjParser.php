@@ -303,23 +303,23 @@ class ilContObjParser extends ilSaxParser
 			case "StructureObject":
 //echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->structure_objects[count($this->structure_objects)]
-					=& new ilStructureObject();
+					=& new ilStructureObject($this->content_object);
 				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
 				$this->current_object->setLMId($this->content_object->getId());
 				break;
 
 			case "PageObject":
 				$this->in_page_object = true;
-				$this->lm_page_object =& new ilLMPageObject();
-				$this->lm_page_object->setContentObject($this->content_object);
+				$this->lm_page_object =& new ilLMPageObject($this->content_object);
 				$this->page_object =& new ilPageObject($this->content_object->getType());
 				$this->lm_page_object->setLMId($this->content_object->getId());
+				$this->lm_page_object->assignPageObject($this->page_object);
 				$this->current_object =& $this->lm_page_object;
 				break;
 
 			case "PageAlias":
-				$this->page_object->setAlias(true);
-				$this->page_object->setOriginID($a_attribs["OriginId"]);
+				$this->lm_page_object->setAlias(true);
+				$this->lm_page_object->setOriginID($a_attribs["OriginId"]);
 				break;
 
 			case "MediaObject":
@@ -534,13 +534,13 @@ class ilContObjParser extends ilSaxParser
 			case "PageObject":
 
 				$this->in_page_object = false;
-				if (!$this->page_object->isAlias())
+				if (!$this->lm_page_object->isAlias())
 				{
 //echo "ENDPageObject ".$this->page_object->getImportId().":<br>";
 					//$this->page_object->createFromXML();
 					$this->page_object->updateFromXML();
-					$this->pg_mapping[$this->page_object->getImportId()]
-						= $this->page_object->getId();
+					$this->pg_mapping[$this->lm_page_object->getImportId()]
+						= $this->lm_page_object->getId();
 					if ($this->page_object->containsIntLink())
 					{
 						$this->pages_with_int_links[] = $this->page_object->getId();
@@ -552,19 +552,20 @@ class ilContObjParser extends ilSaxParser
 				if ($cnt > 0)
 				{
 					$parent_id = $this->structure_objects[$cnt - 1]->getId();
-					if ($this->page_object->isAlias())
+					if ($this->lm_page_object->isAlias())
 					{
-						$this->pg_into_tree[$parent_id][] = array("type" => "pg_alias", "id" => $this->page_object->getOriginId());
+						$this->pg_into_tree[$parent_id][] = array("type" => "pg_alias", "id" => $this->lm_page_object->getOriginId());
 					}
 					else
 					{
-						$this->pg_into_tree[$parent_id][] = array("type" => "pg", "id" => $this->page_object->getId());
+						$this->pg_into_tree[$parent_id][] = array("type" => "pg", "id" => $this->lm_page_object->getId());
 					}
 				}
 
 				// if we are within a structure object: put page in tree
 				unset($this->meta_data);	//!?!
 				unset($this->page_object);
+				unset($this->lm_page_object);
 				unset ($this->container[count($this->container) - 1]);
 				break;
 
@@ -625,12 +626,13 @@ class ilContObjParser extends ilSaxParser
 
 			case "MetaData":
 				$this->in_meta_data = false;
-                if(get_class($this->current_object) == "ilpageobject" && !$this->in_media_object)
+                if(get_class($this->current_object) == "illmpageobject" && !$this->in_media_object)
 				{
 					// Metadaten eines PageObjects sichern in NestedSet
 					if (is_object($this->page_object))
 					{
-						$this->page_object->createFromXML();
+						$this->lm_page_object->create();
+						//$this->page_object->createFromXML();
 
 						include_once("./classes/class.ilNestedSetXML.php");
 						$nested = new ilNestedSetXML();
