@@ -115,10 +115,10 @@ assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
 assessment#:#create_new#:#Twórz nowe
 assessment#:#delete_area#:#Usuń obszar
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
+assessment#:#detail_ending_time_reached#:#Wyczerpałeś czas wykonania testu. Test nie jest dostępny do %s
 assessment#:#duplicate#:#Kopiuj
 assessment#:#end_tag#:#Znacznik Końca
-assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
+assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
@@ -162,7 +162,7 @@ assessment#:#material_download#:#Materiał do pobrania
 assessment#:#material_file#:#Plik z materiałem
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Znaczenie
-assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
+assessment#:#next_question_rows#:#Pytania %d - %d z %d >>
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
@@ -174,7 +174,7 @@ assessment#:#polygon_click_starting_point#:#Kliknij na punkt startowy wieloboku.
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
-assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
+assessment#:#previous_question_rows#:#<< Pytania %d - %d z %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego pytania. Pytanie nigdy nie było użyte w teście.
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
@@ -228,7 +228,7 @@ assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
-assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_ending_time#:#Czas końca
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
 assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
 assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
@@ -3080,7 +3080,7 @@ survey#:#insert_before#:#Wstaw przed
 survey#:#insert_missing_question#:#Wybierz conajmniej jedno pytanie do ankiety!
 survey#:#insert_missing_questionblock#:#Wybierz conajmniej jeden blok pytań do ankiety!
 survey#:#introduction#:#Wstęp
-survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
+survey#:#introduction_manage_phrases#:#Zarządzaj swoimi frazami dostępnymi dla wszystkich edytowanych/tworzonych pytań porządkowych.
 survey#:#invitation#:#Zaproszenie
 survey#:#invitation_mode#:#Tryb zaproszenia
 survey#:#invite_participants#:#Przydzieleni do zaproszenia
@@ -3088,7 +3088,7 @@ survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
 survey#:#last_update#:#Ostatnia aktualizacja
 survey#:#lower_limit#:#Limit dolny
-survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
+survey#:#manage_phrases#:#Zarządzaj frazami
 survey#:#material_file#:#Plik z materiałami
 survey#:#maximum#:#Maksymalna wartość
 survey#:#median#:#Środkowa
@@ -3112,7 +3112,7 @@ survey#:#no_questions_available#:#Brak dostępnych pytań!
 survey#:#no_search_results#:#Brak rezultatów wyszukania!
 survey#:#no_target_selected_for_move#:#Musisz wybrać pozycję docelową!
 survey#:#no_user_or_group_selected#:#Wybierz opcję której szukasz (użytkownicy i/lub  grupy)!
-survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
+survey#:#no_user_phrases_defined#:#Brak dostępnych fraz zdefiniowanych przez użytkownika!
 survey#:#nominal_question_not_checked#:#Wybierz jedną z oferowanych odpowiedzi!
 survey#:#non_ratio#:#Brak-Współczynnika
 survey#:#not_finished#:#nie skończona
@@ -3128,17 +3128,17 @@ survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadz
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
 survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
 survey#:#preview#:#Podgląd
+survey#:#qpl_confirm_delete_phrases#:#Czy chcesz usunąć wybrane frazy?
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Chcesz usunąć wybrane pytania?
 survey#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania!
 survey#:#qpl_define_questionblock_select_missing#:#Wybierz conajmniej dwa pytania aby zdefiniować blok pytań!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it###28 Jun 2004 new variable
+survey#:#qpl_delete_phrase_select_none#:#Wybierz conajmniej jedną frazę do usunięcia
 survey#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usuwania pytań!
 survey#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia!
 survey#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do powielenia!
 survey#:#qpl_past_questions_confirmation#:#Chcesz wkleić wybrane pytania do puli pytań?
-survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.###28 Jun 2004 new variable
+survey#:#qpl_phrases_deleted#:#Frazy usunięte.
 survey#:#qpl_questions_deleted#:#Pytania usunięte.
 survey#:#qpl_questions_pasted#:#Pytania wklejone.
 survey#:#qpl_savephrase_empty#:#Podaj frazę tytułową!
