@@ -166,12 +166,12 @@ class ilLanguage
 		}
 		else
 		{
-			$this->lang_path = getcwd().substr($this->ilias->ini->readVariable("language","path"),1);
+			$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
 			// if no directory was found fall back to default lang dir
 			if (!is_dir($this->lang_path))
 			{
-				$this->lang_path = getcwd()."/lang";
+				$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
 			}
 
 			$this->lang_default = $this->ilias->ini->readVariable("language","default");
