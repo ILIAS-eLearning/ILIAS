@@ -283,6 +283,7 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
         $this->tpl->parseCurrentBlock();
       }
+			
       // call to materials block
   	  $this->out_material_question_data();
 
@@ -294,6 +295,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->question->get_author());
       $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
       $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
+      $this->tpl->setVariable("VALUE_ADD_ANSWER_YN", $this->lng->txt("add_answer_yn"));
+      $this->tpl->setVariable("VALUE_ADD_ANSWER_TF", $this->lng->txt("add_answer_tf"));
       $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
       $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
       $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -777,18 +780,22 @@ class ASS_QuestionGUI extends PEAR {
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
 
-		if (($result) and ($_POST["cmd"]["add"])) {
+		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"]))) {
 			// You cannot add answers before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 			$_POST["cmd"]["add"] = "";
+			$_POST["cmd"]["add_yn"] = "";
+			$_POST["cmd"]["add_tf"] = "";
 		}
 
 		// Check the creation of new answer text fields
-		if ($_POST["cmd"]["add"]) {
+		if ($_POST["cmd"]["add"] or $_POST["cmd"]["add_yn"] or $_POST["cmd"]["add_tf"]) {
 			foreach ($_POST as $key => $value) {
 	   		if (preg_match("/answer_(\d+)/", $key, $matches)) {
 					if (!$value) {
 						$_POST["cmd"]["add"] = "";
+						$_POST["cmd"]["add_yn"] = "";
+						$_POST["cmd"]["add_tf"] = "";
 						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
 					}
 			 	}
@@ -822,6 +829,38 @@ class ASS_QuestionGUI extends PEAR {
             ilUtil::stripSlashes($matches[1]));
         }
       }
+			if ($_POST["cmd"]["add_tf"])
+			{
+				// add a true/false answer template
+				$this->question->add_answer(
+					$this->lng->txt("true"),
+					0,
+					false,
+					count($this->question->answers)
+				);
+				$this->question->add_answer(
+					$this->lng->txt("false"),
+					0,
+					false,
+					count($this->question->answers)
+				);
+			}
+			if ($_POST["cmd"]["add_yn"])
+			{
+				// add a true/false answer template
+				$this->question->add_answer(
+					$this->lng->txt("yes"),
+					0,
+					false,
+					count($this->question->answers)
+				);
+				$this->question->add_answer(
+					$this->lng->txt("no"),
+					0,
+					false,
+					count($this->question->answers)
+				);
+			}
     } else {
       // ...for multiple choice with multiple response
       foreach ($_POST as $key => $value) {
