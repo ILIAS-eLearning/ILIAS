@@ -299,13 +299,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// unzip file
+		ilUtil::unzip($full_path);
+		/*
 		$cdir = getcwd();
 		chdir($newObj->getImportDirectory());
 		$unzip = $this->ilias->getSetting("unzip_path");
 		$unzipcmd = $unzip." ".$file["basename"];
 //echo "unzipcmd :".$unzipcmd.":<br>";
 		exec($unzipcmd);
-		chdir($cdir);
+		chdir($cdir);*/
 
 		// determine filename of xml file
 		$subdir = basename($file["basename"],".".$file["extension"]);
