@@ -515,11 +515,14 @@ function addNATI(which, inWhich, inClass)
 //      which | in which | classname
 addNATI("str",	"str",	"ilc_Strong");
 addNATI("str",	"code",	"code");
-addNATI("code",	"code",	"code");
 addNATI("emp",	"emp",	"ilc_Emph");
+addNATI("emp",	"code",	"code");
 addNATI("com",	"com",	"ilc_Comment");
+addNATI("com",	"code",	"code");
 addNATI("quot",	"quot",	"ilc_Quotation");
-
+addNATI("quot",	"code",	"code");
+addNATI("code",	"code",	"code");
+addNATI("xln",	"xln",	"ilc_ExtLink");
 
 function checkAllowTagInside(which) 
 {
@@ -535,7 +538,7 @@ function checkAllowTagInside(which)
 		{
 			if (a[2] == cl || a[2] == tn)
 			{
-				alert("Error.");
+				//alert("Error.");
 				return(false);
 			}
 		}
@@ -664,7 +667,7 @@ function buttonInternalLink()
 		/**
 		*	find all external links
 		*/
-		T = replaceAll(T,"[/xln]","</span>");
+		T = replaceAll(T,"[/xln]","</a>");
 		T2 = T;
 		while (T2.indexOf("[xln ")!=-1) 
 		{
@@ -675,8 +678,11 @@ function buttonInternalLink()
 			Tb = replaceAll(Tb, "&quot;","");
 			Tb = replaceAll(Tb, "\"","");
 			
-			T = T.replace("[xln url=&quot;"+Tb+"&quot;]","<span class=\"iliasxln\" url=\""+Tb+"\">");
-			T = T.replace("[xln url=\""+Tb+"\"]","<span class=\"iliasxln\" url=\""+Tb+"\">");
+			// alex changed
+			//T = T.replace("[xln url=&quot;"+Tb+"&quot;]","<span class=\"iliasxln\" url=\""+Tb+"\">");
+			//T = T.replace("[xln url=\""+Tb+"\"]","<span class=\"iliasxln\" url=\""+Tb+"\">");
+			T = T.replace("[xln url=&quot;"+Tb+"&quot;]","<a class=\"ilc_ExtLink\" url=\""+Tb+"\">");
+			T = T.replace("[xln url=\""+Tb+"\"]","<a class=\"ilc_ExtLink\" url=\""+Tb+"\">");
 		}
 		
 		/**
