@@ -4123,8 +4123,10 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+
 <#244>
 <?php
+ilUtil::makeDir(CLIENT_WEB_DIR."/assessment/");
 // convert material path names in web directory from CLIENT_WEB_DIR . "/assessment/ref_id/" to CLIENT_WEB_DIR . "/assessment/obj_id/";
 $d = opendir(CLIENT_WEB_DIR . "/assessment/") or die($php_errormsg);
 while (false !== ($f = readdir($d))) {
@@ -4142,5 +4144,31 @@ while (false !== ($f = readdir($d))) {
 	}
 }
 closedir($d);
-
 ?>
+
+<#245>
+<?php
+// add auth object by using deprecated ldap object in database
+$query = "SELECT obj_id FROM object_data WHERE type = 'ldap' LIMIT 1";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$obj_id = $row[0];
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$ref_id = $row[0];
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+?>
+
+<#246>
+UPDATE object_data SET type = 'auth', title = 'Authentication settings', description = 'Select and configure authentication mode for all user accounts' WHERE type = 'ldap' LIMIT 1;
+UPDATE object_data SET title = 'auth', description = 'Authentication settings' WHERE type = 'typ' AND title = 'ldap' AND owner = '-1' LIMIT 1;
+INSERT INTO settings (keyword,value) VALUES ('auth_mode',1);

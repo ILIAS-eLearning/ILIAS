@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.26 2004/05/14 19:13:11 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.27 2004/05/24 13:18:08 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -115,10 +115,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
-		$this->tpl->parseCurrentBlock();
+		if (AUTH_CURRENT == AUTH_LOCAL)
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->displayList();
 	} //function
@@ -169,9 +172,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		//$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-		$this->showActions(true);
-
+		if (AUTH_CURRENT != AUTH_LOCAL)
+		{
+			$this->showActions(false);
+		}
+		else
+		{
+			$this->showActions(true);
+		}
+		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		#$tbl->disable("footer");

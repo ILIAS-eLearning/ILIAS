@@ -45,6 +45,7 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
+common#:#registration_disabled#:#Only available when using local authentication
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
@@ -55,6 +56,8 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
+common#:#ldap_passwd#:#Your current password
+common#:#err_enter_current_passwd#:#Please enter your current password
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
@@ -554,8 +557,8 @@ common#:#auth_mode_changed_to#:#Authentication mode changed to
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server
-common#:#auth_read#:#Access	authentication settings
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.
+common#:#auth_read#:#Access authentication settings
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than default mode, user logins and passwords cannot be changed anymore and the new registration option is disabled.
 common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
 common#:#auth_select#:#Select authentication mode

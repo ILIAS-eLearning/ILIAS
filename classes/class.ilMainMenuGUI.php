@@ -134,7 +134,7 @@ class ilMainMenuGUI
 
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
-			if ($this->ilias->getSetting("enable_registration"))
+			if ($this->ilias->getSetting("enable_registration") and AUTH_CURRENT == AUTH_LOCAL)
 			{
 				$this->tpl->setCurrentBlock("registration_link");
 				$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));

@@ -115,9 +115,7 @@ function upload_file()
 	{
 		//$ilias->raiseError($lng->txt("image_gen_unsucc"), $ilias->error_obj->MESSAGE);
 		sendInfo($lng->txt("image_gen_unsucc"), true);
-		header ("Location: usr_profile.php");
-		exit();
-
+		ilUtil::redirect("usr_profile.php");
 	}
 
 	return $target_file;
@@ -163,6 +161,12 @@ function removePicture()
 function change_password()
 {
 	global $ilias, $lng, $tpl, $password_error;
+	
+	// do nothing if auth mode is not local database
+	if (AUTH_CURRENT != AUTH_LOCAL)
+	{
+		return;
+	}
 
 	// check old password
 	if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
@@ -400,8 +404,7 @@ if ($_GET["cmd"] == "save")
 				sendInfo($lng->txt("saved_successfully"),true);
 			}
 			
-			header ("Location: usr_profile.php");
-			exit();
+			ilUtil::redirect("usr_profile.php");
 		}
 
 	}
@@ -438,7 +441,7 @@ foreach ($templates as $template)
 	$styleDef->startParsing();
 	$styles = $styleDef->getStyles();
 
-	foreach($styles as $style)
+	foreach ($styles as $style)
 	{
 		$tpl->setCurrentBlock("selectskin");
 
@@ -474,6 +477,17 @@ foreach ($hits_options as $hits_option)
 	}
 
 	$tpl->setVariable("HITSOPTION", $hits_option);
+	$tpl->parseCurrentBlock();
+}
+
+if (AUTH_CURRENT == AUTH_LOCAL)
+{
+	$tpl->setCurrentBlock("change_password");
+	$tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
+	$tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
+	$tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
+	$tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
+	$tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
 	$tpl->parseCurrentBlock();
 }
 
@@ -521,12 +535,6 @@ if (@is_file($image_file))
 $tpl->setVariable("UPLOAD",$lng->txt("upload"));
 $tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 $tpl->setVariable("USER_FILE", $lng->txt("user_file"));
-
-$tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
-$tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
-$tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
-$tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
-$tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
 
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_DEPARTMENT",$lng->txt("department"));

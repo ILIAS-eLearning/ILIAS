@@ -155,7 +155,9 @@ $ilCtrl = new ilCtrl();
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
 // check ilias 2 password, if authentication failed
-if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
+// only if AUTH_LOCAL
+if (AUTH_CURRENT == AUTH_LOCAL && !$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
+//if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
 {
 	if (ilObjUser::_lookupHasIlias2Password($_POST["username"]))
 	{
@@ -179,7 +181,7 @@ if ($ilias->auth->getAuth())
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReview();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
-	}
+	} // TODO: do we need 'else' here?
 	else
 	{
 		// init user

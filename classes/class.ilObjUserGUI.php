@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.83 2004/07/30 17:21:35 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.84 2004/08/02 08:42:52 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -555,6 +555,11 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
 		}
+		
+		if (AUTH_CURRENT != AUTH_LOCAL)
+		{
+			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
+		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		
@@ -806,36 +811,56 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
 		}
 
-		// check required fields
-		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
+		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			// check required fields
+			if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
+				or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
+				or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
+				or empty($_POST["Fobject"]["gender"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+		else
+		{
+			if ((empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
+				or empty($_POST["Fobject"]["email"]) or empty($_POST["Fobject"]["gender"])))
+				{
+					$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+				}
 		}
 
-		// validate login
-		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
-			$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
-		}
+			// validate login
+			if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		// check loginname
-		if (loginExists($_POST["Fobject"]["login"],$this->id))
-		{
-			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
-		}
+			// check loginname
+			if (loginExists($_POST["Fobject"]["login"],$this->id))
+			{
+				$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		// check passwords
-		if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
-		{
-			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
-		}
+			// check passwords
+			if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+			{
+				$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		// validate password
-		if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+			// validate password
+			if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			if ($_POST["Fobject"]["passwd"] != "********")
+			{
+				$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
+			}
 		}
 
 		// validate email
@@ -849,11 +874,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// checks passed. save user
 		$this->object->assignData($_POST["Fobject"]);
 
-		if ($_POST["Fobject"]["passwd"] != "********")
+		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
-			$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
+			$this->object->updateLogin($_POST["Fobject"]["login"]);
 		}
-		$this->object->updateLogin($_POST["Fobject"]["login"]);
+		
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->object->setLanguage($_POST["Fobject"]["language"]);
@@ -916,9 +941,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// feedback
 		sendInfo($msg,true);
-
-		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id);
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
 	}
 
 
@@ -966,9 +989,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
-
-		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=edit");
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=edit");
 	}
 
 	/**

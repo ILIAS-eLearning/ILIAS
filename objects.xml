@@ -26,6 +26,7 @@
 	<subobj name="ldap" max="1">ldap</subobj>
 	<subobj name="recf" max="1">recf</subobj>
 	<subobj name="trac" max="1">trac</subobj>
+	<subobj name="auth" max="1">auth</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -476,5 +477,10 @@
 	<property name="settings">settings</property>
 	<property name="manageData">manage_tracking_data</property>
 	<property name="perm">perm_settings</property>
+</object>
+<object name="auth" class_name="AuthSettings" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0">
+	<property name="view">settings</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
 </object>
 </objects>
