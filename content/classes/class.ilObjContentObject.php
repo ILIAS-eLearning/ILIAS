@@ -609,6 +609,17 @@ class ilObjContentObject extends ilObject
 		$this->readProperties();		// to get db default values
 	}
 
+	/**
+	* check wether content object is online
+	*/
+	function _lookupOnline($a_id)
+	{
+		$q = "SELECT * FROM content_object WHERE id = '".$a_id."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return ilUtil::yn2tf($lm_rec["online"]);
+	}
 
 	/**
 	* get all available lm layouts
