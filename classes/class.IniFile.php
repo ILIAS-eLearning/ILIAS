@@ -89,25 +89,19 @@ class IniFile
 	 * load and parse an inifile
 	 * @access private
 	 */
-    function parse() {
-//        $inidata = parse_ini_file($this->INI_FILE_NAME);
-    	$fp = @fopen($this->INI_FILE_NAME, "r+");
-		if ($fp == false)
+    function parse()
+	{
+		$this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
+		if ($this->GROUPS == false)
 		{
 			$this->error("file_not_accessible");
 			return false;
 		}
-    	$contents = fread($fp, filesize($this->INI_FILE_NAME));
-    	$ini_data = split("\n",$contents);
-		
-    	while(list($key, $data) = each($ini_data))
-    	{
-			if (substr($data,0,1) != ";")
-			{
-				$this->parse_data($data);
-			}
-    	}
-    	fclose($fp);
+
+		//set current group
+		$temp = array_keys($this->GROUPS);
+		$this->CURRENT_GROUP = $temp[count($temp)-1];
+
 		return true;
     }
 	
