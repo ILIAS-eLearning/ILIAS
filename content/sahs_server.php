@@ -78,7 +78,7 @@ else
 			session_id($session_id);
 			require_once "./include/inc.header.php";
 
-			$type="hlm";
+			$type="hacp";
 
 		}
 	}
