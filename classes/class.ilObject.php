@@ -443,20 +443,22 @@ class ilObject
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		if (empty($this->title))
+		// we must use getTitle(), because the title may be stored in a
+		// assigned meta object, not in $this->title
+		if ($this->getTitle() == "")
 		{
 			$message = "Object->create(): No title given! A title is required!";
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$this->title = addslashes(ilUtil::shortenText($this->title, $this->max_title, $this->add_dots));
-		$this->desc = addslashes(ilUtil::shortenText($this->desc, $this->max_desc, $this->add_dots));
+		$this->title = addslashes(ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots));
+		$this->desc = addslashes(ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots));
 
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update) ".
 			 "VALUES ".
-			 "('".$this->type."','".$this->title."','".$this->desc."',".
+			 "('".$this->type."','".$this->getTitle()."','".$this->getDescription()."',".
 			 "'".$this->ilias->account->getId()."',now(),now())";
 		$this->ilias->db->query($q);
 
