@@ -522,4 +522,47 @@ function sendInfo($a_info = "",$a_keep = false)
 			session_unregister("info");
 	}
 }
+
+function infoPanel($a_keep = true)
+{
+	global $tpl,$ilias,$lng;
+
+	if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
+	{
+		$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html");
+		$tpl->setCurrentBlock("infopanel");
+		
+		if (!empty($_SESSION["infopanel"]["text"]))
+		{
+			$link = "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
+			$link .= $lng->txt($_SESSION["infopanel"]["text"]);
+			$link .= "</a></td>";
+		}
+
+		if (!empty($_SESSION["infopanel"]["img"]))
+		{
+			$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
+			$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
+			$link .= "</a></td>";
+		}
+
+		$tpl->setVariable("INFO_ICONS",$link);
+		$tpl->parseCurrentBlock();
+	}
+
+	//if (!$a_keep)
+	//{
+			session_unregister("infopanel");
+	//}
+}
+
+function hasNewMail()
+{
+	return 8;
+}
+
+function getMailFolderId()
+{
+	return 3;
+}
 ?>

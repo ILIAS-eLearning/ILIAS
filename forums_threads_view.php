@@ -19,9 +19,10 @@ $frm->setForumId($forumObj->getId());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
 // catch stored message
 sendInfo();
+// display infopanel if something happened
+infoPanel();
 
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
@@ -61,7 +62,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 	$threadData = $frm->getOneThread();
 
-	$tpl->setVariable("HEADER", $threadData["thr_subject"]);
+	$tpl->setVariable("TXT_PAGEHEADLINE", $threadData["thr_subject"]);
 
 	// Visit-Counter
 	$frm->setDbTable("frm_threads");

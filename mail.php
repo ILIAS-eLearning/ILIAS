@@ -18,6 +18,8 @@ $umail = new Mail($_SESSION["AccountId"]);
 $mbox = new MailBox($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
+// display infopanel if something happened
+infoPanel();
 
 // IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
 if(!$_GET["mobj_id"])

@@ -43,10 +43,10 @@ function getContextPath($a_endnode_id, $a_startnode_id = 0)
 }
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
-
 // add everywhere wegen sparkassen skin
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-$tpl->touchBlock("buttons");
+// display infopanel if something happened
+infoPanel();
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));

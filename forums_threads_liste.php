@@ -16,10 +16,12 @@ $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new Forum();
 $frm->setForumId($forumObj->getId());
 
-$tpl->setVariable("HEADER", $forumObj->getTitle());
+$tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+// display infopanel if something happened
+infoPanel();
 
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {

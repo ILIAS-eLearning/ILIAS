@@ -14,6 +14,8 @@ $frm = new Forum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+// display infopanel if something happened
+infoPanel();
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET["thr_pk"]."&pos_pk=".$_GET["pos_pk"]."&offset=".$_GET["offset"]."&orderby=".$_GET["orderby"]);
@@ -25,7 +27,7 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-$tpl->setVariable("TXT_FORUM_USER", $lng->txt("userdata"));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("userdata"));
 
 // get user data
 $author = $frm->getUser($_GET["user"]);	
@@ -68,14 +70,6 @@ $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
 $tpl->setVariable("NUM_POSTS",$numPosts);
 
 $tpl->parseCurrentBlock("usertable");
-
-if ($_GET["message"])
-{
-	$tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-	$tpl->parseCurrentBlock();
-}
 
 $tpl->show();
 ?>

@@ -17,6 +17,8 @@ require_once "classes/class.User.php";
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
 // catch feedback message
 sendInfo();
+// display infopanel if something happened
+infoPanel();
 
 $tpl->setCurrentBlock("subtitle");
 $tpl->setVariable("TXT_SUBTITLE",strtolower($lng->txt("of"))." ".$ilias->account->getFullname());

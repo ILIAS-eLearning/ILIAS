@@ -144,4 +144,14 @@ if ($script != "login.php" && $script != "index.php")
 }
 
 $tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style"].".css");
+
+if ($mail_id = hasNewMail())
+{
+	$folder_id = getMailFolderId($mail_id);
+	
+	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
+									"text"	=> "new_mail",
+									"img"	=> "icon_cat.gif"
+									);
+}
 ?>

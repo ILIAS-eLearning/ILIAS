@@ -70,6 +70,7 @@ td.option_value {
 h1 {
 	font-size:16px;
 	color:#222222;
+	white-space:nowrap;
 }
 
 h2 {

@@ -12,6 +12,8 @@ require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+// display infopanel if something happened
+infoPanel();
 
 //display buttons
 $tpl->setCurrentBlock("btn_cell");
