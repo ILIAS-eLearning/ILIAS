@@ -393,6 +393,18 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* download file
+	*/
+	function downloadFileObject()
+	{
+		$file = explode("_", $_GET["file_id"]);
+		require_once("classes/class.ilObjFile.php");
+		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj->sendFile();
+		exit;
+	}
+
 	function questionBrowser()
 	{
 		global $rbacsystem;

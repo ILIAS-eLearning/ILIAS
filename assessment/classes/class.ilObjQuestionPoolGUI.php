@@ -125,8 +125,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setOutputMode("edit");
 				//$page_gui->setLocator($gloss_loc);
 				$page_gui->setHeader($question->getTitle());
-				//$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
-				//	"&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setFileDownloadLink("questionpool.php?cmd=downloadFile".
+					"&amp;ref_id=".$_GET["ref_id"]);
+
 				/*
 				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
 						array("edit", "view"),
@@ -197,6 +198,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* download file
+	*/
+	function downloadFileObject()
+	{
+		$file = explode("_", $_GET["file_id"]);
+		require_once("classes/class.ilObjFile.php");
+		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj->sendFile();
+		exit;
+	}
 
 	/**
 	* set question list filter
