@@ -935,9 +935,9 @@ class ilCourseContentInterface
 				$this->tpl->parseCurrentBlock();
 			}
 			// LAST ACCESS
-			$this->tpl->setVariable("TEXT_INFO_LMS",$this->lng->txt('last_access'));
 			if(isset($continue_data["$lm_id"]))
 			{
+				$this->tpl->setVariable("TEXT_INFO_LMS",$this->lng->txt('last_access'));
 				$this->tpl->setVariable("INFO_LMS",date('Y-m-d H:i:s',$continue_data["$lm_id"]['last_access']));
 			}
 			else
