@@ -45,6 +45,7 @@ class ilPageObjectGUI
 	var $target_script;
 	var $return_location;
 	var $target_var;
+	var $output2template;
 
 	/**
 	* Constructor
@@ -60,7 +61,7 @@ class ilPageObjectGUI
 		$this->obj =& $a_page_object;
 		$this->output_mode = "presentation";
 		$this->setPageObject($a_page_object);
-
+		$this->output2template = true;
 	}
 
 	function setPageObject(&$a_pg_obj)
@@ -107,6 +108,16 @@ class ilPageObjectGUI
 		return $this->output_mode;
 	}
 
+	function setTemplateOutput($a_output = true)
+	{
+		$this->output2template = $a_output;
+	}
+
+	function outputToTemplate()
+	{
+		return $this->output2template;
+	}
+
 	function setPresentationTitle($a_title = "")
 	{
 		$this->presentation_title = $a_title;
@@ -134,18 +145,22 @@ class ilPageObjectGUI
 	{
 		global $tree;
 
-		$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
-		$num = 0;
+		// init template
+		if($this->outputToTemplate())
+		{
+			$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
+			$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
+		}
 
-		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
-
-
+		// get content
 		$builded = $this->obj->buildDom();
-		$this->obj->addHierIDs();
+		if($this->getOutputMode == "edit")
+		{
+			$this->obj->addHierIDs();
+		}
 		$content = $this->obj->getXMLFromDom(false, true, true);
 
-
+		// check validation errors
 		if($builded !== true)
 		{
 			$this->displayValidationError($builded);
@@ -156,8 +171,10 @@ class ilPageObjectGUI
 		}
 		unset($_SESSION["il_pg_error"]);
 
+		// get title
 		$pg_title = $this->getPresentationTitle();
 
+		// run xslt
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
@@ -168,7 +185,7 @@ class ilPageObjectGUI
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		echo xslt_error($xh);
+//echo xslt_error($xh);
 		xslt_free($xh);
 
 		// unmask user html
@@ -176,7 +193,15 @@ class ilPageObjectGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
 
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		// output
+		if($this->outputToTemplate)
+		{
+			$this->tpl->setVariable("PAGE_CONTENT", $output);
+		}
+		else
+		{
+			return $output;
+		}
 	}
 
 	/*
