@@ -68,7 +68,10 @@ class ilUserTracking {
 		$q = "SELECT * from ut_access "
 		." WHERE "
 		." user_id = ".$ilDB->quote($ilUser->getId())
-		." order by acctime desc limit 1 ";
+// changed following line to " limit 1 "; because acctime doesn't exist in table
+// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
+//		." order by acctime desc limit 1 ";
+		." limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
 	}
