@@ -414,7 +414,8 @@ common#:#search_in#:#Search in
 common#:#search_recipient#:#Search Recipient
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
-common#:#select_file#:#Select filecommon#:#select_mode#:#Select mode
+common#:#select_file#:#Select file
+common#:#select_mode#:#Select mode
 common#:#selected#:#Selected
 common#:#send#:#Send
 common#:#sender#:#Sender

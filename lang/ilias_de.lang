@@ -381,7 +381,8 @@ common#:#search_in#:#Suchen in###04 Mar 2003 content changed
 common#:#search_recipient#:#Empfänger suchen###04 Mar 2003 content changed
 common#:#sections#:#Bereiche###04 Mar 2003 content changed
 common#:#select_all#:#Alle auswählen###04 Mar 2003 content changed
-common#:#select_file#:#Datei wählencommon#:#select_mode#:#Modus wählen
+common#:#select_file#:#Datei wählen
+common#:#select_mode#:#Modus wählen
 common#:#selected#:#Ausgewählte###04 Mar 2003 content changed
 common#:#send#:#Abschicken###04 Mar 2003 content changed
 common#:#sender#:#Absender###04 Mar 2003 content changed
