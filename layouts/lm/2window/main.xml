@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilFrame rows="43,*" frameborder="0" framespacing="0" border="0">
+	<ilFrame name="mainmenu" template="tpl.main_buttons.html" template_location="core" scrolling="no">
+		<ilMainMenu />
+	</ilFrame>
+	<ilFrame name="content" cols="50%,50%">
+		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
+			<ilPage />
+			<ilLMNavigation />
+		</ilFrame>
+		<ilFrame name="right" template="tpl.blank.html" template_location="module"/>
+	</ilFrame>
+</ilFrame>

@@ -50,11 +50,11 @@ class ilTemplate extends IntegratedTemplateExtension
 
 	/**
 	* constructor
-	* @param	string	$file templatefile (mit oder ohne pfad)
-	* @param	boolean	$flag1 wie in IntegratedTemplate
-	* @param	boolean	$flag1 wie in IntegratedTemplate
-	* @param	boolean	$in_module		should be set to true, if template file is in module subdirectory
-	* @param	array	$vars zu ersetzenden Variablen
+	* @param	string	$file 		templatefile (mit oder ohne pfad)
+	* @param	boolean	$flag1 		remove unknown variables
+	* @param	boolean	$flag2 		remove empty blocks
+	* @param	boolean	$in_module	should be set to true, if template file is in module subdirectory
+	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
 	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")

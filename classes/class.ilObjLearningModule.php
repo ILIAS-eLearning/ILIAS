@@ -39,6 +39,7 @@ class ilObjLearningModule extends ilObject
 {
 	var $lm_tree;
 	var $meta_data;
+	var $layout;
 
 	/**
 	* Constructor
@@ -54,6 +55,12 @@ class ilObjLearningModule extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	function create()
+	{
+		parent::create();
+		$this->createProperties();
+	}
+
 	function read()
 	{
 		parent::read();
@@ -62,6 +69,7 @@ class ilObjLearningModule extends ilObject
 		$this->lm_tree->setTreeTablePK("lm_id");
 
 		$this->meta_data =& new ilMetaData("lm", $this->getId());
+		$this->readProperties();
 		//parent::read();
 	}
 
@@ -122,9 +130,64 @@ class ilObjLearningModule extends ilObject
 
 	function getLayout()
 	{
-		// todo: make it real
-		return "toc2win";
+		return $this->layout;
 	}
+
+	function setLayout($a_layout)
+	{
+		$this->layout = $a_layout;
+	}
+
+	function readProperties()
+	{
+		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setLayout($lm_rec["default_layout"]);
+	}
+
+	function updateProperties()
+	{
+		$q = "UPDATE learning_module SET ".
+			"default_layout = '".$this->getLayout()."'".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
+	function createProperties()
+	{
+		$q = "INSERT INTO learning_module (id) VALUES ('".$this->getId()."')";
+		$this->ilias->db->query($q);
+	}
+
+
+	/**
+	* get all available lm layouts
+	*
+	* static
+	*/
+	function getAvailableLayouts()
+	{
+		// read sdir, copy files and copy directories recursively
+		$dir = opendir("./layouts/lm");
+
+		$layouts = array();
+
+		while($file = readdir($dir))
+		{
+			if ($file != "." && $file != ".." && $file != "CVS")
+			{
+				// directories
+				if (@is_dir("./layouts/lm/".$file))
+				{
+					$layouts[$file] = $file;
+				}
+			}
+		}
+		asort($layouts);
+		return $layouts;
+	}
+
 
 	function createLMTree()
 	{
