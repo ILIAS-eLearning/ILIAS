@@ -317,7 +317,7 @@ class ilGroupGUI extends ilObjectGUI
 		global $ilias;
 
 		if($this->object->getRegistrationFlag() == 1)
-		{		
+		{
 			$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
 			$res = $this->ilias->db->query($q);
 			if($res->numRows() > 0)
@@ -335,7 +335,8 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			if(strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible()==true)
 			{
-				$this->joinGroupObject();
+//				$this->joinGroupObject();
+				$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
 				sendInfo($this->lng->txt("registration_completed"),true);
 
 			}
@@ -369,7 +370,7 @@ class ilGroupGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
 			header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 		}
-	}	
+	}
 
 	/**
 	* cancel deletion of object
@@ -651,7 +652,9 @@ class ilGroupGUI extends ilObjectGUI
 
 	}
 
-
+	/**
+	* @access	public
+	*/
 	function confirmedAssignApplicantsObject()
 	{
 
@@ -677,6 +680,9 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
+	/**
+	* @access	public
+	*/
 	function confirmedAssignMemberObject($a_userIds="")
 	{
 
@@ -696,6 +702,9 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location: group.php?cmd=view&".$this->link_params);
 	}
 
+	/**
+	* @access	public
+	*/
 	function confirmedLeaveGroupObject()
 	{
 
@@ -708,16 +717,16 @@ class ilGroupGUI extends ilObjectGUI
 				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 				break;
 			case 2: sendInfo($this->lng->txt("group_needs_to_be_deleted"),true);
-				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);			
+				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 				break;
 			default:sendInfo($this->lng->txt("an_error_occured"),true);
 				header("Location: group.php?cmd=view&ref_id=".$this->ref_id);
-	
+
 		}
 
 		if(!$this->object->leaveGroup())
 			$this->ilias->raiseError(get_class($this)."::confirmedleaveGroupObject(): Core Method ".get_class($this->object)."::leaveGroup() returned false!",$this->ilias->error_obj->WARNING);
-	
+
 	}
 
 	/**
@@ -728,15 +737,19 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (isset($_SESSION["saved_post"]["user_id"]) )
+		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds() ))
 		{
 			//User needs to have administrative rights to remove members...
-			if(in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()))
-				foreach($_SESSION["saved_post"]["user_id"] as $member_id)
-				{
-					if(!$this->object->removeMember($member_id))
-						$this->ilias->raiseError(get_class($this)."::confirmedRemoveMemberObject(): Core Method ".get_class($this->object)."::removeMember() returned false!",$this->ilias->error_obj->WARNING);
-				}
+			foreach($_SESSION["saved_post"]["user_id"] as $member_id)
+			{
+				$err_msg = $this->object->removeMember($member_id);
+				if(strlen($err_msg) > 0)
+					sendInfo($this->lng->txt($err_msg),true);
+			}
+		}
+		else
+		{
+			sendInfo($this->lng->txt("grp_err_no_permission"),true);
 		}
 
 		unset($_SESSION["saved_post"]);
@@ -744,6 +757,9 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
+	/**
+	* @access	public
+	*/
 	function permSave()
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin;
@@ -1030,13 +1046,12 @@ class ilGroupGUI extends ilObjectGUI
 				break;
 		}
 		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
-
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
-//		$cb_password = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_password", 1, false);
+		$cb_reset	    = ilUtil::formCheckBox(0,"group_reset",1,false);
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
-		
+
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -1054,6 +1069,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
+		$this->tpl->setVariable("TXT_EXPIRATIONTIME", $this->lng->txt("group_registration_expiration_time"));
 		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
 		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
 
@@ -1063,6 +1079,8 @@ class ilGroupGUI extends ilObjectGUI
 //		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("SELECT_GROUPSTATUS", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		$this->tpl->setVariable("TXT_RESET", $this->lng->txt("group_reset"));
+		$this->tpl->setVariable("CB_RESET", $cb_reset);
 		$this->tpl->show();
 	}
 
@@ -1093,7 +1111,7 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					$thr_page = "new";
 				}
-				
+
 				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["ref_id"];
 				break;
 
@@ -1154,20 +1172,22 @@ class ilGroupGUI extends ilObjectGUI
 		return $path;
 	}
 
+	/**
+	* @access	public
+	*/
 	function groupListObject()
 	{
 		header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 	}
 
+	/**
+	* @access	public
+	*/
 	function joinGroupObject()
-	{ 
-//		if ($this->object->join($this->ilias->account->getId(),0))
-//		if ($this->object->joinGroup(0))
+	{
 		if ($this->object->addMember($this->ilias->account->getId(), $this->grp_object->getDefaultMemberRole()))
 		{
-			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("grp_registration_completed"),true);
-
 		}
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 	}
@@ -1178,7 +1198,7 @@ class ilGroupGUI extends ilObjectGUI
 	function newMembersObject()
 	{
 		//create additional tabs for tab-bar
-		
+
 		$this->prepareOutput(true,99);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
@@ -1314,6 +1334,9 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* @access	public
+	*/
 	function permObject()
 	{
 		global $rbacsystem, $rbacreview;
@@ -1686,6 +1709,9 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* @access	public
+	*/
 	function showApplicationList()
 	{
 		global $rbacsystem;
@@ -2173,7 +2199,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("EXPLORER", $output);
 		$this->tpl->parseCurrentBlock();
 		
-		
+
 		$this->tpl->show();
 	}
 	
@@ -2294,7 +2320,9 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
-
+	/**
+	* @access	public
+	*/
 	function updateMemberStatusObject()
 	{
 		global $rbacsystem;
@@ -2318,6 +2346,10 @@ class ilGroupGUI extends ilObjectGUI
 		header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
+
+	/**
+	* @access	public
+	*/
 	function updateGroupStatusObject()
 	{
 		global $rbacsystem;
@@ -2327,6 +2359,10 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+		if($_POST["enable_registration"] == 2 && empty($_POST["password"]) || empty($_POST["expirationdate"]) || empty($_POST["expirationtime"]) )//Password-Registration Mode
+		{
+			$this->ilias->raiseError($this->lng->txt("grp_err_registration_data"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
 		{
@@ -2335,10 +2371,13 @@ class ilGroupGUI extends ilObjectGUI
 		else
 		{
 			if (isset($_POST["group_status"]))
-			{	
+			{
 				$this->grp_object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 				$this->grp_object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-				$this->grp_object->setGroupStatus($_POST["group_status"]);
+				if($_POST["group_reset"] == 1)
+				{
+					$this->grp_object->setGroupStatus($_POST["group_status"]);
+				}
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
 				$this->grp_object->setPassword($_POST["password"]);
 				$this->grp_object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
@@ -2349,6 +2388,9 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location: group.php?".$this->link_params);
 	}
 
+	/**
+	* @access	public
+	*/
 	function viewObject()
 	{
 		//necessary for gateway calls
@@ -2665,6 +2707,9 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
+	/**
+	* @access	public
+	*/
 	function get_file()
 	{
 		global $rbacsystem;
@@ -2700,9 +2745,9 @@ class ilGroupGUI extends ilObjectGUI
 	    // Done
 	    return true;
 	}
-	
-	
-	/** 
+
+
+	/**
 	* confirmed deletion if object -> objects are moved to trash
 	*
 	* However objects are only removed from tree!! That means that the objects
@@ -2805,7 +2850,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
 									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// DELETE THEM
 		/*if (!$tree_all_node_data[0]["type"])
 		{
@@ -2825,47 +2870,47 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{*/
-			
-			
+
+
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 			foreach ($_SESSION["saved_post"] as $id)
 			{
-				
+
 				// GET ALL RBAC-OBJECTS
-				//variable $tree_subnodes contains all subnodes of variable $id in tree_table  
-				//variable $grp_tree_subnodes contains all subnodes of variable $id in grp_table 
+				//variable $tree_subnodes contains all subnodes of variable $id in tree_table
+				//variable $grp_tree_subnodes contains all subnodes of variable $id in grp_table
 				$tree_subnodes = array();
 				$grp_tree_subnodes = $this->grp_tree->getSubtree($this->grp_tree->getNodeData($id));
-				
+
 				if ($grp_tree_subnodes[0]["perm"] == 1)
-				{ 
+				{
 					$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
 				}
 				else
 				{
-					
+
 					foreach($grp_tree_subnodes as $grp_tree_subnode)
 					{
 						if($grp_tree_subnode["perm"] == 1 )
 						{
 							$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($grp_tree_subnode["child"]));
-						}	
+						}
 					}
 				}
-				
-				
+
+
 				// DELETE OLD PERMISSION ENTRIES
 				foreach ($tree_subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
 					// remove item from all user desktops
 					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
-				
+
 					// TODO: inform users by mail that object $id was deleted
 					//$mail->sendMail($id,$msg,$affected_users);
 				}
-				
-				//SET DELETED NODES IN TREE TABLE 
+
+				//SET DELETED NODES IN TREE TABLE
 				if ($grp_tree_subnodes[0]["perm"] == 1)
 				{
 					$this->tree->saveSubTree($id);
@@ -2880,16 +2925,16 @@ class ilGroupGUI extends ilObjectGUI
 						{
 							$this->tree->saveSubTree($grp_tree_subnode["child"]);
 							$this->tree->deleteTree($this->tree->getNodeData($grp_tree_subnode["child"]));
-						}	
+						}
 					}
 				}
-				
-				//SET DELETED NODES IN GRP_TREE TABLE 
+
+				//SET DELETED NODES IN GRP_TREE TABLE
 				$this->grp_tree->saveSubTree($id);
 				$this->grp_tree->deleteTree($this->grp_tree->getNodeData($id));
-				
-				
-				
+
+
+
 				// remove item from all user desktops
 				foreach($grp_tree_subnodes as $grp_tree_subnode)
 				{
@@ -2898,21 +2943,21 @@ class ilGroupGUI extends ilObjectGUI
 						$affected_users = ilUtil::removeItemFromDesktops($grp_tree_subnode["child"]);
 					}
 				}
-				
+
 				// TODO: inform users by mail that object $id was deleted
 				//$mail->sendMail($id,$msg,$affected_users);
 			}
 			// inform other objects in hierarchy about paste operation
 			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		//}
-		
+
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
-		
+
 		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
-	
+
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
 	*
@@ -2927,7 +2972,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		foreach ($_POST["trash_id"] as $id)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
@@ -2955,7 +3000,7 @@ class ilGroupGUI extends ilObjectGUI
 									 implode(',',$no_create),$this->ilias->error_obj->MESSAGE);
 		}
 		//$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
-		
+
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
