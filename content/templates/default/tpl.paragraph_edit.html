@@ -568,7 +568,7 @@ addNATI("com",	"code",	"code");
 addNATI("quot",	"quot",	"ilc_Quotation");
 addNATI("quot",	"code",	"code");
 addNATI("code",	"code",	"code");
-addNATI("xln",	"xln",	"ilc_ExtLink");
+//addNATI("xln",	"xln",	"ilc_ExtLink");
 
 
 function buttonX() 
@@ -720,6 +720,7 @@ function buttonX()
 
 function checkAllowTagInside3(which) 
 {
+	// {{{
 	var ancestors = editor.getAllAncestors();
 	if(ancestors.length==1) 
 	{
@@ -748,7 +749,7 @@ function checkAllowTagInside3(which)
 		alert("{TXT_FORMATERROR}");
 		return(false);
 	}
-	
+	// }}}
 }
 // {{{
 function checkAllowTagInside(which) 
