@@ -98,6 +98,59 @@ class ilObjChat extends ilObject
 
 		return true;
 	}
+
+	function sendMessage($a_id)
+	{
+		include_once "./classes/class.ilMail.php";
+
+		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+
+		// GET USER OBJECT
+		$tmp_user = ilObjectFactory::getInstanceByObjId($a_id);
+
+		// GET USERS LANGUAGE
+		$tmp_lang =& new ilLanguage($tmp_user->getLanguage());
+		$tmp_lang->loadLanguageModule("chat");
+
+		$message = $tmp_mail_obj->sendMail($this->__formatRecipient($tmp_user),"","",$this->__formatSubject($tmp_lang),
+										   $this->__formatBody($tmp_user,$tmp_lang),array(),array("normal"));
+
+		unset($tmp_mail_obj);
+		unset($tmp_lang);
+		unset($tmp_user);
+
+		return true;
+	}
+
+	// PRIVATE
+	function __formatRecipient(&$user)
+	{
+		if(is_object($user))
+		{
+			return $user->getLogin();
+		}
+		return false;
+	}
+
+	function __formatSubject(&$lang)
+	{
+		return $lang->txt("chat_invitation_subject");
+	}
+
+	function __formatBody(&$user,&$lang)
+	{
+		$body = $lang->txt("chat_invitation_body");
+		$body .= $user->getFullname();
+		$body .= "\n\n";
+		$body .= $lang->txt("chat_chatroom_body").": ".$this->chat_room->getTitle()."\n";
+		$body .= "<a class=\"navigation\" href=\"./chat/chat_rep?ref_id=".$this->getRefId()."\">".
+			$lang->txt("chat_to_chat_body")."</a>";
+
+		return $body;
+	}
+
+
+		
 		
 
 		

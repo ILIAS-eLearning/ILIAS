@@ -141,10 +141,18 @@ class ilChatServerConfig
 		}
 		if(!$this->getPort())
 		{
+			if($this->error_message)
+			{
+				$this->error_message .= "<br />";
+			}
 			$this->error_message .= $this->lng->txt("chat_add_port");
 		}
 		if(!$this->getModeratorPassword() or strlen($this->getModeratorPassword()) < 6)
 		{
+			if($this->error_message)
+			{
+				$this->error_message .= "<br />";
+			}
 			$this->error_message .= $this->lng->txt("chat_add_moderator_password");
 		}
 
@@ -197,7 +205,7 @@ class ilChatServerConfig
 	{
 		if(!($fp = @fopen($a_path."./chat/chatserver/server.ini","w")))
 		{
-			$this->error_message = "./chat/chatserver/server.ini ".$this->lng->txt("!!chat_no_write_perm");
+			$this->error_message = "./chat/chatserver/server.ini ".$this->lng->txt("chat_no_write_perm");
 			return false;
 		}
 		$content =  "LogLevel = ".$this->getLogLevel()."\n";
@@ -215,7 +223,7 @@ class ilChatServerConfig
 
 		if(!@fwrite($fp,$content))
 		{
-			$this->error_message = ILIAS_ABSOLUTE_PATH."/chat/chatserver/server.ini ".$this->lng->txt("!!chat_no_write_perm");
+			$this->error_message = ILIAS_ABSOLUTE_PATH."/chat/chatserver/server.ini ".$this->lng->txt("chat_no_write_perm");
 			fclose($fp);
 			
 			return false;

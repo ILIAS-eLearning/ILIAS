@@ -1255,6 +1255,8 @@ class ilRepositoryGUI
 	{
 		global  $tree, $rbacsystem, $ilias;
 
+		$this->lng->loadLanguageModule("chat");
+
 		// set offset & limit
 		//$offset = intval($_GET["offset"]);
 		//$limit = intval($_GET["limit"]);

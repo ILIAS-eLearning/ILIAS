@@ -113,9 +113,6 @@ class ilChatServerCommunicator
 			return false;
 		}
 		fputs($this->socket_p,$this->__formatMessage());
-
-		// STORE MESSAGE IN DB
-		$this->chat->chat_room->appendMessageToDb($this->getMessage());
 		fclose($this->socket_p);
 
 		return true;
@@ -156,11 +153,16 @@ class ilChatServerCommunicator
 		switch($this->getType())
 		{
 			case 'private':
+
+				// STORE MESSAGE IN DB
+				$this->chat->chat_room->appendMessageToDb($this->getMessage());
 				return "|".$this->__formatLogin($this->getRecipientLogin()).
 					$this->__formatLogin($this->chat->chat_user->getLogin()).
 					$this->__getFormattedChatroom().$this->getMessage()."<br />";
 			
 			case 'normal':
+				// STORE MESSAGE IN DB
+				$this->chat->chat_room->appendMessageToDb($this->getMessage());
 				return ">".$this->__getFormattedChatroom().$this->getMessage()."<br />";
 
 			case 'login':

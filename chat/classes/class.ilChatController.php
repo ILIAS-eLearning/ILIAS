@@ -58,7 +58,7 @@ class ilChatController
 		{
 			unset($_REQUEST["room_id"]);
 			unset($_REQUEST["message"]);
-			sendInfo("!!chat_you are not entitled to view this room",true);
+			sendInfo("You are not entitled to view this room",true);
 		}
 		$this->gui_obj->object->server_comm->setRecipientId((int) $_GET["p_id"]);
 		$this->__getCommand();
