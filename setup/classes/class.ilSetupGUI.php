@@ -1118,7 +1118,22 @@ class ilSetupGUI extends ilSetup
 			{
 				$this->raiseError($this->lng->txt("no_client_id_given"),$this->error_obj->MESSAGE);
 			}
-			
+
+			if (strlen($_POST["form"]["client_id"]) != strlen(urlencode(($_POST["form"]["client_id"]))))
+			{
+				$this->raiseError($this->lng->txt("client_id_contains_invalid_characters"),$this->error_obj->MESSAGE);
+			}			
+
+			if (strlen($_POST["form"]["client_id"]) < 4)
+			{
+				$this->raiseError($this->lng->txt("client_id_too_short"),$this->error_obj->MESSAGE);
+			}
+
+			if (strlen($_POST["form"]["client_id"]) > 32)
+			{
+				$this->raiseError($this->lng->txt("client_id_too_long"),$this->error_obj->MESSAGE);
+			}
+
 			// check database
 			if (!$_POST["form"]["db_host"])
 			{
@@ -1147,7 +1162,7 @@ class ilSetupGUI extends ilSetup
 				// check for existing client dir (only for newly created clients not renaming)
 				if (!$this->ini_client_exists and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$client_id))
 				{
-					$this->raiseError($this->lng->txt("client_dir_exists"),$this->error_obj->MESSAGE);
+					$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
 				}
 
 				$this->newClient($client_id);
