@@ -1511,13 +1511,19 @@ class ilObjTest extends ilObject
 	}
 	
 	function &get_qpl_titles() {
+		global $rbacsystem;
+		
 		$qpl_titles = array();
-		$query = sprintf("SELECT object_data.title, object_data.obj_id FROM object_data WHERE object_data.type = %s",
-			$this->ilias->db->quote("qpl")
-		);
+		// get all available questionpools and remove the trashed questionspools
+		$forbidden_pools = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
 		$result = $this->ilias->db->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$qpl_titles["$data->obj_id"] = $data->title;
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			{
+				$qpl_titles["$row->obj_id"] = $row->title;
+			}
 		}
 		return $qpl_titles;
 	}
@@ -2649,7 +2655,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0)
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
 		$where = "";
@@ -2665,6 +2671,16 @@ class ilObjTest extends ilObject
 					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
 			}
+		}
+		
+		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
+		{
+			$where .= " AND qpl_question_type.type_tag = " . $this->ilias->db->quote($filter_question_type);
+		}
+		
+		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
+		{
+			$where .= " AND qpl_questions.obj_fi = $filter_questionpool";
 		}
   
     // build sort order for sql query
@@ -2787,6 +2803,28 @@ class ilObjTest extends ilObject
 		}
 		return $result;
 	}
+	
+	/**
+	* Creates a list of all available question types
+	*
+	* Creates a list of all available question types
+	*
+	* @return array An array containing the available questiontypes
+	* @access public
+	*/
+	function &_getQuestiontypes()
+	{
+		global $ilDB;
 		
+		$questiontypes = array();
+		$query = "SELECT * FROM qpl_question_type ORDER BY type_tag";
+		$query_result = $ilDB->query($query);
+		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questiontypes, $row["type_tag"]);
+		}
+		return $questiontypes;
+	}
+	
 } // END class.ilObjTest
 ?>

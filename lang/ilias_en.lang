@@ -186,6 +186,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all req
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload image maps!
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
+assessment#:#filter_show_question_types#:#Show question types
+assessment#:#filter_show_questionpools#:#Show questionpools
+assessment#:#filter_all_question_types#:#All question types
+assessment#:#filter_all_questionpools#:#All questionpools
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
