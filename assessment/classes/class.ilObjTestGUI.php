@@ -3486,11 +3486,27 @@ class ilObjTestGUI extends ilObjectGUI
 //			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 		$row = 0;
 		$question_legend = false;
+		$question_stat = array();
 		$evaluation_array = array();
 		foreach ($total_users as $key => $value) {
 			// receive array with statistical information on the test for a specific user
 //				$ilBench->start("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
 			$stat_eval =& $this->object->evalStatistical($key);
+			foreach ($stat_eval as $sindex => $sarray)
+			{
+				if (preg_match("/\d+/", $sindex))
+				{
+					$qt = $sarray["title"];
+					$qt = preg_replace("/<.*?>/", "", $qt);
+					if (!array_key_exists($qt, $question_stat))
+					{
+						$question_stat[$qt] = array("max" => 0, "reached" => 0);
+					}
+					$question_stat[$qt]["single_max"] = $sarray["max"];
+					$question_stat[$qt]["max"] += $sarray["max"];
+					$question_stat[$qt]["reached"] += $sarray["reached"];
+				}
+			}
 //				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
 			$evaluation_array[$key] = $stat_eval;
 		}
@@ -3890,6 +3906,27 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
 		$this->tpl->parseCurrentBlock();
 
+		$counter = 0;
+		foreach ($question_stat as $title => $values)
+		{
+			$this->tpl->setCurrentBlock("meanrow");
+			$this->tpl->setVariable("TXT_QUESTION", ilUtil::prepareFormOutput($title));
+			$percent = 0;
+			if ($values["max"] > 0)
+			{
+				$percent = $values["reached"] / $values["max"];
+			}
+			$this->tpl->setVariable("TXT_MEAN", sprintf("%.2f", $values["single_max"]*$percent) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $values["single_max"]) . " (" . sprintf("%.2f", $percent*100) . " %)");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("question_mean_points");
+		$this->tpl->setVariable("TXT_AVERAGE_POINTS", $this->lng->txt("average_reached_points"));
+		$this->tpl->setVariable("TXT_QUESTION", $this->lng->txt("question_title"));
+		$this->tpl->setVariable("TXT_MEAN", $this->lng->txt("average_reached_points"));
+		$this->tpl->parseCurrentBlock();
+		
 		$noq = $noqcount;		
 		foreach ($titlerow as $title)
 		{

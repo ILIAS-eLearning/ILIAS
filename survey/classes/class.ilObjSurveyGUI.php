@@ -3179,9 +3179,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						
 						// display chart for ordinal question for array $eval["variables"]
-						$this->tpl->setVariable("TEXT_CHART", "Chart");
-						$this->tpl->setVariable("CHART", "<img src=\"\">");
-						
+						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+							"&type=bars" . 
+							"&x=" . urlencode($this->lng->txt("answers")) . 
+							"&y=" . urlencode($this->lng->txt("users_answered")) . 
+							"&arr=".base64_encode(serialize($eval["variables"])));
 						switch ($_POST["export_format"])
 						{
 							case TYPE_PRINT:
@@ -3216,6 +3220,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						array_push($printDetail, $this->lng->txt("subtype"));
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
+						$charttype = "bars";
 						switch ($data["subtype"])
 						{
 							case SUBTYPE_MCSR:
@@ -3223,6 +3228,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								array_push($printDetail, $this->lng->txt("multiple_choice_single_response"));
 								break;
 							case SUBTYPE_MCMR:
+								$charttype = "pie";
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_multiple_response"));
 								array_push($printDetail, $this->lng->txt("multiple_choice_multiple_response"));
 								break;
@@ -3252,6 +3258,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 
 						// display chart for nominal question for array $eval["variables"]
+						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+							"&type=$charttype" . 
+							"&x=" . urlencode($this->lng->txt("answers")) . 
+							"&y=" . urlencode($this->lng->txt("users_answered")) . 
+							"&arr=".base64_encode(serialize($eval["variables"])));
 
 						switch ($_POST["export_format"])
 						{
@@ -3343,6 +3356,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_VALUES", $values);
 
 						// display chart for metric question for array $eval["values"]
+						$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+						$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+						$this->tpl->setVariable("CHART","displaychart.php?grName=" . urlencode($data["title"]) . 
+							"&type=bars" . 
+							"&x=" . urlencode($this->lng->txt("answers")) . 
+							"&y=" . urlencode($this->lng->txt("users_answered")) . 
+							"&arr=".base64_encode(serialize($eval["values"])));
 
 						switch ($_POST["export_format"])
 						{
