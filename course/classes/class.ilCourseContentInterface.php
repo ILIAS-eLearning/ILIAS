@@ -156,7 +156,7 @@ class ilCourseContentInterface
 					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				if($cont_data["type"] == "file")
+				if($cont_data["type"] == "file" and $rbacsystem->checkAccess('read',$cont_data['ref_id']))
 				{
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
