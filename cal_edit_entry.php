@@ -37,14 +37,15 @@ if($_GET["ts"] != null) {
 
 $objekt = new ilCalGroupHandler;
 
-if ($_POST["day"] != null) {
+if ($_POST["day"] != null)
+{
 	$appointment = new ilAppointment();
 	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setCategoryId($_POST["category"]);
 	$appointment->setDescription($_POST["description"]);
 	$appointment->setPriorityId($_POST["priority"]);
 	$appointment->setAccess($_POST["access"]);
-	
+
 	if ($_POST["groups"] != null && count($_POST["groups"])>0) {
 		if ($_POST["groups"][0] == 0) {
 			$users = $objekt->getAllUsers();
@@ -184,15 +185,14 @@ if ($_POST["day"] != null) {
 	else {
 		$appointment->setSerial(0);
 	}
-	
+
 	if ($_POST["rpt_stop_d"] != null or $_POST["rpt_stop_m"] != null or $_POST["rpt_stop_y"] != null) {
 	        if (checkdate($_POST["rpt_stop_m"], $_POST["rpt_stop_d"], $_POST["rpt_stop_y"]) == TRUE &&
-					$cal->isNumeric($_POST["rpt_stop_m"]) && 
-	        		$cal->isNumeric($_POST["rpt_stop_d"]) && 
-	        		$cal->isNumeric($_POST["rpt_stop_y"])) {
-	        			
-	        		$ser_stop = mktime(23, 59, 0, $_POST["rpt_stop_m"], $_POST["rpt_stop_d"], $_POST["rpt_stop_y"]);
-	                $appointment->setSer_stop($ser_stop);
+					$cal->isNumeric($_POST["rpt_stop_m"]) &&
+					$cal->isNumeric($_POST["rpt_stop_d"]) &&
+					$cal->isNumeric($_POST["rpt_stop_y"])) {
+					$ser_stop = mktime(23, 59, 0, $_POST["rpt_stop_m"], $_POST["rpt_stop_d"], $_POST["rpt_stop_y"]);
+					$appointment->setSer_stop($ser_stop);
 	        }
 	        else {
 	                $appointmentErr = TRUE;
@@ -213,7 +213,7 @@ if ($_POST["day"] != null) {
 			$appointment->setStartTimestamp($todayts);
 		}
 	}
-	
+
 	if (count($result) != 0) {
 		$app_double = TRUE;
 	}
@@ -301,31 +301,36 @@ if ($_POST["day"] != null) {
 		if ($_POST["rpt_stop_y"] != null && $appointmentErrStp != TRUE) {
    	     $rpt_stop_y = $_POST["rpt_stop_y"];
 		}
-   	$appointmentErr = FALSE;
-   	$appointmentErrTerm = FALSE;
-   	$appointmentErrTime = FALSE;
-    	$appointmentErrDate = FALSE;
-   	$appointmentErrStp = FALSE;
-   }
-	else {
-		if ($update != TRUE) {
+		$appointmentErr = FALSE;
+		$appointmentErrTerm = FALSE;
+		$appointmentErrTime = FALSE;
+		$appointmentErrDate = FALSE;
+		$appointmentErrStp = FALSE;
+	}
+	else
+	{
+		// save new appointment
+		if ($update != TRUE)
+		{
 			$appointmentHandler->insertAppointment($users, $appointment);
 			$confirmation = TRUE;
 		}
-		else {
+		else	// update existing appointment
+		{
 			$aehhhWieNennIchDasJetzt = $appointmentHandler->getSingleAppointment($appointment->getAppointmentId());
 			$appointment->setAppointmentUnionId($aehhhWieNennIchDasJetzt->getAppointmentUnionId());
 			$updateOK = $appointmentHandler->appointmentUpdate($ilias->account->getId(), $appointment);
-			
 			$updateconf = TRUE;
 		}
 	}
 }
-elseif ($_GET["aid"] != null) {
+elseif ($_GET["aid"] != null)
+{
 	$appointmentHandler = new ilAppointmentHandler();
 	$appointmentId = $_GET["aid"];
 	$appointment = $appointmentHandler->getSingleAppointment($appointmentId);
-	if ($_GET["ts"] != null) {
+	if ($_GET["ts"] != null)
+	{
 		$appointment->setStartTimestamp($_GET["ts"]);
 	}
 	$update = TRUE;
@@ -333,7 +338,8 @@ elseif ($_GET["aid"] != null) {
 	$delete = FALSE;
 	$edit = TRUE;
 }
-elseif ($_GET["delete"] != null) {
+elseif ($_GET["delete"] != null)
+{
 	$userId = $ilias->account->getId();
 	$appointmentId = $_GET["delete"];
 	$rnts = $_GET["ts"];
@@ -342,7 +348,7 @@ elseif ($_GET["delete"] != null) {
 	//$tempArray = getdate($temp);
 	//$appTSArray = getdate($appointment->getStartTimestamp());
 	//$rnts = mktime ($appTSArray["hour"], $appTSArray["minute"], $appTSArray["seconds"], $tempArray["mon"], $tempArray["mday"], $tempArray["year"]);
-	
+
 	if($appointment->getSerial() == 1) {
 		$deleteOK = $appointmentHandler->appointmentRepeatsNot($appointmentId, $rnts);
 		$appointment->setStartTimestamp($rnts);
@@ -360,7 +366,8 @@ elseif ($_GET["delete"] != null) {
 		$update = FALSE;
 	}
 }
-elseif ($_GET["deleteS"] != null) {
+elseif ($_GET["deleteS"] != null)
+{
 	$userId = $ilias->account->getId();
 	$appointmentId = $_GET["deleteS"];
 	$rnts = $_GET["ts"];
@@ -374,17 +381,22 @@ elseif ($_GET["deleteS"] != null) {
 	$edit = FALSE;
 	$update = FALSE;
 }
-elseif ($_GET["ts"] != null) {
-	
+elseif ($_GET["ts"] != null)
+{
+
 	$appointment = new ilAppointment();
 	$appointment->setStartTimestamp($_GET["ts"]);
 }
 
-if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
+// display input form
+if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE)
+{
 	$tpl->addBlockFile("CONTENT", "content", "tpl.cal_edit_entry.html");
-	if (isset($_GET["ts"])) {
+	if (isset($_GET["ts"]))
+	{
 		$chosents = $_GET["ts"];
 	}
+
 	//add template for buttons
 	$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -410,15 +422,15 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 
 
 
-	if ($edit == TRUE) 
+	if ($edit == TRUE)
 	{
 		//add template for buttons
-		if($appointment->getSerial() == 1) {	
+		if($appointment->getSerial() == 1) {
 			$tpl->setCurrentBlock("btn_cell");
 			$tpl->setVariable("BTN_LINK","cal_edit_entry.php?delete=".$appointment->getAppointmentId()."&ts=".$appointment->getStartTimestamp());
 			$tpl->setVariable("BTN_TXT","l&ouml;sche Einzeltermin");
 			$tpl->parseCurrentBlock();
-			
+
 			$tpl->setCurrentBlock("btn_cell");
 			$tpl->setVariable("BTN_LINK","cal_edit_entry.php?deleteS=".$appointment->getAppointmentId()."&ts=".$appointment->getStartTimestamp());
 			$tpl->setVariable("BTN_TXT","l&ouml;sche Terminserie");
@@ -453,22 +465,26 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	$selDay = $appDate["mday"];
 	if ($_POST["day"] != null || $_POST["day"] != "")
 		$selDay = $_POST["day"];
-	while ($counter <= 31) {
-		if ($selDay == $counter) {
+	while ($counter <= 31)
+	{
+		if ($selDay == $counter)
+		{
 			$checked = "selected";
 		}
-        $count_txt = $count_txt . "<OPTION VALUE=\"{$counter}\" {$checked}>".$cal->addLeadingZero($counter)."</OPTION>";
-        $checked = "";
-        $counter = $counter + 1;
+		$count_txt = $count_txt . "<OPTION VALUE=\"{$counter}\" {$checked}>".$cal->addLeadingZero($counter)."</OPTION>";
+		$checked = "";
+		$counter = $counter + 1;
 	}
-	   $tpl->setVariable("VAL_day_count", $count_txt);
+	$tpl->setVariable("VAL_day_count", $count_txt);
 	$count_txt = "";
 	$counter = 1;
 	$selMonth = $appDate["mon"];
 	if ($_POST["month"] != null || $_POST["month"] != "")
 		$selMonth = $_POST["month"];
-	while ($counter <= 12) {
-		if ($selMonth == $counter) {
+	while ($counter <= 12)
+	{
+		if ($selMonth == $counter)
+		{
 			$checked = "selected";
 		}
 		$count_txt = $count_txt . "<OPTION VALUE=\"{$counter}\" {$checked}>".$cal->addLeadingZero($counter)."</OPTION>";
@@ -482,27 +498,27 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 		$selYear = $_POST["year"];
 
 	if ($selYear == date("Y"))
-		$tpl->setVariable("VAL_Year_act_sel", "selected");	
-		
+		$tpl->setVariable("VAL_Year_act_sel", "selected");
+
 	$tpl->setVariable("VAR_Year_nxt", date("Y", strtotime("+1 year")));
 	if ($selYear == date("Y", strtotime("+1 year")))
-		$tpl->setVariable("VAL_Year_nxt_sel", "selected");	
-		
+		$tpl->setVariable("VAL_Year_nxt_sel", "selected");
+
 	$tpl->setVariable("TXT_Time", "Uhrzeit");
-	
+
 	$selHour = $appDate["hours"];
 	if ($_POST["hour"] != null || $_POST["hour"] != "")
 		$selHour = $_POST["hour"];
-		
+
 	$tpl->setVariable("VAL_hour", $selHour);
-	
+
 	$selMinute = $appDate["minutes"];
 	if ($_POST["minute"] != null || $_POST["minute"] != "")
 		$selMinute = $_POST["minute"];
-		
+
 	$tpl->setVariable("VAL_Minute", $selMinute);
 	$tpl->setVariable("TXT_Time_expl", "z.B. 23:59");
-	
+
 	if (($_POST["duration_d"] == null || $_POST["duration_d"] == "") &&
 		 ($_POST["duration_h"] == null || $_POST["duration_h"] == "") &&
 		 ($_POST["duration_m"] == null || $_POST["duration_m"] == "")) {
@@ -531,7 +547,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	$tpl->setVariable("TXT_Single", "Einzeltermin");
 	$tpl->setVariable("TXT_Group", "Gruppentermin");
 	$tpl->setVariable("TXT_Groups", "Gruppe");
-			
+
 	$groupy = $objekt->getGroups($ilias->account->getId());
 	if(count($groupy) > 0) {
 		foreach ($groupy as $value) {
@@ -637,7 +653,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 			$tpl->setVariable("VAL_sat_chkd", "checked");
 		}
 	}
-	
+
 	if ($appointment->getSer_stop() != null && $appointment->getSer_stop() != 0 && $appointment->getSer_stop() != "") {
 		$tpl->setVariable("VAL_rpt_stop_d", date("d", $appointment->getSer_stop()));
 		$tpl->setVariable("VAL_rpt_stop_m", date("m", $appointment->getSer_stop()));
@@ -645,15 +661,17 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	}
 	elseif(($_POST["rpt_stop_d"] != null || $_POST["rpt_stop_d"] != "") ||
 			 ($_POST["rpt_stop_h"] != null || $_POST["rpt_stop_h"] != "") ||
-			 ($_POST["rpt_stop_m"] != null || $_POST["rpt_stop_m"] != "")) {
+			 ($_POST["rpt_stop_m"] != null || $_POST["rpt_stop_m"] != ""))
+	{
 		$tpl->setVariable("VAL_rpt_stop_d", $_POST["rpt_stop_d"]);
 		$tpl->setVariable("VAL_rpt_stop_m", $_POST["rpt_stop_m"]);
 		$tpl->setVariable("VAL_rpt_stop_y", $_POST["rpt_stop_y"]);
 	}
 }
-elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $updateconf == TRUE) {
-
+elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $updateconf == TRUE)
+{
 	$tpl->addBlockFile("CONTENT", "content", "tpl.cal_confirmation.html");
+	//$tpl->addBlockFile("CONTENT", "content", "tpl.cal_edit_entry.html");
 	if (isset($_GET["ts"])) {
 		$chosents = $_GET["ts"];
 	}
@@ -663,16 +681,21 @@ elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $upda
 	// display tabs
 	include "./include/inc.calendar_tabs.php";
 
+$tpl->parseCurrentBlock();		// TODO
+$tpl->show(); exit;
 	$tpl->touchBlock("btn_row");
 	$tpl->setCurrentBlock("content");
 	$tpl->setVariable("TXT_PAGEHEADLINE","Bestätigung");
 	$chosen = getDate($appointment->getStartTimestamp());
-	if ($confirmation == TRUE) {
+	if ($confirmation == TRUE)
+	{
 		$tpl->setVariable("TXT_TITLE", "Folgender Termin wurde gespeichert");
-		if ($app_double == TRUE) {
+		if ($app_double == TRUE)
+		{
 			$txt = "TERMIN DOPPELT BELEGT";
 		}
-		if ($day_warning == TRUE) {
+		if ($day_warning == TRUE)
+		{
 			if($app_double == TRUE)
 				$txt = $txt."<br>";
 			$txt = $txt."Es kann vorkommen, dass ein Monat weniger als ".$_POST["day"]." Tage hat.<br>".
@@ -682,20 +705,25 @@ elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $upda
 		$appointmentshow = $cal->getMappedWeekday($chosen["wday"]).", ".$chosen["mday"].".".$cal->getMonth($chosen["mon"])." ".$chosen["year"] ." ". $appointment->getTerm();
 		$tpl->setVariable("TXT_Confirmation", $appointmentshow);
 	}
-	elseif ($delete == TRUE) {
-		if($deleteOK == false) {
+	elseif ($delete == TRUE)
+	{
+		if($deleteOK == false)
+		{
 			$tpl->setVariable("TXT_TITLE", "Folgender Termin wurde NICHT gelöscht");
 			$appointmentshow = "Sie sind nicht berechtigt diesen Termin zu löschen.";
 			$tpl->setVariable("TXT_Confirmation", $appointmentshow);
 		}
-		else {
+		else
+		{
 			$tpl->setVariable("TXT_TITLE", "Folgender Termin wurde gelöscht");
 			$appointmentshow = $cal->getMappedWeekday($chosen["wday"]).", ".$chosen["mday"].".".$cal->getMonth($chosen["mon"])." ".$chosen["year"]." ". $appointment->getTerm();
 			$tpl->setVariable("TXT_Confirmation", $appointmentshow);
 		}
 	}
-	elseif ($updateconf == TRUE) {
-		if ($updateOK == false) {
+	elseif ($updateconf == TRUE)
+	{
+		if ($updateOK == false)
+		{
 			$tpl->setVariable("TXT_TITLE", "Der Termin wurde NICHT geändert:");
 			$appointmentshow = "Sie sind nicht berechtigt den Termin zu ändern.";
 			$tpl->setVariable("TXT_Confirmation", $appointmentshow);
