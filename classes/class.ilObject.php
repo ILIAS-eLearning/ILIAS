@@ -432,6 +432,30 @@ class ilObject
 
 
 	/**
+	* count references of object
+	*
+	* @return	int		number of references of object
+	*/
+	function countReferences()
+	{
+		global $ilias, $log;
+
+		if (!isset($this->obj_id))
+		{
+			$message = "ilObject::countReferences(): No obj_id given!";
+			$log->writeWarning($message);
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+		}
+
+		$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
+		 	"WHERE obj_id = '".$this->obj_id."'";
+		$row = $ilias->db->getRow($q);
+
+		return $row->num;
+	}
+
+
+	/**
 	* copy all entries of an object !!! IT MUST RETURN THE NEW OBJECT ID !!
 	* @access	public
 	* @return	new object id
@@ -468,7 +492,7 @@ class ilObject
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		if (countReferencesOfObject($a_obj_id) == 1)
+		if ($this->countReferences() == 1)
 		{
 			deleteObject($a_obj_id);
 		}

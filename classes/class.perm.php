@@ -90,7 +90,7 @@ function getObjectByReference ($a_ref_id)
 function copyObject ($a_obj_id)
 {
 	global $ilias;
-	
+
 	$old_object_data = getObject($a_obj_id);
 
 	$q = "INSERT INTO object_data ".
@@ -220,32 +220,6 @@ function fetchObjectData($a_row)
 	return $arr ? $arr : array();	// maybe senseless
 }
 
-
-/*
-* count how often an obejct is referenced
-* return at least one if the object exists
-* return 0 if object could not be found
-* @access	public
-* @param	integer	object id
-* @return 	integer	number of references
-*/
-function countReferencesOfObject ($a_obj_id)
-{
-	global $ilias, $log;
-	
-	if (!isset($a_obj_id))
-	{
-		$message = "perm::countReferencesOfObject(): No obj_id given!";
-		$log->writeWarning($message);
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
-	}
-
-	$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
-		 "WHERE obj_id = '".$a_obj_id."'";
-	$row = $ilias->db->getRow($q);
-
-	return $row->num;
-}
 
 /**
 * get list of object, optional only a list of a particular type

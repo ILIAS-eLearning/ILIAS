@@ -150,7 +150,7 @@ class ilObjForum extends ilObject
 		global $tree;
 		
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		if (countReferencesOfObject($a_obj_id) == 1)
+		if ($this->countReferences() == 1)
 		{
 			return parent::deleteObject($a_obj_id);
 		}
