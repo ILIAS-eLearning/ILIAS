@@ -1498,7 +1498,7 @@ INSERT INTO settings VALUES ('news', '');
 INSERT INTO settings VALUES ('payment_system', '');
 INSERT INTO settings VALUES ('phone', '');
 INSERT INTO settings VALUES ('pub_section', '');
-INSERT INTO settings VALUES ('setup_passwd', 'bla');
+INSERT INTO settings VALUES ('setup_passwd', '');
 INSERT INTO settings VALUES ('street', '');
 INSERT INTO settings VALUES ('unzip_path', '');
 INSERT INTO settings VALUES ('zipcode', 'ghj');
