@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.17 2003/05/13 14:46:48 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.18 2003/05/14 09:03:33 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -110,8 +110,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			foreach ($all_ops as $key => $operations)
 			{
 				$operation_name = $operations["operation"];
-				// BEGIN CHECK_PERM
 
+				$num = 0;
+				
+				// BEGIN CHECK_PERM
 				foreach ($obj_data as $data)
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
@@ -121,12 +123,14 @@ class ilObjRoleGUI extends ilObjectGUI
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
-						$output["perm"]["$operation_name"][] = $box;
+						$output["perm"]["$operation_name"][$num] = $box;
 					}
 					else
 					{
-						$output["perm"]["$operation_name"][] = "";
+						$output["perm"]["$operation_name"][$num] = "";
 					}
+					
+					$num++;
 				}
 
 				// END CHECK_PERM
@@ -209,19 +213,34 @@ class ilObjRoleGUI extends ilObjectGUI
 		// BEGIN TABLE DATA OUTER
 		foreach ($this->data["perm"] as $name => $operations)
 		{
+			$display_row = false;
+						
 			// BEGIN CHECK PERMISSION
 			$this->tpl->setCurrentBlock("CHECK_PERM");
 
+			//var_dump("<pre>",$operations,"</pre>");
+
 			for ($i = 0;$i < count($operations)-1;++$i)
 			{
-				$this->tpl->setVariable("CHECK_PERMISSION",$operations[$i]);
+				if (!empty($operations[$i]))
+				{
+					$display_row = true;
+				}
+			}
+			
+			if ($display_row)
+			{
+				for ($i = 0;$i < count($operations)-1;++$i)
+				{
+					$this->tpl->setVariable("CHECK_PERMISSION",$operations[$i]);
+					$this->tpl->parseCurrentBlock();
+				}
+				// END CHECK PERMISSION
+				$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
+				$this->tpl->setVariable("CSS_ROW",$operations["color"]);
+				$this->tpl->setVariable("PERMISSION",$name);
 				$this->tpl->parseCurrentBlock();
 			}
-			// END CHECK PERMISSION
-			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
-			$this->tpl->setVariable("CSS_ROW",$operations["color"]);
-			$this->tpl->setVariable("PERMISSION",$name);
-			$this->tpl->parseCurrentBlock();
 		} // END TABLE DATA OUTER
 
 		// BEGIN ADOPT PERMISSIONS
