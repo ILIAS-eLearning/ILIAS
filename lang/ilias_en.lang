@@ -836,6 +836,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Month
+content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_new_assignment#:#New assignment
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
@@ -1427,4 +1428,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
