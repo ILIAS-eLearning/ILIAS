@@ -412,7 +412,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-#echo "BEGIN TAG: $a_name <br>";
+//echo "BEGIN TAG: $a_name <br>";
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -496,8 +496,8 @@ class ilContObjParser extends ilSaxParser
 				$this->in_glossary = true;
 				if ($this->content_object->getType() != "glo")
 				{
-//echo "<br>Glossary inside LM";
 					$this->glossary_object =& new ilObjGlossary();
+					$this->glossary_object->setTitle("");
 					$this->glossary_object->setDescription("");
 					$this->glossary_object->create();
 					$this->glossary_object->createReference();
@@ -553,6 +553,7 @@ class ilContObjParser extends ilSaxParser
 				$this->meta_data =& new ilMetaData();
 				if(!$this->in_media_object)
 				{
+//echo "<br><b>assign to current object</b>";
 					$this->current_object->assignMetaData($this->meta_data);
 					if(get_class($this->current_object) == "ilobjlearningmodule")
 					{
@@ -731,7 +732,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-#echo "END TAG: $a_name <br>";
+//echo "END TAG: $a_name <br>";
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)
@@ -1013,6 +1014,7 @@ class ilContObjParser extends ilSaxParser
 					if (get_class($this->current_object) == "ilobjglossary" &&
 						$this->content_object->getType() != "glo")
 					{
+//echo "<br><b>getting2: ".$this->content_object->getTitle()."</b>";
 						$this->current_object->setTitle($this->content_object->getTitle()." - ".
 							$this->lng->txt("glossary"));
 					}
@@ -1086,6 +1088,7 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "Title":
+				$this->current_object->setTitle($this->chr_data);
 				$this->meta_data->setTitle($this->chr_data);
 				break;
 
