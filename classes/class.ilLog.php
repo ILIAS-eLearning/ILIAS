@@ -89,11 +89,11 @@ class ilLog
 	* @param	string
 	* @access	public
 	*/
-	function writeLanguageLog($topic)
+	function writeLanguageLog($a_topic,$a_lang_key)
 	{
 		//TODO: go through logfile and search for the topic
 		//only write the log if the error wasn't reported yet
-		$this->write("Language: "."topic -".$topic."- not present");
+		$this->write("Language (".$a_lang_key."): topic -".$a_topic."- not present");
 	}
 
 	/**
