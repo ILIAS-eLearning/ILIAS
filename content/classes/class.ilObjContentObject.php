@@ -708,6 +708,15 @@ class ilObjContentObject extends ilObject
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'lm'";
 
+				// BEGINNING SELECT WITH SEARCH RESULTS IS MUCH FASTER
+				$query1 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
+					" JOIN xmlnestedset AS xm ON xm.ns_tag_fk=xv.tag_fk ".
+					" JOIN object_data AS o ON o.obj_id = xm.ns_book_fk ".
+					" JOIN object_reference AS r ON o.obj_id = r.obj_id ".
+					$where.
+					$in.
+					" AND o.type = 'lm' AND xm.ns_type IN ('lm','bib')";
+
 				$query2 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
 					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
 					$where.
@@ -716,6 +725,15 @@ class ilObjContentObject extends ilObject
 					") ".
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'lm'";
+
+				$query2 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
+					" JOIN xmlnestedset AS xm ON xm.ns_tag_fk = xv.tag_fk ".
+					" JOIN lm_data AS l ON l.obj_id = xm.ns_book_fk ".
+					" JOIN object_data AS o ON o.obj_id = l.lm_id ".
+					" JOIN object_reference AS r ON r.obj_id = o.obj_id ".
+					$where.
+					$in.
+					"AND o.type = 'lm'";
 
 				$ilBench->start("Search", "ilObjContentObject_search_meta");
 				$res1 = $search_obj->ilias->db->query($query1);
