@@ -119,6 +119,7 @@ assessment#:#apply#:#Zastosuj
 assessment#:#ass_create_export_file#:#Twórz plik eksportowy
 assessment#:#ass_export_files#:#Eksport plików
 assessment#:#ass_file#:#Plik
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Pytania
 assessment#:#ass_size#:#Rozmiar
 assessment#:#available_points#:#Punkty do zdobycia
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#Nie podałeś tytułu testu! Skocz do sekcji me
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
 assessment#:#tst_no_more_available_questionpools#:#Nie ma więcej dostępnych puli pytań
 assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do susunięcia!
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
 assessment#:#tst_no_tries#:#brak
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób

@@ -119,6 +119,7 @@ assessment#:#apply#:#Примінити
 assessment#:#ass_create_export_file#:#Створити файл експорту
 assessment#:#ass_export_files#:#Файли експорту
 assessment#:#ass_file#:#Файл
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
 assessment#:#ass_questions#:#Питання
 assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
@@ -410,7 +411,9 @@ assessment#:#tst_missing_title#:#You don't have entered a test title! Please go 
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
+assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
 assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
 assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
