@@ -179,7 +179,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
 				// surpress checkbox for particular object types, the system role & anonymous role
-				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or $ctrl["obj_id"] == ANONYMOUS_ROLE_ID)
+				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or ($ctrl["obj_id"] == ANONYMOUS_ROLE_ID and $this->object->getRefId() == ROLE_FOLDER_ID))
 				{
 					$this->tpl->touchBlock("empty_cell");
 				}
