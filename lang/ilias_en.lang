@@ -45,6 +45,7 @@ common#:#show_details#:#show details
 common#:#hide_details#:#hide details
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
+common#:#fullname#:#Fullname
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
