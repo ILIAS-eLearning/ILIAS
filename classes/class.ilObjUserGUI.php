@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.18 2003/05/30 13:05:45 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.19 2003/06/04 14:06:28 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -113,7 +113,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 				$this->tpl->parseCurrentBlock();
 			}
-
 			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
@@ -121,7 +120,26 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 			$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
-			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));		}
+			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));		
+
+			// FILL SAVED VALUES IN CASE OF ERROR
+			$this->tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
+			$this->tpl->setVariable("FIRSTNAME",$_SESSION["error_post_vars"]["Fobject"]["firstname"]);
+			$this->tpl->setVariable("LASTNAME",$_SESSION["error_post_vars"]["Fobject"]["lastname"]);
+			$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
+			$this->tpl->setVariable("INSTITUTION",$_SESSION["error_post_vars"]["Fobject"]["institution"]);
+			$this->tpl->setVariable("STREET",$_SESSION["error_post_vars"]["Fobject"]["street"]);
+			$this->tpl->setVariable("CITY",$_SESSION["error_post_vars"]["Fobject"]["city"]);
+			$this->tpl->setVariable("ZIPCODE",$_SESSION["error_post_vars"]["Fobject"]["zipcode"]);
+			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
+			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
+			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
+
+			// EMPTY SAVED VALUES
+			unset($_SESSION["error_post_vars"]);
+		}
+
+		
 	}
 
 
