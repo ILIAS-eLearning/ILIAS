@@ -18,6 +18,13 @@ class Object
 	var $ilias;
 
 	/**
+	* lng object
+	* @var		object language
+	* @access	private
+	*/
+	var $lng;
+
+	/**
 	* object id
 	* @var		integer object id of object itself
 	* @access	private
@@ -37,9 +44,10 @@ class Object
 	*/
 	function Object()
 	{
-		global $ilias;
+		global $ilias, $lng;
 		
 		$this->ilias =& $ilias;
+		$this->lng = &$lng; 
 
 		$this->id = $_GET["obj_id"];
 		$this->parent = $_GET["parent"]; // possible deprecated
@@ -99,7 +107,7 @@ class Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to create object",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 	}
 	
@@ -529,6 +537,38 @@ class Object
 		$admin = new Admin();
 		return $admin->deleteObject();
 	}
+	function confirmDeleteAdmObject()
+	{
+		global $lng;
+
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		$data["cols"] = array("type", "title", "description", "last_change");
+
+		foreach($_POST["id"] as $id)
+		{
+			$obj_data = getObject($id);
+			$data["data"]["$id"] = array(
+				"type"        => $obj_data["type"],
+				"title"       => $obj_data["title"],
+				"desc"        => $obj_data["desc"],
+				"last_update" => $obj_data["last_update"]);
+		}
+		$data["buttons"] = array( "button1"  => $lng->txt("cancel"),
+								  "button2"  => $lng->txt("confirm"));
+
+		return $data;
+	}
+	function cancelDeleteObject()
+	{
+		session_unregister("saved_post");
+	}
+
 	function clearAdmObject()
 	{
 		include_once ("classes/class.Admin.php");

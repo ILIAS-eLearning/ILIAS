@@ -42,6 +42,12 @@ if ($_POST["cmd"] != "")
 			$_GET["cmd"] = "clearAdm";
 			break;
 		case $lng->txt("delete"):
+			$_GET["cmd"] = "confirmDeleteAdm";
+			break;
+		case $lng->txt("cancel"):
+			$_GET["cmd"] = "cancelDelete";
+			break;
+		case $lng->txt("confirm"):
 			$_GET["cmd"] = "deleteAdm";
 			break;
 		case $lng->txt("import"):

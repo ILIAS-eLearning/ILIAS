@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.15 2002/12/23 18:43:11 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.16 2003/01/06 16:54:20 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -159,6 +159,10 @@ class ObjectOut
 		}
 		
 		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$_GET["type"]);
+		if($_GET["cmd"] == "confirmDeleteAdm")
+		{
+			$prop_name = "delete_object";
+		}
 
 		$this->tpl->setVariable("TXT_PATH",$debug.$lng->txt($prop_name)." ".$lng->txt("of"));
 		$this->tpl->parseCurrentBlock();
@@ -410,6 +414,12 @@ class ObjectOut
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 	}
+	function cancelDeleteObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
 	function deleteAdmObject()
 	{
 		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
@@ -417,6 +427,59 @@ class ObjectOut
 		exit();
 
 	}
+	function confirmDeleteAdmObject()
+	{
+
+		$this->getTemplateFile("confirm");
+		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+								$_GET["parent"]);
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			
+			foreach($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",TUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach($this->data["buttons"] as $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 	function clearAdmObject()
 	{
 		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".

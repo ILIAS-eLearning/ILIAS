@@ -19,14 +19,23 @@ class Admin
 	var $ilias;
 	
 	/**
+	 * language object
+	 * @var object language
+	 * @access private
+	 */
+	var $lng;
+
+
+	/**
 	 * Constructor
 	 * @access public
 	 */
 	function Admin()
 	{
-		global $ilias;
+		global $ilias, $lng;
 		
 		$this->ilias = &$ilias;
+		$this->lng   = &$lng;
 	}
 	
 	/**
@@ -39,7 +48,7 @@ class Admin
 		
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// CHECK ACCESS
@@ -53,8 +62,8 @@ class Admin
 		// NO ACCESS
 		if(count($no_cut))
 		{
-			$this->ilias->raiseError("You have no permission to cut object(s) No. ".
-									 implode(',',$no_cut)."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".
+									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 		foreach($_POST["id"] as $id)
@@ -84,7 +93,7 @@ class Admin
 		
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// CHECK ACCESS
@@ -104,13 +113,13 @@ class Admin
 		// NO ACCESS
 		if(count($no_cut))
 		{
-			$this->ilias->raiseError("You have no permission to create a link on  object(s) No. ".
-									 implode(',',$no_cut)."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_link")." ".
+									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
 		}
 		if(count($no_link))
 		{
-			$this->ilias->raiseError("It's not possible to create a link on object type(s) ".
-									 implode(',',$no_link)."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
+									 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE SUBTREE
 		foreach($_POST["id"] as $id)
@@ -129,7 +138,7 @@ class Admin
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN. 
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		// FOR ALL SELECTED OBJECTS
 		foreach($_POST["id"] as $id)
@@ -155,8 +164,8 @@ class Admin
 		if(count($no_copy))
 		{
 			$no_copy = implode(',',$no_copy);
-			$this->ilias->raiseError("You have no permission to copy object(s) No. ".
-									 $no_copy."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
+									 $no_copy,$this->ilias->error_obj->MESSAGE);
 		}
 
 		// COPY TRHEM
@@ -209,25 +218,24 @@ class Admin
 				$not_allowed_subobject[] = $obj_data["type"];
 			}
 		}
-		if(count($no_paste))
-		{
-			$this->ilias->raiseError("You have no permission to paste object(s) No. ".
-									 implode(',',$no_paste)."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
-		}
 		if(count($exists))
 		{
-			$this->ilias->raiseError("The object(s) No. ".implode(',',$exists)." already exists in this folder",
-									 $this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
 		}
 		if(count($is_child))
 		{
-			$this->ilias->raiseError("It's not possible to paste the object(s) No. ".implode(',',$is_child)." in itself",
+			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
 									 $this->ilias->error_obj->MESSAGE);
 		}
 		if(count($not_allowed_subobject))
 		{
-			$this->ilias->raiseError("This object may not contain objects of type ".implode(',',$not_allowed_subobject)."<br />".
-									 "Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		if(count($no_paste))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ". 
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
 		foreach($_SESSION["clipboard"] as $id => $object)
 		{
@@ -271,18 +279,18 @@ class Admin
 		}
 		if(count($no_paste))
 		{
-			$this->ilias->raiseError("You have no permission to create object(s) No. ".
-									 implode(',',$no_paste)."in this object<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create")." ".
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
 		if(count($is_child))
 		{
-			$this->ilias->raiseError("It's not possible to paste the object(s) No. ".implode(',',$is_child)." in itself",
+			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
 									 $this->ilias->error_obj->MESSAGE);
 		}
 		if(count($not_allowed_subobject))
 		{
-			$this->ilias->raiseError("This object may not contain objects of type ".implode(',',$not_allowed_subobject)."<br />".
-									 "Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+									 $this->ilias->error_obj->MESSAGE);
 		}
 		// NOW CLONE ALL OBJECTS
 		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
@@ -360,11 +368,14 @@ class Admin
 	function deleteObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
+
+		// LOAD SAVED POST VALUES
+		$_POST["id"] = $_SESSION["saved_post"];
 		
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN. 
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		// FOR ALL SELECTED OBJECTS
 		foreach($_POST["id"] as $id)
@@ -390,12 +401,11 @@ class Admin
 		if(count($not_deletable))
 		{
 			$not_deletable = implode(',',$not_deletable);
-			$this->ilias->raiseError("You have no permission to delete object(s) No. ".
-									 $not_deletable."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ". 
+									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
 
 		// DELETE THEM
-		
 		if(!$all_node_data[0]["type"])
 		{
 			// OBJECTS ARE NO 'TREE OBJECTS'
@@ -410,7 +420,7 @@ class Admin
 			}
 			else
 			{
-				$this->ilias->raiseError("You have no permission to delete these objects",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("no_perm_delete"),$this->ilias->error_obj->MESSAGE);
 			}
 		}
 		else
@@ -428,7 +438,7 @@ class Admin
 				}
 			}
 		}
-		$this->ilias->error_obj->sendInfo("Object(s) deleted!");
+		$this->ilias->error_obj->sendInfo($this->lng->txt("info_deleted"));
 	}
 
 	/**
