@@ -388,7 +388,7 @@ common#:#allow_register#:#Disponible en el formulario de registro para nuevos us
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
-common#:#answers#:#respuestass
+common#:#answers#:#respuestas
 common#:#application_completed#:#Solicitud completada
 common#:#application_date#:#Fecha de Solicitud
 common#:#appointment#:#Cita
@@ -419,7 +419,7 @@ common#:#bookmark_edit#:#Editar Marcador
 common#:#bookmark_folder_edit#:#Editar Carpeta de Marcadores
 common#:#bookmark_folder_new#:#Nueva Carpeta de Marcadores
 common#:#bookmark_new#:#Nuevo Marcador
-common#:#bookmark_target#:#-Target-
+common#:#bookmark_target#:#URL
 common#:#bookmarks#:#marcadores
 common#:#bookmarks_of#:#Marcadores de
 common#:#btn_remove_system#:#eliminar del sistema
@@ -441,13 +441,13 @@ common#:#cat_create_chat#:#Crear Chat
 common#:#cat_create_crs#:#Crear Curso
 common#:#cat_create_dbk#:#Crear Libro Digital
 common#:#cat_create_exc#:#Crear Actividad
-common#:#cat_create_frm#:#Create Foro
-common#:#cat_create_glo#:#Create Glosario
-common#:#cat_create_grp#:#Create Grupo
-common#:#cat_create_htlm#:#Create Módulo de Aprendizaje HTML
-common#:#cat_create_lm#:#Create Módulo de Aprendizaje
-common#:#cat_create_mep#:#-Create Media Pool-
-common#:#cat_create_qpl#:#-Create Question Pool-
+common#:#cat_create_frm#:#Crear Foro
+common#:#cat_create_glo#:#Crear Glosario
+common#:#cat_create_grp#:#Crear Grupo
+common#:#cat_create_htlm#:#Crear Módulo de Aprendizaje HTML
+common#:#cat_create_lm#:#Crear Módulo de Aprendizaje
+common#:#cat_create_mep#:#-Crear Media Pool-
+common#:#cat_create_qpl#:#-Crear Question Pool-
 common#:#cat_create_slm#:#Crear Módulo de Aprendizaje SCORM
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_delete#:#Eliminar Categoría
@@ -501,7 +501,7 @@ common#:#check_max_allowed_packet_size#:#El contenido de esta página es de dema
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#cambiar idioma
 common#:#chg_password#:#cambiar contraseña
-common#:#choose_language#:#escoja su idiomaa
+common#:#choose_language#:#escoja su idioma
 common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#city#:#ciudad
@@ -510,16 +510,16 @@ common#:#client_id#:#ID de Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#-Cerrar-
 common#:#comma_separated#:#separado por comas
-common#:#comment#:#-commentario-
+common#:#comment#:#-comentario-
 common#:#compose#:#nuevo mensaje
 common#:#confirm#:#confirmar
 common#:#cont_object#:#Objeto
 common#:#contact_data#:#Información de Contacto
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#Contenedor
 common#:#context#:#context
-common#:#copy#:#copy
+common#:#copy#:#-copy-
 common#:#copy_of#:#-Copia de-
-common#:#country#:#country
+common#:#country#:#país
 common#:#course#:#course
 common#:#courses#:#courses
 common#:#create#:#create
@@ -844,7 +844,7 @@ common#:#hide_structure#:#deshabilitar vista estructural
 common#:#hobby#:#Intereses/Hobies
 common#:#home#:#Home
 common#:#host#:#host
-common#:#htlm#:#Modulo de aprendizaje HTML
+common#:#htlm#:#Módulo de aprendizaje HTML
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
 common#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
 common#:#htlm_edit#:#Editar Propiedades del Módulo de Aprendizaje HTML
@@ -1059,8 +1059,8 @@ common#:#meta_data#:#Meta Datos
 common#:#migrate#:#migrar
 common#:#min_time#:#Tiempo Mínimo
 common#:#mob#:#Objeto -Multimedia-
-common#:#module#:#module###26 Mar 2003 new variable
-common#:#modules#:#Modules###20 Mar 2003 new variable
+common#:#module#:#módulo
+common#:#modules#:#Módulos
 common#:#month#:#Més
 common#:#month_01_long#:#Enero
 common#:#month_01_short#:#Ene
@@ -1298,9 +1298,9 @@ common#:#online_version#:#versión online
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
 common#:#options#:#opciones
-common#:#order_by#:#order by
-common#:#other#:#other
-common#:#overview#:#overview
+common#:#order_by#:#ordenar por
+common#:#other#:#otro
+common#:#overview#:#resumen
 common#:#owner#:#propietario
 common#:#page#:#página
 common#:#page_edit#:#editar página
@@ -1329,7 +1329,6 @@ common#:#perm_settings#:#permisos
 common#:#permission#:#permiso
 common#:#permission_denied#:#permiso denegado
 common#:#permission_settings#:#configuración de Permisos
-common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Información personal
 common#:#personal_desktop#:#escritorio personal
 common#:#personal_picture#:#foto personal
@@ -1475,16 +1474,16 @@ common#:#show_members#:#mostrar miembros
 common#:#show_owner#:#mostrar propietario
 common#:#show_structure#:#habilitar vista estructurada
 common#:#signature#:#firma
-common#:#slm#:#SCORM LM###18 Jun 2003 new variable
-common#:#slm_added#:#SCORM LearningModule added###16 Jul 2003 new variable
-common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm#:#Módulo SCORM
+common#:#slm_added#:#Módulo SCORM añadido
+common#:#slm_create#:#Crear Módulo SCORM
+common#:#slm_delete#:#Eliminar Módulo SCORM
+common#:#slm_edit_permission#:#Modificar configuración de permisos
+common#:#slm_join#:#Suscribir al módulo SCORM
+common#:#slm_leave#:#Darse de baja en el Módulo SCORM
+common#:#slm_read#:#Acceso de Lectura al Módulo SCORM
+common#:#slm_visible#:#El módulo SCORM es visible
+common#:#slm_write#:#Editar módulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordenar por esta columna
 common#:#st_a#:#un capítulo
@@ -1519,7 +1518,7 @@ common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#-time-
 common#:#title#:#título
 common#:#to#:#to:
-common#:#to_client_list#:#-To Client selection-
+common#:#to_client_list#:#Seleccionar Instalación
 common#:#to_desktop#:#Al Escritorio
 common#:#today#:#hoy
 common#:#total#:#total
@@ -1532,12 +1531,12 @@ common#:#tst_add#:#Añadir Test
 common#:#tst_delete#:#Eliminar Test
 common#:#tst_edit_permission#:#Cambiar configuración permisos
 common#:#tst_new#:#Nuevo test
-common#:#tst_read#:#Acceso de LEctura al Test
+common#:#tst_read#:#Acceso de Lectura al Test
 common#:#tst_visible#:#Test visible
 common#:#tst_write#:#Editar Test
 common#:#txt_add_object_instruction1#:#-Browse to the location where you want to add-
 common#:#txt_add_object_instruction2#:#.###06 Aug 2003 new variable
-common#:#txt_registered#:#Se registró con éxito en ILIAS. Por favor haga click en el botón -de abajo- para entrar en ILIAS con su cuenta de usuario.
+common#:#txt_registered#:#Se registró con éxito en ILIAS. Por favor haga click en el botón inferior para entrar en ILIAS con su cuenta de usuario.
 common#:#typ#:#Definición de Tipo de Objeto
 common#:#type#:#tipo
 common#:#type_your_message_here#:#escriba su mensaje aquí
@@ -1549,7 +1548,7 @@ common#:#unread#:#no leído
 common#:#unsubscribe#:#desuscribir
 common#:#unzip#:#Descomprimir
 common#:#up#:#Arriba
-common#:#update_applied#:#-update applied-
+common#:#update_applied#:#actualización realizada
 common#:#update_language#:#actualizar idioma
 common#:#upload#:#Cargar
 common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede comenzar a importarlo.
@@ -1602,7 +1601,7 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
 common#:#zip#:#Código Postal
-common#:#zipcode#:#Código ZIP
+common#:#zipcode#:#Código Postal
 content#:#HTML export#:#Exportar a HTML
 content#:#PDF export#:#Exportar a PDF
 content#:#Pages#:#Páginas
@@ -1653,8 +1652,8 @@ content#:#cont_characteristic#:#-Característica-
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Escoger Glosario
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#You have to select exactly one edition###09 Oct 2003 new variable
-content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09 Oct 2003 new variable
+content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición
+content#:#cont_citation_selection_not_valid#:#Su selección no es válida
 content#:#cont_citations#:#Citas
 content#:#cont_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada
 content#:#cont_click_center#:#Por favor haga click en el centro del área deseada.
@@ -1674,7 +1673,7 @@ content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_mob#:#Crear Objeto Media
 content#:#cont_cross_reference#:#Referencia Cruzada
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
-content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
+content#:#cont_def_layout#:#Presentación por defecto
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
 content#:#cont_definition#:#Definición
 content#:#cont_definitions#:#Definiciones
@@ -1683,12 +1682,12 @@ content#:#cont_dependencies#:#Dependencias
 content#:#cont_derive_from_obj#:#Derivar del Objeto
 content#:#cont_details#:#Detalles
 content#:#cont_dir_file#:#Directorio/Fichero
-content#:#cont_disable_media#:#Deshabilitar -Media-
+content#:#cont_disable_media#:#Deshabilitar Multimedia
 content#:#cont_edit_area#:#Editar Area
 content#:#cont_edit_file_list_properties#:#Editar Propiedades de la Lista de Ficheros
 content#:#cont_edit_mob#:#Editar Objeto Media
 content#:#cont_edit_mob_alias_prop#:#Editar Propiedades de la Instancia del Media Object
-content#:#cont_edit_mob_files#:#Object Files###21 Oct 2003 new variable
+content#:#cont_edit_mob_files#:#Ficheros del Objeto
 content#:#cont_edit_mob_properties#:#Editar Propiedades de Media Object
 content#:#cont_edit_par#:#Editar Párrafo
 content#:#cont_edit_tab_properties#:#Propiedades de Tabla
@@ -1705,7 +1704,7 @@ content#:#cont_full_is_in_dir#:#No es posible eliminar. El fichero de pantalla c
 content#:#cont_fullscreen#:#Pantalla Completa
 content#:#cont_get_link#:#get link###14 Feb 2004 new variable
 content#:#cont_get_orig_size#:#Establecer tamaño original
-content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
+content#:#cont_glo_properties#:#Propiedades del Glosario
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#How published###19 Sep 2003 new variable
 content#:#cont_href#:#href
@@ -1727,14 +1726,14 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal###19 Sep 2003 new variable
 content#:#cont_keyword#:#Palabra Clave
-content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
-content#:#cont_link_select#:#Internal Link###06 Sep 2003 new variable
-content#:#cont_link_type#:#Link Type###06 Sep 2003 new variable
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
-content#:#cont_list_properties#:#List Properties###16 Jul 2003 new variable
+content#:#cont_link#:#Enlace
+content#:#cont_link_area#:#Area de Enlace
+content#:#cont_link_ext#:#Enlace (externo)
+content#:#cont_link_int#:#Enlace (interno)
+content#:#cont_link_select#:#Enlace interno
+content#:#cont_link_type#:#Tipo de enlace
+content#:#cont_list_files#:#-Lista de Ficheros-
+content#:#cont_list_properties#:#Propiedades de Lista
 content#:#cont_lk_chapter#:#Capítulo
 content#:#cont_lk_chapter_new#:#Capítulo (Nuevo Frame)
 content#:#cont_lk_media_faq#:#Media (FAQ Frame)
@@ -1754,7 +1753,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
 content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
-content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
+content#:#cont_mob_files#:#Ficheros de Objeto
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
 content#:#cont_mob_usages#:#Uso
@@ -1767,7 +1766,7 @@ content#:#cont_new_dir#:#Nuevo Directorio
 content#:#cont_new_file#:#Nuevo Fichero
 content#:#cont_new_media_obj#:#Nuevo Objeto Media
 content#:#cont_new_term#:#Nuevo Término
-content#:#cont_no_assign_itself#:#The object cannot be assigned to itself###26 Sep 2003 new variable
+content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
 content#:#cont_no_page#:#No se encontraron Página(s)
 content#:#cont_none#:#Ninguno
@@ -1847,9 +1846,9 @@ content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable
-content#:#cont_update#:#Update###15 Jan 2004 new variable
-content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
-content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
+content#:#cont_update#:#Actualizar
+content#:#cont_update_names#:#Actualizar Nombres
+content#:#cont_upload_file#:#Cargar Fichero
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
 content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
@@ -1857,23 +1856,23 @@ content#:#cont_version#:#version###04 Aug 2003 new variable
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Where published###19 Sep 2003 new variable
 content#:#cont_width#:#Width###08 Jul 2003 new variable
-content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
+content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base###04 Aug 2003 new variable
 content#:#cont_year#:#Year###19 Sep 2003 new variable
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
-content#:#pages from#:#Pages From###22 Sep 2003 new variable
-content#:#par#:#Paragraph###12 May 2003 new variable
-content#:#pg#:#Page###12 May 2003 new variable
-content#:#read offline#:#Read Offline###22 Sep 2003 new variable
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
-content#:#st#:#Chapter###12 May 2003 new variable
-content#:#start export#:#Start Export###22 Sep 2003 new variable
+content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
+content#:#pages from#:#Páginas Desde
+content#:#par#:#Párrafo
+content#:#pg#:#Página
+content#:#read offline#:#Leer Offline
+content#:#select_a_file#:#Por favor seleccione un fichero
+content#:#st#:#Capítulo
+content#:#start export#:#Exportar
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
 dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
 dateplaner#:#ERROR_DB#:#Error al escribir en la Base de datos!
 dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
-dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
+dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
 dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
@@ -1906,7 +1905,7 @@ dateplaner#:#We_long#:#Miércoles
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Vista Semanal
 dateplaner#:#add_data#:#datos adicionales
-dateplaner#:#app_#:#bandeja de citas de grupo
+dateplaner#:#app_#:#bandeja de citas 
 dateplaner#:#app_date#:#insertar cita
 dateplaner#:#app_day#:#vista diaria
 dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)
@@ -1948,12 +1947,12 @@ dateplaner#:#dv_groupview_text#:#Grupo:
 dateplaner#:#dv_keywords#:#Palabras clave:
 dateplaner#:#dv_keywordselect#:#Seleccion de Palabras Clave:
 dateplaner#:#dv_message#:#Mensaje:
-dateplaner#:#dv_noGroup#:#sin Grupo
+dateplaner#:#dv_noGroup#:#Sin Grupo
 dateplaner#:#dv_noKey#:#no hay Palabra Clave
 dateplaner#:#dv_preview#:#      <b>! Previsualizar !</b>###16 Mar 2004 new variable
-dateplaner#:#dv_rotation#:#Periodo de Rotación:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_date#:#Cita Periódica:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_end#:#Fin de Cita Periódica:###16 Mar 2004 new variable
+dateplaner#:#dv_rotation#:#Período de Rotación:
+dateplaner#:#dv_rotation_date#:#Cita Periódica:
+dateplaner#:#dv_rotation_end#:#Fin de Cita Periódica:
 dateplaner#:#dv_shorttext#:#Asunto:
 dateplaner#:#dv_startdate#:#Fecha Inicial:
 dateplaner#:#dv_text#:#Nota:
@@ -1969,15 +1968,15 @@ dateplaner#:#freetime#:#tiempo libre en el grupo
 dateplaner#:#group#:#grupo
 dateplaner#:#help_day#:#Vista diaria del Calendario
 dateplaner#:#help_day_l#:#En la vista diaria se muestran todas las citas de un día concreto
-dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
+dateplaner#:#help_enddate#:#Fecha Fin - sintaxis [dd//mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contiene la fecha para el final de la cita <br> El simbolo abre un pequeño calendario para escoger la fecha apropiada
 dateplaner#:#help_endrotation#:#Sintaxis para Fin de Cita Periódica [dd/mm/aaaa]
 dateplaner#:#help_endrotation_l#:#En este dia termina la Cita Periódica.<br> El icono abre un pequeño calendario para escoger la fecha apropiada
 dateplaner#:#help_endtime#:#Fecha de Fin - sintaxis[hh/mm] formato 24h
 dateplaner#:#help_endtime_l#:#Contiene la fecha de fin de la cita usando el formato 24h
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
-dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
-dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
+dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoga esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.
+dateplaner#:#help_further#:#<br><b>haga click aquí para más información</b>
 dateplaner#:#help_group#:#Groupdates selection###16 Mar 2004 new variable
 dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.###16 Mar 2004 new variable
 dateplaner#:#help_inbox#:#Dateplaner Inbox###16 Mar 2004 new variable
@@ -2094,113 +2093,113 @@ forum#:#forums_attachments_add#:#Add attachment###28 Oct 2003 new variable
 forum#:#forums_attachments_edit#:#Edit attachment###28 Oct 2003 new variable
 forum#:#forums_available#:#available forums
 forum#:#forums_censor_comment#:#Comment of Censor###20 Nov 2003 new variable
-forum#:#forums_count#:#number of forums
-forum#:#forums_count_art#:#number of articles
-forum#:#forums_count_thr#:#number of threads
+forum#:#forums_count#:#número de foros
+forum#:#forums_count_art#:#número de artículos
+forum#:#forums_count_thr#:#número de cadenas
 forum#:#forums_delete_file#:#Delete attachment###28 Oct 2003 new variable
 forum#:#forums_download_attachment#:#Download file###28 Oct 2003 new variable
-forum#:#forums_edit_post#:#edit article
+forum#:#forums_edit_post#:#editar artículo
 forum#:#forums_info_censor2_post#:#Are you sure you want to continue to hide this article?###13 May 2003 new variable
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?###13 May 2003 new variable
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?###17 Jan 2003 new variable
-forum#:#forums_last_post#:#last article
-forum#:#forums_moderators#:#moderators
-forum#:#forums_new_entries#:#new forums entries###17 Jan 2003 new variable
-forum#:#forums_new_thread#:#new topic
-forum#:#forums_not_available#:#forums not available
+forum#:#forums_last_post#:#último envío
+forum#:#forums_moderators#:#moderadores
+forum#:#forums_new_entries#:#nuevas entradas en los foros
+forum#:#forums_new_thread#:#nuevo asunto
+forum#:#forums_not_available#:#foros no disponibles
 forum#:#forums_overview#:#forums overview
-forum#:#forums_post_deleted#:#article has been deleted###17 Jan 2003 new variable
-forum#:#forums_post_modified#:#article has been modified
-forum#:#forums_post_new_entry#:#new article has been inscribed
-forum#:#forums_posts#:#all articles
-forum#:#forums_posts_not_available#:#articles not available
-forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
+forum#:#forums_post_deleted#:#el mensaje ha sido eliminado
+forum#:#forums_post_modified#:#el mensaje ha sido modificado
+forum#:#forums_post_new_entry#:#se ha insertado un nuevo mensaje
+forum#:#forums_posts#:#todos los mensajes
+forum#:#forums_posts_not_available#:#mensajes no disponibles
+forum#:#forums_print_thread#:#Imprimir cadena de mensajes
 forum#:#forums_quote#:#Quote###01 Sep 2003 new variable
-forum#:#forums_respond#:#respond to an article###01 Sep 2003 content changed
-forum#:#forums_the_post#:#article
-forum#:#forums_thread#:#thread###25 Mar 2003 content changed
+forum#:#forums_respond#:#responder a un artículo
+forum#:#forums_the_post#:#artículo
+forum#:#forums_thread#:#asunto
 forum#:#forums_thread_articles#:#articles to the thread###25 Mar 2003 content changed
-forum#:#forums_thread_create_date#:#Created at###25 Mar 2003 new variable
-forum#:#forums_thread_create_from#:#Created from###25 Mar 2003 new variable
-forum#:#forums_thread_new_entry#:#new topic has been inscribed
-forum#:#forums_threads#:#threads
-forum#:#forums_threads_not_available#:#topics not available
-forum#:#forums_topics_overview#:#topics overview
-forum#:#forums_your_reply#:#your reply
-mail#:#also_as_email#:#Also as Email###16 Apr 2003 new variable
+forum#:#forums_thread_create_date#:#Creado en
+forum#:#forums_thread_create_from#:#Creado por
+forum#:#forums_thread_new_entry#:#se ha creado un nuevo asunto
+forum#:#forums_threads#:#cadenas de mensajes
+forum#:#forums_threads_not_available#:#asuntos no disponibles
+forum#:#forums_topics_overview#:#resumen de asuntos
+forum#:#forums_your_reply#:#tu respuesta
+mail#:#also_as_email#:#También como Email
 mail#:#bc#:#BC###16 Apr 2003 new variable
-mail#:#forward#:#Forward###16 Apr 2003 new variable
-mail#:#linebreak#:#Linebreak###16 Apr 2003 new variable
-mail#:#mail_add_recipient#:#Please enter a recipient###16 Apr 2003 new variable
-mail#:#mail_add_subfolder#:#Add Subfolder###18 Apr 2003 new variable
-mail#:#mail_add_subject#:#Please enter a subject###16 Apr 2003 new variable
-mail#:#mail_add_to_addressbook#:#Add to addressbook###16 Apr 2003 new variable
-mail#:#mail_add_type#:#Please add the type of mail you want to send###25 Apr 2003 new variable
-mail#:#mail_addr_entries#:#Entries###16 Apr 2003 new variable
-mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
-mail#:#mail_bc_not_valid#:#The Bc recipient is not valid###16 Apr 2003 new variable
-mail#:#mail_bc_search#:#BC search###16 Apr 2003 new variable
+mail#:#forward#:#Reenviar
+mail#:#linebreak#:#Salto de Línea
+mail#:#mail_add_recipient#:#Por favor introduzca un destinatario
+mail#:#mail_add_subfolder#:#Añadir subcarpeta
+mail#:#mail_add_subject#:#Por favor introduzca un asunto
+mail#:#mail_add_to_addressbook#:#Añadir a la agenda de direcciones
+mail#:#mail_add_type#:#Por favor especifique el tipo de correo que quiere enviar
+mail#:#mail_addr_entries#:#Entradas
+mail#:#mail_attachments#:#Adjuntos
+mail#:#mail_bc_not_valid#:#El destinatario Bc no es válido
+mail#:#mail_bc_search#:#Buscar BC
 mail#:#mail_byte#:#Byte###28 Oct 2003 new variable
-mail#:#mail_cc_not_valid#:#The Cc recipient is not valid###16 Apr 2003 new variable
-mail#:#mail_cc_search#:#CC search###16 Apr 2003 new variable
-mail#:#mail_change_to_folder#:#Switch to folder:###24 Apr 2003 new variable
-mail#:#mail_check_your_email_addr#:#Your email address is not valid###16 Apr 2003 new variable
-mail#:#mail_compose#:#Compose Message###16 Apr 2003 new variable
-mail#:#mail_deleted#:#The mail(s) have been deleted###16 Apr 2003 new variable
-mail#:#mail_deleted_entry#:#The entries are deleted###16 Apr 2003 new variable
-mail#:#mail_email_forbidden#:#You are not allowed to send email###16 Apr 2003 new variable
-mail#:#mail_entry_added#:#Added new Entry###16 Apr 2003 new variable
-mail#:#mail_entry_changed#:#The entry is changed###16 Apr 2003 new variable
-mail#:#mail_file_name#:#Filename###16 Apr 2003 new variable
-mail#:#mail_file_size#:#Filesize###16 Apr 2003 new variable
-mail#:#mail_files_deleted#:#The file(s) are deleted###16 Apr 2003 new variable
-mail#:#mail_folder_created#:#A new folder is created###16 Apr 2003 new variable
-mail#:#mail_folder_deleted#:#The folder has been deleted###14 May 2003 new variable
-mail#:#mail_folder_exists#:#A folder already exists with this name###16 Apr 2003 new variable
-mail#:#mail_folder_name#:#Folder name###16 Apr 2003 new variable
-mail#:#mail_folder_name_changed#:#The folder is renamed###16 Apr 2003 new variable
-mail#:#mail_folder_options#:#Folder Options###16 Apr 2003 new variable
-mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:###25 Apr 2003 new variable
-mail#:#mail_global_options#:#Global options###16 Apr 2003 new variable
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
-mail#:#mail_insert_folder_name#:#Please insert a folder name###16 Apr 2003 new variable
-mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
-mail#:#mail_intern#:#Internal###26 Apr 2003 new variable
-mail#:#mail_mark_read#:#Mark mails read###16 Apr 2003 new variable
-mail#:#mail_mark_unread#:#Mark mails unread###16 Apr 2003 new variable
-mail#:#mail_maxsize_attachment_error#:#The upload limit is:###28 Oct 2003 new variable
-mail#:#mail_message_send#:#The message is send###16 Apr 2003 new variable
-mail#:#mail_move_error#:#Error moving mail(s)###16 Apr 2003 new variable
-mail#:#mail_move_to#:#Move mails to###16 Apr 2003 new variable
-mail#:#mail_moved#:#The mail(s) have been moved###16 Apr 2003 new variable
-mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###16 Apr 2003 new variable
-mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
-mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###16 Apr 2003 new variable
-mail#:#mail_no_attachments_found#:#No attachments found###16 Apr 2003 new variable
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
-mail#:#mail_options_of#:#Options:###16 Apr 2003 new variable
-mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
-mail#:#mail_recipient_not_valid#:#The recipient is not valid###16 Apr 2003 new variable
-mail#:#mail_s#:#Mail(s)###16 Apr 2003 new variable
-mail#:#mail_s_unread#:#Unread Mail(s)###16 Apr 2003 new variable
-mail#:#mail_saved#:#The message is saved###16 Apr 2003 new variable
-mail#:#mail_search_addressbook#:#search in addressbook###30 Apr 2003 new variable
-mail#:#mail_search_system#:#search in system###30 Apr 2003 new variable
-mail#:#mail_select_one_entry#:#You have to select one entry###16 Apr 2003 new variable
-mail#:#mail_select_one_file#:#You have to select one file###16 Apr 2003 new variable
-mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###16 Apr 2003 new variable
-mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###16 Apr 2003 new variable
-mail#:#mail_sure_delete_file#:#The file will be removed permanently###16 Apr 2003 new variable
-mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###16 Apr 2003 new variable
-mail#:#mail_to_search#:#To search###16 Apr 2003 new variable
-mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###16 Apr 2003 new variable
-mail#:#search_bc_recipient#:#Search BC Recipient###16 Apr 2003 new variable
-mail#:#search_cc_recipient#:#Search CC Recipient###16 Apr 2003 new variable
-meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions###01 Oct 2003 new variable
-meta#:#meta_active#:#Active###01 Oct 2003 new variable
+mail#:#mail_cc_not_valid#:#El destinatario Cc no es válido
+mail#:#mail_cc_search#:#Buscar CC
+mail#:#mail_change_to_folder#:#Cambiar a carpeta:
+mail#:#mail_check_your_email_addr#:#Tu dirección de correo no es válida
+mail#:#mail_compose#:#Crear nuevo mensaje
+mail#:#mail_deleted#:#Los correo(s) han sido eliminados
+mail#:#mail_deleted_entry#:#Las entradas se han borrado
+mail#:#mail_email_forbidden#:#No tiene permiso para enviar correo
+mail#:#mail_entry_added#:#Añadida una nueva Entrada
+mail#:#mail_entry_changed#:#-La entrada se modifica-
+mail#:#mail_file_name#:#Nombre de Fichero
+mail#:#mail_file_size#:#Tamaño de Fichero
+mail#:#mail_files_deleted#:#Los fichero(s) son eliminados
+mail#:#mail_folder_created#:#Una nueva carpeta es creada
+mail#:#mail_folder_deleted#:#La carpeta ha sido eliminada
+mail#:#mail_folder_exists#:#Una carpeta ya existe con este nombre
+mail#:#mail_folder_name#:#Nombre de la Carpeta
+mail#:#mail_folder_name_changed#:#La carpeta es renombrada
+mail#:#mail_folder_options#:#Opciones de carpeta
+mail#:#mail_following_rcp_not_valid#:#Los siguientes destinatarios no son válidos:
+mail#:#mail_global_options#:#opciones globales
+mail#:#mail_incoming#:#Correos recibidos
+mail#:#mail_incoming_both#:#local y reenvío
+mail#:#mail_incoming_local#:#sólo local
+mail#:#mail_incoming_smtp#:#reenviar a dirección de correo
+mail#:#mail_insert_folder_name#:#Por favor introduzca un nombre de carpeta
+mail#:#mail_insert_query#:#Por favor introduzca una consulta
+mail#:#mail_intern#:#Interno
+mail#:#mail_mark_read#:#Marcar como leídos
+mail#:#mail_mark_unread#:#Marcar como no leídos
+mail#:#mail_maxsize_attachment_error#:#El límite de subida es:
+mail#:#mail_message_send#:#El mensaje se ha enviado
+mail#:#mail_move_error#:#Error moviendo correo(s)
+mail#:#mail_move_to#:#Mover correos a 
+mail#:#mail_moved#:#Los correo(s) han sido movidos
+mail#:#mail_moved_to_trash#:#Los Correo(s) han sido movidos a la Papelera
+mail#:#mail_new_file#:#Adjuntar nuevo fichero:
+mail#:#mail_no_attach_allowed#:#Los mensajes de Sistema no pueden contener adjuntos
+mail#:#mail_no_attachments_found#:#No se encontraron adjuntos
+mail#:#mail_no_permissions_write_smtp#:#No tienes permiso para escribir correos fuera de ILIAS
+mail#:#mail_options_of#:#Opciones:
+mail#:#mail_options_saved#:#Opciones guardadas
+mail#:#mail_recipient_not_valid#:#El destinatario no es válido
+mail#:#mail_s#:#Correo(s)
+mail#:#mail_s_unread#:#Correo(s) no leído
+mail#:#mail_saved#:#El mensaje ha sido guardado
+mail#:#mail_search_addressbook#:#buscar en agenda
+mail#:#mail_search_system#:#buscar en el sistema
+mail#:#mail_select_one_entry#:#Tiene que seleccionar una entrada
+mail#:#mail_select_one_file#:#Tiene que seleccionar un fichero
+mail#:#mail_sure_delete#:#Está seguro de eliminar los correo(s) marcados
+mail#:#mail_sure_delete_entry#:#Está seguro que quiere eliminar las siguientes entradas
+mail#:#mail_sure_delete_file#:#El fichero será eliminado permanentemente
+mail#:#mail_sure_delete_folder#:#La carpeta y su contenido será eliminado permanentemente
+mail#:#mail_to_search#:#buscar To
+mail#:#mail_user_addr_n_valid#:#Los siguientes usuarios no tienen una dirección de correo válida
+mail#:#search_bc_recipient#:#Buscar Destinatario BC
+mail#:#search_cc_recipient#:#Buscar Destinatario CC
+meta#:#meta_accessibility_restrictions#:#Restricciones de Accesibilidad
+meta#:#meta_active#:#Activo
 meta#:#meta_add#:#Add###18 Sep 2003 new variable
 meta#:#meta_annotation#:#Annotation###01 Oct 2003 new variable
 meta#:#meta_atomic#:#Atomic###18 Sep 2003 new variable
@@ -2724,43 +2723,43 @@ meta#:#meta_very_easy#:#Very Easy###01 Oct 2003 new variable
 meta#:#meta_very_high#:#Very High###01 Oct 2003 new variable
 meta#:#meta_very_low#:#Very Low###01 Oct 2003 new variable
 meta#:#meta_yes#:#Yes###01 Oct 2003 new variable
-search#:#search_all_results#:#All results###10 Sep 2003 new variable
-search#:#search_concatenation#:#Concatenation###10 Sep 2003 new variable
-search#:#search_content#:#Page Content###10 Sep 2003 new variable
+search#:#search_all_results#:#Todos los resultados
+search#:#search_concatenation#:#Concatenación
+search#:#search_content#:#Contenido de las páginas
 search#:#search_dbk_content#:#Digital Library (content)###10 Sep 2003 new variable
 search#:#search_dbk_meta#:#Digital Library (meta data)###10 Sep 2003 new variable
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
-search#:#search_group#:#Groups###11 Dec 2003 new variable
-search#:#search_in_result#:#Search within results###10 Sep 2003 new variable
-search#:#search_lm_content#:#Learning materials (content)###10 Sep 2003 new variable
-search#:#search_lm_meta#:#Learning materials (meta data)###10 Sep 2003 new variable
-search#:#search_meta#:#Meta data###10 Sep 2003 new variable
-search#:#search_minimum_three#:#Your search has to be at least three characters long###10 Sep 2003 new variable
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
-search#:#search_no_category#:#You haven't selected any search category###10 Sep 2003 new variable
-search#:#search_no_match#:#Your search didn't match any results###10 Sep 2003 new variable
-search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
-search#:#search_no_search_term#:#You haven't selected any search term###10 Sep 2003 new variable
-search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
-search#:#search_search_for#:#Search for###10 Sep 2003 new variable
-search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
-search#:#search_search_results#:#Search results###11 Dec 2003 new variable
-search#:#search_search_term#:#Search term###10 Sep 2003 new variable
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_show_result#:#Show###10 Sep 2003 new variable
-search#:#search_user#:#Users###10 Sep 2003 new variable
+search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán eliminados permanentemente
+search#:#search_group#:#Grupos
+search#:#search_in_result#:#Buscar en los resultados
+search#:#search_lm_content#:#Materiales de aprendizaje (contenido)
+search#:#search_lm_meta#:#Materiales de aprendizaje (metadatos)
+search#:#search_meta#:#Metadatos
+search#:#search_minimum_three#:#La cadena de búsqueda debe tener al menos 3 caracteres
+search#:#search_move_folder_not_allowed#:#La carpeta no puede ser movida.
+search#:#search_move_to#:#Mover a:
+search#:#search_my_search_results#:#Mis resultados de búsqueda
+search#:#search_new_folder#:#Nueva carpeta
+search#:#search_no_category#:#No ha seleccionado ninguna categoría de búsqueda
+search#:#search_no_match#:#Su búsqueda no encontró resultados
+search#:#search_no_results_saved#:#No se han guardado los resultados
+search#:#search_no_search_term#:#No ha seleccionado ningun término de búsqueda
+search#:#search_no_selection#:#No hizo ninguna selección.
+search#:#search_object_renamed#:#Objeto renombrado.
+search#:#search_objects_deleted#:#Objeto(s) eliminado(s).
+search#:#search_objects_moved#:#Objetos movidos.
+search#:#search_one_action#:#Seleccione una acción.
+search#:#search_rename_title#:#Renombrar título
+search#:#search_results_saved#:#Resultados de Búsqueda guardados
+search#:#search_save_as_select#:#Guardar como:
+search#:#search_search_for#:#Buscar
+search#:#search_search_no_results_saved#:#No hay resultados de búsqueda guardados
+search#:#search_search_results#:#Resultados de búsqueda
+search#:#search_search_term#:#Término de búsqueda
+search#:#search_select_exactly_one_object#:#Tiene que seleccionar exactamente un objeto.
+search#:#search_select_one#:#Seleccione una carpeta
+search#:#search_select_one_action#:#--Seleccione una acción--
+search#:#search_select_one_folder_select#:#--Seleccione una carpeta--
+search#:#search_select_one_result#:#Seleccione al menos un resultado de búsqueda
+search#:#search_select_one_select#:#--Seleccione una carpeta--
+search#:#search_show_result#:#Mostrar
+search#:#search_user#:#Usuarios
