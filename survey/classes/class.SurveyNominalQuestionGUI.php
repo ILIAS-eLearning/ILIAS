@@ -102,9 +102,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// call to other question data
-		$this->outOtherQuestionData();
-
 		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
 		switch ($this->object->getOrientation())
 		{
@@ -148,6 +145,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
 			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("change"));
 			$this->tpl->setVariable("VALUE_MATERIAL", $this->object->material["internal_link"]);
+			$this->tpl->setVariable("VALUE_MATERIAL_TITLE", $this->object->material["title"]);
+			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		}
 		else
 		{
@@ -203,7 +202,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		{
 			$this->tpl->setCurrentBlock("material_nominal");
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
+			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$this->tpl->parseCurrentBlock();
 		}
 		switch ($this->object->getOrientation())
@@ -376,43 +375,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 	}
 
 /**
-* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
-*
-* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
-*
-* @access private
-*/
-  function outOtherQuestionData() {
-		if (!empty($this->object->materials)) {
-			$this->tpl->setCurrentBlock("mainselect_block");
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->object->materials as $key => $value) {
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->object->materials as $key => $value) {
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", " colspan=\"3\"");
-			$this->tpl->parse("mainselect_block");
-		}
-		
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
-		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", " colspan=\"3\"");
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
 * Evaluates a posted edit form and writes the form data in the question object
 *
 * Evaluates a posted edit form and writes the form data in the question object
@@ -432,7 +394,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		$this->object->setMaterial($_POST["material"]);
+		$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
 		$this->object->setSubtype($_POST["type"]);
 		$this->object->setOrientation($_POST["orientation"]);
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);
@@ -446,8 +408,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		{
 			$this->object->setObligatory(0);
 		}
-    // adding materials uris
-    $saved = $this->writeOtherPostData();
 
     // Delete all existing categories and create new categories from the form data
     $this->object->flushCategories();
@@ -470,41 +430,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		}
     return $result;
   }
-
-/**
-* Sets the other data i.e. materials uris of a question from a posted create/edit form
-*
-* Sets the other data i.e. materials uris of a question from a posted create/edit form
-*
-* @return boolean Returns true, if the question had to be autosaved to get a question id for the save path of the material, otherwise returns false.
-* @access private
-*/
-	function writeOtherPostData() {
-		// Add all materials uris from the form into the object
-		$saved = false;
-		$this->object->flushMaterials();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/material_list_/", $key, $matches)) {
-				$this->object->addMaterials($value, str_replace("material_list_", "", $key));
-			}
-		}
-		if (!empty($_FILES['materialFile']['tmp_name'])) {
-			if ($this->object->getId() <= 0) {
-				$this->object->saveToDb();
-				$saved = true;
-				sendInfo($this->lng->txt("question_saved_for_upload"));
-			}
-			$this->object->setMaterialsFile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
-		}
-	
-		// Delete material if the delete button was pressed
-		if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
-			foreach ($_POST[materialselect] as $value) {
-				$this->object->deleteMaterial($value);
-			}
-		}
-		return $saved;
-	}
 
 	function setQuestionTabs()
 	{

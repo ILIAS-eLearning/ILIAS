@@ -765,7 +765,8 @@ class SurveyQuestion {
 			{
 				$this->material = array(
 					"internal_link" => $row["internal_link"],
-					"import_id" => $row["import_id"]
+					"import_id" => $row["import_id"],
+					"title" => $row["material_title"]
 				);
 			}
 		}
@@ -787,10 +788,11 @@ class SurveyQuestion {
 		);
 		$result = $this->ilias->db->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
-		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($this->getId() . ""),
 			$this->ilias->db->quote($this->material["internal_link"] . ""),
-			$this->ilias->db->quote($this->material["import_id"] . "")
+			$this->ilias->db->quote($this->material["import_id"] . ""),
+			$this->ilias->db->quote($this->material["title"] . "")
 		);
 		$this->ilias->db->query($query);
 		if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
@@ -1350,7 +1352,7 @@ class SurveyQuestion {
 * @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
 * @access public
 */
-	function setMaterial($material_id = "", $is_import = false)
+	function setMaterial($material_id = "", $is_import = false, $material_title = "")
 	{
 		if (strcmp($material_id, "") != 0)
 		{
@@ -1360,9 +1362,51 @@ class SurveyQuestion {
 				$import_id = $material_id;
 				$material_id = $this->_resolveInternalLink($import_id);
 			}
+			if (strcmp($material_title, "") == 0)
+			{
+				if (preg_match("/il__(\w+)_(\d+)/", $material_id, $matches))
+				{
+					$type = $matches[1];
+					$target_id = $matches[2];
+					$material_title = $this->lng->txt("obj_$type") . ": ";
+					switch ($type)
+					{
+						case "lm":
+							require_once("./content/classes/class.ilObjContentObject.php");
+							$cont_obj =& new ilObjContentObject($target_id, true);
+							$material_title .= $cont_obj->getTitle();
+							break;
+						case "pg":
+							require_once("./content/classes/class.ilLMPageObject.php");
+							require_once("./content/classes/class.ilLMObject.php");
+							require_once("./content/classes/class.ilObjContentObject.php");
+							$lm_id = ilLMObject::_lookupContObjID($target_id);
+							$cont_obj =& new ilObjContentObject($lm_id, false);
+							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$material_title .= $pg_obj->getTitle();
+							break;
+						case "st":
+							require_once("content/classes/class.ilStructureObject.php");
+							require_once("./content/classes/class.ilLMObject.php");
+							require_once("./content/classes/class.ilObjContentObject.php");
+							$lm_id = ilLMObject::_lookupContObjID($target_id);
+							$cont_obj =& new ilObjContentObject($lm_id, false);
+							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$material_title .= $st_obj->getTitle();
+							break;
+						case "git":
+							require_once "./content/classes/class.ilGlossaryTerm.php";
+							$material_title = $this->lng->txt("glossary_term") . ": " . ilGlossaryTerm::_lookGlossaryTerm($target_id);
+							break;
+						case "mob":
+							break;
+					}
+				}
+			}
 			$this->material = array(
 				"internal_link" => $material_id,
-				"import_id" => $import_id
+				"import_id" => $import_id,
+				"title" => $material_title
 			);
 		}
 	}

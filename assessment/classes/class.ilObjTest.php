@@ -1738,6 +1738,13 @@ class ilObjTest extends ilObject
 			);
 		}
 		$result = $this->ilias->db->query($query);
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+		}
 	}
 	
 /**
