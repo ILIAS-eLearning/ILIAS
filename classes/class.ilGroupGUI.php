@@ -33,13 +33,10 @@ require_once("classes/class.ilObjGroup.php");
 *
 * @author	Martin Rus <mrus@smail.uni-koeln.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-*
-
-
 * @version	$Id$
-
 * @package	ilias-core
 */
+
 class ilGroupGUI extends ilObjectGUI
 {
 	var $tpl;
@@ -1526,8 +1523,8 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo();
 		$tab = array();
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"]."&active=0";//link for tab
-		$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
+		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id."&active=0";//link for tab
+		$tab[0]["ftabtype"] = 'tabinactive';  					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 		$tab[0]["tab_text"] ='resources';
 
@@ -1553,16 +1550,17 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		//TODO: it will be visiblle if trash works
+		//$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
-		if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
-		{
+		//if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
+		/*{
 			$tab[4] = array ();
 			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1586,11 +1584,13 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["active"] = $active;
 		}
-		if (! empty ($_GET["active"]))
+		
+		if (! empty ($_GET["active"]) || $_GET["active"]== 0)
 		{
 			$tab[$_GET["active"]]["ftabtype"] = "tabactive";
+
 		}
-		
+
 		$this->setAdminTabs($tabs, $tab);
 		$this->setLocator();
 
@@ -1701,9 +1701,10 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
 				
-		
+		//check if trash is filled
 		//TODO: if trash works, it will be visible
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		
 		if (count($objects) > 0)
 		{
 			$tab[4] = array ();
@@ -1711,7 +1712,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1969,7 +1970,8 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
 
 		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		//TODO:it will be visible if trash works
 		if (count($objects) > 0)
 		{
 			$tab[4] = array ();
@@ -1977,7 +1979,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -2224,7 +2226,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->prepareOutput(false);
 
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		$objects = $this->tree->getSavedNodeData($_GET["ref_id"]);
 
 		if (count($objects) == 0)
 		{
@@ -2328,8 +2330,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		$this->tpl->show();
 	}
-	
-	
 
 	function updateMemberStatusObject()
 	{
@@ -2736,7 +2736,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 	
 	
-	/** 
+	/** TODO MARTIN ANPASSEN AN GRUPPEN BESONDERHEITEN
 	* confirmed deletion if object -> objects are moved to trash
 	*
 	* However objects are only removed from tree!! That means that the objects
@@ -2758,6 +2758,9 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
+																//echo " node_data "; var_dump($node_data); echo " subtree_nodes "; var_dump($subtree_nodes);
+
 
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
@@ -2945,6 +2948,8 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
+<<<<<<< class.ilGroupGUI.php
+=======
 	
 	
 	/**
@@ -3189,5 +3194,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 	
+>>>>>>> 1.131
 }
 ?>
