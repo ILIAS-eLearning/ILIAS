@@ -2020,6 +2020,36 @@ content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
 content#:#cont_disable_media#:#Wyłącz Media
 content#:#cont_download_title#:#Pobierz Tytuł
+content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
+content#:#cont_ed_align_left#:#align: left###16 Aug 2004 new variable
+content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variable
+content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
+content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
+content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
+content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
+content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
+content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
+content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
+content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
+content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
+content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
+content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
+content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
+content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
+content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
+content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
+content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
+content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
+content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
+content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
+content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
+content#:#cont_ed_new_col_before#:#new column before###16 Aug 2004 new variable
+content#:#cont_ed_new_item_after#:#new item after###16 Aug 2004 new variable
+content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
+content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
+content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
+content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edytuj obszar
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
@@ -2091,6 +2121,7 @@ content#:#cont_lvalue#:#Element danych
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Pole Łącznikowe
 content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_matches#:#matches###16 Aug 2004 new variable
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_media_source#:#Źródło mediów
 content#:#cont_mep_structure#:#Struktura Puli Mediów
@@ -2130,6 +2161,7 @@ content#:#cont_parameters#:#parametry
 content#:#cont_personal_clipboard#:#Osobisty pulpit
 content#:#cont_pg_content#:#Zawartość strony
 content#:#cont_pg_title#:#Tytuł strony
+content#:#cont_please_select#:#please select###16 Aug 2004 new variable
 content#:#cont_prereq_type#:#Typ warunków wstępnych
 content#:#cont_prerequisites#:#Warunki wstępne
 content#:#cont_preview#:#Podgląd

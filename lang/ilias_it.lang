@@ -2045,6 +2045,36 @@ content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_disable_media#:#Disabilita Multimedia
 content#:#cont_download_title#:#Download titolo
+content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
+content#:#cont_ed_align_left#:#align: left###16 Aug 2004 new variable
+content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variable
+content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
+content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
+content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
+content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
+content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
+content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
+content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
+content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
+content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
+content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
+content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
+content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
+content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
+content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
+content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
+content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
+content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
+content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
+content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
+content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
+content#:#cont_ed_new_col_before#:#new column before###16 Aug 2004 new variable
+content#:#cont_ed_new_item_after#:#new item after###16 Aug 2004 new variable
+content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
+content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
+content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
+content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -2116,6 +2146,7 @@ content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
+content#:#cont_matches#:#matches###16 Aug 2004 new variable
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
@@ -2155,6 +2186,7 @@ content#:#cont_parameters#:#Parametri
 content#:#cont_personal_clipboard#:#Appunti personali
 content#:#cont_pg_content#:#Contenuto pagina
 content#:#cont_pg_title#:#Titolo pagina
+content#:#cont_please_select#:#please select###16 Aug 2004 new variable
 content#:#cont_prereq_type#:#tipo di prerequisiti
 content#:#cont_prerequisites#:#prerequisiti
 content#:#cont_preview#:#Anteprima
