@@ -106,7 +106,10 @@ class TFormat
 	}
 	
 
-	// db-datetime to timestamp
+	/**
+	* db-datetime to timestamp
+	* @param string
+	*/
 	function dateDB2timestamp ($ADatumSQL)
 	{
 		$timestamp = substr($ADatumSQL, 0, 4).
@@ -119,8 +122,10 @@ class TFormat
 		return $timestamp;
 	}
 
-
-	// German datetime to timestamp
+    /**
+	* German datetime to timestamp
+	* @param string
+	*/
 	function dateDE2timestamp ($ADatum)
 	{
 		$timestamp = substr($ADatum, 6, 4).
@@ -134,37 +139,53 @@ class TFormat
 	}
 
 
-	// formats db-datetime to german date
+	/**
+	* formats db-datetime to german date
+	* @param string
+	*/
 	function fdateDB2dateDE ($t)
 	{
 		return sprintf("%02d.%02d.%04d",substr($t, 8, 2),substr($t, 5, 2),substr($t, 0, 4));
 	}
 
 
-	// formats timestamp to german date
+	/**
+	* formats timestamp to german date
+	* @param string
+	*/
 	function ftimestamp2dateDE ($t)
 	{
 		return sprintf("%02d.%02d.%04d",substr($t, 6, 2),substr($t, 4, 2),substr($t, 0, 4));
 	}
 
 
-	// formats timestamp to german datetime
+	/**
+	* formats timestamp to german datetime
+	* @param string
+	*/
 	function ftimestamp2datetimeDE ($t)
 	{
 		return sprintf("%02d.%02d.%04d %02d:%02d:%02d",substr($t, 6, 2),substr($t, 4, 2),substr($t, 0, 4),substr($t, 8, 2),substr($t, 10, 2),substr($t, 12, 2));
 	}
 
 
-	// formats timestamp to db-datetime
+	/**
+	* formats timestamp to db-datetime
+	* @param string
+	*/
 	function ftimestamp2dateDB ($t)
 	{
 		return sprintf("%04d-%02d-%02d",substr($t, 0, 4),substr($t, 4, 2),substr($t, 6, 2));
 	}
 
 
-	// Datum vergleichen
-	// Erwartet timestamps
-	// Liefert das aktuellere Datum als Timestamp zurÅck
+	/**
+	* Datum vergleichen
+	* Erwartet timestamps
+	* Liefert das aktuellere Datum als Timestamp zurÅck
+	* @param string
+	* @param string
+	*/
 	function compareDates ($ADate1,$ADate2)
 	{
 		if ($ADate1 > $ADate2)
@@ -176,14 +197,19 @@ class TFormat
 	}
 	
 
-	// PrÅft Zahlen mit Nachkommastellen und erlaubt ein Komma als Nachstellentrenner
+	/**
+	* PrÅft Zahlen mit Nachkommastellen und erlaubt ein Komma als Nachstellentrenner
+	* @param string
+	*/
 	function checkDecimal ($var)
 	{
 		return doubleval(ereg_replace (",",".",$var));
 	}
 
 
-	// formatiert Geldwerte (Format: 00,00 + Eurosymbol). Weiteres siehe fProzent
+	/**
+	* formatiert Geldwerte (Format: 00,00 + Eurosymbol). Weiteres siehe fProzent
+	*/
 	function fGeld ()
 	{
 		$num_args = func_num_args();
@@ -202,8 +228,10 @@ class TFormat
 	}
 
 
-	// formatiert Prozentzahlen (Format: 00,00%). Wenn nix oder eine Null Åbergeben wird, wird ein Leerzeichen zurÅckgegeben
-	// Wenn mehr als ein Parameter Åbergeben wird, wird die Ausgabe auch bei Wert Null erzwungen
+	/**
+	* formatiert Prozentzahlen (Format: 00,00%). Wenn nix oder eine Null Åbergeben wird, wird ein Leerzeichen zurÅckgegeben
+	* Wenn mehr als ein Parameter Åbergeben wird, wird die Ausgabe auch bei Wert Null erzwungen
+	*/
 	function fProzent ()
 	{
 		$num_args = func_num_args();
@@ -222,7 +250,10 @@ class TFormat
 	}
 	
 
-	// Floats auf 2 Nachkommastellen runden 
+	/**
+	* Floats auf 2 Nachkommastellen runden 
+	* @param float
+	*/
 	function runden ($value)
 	{
 		return round($value * 100) / 100;
