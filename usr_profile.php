@@ -234,25 +234,25 @@ if ($_GET["cmd"] == "save")
 	}
 
 	//update user data (not saving!)
-	$ilias->account->setFirstName($_POST["usr_fname"]);
-	$ilias->account->setLastName($_POST["usr_lname"]);
+	$ilias->account->setFirstName(ilUtil::stripSlashes($_POST["usr_fname"]));
+	$ilias->account->setLastName(ilUtil::stripSlashes($_POST["usr_lname"]));
 	$ilias->account->setGender($_POST["usr_gender"]);
-	$ilias->account->setUTitle($_POST["usr_title"]);
+	$ilias->account->setUTitle(ilUtil::stripSlashes($_POST["usr_title"]));
 	$ilias->account->setFullname();
 	// added for upload by ratana ty
 	//$ilias->account->setFile($_POST["usr_file"]);
-	$ilias->account->setInstitution($_POST["usr_institution"]);
-	$ilias->account->setDepartment($_POST["usr_department"]);
-	$ilias->account->setStreet($_POST["usr_street"]);
+	$ilias->account->setInstitution(ilUtil::stripSlashes($_POST["usr_institution"]));
+	$ilias->account->setDepartment(ilUtil::stripSlashes($_POST["usr_department"]));
+	$ilias->account->setStreet(ilUtil::stripSlashes($_POST["usr_street"]));
 	$ilias->account->setZipcode($_POST["usr_zipcode"]);
-	$ilias->account->setCity($_POST["usr_city"]);
-	$ilias->account->setCountry($_POST["usr_country"]);
+	$ilias->account->setCity(ilUtil::stripSlashes($_POST["usr_city"]));
+	$ilias->account->setCountry(ilUtil::stripSlashes($_POST["usr_country"]));
 	$ilias->account->setPhoneOffice($_POST["usr_phone_office"]);
 	$ilias->account->setPhoneHome($_POST["usr_phone_home"]);
 	$ilias->account->setPhoneMobile($_POST["usr_phone_mobile"]);
 	$ilias->account->setFax($_POST["usr_fax"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
-	$ilias->account->setHobby($_POST["usr_hobby"]);
+	$ilias->account->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
 
 	// everthing's ok. save form data
 	if ($form_valid)
@@ -423,7 +423,7 @@ $tpl->setVariable("TXT_PHONE_MOBILE",$lng->txt("phone_mobile"));
 $tpl->setVariable("TXT_FAX",$lng->txt("fax"));
 $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 $tpl->setVariable("TXT_HOBBY",$lng->txt("hobby"));					// here
-$tpl->setVariable("TXT_DEFAULT_ROLE",$lng->txt("default_role"));
+$tpl->setVariable("TXT_DEFAULT_ROLES",$lng->txt("default_roles"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 $tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
@@ -448,19 +448,29 @@ $tpl->setVariable("TITLE", ilUtil::prepareFormOutput($ilias->account->getUTitle(
 $tpl->setVariable("INSTITUTION", ilUtil::prepareFormOutput($ilias->account->getInstitution()));
 $tpl->setVariable("DEPARTMENT", ilUtil::prepareFormOutput($ilias->account->getDepartment()));
 $tpl->setVariable("STREET", ilUtil::prepareFormOutput($ilias->account->getStreet()));
-$tpl->setVariable("ZIPCODE", ilUtil::prepareFormOutput($ilias->account->getZipcode()));
+$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
 $tpl->setVariable("CITY", ilUtil::prepareFormOutput($ilias->account->getCity()));
 $tpl->setVariable("COUNTRY", ilUtil::prepareFormOutput($ilias->account->getCountry()));
-$tpl->setVariable("PHONE_OFFICE", ilUtil::prepareFormOutput($ilias->account->getPhoneOffice()));
-$tpl->setVariable("PHONE_HOME", ilUtil::prepareFormOutput($ilias->account->getPhoneHome()));
-$tpl->setVariable("PHONE_MOBILE", ilUtil::prepareFormOutput($ilias->account->getPhoneMobile()));
-$tpl->setVariable("FAX", ilUtil::prepareFormOutput($ilias->account->getFax()));
+$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
+$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
+$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
+$tpl->setVariable("FAX", $ilias->account->getFax());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
-$tpl->setVariable("HOBBY", ilUtil::prepareFormOutput($ilias->account->getHobby()));		// here
+$tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		// here
 
-include_once "./classes/class.ilObjRole.php";
-$roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
-$tpl->setVariable("DEFAULT_ROLE",$roleObj->getTitle());
+// get assigned global roles (default roles)
+$global_roles = $rbacreview->getGlobalRoles();
+foreach ($global_roles as $role_id)
+{
+	if (in_array($role_id,$_SESSION["RoleId"]))
+	{
+		$roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
+		$role_names .= $roleObj->getTitle().", ";
+		unset($roleObj);
+	}
+}
+
+$tpl->setVariable("DEFAULT_ROLES",substr($role_names,0,-2));
 
 $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
