@@ -76,6 +76,7 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
 common#:#check_language#:#Sprache checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -135,6 +136,14 @@ common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
+common#:#err_1_param#:#Nur 1 Parameter!
+common#:#err_2_param#:#Nur 2 Parameter!
+common#:#err_count_param#:#Grund: Falsche Parameteranzahl.
+common#:#err_in_line#:#Fehler in Zeile
+common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
+common#:#err_no_param#:#Keine Parameter!
+common#:#err_over_3_param#:#Mehr als 3 Parameter!
+common#:#err_wrong_header#:#Grund: Falscher Header.
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#Ausführen
@@ -143,6 +152,8 @@ common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_not_found#:#Datei nicht gefunden
+common#:#file_not_valid#:#Datei ist ungültig!
+common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
@@ -200,6 +211,7 @@ common#:#help#:#Hilfe
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
+common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
 common#:#import#:#Import
 common#:#in_use#:#Benutzersprache
@@ -240,6 +252,7 @@ common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
+common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
@@ -321,6 +334,7 @@ common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#migrate#:#Migrieren
+common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
@@ -509,6 +523,7 @@ common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
+common#:#value#:#Wert
 common#:#version#:#Version
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
@@ -519,18 +534,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#langfile_found#:#Sprachdatei gefunden
-common#:#module#:#Modul
-common#:#identifier#:#Identifier
-common#:#value#:#Wert
-common#:#err_in_line#:#Fehler in Zeile
-common#:#err_no_param#:#Keine Parameter!
-common#:#err_1_param#:#Nur 1 Parameter!
-common#:#err_2_param#:#Nur 2 Parameter!
-common#:#err_over_3_param#:#Mehr als 3 Parameter!
-common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
-common#:#err_count_param#:#Grund: Falsche Parameteranzahl.
-common#:#file_not_valid#:#Datei ist ungültig!
-common#:#file_valid#:#Datei ist gültig!
-common#:#err_wrong_header#:#Grund: Falscher Header.
-common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!

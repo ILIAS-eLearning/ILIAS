@@ -76,6 +76,7 @@ common#:#chapter#:#chapter
 common#:#chapter_number#:#chapter number
 common#:#chapter_title#:#chapter title
 common#:#check#:#check
+common#:#check_langfile#:#Please check your language file.###26 Mar 2003 new variable
 common#:#check_language#:#check language
 common#:#chg_language#:#change language
 common#:#chg_password#:#change password
@@ -135,6 +136,14 @@ common#:#email_not_valid#:#The email addess you entered is not valid!###20 Mar 2
 common#:#enable#:#enable
 common#:#enabled#:#enabled
 common#:#enumerate#:#enumerate
+common#:#err_1_param#:#Only 1 parameter!###26 Mar 2003 new variable
+common#:#err_2_param#:#Only 2 parameter!###26 Mar 2003 new variable
+common#:#err_count_param#:#Reason: Wrong parameter count.###26 Mar 2003 new variable
+common#:#err_in_line#:#Error in line###26 Mar 2003 new variable
+common#:#err_no_langfile_found#:#No language file found!###26 Mar 2003 new variable
+common#:#err_no_param#:#No parameter!###26 Mar 2003 new variable
+common#:#err_over_3_param#:#More than 3 parameters!###26 Mar 2003 new variable
+common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#error recipient
 common#:#execute#:#execute
@@ -143,6 +152,8 @@ common#:#feedback#:#feedback
 common#:#feedback_recipient#:#feedback recipient
 common#:#file#:#file
 common#:#file_not_found#:#File not found
+common#:#file_not_valid#:#File not valid!###26 Mar 2003 new variable
+common#:#file_valid#:#File is valid!###26 Mar 2003 new variable
 common#:#file_version#:#version provided in file
 common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#please fill out all required fields
@@ -200,6 +211,7 @@ common#:#help#:#help
 common#:#host#:#host
 common#:#http_path#:#http path
 common#:#id#:#ID
+common#:#identifier#:#identifier###26 Mar 2003 new variable
 common#:#ilias_version#:#ILIAS version
 common#:#import#:#import
 common#:#in_use#:#user language
@@ -240,6 +252,7 @@ common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
+common#:#langfile_found#:#Language file found###26 Mar 2003 new variable
 common#:#language#:#language
 common#:#language_not_installed#:#is not installed. Please install that language first.###20 Mar 2003 new variable
 common#:#languages#:#languages
@@ -321,6 +334,7 @@ common#:#message#:#message
 common#:#message_content#:#message content
 common#:#message_to#:#message to:
 common#:#migrate#:#migrate
+common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#move to
 common#:#msg_changes_ok#:#the changes were ok
@@ -509,6 +523,7 @@ common#:#usr_skin#:#user skin
 common#:#usr_style#:#usr style
 common#:#usrf#:#usrf
 common#:#validate#:#Validate###04 Mar 2003 new variable
+common#:#value#:#value###26 Mar 2003 new variable
 common#:#version#:#version
 common#:#view#:#View###22 Jan 2003 new variable
 common#:#view_content#:#view content
