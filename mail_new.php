@@ -14,8 +14,6 @@ require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilFileDataMail.php";
 
-#var_dump("<pre>",$_POST,"</pre");
-
 $lng->loadLanguageModule("mail");
 
 $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
@@ -48,7 +46,6 @@ if(isset($_POST["cmd"]["save_message"]))
 {
 	$mbox = new ilMailbox($_SESSION["AccountId"]);
 	$drafts_id = $mbox->getDraftsFolder();
-
 	if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
 								$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
 								$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
@@ -192,8 +189,8 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 
 // TYPE
 $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
-$tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
-if(is_array($mail_data["m_type"]) and in_array('normal',$mail_data["m_type"]))
+$tpl->setVariable("TXT_NORMAL", $lng->txt("mail_intern"));
+if(!is_array($mail_data["m_type"]) or (is_array($mail_data["m_type"]) and in_array('normal',$mail_data["m_type"])))
 {
 	$tpl->setVariable("CHECKED_NORMAL",'CHECKED');
 }

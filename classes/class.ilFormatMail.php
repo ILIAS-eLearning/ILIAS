@@ -140,6 +140,7 @@ class ilFormatMail extends ilMail
 		{
 			$bodylines[$i] = "> ".$bodylines[$i];
 		}
+#		var_dump("<pre>",implode("\n",$bodylines),"</pre");
 		return $this->mail_data["m_message"] = implode("\n", $bodylines);
 	}
 
@@ -246,15 +247,15 @@ class ilFormatMail extends ilMail
 		$linebreak = $this->getLinebreak();
 		// SPLIT INTO LINES returns always an array
 		$lines = explode("\n",$a_message);
-		foreach($lines as $line)
+		for($i=0;$i<count($lines);$i++)
 		{
-			if(substr($line,0,1) != '>')
+			if(substr($lines[$i],0,1) != '>')
 			{
-				$formatted .= wordwrap($line,$linebreak);
+				$formatted .= wordwrap($lines[$i],$linebreak);
 			}
 			else
 			{
-				$formatted .= $line.'\n';
+				$formatted .= $lines[$i]."\n";
 			}
 		}
 		return $formatted;
