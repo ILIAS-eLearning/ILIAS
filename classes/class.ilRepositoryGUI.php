@@ -49,7 +49,7 @@ include_once("./ilinc/classes/class.ilObjiLincClassroomGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjCourseGroupingGUI
 *
 * @package core
 */
@@ -3647,7 +3647,8 @@ class ilRepositoryGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
-													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file","icrs","icla")))
+													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
+													 "htlm","fold","file","icrs","icla","crsg")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
