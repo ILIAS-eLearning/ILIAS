@@ -481,8 +481,7 @@ class ILIAS2export
 	function getImageNames ($sDir, $imageId, $imageName = "")
 	{
 		// initialize arrays ***
-		$types = array(".gif", "-s.gif", ".jpg", "-s.jpg", "");
-		$names = array();
+		$types = array("", ".gif", ".jpg", "-s.gif", "-s.jpg");
 		
 		foreach ($types as $type) 
 		{
@@ -517,9 +516,12 @@ class ILIAS2export
 				$names = $this->getImageNames ($sDir, $id, $tName);
 				
 				// copy files
-				foreach ($names as $key => $value) 
+				if (is_array($names))
 				{
-					copy($sDir.$key, $tDir.$value);
+					foreach ($names as $key => $value) 
+					{
+						copy($sDir.$key, $tDir.$value);
+					}
 				}
 				break;
 			
@@ -978,61 +980,65 @@ class ILIAS2export
 		// free result set
 		$result->free();
 		
-		// get file size and mimetype
-		if (file_exists($this->sourceDir."files/file".$id."/".$file["file"]))
+		// set full path of the main file ***
+		$fileName = $this->sourceDir."files/file".$id."/".$file["file"];
+		
+		// proceed only if at least one file was found, else no tree will be created ***
+		if (file_exists($fileName))
 		{
-			$fileSize = filesize($this->sourceDir."files/file".$id."/".$file["file"]);
-			$mimetype = str_replace("/", "-", mime_content_type($this->sourceDir."files/file".$id."/".$file["file"]));
+			// get (image) file size and mimetype ***
+			$fileSize = filesize($fileName);
+			$mimetype = str_replace("/", "-", mime_content_type($fileName));
+			
+			//-----------------------------------------------
+			// create LearningObject AggregationLevel 1 tree:
+			//-----------------------------------------------
+			
+			// LearningObject
+			$LearningObject = $this->writeNode($parent, "LearningObject");
+			
+			// LearningObject..MetaData ***
+			$MetaData = $this->exportMetadata($id, "file", $LearningObject);
+			
+			// complete Metadata:
+			
+			// get position within the metadata tree to insert the additional information to
+			$elements = $MetaData->get_elements_by_tagname("Educational");
+			$refnode = $elements[0];
+			
+			// 4 MetaData..Technical ***
+			$attrs = array(	"Format" => $mimetype);
+			$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+			
+			// 4.2 ..Technical..Size
+			$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+			
+			// 4.3 ..Technical..Location
+			$Location = $this->writeNode($Technical, "Location", Null, "/files/file".$id."/".$file["file"]); // ***
+			
+			// 4.4 ..Technical..(Requirement | OrComposite) ***
+			
+			// 4.5 ..Technical..InstallationRemarks ***
+			
+			// 4.6 ..Technical..OtherPlatformRequirements ***
+			
+			// 4.7 ..Technical..Duration ***
+			
+			// LearningObject..Layout --> unavailable for file
+			
+			// LearningObject..Parameter --> unavailable for file
+			
+			// LearningObject..Content --> unavailable for AggregationLevel 1
+			
+			// LearningObject..Test --> unavailable for AggregationLevel 1
+			
+			// LearningObject..Glossary --> unavailable for AggregationLevel 1
+			
+			// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+			
+			// *** copy file(s)
+			$this->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
 		}
-		
-		//-----------------------------------------------
-		// create LearningObject AggregationLevel 1 tree:
-		//-----------------------------------------------
-		
-		// LearningObject
-		$LearningObject = $this->writeNode($parent, "LearningObject");
-		
-		// LearningObject..MetaData ***
-		$MetaData = $this->exportMetadata($id, "file", $LearningObject);
-		
-		// complete Metadata:
-		
-		// get position within the metadata tree to insert the additional information to
-		$elements = $MetaData->get_elements_by_tagname("Educational");
-		$refnode = $elements[0];
-		
-		// 4 MetaData..Technical ***
-		$attrs = array(	"Format" => $mimetype);
-		$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
-		
-		// 4.2 ..Technical..Size
-		$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
-		
-		// 4.3 ..Technical..Location
-		$Location = $this->writeNode($Technical, "Location", Null, "/files/file".$id."/".$file["file"]); // ***
-		
-		// 4.4 ..Technical..(Requirement | OrComposite) ***
-		
-		// 4.5 ..Technical..InstallationRemarks ***
-		
-		// 4.6 ..Technical..OtherPlatformRequirements ***
-		
-		// 4.7 ..Technical..Duration ***
-		
-		// LearningObject..Layout --> unavailable for file
-		
-		// LearningObject..Parameter --> unavailable for file
-		
-		// LearningObject..Content --> unavailable for AggregationLevel 1
-		
-		// LearningObject..Test --> unavailable for AggregationLevel 1
-		
-		// LearningObject..Glossary --> unavailable for AggregationLevel 1
-		
-		// LearningObject..Bibliography --> unavailable for AggregationLevel 1
-		
-		// *** copy file(s)
-		$this->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
 		
 		//-------------
 		// free memory: ***
@@ -1122,70 +1128,74 @@ class ILIAS2export
 				// free result set
 				$result->free();
 				
-				// auf Existenz der Datei checken!!!!!!!!!!!!!
-				
-				// get (image) file size and mimetype ***
-				if (file_exists($this->iliasDir."bilder/".$image["datei"]))
-				{
-					$fileSize = filesize($this->iliasDir."bilder/".$image["datei"]);
-					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."bilder/".$image["datei"]));
-				}
-				
 				// check for orginal file name and set it to id if empty
 				if ($image["datei"] == "")
 				{
 					$image["datei"] = $id;
 				}
 				
-				//-----------------------------------------------
-				// create LearningObject AggregationLevel 1 tree:
-				//-----------------------------------------------
+				// get names (of existing image files)
+				$names = $this->getImageNames ($this->iliasDir."bilder/", $id, $image["datei"]);
 				
-				// LearningObject
-				$LearningObject = $this->writeNode($parent, "LearningObject");
-				
-				// LearningObject..MetaData ***
-				$MetaData = $this->exportMetadata($id, "el", $LearningObject);
-				
-				// complete Metadata:
-				
-				// get position within the metadata tree to insert the additional information to
-				$elements = $MetaData->get_elements_by_tagname("Educational");
-				$refnode = $elements[0];
-				
-				// 4 MetaData..Technical ***
-				// *** $attrs = array(	"Format" => $mimetype);
-				$attrs = array(	"Format" => "image-gif");
-				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
-				
-				// 4.2 ..Technical..Size
-				$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
-				
-				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
-				
-				// 4.4 ..Technical..(Requirement | OrComposite) ***
-				
-				// 4.5 ..Technical..InstallationRemarks ***
-				
-				// 4.6 ..Technical..OtherPlatformRequirements ***
-				
-				// 4.7 ..Technical..Duration ***
-				
-				// LearningObject..Layout --> unavailable for file
-				
-				// LearningObject..Parameter --> unavailable for file
-				
-				// LearningObject..Content --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Test --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Glossary --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
-				
-				// *** copy file(s)
-				$this->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
+				// proceed only if at least one file was found, else no subtrewill be created ***
+				if (is_array($names))
+				{
+					// set full path of the main file ***
+					$fileName = $this->iliasDir."bilder/".key($names);
+					
+					// get (image) file size and mimetype ***
+					$fileSize = filesize($fileName);
+					$mimetype = str_replace("/", "-", mime_content_type($fileName));
+					
+					//-------------------------------------------------
+					// create LearningObject AggregationLevel 1 subtree:
+					//-------------------------------------------------
+					
+					// LearningObject
+					$LearningObject = $this->writeNode($parent, "LearningObject");
+					
+					// LearningObject..MetaData ***
+					$MetaData = $this->exportMetadata($id, "el", $LearningObject);
+					
+					// complete Metadata:
+					
+					// get position within the metadata tree to insert the additional information to
+					$elements = $MetaData->get_elements_by_tagname("Educational");
+					$refnode = $elements[0];
+					
+					// 4 MetaData..Technical ***
+					$attrs = array(	"Format" => $mimetype);
+					$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+					
+					// 4.2 ..Technical..Size
+					$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+					
+					// 4.3 ..Technical..Location
+					$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
+					
+					// 4.4 ..Technical..(Requirement | OrComposite) ***
+					
+					// 4.5 ..Technical..InstallationRemarks ***
+					
+					// 4.6 ..Technical..OtherPlatformRequirements ***
+					
+					// 4.7 ..Technical..Duration ***
+					
+					// LearningObject..Layout --> unavailable for file
+					
+					// LearningObject..Parameter --> unavailable for file
+					
+					// LearningObject..Content --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Test --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Glossary --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+					
+					// *** copy file(s)
+					$this->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
+				}
 				
 				break;
 			
@@ -1240,7 +1250,6 @@ class ILIAS2export
 				// free result set
 				$result->free();
 				
-				/* *** alternativ zu unten
 				// table 'table_cell' and 'table_rowcol'
 				$sql =	"SELECT tc.row, tc.text, tc.textform, tr.width ". // *** textform not implemented yet
 						"FROM table_cell AS tc, table_rowcol AS tr ".
@@ -1249,35 +1258,20 @@ class ILIAS2export
 						"AND tr.rowcol = 'c' ".
 						"AND tc.col = tr.nr ".
 						"ORDER BY row, col;";
-				*/
 				
-				// ***
-				for ($i = 1; $i <= $table["rows"]; $i++)
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
 				{
-					// table 'table_cell' and 'table_rowcol'
-					$sql =	"SELECT tc.text, tc.textform, tr.width ". // *** textform not implemented yet
-							"FROM table_cell AS tc, table_rowcol AS tr ".
-							"WHERE tc.id = $id ".
-							"AND tc.row = $i ".
-							"AND tc.id = tr.id ".
-							"AND tr.rowcol = 'c' ".
-							"AND tc.col = tr.nr ".
-							"ORDER BY col;";
-					
-					$result = $this->db->query($sql);		
-					// check $result for error
-					if (DB::isError($result))
-					{
-						die ($result->getMessage());
-					}
-					// get row(s)
-					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-					{
-						$data[$i][] = $row;
-					}
-					// free result set
-					$result->free();
+					die ($result->getMessage());
 				}
+				// get row(s)
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$data[] = $row;
+				}
+				// free result set
+				$result->free();
 				
 				//--------------------------
 				// create Paragraph subtree:
@@ -1315,36 +1309,32 @@ class ILIAS2export
 				
 				// ..Table..Summary  --> unavailable in ILIAS2
 				
-				// *** if is_array
-				
 				// ..Table..TableRow ***
-				foreach ($data as $value) 
+				if (is_array($data))
 				{
-					$TableRow = $this->writeNode($Table, "TableRow");
-					
-					foreach ($value as $value2)
+					for ($i = 1; $i <= $table["rows"]; $i++)
 					{
-						// ..TableRow..TableData ***
-						$attrs = array(	"Width" => $value2["width"]); // *** auf empty testen
-						$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value2["text"]);
-					}
-				}
-				/* ***
-				for ($i = 1; $i <= $table["rows"]; $i++)
-				{
-					$TableRow = $this->writeNode($Table, "TableRow");
-					
-					foreach ($data as $value) 
-					{
-						if ($value["row"] == $i)
+						$TableRow = $this->writeNode($Table, "TableRow");
+						
+						foreach ($data as $value) 
 						{
-							// ..TableRow..TableData ***
-							$attrs = array(	"Width" => $value["width"]); // *** auf empty testen
-							$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value["text"]);
+							if ($value["row"] == $i)
+							{
+								// ..TableRow..TableData ***
+								if (!empty($value["width"]))
+								{
+									$attrs = array(	"Width" => $value["width"]);
+								}
+								else
+								{
+									$attrs = Null;
+								}
+								$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value["text"]);
+								break;
+							}
 						}
 					}
 				}
-				*/
 				
 				break;
 			
@@ -1386,76 +1376,78 @@ class ILIAS2export
 				// free result set
 				$result->free();
 				
-				// auf Existenz der Datei checken!!!!!!!!!!!!!
+				// set full path of the main file ***
+				$fileName = $this->iliasDir."imagemaps/".$id.".".$map["type"];
 				
-				// get (image) file size and mimetype ***
-				if (file_exists($this->iliasDir."imagemaps/".$id.".".$map["type"]))
+				// proceed only if at least one file was found, else no subtrewill be created ***
+				if (file_exists($fileName))
 				{
-					$fileSize = filesize($this->iliasDir."imagemaps/".$id.".".$map["type"]);
-					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."imagemaps/".$id.".".$map["type"]));
-				}
+					// get (image) file size and mimetype ***
+					$fileSize = filesize($fileName);
+					$mimetype = str_replace("/", "-", mime_content_type($fileName));
 				
-				//-----------------------------------------------
-				// create LearningObject AggregationLevel 1 tree:
-				//-----------------------------------------------
-				
-				// LearningObject
-				$LearningObject = $this->writeNode($parent, "LearningObject");
-				
-				// LearningObject..MetaData ***
-				$MetaData = $this->exportMetadata($id, "el", $LearningObject);
-				
-				// complete Metadata:
-				
-				// get position within the metadata tree to insert the additional information to
-				$elements = $MetaData->get_elements_by_tagname("Educational");
-				$refnode = $elements[0];
-				
-				// 4 MetaData..Technical ***
-				$attrs = array(	"Format" => $mimetype);
-				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
-				
-				// 4.2 ..Technical..Size
-				$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
-				
-				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", Null, "./objects/imagemap".$id."/".$id.".".$map["type"]);
-				
-				// 4.4 ..Technical..(Requirement | OrComposite) ***
-				
-				// 4.5 ..Technical..InstallationRemarks ***
-				
-				// 4.6 ..Technical..OtherPlatformRequirements ***
-				
-				// 4.7 ..Technical..Duration ***
-				
-				// LearningObject..Layout --> unavailable for file
-				
-				// LearningObject..Parameter VRI-Links
-				if (is_array($maparea))
-				{
-					$Parameter = $this->writeNode($LearningObject, "Parameter");
+					//--------------------------------------------------
+					// create LearningObject AggregationLevel 1 subtree:
+					//--------------------------------------------------
 					
-					foreach ($maparea as $value)
+					// LearningObject
+					$LearningObject = $this->writeNode($parent, "LearningObject");
+					
+					// LearningObject..MetaData ***
+					$MetaData = $this->exportMetadata($id, "el", $LearningObject);
+					
+					// complete Metadata:
+					
+					// get position within the metadata tree to insert the additional information to
+					$elements = $MetaData->get_elements_by_tagname("Educational");
+					$refnode = $elements[0];
+					
+					// 4 MetaData..Technical ***
+					$attrs = array(	"Format" => $mimetype);
+					$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+					
+					// 4.2 ..Technical..Size
+					$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+					
+					// 4.3 ..Technical..Location
+					$Location = $this->writeNode($Technical, "Location", Null, "./objects/imagemap".$id."/".$id.".".$map["type"]);
+					
+					// 4.4 ..Technical..(Requirement | OrComposite) ***
+					
+					// 4.5 ..Technical..InstallationRemarks ***
+					
+					// 4.6 ..Technical..OtherPlatformRequirements ***
+					
+					// 4.7 ..Technical..Duration ***
+					
+					// LearningObject..Layout --> unavailable for file
+					
+					// LearningObject..Parameter VRI-Links
+					if (is_array($maparea))
 					{
-						// ..ParameterName
-						$ParameterName = $this->writeNode($Parameter, "ParameterName", Null, "Maparea");
+						$Parameter = $this->writeNode($LearningObject, "Parameter");
 						
-						// ..ParameterValue
-						$ParameterValue = $this->writeNode($Parameter, "ParameterValue", Null, "<area shape=\"".$value["shape"]."\" coords=\"".$value["coords"]."\" href=\"".$value["href"]."\" alt=\"".$value["alt"]."\"");
+						foreach ($maparea as $value)
+						{
+							// ..ParameterName
+							$ParameterName = $this->writeNode($Parameter, "ParameterName", Null, "Maparea");
+							
+							// ..ParameterValue
+							$ParameterValue = $this->writeNode($Parameter, "ParameterValue", Null, "<area shape=\"".$value["shape"]."\" coords=\"".$value["coords"]."\" href=\"".$value["href"]."\" alt=\"".$value["alt"]."\"");
+						}
 					}
+					
+					// LearningObject..Content --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Test --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Glossary --> unavailable for AggregationLevel 1
+					
+					// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+					
+					// *** copy file(s)
+					$this->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
 				}
-				
-				// LearningObject..Content --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Test --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Glossary --> unavailable for AggregationLevel 1
-				
-				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
-				
-				// *** copy file(s)
-				$this->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
 				
 				break;
 			
@@ -1640,7 +1632,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $image, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer);
+		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $map, $maparea, $mc, $answer);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
