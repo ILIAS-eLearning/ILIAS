@@ -99,7 +99,7 @@
 	<property name="owner">show_owner</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="false" name="link">copy</action>
+	<action exec ="false" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -120,7 +120,7 @@
 	<action name="clear">clear</action>
 	<action name="import">import</action>
 </object>
-<object name="lo" chkbox="1">
+<object name="lo" class_name="LearningObject" chkbox="1">
 	<property name="view">view_content</property>
 </object>
 <object name="lng" class_name="Language" chkbox="1">
