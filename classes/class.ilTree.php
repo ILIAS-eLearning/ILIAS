@@ -1128,7 +1128,7 @@ class ilTree
 			$saved[] = $this->fetchNodeData($row);
 		}
 
-		return $saved;
+		return $saved ? $saved : array();
 	}
 
 	/**

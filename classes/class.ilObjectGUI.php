@@ -248,7 +248,7 @@ class ilObjectGUI
 					  }
 					  break;
 				  case 'trash':
-					  if (!$rbacsystem->checkAccess('edit permission',$this->ref_id))
+					  if (!$this->tree->getSavedNodeData($this->ref_id))
 					  {
 						  $show = false;
 					  }
