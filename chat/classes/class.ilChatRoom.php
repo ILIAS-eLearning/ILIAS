@@ -359,6 +359,8 @@ class ilChatRoom
 	}
 	function getRooms()
 	{
+		global $tree;
+
 		$query = "SELECT DISTINCT(cr.room_id) as room_id,owner,title,chat_id FROM chat_rooms AS cr NATURAL LEFT JOIN chat_invitations ".
 			"WHERE (owner = '".$this->getUserId()."') ".
 			"OR (guest_id = '".$this->getUserId()."')";
@@ -366,6 +368,11 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if(!$tree->isInTree($row->chat_id))
+			{
+				continue;
+			}
+
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["chat_id"] = $row->chat_id;
 			$data[$row->room_id]["owner"] = $row->owner;
