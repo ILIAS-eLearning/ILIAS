@@ -48,16 +48,24 @@ class Template extends IntegratedTemplateExtension {
 		{
             $fname = $ilias->tplPath;
 			
-			if (is_object($ilias->account) && $ilias->account->getPref("skin") != "")
+			//pda support
+			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
 			{
-			    $fname .= $ilias->account->getPref("skin")."/";
+				$fname .= "pda/";
 			}
 			else
 			{
-				//choose default skin
-			    $fname .= $ilias->ini->readVariable("layout","defaultskin")."/";
-				
+				if (is_object($ilias->account) && $ilias->account->getPref("skin") != "")
+				{
+				    $fname .= $ilias->account->getPref("skin")."/";
+				}
+				else
+				{
+					//choose default skin
+				    $fname .= $ilias->ini->readVariable("layout","defaultskin")."/";
+				}
 			}
+			
 			$fname .= basename($file);
         }
 		else

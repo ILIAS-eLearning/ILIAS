@@ -299,5 +299,14 @@ class ILIAS extends PEAR
 		}
 		return $this->styles[0]["name"];
 	}
+	
+	/**
+	* check if a templatename exists on the server
+	* @param string
+	*/
+	function checkTemplate($name)
+	{
+		return file_exists($this->tplPath."/".$name);
+	}
 } // END class.ILIAS
 ?>

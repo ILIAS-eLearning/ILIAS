@@ -114,7 +114,7 @@ if ($script != "login.php" && $script != "index.php")
 	
 	// instantiate main template
 	$tplmain = new Template("tpl.main.html", false, false);
-	
+
 	//user stylehandling
 	if ($ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
 	{
@@ -132,5 +132,8 @@ if ($script != "login.php" && $script != "index.php")
 		$tplnav = new Template("tpl.main_buttons.html", false, false);
 		$tplmain->setVariable("NAVIGATION", $tplnav->get());
 	}
+	
 }
+
+
 ?>
