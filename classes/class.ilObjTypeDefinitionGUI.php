@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.9 2003/06/12 14:51:05 smeyer Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.10 2003/07/09 15:41:34 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -220,7 +220,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview;
+
+		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
+		}
 
 		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
 
@@ -242,6 +247,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				}
 			}
 		}
+
+		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
