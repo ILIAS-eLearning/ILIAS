@@ -505,5 +505,25 @@ class ilMailbox
 		
 		return true;
 	}
+
+	/**
+	 * Update existing mails. Set sender id to null and import name to login name.
+	 * This is only necessary for deleted users.
+	 *
+	 * @access	public
+	 * @return	boolean	true on successful deletion
+	 */
+	function updateMailsOfDeletedUser()
+	{
+		$tmp_user =& ilObjectFactory::getInstanceByObjId($this->user_id,false);
+
+		$query = "UPDATE mail SET sender_id = '0',import_name = '".$tmp_user->getLogin()."' ".
+			"WHERE sender_id = '".$this->user_id."'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+		
 }
 ?>

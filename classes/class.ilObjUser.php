@@ -647,6 +647,12 @@ class ilObjUser extends ilObject
 	{
 		global $rbacadmin;
 
+		// remove mailbox / update sent mails
+		include_once ("classes/class.ilMailbox.php");
+		$mailbox = new ilMailbox($this->getId());
+		$mailbox->delete();
+		$mailbox->updateMailsOfDeletedUser();
+
 		// delete user_account
 		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='".$this->getId()."'");
 
@@ -656,10 +662,6 @@ class ilObjUser extends ilObject
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
 
-		// remove mailbox
-		include_once ("classes/class.ilMailbox.php");
-		$mailbox = new IlMailbox($this->getId());
-		$mailbox->delete();
 
 		// remove bookmarks
 		// TODO: move this to class.ilBookmarkFolder
@@ -1351,6 +1353,7 @@ class ilObjUser extends ilObject
 			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ";
 #			"AND usr_pref.keyword = 'public_profile' ";
 #			"AND usr_pref.value = 'y'";
+
 
 		$ilBench->start("Search", "ilObjUser_search");
 		$res = $a_search_obj->ilias->db->query($query);

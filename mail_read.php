@@ -119,7 +119,10 @@ $tpl->setVariable("ACTION","mail_read.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[m
 $counter = 1;
 // FROM
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
+
 $tmp_user = new ilObjUser($mail_data["sender_id"]);
+#$tmp_user =& ilObjectFactory::getInstanceByObjId($mail_data["sender_id"],false);
+
 $tpl->setVariable("FROM", $tmp_user->getFullname());
 
 if(!($login = $tmp_user->getLogin()))
