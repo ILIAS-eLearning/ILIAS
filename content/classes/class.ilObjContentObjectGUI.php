@@ -284,26 +284,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	// called by administration
-	function chooseMetaSectionObject()
+	function chooseMetaSectionObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"], $_REQUEST["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $_REQUEST["meta_section"]);
 	}
 
 	// called by editor
 	function chooseMetaSection()
 	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->object->getRefId(), $_REQUEST["meta_section"]);
+		$this->chooseMetaSectionObject("lm_edit.php");
 	}
 
-	function addMetaObject()
+	function addMetaObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
@@ -322,10 +317,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $meta_section);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $meta_section);
 	}
 
-	function addBibItemObject()
+	function addMeta()
+	{
+		$this->addMetaObject("lm_edit.php");
+	}
+
+	function addBibItemObject($a_target = "adm_object.php")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -346,43 +346,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("bibitem_choose_element"), true);
 		}
 #		echo "Name: " . $bibItemName . " | Path: " . $bibItemPath . " | Index: " . $bibItemIndex . "<br>\n";
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $bibItemIndex);
 	}
 
-	function addMeta()
+	function addBibItem()
 	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->object->getRefId(), $meta_section);
+		$this->addBibItemObject("lm_edit.php");
 	}
 
-	function deleteMetaObject()
+	function deleteMetaObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $_GET["meta_section"]);
 	}
 
-	function deleteBibItemObject()
+	function deleteMeta()
+	{
+		$this->deleteMetaObject("lm_edit.php");
+	}
+
+	function deleteBibItemObject($a_target = "adm_object.php")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -393,30 +380,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$bibItemIndex = substr($bibItemIndex, 0, strpos($bibItemIndex, ","));
 		}
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $bibItemIndex);
 	}
 
-	function deleteMeta()
+	function deleteBibItem()
+	{
+		$this->deleteBibItemObject("lm_edit.php");
+	}
+
+	function editMetaObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->object->getRefId(), $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=".$this->object->getRefId(), $_GET["meta_section"]);
 	}
 
-	function editMetaObject()
+	function editMeta()
 	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]);
+		$this->editMetaObject("lm_edit.php");
 	}
 
-	function editBibItemObject()
+	function editBibItemObject($a_target = "adm_object.php")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -427,21 +412,29 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$bibItemIndex = 0;
 		}
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $bibItemIndex);
 	}
 
-	function saveMetaObject()
+	function editBibItem()
+	{
+		$this->editBibItemObject("lm_edit.php");
+	}
+
+	function saveMetaObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
-#		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		ilUtil::redirect($a_target . "?cmd=editMeta&ref_id=" . $this->object->getRefId() . "&meta_section=" . $_POST["meta_section"]);
 	}
 
-	function saveBibItemObject()
+	function saveMeta()
+	{
+		$this->saveMetaObject("lm_edit.php");
+	}
+
+	function saveBibItemObject($a_target = "adm_object.php")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -453,8 +446,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$bibItemIndex = 0;
 		}
 		$bibItemIndex = $bib_gui->save($bibItemIndex);
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
-#		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $bibItemIndex);
+	}
+
+	function saveBibItem()
+	{
+		$this->saveBibItemObject("lm_edit.php");
 	}
 
 	/**
@@ -1023,32 +1020,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
-	/**
-	* edit meta data
-	*/
-	function editMeta()
-	{
-		include_once("classes/class.ilMetaDataGUI.php");
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=saveMeta", $_GET["meta_section"]);
-	}
-
-
-	/**
-	* edit save data
-	*/
-	function saveMeta()
-	{
-		include_once("classes/class.ilMetaDataGUI.php");
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		ilUtil::redirect("lm_edit.php?cmd=editMeta&ref_id=".$this->object->getRefId()."&meta_section=".$_POST["meta_section"]);
-	}
-
 
 	/**
 	* edit permissions
