@@ -2791,6 +2791,7 @@ search#:#search_user#:#Usuarios
 survey#:#add_category#:#Add category###21 May 2004 new variable
 survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
+survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
@@ -2839,6 +2840,7 @@ survey#:#dc_varying#:#varying###23 May 2004 new variable
 survey#:#dc_verygood#:#very good###23 May 2004 new variable
 survey#:#dc_yes#:#yes###23 May 2004 new variable
 survey#:#define_questionblock#:#Define question block###23 May 2004 new variable
+survey#:#disinvite#:#Disinvite###27 May 2004 new variable
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
@@ -2874,6 +2876,8 @@ survey#:#introduction#:#Introduction###23 May 2004 new variable
 survey#:#invitation#:#Invitation###27 May 2004 new variable
 survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
 survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
+survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
+survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
@@ -2888,6 +2892,7 @@ survey#:#no_question_selected_for_move#:#Please check at least one question to m
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
 survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
 survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
+survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
 survey#:#obligatory#:#obligatory###24 May 2004 new variable
 survey#:#off#:#off###23 May 2004 new variable
