@@ -1070,6 +1070,7 @@ content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
+content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#dodaj definicję
 content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
@@ -1205,6 +1206,7 @@ content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
 content#:#cont_roman#:#Rzymskie i, ii, ...
+content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM
@@ -1244,6 +1246,7 @@ content#:#cont_toc#:#Spis treści
 content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
+content#:#cont_update#:#Update###15 Jan 2004 new variable
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja

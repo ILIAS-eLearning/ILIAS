@@ -1070,6 +1070,7 @@ content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Remark#:#Remark###06 Sep 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
+content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
@@ -1205,6 +1206,7 @@ content#:#cont_resource#:#Resource###04 Aug 2003 new variable
 content#:#cont_resource_type#:#type###04 Aug 2003 new variable
 content#:#cont_resources#:#Resources###04 Aug 2003 new variable
 content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
+content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#title###04 Aug 2003 new variable
 content#:#cont_school#:#School###19 Sep 2003 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
@@ -1244,6 +1246,7 @@ content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable
+content#:#cont_update#:#Update###15 Jan 2004 new variable
 content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable

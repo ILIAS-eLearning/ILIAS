@@ -33,9 +33,9 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#Drittanbieter-Programme
+3rd_party_software#:#Drittanbieter-Programme###15 Jan 2004 content changed
 absolute_path#:#Absoluter Pfad
-access#:#Zugang
+access#:#Zugang###15 Jan 2004 content changed
 access_status#:#Zugangsstatus
 admin_login#:#als Systemadministrator anmelden
 available_clients#:#Vorhandene Mandanten
@@ -206,8 +206,8 @@ lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
 lang_pl#:#Polnisch
-lang_ua#:#Ukrainisch
 lang_se#:#Schwedisch
+lang_ua#:#Ukrainisch
 lang_xx#:#benutzerdefiniert
 lang_zh#:#Chinesisch
 langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
@@ -373,7 +373,7 @@ username#:#Benutzername
 version#:#Version
 webspace_dir#:#webspace data path
 with#:#mit
-wrong_password#:#Falsches Passwort!
+wrong_password#:#Falsches Passwort!###15 Jan 2004 content changed
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ

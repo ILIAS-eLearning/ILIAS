@@ -1070,6 +1070,7 @@ content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
 content#:#cont_Unordered#:#Non ordinato
+content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Aggiungi definizione
 content#:#cont_added_term#:#Aggiunto termine
 content#:#cont_all_definitions#:#Tutte le definizioni
@@ -1205,6 +1206,7 @@ content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
+content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
@@ -1244,6 +1246,7 @@ content#:#cont_toc#:#Tabella dei contenuti
 content#:#cont_top#:#Alto
 content#:#cont_translations#:#Traduzione(i)
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
+content#:#cont_update#:#Update###15 Jan 2004 new variable
 content#:#cont_upload_file#:#Upload del file
 content#:#cont_url#:#URL
 content#:#cont_version#:#Versione

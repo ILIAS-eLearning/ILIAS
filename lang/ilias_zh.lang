@@ -1087,6 +1087,7 @@ content#:#cont_Reference#:#参考
 content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...
 content#:#cont_Unordered#:#未排序的
+content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#增加定义
 content#:#cont_added_term#:#术语已增加
 content#:#cont_all_definitions#:#全部定义
@@ -1222,6 +1223,7 @@ content#:#cont_resource#:#资源
 content#:#cont_resource_type#:#类型
 content#:#cont_resources#:#资源
 content#:#cont_roman#:#罗马数字 i, ii, …
+content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
 content#:#cont_sc_title#:#标题
 content#:#cont_school#:#学校
 content#:#cont_scorm_type#:#adlcpscorm类型
@@ -1261,6 +1263,7 @@ content#:#cont_toc#:#目录
 content#:#cont_top#:#向上
 content#:#cont_translations#:#翻译
 content#:#cont_translations_assigned#:#已指定翻译
+content#:#cont_update#:#Update###15 Jan 2004 new variable
 content#:#cont_upload_file#:#上载文件
 content#:#cont_url#:#URL
 content#:#cont_version#:#版本
