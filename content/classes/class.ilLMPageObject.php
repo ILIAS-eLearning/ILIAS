@@ -329,13 +329,10 @@ class ilLMPageObject extends ilLMObject
 		global $rbacsystem, $ilias;
 
 		// determine learning object
-		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_target."'";
-		$pg_set = $ilDB->query($query);
-		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$lm_id = $pg_rec["lm_id"];
+		$lm_id = ilLMObject::_lookupContObjID($a_target);
 
 		// get all references
-		$ref_ids = _ilObject::_getAllReferences($lm_id);
+		$ref_ids = ilObject::_getAllReferences($lm_id);
 
 		// check read permissions
 		foreach ($ref_ids as $ref_id)

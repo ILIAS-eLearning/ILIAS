@@ -314,5 +314,16 @@ class ilLMObject
 		}
 	}
 
+	function _lookupContObjID($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["lm_id"];
+	}
+
 }
 ?>
