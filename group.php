@@ -76,10 +76,17 @@ if (!isset($_GET["type"]))
 }
 if ($_GET["type"]!="root"  ) 
 {
-if ($_GET["type"]!="cat"  ) 
-{
-	$cmd = key($_POST["cmd"]);
-}
+	if ($_GET["type"]!="cat"  ) 
+	{
+		
+		if (is_array($_POST["cmd"]))
+		{
+			$cmd = key($_POST["cmd"]);
+		}else{
+			$cmd = $_GET["cmd"];
+		}
+
+	}
 }
 
 // determine command
@@ -89,7 +96,7 @@ if ($_GET["type"]!="cat"  )
 //}
 //if (empty($cmd)) // if no cmd is given default to first property
 //{
-	/*//$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
+	/*$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
 	$cmd = $_GET["cmd"] = "content";*/
 //}
 
@@ -114,8 +121,8 @@ else
 // call gui object method
 //$method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
-
-if ($_GET["type"]=="root" or $_GET["type"]=="cat")
+//var_dump($_POST);
+if ($_GET["type"]=="root" or $_GET["type"]=="cat" or $_POST["new_type"]=="frm" or $_GET["new_type"]=="frm")
 {
 	$class_constr = "ilObj".$class_name."GUI";
 	require_once("./classes/class.ilObj".$class_name."GUI.php");
@@ -147,7 +154,7 @@ $grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
 //echo $class_constr;
 
 
-if ($_POST["new_type"]=="fold")
+if ($_POST["new_type"]=="fold" )
 {
 	$obj = new $class_constr($data, $id, $call_by_reference);
 	$method= $cmd."Object";
