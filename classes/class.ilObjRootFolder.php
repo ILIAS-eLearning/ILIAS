@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.9 2003/08/25 14:10:39 mrus Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.10 2003/09/02 11:48:06 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -107,7 +107,7 @@ class ilObjRootFolder extends ilObject
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
+	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
 		

@@ -475,12 +475,13 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 		
 		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("location:".$this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
 
@@ -585,7 +586,7 @@ class ilObjectGUI
 				$this->tree->deleteTree($top_node);
 				
 				// inform other objects in hierarchy about cut operation
-				$this->object->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
+				$this->object->notify("cut", $_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["clipboard"]["ref_ids"]);
 			}
 
 			// now move all subtrees to new location
@@ -613,7 +614,7 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("paste", $_GET["ref_id"],$_GET["ref_id"]);
+			$this->object->notify("paste", $_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["clipboard"]["ref_ids"]);
 		} // END CUT
 
 		// process LINK command
@@ -687,12 +688,13 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			$this->object->notify("link",$_GET["ref_id"],$_GET["ref_id"],$mapping);
+			$this->object->notify("link",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
 		$last_cmd = $_SESSION["clipboard"]["cmd"];
-
+		
+		
 		// clear clipboard
 		$this->clearObject();
 		
@@ -704,8 +706,9 @@ class ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_linked"),true);		
 		}
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	} // END PASTE
 
@@ -715,14 +718,15 @@ class ilObjectGUI
 	* @access	public
 	*/
 	function clearObject()
-	{
+	{ 	
 		session_unregister("clipboard");
-
+		
 		if (isset($_POST["cmd"]["clear"]))
 		{
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
-				
-			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+			
+			header("location:".$this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
+			
 			exit();
 		}
 	}
@@ -766,13 +770,16 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
 									 $this->ilias->error_obj->MESSAGE);
 		}
+		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 		
 		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("Location:".$this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	} // END CUT
 
@@ -823,6 +830,7 @@ class ilObjectGUI
 
 		// WRITE TO CLIPBOARD
 		$clipboard["parent"] = $_GET["ref_id"];
+		$clipboard["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$clipboard["cmd"] = key($_POST["cmd"]);
 		
 		foreach ($_POST["id"] as $ref_id)
@@ -834,7 +842,7 @@ class ilObjectGUI
 	
 		sendinfo($this->lng->txt("msg_link_clipboard"),true);
 
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("location:".$this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 
 	} // END LINK
@@ -862,14 +870,15 @@ class ilObjectGUI
 		}
 		
 		// inform other objects in hierarchy about cut operation
-		$this->object->notify("copy",$_GET["ref_id"],$_GET["ref_id"],$mapping);			
+		$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);			
  		
  
 		$this->clearObject();
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	} // END CLONE
 
@@ -1285,7 +1294,7 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
+			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"]);
 			
 //			$location = $this->getReturnLocation("save","adm_object.php");
 //			$newObj->setReturnLocation("save",$location);
@@ -1644,7 +1653,7 @@ class ilObjectGUI
 			return $this->return_location[$a_cmd];
 		}
 		else
-		{
+		{ 
 			return $a_location;
 		}
 	}

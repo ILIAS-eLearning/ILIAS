@@ -88,7 +88,14 @@ class ilGroupGUI extends ilObjectGUI
 			$this->grp_tree = new ilTree($this->object->getId());
 		}
 		$this->grp_tree->setTableNames("grp_tree","object_data");
-
+		
+		//return to the same place , where the action was executed
+		$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("paste","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		
 		$cmd = $_GET["cmd"];
 		//var_dump ($cmd);
 		if($cmd == "")
@@ -461,7 +468,12 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+		if($_GET["type"]=="fold")
+		{
+			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getId()."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+		}else{
+			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=-1&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
+		}
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 
@@ -550,8 +562,10 @@ class ilGroupGUI extends ilObjectGUI
 				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
 				//TODO
-				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
-				$this->tpl->parseCurrentBlock();
+				if($cont_data["ref_id"] != -1)
+				{
+					$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				}$this->tpl->parseCurrentBlock();
 				}
 			}
 		}
@@ -649,6 +663,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		case "fold":
 			//TODO
+		
 			if (isset($_GET["tree_id"]))
 			{
 				$URL = "group.php?obj_id=".$cont_data["obj_id"]."&ref_id=".$_GET["ref_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=grp_tree&cmd=show_content";
@@ -687,55 +702,7 @@ class ilGroupGUI extends ilObjectGUI
 	return $path;
 	}
 
-	/**
-	* copy object to clipboard
-	*
-	* @access	public
-	*/
-	function copyObject()
-	{
-		global $rbacsystem;
-
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// FOR ALL OBJECTS THAT SHOULD BE COPIED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($ref_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK READ PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-			foreach ($subtree_nodes as $node)
-			{
-				if (!$rbacsystem->checkAccess('read',$node["ref_id"]))
-				{
-					$no_copy[] = $node["ref_id"];
-				}
-			}
-		}
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
-		if (count($no_copy))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
-		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-
-		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
-
-		header("location: group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
-		exit();
-	}
+	
 
 
 	/**
@@ -744,7 +711,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
  	*/
-	function pasteObject()
+	/*function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log;
 //echo "command".$_SESSION["clipboard"]["cmd"];
@@ -990,72 +957,10 @@ class ilGroupGUI extends ilObjectGUI
 		header("location: group.php?cmd=show_content&ref_id".$_GET["ref_id"]);
 		exit();
 	} // END PASTE
-
+	*/
 	
 
-	/**
-	* cut object(s) out from a container and write the information to clipboard
-	*
-	* @access	public
-	*/
-	function cutObject()
-	{
-		global $rbacsystem;
-
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// FOR ALL OBJECTS THAT SHOULD BE COPIED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($ref_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-			foreach ($subtree_nodes as $node)
-			{
-				if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
-				{
-					$no_cut[] = $node["ref_id"];
-				}
-			}
-		}
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_cut))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
-		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-
-		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
-
-		header("location: group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
-
-	} // END CUT
-
-
-	/**
-	* clear clipboard
-	*
-	* @access	public
-	*/
-	function clearObject()
-	{
-		session_unregister("clipboard");
-
-		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		exit();
-
-	}
+	
 
 
 	/**
@@ -1728,71 +1633,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	}
 
-	/**
-	* create an new reference of an object in tree
-	* it's like a hard link of unix
-	*
-	* @access	public
-	*/
-	function linkObject()
-	{
-		global $clipboard, $rbacsystem, $rbacadmin;
-
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// CHECK ACCESS
-		foreach ($_POST["id"] as $ref_id)
-		{
-			if (!$rbacsystem->checkAccess('delete',$ref_id))
-			{
-				$no_cut[] = $ref_id;
-			}
-
-			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
-			$actions = $this->objDefinition->getActions($object->getType());
-
-			if ($actions["link"]["exec"] == 'false')
-			{
-				$no_link[] = $object->getType();
-			}
-		}
-
-		// NO ACCESS
-		if (count($no_cut))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_link")." ".
-									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($no_link))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
-									 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// WRITE TO CLIPBOARD
-		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = key($_POST["cmd"]);
-
-		foreach ($_POST["id"] as $ref_id)
-		{
-			$clipboard["ref_ids"][] = $ref_id;
-		}
-
-		$_SESSION["clipboard"] = $clipboard;
-
-		sendinfo($this->lng->txt("msg_link_clipboard"),true);
-
-		header("location: group.php?cmd=displaylist&ref_id=".$_GET["ref_id"]);
-		exit();
-
-	} // END LINK
-
-
-
+	
 	/**
 	* create new object form
 	*
@@ -1818,7 +1659,8 @@ class ilGroupGUI extends ilObjectGUI
 			$data["fields"]["desc"] = "";
 
 
-			$this->tpl->setVariable("HEADER", $this->lng->txt("new_obj"));
+			//$this->tpl->setVariable("HEADER", $this->lng->txt("new_obj"));
+			$this->tpl->setVariable("HEADER", $this->lng->txt($_POST["new_type"]."_new"));
 			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.obj_edit.html");
 
 			foreach ($data["fields"] as $key => $val)
@@ -1827,10 +1669,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"].
-
-				"&new_type=".$_POST["new_type"]);
-
+			$this->tpl->setVariable("FORMACTION","group.php?gateway=false&cmd=save&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$_GET["parent_non_rbac_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -1848,6 +1687,62 @@ class ilGroupGUI extends ilObjectGUI
 
 	//functionality is implemented in function "save"
 	//ToDo: move this functionality from functon "save" to function "saveobject"
+	}
+	
+	/**                          
+	* show possible action (form buttons)
+	*
+	* @access	public
+ 	*/
+	function showActions($with_subobjects = false)
+	{
+		$notoperations = array();
+		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
+		if (empty($_SESSION["clipboard"]))
+		{
+			$notoperations[] = "paste";
+			$notoperations[] = "clear";
+		}
+		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
+		if ($_SESSION["clipboard"])
+		{
+			$notoperations[] = "cut";
+			$notoperations[] = "copy";
+			$notoperations[] = "link";
+		}
+
+		$operations = array();
+
+		$d = $this->objDefinition->getActions("grp");
+
+		foreach ($d as $row)
+		{
+			if (!in_array($row["name"], $notoperations))
+			{
+				$operations[] = $row;
+			}
+		}
+
+		if (count($operations) > 0)
+		{
+			foreach ($operations as $val)
+			{
+
+
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($with_subobjects == true)
+		{
+			$this->showPossibleSubObjects();
+		}
+
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
