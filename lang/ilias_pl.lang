@@ -119,12 +119,12 @@ assessment#:#apply#:#Zastosuj
 assessment#:#ass_create_export_file#:#Twórz plik eksportowy
 assessment#:#ass_export_files#:#Eksport plików
 assessment#:#ass_file#:#Plik
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Pytanie
 assessment#:#ass_questions#:#Pytania
 assessment#:#ass_size#:#Rozmiar
 assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#average_reached_points#:#Punkty powyżej średniej
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
@@ -160,7 +160,7 @@ assessment#:#duplicate#:#Kopiuj
 assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wybrane wartości!
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
 assessment#:#duplicate_tst#:#Powiel test
-assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo ocenę ECTS do uzyskanego wyniku
+assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo  ocenę ECTS do uzyskanego wyniku
 assessment#:#ects_fill_out_all_values#:#Podaj wartość dla każdej oceny ECTS!
 assessment#:#ects_grade#:#Ocena ECTS
 assessment#:#ects_grade_a#:#świetny wynik tylko z drobnymi błędami
@@ -185,8 +185,8 @@ assessment#:#ects_range_error_d#:#Podaj wartość pomiędzy 0 i 100 dla oceny EC
 assessment#:#ects_range_error_e#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS E!
 assessment#:#ects_use_fx_grade#:#Użyj oceny 'FX', przy braku zaliczenia
 assessment#:#ects_use_fx_grade_part2#:#procent ogólnej punktacji.
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
+assessment#:#edit_content#:#Edycja treści
+assessment#:#edit_properties#:#Edycja właściwości
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
 assessment#:#error_image_upload_copy_file#:#Błąd przy przesuwaniu załadowanego obrazka do jego folderu docelowego!
@@ -260,7 +260,7 @@ assessment#:#log_no_test_fields_changed#:#Zapisane, lecz niczego nie zmieniono
 assessment#:#log_question_added#:#Pytanie dodano na pozycji
 assessment#:#log_question_position_changed#:#Zmieniono pozycję pytania
 assessment#:#log_question_removed#:#Usunięto pytanie
-assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
+assessment#:#log_user_data_removed#:#Usunięto wszystkie dne użytkownika
 assessment#:#maintenance#:#Konserwacja
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
@@ -416,10 +416,10 @@ assessment#:#tst_missing_questions#:#Nie masz żadnych pytań w teście! Dodaj c
 assessment#:#tst_missing_title#:#Nie podałeś tytułu testu! Skocz do sekcji metadanych i podaj tytuł.
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
 assessment#:#tst_no_more_available_questionpools#:#Nie ma więcej dostępnych puli pytań
-assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do susunięcia!
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do usunięcia!
+assessment#:#tst_no_questionpools_for_random_test#:#Nie dodałeś do tego testu puli pytań z której mają zostać wylosowane pytania! Wybierz conajmniej jedną pulę pytań.
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questions_for_random_test#:#Nie podałeś żadnych pytań do wylosowania z puli! Wprowadź ilośc pytań do wylosowania.
 assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
 assessment#:#tst_no_tries#:#brak
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
@@ -578,8 +578,8 @@ bibitem#:#bibitem_year#:#Rok
 chat#:#chat_active#:#Aktywny
 chat#:#chat_active_users#:#Użytkownik (aktywny)
 chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
+chat#:#chat_add_external_ip#:#Dodaj zewnętrzny nr IP serwera.
+chat#:#chat_add_internal_ip#:#Dodaj wewnętrzny nr IP serwera.
 chat#:#chat_add_moderator_password#:#Podaj hasło moderatora.
 chat#:#chat_add_port#:#podaj port serwera.
 chat#:#chat_aqua#:#akwa
@@ -640,9 +640,9 @@ chat#:#chat_rooms_deleted#:#Usunięte pokoje czat.
 chat#:#chat_select_one_room#:#Wybierz jeden pokój czat
 chat#:#chat_server_allowed#:#Dostępne hosty
 chat#:#chat_server_allowed_b#:#(np. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
-chat#:#chat_server_logfile#:#cieżka do pliku logu
+chat#:#chat_server_external_ip#:#Zewnętrzny nr IP serwera
+chat#:#chat_server_internal_ip#:#Wewnętrzny nr IP serwera
+chat#:#chat_server_logfile#:#Ścieżka do pliku logu
 chat#:#chat_server_loglevel#:#Poziom zapisów Logu
 chat#:#chat_server_not_active#:#Serwer czat nie jest aktywny
 chat#:#chat_server_port#:#Port Serwera
@@ -739,16 +739,16 @@ common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
 common#:#articels_unread#:#Nieprzeczytane artykuły:###14 Feb 2005 content changed
 common#:#as_of#:#jako
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
-common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
-common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
+common#:#assessment_log#:#Twórz log  Testu i Oceniania na określony przedział czasu
+common#:#assessment_log_datetime#:#Data/czas
+common#:#assessment_log_for_test#:#Dla testu
+common#:#assessment_log_no_log#:#Brak danych w logu o wybranym teście w wybranym okresie!
+common#:#assessment_log_open_calendar#:#Kliknij tu aby otworzyć kalendarz dla wyboru daty (wymagany JavaScript!)
+common#:#assessment_log_question#:#Pytanie
+common#:#assessment_log_select_test#:#--- Wybierz test ---
+common#:#assessment_log_text#:#Komunikat logu
+common#:#assessment_log_user_answer#:#Użytkownik odpowiedział na pytanie
+common#:#assessment_log_user_answers#:#Pokaż akcje użytkownika
 common#:#assessment_settings#:#Ustawienia administracyjne Testów i Oceniania
 common#:#assf_edit_permission#:#Zmiana praw dostępu
 common#:#assf_read#:#Dostęp do zarządzania Testami i Ocenianiem
@@ -1045,7 +1045,7 @@ common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
-common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable#:#Wyłącz
 common#:#disabled#:#Wyłączony
 common#:#domain#:#Domena
 common#:#down#:#Down
@@ -1252,9 +1252,9 @@ common#:#glo_upload_file#:#Plik
 common#:#glo_visible#:#Słownik jest widoczny
 common#:#glo_write#:#Edycja Słownika
 common#:#global#:#Globalny
+common#:#global_settings#:#Ustawienia globalne
 common#:#global_default#:#Global Default###01 Mar 2005 new variable
 common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Globalni użytkownicy
 common#:#glossaries#:#Słowniki
 common#:#glossary#:#Słownik
@@ -1274,18 +1274,18 @@ common#:#group_memstat_member#:#Członek
 common#:#group_name#:#Nazwa grupy
 common#:#group_new_registrations#:#Nowe rejestracje
 common#:#group_no_registration#:#Rejestracja nie jest konieczna
-common#:#group_no_registration_msg#:#Nie jesteś członkiem tej grupy. Jest pożądane aby należeć do grupy.<br> Jako członek masz przywileje:<br>- Dostaniesz informację o nowych uaktualnieniach.<br>- Masz dostęp np do forum, modułów nauczania, itp.<br><br>Możesz zrezygnować z członkostwa w każdej chwili.
+common#:#group_no_registration_msg#:#Nie jesteś członkiem tej grupy. Jest pożądane aby należeć do grupy.<br /> Jako członek masz przywileje:<br />- Dostaniesz informację o nowych uaktualnieniach.<br />- Masz dostęp np do forum, modułów nauczania, itp.<br /><br />Możesz zrezygnować z członkostwa w każdej chwili.
 common#:#group_not_available#:#Żadna grupa nie jest dostępna
 common#:#group_objects#:#Obiekty grupy
 common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minął.  Skontakuj się z właścicielem grupy lub administratorem
-common#:#group_password_registration_msg#:#Aby przystąpić do tej grupy musisz podać hasło dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeśli hasło będzie poprawne.
+common#:#group_password_registration_msg#:#Aby przystąpić do tej grupy musisz podać hasło dostarczone przez administratora tej grupy.<br />Zostaniesz automatycznie przydzielony do grupy, jeśli hasło będzie poprawne.
 common#:#group_registration_expiration_date#:#Rejestracja do
 common#:#group_registration_expiration_time#:#Data ważności
 common#:#group_registration_expired#:#Okres rejestracji minął.
 common#:#group_registration_mode#:#Tryb rejestracji
 common#:#group_req_password#:#Wymagane hasło rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
-common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
+common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br />Otrzymasz wiadomość o przydziale do grupy.
 common#:#group_reset#:#Przywróć ustawienia domyslne grupy
 common#:#group_status#:#Status grupy
 common#:#group_status_closed#:#Zamknięta
@@ -1361,7 +1361,7 @@ common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#Ukryj
 common#:#hide_details#:#Ukryj szczegóły
 common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hist_dbk:pg_create#:#Strona została utworzona
@@ -2036,7 +2036,7 @@ common#:#please_select_a_delivered_file_to_delete#:#Musisz zaznaczyć conajmniej
 common#:#please_select_a_delivered_file_to_download#:#Musisz zaznaczyć conajmniej jeden dostarczony plik do pobrania!
 common#:#port#:#Port
 common#:#position#:#Pozycja
-common#:#preconditions#:#Warunki wstepne
+common#:#preconditions#:#Warunki wstępne
 common#:#presentation_options#:#Opcje prezentacji
 common#:#previous#:#poprzedni
 common#:#print#:#Drukuj
@@ -2243,10 +2243,10 @@ common#:#show_structure#:#Włącz widok strukturalny
 common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#signature#:#Podpis
 common#:#size#:#Rozmiar
-common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
+common#:#skin_style#:#Domyślna Skórka / Styl
 common#:#smtp#:#SMTP
-common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
-common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
+common#:#soap_user_administration#:#Zewnętrzna Administracja użytkownikami (SOAP)
+common#:#soap_user_administration_desc#:#Jeśli wybrana, to wszystkie konta mogą być zarządzane zewnętrznym klientem SOAP.
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
 common#:#spl#:#Pula pytań (ankieta)
 common#:#spl_add#:#Dodaj pulę pytań
@@ -2426,10 +2426,10 @@ common#:#usr_agreement_empty#:#Zasady Użytkowania nie zawierają tekstu.
 common#:#usr_edit#:#Edytuj użytkownika
 common#:#usr_hits_per_page#:#Dotknięć/stronę w tabeli
 common#:#usr_new#:#Nowy użytkownik
-common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
-common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
-common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
-common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
+common#:#usr_settings_explanation_profile#:#Sprawdź pola wyboru aby wyłączyć lub ukryć ustawienia profilu osobistego dla wszystkich użytkowników w Biurze osobistym. Wszystkie wyłączone lub ukryte ustawienia profili są modyfikowane tylko funkcjami z drzewa administracyjnego / kont użytkowników.
+common#:#usr_settings_header_profile#:#Ustawienia profilu użytkownika
+common#:#usr_settings_header_profile_profile#:#Ustawienia profilu użytkownika
+common#:#usr_settings_saved#:#Zapisano globalne ustawienia użytkownika!
 common#:#usr_skin_style#:#Skórka / Styl
 common#:#usr_style#:#Styl użytkownika
 common#:#usrf#:#Folder użytkownika
@@ -2452,7 +2452,7 @@ common#:#view#:#Widok
 common#:#view_content#:#Zawartość
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
-common#:#webservices#:#Webservices###28 Jan 2005 new variable
+common#:#webservices#:#Serwisy Internetowe
 common#:#week#:#Tydzień
 common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
@@ -2654,7 +2654,7 @@ content#:#cont_insert_file_item#:#Wstaw plik
 content#:#cont_insert_file_list#:#Wstaw listę plików
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
-content#:#cont_insert_new_footnote#:#Wstaw nową stopkę###07 Jan 2005 content changed
+content#:#cont_insert_new_footnote#:#Wstaw nową stopkę
 content#:#cont_insert_par#:#Wstaw paragraf
 content#:#cont_insert_search#:#Wstaw szukany termin
 content#:#cont_insert_src#:#Wstaw kod źródłowy
@@ -3174,7 +3174,7 @@ dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
 dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
 dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Podaj prawidłowy plik csv.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <BR> Zamknij to okno ręcznie. <BR> Dziękujemy</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <br /> Zamknij to okno ręcznie. <br /> Dziękujemy</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Źle podano datę końcową cyklu. Format: dd/mm/rrrr
 dateplaner#:#ERROR_ROT_END_START#:#Źle podano datę końcową cyklu. Data końcowa cyklu wcześniejsza niż data początkowa.
 dateplaner#:#ERROR_SHORTTEXT#:#Źle podano opis skrócony. Opis skrócony jest konieczny.
@@ -3240,7 +3240,7 @@ dateplaner#:#dv_date_hm#:#Godz:Min
 dateplaner#:#dv_enddate#:#DataKon:
 dateplaner#:#dv_groupselect#:#Grupa wybrana:
 dateplaner#:#dv_groupview#:#Termin Grupowy:
-dateplaner#:#dv_groupview_text#:#Grupa:<br>
+dateplaner#:#dv_groupview_text#:#Grupa:<br />
 dateplaner#:#dv_keywords#:#Klucze:
 dateplaner#:#dv_keywordselect#:#Klucz wybrany:
 dateplaner#:#dv_message#:#Wiadomość:
@@ -3266,29 +3266,29 @@ dateplaner#:#group#:#Grupa
 dateplaner#:#help_day#:#Terminarz - widok dnia
 dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.
 dateplaner#:#help_enddate#:#Data końcowa - format[dd/mm/rrrr]
-dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_endrotation#:#Czas końca format[dd/mm/rrrr]
-dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br /> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_endtime#:#Czas końca - format[gg/mm] 24g
 dateplaner#:#help_endtime_l#:#Zawiera punkt końcowy spotkania w formacie 24 godzinnym.
 dateplaner#:#help_filename#:#dp_help_en.html
 dateplaner#:#help_fullday#:#Termnin całodniowy - format[on/off]
-dateplaner#:#help_fullday_l#:#Jeśli termin obejmuje cały dzień, wybierz tę  opcję<br> Wtedy czas startu, końca i data końcowa są ukryte.
-dateplaner#:#help_further#:#<br> <b>Kliknij tu aby uzyskać więcej informacji.</b>
+dateplaner#:#help_fullday_l#:#Jeśli termin obejmuje cały dzień, wybierz tę  opcję<br /> Wtedy czas startu, końca i data końcowa są ukryte.
+dateplaner#:#help_further#:#<br /> <b>Kliknij tu aby uzyskać więcej informacji.</b>
 dateplaner#:#help_group#:#Wybór terminów grupowych
-dateplaner#:#help_group_l#:#Zawiera grupy do których zalogowany  użytkownik ma prawa administratorskie i dla których może być utworzony termin. <br> Po wyborze jest możliwy podgląd nieprzydzielonego czasu dla grupy.
+dateplaner#:#help_group_l#:#Zawiera grupy do których zalogowany  użytkownik ma prawa administratorskie i dla których może być utworzony termin. <br /> Po wyborze jest możliwy podgląd nieprzydzielonego czasu dla grupy.
 dateplaner#:#help_inbox#:#Strona główna terminarza terminarza
 dateplaner#:#help_inbox_l#:#Wszystkie nowe, zmienione i usunięte terminy grupowe są wyświetlone.
 dateplaner#:#help_keyword#:#Wybór klucza
 dateplaner#:#help_keywordUse#:#Wybór klucza
-dateplaner#:#help_keywordUse_l#:#Wybierz jeden lub więcej kluczy z okna dialogowego. <br> Użyj klawisza Control do wyboru wielu pozycji.
+dateplaner#:#help_keywordUse_l#:#Wybierz jeden lub więcej kluczy z okna dialogowego. <br /> Użyj klawisza Control do wyboru wielu pozycji.
 dateplaner#:#help_keyword_l#:#Zawiera klucze które użytkownik może skojarzyć z terminami.
 dateplaner#:#help_list#:#Terminarz - lista terminów
 dateplaner#:#help_list_l#:#Na liście są wyświetlone wszystkie terminy wybranego okresu.
 dateplaner#:#help_month#:#Terminarz - widok miesiąca
 dateplaner#:#help_month_l#:#W widoku miesięcznym są wyświetlone wszystkie terminy wybranego miesiąca.
 dateplaner#:#help_properties_alt#:#Zmiana klucza
-dateplaner#:#help_properties_alt_l#:#Wybierz klucz w oknie dialogowym.<br>Zmień  klucz w polu tekstowym. (maks. długość 20 znaków).
+dateplaner#:#help_properties_alt_l#:#Wybierz klucz w oknie dialogowym.<br />Zmień  klucz w polu tekstowym. (maks. długość 20 znaków).
 dateplaner#:#help_properties_del#:#Usunięcie klucza
 dateplaner#:#help_properties_del_l#:#Wybierz klucz w oknie dialogowym. Kliknij przycisk aby usunąć klucz.
 dateplaner#:#help_properties_import#:#Import pliku CSV z Outlooka
@@ -3302,7 +3302,7 @@ dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
 dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
 dateplaner#:#help_shorttext_l#:#Tu można podać krótki opis terminu.
 dateplaner#:#help_startdate#:#Data początkowa - format[dd/mm/rrrr]
-dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
 dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.
 dateplaner#:#help_text#:#Tekst
@@ -4518,7 +4518,7 @@ survey#:#median#:#Środkowa
 survey#:#median_between#:#pomiędzy
 survey#:#menuback#:#Powrót
 survey#:#menubacktosurvey#:#Powrót do ankiety
-survey#:#message_mail_survey_id#:#Rozpocząłeś anonimową ankietę &quot;%s&quot;. Do powrotu do ankiety potrzebujesz następującego 32 cyfrowego kodu ankiety:<br><br><strong>%s</strong><br><br>Powrót do ankiety jest tylko możliwy gdy ją przerwiesz przed zakończeniem.
+survey#:#message_mail_survey_id#:#Rozpocząłeś anonimową ankietę &quot;%s&quot;. Do powrotu do ankiety potrzebujesz następującego 32 cyfrowego kodu ankiety:<br /><br /><strong>%s</strong><br /><br />Powrót do ankiety jest tylko możliwy gdy ją przerwiesz przed zakończeniem.
 survey#:#metric_question_floating_point#:#Wartość podana przez Ciebie jest liczbą rzeczywistą. Dla tego typu pytań takie liczby są niedozwolone!
 survey#:#metric_question_not_a_value#:#Podana wartość nie jest liczbą!
 survey#:#metric_question_out_of_bounds#:#Wprowadzona wartość nie jest pomiędzy minimalną a maksymalną wartością!
