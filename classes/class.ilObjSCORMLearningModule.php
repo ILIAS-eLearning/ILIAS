@@ -80,12 +80,14 @@ class ilObjSCORMLearningModule extends ilObject
 	function getDataDirectory()
 	{
 		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		if(@is_dir($lm_dir))
+// hier ist meiner meinung nach ein fehler, weil is_dir ja den pfad auf der festplatte findet und nicht im web, oder? also wir is_dir immer false zurueckliefern, oder? gruss romeo
+		//if(@is_dir($lm_dir))
 		{
 			return $lm_dir;
 		}
-		else
+		//else
 		{
 			return false;
 		}
