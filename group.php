@@ -87,6 +87,7 @@ if (isset($_POST["cmd"]))
 //var_dump($_GET);echo "---";	var_dump($_POST);
 //echo "-------------";
 //echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
+
 if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 {
 	//var_dump($_GET);echo "---";	var_dump($_POST);
@@ -147,7 +148,6 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 }
 else
 {
-
 	$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
 
 	exit();

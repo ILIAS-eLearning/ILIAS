@@ -25,175 +25,113 @@ require_once("classes/class.ilObjectFactory.php");
 
 class ilGroupExplorer extends ilExplorer
 {
+	var $grp_tree;
+	
 	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
-	* @param    int user_id
+	* @param    int group ref_id
 	*/
-	function ilGroupExplorer($a_target)
+	function ilGroupExplorer($a_target, $a_ref_id)
 	{
 		parent::ilExplorer($a_target);
 		
+		//TODO: solange die Tabelle grp_tree mit obj_id's arbeitet muß: ref_id->obj_id
+		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+		$this->grp_tree = new ilTree($obj_data->getId());
+		$this->grp_tree->setTableNames("grp_tree","object_data");
+		$this->tree = $this->grp_tree;
+		
+		/*echo "-".$this->tree->readRootId();
+		echo "-".$this->tree->getRootId();
+		echo "-".$this->tree->getTreeId();
+		echo " BR ";*/
+		
+		
 	}
 	/**
-	* Creates output
+	* Creates output for explorer view in admin menue
 	* recursive method
 	* @access	public
+	* @param	integer		parent_node_id where to start from (default=0, 'root')
+	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-	function getOutput()
+	/*function setOutput($a_parent_id, $a_depth = 1)
 	{
-		$this->format_options[0]["tab"] = array();
-		$obj_factory =& new ilObjectFactory();
+		global $rbacadmin, $rbacsystem;
+		static $counter = 0;
+
+		if (!isset($a_parent_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+		$objects = $this->grp_tree->getChilds($a_parent_id, $this->order_column);
 		
-		$depth = $this->tree->getMaximumDepth();
-
-		for ($i=0;$i<$depth;++$i)
+		if (count($objects) > 0)
 		{
-			$this->createLines($i);
-		}
-
-		foreach ($this->format_options as $key => $options)
-		{
-			if ($options["visible"] and $key != 0)
+			$tab = ++$a_depth - 2;
+			// Maybe call a lexical sort function for the child objects
+			foreach ($objects as $key => $object)
 			{
-				$node = $obj_factory->getInstanceByRefId($options["child"]); 
-				$this->formatObject($options["child"],$options);
-			}
-			if ($key == 0)
-			{
-				$this->formatHeader($options["child"],$options);
-			}
-		}
+				//ask for FILTER
+				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
+				{
+					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
+					{
+						if ($object["child"] != $this->grp_tree->getRootId())
+						{
+							$parent_index = $this->getIndex($object);
+						}
+						$this->format_options["$counter"]["parent"]		= $object["parent"];
+						$this->format_options["$counter"]["child"]		= $object["child"];
+						$this->format_options["$counter"]["title"]		= $object["title"];
+						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
+						$this->format_options["$counter"]["depth"]		= $tab;
+						$this->format_options["$counter"]["container"]	= false;
+						$this->format_options["$counter"]["visible"]	= true;
 
-		return implode('',$this->output);
-	}
+						// Create prefix array
+						for ($i = 0; $i < $tab; ++$i)
+						{
+							 $this->format_options["$counter"]["tab"][] = 'blank';
+						}
+
+						// only if parent is expanded and visible, object is visible
+						if ($object["child"] != $this->grp_tree->getRootId() and (!in_array($object["parent"],$this->expanded)
+						   or !$this->format_options["$parent_index"]["visible"]))
+						{
+							$this->format_options["$counter"]["visible"] = false;
+						}
+
+						// if object exists parent is container
+						if ($object["child"] != $this->grp_tree->getRootId())
+						{
+							$this->format_options["$parent_index"]["container"] = true;
+
+							if (in_array($object["parent"],$this->expanded))
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							}
+							else
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+							}
+						}
+
+						++$counter;
+
+						// Recursive
+						$this->setOutput($object["child"],$a_depth);
+					} //if
+				} //if FILTER
+			} //foreach
+		} //if
+	} //function
+	*/
 	
-	/**
-	* Creates output
-	* recursive method
-	* overwritten method from class Explorer
-	* @access	private
-	* @param	integer
-	* @param	array
-	* @return	string
-	*/
-	function formatObject($a_node_id,$a_option)
-	{
-		global $lng;
-
-		if (!isset($a_node_id) or !is_array($a_option))
-		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
-									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
-		}
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
-
-		foreach ($a_option["tab"] as $picture)
-		{
-			if ($picture == 'plus')
-			{
-				$target = $this->createTarget('+',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
-				$tpl->parseCurrentBlock();
-			}
-
-			if ($picture == 'minus')
-			{ 
-				$target = $this->createTarget('-',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
-				$tpl->parseCurrentBlock();
-			}
-
-			if ($picture == 'blank' or $picture == 'winkel'
-			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
-			{
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
-				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-				$tpl->parseCurrentBlock();
-			}
-		}
-		
-		
-		
-		if ($this->output_icons)
-		{
-			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-			$tpl->parseCurrentBlock();
-		}
-
-		if($this->isClickable($a_option["type"]))	// output link
-		{
-			$tpl->setCurrentBlock("link");
-			$target = (strpos($this->target, "?") === false) ?
-				$this->target."?" : $this->target."&";
-			
-			if (!strcmp($a_option["type"],"grp"))
-			{
-				$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&ref_id=".$a_node_id);
-				$tpl->setVariable("TARGET", " target=\"bottom\"");
-			}
-			else
-			{
-				$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			}
-			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			$tpl->setVariable("TITLE", $a_option["title"]);
-
-			if ($this->frame_target != "" && strcmp($a_option["type"],"grp"))
-			{
-				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
-			}
-			
-			
-			
-			$tpl->parseCurrentBlock();
-		}
-		else			// output text only
-		{
-			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", $a_option["title"]);
-			$tpl->parseCurrentBlock();
-		}
-
-		$this->output[] = $tpl->get();
-	}
-	
-	/**
-	* Creates Get Parameter
-	* @access	private
-	* @param	string
-	* @param	integer
-	* @return	string
-	*/
-	function createTarget($a_type,$a_node_id)
-	{
-		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
-		{
-			$this->ilias->raiseError(get_class($this)."::createTarget(): Missing parameter or wrong datatype! ".
-									"type: ".$a_type." node_id:".$a_node_id,$this->ilias->error_obj->WARNING);
-		}
-
-		// SET expand parameter:
-		//     positive if object is expanded
-		//     negative if object is compressed
-		$a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
-
-		$sep = (is_int(strpos($this->expand_target, "?")))
-			? "&"
-			: "?";
-		return $this->expand_target.$sep."cmd=explorer&expand=".$a_node_id;
-	}
-
 }
 
 
