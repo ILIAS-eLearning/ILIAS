@@ -30,10 +30,12 @@
 		<td>
 			<input 	type='button' 
 					value='{BTN_SUBMIT}' 
-					onClick="opener.addFussnote(document.form.fn.value);opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');window.close();">
+					onClick="opener.addFussnote(document.form.fn.value);
+							 opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');
+							 window.close();">
 		</td>
 		<td align=right>
-			<input type='button' value='{BTN_CLOSE}' onClick='window.close();'>
+			<input type='button' value='{BTN_CANCEL}' onClick='window.close();'>
 		</td>
 	</tr>
 </table>

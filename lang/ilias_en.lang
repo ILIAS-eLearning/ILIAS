@@ -4254,3 +4254,6 @@ common#:#new_list_password#:#New suggestions
 common#:#as_of#:#as of
 payment#:#paya_filter_reseted#:#Filter reseted.
 payment#:#excel_export#:#Excel export
+content#:#cont_or#:#or
+content#:#cont_example#:#e.g.
+content#:#cont_confirm_delete#:#really delete ?
