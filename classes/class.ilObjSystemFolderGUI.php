@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.9 2003/08/19 12:21:45 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.10 2003/10/22 14:33:59 ayavari Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -158,6 +158,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["feedback_recipient"] = $_POST["feedback_recipient"];
 				$settings["error_recipient"] = $_POST["error_recipient"];
 
+				// modules
+				$settings["pub_section"] = $_POST["pub_section"];
+				$settings["enable_registration"] = $_POST["enable_registration"];
+				//$settings["payment_system"] = $_POST["payment_system"];
+
 				// pathes
 				//$settings["tpl_path"] = $_POST["tpl_path"];
 				$settings["lang_path"] = $_POST["lang_path"];
@@ -165,16 +170,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["zip_path"] = $_POST["zip_path"];
 				$settings["unzip_path"] = $_POST["unzip_path"];
 				$settings["java_path"] = $_POST["java_path"];
-				$settings["babylon_path"] = $_POST["babylon_path"];
 				$settings["htmldoc_path"] = $_POST["htmldoc_path"];
-
-				// modules
-				$settings["pub_section"] = $_POST["pub_section"];
-				$settings["news"] = $_POST["news"];
-				$settings["enable_registration"] = $_POST["enable_registration"];
-				$settings["payment_system"] = $_POST["payment_system"];
-				$settings["group_file_sharing"] = $_POST["group_file_sharing"];
-				$settings["crs_enable"] = $_POST["crs_enable"];
 
 				// ldap
 				$settings["ldap_enable"] = $_POST["ldap_enable"];
@@ -206,27 +202,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->setSetting("inst_info",$_POST["inst_info"]);
 				$ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
 				$ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-				//$ilias->ini->setVariable("server","tpl_path",$_POST["tpl_path"]);
 				$ilias->ini->setVariable("language","path",$_POST["lang_path"]);
 				$ilias->ini->setVariable("language","default",$_POST["default_language"]);
 				$ilias->ini->setVariable("layout","skin",$_POST["default_skin"]);
 				$ilias->ini->setVariable("layout","style",$_POST["default_style"]);
+
+				// modules
+				$ilias->setSetting("pub_section",$_POST["pub_section"]);
+				$ilias->setSetting("enable_registration",$_POST["enable_registration"]);
+				//$ilias->setSetting("payment_system",$_POST["payment_system"]);
 
 				// pathes
 				$ilias->setSetting("convert_path",$_POST["convert_path"]);
 				$ilias->setSetting("zip_path",$_POST["zip_path"]);
 				$ilias->setSetting("unzip_path",$_POST["unzip_path"]);
 				$ilias->setSetting("java_path",$_POST["java_path"]);
-				$ilias->setSetting("babylon_path",$_POST["babylon_path"]);
 				$ilias->setSetting("htmldoc_path",$_POST["htmldoc_path"]);
-
-				// modules
-				$ilias->setSetting("pub_section",$_POST["pub_section"]);
-				$ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-				$ilias->setSetting("news",$_POST["news"]);
-				$ilias->setSetting("payment_system",$_POST["payment_system"]);
-				$ilias->setSetting("group_file_sharing",$_POST["group_file_sharing"]);
-				$ilias->setSetting("crs_enable",$_POST["crs_enable"]);
 
 				// ldap
 				$ilias->setSetting("ldap_enable",$_POST["ldap_enable"]);
@@ -280,25 +271,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $lng->txt("feedback_recipient"));
 		$tpl->setVariable("TXT_ERROR_RECIPIENT", $lng->txt("error_recipient"));
 
+		// modules
+		//$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
+		$tpl->setVariable("TXT_PUB_SECTION", $lng->txt("pub_section"));
+		$tpl->setVariable("TXT_ENABLE_REGISTRATION", $lng->txt("enable_registration"));
+		//$tpl->setVariable("TXT_PAYMENT_SYSTEM", $lng->txt("payment_system"));
+
 		// pathes
 		$tpl->setVariable("TXT_PATHES", $lng->txt("pathes"));
-		//$tpl->setVariable("TXT_TPL_PATH", $lng->txt("tpl_path"));
 		$tpl->setVariable("TXT_LANG_PATH", $lng->txt("lang_path"));
 		$tpl->setVariable("TXT_CONVERT_PATH", $lng->txt("path_to_convert"));
 		$tpl->setVariable("TXT_ZIP_PATH", $lng->txt("path_to_zip"));
 		$tpl->setVariable("TXT_UNZIP_PATH", $lng->txt("path_to_unzip"));
 		$tpl->setVariable("TXT_JAVA_PATH", $lng->txt("path_to_java"));
-		$tpl->setVariable("TXT_BABYLON_PATH", $lng->txt("path_to_babylon"));
 		$tpl->setVariable("TXT_HTMLDOC_PATH", $lng->txt("path_to_htmldoc"));
-
-		// modules
-		$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
-		$tpl->setVariable("TXT_PUB_SECTION", $lng->txt("pub_section"));
-		$tpl->setVariable("TXT_ENABLE_REGISTRATION", $lng->txt("enable_registration"));
-		$tpl->setVariable("TXT_NEWS", $lng->txt("news"));
-		$tpl->setVariable("TXT_PAYMENT_SYSTEM", $lng->txt("payment_system"));
-		$tpl->setVariable("TXT_GROUP_FILE_SHARING", $lng->txt("group_filesharing"));
-		$tpl->setVariable("TXT_CRS_MANAGEMENT_SYSTEM", $lng->txt("crs_management_system"));
 
 		// ldap
 		$tpl->setVariable("TXT_LDAP", $lng->txt("ldap"));
@@ -393,16 +379,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		// pathes
-		//$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
-		$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
-		$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
-		$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
-		$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
-		$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
-		$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
-		$tpl->setVariable("HTMLDOC_PATH",$settings["htmldoc_path"]);
-
 		// modules
 		if ($settings["pub_section"])
 		{
@@ -414,25 +390,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
 		}
 
-		if ($settings["news"])
-		{
-			$tpl->setVariable("NEWS","checked=\"checked\"");
-		}
-
-		if ($settings["payment_system"])
+		/*if ($settings["payment_system"])
 		{
 			$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
-		}
+		}*/
 
-		if ($settings["group_file_sharing"])
-		{
-			$tpl->setVariable("GROUP_FILE_SHARING","checked=\"checked\"");
-		}
-
-		if ($settings["crs_enable"])
-		{
-			$tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked=\"checked\"");
-		}
+		// pathes
+		$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
+		$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
+		$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
+		$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
+		$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
+		$tpl->setVariable("HTMLDOC_PATH",$settings["htmldoc_path"]);
 
 		// ldap
 		if ($settings["ldap_enable"])
@@ -588,6 +557,5 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
-} // END class.SystemFolderObjectOut
+} // END class.ilObjSystemFolderGUI
 ?>

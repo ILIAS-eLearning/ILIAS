@@ -336,3 +336,10 @@ CREATE TABLE grp_registration (
 `subject` VARCHAR( 255 ) NOT NULL ,
 `application_date` DATETIME NOT NULL
 );
+
+<#44>
+DELETE FROM settings WHERE keyword='crs_enable';
+DELETE FROM settings WHERE keyword='group_file_sharing';
+DELETE FROM settings WHERE keyword='babylon_path';
+DELETE FROM settings WHERE keyword='news';
+DELETE FROM settings WHERE keyword='payment_system';

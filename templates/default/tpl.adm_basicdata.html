@@ -1,5 +1,5 @@
-	<form action="{FORMACTION_BASICDATA}" method="post">
-    <table class="std">
+  <form action="{FORMACTION_BASICDATA}" method="post">
+  <table class="std">
     <tr class="tblheader">
       <td class="std" colspan="2">{TXT_BASIC_DATA}</td>
     </tr>
@@ -85,6 +85,15 @@
       <td class="option">{TXT_ERROR_RECIPIENT}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
     </tr>
+    <tr>
+      <td class="option">{TXT_PUB_SECTION}</td>
+      <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ENABLE_REGISTRATION}</td>
+      <td class="option_value"><input type="checkbox" name="enable_registration"  value="1" {ENABLE_REGISTRATION} /></td>
+    </tr>
+
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_PATHES}</td>
     </tr>
@@ -109,59 +118,10 @@
       <td class="option_value"><input type="text" size="40" maxlength="200" name="java_path" value="{JAVA_PATH}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_BABYLON_PATH}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="250" name="babylon_path" value="{BABYLON_PATH}" /></td>
-    </tr>
-    <tr>
       <td class="option">{TXT_HTMLDOC_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="htmldoc_path" value="{HTMLDOC_PATH}" /></td>
     </tr>
-	<tr class="tblheader">
-      <td class="std" colspan="2">{TXT_MODULES}</td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_PUB_SECTION}</td>
-      <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_ENABLE_REGISTRATION}</td>
-      <td class="option_value"><input type="checkbox" name="enable_registration"  value="1" {ENABLE_REGISTRATION} /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_NEWS}</td>
-      <td class="option_value"><input type="checkbox" name="news"  value="1" {NEWS} /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_PAYMENT_SYSTEM}</td>
-      <td class="option_value"><input type="checkbox" name="payment_system"  value="1" {PAYMENT_SYSTEM} /></td>
-    </tr>
-    <!--
 
-    <tr>
-
-      <td class="option">{TXT_FORWARD_PASSWORD}</td>
-
-      <td class="option_value"><input type="checkbox" name="forward_password"  value="1"></td>
-
-    </tr>
-
-    <tr>
-
-      <td class="option">{TXT_FORWARD_PW_SENDER}</td>
-
-      <td class="option_value"><input type="text" SIZE=40 maxlength=200 name="forward_pw_sender" value="{FORWARD_PW_SENDER}"></td>
-
-    </tr>
-
-    -->
-    <tr>
-      <td class="option">{TXT_GROUP_FILE_SHARING}</td>
-      <td class="option_value"><input type="checkbox" name="group_file_sharing"  value="1" {GROUP_FILE_SHARING} /></td>
-    </tr>
-    <tr>
-      <td class="option">{TXT_CRS_MANAGEMENT_SYSTEM}</td>
-      <td class="option_value"><input type="checkbox" name="crs_enable"  value="1" {CRS_MANAGEMENT_SYSTEM} /></td>
-    </tr>
  	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_LDAP}</td>
     </tr>
@@ -181,6 +141,7 @@
       <td class="option">{TXT_LDAP_BASEDN}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_basedn" value="{LDAP_BASEDN}" /></td>
     </tr>
+
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
     </tr>
@@ -232,5 +193,5 @@
 	  <td class="submit" colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
 	  <div align="right"><input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}"/></div></td>
 	</tr>
-    </table>
-    </form>
+  </table>
+  </form>
