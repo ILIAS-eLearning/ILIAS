@@ -269,6 +269,7 @@ class ilRepositoryGUI
 	*/
 	function showLearningResources()
 	{
+		/*
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -279,14 +280,32 @@ class ilRepositoryGUI
 		}
 
 		$maxcount = count($this->learning_resources);
-		$lrs = array_slice($this->learning_resources, $offset, $limit);
+		$lrs = array_slice($this->learning_resources, $offset, $limit);*/
 
 		$this->tpl->setCurrentBlock("learning_resources");
 		$this->tpl->addBlockfile("LEARNING_RESOURCES", "lr_table", "tpl.table.html");
-		$this->tpl->setVariable("FORMACTION", "repository.php?cmd=post&ref_id=".$_GET["ref_id"]);
-		$this->tpl->setVariable("ACTIONTARGET", "bottom");
+		$this->tpl->setVariable("TBL_CONTENT", "hi");
 
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("learning_resources");
+		$this->tpl->parseCurrentBlock();
 
+		//$this->tpl->setVariable("FORMACTION", "repository.php?cmd=post&ref_id=".$_GET["ref_id"]);
+		//$this->tpl->setVariable("ACTIONTARGET", "bottom");
+
+		// groups
+		$this->tpl->setCurrentBlock("groups");
+		//$this->tpl->setVariable("GROUPS", "nj");
+		$this->tpl->addBlockfile("GROUPS", "group_table", "tpl.table2.html");
+		//$this->tpl->setCurrentBlock("group_table");
+		$this->tpl->setVariable("TBL_CONTENT2", "aaa");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("groups");
+		$this->tpl->parseCurrentBlock();
+
+		return;
+
+		/*
 		$lr_num = count($lrs);
 
 		// render table content data
@@ -392,9 +411,25 @@ class ilRepositoryGUI
 		//$tbl->disable("title");
 
 		// render table
-		$tbl->render();
-		$this->tpl->setCurrentBlock("learning_resources");
+		$tbl->render();*/
+		//$this->tpl->setCurrentBlock("learning_resources");
 		$this->tpl->parseCurrentBlock();
+
+		/*
+		$this->tpl->setCurrentBlock("objects");
+		$this->tpl->setCurrentBlock("groups");
+		$this->tpl->addBlockfile("GROUPS", "group_table", "tpl.table2.html");
+		$this->tpl->addBlockfile("TBL_CONTENT2", "tbdl_content", "tpl.rep_grp_row.html");*/
+
+		return;
+		$this->tpl->addBlockfile("GROUPS", "group_table", "tpl.table2.html");
+echo "j";
+		$this->tpl->addBlockfile("TBL_CONTENT2", "grp_content", "tpl.rep_grp_row.html");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("groups");
+		$this->tpl->parseCurrentBlock();
+
 	}
 
 
@@ -403,6 +438,7 @@ class ilRepositoryGUI
 	*/
 	function showForums()
 	{
+return;
 		global $lng, $rbacsystem, $ilias, $rbacreview;
 
 		require_once "classes/class.ilForum.php";
@@ -601,7 +637,7 @@ class ilRepositoryGUI
 	function showGroups()
 	{
 		global  $tree, $rbacsystem;
-
+return;
 		//$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
 
 		// set offset & limit
@@ -621,9 +657,10 @@ class ilRepositoryGUI
 		//$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($this->groups, $offset, $limit);
 
+		//$this->tpl->setCurrentBlock("objects");
 		$this->tpl->setCurrentBlock("groups");
-		$this->tpl->addBlockfile("GROUPS", "group_table", "tpl.table.html");
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_grp_row.html");
+		$this->tpl->addBlockfile("GROUPS", "group_table", "tpl.table2.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tblw_content", "tpl.rep_grp_row.html");
 
 		//$this->tpl->setVariable("TBL_CONTENT", "papp");
 		//$this->tpl->parseCurrentBlock();
