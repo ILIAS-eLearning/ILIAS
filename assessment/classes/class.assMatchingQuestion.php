@@ -1115,7 +1115,10 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			if (preg_match("/sel_matching_(\d+)/", $key, $matches))
 			{
-				array_push($matching_values, $value);
+				if ($value >= 0)
+				{
+					array_push($matching_values, $value);
+				}
 			}
 		}
 		$check_matching = array_flip($matching_values);
