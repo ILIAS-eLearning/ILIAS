@@ -30,6 +30,8 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3rd Party Software###05 Jan 2004 new variable 
 absolute_path#:#Absolute path###05 Jan 2004 new variable 
