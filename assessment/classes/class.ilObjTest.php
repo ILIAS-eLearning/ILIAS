@@ -235,6 +235,24 @@ class ilObjTest extends ilObject
   var $ending_time;
 
 /**
+* Indicates if ECTS grades will be used
+* 
+* Indicates if ECTS grades will be used
+*
+* @var integer
+*/
+  var $ects_output;
+
+/**
+* Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
+* 
+* Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
+*
+* @var float
+*/
+  var $ects_fx;
+
+/**
 * An array containing the different types of assessment tests
 *
 * The array contains the type strings of the test types
@@ -273,6 +291,8 @@ class ilObjTest extends ilObject
 		$this->enable_processing_time = "0";
 		$this->test_type = TYPE_ASSESSMENT;
 		$this->test_formats = 7;
+		$this->ects_output = 0;
+		$this->ects_fx = "";
 		//$this->mark_schema = new ASS_MarkSchema();
 		if ($a_id == 0)
 		{
@@ -623,8 +643,47 @@ class ilObjTest extends ilObject
 		}
 	}
 
+/**
+* Saves the ECTS status (output of ECTS grades in a test) to the database
+* 
+* Saves the ECTS status (output of ECTS grades in a test) to the database
+*
+* @access public
+*/
+	function saveECTSStatus($ects_output = 0, $fx_support = "") 
+	{
+    global $ilDB;
+    if ($this->test_id > 0) {
+			$fx_support = preg_replace("/,/", ".", $fx_support);
+			if (preg_match("/\d+/", $fx_support))
+			{
+				$fx_support = $fx_support;
+			}
+			else
+			{
+				$fx_support = "NULL";
+			}
+      $query = sprintf("UPDATE tst_tests SET ects_output = %s, ects_fx = %s WHERE test_id = %s",
+				$ilDB->quote("$ects_output"),
+        $fx_support,
+				$this->getTestId()
+      );
+      $result = $ilDB->query($query);
+			$this->ects_output = $ects_output;
+			$this->ects_fx = $fx_support;
+		}
+	}
+
+/**
+* Checks if the test is complete and saves the status in the database
+* 
+* Checks if the test is complete and saves the status in the database
+*
+* @access public
+*/
 	function saveCompleteStatus() {
     global $ilias;
+		
     $db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete()) {
@@ -655,11 +714,16 @@ class ilObjTest extends ilObject
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
+		$ects_fx = "NULL";
+		if (preg_match("/\d+/", $this->ects_fx))
+		{
+			$ects_fx = $this->ects_fx;
+		}
     if ($this->test_id == -1) {
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_fx, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId()),
         $db->quote($this->author),
         $db->quote($this->test_type),
@@ -672,6 +736,8 @@ class ilObjTest extends ilObject
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
         $db->quote($this->ending_time),
+				$db->quote($this->ects_output . ""),
+				$ects_fx,
 				$db->quote("$complete"),
         $db->quote($created)
       );
@@ -681,7 +747,7 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_fx = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
@@ -693,6 +759,8 @@ class ilObjTest extends ilObject
         $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
         $db->quote($this->ending_time), 
+				$db->quote($this->ects_output . ""),
+				$ects_fx,
 				$db->quote("$complete"),
         $db->quote($this->test_id)
       );
@@ -764,7 +832,8 @@ class ilObjTest extends ilObject
 				$this->reporting_date = $data->reporting_date;
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
-
+				$this->ects_output = $data->ects_output;
+				$this->ects_fx = $data->ects_fx;
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->loadQuestions();
 			}

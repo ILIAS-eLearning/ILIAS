@@ -799,12 +799,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 // temporary disable java questions
-				if ($data->type_tag != "qt_javaapplet")
-				{
+//				if ($data->type_tag != "qt_javaapplet")
+//				{
 					$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 					$this->tpl->parseCurrentBlock();
-				}
+//				}
 			}
 			$this->tpl->setCurrentBlock("CreateQuestion");
 			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));

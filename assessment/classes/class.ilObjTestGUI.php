@@ -1183,7 +1183,6 @@ class ilObjTestGUI extends ilObjectGUI
 	function marksObject() {
 		global $rbacsystem;
 		$add_parameter = $this->getAddParameter();
-
 		if ($_POST["cmd"]["new_simple"]) {
 			$this->object->mark_schema->create_simple_schema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
 		} elseif (count($_POST)) {
@@ -1214,6 +1213,15 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["save"]) {
 			$this->object->mark_schema->saveToDb($this->object->getTestId());
 			$this->object->saveCompleteStatus();
+			if ($this->object->getReportingDate())
+			{
+				$fxpercent = "";
+				if ($_POST["chbUseFX"])
+				{
+					$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
+				}
+				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent);
+			}
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
 
@@ -1256,6 +1264,26 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		
+		if ($this->object->getReportingDate())
+		{
+			$this->tpl->setCurrentBlock("ects");
+			if ($this->object->ects_output)
+			{
+				$this->tpl->setVariable("CHECKED_ECTS", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("TEXT_OUTPUT_ECTS_GRADES", $this->lng->txt("ects_output_of_ects_grades"));
+			$this->tpl->setVariable("TEXT_ALLOW_ECTS_GRADES", $this->lng->txt("ects_allow_ects_grades"));
+			$this->tpl->setVariable("TEXT_USE_FX", $this->lng->txt("ects_use_fx_grade"));
+			if (preg_match("/\d+/", $this->object->ects_fx))
+			{
+				$this->tpl->setVariable("CHECKED_FX", " checked=\"checked\"");
+				$this->tpl->setVariable("VALUE_PERCENT_FX", sprintf("value=\"%s\" ", $this->object->ects_fx));
+			}
+			$this->tpl->setVariable("TEXT_PERCENT", $this->lng->txt("ects_use_fx_grade_part2"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_MARKS", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("HEADER_SHORT", $this->lng->txt("tst_mark_short_form"));
