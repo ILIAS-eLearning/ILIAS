@@ -28,6 +28,27 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
+// start: form operations
+if (isset($_POST["cmd"]["submit"]))
+{
+	echo "action: ".$_POST["action"]."<br>";	
+	
+	if(is_array($_POST["forum_id"]))
+	{
+		$startTbl = "frm_data";
+		
+		// now it starts
+		for ($j = 0; $j < count($_POST["forum_id"]); $j++)
+		{
+			echo "id: ".$_POST["forum_id"][$j]."<br>";
+		}
+		
+	}
+	
+}
+// end: form operations
+
+
 // ********************************************************************************
 // build location-links
 $tpl->touchBlock("locator_separator");
@@ -139,15 +160,33 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$lpCont .= "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["login"]."</a>";
 				}
 
-				$tpl->setVariable("LAST_POST", $lpCont);			
+				$tpl->setVariable("LAST_POST", $lpCont);	
+				
+				$tpl->setVariable("FORUM_ID", $thrData["thr_pk"]);		
+				$tpl->setVariable("THR_TOP_FK", $thrData["thr_top_fk"]);		
+				
+				$tpl->setVariable("TXT_PRINT", $lng->txt("print"));
+				
+				$tpl->setVariable("THR_IMGPATH",$tpl->tplPath);
 				
 				$tpl->parseCurrentBlock("threads_row");
-			}
+				
+			} // if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 			
 			$z ++;
-		}
-	}			
-}
+			
+		} // while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));		
+		$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?ref_id=".$_GET["ref_id"]);
+		$tpl->setVariable("TXT_OK",$lng->txt("ok"));			
+		$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
+		$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
+		$tpl->setVariable("IMGPATH",$tpl->tplPath);
+		
+	} // if ($thrNum > 0)	
+		
+} // if (is_array($topicData = $frm->getOneTopic()))
 else
 {
 	$tpl->setCurrentBlock("threads_no");

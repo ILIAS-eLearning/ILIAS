@@ -27,6 +27,26 @@ $frmNum = count($frm_obj);
 
 $pageHits = $frm->getPageHits();
 
+// start: form operations
+if (isset($_POST["cmd"]["submit"]))
+{
+	echo "action: ".$_POST["action"]."<br>";	
+	
+	if(is_array($_POST["forum_id"]))
+	{
+		$startTbl = "frm_data";
+		
+		// now it starts
+		for ($j = 0; $j < count($_POST["forum_id"]); $j++)
+		{
+			echo "id: ".$_POST["forum_id"][$j]."<br>";
+		}
+		
+	}
+	
+}
+// end: form operations
+
 if ($frmNum > 0)
 {
 	$z = 0;	
@@ -161,8 +181,11 @@ if ($frmNum > 0)
 					}
 				}							
 				$tpl->setVariable("MODS",$moderators); 
+				
+				$tpl->setVariable("FORUM_ID", $topicData["top_pk"]);				
+				
 		
-			}
+			} // if ($rbacsystem->checkAccess("read", $data["ref_id"])) 
 			else 
 			{
 				// only visible-access	
@@ -193,7 +216,7 @@ if ($frmNum > 0)
 					}
 				}
 				$tpl->setVariable("MODS",$moderators); 
-			}		
+			} // else	
 			
 			// get context of forum			
 			$PATH = $frm->getForumPath($data["ref_id"]);
@@ -204,12 +227,23 @@ if ($frmNum > 0)
 			$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);		
 			$tpl->setVariable("NUM_VISITS",$topicData["visits"]);		
 		
-			$tpl->parseCurrentBlock("forum_row");			
-		}
+			$tpl->parseCurrentBlock("forum_row");	
+					
+		} // if (($frmNum > $pageHits && $z >= $Start) || $frmNum <= $pageHits)
 		
 		$z ++;		
-	}	
-}
+		
+	} // foreach($frm_obj as $data)
+	
+	$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
+	$tpl->setVariable("IMGPATH",$tpl->tplPath);
+	$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?ref_id=".$_GET["ref_id"]);
+	$tpl->setVariable("TXT_OK",$lng->txt("ok"));	
+	//$tpl->setVariable("TXT_PRINT", $lng->txt("print"));
+	$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
+	$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
+	
+} // if ($frmNum > 0)
 else
 {
 	$tpl->setCurrentBlock("forum_no");
