@@ -109,3 +109,13 @@ database_is_uptodate#:#the database is up-to-date
 version#:#version
 database_needs_update#:#database needs an update
 database_update#:#update database
+groups#:#groups
+search#:#search
+search_in#:#search_in
+keywords#:#keywords
+phrase#:#phrase
+#:#
+msg_nothing_found#:#msg_nothing_found
+#:#
+#:#
+#:#
