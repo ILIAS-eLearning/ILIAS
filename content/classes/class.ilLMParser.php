@@ -665,7 +665,7 @@ class ilLMParser extends ilSaxParser
                     // Metadaten eines ContentObjects sichern in NestedSet
                     include_once("./classes/class.ilNestedSetXML.php");
                     $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"lm");
+                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),$this->current_object->getType());
                 }
 
 
