@@ -26,7 +26,7 @@ $tpl->setCurrentBlock("adminitem");
 $tpl->setVariable("ITEM", $lng->txt("delete"));
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminblock");
-$tpl->setVariable("TXT_HEADLINE", strtoupper($lng->txt("user")));
+$tpl->setVariable("HEADLINE", strtoupper($lng->txt("user")));
 $tpl->parseCurrentBlock();
 
 //Lesson-Administration
@@ -43,7 +43,7 @@ $tpl->setCurrentBlock("adminitem");
 $tpl->setVariable("ITEM", $lng->txt("rights"));
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminblock");
-$tpl->setVariable("TXT_HEADLINE", strtoupper($lng->txt("los")));
+$tpl->setVariable("HEADLINE", strtoupper($lng->txt("los")));
 $tpl->parseCurrentBlock();
 
 //Basic-Administration
@@ -72,7 +72,7 @@ $tpl->setVariable("ITEM", $lng->txt("mail"));
 $tpl->setVariable("LINK","adm_mail.php");
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminblock");
-$tpl->setVariable("TXT_HEADLINE", strtoupper($lng->txt("system")));
+$tpl->setVariable("HEADLINE", strtoupper($lng->txt("system")));
 $tpl->parseCurrentBlock();
 
 //main table

@@ -1,103 +1,12 @@
-<table cellpadding="0" cellspacing="0" width="100%" border="0">
-
-<tr>
-  <td bgcolor="#000000" rowspan="5" width="10%" valign="bottom" 
-   align="left">&nbsp;&nbsp;<img src="images/spacer.gif" 
-   width="2" height="1" alt="" />
-  </td>
-  <td bgcolor="#000000" colspan="28"><img 
-   src="images/spacer.gif" width="1" height="5" alt="" /></td>
-</tr>
-
-<tr>
-  <td bgcolor="#ffffff" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#ffffff"><img src="images/spacer.gif"
-   width="1" height="2" alt="" /></td>
-  <td bgcolor="#ffffff" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
- 
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="left"><img src="images/eck_l.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#efefef"><img src="images/spacer.gif"
- width="1" height="2" alt="" /></td>
-  <td bgcolor="#efefef" rowspan="2" valign="top" 
-   align="right"><img src="images/eck_r.gif" width="5" 
-   height="5" alt="" /></td>
-  <td bgcolor="#000000" rowspan="4"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-<tr>
-  <td bgcolor="#ffffff" valign="bottom" class="tab-small" 
-   align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="{OBJ_SELF}"><span style="color: #000000;"><strong>Contents</strong></span></a>&nbsp;</font></td>
-  <td bgcolor="#efefef" valign="bottom" class="tab-small" 
-   align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=edit"><span style="color: #000000;"><strong>Properties</strong></span></a>&nbsp;</font></td>
-  <td bgcolor="#efefef" valign="bottom" class="tab-small" 
-   align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=perm"><span style="color: #000000;"><strong>Security</strong></span></a>&nbsp;</font></td>
-  <td bgcolor="#efefef" valign="bottom" class="tab-small" 
-   align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=owner"><span style="color: #000000;"><strong>Ownership</strong></span></a>&nbsp;</font></td>
-</tr>
-<tr>
-  <td colspan="3" bgcolor="#ffffff"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#efefef"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-<tr>
-  <td colspan="3" bgcolor="#ffffff"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-  <td colspan="3" bgcolor="#c0c0c0"><img src="images/spacer.gif"
- width="2" height="1" alt="" /></td>
-</tr>
-</table>
-
-
-
+<!-- @version $Id$ -->
+<style>
+body { margin:0px; }
+</style>
+{TABS}
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="locator">
-	<td align="left" valign="top">
-      <strong>
-            Content of {TREEPATH}
-	  </strong>
+  <tr>
+	<td valign="top">
+      <strong>Content of {TREEPATH}</strong>
     </td>
   </tr>
 </table>
@@ -118,22 +27,23 @@
 
 <form action="content.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr class="header">
-  <td width="3%">
-	&nbsp;
-  </td>
+<tr class="tblheader">
+  <td width="3%">&nbsp;</td>
   <td width="6%">
-    <a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=type&direction={DIR}"><strong>Type</strong></a>
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=type&direction={DIR}">
+	  <strong>Type</strong></a>
   </td>
-  <td width="25%"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
-   <strong>Title</strong></a>
+  <td width="25%">
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
+      <strong>Title</strong></a>
   </td>
-  </td>
-   <td width="42%"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
-   <strong>Description</strong></a>
+  <td width="42%">
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
+      <strong>Description</strong></a>
   </td>
   <td width="24%" align="right">
-  <a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}"><strong>Last modified</strong></a>
+    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}">
+	  <strong>Last modified</strong></a>
   </td>
 </tr>
 
@@ -145,7 +55,7 @@
   </td>
   <td align="center" valign="top" nowrap="1">
     <a href="{LINK_TARGET}">
-  	<img src="images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" vspace="0"/></a>
+  	<img src="{TPLPATH}/images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" vspace="0"/></a>
   </td>
   <td valign="top">
       <a href="{LINK_TARGET}"> {OBJ_TITLE} </a>
@@ -171,7 +81,7 @@
 	  <!-- BEGIN options -->
 	  <table cellspacing="0" cellpadding="2" border="0">
 		  <tr height="40">
-			<td align="left" width="16"><img src="images/pfeil_rechts.gif" border="0"></td>
+			<td align="left" width="16"><img src="{TPLPATH}/images/arrow_downright.gif" border="0"></td>
 			<td align="left">
 			  <div class="form-element">
 
@@ -215,6 +125,3 @@
 <!-- END type -->
 
 {TESTING}
-
-</body>
-</html>
