@@ -94,7 +94,7 @@ assessment#:#add_applet_parameter#:#Dodaj parametr apletu
 assessment#:#add_area#:#Dodaj obszar
 assessment#:#add_gap#:#Dodaj tekst odstępu
 assessment#:#add_matching_pair#:#dodaj pasującą parę
-assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
+assessment#:#add_solution#:#Dodaj sugerowaną odpowiedź
 assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
 assessment#:#answer#:#Odpowiedź
 assessment#:#answer_is_right#:#Twoja odpowiedź jest prawidłowa
@@ -107,13 +107,13 @@ assessment#:#applet_parameter#:#Parametr
 assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
-assessment#:#available_points#:#Available points###20 Sep 2004 new variable
+assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#by#:#przez
-assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
-assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
-assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
+assessment#:#cancel_test#:#Anuluj test
+assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień dla eksportu testu!
+assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
+assessment#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień dla zachowania meta danych!
+assessment#:#change_solution#:#Zmień sugerowaną odpowiedź
 assessment#:#checkbox_checked#:#Wybrany
 assessment#:#checkbox_unchecked#:#Nie wybrany
 assessment#:#circle#:#Koło
@@ -122,7 +122,7 @@ assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#code#:#Kod
 assessment#:#coordinates#:#Koordynaty
 assessment#:#correct_solution_is#:#Prawidłowa odpowiedź to
-assessment#:#counter#:#Counter###06 Oct 2004 new variable
+assessment#:#counter#:#Licznik
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
@@ -134,37 +134,37 @@ assessment#:#direct_feedback#:#Sprawdź swoją odpowiedź
 assessment#:#duplicate#:#Kopiuj
 assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wybrane wartości!
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
-assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
-assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors###20 Sep 2004 new variable
-assessment#:#ects_grade_a_short#:#EXCELLENT###20 Sep 2004 new variable
-assessment#:#ects_grade_b#:#above the average standard but with some errors###20 Sep 2004 new variable
-assessment#:#ects_grade_b_short#:#VERY GOOD###20 Sep 2004 new variable
-assessment#:#ects_grade_c#:#generally sound work with a number of notable errors###20 Sep 2004 new variable
-assessment#:#ects_grade_c_short#:#GOOD###20 Sep 2004 new variable
-assessment#:#ects_grade_d#:#fair but with significant shortcomings###20 Sep 2004 new variable
-assessment#:#ects_grade_d_short#:#SATISFACTORY###20 Sep 2004 new variable
-assessment#:#ects_grade_e#:#performance meets the minimum criteria###20 Sep 2004 new variable
-assessment#:#ects_grade_e_short#:#SUFFICIENT###20 Sep 2004 new variable
-assessment#:#ects_grade_f#:#considerable further work is required###20 Sep 2004 new variable
-assessment#:#ects_grade_f_short#:#FAIL###20 Sep 2004 new variable
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded###20 Sep 2004 new variable
-assessment#:#ects_grade_fx_short#:#FAIL###20 Sep 2004 new variable
-assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
-assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!###23 Sep 2004 new variable
-assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!###23 Sep 2004 new variable
-assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!###23 Sep 2004 new variable
-assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!###23 Sep 2004 new variable
-assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
-assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
-assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
+assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo ocenę ECTS do uzyskanego wyniku
+assessment#:#ects_fill_out_all_values#:#Podaj wartość dla każdej oceny ECTS!
+assessment#:#ects_grade#:#Ocena ECTS
+assessment#:#ects_grade_a#:#świetny wynik tylko z drobnymi błędami
+assessment#:#ects_grade_a_short#:#WSPANIALE
+assessment#:#ects_grade_b#:#powyżej średniej ale zdarzają się błędy
+assessment#:#ects_grade_b_short#:#BARDZO DOBRZE
+assessment#:#ects_grade_c#:#ogólnie dobrze lecz z wyraźnymi błędami
+assessment#:#ects_grade_c_short#:#DOBRZE
+assessment#:#ects_grade_d#:#nieźle lecz są znaczące błędy
+assessment#:#ects_grade_d_short#:#DOŚĆ DOBRZE
+assessment#:#ects_grade_e#:#wynik spełnia minimalne kryteria
+assessment#:#ects_grade_e_short#:#DOSTATECZNIE
+assessment#:#ects_grade_f#:#przydało by się więcej pracy nad tym materiałem
+assessment#:#ects_grade_f_short#:#MIERNIE
+assessment#:#ects_grade_fx#:#wymagana jest dodatkowa praca aby zaliczyć
+assessment#:#ects_grade_fx_short#:#NIEDOSTATECZNIE
+assessment#:#ects_output_of_ects_grades#:#Wyniki ocen ECTS
+assessment#:#ects_range_error_a#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS A!
+assessment#:#ects_range_error_b#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS B!
+assessment#:#ects_range_error_c#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS C!
+assessment#:#ects_range_error_d#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS D!
+assessment#:#ects_range_error_e#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS E!
+assessment#:#ects_use_fx_grade#:#Użyj oceny 'FX', przy braku zaliczenia
+assessment#:#ects_use_fx_grade_part2#:#procent ogólnej punktacji.
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
+assessment#:#error_image_upload_copy_file#:#Błąd przy przesuwaniu załadowanego obrazka do jego folderu docelowego!
+assessment#:#error_image_upload_wrong_format#:#Załaduj plik obrazka! Obsługiwane formaty to gif, jpeg i png.
 assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku powstał błąd!
-assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
+assessment#:#error_open_java_file#:#Błąd otwarcia apletu jawy!
 assessment#:#error_save_image_file#:#Błąd zapisu pliku graficznego!
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
@@ -188,10 +188,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Wypełnij wszystkie wym
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Wypełnij wszystkie wymagane pola przed załadowaniem mapy bitowej!
 assessment#:#fill_out_all_required_fields_upload_material#:#Wypełnij wszystkie wymagane pola przed załadowaniem materiałów!
 assessment#:#filter#:#Filtr
-assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+assessment#:#filter_all_question_types#:#Wszystkie typy  pytań
+assessment#:#filter_all_questionpools#:#Wszystkie pule pytań
+assessment#:#filter_show_question_types#:#Pokaż typy pytań
+assessment#:#filter_show_questionpools#:#Pokaż pule pytań
 assessment#:#gap#:#Luka
 assessment#:#gap_definition#:#Definicja luki
 assessment#:#gap_selection#:#Wybór odstępu
@@ -202,8 +202,8 @@ assessment#:#import_question#:#Import pytań
 assessment#:#internal_links#:#Łączniki wewnętrzne
 assessment#:#internal_links_update#:#Uaktualnij
 assessment#:#javaapplet#:#Java Aplet Javy
-assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
-assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
+assessment#:#javaapplet_successful_saved#:#Twój wynik został poprawnie zapisany!
+assessment#:#javaapplet_unsuccessful_saved#:#Błąd zapisu odpowiedzi!
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
@@ -224,7 +224,7 @@ assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
 assessment#:#percentage_solved#:#Rozwiązałeś %.2f procent tego pytania!
-assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
+assessment#:#percentile#:#Procentowo
 assessment#:#please_select#:#---- wybierz ----
 assessment#:#points#:#Punkty
 assessment#:#polygon#:#Wielobok
@@ -257,7 +257,7 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
-assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
+assessment#:#questionpool_not_entered#:#Podaj nazwę puli pytań!
 assessment#:#radio_set#:#Wybrany
 assessment#:#radio_unset#:#Nie wybrany
 assessment#:#random_accept_sample#:#Akceptuj próbkę
@@ -267,7 +267,7 @@ assessment#:#rectangle#:#Prostokąt
 assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
-assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
+assessment#:#remove_solution#:#Usuń sugerowaną odpowiedź
 assessment#:#report_date_not_reached#:#Teraz nie możesz przeglądać raportu. Będziesz mógł przejrzeć rezultaty %s
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
@@ -282,11 +282,11 @@ assessment#:#selected_image#:#Wybrany obrazek
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#shape#:#Kształt
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
-assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
+assessment#:#solution_hint#:#Sugerowana odpowiedź
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
 assessment#:#symbol#:#Symbol
-assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
+assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#time_format#:#GG MM SS
 assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
@@ -295,13 +295,13 @@ assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu został
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results#:#Usuniesz wszystkie swoje poprzednie odpowiedzi. To przywróci wszystkie pytania do domyślnych ustawień. Nie możesz wyzerować ilości dokonanych prób odpowiedzi. Czy chcesz anulować swoje dotychczasowe odpowiedzi?
+assessment#:#tst_confirm_delete_results_info#:#Twoje poprzednie odpowiedzi zostały usunięte. Przywróciłeś stan początkowy testu!
 assessment#:#tst_delete_all_user_data#:#Usuń wszystkie dane uczestnika
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
-assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
+assessment#:#tst_delete_results#:#Wyczyść test
 assessment#:#tst_ending_time#:#Czas końca
-assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
+assessment#:#tst_enter_questionpool#:#Podaj nazwę puli pytań gdzie zostanie zapamiętane nowe pytanie
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
 assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
 assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
@@ -385,8 +385,8 @@ assessment#:#tst_status_not_entered#:#nie wprowadzony
 assessment#:#tst_status_progress#:#wykonywany
 assessment#:#tst_time_already_spent#:#Czas spędzony na pracy
 assessment#:#tst_type#:#Typ Testu
-assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
-assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
+assessment#:#tst_type_changed#:#Zmieniłeś typ testu. Poprzednio wykonane testy zostaną usunięte!
+assessment#:#tst_type_comment#:#Ostrzeżenie: Zmiana typu testu już uruchomionego spowoduje usunięcie już wykonanych testów!
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Twój wynik to
 assessment#:#tt_assessment#:#Ocena testu
@@ -557,7 +557,7 @@ common#:#account_expires_body#:#Twoje konto jest limitowane, jego ważność sko
 common#:#account_expires_subject#:#[ILIAS 3] Twoje konto straciło ważność
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
-common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
+common#:#activate_https#:#Aktywacja HTTPS (Płatność, Logowanie)
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
 common#:#active_roles#:#Aktywne role
@@ -582,7 +582,7 @@ common#:#all_lms#:#Wszystkie moduły nauczania
 common#:#all_objects#:#Wszystkie obiekty
 common#:#all_tsts#:#Wszystkie testy
 common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
-common#:#alm#:#Moduł Nauczania AICC###24 Sep 2004 content changed
+common#:#alm#:#Moduł Nauczania AICC
 common#:#alm_added#:#Moduł Nauczania AICC został dodany
 common#:#alm_create#:#Twórz Moduł Nauczania AICC
 common#:#alm_delete#:#Usuń Moduł Nauczania AICC
@@ -592,7 +592,7 @@ common#:#alm_leave#:#Odwołaj subskrypcję Modułu Nauczania AICC
 common#:#alm_read#:#Prawo czytania Modułu Nauczania AICC
 common#:#alm_visible#:#Moduł Nauczania AICC jest widoczny
 common#:#alm_write#:#Edycja Modułu Nauczania AICC
-common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
+common#:#already_delivered_files#:#Dostarczone pliki
 common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
@@ -601,7 +601,7 @@ common#:#any_language#:#dowolny język
 common#:#application_completed#:#Aplikacja jest kompletna
 common#:#application_date#:#Data utworzenia aplikacji
 common#:#applied_users#:#Zgłoszeni użytkownicy
-common#:#apply#:#Apply###02 Oct 2004 new variable
+common#:#apply#:#Zastosuj
 common#:#appointment#:#Umówiony termin
 common#:#appointment_list#:#Lista umówionych spotkań
 common#:#archive#:#Archiwuj
@@ -671,17 +671,17 @@ common#:#cat_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#cat_create_cat#:#Twórz Kategorię
 common#:#cat_create_chat#:#Twórz czat
 common#:#cat_create_crs#:#Twórz Kurs
-common#:#cat_create_dbk#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
+common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
 common#:#cat_create_exc#:#Twórz Ćwiczenie
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#cat_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
-common#:#cat_create_qpl#:#Twórz pulę pytań###24 Sep 2004 content changed
-common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)###24 Sep 2004 content changed
+common#:#cat_create_qpl#:#Twórz pulę pytań
+common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
 common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
 common#:#cat_delete#:#Usuń Kategorię
@@ -789,7 +789,7 @@ common#:#crs_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#crs_create_frm#:#Twórz Forum
 common#:#crs_create_glo#:#Twórz Słownik
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#crs_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#crs_create_lm#:#Twórz Moduł Nauczania
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
@@ -830,13 +830,13 @@ common#:#dbk#:#Książka Cyfrowa
 common#:#dbk_a#:#Książka Cyfrowa
 common#:#dbk_add#:#Dodaj Książkę Cyfrową
 common#:#dbk_added#:#Książka Cyfrowa została dodana
-common#:#dbk_create#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
-common#:#dbk_delete#:#Usuń Książkę Cyfrową###24 Sep 2004 content changed
+common#:#dbk_create#:#Twórz Książkę Cyfrową
+common#:#dbk_delete#:#Usuń Książkę Cyfrową
 common#:#dbk_edit_permission#:#Zmień ustawienia uprawnień
 common#:#dbk_new#:#Nowa Książka Cyfrowa
-common#:#dbk_read#:#Prawo czytania Książki Cyfrowej###24 Sep 2004 content changed
-common#:#dbk_visible#:#Książka Cyfrowa jest widoczna###24 Sep 2004 content changed
-common#:#dbk_write#:#Edycja Książki Cyfrowej###24 Sep 2004 content changed
+common#:#dbk_read#:#Prawo czytania Książki Cyfrowej
+common#:#dbk_visible#:#Książka Cyfrowa jest widoczna
+common#:#dbk_write#:#Edycja Książki Cyfrowej
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
 common#:#default_perm_settings#:#Domyślne uprawnienia
@@ -852,7 +852,7 @@ common#:#delete_object#:#Usuń obiekt(y)
 common#:#delete_selected#:#Usuń wybrane
 common#:#delete_tr_data#:#Usuń dane śledzenia
 common#:#deleted#:#Usunięte
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
+common#:#deliver#:#Dostarcz ćwiczenie
 common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#description#:#Opis
@@ -876,7 +876,7 @@ common#:#email_not_valid#:#Wprowadzony adres email jest nieprawidłowy!
 common#:#enable#:#Wybierz
 common#:#enable_registration#:#Wybierz rejestrację nowego użytkownika
 common#:#enabled#:#Wybrany
-common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
+common#:#enter_filename_deliver#:#Podaj ćwiczenie do dostarczenia
 common#:#enumerate#:#Wylicz
 common#:#err_1_param#:#Tylko 1 parametr!
 common#:#err_2_param#:#Tylko 2 parametr!
@@ -913,7 +913,7 @@ common#:#exc_edit_exercise#:#Edytuj ćwiczenie
 common#:#exc_edit_permission#:#Zmień ustawienia uprawnień
 common#:#exc_edit_until#:#Edytuj aż do
 common#:#exc_files#:#Pliki
-common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
+common#:#exc_files_returned#:#Plik zwrócone
 common#:#exc_groups#:#Grupy
 common#:#exc_header_members#:#Ćwiczenie(uczestnicy)
 common#:#exc_instruction#:#Instrukcja obsługi
@@ -939,9 +939,9 @@ common#:#exc_visible#:#Ćwiczenie jest widoczne
 common#:#exc_write#:#Edycja ćwiczenia
 common#:#excs#:#Ćwiczenia
 common#:#execute#:#Wykonaj
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
+common#:#exercise_time_over#:#Osiągnałeś limit czasu przeznaczony na wykonanie ćwiczenia.  Już nie możesz dostarczać plików!
 common#:#export#:#Eksport
-common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
+common#:#export_group_members#:#Eksport członków grup (do Microsoft Excel)
 common#:#export_html#:#Eksportuj jako plik html
 common#:#export_xml#:#Eksportuj jako plik xml
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
@@ -963,7 +963,7 @@ common#:#file_valid#:#Plik ważny!
 common#:#file_version#:#Wersja podana w pliku
 common#:#file_visible#:#Plik jest widoczny
 common#:#file_write#:#Edycja pliku
-common#:#filename#:#Filename###06 Oct 2004 new variable
+common#:#filename#:#Nazwa pliku
 common#:#files#:#Pliki
 common#:#files_location#:#Miejsce plików
 common#:#fill_out_all_required_fields#:#Wypełnij wszystkie konieczne pola
@@ -980,7 +980,7 @@ common#:#fold_create_fold#:#Twórz Folder
 common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#fold_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#fold_create_lm#:#Twórz Moduł Nauczania
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -1086,7 +1086,7 @@ common#:#grp_count_members#:#Liczba członków
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#grp_create_chat#:#Twórz czat
-common#:#grp_create_dbk#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
+common#:#grp_create_dbk#:#Twórz Książkę Cyfrową
 common#:#grp_create_exc#:#Twórz Ćwiczenie
 common#:#grp_create_file#:#Użytkownik może przysyłać pliki
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
@@ -1094,7 +1094,7 @@ common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Twórz Słownik
 common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#grp_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
@@ -1135,7 +1135,7 @@ common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
 common#:#hide_details#:#ukryj szczegóły
 common#:#hide_structure#:#Wyłącz widok strukturalny
-common#:#hlm#:#Moduł Nauczania HACP###24 Sep 2004 content changed
+common#:#hlm#:#Moduł Nauczania HACP
 common#:#hlm_added#:#Moduł Nauczania HACP został dodany
 common#:#hlm_create#:#Twórz Moduł Nauczania HACP
 common#:#hlm_delete#:#Usuń Moduł Nauczania HACP
@@ -1149,7 +1149,7 @@ common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
 common#:#hours_of_day#:#Godziny dnia
-common#:#htlm#:#Moduł Nauczania HTML###24 Sep 2004 content changed
+common#:#htlm#:#Moduł Nauczania HTML
 common#:#htlm_add#:#dodajModuł Nauczania HTML
 common#:#htlm_delete#:#Usuń Moduł Nauczania HTML
 common#:#htlm_edit#:#Edytuj właściwości Modułu Nauczania HTML
@@ -1158,9 +1158,9 @@ common#:#htlm_new#:#Nowy Moduł Nauczania HTML
 common#:#htlm_read#:#Czytanie Modułu Nauczania HTML
 common#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
 common#:#htlm_write#:#Edycja Modułu Nauczania HTML
-common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
+common#:#http_not_possible#:#Ten serwer nie obsługuje wywołań http.
 common#:#http_path#:#Ścieżka http
-common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
+common#:#https_not_possible#:#Ten serwer nie obsługuje połączeń HTTPS.
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
@@ -1177,7 +1177,7 @@ common#:#import_forum_finished#:#Forum zostało zaimportowane.
 common#:#import_glossary#:#Import Słownika
 common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
 common#:#import_hlm#:#Import pakietu HACP
-common#:#import_lm#:#Importuj moduł nauczania###24 Sep 2004 content changed
+common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_users#:#Import Użytkowników
 common#:#imported#:#zaimportowany
@@ -1235,8 +1235,8 @@ common#:#lang_en#:#Angielski
 common#:#lang_es#:#Hiszpański
 common#:#lang_fi#:#Fiński
 common#:#lang_fr#:#Francuski
-common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
-common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
+common#:#lang_ge#:#Gruziński
+common#:#lang_hu#:#Węgierski
 common#:#lang_id#:#Indonezyjski
 common#:#lang_it#:#Włoski
 common#:#lang_ja#:#Japoński
@@ -1293,20 +1293,20 @@ common#:#list_of_pages#:#Lista stron
 common#:#list_of_questions#:#Lista pytań
 common#:#literature#:#Literatura
 common#:#literature_bookmarks#:#Zakładki literatury
-common#:#lm#:#Moduł nauczania###24 Sep 2004 content changed
-common#:#lm_a#:#Moduł nauczania###24 Sep 2004 content changed
-common#:#lm_add#:#Dodaj moduł nauczania###24 Sep 2004 content changed
-common#:#lm_added#:#Moduł nauczania został dodany###24 Sep 2004 content changed
-common#:#lm_create#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
-common#:#lm_delete#:#Usuń Moduł Nauczania###24 Sep 2004 content changed
+common#:#lm#:#Moduł nauczania
+common#:#lm_a#:#Moduł nauczania
+common#:#lm_add#:#Dodaj moduł nauczania
+common#:#lm_added#:#Moduł nauczania został dodany
+common#:#lm_create#:#Twórz Moduł Nauczania
+common#:#lm_delete#:#Usuń Moduł Nauczania
 common#:#lm_edit_permission#:#Zmień prawa dostępu
-common#:#lm_join#:#Subskrybuj Moduł Nauczania###24 Sep 2004 content changed
-common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania###24 Sep 2004 content changed
-common#:#lm_new#:#Nowy moduł nauczania###24 Sep 2004 content changed
-common#:#lm_read#:#Prawo czytania Modułu Nauczania###24 Sep 2004 content changed
+common#:#lm_join#:#Subskrybuj Moduł Nauczania
+common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania
+common#:#lm_new#:#Nowy moduł nauczania
+common#:#lm_read#:#Prawo czytania Modułu Nauczania
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Moduł Nauczania jest widoczny###24 Sep 2004 content changed
-common#:#lm_write#:#Edycja Modułu Nauczania###24 Sep 2004 content changed
+common#:#lm_visible#:#Moduł Nauczania jest widoczny
+common#:#lm_write#:#Edycja Modułu Nauczania
 common#:#lng#:#Język
 common#:#lngf#:#Folder języka
 common#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
@@ -1373,7 +1373,7 @@ common#:#mails#:#Wiadomości
 common#:#manage_tracking_data#:#Zarządzanie  danymi śledzenia
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
-common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
+common#:#matriculation#:#Liczba przyjętych
 common#:#max_number_rec#:#Maksymalna liczba rekordów
 common#:#max_time#:#Maksymalny czas
 common#:#member#:#Członek
@@ -1391,7 +1391,7 @@ common#:#mep_visible#:#Pula mediów jest widoczna
 common#:#mep_write#:#Edycja zawartości puli mediów
 common#:#message#:#Wiadomość
 common#:#message_content#:#Treść wiadomości
-common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
+common#:#message_no_delivered_files#:#Nie dostarczyłeś plików!
 common#:#message_to#:#Wiadomość do:
 common#:#meta_data#:#Meta dane
 common#:#migrate#:#Migrate
@@ -1533,14 +1533,14 @@ common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
 common#:#no_import_available#:#Import nie jest dostępny dla typu
 common#:#no_limit#:#Brak ograniczeń
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na prywatnej liście.
-common#:#no_local_users#:#There are no local user###21 Sep 2004 new variable
+common#:#no_local_users#:#Brak lokalnego użytkownika
 common#:#no_objects#:#Brak obiektów
 common#:#no_permission_to_join#:#Nie możesz przystąpić do tej grupy!
 common#:#no_title#:#Brak tytułu
 common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
 common#:#no_users_applied#:#Nie zgłoszono użytkowników.
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
-common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
+common#:#no_xml_file_found_in_zip#:#Nie znaleziono pliku XML wewnątrz pliku zip:
+common#:#no_zip_file#:#Nie znaleziono pliku zip.
 common#:#none#:#Brak
 common#:#normal#:#Normalny
 common#:#not_implemented_yet#:#Jeszcze nie implementowane
@@ -1551,7 +1551,7 @@ common#:#number_of_records#:#Liczba rekordów
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
-common#:#obj_alm#:#Moduł Nauczania AICC###24 Sep 2004 content changed
+common#:#obj_alm#:#Moduł Nauczania AICC
 common#:#obj_auth#:#Identyfikacja
 common#:#obj_auth_desc#:#Konfiguruj tryb identyfikacji (lokalnie, LDAP, ...)
 common#:#obj_cat#:#Kategoria
@@ -1567,11 +1567,11 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
-common#:#obj_hlm#:#Moduł Nauczania HACP###24 Sep 2004 content changed
-common#:#obj_htlm#:#Moduł Nauczania HTML###24 Sep 2004 content changed
+common#:#obj_hlm#:#Moduł Nauczania HACP
+common#:#obj_htlm#:#Moduł Nauczania HTML
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
-common#:#obj_lm#:#Moduł Nauczania (MN)###24 Sep 2004 content changed
+common#:#obj_lm#:#Moduł Nauczania (MN)
 common#:#obj_lng#:#Język
 common#:#obj_lngf#:#Języki
 common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
@@ -1589,7 +1589,7 @@ common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pays#:#Ustawienia płatności
 common#:#obj_pays_desc#:#Konfiguruj ustawienia płatności i sprzedawców
 common#:#obj_pg#:#Strona
-common#:#obj_qpl#:#Pula pytań###24 Sep 2004 content changed
+common#:#obj_qpl#:#Pula pytań
 common#:#obj_recf#:#Odtworzone Obiekty
 common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu.
 common#:#obj_role#:#Rola
@@ -1599,7 +1599,7 @@ common#:#obj_rolf_local#:#Lokalne role
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
-common#:#obj_spl#:#Question Pool (ankieta)###24 Sep 2004 content changed
+common#:#obj_spl#:#Pula pytań (ankieta)
 common#:#obj_st#:#Rozdział
 common#:#obj_svy#:#Ankieta
 common#:#obj_tax#:#Systematyka
@@ -1637,17 +1637,17 @@ common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
 common#:#objs_hlm#:#Moduły Nauczania HACP
 common#:#objs_htlm#:#Moduły Nauczania HTML
-common#:#objs_lm#:#Moduły nauczania###24 Sep 2004 content changed
+common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
 common#:#objs_mep#:#Pule Mediów
 common#:#objs_mob#:#Obiekty multimedialne
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
-common#:#objs_qpl#:#Pule pytań###24 Sep 2004 content changed
+common#:#objs_qpl#:#Pule pytań
 common#:#objs_role#:#Role
 common#:#objs_rolt#:#Szablony Ról
-common#:#objs_spl#:#Pule pytań (Ankieta)###24 Sep 2004 content changed
+common#:#objs_spl#:#Pule pytań (Ankieta)
 common#:#objs_st#:#Rozdziały
 common#:#objs_svy#:#Ankiety
 common#:#objs_tst#:#Testy
@@ -1659,7 +1659,7 @@ common#:#ok#:#OK
 common#:#old#:#Stary
 common#:#online_chapter#:#Rozdział Online
 common#:#online_version#:#Wersja Online
-common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
+common#:#open_views_inside_frameset#:#Otwórz widoki wewnątrz ramki
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#options#:#Opcje
@@ -1690,7 +1690,7 @@ common#:#path_to_java#:#Ścieżka do Javy
 common#:#path_to_unzip#:#Ściezka do Unzip
 common#:#path_to_zip#:#Ścieżka do Zip
 common#:#pathes#:#Ścieżki
-common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
+common#:#pay_methods#:#Formy płatności
 common#:#payment_system#:#System płatności
 common#:#pays_edit#:#Edytuj ustawienia płatności
 common#:#pays_edit_permission#:#Zmień ustawienia dostępu
@@ -1720,8 +1720,8 @@ common#:#phone_office#:#Telefon w pracy
 common#:#phrase#:#Fraza
 common#:#please_enter_target#:#Podaj przeznaczenie
 common#:#please_enter_title#:#Podaj tytuł
-common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
-common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_delete#:#Musisz zaznaczyć conajmniej jeden dostarczony plik do usunięcia!
+common#:#please_select_a_delivered_file_to_download#:#Musisz zaznaczyć conajmniej jeden dostarczony plik do pobrania!
 common#:#port#:#Port
 common#:#position#:#Pozycja
 common#:#preconditions#:#Warunki wstepne
@@ -1737,14 +1737,14 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
-common#:#qpl#:#Pula pytań###24 Sep 2004 content changed
-common#:#qpl_add#:#Dodaj pulę pytań###24 Sep 2004 content changed
-common#:#qpl_delete#:#Usuń pulę pytań###24 Sep 2004 content changed
+common#:#qpl#:#Pula pytań
+common#:#qpl_add#:#Dodaj pulę pytań
+common#:#qpl_delete#:#Usuń pulę pytań
 common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
-common#:#qpl_new#:#Nowa pula pytań###24 Sep 2004 content changed
-common#:#qpl_read#:#Prawo czytania puli pytań###24 Sep 2004 content changed
-common#:#qpl_visible#:#Pula pytań jest widoczna###24 Sep 2004 content changed
-common#:#qpl_write#:#Edycja puli pytań###24 Sep 2004 content changed
+common#:#qpl_new#:#Nowa pula pytań
+common#:#qpl_read#:#Prawo czytania puli pytań
+common#:#qpl_visible#:#Pula pytań jest widoczna
+common#:#qpl_write#:#Edycja puli pytań
 common#:#query_data#:#Dane zapytań
 common#:#question#:#Pytanie
 common#:#question_pools#:#Pule pytań
@@ -1862,14 +1862,14 @@ common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#signature#:#Podpis
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
-common#:#spl#:#Pula pytań (ankieta)###24 Sep 2004 content changed
-common#:#spl_add#:#Dodaj pulę pytań###24 Sep 2004 content changed
-common#:#spl_delete#:#Usuń pulę pytań###24 Sep 2004 content changed
+common#:#spl#:#Pula pytań (ankieta)
+common#:#spl_add#:#Dodaj pulę pytań
+common#:#spl_delete#:#Usuń pulę pytań
 common#:#spl_edit_permission#:#Zmiana uprawnień dostępu
-common#:#spl_new#:#Nowa pula pytań###24 Sep 2004 content changed
-common#:#spl_read#:#Prawo czytania puli pytań###24 Sep 2004 content changed
-common#:#spl_visible#:#Pula pytań jest widoczna###24 Sep 2004 content changed
-common#:#spl_write#:#Edycja puli pytań###24 Sep 2004 content changed
+common#:#spl_new#:#Nowa pula pytań
+common#:#spl_read#:#Prawo czytania puli pytań
+common#:#spl_visible#:#Pula pytań jest widoczna
+common#:#spl_write#:#Edycja puli pytań
 common#:#st_a#:#rozdział
 common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany
@@ -1991,7 +1991,7 @@ common#:#user_detail#:#Dane szczegółowe
 common#:#user_imported#:#Zakończony import użytkowników.
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
-common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
+common#:#user_profile_other#:#Inne informacje
 common#:#user_statistics#:#Dane statystyczne
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Użytkownik
@@ -2213,7 +2213,7 @@ content#:#cont_link_ext#:#Łącznik (zewnętrzny)
 content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
-content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
+content#:#cont_linked_mobs#:#Połączone obiekty medialne
 content#:#cont_list_files#:#Lista plików
 content#:#cont_list_properties#:#Lista właściwości
 content#:#cont_lk_chapter#:#Rozdział
@@ -2552,7 +2552,7 @@ dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
 dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
 dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Podaj prawidłowy plik csv.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <BR> Zamknij to okno ręcznie. <BR> Dziękujemy</CENTER></B>###03 Oct 2004 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <BR> Zamknij to okno ręcznie. <BR> Dziękujemy</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Źle podano datę końcową cyklu. Format: dd/mm/rrrr
 dateplaner#:#ERROR_ROT_END_START#:#Źle podano datę końcową cyklu. Data końcowa cyklu wcześniejsza niż data początkowa.
 dateplaner#:#ERROR_SHORTTEXT#:#Źle podano opis skrócony. Opis skrócony jest konieczny.
@@ -3399,89 +3399,89 @@ meta#:#meta_very_easy#:#Bardzo łatwy
 meta#:#meta_very_high#:#Bardzo wysoki
 meta#:#meta_very_low#:#Bardzo niski
 meta#:#meta_yes#:#Tak
-payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
-payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
-payment#:#duration#:#Duration###04 Oct 2004 new variable
-payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
-payment#:#pay_header#:#Payment###02 Oct 2004 new variable
-payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
+payment#:#currency_cent#:#Grosze
+payment#:#currency_euro#:#PLN
+payment#:#duration#:#Czas ważności
+payment#:#pay_deleted_booking#:#Pozycja została usunięta.
+payment#:#pay_header#:#Płatność
+payment#:#pay_locator#:#Płatność
 payment#:#pay_no_vendors_created#:#Nie utworzono sprzedawców
-payment#:#paya_access#:#Access###04 Oct 2004 new variable
-payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
-payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
-payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.###04 Oct 2004 new variable
-payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
-payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
-payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
-payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
-payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
-payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
-payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
-payment#:#paya_deleted_last_price#:#The last price has been deleted.###04 Oct 2004 new variable
-payment#:#paya_deleted_object#:#Stoped payment for the selected object.###04 Oct 2004 new variable
-payment#:#paya_details_updated#:#Details updated.###04 Oct 2004 new variable
-payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
-payment#:#paya_edit_details#:#Edit details###04 Oct 2004 new variable
-payment#:#paya_edit_pay_method#:#Edit pay method###04 Oct 2004 new variable
-payment#:#paya_edit_prices#:#Edit prices###04 Oct 2004 new variable
-payment#:#paya_edit_prices_first#:#Please edit the prices first.###04 Oct 2004 new variable
-payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
-payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
-payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
-payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
-payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
-payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
-payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_months#:#Month(s)###04 Oct 2004 new variable
-payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given###04 Oct 2004 new variable
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
-payment#:#paya_no_object_selected#:#Please select one object.###04 Oct 2004 new variable
-payment#:#paya_no_objects_assigned#:#There are no sellable objects.###04 Oct 2004 new variable
-payment#:#paya_no_price_available#:#No prices available###04 Oct 2004 new variable
-payment#:#paya_no_prices_selected#:#Please select one price###04 Oct 2004 new variable
-payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method###04 Oct 2004 new variable
-payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
-payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
-payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.###04 Oct 2004 new variable
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
-payment#:#paya_not_buyable#:#Not buyable###04 Oct 2004 new variable
-payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
-payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.###04 Oct 2004 new variable
-payment#:#paya_order_date#:#Order date###04 Oct 2004 new variable
-payment#:#paya_pay_method#:#Pay method###04 Oct 2004 new variable
-payment#:#paya_pay_method_not_specified#:#Not specified###04 Oct 2004 new variable
-payment#:#paya_payed#:#Payed###04 Oct 2004 new variable
-payment#:#paya_payed_access#:#Payed/Access###04 Oct 2004 new variable
-payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
-payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
-payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers###04 Oct 2004 new variable
-payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.###04 Oct 2004 new variable
-payment#:#paya_select_pay_method_first#:#Please select one pay method first.###04 Oct 2004 new variable
-payment#:#paya_sell_object#:#Sell object###04 Oct 2004 new variable
-payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
-payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
-payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
-payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?###04 Oct 2004 new variable
-payment#:#paya_transaction#:#Transaction###04 Oct 2004 new variable
-payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_update_price#:#Update prices###04 Oct 2004 new variable
-payment#:#paya_updated_booking#:#Updated statistic.###04 Oct 2004 new variable
-payment#:#paya_updated_prices#:#Updated prices###04 Oct 2004 new variable
-payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
-payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
-payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
-payment#:#pays_active_bookings#:#Aktywne rezerwacje###04 Oct 2004 content changed
+payment#:#paya_access#:#Dostęp
+payment#:#paya_add_price#:#Dodaj nową cenę
+payment#:#paya_add_price_title#:#Nowa cena
+payment#:#paya_added_new_object#:#Dodano nowy obiekt. Zmodyfikuj forme płatności i ceny.
+payment#:#paya_added_new_price#:#Utworzono nową cenę
+payment#:#paya_added_trustee#:#Utworzono nowe prawa dostępu.
+payment#:#paya_bookings_available#:#Ten obiekt został sprzedany. Usuń najpierw wszystkie dane statystyczne.
+payment#:#paya_buyable#:#Do kupienia
+payment#:#paya_count_purchaser#:#Liczba nabywców
+payment#:#paya_customer#:#Klient
+payment#:#paya_delete_price#:#Usuń cenę
+payment#:#paya_delete_trustee_msg#:#Usunięto wybrane prawa dostępu.
+payment#:#paya_deleted_last_price#:#Ostatnia cena została usunięta.
+payment#:#paya_deleted_object#:#Wsztrzymano płatność wybranego obiektu.
+payment#:#paya_details_updated#:#Uaktualniono dane szczegółowe.
+payment#:#paya_disabled#:#Wyłączony
+payment#:#paya_edit_details#:#Edytuj dane szczegółowe
+payment#:#paya_edit_pay_method#:#Edytuj formę płatności
+payment#:#paya_edit_prices#:#Edytuj ceny
+payment#:#paya_edit_prices_first#:#Najpierw zmodyfikuj ceny.
+payment#:#paya_enabled#:#Włączony
+payment#:#paya_enter_login#:#Podaj nazwę użytkownika.
+payment#:#paya_err_adding_object#:#Błąd przy dodaniu obiektu
+payment#:#paya_error_update_booking#:#Błąd przy zapisie danych statystycznych.
+payment#:#paya_expires#:#Termin płatności
+payment#:#paya_header#:#Zarządzanie płatnościami
+payment#:#paya_insert_only_numbers#:#Wstaw tylko liczby całkowite.
+payment#:#paya_locator#:#Zarządzanie płatnościami
+payment#:#paya_months#:#Miesiące
+payment#:#paya_no_booking_id_given#:#Błąd: nie podano 'booking id'
+payment#:#paya_no_bookings#:#Brak statystyk.
+payment#:#paya_no_object_selected#:#Wybierz jeden obiekt.
+payment#:#paya_no_objects_assigned#:#Nie wybrano żadnego obiektu.
+payment#:#paya_no_price_available#:#Brak dostępnych cen
+payment#:#paya_no_prices_selected#:#Wybierz jedną cenę
+payment#:#paya_no_settings_necessary#:#Nie trzeba nic ustalać dla tej formy płatności
+payment#:#paya_no_trustees#:#Nie utworzono praw dostępu.
+payment#:#paya_no_valid_login#:#Ta nazwa użytkownika jest nieważna.
+payment#:#paya_no_vendor_selected#:#Nie wybrałeś sprzedawcy.
+payment#:#paya_not_assign_yourself#:#Nie można wyznaczyć siebie.
+payment#:#paya_not_buyable#:#Nie do sprzedaży
+payment#:#paya_object#:#Obiekty
+payment#:#paya_object_not_purchasable#:#Nie można sprzedać tego obiektu.
+payment#:#paya_order_date#:#Data zamówienia
+payment#:#paya_pay_method#:#Forms płatności
+payment#:#paya_pay_method_not_specified#:#Nie podane
+payment#:#paya_payed#:#Zapłacone
+payment#:#paya_payed_access#:#Zapłata/Dostęp
+payment#:#paya_perm_obj#:#Edytuj obiekty
+payment#:#paya_perm_stat#:#Edytuj statystyki
+payment#:#paya_price_not_valid#:#Ta cena nie jest prawidłowa. Podaj tylko cyfry
+payment#:#paya_select_object_to_sell#:#Wybierz obiekt do sprzedaży.
+payment#:#paya_select_pay_method_first#:#Najpierw wybierz formę płatności.
+payment#:#paya_sell_object#:#sprzedawany obiekt
+payment#:#paya_shopping_cart#:#Koszyk
+payment#:#paya_statistic#:#Statystyka
+payment#:#paya_sure_delete_object#:#Czy chcesz wstrzymać płatność tego obiektu? Wszystkie wprowadzone dane zostana utracone.
+payment#:#paya_sure_delete_selected_prices#:#Czy chcesz usunąć wybrane ceny?
+payment#:#paya_sure_delete_selected_trustees#:#Czy chcesz usunąć wybrane prawa dostępu?
+payment#:#paya_sure_delete_stat#:#Czy chcesz usunąć tę statystykę?
+payment#:#paya_transaction#:#Tranzakcja
+payment#:#paya_trustee_table#:#Prawa dostępu
+payment#:#paya_trustees#:#Prawa dostępu
+payment#:#paya_update_price#:#Uaktualnij ceny
+payment#:#paya_updated_booking#:#Statystyki uaktualnione.
+payment#:#paya_updated_prices#:#Ceny uaktualnione
+payment#:#paya_updated_trustees#:#Prawa dostępu uaktualnione
+payment#:#paya_user_already_assigned#:#Użytkownik wyznaczony.
+payment#:#paya_vendor#:#Sprzedawca
+payment#:#pays_active_bookings#:#Aktywne rezerwacje
 payment#:#pays_add_vendor#:#Dodaj sprzedawcę
 payment#:#pays_added_vendor#:#Dodano nowego sprzedawcę
 payment#:#pays_already_assigned_vendors#:#Następująca liczba użytkowników została przydzielona:
 payment#:#pays_assigned_vendors#:#Nastepująca liczba użytkowników została przydzielona do listy sprzedawców:
-payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
-payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
+payment#:#pays_bill#:#Rachunek
+payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Centrum kosztów
 payment#:#pays_delete_vendor#:#Odznacz użytkownika
 payment#:#pays_deleted_number_vendors#:#Następująca liczba sprzedawców została usunięta:
@@ -3490,17 +3490,17 @@ payment#:#pays_no_username_given#:#Nie podano nazwy użytkownika
 payment#:#pays_no_valid_username_given#:#Nie podano ważnej nazwy użytkownika
 payment#:#pays_no_vendor_selected#:#Nie wybrano sprzedawcy
 payment#:#pays_number_bookings#:#Aktywne rezerwacje
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
-payment#:#pays_online#:#Online###02 Oct 2004 new variable
-payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
+payment#:#pays_objects_bill_exist#:#Forma płatności 'Rachunek' została aktywowana dla obiektów. Odtąd nie może być deaktywowana.
+payment#:#pays_objects_bmf_exist#:#Forma płatności 'BMF' została aktywowana dla obiektów. Odtąd nie może być deaktywowana.
+payment#:#pays_offline#:#Offline
+payment#:#pays_online#:#Online
+payment#:#pays_pay_methods#:#Formy płatności
 payment#:#pays_sure_delete_selected_vendors#:#Czy chcesz usunąć wybranych sprzedawców?
-payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
+payment#:#pays_updated_pay_method#:#Zmieniono formę płatności.
 payment#:#pays_user_already_assigned#:#Ten użytkownik jest już przydzielony do listy sprzedawców
 payment#:#pays_vendor#:#Sprzedawca
-payment#:#price_a#:#Price###04 Oct 2004 new variable
-payment#:#update#:#Update###04 Oct 2004 new variable
+payment#:#price_a#:#Cena
+payment#:#update#:#Aktualizuj
 search#:#search_all_results#:#Wszystkie wyniki
 search#:#search_concatenation#:#Powiązanie
 search#:#search_content#:#Zawartość strony
@@ -3546,8 +3546,8 @@ survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numera
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
-survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
-survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
+survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety
+survey#:#anonymize_survey_explanation#:#Kiedy jest aktywne, wszystkie dane użytkownika są anonimowe i nie mogą być śledzone.
 survey#:#answer#:#Odpowiedź
 survey#:#apply#:#Zastosuj
 survey#:#arithmetic_mean#:#Średnia arytmetyczna
@@ -3558,7 +3558,7 @@ survey#:#browse_for_questions#:#Szukanie pytań
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!
 survey#:#cannot_manage_phrases#:#Nie masz prawa zapisu do zarządzania frazą!
 survey#:#cannot_participate_survey#:#Nie masz uprawnień do uczestnictwa w przeglądzie!
-survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+survey#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień do zapisu meta  danych!
 survey#:#category#:#Kategoria
 survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?
 survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do usunięcia!
@@ -3638,7 +3638,7 @@ survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
 survey#:#enter_value#:#Podaj wartość
-survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
+survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!
 survey#:#evaluation#:#Wyniki
 survey#:#evaluation_access#:#Ograniczenie dostępu
 survey#:#excel#:#Microsoft Excel
@@ -3647,10 +3647,10 @@ survey#:#export_data_as#:#Eksportuj dane jako
 survey#:#fill_out_all_category_fields#:#Wypełnij wszystkie pola kategorii przed dodaniem nowej!
 survey#:#fill_out_all_required_fields_add_category#:#Wypełnij wszystkie niezbędne pola  przed dodaniem kategorii!
 survey#:#filter#:#Filtr
-survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+survey#:#filter_all_question_types#:#Wszystkie tyty pytań
+survey#:#filter_all_questionpools#:#Wszystkie pule pytań
+survey#:#filter_show_question_types#:#Pokaż typy pytań
+survey#:#filter_show_questionpools#:#Pokaż pule pytań
 survey#:#finished#:#skończone
 survey#:#found_questions#:#Znalezione pytania
 survey#:#geometric_mean#:#Średnia geometryczna
@@ -3667,7 +3667,7 @@ survey#:#invitation_mode#:#Tryb zaproszenia
 survey#:#invite_participants#:#Przydzieleni do zaproszenia
 survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
-survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
+survey#:#label_resume_survey#:#Podaj swój 32 cyfrowy kod ankiety
 survey#:#last_update#:#Ostatnia aktualizacja
 survey#:#lower_limit#:#Limit dolny
 survey#:#maintenance#:#Konserwacja
@@ -3676,7 +3676,7 @@ survey#:#material_file#:#Plik z materiałami
 survey#:#maximum#:#Maksymalna wartość
 survey#:#median#:#Środkowa
 survey#:#median_between#:#pomiędzy
-survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
+survey#:#message_mail_survey_id#:#Rozpocząłeś anonimową ankietę &quot;%s&quot;. Do powrotu do ankiety potrzebujesz następującego 32 cyfrowego kodu ankiety:<br><br><strong>%s</strong><br><br>Powrót do ankiety jest tylko możliwy gdy ją przerwiesz przed zakończeniem.
 survey#:#metric_question_out_of_bounds#:#Wprowadzona wartość nie jest pomiędzy minimalną a maksymalną wartością!
 survey#:#minimum#:#Minimalna wartość
 survey#:#missing_upper_or_lower_limit#:#Podaj dolny i górny limit!
@@ -3771,9 +3771,9 @@ survey#:#set_filter#:#Ustaw filtr
 survey#:#start_date#:#Data startowa
 survey#:#start_date_not_reached#:#Nie możesz wystartować przeglądu dopóki nie zostanie osiągnięta data początkowa!
 survey#:#start_survey#:#Rozpocznij ankietę
-survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
+survey#:#subject_mail_survey_id#:#Twój kod ankiety dla "%s"
 survey#:#subtype#:#Podtyp
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
+survey#:#survey_code_message_sent#:#Kod ankiety umożliwiający powrót do niej został przesłany do twojej skrzynki odbiorczej!
 survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
 survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!
 survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>
@@ -3790,8 +3790,8 @@ survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglą
 survey#:#svy_delete_all_user_data#:#Usuń wszystkie dane użytkowników
 survey#:#svy_statistical_evaluation#:#Ocena Statystyczna
 survey#:#text_question_not_filled_out#:#Wypełnij pole odpowiedzi!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
+survey#:#text_resume_survey#:#Próbujesz powrócić do anonimowej ankiety. Dla kontynuacji ankiety z poprzednimi odpowiedziami podaj 32 cyfrowy kod ankiety, który otrzymałeś po rozpoczęciu ankiety (został on przesłany do twojej skrzynki odbiorczej). Zamiast wprowadzenia kodu możesz go skopiować ze swojej skrzynki odbiorczej i wstawić do poniższego pola ytekstowego.
+survey#:#title_resume_survey#:#Powrót do ankiety - Podaj kod ankiety
 survey#:#unfold#:#Rozwiń
 survey#:#unlimited_users#:#Nielimitowany
 survey#:#uploaded_material#:#Materiał załadowany
@@ -3803,3 +3803,4 @@ survey#:#value_nr_entered#:#Ilość uzytkowników, która opodała tę wartość
 survey#:#values#:#Wartości
 survey#:#view_phrase#:#Pokaż frazę
 survey#:#warning_question_in_use#:#Uwaga! Pytanie, które chcesz edytować jest używane przez podane poniżej ankiety. Jeśli będziesz kontynuował i zapiszesz/zastosujesz pytanie,  wszystkie odpowiedzi poniższych ankiet zostaną usunięte. Jeśli chcesz zmienić pytanie i użyć go w innej ankiecie, wybierz powielenie w przeglądarce pytań dla utworzenia nowej wersji tego pytania.
+
