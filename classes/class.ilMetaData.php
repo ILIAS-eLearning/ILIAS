@@ -88,7 +88,8 @@ class ilMetaData
 		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		// Metadaten aus der Nested-Set-Struktur ermitteln.
-		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm") 
+		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
+			|| $this->getType() == "glo" || $this->getType() == "gdf")
 		{
 			include_once("./classes/class.ilNestedSetXML.php");
 			$nested = new ilNestedSetXML();
@@ -301,7 +302,8 @@ class ilMetaData
 		$this->updateTechnicalSections();
 		
 		
-		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm") 
+		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
+			|| $this->getType() == "glo" || $this->getType() == "gdf")
 		{
 
 			include_once("./classes/class.ilNestedSetXML.php");
@@ -312,10 +314,10 @@ class ilMetaData
 				$node = $nested->getFirstDomNode("//MetaData/General/Title");
 				$c = $node->children();
 				$c[0]->set_content($this->getTitle());
-				
+
 				$nested->updateFromDom();
 			}
-		} 		
+		}
 	}
 
 
