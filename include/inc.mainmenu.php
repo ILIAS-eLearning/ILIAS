@@ -14,7 +14,7 @@ else
 	$image_dir = "";
 }
 
-if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID))
+if ($rbacsystem->checkAccess("visible", ROOT_FOLDER_ID))
 {
 	$tpl->setCurrentBlock("userisadmin");
 	$tpl->setVariable("IMAGE_DIR", $image_dir);
