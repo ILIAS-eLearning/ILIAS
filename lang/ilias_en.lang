@@ -1064,6 +1064,14 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Postal Code
 common#:#zipcode#:#Postal Code
+common#:#qpl#:#Question pool
+common#:#qpl_new#:#New question pool
+common#:#qpl_add#:#Add question pool
+common#:#question_pools#:#Question pools
+common#:#tst#:#Test
+common#:#tst_new#:#New test
+common#:#tst_add#:#Add test
+common#:#tests#:#Tests
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages

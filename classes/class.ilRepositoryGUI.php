@@ -104,6 +104,8 @@ class ilRepositoryGUI
 		$this->groups = array();
 		$this->glossaries = array();
 		$this->exercises = array();
+    $this->questionpools = array();
+    $this->tests = array();
 
 	}
 
@@ -218,6 +220,14 @@ class ilRepositoryGUI
 					$this->categories[$key] = $object;
 					break;
 
+        // test&assessment
+        case "tst":
+          $this->tests[$key] = $object;
+          break;
+        case "qpl":
+          $this->questionpools[$key] = $object;
+          break;
+          
 				// learning resources
 				case "lm":
 				case "slm":
@@ -289,6 +299,17 @@ class ilRepositoryGUI
 		{
 			$this->showCategories();
 		}
+
+    // test&assessment
+    if (count($this->questionpools))
+    {
+      $this->showQuestionPools();
+    }
+    
+    if (count($this->tests))
+    {
+      $this->showTests();
+    }
 
 		// learning resources
 		if (count($this->learning_resources))
@@ -1193,6 +1214,231 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+  function showTests()
+  {
+		// set offset & limit
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+		if ($limit == 0)
+		{
+			$limit = 9999;	// todo: not nice
+		}
+
+		$maxcount = count($this->tests);
+		$tests = array_slice($this->tests, $offset, $limit);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$test_num = count($tests);
+
+		// render table content data
+		if ($test_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_tst_row.html");
+			// counter for rowcolor change
+			$num = 0;
+
+			foreach ($tests as $tst_data)
+			{
+          $obj_link = "#";
+
+				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_read");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $tst_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("tst_visible");
+					$tpl->setVariable("V_TITLE", $tst_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_edit");
+					$tpl->setVariable("EDIT_LINK","#");
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$tst_data["ref_id"]));
+				$tpl->setVariable("DESCRIPTION", $tst_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($tst_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("tests"),"icon_tst_b.gif", $this->lng->txt("tests"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("", "title"),
+			array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("1%", "99%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("tests");
+		$this->tpl->setVariable("TESTS", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
+  }
+  
+  function showQuestionPools()
+  {
+		// set offset & limit
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+		if ($limit == 0)
+		{
+			$limit = 9999;	// todo: not nice
+		}
+
+		$maxcount = count($this->questionpools);
+		$qpool = array_slice($this->questionpools, $offset, $limit);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$qpool_num = count($qpool);
+
+		// render table content data
+		if ($qpool_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_qpl_row.html");
+			// counter for rowcolor change
+			$num = 0;
+
+			foreach ($qpool as $qpl_data)
+			{
+//				$obj_link = "assessment/il_as_question_manager.php?ref_id=".$qpl_data["ref_id"];
+          $obj_link = "#";
+
+				if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("qpl_read");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $qpl_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("qpl_visible");
+					$tpl->setVariable("V_TITLE", $qpl_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("qpl_edit");
+					$tpl->setVariable("EDIT_LINK","#");
+					//$tpl->setVariable("EDIT_LINK","assessment/#?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$qpl_data["ref_id"]));
+				$tpl->setVariable("DESCRIPTION", $qpl_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($qpl_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("question_pools"),"icon_qpl_b.gif", $this->lng->txt("question_pools"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
+		$tbl->setHeaderVars(array("", "title"),
+			array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("1%", "99%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("questionpools");
+		$this->tpl->setVariable("QUESTIONPOOLS", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
+  }
 
 	/**
 	* set tabs
@@ -1340,7 +1586,7 @@ class ilRepositoryGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc")))
+					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc", "qpl", "tst")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
