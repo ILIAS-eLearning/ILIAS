@@ -239,6 +239,7 @@ class SurveyMetricQuestionGUI {
 		$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
 		$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
 		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
+		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 
 		if (strlen($this->object->getMaximum())>1) {
 			$len = strlen($this->object->getMaximum()) + 2;

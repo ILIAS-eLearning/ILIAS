@@ -123,6 +123,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function runObject() {
 		global $ilUser;
+		
+		if ($_POST["cmd"]["start"])
+		{
+			$this->object->startSurvey($ilUser->id);
+		}
 
 		if ($_POST["cmd"]["exit"])
 		{
@@ -149,10 +154,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$direction = 0;
 		$error = 0;
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"])
 		{
 			$activepage = "";
 			$direction = 0;
+			if ($_POST["cmd"]["resume"])
+			{
+				$activepage = $this->object->getLastActivePage($ilUser->id);
+				$direction = 1;
+			}
 			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
 			{
 				// check users input when it is a metric question
@@ -163,11 +173,47 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						// there is a metric question -> check input
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if (($_POST["metric_question"] < $variables[0]["value1"]) or (($_POST["metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] != -1)))
+						if (($_POST[$_GET["qid"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$_GET["qid"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0)))
 						{
 							// there is an error: value is not in bounds
 							sendInfo("metric_question_out_of_bounds");
 							$error = 1;
+						}
+					}
+					if (!$error)
+					{
+						// save user input
+						switch ($data["type_tag"])
+						{
+							case "qt_nominal":
+								if ($data["subtype"] == SUBTYPE_MCSR)
+								{
+									$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_value"]);
+								}
+								else
+								{
+									if (is_array($_POST[$_GET["qid"] . "_value"]))
+									{
+										foreach ($_POST[$_GET["qid"] . "_value"] as $value)
+										{
+											$this->object->saveWorkingData($data["question_id"], $ilUser->id, $value);
+										}
+									}
+									else
+									{
+										$this->object->saveWorkingData($data["question_id"], $ilUser->id);
+									}
+								}
+								break;
+							case "qt_ordinal":
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_value"]);
+								break;
+							case "qt_metric":
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, $_POST[$_GET["qid"] . "_metric_question"]);
+								break;
+							case "qt_text":
+								$this->object->saveWorkingData($data["question_id"], $ilUser->id, 0, ilUtil::stripSlashes($_POST[$_GET["qid"] . "_text_question"]));
+								break;
 						}
 					}
 				}
@@ -240,11 +286,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function runShowIntroductionPage()
 	{
+		global $ilUser;
 		// show introduction page
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		$this->tpl->setCurrentBlock("start");
-		$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
+		if ($this->object->isSurveyStarted($ilUser->id) === 1)
+		{
+			sendInfo("already_completed_survey");
+			$this->tpl->setCurrentBlock("start");
+			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
+			$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($this->object->isSurveyStarted($ilUser->id) === 0)
+		{
+			$this->tpl->setCurrentBlock("resume");
+			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("resume_survey"));
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($this->object->isSurveyStarted($ilUser->id) === false)
+		{
+			$this->tpl->setCurrentBlock("start");
+			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$introduction = $this->object->getIntroduction();

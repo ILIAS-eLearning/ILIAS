@@ -1797,5 +1797,181 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 	
+/**
+* Saves the working data of a question to the database
+*
+* Saves the working data of a question to the database
+*
+* @param integer $question_id The database id of the question
+* @param integer $user_id The database id of the user who worked through the question
+* @param mixed $value The value the user entered for the question
+* @param string $text The answer text of a text question
+* @access public
+*/
+	function saveWorkingData($question_id, $user_id, $value = "", $text = "")
+	{
+		if (strcmp($value, "") == 0)
+		{
+			$value = "NULL";
+		}
+		else
+		{
+			$value = $this->ilias->db->quote($value);
+		}
+		if (strcmp($text, "") == 0)
+		{
+			$text = "NULL";
+		}
+		else
+		{
+			$text = $this->ilias->db->quote($text);
+		}
+		$working_data = $this->loadWorkingData($question_id, $user_id);
+		if (count($working_data) == 0)
+		{
+			$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($question_id),
+				$this->ilias->db->quote($user_id),
+				$value,
+				$text
+			);
+		}
+		else
+		{
+			$query = sprintf("UPDATE survey_answer SET value = %s, textanswer = %s WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
+				$value,
+				$text,
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($question_id),
+				$this->ilias->db->quote($user_id)
+			);
+		}
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Gets the working data of question from the database
+*
+* Gets the working data of question from the database
+*
+* @param integer $question_id The database id of the question
+* @param integer $user_id The database id of the user who worked through the question
+* @return array The resulting database dataset as an array
+* @access public
+*/
+	function loadWorkingData($question_id, $user_id)
+	{
+		$result_array = array();
+		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() >= 1)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+			{
+				array_push($result_array, $row);
+			}
+			return $result_array;
+		}
+		else
+		{
+			return $result_array;
+		}
+	}
+
+/**
+* Starts the survey creating an entry in the database
+*
+* Starts the survey creating an entry in the database
+*
+* @param integer $user_id The database id of the user who starts the survey
+* @access public
+*/
+	function startSurvey($user_id)
+	{
+		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($user_id),
+			$this->ilias->db->quote("0")
+		);
+		$result = $this->ilias->db->query($query);
+	}
+			
+/**
+* Finishes the survey creating an entry in the database
+*
+* Finishes the survey creating an entry in the database
+*
+* @param integer $user_id The database id of the user who finishes the survey
+* @access public
+*/
+	function finishSurvey($user_id)
+	{
+		$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote("1"),
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Checks if a user already started a survey
+*
+* Checks if a user already started a survey
+*
+* @param integer $user_id The database id of the user
+* @return mixed false, if the user has not started the survey, 0 if the user has started the survey but not finished it, 1 if the user has finished the survey
+* @access public
+*/
+	function isSurveyStarted($user_id)
+	{
+		$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}			
+		else
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return (int)$row["state"];
+		}
+	}
+	
+/**
+* Returns the question id of the last active page a user visited in a survey
+*
+* Returns the question id of the last active page a user visited in a survey
+*
+* @param integer $user_id The database id of the user
+* @return mixed Empty string if the user has not worked through a page, question id of the last page otherwise
+* @access public
+*/
+	function getLastActivePage($user_id)
+	{
+		$query = sprintf("SELECT question_fi FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP DESC",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return "";
+		}
+		else
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["question_fi"];
+		}
+	}
+	
 } // END class.ilObjSurvey
 ?>
