@@ -633,9 +633,16 @@ foreach($hits_options as $hits_option)
 	$tpl->parseCurrentBlock();
 }
 
-if (AUTH_CURRENT == AUTH_LOCAL)
+if (AUTH_CURRENT == AUTH_LOCAL and userSettingVisible('password'))
 {
-	if ($settings["passwd_auto_generate"] == 1)
+	if($ilias->getSetting('usr_settings_disable_password'))
+	{
+        $tpl->setCurrentBlock("disabled_password");
+        $tpl->setVariable("TXT_DISABLED_PASSWORD", $lng->txt("chg_password"));
+        $tpl->setVariable("TXT_DISABLED_CURRENT_PASSWORD", $lng->txt("current_password"));
+		$tpl->parseCurrentBlock();
+	}
+	elseif ($settings["passwd_auto_generate"] == 1)
 	{
 	    $passwd_list = ilUtil::generatePasswords(5);
      

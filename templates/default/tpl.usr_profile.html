@@ -87,13 +87,13 @@ body { margin:0px; }
 </tr>
 <tr>
     <td class="option">{TXT_CURRENT_PW}</td>
-    <td class="option_value"><input type="password" name="current_password" maxlength="32" size="25" value="" />
+    <td class="option_value"><input type="password" name="current_password" maxlength="32" size="25" value=""/>
      </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
     <td class="option">{TXT_DESIRED_PW}</td>
-    <td class="option_value"><input type="password" name="desired_password" maxlength="32" size="25" value="" />
+    <td class="option_value"><input type="password" name="desired_password" maxlength="32" size="25" value=""/>
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
@@ -132,6 +132,17 @@ body { margin:0px; }
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <!-- END select_password -->
+<!-- BEGIN disabled_password -->
+<tr class="tblheader">
+    <td class="std" colspan="4">{TXT_DISABLED_PASSWORD}</td>
+</tr>
+<tr>
+    <td class="option">{TXT_DISABLED_CURRENT_PW}</td>
+    <td class="option_value"><input type="password" name="current_password" maxlength="32" size="25" value=""/ disabled="disabled">
+     </td>
+    <td class="option_value" colspan="2">&nbsp;</td>
+</tr>
+<!-- END disabled_password -->
 
 <tr class="tblheader">
     <td class="std" colspan="4">{TXT_CONTACT_DATA}</td>
