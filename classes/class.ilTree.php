@@ -1750,9 +1750,18 @@ class ilTree
 	function renumber($node_id = 1, $i = 1)
 	{
 		// LOCKED ###################################
-		ilDBx::_lockTables(array('tree' => 'WRITE'));
+		if($this->__isMainTree())
+		{
+			ilDBx::_lockTables(array($this->table_tree => 'WRITE',
+									 $this->table_obj_data => 'WRITE',
+									 $this->table_obj_reference => 'WRITE',
+									 'object_translation' => 'WRITE'));
+		}
 		$return = $this->__renumber($node_id,$i);
-		ilDBx::_unlockTables();
+		if($this->__isMainTree())
+		{
+			ilDBx::_unlockTables();
+		}
 		// LOCKED ###################################
 
 		return $return;
