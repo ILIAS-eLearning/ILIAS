@@ -42,35 +42,35 @@ $tab = $this->cmd ? $this->cmd : "";
 // overview
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "view" ? "tabactive" : "tabinactive");
-$this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=view&lang=".$this->lang);
+$this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=view");
 $this->tpl->setVariable("TAB_TEXT",$this->lng->txt("overview"));
 $this->tpl->parseCurrentBlock();
 
 // database
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "db" ? "tabactive" : "tabinactive");
-$this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=db&lang=".$this->lang);
+$this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=db");
 $this->tpl->setVariable("TAB_TEXT",$this->lng->txt("database"));
 $this->tpl->parseCurrentBlock();
 
 // languages
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "lang" ? "tabactive" : "tabinactive");
-$this->tpl->setVariable("TAB_LINK","setup.php?cmd=lang&lang=".$this->lang);
+$this->tpl->setVariable("TAB_LINK","setup.php?cmd=lang");
 $this->tpl->setVariable("TAB_TEXT",$this->lng->txt("languages"));
 $this->tpl->parseCurrentBlock();
 
 // contact data
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "contact" ? "tabactive" : "tabinactive");
-$this->tpl->setVariable("TAB_LINK","setup.php?cmd=contact&lang=".$this->lang);
-$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("contact_data"));
+$this->tpl->setVariable("TAB_LINK","setup.php?cmd=contact");
+$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("contact"));
 $this->tpl->parseCurrentBlock();
 
 // ilias-NIC
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "nic" ? "tabactive" : "tabinactive");
-$this->tpl->setVariable("TAB_LINK","setup.php?cmd=nic&lang=".$this->lang);
+$this->tpl->setVariable("TAB_LINK","setup.php?cmd=nic");
 $this->tpl->setVariable("TAB_TEXT",$this->lng->txt("ilias_nic"));
 $this->tpl->parseCurrentBlock();
 
