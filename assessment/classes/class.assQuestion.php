@@ -1020,11 +1020,9 @@ class ASS_Question
 	function _getTotalRightAnswers($a_q_id)
 	{
 		global $ilDB;
-
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
 			$ilDB->quote($a_q_id)
 		);
-
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 0)
 		{
@@ -1042,9 +1040,9 @@ class ASS_Question
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-//    	$question =& $this->createQuestion("", $row->question_fi);
-//			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
-//			$max = $question->object->getMaximumPoints();
+			$question =& ASS_Question::_instanciateQuestion($row->question_fi);
+			$reached = $question->getReachedPoints($row->user_fi, $row->test_fi);
+			$max = $question->getMaximumPoints();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -1505,6 +1503,49 @@ class ASS_Question
 			return false;
 		}
 	}
+
+/**
+* Creates an instance of a question with a given question id
+*
+* Creates an instance of a question with a given question id
+*
+* @param integer $question_id The question id
+* @return object The question instance
+* @access public
+*/
+  function &_instanciateQuestion($question_id) 
+	{
+		if (strcmp($question_id, "") != 0)
+		{
+			$question_type = ASS_Question::_getQuestionType($question_id);
+			switch ($question_type) {
+				case "qt_cloze":
+					$question = new ASS_ClozeTest();
+					break;
+				case "qt_matching":
+					$question = new ASS_MatchingQuestion();
+					break;
+				case "qt_ordering":
+					$question = new ASS_OrderingQuestion();
+					break;
+				case "qt_imagemap":
+					$question = new ASS_ImagemapQuestion();
+					break;
+				case "qt_multiple_choice_sr":
+				case "qt_multiple_choice_mr":
+					$question = new ASS_MultipleChoice();
+					break;
+				case "qt_javaapplet":
+					$question = new ASS_JavaApplet();
+					break;
+				case "qt_text":
+					$question = new ASS_TextQuestion();
+					break;
+			}
+			$question->loadFromDb($question_id);
+			return $question;
+		}
+  }
 
 }
 

@@ -504,7 +504,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_right_answers"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $this->object->get_total_right_answers($_GET["edit"]) * 100.0) . " %");
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", ASS_Question::_getTotalRightAnswers($_GET["edit"]) * 100.0) . " %");
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
