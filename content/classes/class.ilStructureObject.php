@@ -38,6 +38,7 @@ class ilStructureObject extends ilLMObject
 {
 	var $is_alias;
 	var $origin_id;
+	var $tree;
 
 	/**
 	* Constructor
@@ -48,16 +49,42 @@ class ilStructureObject extends ilLMObject
 		parent::ilLMObject();
 		$this->setType("st");
 	}
-	
+
 	function create()
 	{
 		parent::create();
-		
+
 	}
 
-	// todo: make this work
+	/**
+	*
+	*/
 	function delete()
 	{
+		$this->tree = new ilTree($this->getLmId());
+		$this->tree->setTableNames('lm_tree', 'lm_data');
+		$this->tree->setTreeTablePK("lm_id");
+		$node_data = $this->tree->getNodeData($this->getId());
+		$this->delete_rec($this->tree);
+		$this->tree->deleteTree($node_data);
+	}
+
+	/**
+	* private
+	*/
+	function delete_rec(&$a_tree)
+	{
+		$childs = $a_tree->getChilds($this->getId());
+		foreach ($childs as $child)
+		{
+			$obj =& ilLMObjectFactory::getInstance($child["obj_id"]);
+			if($obj->getType() == "st")
+			{
+				$obj->delete_rec($a_tree);
+			}
+			unset($obj);
+		}
+		parent::delete();
 	}
 }
 ?>
