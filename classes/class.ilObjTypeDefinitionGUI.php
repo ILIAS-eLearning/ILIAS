@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.11 2003/08/15 11:06:32 shofmann Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.12 2003/11/07 11:11:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -365,6 +365,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 		
 		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		
 		// footer

@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.76 2004/04/17 00:51:13 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.77 2004/04/19 13:48:24 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -703,7 +703,8 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",4);
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		//$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		foreach ($this->data["buttons"] as $name => $value)
 		{
@@ -860,6 +861,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			foreach ($this->data["buttons"] as $name => $value)
 			{
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$this->tpl->setCurrentBlock("tbl_action_btn");
 				$this->tpl->setVariable("BTN_NAME",$name);
 				$this->tpl->setVariable("BTN_VALUE",$value);
@@ -987,6 +989,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("COLUMN_COUNTS",6);
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
@@ -1174,6 +1177,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->data["buttons"] = array("assignMember"  => $this->lng->txt("assign"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("COLUMN_COUNTS",5);
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 

@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.4 2003/12/18 14:24:30 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.5 2004/01/05 08:22:10 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -680,7 +680,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// SET FOOTER BUTTONS
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",6);
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		$this->tpl->setCurrentBlock("tbl_action_select");
 		$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));

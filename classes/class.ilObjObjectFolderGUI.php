@@ -120,6 +120,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
@@ -130,29 +131,29 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		// create table
 		$tbl = new ilTableGUI();
-		
+
 		// title & header columns
 		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		
+
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
 		}
-		
+
 		$tbl->setHeaderNames($header_names);
-		
+
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("15","75%","25%"));
-		
+
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
-		
+
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");

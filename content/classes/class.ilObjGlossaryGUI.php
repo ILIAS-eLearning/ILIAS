@@ -523,6 +523,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// cancel and confirm button
 		$buttons = array( "cancelTermDeletion"  => $this->lng->txt("cancel"),
 			"deleteTerms"  => $this->lng->txt("confirm"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		foreach($buttons as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
