@@ -21,24 +21,60 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilMetaData.php");
+
 /**
-* learning module editor
+* Class ilLMObject
+*
+* Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
+class ilLMObjectGUI
+{
+	var $lm_obj;	// learning module object
+	var $ilias;
+	var $tpl;
+	var $lng;
 
-define("ILIAS_MODULE", "content");
-chdir("..");
-require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
+	function ilLMObjectGUI(&$a_lm_object)
+	{
+		global $ilias, $tpl, $lng, $objDefinition;
 
-// editor GUI class does the rest
-require_once "./content/classes/class.ilLMEditorGUI.php";
-$lm_editor_gui = new ilLMEditorGUI();
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->lm_obj =& $a_lm_object;
+		$this->objDefinition =& $objDefinition;
+	}
 
-//$tpl->show();
+	function showPossibleSubObjects($a_type)
+	{
+		$d = $this->objDefinition->getSubObjects($a_type);
+		if (count($d) > 0)
+		{
+			foreach ($d as $row)
+			{
+				$subobj[] = $row["name"];
+			}
+		}
 
+		if (is_array($subobj))
+		{
+			//build form
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
+
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+}
 ?>

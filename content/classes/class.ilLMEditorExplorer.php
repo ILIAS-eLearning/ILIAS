@@ -126,7 +126,18 @@ class ilLMEditorExplorer extends ilExplorer
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
-				$this->format_options["$counter"]["type"] = $object["type"];
+				//$this->format_options["$counter"]["type"] = $object["type"];
+				switch ($object["type"])
+				{
+					case "st":
+						$this->format_options["$counter"]["type"] = "cat";
+						break;
+
+					case "pg":
+						$this->format_options["$counter"]["type"] = "le";
+						break;
+				}
+
 				$this->format_options["$counter"]["depth"] = $tab;
 				$this->format_options["$counter"]["container"] = false;
 				$this->format_options["$counter"]["visible"]	  = true;
@@ -177,7 +188,8 @@ class ilLMEditorExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["type"]);
+		//$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
 		$tpl->setVariable("TITLE", $this->lm_obj->getTitle());
 		$tpl->setVariable("LINK_TARGET", $this->target."?cmd=view&lm_id=".$this->lm_obj->getId());
 		$tpl->setVariable("TARGET", " target=\"content\"");

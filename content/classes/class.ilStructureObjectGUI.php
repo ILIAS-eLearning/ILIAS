@@ -24,34 +24,35 @@
 require_once("./content/classes/class.ilLMObjectGUI.php");
 
 /**
-* Class ilPageObjectGUI
+* Class ilStructureObjectGUI
 *
-* User Interface for Page Objects Editing
+* User Interface for Structure Objects Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilPageObjectGUI extends ilLMObjectGUI
+class ilStructureObjectGUI extends ilLMObjectGUI
 {
-	var $pg_obj;
+	var $st_obj;	// structure object
+	var $tree;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObjectGUI(&$a_lm_object, &$a_pg_object = null)
+	function ilStructureObjectGUI(&$a_lm_object, &$a_tree, &$a_st_object = NULL)
 	{
 		global $ilias, $tpl, $lng;
 
 		parent::ilLMObjectGUI($a_lm_object);
-		$this->pg_obj =& $a_pg_object;
-
+		$this->st_obj =& $a_st_object;
+		$this->tree =& $a_tree;
 	}
 
 	/*
-	* display content of page
+	* display content of structure object
 	*/
 	function view()
 	{
@@ -61,11 +62,11 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->st_obj->getId()."&cmd=post");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "cont_content");
+		$cols = array("", "type", "title");
 		foreach ($cols as $key)
 		{
 			if ($key != "")
@@ -86,28 +87,28 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		}
 
 		$cnt = 0;
-		$content = $this->pg_obj->getContent();
-		foreach ($content as $content_obj)
+		$childs = $this->tree->getChilds($this->st_obj->getId(), "title");
+		foreach ($childs as $child)
 		{
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
 
 			// checkbox
 			$this->tpl->setCurrentBlock("checkbox");
-			$type = (get_class($content_obj) == "ilparagraph") ? "par" : "mob";
-			$this->tpl->setVariable("CHECKBOX_ID", $type.":".$cnt);
+			//$type = (get_class($content_obj) == "ilparagraph") ? "par" : "mob";
+			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("table_cell");
 			$this->tpl->parseCurrentBlock();
 
 			// type
-			$link = "lm_edit.php?cmd=edit&lm_id=".$this->lm_obj->getId()."&obj_id=".
-				$this->pg_obj->getId()."&cont_cnt=".$cnt;
-			$this->add_cell($this->lng->txt("cont_paragraph"), $link);
+			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+				$child["obj_id"];
+			$this->add_cell($this->lng->txt("cont_".$child["type"]), $link);
 
-			// content
-			$this->add_cell($content_obj->getText(),"");
+			// title
+			$this->add_cell($child["title"], $link);
 
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -116,68 +117,21 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		if($cnt == 0)
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->setVariable("NUM_COLS", 4);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			// SHOW VALID ACTIONS
-			//$this->tpl->setVariable("NUM_COLS", 3);
+			//$this->tpl->setVariable("NUM_COLS", 4);
 			//$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("NUM_COLS", 3);
-		$this->showPossibleSubObjects("pg");
+		$this->showPossibleSubObjects("st");
 
-	}
-
-	function edit()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit.html", true);
-		$content = $this->pg_obj->getContent();
-		$cnt = 1;
-
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
-			"&cont_cnt=".$_GET["cont_cnt"]."&cmd=post");
-
-		// content edit
-		$cur_content_obj = $content[$_GET["cont_cnt"] - 1];
-		switch (get_class($cur_content_obj))
-		{
-			case "ilparagraph":
-				require_once ("./content/classes/class.ilParagraphGUI.php");
-				$para_gui =& new ilParagraphGUI($cur_content_obj);
-				$para_gui->edit("EDIT_CONTENT");
-				break;
-		}
-
-		// content selection
-		reset($content);
-		foreach ($content as $content_obj)
-		{
-			switch (get_class($content_obj))
-			{
-				case "ilparagraph":
-					$cont_sel[$cnt] = ilUtil::shortenText($content_obj->getText(),40);
-					break;
-			}
-			$cnt++;
-		}
-		$this->tpl->setCurrentBlock("content_selection");
-		$this->tpl->setVariable("SELECT_CONTENT" ,
-			ilUtil::formSelect($_GET["cont_cnt"], "cont_cnt",$cont_sel, false, true));
-		$this->tpl->setVariable("BTN_NAME", "edit");
-		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt("select"));
-		$this->tpl->parseCurrentBlock();
-
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveContent");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -200,23 +154,6 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function saveContent()
-	{
-		$content = $this->pg_obj->getContent();
 
-		$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
-
-		switch (get_class($cur_content_obj))
-		{
-			case "ilparagraph":
-				require_once ("./content/classes/class.ilParagraphGUI.php");
-				$para_gui =& new ilParagraphGUI($cur_content_obj);
-				$para_gui->processInput();
-				break;
-		}
-
-		$this->pg_obj->update();
-		$this->view();
-	}
 }
 ?>
