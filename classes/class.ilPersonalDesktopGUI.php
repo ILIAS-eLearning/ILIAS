@@ -46,7 +46,7 @@ class ilPersonalDesktopGUI
 		global $rbacsystem;
 
 		$i = 0;
-		$types = array("lm", "dbk", "glo");
+		$types = array("lm", "dbk", "glo", "slm");
 
 		foreach ($types as $type)
 		{
@@ -64,11 +64,13 @@ class ilPersonalDesktopGUI
 				$this->tpl->setVariable("LO_TITLE", $img.$lo_item["title"]);
 				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=".$type."&id=".$lo_item["id"]);
 				$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
-				if ($rbacsystem->checkAccess('write', $lo_item["id"]))
+
+				if ($rbacsystem->checkAccess('write', $lo_item["id"]) and $type != "slm")
 				{
 					$this->tpl->setVariable("EDIT_LINK", $lo_item["edit_link"]);
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
 				}
+
 				$this->tpl->parseCurrentBlock();
 			}
 		}

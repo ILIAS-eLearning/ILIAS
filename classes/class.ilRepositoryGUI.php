@@ -220,7 +220,7 @@ class ilRepositoryGUI
 
 				// learning resources
 				case "lm":
-				//case "slm":
+				case "slm":
 				case "dbk":
 					$this->learning_resources[$key] = $object;
 
@@ -536,7 +536,7 @@ class ilRepositoryGUI
 				{
 					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
-					if($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
+					if ($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
 					{
 						$tpl->setCurrentBlock("read");
 						$tpl->setVariable("VIEW_LINK", $obj_link);
@@ -550,18 +550,22 @@ class ilRepositoryGUI
 						$tpl->setVariable("V_TITLE", $lr_data["title"]);
 						$tpl->parseCurrentBlock();
 					}
+					
 					$tpl->setCurrentBlock("tbl_content");
-					if($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
+
+					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
 						$tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
 						$tpl->setVariable("EDIT_TARGET","bottom");
 						$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
 					}
-					if($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
+
+					if ($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
 					{
 						$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$lr_data["ref_id"]);
 						$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
 					}
+
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
@@ -576,13 +580,32 @@ class ilRepositoryGUI
 				}
 
 				// scorm learning modules
-				/*
 				if ($lr_data["type"] == "slm")
 				{
+					//vd($lr_data);
 					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$tpl->setVariable("VIEW_LINK", $obj_link);
 					$tpl->setVariable("VIEW_TARGET", "bottom");
-				}*/
+					$tpl->setVariable("R_TITLE", $lr_data["title"]);
+					
+					if ($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
+					{
+						$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$lr_data["ref_id"]);
+						$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
+					}
+
+					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "slm"))
+					{
+						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
+						{
+							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+								"&item_ref_id=".$lr_data["ref_id"].
+								"&type=slm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+								"&sort_by=".$_GET["sort_by"]);
+							$tpl->setVariable("TXT_TO_DESK", "[".$this->lng->txt("to_desktop")."]");
+						}
+					}
+				}
 
 				$tpl->setVariable("IMG", $obj_icon);
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
