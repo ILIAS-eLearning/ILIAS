@@ -455,7 +455,11 @@ class ilSearchGUI
 	function __getContextPath($a_endnode_id, $a_startnode_id = 1)
 	{
 		$path = "";
-
+		
+		if(!$this->tree->isInTree($a_startnode_id) or !$this->tree->isInTree($a_endnode_id))
+		{
+			return '';
+		}
 		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);
 
 		// count -1, to exclude the learning module itself
