@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.26 2003/06/12 14:37:40 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.27 2003/07/07 17:46:57 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -439,21 +439,25 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+		}
+		elseif ($_GET["obj_id"] == $_POST["adopt"])
+		{
+			sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
+		}
+		else
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
 			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
-										   $_GET["ref_id"],$_GET["obj_id"]);
-		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+										   $_GET["ref_id"],$_GET["obj_id"]);		
+			// send info
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-		sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
-	
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
@@ -518,7 +522,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		else
 		{
 			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
 										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
