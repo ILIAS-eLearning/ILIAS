@@ -536,7 +536,7 @@ class Tree extends PEAR
 				 "WHERE T1.child = '".$a_startnode." '".
 				 "AND T1.parent = '0' ".
 				 "AND T3.child = '".$a_endnode." '".
-				 "AND T3.parent = '".$_GET["parent"]." '".
+				 "AND T3.parent = '".$this->parent_id." '".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
 				 "AND T2.tree = '".$this->tree_id." '".

@@ -50,8 +50,8 @@ session_start();
 $ilias = new ILIAS;
 
 // set constants
-define (ROOT_FOLDER_ID,$ilias->ini->readVariable('system','ROOT_FOLDER_ID'); 
-define (SYSTEM_FOLDER_ID,$ilias->ini->readVariable('system','SYSTEM_FOLDER_ID');
+define ("ROOT_FOLDER_ID",$ilias->ini->readVariable('system','ROOT_FOLDER_ID')); 
+define ("SYSTEM_FOLDER_ID",$ilias->ini->readVariable('system','SYSTEM_FOLDER_ID'));
 
 //authenticate
 $ilias->auth->start();
@@ -66,19 +66,13 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	if (!$ilias->auth->getAuth())
 	{
 		header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
-		exit();
+		exit;
 	}
 
 	//get user id
 	if (empty($AccountId))
 	{
 		$res = $ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$ilias->auth->getUsername()."'");
-	
-		//check for error
-		if (DB::isError($res))
-		{
-			die("<b>".$res->getMessage()."</b><br>Script: ".__FILE__."<br>Line: ".__LINE__);
-		}
 	
 		//query has got a result
 		if ($res->numRows() > 0)
@@ -111,7 +105,7 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : ROOT_FOLDER_ID;
 	$parent = $parent ? $parent : 0; // for downward compatibility
 	$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
-		
+	
 	// init tree
 	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
 }

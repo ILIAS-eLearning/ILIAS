@@ -17,20 +17,6 @@ class Object
 	var $ilias;
 	
 	/**
-	* object id of system folder
-	* @var int
-	* @access private
-	*/
-	var $SYSTEM_FOLDER_ID;
-	
-	/**
-	* object id of root folder
-	* @var int
-	* @access private
-	*/
-	var $ROOT_FOLDER_ID;
-	
-	/**
 	* Constructor
 	* @param object ilias
 	* @access public
@@ -38,8 +24,6 @@ class Object
 	function Object(&$a_ilias)
 	{
 		$this->ilias =& $a_ilias;
-		$this->SYSTEM_FOLDER_ID = $this->ilias->ini->readVariable('system','SYSTEM_FOLDER_ID');
-		$this->ROOT_FOLDER_ID = ilias->ini->readVariable('system','ROOT_FOLDER_ID');
 	}
 	
 	/**
@@ -320,7 +304,7 @@ class Object
 				{
 					// Suche die im Baum nächsten Templates der aktuellen Rolle
 					$path = $tree->getPathId($_GET["parent"],1);
-					$path[0] = $this->SYSTEM_FOLDER_ID;
+					$path[0] = SYSTEM_FOLDER_ID;
 					// Es muss unten im Baum gestartet werden
 					array_reverse($path);
 					$folders = $rbacadmin->getFoldersAssignedToRole($stop_inherit);
@@ -485,7 +469,8 @@ class Object
 		}
 
 		//$tree = new Tree($a_id,1,1);
-		return $tree->showPath($tree->getPathFull($a_id,$this->ROOT_FOLDER_ID),"content.php");
+		// TODO: skriptname ist hardkodiert!! Unschön.
+		return $tree->showPath($tree->getPathFull($a_id,ROOT_FOLDER_ID),"content.php");
 	}
 
 	/**
@@ -504,7 +489,7 @@ class Object
 		
 		// TODO: löscht den system folder raus, setzt dabei aber vorraus, dass dieser im ersten array element steht!
 		// das ist etwas gefährlich!
-		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
+		$pathIds[0] = SYSTEM_FOLDER_ID;
 		
 		return $rbacadmin->getParentRoles($pathIds,'',true);
 	}
@@ -522,7 +507,7 @@ class Object
 		
 		//$tree = new Tree($a_start,$this->ROOT_FOLDER_ID);
 		
-		$path_ids = $tree->getPathId($a_start,$this->ROOT_FOLDER_ID);
+		$path_ids = $tree->getPathId($a_start,ROOT_FOLDER_ID);
 		array_pop($path_ids);
 		
 		return array_pop($path_ids);
