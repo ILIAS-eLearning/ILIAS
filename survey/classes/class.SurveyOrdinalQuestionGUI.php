@@ -140,6 +140,53 @@ class SurveyOrdinalQuestionGUI {
 	}
 	
 /**
+* Creates an output to save a phrase
+*
+* Creates an output to save a phrase
+*
+* @access public
+*/
+  function showSavePhraseForm() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", true);
+		$rowclass = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
+				$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", $key);
+				$this->tpl->setVariable("HIDDEN_VALUE", $value);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "category_$matches[1]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $_POST["category_$matches[1]"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+		}
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
+		$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
+		$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Creates an output for the confirmation to delete categories
 *
 * Creates an output for the confirmation to delete categories
@@ -246,6 +293,7 @@ class SurveyOrdinalQuestionGUI {
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->getQuestiontext());
+		$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
 		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
 		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
@@ -372,6 +420,32 @@ class SurveyOrdinalQuestionGUI {
 			else
 			{
 				sendInfo($this->lng->txt("no_category_selected_for_deleting"));
+			}
+		}
+	}
+
+/**
+* Saves selected categories to a new phrase
+*
+* Saves selected categories to a new phrase
+*
+* @access public
+*/
+	function saveNewPhrase() {
+		if ($_POST["cmd"]["confirm_savephrase"]) {
+			$save_categories = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
+					array_push($save_categories, $matches[1]);
+				}
+			}
+			if (count($save_categories))
+			{
+				$this->object->savePhrase($save_categories, $_POST["phrase_title"]);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_category_selected_for_saving"));
 			}
 		}
 	}

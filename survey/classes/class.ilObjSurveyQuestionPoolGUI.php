@@ -280,7 +280,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$question->object->loadFromDb($_GET["edit"]);
 		}
-		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["select_phrase"])
+		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["confirm_savephrase"] or $_POST["cmd"]["select_phrase"] or $_POST["cmd"]["cancel_savephrase"])
 		{ 
 			$question->object->loadFromDb($_POST["id"]);
 			if ($_POST["cmd"]["select_phrase"])
@@ -310,7 +310,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 
     $question_type = $question->getQuestionType();
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["select_phrase"])) {
+    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["cancel_savephrase"]) and (!$_POST["cmd"]["select_phrase"]) and (!$_POST["cmd"]["confirm_savephrase"])) {
       $missing_required_fields = $question->writePostData();
     }
 
@@ -322,6 +322,24 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($_POST["cmd"]["confirm_delete"]) 
 		{
 			$question->removeCategories();
+		}
+		
+		if ($_POST["cmd"]["confirm_savephrase"]) 
+		{
+			if (!$_POST["phrase_title"])
+			{
+				$savephrase_error = 1;
+				sendInfo($this->lng->txt("qpl_savephrase_empty"));
+			}
+			if ((!$savephrase_error) and ($question->object->phraseExists($_POST["phrase_title"])))
+			{
+				$savephrase_error = 1;
+				sendInfo($this->lng->txt("qpl_savephrase_exists"));
+			}
+			if (!$savephrase_error)
+			{
+				$question->saveNewPhrase();
+			}
 		}
 		
     if (strlen($_POST["cmd"]["save"]) > 0) {
@@ -365,6 +383,33 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       if (!$missing_required_fields) {
         $question->object->saveToDb();
 				$question->showAddPhraseForm();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+				$question->showEditForm();
+      }
+		}
+		else if (($_POST["cmd"]["save_phrase"]) or ($savephrase_error))
+		{
+			$checked_categories = 0;
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/chb_category_(\d+)/", $key))
+				{
+					$checked_categories++;
+				}
+			}
+			if ($checked_categories < 2)
+			{
+        sendInfo($this->lng->txt("save_phrase_categories_not_checked"));
+				$question->showEditForm();
+				return;
+			}
+      if (!$missing_required_fields) {
+        if (!$savephrase_error)
+				{
+					$question->object->saveToDb();
+				}
+				$question->showSavePhraseForm();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
 				$question->showEditForm();
