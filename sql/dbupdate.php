@@ -133,6 +133,24 @@ VALUES (
 # new column in `frm_posts`
 ALTER TABLE `frm_posts` ADD `update_user` INT NOT NULL ;
 
+<<<<<<< dbupdate.php
+<#9>
+# new table note_data
+DROP TABLE IF EXISTS note_data;
+CREATE TABLE note_data (
+  note_id int(11) NOT NULL default '0',
+  lo_id int(11) NOT NULL default '0',
+  lo_title varchar(255) default '',
+  text text,
+  create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (note_id)
+) TYPE=MyISAM;
+
+<#10>
+# new object-types: note folder object, note object
+INSERT INTO object_data (type,title,description,owner,create_date,last_update) VALUES ('typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
+INSERT INTO object_data (type,title,description,owner,create_date,last_update) VALUES ('typ', 'note', 'Note Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
+=======
 <#9>
 #  delete operation create of root folder and add operation delete
 UPDATE rbac_ta SET ops_id='6' WHERE typ_id='33' AND ops_id='5';
@@ -146,4 +164,4 @@ ALTER TABLE `lo_attribute` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `attribute_id` );
 ALTER TABLE `lo_attribute` CHANGE `attribute_id` `attribute_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `lo_attribute_namespace_leaf` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `leaf_id` );
-ALTER TABLE `lo_attribute_namespace_leaf` CHANGE `leaf_id` `leaf_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
+ALTER TABLE `lo_attribute_namespace_leaf` CHANGE `leaf_id` `leaf_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;>>>>>>> 1.35
