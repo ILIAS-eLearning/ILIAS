@@ -33,7 +33,6 @@ class DBUpdate
     /**
 	 * destructor
 	 * 
-	 * @param void
 	 * @return boolean
 	 */
 function _DBUpdate()

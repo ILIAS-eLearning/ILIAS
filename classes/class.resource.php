@@ -21,6 +21,7 @@ class TResource
 
     /**
     * Constructor
+    * @param string
     */
     function TResource ($AResId = "")
     {
@@ -77,7 +78,9 @@ class TResource
 		}
     }
 
-
+/**
+* @param array
+*/
     function setResource ($AResdata)
     {
 	    $this->data = $AResdata;
@@ -192,7 +195,9 @@ class TResource
 		}		
     }
     
-
+/**
+* @param string
+*/
     function delete ($AResId = "")
     {
        

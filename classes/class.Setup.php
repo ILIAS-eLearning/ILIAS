@@ -67,7 +67,6 @@ class Setup
 	
 	/**
     * constructor
-	* @param void
     * @return boolean
     */
 
@@ -152,7 +151,6 @@ class Setup
     /**
     * destructor
 	* 
-	* @param void
     * @return boolean
     */
     function _Setup()
