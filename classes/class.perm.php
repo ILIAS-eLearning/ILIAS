@@ -449,7 +449,8 @@ function infoPanel($a_keep = true)
 		if (!empty($_SESSION["infopanel"]["img"]))
 		{
 			$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
-			$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
+			$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".
+				$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
 			$link .= "</a></td>";
 		}
 
@@ -462,45 +463,4 @@ function infoPanel($a_keep = true)
 			session_unregister("infopanel");
 	//}
 }
-/**
-* check if user has unread mail(s) in inbox
-* @access public
-* @return boolean
-*/
-function hasNewMail()
-{
-	global $ilias;
-
-	$query = "SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo ".
-		"WHERE m.user_id = mo.user_id ".
-		"AND m.folder_id = mo.obj_id ".
-		"AND mo.type = 'inbox' ".
-		"AND m.user_id = '".$_SESSION["AccountId"]."' ".
-		"AND m.m_status = 'unread'";
-
-	$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-	return $row ? $row->mail_id : 0;
-}
-
-function getMailFolderId()
-{
-	global $ilias;
-
-	$query = "SELECT obj_id FROM mail_obj_data ".
-		"WHERE user_id = '".$_SESSION["AccountId"]."' ".
-		"AND type = 'inbox'";
-	$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
-	return $row->obj_id;
-}
-function debug($text)
-{
-	$str = '';
-	for($i=0;$i<strlen($text);$i++)
-	{
-		$str .= sprintf("%d is %s\n",ord(substr($text,$i,1)),substr($text,$i,1));
-	}
-	var_dump("<pre>",$str,"</pre");
-}
-	
 ?>

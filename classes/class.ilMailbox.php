@@ -8,6 +8,8 @@
 *
 * @package ilias-mail
 */
+require_once("./classes/class.ilMail.php");
+
 class ilMailbox
 {
 	/**
@@ -186,6 +188,20 @@ class ilMailbox
 			}
 		}
 		return $this->actions;
+	}
+
+	/**
+	* check if new mail exists in inbox folder
+	* @access	public
+	* @return	integer id of last mail or 0
+	*/
+	function hasNewMail()
+	{
+		$tmp_mail = new ilMail($this->user_id);
+		$tmp_mail_data = $tmp_mail->getMailsOfFolder($this->getInboxFolder());
+		$tmp_mail_counter = $tmp_mail->getMailCounterData();
+		
+		return $tmp_mail_counter["unread"] ? $tmp_mail_data[0]["mail_id"] : 0;
 	}
 
 	/**
