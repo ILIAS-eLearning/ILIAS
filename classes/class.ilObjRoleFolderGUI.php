@@ -37,6 +37,13 @@ require_once "class.ilObjectGUI.php";
 class ilObjRoleFolderGUI extends ilObjectGUI
 {
 	/**
+	* ILIAS3 object type abbreviation
+	* @var		string
+	* @access	public
+	*/
+	var $type;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -274,7 +281,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	/**
 	* confirmObject
-	* handles deletion of roles!!
+	* handles deletion of roles and role templates NOT the rolefolder object itself!!
 	* 
 	* @access	public
 	*/
@@ -353,7 +360,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 	/**
 	* role folders are created automatically
-	*
+	* POSSIBLE DEPRECATED !!!
 	* @access	public
 	*/
 	function createObject()
@@ -471,11 +478,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
+		global $rbacsystem;
+
 		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		
-		if ($this->object->getRefId() != ROLE_FOLDER_ID)
+		if ($this->object->getRefId() != ROLE_FOLDER_ID or !$rbacsystem->checkAccess('create_rolt',ROLE_FOLDER_ID))
 		{
 			unset($d["rolt"]);
+		}
+		
+		if (!$rbacsystem->checkAccess('create_role',$this->object->getRefId()))
+		{
+			unset($d["role"]);			
 		}
 
 		if (count($d) > 0)

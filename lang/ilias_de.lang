@@ -891,10 +891,11 @@ common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
 common#:#rolf_create_rolt#:#Neue Rollenvorlage anlegen
 common#:#rolf_delete#:#Rollen/Rollenvorlagen löschen
-common#:#rolf_edit_permission#:#Rechteeinstellungen ändern
+common#:#rolf_edit_permission#:#Zugriff auf Rollen/Rollenvorlagen ändern
 common#:#rolf_read#:#Lesezugriff auf Rollen/Rollenvorlagen
 common#:#rolf_visible#:#Rollen/Rollenvorlagen sind sichtbar
-common#:#rolf_write#:#Rollen/Rollenvorlagen bearbeiten
+common#:#rolf_write#:#Rechteeinstellungen von Rollen/Rollenvorlagen bearbeiten
+common#:#rolf_edit_userassignment#:#Benutzerzuweisung von Rollen ändern
 common#:#rolt#:#Rollenvorlage
 common#:#rolt_a#:#eine Rollenvorlage
 common#:#rolt_add#:#Rollenvorlage anlegen
@@ -1038,10 +1039,11 @@ common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten###13 Jan 2004 content changed
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
 common#:#usrf_delete#:#Benutzerkonten löschen
-common#:#usrf_edit_permission#:#Rechteeinstellungen ändern
+common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
 common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
+common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#validate#:#Validieren
 common#:#value#:#Wert
 common#:#version#:#Version

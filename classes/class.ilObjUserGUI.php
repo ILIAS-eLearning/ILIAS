@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.71 2004/01/12 16:30:53 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.72 2004/01/16 16:17:20 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -38,11 +38,24 @@ class ilObjUserGUI extends ilObjectGUI
 {
 	/**
 	* array of gender abbreviations
-	* @var array
-	* @access public
+	* @var		array
+	* @access	public
 	*/
 	var $gender;
 
+	/**
+	* ILIAS3 object type abbreviation
+	* @var		string
+	* @access	public
+	*/
+	var $type;
+
+	/**
+	* userfolder ref_id where user is assigned to
+	* @var		string
+	* @access	public
+	*/
+	var $user_ref_id;
 
 	/**
 	* Constructor
@@ -52,6 +65,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		$this->type = "usr";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->usrf_ref_id =& $this->ref_id;
 
 		// for gender selection. don't change this
 		// maybe deprecated
@@ -68,7 +82,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $styleDefinition;
 
-		if (!$rbacsystem->checkAccess('create_user', $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -132,7 +146,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$this->type));
+																	   $this->usrf_ref_id."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -244,7 +258,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
-		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('write',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
@@ -382,7 +396,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->usrf_ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -498,7 +512,7 @@ class ilObjUserGUI extends ilObjectGUI
 			// BEGIN ACTIVE ROLES
 			$this->tpl->setCurrentBlock("ACTIVE_ROLE");
 			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".
-									$_GET["ref_id"]."&obj_id=$_GET[obj_id]");
+									$this->usrf_ref_id."&obj_id=".$this->obj_id);
 			$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
 			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
 			$this->tpl->parseCurrentBlock();
@@ -596,7 +610,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("user_added"),true);
 
-		header("Location:".$this->getReturnLocation("save","adm_object.php?ref_id=".$this->ref_id));
+		header("Location:".$this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
 		exit();
 	}
 
@@ -609,7 +623,7 @@ class ilObjUserGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin;
 
 		// check write access
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("write", $this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
@@ -719,7 +733,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// feedback
 		sendInfo($msg,true);
 
-		header("Location: adm_object.php?ref_id=".$this->ref_id);
+		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id);
 		exit();
 	}
 
@@ -769,7 +783,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=edit");
+		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=edit");
 		exit();
 	}
 
@@ -782,63 +796,62 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
+			exit();
 		}
-		else
+
+		$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
+		
+		// prevent unassignment of system role from system user
+		if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $_SESSION["role_list"]))
 		{
-			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-			
-			// prevent unassignment of system role from system user
-			if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $_SESSION["role_list"]))
+			array_push($_POST["id"],SYSTEM_ROLE_ID);
+		}
+
+		$global_roles_all = $rbacreview->getGlobalRoles();
+		$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
+		$assigned_roles = array_intersect($assigned_roles_all,$_SESSION["role_list"]);
+		$assigned_global_roles_all = array_intersect($assigned_roles_all,$global_roles_all);
+		$assigned_global_roles = array_intersect($assigned_global_roles_all,$_SESSION["role_list"]);
+		$posted_global_roles = array_intersect($_POST["id"],$global_roles_all);
+		
+		//var_dump("<pre>",$_POST["id"],$assigned_global_roles_all,$assigned_global_roles,$posted_global_roles,"</pre>");exit;
+
+		if ((empty($_POST["id"]) and count($assigned_roles_all) == count($assigned_roles))
+			 or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles)))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
+		{
+			$rbacadmin->deassignUser($role,$this->object->getId());
+		}
+
+		foreach (array_diff($_POST["id"],$assigned_roles) as $role)
+		{
+			$rbacadmin->assignUser($role,$this->object->getId(),false);
+		}
+
+		$online_users = ilUtil::getUsersOnline();
+
+		if (in_array($this->object->getId(),array_keys($online_users)))
+		{
+			$role_arr = $rbacreview->assignedRoles($this->object->getId());
+
+			if ($_SESSION["AccountId"] == $this->object->getId())
 			{
-				array_push($_POST["id"],SYSTEM_ROLE_ID);
+				$_SESSION["RoleId"] = $role_arr;
 			}
-
-			$global_roles_all = $rbacreview->getGlobalRoles();
-			$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
-			$assigned_roles = array_intersect($assigned_roles_all,$_SESSION["role_list"]);
-			$assigned_global_roles_all = array_intersect($assigned_roles_all,$global_roles_all);
-			$assigned_global_roles = array_intersect($assigned_global_roles_all,$_SESSION["role_list"]);
-			$posted_global_roles = array_intersect($_POST["id"],$global_roles_all);
-			
-			//var_dump("<pre>",$_POST["id"],$assigned_global_roles_all,$assigned_global_roles,$posted_global_roles,"</pre>");exit;
-
-			if ((empty($_POST["id"]) and count($assigned_roles_all) == count($assigned_roles))
-				 or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles)))
+			else
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
-			}
+				$roles = "RoleId|".serialize($role_arr);
+				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users[$this->object->getId()]["data"]);
 
-			foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
-			{
-				$rbacadmin->deassignUser($role,$this->object->getId());
-			}
-
-			foreach (array_diff($_POST["id"],$assigned_roles) as $role)
-			{
-				$rbacadmin->assignUser($role,$this->object->getId(),false);
-			}
-
-			$online_users = ilUtil::getUsersOnline();
-
-			if (in_array($this->object->getId(),array_keys($online_users)))
-			{
-				$role_arr = $rbacreview->assignedRoles($this->object->getId());
-
-				if ($_SESSION["AccountId"] == $this->object->getId())
-				{
-					$_SESSION["RoleId"] = $role_arr;
-				}
-				else
-				{
-					$roles = "RoleId|".serialize($role_arr);
-					$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users[$this->object->getId()]["data"]);
-
-					$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
-					$this->ilias->db->query($q);
-				}
+				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
+				$this->ilias->db->query($q);
 			}
 		}
 
@@ -847,7 +860,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		header("Location: adm_object.php?ref_id=".$this->usrf_ref_id."&obj_id=".$this->obj_id."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 		exit();
 	}
 
@@ -858,7 +871,12 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $rbacreview;
+		global $rbacreview,$rbacsystem;
+
+		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		$obj_str = "&obj_id=".$this->obj_id;
 
@@ -958,7 +976,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->usrf_ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 
 		include_once "./classes/class.ilTableGUI.php";
 
@@ -977,7 +995,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$tbl->setHeaderNames($header_names);
 
 		$header_params = array(
-								"ref_id"	=> $this->ref_id,
+								"ref_id"	=> $this->usrf_ref_id,
 								"obj_id"	=> $this->obj_id,
 								"cmd"		=> "roleassignment"
 							  );
