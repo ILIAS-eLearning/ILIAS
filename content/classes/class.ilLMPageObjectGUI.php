@@ -90,6 +90,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->forwardToPageObjGUI("changeLinkType");
 	}
 
+	function closeLinkHelp()
+	{
+		;
+	}
+
 	function resetLinkList()
 	{
 		$this->forwardToPageObjGUI("resetLinkList");

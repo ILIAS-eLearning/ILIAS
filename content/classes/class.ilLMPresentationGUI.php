@@ -66,7 +66,7 @@ class ilLMPresentationGUI
 				break;
 			case "lm":
 				include_once("./content/classes//class.ilObjLearningModuleGUI.php");
-				
+
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
 				break;
 		}
@@ -76,7 +76,8 @@ class ilLMPresentationGUI
 		$this->$cmd();
 	}
 
-	function export() {
+	function export()
+	{
 		switch($this->lm->getType())
 		{
 			case "dbk":
@@ -86,13 +87,13 @@ class ilLMPresentationGUI
 	}
 
 	function offlineexport() {
-		
+
 		switch($this->lm->getType())
 		{
 			case "dbk":
 				//$this->lm_gui->offlineexport();
 				$_GET["frame"] = "maincontent";
-				
+
 				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".
 					$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
 				$result = $this->ilias->db->query($query);
@@ -101,72 +102,72 @@ class ilLMPresentationGUI
 				// vd($objRow);
 				$query = "SELECT * FROM lm_data WHERE lm_id='".$objRow["obj_id"]."' AND type='pg' ";
 				$result = $this->ilias->db->query($query);
-				
+
 				$page = 0;
 				$showpage = 0;
-				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
 				{
-					
+
 					$page++;
-										
+
 					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) {
-					
+
 						if($showpage>0) $output .= "<p style=\"page-break-after:always\" />";
 						$showpage++;
-					
-						
+
+
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
 						$output .= $o;
-						
+
 						$output .= "<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>";
 						$output .= "<hr>";
-						
-						
+
+
 					}
 				}
-				
+
 				$printTpl = new ilTemplate("tpl.print.html", true, true, true);
-				
+
 				//vd(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-				
-				
-				
+
+
+
 				if($_POST["type"] == "print")
 				{
 					$printTpl->touchBlock("printreq");
 					$css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
 					$css2 = ilUtil::getStyleSheetLocation();
-				} 
-				else 
+				}
+				else
 				{
 					$css1 = "./css/blueshadow.css";
 					$css2 = "./css/content.css";
 				}
 				$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
-				
-				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);	
+
+				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
 				$printTpl->setVariable("CONTENT",$output);
-				
+
 				/*
 				echo "<font face=verdana size=1>";
 				echo nl2br(htmlspecialchars($printTpl->get()));
 				echo "</font>";
 				*/
-				
+
 				$html = $printTpl->get();
-				
-				
+
+
 				/**
 				*	Check if export-directory exists
 				*/
 				$export_dir = $this->lm->getExportDirectory();
-				if ($export_dir==false) 
+				if ($export_dir==false)
 				{
 					$this->lm->createExportDirectory();
-					
+
 					$export_dir = $this->lm->getExportDirectory();
-					if ($export_dir==false) 
+					if ($export_dir==false)
 					{
 						$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
 					}
@@ -177,29 +178,29 @@ class ilLMPresentationGUI
 				*/
 				$fileName = "offline";
 				$fileName = str_replace(" ","_",$fileName);
-				
-				if (!file_exists($export_dir."/".$fileName)) 
+
+				if (!file_exists($export_dir."/".$fileName))
 				{
 					@mkdir($export_dir."/".$fileName);
 					@chmod($export_dir."/".$fileName, 0755);
-					
+
 					@mkdir($export_dir."/".$fileName."/css");
 					@chmod($export_dir."/".$fileName."/css", 0755);
-					
+
 				}
-				
-				if($_POST["type"] == "print") 
+
+				if($_POST["type"] == "print")
 				{
 					echo $html;
-				} 
-				else 
+				}
+				else
 				{
-				
+
 					/**
-					*	copy data into dir 
-					*	zip all end deliver zip-file for download 
+					*	copy data into dir
+					*	zip all end deliver zip-file for download
 					*/
-					
+
 					$css1 = file("./templates/default/blueshadow.css");
 					$css1 = implode($css1,"");
 					
@@ -283,11 +284,11 @@ class ilLMPresentationGUI
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
-
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;
 
 		$xpc = xpath_new_context($doc);
+
 		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_new"))
 			? "/ilFrame[1]"
 			: "//ilFrame[@name='".$_GET["frame"]."']";
@@ -435,6 +436,18 @@ class ilLMPresentationGUI
 	function fullscreen()
 	{
 		$this->layout("fullscreen.xml");
+	}
+
+	function media()
+	{
+		if ($_GET["frame"] != "_new")
+		{
+			$this->layout("main.xml");
+		}
+		else
+		{
+			$this->layout("fullscreen.xml");
+		}
 	}
 
 	function glossary()
@@ -891,16 +904,28 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/Pages/class.ilMediaObject.php");
 		$media_obj =& new ilMediaObject($_GET["mob_id"]);
-		require_once("content/classes/Pages/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
-		$pg_obj->buildDom();
+		if (!empty ($_GET["pg_id"]))
+		{
+			require_once("content/classes/Pages/class.ilPageObject.php");
+			$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
+			$pg_obj->buildDom();
 
-		$xml = "<dummy>";
-		// todo: we get always the first alias now (problem if mob is used multiple
-		// times in page)
-		$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
-		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-		$xml.="</dummy>";
+			$xml = "<dummy>";
+			// todo: we get always the first alias now (problem if mob is used multiple
+			// times in page)
+			$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.="</dummy>";
+		}
+		else
+		{
+			$xml = "<dummy>";
+			// todo: we get always the first alias now (problem if mob is used multiple
+			// times in page)
+			$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.="</dummy>";
+		}
 
 		// todo: utf-header should be set globally
 		//header('Content-type: text/html; charset=UTF-8');
@@ -914,7 +939,10 @@ class ilLMPresentationGUI
 		//$pg_frame = $_GET["frame"];
 		$wb_path = ilUtil::getWebspaceDir("output");
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'fullscreen',
+		$mode = ($_GET["cmd" == "fullscreen"])
+			? "fullscreen"
+			: "media";
+		$params = array ('mode' => $mode,
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);

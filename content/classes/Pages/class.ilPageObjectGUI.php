@@ -458,6 +458,8 @@ class ilPageObjectGUI
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
+		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
+		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 
 		switch($link_type)
 		{

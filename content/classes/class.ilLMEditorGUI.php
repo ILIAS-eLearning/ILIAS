@@ -122,6 +122,10 @@ class ilLMEditorGUI
 				$this->$cmd();
 				break;
 
+			case "closeLinkHelp":
+				$this->explorer();
+				break;
+
 			default:
 				$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
 #				$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
