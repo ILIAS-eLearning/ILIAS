@@ -40,6 +40,9 @@ common#:#active_roles#:#Active Roles
 common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
+common#:#welcome#:#Welcome
+common#:#not_logged_in#:#Your are not logged in
+common#:#register#:#Register
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator

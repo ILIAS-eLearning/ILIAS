@@ -111,7 +111,6 @@ $ilias->auth->setExpire($ilias->ini->readVariable("session","expire"));
 $ilias->auth->setExpire($ilias->ini->readVariable("session","expire"),true);
 $ilias->auth->start();
 
-
 // start logging
 $log = new ilLog("ilias.log");
 
@@ -138,7 +137,7 @@ if ($ilias->auth->getAuth())
 	//get user id
 	if (empty($_SESSION["AccountId"]))
 	{
-		$_SESSION["AccountId"] = $ilias->account->checkUserId($_SESSION["AccountId"]);
+		$_SESSION["AccountId"] = $ilias->account->checkUserId();
   
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReviewH();
@@ -159,6 +158,10 @@ if ($ilias->auth->getAuth())
 		$ilias->account->refreshLogin();
 	}	
 
+}
+elseif ($script != "login.php" and $script != "nologin.php")
+{
+	header("Location: index.php");
 }
 
 //init language

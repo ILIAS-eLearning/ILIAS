@@ -64,13 +64,14 @@ if (document.images)
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr class="btnbar">
   <td width="1%" height="1"></td>
-  <td width="59%" height="1"></td>
-  <td width="39%" height="1"></td>
+  <td width="43%" height="1"></td>
+  <td width="30%" height="1"></td>
+  <td width="25%" height="1"></td>
   <td width="1%" height="1"></td>
 </tr>
 <tr class="btnbar">
   <td><img class="spacer" src="{IMG_SPACE}" border="0" width="10" height="1" /></td>
-  <td width="100%">
+  <td>
     <table cellpadding="0" cellspacing="0" border="0">
     <tr>
       <td colspan="6"><img class="spacer" border="0" src="{IMG_SPACE}" width="1" height="4" /></td>
@@ -118,6 +119,12 @@ if (document.images)
     </tr>
     </table>
   </td>
+<!-- BEGIN userisanonymous -->
+  <td width="100%" align="right" nowrap="nowrap">{TXT_NOT_LOGGED_IN}!<br/><a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a>&nbsp;<a class="menu" href="register.php" target="_top">{TXT_REGISTER}</a></td>
+<!-- END userisanonymous -->
+<!-- BEGIN userisloggedin -->
+  <td width="100%" align="right" nowrap="nowrap">{TXT_WELCOME}, {USERNAME}!<br/><a class="menu" href="logout.php" target="_top">{TXT_LOGOUT2}</a></td>
+<!-- END userisloggedin -->
   <td align="right">
     <table cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -143,6 +150,6 @@ if (document.images)
     </tr>
     </table>
   </td>
-  <td class="btnbar"><small>&nbsp;</small></td>
+  <td><img class="spacer" src="{IMG_SPACE}" border="0" width="10" height="1" /></td>
 </tr>
 </table>

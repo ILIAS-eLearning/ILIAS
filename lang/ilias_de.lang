@@ -36,6 +36,9 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen###09 Aug 2003 content changed
 common#:#actions#:#Aktionen
+common#:#welcome#:#Willkommen
+common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#register#:#Anmelden
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen

@@ -1035,10 +1035,9 @@ class ilObjUser extends ilObject
 
 	/*
 	* check user id with login name
-	* @param	integer	account id
 	* @access	public
 	*/
-	function checkUserId($AccountId)
+	function checkUserId()
 	{
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
 		//query has got a result
@@ -1046,8 +1045,10 @@ class ilObjUser extends ilObject
 		{
 			$data = $r->fetchRow();
 			$this->id = $data[0];
+
 			return $this->id;
 		}
+
 		return false;
 	}
 
