@@ -28,4 +28,6 @@ require_once "./classes/class.ilSearchGUI.php";
 $search_gui = new ilSearchGUI($_SESSION["AccountId"]);
 
 $tpl->show();
+
+$ilBench->save();
 ?>

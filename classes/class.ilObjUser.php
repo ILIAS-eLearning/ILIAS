@@ -1327,6 +1327,8 @@ class ilObjUser extends ilObject
 	 */
 	function _search(&$a_search_obj)
 	{
+		global $ilBench;
+
 		// NO CLASS VARIABLES IN STATIC METHODS
 
 		// TODO CHECK IF ITEMS ARE PUBLIC VISIBLE
@@ -1344,14 +1346,16 @@ class ilObjUser extends ilObject
 			"AND usr_pref.keyword = 'public_profile' ".
 			"AND usr_pref.value = 'y'";
 
+		$ilBench->start("Search", "ilObjUser_search");
 		$res = $a_search_obj->ilias->db->query($query);
-		
+		$ilBench->stop("Search", "ilObjUser_search");
+
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter++]["id"]				=  $row->usr_id;
-			
-			// LINKS AND TARGETS AREN'T SAVED ANYMORE, SEARCHGUI HAS TO CALL ilObjUser::_getSearchLink 
+
+			// LINKS AND TARGETS AREN'T SAVED ANYMORE, SEARCHGUI HAS TO CALL ilObjUser::_getSearchLink
 			// TO GET THE LINK OF SPECIFIC OBJECT
 			#$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
 			#$result_data[$counter++]["target"]			=  "";

@@ -666,6 +666,8 @@ class ilObjContentObject extends ilObject
 	 */
 	function _search(&$search_obj,$a_search_in)
 	{
+		global $ilBench;
+
 		switch($a_search_in)
 		{
 			case 'meta':
@@ -673,12 +675,31 @@ class ilObjContentObject extends ilObject
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("xv.tag_value"));
 
+				/* very slow on mysql < 4.0.18 (? or everytime ?)
 				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
 					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
 					$where.
 					$in.
 					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) OR ".
 					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
+					"AND xm.ns_tag_fk=xv.tag_fk ".
+					"AND o.type= 'lm'";*/
+
+				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
+					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					$where.
+					$in.
+					"AND r.obj_id=o.obj_id AND ( ".
+					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
+					"AND xm.ns_tag_fk=xv.tag_fk ".
+					"AND o.type= 'lm'";
+
+				$query2 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
+					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					$where.
+					$in.
+					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id)".
+					") ".
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'lm'";
 
@@ -692,9 +713,22 @@ class ilObjContentObject extends ilObject
 					$in.
 					"AND o.type = 'lm'";
 */
-				$res = $search_obj->ilias->db->query($query);
+				$ilBench->start("Search", "ilObjContentObject_search_meta");
+				$res1 = $search_obj->ilias->db->query($query1);
+				$res2 = $search_obj->ilias->db->query($query2);
+				$ilBench->stop("Search", "ilObjContentObject_search_meta");
+
 				$counter = 0;
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$result[$counter]["id"]		=  $row->ref_id;
+					/*
+					$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
+					$result[$counter]["target"]	=  "_top";
+					*/
+					++$counter;
+				}
+				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]		=  $row->ref_id;
 					/*
@@ -709,13 +743,25 @@ class ilObjContentObject extends ilObject
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
 
+				// slow on mysql < 4.0.18 (join bug)
+				/*
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
 					"INNER JOIN object_reference AS r ON pg.parent_id = r.obj_id ".
 					$where.
 					$in.
-					"AND pg.parent_type = 'lm' ";
+					"AND pg.parent_type = 'lm' ";*/
 
+				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
+					", object_reference AS r ".
+					$where.
+					" AND pg.parent_id = r.obj_id ".
+					$in.
+					" AND pg.parent_type = 'lm' ";
+
+				$ilBench->start("Search", "ilObjContentObject_search_content");
 				$res = $search_obj->ilias->db->query($query);
+				$ilBench->stop("Search", "ilObjContentObject_search_content");
+
 				$counter = 0;
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{

@@ -203,7 +203,9 @@ class ilSearch
 
 	function performSearch()
 	{
-		global $objDefinition;
+		global $objDefinition, $ilBench;
+
+		$ilBench->start("Search", "performSearch");
 
 		$result = array("usr" => array(),
 						"grp" => array(),
@@ -233,7 +235,7 @@ class ilSearch
 					include_once "./content/classes/class.ilObjContentObject.php";
 					$this->act_type = 'lm';
 					$result["lm"][$this->getSearchInByType("lm")] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
-					$result["lm"][$this->getSearchInByType("lm")] 
+					$result["lm"][$this->getSearchInByType("lm")]
 						= $this->__checkAccess($result["lm"][$this->getSearchInByType("lm")]);
 					break;
 
@@ -241,7 +243,7 @@ class ilSearch
 					include_once "./content/classes/class.ilObjDlBook.php";
 					$this->act_type = 'dbk';
 					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
-					$result["dbk"][$this->getSearchInByType("dbk")] 
+					$result["dbk"][$this->getSearchInByType("dbk")]
 						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")]);
 					break;
 			}
@@ -251,6 +253,9 @@ class ilSearch
 		{
 			$this->__updateDBResult();
 		}
+
+		$ilBench->stop("Search", "performSearch");
+
 		return true;
 	}
 
