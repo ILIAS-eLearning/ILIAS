@@ -1,7 +1,7 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
   <table class="fullwidth">
   <tr class="tbltitle">
-    <td colspan="51">
+    <td colspan="3">
 	<table class="fullwidth_invisible">
 	  <tr class="tbltitle">
 	    <td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
@@ -11,31 +11,23 @@
 	</table>
     </td>
   </tr>
+<!-- BEGIN object_type -->
   <tr class="tblheader">
-	<td class="std" width="30%" align="left"></td>
-	<td class="std" colspan="50" align="left">{TXT_OBJ_TYPE}</td>
+	<td class="std" colspan="4" align="left">{TXT_OBJ_TYPE}</td>
   </tr>
-  <tr class="tblheader">
-	<td class="std" width="30%" align="left">{TXT_PERMISSION}</td>
-<!-- BEGIN OBJECT_TYPES -->
-	<td class="std">{OBJ_TYPES}</td>
-<!-- END OBJECT_TYPES -->
-  </tr>
-<!-- BEGIN TABLE_DATA_OUTER -->
+<!-- BEGIN object_operations -->
   <tr class="{CSS_ROW}">
- 	<td class="std">{PERMISSION}</td>
-<!-- BEGIN CHECK_PERM -->
+ 	<td class="std" colspan="2">{PERMISSION}</td>
 	<td class="std">{CHECK_PERMISSION}</td>
-<!-- END CHECK_PERM -->
   </tr>
-<!-- END TABLE_DATA_OUTER -->
+<!-- END object_operations -->
+<!-- END object_type -->
 <!-- BEGIN tblfooter_sysrole -->
   <tr class="tblfooter">
     <td colspan="{COL_ANZ_SYS}">
 	<table class="fullwidth_invisible">
 	  <tr class="tblfooter">
-	    <td>
-	    &nbsp;</td>
+	    <td>&nbsp;</td>
 	  </tr>
 	</table>	
 	</td>
