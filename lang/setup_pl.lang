@@ -191,6 +191,7 @@ intro_install#:#To jest główna strona instalatora ILIAS 3. Stąd można wywoł
 ip_address#:#Adres IP
 java_path#:#Ścieżka do Javy
 java_path_comment#:#wymagany dla modułów nauczania SCORM.
+lang_cs#:#Czeski
 lang_de#:#Niemiecki
 lang_dk#:#Duński
 lang_en#:#Angielski
