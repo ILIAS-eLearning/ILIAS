@@ -1420,9 +1420,11 @@ class ASS_ClozeTest extends ASS_Question
 		foreach ($user_result as $gap_id => $value) {
       if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) 
 			{
+				$foundsolution = 0;
         foreach ($this->gaps[$gap_id] as $k => $v) {
-          if (strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) {
-            $points = $v->get_points();
+          if ((strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) && (!$foundsolution)) {
+            $points += $v->get_points();
+						$foundsolution = 1;
           }
         }
       } 
