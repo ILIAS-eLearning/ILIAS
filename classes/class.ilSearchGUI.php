@@ -290,9 +290,11 @@ class ilSearchGUI
 		global $ilBench;
 
 		// FOR ALL TYPES
-		$tbl = new ilTableGUI();
+		$tbl = new ilTableGUI(0, false);
 
-		$this->tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
+//	  $tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+//		$tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
 
 		$this->__addAction($a_type,$a_search_in_type);
 
@@ -397,11 +399,11 @@ class ilSearchGUI
 		$tbl->setLimit(RESULT_LIMIT);
 		$tbl->setOffset($this->offset);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		#$this->tpl->setVariable(strtoupper($a_type),$tbl->render());
+		#$tpl->setVariable(strtoupper($a_type),$tbl->render());
 
-		#$tbl->setTemplate($this->tpl);
+		#$tbl->setTemplate($tpl);
 		$tbl->render();
-
+		$this->tpl->setVariable(strtoupper($a_type), $tbl->tpl->get());
 		unset($tbl);
 	}
 
