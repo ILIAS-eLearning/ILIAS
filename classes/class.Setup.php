@@ -754,6 +754,16 @@ class Setup
 			if ($content = $this->cut_header(file($lang_file))) {
 				foreach ($content as $key => $val) {
 					$separated = explode ($lng->separator,trim($val));
+					
+					//get position of the comment_separator
+					$pos = strpos($separated[2], $lng->comment_separator);
+				
+                	if ($pos !== false)
+					{ 
+                   		//cut comment of
+				   		$separated[2] = substr($separated[2] , 0 , $pos);
+					}
+					
 					$num = count($separated);
 	
 					$query = "INSERT INTO lng_data ".
