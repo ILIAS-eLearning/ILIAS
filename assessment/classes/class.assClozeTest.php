@@ -586,7 +586,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiResponseStr = $this->domxml->create_element("response_str");
 					$qtiResponseStr->set_attribute("ident", "gap_$i");
 					$qtiResponseStr->set_attribute("rcardinality", "Single");
-					$solution = $this->object->getSuggestedSolution($i);
+					$solution = $this->getSuggestedSolution($i);
 					if (count($solution))
 					{
 						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
@@ -647,7 +647,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiResponseStr = $this->domxml->create_element("response_str");
 					$qtiResponseStr->set_attribute("ident", "gap_$i");
 					$qtiResponseStr->set_attribute("rcardinality", "Single");
-					$solution = $this->object->getSuggestedSolution($i);
+					$solution = $this->getSuggestedSolution($i);
 					if (count($solution))
 					{
 						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))

@@ -193,7 +193,7 @@ class ASS_JavaApplet extends ASS_Question
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
 
-		$solution = $this->object->getSuggestedSolution(0);
+		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))

@@ -589,7 +589,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiResponseXy = $this->domxml->create_element("response_xy");
 		$qtiResponseXy->set_attribute("ident", "IM");
 		$qtiResponseXy->set_attribute("rcardinality", "Single");
-		$solution = $this->object->getSuggestedSolution(0);
+		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))

@@ -358,7 +358,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$qtiResponseGrp->set_attribute("output", "javascript");
 			}
 		}
-		$solution = $this->object->getSuggestedSolution(0);
+		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
