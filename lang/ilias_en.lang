@@ -3028,3 +3028,6 @@ survey#:#or#:#or
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#remove_question#:#Remove
+survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
+survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
+survey#:#no_target_selected_for_move#:#You must select a target position!

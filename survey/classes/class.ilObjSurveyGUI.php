@@ -442,6 +442,44 @@ class ilObjSurveyGUI extends ilObjectGUI
 
     $add_parameter = $this->getAddParameter();
 
+		if ($_POST["cmd"]["insert_before"] or $_POST["cmd"]["insert_after"])
+		{
+			// get all questions to move
+			$move_questions = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/^move_(\d+)$/", $key, $matches))
+				{
+					array_push($move_questions, $value);
+				}
+			}
+			// get insert point
+			$insert_id = -1;
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/^cb_(\d+)$/", $key, $matches))
+				{
+					if ($insert_id < 0)
+					{
+						$insert_id = $matches[1];
+					}
+				}
+			}
+			if ($insert_id <= 0)
+			{
+				sendInfo($this->lng->txt("no_target_selected_for_move"));
+			}
+			else
+			{
+				$insert_mode = 1;
+				if ($_POST["cmd"]["insert_before"])
+				{
+					$insert_mode = 0;
+				}
+				$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
+			}
+		}
+		
 /*		if ($_GET["up"] > 0) {
 			$this->object->question_move_up($_GET["up"]);
 		}
@@ -594,7 +632,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 */
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", true);
-    $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_svy_svy_question_buttons.html", true);
+//    $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_svy_svy_question_buttons.html", true);
 
 		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id ORDER BY survey_survey_question.sequence",
 			$this->ilias->db->quote($this->object->getSurveyId())
@@ -610,12 +648,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
 				$this->tpl->setVariable("QUESTION_TITLE", $data->title);
-				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("sequence"));
-
-		    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-					$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.gif", true) . "\" alt=\"Up\" border=\"0\" /></a>");
-					$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.gif", true) . "\" alt=\"Down\" border=\"0\" /></a>");
-				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->description);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
@@ -625,6 +657,36 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$counter++;
 			}
 		}
+
+		$checked_move = 0;
+		if ($_POST["cmd"]["move"])
+		{
+			foreach ($_POST as $key => $value) 
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					$checked_move++;
+					$this->tpl->setCurrentBlock("move");
+					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
+					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			if ($checked_move)
+			{
+				sendInfo($this->lng->txt("select_target_position_for_move_question"));
+				$this->tpl->setCurrentBlock("move_buttons");
+				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_question_selected_for_move"));
+			}
+		}
+		
+
 		if ($counter == 0) {
 			$this->tpl->setCurrentBlock("Emptytable");
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
@@ -634,6 +696,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
+				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
