@@ -93,6 +93,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "exc":
 				return "exercise.php?cmd=view&ref_id=".$a_node_id;
+
+			case "chat":
+				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
 		}
 	}
 

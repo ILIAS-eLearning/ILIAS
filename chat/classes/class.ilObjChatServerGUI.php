@@ -68,6 +68,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["chat_port"] :
 			$this->object->server_conf->getPort();
 
+		$moderator = $_SESSION["error_post_vars"]["chat_moderator"] ? 
+			$_SESSION["error_post_vars"]["chat_moderator"] :
+			$this->object->server_conf->getModeratorPassword();
+
 		$logfile = $_SESSION["error_post_vars"]["chat_logfile"] ? 
 			$_SESSION["error_post_vars"]["chat_logfile"] :
 			$this->object->server_conf->getLogfile();
@@ -84,7 +88,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["chat_active"] :
 			$this->object->server_conf->getActiveStatus();
 
-		if($this->object->server_conf->isAlive())
+		
+		if($this->object->server_conf->isAlive() or $this->object->server_conf->getActiveStatus())
 		{
 			$this->tpl->setCurrentBlock("chat_active");
 			$this->tpl->setVariable("TXT_ACT_CHAT",$this->lng->txt("chat_ilias"));
@@ -100,6 +105,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_SETTINGS","!!Chat Server Einstellungen");
 		$this->tpl->setVariable("TXT_CHAT_SERVER_IP","!!Chat server ip");
+		$this->tpl->setVariable("TXT_CHAT_SERVER_MODERATOR","!!Chat Moderator password");
 		$this->tpl->setVariable("TXT_CHAT_SERVER_PORT","!Chat server port");
 		$this->tpl->setVariable("TXT_CHAT_SERVER_LOGFILE","!Chat server logfile");
 		$this->tpl->setVariable("TXT_CHAT_SERVER_LEVEL","!Chat server log level");
@@ -111,9 +117,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 		// SET SETTING VARS
 		$this->tpl->setVariable("CHAT_SERVER",$ip);
 		$this->tpl->setVariable("CHAT_PORT",$port);
+		$this->tpl->setVariable("CHAT_MODERATOR",$moderator);
 		$this->tpl->setVariable("CHAT_LOGFILE",$logfile);
 		$this->tpl->setVariable("CHAT_ALLOWED",$allowed);
-		$this->tpl->setVariable("SELECT_LEVEL",$this->__getLogLevelSelect($level));
+		$this->tpl->setVariable("SELECT_LEVEL",$this->__getLogLevelSelect($loglevel));
 		$this->tpl->parseCurrentBlock();
 		
 		return true;
@@ -123,6 +130,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 	{
 		$this->object->server_conf->setIp($_POST["chat_ip"]);
 		$this->object->server_conf->setPort($_POST["chat_port"]);
+		$this->object->server_conf->setModeratorPassword($_POST["chat_moderator"]);
 		$this->object->server_conf->setLogfile($_POST["chat_logfile"]);
 		$this->object->server_conf->setLogLevel($_POST["chat_loglevel"]);
 		$this->object->server_conf->setAllowedHosts($_POST["chat_allowed"]);
@@ -133,7 +141,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->object->server_conf->update();
+			if(!$this->object->server_conf->update())
+			{
+				$this->ilias->raiseError($this->object->server_conf->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 		sendInfo($this->lng->txt("chat_settings_saved"),true);
 		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=$_GET[ref_id]"));

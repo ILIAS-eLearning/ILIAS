@@ -53,6 +53,12 @@ if (!$ilias->getSetting("setup_ok"))
 // check for auth
 if ($ilias->auth->getAuth())
 {
+	if($ilias->getSetting("chat_active"))
+	{
+		include_once "./chat/classes/class.ilChatServerCommunicator.php";
+		ilChatServerCommunicator::_login();
+	}
+
 	header("location: start.php");
 	exit();
 }

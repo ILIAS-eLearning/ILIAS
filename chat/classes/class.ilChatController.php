@@ -21,54 +21,78 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* logout script for ilias
-*
-* @author Sascha Hofmann <shofmann@databay.de>
+* Class ilObjTest
+* 
+* @author Stefan Meyer 
 * @version $Id$
 *
-* @package ilias-core
+* @package chat
 */
 
-require_once "include/inc.header.php";
+require_once "chat/classes/class.ilObjChatGUI.php";
 
-// LOGOUT CHAT USER
-if($ilias->getSetting("chat_active"))
+class ilChatController
 {
-	include_once "./chat/classes/class.ilChatServerCommunicator.php";
-	ilChatServerCommunicator::_logout();
-}
-$ilias->auth->logout();
-session_destroy();
-
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
-
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
-
-if ($ilias->ini_ilias->readVariable("clients","list"))
-{
-	$tpl->setCurrentBlock("client_list");
-	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
-	$tpl->parseCurrentBlock();	
-}
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
+	var $gui_obj;
 	
-$tpl->show();
+	var $ref_id;
+	var $cmd;
+
+	/**
+	* Constructor
+	* @access	public
+	* @param	integer	reference_id
+	*/
+	function ilChatController($a_ref_id)
+	{
+		define("ILIAS_MODULE","chat");
+
+		$this->ref_id = (int) $a_ref_id;
+		$this->gui_obj =& new ilObjChatGUI(array(),$a_ref_id,true,false);
+		$this->gui_obj->object->chat_room->setRoomId((int) $_REQUEST["room_id"]);
+		$this->gui_obj->object->chat_room->setUserId($_SESSION["AccountId"]);
+		
+		// CHECK HACK
+		if(!$this->gui_obj->object->chat_room->checkAccess())
+		{
+			unset($_REQUEST["room_id"]);
+			unset($_REQUEST["message"]);
+			sendInfo("!!chat_you are not entitled to view this room",true);
+		}
+		$this->gui_obj->object->server_comm->setRecipientId((int) $_GET["p_id"]);
+		$this->__getCommand();
+	}
+
+	// SET/GET
+	function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
+
+	function execute()
+	{
+		$cmd = $this->cmd;
+		$this->gui_obj->$cmd();
+	}
+
+	// PRIVATE
+	function __getCommand()
+	{
+		$_GET["cmd"] = $_GET["cmd"] == 'gateway' ? key($_POST["cmd"]) : $_GET["cmd"];
+
+		if($_GET["cmd"])
+		{
+			$this->cmd = $_GET["cmd"];
+		}
+		else
+		{
+			$this->cmd = "showFrames";
+		}
+	}
+} // END class.ilObjTest
 ?>

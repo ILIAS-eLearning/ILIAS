@@ -33,10 +33,16 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once "chat/classes/class.ilChatServerConfig.php";
+require_once "chat/classes/class.ilChatServerCommunicator.php";
+require_once "chat/classes/class.ilChatUser.php";
+require_once "chat/classes/class.ilChatRoom.php";
 
 class ilObjChatServer extends ilObject
 {
 	var $server_conf;
+	var $server_comm;
+	var $chat_room;
+	var $chat_user;
 
 	/**
 	* Constructor
@@ -50,6 +56,20 @@ class ilObjChatServer extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 
 		$this->server_conf =& new ilChatServerConfig();
+		$this->server_comm =& new ilChatServerCommunicator($this);
+		$this->chat_user =& new ilChatUser();
+		$this->chat_room =& new ilChatRoom($this->getRefId());
+	}
+
+	function read()
+	{
+		// USED ilObjectFactory::getInstance...
+		parent::read();
+
+		$this->server_conf =& new ilChatServerConfig();
+		$this->server_comm =& new ilChatServerCommunicator($this);
+		$this->chat_user =& new ilChatUser();
+		$this->chat_room =& new ilChatRoom($this->getRefId());
 	}
 } // END class.ilObjChatServer
 ?>
