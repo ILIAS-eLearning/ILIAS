@@ -1427,3 +1427,12 @@ DELETE FROM usr_session;
 
 <#90>
 UPDATE settings SET value = '3.0.0_beta3' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#91>
+DROP TABLE IF EXISTS cal_appointment;
+DROP TABLE IF EXISTS cal_appointmentrepeats;
+DROP TABLE IF EXISTS cal_appointmentrepeatsnot;
+DROP TABLE IF EXISTS cal_category;
+DROP TABLE IF EXISTS cal_priority;
+DROP TABLE IF EXISTS cal_user_group;
+DROP TABLE IF EXISTS dummy_groups;
