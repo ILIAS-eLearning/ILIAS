@@ -192,7 +192,7 @@ institution#:#Istituzione
 intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS3. Da qui puoi procedere con l&#039;installazione.
 ip_address#:#Indirizzo IP
 java_path#:#Percorso a Java
-java_path_comment#:#Richiesto per i Learning module di tipo SCORM
+java_path_comment#:#Richiesto per i moduli di tipo SCORM
 lang_cs#:#Ceco
 lang_de#:#Tedesco
 lang_dk#:#Danese
@@ -371,7 +371,7 @@ unknown_client_id#:#Client sconosciuto
 unknown_command#:#Comando sconosciuto
 unknown_display_mode#:#Unknown display mode
 unzip_path#:#Percorso del programma di unzip
-unzip_path_comment#:#Richiesto per l&#039;importazione dei Learning module
+unzip_path_comment#:#Richiesto per l&#039;importazione dei moduli esterni
 update_applied#:#Modifiche effettuate
 update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
@@ -381,5 +381,5 @@ webspace_dir#:#Percorso della cartella webdata
 with#:#con
 wrong_password#:#Password errata!
 zip_path#:#Percorso dello Zip
-zip_path_comment#:#Richiesto per l&#039;importazione dei Learning module
+zip_path_comment#:#Richiesto per l&#039;importazione dei Moduli esterni
 zipcode#:#Codice Postale
