@@ -2589,7 +2589,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$key = array_keys($all_parent_obj_of_rolf,$node_id);
 	
 	unset($all_parent_obj_of_rolf[$key[0]]);
-	
+
 	$check = false;
 	
 	foreach ($subtree_nodes as $node)
@@ -3907,3 +3907,6 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
 $this->db->query($query);
 
 ?>
+
+<#234>
+UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_version' LIMIT 1;
