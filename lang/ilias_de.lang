@@ -550,6 +550,8 @@ common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
+common#:#obj_ldap#:#LDAP-Einstellungen
+common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen

@@ -22,6 +22,7 @@
 	<subobj name="objf" max="1">objf</subobj>
 	<subobj name="lngf" max="1">lngf</subobj>
 	<subobj name="mail" max="1">mail</subobj>
+	<subobj name="ldap" max="1">ldap</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -187,6 +188,11 @@
 	<action name="setUserLanguage">setUserLanguage</action>
 </object>
 <object name="mail" class_name="Mail" checkbox="0" inherit="0" translate="sys">
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="ldap" class_name="Ldap" checkbox="0" inherit="0" translate="sys">
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

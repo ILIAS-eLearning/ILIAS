@@ -548,6 +548,8 @@ common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
 common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_ldap#:#LDAP Settings
+common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration

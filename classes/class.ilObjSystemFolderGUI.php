@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.10 2003/10/22 14:33:59 ayavari Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.11 2003/10/27 15:04:22 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -164,19 +164,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				//$settings["payment_system"] = $_POST["payment_system"];
 
 				// pathes
-				//$settings["tpl_path"] = $_POST["tpl_path"];
 				$settings["lang_path"] = $_POST["lang_path"];
 				$settings["convert_path"] = $_POST["convert_path"];
 				$settings["zip_path"] = $_POST["zip_path"];
 				$settings["unzip_path"] = $_POST["unzip_path"];
 				$settings["java_path"] = $_POST["java_path"];
 				$settings["htmldoc_path"] = $_POST["htmldoc_path"];
-
-				// ldap
-				$settings["ldap_enable"] = $_POST["ldap_enable"];
-				$settings["ldap_server"] = $_POST["ldap_server"];
-				$settings["ldap_port"] = $_POST["ldap_port"];
-				$settings["ldap_basedn"] = $_POST["ldap_basedn"];
 
 				// contact
 				$settings["admin_firstname"] = $_POST["admin_firstname"];
@@ -218,12 +211,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->setSetting("unzip_path",$_POST["unzip_path"]);
 				$ilias->setSetting("java_path",$_POST["java_path"]);
 				$ilias->setSetting("htmldoc_path",$_POST["htmldoc_path"]);
-
-				// ldap
-				$ilias->setSetting("ldap_enable",$_POST["ldap_enable"]);
-				$ilias->setSetting("ldap_server",$_POST["ldap_server"]);
-				$ilias->setSetting("ldap_port",$_POST["ldap_port"]);
-				$ilias->setSetting("ldap_basedn",$_POST["ldap_basedn"]);
 
 				// contact
 				$ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -285,13 +272,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_UNZIP_PATH", $lng->txt("path_to_unzip"));
 		$tpl->setVariable("TXT_JAVA_PATH", $lng->txt("path_to_java"));
 		$tpl->setVariable("TXT_HTMLDOC_PATH", $lng->txt("path_to_htmldoc"));
-
-		// ldap
-		$tpl->setVariable("TXT_LDAP", $lng->txt("ldap"));
-		$tpl->setVariable("TXT_LDAP_ENABLE", $lng->txt("enable"));
-		$tpl->setVariable("TXT_LDAP_SERVER", $lng->txt("server"));
-		$tpl->setVariable("TXT_LDAP_PORT", $lng->txt("port"));
-		$tpl->setVariable("TXT_LDAP_BASEDN", $lng->txt("basedn"));
 
 		// contact
 		$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
@@ -402,16 +382,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
 		$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
 		$tpl->setVariable("HTMLDOC_PATH",$settings["htmldoc_path"]);
-
-		// ldap
-		if ($settings["ldap_enable"])
-		{
-			$tpl->setVariable("LDAP_ENABLE","checked=\"checked\"");
-		}
-
-		$tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
-		$tpl->setVariable("LDAP_PORT",$settings["ldap_port"]);
-		$tpl->setVariable("LDAP_BASEDN",$settings["ldap_basedn"]);
 
 		// contact
 		$tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
