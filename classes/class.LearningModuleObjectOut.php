@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.15 2003/03/13 11:03:54 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.16 2003/03/14 16:25:06 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -28,7 +28,7 @@ class LearningModuleObjectOut extends ObjectOut
 	{
 		global $rbacsystem, $tree, $tpl;
 
-		$lotree = new Tree($_GET["ref_id"],ROOT_FOLDER_ID,$_GET["ref_id"]);
+		$lotree = new Tree($_GET["ref_id"],ROOT_FOLDER_ID);
 
 		//prepare objectlist
 		$this->data = array();
