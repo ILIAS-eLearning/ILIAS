@@ -223,29 +223,14 @@ class ASS_MatchingQuestion extends ASS_Question
 			$qtiResponseLabel->set_attribute("match_max", "1");
 			$qtiResponseLabel->set_attribute("match_group", join($matchingtext_orders, ","));
 			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_answertext());
-			$qtiMatText->append_child($qtiMatTextText);
-			$qtiMaterial->append_child($qtiMatText);
-			$qtiResponseLabel->append_child($qtiMaterial);
-			$qtiRenderChoice->append_child($qtiResponseLabel);
-		}
-
-		// add matchingtext
-		foreach ($pkeys as $index)
-		{
-			$matchingpair = $this->matchingpairs[$index];
-			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
-			$qtiMaterial = $this->domxml->create_element("material");
 			if ($this->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$qtiMatImage = $this->domxml->create_element("matimage");
 				$qtiMatImage->set_attribute("imagtype", "image/jpeg");
-				$qtiMatImage->set_attribute("label", $matchingpair->get_matchingtext());
+				$qtiMatImage->set_attribute("label", $matchingpair->get_answertext());
 				$qtiMatImage->set_attribute("embedded", "base64");
-				$imagepath = $this->getImagePath() . $matchingpair->get_matchingtext();
-				$fh = fopen($imagepath, "rb");
+				$imagepath = $this->getImagePath() . $matchingpair->get_answertext();
+				$fh = @fopen($imagepath, "rb");
 				if ($fh == false)
 				{
 					global $ilErr;
@@ -262,10 +247,25 @@ class ASS_MatchingQuestion extends ASS_Question
 			else
 			{
 				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_matchingtext());
+				$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_answertext());
 				$qtiMatText->append_child($qtiMatTextText);
 				$qtiMaterial->append_child($qtiMatText);
 			}
+			$qtiResponseLabel->append_child($qtiMaterial);
+			$qtiRenderChoice->append_child($qtiResponseLabel);
+		}
+
+		// add matchingtext
+		foreach ($pkeys as $index)
+		{
+			$matchingpair = $this->matchingpairs[$index];
+			$qtiResponseLabel = $this->domxml->create_element("response_label");
+			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMatText = $this->domxml->create_element("mattext");
+			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_matchingtext());
+			$qtiMatText->append_child($qtiMatTextText);
+			$qtiMaterial->append_child($qtiMatText);
 			$qtiResponseLabel->append_child($qtiMaterial);
 			$qtiRenderChoice->append_child($qtiResponseLabel);
 		}
@@ -577,7 +577,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 			foreach ($this->matchingpairs as $answer)
 			{
-				$filename = $answer->get_matchingtext();
+				$filename = $answer->get_answertext();
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					print "image could not be duplicated!!!! ";

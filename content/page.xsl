@@ -1564,7 +1564,19 @@
 	<xsl:for-each select="render_choice/response_label">
 		<xsl:if test='@match_max'>
 			<tr>
-			<td class="nobackground"><b><xsl:apply-templates/></b></td>
+			<td class="nobackground">
+				<xsl:if test = "material/mattext">
+					<xsl:value-of select="material/mattext"/>
+				</xsl:if>
+				<xsl:if test = "material/matimage">
+					<a target="_new">
+						<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+						<img border="0">
+							<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+						</img>
+					</a>
+				</xsl:if>
+			</td>
 			<td class="nobackground">matches</td>
 			<td class="nobackground">
 			<select>
@@ -1582,7 +1594,7 @@
 						<option>
 						<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
 						<xsl:attribute name="dummy">match<xsl:value-of select="$clabel"/>_<xsl:value-of select="@ident"/></xsl:attribute>
-						<xsl:apply-templates/>
+						<xsl:value-of select="material/mattext"/>
 						</option>
 					</xsl:if>
 				</xsl:for-each>

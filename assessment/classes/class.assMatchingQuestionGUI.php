@@ -102,40 +102,47 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$this->tpl->setCurrentBlock("deletebutton");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("ANSWER_ORDER", $i);
+			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
 			$this->tpl->parseCurrentBlock();
 			$thispair = $this->object->get_matchingpair($i);
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("pictures");
-				$this->tpl->setVariable("A_ANSWER_ORDER", $i);
-				$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
-				$filename = $thispair->get_matchingtext();
+				$this->tpl->setVariable("ANSWER_ORDER", $i);
+				$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
+				$filename = $thispair->get_answertext();
 				if ($filename)
 				{
 					//$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
-					$imagepath = $this->object->getImagePathWeb() . $thispair->get_matchingtext();
+					$imagepath = $this->object->getImagePathWeb() . $thispair->get_answertext();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
-					$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_answertext());
+					$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
 				}
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
 			elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 			{
 				$this->tpl->setCurrentBlock("definitions");
-				$this->tpl->setVariable("A_ANSWER_ORDER", $i);
-				$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
-				$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+				$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
+				$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
+				$this->tpl->setVariable("ANSWER_ORDER", $i);
+
+				//$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+				//$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
+				//$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
-			$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
+			//$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
 			$pair = "#pair_" . $thispair->get_order();
-			$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
-			$this->tpl->setVariable("ANSWER_ORDER", $i);
-			$this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
+			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+			$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
+			$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+			//$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
+			//$this->tpl->setVariable("ANSWER_ORDER", $i);
+			//$this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
 			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
@@ -394,10 +401,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				{
 					foreach ($_FILES as $key2 => $value2)
 					{
-						if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2))
+//echo "<br>FILE_".$key2."_".$value2["tmp_name"];
+						if (preg_match("/left_$matches[1]_(\d+)/", $key2, $matches2))
 						{
+//echo "<br>YES:".$matches[1].", $key2";
 							if ($value2["tmp_name"])
 							{
+//echo "<br>GO!";
 								// upload the matching picture
 								if ($this->object->getId() <= 0)
 								{
@@ -406,7 +416,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 									sendInfo($this->lng->txt("question_saved_for_upload"));
 								}
 								$this->object->set_image_file($value2['name'], $value2['tmp_name']);
-								$_POST["right_$matches[1]_$matchingtext_id"] = $value2['name'];
+								$_POST["left_$matches[1]_".$matches2[1]] = $value2['name'];
+//echo "<br>left_$matches[1]_".$matches2[1]." = ".$value2['name'];
 							}
 						}
 					}
