@@ -141,6 +141,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
 		$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"]));
+		$this->object->setAnonymize($_POST["anonymize"]);
 	}
 
 /**
@@ -663,6 +664,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
 		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
+		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
+		$this->tpl->setVariable("TEXT_ANONYMIZATION_EXPLANATION", $this->lng->txt("anonymize_survey_explanation"));
+		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("off"));
+		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("on"));
+		
+		if ($this->object->getAnonymize())
+		{
+			$this->tpl->setVariable("ANON_SELECTED_ON", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("ANON_SELECTED_OFF", " selected=\"selected\"");
+		}
+		
 		if ($this->object->getEndDateEnabled())
 		{
 			$this->tpl->setVariable("CHECKED_END_DATE", " checked=\"checked\"");
@@ -1797,6 +1812,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $rbacsystem;
     $add_parameter = $this->getAddParameter();
 
+		if ($_GET["up"] > 0)
+		{
+			$this->object->moveUpQuestion($_GET["up"]);
+		}
+		if ($_GET["down"] > 0)
+		{
+			$this->object->moveDownQuestion($_GET["down"]);
+		}
+		if ($_GET["qbup"] > 0)
+		{
+			$this->object->moveUpQuestionblock($_GET["qbup"]);
+		}
+		if ($_GET["qbdown"] > 0)
+		{
+			$this->object->moveDownQuestionblock($_GET["qbdown"]);
+		}
 		if ($_POST["cmd"]["insert_before"] or $_POST["cmd"]["insert_after"])
 		{
 			// get all questions to move
@@ -2136,8 +2167,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("block");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					if ($data["question_id"] != $this->object->questions[0])
+					{
+						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&qbup=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" title=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+					}
+					$akeys = array_keys($survey_questions);
+					if ($data["questionblock_id"] != $survey_questions[$akeys[count($akeys)-1]]["questionblock_id"])
+					{
+						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&qbdown=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" title=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+					}
 			    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
-						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
+						$this->tpl->setVariable("TEXT_EDIT", "<img src=\"" . ilUtil::getImagePath("icon_pencil.gif") . "\" alt=\"" . $this->lng->txt("edit") . "\" title=\"" . $this->lng->txt("edit") . "\" border=\"0\" />");
 						$this->tpl->setVariable("HREF_EDIT", $_SERVER['PHP_SELF'] . "$add_parameter&editblock=" . $data["questionblock_id"]);
 					}
 					if (count($data["constraints"]))
@@ -2164,6 +2204,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+				if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+					if (!$data["questionblock_id"])
+					{
+						if ($data["question_id"] != $this->object->questions[0])
+						{
+							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"Up\" border=\"0\" /></a>");
+						}
+						if ($data["question_id"] != $this->object->questions[count($this->object->questions)-1])
+						{
+							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"Down\" border=\"0\" /></a>");
+						}
+					}
+				}
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
@@ -2255,6 +2308,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_CONSTRAINTS", $this->lng->txt("constraints"));
+		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("sequence"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));

@@ -47,9 +47,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function ilObjSurveyQuestionPoolGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-    		global $lng;
+    	global $lng, $ilCtrl;
+
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, array("ref_id"));
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		if (!defined("ILIAS_MODULE"))
 		{
@@ -1027,11 +1031,22 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			"questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
 	
-		function saveMetaObject()
+	function saveMetaObject()
 	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			sendInfo($this->lng->txt("cannot_save_metaobject"));
+			$this->editMetaObject();
+			return;
+		}
+		else
+		{
+			$meta_gui =& new ilMetaDataGUI();
+			$meta_gui->setObject($this->object);
+			$meta_gui->save($_POST["meta_section"]);
+		}
 		ilUtil::redirect("questionpool.php?ref_id=".$_GET["ref_id"]);
 	}
 
@@ -1110,202 +1125,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function updateObject() {
 		$this->update = $this->object->updateMetaData();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
-	}
-
-	/**
-	* show permissions of current node
-	*
-	* @access	public
-	*/
-	function permObject()
-	{
-		global $rbacsystem, $rbacreview;
-
-		static $num = 0;
-
-		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			exit();
-		}
-
-		// only display superordinate roles; local roles with other scope are not displayed
-		$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
-
-		$data = array();
-
-		// GET ALL LOCAL ROLE IDS
-		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-
-		$local_roles = array();
-
-		if ($role_folder)
-		{
-			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
-		}
-
-		foreach ($parentRoles as $key => $r)
-		{
-			if ($r["obj_id"] == SYSTEM_ROLE_ID)
-			{
-				unset($parentRoles[$key]);
-				continue;
-			}
-
-			if (!in_array($r["obj_id"],$local_roles))
-			{
-				$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
-			}
-			else
-			{
-				$r["link"] = true;
-
-				// don't display a checkbox for local roles AND system role
-				if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
-				{
-					$data["check_inherit"][] = "&nbsp;";
-				}
-				else
-				{
-					// linked local roles with stopped inheritance
-					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
-				}
-			}
-
-			$data["roles"][] = $r;
-		}
-
-		$ope_list = getOperationList($this->object->getType());
-
-		// BEGIN TABLE_DATA_OUTER
-		foreach ($ope_list as $key => $operation)
-		{
-			$opdata = array();
-
-			$opdata["name"] = $operation["operation"];
-
-			$colspan = count($parentRoles) + 1;
-
-			foreach ($parentRoles as $role)
-			{
-				$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-				$disabled = false;
-
-				// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
-				$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
-				$opdata["values"][] = $box;
-			}
-
-			$data["permission"][] = $opdata;
-		}
-
-		/////////////////////
-		// START DATA OUTPUT
-		/////////////////////
-
-		$this->getTemplateFile("perm");
-		$this->tpl->setCurrentBlock("tableheader");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
-		$this->tpl->setVariable("COLSPAN", $colspan);
-		$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
-		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
-		$this->tpl->parseCurrentBlock();
-
-		$num = 0;
-
-		foreach($data["roles"] as $role)
-		{
-			// BLOCK ROLENAMES
-			if ($role["link"])
-			{
-				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-				$this->tpl->setVariable("LINK_ROLE_RULESET","questionpool.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
-				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->touchBlock("ROLELINK_CLOSE");
-			}
-
-			$this->tpl->setCurrentBlock("ROLENAMES");
-			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
-			$this->tpl->parseCurrentBlock();
-
-			// BLOCK CHECK INHERIT
-			if ($this->objDefinition->stopInheritance($this->type))
-			{
-				$this->tpl->setCurrentBLock("CHECK_INHERIT");
-				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$num++;
-		}
-
-		// save num for required column span and the end of parsing
-		$colspan = $num + 1;
-		$num = 0;
-
-		// offer option 'stop inheritance' only to those objects where this option is permitted
-		if ($this->objDefinition->stopInheritance($this->type))
-		{
-			$this->tpl->setCurrentBLock("STOP_INHERIT");
-			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		foreach ($data["permission"] as $ar_perm)
-		{
-			foreach ($ar_perm["values"] as $box)
-			{
-				// BEGIN TABLE CHECK PERM
-				$this->tpl->setCurrentBlock("CHECK_PERM");
-				$this->tpl->setVariable("CHECK_PERMISSION",$box);
-				$this->tpl->parseCurrentBlock();
-				// END CHECK PERM
-			}
-
-			// BEGIN TABLE DATA OUTER
-			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
-			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
-			$this->tpl->setVariable("CSS_ROW",$css_row);
-			$this->tpl->setVariable("PERMISSION", $this->lng->txt($this->object->getType()."_".$ar_perm["name"]));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE DATA OUTER
-		}
-
-		// ADD LOCAL ROLE - Skip that until I know how it works with the module folder
-		if (false)
-		// if ($this->object->getRefId() != ROLE_FOLDER_ID and $rbacsystem->checkAccess('create_role',$this->object->getRefId()))
-		{
-			$this->tpl->setCurrentBlock("LOCAL_ROLE");
-
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-			}
-
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// PARSE BLOCKFILE
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION",
-		$this->getFormAction("permSave","questionpool.php?".$this->link_params."&cmd=permSave"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("COL_ANZ",$colspan);
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**

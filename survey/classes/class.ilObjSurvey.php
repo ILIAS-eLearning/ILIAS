@@ -57,6 +57,9 @@ define("SURVEY_START_START_DATE_NOT_REACHED", 1);
 define("SURVEY_START_END_DATE_REACHED", 2);
 define("SURVEY_START_OFFLINE", 3);
 
+define("ANONYMIZE_OFF", 0);
+define("ANONYMIZE_ON", 1);
+
 class ilObjSurvey extends ilObject
 {
 /**
@@ -168,6 +171,14 @@ class ilObjSurvey extends ilObject
 * @var integer
 */
 	var $invitation_mode;
+	
+/**
+* Indicates the anonymization of the survey
+*
+* Indicates the anonymization of the survey
+* @var integer
+*/
+	var $anonymize;
 
 	/**
 	* Constructor
@@ -195,6 +206,7 @@ class ilObjSurvey extends ilObject
 		$this->questions = array();
 		$this->invitation = INVITATION_OFF;
 		$this->invitation_mode = MODE_PREDEFINED_USERS;
+		$this->anonymize = ANONYMIZE_ON;
 	}
 
 	/**
@@ -785,6 +797,24 @@ class ilObjSurvey extends ilObject
 	{
 		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* set anonymize status
+	*/
+	function setAnonymize($a_anonymize)
+	{
+		$this->anonymize = $a_anonymize;
+	}
+
+	/**
+	* get anonymize status
+	*
+	* @return	integer status
+	*/
+	function getAnonymize()
+	{
+		return $this->anonymize;
 	}
 
 	/**
@@ -1501,6 +1531,119 @@ class ilObjSurvey extends ilObject
 			}
 		}
 		return $qpl_titles;
+	}
+	
+/**
+* Moves a question up in the list of survey questions
+*
+* Moves a question up in the list of survey questions
+*
+* @param integer $question_id The question id of the question which has to be moved up
+* @access public
+*/
+	function moveUpQuestion($question_id)
+	{
+		$move_questions = array($question_id);
+		$pages =& $this->getSurveyPages();
+		$pageindex = -1;
+		foreach ($pages as $idx => $page)
+		{
+			if ($page[0]["question_id"] == $question_id)
+			{
+				$pageindex = $idx;
+			}
+		}
+		if ($pageindex > 0)
+		{
+			$this->moveQuestions($move_questions, $pages[$pageindex-1][0]["question_id"], 0);
+		}
+	}
+	
+/**
+* Moves a question down in the list of survey questions
+*
+* Moves a question down in the list of survey questions
+*
+* @param integer $question_id The question id of the question which has to be moved down
+* @access public
+*/
+	function moveDownQuestion($question_id)
+	{
+		$move_questions = array($question_id);
+		$pages =& $this->getSurveyPages();
+		$pageindex = -1;
+		foreach ($pages as $idx => $page)
+		{
+			if ($page[0]["question_id"] == $question_id)
+			{
+				$pageindex = $idx;
+			}
+		}
+		if ($pageindex < count($pages)-1)
+		{
+			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
+		}
+	}
+	
+/**
+* Moves a questionblock up in the list of survey questions
+*
+* Moves a questionblock up in the list of survey questions
+*
+* @param integer $questionblock_id The questionblock id of the questionblock which has to be moved up
+* @access public
+*/
+	function moveUpQuestionblock($questionblock_id)
+	{
+		$pages =& $this->getSurveyPages();
+		$move_questions = array();
+		$pageindex = -1;
+		foreach ($pages as $idx => $page)
+		{
+			if ($page[0]["questionblock_id"] == $questionblock_id)
+			{
+				foreach ($page as $pageidx => $question)
+				{
+					array_push($move_questions, $question["question_id"]);
+				}
+				$pageindex = $idx;
+			}
+		}
+		if ($pageindex > 0)
+		{
+			$this->moveQuestions($move_questions, $pages[$pageindex-1][0]["question_id"], 0);
+		}
+	}
+	
+/**
+* Moves a questionblock down in the list of survey questions
+*
+* Moves a questionblock down in the list of survey questions
+*
+* @param integer $questionblock_id The questionblock id of the questionblock which has to be moved down
+* @access public
+*/
+	function moveDownQuestionblock($questionblock_id)
+	{
+		$pages =& $this->getSurveyPages();
+		$move_questions = array();
+		$pageindex = -1;
+		foreach ($pages as $idx => $page)
+		{
+			if ($page[0]["questionblock_id"] == $questionblock_id)
+			{
+				foreach ($page as $pageidx => $question)
+				{
+					array_push($move_questions, $question["question_id"]);
+				}
+				$pageindex = $idx;
+			}
+		}
+		if ($pageindex < count($pages)-1)
+		{
+			print "bewege hinter " . $pages[$pageindex+1][count($pages[$pageindex+1])-1]["title"];
+			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
+		}
 	}
 	
 /**
