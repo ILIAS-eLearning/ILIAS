@@ -821,8 +821,11 @@ content#:#cont_assign_full#:#Assign Fullscreen###23 Oct 2003 new variable
 content#:#cont_assign_std#:#Assign Standard###23 Oct 2003 new variable
 content#:#cont_assign_translation#:#Assegna traduzione###26 Sep 2003 new variable
 content#:#cont_assignments_deleted#:#Le assegnazioni sono state cancellate###26 Sep 2003 new variable
+content#:#cont_back#:#Back###27 Oct 2003 new variable
 content#:#cont_booktitle#:#Titolo del libro###19 Sep 2003 new variable
 content#:#cont_bottom#:#In fondo###11 Jun 2003 new variable
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###27 Oct 2003 new variable
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###27 Oct 2003 new variable
 content#:#cont_caption#:#Etichetta###11 Jun 2003 new variable
 content#:#cont_change_type#:#Cambia il tipo###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Capitoli e Pagine###04 Aug 2003 new variable
@@ -858,6 +861,7 @@ content#:#cont_edit_term#:#Modifica termine###16 Aug 2003 new variable
 content#:#cont_edition#:#Edizione###19 Sep 2003 new variable
 content#:#cont_file#:#File###08 Jul 2003 new variable
 content#:#cont_files#:#File###04 Aug 2003 new variable
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###27 Oct 2003 new variable
 content#:#cont_fullscreen#:#A tutto schermo###04 Aug 2003 new variable
 content#:#cont_height#:#Altezza###08 Jul 2003 new variable
 content#:#cont_how_published#:#Come pubblicato###19 Sep 2003 new variable
@@ -896,6 +900,9 @@ content#:#cont_lm_properties#:#Propriet&agrave; Learning Module###01 Jul 2003 ne
 content#:#cont_manifest#:#Manifesto###04 Aug 2003 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
+content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
+content#:#cont_mob_inst_prop#:#Instance Properties###27 Oct 2003 new variable
+content#:#cont_mob_prop#:#Object Properties###27 Oct 2003 new variable
 content#:#cont_month#:#Month###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione###26 Sep 2003 new variable
@@ -909,6 +916,7 @@ content#:#cont_none#:#Nessuno###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Numero di colonne###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Numero di elementi###12 Jul 2003 new variable
 content#:#cont_nr_rows#:#Numero di righe###09 Jun 2003 new variable
+content#:#cont_online#:#Online###27 Oct 2003 new variable
 content#:#cont_order#:#Tipo di ordinamento###16 Jul 2003 new variable
 content#:#cont_organization#:#Organizzazione###04 Aug 2003 new variable
 content#:#cont_organizations#:#Organizzazioni###04 Aug 2003 new variable
@@ -951,6 +959,7 @@ content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
 content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Sorgente###13 Sep 2003 new variable
 content#:#cont_st_title#:#Titolo capitolo###16 Jul 2003 new variable
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###27 Oct 2003 new variable
 content#:#cont_std_view#:#Vista standard###04 Aug 2003 new variable
 content#:#cont_structure#:#Struttura###04 Aug 2003 new variable
 content#:#cont_subchapters#:#Paragrafi###28 May 2003 new variable
