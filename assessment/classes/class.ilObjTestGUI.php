@@ -586,6 +586,86 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function randomSelect()
+	{
+		global $ilUser;
+    $add_parameter = $this->get_add_parameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", true);
+		$questionpools =& $this->object->getAvailableQuestionpools();
+		$this->tpl->setCurrentBlock("option");
+		$this->tpl->setVariable("VALUE_OPTION", "0");
+		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("all_available_question_pools"));
+		$this->tpl->parseCurrentBlock();
+		foreach ($questionpools as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("VALUE_OPTION", $key);
+			$this->tpl->setVariable("TEXT_OPTION", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_random_select_questionpool"));
+		$this->tpl->setVariable("TXT_NR_OF_QUESTIONS", $this->lng->txt("tst_random_nr_of_questions"));
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function randomQuestionOffer()
+	{
+		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
+    $add_parameter = $this->get_add_parameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", true);
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		$questionpools =& $this->object->get_qpl_titles();	
+		foreach ($question_array as $question_id)
+		{
+			$dataset = $this->object->get_question_dataset($question_id);
+			$this->tpl->setCurrentBlock("QTab");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
+			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->comment);
+			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($dataset->type_tag));
+			$this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
+			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->ref_fi]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		if (count($question_array) == 0)
+		{
+			$this->tpl->setCurrentBlock("Emptytable");
+			$this->tpl->setVariable("TEXT_NO_QUESTIONS_AVAILABLE", $this->lng->txt("no_questions_available"));
+			$this->tpl->parseCurrentBlock();
+		}
+			else
+		{
+			$this->tpl->setCurrentBlock("Selectionbuttons");
+			$this->tpl->setVariable("BTN_YES", $this->lng->txt("yes"));
+			$this->tpl->setVariable("BTN_NO", $this->lng->txt("no"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$chosen_questions = join($question_array, ",");
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
+		$this->tpl->setVariable("VALUE_CHOSEN_QUESTIONS", $chosen_questions);
+		$this->tpl->setVariable("VALUE_QUESTIONPOOL_SELECTION", $_POST["sel_qpl"]);
+		$this->tpl->setVariable("VALUE_NR_OF_QUESTIONS", $_POST["nr_of_questions"]);
+		$this->tpl->setVariable("TEXT_QUESTION_OFFER", $this->lng->txt("tst_question_offer"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
 
@@ -600,7 +680,37 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->questionpoolSelect();
 			return;
 		}
+		
+		if ($_POST["cmd"]["randomselect"])
+		{
+			$this->randomSelect();
+			return;
+		}
 
+		if ($_POST["cmd"]["random_select_questions"])
+		{
+			$this->randomQuestionOffer();
+			return;
+		}
+		
+		if ($_POST["cmd"]["random_select_yes"])
+		{
+			$selected_array = split(",", $_POST["chosen_questions"]);
+			if (!count($selected_array)) {
+				sendInfo($this->lng->txt("tst_insert_missing_question"));
+			} else {
+				$total = $this->object->evalTotalPersons();
+				if ($total) {
+					// the test was executed previously
+					sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+				} else {
+					sendInfo($this->lng->txt("tst_insert_questions"));
+				}
+				$this->insertQuestions($selected_array);
+				return;
+			}
+		}
+		
 		if ($_POST["cmd"]["create_question_execute"])
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
@@ -769,7 +879,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 		$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
 		$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
-		$this->tpl->setVariable("TEXT_CREATE_NEW", $this->lng->txt("create_new"));
+		$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
+		$this->tpl->setVariable("TXT_OR", $this->lng->txt("or"));
+		$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
 		$this->tpl->parseCurrentBlock();
 	}
 

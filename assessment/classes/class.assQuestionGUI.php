@@ -363,6 +363,9 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->question->get_author());
       $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
       $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
+			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -460,8 +463,16 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
     $this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
+		$this->tpl->setVariable("TEXT_START_TAG", $this->lng->txt("start_tag"));
+		$this->tpl->setVariable("TEXT_END_TAG", $this->lng->txt("end_tag"));
+		$this->tpl->setVariable("VALUE_START_TAG", $this->question->get_start_tag());
+		$this->tpl->setVariable("VALUE_END_TAG", $this->question->get_end_tag());
     $this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
     $this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY","Apply");
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -559,6 +570,9 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
     $this->tpl->setVariable("ORDERING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->question->get_comment());
@@ -668,6 +682,9 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
     $this->tpl->setVariable("MATCHING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_MATCHING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_MATCHING_COMMENT", $this->question->get_comment());
@@ -961,6 +978,14 @@ class ASS_QuestionGUI extends PEAR {
   function set_question_data_from_cloze_question_template() {
 		$saved = false;
     $result = 0;
+		$start_tag = ilUtil::stripSlashes($_POST["start_tag"]);
+		$end_tag = ilUtil::stripSlashes($_POST["end_tag"]);
+		if (!$start_tag)
+			$start_tag = "#";
+		if (!$end_tag)
+			$end_tag = "#";
+		$this->question->set_start_tag($start_tag);
+		$this->question->set_end_tag($end_tag);
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 

@@ -11,8 +11,15 @@
   <td class="option">{TEXT_COMMENT}:</td>
   <td class="option_value" colspan="5"><input name="comment" type="text" value="{VALUE_CLOZE_COMMENT}" id="comment" size="50" /></td></tr>
 <tr>
+  <td class="option">{TEXT_GAP_DEFINITION}:</td>
+  <td class="option_value" colspan="5">{TEXT_START_TAG}: <input name="start_tag" type="text" value="{VALUE_START_TAG}" size="3" maxlength="1" /> {TEXT_END_TAG}: <input name="end_tag" type="text" value="{VALUE_END_TAG}" size="3" maxlength="1" /></td></tr>
+<tr>
   <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="5"><textarea name="clozetext" cols="50" rows="5" id="clozetext">{VALUE_CLOZE_TEXT}</textarea></td>
+</tr>
+<tr>
+  <td class="option">{TEXT_SHUFFLE_ANSWERS}:</td>
+  <td class="option_value" colspan="5"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 {QUESTION_MATERIAL}
 <tr>
