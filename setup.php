@@ -39,13 +39,17 @@ $mySetup = new Setup();
 
 //reload setupscript if $step is empty
 if ($_GET["step"] == "")
-    $step = "preliminaries";
+{
+	$_GET["step"] = "preliminaries";
+}
 
 //instantiate language class
 if ($_GET["lang"] == "")
-	$lang = "en";
+{
+	$_GET["lang"] = "en";
+}
 
-$lng = new Language($lang);
+$lng = new Language($_GET["lang"]);
 
 $languages = $mySetup->getLanguages($lng->lang_path);
 
@@ -58,37 +62,37 @@ foreach ($languages as $lang_key)
 }
 
 //main language texts
-$tpl->setVariable("LANG", $lang);
+$tpl->setVariable("LANG", $_GET["lang"]);
 $tpl->setVariable("TXT_SETUP", $lng->txt("setup"));
 $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
 $tpl->setVariable("VERSION", $VERSION);
 
 // password
-if ($step == 5)
+if ($_GET["step"] == 5)
 {
 	// show menu link
 	$tpl->setCurrentBlock("step5");
 	$tpl->setVariable("TXT_PASSWORD5", $lng->txt("password"));
 	$tpl->setVariable("TXT_STEP5", $lng->txt("setup"));
-	$tpl->setVariable("LINK_STEP5", "setup.php?step=begin&lang=".$lang);
+	$tpl->setVariable("LINK_STEP5", "setup.php?step=begin&lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 }
 
 
 //languages
-if ($step == 4)
+if ($_GET["step"] == 4)
 {
 	// show menu link
 	$tpl->setCurrentBlock("step4");
 	$tpl->setVariable("TXT_LANGUAGES4", $lng->txt("languages"));
 	$tpl->setVariable("TXT_STEP4", $lng->txt("setup"));
-	$tpl->setVariable("LINK_STEP4", "setup.php?step=begin&lang=".$lang);
+	$tpl->setVariable("LINK_STEP4", "setup.php?step=begin&lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 }
 
 //third step of installation process
 //install database
-if ($step == 3)
+if ($_GET["step"] == 3)
 {
 		if (!$mySetup->readIniFile())
 		{
@@ -111,7 +115,7 @@ if ($step == 3)
 			$tpl->setCurrentBlock("step3");
 			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
 			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
-			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$lang);
+			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
 		else
@@ -123,7 +127,7 @@ if ($step == 3)
 			$tpl->setCurrentBlock("step3");
 			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
 			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
-			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$lang);
+			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
 
@@ -131,7 +135,7 @@ if ($step == 3)
 
 //second step of installation process
 //write ini file or if this fails, display content of ini-file on screen
-if ($step == 2)
+if ($_GET["step"] == 2)
 {
 	$mySetup->setDbType($_POST["dbtype"]);
 	$mySetup->setDbHost($_POST["dbhost"]);
@@ -149,7 +153,7 @@ if ($step == 2)
 		$tpl->setCurrentBlock("step2");
 		$tpl->setVariable("TXT_INIFILE2", $lng->txt("inifile"));
 		$tpl->setVariable("TXT_STEP2", $lng->txt("step")." 1: ".$lng->txt("setup")." ".$lng->txt("inifile"));
-		$tpl->setVariable("LINK_STEP2", "setup.php?step=1&lang=".$lang);
+		$tpl->setVariable("LINK_STEP2", "setup.php?step=1&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
 	else
@@ -161,7 +165,7 @@ if ($step == 2)
 		$tpl->setCurrentBlock("step2");
 		$tpl->setVariable("TXT_INIFILE2", $lng->txt("inifile"));
 		$tpl->setVariable("TXT_STEP2", $lng->txt("setup"));
-		$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$lang);
+		$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
 
@@ -171,7 +175,7 @@ if ($step == 2)
 //first step of installation process
 //give basic data of inifile:
 //database data
-if ($step == 1)
+if ($_GET["step"] == 1)
 {
 	$dbhost = $_POST["dbhost"];
 	$dbname = $_POST["dbname"];
@@ -213,7 +217,7 @@ if ($step == 1)
 	// show menu link
 	$tpl->setCurrentBlock("step2");
 	$tpl->setVariable("TXT_STEP2", $lng->txt("setup"));
-	$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$lang);
+	$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 	
 	//output message
@@ -248,7 +252,7 @@ if ($step == 1)
 	$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
 
 	//variable content output
-	$tpl->setVariable("LANG1", $lang);
+	$tpl->setVariable("LANG1", $_GET["lang"]);
 	$tpl->setVariable("DB_HOST", $dbhost);
 	$tpl->setVariable("DB_NAME", $dbname);
 	$tpl->setVariable("DB_TYPE", $dbtype);
@@ -258,7 +262,7 @@ if ($step == 1)
 
 
 
-if ($step == "begin")
+if ($_GET["step"] == "begin")
 {
 	$ok = true;
 	
@@ -274,7 +278,7 @@ if ($step == "begin")
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "1");
 	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("inifile"));
-	$tpl->setVariable("LINK", "setup.php?step=1&lang=".$lang);
+	$tpl->setVariable("LINK", "setup.php?step=1&lang=".$_GET["lang"]);
 	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
 	
@@ -292,7 +296,7 @@ if ($step == "begin")
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "2");
 	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("database"));
-	$tpl->setVariable("LINK", "setup.php?step=3&lang=".$lang);
+	$tpl->setVariable("LINK", "setup.php?step=3&lang=".$_GET["lang"]);
 	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
 
@@ -303,7 +307,7 @@ if ($step == "begin")
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "3");
 	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("languages"));
-	$tpl->setVariable("LINK", "setup.php?step=4&lang=".$lang);
+	$tpl->setVariable("LINK", "setup.php?step=4&lang=".$_GET["lang"]);
 	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
 
@@ -319,7 +323,7 @@ if ($step == "begin")
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "4");
 	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("password"));
-	$tpl->setVariable("LINK", "setup.php?step=5&lang=".$lang);
+	$tpl->setVariable("LINK", "setup.php?step=5&lang=".$_GET["lang"]);
 	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
 	
@@ -328,7 +332,7 @@ if ($step == "begin")
 	{
 		$tpl->setCurrentBlock("ready");
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-		$tpl->setVariable("LINK_LOGIN", "login.php?lang=".$lang);
+		$tpl->setVariable("LINK_LOGIN", "login.php?lang=".$_GET["lang"]);
 		
 		$tpl->parseCurrentBlock();
 	}	
@@ -338,7 +342,7 @@ if ($step == "begin")
 }
 
 // ENVIRONMENT & PRELIMINARIES
-if ($step == "preliminaries")
+if ($_GET["step"] == "preliminaries")
 {
 	$server_os = php_uname();
 	$server_web = $_SERVER["SERVER_SOFTWARE"];
@@ -395,7 +399,7 @@ if ($step == "preliminaries")
 	if ($arCheck["php"] == true && $arCheck["root"] == true && $arCheck["create"] == true)
 	{
 		$tpl->setCurrentBlock("all_ok");
-		$tpl->setVariable("LINK_OVERVIEW", "setup.php?step=begin&lang=".$lang);
+		$tpl->setVariable("LINK_OVERVIEW", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
 	else

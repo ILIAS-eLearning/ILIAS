@@ -95,7 +95,7 @@ class Language
 	*/
 	function Language($a_lang_key)
 	{
-		global $ilias, $PHP_SELF;
+		global $ilias;
 		
 		$this->ilias =& $ilias;
 		
@@ -104,12 +104,12 @@ class Language
 		$this->text = array();
 
 		// if no ilias.ini.php was found set default values (->for setup-routine)
-		if (basename($PHP_SELF) == "setup.php")
+		if (basename($_SERVER["PHP_SELF"]) == "setup.php")
 		{
 			$this->lang_path = getcwd()."/lang";
 			$this->lang_default = "en";
 
-			$txt = file($this->lang_path."/setup_".$a_lang_key.".lang");
+			$txt = file($this->lang_path."/setup_".$this->lang_key.".lang");
 		
 			$this->lang_name = $txt[0];
 
