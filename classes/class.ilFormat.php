@@ -44,7 +44,7 @@ class ilFormat
 		return;
 	}
 
-	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
+	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
 	function getDateDE ()
 	{
 		$date = getdate();
@@ -53,19 +53,21 @@ class ilFormat
 	}
 
 	/**
-	* Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
+	* Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
 	* Eingabe: TT.MM.JJJJ oder T.M.JJ oder TT.MM.JJJJ HH:MM:SS oder T.M.JJ HH:MM:SS
 	* Bei zweistelliger Jahresangabe wird bei YY > 70 19, bei YY < 70 20 vorgestellt
 	* Ausgabe: YYYY-MM-DD oder YYYY-MM-DD HH:MM:SS
-	* OPTIONAL wird die aktuelle Systemzeit hinzugefgt (Ausgabe: YYYY-MM-DD hh:mm:ss)
+	* OPTIONAL wird die aktuelle Systemzeit hinzugefgt (Ausgabe: YYYY-MM-DD hh:mm:ss)
 	* @param string
 	*/
 	function input2date ($AInputDate)
 	{
-		$date=""; $y=""; $m=""; $d="";
 
-		if (ereg("([0-9]{1,2}).([0-9]{1,2}).([0-9]{2,4})",$idate,$p))
+		$date=""; $y=""; $m=""; $d="";
+//		if (ereg("([0-9]{1,2}).([0-9]{1,2}).([0-9]{2,4})",$idate,$p))
+		if (ereg("([0-9]{1,2}).([0-9]{1,2}).([0-9]{2,4})",$AInputDate,$p))
 		{
+            	
 			$d = $p[1];
 			$m = $p[2];
 			$y = $p[3];
@@ -88,8 +90,8 @@ class ilFormat
 
             	// Uhrzeit holen
             	$uhrzeit = substr($AInputDate, -8);
-            
-            	// Uhrzeit auf Gltigkeit prfen
+
+            	// Uhrzeit auf Gltigkeit prfen
             	if (ereg("([0-9]{2}):([0-9]{2}):([0-9]{2})",$AInputDate,$p))
             	{
 					$h   = $p[1];
@@ -104,13 +106,11 @@ class ilFormat
 				}
 				else
 				{
-					// Uhrzeit ist falsch/fehlt; h„nge aktuelle Zeit an
+					// Uhrzeit ist falsch/fehlt; hnge aktuelle Zeit an
 					$zeit = getdate();
 					$date = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$y,$m,$d,$zeit["hours"],$zeit["minutes"],$zeit["seconds"]);
 				}
-				
 				// Ausgabe ohne Uhrzeit
-				
 				//$date = sprintf("%04d-%02d-%02d",$y,$m,$d);
 				return $date;
 			}
@@ -194,7 +194,7 @@ class ilFormat
 	/**
 	* Datum vergleichen
 	* Erwartet timestamps
-	* Liefert das aktuellere Datum als Timestamp zurck
+	* Liefert das aktuellere Datum als Timestamp zurck
 	* @param string
 	* @param string
 	*/
@@ -210,7 +210,7 @@ class ilFormat
 	
 
 	/**
-	* Prft Zahlen mit Nachkommastellen und erlaubt ein Komma als Nachstellentrenner
+	* Prft Zahlen mit Nachkommastellen und erlaubt ein Komma als Nachstellentrenner
 	* @param string
 	*/
 	function checkDecimal ($var)
@@ -241,8 +241,8 @@ class ilFormat
 
 
 	/**
-	* formatiert Prozentzahlen (Format: 00,00%). Wenn nix oder eine Null bergeben wird, wird ein Leerzeichen zurckgegeben
-	* Wenn mehr als ein Parameter bergeben wird, wird die Ausgabe auch bei Wert Null erzwungen
+	* formatiert Prozentzahlen (Format: 00,00%). Wenn nix oder eine Null bergeben wird, wird ein Leerzeichen zurckgegeben
+	* Wenn mehr als ein Parameter bergeben wird, wird die Ausgabe auch bei Wert Null erzwungen
 	*/
 	function fProzent ()
 	{
