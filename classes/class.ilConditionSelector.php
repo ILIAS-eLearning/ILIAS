@@ -32,7 +32,7 @@
 
 require_once("classes/class.ilExplorer.php");
 
-class ilRepositoryCopySelector extends ilExplorer
+class ilConditionSelector extends ilExplorer
 {
 
 	/**
@@ -52,7 +52,7 @@ class ilRepositoryCopySelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryCopySelector($a_target)
+	function ilConditionSelector($a_target)
 	{
 		global $tree,$ilCtrl;
 
@@ -63,7 +63,7 @@ class ilRepositoryCopySelector extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
 
-		$this->setSessionExpandVariable("rep_copy_expand");
+		$this->setSessionExpandVariable("condition_selector_expand");
 
 		// add here all container objects
 		$this->addFilter("root");
@@ -76,9 +76,18 @@ class ilRepositoryCopySelector extends ilExplorer
 		$this->setFiltered(true);
 	}
 
-	function setSelectableType($a_type)
+	function setControlClass(&$class)
 	{
-		$this->selectable_type  = $a_type;
+		$this->control_class =& $class;
+	}
+	function &getControlClass()
+	{
+		return $this->control_class;
+	}
+
+	function setSelectableTypes($a_type)
+	{
+		$this->selectable_types  = $a_type;
 	}
 	function setRefId($a_ref_id)
 	{
@@ -88,13 +97,16 @@ class ilRepositoryCopySelector extends ilExplorer
 
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		if($a_type == $this->selectable_type)
+		if(in_array($a_type,$this->selectable_types))
 		{
-			$this->ctrl->setParameterByClass('ilrepositorygui','source_id',$a_node_id);
-			return $this->ctrl->getLinkTargetByClass('ilrepositorygui','copyChilds');
+			#$this->ctrl->setParameterByClass('ilrepositorygui','source_id',$a_node_id);
+			$this->ctrl->setParameter($this->getControlClass(),'source_id',$a_node_id);
+			return $this->ctrl->getLinkTarget($this->getControlClass(),'chi_assign');
 		}
 		else
 		{
+			echo "hier";
+
 			$this->ctrl->setParameterByClass('ilrepositorygui',"ref_id",$this->ref_id);
 			return $this->ctrl->getLinkTargetByClass('ilrepositorygui','copySelector');
 		}
@@ -108,7 +120,7 @@ class ilRepositoryCopySelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
-		return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
+		return in_array($a_type,$this->selectable_types) and $a_ref_id != $this->ref_id;
 	}
 
 	function showChilds($a_ref_id)

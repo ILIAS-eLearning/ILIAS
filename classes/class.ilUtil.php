@@ -177,7 +177,6 @@ class ilUtil
 			{
 				$str .= " <option value=\"".$val."\"";
 			}
-
 			if (is_array($selected) )
 			{
 				if (in_array($key,$selected))

@@ -111,7 +111,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		else
 		{
 			if($rbacsystem->checkAccess("write", $this->ref_id) or
-			   $this->object->isActivated(false))
+			   ($this->object->isActivated() and !$this->object->isArchived()))
 			{
 				$this->initCourseContentInterface();
 				$this->cci_view();
@@ -482,6 +482,11 @@ class ilObjCourseGUI extends ilObjectGUI
 																				 "crs[archive_type]",$this->object->ARCHIVE_DOWNLOAD));
 
 		$this->tpl->setVariable("CMD_SUBMIT","update");
+
+		$this->initConditionHandlerGUI($this->object->getRefId());
+		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_list());
+
+
 	}
 
 	function updateObject()
@@ -2748,5 +2753,75 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		return true;;
 	}
+
+	// Methods for ConditionHandlerInterface
+	function initConditionHandlerGUI($item_id)
+	{
+		if(!method_exists($this,'chi_init'))
+		{
+			include_once "./classes/class.ilConditionHandlerInterface.php";
+			
+			aggregate($this,"ilConditionHandlerInterface");
+
+			if($_GET['item_id'])
+			{
+				$this->chi_init($item_id);
+				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+			}
+			$this->chi_init();
+		}
+		return true;
+	}
+
+	function chi_updateObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_update();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}		
+	function chi_deleteObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_delete();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}
+
+	function chi_selectorObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_selector();
+	}		
+
+	function chi_assignObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_assign();
+
+		if($_GET['item_id'])
+		{
+			$this->cciEditObject();
+		}
+		else
+		{
+			$this->editObject();
+		}
+	}
+		
 } // END class.ilObjCourseGUI
 ?>
