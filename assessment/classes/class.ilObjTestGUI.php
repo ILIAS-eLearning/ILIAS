@@ -3913,8 +3913,20 @@ class ilObjTestGUI extends ilObjectGUI
 						$qshort = "<span title=\"" . ilUtil::prepareFormOutput($qt) . "\">" . $arrkey . "</span>: ";
 					}
 				}
+
+				$htmloutput = "";
+				if ($stat_eval[$i-1]["type"] == 8)
+				{
+					// Text question
+					$htmloutput = $qshort . "<input type=\"text\" name=\"".$key."_".$stat_eval[$i-1]["qid"]."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
+				}
+					else
+				{
+					$htmloutput = $qshort . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"];
+				}
+
 				array_push($evalrow, array(
-					"html" => $qshort . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"],
+					"html" => $htmloutput,
 					"xls"  => $stat_eval[$i-1]["reached"],
 					"csv"  => $stat_eval[$i-1]["reached"]
 				));
@@ -4131,6 +4143,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("questions_output");
 		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
+		$this->tpl->setVariable("FORM_ACTION_RESULTS", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("export_btn");

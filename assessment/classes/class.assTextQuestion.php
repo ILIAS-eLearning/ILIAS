@@ -393,7 +393,7 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			// Neuen Datensatz schreiben
 			$now = getdate();
-			$question_type = 8;
+			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
@@ -822,6 +822,19 @@ class ASS_TextQuestion extends ASS_Question
 
 	function createRandomSolution($test_id, $user_id)
 	{
+	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 8;
 	}
 }
 

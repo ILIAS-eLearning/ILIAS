@@ -2571,7 +2571,9 @@ class ilObjTest extends ilObject
 						"max" => sprintf("%d", $max_points),
 						"reached" => sprintf("%d", $reached_points),
 						"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-						"solution" => $href
+						"solution" => $href,
+						"type" => $question->getQuestionType(),
+						"qid" => $question->getId()
 					);
 					array_push($result_array, $row);
 					$key++;
@@ -2590,7 +2592,9 @@ class ilObjTest extends ilObject
 					"max" => sprintf("%d", $max_points),
 					"reached" => sprintf("%d", $reached_points),
 					"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-					"solution" => $href
+					"solution" => $href,
+					"type" => $question->getQuestionType(),
+					"qid" => $question->getId()
 				);
 				array_push($result_array, $row);
 				$key++;

@@ -167,7 +167,7 @@ class ASS_ClozeTest extends ASS_Question
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote(3),
+				$db->quote($this->getQuestionType()),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -1646,6 +1646,19 @@ class ASS_ClozeTest extends ASS_Question
 			}
 			parent::syncWithOriginal();
 		}
+	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 3;
 	}
 }
 
