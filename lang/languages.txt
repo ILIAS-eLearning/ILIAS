@@ -6,65 +6,136 @@ lang_dateformat	MM/DD/YYYY	DD.MM.YYYY	YYYY-MM-DD	YYYY-MM-DD
 sep_thousand	,	.	.	.
 sep_decimal	.	,	,	,
 accept_usr_agreement	accept user agreement?	Benutzer-Lizenz akzeptieren?	Accetti?	accept_usr_agreement
+access	access	Zugang	accesso	access
+add_author	add author	Autor hinzufügen	aggiungi autore	add author
+add_member	add member	Mitglied hinzufügen	add member	add member
 administrate	administrate	administrieren	amministrare	administrate
 administration	administration	Administration	amministrazione	administration
 administrator	administrator	Administrator	amministratore	administrator
+announce	announce	ankündigen	annunciare	announce
 are_you_sure	Are you sure?	Sind Sie Sicher?	Sei sicuro?	are_you_sure
+authors	authors	Autoren	autori	authors
 available_languages	available languages	verfügbare Sprachen	lingue disponibili	available_languages
 basic_data	basic_data	Grunddaten	dati di base	basic_data
+bookmark_new	new bookmark	Favorit hinzufügen	new bookmark	new bookmark
+bookmarks	bookmarks	Favoriten	bookmarks	bookmarks
+categories	categories	Kategorien	categorie	categories
 change	change	ändern	cambia	change
 chapter	chapter	Kapitel	capitolo	chapter
+chapter_number	chapter number	Kapitelnummer	numero del capitolo	chapter number
+chapter_title	chapter title	Kapiteltitel	titolo del capitolo	chapter title
 check	check	prüfen	controlla	check
 chg_language	change language	Sprache ändern	cambia lingua	chg_language
 chg_password	change password	Password ändern	cambia password	chg_password
 choose_language	choose your language	Bitte wählen Sie Ihre Sprache	scegli lingua	please choose your language
 city	city	Stadt	città	city
+comma_separated	comma separated	kommagetrennt	coma separated	coma separated
+compose	compose	schreiben	comporre	compose
 country	country	Land	paese	country
+course	course	Kurs	corso	course
 courses	courses	Kurse	corsi	courses
 create	create	erstellen	creare	create
+crs_available	available courses	verfügbare Kurse	corsi disponibili	available courses
 current_password	current password	derzeitiges Passwort	password attuale	current_password
 database	database	Datenbank	banca dati	database
+database_exists	database exists	Datenbank existiert bereits	database esiste	database exists
+database_is_uptodate	the database is up-to-date	Ihre Datenbank ist auf dem neuesten Stand	database uptodate	database uptodate
+database_needs_update	database needs an update	Datenbank benötigt Update	database needs update	database needs update
+database_update	update database	Datenbank updated	update database	update database
+database_version	current database version	Ihre Datenbankversion	current database version	current database version
 date	date	Datum	data	date
 db_host	database host	Datenbank Host	database host	db_host
+db_name	database name	Datenbankname	database nome	database name
+db_pass	database password	Datenbankpassword	database password	database password
 db_type	database type	Datenbank Typ	database type	db_type
+db_user	database user	Datenbankbenutzer	database utente	database user
 delete	delete	löschen	elimina	delete
+delete_all	delete all	alle löschen	elimina tutto	delete all
+delete_selected	delete selected	Auswahl löschen	elimina selezionato	delete selected
+deleted	deleted	gelöscht	eliminato	deleted
 description	description	Beschreibung	descrizione	description
 desired_password	desired password	neues Password	nuova password	desired_password
 edit	edit	bearbeiten	edit	edit
+edit_data	edit data	Daten bearbeiten	edit data	edit data
 email	email	eMail	email	email
 employee	employee	Angestellter	impiegato	employee
+err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
+execute	execute	ausführen	esegui	execute
+faq_exercise	faq exercise	FAQ/Übungskapitel	faq exercise	faq exercise
+feedback	feedback	Feedback	feedback	feedback
+file_version	version provided in file	verfügbare Version	versione disponibile	provided version
 files_location	files location	Dateiort	posizione dati	files_location
+firstname	firstname	Vorname	nome	firstname
 forename	forename	Vorname	nome 	forename
+forum	forum	Forum	forum	forum
+forums_available	available forums	verfügbare Foren	fori disponibili	available forums
+forums_of_your_groups	forums of your groups	Foren in Ihren Gruppen	gruppi nei tuoi fori	forums of your groups
 gender	gender	Geschlecht	sesso	gender
+generate	generate	generieren	generare	generate
+groupname	groupname	Gruppenname	nome del gruppo	groupname
+groups	groups	Gruppen	gruppi	groups
+groupscope	groupscope	Gruppenziel	scopo del gruppo	groupscope
 guest	guest	Gast	ospite	guest
+inbox	inbox	Posteingang	posta in arrivo	inbox
+inifile	INI-file	Ini-Datei	inifile	inifile
 installed	installed	installiert	istallato	installed
 institution	institution	Institution	istituzione	institution
+keywords	keywords	Schlüsselwörter	parole chiave	keywords
 language	language	Sprache 	lingua	language
 languages	languages	Sprachen	lingue	languages
+languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generate languages from file	generate languages from file
+languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
 last_change	last change	letzte Änderung	ultimo cambio	last_change
 lastname	lastname	Nachname	cognome	lastname
 lesson	lesson	Lerneinheit	lezione	lesson
 lessons	lessons	Lerneinheiten	lezioni	lessons
+level	level	Stufe	level	level
+literature_bookmarks	literature bookmarks	Literatur Favoriten	bookmarks  letteratura	literature bookmarks
+lo	lesson	Lerneinheit	lezione	lesson
+lo_available	available lessons	verfügbare Lerneinheiten	lezioni disponibili	available lessons
+lo_edit	edit lessons	Lerneinheiten editieren	edit lessons	edit lessons
+lo_last_visited	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last visited lessons
+lo_new	new lesson	neue Lerneinheit	nuova lezione	new lesson
 login	login	Login	login	login
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login_to_ilias
 mail	mail	Mail	Posta 	mail
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	mail_s_unread
 mails	mails	Mails	messaggi 	mails
+members	members	Mitglieder	members	members
+message_to	message to	Nachricht an	messaggio a	message to
 migrate	migrate	migrieren	migrare	migrate
 msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	msg_changes_ok
+msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
+name	name	Name	nome	name
+new_folder	new folder	neuer Ordner	nuova cartella	new folder
+new_group	new group	neue Gruppe	nuovo gruppo	new group
 nickname	nickname	Login	nickname	nickname
 no	no	Nein	no	no
+no_title	no title	kein Titel	nessun titolo	no title
+none	none	keine	nessuno	none
 not_installed	not installed	nicht installiert	non istallato	not_installed
+objects	objects	Objekte	oggetti	objects
+offline_version	offline version	Offline Version	versione offline	offline version
+old	old	alt	vecchio	old
+online_chapter	online chapter	Online Kapitel	online capitolo	online chapter
+online_version	online version	Online Version	versione online	online version
+options	options	Optionen	opzioni	options
+other	other	andere	altri	other
+owner	owner	Besitzer	owner	owner
 page	page	Seite	pagina	page
 password	password	Passwort	password	password
 personal_desktop	personal desktop	Personal Desktop	desktop personale	personal_desktop
 personal_profile	personal profile	persönliches Profil	profilo personale	personal_profile
 phone	phone	Telefon	telefono	phone
+phrase	phrase	Phrase	frase	phrase
 profile	profile	Profil	profilo 	profile
+published	published	veröffentlicht	publicato	published
+publishing_organisation	publishing organisation	veröffentlichende Organisation	publishing organisation	publishing organisation
 quit	quit	Logout	esci	quit
 read	read	lesen	leggi	read
 refresh	refresh	aktualisieren	aggiorna	refresh
 refresh_list	refresh list	refresh list	aggiorna lista	refresh_list
+reset	reset	Zurücksetzen	reset	reset
 retype_password	retype password	Passwort wiederholen	ridigita la nuova password	retype password
 right	right	Recht	diritto	right
 rights	rights	Rechte	diritti	rights
@@ -72,105 +143,47 @@ salutation	salutation	Anrede	salutation	salutation
 salutation_f	Ms./Mrs.	Frau	Signora/Signorina	salutation_f
 salutation_m	Mr.	Herr	Signore	salutation_m
 save	save	speichern	salva	save
+save_and_back	save and back	speichern und zurück	salva e indietro	save and back
+saved	saved	gespeichert	salvato	saved
+search	search	Suchen	cercare	search
+search_in	search in	suchen in	cercare in	search in
+send 	send	abschicken	invia	send
 sender	sender	Absender	mittente	sender
+sent	sent	gesendet	inviato	sent
+sequence	sequence	Sequenz 	sequence	sequence
+sequences	sequences	Sequenzen	sequences	sequences
+set_offline	set offline	Offline setzen	mettere offline	set offline
+set_online	set online	Online stellen	mettere online	set online
 setup	setup	setup	setup	setup
+setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup finito	setup is ready
 setup_welcome	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.	Willkommen	Benvenuti	setup_welcome
+startpage	startpage	Startseite	startpage	startpage
 status	status	Status	stato	status
+step	step	Schritt	passo	step
 street	street	Straße	via	street
 student	student	Student	studente	student
+subcat_name	subcategory name	Unterkategorie Name	subcategory name	subcategory name
 subject	subject	Betreff	oggetto	subject
 submit	submit	abschicken	invia	submit
+summary	summary	Zusammenfassung	summary	summary
 system	system	System	sistema	system
+system_groups	system groups	Systemgruppen	gruppi del sistema	system groups
 system_grp	system group	Systemgruppe	gruppo sistema	system_grp
+test_intern	test intern 	interner Test	test intern 	test intern 
 time	time	Zeit	ora	time
 title	title	Titel	titolo	title
+type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	scrivi il Tuo messaggio qua	type your message here
+uid	uid	UID	uid	uid
+update_applied	update applied	Datenbankupdate erfolgreich	update applied	update applied
+url	url	URL	URL	url
 user	user	Benutzer	utente	user
 userdata	userdata	Benutzerdaten	dati untente	userdata
 username	username	Benutzername	nome utente	username
 users	users	Benutzer	utenti	users
 usr_agreement	user agreement	Vereinbarung	user agreement	usr_agreement
+version	version	Version	versione	version
+visible_layers	visible layers	sichtbare Ebenen	visible layers	visible layers
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
-zip_code	zip code	Postleitzahl	codice postale	zip_code
-step	step	Schritt	passo	step
-inifile	INI-file	Ini-Datei	inifile	inifile
-db_name	database name	Datenbankname	database nome	database name
-db_user	database user	Datenbankbenutzer	database utente	database user
-db_pass	database password	Datenbankpassword	database password	database password
-reset	reset	Zurücksetzen	reset	reset
-err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
-setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup finito	setup is ready
-database_exists	database exists	Datenbank existiert bereits	database esiste	database exists
-languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generate languages from file	generate languages from file
-languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
-update_applied	update applied	Datenbankupdate erfolgreich	update applied	update applied
-database_version	current database version	Ihre Datenbankversion	current database version	current database version
-file_version	version provided in file	verfügbare Version	versione disponibile	provided version
-database_is_uptodate	the database is up-to-date	Ihre Datenbank ist auf dem neuesten Stand	database uptodate	database uptodate
-version	version	Version	versione	version
-database_needs_update	database needs an update	Datenbank benötigt Update	database needs update	database needs update
-database_update	update database	Datenbank updated	update database	update database
-groups	groups	Gruppen	gruppi	groups
-search	search	Suchen	cercare	search
-search_in	search in	suchen in	cercare in	search in
-keywords	keywords	Schlüsselwörter	parole chiave	keywords
-phrase	phrase	Phrase	frase	phrase
-course	course	Kurs	corso	course
-msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
-lo_available	available lessons	verfügbare Lerneinheiten	lezioni disponibili	available lessons
-inbox	inbox	Posteingang	posta in arrivo	inbox
-compose	compose	schreiben	comporre	compose
-options	options	Optionen	opzioni	options
-old	old	alt	vecchio	old
-sent	sent	gesendet	inviato	sent
-saved	saved	gespeichert	salvato	saved
-deleted	deleted	gelöscht	eliminato	deleted
-delete_selected	delete selected	Auswahl löschen	elimina selezionato	delete selected
-delete_all	delete all	alle löschen	elimina tutto	delete all
-execute	execute	ausführen	esegui	execute
-new_folder	new folder	neuer Ordner	nuova cartella	new folder
-bookmark_new	new bookmark	Favorit hinzufügen	new bookmark	new bookmark
-url	url	URL	URL	url
-bookmarks	bookmarks	Favoriten	bookmarks	bookmarks
-crs_available	available courses	verfügbare Kurse	corsi disponibili	available courses
-literature_bookmarks	literature bookmarks	Literatur Favoriten	bookmarks  letteratura	literature bookmarks
-forums_available	available forums	verfügbare Foren	fori disponibili	available forums
-name	name	Name	nome	name
-owner	owner	Besitzer	owner	owner
-system_groups	system groups	Systemgruppen	gruppi del sistema	system groups
-forums_of_your_groups	forums of your groups	Foren in Ihren Gruppen	gruppi nei tuoi fori	forums of your groups
-lo_edit	edit lessons	Lerneinheiten editieren	edit lessons	edit lessons
-test_intern	test intern 	interner Test	test intern 	test intern 
-lo_new	new lesson	neue Lerneinheit	nuova lezione	new lesson
-objects	objects	Objekte	oggetti	objects
-feedback	feedback	Feedback	feedback	feedback
-message_to	message to	Nachricht an	messaggio a	message to
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
-send 	send	abschicken	invia	send
-type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	scrivi il Tuo messaggio qua	type your message here
-edit_data	edit data	Daten bearbeiten	edit data	edit data
-uid	uid	UID	uid	uid
-publishing_organisation	publishing organisation	veröffentlichende Organisation	publishing organisation	publishing organisation
-summary	summary	Zusammenfassung	summary	summary
-authors	authors	Autoren	autori	authors
-firstname	firstname	Vorname	nome	firstname
-add_author	add author	Autor hinzufügen	aggiungi autore	add author
-members	members	Mitglieder	members	members
-add_member	add member	Mitglied hinzufügen	add member	add member
-comma_separated	comma separated	kommagetrennt	coma separated	coma separated
-level	level	Stufe	level	level
-categories	categories	Kategorien	categorie	categories
-subcat_name	subcategory name	Unterkategorie Name	subcategory name	subcategory name
-save_and_back	save and back	speichern und zurück	salva e indietro	save and back
-none	none	keine	nessuno	none
-other	other	andere	altri	other
-online_version	online version	Online Version	versione online	online version
-offline_version	offline version	Offline Version	versione offline	offline version
-published	published	veröffentlicht	publicato	published
-lo	lesson	Lerneinheit	lezione	lesson
-set_offline	set offline	Offline setzen	mettere offline	set offline
-set_online	set online	Online stellen	mettere online	set online
-announce	announce	ankündigen	annunciare	announce
-generate	generate	generieren	generare	generate
-lo_last_visited	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last visited lessons
-new_group	new group	neue Gruppe	new group	new group
+zip_code	zip code	Postleitzahl	codice postale	zip_code

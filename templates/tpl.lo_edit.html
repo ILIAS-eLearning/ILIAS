@@ -3,12 +3,13 @@
     <form action="/projekte/uni-koeln/ilias/ed_gliederung.php?cmd=save_switches&amp;le=5" method="post">
     <p><input type=checkbox checked name=seq_edit value=1>{TXT_SEQUENCES}
       <input type=checkbox checked name=online value=1>{TXT_ONLINE_CHAPTER}&nbsp;-&nbsp;{TXT_VISIBLE_LAYERS}<select name="glevel"></select>
-      <input type=submit name="refresh" value="{REFRESH}">&nbsp;<input type=submit name="special" value="{FAQ_EXERCISE}">
+      <br>
+      <input type=submit name="refresh" value="{TXT_REFRESH}">&nbsp;<input type=submit name="special" value="{TXT_FAQ_EXERCISE}">
     </p>
 
-<br><br>
+<br>
     <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <TR>
+    <TR class="tblheader">
       <TD ALIGN=center colspan=4>{TXT_CHAPTER_NUMBER}<input type=checkbox checked name=kap_nr value=1></TD>
       <TD ALIGN=center>{TXT_CHAPTER_TITLE}<input type=checkbox checked name=kap_titel value=1></TD>
       <TD ALIGN=center colspan=2>{TXT_SEQUENCE}<input type=checkbox checked name=seq value=1></TD>
