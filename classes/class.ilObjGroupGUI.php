@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.88 2004/07/13 13:51:01 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.89 2004/08/09 14:49:01 smeyer Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -556,6 +556,34 @@ class ilObjGroupGUI extends ilObjectGUI
 	function assignMemberObject()
 	{
 		$user_ids = $_POST["id"];
+
+		if (empty($user_ids[0]))
+		{
+			// TODO: jumps back to grp content. go back to last search result
+			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
+		}
+
+		foreach ($user_ids as $new_member)
+		{
+			if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
+			{
+				$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+			}
+		}
+
+		unset($_SESSION["saved_post"]);
+
+		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+	}
+
+	/**
+	* displays confirmation formular with users that shall be assigned to group
+	* @access public
+	*/
+	function addUserObject()
+	{
+		$user_ids = $_POST["user"];
 
 		if (empty($user_ids[0]))
 		{
@@ -1109,7 +1137,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	* displays user search form
 	*
 	*/
-	function searchUserFormObject ()
+	/*function searchUserFormObject ()
 	{
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
 
@@ -1124,6 +1152,138 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SEARCH_EMAIL",$this->lng->txt("email"));
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+	}*/
+	
+	function searchUserFormObject()
+	{
+		global $rbacsystem;
+
+		$this->lng->loadLanguageModule('search');
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.grp_members_search.html");
+		
+		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("grp_search_members"));
+		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["grp_search_str"] ? $_SESSION["grp_search_str"] : "");
+		$this->tpl->setVariable("SEARCH_FOR",$this->lng->txt("exc_search_for"));
+		$this->tpl->setVariable("SEARCH_ROW_TXT_USER",$this->lng->txt("exc_users"));
+		$this->tpl->setVariable("SEARCH_ROW_TXT_ROLE",$this->lng->txt("exc_roles"));
+		$this->tpl->setVariable("SEARCH_ROW_TXT_GROUP",$this->lng->txt("exc_groups"));
+		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+
+		$this->tpl->setVariable("SEARCH_ROW_CHECK_USER",ilUtil::formRadioButton(1,"search_for","usr"));
+		$this->tpl->setVariable("SEARCH_ROW_CHECK_ROLE",ilUtil::formRadioButton(0,"search_for","role"));
+        $this->tpl->setVariable("SEARCH_ROW_CHECK_GROUP",ilUtil::formRadioButton(0,"search_for","grp"));
+
+		$this->__unsetSessionVariables();
+	}
+	
+	function searchObject()
+	{
+		global $rbacsystem,$tree;
+
+		$_SESSION["grp_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["grp_search_str"];
+		$_SESSION["grp_search_for"] = $_POST["search_for"] = $_POST["search_for"] ? $_POST["search_for"] : $_SESSION["grp_search_for"];
+		
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
+		{
+			sendInfo($this->lng->txt("grp_search_enter_search_string"));
+			$this->searchUserFormObject();
+			
+			return false;
+		}
+
+		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
+		{
+			sendInfo($this->lng->txt("grp_no_results_found"));
+			$this->searchUserFormObject();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		//$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
+		
+		$counter = 0;
+		$f_result = array();
+		switch($_POST["search_for"])
+		{
+			case "usr":
+				foreach($result as $user)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+					{
+						continue;
+					}
+					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
+					$f_result[$counter][] = $tmp_obj->getLogin();
+					$f_result[$counter][] = $tmp_obj->getLastname();
+					$f_result[$counter][] = $tmp_obj->getFirstname();
+
+					unset($tmp_obj);
+					++$counter;
+				}
+				$this->__showSearchUserTable($f_result);
+
+				return true;
+
+			case "role":
+				foreach($result as $role)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role["id"],false))
+					{
+						continue;
+					}
+					$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role["id"]);
+					$f_result[$counter][] = $tmp_obj->getTitle();
+					$f_result[$counter][] = $tmp_obj->getDescription();
+					$f_result[$counter][] = $tmp_obj->getCountMembers();
+					
+					unset($tmp_obj);
+					++$counter;
+				}
+				
+				$this->__showSearchRoleTable($f_result);
+
+				return true;
+				
+			case "grp":
+				foreach($result as $group)
+				{
+					if(!$tree->isInTree($group["id"]))
+					{
+						continue;
+					}
+					if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($group["id"],false))
+					{
+						continue;
+					}
+					$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$group["id"]);
+					$f_result[$counter][] = $tmp_obj->getTitle();
+					$f_result[$counter][] = $tmp_obj->getDescription();
+					$f_result[$counter][] = $tmp_obj->getCountMembers();
+					
+					unset($tmp_obj);
+					++$counter;
+				}
+				$this->__showSearchGroupTable($f_result);
+
+				return true;
+		}
 	}
 
 	function searchCancelledObject ()
@@ -1486,6 +1646,283 @@ class ilObjGroupGUI extends ilObjectGUI
 		return true;;
 	}
 
+	function __unsetSessionVariables()
+	{
+		unset($_SESSION["grp_delete_member_ids"]);
+		unset($_SESSION["grp_delete_subscriber_ids"]);
+		unset($_SESSION["grp_search_str"]);
+		unset($_SESSION["grp_search_for"]);
+		unset($_SESSION["grp_role"]);
+		unset($_SESSION["grp_group"]);
+		unset($_SESSION["grp_archives"]);
+	}
+	
+	function __search($a_search_string,$a_search_for)
+	{
+		include_once("class.ilSearch.php");
 
+		$this->lng->loadLanguageModule("content");
+
+		$search =& new ilSearch($_SESSION["AccountId"]);
+		$search->setPerformUpdate(false);
+		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
+		$search->setCombination("and");
+		$search->setSearchFor(array(0 => $a_search_for));
+		$search->setSearchType('new');
+
+		if($search->validate($message))
+		{
+			$search->performSearch();
+		}
+		else
+		{
+			sendInfo($message,true);
+			$this->ctrl->redirect($this,"searchUserForm");
+		}
+
+		return $search->getResultByType($a_search_for);
+	}
+
+	function __showSearchUserTable($a_result_set,$a_cmd = "search")
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","members");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","addUser");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname")));
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => $a_cmd,
+								  "cmdClass" => "ilobjgroupgui",
+								  "cmdNode" => $_GET["cmdNode"]));
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+		
+		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function __showSearchRoleTable($a_result_set)
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","members");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","listUsers");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("title"),
+								   $this->lng->txt("description"),
+								   $this->lng->txt("grp_count_members")));
+		$tbl->setHeaderVars(array("",
+								  "title",
+								  "description",
+								  "nr_members"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "search",
+								  "cmdClass" => "ilobjgroupgui",
+								  "cmdNode" => $_GET["cmdNode"]));
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->disable('sort');
+		$tbl->render();
+		
+		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function __showSearchGroupTable($a_result_set)
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","members");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","listUsers");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("title"),
+								   $this->lng->txt("description"),
+								   $this->lng->txt("grp_count_members")));
+		$tbl->setHeaderVars(array("",
+								  "title",
+								  "description",
+								  "nr_members"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "search",
+								  "cmdClass" => "ilobjcoursegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->disable('sort');
+		$tbl->render();
+		
+		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function &__initTableGUI()
+	{
+		include_once "class.ilTableGUI.php";
+
+		return new ilTableGUI(0,false);
+	}
+
+	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
+	{
+		switch($from)
+		{
+			case "members":
+				$offset = $_GET["update_members"] ? $_GET["offset"] : 0;
+				$order = $_GET["update_members"] ? $_GET["sort_by"] : '';
+				$direction = $_GET["update_members"] ? $_GET["sort_order"] : '';
+				break;
+
+			case "subscribers":
+				$offset = $_GET["update_subscribers"] ? $_GET["offset"] : 0;
+				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : '';
+				$direction = $_GET["update_subscribers"] ? $_GET["sort_order"] : '';
+				break;
+
+			default:
+				$offset = $_GET["offset"];
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				break;
+		}
+
+		$tbl->setOrderColumn($order);
+		$tbl->setOrderDirection($direction);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($result_set));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->setData($result_set);
+	}
+	
+	function listUsersObject()
+	{
+		global $rbacsystem,$rbacreview;
+
+		$_SESSION["grp_role"] = $_POST["role"] = $_POST["role"] ? $_POST["role"] : $_SESSION["grp_role"];
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!is_array($_POST["role"]))
+		{
+			sendInfo($this->lng->txt("grp_no_roles_selected"));
+			$this->searchObject();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		//$this->__showButton("searchUser",$this->lng->txt("grp_new_search"));
+
+		// GET ALL MEMBERS
+		$members = array();
+		foreach($_POST["role"] as $role_id)
+		{
+			$members = array_merge($rbacreview->assignedUsers($role_id),$members);
+		}
+
+		$members = array_unique($members);
+
+		// FORMAT USER DATA
+		$counter = 0;
+		$f_result = array();
+		foreach($members as $user)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
+			{
+				continue;
+			}
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showSearchUserTable($f_result,"listUsers");
+
+		return true;
+	}
 } // END class.ilObjGroupGUI
 ?>
