@@ -72,6 +72,127 @@ class ilLMTable extends ilPageContent
 		return $this->node;
 	}
 
+	function createNode()
+	{
+		$this->node =& $this->dom->create_element("Table");
+	}
+
+	function addRows($a_nr_rows, $a_nr_cols)
+	{
+		for ($i=1; $i<=$a_nr_rows; $i++)
+		{
+			$new_tr =& $this->dom->create_element("TableRow");
+			$new_tr =& $this->node->append_child($new_tr);
+			for ($j=1; $j<=$a_nr_cols; $j++)
+			{
+				$new_td =& $this->dom->create_element("TableData");
+				$new_td =& $new_tr->append_child($new_td);
+			}
+		}
+	}
+
+	/**
+	* get table width
+	*/
+	function getWidth()
+	{
+		return $this->node->get_attribute("Width");
+	}
+
+	/**
+	* set table width
+	*
+	* @param	string		$a_width		table width
+	*/
+	function setWidth($a_width)
+	{
+		if($a_width != "")
+		{
+			$this->node->set_attribute("Width", $a_width);
+		}
+		else
+		{
+			$this->node->remove_attribute("Width");
+		}
+	}
+
+	/**
+	* get table border width
+	*/
+	function getBorder()
+	{
+		return $this->node->get_attribute("Border");
+	}
+
+	/**
+	* set table border
+	*
+	* @param	string		$a_border		table border
+	*/
+	function setBorder($a_border)
+	{
+		if($a_border != "")
+		{
+			$this->node->set_attribute("Border", $a_border);
+		}
+		else
+		{
+			$this->node->remove_attribute("Border");
+		}
+	}
+
+	/**
+	* get table cell spacing
+	*/
+	function getCellSpacing()
+	{
+		return $this->node->get_attribute("CellSpacing");
+	}
+
+	/**
+	* set table cell spacing
+	*
+	* @param	string		$a_spacing		table cell spacing
+	*/
+	function setCellSpacing($a_spacing)
+	{
+		if($a_spacing != "")
+		{
+			$this->node->set_attribute("CellSpacing", $a_spacing);
+		}
+		else
+		{
+			$this->node->remove_attribute("CellSpacing");
+		}
+	}
+
+	/**
+	* get table cell padding
+	*/
+	function getCellPadding()
+	{
+		return $this->node->get_attribute("CellPadding");
+	}
+
+	/**
+	* set table cell padding
+	*
+	* @param	string		$a_padding		table cell padding
+	*/
+	function setCellPadding($a_padding)
+	{
+		if($a_padding != "")
+		{
+			$this->node->set_attribute("CellPadding", $a_padding);
+		}
+		else
+		{
+			$this->node->remove_attribute("CellPadding");
+		}
+	}
+
+
+
 	/*
 	function newCol()
 	{

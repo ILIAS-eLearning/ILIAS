@@ -1,0 +1,31 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_COLS}
+	</td>
+	<td class="option_value">
+	{SELECT_COLS}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_ROWS}
+	</td>
+	<td class="option_value">
+	{SELECT_ROWS}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</form>

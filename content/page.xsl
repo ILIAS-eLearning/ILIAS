@@ -25,6 +25,7 @@
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 		</input>
+		<br/>
 	</xsl:if>
 	<xsl:apply-templates/>
 </xsl:template>
@@ -32,18 +33,25 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
-		<xsl:value-of select="@HierId"/>
+		<!-- <xsl:value-of select="@HierId"/> -->
 		<!-- checkbox -->
+		<!--
 		<xsl:if test="$mode = 'edit'">
 			<input type="checkbox" name="target[]">
 				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
 				</xsl:attribute>
 			</input>
-		</xsl:if>
+		</xsl:if> -->
 		<!-- content -->
 		<xsl:apply-templates/>
 		<!-- command selectbox -->
 		<xsl:if test="$mode = 'edit'">
+			<br />
+			<!-- <xsl:value-of select="@HierId"/> -->
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+				</xsl:attribute>
+			</input>
 			<select size="1" class="ilEditSelect">
 				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 				</xsl:attribute>
@@ -69,19 +77,24 @@
 
 <!-- Tables -->
 <xsl:template match="Table">
-	<xsl:value-of select="@HierId"/>
+	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$mode = 'edit'">
-		<input type="checkbox" name="target[]">
+		<!--<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
 			</xsl:attribute>
-		</input>
+		</input> -->
+		<br/>
 	</xsl:if>
 
 	<xsl:for-each select="Title">
 		<xsl:value-of select="."/>
 	<br/>
 	</xsl:for-each>
-	<table class="Table" id="lo_view" border="1">
+	<table class="Table">
+	<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
+	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
+	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
+	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
 	<xsl:for-each select="TableRow">
 		<tr class="TableRow" id="lo_view" valign="top">
 			<xsl:for-each select="TableData">
@@ -106,6 +119,7 @@
 						<input class="ilEditSubmit" type="submit" value="Go">
 							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 						</input>
+						<br/>
 					</xsl:if>
 					<!-- content -->
 					<xsl:apply-templates/>
@@ -116,7 +130,11 @@
 	</table>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
-		<xsl:value-of select="@HierId"/>
+		<!-- <xsl:value-of select="@HierId"/> -->
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+			</xsl:attribute>
+		</input>
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 			</xsl:attribute>
@@ -131,6 +149,7 @@
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]
 			</xsl:attribute>
 		</input>
+		<br/>
 	</xsl:if>
 </xsl:template>
 

@@ -555,8 +555,14 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_all_pages#:#All Pages
-content#:#cont_chapters#:#Chapters
+content#:#cont_insert_table#:#Insert Table
+content#:#cont_nr_cols#:#Number of Columns
+content#:#cont_nr_rows#:#Number of Rows
+content#:#cont_edit_tab_properties#:#Table Properties
+content#:#cont_table_width#:#Table Width
+content#:#cont_table_border#:#Table Border
+content#:#cont_table_cellpadding#:#Table Cell Padding
+content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_insert_par#:#Insert Paragraph

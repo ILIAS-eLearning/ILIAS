@@ -1,0 +1,51 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- Width -->
+<tr class="std">
+	<td class="option">
+	{TXT_TABLE_WIDTH}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TABLE_WIDTH}" value="{VAL_TABLE_WIDTH}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- Border -->
+<tr class="std">
+	<td class="option">
+	{TXT_TABLE_BORDER}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TABLE_BORDER}" value="{VAL_TABLE_BORDER}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- Cell Padding -->
+<tr class="std">
+	<td class="option">
+	{TXT_TABLE_PADDING}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TABLE_PADDING}" value="{VAL_TABLE_PADDING}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- Cell Spacing -->
+<tr class="std">
+	<td class="option">
+	{TXT_TABLE_SPACING}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TABLE_SPACING}" value="{VAL_TABLE_SPACING}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</form>
