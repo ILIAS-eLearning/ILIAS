@@ -105,6 +105,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setLinkXML($link_xml);
 				$page_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
 					"&amp;ref_id=".$this->content_object->getRefId());
+				$page_gui->setFullscreenLink("lm_presentation.php?cmd=fullscreen".
+					"&amp;ref_id=".$this->content_object->getRefId());
 				$page_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
 				$page_gui->setSourcecodeDownloadScript("lm_presentation.php?ref_id=".$this->content_object->getRefId());
 				$page_gui->setPresentationTitle(

@@ -308,6 +308,9 @@ class ilGlossaryPresentationGUI
 			$page_gui->setLinkXML($link_xml);
 
 			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+			$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen".
+				"&amp;ref_id=".$_GET["ref_id"]."&amp;def_id=".$def["id"]);
+
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
@@ -358,6 +361,16 @@ class ilGlossaryPresentationGUI
 
 	}
 
+	/**
+	* show fullscreen view
+	*/
+	function fullscreen()
+	{
+		$page =& new ilPageObject("gdf", $_GET["def_id"]);
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->showMediaFullscreen();
+		
+	}
 
 
 	/**

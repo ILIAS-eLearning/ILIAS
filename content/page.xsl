@@ -43,6 +43,7 @@
 <xsl:param name="map_item" />
 <xsl:param name="map_edit_mode" />
 <xsl:param name="file_download_link" />
+<xsl:param name="fullscreen_link" />
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1339,7 +1340,7 @@
 		count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Fullscreen']) = 1 and
 		$mode != 'fullscreen' and $mode != 'print'">
 		<a target="_new">
-		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
+		<xsl:attribute name="href"><xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 		<img border="0" align="right">
 		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 		</img>

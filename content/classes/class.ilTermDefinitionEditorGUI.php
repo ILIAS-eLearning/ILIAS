@@ -112,9 +112,12 @@ class ilTermDefinitionEditorGUI
 				$page->addUpdateListener($this, "saveShortText");
 				$page_gui =& new ilPageObjectGUI($page);
 				$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+				$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen".
+					"&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);
+				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
 				$page_gui->setHeader($this->term->getTerm());
 				$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
 					"&amp;ref_id=".$_GET["ref_id"]);

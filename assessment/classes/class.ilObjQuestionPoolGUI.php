@@ -172,6 +172,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setHeader($question->getTitle());
 				$page_gui->setFileDownloadLink("questionpool.php?cmd=downloadFile".
 					"&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setFullscreenLink("questionpool.php?cmd=fullscreen".
+					"&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setSourcecodeDownloadScript("questionpool.php?ref_id=".$_GET["ref_id"]);
 				/*
 				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
@@ -246,6 +248,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$fileObj->sendFile();
 		exit;
 	}
+	
+	/**
+	* show fullscreen view
+	*/
+	function fullscreenObject()
+	{
+		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
+		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->showMediaFullscreen();
+		
+	}
+
 
 	/**
 	* set question list filter

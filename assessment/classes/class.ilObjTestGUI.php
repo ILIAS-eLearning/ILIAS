@@ -434,6 +434,18 @@ class ilObjTestGUI extends ilObjectGUI
 		$fileObj->sendFile();
 		exit;
 	}
+	
+	/**
+	* show fullscreen view
+	*/
+	function fullscreenObject()
+	{
+		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
+		$page_gui =& new ilPageObjectGUI($page);
+		$page_gui->showMediaFullscreen();
+		
+	}
 
 	/**
 	* download source code paragraph
