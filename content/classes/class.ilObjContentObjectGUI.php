@@ -754,7 +754,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$acts = array("delete" => "delete", "move" => "moveChapter");
 			if (ilEditClipboard::getContentObjectType() == "st")
 			{
-				$acts["pasteChapter"] =  "pasteChapter";
+				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId()))
+				{
+					$acts["pasteChapter"] =  "pasteChapter";
+				}
 			}
 			$this->setActions($acts);
 			$this->showActions();
@@ -841,11 +844,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		else
 		{
 			$acts = array("delete" => "delete", "movePage" => "movePage");
-
+			/*
 			if (ilEditClipboard::getContentObjectType() == "st")
 			{
 				$acts["pasteChapter"] =  "pasteChapter";
-			}
+			}*/
 			$this->setActions($acts);
 			$this->tpl->setVariable("NUM_COLS", 4);
 			$this->showActions();

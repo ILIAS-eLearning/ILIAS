@@ -163,7 +163,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 //echo ":".$this->checkClipboardContentType().":<br>";
 			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
-				$acts["pastePage"] = "pastePage";
+				// check wether page belongs to lm
+				if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+					== $this->content_object->getID())
+				{
+					$acts["pastePage"] = "pastePage";
+				}
 			}
 			$this->setActions($acts);
 			$this->showActions();
@@ -248,7 +253,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$acts = array("delete" => "delete", "move" => "moveChapter");
 			if(ilEditClipboard::getContentObjectType() == "st")
 			{
-				$acts["pasteChapter"] =  "pasteChapter";
+				if ($this->tree->isInTree(ilEditClipboard::getContentObjectId()))
+				{
+					$acts["pasteChapter"] =  "pasteChapter";
+				}
 			}
 			/*if(!empty($_SESSION["ilEditClipboard"]))
 			{
