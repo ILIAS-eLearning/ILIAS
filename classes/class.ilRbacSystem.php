@@ -176,7 +176,6 @@ class ilRbacSystem
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
-		
 		return in_array($ops_id,$ops);
 	}
 } // END class.RbacSystem

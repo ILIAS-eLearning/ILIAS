@@ -44,6 +44,12 @@ $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
+// CHECK HACK
+if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
