@@ -2340,8 +2340,7 @@ class ilObjUser extends ilObject
 			}
 			if ($a_type == "svy" && !empty($foundsurveys))
 			{
-				$query = sprintf("SELECT survey_finished.state, survey_survey.obj_fi, object_reference.ref_id FROM survey_finished, survey_survey, object_reference WHERE survey_finished.user_fi = %s AND survey_finished.survey_fi = survey_survey.survey_id AND object_reference.obj_id = survey_survey.obj_fi AND survey_survey.obj_fi IN (%s)",
-					$this->ilias->db->quote($ilUser->id),
+				$query = sprintf("SELECT survey_finished.state, survey_survey.obj_fi, object_reference.ref_id FROM survey_finished, survey_survey, object_reference WHERE survey_finished.survey_fi = survey_survey.survey_id AND object_reference.obj_id = survey_survey.obj_fi AND survey_survey.obj_fi IN (%s)",
 					join($foundsurveys, ",")
 				);
 				$result = $this->ilias->db->query($query);
