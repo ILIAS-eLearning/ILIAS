@@ -826,8 +826,11 @@ content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
+content#:#cont_back#:#Back###27 Oct 2003 new variable
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###27 Oct 2003 new variable
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###27 Oct 2003 new variable
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
@@ -863,6 +866,7 @@ content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###27 Oct 2003 new variable
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
@@ -901,6 +905,9 @@ content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
+content#:#cont_mob_inst_prop#:#Instance Properties###27 Oct 2003 new variable
+content#:#cont_mob_prop#:#Object Properties###27 Oct 2003 new variable
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_new_assignment#:#Neue Zuordnung
@@ -915,6 +922,7 @@ content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
+content#:#cont_online#:#Online###27 Oct 2003 new variable
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
@@ -957,6 +965,7 @@ content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Kapitel-Titel
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###27 Oct 2003 new variable
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
 content#:#cont_subchapters#:#Unterkapitel

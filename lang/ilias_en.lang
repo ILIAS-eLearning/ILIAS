@@ -803,7 +803,6 @@ content#:#Pages#:#Pages
 content#:#all#:#All
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
-content#:#cont_online#:#Online
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -825,8 +824,11 @@ content#:#cont_assign_full#:#Assign Fullscreen
 content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
 content#:#cont_assignments_deleted#:#The assignments have been deleted
+content#:#cont_back#:#Back
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
@@ -862,6 +864,7 @@ content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_file#:#File
 content#:#cont_files#:#Files
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_height#:#Height
 content#:#cont_how_published#:#How published
@@ -900,6 +903,9 @@ content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mob_files#:#Object Files
+content#:#cont_mob_inst_prop#:#Instance Properties
+content#:#cont_mob_prop#:#Object Properties
 content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_new_assignment#:#New assignment
@@ -914,6 +920,7 @@ content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
+content#:#cont_online#:#Online
 content#:#cont_order#:#Order Type
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
@@ -955,15 +962,8 @@ content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Quelle
-content#:#cont_mob_inst_prop#:#Instance Properties
-content#:#cont_mob_prop#:#Object Properties
-content#:#cont_mob_files#:#Object Files
-content#:#cont_back#:#Back
-content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
-content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
-content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
-content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_st_title#:#Chapter Title
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
 content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
 content#:#cont_subchapters#:#Subchapters
