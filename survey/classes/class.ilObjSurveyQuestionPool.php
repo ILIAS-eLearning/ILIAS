@@ -431,7 +431,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function paste($question_id)
 	{
-		$this->duplicateQuestion($question_id, $this->getRefId());
+		$this->duplicateQuestion($question_id, $this->getId());
 	}
 	
 /**
@@ -478,7 +478,7 @@ class ilObjSurveyQuestionPool extends ilObject
 * @param integer $question_id The database id of the question
 * @access public
 */
-  function duplicateQuestion($question_id, $ref_id = "") {
+  function duplicateQuestion($question_id, $obj_id = "") {
 		global $ilUser;
 		
 		$questiontype = $this->getQuestiontype($question_id);
@@ -502,9 +502,9 @@ class ilObjSurveyQuestionPool extends ilObject
     while ($question->questionTitleExists($question->getTitle() . " ($counter)")) {
       $counter++;
     }
-		if ($ref_id)
+		if ($obj_id)
 		{
-			$question->setRefId($ref_id);
+			$question->setObjId($obj_id);
 		}
 		$question->duplicate(false, $question->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
   }
