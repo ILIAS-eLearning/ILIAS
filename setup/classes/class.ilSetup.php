@@ -1098,10 +1098,18 @@ class ilSetup extends PEAR
 		// remove trailing slash & convert backslashes to forwardslashes
 		$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
 
-
 		if (empty($datadir_path))
 		{
 			$this->error = "no_path_datadir";
+			return false;
+		}
+
+		$webspace_dir = ILIAS_ABSOLUTE_PATH . "/data";
+		
+		// datadir may not point to webspace dir
+		if (ereg($webspace_dir,$datadir_path))
+		{
+			$this->error = "datadir_webspacedir_match";
 			return false;
 		}
 
