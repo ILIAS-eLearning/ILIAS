@@ -92,7 +92,7 @@ class ilParagraphGUI extends ilPageContentGUI
 
 
 		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 //echo "cmd:".key($_POST["cmd"]).":<br>";
 		if (key($_POST["cmd"]) == "update")
