@@ -431,11 +431,11 @@ class ilExplorer
 						{
 							$parent_index = $this->getIndex($object);
 						}
-
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
 						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
 						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
 						$this->format_options["$counter"]["depth"]		= $tab;
 						$this->format_options["$counter"]["container"]	= false;
@@ -604,7 +604,7 @@ class ilExplorer
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 
-			$frame_target = $this->buildFrameTarget($a_option["type"]);
+			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
 				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
@@ -632,7 +632,7 @@ class ilExplorer
 		return $target.$this->target_get."=".$a_node_id.$this->params_get;
 	}
 
-	function buildFrameTarget($a_type)
+	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
 		return $this->frame_target;
 	}

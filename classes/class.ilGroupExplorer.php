@@ -85,6 +85,7 @@ class ilGroupExplorer extends ilExplorer
 
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
+						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
 						$this->format_options["$counter"]["type"]		= $object["type"];
 						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
