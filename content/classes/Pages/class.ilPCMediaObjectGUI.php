@@ -105,13 +105,23 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function &create($a_create_alias = true)
 	{
+		// determinte title and format
+		if ($_POST["standard_type"] == "File")
+		{
+			$title = $_FILES['standard_file']['name'];
+		}
+		else
+		{
+			$title = $_POST["standard_reference"];
+		}
+
 		// create dummy object in db (we need an id)
 		$this->content_obj = new ilObjMediaObject();
 		$dummy_meta =& new ilMetaData();
 		$dummy_meta->setObject($this->content_obj);
 		$this->content_obj->assignMetaData($dummy_meta);
-		$this->content_obj->setTitle("dummy");
-		$this->content_obj->setDescription("dummy");
+		$this->content_obj->setTitle($title);
+		$this->content_obj->setDescription("");
 		$this->content_obj->create();
 
 		// determine and create mob directory, move uploaded file to directory
