@@ -323,6 +323,8 @@ class ilConditionHandler
 				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "crs":
+				include_once './course/classes/class.ilObjCourse.php';
+
 				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'exc':

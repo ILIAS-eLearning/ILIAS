@@ -398,7 +398,7 @@ class ilExplorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-	function setOutput($a_parent_id, $a_depth = 1)
+	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0)
 	{
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
@@ -408,7 +408,7 @@ class ilExplorer
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		if ($this->showChilds($a_parent_id))
+		if ($this->showChilds($a_parent_id,$a_obj_id))
 		{
 			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
 		}
@@ -482,7 +482,7 @@ class ilExplorer
 						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
 						{
 							// recursive
-							$this->setOutput($object["child"],$a_depth);
+							$this->setOutput($object["child"],$a_depth,$object['obj_id']);
 						}
 					} //if
 				} //if FILTER

@@ -2598,6 +2598,8 @@ class ilRepositoryGUI
 
 	function showCourses()
 	{
+		include_once './classes/class.ilRepositoryExplorer.php';
+
 		// GET ALL COURSES
 		global  $tree, $rbacsystem;
 
@@ -2618,6 +2620,8 @@ class ilRepositoryGUI
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
+				$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($cont_data['obj_id']);
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				$newuser = new ilObjUser($cont_data["owner"]);
@@ -2628,9 +2632,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				
-				if(($rbacsystem->checkAccess('join',$cont_data["ref_id"]) 
-					or $rbacsystem->checkAccess('read',$cont_data["ref_id"])) and
-				   !$tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
+				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id']))
 				{
 					#$this->ctrl->setTargetScript("course.php");
 					$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $cont_data["ref_id"]);
@@ -2663,6 +2665,35 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 				// END CRS STATUS
+				if(!$conditions_ok)
+				{
+					foreach(ilConditionHandler::_getConditionsOfTarget($cont_data['obj_id']) as $condition)
+					{
+						if(ilConditionHandler::_checkCondition($condition['id']))
+						{
+							continue;
+						}
+						$trigger_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
+
+						if(ilRepositoryExplorer::isClickable($trigger_obj->getType(),$trigger_obj->getRefId(),$trigger_obj->getId()))
+						{
+							$tpl->setCurrentBlock("link");
+							$tpl->setVariable("PRECONDITION_LINK",
+											  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
+							$tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
+							$tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$tpl->setCurrentBlock("no_link");
+							$tpl->setVariable("PRECONDITION_NO_TITLE",$trigger_obj->getTitle());
+							$tpl->parseCurrentBlock();
+						}
+					}
+					$tpl->setCurrentBlock("crs_preconditions");
+					$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('condition_precondition'));
+					$tpl->parseCurrentBlock();
+				}
 
 				// DEACTIVATED
 				// SHOW UNSUBSCRIBE LINK IF USER HAS leave permission AND IS MEMBER
