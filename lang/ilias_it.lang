@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file italian
@@ -119,12 +119,12 @@ assessment#:#apply#:#Conferma
 assessment#:#ass_create_export_file#:#Crea file di export
 assessment#:#ass_export_files#:#File di export
 assessment#:#ass_file#:#Scegli il file
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Domanda
 assessment#:#ass_questions#:#Domande
 assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#backtocallingtest#:#Torna al test
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
@@ -185,8 +185,8 @@ assessment#:#ects_range_error_d#:#Per favore inserisci un valore tra 0 e 100 per
 assessment#:#ects_range_error_e#:#Per favore inserisci un valore tra 0 e 100 per il voto E nella scala ECTS!
 assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che falliscono raggiungono almeno il 
 assessment#:#ects_use_fx_grade_part2#:#percento dei punti totali.
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
+assessment#:#edit_content#:#Modifica il contenuto
+assessment#:#edit_properties#:#Modifica le proprietà
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
@@ -260,7 +260,7 @@ assessment#:#log_no_test_fields_changed#:#Salvato, ma non modificato
 assessment#:#log_question_added#:#Domanda aggiunta nella posizione
 assessment#:#log_question_position_changed#:#Modificata posizione della domanda
 assessment#:#log_question_removed#:#Eliminata domanda
-assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
+assessment#:#log_user_data_removed#:#Eliminati tutti i dati utente
 assessment#:#maintenance#:#Manutenzione
 assessment#:#mark_schema#:#Schema voti
 assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
@@ -388,13 +388,13 @@ assessment#:#tst_delete_results#:#Azzera il test
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_enter_questionpool#:#Per favore inserisci il nome della raccolta di domande nella quale verr&#224; inserita la domanda
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi.
-assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
+assessment#:#tst_eval_show_answer#:#Mostra la risposta
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
 assessment#:#tst_eval_total_passed#:#Test totali passati
 assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test passati
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno inserito il test
-assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
+assessment#:#tst_eval_user_answer#:#Risposta dell'utente
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Genera un Foglio elettronico
 assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
@@ -417,9 +417,9 @@ assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
 assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questionpools_for_random_test#:#Non hai indicato nemmeno una raccolta di domande in questo test casuale! Seleziona almeno una raccolta di domande.
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi creare nuove domande.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questions_for_random_test#:#Non hai selezionato nessuna domanda della raccolta per questo test casuale! Seleziona il numero di domande che compongono il test.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
 assessment#:#tst_no_tries#:#Nessun tentativo
 assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
@@ -578,8 +578,8 @@ bibitem#:#bibitem_year#:#Anno
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
+chat#:#chat_add_external_ip#:#Per favore, aggiungi l'IP esterno del server.
+chat#:#chat_add_internal_ip#:#Per favore, aggiungi l'IP interno del server.
 chat#:#chat_add_moderator_password#:#Per favore, aggiungi la password del moderatore
 chat#:#chat_add_port#:#Per favore, aggiungi la porta del server
 chat#:#chat_aqua#:#aqua
@@ -640,8 +640,8 @@ chat#:#chat_rooms_deleted#:#Chatroom cancellate.
 chat#:#chat_select_one_room#:#Per favore, scegli una chatroom
 chat#:#chat_server_allowed#:#Host consentiti
 chat#:#chat_server_allowed_b#:#(cio&#232; 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
+chat#:#chat_server_external_ip#:#IP esterno del server
+chat#:#chat_server_internal_ip#:#Ip interno del server
 chat#:#chat_server_logfile#:#Percorso del file di log
 chat#:#chat_server_loglevel#:#Livello di log
 chat#:#chat_server_not_active#:#Il server chat non &#232; attivo
@@ -737,18 +737,18 @@ common#:#approve_date#:#Approvato il
 common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
-common#:#articels_unread#:#Articoli da leggere:###14 Feb 2005 content changed
+common#:#articels_unread#:#Articoli da leggere:
 common#:#as_of#:#di
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
-common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
-common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
+common#:#assessment_log#:#Crea il log per Test&Assessment per un periodo di tempo
+common#:#assessment_log_datetime#:#Giorno/Ora
+common#:#assessment_log_for_test#:#Per test
+common#:#assessment_log_no_log#:#Non sono disponibili dati nel log per il test selezionato e per il periodo di tempo indicato!
+common#:#assessment_log_open_calendar#:#Clicca qui per aprire il calendario e selezionare la data (devono essere abilitati i JavaScript!)
+common#:#assessment_log_question#:#Domanda
+common#:#assessment_log_select_test#:#--- Scegli un test ---
+common#:#assessment_log_text#:#Messaggio del log
+common#:#assessment_log_user_answer#:#L'utente ha risposto ad una domanda
+common#:#assessment_log_user_answers#:#Mostra le azioni dell'utente
 common#:#assessment_settings#:#Impostazioni Test&Valutazioni
 common#:#assf_edit_permission#:#Modificare i permessi
 common#:#assf_read#:#Accedere in lettura a Test&Valutazioni
@@ -761,7 +761,7 @@ common#:#assign_local_role#:#Assegna al ruolo locale
 common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo
 common#:#assigned_roles#:#Ruoli assegnati
 common#:#assigned_users#:#Utenti assegnati
-common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
+common#:#at_least_one_style#:#Almeno uno stile deve essere attivo.
 common#:#at_location#:#alla locazione
 common#:#attachment#:#Allegato
 common#:#attachments#:#Allegati
@@ -816,7 +816,7 @@ common#:#cannot_find_xml#:#Non ho trovato nessun file XML.
 common#:#cannot_uninstall_language_in_use#:#Non &egrave; possibile rimuovere la lingua che &#232; correntemente in uso!
 common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lingua di sistema!
 common#:#cannot_unzip_file#:#Non posso decomprimere il file.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
+common#:#cant_deactivate_if_users_assigned#:#Non pu&#242; essere disattivato lo stile se viene utilizzato ancora da alcuni utenti.
 common#:#cat#:#Contesto
 common#:#cat_a#:#Un contesto
 common#:#cat_add#:#Aggiungi contesto
@@ -921,8 +921,8 @@ common#:#condition#:#Condizione
 common#:#condition_already_assigned#:#L'oggetto &#232; gi&#224; stato assegnato.
 common#:#condition_circle_created#:#Questa associazione non &#232; possibile, perch&#232; si &#232; creata una dipendenza circolare.
 common#:#condition_deleted#:#Condizione eliminata.
-common#:#condition_finished#:#Finished###01 Mar 2005 new variable
-common#:#condition_not_finished#:#Not finished###01 Mar 2005 new variable
+common#:#condition_finished#:#Terminato
+common#:#condition_not_finished#:#Non terminato
 common#:#condition_passed#:#Superato
 common#:#condition_precondition#:#Condizioni preliminari:
 common#:#condition_select_object#:#Per favore, scegli almeno un oggetto.
@@ -934,7 +934,7 @@ common#:#confirmation#:#Conferma
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
-common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
+common#:#content_styles#:#Stili presenti
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua
 common#:#copied_object#:#Oggetto copiato
@@ -956,7 +956,7 @@ common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
-common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###01 Mar 2005 new variable
+common#:#crs_all_questions_answered_successfully#:#Hai risposto con successo a tutte le domande.
 common#:#crs_archives#:#Archivi di corsi
 common#:#crs_at_least_one_admin#:#Deve essere definito almeno un amministratore di corso.
 common#:#crs_available#:#Corsi disponibili
@@ -1027,7 +1027,7 @@ common#:#dbk_new#:#Nuovo libro digitale
 common#:#dbk_read#:#Accedere in lettura ad un libro digitale
 common#:#dbk_visible#:#Vedere un libro digitale
 common#:#dbk_write#:#Modificare un libro digitale
-common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
+common#:#def_repository_view#:#Vista risorse predefinite
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
 common#:#default_perm_settings#:#Impostazione dei permessi
@@ -1049,8 +1049,8 @@ common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
-common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
-common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#desktop_items#:#Oggetti del desktop personale
+common#:#disable#:#disabilita
 common#:#disabled#:#Disabilitato
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
@@ -1067,7 +1067,7 @@ common#:#edit_roleassignment#:#Modifica assegnamento ruoli
 common#:#edit_stylesheet#:#Modifica stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
-common#:#email#:#eMail###04 Mar 2005 content changed
+common#:#email#:#eMail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L&#039;indirizzo eMail non &#232; valido!
 common#:#enable#:#Abilita
@@ -1110,7 +1110,7 @@ common#:#exc_ask_delete#:#Vuoi eliminare il file?
 common#:#exc_assign_usr#:#Assegna utente
 common#:#exc_create#:#Crea una esercitazione
 common#:#exc_date_not_valid#:#La data non &#232; valida
-common#:#exc_deassign_members#:#Elimina membro(i)
+common#:#exc_deassign_members#:#Rimuovi membro(i)
 common#:#exc_delete#:#Eliminare una esercitazione
 common#:#exc_edit#:#Creata nuova esercitazione
 common#:#exc_edit_exercise#:#Modifica l&#039;esercitazione
@@ -1121,10 +1121,10 @@ common#:#exc_files_returned#:#File restituiti
 common#:#exc_groups#:#Gruppi
 common#:#exc_header_members#:#Esercitazione (membri)
 common#:#exc_instruction#:#Istruzioni per l'esecuzione
-common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati assegnati a questa eserciziotazione
-common#:#exc_members_assigned#:#Membri assegnati
+common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati aggiunti alla esercizitazione
+common#:#exc_members_assigned#:#Membri aggiunti
 common#:#exc_new#:#Nuova esercitazione
-common#:#exc_no_members_assigned#:#Nessun membro iscritto
+common#:#exc_no_members_assigned#:#Nessun membro aggiunto
 common#:#exc_notices#:#Note
 common#:#exc_obj#:#Esercitazione
 common#:#exc_read#:#Accedere in lettura ad una esercitazione
@@ -1257,9 +1257,9 @@ common#:#glo_upload_file#:#Scegli il file
 common#:#glo_visible#:#Vedere un glossario
 common#:#glo_write#:#Modificare un glossario
 common#:#global#:#Globale
-common#:#global_default#:#Global Default###01 Mar 2005 new variable
-common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
+common#:#global_default#:#Impostazioni globali predefinite
+common#:#global_fixed#:#Impostazioni globali fissate
+common#:#global_settings#:#Impostazioni globali
 common#:#global_user#:#Utenti globali
 common#:#glossaries#:#Glossari
 common#:#glossary#:#Glossario
@@ -1301,7 +1301,7 @@ common#:#groups_overview#:#Descrizione gruppi
 common#:#grp#:#Gruppo
 common#:#grp_a#:#Un gruppo
 common#:#grp_add#:#Aggiungi gruppo
-common#:#grp_add_member#:#Aggiungi membri###01 Mar 2005 content changed
+common#:#grp_add_member#:#Aggiungi membri
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
 common#:#grp_app_send_mail#:#Invia una eMail al mittente
@@ -1344,9 +1344,9 @@ common#:#grp_list_users#:#Elenco utenti
 common#:#grp_mem_change_status#:#Cambia il ruolo del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
-common#:#grp_msg_applicants_assigned#:#Richiedenti ammessi come membri del gruppo
+common#:#grp_msg_applicants_assigned#:#Richiedenti aggiunti come membri del gruppo
 common#:#grp_msg_applicants_removed#:#Richiedenti rimossi dalla lista.
-common#:#grp_msg_member_assigned#:#Utenti ammessi come membri del gruppo
+common#:#grp_msg_member_assigned#:#Utenti aggiunti come membri del gruppo
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
@@ -1366,7 +1366,7 @@ common#:#guest#:#Ospite
 common#:#guests#:#Ospiti
 common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#nascondi
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hist_dbk:pg_create#:#Pagina creata
@@ -1458,7 +1458,7 @@ common#:#in_use#:#Lingua utente
 common#:#inactive#:#Inattivo
 common#:#inbox#:#Posta in arrivo
 common#:#info#:#Informazioni
-common#:#info_assign_sure#:#Sei sicuro di voler assegnare i seguenti utenti?
+common#:#info_assign_sure#:#Sei sicuro di voler aggiungere i seguenti utenti?
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
 common#:#info_trash#:#Oggetti eliminati
@@ -1477,7 +1477,7 @@ common#:#ingmedia_level_zero#:#Livello superiore
 common#:#ingmedia_pers_dates#:#Dati personali
 common#:#ingmedia_reg_fo#:#Forum registrati
 common#:#ingmedia_reg_le#:#LE registrati
-common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).###04 Mar 2005 content changed
+common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).
 common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.
 common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.
 common#:#ingmedia_use_title#:#Cambia i dati utente.
@@ -1538,7 +1538,7 @@ common#:#languages#:#Lingue
 common#:#languages_already_installed#:#Attenzione. La lingua scelta &#232; gi&#224; stata installata.
 common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &#232; gi&#224; stata rimossa.
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.
-common#:#last_access#:#Last access:###01 Mar 2005 new variable
+common#:#last_access#:#Ultimo accesso:
 common#:#last_change#:#Data ultima modifica
 common#:#last_update#:#Data ultimo aggiornamento
 common#:#last_visit#:#Ultima visita
@@ -1636,7 +1636,7 @@ common#:#mail_delete_error_file#:#Errore nella cancellazione del file
 common#:#mail_e_sent#:#Inviate
 common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#mail_folders#:#Cartelle di posta
-common#:#mail_import#:#Importazione della posta
+common#:#mail_import#:#Importa la posta
 common#:#mail_import_file#:#File di importazione da ILIAS 2
 common#:#mail_intern_enable#:#Abilita
 common#:#mail_mail_visible#:#Usare la posta di sistema
@@ -1719,7 +1719,7 @@ common#:#move#:#Sposta
 common#:#moveChapter#:#Sposta
 common#:#movePage#:#Sposta
 common#:#move_to#:#Inserisci in cartella
-common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
+common#:#move_users_to_style#:#Modifica lo stile degli utenti
 common#:#msg_cancel#:#Esecuzione annullata
 common#:#msg_changes_ok#:#Modifiche effettuate
 common#:#msg_clear_clipboard#:#Cancellazione eseguita
@@ -1745,7 +1745,7 @@ common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predef
 common#:#msg_no_delete_yourself#:#Non puoi eliminare il tuo stesso utente.
 common#:#msg_no_file#:#Non hai scelto un file
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
-common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per modificare il ruolo dell&#039;utente
+common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per assegnare il ruolo dell&#039;utente
 common#:#msg_no_perm_copy#:#Non hai i diritti per creare una copia dei seguenti oggetti: 
 common#:#msg_no_perm_create#:#Non hai i diritti per creare i seguenti oggetti: 
 common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione
@@ -1845,11 +1845,11 @@ common#:#no_zip_file#:#Non &#232; stato trovato il file zip.
 common#:#non_internal_local_roles_only#:#Ruoli locali (definiti dall'utente)
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
-common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
+common#:#not_accessed#:#Non entrato
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
 common#:#not_logged_in#:#Non sei entrato in ILIAS 3
-common#:#num_users#:#Number of users###02 Mar 2005 new variable
+common#:#num_users#:#Numero di utenti
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
@@ -1909,8 +1909,8 @@ common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
-common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
-common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
+common#:#obj_styf#:#Cartella di stili
+common#:#obj_styf_desc#:#Amministra qui gli stili di sistema.
 common#:#obj_svy#:#Sondaggio
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
@@ -2056,8 +2056,8 @@ common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
-common#:#publishing_organisation#:#Organizzazione di pubblicazione
-common#:#purpose#:#Purpose###01 Mar 2005 new variable
+common#:#publishing_organisation#:#Casa editrice
+common#:#purpose#:#Scopo
 common#:#qpl#:#Raccolta di domande (per test)
 common#:#qpl_add#:#Aggiungi raccolta di domande
 common#:#qpl_delete#:#Eliminare una raccolta di domande
@@ -2139,15 +2139,15 @@ common#:#role_add#:#Aggiungi ruolo
 common#:#role_add_local#:#Aggiungi ruolo locale
 common#:#role_add_user#:#Aggiungi utente al ruolo
 common#:#role_added#:#Ruolo aggiunto
-common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
-common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
+common#:#role_assigned_desk_items#:#Oggetti presenti sul desktop
+common#:#role_assigned_desktop_item#:#Aggiunto nuovo oggetto sul desktop.
 common#:#role_assignment#:#Ruolo assegnato
 common#:#role_assignment_updated#:#L'assegnamento al ruolo &#232; stato aggiornato.
 common#:#role_count_users#:#Numero di utenti
 common#:#role_deleted#:#Ruolo eliminato
-common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
-common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
-common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
+common#:#role_deleted_desktop_items#:#Rimosso oggetto dal desktop.
+common#:#role_desk_add#:#Aggiungi oggetto sul desktop
+common#:#role_desk_none_created#:#Non ci sono oggetti sul desktop per questo ruolo.
 common#:#role_edit#:#Modifica ruolo
 common#:#role_header_edit_users#:#Modifica gli assegnamenti dell'utente
 common#:#role_list_users#:#Elenco utenti
@@ -2156,14 +2156,14 @@ common#:#role_new_search#:#Nuova ricerca
 common#:#role_no_groups_selected#:#Per favore scegli almeno un gruppo
 common#:#role_no_results_found#:#Nessun risultato
 common#:#role_no_roles_selected#:#Per favore scegli almeno un ruolo
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
+common#:#role_no_users_no_desk_items#:#Non &#232; possibile aggiungere oggetti sul desktop personale, visto che non puoi assegnare gli utenti a questo ruolo.
 common#:#role_search_enter_search_string#:#Per favore indica cosa ricercare
 common#:#role_search_users#:#Ricerca utenti
-common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
-common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
-common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
+common#:#role_select_desktop_item#:#Scegli un oggetto che sar&#224; assegnato a questo ruolo.
+common#:#role_select_one_item#:#Scegli un oggetto.
+common#:#role_sure_delete_desk_items#:#Sei sicuro di voler cancellare le seguenti assegnazioni?
 common#:#role_templates_only#:#Template di ruolo
-common#:#role_user_deassign#:#Annulla assegnamento dell'utente al ruolo
+common#:#role_user_deassign#:#Rimuovi il ruolo dell'utente
 common#:#role_user_edit#:#Modifica dati utente
 common#:#role_user_send_mail#:#Invia un messaggio all'utente
 common#:#roles#:#Ruoli
@@ -2227,7 +2227,7 @@ common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
 common#:#select_file#:#Scegli il file
-common#:#select_max_one_item#:#Please select one item only###01 Mar 2005 new variable
+common#:#select_max_one_item#:#Scegli un elemento solamente
 common#:#select_mode#:#Seleziona modo
 common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#select_object_to_link#:#Per favore seleziona l'oggetto che vuoi collegare
@@ -2259,10 +2259,10 @@ common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
-common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
+common#:#skin_style#:#Default Skin / Style
 common#:#smtp#:#SMTP
-common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
-common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
+common#:#soap_user_administration#:#Amministrazione utenti esterna (SOAP)
+common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potranno essere amministrati tramite un client SOAP esterno.
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#spl#:#Raccolta di domande (per sondaggi)
 common#:#spl_add#:#Aggiungi raccolta di domande
@@ -2285,12 +2285,12 @@ common#:#step#:#Passo
 common#:#stop_inheritance#:#Interrompi l&#039;ereditariet&#224;
 common#:#street#:#Via
 common#:#structure#:#Struttura
-common#:#sty#:#Style###01 Mar 2005 new variable
-common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
-common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
-common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
-common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
-common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
+common#:#sty#:#Stile
+common#:#style_activation#:#Attivazione stile
+common#:#stys_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#stys_read#:#Accedere in letura alle impostazioni degli stili
+common#:#stys_visible#:#Vedere le impostazioni degli stili
+common#:#stys_write#:#Modificare le impostazioni degli stili
 common#:#subcat_name#:#Nome sottocategoria
 common#:#subchapter_new#:#Nuovo paragrafo
 common#:#subject#:#Oggetto
@@ -2319,7 +2319,7 @@ common#:#system_grp#:#Gruppo di sistema
 common#:#system_information#:#Informazioni di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
-common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
+common#:#system_style_settings#:#Impostazione degli stili di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#tax#:#Tassonomia
 common#:#tax_add#:#Aggiungi tassonomia
@@ -2357,8 +2357,8 @@ common#:#to#:#A:
 common#:#to_client_list#:#Vai alla lista di Client
 common#:#to_desktop#:#Invia sul desktop personale
 common#:#today#:#Oggi
-common#:#toggleGlobalDefault#:#Toggle Global Default###01 Mar 2005 new variable
-common#:#toggleGlobalFixed#:#Toggle Global Fixed###01 Mar 2005 new variable
+common#:#toggleGlobalDefault#:#Ripristina le impostazioni globali predefinite
+common#:#toggleGlobalFixed#:#Ripristina le impostazioni globali fissate
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
 common#:#trac_delete#:#Eliminare i dati di tracciamento
@@ -2390,7 +2390,7 @@ common#:#typ#:#Definizione di tipo di oggetto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Scrivi il tuo messaggio qua
 common#:#uid#:#uid
-common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
+common#:#unambiguousness#:#Riconoscimento basato su
 common#:#uncheck_all#:#Deseleziona tutto
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
@@ -2400,7 +2400,7 @@ common#:#unselected#:#Deseleziona
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
 common#:#up#:#Su
-common#:#update#:#Edit###01 Mar 2005 new variable
+common#:#update#:#Modifica
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
 common#:#upload#:#Importa
@@ -2448,10 +2448,10 @@ common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene tes
 common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
 common#:#usr_new#:#Nuovo utente
-common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
-common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
-common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
-common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
+common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
+common#:#usr_settings_header_profile#:#Impostazioni profilo utenti
+common#:#usr_settings_header_profile_profile#:#Impostazioni profilo personale
+common#:#usr_settings_saved#:#Impostazioni globali utente salvate con successo!
 common#:#usr_skin_style#:#Tema / Stile
 common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
@@ -2459,7 +2459,7 @@ common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Eliminare un utente
 common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
+common#:#usrf_push_desktop_items#:#Consentire di inviare oggetti sul desktop.
 common#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
 common#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
@@ -2475,7 +2475,7 @@ common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
-common#:#webservices#:#Webservices###28 Jan 2005 new variable
+common#:#webservices#:#Webservices
 common#:#week#:#Settimana
 common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
@@ -2574,7 +2574,7 @@ content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_export_file_html#:#Crea file di export (HTML)
-content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###01 Mar 2005 new variable
+content#:#cont_create_export_file_scorm#:#Crea file di export (SCORM)
 content#:#cont_create_export_file_xml#:#Crea file di export (XML)
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_html_version#:#Crea un Package HTML
@@ -2773,12 +2773,12 @@ content#:#cont_public_access#:#Accesso pubblico
 content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
-content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
+content#:#cont_ref_images#:#Immagini riferite
 content#:#cont_reference#:#Riferimento
 content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo
 content#:#cont_removeiln#:#veramente rimuovere il collegamento interno?
-content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
-content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
+content#:#cont_repository_item#:#Risorsa
+content#:#cont_repository_item_links#:#Collegamento a risorsa
 content#:#cont_reset_definitions#:#Annulla le posizioni definite
 content#:#cont_reset_pictures#:#Annulla le posizioni delle immagini
 content#:#cont_resource#:#Risorsa
@@ -2841,7 +2841,7 @@ content#:#cont_status#:#Stato
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
-content#:#cont_style#:#Style###01 Mar 2005 new variable
+content#:#cont_style#:#Stile
 content#:#cont_subchapters#:#Paragrafi
 content#:#cont_table#:#Tabella
 content#:#cont_table_border#:#Bordo tabella
@@ -2900,30 +2900,30 @@ content#:#selected_pages_only#:#solamente le pagine selezionate sotto
 content#:#set_public_mode#:#Imposta in modalit&#224; di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
-crs#:#assigned#:#Assigned###01 Mar 2005 new variable
+crs#:#assigned#:#Assegnato
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
-crs#:#crs_accept_subscriber_body#:#Sei stato assegnato a questo corso.
+crs#:#crs_accept_subscriber_body#:#Sei stato iscritto a questo corso.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Attivazione
-crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML###04 Mar 2005 content changed
-crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML###04 Mar 2005 content changed
-crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
-crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
+crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
+crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
+crs#:#crs_add_grouping#:#Aggiungi piano formativo
+crs#:#crs_add_grp_assignment#:#Aggiungi corso
 crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
-crs#:#crs_add_member#:#Iscrivi utente###01 Mar 2005 content changed
-crs#:#crs_add_objective#:#Add objective###01 Mar 2005 new variable
-crs#:#crs_add_starter#:#Add start object###01 Mar 2005 new variable
-crs#:#crs_add_subscribers#:#Iscrivi utente###01 Mar 2005 content changed
+crs#:#crs_add_member#:#Iscrivi utente
+crs#:#crs_add_objective#:#Aggiungi obiettivo formativo
+crs#:#crs_add_starter#:#Aggiungi oggetto di partenza
+crs#:#crs_add_subscribers#:#Iscrivi utente
 crs#:#crs_added#:#Aggiunto nuovo corso
 crs#:#crs_added_member#:#Utente iscritto
 crs#:#crs_added_member_body#:#Sei stato iscritto a questo corso.
 crs#:#crs_added_new_archive#:#Aggiunto un nuovo archivio
-crs#:#crs_added_objective#:#A new learning objective has been created.###01 Mar 2005 new variable
-crs#:#crs_added_starters#:#Assigned start object(s).###01 Mar 2005 new variable
+crs#:#crs_added_objective#:#Obiettivo formativo aggiunto.
+crs#:#crs_added_starters#:#Oggetto di partenza assegnato.
 crs#:#crs_admin#:#Amministratore
 crs#:#crs_admin_no_notify#:#Amministratore (senza notifica)
 crs#:#crs_admin_notify#:#Amministratore (notificato)
-crs#:#crs_allow_abo#:#Allow subscription of course items###01 Mar 2005 new variable
+crs#:#crs_allow_abo#:#Consenti l'iscrizione ad elementi del corso
 crs#:#crs_archive#:#Archivi
 crs#:#crs_archive_disabled#:#Disabilitato
 crs#:#crs_archive_download#:#Anche download
@@ -2939,8 +2939,8 @@ crs#:#crs_blocked_member#:#Iscritti al corso
 crs#:#crs_blocked_member_body#:#La tua iscrizione al corso &#232; terminata.
 crs#:#crs_cancel_subscription#:#Cancellazioni dal Corso
 crs#:#crs_cancel_subscription_body#:#Un utente si &#232; cancellato dal corso.
-crs#:#crs_change_status#:#Changes status of objective:###01 Mar 2005 new variable
-crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###01 Mar 2005 new variable
+crs#:#crs_change_status#:#Modifica lo stato dell'obiettivo:
+crs#:#crs_chapter_already_assigned#:#Questi capitoli sono gi&#224; stati aggiunti.
 crs#:#crs_contact#:#Contatti
 crs#:#crs_contact_consultation#:#Consultazione
 crs#:#crs_contact_email#:#eMail
@@ -2950,72 +2950,72 @@ crs#:#crs_contact_responsibility#:#Responsibilit&#224;
 crs#:#crs_content#:#Contenuto del corso
 crs#:#crs_copy_cat_not_allowed#:#Non &#232; possibile copiare i contesti
 crs#:#crs_count_members#:#Numero di iscritti
-crs#:#crs_count_questions#:#Number of questions###01 Mar 2005 new variable
+crs#:#crs_count_questions#:#Numero di domande
 crs#:#crs_create_date#:#Crea scadenza
-crs#:#crs_crs_structure#:#Course structure###01 Mar 2005 new variable
+crs#:#crs_crs_structure#:#Struttura del corso
 crs#:#crs_dates#:#Scadenze
-crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###01 Mar 2005 new variable
+crs#:#crs_deassign_lm_sure#:#Sei sicuro di volerlo rimuovere?
 crs#:#crs_delete_member#:#Cancella iscrizione
 crs#:#crs_delete_members_sure#:#Vuoi cancellare l'iscrizione dei seguenti utenti a questo corso?
-crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###01 Mar 2005 new variable
+crs#:#crs_delete_objectve_sure#:#Sei sicuro di voler eliminare i seguenti obiettivi?
 crs#:#crs_delete_subscribers#:#Cancella iscrizione
 crs#:#crs_delete_subscribers_sure#:#Vuoi cancellare l'iscrizione dei seguenti utenti
-crs#:#crs_details#:#Dettagli del corso###01 Mar 2005 content changed
+crs#:#crs_details#:#Dettagli del corso
 crs#:#crs_dismiss_member#:#Iscritti al corso
 crs#:#crs_dismiss_member_body#:#La tua iscrizione &#232; terminata
 crs#:#crs_edit_archive#:#Modifica Archivi
-crs#:#crs_edit_content#:#Edit items###01 Mar 2005 new variable
+crs#:#crs_edit_content#:#Modifica elementi
 crs#:#crs_end#:#Fine periodo
 crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_from#:#Da:
-crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
-crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
-crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
-crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
-crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.###01 Mar 2005 new variable
-crs#:#crs_grp_assign_crs#:#Assign course###01 Mar 2005 new variable
-crs#:#crs_grp_assigned_courses#:#Assigned courses.###01 Mar 2005 new variable
-crs#:#crs_grp_assigned_courses_info#:#Assigned courses:###01 Mar 2005 new variable
-crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.###01 Mar 2005 new variable
-crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
-crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
-crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
-crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
-crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
-crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable
-crs#:#crs_grp_table_assigned_courses#:#Assigned courses###01 Mar 2005 new variable
+crs#:#crs_grouping#:#Piano formativo
+crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente piano formativo?
+crs#:#crs_grouping_deleted#:#Rimossi piani formativi.
+crs#:#crs_grouping_select_one#:#Scegli il piano formativo.
+crs#:#crs_groupings#:#Piani formativi
+crs#:#crs_groupings_ask_delete#:#Elimina il piano formativo
+crs#:#crs_grp_already_assigned#:#Hai gi&#224; aggiunto di questo piano formativo.
+crs#:#crs_grp_assign_crs#:#Aggiungi corso
+crs#:#crs_grp_assigned_courses#:#Corso aggiunto
+crs#:#crs_grp_assigned_courses_info#:#Corsi presenti:
+crs#:#crs_grp_courses_already_assigned#:#Il corso scelto era gi&#224; stato aggiunto.
+crs#:#crs_grp_crs_assignment#:#Inserimento corso
+crs#:#crs_grp_deassigned_courses#:#Corso rimosso
+crs#:#crs_grp_enter_title#:#Per favore indica un titolo.
+crs#:#crs_grp_info_reg#:#Puoi registrarti solamente ad uno dei seguenti piani formativi:
+crs#:#crs_grp_matriculation_required#:#Questo piano formativo richiede un numero di matricola univoco. <br />Inserisci questo valore tra le impostazioni del desktop personale.
+crs#:#crs_grp_modified_grouping#:#Modificato piano formativo.
+crs#:#crs_grp_no_course_selected#:#Per favore scegli un corso.
+crs#:#crs_grp_no_courses_assigned#:#Non sono presenti corsi.
+crs#:#crs_grp_table_assigned_courses#:#Corsi presenti
 crs#:#crs_header_archives#:#Archivi del corso
 crs#:#crs_header_delete_members#:#Cancella iscrizione
 crs#:#crs_header_edit_members#:#Modifica iscrizioni
 crs#:#crs_header_members#:#Iscritti al corso
-crs#:#crs_hide_link_lms#:#Hide learning materials###01 Mar 2005 new variable
-crs#:#crs_hide_link_objectives#:#Hide objectives###01 Mar 2005 new variable
-crs#:#crs_hide_link_or#:#Hide other resources###01 Mar 2005 new variable
-crs#:#crs_hide_link_tst#:#Hide tests###01 Mar 2005 new variable
+crs#:#crs_hide_link_lms#:#Nascondi il materiale formativo
+crs#:#crs_hide_link_objectives#:#Nascondi gli obiettivi
+crs#:#crs_hide_link_or#:#Nascondi le altre risorse
+crs#:#crs_hide_link_tst#:#Nascondi i test
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Informazioni per l'iscrizione
 crs#:#crs_info_reg_confirmation#:#L'iscrizione a questo corso &#232; vincolata all'accettazione dell'amministratore. Riceverai un messaggio quando l'iscrizione verr&#224; confermata.
 crs#:#crs_info_reg_deactivated#:#Non &#232; possibile iscriversi
 crs#:#crs_info_reg_direct#:#E' necessaria l'iscrizione a questo corso
 crs#:#crs_info_reg_password#:#Per l'iscrizione occorre una password valida.
-crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.###01 Mar 2005 new variable
-crs#:#crs_learning_materials#:#Learning materials###01 Mar 2005 new variable
+crs#:#crs_info_start#:#Per favore lavora con tutti gli elementi del corso iniziato evidenziati qui sopra.<br />Una volta che avrai terminato tutti gli oggetti marcati di rosso, gli elementi del nuovo corso saranno resi disponibili.
+crs#:#crs_learning_materials#:#Materiale formativo
 crs#:#crs_list_users#:#Elenco degli utenti
-crs#:#crs_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
-crs#:#crs_lm_assignment_deleted#:#Deleted assignment.###01 Mar 2005 new variable
-crs#:#crs_lm_deassign#:#Delete assignment.###01 Mar 2005 new variable
-crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###01 Mar 2005 new variable
-crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.###01 Mar 2005 new variable
+crs#:#crs_lm_assignment#:#Modifica materiale formativo
+crs#:#crs_lm_assignment_deleted#:#Materiale formativo rimosso.
+crs#:#crs_lm_deassign#:#Materiale formativo rimosso.
+crs#:#crs_lm_no_assignments_selected#:#Seleziona materiale formativo da aggiungere.
+crs#:#crs_lms_already_assigned#:#Questi materiali formativi sono gi&#224; stati aggiunti.
 crs#:#crs_max_members_reached#:#E'stato raggiunto il numero massimo di iscritti
 crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
-crs#:#crs_member_blocked#:#Iscritto (non-bloccato)###04 Mar 2005 content changed
+crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_unblocked#:#Iscritto (bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
@@ -3024,99 +3024,99 @@ crs#:#crs_members_title#:#Iscritti al corso
 crs#:#crs_move_down#:#Sposta in basso
 crs#:#crs_move_up#:#Sposta in alto
 crs#:#crs_moved_item#:#Sposta corso
-crs#:#crs_moved_objective#:#Moved learing objective.###01 Mar 2005 new variable
+crs#:#crs_moved_objective#:#Obiettivo formativo spostato.
 crs#:#crs_new_search#:#Nuova ricerca
 crs#:#crs_new_subscription#:#Nuova iscrizione al corso
 crs#:#crs_new_subscription_body#:#Un nuovo utente &#232; stato iscritto
 crs#:#crs_no_archive_selected#:#Nessun archivio &#232; stato scelto
 crs#:#crs_no_archives_available#:#Non ci sono archivi disponibili
-crs#:#crs_no_archives_selected#:#Per favore scegli uin archivio
-crs#:#crs_no_chapter_selected#:#Please select a chapter.###01 Mar 2005 new variable
-crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.###01 Mar 2005 new variable
-crs#:#crs_no_groups_selected#:#Per favore scegli un gruppo
+crs#:#crs_no_archives_selected#:#Per favore scegli un archivio
+crs#:#crs_no_chapter_selected#:#Per favore scelgi un capitolo.
+crs#:#crs_no_groupings_assigned#:#Nessun piano formativo presente.
+crs#:#crs_no_groups_selected#:#Per favore scegli un piano formativo
 crs#:#crs_no_items_found#:#Non sono stati definiti oggetti
 crs#:#crs_no_language#:#Nessuna lingua
-crs#:#crs_no_lm_selected#:#Please select one learning material.###01 Mar 2005 new variable
-crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.###01 Mar 2005 new variable
-crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
+crs#:#crs_no_lm_selected#:#Per favore scegli almeno un materiale formativo.
+crs#:#crs_no_lms_assigned#:#Non &#232; presente materiale formativo.
+crs#:#crs_no_lms_inside_crs#:#All'interno del corso non &#232; presente materiale formativo che pu&#242; essere inserito in questo obiettivo.
 crs#:#crs_no_member_selected#:#Per favore scegli almeno un iscritto
 crs#:#crs_no_members_assigned#:#Non ci sono iscritti a questo corso
 crs#:#crs_no_notify#:#Nessuna notifica per nuove registrazioni
-crs#:#crs_no_objective_selected#:#Please select one objective.###01 Mar 2005 new variable
-crs#:#crs_no_objectives_created#:#There are no objectives assigned.###01 Mar 2005 new variable
-crs#:#crs_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
-crs#:#crs_no_questions_assigned#:#There are no questions assigned.###01 Mar 2005 new variable
+crs#:#crs_no_objective_selected#:#Scegli un obiettivo formativo.
+crs#:#crs_no_objectives_created#:#Non ci sono obiettivi formativi.
+crs#:#crs_no_question_selected#:#Scegli una domanda.
+crs#:#crs_no_questions_assigned#:#Non ci sono domande assegnate.
 crs#:#crs_no_results_found#:#Nessun risultato
 crs#:#crs_no_roles_selected#:#Per favore seleziona un ruolo
-crs#:#crs_no_starter_created#:#No start objects assigned to this course.###01 Mar 2005 new variable
-crs#:#crs_no_subscribers_selected#:#Pe favore scegli un utente
-crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
+crs#:#crs_no_starter_created#:#Non &#232; stato assegnato nessun oggetto di partenza a questo corso.
+crs#:#crs_no_subscribers_selected#:#Per favore scegli un utente
+crs#:#crs_no_tests_inside_crs#:#All'interno del corso non ci sono test che possono essere assegnati a questo obiettivo formativo.
 crs#:#crs_no_users_added#:#Nessun membro aggiunto
 crs#:#crs_no_users_selected#:#Non hai scelto alcun utente
 crs#:#crs_no_valid_member_id_given#:#Nessun Id utente valido
 crs#:#crs_not_available#:#-Non disponibile-
 crs#:#crs_notify#:#Notifica per nuova registrazione
-crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
+crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Il seguente numero di utenti &#232; stato iscritto al corso
-crs#:#crs_objective_accomplished#:#Accomplished###01 Mar 2005 new variable
-crs#:#crs_objective_assign_chapter#:#Assign chapters###01 Mar 2005 new variable
-crs#:#crs_objective_assign_lm#:#Assign learning material###01 Mar 2005 new variable
-crs#:#crs_objective_assign_question#:#Assign question###01 Mar 2005 new variable
-crs#:#crs_objective_deassign_question#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_objective_delete_lm_assignment#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.###01 Mar 2005 new variable
-crs#:#crs_objective_modified#:#Updated learning objective.###01 Mar 2005 new variable
-crs#:#crs_objective_no_title_given#:#Please enter a title.###01 Mar 2005 new variable
-crs#:#crs_objective_not_accomplished#:#Not accomplished###01 Mar 2005 new variable
-crs#:#crs_objective_overview_objectives#:#Overview objectives###01 Mar 2005 new variable
-crs#:#crs_objective_overview_question_assignment#:#Overview question assignment###01 Mar 2005 new variable
-crs#:#crs_objective_pretest#:#Self assessment###01 Mar 2005 new variable
-crs#:#crs_objective_question_assignment#:#Question assignment###01 Mar 2005 new variable
-crs#:#crs_objective_result#:#After test###01 Mar 2005 new variable
-crs#:#crs_objective_updated_test#:#Updated modifications.###01 Mar 2005 new variable
-crs#:#crs_objective_view#:#Objective oriented view###01 Mar 2005 new variable
-crs#:#crs_objectives#:#Learning objectives###01 Mar 2005 new variable
-crs#:#crs_objectives_assign_chapter#:#Assign chapter###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_lms#:#Assigned learning materials###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_questions#:#Assigned questions###01 Mar 2005 new variable
-crs#:#crs_objectives_chapter_assignment#:#Chapter assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?###01 Mar 2005 new variable
-crs#:#crs_objectives_deleted#:#Delete learning objectives###01 Mar 2005 new variable
-crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!###01 Mar 2005 new variable
-crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
-crs#:#crs_objectives_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_max_points#:#Maximum points###01 Mar 2005 new variable
-crs#:#crs_objectives_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
-crs#:#crs_objectives_nr_questions#:#Number of questions###01 Mar 2005 new variable
-crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.###01 Mar 2005 new variable
-crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###01 Mar 2005 new variable
-crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
+crs#:#crs_objective_accomplished#:#Completato
+crs#:#crs_objective_assign_chapter#:#Aggiungi capitoli
+crs#:#crs_objective_assign_lm#:#Aggiungi materiale formativo
+crs#:#crs_objective_assign_question#:#Aggiungi domanda
+crs#:#crs_objective_deassign_question#:#Rimuovi domanda
+crs#:#crs_objective_delete_lm_assignment#:#Rimuovi materiale formativo
+crs#:#crs_objective_insert_percent#:#Per favore indica un numero compreso tra 1 e 100.
+crs#:#crs_objective_modified#:#Modifica l'obiettivo formativo
+crs#:#crs_objective_no_title_given#:#Per favore indica il titolo
+crs#:#crs_objective_not_accomplished#:#Non completato
+crs#:#crs_objective_overview_objectives#:#Mostra obiettivi formativi
+crs#:#crs_objective_overview_question_assignment#:#Mostra domande
+crs#:#crs_objective_pretest#:#Auto assegnamento
+crs#:#crs_objective_question_assignment#:#Domande assegnate
+crs#:#crs_objective_result#:#Risultati
+crs#:#crs_objective_updated_test#:#Modifiche eseguite.
+crs#:#crs_objective_view#:#Vista orientamento obiettivi
+crs#:#crs_objectives#:#Obiettivi formativi
+crs#:#crs_objectives_assign_chapter#:#Aggiungi capitolo
+crs#:#crs_objectives_assigned_lm#:#Il materiale formativo selezionato &#232; stato aggiunto.
+crs#:#crs_objectives_assigned_lms#:#Modifica materiale formativo
+crs#:#crs_objectives_assigned_new_questions#:#Aggiunto nuovo assegnamento
+crs#:#crs_objectives_assigned_questions#:#Domande aggiunte
+crs#:#crs_objectives_chapter_assignment#:#Capitolo aggiunto
+crs#:#crs_objectives_deassign_question_sure#:#Vuoi veramente rimuovere le seguenti domande?
+crs#:#crs_objectives_deleted#:#Obiettifi formativi eliminati
+crs#:#crs_objectives_edit_question_assignments#:#Modifica domande aggiunte
+crs#:#crs_objectives_info_final#:#Non hai completato tutti gli obiettivi formativi del precedente esame. <br />Per favore, rivedi il materiale formativo corrispondente agli obiettivi indicati in rosso. <br />Dopo aver raggiunto gli obiettivi indicati, potrai eseguire l'esame nuovamente.
+crs#:#crs_objectives_info_finished#:#Congratulazioni, hai raggiunto tutti gli obiettivi formativi di questo corso!
+crs#:#crs_objectives_info_none#:#L'elenco seguente contiene gli obiettivi formativi del corso.<br /> Per favore per ogni obiettivo, esegui il materiale formativo associato.
+crs#:#crs_objectives_info_pretest#:#I risultati seguenti sono relativi all'auto-valutazione. <br />Per favore per ogni obiettivo indicato in rosso, esegui il materiale formativo associato. <br />Dopo aver completato tutti gli obiettivi marcati in rosso, potrai eseguire l'esame finale del corso, che si trova nella sezione test di questa pagina.
+crs#:#crs_objectives_info_pretest_non_suggest#:#I risultati seguenti sono relativi all'auto-valutazione. <br />Come si pu&#242; vedere sono stati raggiunti tutti gli obiettivi formativi. Adesso puoi eseguire l'esame finale del corso, che si trova nella sezione test di questa pagina.
+crs#:#crs_objectives_lm_assignment#:#Aggiunto materiale formativo
+crs#:#crs_objectives_max_points#:#Punteggio massimo
+crs#:#crs_objectives_no_question_selected#:#Scegli almeno una domanda.
+crs#:#crs_objectives_nr_questions#:#Domande presenti
+crs#:#crs_objectives_qst_deassigned#:#La domanda è stata rimossa.
+crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di questo corso. <br />Tutti i risultati del test saranno eliminati.
+crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opzioni
-crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
+crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Stampa elenco
-crs#:#crs_question_assignment#:#Question assignment###01 Mar 2005 new variable
+crs#:#crs_question_assignment#:#Modifica domande
 crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
 crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti &#232; stato raggiunto.
 crs#:#crs_reg_subscription_start_later#:#Il periodo di registrazione inizier&#224; successivamente
 crs#:#crs_reg_until#:#Scadenza registrazione
-crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato assegnato a questo corso
+crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato iscritto a questo corso
 crs#:#crs_reg_user_already_subscribed#:#Ti sei gi&#224; iscritto a questo corso
 crs#:#crs_reg_user_blocked#:#La tua iscrizione a questo corso non pu&#242; essere modificata
 crs#:#crs_registration#:#Iscrizione al corso
 crs#:#crs_reject_subscriber#:#Iscrizione al corso
 crs#:#crs_reject_subscriber_body#:#La tua richiesta di iscrizione &#232; stata rifiutata.
-crs#:#crs_reset_results#:#Reset results###01 Mar 2005 new variable
+crs#:#crs_reset_results#:#Risultati azzerati
 crs#:#crs_role#:#Ruolo
 crs#:#crs_role_status#:#Ruolo / Stato
 crs#:#crs_search_enter_search_string#:#Per favore indica una stringa da ricercare
@@ -3124,29 +3124,29 @@ crs#:#crs_search_for#:#Ricerca per
 crs#:#crs_search_members#:#Ricerca utente
 crs#:#crs_search_str#:#Ricerca voce
 crs#:#crs_select_archive_language#:#Per favore scegli una lingua per l'archivio
-crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.###01 Mar 2005 new variable
-crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.###01 Mar 2005 new variable
-crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.###01 Mar 2005 new variable
+crs#:#crs_select_exactly_one_lm#:#Scegli solamente un modulo formativo.
+crs#:#crs_select_exactly_one_tst#:#Scegli solamente un test.
+crs#:#crs_select_native_lm#:#I singoli capitoli possono essere assegnati solamente a moduli ILIAS nativi.
 crs#:#crs_select_one_archive#:#Per favore scegli un archivio
-crs#:#crs_select_one_object#:#Please select one course item.###01 Mar 2005 new variable
-crs#:#crs_select_starter#:#Select start object###01 Mar 2005 new variable
+crs#:#crs_select_one_object#:#Scegli un corso
+crs#:#crs_select_starter#:#Scegli l'oggetto di partenza
 crs#:#crs_settings#:#Propriet&#224; del corso
 crs#:#crs_settings_saved#:#Impostazioni salvate
-crs#:#crs_show_link_lms#:#Show learning materials###01 Mar 2005 new variable
-crs#:#crs_show_link_objectives#:#Show objectives###01 Mar 2005 new variable
-crs#:#crs_show_link_or#:#Show other resources###01 Mar 2005 new variable
-crs#:#crs_show_link_tst#:#Show tests###01 Mar 2005 new variable
-crs#:#crs_show_objectives_view#:#Objective view###01 Mar 2005 new variable
+crs#:#crs_show_link_lms#:#Mostra i materiali formativi
+crs#:#crs_show_link_objectives#:#Mostra gli obiettivi
+crs#:#crs_show_link_or#:#Mostra altre risorse
+crs#:#crs_show_link_tst#:#Mostra i test
+crs#:#crs_show_objectives_view#:#Mostra gli obiettivi
 crs#:#crs_size#:#Dimensioni file
 crs#:#crs_sort_activation#:#Ordine per attivazione
 crs#:#crs_sort_manual#:#Ordina manualmente
 crs#:#crs_sort_title#:#Ordina per titolo
 crs#:#crs_sortorder#:#Ordina
-crs#:#crs_sortorder_abo#:#Sortorder/Subscription###01 Mar 2005 new variable
+crs#:#crs_sortorder_abo#:#Ordinamento alfabetico/per sottoscrizione
 crs#:#crs_start#:#Inizio periodo
-crs#:#crs_start_objects#:#Start objects###01 Mar 2005 new variable
-crs#:#crs_starter_deleted#:#Removed assignment.###01 Mar 2005 new variable
-crs#:#crs_starters_already_assigned#:#This object was already assigned.###01 Mar 2005 new variable
+crs#:#crs_start_objects#:#Oggetti di partenza
+crs#:#crs_starter_deleted#:#Rimosso l'oggetto di partenza
+crs#:#crs_starters_already_assigned#:#L'oggetto di partenza &#232; gi&#224; stato aggiunto.
 crs#:#crs_status#:#Stato
 crs#:#crs_status_changed#:#Stato corso
 crs#:#crs_status_changed_body#:#Lo stato del tuo corso &#232; stato modificato.
@@ -3162,13 +3162,13 @@ crs#:#crs_subscription_options_direct#:#Iscrizione diretta
 crs#:#crs_subscription_options_password#:#Iscrizione con password
 crs#:#crs_subscription_successful#:#Sei stato iscritto a questo corso
 crs#:#crs_subscription_type#:#Tipo di iscrizione
-crs#:#crs_suggest_lm#:#Suggest learning materials if:###01 Mar 2005 new variable
+crs#:#crs_suggest_lm#:#Suggerisci il materiale formativo se:
 crs#:#crs_sure_delete_selected_archives#:#Sei sicuro di voler eliminare gli archivi selezionati
 crs#:#crs_syllabus#:#Sommario
-crs#:#crs_table_start_objects#:#Start objects###01 Mar 2005 new variable
-crs#:#crs_test_status_complete#:#Complete###01 Mar 2005 new variable
-crs#:#crs_test_status_not_complete#:#Not complete###01 Mar 2005 new variable
-crs#:#crs_test_status_random#:#Random test###01 Mar 2005 new variable
+crs#:#crs_table_start_objects#:#Oggetti di partenza
+crs#:#crs_test_status_complete#:#Completato
+crs#:#crs_test_status_not_complete#:#Non completato
+crs#:#crs_test_status_random#:#Test casuale
 crs#:#crs_time#:#Data di iscrizione
 crs#:#crs_to#:#A:
 crs#:#crs_tutor#:#Tutor
@@ -3181,12 +3181,12 @@ crs#:#crs_unlimited#:#Senza limite
 crs#:#crs_unsubscribe#:#Cancella iscrizione
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso?
 crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
-crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
+crs#:#crs_update_objective#:#Modifica l'obiettivo formativo
 crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso
 crs#:#crs_xml#:#XML
-crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
-crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
+crs#:#edit_content#:#Mofdifica il contenuto
+crs#:#learners_view#:#Vista studenti
 crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
@@ -3456,8 +3456,8 @@ forum#:#frm_default_view#:#Vista predefinita
 forum#:#frm_title_required#:#Per favore, inserisci un titolo.
 forum#:#is_read#:#segna come letto
 jscalendar#:#about_calendar#:#A proposito dell'Agenda
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPer avere l'ultima versione visita il sito: http://dynarch.com/mishoo/calendar.epl\nDistributed con licenza GNU LGPL.  Vedi http://gnu.org/licenses/lgpl.html per dettagli.\n\nSelezione data:\n- Usa i bottoni «, » per selezionare l'anno\n- Usa i bottono <, > per selezionare il mese\n- Per una selezione pi&#259; veloce, tieni premuti i bottoni indicati.
+jscalendar#:#about_time#:#\n\nSelezione ora:\n- Per aumentare clicca sull'ora\n- per diminire tieni premuto Shift e clicca\n- per una selezione pi&#249; veloce puoi trascinare l'ora.
 jscalendar#:#close#:#Chiudi
 jscalendar#:#day_first#:#Mostra prima %s 
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4176,7 +4176,7 @@ payment#:#pay_goto_buyed_objects#:#Vai agli oggetti acquistati
 payment#:#pay_goto_shopping_cart#:#Vai al carrello
 payment#:#pay_header#:#Pagamenti
 payment#:#pay_item_already_in_sc#:#Questo oggetto &#232; gi&#224; stato inserito nel carrello.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
+payment#:#pay_item_already_in_sc_choose_another#:#Questo oggetto &#232; gi&#224; stato inserito nel carrello. Seleziona un nuovo prezzo/oggetto.
 payment#:#pay_locator#:#Pagamenti
 payment#:#pay_message_attachment#:#Come confermato nel tuo ordine, invieremo la fattura (in formato PDF) in allegato.
 payment#:#pay_message_hello#:#Caro
@@ -4232,7 +4232,7 @@ payment#:#paya_insert_only_numbers#:#Per favore inserisci solo cifre.
 payment#:#paya_locator#:#Amministrazione pagamenti
 payment#:#paya_months#:#Mesi
 payment#:#paya_no_booking_id_given#:#Errore: specificare l'id della prenotazione
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
+payment#:#paya_no_bookings#:#Non sono presenti statistiche.
 payment#:#paya_no_object_selected#:#Per favore scegli almeno un oggetto.
 payment#:#paya_no_objects_assigned#:#Non ci sono oggetti acquistabili.
 payment#:#paya_no_price_available#:#Non ci sono prezzi disponibili
@@ -4312,16 +4312,16 @@ payment#:#price_a#:#Prezzo
 payment#:#prices#:#Prezzi
 payment#:#update#:#Aggiornamento
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
-pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.###04 Mar 2005 content changed
+pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell'utente e la nuova password nei campi qui sotto.
-pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.###04 Mar 2005 content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.
 pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\nIl nome dell'utente che &#232; stato indicato non corrisponde all'utente per il quale hai chiesto assistenza.
-pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.###04 Mar 2005 content changed
+pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.
 pwassist#:#pwassist_mail_sent#:#Un messaggio &#232; stato inviato a %1$s.\nPer favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
 pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\nIL servizio di assistenza per le password non &#232; consentito per l'utente che hai specificato.
 pwassist#:#pwassist_password_assigned#:#La password &#232; stata assegnata con successo all'utente "%1$s".
-pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.###04 Mar 2005 content changed
+pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.
 pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di sistema.\nLa password non pu&#242; essere assegnata all'utente indicato per un errore nell'aggiornamento del Database.
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati
