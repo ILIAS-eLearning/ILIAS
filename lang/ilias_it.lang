@@ -81,13 +81,9 @@ common#:#courses#:#corsi
 common#:#create#:#creare
 common#:#create_in#:#creare in
 common#:#crs_available#:#corsi disponibili
-common#:#crs_management_system#:#sistema management CRS
+common#:#crs_management_system#:#sistema management courses
 common#:#current_password#:#password attuale
 common#:#database#:#banca-dati
-common#:#database_exists#:#banca-dati già esistente
-common#:#database_is_uptodate#:#banca-dati uptodate
-common#:#database_needs_update#:#banca-dati ha bisogno di un update
-common#:#database_update#:#update banca-dati
 common#:#database_version#:#vesione attuale della banca-dati
 common#:#date#:#data
 common#:#db_host#:#host banca-dati
@@ -112,7 +108,6 @@ common#:#email#:#email
 common#:#employee#:#impiegato
 common#:#enable#:#attivare
 common#:#enumerate#:#numerare
-common#:#err_create_database_failed#:#creazione banca-dati fallita
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#recipiente di errori
 common#:#execute#:#esegui
@@ -162,8 +157,6 @@ common#:#keywords#:#parole chiave
 common#:#lang_path#:#percorso lingue
 common#:#language#:#lingua
 common#:#languages#:#lingue
-common#:#languages_generate_from_file#:#generare lingue del file
-common#:#languages_generate_from_upload#:#generare lingue del nuovo upload
 common#:#last_change#:#ultimo cambio
 common#:#lastname#:#cognome
 common#:#ldap#:#LDAP
@@ -288,9 +281,6 @@ common#:#server_software#:##server software
 common#:#set#:##set
 common#:#set_offline#:#mettere offline
 common#:#set_online#:#mettere online
-common#:#setup#:#setup
-common#:#setup_ready#:#setup finito
-common#:#setup_welcome#:#Benvenuti
 common#:#show_owner#:#proprietario
 common#:#signature#:##signature
 common#:#startpage#:##startpage

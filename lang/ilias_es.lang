@@ -81,13 +81,9 @@ common#:#courses#:#courses
 common#:#create#:#create
 common#:#create_in#:#create in
 common#:#crs_available#:#available courses
-common#:#crs_management_system#:#crs management system
+common#:#crs_management_system#:#course management system
 common#:#current_password#:#current password
 common#:#database#:#database
-common#:#database_exists#:#database exists
-common#:#database_is_uptodate#:#the database is up-to-date
-common#:#database_needs_update#:#database needs an update
-common#:#database_update#:#update database
 common#:#database_version#:#current database version
 common#:#date#:#date
 common#:#db_host#:#database host
@@ -112,7 +108,6 @@ common#:#email#:#email
 common#:#employee#:#employee
 common#:#enable#:#enable
 common#:#enumerate#:#enumerate
-common#:#err_create_database_failed#:#creation of database failed
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#error recipient
 common#:#execute#:#execute
@@ -162,8 +157,6 @@ common#:#keywords#:#keywords
 common#:#lang_path#:#language path
 common#:#language#:#language
 common#:#languages#:#languages
-common#:#languages_generate_from_file#:#generate languages from file
-common#:#languages_generate_from_upload#:#generate languages from uploaded file
 common#:#last_change#:#last change
 common#:#lastname#:#lastname
 common#:#ldap#:#LDAP
@@ -288,9 +281,6 @@ common#:#server_software#:#server software
 common#:#set#:#set
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
-common#:#setup#:#setup
-common#:#setup_ready#:#setup is ready
-common#:#setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
@@ -321,7 +311,6 @@ common#:#type_your_message_here#:#type your message here
 common#:#uid#:#uid
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#unread
-common#:#update_applied#:#update applied
 common#:#url#:#url
 common#:#url_description#:#url description
 common#:#userdata#:#userdata
@@ -378,7 +367,7 @@ common#:#check_language#:#check language
 common#:#set_system_language#:#set system language
 common#:#lang_de#:#Aleman
 common#:#lang_dk#:#Dinamarqu&eacute;s
-common#:#lang_en#:#Ingles
+common#:#lang_en#:#Inglés
 common#:#lang_es#:#Espa&ntilde;ol
 common#:#lang_fr#:#Franc&eacute;s
 common#:#lang_id#:#Indonesian

@@ -1,4 +1,4 @@
-espanol
+espa&ntilde;ol
 available_languages#:#idiomas disponibles
 choose_language#:#escoge tu idioma
 database#:#base de datos
@@ -18,7 +18,7 @@ err_create_database_failed#:#La creación de la base de datos no ha sido posible.
 err_wrong_login#:#Identificación fallida
 ilias_version#:#Versión de ILIAS
 inifile#:#archivo ini
-inst_name#:#nombre de la installatción
+inst_name#:#nombre de la installación
 install#:#instalar
 installed#:#instalado
 language#:#Idioma
@@ -28,12 +28,11 @@ login_to_ilias#:#Identificación en ILIAS
 password#:#contraseña
 setup#:#Configuración
 setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
-setup_welcome#:#Bienvenido a la configuración de ILIAS.<br/>Para hacer que ILIAS sea operativo rellene los siguientes campos.<br/>ILIAS instalará la base de datos con los parametros dadose despúes de hacer click en <enviar>.
 setup_inifile#:#create ini-file
 setup_database#:#setup database
 setup_languages#:#install languages
 setup_password#:#setup password
-setup_welcome#:#Welcome to ILIAS setup. This setup-routine helps you to
+setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />
 setup_inifile_desc#:#create the ini-file for your installation
 setup_database_desc#:#setup the database
 setup_languages_desc#:#install additional languages
@@ -67,24 +66,24 @@ enter_password#:#Por favor, introduce una contrase&ntilde;a
 choose_password#:#Por favor, escoja una contrase&ntilde;a
 languages_installed#:#Idiomas installados.
 lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.
-passwd_set#:#La contrase&ntilde;a ha sido guardada correctamente.
-passwd_changed#:#La contrase&ntilde;a ha sido cambiada correctamente.
+password_set#:#La contrase&ntilde;a ha sido guardada correctamente.
+password_changed#:#La contrase&ntilde;a ha sido cambiada correctamente.
 setup_menu#:#Menú de configuración
 inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.
-inifile_can_write#:#ILIAS3 generará tu archivo ini.
+inifile_can_write#:#ILIAS 3 generará tu archivo ini.
 en_by_default#:#(Instalado por defecto y no se puede borrar).
-intro_install#:#Esta es la página de configuración de ILIAS3. Aquí puedes proceder a la instalación paso a paso.
+intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.
 setup_mainmenu#:#Menú de configuración
-version#:#Version
+version#:#Versión
 preliminaries#:#Preliminaries
 environment#:#Environment
-with#:#with
-env_using#:#ILIAS3 will be running on
+with#:#con
+env_using#:#ILIAS 3 will be running on
 env_ok#:#Ok. Sounds good.
 env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
-pre_php_version#:#PHP version
-pre_folder_write#:#Writable ILIAS3 folder
+pre_php_version#:#Versión PHP
+pre_folder_write#:#Writable ILIAS 3 folder
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
 inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
@@ -93,12 +92,11 @@ inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check wr
 inifile_written#:#The ini-file has been successfully saved on your host.
 inifile_content#:#Your ini-file has this content:
 choose_languages#:#Please choose additional languages and/or remove selected languages.
-password_info#:#To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.
-password_set#:#Password set.
-wrong_password#:#Wrong password!
+password_info#:#To protect your configuration data against other users you will need a password to access ILIAS 3 setup later again.
+wrong_password#:#Identificación fallida!
 fill_both_fields#:#Please fill out both fields!
 password_empty#:#No password given!
-installation#:#Installation
+installation#:#Installación
 no_db_update_file#:#dbupdate.php not found!
 database_is_uptodate#:#La base de datos es actual.
 database_needs_update#:#La base de datos necesita una actualización.
