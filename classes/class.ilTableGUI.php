@@ -63,7 +63,7 @@ class ilTableGUI
 	var $enabled = array(
 							"title"			=>	true,
 							"icon"			=>	true,
-							"help"			=>	true,
+							"help"			=>	false,
 							"content"		=>	true,
 							"action"		=>	false,
 							"footer"		=>	true,
