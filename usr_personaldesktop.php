@@ -263,21 +263,20 @@ if ($_GET["cmd"] == "whois")
 {
 	$users = ilUtil::getUsersOnline();
 	
-		//var_dump("<pre>",$users,"</pre>");
 	$z = 0;
 	
 	foreach ($users as $user)
 	{
-		$tpl->setCurrentBlock("tbl_users_row");
+	
 		$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
+		$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
+	
+		$tpl->setCurrentBlock("tbl_users_row");
 		$tpl->setVariable("ROWCOL",$rowCol);		
 		$tpl->setVariable("USR_LOGIN",$user["login"]);	
 		$tpl->setVariable("USR_TITLE",$user["title"]);
 		$tpl->setVariable("USR_FIRSTNAME",$user["firstname"]);
 		$tpl->setVariable("USR_LASTNAME",$user["lastname"]);
-		
-		$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
-		
 		$tpl->setVariable("USR_LOGIN_TIME",$login_time);
 		$tpl->parseCurrentBlock();
 		

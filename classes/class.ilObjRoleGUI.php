@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.31 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.32 2003/07/16 07:05:24 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -492,7 +492,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	function assignSaveObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview;
-		
+
 		if (!$rbacreview->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
@@ -508,15 +508,56 @@ class ilObjRoleGUI extends ilObjectGUI
 				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
 
+				$online_users = ilUtil::getUsersOnline();
+				$affected_users = array();
+
 				foreach (array_diff($assigned_users,$_POST["user"]) as $user)
 				{
 					$rbacadmin->deassignUser($_GET["obj_id"],$user);
+					
+					if (array_key_exists($user,$online_users))
+					{
+						$affected_users[$user] = $online_users[$user];
+					}
 				}
 
 				foreach (array_diff($_POST["user"],$assigned_users) as $user)
 				{
 					$rbacadmin->assignUser($_GET["obj_id"],$user,false);
+
+					if (array_key_exists($user,$online_users))
+					{
+						$affected_users[$user] = $online_users[$user];
+					}
 				}
+				
+		foreach ($affected_users as $affected_user)
+		{
+			$role_arr = array();
+		
+			$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$affected_user["user_id"]."'";
+			$r = $this->ilias->db->query($q);
+
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$role_arr[] = $row->rol_id;
+			}
+
+//	var_dump("hier:<pre>",$role_arr,$affected_user["data"],"</pre>");
+
+			$roles = "RoleId|".serialize($role_arr);
+			$modified_data = preg_replace("/RoleId.*}/",$roles,$affected_user["data"]);
+	//var_dump("da:<pre>",$test,$roles,$modified_data,"</pre>");
+			
+			$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$affected_user["user_id"]."'";
+			$this->ilias->db->query($q);
+		}
+	//exit;				
+				
+				
+				
+				
+				
 			}
 		}
 
