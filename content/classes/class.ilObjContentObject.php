@@ -1621,6 +1621,10 @@ class ilObjContentObject extends ilObject
 			$style = new ilObjStyleSheet($this->getStyleSheetId());
 			$style->writeCSSFile($a_target_dir."/content.css");
 		}
+		
+		// export syntax highlighting style
+		$syn_stylesheet = "content/syntaxhighlight.css";
+		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
 		// get learning module presentation gui class
 		include_once("content/classes/class.ilLMPresentationGUI.php");
