@@ -83,8 +83,9 @@ public	class IliasApiAdapterApplet
 	}
 
 	public	final void IliasSetValue (String l, String r) {
+		if (r == null) r = ""; // MSIE bug
 		say ("IliasSetValue("+l+"="+r+")");
-		if (l != null && r != null) IliasScoCmi.put (l, r);
+		if (l != null) IliasScoCmi.put (l, r);
 	}
 
 	private	final void IliasInitialize () {
@@ -182,6 +183,7 @@ public	class IliasApiAdapterApplet
 
 	private	final void IliasFinish () {
 		if (!isLaunched) return;
+		IliasCommit(); // Stupid "implicit commit"
 		IliasLaunchContent (
 			"../scorm_presentation.php?cmd=view"
 			+"&sco_id=" + IliasScoId

@@ -352,7 +352,7 @@ class ilSCORMPresentationGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("CREDIT_MODE", "no credit");
+			$this->tpl->setVariable("CREDIT_MODE", "no-credit");
 		}
 
 		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry

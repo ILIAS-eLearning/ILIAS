@@ -85,8 +85,9 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasSetValue</font></b> <font color="#990000">(</font>String l<font color="#990000">,</font> String r<font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>r <font color="#990000">=</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> r <font color="#990000">=</font> <font color="#FF0000">""</font><font color="#990000">;</font> <i><font color="#9A1900">// MSIE bug</font></i>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"IliasSetValue("</font><font color="#990000">+</font>l<font color="#990000">+</font><font color="#FF0000">"="</font><font color="#990000">+</font>r<font color="#990000">+</font><font color="#FF0000">")"</font><font color="#990000">)</font><font color="#990000">;</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b> <font color="#990000">&amp;</font><font color="#990000">&amp;</font> r <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> IliasScoCmi<font color="#990000">.</font><b><font color="#000000">put</font></b> <font color="#990000">(</font>l<font color="#990000">,</font> r<font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> IliasScoCmi<font color="#990000">.</font><b><font color="#000000">put</font></b> <font color="#990000">(</font>l<font color="#990000">,</font> r<font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasInitialize</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
@@ -184,6 +185,7 @@
 
 	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+		<b><font color="#000000">IliasCommit</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9A1900">// Stupid "implicit commit"</font></i>
 		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
 			<font color="#FF0000">"../scorm_presentation.php?cmd=view"</font>
 			<font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font> IliasScoId
