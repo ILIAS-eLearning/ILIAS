@@ -57,7 +57,7 @@ class domxml
 	* @param	string	taggname of root element
 	* @access	public 
 	*/
-	function createRoot ($a_element)
+	function createRootElement ($a_element)
 	{
 		// check if rootNode already exists
 		if ($root = $this->doc->document_element()) {
@@ -137,16 +137,17 @@ class domxml
 	*/
 	function trimDocument ($a_node = '')
 	{
+		echo "1<br>";
 		if (empty($a_node))	{
 			$a_node = $this->doc;
 		}
-		
+	
 		$this->trim($a_node);
 		return $a_node;
 	}
 
 	/**
-	* traverse the domDocument and builds a tree which contains
+	* traverse the domDocument and build a tree which contains
 	* additional information about domDocument's structure:
 	* $arr[id] = array(	content (str) = node_value (only text nodes have a value)
 	* 					name	(str) = tagname or entityname
@@ -341,6 +342,33 @@ class domxml
 		}
 		
 		return $var;
+	}
+
+	/**
+	* wrapper for get_elements_by_tagname
+	* searches domDocument for specified elementname, starting at
+	* $a_node. If no node was given searches the entire domDocument in $this->doc
+	* returns an array of all nodes found 
+	* 
+	* @param	string	tagname of element
+	* @param	object	domNode where to start searching (optional)
+	* @return	array	domNodes (object) which have specified elementname
+	* @access	public
+	*/	
+	function getElementsByTagname ($a_elementname, $a_node = "")
+	{
+		if (empty($a_node)) {
+			$a_node = $this->doc;
+		}
+		
+		return $a_node->get_elements_by_tagname($a_elementname);
+	}
+	
+	function appendReferenceNodeForLO ($a_node, $a_lo_id)
+	{
+		$newnode = $this->doc->create_element("LO");
+		$node = $a_node->append_child($newnode);
+		$node->set_attribute("id",$a_lo_id);
 	}
 } // END class.domxml
 ?>
