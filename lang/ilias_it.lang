@@ -122,6 +122,7 @@ assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#code#:#Codice
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
+assessment#:#counter#:#Counter###06 Oct 2004 new variable
 assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_imagemap#:#Crea una immaggine con mappa
@@ -411,6 +412,8 @@ assessment#:#tst_status_ok#:#Lo stato del test &#232; OK. Non ci sono elementi m
 assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_type#:#Tipo del test
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_use_javascript#:#Usa Javascript per le operazioni di "drag and drop"###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
