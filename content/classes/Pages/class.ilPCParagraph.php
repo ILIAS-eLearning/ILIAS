@@ -419,15 +419,14 @@ echo htmlentities($a_text);*/
 			if (isset($attribs["url"]))
 			{
 //echo "3";
-				$a_text = eregi_replace("\[".$found[1]."\]", "<ExtLink Href=\"".$attribs["url"]."\">", $a_text);
+				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$attribs["url"]."\">", $a_text);
 			}
 			else
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "[error: xln".$found[1]."]",$a_text);
+				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
 			}
 		}
 		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
-
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
 
@@ -514,7 +513,7 @@ echo htmlentities($a_text);*/
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
 			$found[1] = str_replace("?", "\?", $found[1]);
-			$a_text = eregi_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
+			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
 		}
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
 
