@@ -303,7 +303,7 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_deleted#:#The mail(s) have been deleted
 common#:#mail_e_sent#:#Sent
 common#:#mail_intern_enable#:#Enable
-common#:#mail_mails_of#:#Mails of
+common#:#mail_mails_of#:#Mails:
 common#:#mail_mark_read#:#Mark mails read
 common#:#mail_mark_unread#:#Mark mails unread
 common#:#mail_maxsize_attach#:#Max. attachment size
@@ -553,3 +553,15 @@ common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entr
 common#:#new_mail#:#New mail!
 common#:#mail_entry_changed#:#The entry is changed
 common#:#mail_entry_added#:#Added new Entry
+common#:#mail_options_of#:#Options:
+common#:#mail_compose#:#Compose Message
+common#:#mail_folder_name_changed#:#The folder is renamed
+common#:#mail_folder_exists#:#A folder already exists with this name
+common#:#mail_insert_folder_name#:#Please insert a folder name
+common#:#mail_folder_created#:#A new folder is created
+common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
+common#:#mail_folder_options#:#Folder Options
+common#:#mail_folder_name#:#Folder name
+common#:#mail_global_options#:#Global options
+common#:#rename#:#Rename
+common#:#adopt#:#adopt
