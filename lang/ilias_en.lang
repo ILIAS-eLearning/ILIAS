@@ -408,22 +408,31 @@ common#:#item#:#Item
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
+common#:#lang_cz#:#Czech
 common#:#lang_de#:#German
 common#:#lang_dk#:#Danish
 common#:#lang_en#:#English
 common#:#lang_es#:#Spanish
+common#:#lang_fi#:#Finnish
 common#:#lang_fr#:#French
+common#:#lang_gr#:#Greek
 common#:#lang_id#:#Indonesian
 common#:#lang_it#:#Italian
-common#:#lang_no#:#Norwegisch
+common#:#lang_ja#:#Japanese
+common#:#lang_lt#:#Lithuanian
+common#:#lang_nl#:#Dutch
+common#:#lang_no#:#Norwegian
 common#:#lang_path#:#Language Path
 common#:#lang_pl#:#Polish
+common#:#lang_pt#:#Portuguese
 common#:#lang_se#:#Swedish
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
+commom#:#lang_ua#:#Ukrainian
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
+common#:#lang_zh#:#Simplified Chinese
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
