@@ -79,6 +79,7 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
+//echo "frameset2";
 		//$this->tpl = new ilTemplate("tpl.scorm_pres_frameset.html", false, false, "content");
 		$this->tpl = new ilTemplate("tpl.scorm_pres_frameset2.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
@@ -131,7 +132,6 @@ class ilSCORMPresentationGUI
 	*/
 	function explorer2($a_target = "scorm_content")
 	{
-//echo "expl2";
 		$this->tpl = new ilTemplate("tpl.scorm_exp_main.html", true, true, true);
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		require_once("./content/classes/SCORM/class.ilSCORMExplorer.php");
@@ -218,6 +218,8 @@ class ilSCORMPresentationGUI
 
 	function launchSco()
 	{
+		global $ilUser;
+
 		$sco_id = ($_GET["sco_id"] == "")
 			? $_POST["sco_id"]
 			: $_GET["sco_id"];
@@ -242,6 +244,12 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("MAST_SCORE", $item->getMasteryScore());
 		$this->tpl->setVariable("MAX_TIME", $item->getMaxTimeAllowed());
 		$this->tpl->setVariable("LIMIT_ACT", $item->getTimeLimitAction());
+		if($ilUser->getFirstName() == "Joe")	// for test purpose
+		{
+			$this->tpl->setCurrentBlock("credit");
+			$this->tpl->setVariable("CREDIT_MODE", "normal");
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->show();
 	}
 
