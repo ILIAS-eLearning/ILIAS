@@ -721,7 +721,6 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-content#:#cont_Additional#:#Zusätzlich
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
@@ -795,6 +794,7 @@ content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_no_page#:#No Page found.###22 Aug 2003 new variable
 content#:#cont_none#:#Keine
@@ -809,6 +809,7 @@ content#:#cont_page_header#:#Seitentitel
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
+content#:#cont_personal_clipboard#:#Personal Clipboard###13 Sep 2003 new variable
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Seitentitel
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
@@ -826,6 +827,7 @@ content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new vari
 content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
+content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur

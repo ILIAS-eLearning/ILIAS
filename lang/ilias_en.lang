@@ -721,9 +721,6 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_source#:#Quelle
-content#:#cont_new_media_obj#:#New Media Object
-content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -797,6 +794,7 @@ content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
 content#:#cont_no_page#:#No Page found.
 content#:#cont_none#:#None
@@ -811,6 +809,7 @@ content#:#cont_page_header#:#Page Header
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
+content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
@@ -828,6 +827,7 @@ content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_term#:#Select a term
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
+content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
