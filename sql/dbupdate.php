@@ -4305,3 +4305,7 @@ if ($res->numRows() > 1)
 	$tree->renumber();
 }
 ?>
+<#259>
+ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
+
+
