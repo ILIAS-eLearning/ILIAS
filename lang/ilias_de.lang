@@ -932,7 +932,7 @@ common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
-common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt 
+common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt ###14 May 2004 content changed
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -1418,6 +1418,7 @@ common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen
+common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
