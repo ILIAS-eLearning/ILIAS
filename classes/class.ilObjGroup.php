@@ -120,6 +120,9 @@ class ilObjGroup extends ilObject
 				{
 					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_user_id, true);
 				}
+				
+				ilObjUser::updateActiveRoles($a_user_id);
+
 				return true;
 			}
 			else

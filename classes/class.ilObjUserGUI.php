@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.36 2003/07/30 15:16:50 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.37 2003/08/06 15:47:11 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -744,13 +744,7 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			if (in_array($this->object->getId(),array_keys($online_users)))
 			{
-				$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$this->object->getId()."'";
-				$r = $this->ilias->db->query($q);
-
-				while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$role_arr[] = $row->rol_id;
-				}
+				$role_arr = $rbacreview->assignedRoles($this->object->getId());	
 				
 				if ($_SESSION["AccountId"] == $this->object->getId())
 				{
