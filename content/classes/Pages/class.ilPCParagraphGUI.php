@@ -79,12 +79,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 		$char = array("" => $this->lng->txt("none"),
-			"Headline" => $this->lng->txt("cont_Headline"),
+			"Headline1" => $this->lng->txt("cont_Headline1"),
+			"Headline2" => $this->lng->txt("cont_Headline2"),
+			"Headline3" => $this->lng->txt("cont_Headline3"),
 			"Example" => $this->lng->txt("cont_Example"),
 			"Citation" => $this->lng->txt("cont_Citation"),
 			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
 			"Additional" => $this->lng->txt("cont_Additional"),
-			"List" => $this->lng->txt("cont_List"));
+			"List" => $this->lng->txt("cont_List"),
+			"Remark" => $this->lng->txt("cont_Remark"));
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
 			"par_characteristic",$char,false,true);
@@ -159,12 +162,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 		$char = array("" => $this->lng->txt("none"),
-			"Headline" => $this->lng->txt("cont_Headline"),
+			"Headline1" => $this->lng->txt("cont_Headline1"),
+			"Headline2" => $this->lng->txt("cont_Headline2"),
+			"Headline3" => $this->lng->txt("cont_Headline3"),
 			"Example" => $this->lng->txt("cont_Example"),
 			"Citation" => $this->lng->txt("cont_Citation"),
 			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
 			"Additional" => $this->lng->txt("cont_Additional"),
-			"List" => $this->lng->txt("cont_List"));
+			"List" => $this->lng->txt("cont_List"),
+			"Remark" => $this->lng->txt("cont_Remark"));
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
 			"par_characteristic",$char,false,true);
