@@ -365,7 +365,7 @@ class RoleObject extends Object
 
 				foreach (array_diff($_POST["user"],$assigned_users) as $user)
 				{
-					$rbacadmin->assignUser($_GET["obj_id"],$user);
+					$rbacadmin->assignUser($_GET["obj_id"],$user,false);
 				}
 			}
 			else

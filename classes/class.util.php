@@ -126,7 +126,7 @@ class TUtil
 		foreach ($options as $key => $val)
 		{
 		
-			$str .= " <option value=\"".$val."\"";
+			$str .= " <option value=\"".$key."\"";
 			
 			if ($selected == $key)
 			{

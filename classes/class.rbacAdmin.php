@@ -143,7 +143,7 @@ class RbacAdmin
 		$res = $this->ilias->db->query($query);
 		$row = $res->fetchRow();
 	
-		if (!$this->assignUser($row[0]))
+		if (!$this->assignUser($row[0],$this->ilias->account->data["Id"],false))
 		{
 			$this->ilias->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->ilias->error_obj->WARNING);
 		}
@@ -282,16 +282,12 @@ class RbacAdmin
 	* @param	integer		object_id of user
 	* @return	boolean
 	*/
-	function assignUser($a_rol_id,$a_usr_id = 0)
+	function assignUser($a_rol_id,$a_usr_id,$a_default )
 	{
-		// Zuweisung des aktuellen Benutzers zu der Rolle
-		if (!$a_usr_id)
-		{
-			$a_usr_id = $this->ilias->account->data["Id"];
-		}
+		$a_default = $a_default ? 'y' : 'n';
 
 		$query = "INSERT INTO rbac_ua ".
-				 "VALUES ('".$a_usr_id."','".$a_rol_id."')";
+				 "VALUES ('".$a_usr_id."','".$a_rol_id."','".$a_default."')";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -312,6 +308,41 @@ class RbacAdmin
 		$res = $this->ilias->db->query($query);
 
 		return true;
+	}
+
+	/**
+	* Update of default role
+	* @access	public
+	* @param	integer		object id of role
+	* @param	integer		user id
+	* @return	boolean
+	*/
+	function updateDefaultRole($a_rol_id,$a_usr_id)
+	{
+		$def_role = $this->getDefaultRole($a_usr_id);
+		$this->deassignUser($def_role,$a_usr_id);
+		$this->assignUser($def_role,$a_usr_id,false);
+		$this->deassignUser($a_rol_id,$a_usr_id);
+		return $this->assignUser($a_rol_id,$a_usr_id,true);
+	}
+	/**
+	* get Default role
+	* @access	public
+	* @param	integer		object id of role
+	* @param	integer		user id
+	* @return	boolean
+	*/
+	function getDefaultRole($a_usr_id)
+	{
+		$query = "SELECT * FROM rbac_ua ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND default_role = 'y'";
+		
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->rol_id;
+		}
 	}
 
 	/**

@@ -91,7 +91,7 @@ class UserObject extends Object
 			//insert user data in table user_data
 			$rbacadmin->addUser($Fuserdata);
 			//set role entries
-			$rbacadmin->assignUser($Fuserdata["Role"],$Fuserdata["Id"]);
+			$rbacadmin->assignUser($Fuserdata["Role"],$Fuserdata["Id"],true);
 			
 			//create new usersetting entry 
 			$Fobject2["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
@@ -126,7 +126,7 @@ class UserObject extends Object
 	*/
 	function editObject()
 	{
-		global $tpl, $rbacsystem, $rbacreview, $lng;
+		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
@@ -136,7 +136,8 @@ class UserObject extends Object
 			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection
 			$rol = TUtil::getRoles();
-			$role = TUtil::formSelectWoTranslation($Fuserdata["Role"],"Fuserdata[Role]",$rol);
+			$def_role = $rbacadmin->getDefaultRole($_GET["obj_id"]);
+			$role = TUtil::formSelectWoTranslation(3,"Fuserdata[Role]",$rol);
 
 			$data = array();
 			$data["fields"] = array();
@@ -191,9 +192,8 @@ class UserObject extends Object
 		{
 			$Fuserdata = $_POST["Fuserdata"];
 			$Fuserdata["Id"] = $this->id;
-
 			$rbacadmin->updateUser($Fuserdata);
-			//$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
+			$rbacadmin->updateDefaultRole($Fuserdata["Role"],$_GET["obj_id"]);
 			// TODO: Passwort muss gesondert abgefragt werden
 		}
 		else
