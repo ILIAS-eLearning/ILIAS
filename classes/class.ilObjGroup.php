@@ -510,22 +510,34 @@ class ilObjGroup extends ilObject
 
 	function registrationPossible()
 	{
-		//missing time !!!
 		$datetime = $this->getExpirationDateTime();
-		$today = ilFormat::getDateDE();
-
-		$ts_datetime = ilFormat::dateDE2timestamp($datetime[0]);
-		$ts_today = ilFormat::dateDE2timestamp($today);
-
-		if( ($ts_today <= $ts_datetime) && ( strcmp($datetime[1],date("H:i:s")) >= 0) )
+		$today_date = ilFormat::getDateDE();
+		$today_time = date("H:i:s");
+       
+		$ts_exp_date = ilFormat::dateDE2timestamp($datetime[0]);
+		$ts_today_date = ilFormat::dateDE2timestamp($today_date);
+	
+		$ts_exp_time = substr($datetime[1], 0, 2).
+						substr($datetime[1], 3, 2).
+						substr($datetime[1], 6, 2);
+		
+		$ts_today_time = substr($today_time, 0, 2).
+						substr($today_time, 3, 2).
+						substr($today_time, 6, 2);
+		
+		if ( $ts_today_date < $ts_exp_date ) 
 		{
 			return true;
 		}
-		else
+		elseif ( ($ts_today_date == $ts_exp_date) and (strcmp($ts_exp_time,$ts_today_time) >= 0) ) 
+		{
+			return true;
+		}
+		else 
 		{
 			return false;
 		}
-
+		 	
 	}
 
 	/**
