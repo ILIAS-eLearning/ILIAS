@@ -2075,16 +2075,6 @@ content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total Time
 content#:#cont_tracking_data#:#Tracking Data
 content#:#cont_tracking_items#:#Tracking Items
-common#:#subject_module#:#Subject Module
-common#:#test_module#:#Test Module
-common#:#time_segment#:#Time Segment
-common#:#search_for#:#Search For
-common#:#time_h#:#Hour
-common#:#time_d#:#Day
-common#:#test#:#Test
-common#:#learning module#:#Learning Module
-common#:#client ip#:#Client Ip
-common#:#count#:#Count
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
 content#:#cont_update#:#Update
