@@ -207,3 +207,9 @@ mark_all_read#:#mark all as read
 mark_all_unread#:#mark all as unread
 mail_s#:#mail(s)
 select_all#:#select all
+from#:#from:
+to#:#to:
+reply#:#reply
+forward#:#forward
+print#:#print
+message#:#message
