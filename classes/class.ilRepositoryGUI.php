@@ -2333,7 +2333,7 @@ class ilRepositoryGUI
 			
 			foreach ($surveys as $svy_data)
 			{
-          $obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
+				$obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
 
 				if (($svy_data["complete"]) and ($svy_data["status"] == 1))
 				{

@@ -102,7 +102,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/sahs_presentation.php?ref_id=".$a_node_id;
 
 			case "mep":
-				return "content/mep_edit.php?ref_id=".$a_node_id;
+				return "";
 
 			case "grp":
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
@@ -138,10 +138,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "assessment/test.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
 
 			case 'spl':
-				return 'survey/questionpool.php?ref_id='.$a_node_id.'&cmd=questions';
+				return '';
 
 			case 'qpl':
-				return 'assessment/questionpool.php?ref_id='.$a_node_id.'&cmd=questions';
+				return '';
 		}
 	}
 
@@ -168,6 +168,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/mep_edit.php?ref_id=".$a_node_id;
 
 			case "grp":
+				return; // following link is the same as "read" link
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
 			case "crs":
@@ -177,7 +178,7 @@ class ilRepositoryExplorer extends ilExplorer
 				#return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
 				
 			case "frm":
-				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
+				return "forums_threads_liste.php?cmd=properties&ref_id=".$a_node_id."&backurl=repository";
 
 			case "glo":
 				return "content/glossary_edit.php?cmd=listTerms&ref_id=".$a_node_id;
@@ -189,11 +190,24 @@ class ilRepositoryExplorer extends ilExplorer
 				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
+				
 			case "file":
-				return false;
+				return "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$a_node_id;
 
 			case 'tst':
 				return "assessment/test.php?ref_id=".$a_node_id."&set_mode=flat";
+				
+			case 'svy':
+				return "survey/survey.php?ref_id=".$a_node_id;
+				
+			case 'qpl':
+				return "assessment/questionpool.php?ref_id=".$a_node_id
+					."&cmd=questions";
+					
+			case 'spl':
+				return "survey/questionpool.php?ref_id=".$a_node_id
+					."&cmd=questions";
 
 		}
 	}		
