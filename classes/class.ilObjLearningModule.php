@@ -109,6 +109,7 @@ class ilObjLearningModule extends ilObject
 	function update()
 	{
 		$this->updateMetaData();
+		$this->updateProperties();
 	}
 
 
@@ -169,7 +170,8 @@ class ilObjLearningModule extends ilObject
 	function updateProperties()
 	{
 		$q = "UPDATE learning_module SET ".
-			"default_layout = '".$this->getLayout()."'".
+			" default_layout = '".$this->getLayout()."', ".
+			" stylesheet = '".$this->getStyleSheetId()."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}

@@ -827,5 +827,15 @@ class ilUtil
 		return TRUE;
 	}
 
+	/**
+	* get webspace directory
+	*/
+	function getWebspaceDir()
+	{
+		global $ilias;
+
+		return $ilias->ini->readVariable("server","webspace_dir");
+	}
+
 } // END class.util
 ?>

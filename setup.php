@@ -534,10 +534,16 @@ switch ($_GET["step"])
 						mkdir($mySetup->getWebspacePath().'/mobs');
 					}
 
+					// PREPARE CSS OBJECTS DATA DIRECTORY (inside wb)
+					if(!@is_dir($mySetup->getWebspacePath().'/css'))
+					{
+						mkdir($mySetup->getWebspacePath().'/css');
+					}
 				}
 				chmod($mySetup->getWebspacePath().'/lm_data',0755);
 				chmod($mySetup->getWebspacePath().'/usr_images',0755);
 				chmod($mySetup->getWebspacePath().'/mobs',0755);
+				chmod($mySetup->getWebspacePath().'/css',0755);
 			}
 
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");

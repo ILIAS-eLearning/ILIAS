@@ -1,0 +1,106 @@
+/* ------------------ styles for lm content, should be placed at a better place -------------- */
+
+div.ilc_PageTitle
+{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size:23px;
+	font-weight: bold;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+  	border-bottom-style: solid;
+	border-color: #000000;
+}
+
+
+span.ilc_Strong
+{
+	font-weight: bold;
+}
+
+span.ilc_Emph
+{
+	font-style: italic;
+}
+
+span.ilc_Comment
+{
+	color: green;
+}
+
+span.ilc_Quotation
+{
+	color: brown;
+	font-style: italic;
+}
+
+a.ilc_FootnoteLink
+{
+	color: blue;
+	font-weight: normal;
+}
+
+a.ilc_FootnoteLink:hover
+{
+	color:#000000;
+}
+
+div.ilc_Footnote
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-style: italic;
+}
+
+a.ilc_IntLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.ilc_IntLink:hover
+{
+	color:#000000;
+}
+
+
+div.ilc_LMNavigation
+{
+	background-color:#EEEEEE;
+	padding:5px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+}
+
+div.ilc_Page
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+}
+
+.ilc_red
+{
+	background-color:#FFCCCC;
+}
+
+.ilc_blue
+{
+	background-color:#CCCCFF;
+}
+
+.ilc_green
+{
+	background-color:#CCFFCC;
+}
+
+.ilc_yellow
+{
+	background-color:#FFFFCC;
+}

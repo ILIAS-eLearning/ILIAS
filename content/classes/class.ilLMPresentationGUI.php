@@ -105,7 +105,10 @@ class ilLMPresentationGUI
 				? true
 				: false;
 			$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+
+			// set style sheets
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
@@ -208,6 +211,19 @@ class ilLMPresentationGUI
 
 	function ilPage()
 	{
+		$this->tpl->setCurrentBlock("ContentStyle");
+		if ($this->lm->getStyleSheetId() > 0)
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../".
+				ilUtil::getWebspaceDir()."/css/style_".$this->lm->getStyleSheetId().".css");
+			//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../style.php?obj_id=".$this->lm->getStyleSheetId());
+		}
+		else		// todo: work this out
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "./content.css");
+		}
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilPage");
 

@@ -87,7 +87,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=createStyle&ref_id=".$this->object->getRefID());
 			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create stylesheet"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create_stylesheet"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else // test purpose: edit stylesheet
@@ -95,7 +95,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=editStyle&ref_id=".$this->object->getRefID());
 			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit stylesheet"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit_stylesheet"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -125,7 +125,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	function createStyle()
 	{
 		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), false);
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
 		$style_gui->setFormAction("save", "lm_edit.php?ref_id=".
 			$this->object->getRefId()."&cmd=saveStyle");
 		$style_gui->createObject();
@@ -135,10 +135,40 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	function saveStyle()
 	{
 		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), false);
-		$style_gui->setReturnLocation("save", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=view");
-		$style_gui->saveObject();
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
+		$style_gui->setReturnLocation("save", "return");
+		$style_id = $style_gui->saveObject();
+		$this->object->setStyleSheetId($style_id);
+		$this->object->update();
+
+		header("Location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
+		exit;
+	}
+
+	function editStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_gui->editObject();
+	}
+
+	function updateStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setReturnLocation("update", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
+		$style_id = $style_gui->updateObject();
+	}
+
+	function newStyleParameter()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->newStyleParameterObject();
 	}
 
 	function chapters()

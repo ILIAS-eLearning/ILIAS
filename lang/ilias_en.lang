@@ -150,6 +150,8 @@ common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
+common#:#create_stylesheet#:#Create Style
+common#:#edit_stylesheet#:#Edit Style
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
@@ -576,7 +578,8 @@ common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
-common#:#value#:#value
+common#:#value#:#Value
+common#:#parameter#:#Parameter
 common#:#version#:#Version
 common#:#view#:#View
 common#:#view_content#:#View Content
