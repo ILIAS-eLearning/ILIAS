@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: May 15, 2004 at 01:21 AM
+# Generation Time: Jun 21, 2004 at 01:28 AM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias3final`
+# Database : `ilias301`
 # --------------------------------------------------------
 
 #
@@ -25,6 +25,122 @@ CREATE TABLE `addressbook` (
 
 #
 # Dumping data for table `addressbook`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `aicc_course`
+#
+
+CREATE TABLE `aicc_course` (
+  `obj_id` int(11) NOT NULL default '0',
+  `course_creator` varchar(255) default NULL,
+  `course_id` varchar(50) default NULL,
+  `course_system` varchar(50) default NULL,
+  `course_title` varchar(255) default NULL,
+  `level` varchar(5) default NULL,
+  `max_fields_cst` smallint(6) default NULL,
+  `max_fields_ort` smallint(6) default NULL,
+  `total_aus` smallint(6) default NULL,
+  `total_blocks` smallint(6) default NULL,
+  `total_complex_obj` smallint(6) default NULL,
+  `total_objectives` smallint(6) default NULL,
+  `version` varchar(10) default NULL,
+  `max_normal` tinyint(4) default NULL,
+  `description` text,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `aicc_course`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `aicc_lm`
+#
+
+CREATE TABLE `aicc_lm` (
+  `id` int(11) NOT NULL default '0',
+  `online` enum('y','n') default 'n',
+  `api_adapter` varchar(80) default 'API',
+  `api_func_prefix` varchar(20) default 'LMS',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `aicc_lm`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `aicc_object`
+#
+
+CREATE TABLE `aicc_object` (
+  `obj_id` int(11) NOT NULL auto_increment,
+  `alm_id` int(11) NOT NULL default '0',
+  `system_id` varchar(50) NOT NULL default '',
+  `title` text NOT NULL,
+  `description` text,
+  `developer_id` varchar(50) default NULL,
+  `type` char(3) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`),
+  KEY `alm_id` (`alm_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `aicc_object`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `aicc_tree`
+#
+
+CREATE TABLE `aicc_tree` (
+  `alm_id` int(11) NOT NULL default '0',
+  `child` int(11) unsigned NOT NULL default '0',
+  `parent` int(11) unsigned default NULL,
+  `lft` int(11) unsigned NOT NULL default '0',
+  `rgt` int(11) unsigned NOT NULL default '0',
+  `depth` smallint(5) unsigned NOT NULL default '0',
+  KEY `child` (`child`),
+  KEY `parent` (`parent`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `aicc_tree`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `aicc_units`
+#
+
+CREATE TABLE `aicc_units` (
+  `obj_id` int(11) NOT NULL auto_increment,
+  `type` varchar(50) default NULL,
+  `command_line` varchar(255) default NULL,
+  `max_time_allowed` time default NULL,
+  `time_limit_action` varchar(50) default NULL,
+  `max_score` decimal(10,0) default NULL,
+  `core_vendor` text,
+  `system_vendor` text,
+  `file_name` varchar(255) default NULL,
+  `mastery_score` smallint(6) default NULL,
+  `web_launch` varchar(255) default NULL,
+  `au_password` varchar(50) default NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `aicc_units`
 #
 
 # --------------------------------------------------------
@@ -172,6 +288,7 @@ CREATE TABLE `content_object` (
   `toc_active` enum('y','n') default 'y',
   `lm_menu_active` enum('y','n') default 'y',
   `toc_mode` enum('chapters','pages') default 'chapters',
+  `clean_frames` enum('y','n') NOT NULL default 'n',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -3211,6 +3328,9 @@ INSERT INTO `object_data` VALUES (101, 'typ', 'mep', 'Media pool object', -1, '2
 INSERT INTO `object_data` VALUES (102, 'typ', 'htlm', 'HTML LM object', -1, '2004-04-19 00:09:15', '2004-04-19 00:09:15', '');
 INSERT INTO `object_data` VALUES (103, 'typ', 'svy', 'Survey object', -1, '2004-05-15 01:18:59', '2004-05-15 01:18:59', '');
 INSERT INTO `object_data` VALUES (104, 'typ', 'spl', 'Question pool object (Survey)', -1, '2004-05-15 01:18:59', '2004-05-15 01:18:59', '');
+INSERT INTO `object_data` VALUES (105, 'typ', 'tax', 'Taxonomy object', -1, '2004-06-21 01:27:18', '2004-06-21 01:27:18', '');
+INSERT INTO `object_data` VALUES (106, 'typ', 'taxf', 'Taxonomy folder object', -1, '2004-06-21 01:27:18', '2004-06-21 01:27:18', '');
+INSERT INTO `object_data` VALUES (107, 'taxf', 'Taxonomy folder', 'Configure taxonomy settings here', -1, '2004-06-21 01:27:18', '2004-06-21 01:27:18', '');
 # --------------------------------------------------------
 
 #
@@ -3237,6 +3357,7 @@ INSERT INTO `object_reference` VALUES (12, 12);
 INSERT INTO `object_reference` VALUES (13, 86);
 INSERT INTO `object_reference` VALUES (14, 98);
 INSERT INTO `object_reference` VALUES (15, 100);
+INSERT INTO `object_reference` VALUES (16, 107);
 # --------------------------------------------------------
 
 #
@@ -3336,6 +3457,8 @@ CREATE TABLE `qpl_question_material` (
   `material_id` int(11) NOT NULL auto_increment,
   `question_id` int(11) NOT NULL default '0',
   `materials` text,
+  `materials_file` text,
+  `TIMESTAMP` timestamp(14) NOT NULL,
   UNIQUE KEY `material_id` (`material_id`)
 ) TYPE=MyISAM;
 
@@ -3367,6 +3490,7 @@ INSERT INTO `qpl_question_type` VALUES (3, 'qt_cloze');
 INSERT INTO `qpl_question_type` VALUES (4, 'qt_matching');
 INSERT INTO `qpl_question_type` VALUES (5, 'qt_ordering');
 INSERT INTO `qpl_question_type` VALUES (6, 'qt_imagemap');
+INSERT INTO `qpl_question_type` VALUES (7, 'qt_javaapplet');
 # --------------------------------------------------------
 
 #
@@ -3374,7 +3498,7 @@ INSERT INTO `qpl_question_type` VALUES (6, 'qt_imagemap');
 #
 
 CREATE TABLE `qpl_questions` (
-  `question_id` int(11) NOT NULL default '0',
+  `question_id` int(11) NOT NULL auto_increment,
   `question_type_fi` int(10) unsigned NOT NULL default '0',
   `ref_fi` int(10) unsigned NOT NULL default '0',
   `title` varchar(100) NOT NULL default '',
@@ -3392,10 +3516,11 @@ CREATE TABLE `qpl_questions` (
   `cloze_type` enum('0','1') default NULL,
   `choice_response` enum('0','1') default NULL,
   `materials` text,
-  `imagemap_file` varchar(100) default NULL,
   `image_file` varchar(100) default NULL,
+  `params` text,
   `complete` enum('0','1') NOT NULL default '1',
   `created` varchar(14) NOT NULL default '',
+  `original_id` int(11) default NULL,
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`question_id`)
 ) TYPE=MyISAM;
@@ -3483,6 +3608,9 @@ INSERT INTO `rbac_operations` VALUES (31, 'create_mep', 'create new media pool')
 INSERT INTO `rbac_operations` VALUES (32, 'create_htlm', 'create new html learning module');
 INSERT INTO `rbac_operations` VALUES (42, 'create_svy', 'create new survey');
 INSERT INTO `rbac_operations` VALUES (43, 'create_spl', 'create new question pool (Survey)');
+INSERT INTO `rbac_operations` VALUES (44, 'create_tax', 'create taxonomy object');
+INSERT INTO `rbac_operations` VALUES (45, 'invite', 'invite');
+INSERT INTO `rbac_operations` VALUES (46, 'participate', 'participate');
 # --------------------------------------------------------
 
 #
@@ -3587,6 +3715,7 @@ INSERT INTO `rbac_ta` VALUES (21, 1);
 INSERT INTO `rbac_ta` VALUES (21, 2);
 INSERT INTO `rbac_ta` VALUES (21, 3);
 INSERT INTO `rbac_ta` VALUES (21, 4);
+INSERT INTO `rbac_ta` VALUES (21, 44);
 INSERT INTO `rbac_ta` VALUES (22, 1);
 INSERT INTO `rbac_ta` VALUES (22, 2);
 INSERT INTO `rbac_ta` VALUES (22, 3);
@@ -3699,11 +3828,22 @@ INSERT INTO `rbac_ta` VALUES (103, 2);
 INSERT INTO `rbac_ta` VALUES (103, 3);
 INSERT INTO `rbac_ta` VALUES (103, 4);
 INSERT INTO `rbac_ta` VALUES (103, 6);
+INSERT INTO `rbac_ta` VALUES (103, 45);
+INSERT INTO `rbac_ta` VALUES (103, 46);
 INSERT INTO `rbac_ta` VALUES (104, 1);
 INSERT INTO `rbac_ta` VALUES (104, 2);
 INSERT INTO `rbac_ta` VALUES (104, 3);
 INSERT INTO `rbac_ta` VALUES (104, 4);
 INSERT INTO `rbac_ta` VALUES (104, 6);
+INSERT INTO `rbac_ta` VALUES (105, 1);
+INSERT INTO `rbac_ta` VALUES (105, 2);
+INSERT INTO `rbac_ta` VALUES (105, 3);
+INSERT INTO `rbac_ta` VALUES (105, 4);
+INSERT INTO `rbac_ta` VALUES (105, 6);
+INSERT INTO `rbac_ta` VALUES (106, 1);
+INSERT INTO `rbac_ta` VALUES (106, 2);
+INSERT INTO `rbac_ta` VALUES (106, 3);
+INSERT INTO `rbac_ta` VALUES (106, 4);
 # --------------------------------------------------------
 
 #
@@ -4180,6 +4320,9 @@ CREATE TABLE `scorm_lm` (
   `online` enum('y','n') default 'n',
   `api_adapter` varchar(80) default 'API',
   `api_func_prefix` varchar(20) default 'LMS',
+  `credit` enum('credit','no_credit') NOT NULL default 'credit',
+  `default_lesson_mode` enum('normal','browse') NOT NULL default 'normal',
+  `auto_review` enum('y','n') NOT NULL default 'n',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -4212,44 +4355,16 @@ CREATE TABLE `scorm_object` (
 #
 
 CREATE TABLE `scorm_tracking` (
-  `sc_item_id` int(11) NOT NULL default '0',
-  `usr_id` int(11) NOT NULL default '0',
-  `entry` enum('ab-initio','resume','') NOT NULL default 'ab-initio',
-  `exit` enum('time-out','suspend','logout','') NOT NULL default 'time-out',
-  `lesson_location` varchar(255) NOT NULL default '',
-  `credit` enum('credit','no-credit') NOT NULL default 'credit',
-  `raw` decimal(10,0) NOT NULL default '0',
-  `session_time` time NOT NULL default '00:00:00',
-  `total_time` time NOT NULL default '00:00:00',
-  `comments` text NOT NULL,
-  `lesson_status` enum('passed','completed','failed','incomplete','browsed','not attempted') NOT NULL default 'passed',
-  `launch_data` text NOT NULL,
-  `suspend_data` text NOT NULL,
-  `mastery_score` decimal(10,0) NOT NULL default '0',
-  `student_name` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`sc_item_id`,`sc_item_id`,`usr_id`)
+  `user_id` int(11) NOT NULL default '0',
+  `sco_id` int(11) NOT NULL default '0',
+  `lvalue` varchar(64) NOT NULL default '',
+  `rvalue` text,
+  `ref_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`sco_id`,`lvalue`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `scorm_tracking`
-#
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `scorm_tracking2`
-#
-
-CREATE TABLE `scorm_tracking2` (
-  `user_id` int(11) NOT NULL default '0',
-  `sco_id` int(11) NOT NULL default '0',
-  `lvalue` varchar(64) default NULL,
-  `rvalue` text,
-  PRIMARY KEY  (`user_id`,`sco_id`)
-) TYPE=MyISAM;
-
-#
-# Dumping data for table `scorm_tracking2`
 #
 
 # --------------------------------------------------------
@@ -4330,8 +4445,8 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '189');
-INSERT INTO `settings` VALUES ('ilias_version', '3.0.0 2004/05/15');
+INSERT INTO `settings` VALUES ('db_version', '221');
+INSERT INTO `settings` VALUES ('ilias_version', '3.0.1 2004/06/21');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
@@ -4376,6 +4491,496 @@ CREATE TABLE `style_parameter` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `survey_answer`
+#
+
+CREATE TABLE `survey_answer` (
+  `answer_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `value` double default NULL,
+  `textanswer` text,
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`answer_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_answer`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_category`
+#
+
+CREATE TABLE `survey_category` (
+  `category_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `defaultvalue` enum('0','1') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`category_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_category`
+#
+
+INSERT INTO `survey_category` VALUES (1, 'dc_desired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (2, 'dc_undesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (3, 'dc_agree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (4, 'dc_disagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (5, 'dc_good', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (6, 'dc_notacceptable', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (7, 'dc_should', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (8, 'dc_shouldnot', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (9, 'dc_true', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (10, 'dc_false', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (11, 'dc_always', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (12, 'dc_never', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (13, 'dc_yes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (14, 'dc_no', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (15, 'dc_neutral', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (16, 'dc_undecided', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (17, 'dc_fair', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (18, 'dc_sometimes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (19, 'dc_stronglydesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (20, 'dc_stronglyundesired', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (21, 'dc_stronglyagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (22, 'dc_stronglydisagree', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (23, 'dc_verygood', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (24, 'dc_poor', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (25, 'dc_must', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (26, 'dc_mustnot', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (27, 'dc_definitelytrue', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (28, 'dc_definitelyfalse', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (29, 'dc_manytimes', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (30, 'dc_varying', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (31, 'dc_rarely', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (32, 'dc_mostcertainly', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (33, 'dc_morepositive', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (34, 'dc_morenegative', '1', 0, 20040522134301);
+INSERT INTO `survey_category` VALUES (35, 'dc_mostcertainlynot', '1', 0, 20040522134301);
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_constraint`
+#
+
+CREATE TABLE `survey_constraint` (
+  `constraint_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `relation_fi` int(11) NOT NULL default '0',
+  `value` double NOT NULL default '0',
+  PRIMARY KEY  (`constraint_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_constraint`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_finished`
+#
+
+CREATE TABLE `survey_finished` (
+  `finished_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `state` enum('0','1') NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`finished_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_finished`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_invited_group`
+#
+
+CREATE TABLE `survey_invited_group` (
+  `invited_group_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `group_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`invited_group_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_invited_group`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_invited_user`
+#
+
+CREATE TABLE `survey_invited_user` (
+  `invited_user_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`invited_user_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_invited_user`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_phrase`
+#
+
+CREATE TABLE `survey_phrase` (
+  `phrase_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `defaultvalue` enum('0','1','2') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`phrase_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_phrase`
+#
+
+INSERT INTO `survey_phrase` VALUES (1, 'dp_standard_attitude_desired_undesired', '1', 0, 20040522135431);
+INSERT INTO `survey_phrase` VALUES (2, 'dp_standard_attitude_agree_disagree', '1', 0, 20040522135458);
+INSERT INTO `survey_phrase` VALUES (3, 'dp_standard_attitude_good_notacceptable', '1', 0, 20040522135518);
+INSERT INTO `survey_phrase` VALUES (4, 'dp_standard_attitude_shold_shouldnot', '1', 0, 20040522135546);
+INSERT INTO `survey_phrase` VALUES (5, 'dp_standard_beliefs_true_false', '1', 0, 20040522135613);
+INSERT INTO `survey_phrase` VALUES (6, 'dp_standard_beliefs_always_never', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (7, 'dp_standard_behaviour_yes_no', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (8, 'dp_standard_attitude_desired_neutral_undesired', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (9, 'dp_standard_attitude_agree_undecided_disagree', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (10, 'dp_standard_attitude_good_fair_notacceptable', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (11, 'dp_standard_attitude_should_undecided_shouldnot', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (12, 'dp_standard_beliefs_true_undecided_false', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (13, 'dp_standard_beliefs_always_sometimes_never', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (14, 'dp_standard_behaviour_yes_undecided_no', '1', 0, 20040522140547);
+INSERT INTO `survey_phrase` VALUES (15, 'dp_standard_attitude_desired5', '1', 0, 20040522150702);
+INSERT INTO `survey_phrase` VALUES (16, 'dp_standard_attitude_agree5', '1', 0, 20040522150717);
+INSERT INTO `survey_phrase` VALUES (17, 'dp_standard_attitude_good5', '1', 0, 20040522150729);
+INSERT INTO `survey_phrase` VALUES (18, 'dp_standard_attitude_must5', '1', 0, 20040522150744);
+INSERT INTO `survey_phrase` VALUES (19, 'dp_standard_beliefs_true5', '1', 0, 20040522150754);
+INSERT INTO `survey_phrase` VALUES (20, 'dp_standard_beliefs_always5', '1', 0, 20040522150812);
+INSERT INTO `survey_phrase` VALUES (21, 'dp_standard_behaviour_certainly5', '1', 0, 20040522150828);
+INSERT INTO `survey_phrase` VALUES (22, 'dp_standard_numbers', '1', 0, 20040621012719);
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_phrase_category`
+#
+
+CREATE TABLE `survey_phrase_category` (
+  `phrase_category_id` int(11) NOT NULL auto_increment,
+  `phrase_fi` int(11) NOT NULL default '0',
+  `category_fi` int(11) NOT NULL default '0',
+  `sequence` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`phrase_category_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_phrase_category`
+#
+
+INSERT INTO `survey_phrase_category` VALUES (1, 1, 1, 1);
+INSERT INTO `survey_phrase_category` VALUES (2, 1, 2, 2);
+INSERT INTO `survey_phrase_category` VALUES (3, 2, 3, 1);
+INSERT INTO `survey_phrase_category` VALUES (4, 2, 4, 2);
+INSERT INTO `survey_phrase_category` VALUES (5, 3, 5, 1);
+INSERT INTO `survey_phrase_category` VALUES (6, 3, 6, 2);
+INSERT INTO `survey_phrase_category` VALUES (7, 4, 7, 1);
+INSERT INTO `survey_phrase_category` VALUES (8, 4, 8, 2);
+INSERT INTO `survey_phrase_category` VALUES (9, 5, 9, 1);
+INSERT INTO `survey_phrase_category` VALUES (10, 5, 10, 2);
+INSERT INTO `survey_phrase_category` VALUES (11, 6, 11, 1);
+INSERT INTO `survey_phrase_category` VALUES (12, 6, 12, 2);
+INSERT INTO `survey_phrase_category` VALUES (13, 7, 13, 1);
+INSERT INTO `survey_phrase_category` VALUES (14, 7, 14, 2);
+INSERT INTO `survey_phrase_category` VALUES (15, 8, 1, 1);
+INSERT INTO `survey_phrase_category` VALUES (16, 8, 15, 2);
+INSERT INTO `survey_phrase_category` VALUES (17, 8, 2, 3);
+INSERT INTO `survey_phrase_category` VALUES (18, 9, 3, 1);
+INSERT INTO `survey_phrase_category` VALUES (19, 9, 16, 2);
+INSERT INTO `survey_phrase_category` VALUES (20, 9, 4, 3);
+INSERT INTO `survey_phrase_category` VALUES (21, 10, 5, 1);
+INSERT INTO `survey_phrase_category` VALUES (22, 10, 17, 2);
+INSERT INTO `survey_phrase_category` VALUES (23, 10, 6, 3);
+INSERT INTO `survey_phrase_category` VALUES (24, 11, 7, 1);
+INSERT INTO `survey_phrase_category` VALUES (25, 11, 16, 2);
+INSERT INTO `survey_phrase_category` VALUES (26, 11, 8, 3);
+INSERT INTO `survey_phrase_category` VALUES (27, 12, 9, 1);
+INSERT INTO `survey_phrase_category` VALUES (28, 12, 16, 2);
+INSERT INTO `survey_phrase_category` VALUES (29, 12, 10, 3);
+INSERT INTO `survey_phrase_category` VALUES (30, 13, 11, 1);
+INSERT INTO `survey_phrase_category` VALUES (31, 13, 18, 2);
+INSERT INTO `survey_phrase_category` VALUES (32, 13, 12, 3);
+INSERT INTO `survey_phrase_category` VALUES (33, 14, 13, 1);
+INSERT INTO `survey_phrase_category` VALUES (34, 14, 16, 2);
+INSERT INTO `survey_phrase_category` VALUES (35, 14, 14, 3);
+INSERT INTO `survey_phrase_category` VALUES (36, 15, 19, 1);
+INSERT INTO `survey_phrase_category` VALUES (37, 15, 1, 2);
+INSERT INTO `survey_phrase_category` VALUES (38, 15, 15, 3);
+INSERT INTO `survey_phrase_category` VALUES (39, 15, 2, 4);
+INSERT INTO `survey_phrase_category` VALUES (40, 15, 20, 5);
+INSERT INTO `survey_phrase_category` VALUES (41, 16, 21, 1);
+INSERT INTO `survey_phrase_category` VALUES (42, 16, 3, 2);
+INSERT INTO `survey_phrase_category` VALUES (43, 16, 16, 3);
+INSERT INTO `survey_phrase_category` VALUES (44, 16, 4, 4);
+INSERT INTO `survey_phrase_category` VALUES (45, 16, 22, 5);
+INSERT INTO `survey_phrase_category` VALUES (46, 17, 23, 1);
+INSERT INTO `survey_phrase_category` VALUES (47, 17, 5, 2);
+INSERT INTO `survey_phrase_category` VALUES (48, 17, 17, 3);
+INSERT INTO `survey_phrase_category` VALUES (49, 17, 24, 4);
+INSERT INTO `survey_phrase_category` VALUES (50, 17, 6, 5);
+INSERT INTO `survey_phrase_category` VALUES (51, 18, 25, 1);
+INSERT INTO `survey_phrase_category` VALUES (52, 18, 7, 2);
+INSERT INTO `survey_phrase_category` VALUES (53, 18, 16, 3);
+INSERT INTO `survey_phrase_category` VALUES (54, 18, 8, 4);
+INSERT INTO `survey_phrase_category` VALUES (55, 18, 26, 5);
+INSERT INTO `survey_phrase_category` VALUES (56, 19, 27, 1);
+INSERT INTO `survey_phrase_category` VALUES (57, 19, 9, 2);
+INSERT INTO `survey_phrase_category` VALUES (58, 19, 16, 3);
+INSERT INTO `survey_phrase_category` VALUES (59, 19, 10, 4);
+INSERT INTO `survey_phrase_category` VALUES (60, 19, 28, 5);
+INSERT INTO `survey_phrase_category` VALUES (61, 20, 11, 1);
+INSERT INTO `survey_phrase_category` VALUES (62, 20, 29, 2);
+INSERT INTO `survey_phrase_category` VALUES (63, 20, 30, 3);
+INSERT INTO `survey_phrase_category` VALUES (64, 20, 31, 4);
+INSERT INTO `survey_phrase_category` VALUES (65, 20, 12, 5);
+INSERT INTO `survey_phrase_category` VALUES (66, 21, 32, 1);
+INSERT INTO `survey_phrase_category` VALUES (67, 21, 33, 2);
+INSERT INTO `survey_phrase_category` VALUES (68, 21, 16, 3);
+INSERT INTO `survey_phrase_category` VALUES (69, 21, 34, 4);
+INSERT INTO `survey_phrase_category` VALUES (70, 21, 35, 5);
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_question`
+#
+
+CREATE TABLE `survey_question` (
+  `question_id` int(11) NOT NULL auto_increment,
+  `subtype` enum('0','1','2','3','4','5') NOT NULL default '0',
+  `questiontype_fi` int(11) NOT NULL default '0',
+  `ref_fi` int(11) NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `title` varchar(100) NOT NULL default '',
+  `description` varchar(200) NOT NULL default '',
+  `author` varchar(100) NOT NULL default '',
+  `questiontext` text NOT NULL,
+  `obligatory` enum('0','1') NOT NULL default '1',
+  `complete` enum('0','1') NOT NULL default '0',
+  `created` varchar(14) NOT NULL default '',
+  `original_id` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`question_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_question`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_question_constraint`
+#
+
+CREATE TABLE `survey_question_constraint` (
+  `question_constraint_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `constraint_fi` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`question_constraint_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_question_constraint`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_question_material`
+#
+
+CREATE TABLE `survey_question_material` (
+  `material_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `materials` text,
+  `materials_file` varchar(200) NOT NULL default '',
+  UNIQUE KEY `material_id` (`material_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_question_material`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_questionblock`
+#
+
+CREATE TABLE `survey_questionblock` (
+  `questionblock_id` int(11) NOT NULL auto_increment,
+  `title` varchar(100) default NULL,
+  `obligatory` enum('0','1') NOT NULL default '0',
+  `owner_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`questionblock_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_questionblock`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_questionblock_question`
+#
+
+CREATE TABLE `survey_questionblock_question` (
+  `questionblock_question_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `questionblock_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`questionblock_question_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_questionblock_question`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_questiontype`
+#
+
+CREATE TABLE `survey_questiontype` (
+  `questiontype_id` int(11) NOT NULL auto_increment,
+  `type_tag` varchar(30) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`questiontype_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_questiontype`
+#
+
+INSERT INTO `survey_questiontype` VALUES (1, 'qt_nominal', 20040518222841);
+INSERT INTO `survey_questiontype` VALUES (2, 'qt_ordinal', 20040518222848);
+INSERT INTO `survey_questiontype` VALUES (3, 'qt_metric', 20040518222859);
+INSERT INTO `survey_questiontype` VALUES (4, 'qt_text', 20040518222904);
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_relation`
+#
+
+CREATE TABLE `survey_relation` (
+  `relation_id` int(11) NOT NULL auto_increment,
+  `long` varchar(20) NOT NULL default '',
+  `short` char(2) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`relation_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_relation`
+#
+
+INSERT INTO `survey_relation` VALUES (1, 'less', '<', 20040518195753);
+INSERT INTO `survey_relation` VALUES (2, 'less or equal', '<=', 20040518195808);
+INSERT INTO `survey_relation` VALUES (3, 'equal', '=', 20040518195816);
+INSERT INTO `survey_relation` VALUES (4, 'not equal', '<>', 20040518195839);
+INSERT INTO `survey_relation` VALUES (5, 'more or equal', '>=', 20040518195852);
+INSERT INTO `survey_relation` VALUES (6, 'more', '>', 20040518195903);
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_survey`
+#
+
+CREATE TABLE `survey_survey` (
+  `survey_id` int(11) NOT NULL auto_increment,
+  `ref_fi` int(11) NOT NULL default '0',
+  `author` varchar(50) NOT NULL default '',
+  `introduction` text,
+  `status` enum('0','1') NOT NULL default '1',
+  `startdate` date default NULL,
+  `enddate` date default NULL,
+  `evaluation_access` enum('0','1') NOT NULL default '0',
+  `invitation` enum('0','1') NOT NULL default '0',
+  `invitation_mode` enum('0','1') NOT NULL default '1',
+  `complete` enum('0','1') NOT NULL default '0',
+  `created` varchar(14) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`survey_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_survey`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_survey_question`
+#
+
+CREATE TABLE `survey_survey_question` (
+  `survey_question_id` int(11) NOT NULL auto_increment,
+  `survey_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `sequence` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`survey_question_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_survey_question`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `survey_variable`
+#
+
+CREATE TABLE `survey_variable` (
+  `variable_id` int(11) NOT NULL auto_increment,
+  `category_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `value1` double default NULL,
+  `value2` double default NULL,
+  `sequence` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`variable_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `survey_variable`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `tree`
 #
 
@@ -4394,15 +4999,16 @@ CREATE TABLE `tree` (
 # Dumping data for table `tree`
 #
 
-INSERT INTO `tree` VALUES (1, 1, 0, 1, 18, 1);
+INSERT INTO `tree` VALUES (1, 1, 0, 1, 20, 1);
 INSERT INTO `tree` VALUES (1, 7, 9, 5, 6, 3);
 INSERT INTO `tree` VALUES (1, 8, 9, 7, 8, 3);
-INSERT INTO `tree` VALUES (1, 9, 1, 2, 17, 2);
+INSERT INTO `tree` VALUES (1, 9, 1, 2, 19, 2);
 INSERT INTO `tree` VALUES (1, 10, 9, 9, 10, 3);
 INSERT INTO `tree` VALUES (1, 11, 9, 11, 12, 3);
 INSERT INTO `tree` VALUES (1, 12, 9, 3, 4, 3);
 INSERT INTO `tree` VALUES (1, 14, 9, 13, 14, 3);
 INSERT INTO `tree` VALUES (1, 15, 9, 15, 16, 3);
+INSERT INTO `tree` VALUES (1, 16, 9, 17, 18, 3);
 # --------------------------------------------------------
 
 #
@@ -4490,6 +5096,7 @@ CREATE TABLE `tst_solutions` (
   `question_fi` int(10) unsigned NOT NULL default '0',
   `value1` varchar(50) default NULL,
   `value2` varchar(50) default NULL,
+  `points` double default NULL,
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`solution_id`),
   UNIQUE KEY `solution_id` (`solution_id`),
@@ -4660,6 +5267,8 @@ INSERT INTO `usr_pref` VALUES (6, 'public_email', 'n');
 INSERT INTO `usr_pref` VALUES (6, 'public_country', 'n');
 INSERT INTO `usr_pref` VALUES (6, 'public_city', 'n');
 INSERT INTO `usr_pref` VALUES (6, 'language', 'en');
+INSERT INTO `usr_pref` VALUES (6, 'show_users_online', 'y');
+INSERT INTO `usr_pref` VALUES (13, 'show_users_online', 'y');
 # --------------------------------------------------------
 
 #
@@ -4698,6 +5307,33 @@ CREATE TABLE `usr_session` (
 #
 
 INSERT INTO `usr_session` VALUES ('6e41d11d4bab4fed4d1f16be263140f2', 1082327754, 'locator_data|a:0:{}locator_level|i:-1;', 1082326314, 0);
+# --------------------------------------------------------
+
+#
+# Table structure for table `ut_access`
+#
+
+CREATE TABLE `ut_access` (
+  `id` int(10) NOT NULL auto_increment,
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `action_type` char(10) default NULL,
+  `php_script` char(100) NOT NULL default '',
+  `client_ip` char(15) default NULL,
+  `acc_obj_type` char(10) NOT NULL default '',
+  `acc_obj_id` int(10) NOT NULL default '0',
+  `acc_sub_type` char(10) NOT NULL default '',
+  `acc_sub_id` int(10) NOT NULL default '0',
+  `language` char(15) default NULL,
+  `browser` char(60) NOT NULL default '',
+  `session_id` char(40) default NULL,
+  `acc_time` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `ut_access`
+#
+
 # --------------------------------------------------------
 
 #
