@@ -1,0 +1,64 @@
+<form name="frm_properties" action="{ACTION_PROPERTIES}" method="post">
+<input type="hidden" name="id" value="{ID}">
+<input type="hidden" name="send_form" value="{SEND_FORM}">
+<table class="std">
+<tr class="tblheader">
+  <td class="std" colspan="2">{HEADING_GENERAL}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_TEST_TYPES}:</td>
+  <td class="option_value"><select name="sel_test_types">
+<!-- BEGIN test_types -->  
+  <option value="{VALUE_TEST_TYPE}"{SELECTED_TEST_TYPE}>{TEXT_TEST_TYPE}</option>
+<!-- END test_types -->  
+  </select>
+  </td>
+</tr>
+<tr>
+  <td class="option">{TEXT_TITLE}:</td>
+  <td class="option_value"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_AUTHOR}:</td>
+  <td class="option_value"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_COMMENT}:</td>
+  <td class="option_value"><input name="comment" type="text" value="{VALUE_COMMENT}" id="comment" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_INTRODUCTION}:</td>
+  <td class="option_value"><textarea name="introduction" rows="10" cols="50" id="introduction">{VALUE_INTRODUCTION}</textarea></td></tr>
+<tr class="tblheader">
+  <td class="std" colspan="2">{HEADING_SEQUENCE}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_SEQUENCE}:</td>
+  <td class="option_value"><select name="sequence_settings"><option value="0"{SELECTED_FIXED}>{SEQUENCE_FIXED}</option><option value="1"{SELECTED_POSTPONE}>{SEQUENCE_POSTPONE}</option></select>
+</tr>
+<tr class="tblheader">
+  <td class="std" colspan="2">{HEADING_SCORE}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_SCORE_TYPE}:</td>
+  <td class="option_value"><select name="score_reporting"><option value="0"{SELECTED_QUESTION}>{REPORT_AFTER_QUESTION}</option><option value="1"{SELECTED_TEST}>{REPORT_AFTER_TEST}</option></select>
+</tr>
+<tr>
+  <td class="option">{TEXT_SCORE_DATE}:</td>
+  <td class="option_value"><input type="text" name="reporting_date" value="{VALUE_SCORE_DATE}" size="30" /></td>
+</tr>
+<tr class="tblheader">
+  <td class="std" colspan="2">{HEADING_SESSION}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_NR_OF_TRIES}:</td>
+  <td class="option_value"><input type="text" name="nr_of_tries" value="{VALUE_NR_OF_TRIES}" size="8" />{COMMENT_NR_OF_TRIES}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_PROCESSING_TIME}:</td>
+  <td class="option_value"><input type="text" name="processing_time" value="{VALUE_PROCESSING_TIME}" size="8" />{COMMENT_PROCESSING_TIME}</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_STARTING_TIME}:</td>
+  <td class="option_value"><input type="text" name="starting_time" value="{VALUE_STARTING_TIME}" size="30" /></td>
+</tr>
+<tr><td colspan="2" class="option"><input name="cmd[apply]" type="submit" class="submit" id="apply" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
+</table>
+</form>
