@@ -3,7 +3,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.3 2003/03/28 18:33:46 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -44,7 +44,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				{
 					//visible data part
 					$this->data["data"][] = array(
-						"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_user_b.gif\" border=\"0\">",
+						"type" => ilUtil::getImageTagByType("usr",$this->tpl->tplPath),
 						"name" => $val["title"],
 						"description" => $val["desc"],
 						"last_change" => ilFormat::formatDate($val["last_update"])
