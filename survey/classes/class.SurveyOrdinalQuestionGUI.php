@@ -355,23 +355,58 @@ class SurveyOrdinalQuestionGUI {
 */
 	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-			$category = $this->object->getCategory($i);
-			$this->tpl->setCurrentBlock("ordinal_row");
-			$this->tpl->setVariable("TEXT_ORDINAL", $category);
-			$this->tpl->setVariable("VALUE_ORDINAL", $i);
-			$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-			if (is_array($working_data))
-			{
-				if (strcmp($working_data[0]["value"], "") != 0)
+		if ($this->object->orientation == 0)
+		{
+			// vertical orientation
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+				$category = $this->object->getCategory($i);
+				$this->tpl->setCurrentBlock("ordinal_row");
+				$this->tpl->setVariable("TEXT_ORDINAL", $category);
+				$this->tpl->setVariable("VALUE_ORDINAL", $i);
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+				if (is_array($working_data))
 				{
-					if ($working_data[0]["value"] == $i)
+					if (strcmp($working_data[0]["value"], "") != 0)
 					{
-						$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+						if ($working_data[0]["value"] == $i)
+						{
+							$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+						}
 					}
 				}
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			// horizontal orientation
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+			{
+				$category = $this->object->getCategory($i);
+				$this->tpl->setCurrentBlock("radio_col");
+				$this->tpl->setVariable("VALUE_ORDINAL", $i);
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+				if (is_array($working_data))
+				{
+					if (strcmp($working_data[0]["value"], "") != 0)
+					{
+						if ($working_data[0]["value"] == $i)
+						{
+							$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+						}
+					}
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+			{
+				$category = $this->object->getCategory($i);
+				$this->tpl->setCurrentBlock("text_col");
+				$this->tpl->setVariable("VALUE_ORDINAL", $i);
+				$this->tpl->setVariable("TEXT_ORDINAL", $category);
+				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		if ($question_title)
 		{

@@ -139,7 +139,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
-assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###12 Nov 2004 new variable
+assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#counter#:#Zähler
@@ -286,7 +286,7 @@ assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbe
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
-assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
+assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
 assessment#:#qt_cloze#:#Lückentext-Frage
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
@@ -359,7 +359,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
-assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
+assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test anfügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test anfügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Anfügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) anfügen wollen?
@@ -2208,19 +2208,19 @@ common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
 common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
 common#:#url#:#URL
-common#:#url_a#:#a URL###23 Oct 2004 new variable
-common#:#url_add#:#Add URL###23 Oct 2004 new variable
-common#:#url_added#:#URL added###23 Oct 2004 new variable
-common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
-common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
+common#:#url_a#:#eine URL
+common#:#url_add#:#URL hinzufügen
+common#:#url_added#:#URL hinzugefügt
+common#:#url_create_url#:#URL erstellen
+common#:#url_delete#:#URL löschen
 common#:#url_description#:#URL Beschreibung
-common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit#:#URL bearbeiten
 common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
-common#:#url_new#:#New URL###23 Oct 2004 new variable
-common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
-common#:#url_read#:#Open URL###23 Oct 2004 new variable
-common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
-common#:#url_write#:#Edit URL###23 Oct 2004 new variable
+common#:#url_new#:#Neue URL
+common#:#url_not_found#:#Datei wurde nicht gefunden
+common#:#url_read#:#URL öffnen
+common#:#url_visible#:#URL ist sichtbar
+common#:#url_write#:#URL bearbeiten
 common#:#user#:#Benutzer
 common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
@@ -3946,7 +3946,7 @@ survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
 survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#heading#:#Überschrift
-survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
+survey#:#horizontal#:#horizontal
 survey#:#import_question#:#Frage(n) importieren
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
@@ -4001,7 +4001,7 @@ survey#:#on#:#an
 survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
-survey#:#orientation#:#Orientation###18 Nov 2004 new variable
+survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Katgorie ausgewählt haben
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
@@ -4117,8 +4117,8 @@ survey#:#users_answered#:#Beantwortet
 survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
-survey#:#vertical#:#vertical###18 Nov 2004 new variable
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
+survey#:#vertical#:#vertikal
+survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folgenden Frage/des folgenden Fragenblocks:
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!

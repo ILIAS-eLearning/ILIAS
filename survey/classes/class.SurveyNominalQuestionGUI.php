@@ -251,12 +251,59 @@ class SurveyNominalQuestionGUI {
 */
 	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-			$category = $this->object->getCategory($i);
-			if ($this->object->getSubtype() == SUBTYPE_MCSR)
+		if ($this->object->getOrientation() == 0)
+		{
+			// vertical orientation
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+				$category = $this->object->getCategory($i);
+				if ($this->object->getSubtype() == SUBTYPE_MCSR)
+				{
+					$this->tpl->setCurrentBlock("nominal_row_sr");
+					$this->tpl->setVariable("TEXT_NOMINAL", $category);
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						if (strcmp($working_data[0]["value"], "") != 0)
+						{
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+							}
+						}
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("nominal_row_mr");
+					$this->tpl->setVariable("TEXT_NOMINAL", $category);
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						foreach ($working_data as $row)
+						{
+							if (strcmp($row["value"], "") != 0)
+							{
+								if ($row["value"] == $i)
+								{
+									$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+								}
+							}
+						}
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
+		else
+		{
+			// horizontal orientation
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
-				$this->tpl->setCurrentBlock("nominal_row_sr");
-				$this->tpl->setVariable("TEXT_NOMINAL", $category);
+				$category = $this->object->getCategory($i);
+				$this->tpl->setCurrentBlock("radio_col");
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 				if (is_array($working_data))
@@ -271,25 +318,13 @@ class SurveyNominalQuestionGUI {
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-			else
+			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
-				$this->tpl->setCurrentBlock("nominal_row_mr");
-				$this->tpl->setVariable("TEXT_NOMINAL", $category);
+				$category = $this->object->getCategory($i);
+				$this->tpl->setCurrentBlock("text_col");
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
+				$this->tpl->setVariable("TEXT_NOMINAL", $category);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				if (is_array($working_data))
-				{
-					foreach ($working_data as $row)
-					{
-						if (strcmp($row["value"], "") != 0)
-						{
-							if ($row["value"] == $i)
-							{
-								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-							}
-						}
-					}
-				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
