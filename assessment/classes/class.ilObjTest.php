@@ -5602,11 +5602,12 @@ class ilObjTest extends ilObject
 * @param integer $user_id The database id of the invited user
 * @access public
 */
-	function inviteUser($user_id)
+	function inviteUser($user_id, $client_ip="")
 	{
-		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi) VALUES (%s, %s)",
+		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi, clientip) VALUES (%s, %s, %s)",
 			$this->ilias->db->quote($this->test_id),
-			$this->ilias->db->quote($user_id)
+			$this->ilias->db->quote($user_id),
+			$this->ilias->db->quote($client_ip)
 		);
 		
 		$result = $this->ilias->db->query($query);
