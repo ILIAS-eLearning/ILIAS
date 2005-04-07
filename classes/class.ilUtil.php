@@ -2504,5 +2504,16 @@ class ilUtil
 		}
 	}
 	
+	
+	/**
+	 *	 make time object from mysql_date_time
+	 */
+	 function date_mysql2time($mysql_date_time) {
+	 	list($datum, $uhrzeit) = explode (" ",$mysql_date_time);
+  		list($jahr, $monat, $tag) = explode("-", $datum);
+  		list($std, $min, $sec) = explode(":", $uhrzeit);
+  		return mktime ((int) $std, (int) $min, (int) $sec, (int) $monat, (int) $tag, (int) $jahr);
+	 }
+	
 } // END class.ilUtil
 ?>
