@@ -4494,3 +4494,5 @@ survey#:#view_phrase#:#Vedeti fraza
 survey#:#warning_question_in_use#:#Avertisment! Intreberea pe care doriti sa o editati este folosita de sondajele de mai jos. Daca decideti sa continuati si salvati/aplicati intrebarea, toate raspunsurile din sondajele de mai jos vor fi sterse. Daca doriti sa schimbati intrebarea si sa o folositi intr-un alt sondaj va rugam duplicati-o in browser-ul de intrebari pentru a crea o copie a acestei intrebari.
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
 survey#:#warning_survey_not_complete#:#Sondajul nu este complet!
+common#:#include_local#:#include local###include local language file when updating language
+###07 Apr 2005 new variable

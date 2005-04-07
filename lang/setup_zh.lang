@@ -49,366 +49,368 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#第三方软件 
-absolute_path#:#绝对路径 
-access#:#访问 
-access_status#:#访问状态 
-admin_login#:#管理员登录e 
+3rd_party_software#:#第三方软件 ###07 Apr 2005 content changed
+absolute_path#:#绝对路径 ###07 Apr 2005 content changed
+access#:#访问 ###07 Apr 2005 content changed
+access_status#:#访问状态 ###07 Apr 2005 content changed
+admin_login#:#管理员登录e ###07 Apr 2005 content changed
 antivir#:#AntiVir###18 Nov 2004 new variable
-available_clients#:#可用客户 
-available_languages#:#可用语言 
-back#:#返回 
-cannot_create_datadir_no_write_access#:#无写访问。不能创建数据目录 
-change#:#更改 
-change_basic_settings#:#更改基本设置 
-change_password#:#更改口令 
-change_sort_direction#:#更改排序方向 
-check_failed_convert#:#转换测试失败 
+available_clients#:#可用客户 ###07 Apr 2005 content changed
+available_languages#:#可用语言 ###07 Apr 2005 content changed
+back#:#返回 ###07 Apr 2005 content changed
+cannot_create_datadir_no_write_access#:#无写访问。不能创建数据目录 ###07 Apr 2005 content changed
+change#:#更改 ###07 Apr 2005 content changed
+change_basic_settings#:#更改基本设置 ###07 Apr 2005 content changed
+change_password#:#更改口令 ###07 Apr 2005 content changed
+change_sort_direction#:#更改排序方向 ###07 Apr 2005 content changed
+check_failed_convert#:#转换测试失败 ###07 Apr 2005 content changed
 check_failed_htmldoc#:#HTMLdoc测试失败de ###26 May 2004 content changed
 check_failed_java#:#Java测试失败 ###14 Sep 2004 content changed
-check_failed_unzip#:#unzip测试失败 
-check_failed_zip#:#zip测试失败 
-choose_language#:#选择语言 
-choose_languages#:#请选择其它语言及删除已选择的语言。
-choose_password#:#请选择口令
+check_failed_unzip#:#unzip测试失败 ###07 Apr 2005 content changed
+check_failed_zip#:#zip测试失败 ###07 Apr 2005 content changed
+choose_language#:#选择语言 ###07 Apr 2005 content changed
+choose_languages#:#请选择其它语言及删除已选择的语言。###07 Apr 2005 content changed
+choose_password#:#请选择口令###07 Apr 2005 content changed
 city#:#城市###14 Sep 2004 content changed
 clean_command#:#Clean Command###07 Jan 2005 new variable
-client#:#客户
-client_access_mode_changed#:#客户访问方式已更改 
-client_data#:#客户信息 
-client_id#:#客户身份
-client_info#:#描述 
-client_institution#:#单位
-client_login#:#登录客户身份
-client_name#:#姓名 
-client_setup_not_finished#:#客户安装尚未完成 
+client#:#客户###07 Apr 2005 content changed
+client_access_mode_changed#:#客户访问方式已更改 ###07 Apr 2005 content changed
+client_data#:#客户信息 ###07 Apr 2005 content changed
+client_id#:#客户身份###07 Apr 2005 content changed
+client_info#:#描述 ###07 Apr 2005 content changed
+client_institution#:#单位###07 Apr 2005 content changed
+client_login#:#登录客户身份###07 Apr 2005 content changed
+client_name#:#姓名 ###07 Apr 2005 content changed
+client_setup_not_finished#:#客户安装尚未完成 ###07 Apr 2005 content changed
 collation#:#Collation###23 Mar 2005 new variable
-contact#:#联系信息 
-contact_data#:#联系信息 
-convert_path#:#转换路径 
-convert_path_comment#:#用于显示图象略图 
+contact#:#联系信息 ###07 Apr 2005 content changed
+contact_data#:#联系信息 ###07 Apr 2005 content changed
+convert_path#:#转换路径 ###07 Apr 2005 content changed
+convert_path_comment#:#用于显示图象略图 ###07 Apr 2005 content changed
 could_not_create_logfile#:#不能创建日志文件###14 Sep 2004 content changed
-country#:#国家
-create#:#创建 
-create_datadir_failed#:#创建数据目录失败 
-create_new_client#:#创建新客户 
-create_webdir_failed#:#创建web目录失败 
-data_path#:#数据路径
-database#:#数据库 
-database_create#:#创建数据库 
-database_exists#:#数据库存在 
-database_install#:#安装数据库 
-database_installed#:#数据库已安装 
-database_is_uptodate#:#数据库是已更新的
-database_needs_update#:#数据库需要更新 
+country#:#国家###07 Apr 2005 content changed
+create#:#创建 ###07 Apr 2005 content changed
+create_datadir_failed#:#创建数据目录失败 ###07 Apr 2005 content changed
+create_new_client#:#创建新客户 ###07 Apr 2005 content changed
+create_webdir_failed#:#创建web目录失败 ###07 Apr 2005 content changed
+data_path#:#数据路径###07 Apr 2005 content changed
+database#:#数据库 ###07 Apr 2005 content changed
+database_create#:#创建数据库 ###07 Apr 2005 content changed
+database_exists#:#数据库存在 ###07 Apr 2005 content changed
+database_install#:#安装数据库 ###07 Apr 2005 content changed
+database_installed#:#数据库已安装 ###07 Apr 2005 content changed
+database_is_uptodate#:#数据库是已更新的###07 Apr 2005 content changed
+database_needs_update#:#数据库需要更新 ###07 Apr 2005 content changed
 database_not_exists_create_first#:#数据库不存在。请先创建数据库。###15 Sep 2004 content changed
-database_ready#:#数据库已准备完毕。 
-database_update#:#更新数据库 
-database_version#:#当前数据库版本 
-datadir_path#:#数据目录路径 
-datadir_path_comment1#:#强制的 
-datadir_path_comment2#:#在此安装版本中不能更改
+database_ready#:#数据库已准备完毕。 ###07 Apr 2005 content changed
+database_update#:#更新数据库 ###07 Apr 2005 content changed
+database_version#:#当前数据库版本 ###07 Apr 2005 content changed
+datadir_path#:#数据目录路径 ###07 Apr 2005 content changed
+datadir_path_comment1#:#强制的 ###07 Apr 2005 content changed
+datadir_path_comment2#:#在此安装版本中不能更改###07 Apr 2005 content changed
 datadir_webspacedir_match#:#数据目录路径指向web空间目录。请选择其它目录。###14 Sep 2004 content changed
-date#:#日期 
-db_conn#:#数据库连接
-db_host#:#数据库主机 
-db_name#:#数据库名称 
-db_needs_update#:#数据库需要更新
+date#:#日期 ###07 Apr 2005 content changed
+db_conn#:#数据库连接###07 Apr 2005 content changed
+db_host#:#数据库主机 ###07 Apr 2005 content changed
+db_name#:#数据库名称 ###07 Apr 2005 content changed
+db_needs_update#:#数据库需要更新###07 Apr 2005 content changed
 db_not_installed#:#Database not installed###01 Mar 2005 new variable
-db_pass#:#数据库口令
-db_type#:#数据库类型 
-db_user#:#数据库用户
-db_version#:#数据库版本
-default#:#缺省 
-default_client_changed#:#已更改的缺省客户
-default_language#:#缺省语言
-delete#:#删除 
-delete_confirm#:#确认客户删除 
-delete_info#:#您肯定吗？ 
-details#:#详细情况 
-dir_exists_create#:#目录已存在。取消”创建“选择此目录作为数据目录
-disable#:# 禁止 
-disable_check#:# 禁止选择 
-disable_logging#:# 禁止日志 
-disabled#:#已禁止
-display_clientlist#:#显示客户选择 
-email#:#电子邮件 
-email_not_valid#:#无效电子邮件地址 
-en_by_default#:#（英语为缺省安装，不能删除）。 
-enable#:#激活 
-enabled#:#已激活 
+db_pass#:#数据库口令###07 Apr 2005 content changed
+db_type#:#数据库类型 ###07 Apr 2005 content changed
+db_user#:#数据库用户###07 Apr 2005 content changed
+db_version#:#数据库版本###07 Apr 2005 content changed
+default#:#缺省 ###07 Apr 2005 content changed
+default_client_changed#:#已更改的缺省客户###07 Apr 2005 content changed
+default_language#:#缺省语言###07 Apr 2005 content changed
+delete#:#删除 ###07 Apr 2005 content changed
+delete_confirm#:#确认客户删除 ###07 Apr 2005 content changed
+delete_info#:#您肯定吗？ ###07 Apr 2005 content changed
+details#:#详细情况 ###07 Apr 2005 content changed
+dir_exists_create#:#目录已存在。取消”创建“选择此目录作为数据目录###07 Apr 2005 content changed
+disable#:# 禁止 ###07 Apr 2005 content changed
+disable_check#:# 禁止选择 ###07 Apr 2005 content changed
+disable_logging#:# 禁止日志 ###07 Apr 2005 content changed
+disabled#:#已禁止###07 Apr 2005 content changed
+display_clientlist#:#显示客户选择 ###07 Apr 2005 content changed
+email#:#电子邮件 ###07 Apr 2005 content changed
+email_not_valid#:#无效电子邮件地址 ###07 Apr 2005 content changed
+en_by_default#:#（英语为缺省安装，不能删除）。 ###07 Apr 2005 content changed
+enable#:#激活 ###07 Apr 2005 content changed
+enabled#:#已激活 ###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
-enter_password#:#请输入口令
-env_ok#:#好，看起来不错。 
-env_using#:#ILIAS 3将运行于 
-env_warning#:#ILIAS 3只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 3也可以在于您自己的环境下运行。
-environment#:#环境 
-err_create_database_failed#:#数据库创建失败 
-err_wrong_login#:#错误登录 
-error_recipient#:#错误收件人 
+enter_password#:#请输入口令###07 Apr 2005 content changed
+env_ok#:#好，看起来不错。 ###07 Apr 2005 content changed
+env_using#:#ILIAS 3将运行于 ###07 Apr 2005 content changed
+env_warning#:#ILIAS 3只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 3也可以在于您自己的环境下运行。###07 Apr 2005 content changed
+environment#:#环境 ###07 Apr 2005 content changed
+err_create_database_failed#:#数据库创建失败 ###07 Apr 2005 content changed
+err_wrong_login#:#错误登录 ###07 Apr 2005 content changed
+error_recipient#:#错误收件人 ###07 Apr 2005 content changed
 example#:#Example###23 Mar 2005 new variable
-feedback_recipient#:#反馈收件人 
-file_does_not_exist#:#文件不存在。
-file_version#:#文件版本 
-fill_both_fields#:#请填充这两个域！
-fill_out_required_fields#:#请填充标记为必添项的全部域。 
-filled_out#:#已正确填充 
-finish#:#完成安装 
+feedback_recipient#:#反馈收件人 ###07 Apr 2005 content changed
+file_does_not_exist#:#文件不存在。###07 Apr 2005 content changed
+file_version#:#文件版本 ###07 Apr 2005 content changed
+fill_both_fields#:#请填充这两个域！###07 Apr 2005 content changed
+fill_out_required_fields#:#请填充标记为必添项的全部域。 ###07 Apr 2005 content changed
+filled_out#:#已正确填充 ###07 Apr 2005 content changed
+finish#:#完成安装 ###07 Apr 2005 content changed
 finish_initial_setup_first#:#请先完成初始安装 ###14 Sep 2004 content changed
-finish_setup#:#正在完成安装
+finish_setup#:#正在完成安装###07 Apr 2005 content changed
 firstname#:#名 ###14 Sep 2004 content changed
 fop_path#:#Path to FOP###26 May 2004 new variable
 fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
-hide_clientlist#:#隐藏客户选择
-host#:#主机 
-htmldoc_path#:#到HTMLdoc的路径 
+hide_clientlist#:#隐藏客户选择###07 Apr 2005 content changed
+host#:#主机 ###07 Apr 2005 content changed
+htmldoc_path#:#到HTMLdoc的路径 ###07 Apr 2005 content changed
 htmldoc_path_comment#:#用于生成PDF帐单（付账系统） ###07 Aug 2004 content changed
-http_path#:#HTTP路径 
-id#:#身份 
-ilias_homepage#:#ILIAS主页
-ilias_nic#:#NIC注册 
-ilias_nic_id#:#NIC身份 
+http_path#:#HTTP路径 ###07 Apr 2005 content changed
+id#:#身份 ###07 Apr 2005 content changed
+ilias_homepage#:#ILIAS主页###07 Apr 2005 content changed
+ilias_nic#:#NIC注册 ###07 Apr 2005 content changed
+ilias_nic_id#:#NIC身份 ###07 Apr 2005 content changed
 ilias_setup#:#ILIAS3安装 ###14 Sep 2004 content changed
-ilias_version#:#ILIAS版本 
+ilias_version#:#ILIAS版本 ###07 Apr 2005 content changed
+include_local#:#include local###include local language file when updating language
+###07 Apr 2005 new variable
 info_text_contact#:#这里您要指明其他客户信息及其系统管理员的联系资料。必须填充带星号的域。全部信息都将存于数据库。在下一屏中，您可以在ILIAS-NIC服务器中注册您的安装，这些资料将传送到此服务器中。###14 Sep 2004 content changed
 info_text_db#:#数据库不存在或空。点击下面按钮安装数据库。如果具有已选名称的数据库尚未存在，请选择”创建数据库“。安装程序将自动创建数据库。如果创建失败（例如由于访问许可的限制），请联系负责数据库服务器的系统管理员，请求他先为您创建一个具有所要求名称的数据库。###05 Jan 2004 new variable 
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
-info_text_delete#:#您可以点击下面的删除按钮伤处此客户。但是只是删除您的client.ini文件，而全部存于客户数据目录和数据库中的文件不变。这些文件和数据库需要由系统管理员手工删除。
-info_text_finish1#:#祝贺您，！客户安装成功！点击”登录“进入您的ILIAS安装程序。
-info_text_finish2#:#一些设置还缺少或不正确。请参见步骤表看还需要做什么！
-info_text_first_client#:#基本设置已存。现在我们将安装您的第一位客户。安装程序将引导您安装过程。在右边的面板上总是显示安装过程的当前状态。 
+info_text_delete#:#您可以点击下面的删除按钮伤处此客户。但是只是删除您的client.ini文件，而全部存于客户数据目录和数据库中的文件不变。这些文件和数据库需要由系统管理员手工删除。###07 Apr 2005 content changed
+info_text_finish1#:#祝贺您，！客户安装成功！点击”登录“进入您的ILIAS安装程序。###07 Apr 2005 content changed
+info_text_finish2#:#一些设置还缺少或不正确。请参见步骤表看还需要做什么！###07 Apr 2005 content changed
+info_text_first_client#:#基本设置已存。现在我们将安装您的第一位客户。安装程序将引导您安装过程。在右边的面板上总是显示安装过程的当前状态。 ###07 Apr 2005 content changed
 info_text_first_install#:#看起来您是第一次安装ILIAS3，因为未发现ilias.ini文件。在ilias.ini文件中存有主口令保护ILIAS安装被未授权访问。###14 Sep 2004 content changed
 info_text_ini#:#请选择客户身份。允许任何字符（变音字符除外）和数字。客户身份必须为一个词。<br/>下一步要输入数据库连接信息。安装程序建立一个测试连接验证您的设置并测试数据库是否存在。如果数据库不存在，您可以在下一个安装步骤中提示安装程序创建数据库。###14 Sep 2004 content changed
 info_text_lang#:#请选择其它语言及删除选择的语言。缺省语言被设定为新用户账号或尚未选择优先语言用户账号的语言。 ###14 Sep 2004 content changed
 info_text_list#:#在此概观中，您可以看见全部可用客户及其安装访问状态。在右上边，您可以将客户选择屏幕转换为开或关。如果客户选择为开，则全部在线可用客户将显示在ILIAS首页。如果客户选择为关并且用户点击首页，则总是显示<i>缺省</i>客户的登录屏。您可以用下面的按钮确定缺省客户。###14 Sep 2004 content changed
-info_text_login#:#请输入安装客户身份及账号信息。您的账号必须设为”administrator“角色。 
+info_text_login#:#请输入安装客户身份及账号信息。您的账号必须设为”administrator“角色。 ###07 Apr 2005 content changed
 info_text_nic1#:#从我们的ILIA服务器中获得安装身份（nic-id）。如果您要同其它ILIAS安装共享内容，需要唯一的nic-id。注册是自愿的。如果您不想注册，请选择”跳过注册“（您可以以后任何时间注册）。<br/> 我们建议使用在线注册。如果连接有问题（例如您在防火墙后），您可以另外通过电子邮件获取nic-id：请发邮件给ilias-info@uni-koeln.de， ###14 Sep 2004 content changed
 info_text_nic2#:#并附上您的安装信息。将您从收到回信中的nic-id输入到相应的域中并选择”通过电子邮件注册“。 ###14 Sep 2004 content changed
-info_text_nic3#:#您已注册安装。您的nic-id是
+info_text_nic3#:#您已注册安装。您的nic-id是###07 Apr 2005 content changed
 info_text_password#:#在这里您可以更改安装程序的主口令。###14 Sep 2004 content changed
 info_text_pathes#:#ILIAS3支持具有不同数据库的多客户。在下面输入基本数据目录、日志文件位置和第三方程序路径。这些设置对所有您以后创建的客户有效。###14 Sep 2004 content changed
-ini_client_id_exists#:#具有此身份的客户已存在！请选择其它客户身份。 
+ini_client_id_exists#:#具有此身份的客户已存在！请选择其它客户身份。 ###07 Apr 2005 content changed
 ini_client_id_invalid#:#您输入的客户身份包含非法字符 ###14 Sep 2004 content changed
 ini_client_id_no_change#:#在此版本中当客户目录成功创建后，客户身份不能更改。###14 Sep 2004 content changed
 ini_client_id_too_long#:#客户身份过长 ###14 Sep 2004 content changed
-ini_client_id_too_short#:#客户身份过短 
-ini_db_name_exists#:#已存在！请选择其它数据库名称
-ini_no_client_id#:#未给定身份 
-ini_no_db_host#:#无主机名 
-ini_no_db_name#:#无数据库名称
-ini_no_db_user#:#无数据库用户名
-inifile#:#ini文件 
-inifile_can_write#:#ILIAS 3安装程序可以写ini文件。
-inifile_cannot_write#:#ILIAS 3安装程序不能写ini文件。请先检查写许可。 
-inifile_content#:#ini文件具有内容： 
-inifile_exists#:#存在一个ini文件。注意此安装过程将删除以前的设置。
-inifile_fill_all#:#请填充全部域。 
-inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 3。 
-inifile_written#:#ini文件已经成功保存到主机。
-input_error#:#输入错误 
-inst_identification#:#安装证明 
-inst_name#:#安装名称 
-install#:#安装 
-installation#:#安装 
-installed#:#已安装
-institution#:#单位 
-intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行安装。
-ip_address#:#IP地址
-java_path#:#Java路径 
-java_path_comment#:#用于SCORM学习模块 
+ini_client_id_too_short#:#客户身份过短 ###07 Apr 2005 content changed
+ini_db_name_exists#:#已存在！请选择其它数据库名称###07 Apr 2005 content changed
+ini_no_client_id#:#未给定身份 ###07 Apr 2005 content changed
+ini_no_db_host#:#无主机名 ###07 Apr 2005 content changed
+ini_no_db_name#:#无数据库名称###07 Apr 2005 content changed
+ini_no_db_user#:#无数据库用户名###07 Apr 2005 content changed
+inifile#:#ini文件 ###07 Apr 2005 content changed
+inifile_can_write#:#ILIAS 3安装程序可以写ini文件。###07 Apr 2005 content changed
+inifile_cannot_write#:#ILIAS 3安装程序不能写ini文件。请先检查写许可。 ###07 Apr 2005 content changed
+inifile_content#:#ini文件具有内容： ###07 Apr 2005 content changed
+inifile_exists#:#存在一个ini文件。注意此安装过程将删除以前的设置。###07 Apr 2005 content changed
+inifile_fill_all#:#请填充全部域。 ###07 Apr 2005 content changed
+inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 3。 ###07 Apr 2005 content changed
+inifile_written#:#ini文件已经成功保存到主机。###07 Apr 2005 content changed
+input_error#:#输入错误 ###07 Apr 2005 content changed
+inst_identification#:#安装证明 ###07 Apr 2005 content changed
+inst_name#:#安装名称 ###07 Apr 2005 content changed
+install#:#安装 ###07 Apr 2005 content changed
+installation#:#安装 ###07 Apr 2005 content changed
+installed#:#已安装###07 Apr 2005 content changed
+institution#:#单位 ###07 Apr 2005 content changed
+intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
+ip_address#:#IP地址###07 Apr 2005 content changed
+java_path#:#Java路径 ###07 Apr 2005 content changed
+java_path_comment#:#用于SCORM学习模块 ###07 Apr 2005 content changed
 lang_cs#:#Czech###09 Mar 2004 new variable
 lang_da#:#Danish###01 Mar 2005 new variable
-lang_de#:#德语 
-lang_en#:#英语 
-lang_error_occurred#:#遇到错误。操作失败。 
-lang_es#:#西班牙语 
-lang_fr#:#法语 
+lang_de#:#德语 ###07 Apr 2005 content changed
+lang_en#:#英语 ###07 Apr 2005 content changed
+lang_error_occurred#:#遇到错误。操作失败。 ###07 Apr 2005 content changed
+lang_es#:#西班牙语 ###07 Apr 2005 content changed
+lang_fr#:#法语 ###07 Apr 2005 content changed
 lang_hu#:#Hungarian###01 Mar 2005 new variable
-lang_id#:#印度尼西亚语 
-lang_it#:#意大利语 
-lang_lt#:#立陶宛语 
-lang_min_one_language#:#必须至少安装一种语言。 
-lang_nl#:#荷兰语 
-lang_no#:#挪威语 
-lang_none_installed#:#未安装语言 
+lang_id#:#印度尼西亚语 ###07 Apr 2005 content changed
+lang_it#:#意大利语 ###07 Apr 2005 content changed
+lang_lt#:#立陶宛语 ###07 Apr 2005 content changed
+lang_min_one_language#:#必须至少安装一种语言。 ###07 Apr 2005 content changed
+lang_nl#:#荷兰语 ###07 Apr 2005 content changed
+lang_no#:#挪威语 ###07 Apr 2005 content changed
+lang_none_installed#:#未安装语言 ###07 Apr 2005 content changed
 lang_not_installed_default#:#您选择的缺省语言未安装！###14 Sep 2004 content changed
-lang_pl#:#波兰语 
+lang_pl#:#波兰语 ###07 Apr 2005 content changed
 lang_pt#:#Portuguese###09 Mar 2004 new variable
-lang_se#:#瑞典语 
-lang_ua#:#乌克兰语
-lang_xx#:#自定义
-lang_zh#:#汉语 
-langs_not_valid_not_installed#:#因为无效语言文件，下列语言未安装
-language#:#语言
-languages#:#语言 
-languages_installed#:#已安装的语言 
+lang_se#:#瑞典语 ###07 Apr 2005 content changed
+lang_ua#:#乌克兰语###07 Apr 2005 content changed
+lang_xx#:#自定义###07 Apr 2005 content changed
+lang_zh#:#汉语 ###07 Apr 2005 content changed
+langs_not_valid_not_installed#:#因为无效语言文件，下列语言未安装###07 Apr 2005 content changed
+language#:#语言###07 Apr 2005 content changed
+languages#:#语言 ###07 Apr 2005 content changed
+languages_installed#:#已安装的语言 ###07 Apr 2005 content changed
 lastname#:#姓 ###14 Sep 2004 content changed
-list#:#列表 
-list_disabled#:#禁止客户选择
-list_enabled#:#激活客户选择 
+list#:#列表 ###07 Apr 2005 content changed
+list_disabled#:#禁止客户选择###07 Apr 2005 content changed
+list_enabled#:#激活客户选择 ###07 Apr 2005 content changed
 log_path#:#日志文件路径 ###14 Sep 2004 content changed
 log_path_comment#:#输入文件名，创建文件。 ###14 Sep 2004 content changed
-logged_out#:#您已注销 
-logging#:#登录 
-login#:#登录 
-login_invalid#:#登录无效 
-login_to_ilias#:#登录到ILIAS 
-logout#:#注销 
+logged_out#:#您已注销 ###07 Apr 2005 content changed
+logging#:#登录 ###07 Apr 2005 content changed
+login#:#登录 ###07 Apr 2005 content changed
+login_invalid#:#登录无效 ###07 Apr 2005 content changed
+login_to_ilias#:#登录到ILIAS ###07 Apr 2005 content changed
+logout#:#注销 ###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#web空间外的主数据目录 ###14 Sep 2004 content changed
-missing_data#:#缺失数据 
-name#:#名称 
-new#:#新的 
-next#:#下一个
-nic_not_disabled#:#无NIC-ID及未被禁止 
-nic_reg_disable#:#跳过NIC注册
-nic_reg_disable_comment#:#（以后注册）
-nic_reg_disabled#:#禁止NIC注册
-nic_reg_email#:#通过电子邮件注册 
-nic_reg_enabled#:#激活NIC注册！ 
-nic_reg_enter_checksum#:#输入发送校验和
-nic_reg_enter_correct_id#:#请输入正确的nic_id 
-nic_reg_enter_id#:#输入发送的NIC身份 
-nic_reg_failed#:#NIC注册失败
-nic_reg_online#:#在线注册 
-nic_registration#:#NIC注册 
-no_changes#:#无更改。
-no_client_id#:#未给定客户身份
-no_client_name#:#无客户名 
-no_clients_available#:#无可用客户 
-no_database#:#无数据库 
-no_db_connect_consult_admin#:#不能连接到数据库。请向系统管理员咨询 
-no_db_update_file#:#未找到dbupdate.php！ 
-no_password#:#未给定口令 
-no_path_convert#:#未给定转换路径
-no_path_datadir#:#未给定数据目录 
+missing_data#:#缺失数据 ###07 Apr 2005 content changed
+name#:#名称 ###07 Apr 2005 content changed
+new#:#新的 ###07 Apr 2005 content changed
+next#:#下一个###07 Apr 2005 content changed
+nic_not_disabled#:#无NIC-ID及未被禁止 ###07 Apr 2005 content changed
+nic_reg_disable#:#跳过NIC注册###07 Apr 2005 content changed
+nic_reg_disable_comment#:#（以后注册）###07 Apr 2005 content changed
+nic_reg_disabled#:#禁止NIC注册###07 Apr 2005 content changed
+nic_reg_email#:#通过电子邮件注册 ###07 Apr 2005 content changed
+nic_reg_enabled#:#激活NIC注册！ ###07 Apr 2005 content changed
+nic_reg_enter_checksum#:#输入发送校验和###07 Apr 2005 content changed
+nic_reg_enter_correct_id#:#请输入正确的nic_id ###07 Apr 2005 content changed
+nic_reg_enter_id#:#输入发送的NIC身份 ###07 Apr 2005 content changed
+nic_reg_failed#:#NIC注册失败###07 Apr 2005 content changed
+nic_reg_online#:#在线注册 ###07 Apr 2005 content changed
+nic_registration#:#NIC注册 ###07 Apr 2005 content changed
+no_changes#:#无更改。###07 Apr 2005 content changed
+no_client_id#:#未给定客户身份###07 Apr 2005 content changed
+no_client_name#:#无客户名 ###07 Apr 2005 content changed
+no_clients_available#:#无可用客户 ###07 Apr 2005 content changed
+no_database#:#无数据库 ###07 Apr 2005 content changed
+no_db_connect_consult_admin#:#不能连接到数据库。请向系统管理员咨询 ###07 Apr 2005 content changed
+no_db_update_file#:#未找到dbupdate.php！ ###07 Apr 2005 content changed
+no_password#:#未给定口令 ###07 Apr 2005 content changed
+no_path_convert#:#未给定转换路径###07 Apr 2005 content changed
+no_path_datadir#:#未给定数据目录 ###07 Apr 2005 content changed
 no_path_fop#:#No FOP path given###26 May 2004 new variable
-no_path_given#:#未给定路径 
-no_path_htmldoc#:#未给定HTMLdoc路径 
+no_path_given#:#未给定路径 ###07 Apr 2005 content changed
+no_path_htmldoc#:#未给定HTMLdoc路径 ###07 Apr 2005 content changed
 no_path_java#:#未给定java路径 ###14 Sep 2004 content changed
-no_path_log#:#未给定日志路径 
-no_path_unzip#:#未给定unzip路径 
-no_path_zip#:#未给定zip路径
-no_setup_pass_given#:#未给定安装程序口令 
-no_username#:#未给定用户名 
-no_valid_client_id#:#无有效客户身份
+no_path_log#:#未给定日志路径 ###07 Apr 2005 content changed
+no_path_unzip#:#未给定unzip路径 ###07 Apr 2005 content changed
+no_path_zip#:#未给定zip路径###07 Apr 2005 content changed
+no_setup_pass_given#:#未给定安装程序口令 ###07 Apr 2005 content changed
+no_username#:#未给定用户名 ###07 Apr 2005 content changed
+no_valid_client_id#:#无有效客户身份###07 Apr 2005 content changed
 none#:#None###18 Nov 2004 new variable
-not_connected_to_db#:#未连接到数据库 
-online#:#在线e 
-or#:#或 
+not_connected_to_db#:#未连接到数据库 ###07 Apr 2005 content changed
+online#:#在线e ###07 Apr 2005 content changed
+or#:#或 ###07 Apr 2005 content changed
 out_of_webspace#:#（无web空间） ###14 Sep 2004 content changed
-overall_status#:#整体状态 
-overview#:#概观 
-pass_does_not_match#:#输入的口令不匹配 
-password#:#口令 
-password_changed#:#口令已更改 
-password_empty#:#未给定口令！ 
-password_enter_old#:#必须先输入旧口令！ 
-password_info#:#为保护配置信息免于未授权访问，请以后更改这些设置。
-password_new_master#:#设定新的主口令 
-password_not_match#:#输入的新口令不匹配！ 
-password_old_wrong#:#输入的旧口令错误！ 
-password_retype#:#重复输入新口令！
-password_same#:#新旧口令相同！ 
-password_set#:#口令已存 
-path_not_set#:#未设定路径 
-path_to_convert#:#转换路径！ 
+overall_status#:#整体状态 ###07 Apr 2005 content changed
+overview#:#概观 ###07 Apr 2005 content changed
+pass_does_not_match#:#输入的口令不匹配 ###07 Apr 2005 content changed
+password#:#口令 ###07 Apr 2005 content changed
+password_changed#:#口令已更改 ###07 Apr 2005 content changed
+password_empty#:#未给定口令！ ###07 Apr 2005 content changed
+password_enter_old#:#必须先输入旧口令！ ###07 Apr 2005 content changed
+password_info#:#为保护配置信息免于未授权访问，请以后更改这些设置。###07 Apr 2005 content changed
+password_new_master#:#设定新的主口令 ###07 Apr 2005 content changed
+password_not_match#:#输入的新口令不匹配！ ###07 Apr 2005 content changed
+password_old_wrong#:#输入的旧口令错误！ ###07 Apr 2005 content changed
+password_retype#:#重复输入新口令！###07 Apr 2005 content changed
+password_same#:#新旧口令相同！ ###07 Apr 2005 content changed
+password_set#:#口令已存 ###07 Apr 2005 content changed
+path_not_set#:#未设定路径 ###07 Apr 2005 content changed
+path_to_convert#:#转换路径！ ###07 Apr 2005 content changed
 path_to_fop#:#Path to FOP###26 May 2004 new variable
-path_to_htmldoc#:#HTMLdoc路径 
-path_to_java#:#Java路径 
-path_to_unzip#:#Unzip路径 
-path_to_zip#:#Zip路径 
+path_to_htmldoc#:#HTMLdoc路径 ###07 Apr 2005 content changed
+path_to_java#:#Java路径 ###07 Apr 2005 content changed
+path_to_unzip#:#Unzip路径 ###07 Apr 2005 content changed
+path_to_zip#:#Zip路径 ###07 Apr 2005 content changed
 pathes#:#路径 ###14 Sep 2004 content changed
-phone#:#电话 
-port#:#端口
-position#:#位置 
-pre_cookies_disabled#:#禁止Cookies。ILIAS 3需要使用Cookies。
-pre_cookies_enabled#:#激活Cookies 
-pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 3。 
-pre_folder_create#:#可以在ILIAS 3文件夹中创建新文件夹
-pre_folder_create_error#:#不能创建子文件夹！请检查文件系统的许可设置！
-pre_folder_write#:#可写ILIAS 3文件夹 
-pre_folder_write_error#:#不能在ILIAS 3文件夹中写！请检查文件系统的许可设置！
+phone#:#电话 ###07 Apr 2005 content changed
+port#:#端口###07 Apr 2005 content changed
+position#:#位置 ###07 Apr 2005 content changed
+pre_cookies_disabled#:#禁止Cookies。ILIAS 3需要使用Cookies。###07 Apr 2005 content changed
+pre_cookies_enabled#:#激活Cookies ###07 Apr 2005 content changed
+pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 3。 ###07 Apr 2005 content changed
+pre_folder_create#:#可以在ILIAS 3文件夹中创建新文件夹###07 Apr 2005 content changed
+pre_folder_create_error#:#不能创建子文件夹！请检查文件系统的许可设置！###07 Apr 2005 content changed
+pre_folder_write#:#可写ILIAS 3文件夹 ###07 Apr 2005 content changed
+pre_folder_write_error#:#不能在ILIAS 3文件夹中写！请检查文件系统的许可设置！###07 Apr 2005 content changed
 pre_intro#:#先检查环境是否满足安装要求，然后在系统上运行ILIAS3 ###14 Sep 2004 content changed
 pre_javascript_comment#:#可以无Javascript运行ILIAS，但将缺少一些界面特色###14 Sep 2004 content changed
 pre_javascript_enabled#:#激活Javascript ###14 Sep 2004 content changed
-pre_php_version#:#PHP版本 
-pre_php_version_3#:#对于ILIAS 3，PHP版本太老！
-pre_php_version_4.1#:#此版本PEAR类不能正常工作！请升级PHP。
-pre_php_version_4.2#:#此版本DOMXML和XSLT支持不能正常工作！
-pre_php_version_5#:#ILIAS 3尚未用PHP 5测试。如若使用，责任自负。
-pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。
-preliminaries#:#预备 
-prev#:#前一个
-required_field#:#必添域 
-reset#:#重置 
-root_access#:#根访问 
-safe_mode_enabled#:#激活安全模式！ 
-save#:#保存 
-save_error#:#存错误 
-saved_successfully#:#成功保存！ 
+pre_php_version#:#PHP版本 ###07 Apr 2005 content changed
+pre_php_version_3#:#对于ILIAS 3，PHP版本太老！###07 Apr 2005 content changed
+pre_php_version_4.1#:#此版本PEAR类不能正常工作！请升级PHP。###07 Apr 2005 content changed
+pre_php_version_4.2#:#此版本DOMXML和XSLT支持不能正常工作！###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS 3尚未用PHP 5测试。如若使用，责任自负。###07 Apr 2005 content changed
+pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。###07 Apr 2005 content changed
+preliminaries#:#预备 ###07 Apr 2005 content changed
+prev#:#前一个###07 Apr 2005 content changed
+required_field#:#必添域 ###07 Apr 2005 content changed
+reset#:#重置 ###07 Apr 2005 content changed
+root_access#:#根访问 ###07 Apr 2005 content changed
+safe_mode_enabled#:#激活安全模式！ ###07 Apr 2005 content changed
+save#:#保存 ###07 Apr 2005 content changed
+save_error#:#存错误 ###07 Apr 2005 content changed
+saved_successfully#:#成功保存！ ###07 Apr 2005 content changed
 scan_command#:#Scan Command###18 Nov 2004 new variable
-select_client#:#选择一个客户
-server_info#:#服务器信息！ 
-server_software#:#服务器软件
-set_default_client#:#设定缺省客户 
-set_newpasswd#:#请输入新口令 
-set_oldpasswd#:#请输入旧口令 
-settings_changed#:#设置已更改
-settings_saved#:#设置已保存 
-setup#:#安装程序 
-setup_basic_settings#:#安装基本设置 
-setup_contact_data#:#安装联系信息
-setup_database#:#安装数据库 
-setup_database_desc#:#安装数据库 
-setup_db_first#:#请先安装数据库 
-setup_finished#:#安装结束 
+select_client#:#选择一个客户###07 Apr 2005 content changed
+server_info#:#服务器信息！ ###07 Apr 2005 content changed
+server_software#:#服务器软件###07 Apr 2005 content changed
+set_default_client#:#设定缺省客户 ###07 Apr 2005 content changed
+set_newpasswd#:#请输入新口令 ###07 Apr 2005 content changed
+set_oldpasswd#:#请输入旧口令 ###07 Apr 2005 content changed
+settings_changed#:#设置已更改###07 Apr 2005 content changed
+settings_saved#:#设置已保存 ###07 Apr 2005 content changed
+setup#:#安装程序 ###07 Apr 2005 content changed
+setup_basic_settings#:#安装基本设置 ###07 Apr 2005 content changed
+setup_contact_data#:#安装联系信息###07 Apr 2005 content changed
+setup_database#:#安装数据库 ###07 Apr 2005 content changed
+setup_database_desc#:#安装数据库 ###07 Apr 2005 content changed
+setup_db_first#:#请先安装数据库 ###07 Apr 2005 content changed
+setup_finished#:#安装结束 ###07 Apr 2005 content changed
 setup_first_client#:#安装第一位客户 ###14 Sep 2004 content changed
-setup_ini_first#:#请先创建ini文件！ 
-setup_inifile#:#创建ini文件
-setup_inifile_desc#:#创建安装用ini文件 
-setup_languages#:#安装语言
-setup_languages_desc#:#安装其它语言 
-setup_login#:#登录安装程序 
+setup_ini_first#:#请先创建ini文件！ ###07 Apr 2005 content changed
+setup_inifile#:#创建ini文件###07 Apr 2005 content changed
+setup_inifile_desc#:#创建安装用ini文件 ###07 Apr 2005 content changed
+setup_languages#:#安装语言###07 Apr 2005 content changed
+setup_languages_desc#:#安装其它语言 ###07 Apr 2005 content changed
+setup_login#:#登录安装程序 ###07 Apr 2005 content changed
 setup_mainmenu#:#安装主菜单 ###14 Sep 2004 content changed
-setup_menu#:#安装菜单 
-setup_nic_desc#:#在ILIAS-NIC服务器注册安装 
-setup_not_finished#:#安装未完成 
-setup_pass#:#口令 
-setup_pass2#:#重复输入口令 
-setup_pass_title#:#设定主口令 
-setup_password#:#创建口令 
-setup_password_desc#:#创建口令供以后访问安装程序（即升级数据库）
-setup_process_status#:#安装过程状态 
-setup_process_step_contact#:#输入联系信息 
-setup_process_step_db#:#安装/升级数据库e 
-setup_process_step_finish#:#完成安装 
-setup_process_step_ini#:#安装基本信息 
-setup_process_step_lang#:#安装系统语言
-setup_process_step_nic#:#在ILIAS-NIC上注册 
-setup_ready#:#安装完成。可以登录进一步检查系统设置。
-setup_welcome#:#欢迎使用ILIAS 3安装程序。此安装程序将帮助您
+setup_menu#:#安装菜单 ###07 Apr 2005 content changed
+setup_nic_desc#:#在ILIAS-NIC服务器注册安装 ###07 Apr 2005 content changed
+setup_not_finished#:#安装未完成 ###07 Apr 2005 content changed
+setup_pass#:#口令 ###07 Apr 2005 content changed
+setup_pass2#:#重复输入口令 ###07 Apr 2005 content changed
+setup_pass_title#:#设定主口令 ###07 Apr 2005 content changed
+setup_password#:#创建口令 ###07 Apr 2005 content changed
+setup_password_desc#:#创建口令供以后访问安装程序（即升级数据库）###07 Apr 2005 content changed
+setup_process_status#:#安装过程状态 ###07 Apr 2005 content changed
+setup_process_step_contact#:#输入联系信息 ###07 Apr 2005 content changed
+setup_process_step_db#:#安装/升级数据库e ###07 Apr 2005 content changed
+setup_process_step_finish#:#完成安装 ###07 Apr 2005 content changed
+setup_process_step_ini#:#安装基本信息 ###07 Apr 2005 content changed
+setup_process_step_lang#:#安装系统语言###07 Apr 2005 content changed
+setup_process_step_nic#:#在ILIAS-NIC上注册 ###07 Apr 2005 content changed
+setup_ready#:#安装完成。可以登录进一步检查系统设置。###07 Apr 2005 content changed
+setup_welcome#:#欢迎使用ILIAS 3安装程序。此安装程序将帮助您###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
-sort_by_this_column#:#根据此列排序 
-status#:#状态 
-step#:#步骤
-street#:#街 
-submit#:#提交 
-title#:#标题 
-unknown_client_id#:#未知客户 
-unknown_command#:#未知命令 
-unknown_display_mode#:#未知显示模式
-unzip_path#:#Unzip路径 
-unzip_path_comment#:#用于导入学习模块 
-update_applied#:#使更新 
-update_error#:#更新错误
-update_not_found#:#未发现更新 
-username#:#用户名 
-version#:#版本 
+sort_by_this_column#:#根据此列排序 ###07 Apr 2005 content changed
+status#:#状态 ###07 Apr 2005 content changed
+step#:#步骤###07 Apr 2005 content changed
+street#:#街 ###07 Apr 2005 content changed
+submit#:#提交 ###07 Apr 2005 content changed
+title#:#标题 ###07 Apr 2005 content changed
+unknown_client_id#:#未知客户 ###07 Apr 2005 content changed
+unknown_command#:#未知命令 ###07 Apr 2005 content changed
+unknown_display_mode#:#未知显示模式###07 Apr 2005 content changed
+unzip_path#:#Unzip路径 ###07 Apr 2005 content changed
+unzip_path_comment#:#用于导入学习模块 ###07 Apr 2005 content changed
+update_applied#:#使更新 ###07 Apr 2005 content changed
+update_error#:#更新错误###07 Apr 2005 content changed
+update_not_found#:#未发现更新 ###07 Apr 2005 content changed
+username#:#用户名 ###07 Apr 2005 content changed
+version#:#版本 ###07 Apr 2005 content changed
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#web空间数据路径 ###14 Sep 2004 content changed
-with#:#同 
-wrong_password#:#错误口令！ 
-zip_path#:#Zip路径
-zip_path_comment#:#用于导出学习模块
+with#:#同 ###07 Apr 2005 content changed
+wrong_password#:#错误口令！ ###07 Apr 2005 content changed
+zip_path#:#Zip路径###07 Apr 2005 content changed
+zip_path_comment#:#用于导出学习模块###07 Apr 2005 content changed
 zipcode#:#邮政编码###14 Sep 2004 content changed

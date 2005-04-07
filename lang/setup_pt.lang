@@ -33,366 +33,368 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#Software 3rd Party
-absolute_path#:#Caminho absoluto
-access#:#Acesso
-access_status#:#Estado do acesso
-admin_login#:#Entrar como Administrador
+3rd_party_software#:#Software 3rd Party###07 Apr 2005 content changed
+absolute_path#:#Caminho absoluto###07 Apr 2005 content changed
+access#:#Acesso###07 Apr 2005 content changed
+access_status#:#Estado do acesso###07 Apr 2005 content changed
+admin_login#:#Entrar como Administrador###07 Apr 2005 content changed
 antivir#:#AntiVir###18 Nov 2004 new variable
-available_clients#:#Clientes Disponíveis
-available_languages#:#linguagens disponíveis
-back#:#voltar
-cannot_create_datadir_no_write_access#:#Não existe acesso de escrita. Não há possibilidade de criar a directoria de dados
-change#:#mudar
-change_basic_settings#:#Mudar definições básicas
-change_password#:#Mudar palavra-passe
-change_sort_direction#:#Mudar direcção de ordenação
-check_failed_convert#:#Teste do convert falhou
+available_clients#:#Clientes Disponíveis###07 Apr 2005 content changed
+available_languages#:#linguagens disponíveis###07 Apr 2005 content changed
+back#:#voltar###07 Apr 2005 content changed
+cannot_create_datadir_no_write_access#:#Não existe acesso de escrita. Não há possibilidade de criar a directoria de dados###07 Apr 2005 content changed
+change#:#mudar###07 Apr 2005 content changed
+change_basic_settings#:#Mudar definições básicas###07 Apr 2005 content changed
+change_password#:#Mudar palavra-passe###07 Apr 2005 content changed
+change_sort_direction#:#Mudar direcção de ordenação###07 Apr 2005 content changed
+check_failed_convert#:#Teste do convert falhou###07 Apr 2005 content changed
 check_failed_htmldoc#:#Teste do HTMLdoc falhou###26 May 2004 content changed
 check_failed_java#:#Teste do java falhou###14 Sep 2004 content changed
-check_failed_unzip#:#Teste do unzip falhou
-check_failed_zip#:#Teste zip falhou
-choose_language#:#escolha a sua linguagem
-choose_languages#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas.
-choose_password#:#Por favor escolha uma palavra-passe
+check_failed_unzip#:#Teste do unzip falhou###07 Apr 2005 content changed
+check_failed_zip#:#Teste zip falhou###07 Apr 2005 content changed
+choose_language#:#escolha a sua linguagem###07 Apr 2005 content changed
+choose_languages#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas.###07 Apr 2005 content changed
+choose_password#:#Por favor escolha uma palavra-passe###07 Apr 2005 content changed
 city#:#Cidade###14 Sep 2004 content changed
 clean_command#:#Clean Command###07 Jan 2005 new variable
-client#:#Cliente
-client_access_mode_changed#:#O modo de acesso do cliente mudou
-client_data#:#Informação do Cliente
-client_id#:#ID do Cliente
-client_info#:#Descrição
-client_institution#:#Instituição
-client_login#:#Entre com o seu ID de Cliente
-client_name#:#Nome
-client_setup_not_finished#:#O setup do cliente ainda não acabou
+client#:#Cliente###07 Apr 2005 content changed
+client_access_mode_changed#:#O modo de acesso do cliente mudou###07 Apr 2005 content changed
+client_data#:#Informação do Cliente###07 Apr 2005 content changed
+client_id#:#ID do Cliente###07 Apr 2005 content changed
+client_info#:#Descrição###07 Apr 2005 content changed
+client_institution#:#Instituição###07 Apr 2005 content changed
+client_login#:#Entre com o seu ID de Cliente###07 Apr 2005 content changed
+client_name#:#Nome###07 Apr 2005 content changed
+client_setup_not_finished#:#O setup do cliente ainda não acabou###07 Apr 2005 content changed
 collation#:#Collation###23 Mar 2005 new variable
-contact#:#Informações de Contacto
-contact_data#:#Informações de Contacto
-convert_path#:#Caminho para o Convert
-convert_path_comment#:#necessário para moatrar ícones das imagens
+contact#:#Informações de Contacto###07 Apr 2005 content changed
+contact_data#:#Informações de Contacto###07 Apr 2005 content changed
+convert_path#:#Caminho para o Convert###07 Apr 2005 content changed
+convert_path_comment#:#necessário para moatrar ícones das imagens###07 Apr 2005 content changed
 could_not_create_logfile#:#Não foi possível criar o ficheiro de log###14 Sep 2004 content changed
-country#:#País
-create#:#criar
-create_datadir_failed#:#Criação da directoria de dados falhou
-create_new_client#:#Criar novo cliente
-create_webdir_failed#:#Criação da directoria web falhou
-data_path#:#caminho para os dados
-database#:#base de dados
-database_create#:#Criar base de dados
-database_exists#:#base de dados já existe
-database_install#:#Instalar base de dados
-database_installed#:#Base de dados instalada
-database_is_uptodate#:#A sua base de dados está actualizada
-database_needs_update#:#A sua base de dados precisa de uma actualização
+country#:#País###07 Apr 2005 content changed
+create#:#criar###07 Apr 2005 content changed
+create_datadir_failed#:#Criação da directoria de dados falhou###07 Apr 2005 content changed
+create_new_client#:#Criar novo cliente###07 Apr 2005 content changed
+create_webdir_failed#:#Criação da directoria web falhou###07 Apr 2005 content changed
+data_path#:#caminho para os dados###07 Apr 2005 content changed
+database#:#base de dados###07 Apr 2005 content changed
+database_create#:#Criar base de dados###07 Apr 2005 content changed
+database_exists#:#base de dados já existe###07 Apr 2005 content changed
+database_install#:#Instalar base de dados###07 Apr 2005 content changed
+database_installed#:#Base de dados instalada###07 Apr 2005 content changed
+database_is_uptodate#:#A sua base de dados está actualizada###07 Apr 2005 content changed
+database_needs_update#:#A sua base de dados precisa de uma actualização###07 Apr 2005 content changed
 database_not_exists_create_first#:#A base de dados não existe. Por favor crie a base de dados primeiro.###15 Sep 2004 content changed
-database_ready#:#a base de dados está pronta.
-database_update#:#actualizar a base de dados
-database_version#:#versão actual da base de dados
-datadir_path#:#Caminho para a Directoria de Dados
-datadir_path_comment1#:#Obrigatório
-datadir_path_comment2#:#não pode ser mudado nesta versão do setup
+database_ready#:#a base de dados está pronta.###07 Apr 2005 content changed
+database_update#:#actualizar a base de dados###07 Apr 2005 content changed
+database_version#:#versão actual da base de dados###07 Apr 2005 content changed
+datadir_path#:#Caminho para a Directoria de Dados###07 Apr 2005 content changed
+datadir_path_comment1#:#Obrigatório###07 Apr 2005 content changed
+datadir_path_comment2#:#não pode ser mudado nesta versão do setup###07 Apr 2005 content changed
 datadir_webspacedir_match#:#O caminho para a sua directoria de dados aponta para a mesma directoria onde a directoria de web está localizada. Por favor escolha outra directoria.###14 Sep 2004 content changed
-date#:#data
-db_conn#:#Conexão da Base de dados
-db_host#:#anfitrião da base de dados
-db_name#:#nome da base de dados
-db_needs_update#:#A Base de dados precisa de actualização
+date#:#data###07 Apr 2005 content changed
+db_conn#:#Conexão da Base de dados###07 Apr 2005 content changed
+db_host#:#anfitrião da base de dados###07 Apr 2005 content changed
+db_name#:#nome da base de dados###07 Apr 2005 content changed
+db_needs_update#:#A Base de dados precisa de actualização###07 Apr 2005 content changed
 db_not_installed#:#Database not installed###01 Mar 2005 new variable
-db_pass#:#palavra-passe da base de dados
-db_type#:#tipo da base de dados
-db_user#:#utilizador da base de dados
-db_version#:#versão da base de dados
-default#:#por omissão
-default_client_changed#:#Cliente por omissão mudado
-default_language#:#Linguagem por omissão
-delete#:#apagar
-delete_confirm#:#Confirmar remoção de cliente
-delete_info#:#Tem a certeza?
-details#:#Detalhes
-dir_exists_create#:#A directoria já existe. não seleccione 'criar' para seleccionar esta directoria como a sua directoria de dados
-disable#:#desactivar
-disable_check#:#desactivar verificação
-disable_logging#:#desactivar log
-disabled#:#desactivado
-display_clientlist#:#Mostrar selecção de cliente
-email#:#Email
-email_not_valid#:#Endereço de email inválido
-en_by_default#:#(O inglês esta instalado por omissão e não pode ser apagado).
-enable#:#ligar
-enabled#:#ligado
+db_pass#:#palavra-passe da base de dados###07 Apr 2005 content changed
+db_type#:#tipo da base de dados###07 Apr 2005 content changed
+db_user#:#utilizador da base de dados###07 Apr 2005 content changed
+db_version#:#versão da base de dados###07 Apr 2005 content changed
+default#:#por omissão###07 Apr 2005 content changed
+default_client_changed#:#Cliente por omissão mudado###07 Apr 2005 content changed
+default_language#:#Linguagem por omissão###07 Apr 2005 content changed
+delete#:#apagar###07 Apr 2005 content changed
+delete_confirm#:#Confirmar remoção de cliente###07 Apr 2005 content changed
+delete_info#:#Tem a certeza?###07 Apr 2005 content changed
+details#:#Detalhes###07 Apr 2005 content changed
+dir_exists_create#:#A directoria já existe. não seleccione 'criar' para seleccionar esta directoria como a sua directoria de dados###07 Apr 2005 content changed
+disable#:#desactivar###07 Apr 2005 content changed
+disable_check#:#desactivar verificação###07 Apr 2005 content changed
+disable_logging#:#desactivar log###07 Apr 2005 content changed
+disabled#:#desactivado###07 Apr 2005 content changed
+display_clientlist#:#Mostrar selecção de cliente###07 Apr 2005 content changed
+email#:#Email###07 Apr 2005 content changed
+email_not_valid#:#Endereço de email inválido###07 Apr 2005 content changed
+en_by_default#:#(O inglês esta instalado por omissão e não pode ser apagado).###07 Apr 2005 content changed
+enable#:#ligar###07 Apr 2005 content changed
+enabled#:#ligado###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
-enter_password#:#Por favor insira a palavra-passe
-env_ok#:#Ok. Parece bom.
-env_using#:#O ILIAS 3 correrá num
-env_warning#:#O ILIAS 3 apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS 3 pode trabalhar com o seu ambiente também.
-environment#:#Ambiente
-err_create_database_failed#:#a criação da base de dados falhou
-err_wrong_login#:#Entrada errada
-error_recipient#:#Recipiente errado
+enter_password#:#Por favor insira a palavra-passe###07 Apr 2005 content changed
+env_ok#:#Ok. Parece bom.###07 Apr 2005 content changed
+env_using#:#O ILIAS 3 correrá num###07 Apr 2005 content changed
+env_warning#:#O ILIAS 3 apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS 3 pode trabalhar com o seu ambiente também.###07 Apr 2005 content changed
+environment#:#Ambiente###07 Apr 2005 content changed
+err_create_database_failed#:#a criação da base de dados falhou###07 Apr 2005 content changed
+err_wrong_login#:#Entrada errada###07 Apr 2005 content changed
+error_recipient#:#Recipiente errado###07 Apr 2005 content changed
 example#:#Example###23 Mar 2005 new variable
-feedback_recipient#:#Recipiente de apreciação
-file_does_not_exist#:#O ficheiro não existe.
-file_version#:#versão do ficheiro
-fill_both_fields#:#Por favor preencha ambos os campos!
-fill_out_required_fields#:#Por favor preencha todos os campos marcados como necessários.
-filled_out#:#preenchidos correctamente
-finish#:#Finalizar o setup
+feedback_recipient#:#Recipiente de apreciação###07 Apr 2005 content changed
+file_does_not_exist#:#O ficheiro não existe.###07 Apr 2005 content changed
+file_version#:#versão do ficheiro###07 Apr 2005 content changed
+fill_both_fields#:#Por favor preencha ambos os campos!###07 Apr 2005 content changed
+fill_out_required_fields#:#Por favor preencha todos os campos marcados como necessários.###07 Apr 2005 content changed
+filled_out#:#preenchidos correctamente###07 Apr 2005 content changed
+finish#:#Finalizar o setup###07 Apr 2005 content changed
 finish_initial_setup_first#:#Por favor acabe primeiro o setup inicial###14 Sep 2004 content changed
-finish_setup#:#A acabar o setup
+finish_setup#:#A acabar o setup###07 Apr 2005 content changed
 firstname#:#Primeiro nome###14 Sep 2004 content changed
 fop_path#:#Path to FOP###26 May 2004 new variable
 fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
-hide_clientlist#:#Esconder selecção de cliente
-host#:#Anfitrião
-htmldoc_path#:#Caminho para o HTMLdoc
+hide_clientlist#:#Esconder selecção de cliente###07 Apr 2005 content changed
+host#:#Anfitrião###07 Apr 2005 content changed
+htmldoc_path#:#Caminho para o HTMLdoc###07 Apr 2005 content changed
 htmldoc_path_comment#:#necessário para gerar facturação em PDF (Sistema de pagamento)###07 Aug 2004 content changed
-http_path#:#Caminho HTTP
-id#:#ID
-ilias_homepage#:#Página inicial do ILIAS
-ilias_nic#:#Registo NIC
-ilias_nic_id#:#NIC ID
+http_path#:#Caminho HTTP###07 Apr 2005 content changed
+id#:#ID###07 Apr 2005 content changed
+ilias_homepage#:#Página inicial do ILIAS###07 Apr 2005 content changed
+ilias_nic#:#Registo NIC###07 Apr 2005 content changed
+ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
 ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
-ilias_version#:#Versão ILIAS
+ilias_version#:#Versão ILIAS###07 Apr 2005 content changed
+include_local#:#include local###include local language file when updating language
+###07 Apr 2005 new variable
 info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.###14 Sep 2004 content changed
 info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.###14 Sep 2004 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
-info_text_delete#:#Você pode apagar este cliente carregando no botão 'Apagar' abaixo. No entanto, apenas o seu ficheiro client.ini será removido, mantendo todos os ficheiros guardados nas directorias de dados dos clientes e bases de dados. Os ficheiros e a base de dados têm de ser removidos manualmente pelo administrador de sistema.
-info_text_finish1#:#Parabéns! O seu setup de cliente teve sucesso. Carregue em 'Entrar' para entrar na sua instalação do ILIAS.
-info_text_finish2#:#Algumas definições ainda faltam ou estão incorrectas. Por favor veja no cartaz do proceso o que tem de ser feito!
-info_text_first_client#:#As suas definições básicas foram guardadas. Agora faremos o setup do seu primeiro cliente. O setup o guiará através do processo de instalação. No painel da direita você pode sempre ver o estado actual do processo de instalação.
+info_text_delete#:#Você pode apagar este cliente carregando no botão 'Apagar' abaixo. No entanto, apenas o seu ficheiro client.ini será removido, mantendo todos os ficheiros guardados nas directorias de dados dos clientes e bases de dados. Os ficheiros e a base de dados têm de ser removidos manualmente pelo administrador de sistema.###07 Apr 2005 content changed
+info_text_finish1#:#Parabéns! O seu setup de cliente teve sucesso. Carregue em 'Entrar' para entrar na sua instalação do ILIAS.###07 Apr 2005 content changed
+info_text_finish2#:#Algumas definições ainda faltam ou estão incorrectas. Por favor veja no cartaz do proceso o que tem de ser feito!###07 Apr 2005 content changed
+info_text_first_client#:#As suas definições básicas foram guardadas. Agora faremos o setup do seu primeiro cliente. O setup o guiará através do processo de instalação. No painel da direita você pode sempre ver o estado actual do processo de instalação.###07 Apr 2005 content changed
 info_text_first_install#:#Parece que está a instalar o ILIAS3 pela primeira vez, porque o ficheiro ilias.ini não foi encontrado. No ilias.ini guardamos a palavra-passe mestre para proteger o setup do ILIAS de acesso não autorizado.###14 Sep 2004 content changed
 info_text_ini#:#Por favor escolha um ID de cliente. É permitida qualquer letra e número. O ID de cliente tem de estar em uma palavra.<br/>Depois você insere os seus dados de conexão da base de dados. O setup faz uma conexão de teste para verificar as suas definições e testar se a base de dados já existe. Se não, você pode enviar o Setup para o próximo passo da instalação para criar a base de dados.###14 Sep 2004 content changed
 info_text_lang#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas. A linguagem por omissão especifica a linguagem para novas contas de utilizadores ou utilizadores que ainda não seleccionaram uma linguagem preferida.###14 Sep 2004 content changed
 info_text_list#:#Nesta vista você vê todos os clientes disponíveis e os seus setup's e estado de acesso. No topo direito você pode mudar o ecrâ de selecção de cliente ligado/desligado. Se a selecção de cliente estiver ligada, todos os clientes disponíveis que estão ligados serão mostrados numa lista na página inicial do ILIAS. Se a selecção cliente estiver desligada e um utilizador entrar na página inicial, será sempre mostrado o ecrã de entrada do cliente<i>por omissão</i>. Você pode determinar o cliente por omissão com o botão abaixo.###14 Sep 2004 content changed
-info_text_login#:#Por favor insira o ID de Cliente da sua Inatalação e os seus dados de conta. A sua conta tem de estar atribuída ao papel-'administrador'.
+info_text_login#:#Por favor insira o ID de Cliente da sua Inatalação e os seus dados de conta. A sua conta tem de estar atribuída ao papel-'administrador'.###07 Apr 2005 content changed
 info_text_nic1#:#Obter um id de instalação (nic-id) do nosso servidor ILIAS. Um nic-id único é necessário se quiser partilhar conteúdos com outras instalações do ILIAS. O Registo é voluntário. Se não quiser registar-se seleccione 'passar registo' (Você pode registar-se mais tarde).<br/> Nós recomendamos o uso do registo 'online'. Se tiver problemas em ligar-se (e.g. está atrás de uma firewall) você pode alternativamente obter um nic-id via email: Por favor envie um###14 Sep 2004 content changed
 info_text_nic2#:#com as informações da sua instalação para ilias-info@uni-koeln.de. Insira o nic-id que receberá numa resposta de email no campo apropriado e seleccione 'registar via Email'.###14 Sep 2004 content changed
-info_text_nic3#:#Você registou a sua instalação. O seu nic-id é
+info_text_nic3#:#Você registou a sua instalação. O seu nic-id é###07 Apr 2005 content changed
 info_text_password#:#Aqui você pode mudar a palavra-passe mestre para o programa de setup.###14 Sep 2004 content changed
 info_text_pathes#:#O ILIAS3 suporta clientes múltiplos com diferentes bases de dados. Abaixo você pode inserir a directoria de dados base, a localização do ficheiro de log e os caminhos para programas 3rd partys. Estas definições são válidas para todos os clientes que criar a partir de agora.###14 Sep 2004 content changed
-ini_client_id_exists#:#Um cliente com esse ID já existe! Por favor escolha outro ID de cliente.
+ini_client_id_exists#:#Um cliente com esse ID já existe! Por favor escolha outro ID de cliente.###07 Apr 2005 content changed
 ini_client_id_invalid#:#O ID de cliente que inseriu contém caracteres inválidos###14 Sep 2004 content changed
 ini_client_id_no_change#:#O ID de cliente não pode ser mudado nesta versão depois de directorias do cliente teram sido criadas com sucesso.###14 Sep 2004 content changed
 ini_client_id_too_long#:#O ID de cliente é muito longo###14 Sep 2004 content changed
-ini_client_id_too_short#:#O ID de cliente é muito curto
-ini_db_name_exists#:#já existe! Por favor escolha outra nome para a base de dados
-ini_no_client_id#:#Nenhum ID de cliente fornecido.
-ini_no_db_host#:#Nenhum nome de anfitrião
-ini_no_db_name#:#Nenhum nome de base de dados
-ini_no_db_user#:#Nenhum nome de utilizador de base de dados
-inifile#:#ficheiro-ini
-inifile_can_write#:#O setup do ILIAS 3 pode escrever o seu ficheiro-ini.
-inifile_cannot_write#:#O setup do ILIAS 3 não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.
-inifile_content#:#O seu ficheiro-ini tem este conteúdo:
-inifile_exists#:#Um ficheiro-ini já existe. Atenção que este processo de Instalação apagará definições anteriores.
-inifile_fill_all#:#Por favor preencha todos os campos.
-inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS 3.
-inifile_written#:#O ficheiro-ini foi guardado com sucesso no seu anfitrião.
-input_error#:#Erro de entrada
-inst_identification#:#Identificação de Instalação
-inst_name#:#nome de instalação
-install#:#instalar
-installation#:#Instalação
-installed#:#instalado
-institution#:#Instituição
-intro_install#:#Esta é a página principal do setup do ILIAS 3. Daqui você pode percorrer a instalação.
-ip_address#:#Endereço IP
-java_path#:#Caminho para o Java
-java_path_comment#:#necessário para os Módulos de Aprendizagem SCORM
+ini_client_id_too_short#:#O ID de cliente é muito curto###07 Apr 2005 content changed
+ini_db_name_exists#:#já existe! Por favor escolha outra nome para a base de dados###07 Apr 2005 content changed
+ini_no_client_id#:#Nenhum ID de cliente fornecido.###07 Apr 2005 content changed
+ini_no_db_host#:#Nenhum nome de anfitrião###07 Apr 2005 content changed
+ini_no_db_name#:#Nenhum nome de base de dados###07 Apr 2005 content changed
+ini_no_db_user#:#Nenhum nome de utilizador de base de dados###07 Apr 2005 content changed
+inifile#:#ficheiro-ini###07 Apr 2005 content changed
+inifile_can_write#:#O setup do ILIAS 3 pode escrever o seu ficheiro-ini.###07 Apr 2005 content changed
+inifile_cannot_write#:#O setup do ILIAS 3 não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.###07 Apr 2005 content changed
+inifile_content#:#O seu ficheiro-ini tem este conteúdo:###07 Apr 2005 content changed
+inifile_exists#:#Um ficheiro-ini já existe. Atenção que este processo de Instalação apagará definições anteriores.###07 Apr 2005 content changed
+inifile_fill_all#:#Por favor preencha todos os campos.###07 Apr 2005 content changed
+inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS 3.###07 Apr 2005 content changed
+inifile_written#:#O ficheiro-ini foi guardado com sucesso no seu anfitrião.###07 Apr 2005 content changed
+input_error#:#Erro de entrada###07 Apr 2005 content changed
+inst_identification#:#Identificação de Instalação###07 Apr 2005 content changed
+inst_name#:#nome de instalação###07 Apr 2005 content changed
+install#:#instalar###07 Apr 2005 content changed
+installation#:#Instalação###07 Apr 2005 content changed
+installed#:#instalado###07 Apr 2005 content changed
+institution#:#Instituição###07 Apr 2005 content changed
+intro_install#:#Esta é a página principal do setup do ILIAS 3. Daqui você pode percorrer a instalação.###07 Apr 2005 content changed
+ip_address#:#Endereço IP###07 Apr 2005 content changed
+java_path#:#Caminho para o Java###07 Apr 2005 content changed
+java_path_comment#:#necessário para os Módulos de Aprendizagem SCORM###07 Apr 2005 content changed
 lang_cs#:#Czech###new variable 09 Mar 2004
 lang_da#:#Danish###01 Mar 2005 new variable
-lang_de#:#Alemão
-lang_en#:#Inglês
-lang_error_occurred#:#Encontrou-se um erro. Acção abortada.
-lang_es#:#Espanhol
-lang_fr#:#Francês
+lang_de#:#Alemão###07 Apr 2005 content changed
+lang_en#:#Inglês###07 Apr 2005 content changed
+lang_error_occurred#:#Encontrou-se um erro. Acção abortada.###07 Apr 2005 content changed
+lang_es#:#Espanhol###07 Apr 2005 content changed
+lang_fr#:#Francês###07 Apr 2005 content changed
 lang_hu#:#Hungarian###01 Mar 2005 new variable
-lang_id#:#Indonésio
-lang_it#:#Italiano
-lang_lt#:#Lituano
-lang_min_one_language#:#Você tem de instalar pelo menos uma linguagem!
-lang_nl#:#Holandês
-lang_no#:#Norueguês
-lang_none_installed#:#Nenhuma linguagem instalada
+lang_id#:#Indonésio###07 Apr 2005 content changed
+lang_it#:#Italiano###07 Apr 2005 content changed
+lang_lt#:#Lituano###07 Apr 2005 content changed
+lang_min_one_language#:#Você tem de instalar pelo menos uma linguagem!###07 Apr 2005 content changed
+lang_nl#:#Holandês###07 Apr 2005 content changed
+lang_no#:#Norueguês###07 Apr 2005 content changed
+lang_none_installed#:#Nenhuma linguagem instalada###07 Apr 2005 content changed
 lang_not_installed_default#:#A linguagem que seleccionou como omissão não está instalada!###14 Sep 2004 content changed
-lang_pl#:#Poláco
+lang_pl#:#Poláco###07 Apr 2005 content changed
 lang_pt#:#Portuguese###new variable 09 Mar 2004
-lang_se#:#Suéco
-lang_ua#:#Ucrâniano
-lang_xx#:#Personalizado
-lang_zh#:#Chinês
-langs_not_valid_not_installed#:#As seguintes linguagens não foram instaladas devido a ficheiros de linguagem inválidos
-language#:#linguagem
-languages#:#linguagens
-languages_installed#:#Linguagem(s) instaladas
+lang_se#:#Suéco###07 Apr 2005 content changed
+lang_ua#:#Ucrâniano###07 Apr 2005 content changed
+lang_xx#:#Personalizado###07 Apr 2005 content changed
+lang_zh#:#Chinês###07 Apr 2005 content changed
+langs_not_valid_not_installed#:#As seguintes linguagens não foram instaladas devido a ficheiros de linguagem inválidos###07 Apr 2005 content changed
+language#:#linguagem###07 Apr 2005 content changed
+languages#:#linguagens###07 Apr 2005 content changed
+languages_installed#:#Linguagem(s) instaladas###07 Apr 2005 content changed
 lastname#:#Apelido###14 Sep 2004 content changed
-list#:#lista
-list_disabled#:#Selecção de cliente desligada
-list_enabled#:#Selecção de cliente ligada
+list#:#lista###07 Apr 2005 content changed
+list_disabled#:#Selecção de cliente desligada###07 Apr 2005 content changed
+list_enabled#:#Selecção de cliente ligada###07 Apr 2005 content changed
 log_path#:#Caminho para o ficheiro de Log###14 Sep 2004 content changed
 log_path_comment#:#insira com o nome do ficheiro. O ficheiro será criado.###14 Sep 2004 content changed
-logged_out#:#Você saíu.
-logging#:#Registo
-login#:#entrada
-login_invalid#:#Entrada inválida
-login_to_ilias#:#entar no ILIAS
-logout#:#sair
+logged_out#:#Você saíu.###07 Apr 2005 content changed
+logging#:#Registo###07 Apr 2005 content changed
+login#:#entrada###07 Apr 2005 content changed
+login_invalid#:#Entrada inválida###07 Apr 2005 content changed
+login_to_ilias#:#entar no ILIAS###07 Apr 2005 content changed
+logout#:#sair###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#Directoria de dados principal fora do webspace###14 Sep 2004 content changed
-missing_data#:#Faltam dados
-name#:#Nome
-new#:#novo
-next#:#Próximo
-nic_not_disabled#:#Nenhum NIC-ID e não desligado
-nic_reg_disable#:#passar registo NIC
-nic_reg_disable_comment#:#(registar mais tarde)
-nic_reg_disabled#:#Registo NIC desligado
-nic_reg_email#:#registar via Email
-nic_reg_enabled#:#Registo NIC ligado!
-nic_reg_enter_checksum#:#Inserir checksum a enviar
-nic_reg_enter_correct_id#:#Por favor insira um nic_id correcto
-nic_reg_enter_id#:#Insira NIC ID enviado
-nic_reg_failed#:#Registo NIC falhou
-nic_reg_online#:#registar 'online'
-nic_registration#:#Registo NIC
-no_changes#:#Nenhumas alterações.
-no_client_id#:#Nenhum ID de cliente dado
-no_client_name#:#NENHUM NOME DE CLIENTE
-no_clients_available#:#Nenhuns Clientes disponíveis
-no_database#:#Nenhuma base de dados
-no_db_connect_consult_admin#:#Não foi possível ligar à base de dados. Por favor consulte o administrador de sistema
-no_db_update_file#:#dbupdate.php não encontrado!
-no_password#:#Nenhuma palavra-passe dada
-no_path_convert#:#Nenhum caminho para o convert dado
-no_path_datadir#:#Nenhuma directoria de dados dada
+missing_data#:#Faltam dados###07 Apr 2005 content changed
+name#:#Nome###07 Apr 2005 content changed
+new#:#novo###07 Apr 2005 content changed
+next#:#Próximo###07 Apr 2005 content changed
+nic_not_disabled#:#Nenhum NIC-ID e não desligado###07 Apr 2005 content changed
+nic_reg_disable#:#passar registo NIC###07 Apr 2005 content changed
+nic_reg_disable_comment#:#(registar mais tarde)###07 Apr 2005 content changed
+nic_reg_disabled#:#Registo NIC desligado###07 Apr 2005 content changed
+nic_reg_email#:#registar via Email###07 Apr 2005 content changed
+nic_reg_enabled#:#Registo NIC ligado!###07 Apr 2005 content changed
+nic_reg_enter_checksum#:#Inserir checksum a enviar###07 Apr 2005 content changed
+nic_reg_enter_correct_id#:#Por favor insira um nic_id correcto###07 Apr 2005 content changed
+nic_reg_enter_id#:#Insira NIC ID enviado###07 Apr 2005 content changed
+nic_reg_failed#:#Registo NIC falhou###07 Apr 2005 content changed
+nic_reg_online#:#registar 'online'###07 Apr 2005 content changed
+nic_registration#:#Registo NIC###07 Apr 2005 content changed
+no_changes#:#Nenhumas alterações.###07 Apr 2005 content changed
+no_client_id#:#Nenhum ID de cliente dado###07 Apr 2005 content changed
+no_client_name#:#NENHUM NOME DE CLIENTE###07 Apr 2005 content changed
+no_clients_available#:#Nenhuns Clientes disponíveis###07 Apr 2005 content changed
+no_database#:#Nenhuma base de dados###07 Apr 2005 content changed
+no_db_connect_consult_admin#:#Não foi possível ligar à base de dados. Por favor consulte o administrador de sistema###07 Apr 2005 content changed
+no_db_update_file#:#dbupdate.php não encontrado!###07 Apr 2005 content changed
+no_password#:#Nenhuma palavra-passe dada###07 Apr 2005 content changed
+no_path_convert#:#Nenhum caminho para o convert dado###07 Apr 2005 content changed
+no_path_datadir#:#Nenhuma directoria de dados dada###07 Apr 2005 content changed
 no_path_fop#:#No FOP path given###26 May 2004 new variable
-no_path_given#:#Nenhum caminho dado
-no_path_htmldoc#:#Nenhum caminho para o HTMLdoc dado
+no_path_given#:#Nenhum caminho dado###07 Apr 2005 content changed
+no_path_htmldoc#:#Nenhum caminho para o HTMLdoc dado###07 Apr 2005 content changed
 no_path_java#:#Nenhum caminho para o java dado###14 Sep 2004 content changed
-no_path_log#:#Nenhum caminho para o log dado
-no_path_unzip#:#Nenhum caminho para o unzip dado
-no_path_zip#:#Nenhum caminho para o zip dado
-no_setup_pass_given#:#Nenhuma palavra-passe para o setup dada
-no_username#:#Nenhum nome de utilizador dado
-no_valid_client_id#:#Nenhum ID de cliente válido
+no_path_log#:#Nenhum caminho para o log dado###07 Apr 2005 content changed
+no_path_unzip#:#Nenhum caminho para o unzip dado###07 Apr 2005 content changed
+no_path_zip#:#Nenhum caminho para o zip dado###07 Apr 2005 content changed
+no_setup_pass_given#:#Nenhuma palavra-passe para o setup dada###07 Apr 2005 content changed
+no_username#:#Nenhum nome de utilizador dado###07 Apr 2005 content changed
+no_valid_client_id#:#Nenhum ID de cliente válido###07 Apr 2005 content changed
 none#:#None###18 Nov 2004 new variable
-not_connected_to_db#:#Você não está ligado à base de dados
-online#:#ligado
-or#:#ou
+not_connected_to_db#:#Você não está ligado à base de dados###07 Apr 2005 content changed
+online#:#ligado###07 Apr 2005 content changed
+or#:#ou###07 Apr 2005 content changed
 out_of_webspace#:#(fora do webspace)###14 Sep 2004 content changed
-overall_status#:#Estado de tudo
-overview#:#Vista
-pass_does_not_match#:#Palavras-passe inseridas não coincidem
-password#:#palavra-passe
-password_changed#:#Palavra-passe alterada.
-password_empty#:#Nenhuma palavra-passe dada!
-password_enter_old#:#Você tem de inserir a sua palavra-passe antiga primeiro!
-password_info#:#Para proteger os seus dados de configuração de acesso não autorizado por favor insira uma palavra-passe para mudar estas definições outra vez mais tarde.
-password_new_master#:#Definir nova palavra-passe mestre
-password_not_match#:#A nova Palavra-passe inserida não coincide!
-password_old_wrong#:#A palavra-passe antiga inserida está errada!
-password_retype#:#Reinsira a nova palavra-passe
-password_same#:#A palavra-passe antiga e a nova são iguais!
-password_set#:#Palavra-passe guardada
-path_not_set#:#Caminho não definido
-path_to_convert#:#Caminho para o Convert
+overall_status#:#Estado de tudo###07 Apr 2005 content changed
+overview#:#Vista###07 Apr 2005 content changed
+pass_does_not_match#:#Palavras-passe inseridas não coincidem###07 Apr 2005 content changed
+password#:#palavra-passe###07 Apr 2005 content changed
+password_changed#:#Palavra-passe alterada.###07 Apr 2005 content changed
+password_empty#:#Nenhuma palavra-passe dada!###07 Apr 2005 content changed
+password_enter_old#:#Você tem de inserir a sua palavra-passe antiga primeiro!###07 Apr 2005 content changed
+password_info#:#Para proteger os seus dados de configuração de acesso não autorizado por favor insira uma palavra-passe para mudar estas definições outra vez mais tarde.###07 Apr 2005 content changed
+password_new_master#:#Definir nova palavra-passe mestre###07 Apr 2005 content changed
+password_not_match#:#A nova Palavra-passe inserida não coincide!###07 Apr 2005 content changed
+password_old_wrong#:#A palavra-passe antiga inserida está errada!###07 Apr 2005 content changed
+password_retype#:#Reinsira a nova palavra-passe###07 Apr 2005 content changed
+password_same#:#A palavra-passe antiga e a nova são iguais!###07 Apr 2005 content changed
+password_set#:#Palavra-passe guardada###07 Apr 2005 content changed
+path_not_set#:#Caminho não definido###07 Apr 2005 content changed
+path_to_convert#:#Caminho para o Convert###07 Apr 2005 content changed
 path_to_fop#:#Path to FOP###26 May 2004 new variable
-path_to_htmldoc#:#Caminho para o HTMLdoc
-path_to_java#:#Caminho para o Java
-path_to_unzip#:#Caminho para o Unzip
-path_to_zip#:#Caminho para o Zip
+path_to_htmldoc#:#Caminho para o HTMLdoc###07 Apr 2005 content changed
+path_to_java#:#Caminho para o Java###07 Apr 2005 content changed
+path_to_unzip#:#Caminho para o Unzip###07 Apr 2005 content changed
+path_to_zip#:#Caminho para o Zip###07 Apr 2005 content changed
 pathes#:#Caminhos###14 Sep 2004 content changed
-phone#:#Telefone
-port#:#porto
-position#:#Posição
-pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS 3.
-pre_cookies_enabled#:#Cookies ligadas
-pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS 3.
-pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 3
-pre_folder_create_error#:#Não é possível criar subpastas! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!
-pre_folder_write#:#Pode-se escrever na pasta ILIAS 3
-pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 3! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!
+phone#:#Telefone###07 Apr 2005 content changed
+port#:#porto###07 Apr 2005 content changed
+position#:#Posição###07 Apr 2005 content changed
+pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS 3.###07 Apr 2005 content changed
+pre_cookies_enabled#:#Cookies ligadas###07 Apr 2005 content changed
+pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS 3.###07 Apr 2005 content changed
+pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 3###07 Apr 2005 content changed
+pre_folder_create_error#:#Não é possível criar subpastas! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
+pre_folder_write#:#Pode-se escrever na pasta ILIAS 3###07 Apr 2005 content changed
+pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 3! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
 pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ILIAS3 no seu sistema.###14 Sep 2004 content changed
 pre_javascript_comment#:#Você pode correr o ILIAS sem o Javascript mas faltarão algumas funcionalidades da interface.###14 Sep 2004 content changed
 pre_javascript_enabled#:#Javascript ligado###14 Sep 2004 content changed
-pre_php_version#:#Versão do PHP
-pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 3! Por favor actualize o PHP.
-pre_php_version_4.1#:#As classes PEAR não funcionam correctamente com esta versão! Por favor actualize o PHP.
-pre_php_version_4.2#:#O DOMXML e o XSLT não funcionam correctamente com esta versão!
-pre_php_version_5#:#O ILIAS 3 ainda não foi testado com o PHP 5. Use com o seu risco.
-pre_php_version_unknown#:#O setup do ILIAS não conhece esta versão. Use com o seu risco.
-preliminaries#:#Preliminários
-prev#:#Anterior
-required_field#:#campos necessários
-reset#:#Redefinir
-root_access#:#acesso root
-safe_mode_enabled#:#Modo segura está ligado!
-save#:#Guardar
-save_error#:#Erro a guardar!
-saved_successfully#:#Guardado com sucesso
+pre_php_version#:#Versão do PHP###07 Apr 2005 content changed
+pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 3! Por favor actualize o PHP.###07 Apr 2005 content changed
+pre_php_version_4.1#:#As classes PEAR não funcionam correctamente com esta versão! Por favor actualize o PHP.###07 Apr 2005 content changed
+pre_php_version_4.2#:#O DOMXML e o XSLT não funcionam correctamente com esta versão!###07 Apr 2005 content changed
+pre_php_version_5#:#O ILIAS 3 ainda não foi testado com o PHP 5. Use com o seu risco.###07 Apr 2005 content changed
+pre_php_version_unknown#:#O setup do ILIAS não conhece esta versão. Use com o seu risco.###07 Apr 2005 content changed
+preliminaries#:#Preliminários###07 Apr 2005 content changed
+prev#:#Anterior###07 Apr 2005 content changed
+required_field#:#campos necessários###07 Apr 2005 content changed
+reset#:#Redefinir###07 Apr 2005 content changed
+root_access#:#acesso root###07 Apr 2005 content changed
+safe_mode_enabled#:#Modo segura está ligado!###07 Apr 2005 content changed
+save#:#Guardar###07 Apr 2005 content changed
+save_error#:#Erro a guardar!###07 Apr 2005 content changed
+saved_successfully#:#Guardado com sucesso###07 Apr 2005 content changed
 scan_command#:#Scan Command###18 Nov 2004 new variable
-select_client#:#Seleccionar um Cliente
-server_info#:#Informações do Servidor
-server_software#:#Software servidor
-set_default_client#:#Definir o Cliente por Omissão
-set_newpasswd#:#Por favor insira a nova palavra-passe
-set_oldpasswd#:#Por favor insira a palavra-passe antiga
-settings_changed#:#Definições alteradas
-settings_saved#:#Definições guardadas
-setup#:#setup
-setup_basic_settings#:#Arranjar definições básicas
-setup_contact_data#:#Definir Informação de Contacto
-setup_database#:#definir base de dados
-setup_database_desc#:#Definir a base de dados
-setup_db_first#:#Por favor faça o setup da sua base de dados primeiro!
-setup_finished#:#Setup acabado
+select_client#:#Seleccionar um Cliente###07 Apr 2005 content changed
+server_info#:#Informações do Servidor###07 Apr 2005 content changed
+server_software#:#Software servidor###07 Apr 2005 content changed
+set_default_client#:#Definir o Cliente por Omissão###07 Apr 2005 content changed
+set_newpasswd#:#Por favor insira a nova palavra-passe###07 Apr 2005 content changed
+set_oldpasswd#:#Por favor insira a palavra-passe antiga###07 Apr 2005 content changed
+settings_changed#:#Definições alteradas###07 Apr 2005 content changed
+settings_saved#:#Definições guardadas###07 Apr 2005 content changed
+setup#:#setup###07 Apr 2005 content changed
+setup_basic_settings#:#Arranjar definições básicas###07 Apr 2005 content changed
+setup_contact_data#:#Definir Informação de Contacto###07 Apr 2005 content changed
+setup_database#:#definir base de dados###07 Apr 2005 content changed
+setup_database_desc#:#Definir a base de dados###07 Apr 2005 content changed
+setup_db_first#:#Por favor faça o setup da sua base de dados primeiro!###07 Apr 2005 content changed
+setup_finished#:#Setup acabado###07 Apr 2005 content changed
 setup_first_client#:#Faça Setup ao seu primeiro Cliente###14 Sep 2004 content changed
-setup_ini_first#:#Por favor crie o seu ficheiro-ini primeiro!
-setup_inifile#:#criar ficheiro-ini
-setup_inifile_desc#:#criar o ficheiro-ini para a sua instalação
-setup_languages#:#Instalar linguagens
-setup_languages_desc#:#instalar linguangens adicionais
-setup_login#:#Entrar no Setup
+setup_ini_first#:#Por favor crie o seu ficheiro-ini primeiro!###07 Apr 2005 content changed
+setup_inifile#:#criar ficheiro-ini###07 Apr 2005 content changed
+setup_inifile_desc#:#criar o ficheiro-ini para a sua instalação###07 Apr 2005 content changed
+setup_languages#:#Instalar linguagens###07 Apr 2005 content changed
+setup_languages_desc#:#instalar linguangens adicionais###07 Apr 2005 content changed
+setup_login#:#Entrar no Setup###07 Apr 2005 content changed
 setup_mainmenu#:#Menu principal de setup###14 Sep 2004 content changed
-setup_menu#:#menu setup
-setup_nic_desc#:#registo da sua instalação no servidor ILIAS-NIC
-setup_not_finished#:#Setup não acabado
-setup_pass#:#Palavra-passe
-setup_pass2#:#Reinsira a palavra-passe
-setup_pass_title#:#Definir palavra-passe mestre
-setup_password#:#criar palavra-passe
-setup_password_desc#:#crie uma palavra-passe para aceder à rotina de setup mais tarde (i.e. para actualizar a base de dados)
-setup_process_status#:#Estado do processo de setup
-setup_process_step_contact#:#Inserir informação de contacto
-setup_process_step_db#:#Instalar/Actualizar base de dados
-setup_process_step_finish#:#Finalizar instalação
-setup_process_step_ini#:#Setup dos dados básicos
-setup_process_step_lang#:#Instalar linguagens de sistema
-setup_process_step_nic#:#Registar no ILIAS-NIC
-setup_ready#:#O setup está pronto. Você pode agora proceder com a sua entrada e verificar outras definições de sistema.
-setup_welcome#:#Benvindo ao setup do ILIAS 3. Esta rotina de setup aguda-o a
+setup_menu#:#menu setup###07 Apr 2005 content changed
+setup_nic_desc#:#registo da sua instalação no servidor ILIAS-NIC###07 Apr 2005 content changed
+setup_not_finished#:#Setup não acabado###07 Apr 2005 content changed
+setup_pass#:#Palavra-passe###07 Apr 2005 content changed
+setup_pass2#:#Reinsira a palavra-passe###07 Apr 2005 content changed
+setup_pass_title#:#Definir palavra-passe mestre###07 Apr 2005 content changed
+setup_password#:#criar palavra-passe###07 Apr 2005 content changed
+setup_password_desc#:#crie uma palavra-passe para aceder à rotina de setup mais tarde (i.e. para actualizar a base de dados)###07 Apr 2005 content changed
+setup_process_status#:#Estado do processo de setup###07 Apr 2005 content changed
+setup_process_step_contact#:#Inserir informação de contacto###07 Apr 2005 content changed
+setup_process_step_db#:#Instalar/Actualizar base de dados###07 Apr 2005 content changed
+setup_process_step_finish#:#Finalizar instalação###07 Apr 2005 content changed
+setup_process_step_ini#:#Setup dos dados básicos###07 Apr 2005 content changed
+setup_process_step_lang#:#Instalar linguagens de sistema###07 Apr 2005 content changed
+setup_process_step_nic#:#Registar no ILIAS-NIC###07 Apr 2005 content changed
+setup_ready#:#O setup está pronto. Você pode agora proceder com a sua entrada e verificar outras definições de sistema.###07 Apr 2005 content changed
+setup_welcome#:#Benvindo ao setup do ILIAS 3. Esta rotina de setup aguda-o a###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
-sort_by_this_column#:#Ordenar por esta coluna
-status#:#Estado
-step#:#Passo
-street#:#Rua
-submit#:#Submeter
-title#:#Título
-unknown_client_id#:#Cliente Desconhecido
-unknown_command#:#Comando desconhecido
-unknown_display_mode#:#Modo de mostragem desconhecido
-unzip_path#:#Caminho para o Unzip
-unzip_path_comment#:#necessário para importar módulos de aprendizagem
-update_applied#:#Actualização aplicada
-update_error#:#Erro a actualizar
-update_not_found#:#Actualização não encontrada!
-username#:#nome de utilizador
-version#:#Versão
+sort_by_this_column#:#Ordenar por esta coluna###07 Apr 2005 content changed
+status#:#Estado###07 Apr 2005 content changed
+step#:#Passo###07 Apr 2005 content changed
+street#:#Rua###07 Apr 2005 content changed
+submit#:#Submeter###07 Apr 2005 content changed
+title#:#Título###07 Apr 2005 content changed
+unknown_client_id#:#Cliente Desconhecido###07 Apr 2005 content changed
+unknown_command#:#Comando desconhecido###07 Apr 2005 content changed
+unknown_display_mode#:#Modo de mostragem desconhecido###07 Apr 2005 content changed
+unzip_path#:#Caminho para o Unzip###07 Apr 2005 content changed
+unzip_path_comment#:#necessário para importar módulos de aprendizagem###07 Apr 2005 content changed
+update_applied#:#Actualização aplicada###07 Apr 2005 content changed
+update_error#:#Erro a actualizar###07 Apr 2005 content changed
+update_not_found#:#Actualização não encontrada!###07 Apr 2005 content changed
+username#:#nome de utilizador###07 Apr 2005 content changed
+version#:#Versão###07 Apr 2005 content changed
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#caminho de dados do webspace###14 Sep 2004 content changed
-with#:#com
-wrong_password#:#Palavra-passe errada!
-zip_path#:#Caminho para o Zip
-zip_path_comment#:#necessário para exportar módulos de aprendizagem
+with#:#com###07 Apr 2005 content changed
+wrong_password#:#Palavra-passe errada!###07 Apr 2005 content changed
+zip_path#:#Caminho para o Zip###07 Apr 2005 content changed
+zip_path_comment#:#necessário para exportar módulos de aprendizagem###07 Apr 2005 content changed
 zipcode#:#Código postal###14 Sep 2004 content changed
