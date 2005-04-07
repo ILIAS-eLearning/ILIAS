@@ -246,6 +246,27 @@ class ilDBx extends PEAR
 		}
 	}
 
+	/**
+	* Wrapper for Pear autoExecute
+	* @param string tablename
+	* @param array fields values
+	* @param int DB_AUTOQUERY_INSERT or DB_AUTOQUERY_UPDATE
+	* @param string where condition (e.g. "obj_id = '7' AND ref_id = '5'")
+	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
+	*/
+	function autoExecute($a_tablename,$a_fields,$a_mode = DB_AUTOQUERY_INSERT,$a_where = false)
+	{
+		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
+
+		if (DB::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
 	function checkQuerySize($a_query)
 	{
 		global $lang;
