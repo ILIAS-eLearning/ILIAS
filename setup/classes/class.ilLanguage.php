@@ -38,20 +38,20 @@
 * 
 * @package application
 * 
-* @todo Das Datefeld wird bei �nderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
-*  Die Formatfunktionen geh�ren nicht in class.Language. Die sind auch woanders einsetzbar!!!
-*  Daher->besser in class.Format
+* @todo The DATE field is not set correctly on changes of a language (update, install, your stable).
+*  The format functions do not belong in class.Language. Those are also applicable elsewhere.
+*  Therefore, they would be better placed in class.Format
 */
 class ilLanguage
 {
-    /**
+   /**
     * text elements
     * @var array
     * @access private
     */
     var $text = array();
     
-    /**
+   /**
     * indicator for the system language
     * this language must not be deleted
     * @var      string
@@ -59,7 +59,7 @@ class ilLanguage
     */
     var $lang_default = "en";
 
-    /**
+   /**
     * path to language files
     * relative path is taken from ini file
     * and added to absolute path of ilias
@@ -68,28 +68,28 @@ class ilLanguage
     */
     var $lang_path;
 
-    /**
+   /**
     * language key in use by current user
     * @var      string  languagecode (two characters), e.g. "de", "en", "in"
     * @access   private
     */
     var $lang_key;
 
-    /**
-    * separator value between module,identivier & value 
+   /**
+    * separator value between module, identifier, and value 
     * @var      string
     * @access   private
     */
     var $separator = "#:#";
     
-    /**
+   /**
     * separator value between the content and the comment of the lang entry
     * @var      string
     * @access   private
     */
     var $comment_separator = "###";
 
-    /**
+   /**
     * Constructor
     * read the single-language file and put this in an array text.
     * the text array is two-dimensional. First dimension is the language.
@@ -125,7 +125,7 @@ class ilLanguage
         return false;
     }
     
-    /**
+   /**
     * gets the text for a given topic
     *
     * if the topic is not in the list, the topic itself with "-" will be returned
@@ -164,7 +164,7 @@ class ilLanguage
         }
     }
 
-    /**
+   /**
     * get all setup languages in the system
     *
     * the functions looks for setup*.lang-files in the languagedirectory
@@ -192,18 +192,23 @@ class ilLanguage
         return $languages;
     }
 
-    /**
+   /**
     * install languages
     * @param    array   array with lang_keys of languages to install
     * @return   boolean true on success
     */
-    function installLanguages($a_lang_keys)
+    function installLanguages($a_lang_keys, $a_local_keys)
     {
         if (empty($a_lang_keys))
         {
             $a_lang_keys = array();
         }
         
+        if (empty($a_local_keys))
+        {
+            $a_local_keys = array();
+        }
+
         $err_lang = array();
 
         $this->flushLanguages();
@@ -214,8 +219,19 @@ class ilLanguage
         {
             if ($this->checkLanguage($lang_key))
             {
-                // ...re-insert data from lang-file
                 $this->insertLanguage($lang_key);
+                
+                if (in_array($lang_key, $a_local_keys))
+                {
+                    if ($this->checkLanguage($lang_key, "local"))
+                    {
+                        $this->insertLanguage($lang_key, "local");
+                    }
+                    else
+                    {
+                        $err_lang[] = $lang_key;
+                    }
+                }
                 
                 // register language first time install
                 if (!array_key_exists($lang_key,$db_langs))
@@ -265,9 +281,9 @@ class ilLanguage
         return ($err_lang) ? $err_lang : true;
     }
 
-    /**
+   /**
     * get already installed languages (in db)
-    * @return   array   array with inforamtino of each installed language
+    * @return   array   array with inforamtion about each installed language
     */
     function getInstalledLanguages()
     {
@@ -286,7 +302,7 @@ class ilLanguage
         return $arr;
     }
     
-    /**
+   /**
     * get already registered languages (in db)
     * @return   array   array with information about languages that has been registered in db
     */
@@ -307,23 +323,36 @@ class ilLanguage
         return $arr;
     }
 
-    /**
+   /**
     * validate the logical structure of a lang-file
     *
     * This function checks if a lang-file of a given lang_key exists,
     * the file has a header and each lang-entry consist of exact three elements
     * (module,identifier,value)
     *
-    * @param    string      $lang_key   international language key (2 digits)
-    * @return   string      $info_text  message about results of check OR "1" if all checks successfully passed
+    * @param    string      $a_lang_key     international language key (2 digits)
+    * @param    string      $scope          empty (global) or "local"
+    * @return   string      $info_text      message about results of check OR "1" if all checks successfully passed
     */
-    function checkLanguage ($a_lang_key)
+    function checkLanguage($a_lang_key, $scope = "")
     {
+        if (!empty($scope))
+        {
+            if ($scope == 'global')
+            {
+                $scope = ''; 
+            }
+            else
+            {
+                $scope = '.' . $scope;
+            }
+        }
+
         $tmpPath = getcwd();
         chdir ($this->lang_path);
 
         // compute lang-file name format
-        $lang_file = "ilias_".$a_lang_key.".lang";
+        $lang_file = "ilias_" . $a_lang_key . ".lang" . $scope;
 
         // file check
         if (!is_file($lang_file))
@@ -358,17 +387,17 @@ class ilLanguage
         return true;
     }
 
-    /**
-    * remove lang-file haeder information from '$content'
+   /**
+    * Remove *.lang header information from '$content'.
     *
     * This function seeks for a special keyword where the language information starts.
-    * if found it returns the plain language information, otherwise returns false
+    * If found it returns the plain language information; otherwise returns false.
     *
-    * @param    string  $content    expect an ILIAS lang-file
-    * @return   string  $content    content without header info OR false if no valid header was found
+    * @param    string      $content    expect an ILIAS lang-file
+    * @return   string      $content    content without header info OR false if no valid header was found
     * @access   private
     */
-    function cut_header ($content)
+    function cut_header($content)
     {
         foreach ($content as $key => $val)
         {
@@ -381,29 +410,41 @@ class ilLanguage
         return false;
     }
 
-    /**
+   /**
     * remove all languagee from database
     */
-    function flushLanguages ()
+    function flushLanguages()
     {
         $q = "DELETE FROM lng_data";
         $this->db->query($q);
     }
 
     //TODO: remove redundant checks here!
-    /**
-    * insert language data form file in database
+   /**
+    * insert language data from file in database
     *
     * @param    string  $lang_key   international language key (2 digits)
-    *
+    * @param    string  $scope      empty (global) or "local"
     * @return   void
     */
-    function insertLanguage ($lang_key)
+    function insertLanguage($lang_key, $scope = "")
     {
+        if (!empty($scope))
+        {
+            if ($scope == 'global')
+            {
+                $scope = ''; 
+            }
+            else
+            {
+                $scope = '.' . $scope;
+            }
+        }
+
         $tmpPath = getcwd();
         chdir($this->lang_path);
 
-        $lang_file = "ilias_".$lang_key.".lang";
+        $lang_file = "ilias_" . $lang_key . ".lang" . $scope;
 
         if ($lang_file)
         {
@@ -412,7 +453,7 @@ class ilLanguage
             {
                 foreach ($content as $key => $val)
                 {
-                    $separated = explode ($this->separator,trim($val));
+                    $separated = explode($this->separator,trim($val));
 
                     //get position of the comment_separator
                     $pos = strpos($separated[2], $this->comment_separator);
@@ -423,12 +464,24 @@ class ilLanguage
                         $separated[2] = substr($separated[2] , 0 , $pos);
                     }
 
-                    $num = count($separated);
-
-                    $q = "INSERT INTO lng_data ".
-                         "(module,identifier,lang_key,value) ".
-                         "VALUES ".
-                         "('".$separated[0]."','".$separated[1]."','".$lang_key."','".addslashes($separated[2])."')";
+                    if (empty($scope))
+                    {
+                        $q = "INSERT INTO lng_data ".
+                                 "(module,identifier,lang_key,value) ".
+                                 "VALUES ".
+                                 "('".$separated[0]."','".$separated[1]."','".$lang_key."','".addslashes($separated[2])."')";
+                    }
+                    else
+                    {
+                        $q = "UPDATE lng_data SET ".
+                                 "module = '" . $separated[0] . "', " .
+                                 "identifier = '" . $separated[1] . "', " . 
+                                 "lang_key = '" . $lang_key . "', " .
+                                 "value = '" . addslashes($separated[2]) . "' " .
+                                 "WHERE module = '" . $separated[0] . "' " .
+                                 "AND identifier = '" . $separated[1] . "' " .
+                                 "AND lang_key = '" . $lang_key . "'";
+                    }
                     $this->db->query($q);
                 }
             }
@@ -437,6 +490,33 @@ class ilLanguage
         chdir($tmpPath);
     }
     
+   /**
+    * Searches for the existence of *.lang.local files.
+    *
+    * return    $local_langs    array of language keys
+    */
+    function getLocalLanguages()
+    {
+        $local_langs = array();
+        $d = dir($this->lang_path);
+        $tmpPath = getcwd();
+        chdir ($this->lang_path);
+
+        // get available .lang.local files
+        while ($entry = $d->read())
+        {
+            if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang.local$)", $entry)))
+            {
+                $lang_key = substr($entry,6,2);
+                $local_langs[] = $lang_key;
+            }
+        }
+
+        chdir($tmpPath);
+
+        return $local_langs;
+    }
+
     function getInstallableLanguages()
     {
         $setup_langs = $this->getLanguages();
@@ -448,26 +528,26 @@ class ilLanguage
         // get available lang-files
         while ($entry = $d->read())
         {
-            if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang)", $entry)))
+            if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
             {
                 $lang_key = substr($entry,6,2);
                 $languages1[] = $lang_key;
             }
         }
         
-        //$languages = array_intersect($languages1,$setup_langs);   
+        //$languages = array_intersect($languages1,$setup_langs);    
 
         chdir($tmpPath);
 
         return $languages1;
     }
     
-    /**
+   /**
     * set db handler object
-    * @string   object  db handler
-    * @return   boolean true on success
+    * @string   object      db handler
+    * @return   boolean     true on success
     */
-    function setDbHandler ($a_db_handler)
+    function setDbHandler($a_db_handler)
     {
         if (empty($a_db_handler) or !is_object($a_db_handler))
         {
