@@ -5885,4 +5885,289 @@ ALTER TABLE usr_data ADD COLUMN `client_ip` VARCHAR(15) AFTER `ilinc_id`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#421>
+DROP TABLE IF EXISTS il_meta_annotation;
+CREATE TABLE il_meta_annotation (
+  meta_annotation_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  entity TEXT NULL,
+  date TEXT NULL,
+  description TEXT NULL,
+  description_language CHAR(2) NULL,
+  PRIMARY KEY(meta_annotation_id)
+);
+DROP TABLE IF EXISTS il_meta_classification;
+CREATE TABLE il_meta_classification (
+  meta_classification_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR NULL,
+  purpose CHAR(32) NULL,
+  description TEXT NULL,
+  description_language CHAR(2) NULL,
+  PRIMARY KEY(meta_classification_id)
+);
+DROP TABLE IF EXISTS il_meta_contribute;
+CREATE TABLE il_meta_contribute (
+  meta_contribute_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  role CHAR(32) NULL,
+  date TEXT NULL,
+  PRIMARY KEY(meta_contribute_id)
+);
 
+DROP TABLE IF EXISTS il_meta_description;
+CREATE TABLE il_meta_description (
+  meta_description_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  description TEXT NULL,
+  description_language CHAR(2) NULL,
+  PRIMARY KEY(meta_description_id)
+);
+
+DROP TABLE IF EXISTS il_meta_educational;
+CREATE TABLE il_meta_educational (
+  meta_educational_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  interactivity_type CHAR(16) NULL,
+  learning_resource_type CHAR(32) NULL,
+  interactivity_level CHAR(16) NULL,
+  semantic_density CHAR(16) NULL,
+  intended_end_user_row CHAR(16) NULL,
+  context CHAR(16) NULL,
+  difficulty CHAR(16) NULL,
+  typical_learning_time TEXT NULL,
+  PRIMARY KEY(meta_educational_id)
+);
+
+DROP TABLE IF EXISTS il_meta_entity;
+CREATE TABLE il_meta_entity (
+  meta_entity_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  entity TEXT NULL,
+  PRIMARY KEY(meta_entity_id)
+);
+
+DROP TABLE IF EXISTS il_meta_format;
+CREATE TABLE il_meta_format (
+  meta_format_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  format TEXT NULL,
+  PRIMARY KEY(meta_format_id)
+);
+
+DROP TABLE IF EXISTS il_meta_general;
+CREATE TABLE il_meta_general (
+  meta_general_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  general_structure CHAR(16) NULL,
+  title TEXT NOT NULL,
+  title_language CHAR(2) NULL,
+  coverage TEXT NULL,
+  coverage_language CHAR(2) NULL,
+  PRIMARY KEY(meta_general_id)
+);
+
+DROP TABLE IF EXISTS il_meta_identifier;
+CREATE TABLE il_meta_identifier (
+  meta_identifier_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  catalog TEXT NULL,
+  entry_id TEXT NULL,
+  PRIMARY KEY(meta_identifier_id)
+);
+
+DROP TABLE IF EXISTS il_meta_identifier_;
+CREATE TABLE il_meta_identifier_ (
+  meta_identifier__id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  catalog TEXT NULL,
+  entry TEXT NULL,
+  PRIMARY KEY(meta_identifier__id)
+);
+
+DROP TABLE IF EXISTS il_meta_keyword;
+CREATE TABLE il_meta_keyword (
+  meta_keyword_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id CHAR NULL,
+  keyword TEXT NULL,
+  keyword_language CHAR(2) NULL,
+  PRIMARY KEY(meta_keyword_id)
+);
+
+DROP TABLE IF EXISTS il_meta_language;
+CREATE TABLE il_meta_language (
+  meta_language_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  language CHAR(2) NULL,
+  PRIMARY KEY(meta_language_id)
+);
+
+DROP TABLE IF EXISTS il_meta_lifecycle;
+CREATE TABLE il_meta_lifecycle (
+  meta_lifecycle_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  lifecycle_status CHAR(16) NULL,
+  meta_version TEXT NULL,
+  version_language CHAR(2) BINARY NULL,
+  PRIMARY KEY(meta_lifecycle_id)
+);
+
+DROP TABLE IF EXISTS il_meta_location;
+CREATE TABLE il_meta_location (
+  meta_location_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NOT NULL,
+  parent_id int(11) NULL,
+  location TEXT NULL,
+  location_type CHAR(16) NULL,
+  PRIMARY KEY(meta_location_id)
+);
+
+DROP TABLE IF EXISTS il_meta_meta_data;
+CREATE TABLE il_meta_meta_data (
+  meta_meta_data_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  meta_data_scheme CHAR(16) NULL,
+  language CHAR(2) NULL,
+  PRIMARY KEY(meta_meta_data_id)
+);
+
+DROP TABLE IF EXISTS il_meta_relation;
+CREATE TABLE il_meta_relation (
+  meta_relation_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  kind CHAR(16) NULL,
+  PRIMARY KEY(meta_relation_id)
+);
+
+DROP TABLE IF EXISTS il_meta_requirement;
+CREATE TABLE il_meta_requirement (
+  meta_requirement_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  operating_system_name CHAR(16) NULL,
+  operating_system_minimum_version TEXT NULL,
+  operating_system_maximum_version TEXT NULL,
+  browser_name CHAR(32) NULL,
+  browser_minimum_version TEXT NULL,
+  browser_maximum_version TEXT NULL,
+  PRIMARY KEY(meta_requirement_id)
+);
+
+DROP TABLE IF EXISTS il_meta_rights;
+CREATE TABLE il_meta_rights (
+  meta_rights_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  costs CHAR(3) NULL,
+  copyright_and_other_restrictions CHAR(3) NULL,
+  description TEXT NULL,
+  description_language CHAR(2) NULL,
+  PRIMARY KEY(meta_rights_id)
+);
+
+DROP TABLE IF EXISTS il_meta_taxon;
+CREATE TABLE il_meta_taxon (
+  meta_taxon_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR NULL,
+  parent_id int(11) NULL,
+  taxon TEXT NULL,
+  taxon_language CHAR(2) NULL,
+  taxon_id TEXT NULL,
+  PRIMARY KEY(meta_taxon_id)
+);
+
+DROP TABLE IF EXISTS il_meta_taxon_path;
+CREATE TABLE il_meta_taxon_path (
+  meta_taxon_path_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  source TEXT NULL,
+  source_language CHAR(2) NULL,
+  PRIMARY KEY(meta_taxon_path_id)
+);
+
+DROP TABLE IF EXISTS il_meta_technical;
+CREATE TABLE il_meta_technical (
+  meta_technical_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  size TEXT NULL,
+  installation_remarks TEXT NULL,
+  installation_remarks_language CHAR(2) NULL,
+  other_platform_requirements TEXT NULL,
+  other_platform_requirements_language CHAR(2) NULL,
+  duration TEXT NULL,
+  PRIMARY KEY(meta_technical_id)
+);
+
+DROP TABLE IF EXISTS il_meta_typical_age_range;
+CREATE TABLE il_meta_typical_age_range (
+  meta_typical_age_range_id int(11) NOT NULL AUTO_INCREMENT,
+  rbac_id int(11) NULL,
+  obj_id int(11) NULL,
+  obj_type CHAR(6) NULL,
+  parent_type CHAR(16) NULL,
+  parent_id int(11) NULL,
+  typical_age_range TEXT NULL,
+  typical_age_range_language CHAR(2) NULL,
+  PRIMARY KEY(meta_typical_age_range_id)
+);
