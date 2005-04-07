@@ -22,14 +22,14 @@
 */
 
 /**
- * Setup GUI class
- *
- * class to setup ILIAS first and maintain the ini-settings and the database
- *
- * @author   Sascha Hofmann <shofmann@databay.de>
- * @version  $Id$
- * @package  ilias-setup
- */
+* Setup GUI class
+*
+* class to setup ILIAS first and maintain the ini-settings and the database
+*
+* @author   Sascha Hofmann <shofmann@databay.de>
+* @version  $Id$
+* @package  ilias-setup
+*/
 
 require_once "class.ilSetup.php";
 
@@ -1916,7 +1916,7 @@ class ilSetupGUI extends ilSetup
 
             }
             
-            $result = $this->lng->installLanguages($_POST["form"]["lang_id"], $_POST["form"]["lang_local"]);
+            $result = $this->lng->installLanguages($_POST["form"]["lang_id"]);
             
             if (is_array($result))
             {
@@ -1949,16 +1949,14 @@ class ilSetupGUI extends ilSetup
 
         $languages = $this->lng->getInstallableLanguages();
         $installed_langs = $this->lng->getInstalledLanguages();
-        $local_langs = $this->lng->getLocalLanguages();
         $default_lang = $this->client->getDefaultLanguage();
         
         $lang_count = count($installed_langs);
         
-        $this->tpl->setVariable("TXT_LANG_HEADER", ucwords($this->lng->txt("available_languages")));
-        $this->tpl->setVariable("TXT_LANGUAGE", ucwords($this->lng->txt("language")));
-        $this->tpl->setVariable("TXT_INSTALLED", ucwords($this->lng->txt("installed")));
-        $this->tpl->setVariable("TXT_INCLUDE_LOCAL", ucwords($this->lng->txt("include_local")));
-        $this->tpl->setVariable("TXT_DEFAULT", ucwords($this->lng->txt("default")));
+        $this->tpl->setVariable("TXT_LANG_HEADER", ucfirst($this->lng->txt("available_languages")));
+        $this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("language")));
+        $this->tpl->setVariable("TXT_INSTALLED", ucfirst($this->lng->txt("installed")));
+        $this->tpl->setVariable("TXT_DEFAULT", ucfirst($this->lng->txt("default")));
 
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
         
@@ -1986,17 +1984,12 @@ class ilSetupGUI extends ilSetup
 
             if (in_array($lang_key,$installed_langs))
             {
-                $this->tpl->setVariable("CHECKED", ("checked=\"checked\""));
-            }
-
-            if (!in_array($lang_key,$local_langs))
-            {
-                $this->tpl->setVariable("LOCAL", ("disabled=\"disabled\""));        
+                $this->tpl->setVariable("CHECKED", ("checked=\"checked\""));        
             }
 
             if ($lang_key == $default_lang)
             {
-                $this->tpl->setVariable("DEFAULT", ("checked=\"checked\""));
+                $this->tpl->setVariable("DEFAULT", ("checked=\"checked\""));        
             }
 
             $this->tpl->parseCurrentBlock();
