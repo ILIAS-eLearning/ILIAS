@@ -4848,3 +4848,4 @@ assessment#:#search_term#:#Search Term
 assessment#:#concatenation#:#Concatenation
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
