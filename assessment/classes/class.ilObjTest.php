@@ -43,6 +43,8 @@ require_once "./assessment/classes/class.assMatchingQuestion.php";
 require_once "./assessment/classes/class.assMultipleChoice.php";
 require_once "./assessment/classes/class.assOrderingQuestion.php";
 require_once "./classes/class.ilObjAssessmentFolder.php";
+require_once "./classes/class.ilSearch.php";
+
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
@@ -53,6 +55,10 @@ define("REPORT_AFTER_TEST", 1);
 define("TYPE_ASSESSMENT", "1");
 define("TYPE_SELF_ASSESSMENT", "2");
 define("TYPE_NAVIGATION_CONTROLLING", "3");
+define("TYPE_ONLINE_TEST", "4");
+
+define("INVITATION_OFF",0);
+define("INVITATION_ON",1);
 
 class ilObjTest extends ilObject
 {
@@ -64,6 +70,16 @@ class ilObjTest extends ilObject
 * @var integer
 */
   var $test_id;
+
+/**
+* Defines if the test will be placed on users personal desktops
+*
+* Defines if the test will be placed on users personal desktops
+*
+* @var integer
+*/
+	var $invitation = INVITATION_OFF;
+
 
 /**
 * Contains the name of the author
@@ -1014,6 +1030,7 @@ class ilObjTest extends ilObject
 				$random_question_count,
         $db->quote($created)
       );
+      
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txt("log_create_new_test"));
@@ -1505,7 +1522,7 @@ class ilObjTest extends ilObject
 * @see $type
 */
   function setTestType($type = TYPE_ASSESSMENT) 
-	{
+  {
     $this->test_type = $type;
   }
 
@@ -1872,12 +1889,21 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($question_id)
 			);
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND question_fi=%s",
+				$this->ilias->db->quote($this->getTestId()),				
+				$this->ilias->db->quote($question_id)
+			);
 		} else {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())
 			);
+			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())							
+			);			
 		}
 		$result = $this->ilias->db->query($query);
+		$result = $this->ilias->db->query($query2);
+
 		if ($this->isRandomTest())
 		{
 			$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
@@ -1934,6 +1960,13 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($user_id)
 			);
 			$result = $this->ilias->db->query($query);
+			
+			$query = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($user_id)
+			);
+			$result = $this->ilias->db->query($query);
+			
 
 			if($a_delete_active)
 			{
@@ -2718,6 +2751,62 @@ class ilObjTest extends ilObject
 		$result_array["test"]["passed"] = $passed;
 		return $result_array;
 	}
+
+
+	/**
+	* Calculates the overview of a test for a given user
+	* 
+	* and returns an array with all test questions
+	*
+	* @return array An array containing the test overview for the given user
+	* @access public
+	*/
+	function &getTestSummary($user_id)
+	{
+		global $ilDB;
+		//		global $ilBench;
+		if ($this->isRandomTest())
+		{
+			$this->loadQuestions($user_id);
+		}
+		
+		$add_parameter = "?ref_id=$this->ref_id&cmd=run&crs_show_result=0&";
+		
+		$key = 1;
+		$result_array = array();
+
+		$active = $this->getActiveTestUser();
+		
+		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
+	 	
+		foreach ($this->questions as $val) {
+			$question =& ilObjTest::_instanciateQuestion($val);
+			if (is_object($question))
+			{			
+				$answers = $question->getSolutionValues($this->test_id);
+				$visited = count($answers);
+				$solved  = 0;
+				if (array_key_exists($question->getId(),$solved_questions)) {
+					$solved =  $solved_questions[$question->getId()]->solved; 
+				}
+				
+				$row = array(
+					"nr" => "$key",					
+					"href_goto" => $this->getCallingScript() . "$add_parameter&sequence=$key",
+					"href_setsolved" => $this->getCallingScript() . "$add_parameter&question_id=".$question->getId()."&set_solved=".(($solved)?"0":"1"),
+					"title" => $question->getTitle(),
+					"qid" => $question->getId(),
+					"visited" => $visited,
+					"solved" => (($solved)?"1":"0")
+				);
+				array_push($result_array, $row);
+				$key++;
+			}			
+		}
+		
+		return $result_array;
+	}
+
 	
 /**
 * Calculates the results of a test for a given user
@@ -2895,7 +2984,7 @@ class ilObjTest extends ilObject
 	function canViewResults()
 	{
 		$result = true;
-		if ($this->getTestType() == TYPE_ASSESSMENT)
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST)
 		{
 			if ($this->getReportingDate())
 			{
@@ -3736,7 +3825,7 @@ class ilObjTest extends ilObject
 */
 	function startingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT) 
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST) 
 		{
 			if ($this->getStartingTime()) 
 			{
@@ -3764,7 +3853,7 @@ class ilObjTest extends ilObject
 */
 	function endingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT) 
+		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST) 
 		{
 			if ($this->getEndingTime()) 
 			{
@@ -5007,9 +5096,9 @@ class ilObjTest extends ilObject
 	}
 	
 /**
-* Disinvites a user from a survey
+* Disinvites a user from a evaluation
 * 
-* Disinvites a user from a survey
+* Disinvites a user from a evaluation
 *
 * @param integer $user_id The database id of the disinvited user
 * @access public
@@ -5025,9 +5114,9 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Invites a user to a survey
+* Invites a user to a evaluation
 * 
-* Invites a user to a survey
+* Invites a user to a evaluation
 *
 * @param integer $user_id The database id of the invited user
 * @access public
@@ -5052,9 +5141,9 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Disinvites a group from a survey
+* Disinvites a group from a evaluation
 * 
-* Disinvites a group from a survey
+* Disinvites a group from a evaluation
 *
 * @param integer $group_id The database id of the disinvited group
 * @access public
@@ -5070,9 +5159,9 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Invites a group to a survey
+* Invites a group to a evaluation
 * 
-* Invites a group to a survey
+* Invites a group to a evaluation
 *
 * @param integer $group_id The database id of the invited group
 * @access public
@@ -5335,7 +5424,298 @@ class ilObjTest extends ilObject
 				$res = $row["question_text"];
 			}
 		}
-		return $res;
+		return $res;		
 	}
+	
+/**
+* Returns a list of all invited users in a test
+* 
+* Returns a list of all invited users in a test
+*
+* @return array The user id's of the invited users
+* @access public
+*/
+	function &getInvitedUsers($user_id="")
+	{
+		$result_array = array();
+
+		if (is_numeric($user_id))
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished " .
+							 "FROM tst_invited_user t, usr_data ".
+							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
+							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s",
+				$this->ilias->db->quote($this->test_id),
+				$user_id
+			);
+		else 
+		{
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished " .							 				
+							 "FROM tst_invited_user t, usr_data ".
+							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
+							 "WHERE t.test_fi = %s and t.user_fi=usr_id",
+				$this->ilias->db->quote($this->test_id)
+			);
+		}
+		
+		return $this->getArrayData($query, "usr_id");
+	}
+	
+/**
+* Returns a data of all users specified by id list
+* 
+* Returns a data of all users specified by id list
+*
+* @param $usr_ids kommaseparated list of ids
+* @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
+* @access public
+*/
+	function &getUserData($ids)
+	{
+		if (!is_array($ids) || count($ids) ==0)
+			return array();
+			
+		$result_array = array();
+			
+		$query = sprintf("SELECT usr_id, login, lastname, firstname, \"\" as clientip FROM usr_data WHERE usr_id IN (%s) ",			
+			join ($ids,",")
+		);
+				
+		return $this->getArrayData ($query, "usr_id");		
+	}
+	
+/**
+* Returns a data as id key list
+* 
+* Returns a data as id key list
+*
+* @param $query
+* @param $id_field index for array 
+* @return array with data with id as key
+* @access private
+*/
+	function &getArrayData($query, $id_field)
+	{	
+		return ilObjTest::_getArrayData ($query, $id_field);
+	}
+	
+	function &_getArrayData($query, $id_field)
+	{	
+		global $ilDB;
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result_array[$row->$id_field]= $row;
+		}
+		return ($result_array)?$result_array:array();
+	}
+
+	function &getGroupData($ids)
+	{
+		if (!is_array($ids) || count($ids) ==0)
+			return array();
+			
+		$result_array = array();
+			
+		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN (%s)",			
+			join ($ids,",")
+		);
+		
+		return $this->getArrayData ($query, "ref_id");		
+	}
+	
+	function &getRoleData($ids)
+	{
+		if (!is_array($ids) || count($ids) ==0)
+			return array();
+			
+		$result_array = array();
+			
+		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN (%s)",			
+			join ($ids,",")
+		);
+		
+		return $this->getArrayData ($query, "obj_id");		
+	}
+
+
+/**
+* Invites all users of a group to a test
+* 
+* Invites all users of a group to a test
+*
+* @param integer $group_id The database id of the invited group
+* @access public
+*/
+	function inviteGroup($group_id)
+	{			
+		require_once "./classes/class.ilObjGroup.php";
+		$group = new ilObjGroup($group_id);
+		$members = $group->getGroupMemberIds();
+		foreach ($members as $user_id)
+		{
+			$this->inviteUser($user_id);
+		}		
+	}
+	
+/**
+* Invites all users of a role to a test
+* 
+* Invites all users of a role to a test
+*
+* @param integer $group_id The database id of the invited group
+* @access public
+*/
+	function inviteRole($role_id)
+	{			
+		global $rbacreview;
+		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
+		foreach ($members as $user_id)
+		{
+			$this->inviteUser($user_id);
+		}		
+	}
+	
+	
+	
+/**
+* Disinvites a user from a test
+* 
+* Disinvites a user from a test
+*
+* @param integer $user_id The database id of the disinvited user
+* @access public
+*/
+	function disinviteUser($user_id)
+	{
+		$query = sprintf("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->test_id),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);	
+	}
+
+/**
+* Invites a user to a test
+* 
+* Invites a user to a test
+*
+* @param integer $user_id The database id of the invited user
+* @access public
+*/
+	function inviteUser($user_id)
+	{
+		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi) VALUES (%s, %s)",
+			$this->ilias->db->quote($this->test_id),
+			$this->ilias->db->quote($user_id)
+		);
+		
+		$result = $this->ilias->db->query($query);
+	}
+	
+		
+	function setClientIP($user_id, $client_ip) {		
+		$query = sprintf("UPDATE tst_invited_user SET clientip=%s WHERE test_fi=%s and user_fi=%s",
+				$this->ilias->db->quote($client_ip),
+				$this->ilias->db->quote($this->test_id),
+				$this->ilias->db->quote($user_id)
+		);
+		$insertresult = $this->ilias->db->query($query);
+	}
+	
+/**
+* Gets the 
+* 
+* Gets the 
+*
+* @return array The question id's of the questions already worked through
+* @access	public
+*/
+	function &getAllSolutionValues()
+	{
+		global $ilUser;
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s GROUP BY question_fi",
+			$this->ilias->db->quote($ilUser->id),
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$result_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row->question_fi);
+		}
+		return $result_array;
+	}
+	
+
+	/**
+	 * gets TestType equals Online Test
+	 * 
+	 * @return	boolean true, if test type equals Online Test otherwise false
+	 */
+	
+	function isOnlineTest() {
+		return $this->getTestType()==TYPE_ONLINE_TEST;
+	}
+	
+	
+	
+	/**
+	 * get solved questions
+	 * 
+	 * @return array of int containing all question ids which have been set solved for the given user and test
+	 */
+	function _getSolvedQuestions ($test_fi, $user_fi, $question_fi = null) {
+		global $ilDb;
+		if (is_numeric($question_fi))
+			$query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
+						 "WHERE user_fi = %s AND test_fi = %s AND question_fi=%s",
+							$this->ilias->db->quote($user_fi),
+							$this->ilias->db->quote($test_fi),
+							$question_fi
+			);
+		else $query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
+						 "WHERE user_fi = %s AND test_fi = %s",
+			$this->ilias->db->quote($user_fi),
+			$this->ilias->db->quote($test_fi)
+		);
+		return ilObjTest::_getArrayData ($query, "question_fi");		
+	}
+	
+	
+	function setQuestionSetSolved ($value, $question_id, $user_id) {
+		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, test_fi=%s, user_fi=%s",
+			$this->ilias->db->quote($value),
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->test_id),
+			$this->ilias->db->quote($user_id)
+		);
+		
+		$this->ilias->db->query($query);				
+	}
+	
+	
+	function setActiveTestSubmitted($user_id) {
+		$query = sprintf("UPDATE tst_active SET submitted=1, tries=1, submittimestamp=NOW() WHERE test_fi=%s AND user_fi=%s",
+			$this->ilias->db->quote($this->test_id),
+			$this->ilias->db->quote($user_id)
+		);		
+		$this->ilias->db->query($query);				
+		
+	}
+	
+	function isActiveTestSubmitted($user_id) {
+		$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
+			$this->ilias->db->quote($this->test_id),
+			$this->ilias->db->quote($user_id)
+		);		
+		$result = $this->ilias->db->query($query);		
+		
+		return 	$result->numRows() == 1;
+		
+	}
+	
+
 } // END class.ilObjTest
+
 ?>

@@ -662,15 +662,26 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("IMAGEMAP_QUESTION", $is_postponed);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"IMAGEMAP_QUESTION", $is_postponed,"", !$show_question_page);
 //		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
 //		$solutionoutput = $matches[1];
+
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"map/", "\"solution_map", $solutionoutput);
 		$solutionoutput = preg_replace("/qmap/", "solution_qmap", $solutionoutput);
+
+		if (!$show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+			
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+			
+			
 		// set solutions
 		if ($test_id)
 		{

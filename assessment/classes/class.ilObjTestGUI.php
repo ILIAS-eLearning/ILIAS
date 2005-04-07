@@ -40,6 +40,9 @@ include_once "./classes/class.ilObjectGUI.php";
 include_once "./classes/class.ilMetaDataGUI.php";
 include_once "./assessment/classes/class.assQuestionGUI.php";
 include_once './classes/Spreadsheet/Excel/Writer.php';
+require_once "./classes/class.ilSearch.php";
+require_once "./classes/class.ilObjUser.php";
+require_once "./classes/class.ilObjGroup.php";
 
 define ("TYPE_XLS", "excel");
 define ("TYPE_SPSS", "csv");
@@ -105,6 +108,7 @@ class ilObjTestGUI extends ilObjectGUI
 					case "addFoundUsersToEval":
 					case "evalSelectedUsers":
 					case "evalAllUsers":
+					case "printAnswers":
 						break;
 					default:
 						$this->setAdminTabs();
@@ -618,7 +622,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 		$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
-		if ($this->object->getTestType() == TYPE_ASSESSMENT)
+		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST)
 		{
 			$data["score_reporting"] = REPORT_AFTER_TEST;
 		}
@@ -715,7 +719,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAuthor($data["author"]);
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
-		if ($this->object->getTestType() == TYPE_ASSESSMENT)
+		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
 		}
@@ -730,6 +734,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
+
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
+		{
+			$this->object->setScoreReporting(1);
+    		$this->object->setSequenceSettings(0);
+    		$this->object->setNrOfTries(1);
+    		$this->object->setRandomTest(0);
+		}
 
 		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
@@ -779,7 +791,16 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		$total = $this->object->evalTotalPersons();
-		if (($data["sel_test_types"] == TYPE_ASSESSMENT) || ($this->object->getTestType() == TYPE_ASSESSMENT && strlen($data["sel_test_types"]) == 0)) 
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST  || $data["sel_test_types"] == TYPE_ONLINE_TEST)
+		{
+    		// fixed settings
+    		$this->object->setScoreReporting(1);
+    		$this->object->setSequenceSettings(0);
+    		$this->object->setNrOfTries(1);
+    		$this->object->setRandomTest(0);
+    	}
+		
+		if (($data["sel_test_types"] == TYPE_ONLINE_TEST) || ($data["sel_test_types"] == TYPE_ASSESSMENT) || (($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)) 
 		{
 			$this->lng->loadLanguageModule("jscalendar");
 			$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
@@ -869,6 +890,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["score_reporting"] = $this->object->getScoreReporting();
 		$data["reporting_date"] = $this->object->getReportingDate();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
+
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
@@ -885,7 +907,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["ending_time"] = $this->object->getEndingTime();
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT)
+		
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
 		{
 			$this->tpl->setCurrentBlock("starting_time");
 			$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
@@ -947,7 +970,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
 			$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["reporting_date"]) {
+			if ($data["reporting_date"] || ($data["sel_test_types"] == TYPE_ONLINE_TEST)) {
 				$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
@@ -993,9 +1016,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
 		$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
 		$this->tpl->setVariable("REPORT_AFTER_TEST", $this->lng->txt("tst_report_after_test"));
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT) {
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST || $this->object->getTestType() == TYPE_ONLINE_TEST)) {
 			$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			$this->tpl->setVariable("DISABLE_SCORE_REPORTING", " disabled=\"disabled\"");
+			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) {
+				$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
+				$this->tpl->setVariable("DISABLE_SEQUENCE", " disabled=\"disabled\"");
+				$this->tpl->setVariable("DISABLE_NR_OF_TRIES", " disabled=\"disabled\"");
+				$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
+			}
 		} else {
 			if ($data["score_reporting"] == 0) {
 				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
@@ -2549,14 +2578,21 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		global $rbacsystem;
-
+		
 		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
 		{
 			// only with read access it is possible to run the test
 			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($_POST["cmd"]["cancelTest"])
+		// check online exams restrictions if nescessary
+		if ($this->object->isOnlineTest())
+		{
+			$this->checkOnlineTestAccess();			
+		}
+
+
+		if ($_POST["cmd"]["cancelTest"] && !$this->object->isOnlineTest())
 		{
 			sendInfo($this->lng->txt("test_cancelled"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
@@ -2565,6 +2601,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$add_parameter = $this->getAddParameter();
+		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -2574,38 +2611,19 @@ class ilObjTestGUI extends ilObjectGUI
 			// maximum processing time reached
 			$maxprocessingtimereached = 1;
 		}
-
+		
 		$directfeedback = 0;
+		$show_summary = $this->object->getTestType() == TYPE_ONLINE_TEST;
 		// catch feedback message
 		sendInfo();
 
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selImage"]))
-		{
-			// set new finish time for test
-			if ($_SESSION["active_time_id"])
-			{
-				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-			}
-			if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
-			{
-				// maximum processing time reached
-				$maxprocessingtimereached = 1;
-			}
+		$saveResult = $this->updateWorkingTime();
 
-			// save question solution
-			$saveResult = false;
-			if (!($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT)) and (!$maxprocessingtimereached))
-			{
-				// but only if the ending time is not reached
-				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
-				$saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-
-				if ($_POST["cmd"]["directfeedback"])
-				{
-					$directfeedback = 1;
-				}
-			}
-		}
+		if ($_GET["sort_summary"] or $_POST["cmd"]["cancel_show_answers"])
+		//	sort summary: click on title to sort in summary
+		// cancel_show_answers: click on back in show_answer view
+			$_POST["cmd"]["summary"]="1";
+						
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
 		{
 			if ($_POST["cmd"]["start"] && $this->object->isRandomTest())
@@ -2665,14 +2683,19 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilUser->setPref("tst_javascript", 0);
 				$ilUser->writePref("tst_javascript", 0);
 			}
+			if ($this->object->isOnlineTest()) {
+				$_POST["cmd"]["summary"]="summary";
+			}
 		}
 
 		$this->sequence = $_GET["sequence"];
+		
 		if ($_POST["cmd"]["deleteresults"] or $_POST["cmd"]["canceldeleteresults"] or $_POST["cmd"]["confirmdeleteresults"])
 		{
 			// reset sequence. it is not needed for test reset
 			$this->sequence = "";
 		}
+
 		if (($_POST["cmd"]["next"]) and $saveResult)
 		{
 			if($_GET['crs_show_result'])
@@ -2726,6 +2749,54 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 
+		
+		if ($this->object->isOnlineTest()) {
+			$num_of = $this->object->getNrOfTries();
+			$active = $this->object->getActiveTestUser($ilUser->getId());
+
+			if (($active->tries >= $num_of) or $maxprocessingtimereached) {
+				$this->outIntroductionPage();
+				return;
+			}
+		}
+		
+		if ($_POST["cmd"]["show_answers"]) {
+			$this->outShowAnswers(true);
+			return;
+		}
+		
+		if ($_POST["cmd"]["submit_answers"]) {
+			$this->confirmSubmitAnswers();
+			return;
+		}
+				
+		if ($_POST["cmd"]["confirm_submit_answers"]) {
+			$this->object->submit_answers($ilUser->id);
+			$this->outShowAnswers(false);			
+			return;
+		}
+		
+		// set solved in summary
+		if (is_numeric($_GET["set_solved"]) && is_numeric($_GET["question_id"]))		 
+		{
+			$this->object->setQuestionSetSolved($_GET["set_solved"] , $_GET["question_id"], $ilUser->getId());
+			$_POST["cmd"]["summary"]="summary";
+		}
+		
+		// set solved in question
+		if ($_POST["cmd"]["resetsolved"] or $_POST["cmd"]["setsolved"] && $_GET["sequence"] )		 
+		{
+			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
+			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
+			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
+		}
+		
+		
+		if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"])) {
+			$this->outTestSummary();
+			return;
+		}
+		
 		if (!$this->sequence)
 		{
 			// show introduction page
@@ -2733,7 +2804,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			if ($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT))
+			if ($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT || 
+													    $this->object->getTestType() == TYPE_ONLINE_TEST))
 			{
 				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
 				$this->object->setActiveTestUser(1, "", true);
@@ -2743,7 +2815,10 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->outTestResults();
+					if ($this->object->isOnlineTest())
+						$this->outTestSummary();
+					else
+						$this->outTestResults();
 				}
 				return;
 			}
@@ -2757,7 +2832,10 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->outTestResults();
+					if ($this->object->isOnlineTest())
+						$this->$this->confirmSubmitAnswers();
+					else					
+						$this->outTestResults();
 				}
 				return;
 			}
@@ -2777,7 +2855,9 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$postpone = $this->sequence;
 				}
+				
 				$this->object->setActiveTestUser($this->sequence, $postpone);
+				
 				if ($this->sequence == $this->object->getQuestionCount())
 				{
 					$finish = true;
@@ -2810,22 +2890,25 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("cancel_test");
-				$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-				$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-				$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("cancel_test_bottom");
-				$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-				$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-				$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-				$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-				$this->tpl->parseCurrentBlock();
+				
+				if (!$this->object->isOnlineTest()) {
+					$this->tpl->setCurrentBlock("cancel_test");
+					$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+					$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+					$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("cancel_test_bottom");
+					$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+					$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+					$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+					$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
+					$this->tpl->parseCurrentBlock();
+				}
 
 				if ($this->object->getEnableProcessingTime())
 				{
@@ -2848,19 +2931,27 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 
 
-				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback);
+				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback, $show_summary);
 
 			}
 			else
 			{
 				// finish test
+				
+				if ($this->object->isOnlineTest() && !$this->object->isActiveTestSubmitted($ilUser->getId())) {
+					$this->outTestSummary();
+					return;
+				}
+				
+				
 				$this->object->setActiveTestUser(1, "", true);
+				
 				if (!$this->object->canViewResults()) 
 				{
 					$this->outIntroductionPage($maxprocessingtimereached);
 				}
 				else
-				{
+				{					
 					$this->outTestResults();
 				}
 				// Update objectives
@@ -3016,7 +3107,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$test_disabled = true;
 				$add_sequence = "";
 			}
-			else
+			elseif ($this->object->getTestType()!=TYPE_ONLINE_TEST)
 			{
 				// if resume is active it is possible to reset the test
 				$this->tpl->setCurrentBlock("delete_results");
@@ -3040,7 +3131,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or ($this->object->getTestType() != TYPE_ASSESSMENT))
+			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or ($this->object->getTestType() != TYPE_ASSESSMENT || ($data["sel_test_types"] != TYPE_ONLINE_TEST)))
 			{
 				$this->tpl->setCurrentBlock("start");
 				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
@@ -3090,7 +3181,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
+	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0, $show_summary = false)
 	{
 		global $ilUser;
 		
@@ -3128,11 +3219,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 //		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
+				
 		// output question
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction);
+				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction, true);
 				$info =& $question_gui->object->getReachedInformation($ilUser->id, $test_id);
 				if (strcmp($info[0]["value"], "") != 0)
 				{
@@ -3179,6 +3271,17 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		
+		if ($show_summary) {
+			$this->tpl->setCurrentBlock("summary");
+			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("summary_bottom");
+			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		
 
 		if ($finish)
 		{
@@ -3197,6 +3300,34 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("next_bottom");
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
 			$this->tpl->parseCurrentBlock();
+		}
+
+		
+		
+		if ($this->object->isOnlineTest()) {
+			$solved_array = ilObjTest::_getSolvedQuestions($this->object->test_id, $ilUser->getId(), $question_gui->object->getId());
+			$solved = 0;
+			
+			if (count ($solved_array) > 0) {
+				$solved = array_pop($solved_array);
+				$solved = $solved->solved;
+			}			
+			
+			if ($solved==1) 
+			{
+			 	$solved = ilUtil::getImagePath("solved.png", true);
+			 	$solved_cmd = "resetsolved";
+			} else 
+			{				 
+				$solved = ilUtil::getImagePath("not_solved.png", true);
+				$solved_cmd = "setsolved";
+			}			
+			$solved = "<input border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\">";//"<small>".$this->lng->txt("tst_qst_solved_state_click_to_change")."</small>"; 
+			
+			$this->tpl->setCurrentBlock("question_status");
+			$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_solved_state").":");
+			$this->tpl->setVariable("TEXT_QUESTION_STATUS", $solved);
+			$this->tpl->parseCurrentBlock();			
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -3225,6 +3356,7 @@ class ilObjTestGUI extends ilObjectGUI
 //		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
+		
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
@@ -4491,7 +4623,7 @@ class ilObjTestGUI extends ilObjectGUI
 *
 * @access public
 */
-	function outTestResults() {
+	function outTestResults($print = false) {
 		global $ilUser;
 
 		function sort_percent($a, $b) {
@@ -4875,7 +5007,7 @@ class ilObjTestGUI extends ilObjectGUI
 										 "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		} else {
-
+			
 			// Workaround for crs_objectives
 			$frameset = $_GET['crs_show_result'] ? '' : 'cmd=frameset&';
 
@@ -4894,6 +5026,7 @@ class ilObjTestGUI extends ilObjectGUI
 											 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
 											 "/assessment/test.php" . "?crs_show_result=".$_GET['crs_show_result'].
 											 "&ref_id=".$row["child"] . $param,"");
+
 					if ($this->sequence) {
 						if (($this->sequence <= $this->object->getQuestionCount()) and (!$_POST["cmd"]["showresults"])) {
 							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), 
@@ -4902,6 +5035,40 @@ class ilObjTestGUI extends ilObjectGUI
 													 "&ref_id=".$row["child"] . $param . 
 													 "&sequence=" . $this->sequence,"");
 						} else {
+						}
+						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
+						{
+						$ilias_locator->navigate($i++, $this->lng->txt("summary"), 
+													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+													 "/assessment/test.php" . "?crs_show_result=0".
+													 "&ref_id=".$row["child"] . $param . 
+												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
+						}
+					} else {
+						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
+						{
+							$ilias_locator->navigate($i++, $this->lng->txt("summary"), 
+													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+													 "/assessment/test.php" . "?crs_show_result=0".
+													 "&ref_id=".$row["child"] . $param . 
+												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
+						} elseif ($_POST["cmd"]["show_answers"])
+						{
+							$ilias_locator->navigate($i++, $this->lng->txt("preview"), 
+													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+													 "/assessment/test.php" . "?crs_show_result=0".
+													 "&ref_id=".$row["child"] . $param . 
+												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
+							
+						}						
+						elseif ($_POST["cmd"]["submit_answers"])
+						{
+							$ilias_locator->navigate($i++, $this->lng->txt("submit"), 
+													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+													 "/assessment/test.php" . "?crs_show_result=0".
+													 "&ref_id=".$row["child"] . $param . 
+												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
+							
 						}
 					}
 				} else {
@@ -5442,6 +5609,880 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
+	/**
+	* Creates the output for user/group invitation to a test
+	*
+	* Creates the output for user/group invitation to a test
+	*
+	* @access	public
+	*/
+	function participantsObject()
+	{
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+		
+		if ($this->object->getTestType() != TYPE_ONLINE_TEST) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("wrong_test_type"), true);
+			return;
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", true);
+
+		if ($_POST["cmd"]["cancel"])
+		{
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
+
+		if (count($_POST))
+		{
+			$this->writeInviteFormData();
+		}
+		
+		if ($_POST["cmd"]["save"])
+		{
+			$this->object->saveToDb();
+		}
+		
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				$this->tpl->setCurrentBlock("invitation");
+				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
+				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
+				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
+				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
+				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+				if (is_array($_POST["search_for"]))
+				{
+					if (in_array("usr", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+					}
+					if (in_array("grp", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+					}
+					if (in_array("role", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
+					}
+					
+				}
+				if (strcmp($_POST["concatenation"], "and") == 0)
+				{
+					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+				}
+				else if (strcmp($_POST["concatenation"], "or") == 0)
+				{
+					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+				}
+				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$invited_users = $this->object->getInvitedUsers();
+
+		$buttons = array("save","remove");
+		
+		if (count($invited_users))
+		{
+			$this->outUserGroupTable("usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), $buttons);
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
+		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
+		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+    	if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Extracts the results of a posted invitation form
+	*
+	* Extracts the results of a posted invitation form
+	*
+	* @access	public
+	*/
+	function writeInviteFormData()
+	{
+		global $ilUser;
+
+		$message = "";
+		
+		if (is_array($_POST["invited_users"]))
+		{
+			for ($i = 0; $i < count($_POST["invited_users"]); $i++)
+			{
+				$user_id = $_POST["invited_users"][$i];	
+				$client_ip = $_POST["clientip"][$i];
+				
+				if ($_POST["cmd"]["remove"])
+					$this->object->disinviteUser($user_id);
+				elseif ($_POST["cmd"]["save_client_ip"])
+					$this->object->setClientIP($user_id, $client_ip);
+			}
+		}
+
+		if ($_POST["cmd"]["add"])
+		{
+			// add users 
+			if (is_array($_POST["user_select"]))
+			{
+				foreach ($_POST["user_select"] as $user_id)
+				{
+					$this->object->inviteUser($user_id);
+				}
+			}
+			// add groups members
+			if (is_array($_POST["group_select"]))
+			{
+				foreach ($_POST["group_select"] as $group_id)
+				{
+					$this->object->inviteGroup($group_id);
+				}
+			}
+			// add role memebers
+			if (is_array($_POST["role_select"]))
+			{
+				foreach ($_POST["role_select"] as $role_id)
+				{					
+					$this->object->inviteRole($role_id);
+				}
+			}
+			
+		}
+
+		if ($_POST["cmd"]["search"])
+		{
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+				{					
+					
+					$search =& new ilSearch($ilUser->id);
+					$search->setSearchString($_POST["search_term"]);
+					$search->setCombination($_POST["concatenation"]);
+					$search->setSearchFor($_POST["search_for"]);
+					$search->setSearchType("new");
+					if($search->validate($message))
+					{
+						$search->performSearch();
+					}
+					if ($message)
+					{
+						sendInfo($message);
+					}
+					
+					if(!$search->getNumberOfResults() && $search->getSearchFor())
+					{
+						sendInfo($this->lng->txt("search_no_match"));
+						return;
+					}
+					$buttons = array("add");
+
+					$invited_users = $this->object->getInvitedUsers();
+				
+					if ($searchresult = $search->getResultByType("usr"))
+					{												
+						$users = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!array_key_exists($result_array["id"], $invited_users))
+							{								
+								array_push($users, $result_array["id"]);
+							}
+						}
+						
+						$users = $this->object->getUserData($users);
+						
+						if (count ($users))
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
+					}
+
+					$searchresult = array();
+					
+					if ($searchresult = $search->getResultByType("grp"))
+					{
+						$groups = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($groups, $result_array["id"]);
+						}
+						$groups = $this->object->getGroupData ($groups);
+						
+						if (count ($groups))
+							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
+					}
+					
+					$searchresult = array();
+					
+					if ($searchresult = $search->getResultByType("role"))
+					{
+						$roles = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($roles, $result_array["id"]);
+						}
+						
+						$roles = $this->object->getRoleData ($roles);			
+								
+						if (count ($roles))
+							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), $buttons);
+					}
+					
+				}
+				
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_user_or_group_selected"));
+			}
+		}
+	}
+	
+	
+	
+function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $title_text, $buttons)
+	{
+		global $rbacsystem;
+		
+		$rowclass = array("tblrow1", "tblrow2");
+		switch($a_type)
+		{
+			case "usr":
+				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
+				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				foreach ($data_array as $data)
+				{
+					$counter = 0;
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $data->usr_id);
+					$this->tpl->setVariable("VALUE_LOGIN", $data->login);
+					$this->tpl->setVariable("VALUE_FIRSTNAME", $data->firstname);
+					$this->tpl->setVariable("VALUE_LASTNAME", $data->lastname);
+					$this->tpl->setVariable("VALUE_CLIENT_IP", $data->clientip);
+					$this->tpl->setVariable("VALUE_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
+				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
+				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
+				$this->tpl->setVariable("TEXT_CLIENT_IP", $this->lng->txt("clientip"));
+				$this->tpl->setVariable("TEXT_TEST_FINISHED", $this->lng->txt("tst_finished"));
+				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "role":
+				
+			case "grp":
+				foreach ($data_array as $key => $data)
+				{
+					$counter = 0;
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $key);
+					$this->tpl->setVariable("VALUE_TITLE", $data->title);
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $data->description);
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_TABLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+	}
+		
+		
+/**
+	* Output of the learners view of an existing test without evaluation
+	*
+	* @access public
+	*/
+	function outTestSummary() {
+		global $ilUser;
+
+		function sort_title($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+			if ($a["nr"] == $b["nr"]) return 0;
+			if (strcmp($a["title"],$b["title"])< 0)
+				return $smaller;
+			else if (strcmp($a["title"],$b["title"])> 0)
+				return $greater;
+			return 0;
+		}
+		
+		
+		function sort_nr($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+			if ($a["nr"] == $b["nr"]) return 0;
+			return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
+		}
+		
+		function sort_visited($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+			if ($a["nr"] == $b["nr"]) 
+				return 0;
+			return ($a["visited"] < $b["visited"]) ? $smaller : $greater;
+		}
+
+		
+		function sort_solved($a, $b) {
+			if (strcmp($_GET["order"], "ASC")) {
+				$smaller = 1;
+				$greater = -1;
+			} else {
+				$smaller = -1;
+				$greater = 1;
+			}
+			if ($a["nr"] == $b["nr"]) return 0;
+			return ($a["solved"] < $b["solved"]) ? $smaller : $greater;
+		}
+
+		$add_parameter = $this->getAddParameter()."&"."sequence=".$_GET["sequence"];
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_summary.html", true);
+		$user_id = $ilUser->id;
+		$color_class = array ("tblrow1", "tblrow2");
+		$counter = 0;
+		
+		$result_array = & $this->object->getTestSummary($user_id);
+		
+		$img_title_nr = "";
+		$img_title_title = "";
+		$img_title_solved = "";
+		
+		if (!$_GET["sort_summary"] )
+		{
+			$_GET["sort_summary"]  = "nr";
+			$_GET["order"] = "ASC";
+		} 
+		
+		switch ($_GET["sort_summary"]) {
+			case nr:
+				usort($result_array, "sort_nr");
+				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				if (strcmp($_GET["order"], "ASC") == 0) {
+					$sortnr = "DESC";
+				} else {
+					$sortnr = "ASC";
+				}
+				break;			
+			
+			case "title":
+				usort($result_array, "sort_title");
+				$img_title_title = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				if (strcmp($_GET["order"], "ASC") == 0) {
+					$sorttitle = "DESC";
+				} else {
+					$sorttitle = "ASC";
+				}
+				break;
+			case "solved":
+				usort($result_array, "sort_solved");
+				$img_title_solved = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"\" />";
+				if (strcmp($_GET["order"], "ASC") == 0) {
+					$sortsolved = "DESC";
+				} else {
+					$sortsolved = "ASC";
+				}
+				break;			
+		}
+		if (!$sorttitle) {
+			$sorttitle = "ASC";
+		}
+		if (!$sortsolved) {
+			$sortsolved = "ASC";
+		}
+		if (!$sortnr) {
+			$sortnr = "ASC";
+		}
+		
+		$img_solved = " <img border=\"0\"  align=\"middle\" src=\"" . ilUtil::getImagePath("solved.png", true) . "\" alt=\"".$this->lng->txt("tst_click_to_change_state")."\" />";
+		$img_not_solved = " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("not_solved.png", true) . "\" alt=\"".$this->lng->txt("tst_click_to_change_state")."\" />";
+		$goto_question =  " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("goto_question.png", true) . "\" alt=\"".$this->lng->txt("tst_qst_goto")."\" />";
+		
+		foreach ($result_array as $key => $value) {
+			if (preg_match("/\d+/", $key)) {
+				$this->tpl->setCurrentBlock("question");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
+				$this->tpl->setVariable("VALUE_QUESTION_VISITED", ($value["visited"] > 0) ? " checked=\"checked\" ": ""); 
+				$this->tpl->setVariable("VALUE_QUESTION_SOLVED", ($value["solved"] > 0) ?$img_solved : $img_not_solved);  
+				$this->tpl->setVariable("VALUE_QUESTION_HREF_GOTO", $value["href_goto"]);
+				$this->tpl->setVariable("VALUE_QUESTION_GOTO", $goto_question);
+				$this->tpl->setVariable("VALUE_QUESTION_HREF_SET_SOLVED", $value["href_setsolved"]."&sequence=".$_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"]);
+				$this->tpl->setVariable("VALUE_QUESTION_SET_SOLVED", ($value["solved"] > 0) ?$this->lng->txt("tst_qst_resetsolved"):$this->lng->txt("tst_qst_setsolved"));
+				$this->tpl->parseCurrentBlock();
+				$counter ++;
+			}
+		}
+
+		$this->tpl->setCurrentBlock("results");
+		$this->tpl->setVariable("QUESTION_ACTION","actions");
+		$this->tpl->setVariable("QUESTION_COUNTER","<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortnr&sort_summary=nr\">".$this->lng->txt("tst_qst_order")."</a>".$img_title_nr);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sorttitle&sort_summary=title\">".$this->lng->txt("tst_question_title")."</a>".$img_title_title);
+		$this->tpl->setVariable("QUESTION_VISITED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortvisited&sort_summary=visited\">".$this->lng->txt("tst_question_visited")."</a>".$img_title_visited);
+		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
+		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
+		$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));
+		
+		$this->tpl->parseCurrentBlock();
+
+	}
+	
+	/**
+	* confirm submit results
+	* if confirm then results are submitted and printview of answers is shown.
+	* @access public
+	*/
+	function confirmSubmitAnswers() {
+		$add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_submit_answers_confirm.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_CONFIRM_SUBMIT_RESULTS", $this->lng->txt("tst_confirm_submit_answers"));
+		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_results"));
+		$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
+		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript()."?ref_id=".$this->object->getRefId()."&cmd=printAnswers");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function printAnswersObject(){
+		global $ilUser,$rbacsystem;
+		
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+		
+				
+		$this->object->setActiveTestSubmitted($ilUser->getId());
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->outShowAnswers(false);
+	}		
+
+	function outShowAnswers($isForm) {
+		global $ilUser;
+					
+		$tpl = &$this->tpl;
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
+		
+		$add_parameter = $this->getAddParameter();
+		
+		$tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
+		$tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
+		$tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
+		$tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+		$tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+		$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
+		$tpl->setVariable("VALUE_DATE", date("d.m.Y"));
+		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
+
+		$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("signature"), "length" => 300)));
+/*					"freefield_top" => 		array (	array ("title" => $this->lng->txt("semester"), "length" => 300), 
+											  		array ("title" => $this->lng->txt("career"), "length" => 300)
+											  	   ),*/
+					
+		
+		
+		foreach ($freefieldtypes as $type => $freefields) {
+			$counter = 0;
+
+			while ($counter < count ($freefields)) {
+				$freefield = $freefields[$counter];
+				
+				$tpl->setCurrentBlock($type);
+			
+				$tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
+				$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
+			
+				$counter ++;
+			
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		$tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
+
+		$counter = 1;
+		
+		foreach ($this->object->questions as $question) {
+			$tpl->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question);
+
+			$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
+			$tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			
+			$idx = $this->object->test_id;
+			
+			switch ($question_gui->getQuestionType()) {
+				case "qt_imagemap" :
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_pages=false);
+					break;
+				case "qt_javaapplet" :
+					$question_gui->outWorkingForm("", false, $show_solutions=false,  $show_pages=false);
+					break;
+				default :
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false,  $show_pages=false);
+			}
+			$tpl->parseCurrentBlock("question");
+			$counter ++;
+		}
+
+
+
+		if ($isForm) {
+			$tpl->setCurrentBlock("confirm");
+			$tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
+			$tpl->setVariable("BTN_CANCEL", $this->lng->txt("back"));
+			$tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_answers"));
+			$tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
+			$tpl->parseCurrentBlock();
+		}
+	}
+	
+	function updateWorkingTime() {
+		global $ilUser;
+		// command which do not require update
+		
+		$negs = isset($_POST["cmd"]["start"]) | isset($_POST["cmd"]["resume"]) 
+				| isset($_POST["cmd"]["submit_answers"]) | isset($_POST["cmd"]["confirm_submit_answers"]) 
+				| isset($_POST["cmd"]["cancel_show_answers"]) | isset($_POST["cmd"]["show_answers"]);
+		
+		// all other commands which require update
+		$pos  = (count($_POST["cmd"])>0 | isset($_GET["selImage"]));
+		
+		if ($pos==true & $negs==false)
+		{
+			// set new finish time for test
+			if ($_SESSION["active_time_id"])
+			{
+				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
+			}
+			if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
+			{
+				// maximum processing time reached
+				$maxprocessingtimereached = 1;
+			}
+
+			// save question solution
+			$saveResult = false;
+			
+			if ($_GET["sequence"] && !($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT || $data["sel_test_types"] == TYPE_ONLINE_TEST)) and (!$maxprocessingtimereached))
+			{
+				// but only if the ending time is not reached
+				$q_id = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);
+				if (is_numeric($q_id)) 
+				{
+				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
+				 	$saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
+				}								
+				
+
+				if ($_POST["cmd"]["directfeedback"])
+				{
+					$directfeedback = 1;
+				}
+			}
+		}
+		return $saveResult;
+	}
+		
+	function checkOnlineTestAccess () {
+		global $ilUser;
+		
+		// check if user is invited to participate
+		$user = $this->object->getInvitedUsers($ilUser->getId());
+		if (!is_array ($user) || count($user)!=1)
+		{
+				sendInfo($this->lng->txt("user_not_invited"), true);
+				$path = $this->tree->getPathFull($this->object->getRefID());
+				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+				exit();
+		}
+			
+		$user = array_pop($user);
+		// check if client ip is set and if current remote addr is equal to stored client-ip			
+		if (strcmp($user->clientip,"")!=0 && strcmp($user->clientip,$_SERVER["REMOTE_ADDR"])!=0)
+		{
+			sendInfo($this->lng->txt("user_wrong_clientip"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			exit();
+		}
+
+		if ($_POST["cmd"]["show_answers"] or $_POST["cmd"]["back"] or $_POST["cmd"]["submit_answers"]) {
+			unset($_GET ["sort_summary"]);			
+			unset($_GET ["setsolved"]);
+			if ($_POST["cmd"]["show_answers"]  or $_POST["cmd"]["submit_answers"])					
+				unset($_GET ["sequence"]);		
+		}	
+		
+	}		
+	
+	function resultsheetObject () {
+		global $rbacsystem, $ilUser;
+		
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+			
+		$this->outTestPrintResults();
+		
+	}
+	
+	
+/**
+* Output of the learners view of an existing test
+*
+* Output of the learners view of an existing test
+*
+* @access public
+*/
+	function outTestPrintResults() {
+		global $ilUser;
+		
+		$active = $this->object->getActiveTestUser();
+		$t = $active->submittimestamp;
+		
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
+		
+		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
+		$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+		$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+		$this->tpl->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
+		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%c",ilUtil::date_mysql2time($t)));
+		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
+		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
+		
+
+		$add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
+		$user_id = $ilUser->id;
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+
+		$result_array =& $this->object->getTestResult($user_id);
+
+		if (!$result_array["test"]["total_max_points"])
+		{
+			$percentage = 0;
+		}
+		else
+		{
+			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+		}
+		$total_max = $result_array["test"]["total_max_points"];
+		$total_reached = $result_array["test"]["total_reached_points"];
+
+		foreach ($result_array as $key => $value) {
+			if (preg_match("/\d+/", $key)) {
+				$title = preg_replace ("/<a[^>]*>(.*?)<\/a>/", "\\1",$value["title"]);
+				$this->tpl->setCurrentBlock("question");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $title);
+				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
+				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+		}
+
+		$this->tpl->setCurrentBlock("question");
+		$this->tpl->setVariable("COLOR_CLASS", "std");
+		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
+		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
+		$this->tpl->setVariable("SOLUTION_HINT", "");
+		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
+		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
+		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("results");
+		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
+		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
+		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+		$this->tpl->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+		if ($mark_obj)
+		{
+			$mark .= "<br /><strong>" . $this->lng->txt("tst_mark") . ": &quot;" . $mark_obj->get_official_name() . "&quot;</strong>";
+		}
+		if ($this->object->ects_output)
+		{
+			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
+			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+		}
+		$this->tpl->setVariable("GRADE", $mark);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	
+	function printobject () {
+		global $rbacsystem, $ilUser;
+		
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+
+		if ($_POST["cmd"]["print"]) {
+			$this->outPrinttest();
+			return;
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", true);
+		$this->tpl->setVariable("TEXT_CONFIRM_PRINT_TEST", $this->lng->txt("tst_confirm_print"));
+		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript().$this->getAddParameter());
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		
+	}
+	
+	function outPrinttest() {
+		global $ilUser;
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_test.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_test.css");
+		$this->tpl->setVariable("SYNTAX_CSS","./templates/default/print_syntax.css");
+		
+		
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
+		$this->tpl->setVariable("PRINT_TEST", $this->lng->txt("tst_print"));
+		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
+			
+		$tpl = &$this->tpl;			
+		
+		$tpl->setVariable("TITLE", $this->object->getTitle());	
+
+
+
+		$counter = 1;
+				
+		foreach ($this->object->questions as $question) {
+			$tpl->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question);
+
+			$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
+			$tpl->setVariable("COUNTER_QUESTION", $counter.".");
+			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			
+			switch ($question_gui->getQuestionType()) {
+				case "qt_imagemap" :
+					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $formaction, $show_pages= true, $show_solutions_only= true);
+					break;
+				case "qt_javaapplet" :
+					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
+					break;
+				default :
+					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
+			}
+			$tpl->parseCurrentBlock("question");
+			$counter ++;
+		}
+	}
+		
 } // END class.ilObjTestGUI
 
 ?>

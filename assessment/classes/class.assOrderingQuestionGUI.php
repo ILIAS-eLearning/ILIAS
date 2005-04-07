@@ -455,16 +455,28 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
 		
-		$output = $this->outQuestionPage("ORDERING_QUESTION", $is_postponed);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"ORDERING_QUESTION", $is_postponed,"", !$show_question_page);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
+
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"order_/", "name=\"solution_order_", $solutionoutput);
+		
+		
+		if (!$show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+			
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+		
+			
 		// set solutions
 		$solution_script = "";
 		if ($test_id)
@@ -474,11 +486,14 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$jssolutions = array();
 			foreach ($solutions as $idx => $solution_value)
 			{
-				if ($this->object->getOutputType() == OUTPUT_HTML)
+				if ($this->object->getOutputType() == OUTPUT_HTML || !$show_question_page)
 				{
 					$repl_str = "dummy=\"ord".$solution_value->value1."\"";
 	//echo "<br>".$repl_str;
-					$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+					if (!$show_question_page)
+						$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."] ", $output);
+					else 
+						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
 				}
 				else
 				{
@@ -488,6 +503,11 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 						$jssolutions[$solution_value->value2] = $solution_value;
 					}
 				}
+			}
+			if (!$show_question_page) 
+			{
+				//echo htmlentities ($output);
+				$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);
 			}
 			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 			{
