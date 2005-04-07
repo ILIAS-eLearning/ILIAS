@@ -4572,29 +4572,29 @@ survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not a
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
-survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
-survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
-survey#:#duplicate#:#Duplicate###21 May 2004 new variable
-survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
-survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
-survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
-survey#:#end_date#:#End date###23 May 2004 new variable
-survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
-survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
-survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new variable
-survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
-survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
-survey#:#enter_value#:#Enter a value###26 May 2004 new variable
-survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
+survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)
+survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
+survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
+survey#:#dp_standard_numbers#:#Стандартні цифри
+survey#:#duplicate#:#Робити копію
+survey#:#duplicate_svy#:#Зробити копію опитування
+survey#:#edit_ask_continue#:#Чи бажаєте ви продовжити та редагувати це питання?
+survey#:#edit_constraints_introduction#:#Ви вибрали насупні питання/блоки питань для примусового редагування
+survey#:#edit_heading#:#Редагувати заголовок
+survey#:#end_date#:#Кінцева дата
+survey#:#end_date_reached#:#Ви не можете почати опитування. Досягнута кінцева дата!
+survey#:#enter_anonymous_id#:#Код доступу до опитування
+survey#:#enter_phrase_title#:#Будь ласка введіть назву фрази
+survey#:#enter_questionblock_title#:#Будь ласка введіть назву блока питань!
+survey#:#enter_valid_number_of_codes#:#Будь ласка введіть коректний номер щоб сгенерувати коди доступу к опитуванню!
+survey#:#enter_value#:#Введіть значення
+survey#:#error_add_heading#:#Будь ласка додайте заголовок!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
