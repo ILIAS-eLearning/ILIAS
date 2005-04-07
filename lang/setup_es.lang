@@ -33,367 +33,369 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3rd Party Software
-absolute_path#:#Ruta absoluta
-access#:#Acceso
-access_status#:#Estado de Acceso
-admin_login#:#Entrar como administrador
-antivir#:#Antivirus
-available_clients#:#Instalaciones disponibles
-available_languages#:#Idiomas disponibles
-back#:#atrás
-cannot_create_datadir_no_write_access#:#No tiene acceso de escritura. No puede crear el directorio de datos.
-change#:#cambiar
-change_basic_settings#:#Modificar configuracion básica
-change_password#:#Cambiar contrase&ntilde;a
-change_sort_direction#:#Modificar dirección de ordenación
-check_failed_convert#:#Falló la prueba con 'convert'
-check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'
-check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'
-check_failed_java#:#Falló la prueba con 'java'
-check_failed_unzip#:#Falló la prueba con 'unzip'
-check_failed_zip#:#Falló la prueba con 'zip'
-choose_language#:#escoge tu idioma
-choose_languages#:#Por favor escoja un idioma adicional y/o elimine los idiomas seleccionados.
-choose_password#:#Por favor, escoja una contrase&ntilde;a
-city#:#Ciudad
-clean_command#:#Comando de limpieza
-client#:#Instalación
-client_access_mode_changed#:#Modificado el modo de acceso de la Instalación
-client_data#:#Información de Instalación
-client_id#:#ID de la Instalación
-client_info#:#Descripción
-client_institution#:#Institución
-client_login#:#Entrar con su ID de Instalación
-client_name#:#Nombre
-client_setup_not_finished#:#Configuración de la instalación no ha finalizado aún
-collation#:#Comparación/Recopilación
-contact#:#Información de contacto
-contact_data#:#Información de contacto
-convert_path#:#Ruta a Convert
-convert_path_comment#:#Requerido para mostrar 'thumbnails' de imágenes
-could_not_create_logfile#:#No pude crear fichero log
-country#:#País
-create#:#crear
-create_datadir_failed#:#Falló la creación del directorio de datos
-create_new_client#:#Crear una nueva instalación
-create_webdir_failed#:#Falló la creación del directorio web
-data_path#:#ruta de datos
-database#:#base de datos
-database_create#:#Crear base de datos
-database_exists#:#La base de datos existe.
-database_install#:#Instalar base de datos
-database_installed#:#Base de datos instalada
-database_is_uptodate#:#La base de datos es actual.
-database_needs_update#:#La base de datos necesita una actualización.
-database_not_exists_create_first#:#La Base de datos no existe. Por favor cree la base de datos primero.
-database_ready#:#La base de datos está lista.
-database_update#:#actualizar base da datos
-database_version#:#versión actual de la base de datos
-datadir_path#:#Ruta al directorio de datos
-datadir_path_comment1#:#Obligatorio
-datadir_path_comment2#:#no puede ser modificado en esta versión del setup
-datadir_webspacedir_match#:#La ruta a su directorio de datos apunta al mismo directorio donde se encuentra su espacio web. Por favor, escoja otro directorio.
-date#:#fecha
-db_conn#:#Conexión a la base de datos
-db_host#:#Servidor de la base de datos
-db_name#:#Nombre de la base de datos
-db_needs_update#:#La base de datos necesita actualizarse
-db_not_installed#:#Base de Datos no instalada
-db_pass#:#Contraseña de la base de datos
-db_type#:#Tipo de base de datos
-db_user#:#Usuario de la base de datos
-db_version#:#Versión de la base de datos
-default#:#por defecto
-default_client_changed#:#Modificada la instalación por defecto
-default_language#:#Idioma por defecto
-delete#:#borrar
-delete_confirm#:#Confirmar eliminación de la instalación
-delete_info#:#¿Está seguro?
-details#:#Detalles
-dir_exists_create#:#El directorio ya existe. Desactive 'crear' para seleccionar este directorio como directorio de datos.
-disable#:#deshabilitar
-disable_check#:#deshabilitar opción
-disable_logging#:#Deshabilitar 'loggeado' de errores
-disabled#:#deshabilitado
-display_clientlist#:#Mostrar selección de instalaciones
-email#:#Correo electrónico
-email_not_valid#:#Email no válido
-en_by_default#:#(Instalado por defecto y no se puede borrar).
-enable#:#habilitar
-enabled#:#habilitado
-enter_dir_and_filename#:#¡Por favor introduzca la ruta absoluta y el nombre de fichero!
-enter_password#:#Por favor, introduce una contrase&ntilde;a
-env_ok#:#Ok. parece correcto.
-env_using#:#ILIAS 3 se ejecutará en
-env_warning#:#ILIAS 3 fue probado en Linux y Windows usando Apache como servidor web.<br />En cualquier caso, ILIAS 3 puede trabajar con su entorno también.
-environment#:#Entorno
-err_create_database_failed#:#La creación de la base de datos no ha sido posible.
-err_wrong_login#:#Identificación fallida
-error_recipient#:#Error en el destinatario
-example#:#Ejemplo
-feedback_recipient#:#Destinatario de feedback
-file_does_not_exist#:#El archivo no existe.
-file_version#:#file version
-fill_both_fields#:#Por favor rellene ambos campos!
-fill_out_required_fields#:#Por favor rellene todos los campos marcados como requeridos.
-filled_out#:#completado correctamente.
-finish#:#Terminar configuración
-finish_initial_setup_first#:#Por favor finalice la configuración inicial en primer lugar
-finish_setup#:#Finalizando configuracióń
-firstname#:#Nombre
-fop_path#:#Ruta a FOP
-fop_path_comment#:#requerido para generar documentos PDF
-hide_clientlist#:#Ocultar selección de instalaciones
-host#:#Máquina
-htmldoc_path#:#Ruta a HTMLdoc
-htmldoc_path_comment#:#requerido para generar facturas PDF (Sistema de Pago)
-http_path#:#Ruta HTTP
-id#:#ID
-ilias_homepage#:#Página principal de ILIAS
-ilias_nic#:#Registrar NIC
-ilias_nic_id#:#ID de NIC
-ilias_setup#:#configuración de ILIAS3
-ilias_version#:#versión de ILIAS
-info_text_contact#:#Aqui debe indicar información adicional sobre la instalación y los datos de contacto del administrador de sistemas de esta instalación. Los campos marcados con un asterisco deben ser rellenados. Toda la información está almacenada en su base de datos. En la próxima pantalla puede registrar su instalación en nuestro servidor ILIAS-NIC server, donde se transmitirán todos estos datos.
-info_text_db#:#La base de datos no existe o está vacía. Haga click en el botón inferior para instalar su base de datos. Haga click en el botón inferior para instalar su base de datos. Si una base de datos con el nombre elegido no existe aun, por favor marque la opción 'crear base de datos'. El proceso de configuración intentará entonces crear su base de datos automáticamente. Si la creación no debía llevarse a cabo, (ej: debido a restricción de permisos) por favor contacte con el administrador responsable del servidor de bases de datos y pídale que cree una base de datos con el nombre deseado.
-info_text_db_collation1#:#Si su cotejo ('collation') deseado no está soportado en la lista de cotejos UTF-8, debe crear su base de datos manualmente también. En cualquier caso, por favor asegurese de que el conjunto de caracteres para la base de datos es UTF-8.
-info_text_db_collation2#:#Más información sobre 'MySQL collations' se puede encontrar en el sitio web MYSQL.
-info_text_delete#:#Usted puede eliminar esta instalación haciendo click en el botón 'eliminar' inferior. De cualquier modo, sólo su fichero client.ini es eliminado, manteniendo todos los ficheros almacenados en los directorios de datos de la instalación y la base de datos. Los ficheros y la base de datos tienen que ser eliminadas manualmente por el administrador de sistemas.
-info_text_finish1#:#Felicidades! Su configuración de la instalación fue realizada con éxito. Haga click en 'Login' para entrar a su instalación ILIAS.
-info_text_finish2#:#Algunas configuraciones no están realizadas o son incorrectas. Por favor mire en el cuadro de proceso que debe hacerse!
-info_text_first_client#:#Su configuración básica ha sido salvada. ahora configuraremos su instalación principal. El programa de configuración le guiará a través del proceso de instalación. En el panel de la derecha siempre puede mirar el estado actual del proceso de instalación.
-info_text_first_install#:#Parece que está instalando ILIAS 3 por primera vez, porque no se encontró un fichero ilias.ini. En ilias.ini se almacena una contraseña maestra para proteger la configuración de ILIAS de un acceso externo no autorizado.
-info_text_ini#:#Por favor escoja un ID de instalación. Solo se permiten letras (excepto mayusculas) y números. El ID de instalación  debe ser una única palabra.<br/>A continuación introduzca sus datos de conexión a la base de datos. El Setup establece una conexión para verificar su configuración y comprobar si la base de datos ya existe. Si no, usted puede ayudarse del proceso de configuración en el próximo paso para crear la base de datos por usted.
-info_text_lang#:#Por favor escoja idiomas adicionales y/o elimine los idiomas seleccionados.
-info_text_list#:#En este resumen podrá ver todas las instalaciones disponibles y el estado de acceso. En la parte superior derecha pueede activar/desactivar la pantalla de selección de instalaciones ILIAS. Si la selección está activa, todas las instalaciones disponibles que estén 'online' serán mostradas en la lista en la página de inicio de ILIAS. Si la selección de instalación está desactivada y un usuario llega a la página de entrada, siempre le aparecerá la pantalla de 'login' de la instalación <i>por defecto</i>. Puede determinar la instalación por defecto con el botón inferior.
-info_text_login#:#Por favor introduzca el ID de su instalación y sus datos de cuenta. Su cuenta tiene que ser asignada al rol 'administrador'
-info_text_nic1#:#Obtenga un id de instalación (nic-id) desde nuestro servidor ILIAS. Se requiere un nic-id único si quiere compartir contenido con otras instalaciones ILIAS.<br/> Recomendamos usar el registro online. Si tiene problemas para conectarse (ej: está detrás de un firewall) puede obtener un nic-id via email: Por favor, envie un
-info_text_nic2#:#con su información de instalación a ilias-info@uni-koeln.de. Introduzca el nic-id que recibirá en un email respuesta en el campo apropiado y seleccione 'registrar via email'
-info_text_nic3#:#Ha registrado su instalación. Su nic-id es
-info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas
-info_text_pathes#:#ILIAS3 soporta multiples clientes con diferentes bases de datos. Debajo usted introducirá el directorio de datos base,la localización del fichero de log y las rutas para otros programas externos que son necesarios. Esta configuración es válida para todas las instalaciones que se creen en adelante
-ini_client_id_exists#:#Un cliente con ese ID ya existe! Por favor elija otro client ID.
-ini_client_id_invalid#:#El ID que introdujo contiene caracteres inválidos
-ini_client_id_no_change#:#El identificador de instalación no puede ser modificado en esta version después de que los directorios de la instalación hayan sido creados de un modo satisfactorio.
-ini_client_id_too_long#:#El Identificador de Cliente es demasiado largo.
-ini_client_id_too_short#:#El Id de Cliente es demasiado corto.
-ini_db_name_exists#:#ya existe! Por favor escoja otro nombre de bases de datos
-ini_no_client_id#:#No se ha dado ningún ID de instalación.
-ini_no_db_host#:#No existe hostname
-ini_no_db_name#:#No existe el nombre de la base de datos
-ini_no_db_user#:#No existe el usuario de la base de datos
-inifile#:#archivo ini
-inifile_can_write#:#ILIAS 3 generará tu archivo ini.
-inifile_cannot_write#:#la configuración de ILIAS 3 no puede escribir tu fichero ini. Por favor compruebe los permisos de escritura en primer lugar.
-inifile_content#:#Tu fichero ini tiene este contenido. Este fichero tiene este contenido.
-inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.
-inifile_fill_all#:#Por favor rellene todos los campos.
-inifile_firsttime#:#El fichero ini no se encuentra! Poare que es la primera vez que comienza ILIAS 3.
-inifile_written#:#El fichero ini ha sido satisfactoriamente grabado en su máquina.
-input_error#:#Error de entrada.
-inst_identification#:#Identificación de Instalación
-inst_name#:#nombre de la Instalación
-install#:#instalar
-installation#:#Installación
-installed#:#instalado
-institution#:#Institución
-intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.
-ip_address#:#Dirección IP
-java_path#:#Ruta a Java
-java_path_comment#:#requerido para usar Módulos de aprendizaje SCORM
-lang_cs#:#Checo
-lang_da#:#Danés
-lang_de#:#Alemán
-lang_en#:#Inglés
-lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.
-lang_es#:#Español
-lang_fr#:#Francés
-lang_hu#:#Húngaro
-lang_id#:#Indonés
-lang_it#:#Italiano
-lang_lt#:#Lituano
-lang_min_one_language#:#Debe instalar al menos un idioma!
-lang_nl#:#Holandés
-lang_no#:#Noruego
-lang_none_installed#:#No se ha instalado idioma
-lang_not_installed_default#:#El idioma que has seleccionado por defecto no está instalado!
-lang_pl#:#Polaco
-lang_pt#:#Portugués
-lang_se#:#Sueco
-lang_ua#:#Ukraniano
-lang_xx#:#Predefinido
-lang_zh#:#Chino
-langs_not_valid_not_installed#:#Los siguientes idiomas no fueron instalados debido a ficheros de idioma inválidos
-language#:#Idioma
-languages#:#Idiomas
-languages_installed#:#Idiomas installados
-lastname#:#Apellido
-list#:#lista
-list_disabled#:#Selección de instalaciones deshabilitada
-list_enabled#:#Selección de instalaciones habilitada
-log_path#:#Ruta al fichero de log
-log_path_comment#:#Introduzca incluyendo el nombre de fichero. El fichero será creado.
-logged_out#:#Te has desconectado.
-logging#:#Logging
-login#:#Identificación
-login_invalid#:#Login inválido
-login_to_ilias#:#Identificación en ILIAS
-logout#:#Salir
-main_datadir_outside_webspace#:#El fichero general de datos debe estar fuera del espacio web.
-missing_data#:#Faltan datos
-name#:#Nombre
-new#:#nuevo
-next#:#Siguiente
-nic_not_disabled#:#No NIC-ID & no deshabilitado
-nic_reg_disable#:#ignorar registro de NIC
-nic_reg_disable_comment#:#(registrar más tarde)
-nic_reg_disabled#:#Registro de NIC deshabilitado
-nic_reg_email#:#registrar mediante e-mail
-nic_reg_enabled#:#Registro de NIC habilitado
-nic_reg_enter_checksum#:#Introduzca el código enviado (checksum)
-nic_reg_enter_correct_id#:#Por favor introduzca un ID de NIC correcto
-nic_reg_enter_id#:#Por favor introduzca el ID enviado por e-mail
-nic_reg_failed#:#Registro de NIC falló
-nic_reg_online#:#Registro online
-nic_registration#:#Registro de NIC
-no_changes#:#Sin cambios.
-no_client_id#:#No se ha facilitado un ID
-no_client_name#:#NO HAY NOMBRE DE INSTALACIÓN
-no_clients_available#:#No hay instalaciones disponibles
-no_database#:#No hay base de datos
-no_db_connect_consult_admin#:#No se pudo conectar a la base de datos. Por favor consulte al administrador de sistemas.
-no_db_update_file#:#dbupdate.php no encontrado!
-no_password#:#No se ha introducido contraseña
-no_path_convert#:#No se ha introducido ruta a 'convert'
-no_path_datadir#:#No se ha introducido directorio de datos
-no_path_fop#:#No se ha completado la ruta FOP
-no_path_given#:#No se introducido la ruta
-no_path_htmldoc#:#No se ha introducido la ruta para 'HTMLdoc'
-no_path_java#:#No se ha introducido la ruta para 'java'
-no_path_log#:#No se ha introducido la ruta para 'log'
-no_path_unzip#:#No se ha introducido la ruta para 'unzip'
-no_path_zip#:#No se ha introducido la ruta para 'zip'
-no_setup_pass_given#:#No se ha introducido una contraseña para el setup
-no_username#:#No se ha introducido nombre de usuario
-no_valid_client_id#:#No es un ID de instalación válido
-none#:#Ninguno
-not_connected_to_db#:#No está conectado a la base de datos.
-online#:#online
-or#:#o
-out_of_webspace#:#(fuera del espacio web)
-overall_status#:#Estado General
-overview#:#Resumen
-pass_does_not_match#:#Las contraseñas introducidas no coinciden
-password#:#contraseña
-password_changed#:#La contraseña ha sido cambiada correctamente.
-password_empty#:#No se ha introducido contraseña!
-password_enter_old#:#Debes introducir tu antigua contraseña en primer lugar!
-password_info#:#Para proteger tus datos de configuración contra otros usuarios necesitas una contraseña para volver a acceder al setup de ILIAS 3 una vez más.
-password_new_master#:#Introducir nueva contraseña maestra
-password_not_match#:#La nueva contraseña introducida no coincide!
-password_old_wrong#:#La antigua contraseña introducida es errónea!
-password_retype#:#Reescribe la nueva contraseña
-password_same#:#La antigua y nueva contraseña son las mismas!
-password_set#:#La contraseña ha sido guardada correctamente.
-path_not_set#:#Ruta no configurada
-path_to_convert#:#Ruta a Convert
-path_to_fop#:#Ruta a FOP
-path_to_htmldoc#:#Ruta a HTMLdoc
-path_to_java#:#Ruta a Java
-path_to_unzip#:#Ruta a Unzip
-path_to_zip#:#Ruta a Zip
-pathes#:#Rutas
-phone#:#Telefono
-port#:#puerto
-position#:#Posición
-pre_cookies_disabled#:#Las Cookies están deshabilitadas. Las Cookies se requieren para usar ILIAS 3.
-pre_cookies_enabled#:#Cookies habilitadas
-pre_error#:#Alguna cosa falló. Por favor corrija los problemas antes o no podrá configurar ILIAS 3.
-pre_folder_create#:#Nuevas carpetas pueden crearse en la carpeta de ILIAS 3
-pre_folder_create_error#:#No puede crear subcarpetas! Por favor compruebe sus permisos en el sistema de ficheros!
-pre_folder_write#:#Carpeta ILIAS 3 con permiso de escritura
-pre_folder_write_error#:#No puede escribir en la carpeta ILIAS 3! Por favor compruebe su configuración de permisos en el sistema de ficheros!
-pre_intro#:#Comprobemos en primer lugar, si tu entorno reune todos los requisitos para instalar y ejecutar ILIAS 3 en tu sistema!
-pre_javascript_comment#:#Usted puede ejecutar ILIAS sin Javascript pero perderá algunas funcionalidades de la interfaz.
-pre_javascript_enabled#:#Javascript habilitado
-pre_php_version#:#Versión PHP
-pre_php_version_3#:#Su versión PHP es demasiado antigua para usar ILIAS 3! Por favor actualice PHP!
-pre_php_version_4.1#:#Las clases PEAR no funcionarán bien con esta versión! Por favor actualice PHP.
-pre_php_version_4.2#:#El soporte DOMXML y XSLT no funcionaran bien con esta versión!
-pre_php_version_5#:#ILIAS 3 no ha sido testeado con PHP 5 aún. Úselo bajo su responsabilidad.
-pre_php_version_unknown#:#ILIAS setup no conoce esta version de PHP. Ejecútelo bajo su responsabilidad.
-preliminaries#:#-Preliminaries-
-prev#:#Previo
-required_field#:#campos requeridos
-reset#:#Restablecer
-root_access#:#acceso root
-safe_mode_enabled#:#'Safe mode' está habilitado!
-save#:#Grabar
-save_error#:#Grabar Error!
-saved_successfully#:#Grabado con éxito
-scan_command#:#Comando de Scan Antivirus
-select_client#:#Seleccione una instalación
-server_info#:#Información del servidor
-server_software#:#Software del servidor
-set_default_client#:#Activar Instalación por Defecto
-set_newpasswd#:#Introduce tu nueva contraseña
-set_oldpasswd#:#Introduce tu antigua contraseña
-settings_changed#:#Configuración modificada
-settings_saved#:#Configuración grabada
-setup#:#Configuración
-setup_basic_settings#:#Configurar datos básicos
-setup_contact_data#:#Configurar Información de Contacto
-setup_database#:#configurar base de datos
-setup_database_desc#:#configurar la base de datos
-setup_db_first#:#Por favor configure su base de dato en primer lugar!
-setup_finished#:#Configuración finalizada
-setup_first_client#:#Configure su primera instalación ILIAS
-setup_ini_first#:#Por favor cree su fichero ini en primer lugar!
-setup_inifile#:#crear fichero ini
-setup_inifile_desc#:#crear el fichero ini para tu instalación
-setup_languages#:#instalar idiomas
-setup_languages_desc#:#instalar idiomas adicionales
-setup_login#:#Entrar a la Configuración
-setup_mainmenu#:#Menú de configuración
-setup_menu#:#Menú de configuración
-setup_nic_desc#:#registro de su instalación en ILIAS-NIC-Server
-setup_not_finished#:#Configuración no finalizada
-setup_pass#:#contraseña de setup
-setup_pass2#:#Reescriba la contraseña de setup
-setup_pass_title#:#Configure la contraseña maestra
-setup_password#:#-setup password-
-setup_password_desc#:#crear una contraseña para acceder a la configuración más tarde (ej. para actualizar la bd)
-setup_process_status#:#Estado del proceso de Configuración
-setup_process_step_contact#:#introduzca información de contacto
-setup_process_step_db#:#crear y actualizar base de datos
-setup_process_step_finish#:#Finalizar instalación
-setup_process_step_ini#:#configurar datos básicos
-setup_process_step_lang#:#instalar idiomas de sistema
-setup_process_step_nic#:#registrar en ILIAS-NIC
-setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
-setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />
-sophos#:#Sophos
-sort_by_this_column#:#Ordenar por esta columna
-status#:#Estado
-step#:#Paso
-street#:#Calle
-submit#:#Enviar
-title#:#Estado civil
-unknown_client_id#:#ID de instalación desconocido
-unknown_command#:#commando desconocido
-unknown_display_mode#:#-Unknown display mode-
-unzip_path#:#Ruta a Unzip
-unzip_path_comment#:#requerido para importar módulos de aprendizaje
-update_applied#:#Actualización aplicada
-update_error#:#Error mientras se actualizaba
-update_not_found#:#Actualización no encontrada!
-username#:#nombre de usuario
-version#:#Versión
-virus_scanner#:#Antivirus
-webspace_dir#:#ruta del espacio web
-with#:#con
-wrong_password#:#Identificación fallida!
-zip_path#:#Ruta a Zip
-zip_path_comment#:#requerido para exportar módulos de aprendizaje
+3rd_party_software#:#3rd Party Software###07 Apr 2005 content changed
+absolute_path#:#Ruta absoluta###07 Apr 2005 content changed
+access#:#Acceso###07 Apr 2005 content changed
+access_status#:#Estado de Acceso###07 Apr 2005 content changed
+admin_login#:#Entrar como administrador###07 Apr 2005 content changed
+antivir#:#Antivirus###07 Apr 2005 content changed
+available_clients#:#Instalaciones disponibles###07 Apr 2005 content changed
+available_languages#:#Idiomas disponibles###07 Apr 2005 content changed
+back#:#atrás###07 Apr 2005 content changed
+cannot_create_datadir_no_write_access#:#No tiene acceso de escritura. No puede crear el directorio de datos.###07 Apr 2005 content changed
+change#:#cambiar###07 Apr 2005 content changed
+change_basic_settings#:#Modificar configuracion básica###07 Apr 2005 content changed
+change_password#:#Cambiar contrase&ntilde;a###07 Apr 2005 content changed
+change_sort_direction#:#Modificar dirección de ordenación###07 Apr 2005 content changed
+check_failed_convert#:#Falló la prueba con 'convert'###07 Apr 2005 content changed
+check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'###07 Apr 2005 content changed
+check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'###07 Apr 2005 content changed
+check_failed_java#:#Falló la prueba con 'java'###07 Apr 2005 content changed
+check_failed_unzip#:#Falló la prueba con 'unzip'###07 Apr 2005 content changed
+check_failed_zip#:#Falló la prueba con 'zip'###07 Apr 2005 content changed
+choose_language#:#escoge tu idioma###07 Apr 2005 content changed
+choose_languages#:#Por favor escoja un idioma adicional y/o elimine los idiomas seleccionados.###07 Apr 2005 content changed
+choose_password#:#Por favor, escoja una contrase&ntilde;a###07 Apr 2005 content changed
+city#:#Ciudad###07 Apr 2005 content changed
+clean_command#:#Comando de limpieza###07 Apr 2005 content changed
+client#:#Instalación###07 Apr 2005 content changed
+client_access_mode_changed#:#Modificado el modo de acceso de la Instalación###07 Apr 2005 content changed
+client_data#:#Información de Instalación###07 Apr 2005 content changed
+client_id#:#ID de la Instalación###07 Apr 2005 content changed
+client_info#:#Descripción###07 Apr 2005 content changed
+client_institution#:#Institución###07 Apr 2005 content changed
+client_login#:#Entrar con su ID de Instalación###07 Apr 2005 content changed
+client_name#:#Nombre###07 Apr 2005 content changed
+client_setup_not_finished#:#Configuración de la instalación no ha finalizado aún###07 Apr 2005 content changed
+collation#:#Comparación/Recopilación###07 Apr 2005 content changed
+contact#:#Información de contacto###07 Apr 2005 content changed
+contact_data#:#Información de contacto###07 Apr 2005 content changed
+convert_path#:#Ruta a Convert###07 Apr 2005 content changed
+convert_path_comment#:#Requerido para mostrar 'thumbnails' de imágenes###07 Apr 2005 content changed
+could_not_create_logfile#:#No pude crear fichero log###07 Apr 2005 content changed
+country#:#País###07 Apr 2005 content changed
+create#:#crear###07 Apr 2005 content changed
+create_datadir_failed#:#Falló la creación del directorio de datos###07 Apr 2005 content changed
+create_new_client#:#Crear una nueva instalación###07 Apr 2005 content changed
+create_webdir_failed#:#Falló la creación del directorio web###07 Apr 2005 content changed
+data_path#:#ruta de datos###07 Apr 2005 content changed
+database#:#base de datos###07 Apr 2005 content changed
+database_create#:#Crear base de datos###07 Apr 2005 content changed
+database_exists#:#La base de datos existe.###07 Apr 2005 content changed
+database_install#:#Instalar base de datos###07 Apr 2005 content changed
+database_installed#:#Base de datos instalada###07 Apr 2005 content changed
+database_is_uptodate#:#La base de datos es actual.###07 Apr 2005 content changed
+database_needs_update#:#La base de datos necesita una actualización.###07 Apr 2005 content changed
+database_not_exists_create_first#:#La Base de datos no existe. Por favor cree la base de datos primero.###07 Apr 2005 content changed
+database_ready#:#La base de datos está lista.###07 Apr 2005 content changed
+database_update#:#actualizar base da datos###07 Apr 2005 content changed
+database_version#:#versión actual de la base de datos###07 Apr 2005 content changed
+datadir_path#:#Ruta al directorio de datos###07 Apr 2005 content changed
+datadir_path_comment1#:#Obligatorio###07 Apr 2005 content changed
+datadir_path_comment2#:#no puede ser modificado en esta versión del setup###07 Apr 2005 content changed
+datadir_webspacedir_match#:#La ruta a su directorio de datos apunta al mismo directorio donde se encuentra su espacio web. Por favor, escoja otro directorio.###07 Apr 2005 content changed
+date#:#fecha###07 Apr 2005 content changed
+db_conn#:#Conexión a la base de datos###07 Apr 2005 content changed
+db_host#:#Servidor de la base de datos###07 Apr 2005 content changed
+db_name#:#Nombre de la base de datos###07 Apr 2005 content changed
+db_needs_update#:#La base de datos necesita actualizarse###07 Apr 2005 content changed
+db_not_installed#:#Base de Datos no instalada###07 Apr 2005 content changed
+db_pass#:#Contraseña de la base de datos###07 Apr 2005 content changed
+db_type#:#Tipo de base de datos###07 Apr 2005 content changed
+db_user#:#Usuario de la base de datos###07 Apr 2005 content changed
+db_version#:#Versión de la base de datos###07 Apr 2005 content changed
+default#:#por defecto###07 Apr 2005 content changed
+default_client_changed#:#Modificada la instalación por defecto###07 Apr 2005 content changed
+default_language#:#Idioma por defecto###07 Apr 2005 content changed
+delete#:#borrar###07 Apr 2005 content changed
+delete_confirm#:#Confirmar eliminación de la instalación###07 Apr 2005 content changed
+delete_info#:#¿Está seguro?###07 Apr 2005 content changed
+details#:#Detalles###07 Apr 2005 content changed
+dir_exists_create#:#El directorio ya existe. Desactive 'crear' para seleccionar este directorio como directorio de datos.###07 Apr 2005 content changed
+disable#:#deshabilitar###07 Apr 2005 content changed
+disable_check#:#deshabilitar opción###07 Apr 2005 content changed
+disable_logging#:#Deshabilitar 'loggeado' de errores###07 Apr 2005 content changed
+disabled#:#deshabilitado###07 Apr 2005 content changed
+display_clientlist#:#Mostrar selección de instalaciones###07 Apr 2005 content changed
+email#:#Correo electrónico###07 Apr 2005 content changed
+email_not_valid#:#Email no válido###07 Apr 2005 content changed
+en_by_default#:#(Instalado por defecto y no se puede borrar).###07 Apr 2005 content changed
+enable#:#habilitar###07 Apr 2005 content changed
+enabled#:#habilitado###07 Apr 2005 content changed
+enter_dir_and_filename#:#¡Por favor introduzca la ruta absoluta y el nombre de fichero!###07 Apr 2005 content changed
+enter_password#:#Por favor, introduce una contrase&ntilde;a###07 Apr 2005 content changed
+env_ok#:#Ok. parece correcto.###07 Apr 2005 content changed
+env_using#:#ILIAS 3 se ejecutará en###07 Apr 2005 content changed
+env_warning#:#ILIAS 3 fue probado en Linux y Windows usando Apache como servidor web.<br />En cualquier caso, ILIAS 3 puede trabajar con su entorno también.###07 Apr 2005 content changed
+environment#:#Entorno###07 Apr 2005 content changed
+err_create_database_failed#:#La creación de la base de datos no ha sido posible.###07 Apr 2005 content changed
+err_wrong_login#:#Identificación fallida###07 Apr 2005 content changed
+error_recipient#:#Error en el destinatario###07 Apr 2005 content changed
+example#:#Ejemplo###07 Apr 2005 content changed
+feedback_recipient#:#Destinatario de feedback###07 Apr 2005 content changed
+file_does_not_exist#:#El archivo no existe.###07 Apr 2005 content changed
+file_version#:#file version###07 Apr 2005 content changed
+fill_both_fields#:#Por favor rellene ambos campos!###07 Apr 2005 content changed
+fill_out_required_fields#:#Por favor rellene todos los campos marcados como requeridos.###07 Apr 2005 content changed
+filled_out#:#completado correctamente.###07 Apr 2005 content changed
+finish#:#Terminar configuración###07 Apr 2005 content changed
+finish_initial_setup_first#:#Por favor finalice la configuración inicial en primer lugar###07 Apr 2005 content changed
+finish_setup#:#Finalizando configuracióń###07 Apr 2005 content changed
+firstname#:#Nombre###07 Apr 2005 content changed
+fop_path#:#Ruta a FOP###07 Apr 2005 content changed
+fop_path_comment#:#requerido para generar documentos PDF###07 Apr 2005 content changed
+hide_clientlist#:#Ocultar selección de instalaciones###07 Apr 2005 content changed
+host#:#Máquina###07 Apr 2005 content changed
+htmldoc_path#:#Ruta a HTMLdoc###07 Apr 2005 content changed
+htmldoc_path_comment#:#requerido para generar facturas PDF (Sistema de Pago)###07 Apr 2005 content changed
+http_path#:#Ruta HTTP###07 Apr 2005 content changed
+id#:#ID###07 Apr 2005 content changed
+ilias_homepage#:#Página principal de ILIAS###07 Apr 2005 content changed
+ilias_nic#:#Registrar NIC###07 Apr 2005 content changed
+ilias_nic_id#:#ID de NIC###07 Apr 2005 content changed
+ilias_setup#:#configuración de ILIAS3###07 Apr 2005 content changed
+ilias_version#:#versión de ILIAS###07 Apr 2005 content changed
+include_local#:#include local###include local language file when updating language
+###07 Apr 2005 new variable
+info_text_contact#:#Aqui debe indicar información adicional sobre la instalación y los datos de contacto del administrador de sistemas de esta instalación. Los campos marcados con un asterisco deben ser rellenados. Toda la información está almacenada en su base de datos. En la próxima pantalla puede registrar su instalación en nuestro servidor ILIAS-NIC server, donde se transmitirán todos estos datos.###07 Apr 2005 content changed
+info_text_db#:#La base de datos no existe o está vacía. Haga click en el botón inferior para instalar su base de datos. Haga click en el botón inferior para instalar su base de datos. Si una base de datos con el nombre elegido no existe aun, por favor marque la opción 'crear base de datos'. El proceso de configuración intentará entonces crear su base de datos automáticamente. Si la creación no debía llevarse a cabo, (ej: debido a restricción de permisos) por favor contacte con el administrador responsable del servidor de bases de datos y pídale que cree una base de datos con el nombre deseado.###07 Apr 2005 content changed
+info_text_db_collation1#:#Si su cotejo ('collation') deseado no está soportado en la lista de cotejos UTF-8, debe crear su base de datos manualmente también. En cualquier caso, por favor asegurese de que el conjunto de caracteres para la base de datos es UTF-8.###07 Apr 2005 content changed
+info_text_db_collation2#:#Más información sobre 'MySQL collations' se puede encontrar en el sitio web MYSQL.###07 Apr 2005 content changed
+info_text_delete#:#Usted puede eliminar esta instalación haciendo click en el botón 'eliminar' inferior. De cualquier modo, sólo su fichero client.ini es eliminado, manteniendo todos los ficheros almacenados en los directorios de datos de la instalación y la base de datos. Los ficheros y la base de datos tienen que ser eliminadas manualmente por el administrador de sistemas.###07 Apr 2005 content changed
+info_text_finish1#:#Felicidades! Su configuración de la instalación fue realizada con éxito. Haga click en 'Login' para entrar a su instalación ILIAS.###07 Apr 2005 content changed
+info_text_finish2#:#Algunas configuraciones no están realizadas o son incorrectas. Por favor mire en el cuadro de proceso que debe hacerse!###07 Apr 2005 content changed
+info_text_first_client#:#Su configuración básica ha sido salvada. ahora configuraremos su instalación principal. El programa de configuración le guiará a través del proceso de instalación. En el panel de la derecha siempre puede mirar el estado actual del proceso de instalación.###07 Apr 2005 content changed
+info_text_first_install#:#Parece que está instalando ILIAS 3 por primera vez, porque no se encontró un fichero ilias.ini. En ilias.ini se almacena una contraseña maestra para proteger la configuración de ILIAS de un acceso externo no autorizado.###07 Apr 2005 content changed
+info_text_ini#:#Por favor escoja un ID de instalación. Solo se permiten letras (excepto mayusculas) y números. El ID de instalación  debe ser una única palabra.<br/>A continuación introduzca sus datos de conexión a la base de datos. El Setup establece una conexión para verificar su configuración y comprobar si la base de datos ya existe. Si no, usted puede ayudarse del proceso de configuración en el próximo paso para crear la base de datos por usted.###07 Apr 2005 content changed
+info_text_lang#:#Por favor escoja idiomas adicionales y/o elimine los idiomas seleccionados.###07 Apr 2005 content changed
+info_text_list#:#En este resumen podrá ver todas las instalaciones disponibles y el estado de acceso. En la parte superior derecha pueede activar/desactivar la pantalla de selección de instalaciones ILIAS. Si la selección está activa, todas las instalaciones disponibles que estén 'online' serán mostradas en la lista en la página de inicio de ILIAS. Si la selección de instalación está desactivada y un usuario llega a la página de entrada, siempre le aparecerá la pantalla de 'login' de la instalación <i>por defecto</i>. Puede determinar la instalación por defecto con el botón inferior.###07 Apr 2005 content changed
+info_text_login#:#Por favor introduzca el ID de su instalación y sus datos de cuenta. Su cuenta tiene que ser asignada al rol 'administrador'###07 Apr 2005 content changed
+info_text_nic1#:#Obtenga un id de instalación (nic-id) desde nuestro servidor ILIAS. Se requiere un nic-id único si quiere compartir contenido con otras instalaciones ILIAS.<br/> Recomendamos usar el registro online. Si tiene problemas para conectarse (ej: está detrás de un firewall) puede obtener un nic-id via email: Por favor, envie un###07 Apr 2005 content changed
+info_text_nic2#:#con su información de instalación a ilias-info@uni-koeln.de. Introduzca el nic-id que recibirá en un email respuesta en el campo apropiado y seleccione 'registrar via email'###07 Apr 2005 content changed
+info_text_nic3#:#Ha registrado su instalación. Su nic-id es###07 Apr 2005 content changed
+info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas###07 Apr 2005 content changed
+info_text_pathes#:#ILIAS3 soporta multiples clientes con diferentes bases de datos. Debajo usted introducirá el directorio de datos base,la localización del fichero de log y las rutas para otros programas externos que son necesarios. Esta configuración es válida para todas las instalaciones que se creen en adelante###07 Apr 2005 content changed
+ini_client_id_exists#:#Un cliente con ese ID ya existe! Por favor elija otro client ID.###07 Apr 2005 content changed
+ini_client_id_invalid#:#El ID que introdujo contiene caracteres inválidos###07 Apr 2005 content changed
+ini_client_id_no_change#:#El identificador de instalación no puede ser modificado en esta version después de que los directorios de la instalación hayan sido creados de un modo satisfactorio.###07 Apr 2005 content changed
+ini_client_id_too_long#:#El Identificador de Cliente es demasiado largo.###07 Apr 2005 content changed
+ini_client_id_too_short#:#El Id de Cliente es demasiado corto.###07 Apr 2005 content changed
+ini_db_name_exists#:#ya existe! Por favor escoja otro nombre de bases de datos###07 Apr 2005 content changed
+ini_no_client_id#:#No se ha dado ningún ID de instalación.###07 Apr 2005 content changed
+ini_no_db_host#:#No existe hostname###07 Apr 2005 content changed
+ini_no_db_name#:#No existe el nombre de la base de datos###07 Apr 2005 content changed
+ini_no_db_user#:#No existe el usuario de la base de datos###07 Apr 2005 content changed
+inifile#:#archivo ini###07 Apr 2005 content changed
+inifile_can_write#:#ILIAS 3 generará tu archivo ini.###07 Apr 2005 content changed
+inifile_cannot_write#:#la configuración de ILIAS 3 no puede escribir tu fichero ini. Por favor compruebe los permisos de escritura en primer lugar.###07 Apr 2005 content changed
+inifile_content#:#Tu fichero ini tiene este contenido. Este fichero tiene este contenido.###07 Apr 2005 content changed
+inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.###07 Apr 2005 content changed
+inifile_fill_all#:#Por favor rellene todos los campos.###07 Apr 2005 content changed
+inifile_firsttime#:#El fichero ini no se encuentra! Poare que es la primera vez que comienza ILIAS 3.###07 Apr 2005 content changed
+inifile_written#:#El fichero ini ha sido satisfactoriamente grabado en su máquina.###07 Apr 2005 content changed
+input_error#:#Error de entrada.###07 Apr 2005 content changed
+inst_identification#:#Identificación de Instalación###07 Apr 2005 content changed
+inst_name#:#nombre de la Instalación###07 Apr 2005 content changed
+install#:#instalar###07 Apr 2005 content changed
+installation#:#Installación###07 Apr 2005 content changed
+installed#:#instalado###07 Apr 2005 content changed
+institution#:#Institución###07 Apr 2005 content changed
+intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.###07 Apr 2005 content changed
+ip_address#:#Dirección IP###07 Apr 2005 content changed
+java_path#:#Ruta a Java###07 Apr 2005 content changed
+java_path_comment#:#requerido para usar Módulos de aprendizaje SCORM###07 Apr 2005 content changed
+lang_cs#:#Checo###07 Apr 2005 content changed
+lang_da#:#Danés###07 Apr 2005 content changed
+lang_de#:#Alemán###07 Apr 2005 content changed
+lang_en#:#Inglés###07 Apr 2005 content changed
+lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.###07 Apr 2005 content changed
+lang_es#:#Español###07 Apr 2005 content changed
+lang_fr#:#Francés###07 Apr 2005 content changed
+lang_hu#:#Húngaro###07 Apr 2005 content changed
+lang_id#:#Indonés###07 Apr 2005 content changed
+lang_it#:#Italiano###07 Apr 2005 content changed
+lang_lt#:#Lituano###07 Apr 2005 content changed
+lang_min_one_language#:#Debe instalar al menos un idioma!###07 Apr 2005 content changed
+lang_nl#:#Holandés###07 Apr 2005 content changed
+lang_no#:#Noruego###07 Apr 2005 content changed
+lang_none_installed#:#No se ha instalado idioma###07 Apr 2005 content changed
+lang_not_installed_default#:#El idioma que has seleccionado por defecto no está instalado!###07 Apr 2005 content changed
+lang_pl#:#Polaco###07 Apr 2005 content changed
+lang_pt#:#Portugués###07 Apr 2005 content changed
+lang_se#:#Sueco###07 Apr 2005 content changed
+lang_ua#:#Ukraniano###07 Apr 2005 content changed
+lang_xx#:#Predefinido###07 Apr 2005 content changed
+lang_zh#:#Chino###07 Apr 2005 content changed
+langs_not_valid_not_installed#:#Los siguientes idiomas no fueron instalados debido a ficheros de idioma inválidos###07 Apr 2005 content changed
+language#:#Idioma###07 Apr 2005 content changed
+languages#:#Idiomas###07 Apr 2005 content changed
+languages_installed#:#Idiomas installados###07 Apr 2005 content changed
+lastname#:#Apellido###07 Apr 2005 content changed
+list#:#lista###07 Apr 2005 content changed
+list_disabled#:#Selección de instalaciones deshabilitada###07 Apr 2005 content changed
+list_enabled#:#Selección de instalaciones habilitada###07 Apr 2005 content changed
+log_path#:#Ruta al fichero de log###07 Apr 2005 content changed
+log_path_comment#:#Introduzca incluyendo el nombre de fichero. El fichero será creado.###07 Apr 2005 content changed
+logged_out#:#Te has desconectado.###07 Apr 2005 content changed
+logging#:#Logging###07 Apr 2005 content changed
+login#:#Identificación###07 Apr 2005 content changed
+login_invalid#:#Login inválido###07 Apr 2005 content changed
+login_to_ilias#:#Identificación en ILIAS###07 Apr 2005 content changed
+logout#:#Salir###07 Apr 2005 content changed
+main_datadir_outside_webspace#:#El fichero general de datos debe estar fuera del espacio web.###07 Apr 2005 content changed
+missing_data#:#Faltan datos###07 Apr 2005 content changed
+name#:#Nombre###07 Apr 2005 content changed
+new#:#nuevo###07 Apr 2005 content changed
+next#:#Siguiente###07 Apr 2005 content changed
+nic_not_disabled#:#No NIC-ID & no deshabilitado###07 Apr 2005 content changed
+nic_reg_disable#:#ignorar registro de NIC###07 Apr 2005 content changed
+nic_reg_disable_comment#:#(registrar más tarde)###07 Apr 2005 content changed
+nic_reg_disabled#:#Registro de NIC deshabilitado###07 Apr 2005 content changed
+nic_reg_email#:#registrar mediante e-mail###07 Apr 2005 content changed
+nic_reg_enabled#:#Registro de NIC habilitado###07 Apr 2005 content changed
+nic_reg_enter_checksum#:#Introduzca el código enviado (checksum)###07 Apr 2005 content changed
+nic_reg_enter_correct_id#:#Por favor introduzca un ID de NIC correcto###07 Apr 2005 content changed
+nic_reg_enter_id#:#Por favor introduzca el ID enviado por e-mail###07 Apr 2005 content changed
+nic_reg_failed#:#Registro de NIC falló###07 Apr 2005 content changed
+nic_reg_online#:#Registro online###07 Apr 2005 content changed
+nic_registration#:#Registro de NIC###07 Apr 2005 content changed
+no_changes#:#Sin cambios.###07 Apr 2005 content changed
+no_client_id#:#No se ha facilitado un ID###07 Apr 2005 content changed
+no_client_name#:#NO HAY NOMBRE DE INSTALACIÓN###07 Apr 2005 content changed
+no_clients_available#:#No hay instalaciones disponibles###07 Apr 2005 content changed
+no_database#:#No hay base de datos###07 Apr 2005 content changed
+no_db_connect_consult_admin#:#No se pudo conectar a la base de datos. Por favor consulte al administrador de sistemas.###07 Apr 2005 content changed
+no_db_update_file#:#dbupdate.php no encontrado!###07 Apr 2005 content changed
+no_password#:#No se ha introducido contraseña###07 Apr 2005 content changed
+no_path_convert#:#No se ha introducido ruta a 'convert'###07 Apr 2005 content changed
+no_path_datadir#:#No se ha introducido directorio de datos###07 Apr 2005 content changed
+no_path_fop#:#No se ha completado la ruta FOP###07 Apr 2005 content changed
+no_path_given#:#No se introducido la ruta###07 Apr 2005 content changed
+no_path_htmldoc#:#No se ha introducido la ruta para 'HTMLdoc'###07 Apr 2005 content changed
+no_path_java#:#No se ha introducido la ruta para 'java'###07 Apr 2005 content changed
+no_path_log#:#No se ha introducido la ruta para 'log'###07 Apr 2005 content changed
+no_path_unzip#:#No se ha introducido la ruta para 'unzip'###07 Apr 2005 content changed
+no_path_zip#:#No se ha introducido la ruta para 'zip'###07 Apr 2005 content changed
+no_setup_pass_given#:#No se ha introducido una contraseña para el setup###07 Apr 2005 content changed
+no_username#:#No se ha introducido nombre de usuario###07 Apr 2005 content changed
+no_valid_client_id#:#No es un ID de instalación válido###07 Apr 2005 content changed
+none#:#Ninguno###07 Apr 2005 content changed
+not_connected_to_db#:#No está conectado a la base de datos.###07 Apr 2005 content changed
+online#:#online###07 Apr 2005 content changed
+or#:#o###07 Apr 2005 content changed
+out_of_webspace#:#(fuera del espacio web)###07 Apr 2005 content changed
+overall_status#:#Estado General###07 Apr 2005 content changed
+overview#:#Resumen###07 Apr 2005 content changed
+pass_does_not_match#:#Las contraseñas introducidas no coinciden###07 Apr 2005 content changed
+password#:#contraseña###07 Apr 2005 content changed
+password_changed#:#La contraseña ha sido cambiada correctamente.###07 Apr 2005 content changed
+password_empty#:#No se ha introducido contraseña!###07 Apr 2005 content changed
+password_enter_old#:#Debes introducir tu antigua contraseña en primer lugar!###07 Apr 2005 content changed
+password_info#:#Para proteger tus datos de configuración contra otros usuarios necesitas una contraseña para volver a acceder al setup de ILIAS 3 una vez más.###07 Apr 2005 content changed
+password_new_master#:#Introducir nueva contraseña maestra###07 Apr 2005 content changed
+password_not_match#:#La nueva contraseña introducida no coincide!###07 Apr 2005 content changed
+password_old_wrong#:#La antigua contraseña introducida es errónea!###07 Apr 2005 content changed
+password_retype#:#Reescribe la nueva contraseña###07 Apr 2005 content changed
+password_same#:#La antigua y nueva contraseña son las mismas!###07 Apr 2005 content changed
+password_set#:#La contraseña ha sido guardada correctamente.###07 Apr 2005 content changed
+path_not_set#:#Ruta no configurada###07 Apr 2005 content changed
+path_to_convert#:#Ruta a Convert###07 Apr 2005 content changed
+path_to_fop#:#Ruta a FOP###07 Apr 2005 content changed
+path_to_htmldoc#:#Ruta a HTMLdoc###07 Apr 2005 content changed
+path_to_java#:#Ruta a Java###07 Apr 2005 content changed
+path_to_unzip#:#Ruta a Unzip###07 Apr 2005 content changed
+path_to_zip#:#Ruta a Zip###07 Apr 2005 content changed
+pathes#:#Rutas###07 Apr 2005 content changed
+phone#:#Telefono###07 Apr 2005 content changed
+port#:#puerto###07 Apr 2005 content changed
+position#:#Posición###07 Apr 2005 content changed
+pre_cookies_disabled#:#Las Cookies están deshabilitadas. Las Cookies se requieren para usar ILIAS 3.###07 Apr 2005 content changed
+pre_cookies_enabled#:#Cookies habilitadas###07 Apr 2005 content changed
+pre_error#:#Alguna cosa falló. Por favor corrija los problemas antes o no podrá configurar ILIAS 3.###07 Apr 2005 content changed
+pre_folder_create#:#Nuevas carpetas pueden crearse en la carpeta de ILIAS 3###07 Apr 2005 content changed
+pre_folder_create_error#:#No puede crear subcarpetas! Por favor compruebe sus permisos en el sistema de ficheros!###07 Apr 2005 content changed
+pre_folder_write#:#Carpeta ILIAS 3 con permiso de escritura###07 Apr 2005 content changed
+pre_folder_write_error#:#No puede escribir en la carpeta ILIAS 3! Por favor compruebe su configuración de permisos en el sistema de ficheros!###07 Apr 2005 content changed
+pre_intro#:#Comprobemos en primer lugar, si tu entorno reune todos los requisitos para instalar y ejecutar ILIAS 3 en tu sistema!###07 Apr 2005 content changed
+pre_javascript_comment#:#Usted puede ejecutar ILIAS sin Javascript pero perderá algunas funcionalidades de la interfaz.###07 Apr 2005 content changed
+pre_javascript_enabled#:#Javascript habilitado###07 Apr 2005 content changed
+pre_php_version#:#Versión PHP###07 Apr 2005 content changed
+pre_php_version_3#:#Su versión PHP es demasiado antigua para usar ILIAS 3! Por favor actualice PHP!###07 Apr 2005 content changed
+pre_php_version_4.1#:#Las clases PEAR no funcionarán bien con esta versión! Por favor actualice PHP.###07 Apr 2005 content changed
+pre_php_version_4.2#:#El soporte DOMXML y XSLT no funcionaran bien con esta versión!###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS 3 no ha sido testeado con PHP 5 aún. Úselo bajo su responsabilidad.###07 Apr 2005 content changed
+pre_php_version_unknown#:#ILIAS setup no conoce esta version de PHP. Ejecútelo bajo su responsabilidad.###07 Apr 2005 content changed
+preliminaries#:#-Preliminaries-###07 Apr 2005 content changed
+prev#:#Previo###07 Apr 2005 content changed
+required_field#:#campos requeridos###07 Apr 2005 content changed
+reset#:#Restablecer###07 Apr 2005 content changed
+root_access#:#acceso root###07 Apr 2005 content changed
+safe_mode_enabled#:#'Safe mode' está habilitado!###07 Apr 2005 content changed
+save#:#Grabar###07 Apr 2005 content changed
+save_error#:#Grabar Error!###07 Apr 2005 content changed
+saved_successfully#:#Grabado con éxito###07 Apr 2005 content changed
+scan_command#:#Comando de Scan Antivirus###07 Apr 2005 content changed
+select_client#:#Seleccione una instalación###07 Apr 2005 content changed
+server_info#:#Información del servidor###07 Apr 2005 content changed
+server_software#:#Software del servidor###07 Apr 2005 content changed
+set_default_client#:#Activar Instalación por Defecto###07 Apr 2005 content changed
+set_newpasswd#:#Introduce tu nueva contraseña###07 Apr 2005 content changed
+set_oldpasswd#:#Introduce tu antigua contraseña###07 Apr 2005 content changed
+settings_changed#:#Configuración modificada###07 Apr 2005 content changed
+settings_saved#:#Configuración grabada###07 Apr 2005 content changed
+setup#:#Configuración###07 Apr 2005 content changed
+setup_basic_settings#:#Configurar datos básicos###07 Apr 2005 content changed
+setup_contact_data#:#Configurar Información de Contacto###07 Apr 2005 content changed
+setup_database#:#configurar base de datos###07 Apr 2005 content changed
+setup_database_desc#:#configurar la base de datos###07 Apr 2005 content changed
+setup_db_first#:#Por favor configure su base de dato en primer lugar!###07 Apr 2005 content changed
+setup_finished#:#Configuración finalizada###07 Apr 2005 content changed
+setup_first_client#:#Configure su primera instalación ILIAS###07 Apr 2005 content changed
+setup_ini_first#:#Por favor cree su fichero ini en primer lugar!###07 Apr 2005 content changed
+setup_inifile#:#crear fichero ini###07 Apr 2005 content changed
+setup_inifile_desc#:#crear el fichero ini para tu instalación###07 Apr 2005 content changed
+setup_languages#:#instalar idiomas###07 Apr 2005 content changed
+setup_languages_desc#:#instalar idiomas adicionales###07 Apr 2005 content changed
+setup_login#:#Entrar a la Configuración###07 Apr 2005 content changed
+setup_mainmenu#:#Menú de configuración###07 Apr 2005 content changed
+setup_menu#:#Menú de configuración###07 Apr 2005 content changed
+setup_nic_desc#:#registro de su instalación en ILIAS-NIC-Server###07 Apr 2005 content changed
+setup_not_finished#:#Configuración no finalizada###07 Apr 2005 content changed
+setup_pass#:#contraseña de setup###07 Apr 2005 content changed
+setup_pass2#:#Reescriba la contraseña de setup###07 Apr 2005 content changed
+setup_pass_title#:#Configure la contraseña maestra###07 Apr 2005 content changed
+setup_password#:#-setup password-###07 Apr 2005 content changed
+setup_password_desc#:#crear una contraseña para acceder a la configuración más tarde (ej. para actualizar la bd)###07 Apr 2005 content changed
+setup_process_status#:#Estado del proceso de Configuración###07 Apr 2005 content changed
+setup_process_step_contact#:#introduzca información de contacto###07 Apr 2005 content changed
+setup_process_step_db#:#crear y actualizar base de datos###07 Apr 2005 content changed
+setup_process_step_finish#:#Finalizar instalación###07 Apr 2005 content changed
+setup_process_step_ini#:#configurar datos básicos###07 Apr 2005 content changed
+setup_process_step_lang#:#instalar idiomas de sistema###07 Apr 2005 content changed
+setup_process_step_nic#:#registrar en ILIAS-NIC###07 Apr 2005 content changed
+setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.###07 Apr 2005 content changed
+setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />###07 Apr 2005 content changed
+sophos#:#Sophos###07 Apr 2005 content changed
+sort_by_this_column#:#Ordenar por esta columna###07 Apr 2005 content changed
+status#:#Estado###07 Apr 2005 content changed
+step#:#Paso###07 Apr 2005 content changed
+street#:#Calle###07 Apr 2005 content changed
+submit#:#Enviar###07 Apr 2005 content changed
+title#:#Estado civil###07 Apr 2005 content changed
+unknown_client_id#:#ID de instalación desconocido###07 Apr 2005 content changed
+unknown_command#:#commando desconocido###07 Apr 2005 content changed
+unknown_display_mode#:#-Unknown display mode-###07 Apr 2005 content changed
+unzip_path#:#Ruta a Unzip###07 Apr 2005 content changed
+unzip_path_comment#:#requerido para importar módulos de aprendizaje###07 Apr 2005 content changed
+update_applied#:#Actualización aplicada###07 Apr 2005 content changed
+update_error#:#Error mientras se actualizaba###07 Apr 2005 content changed
+update_not_found#:#Actualización no encontrada!###07 Apr 2005 content changed
+username#:#nombre de usuario###07 Apr 2005 content changed
+version#:#Versión###07 Apr 2005 content changed
+virus_scanner#:#Antivirus###07 Apr 2005 content changed
+webspace_dir#:#ruta del espacio web###07 Apr 2005 content changed
+with#:#con###07 Apr 2005 content changed
+wrong_password#:#Identificación fallida!###07 Apr 2005 content changed
+zip_path#:#Ruta a Zip###07 Apr 2005 content changed
+zip_path_comment#:#requerido para exportar módulos de aprendizaje###07 Apr 2005 content changed
 zipcode#:#Código Postal
