@@ -659,113 +659,145 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION", $is_postponed);
-//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
-//		$solutionoutput = $matches[1];
+		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, "", !$show_question_page);
+		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
 		$solutionoutput = preg_replace("/multiple_choice_result/", "solution_multiple_choice_result", $solutionoutput);
+		
+		
+		if (!$show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+		
+		
+			
+//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
+//		$solutionoutput = $matches[1];
 		// set solutions
+		//echo "<br>".htmlentities($output);
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
+			
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-//echo "<br>".htmlentities($repl_str);
-				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
+				//echo "<br>".htmlentities($repl_str);
+				
+				//replace all checked answers with x or checkbox
+				if (!$show_question_page) 
+				{
+					$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"X", $output);
+				}
+				else $output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);				
 			}
-		}
-		
-		$maxpoints = 0;
-		$maxindex = -1;
-		foreach ($this->object->answers as $idx => $answer)
-		{
-			if ($answer->get_points() > $maxpoints)
+			
+			// now replace all not-checked checkboxes with an 0
+			if (!$show_question_page) 
 			{
-				$maxpoints = $answer->get_points();
-				$maxindex = $idx;
+				$output = preg_replace ("/(<input[^>]*>)/" ,"O", $output);
 			}
-		}
-		foreach ($this->object->answers as $idx => $answer)
-		{
-			if ($this->object->get_response() == RESPONSE_MULTIPLE)
-			{
-				if ($answer->isStateChecked() && ($answer->get_points() > 0))
-				{
-					$repl_str = "dummy=\"solution_mc$idx\"";
-					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
-				}
-				$sol = '(<em>';
-				$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
-				if ($answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points") . ', ';
-				$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
-				if (!$answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points");
-				$sol .= '</em>)';
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
-			}
-			else
-			{
-				$sol = '(<em>';
-				$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
-				if ($answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points") . ', ';
-				$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" /> = ';
-				if (!$answer->isStateChecked())
-				{
-					$sol .= $answer->get_points();
-				}
-				else
-				{
-					$sol .= "0";
-				}
-				$sol .= ' ' . $this->lng->txt("points");
-				$sol .= '</em>)';
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
-			}
-		}
-		if (($maxindex > -1) && ($this->object->get_response() == RESPONSE_SINGLE))
-		{
-			$repl_str = "dummy=\"solution_mc$maxindex\"";
-			$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 		}
 
-		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
-		if ($test_id) 
-		{
-			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
-		}
-		if (!$showsolution)
-		{
-			$solutionoutput = "";
+		if ($showsolution) 
+		{			
+			$maxpoints = 0;
+			$maxindex = -1;
+			foreach ($this->object->answers as $idx => $answer)
+			{
+				if ($answer->get_points() > $maxpoints)
+				{
+					$maxpoints = $answer->get_points();
+					$maxindex = $idx;
+				}
+			}
+			foreach ($this->object->answers as $idx => $answer)
+			{
+				if ($this->object->get_response() == RESPONSE_MULTIPLE)
+				{
+					if ($answer->isStateChecked() && ($answer->get_points() > 0))
+					{
+						$repl_str = "dummy=\"solution_mc$idx\"";
+						$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+					}
+					$sol = '(<em>';
+					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
+					if ($answer->isStateChecked())
+					{
+						$sol .= $answer->get_points();
+					}
+					else
+					{
+						$sol .= "0";
+					}
+					$sol .= ' ' . $this->lng->txt("points") . ', ';
+					$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
+					if (!$answer->isStateChecked())
+					{
+						$sol .= $answer->get_points();
+					}
+					else
+					{
+						$sol .= "0";
+					}
+					$sol .= ' ' . $this->lng->txt("points");
+					$sol .= '</em>)';
+					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
+				}
+				else
+				{
+					$sol = '(<em>';
+					$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
+					if ($answer->isStateChecked())
+					{
+						$sol .= $answer->get_points();
+					}
+					else
+					{
+						$sol .= "0";
+					}
+					$sol .= ' ' . $this->lng->txt("points") . ', ';
+					$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" /> = ';
+					if (!$answer->isStateChecked())
+					{
+						$sol .= $answer->get_points();
+					}
+					else
+					{
+						$sol .= "0";
+					}
+					$sol .= ' ' . $this->lng->txt("points");
+					$sol .= '</em>)';
+					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
+				}
+			}
+			if (($maxindex > -1) && ($this->object->get_response() == RESPONSE_SINGLE))
+			{
+				$repl_str = "dummy=\"solution_mc$maxindex\"";
+				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+			}
+	
+			$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+ 
+			if ($test_id) 
+			{
+				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+			}
+		} 			 // end of show solution
+
+		if (!$showsolution) {
+			$solutionoutput="";
 			$received_points = "";
 		}
+		
 		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput.$received_points);
 	}
 

@@ -372,14 +372,24 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
+		$output = $this->outQuestionPage(($show_solution_only)?"":"JAVA_QUESTION", $is_postponed, $test_id);
 		
-		$output = $this->outQuestionPage("JAVA_QUESTION", $is_postponed, $test_id);
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/(<\/applet>)/", "<param name=\"solution\" value=\"1\">\n\\1", $solutionoutput);
-
+		
+		if ($show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+			
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+		
+			
+		
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 		if ($test_id) 
 		{

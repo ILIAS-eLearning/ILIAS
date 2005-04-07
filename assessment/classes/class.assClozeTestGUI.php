@@ -581,100 +581,152 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
 		
-		$output = $this->outQuestionPage("CLOZE_TEST", $is_postponed);
+		
+		$output = $this->outQuestionPage(($show_solution_only)?"":"CLOZE_TEST", $is_postponed,"", !$show_question_page);
+		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"tgap/", "\"solution_tgap", $solutionoutput);
 		$solutionoutput = preg_replace("/\"sgap/", "\"solution_sgap", $solutionoutput);
 		$solutionoutput = preg_replace("/name=\"gap/", "name=\"solution_gap", $solutionoutput);
-
+		
+		// if wants question only then strip everything around question element
+		if (!$show_question_page) {		 
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		}
+		
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+		//echo htmlentities ($output);
 		// set solutions
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
-			foreach ($solutions as $idx => $solution_value)
+	
+			if (is_array($solutions)) 
 			{
-				$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
-				$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
-				$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
-				$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
-//echo "<br>".$repl_str;
+				foreach ($solutions as $idx => $solution_value)
+				{
+					// text gaps
+					$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
+					if (!$show_question_page)
+						$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."]", $output);
+					else 
+						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+					
+					// select gaps
+					$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
+					
+					if (!$show_question_page) {
+						$select_pattern = "/<select[^>]*name=\"gap_".$solution_value->value1."\".*?[^>]*>.*?<\/select>/";
+						// to extract the display value we need the according select statement 
+						if (preg_match($select_pattern, $output, $matches)) {
+							// got it, now we are trying to get the value
+							//echo "<br><br>".htmlentities ($matches[0]);
+							$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
+							if (preg_match($value_pattern, $matches[0], $matches))
+								$output = preg_replace ($select_pattern, "[".$matches[1]."]", $output);
+							else $output = preg_replace ($select_pattern, "[]", $output);
+						}										
+					} else 
+						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
+					//echo "<br>".$repl_str;
+				}
+			}
+			// now replace all empty inputs and selects with an []
+			if (!$show_question_page) 
+			{
+				//echo htmlentities ($output);
+				$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);		
+				$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);
 			}
 		}
 
-		foreach ($this->object->gaps as $idx => $gap)
-		{
-			$solution_value = "";
-			foreach ($solutions as $solidx => $solvalue)
+		if($showsolution)
+		{			
+			
+			foreach ($this->object->gaps as $idx => $gap)
 			{
-				if ($solvalue->value1 == $idx)
+				$solution_value = "";
+				if (is_array($solutions)) 
 				{
-					$solution_value = $solvalue->value2;
-				}
-			}
-			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
-			{
-				$maxpoints = 0;
-				$maxindex = -1;
-				foreach ($gap as $answeridx => $answer)
-				{
-					if ($answer->get_points() > $maxpoints)
+					foreach ($solutions as $solidx => $solvalue)
 					{
-						$maxpoints = $answer->get_points();
-						$maxindex = $answeridx;
+						if ($solvalue->value1 == $idx)
+						{
+							$solution_value = $solvalue->value2;
+						}
 					}
 				}
-				if ($maxindex > -1)
+				if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 				{
-					$repl_str = "dummy=\"solution_sgap_$idx" . "_$maxindex\"";
-					$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
-				}
-				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $maxpoints . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
-				if ($this->object->suggested_solutions[$idx])
-				{
-					if ($showsolution)
+					$maxpoints = 0;
+					$maxindex = -1;
+					foreach ($gap as $answeridx => $answer)
 					{
-						$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-						$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+						if ($answer->get_points() > $maxpoints)
+						{
+							$maxpoints = $answer->get_points();
+							$maxindex = $answeridx;
+						}
+					}
+					if ($maxindex > -1)
+					{
+						$repl_str = "dummy=\"solution_sgap_$idx" . "_$maxindex\"";
+						$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+					}
+					$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $maxpoints . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
+					if ($this->object->suggested_solutions[$idx])
+					{
+						if ($showsolution)
+						{
+							$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+							$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+						}
+					}
+				}
+				else
+				{
+					$repl_str = "dummy=\"solution_tgap_$idx\"";
+					$pvals = array();
+					foreach ($gap as $answeridx => $answer)
+					{
+						array_push($pvals, $answer->get_answertext());
+					}
+					$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
+					$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
+					$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
+					if ($this->object->suggested_solutions[$idx])
+					{
+						if ($showsolution)
+						{
+							$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+							$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+						}
 					}
 				}
 			}
-			else
-			{
-				$repl_str = "dummy=\"solution_tgap_$idx\"";
-				$pvals = array();
-				foreach ($gap as $answeridx => $answer)
-				{
-					array_push($pvals, $answer->get_answertext());
-				}
-				$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
-				$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
-				$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
-				if ($this->object->suggested_solutions[$idx])
-				{
-					if ($showsolution)
-					{
-						$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-						$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
-					}
-				}
-			}
-		}
+	
+			$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 
-		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
-		if ($test_id) 
-		{
-			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+			if ($test_id) 
+			{
+				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+			}
+			if ($show_solution_only== true) {
+				$received_points = "";
+			}
 		}
-		if (!$showsolution)
-		{
-			$solutionoutput = "";
+		if (!$showsolution) {
+			$solutionoutput="";
 			$received_points = "";
 		}
-
+		
 		$this->tpl->setVariable("CLOZE_TEST", $output.$solutionoutput.$received_points);
 		return;
 	}

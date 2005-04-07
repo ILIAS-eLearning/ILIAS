@@ -384,6 +384,8 @@
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
+	<property name="participants" module="1">participants</property>
+	<property name="print" module="1">print</property>
 	<property name="export" module="1">export</property>
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>

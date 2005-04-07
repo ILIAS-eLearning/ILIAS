@@ -491,12 +491,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"MATCHING_QUESTION", $is_postponed, "", !$show_question_page);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
+
 		if ($this->object->getOutputType() == OUTPUT_HTML)
 		{
 			$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
@@ -507,7 +508,16 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$solutionoutput = "<table border=\"0\">\n";
 		}
-
+		
+		if (!$show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+			
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", "", $output);
+		}
+			
+		
 		// set solutions
 		$solution_script = "";
 		if ($test_id)
@@ -516,10 +526,25 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$solution_script .= "";//"resetValues();\n";
 			foreach ($solutions as $idx => $solution_value)
 			{
-				if ($this->object->getOutputType() == OUTPUT_HTML)
-				{
+				if ($this->object->getOutputType() == OUTPUT_HTML || !$show_question_page)
+				{					
 					$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
-					$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
+					
+					if (!$show_question_page) {
+						$select_pattern = "/<select[^>]*name=\"sel_matching_".$solution_value->value2."\".*?[^>]*>.*?<\/select>/";
+						// to extract the display value we need the according select statement 
+						if (preg_match($select_pattern, $output, $matches)) {
+							// got it, now we are trying to get the value
+							//echo "<br><br>".htmlentities ($matches[0]);
+							$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
+							if (preg_match($value_pattern, $matches[0], $matches))
+								$output = preg_replace ($select_pattern,  "[".$matches[1]."]", $output);
+							else $output = preg_replace ($select_pattern, "[]", $output);
+						}
+					}
+					else 
+						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
+						
 				}
 				else
 				{
@@ -540,6 +565,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					}
 				}
 			}
+			if (!$show_question_page) 
+			{
+				// remove all selects which don't have a solution
+				//echo htmlentities ($output);
+				$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);				
+			}
+			
 		}
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{

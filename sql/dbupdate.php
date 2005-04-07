@@ -6171,3 +6171,27 @@ CREATE TABLE il_meta_typical_age_range (
   typical_age_range_language CHAR(2) NULL,
   PRIMARY KEY(meta_typical_age_range_id)
 );
+
+<#422>
+
+ALTER TABLE tst_active 
+ADD COLUMN `submitted` TINYINT UNSIGNED DEFAULT 0 AFTER `TIMESTAMP`,
+ADD COLUMN `submittimestamp` DATETIME AFTER `submitted`;
+
+CREATE TABLE `tst_active_qst_sol_settings` (
+  `test_fi` int(10) unsigned NOT NULL default '0',
+  `user_fi` int(10) unsigned NOT NULL default '0',
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `solved` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`test_fi`,`user_fi`,`question_fi`)
+) TYPE=MyISAM;
+
+CREATE TABLE `tst_invited_user` (
+  `test_fi` int(11) NOT NULL default '0',
+  `user_fi` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  `clientip` varchar(15) default NULL,
+  PRIMARY KEY  (`test_fi`,`user_fi`)
+) TYPE=MyISAM;
+
+INSERT INTO tst_test_type SET test_type_id=4, type_tag='tt_online_exam';=======

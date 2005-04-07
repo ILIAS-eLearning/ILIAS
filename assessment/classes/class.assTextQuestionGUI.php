@@ -227,10 +227,21 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("", $is_postponed);
+		$output = $this->outQuestionPage("", $is_postponed,"", !$show_question_page);
+		
+		if (!$show_question_page)
+			$output = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		
+		// if wants solution only then strip the question element from output
+		if ($show_solution_only) {
+			$output = preg_replace("/(<div[^<]*?ilc_Question[^>]*>.*?<\/div>)/", $this->lng->txt("tst_no_solution_available"), $output);			
+		}
+		
+		
+		//echo htmlentities ($output);
 		// set solutions
 		if ($test_id)
 		{
@@ -238,8 +249,12 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = $solution_value->value1."</textarea>";
-				$output = str_replace("</textarea>", $repl_str, $output);
+				$output = str_replace("</textarea>", $repl_str, $output);								
 			}
+			
+			if (!$show_question_page)
+				$output = preg_replace ("/<textarea[^>]*>(.*?)<\/textarea>/s","[\\1]", $output);
+			
 		}
 		if ($this->object->getMaxNumOfChars())
 		{
