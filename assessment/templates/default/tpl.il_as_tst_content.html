@@ -7,7 +7,7 @@
 			<div class="il_Header">
 				<table width="100%">
 					<tr>
-					<td align="left" colspan="2"><h1>{HEADER}</h1></td>
+					<td align="left" colspan="3"><h1>{HEADER}</h1></td>
 					<td align="right">
 <!-- BEGIN cancel_test -->
 						<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
@@ -20,7 +20,7 @@
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev -->
 						</td>
-						<td align="center">
+						<td align="center" width="1">
 <!-- BEGIN percentage -->
 <div align="left" style="height: 15px;
 width: {HUNDRED_PERCENT}px; 
@@ -41,8 +41,13 @@ text-align: center;">
 </div>
 </div>
 <!-- END percentage -->
-					</td>
-					<td align="right">
+</td>
+<td align="left" width="1">
+<!-- BEGIN summary -->
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<!-- END summary -->
+</td>
+<td align="right">
 <!-- BEGIN postpone -->
 <input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
 &nbsp;&nbsp;
@@ -63,9 +68,11 @@ text-align: center;">
 {ADM_CONTENT}
 {QUESTION_FEEDBACK}
 {RESULT_DESCRIPTION}
+<!-- BEGIN question_status --><table><tr valign="top"><td><small>{TEXT_QUESTION_STATUS_LABEL}</small></td><td>{TEXT_QUESTION_STATUS}</td></tr></table><!-- END question_status -->
 <p>
 <!-- BEGIN direct_feedback --><input type="submit" class="submit" name="cmd[directfeedback]" value="{TEXT_DIRECT_FEEDBACK}" /><!-- END direct_feedback -->
 </p>
+
 {SYSTEMSETTINGS}
 <!-- BEGIN navigation_bottom -->
 			<div class="il_Header">
@@ -76,7 +83,7 @@ text-align: center;">
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev_bottom -->
 						</td>
-						<td align="center">
+						<td align="center" width="1">
 <!-- BEGIN percentage_bottom -->
 <div align="left" style="height: 15px;
 width: {HUNDRED_PERCENT}px; 
@@ -97,8 +104,14 @@ text-align: center;">
 </div>
 </div>
 <!-- END percentage_bottom -->
-					</td>
-					<td align="right">
+</td>
+</td>
+<td align="left" width="1">
+<!-- BEGIN summary_bottom  -->
+<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
+<!-- END summary_bottom -->
+</td>
+<td align="right">
 <!-- BEGIN postpone_bottom -->
 <input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
 &nbsp;&nbsp;
@@ -109,7 +122,7 @@ text-align: center;">
 					</td>
 				</tr>
 				<tr>
-				<td align="left" colspan="2"></td>
+				<td align="left" colspan="3"></td>
 				<td align="right">
 <!-- BEGIN cancel_test_bottom -->
 					<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>

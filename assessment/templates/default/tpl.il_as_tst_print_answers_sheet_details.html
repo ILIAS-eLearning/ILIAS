@@ -1,0 +1,40 @@
+<h1>{TXT_ANSWER_SHEET}</h1>
+<h3>{TITLE}</h3>
+<table >
+<tr><th class="freefield" align="left">{TXT_USR_NAME}</th><td class="freefield">:</td><td class="freefield">{VALUE_USR_NAME}</td><td class="freefield">&nbsp;</td><th class="freefield" align="left">{TXT_USR_MATRIC}</th><td class="freefield">:</td><td colspan="10" class="freefield">{VALUE_USR_MATRIC}</td></tr>
+<!-- BEGIN freefield_top -->
+<tr>
+	<th align="left" >{TXT_FREE_FIELD}</th>
+	<td>:</td>
+	<td style="border-bottom: 1px solid black">{VALUE_FREE_FIELD}</td><td colspan=4>&nbsp;</td>
+</tr>
+<!-- END freefield_top -->
+</table>
+<p>{TXT_TEST_PROLOG}</p>
+<!-- BEGIN question -->
+<div class="ilc_Page" id="ilc_Page">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid black; margin-top:10px">
+<tr valign="top"><td width="10px" nowrap="true"><div class="question_title">{COUNTER_QUESTION}</div></td>
+<td><div class="question_title">{QUESTION_TITLE}</div></td></tr>
+<tr><td>&nbsp;</td>
+<td>{CLOZE_TEST}{MATCHING_QUESTION}{ORDERING_QUESTION}{MULTIPLE_CHOICE_QUESTION}{IMAGEMAP_QUESTION}{JAVA_QUESTION}{TEXT_QUESTION}</td></tr>
+</table>
+</div>
+<!-- END question -->
+<p style="width:100%;border-top: 2px solid black;">{TXT_TEST_EPILOG}</p>
+<table >
+<!-- BEGIN freefield_bottom -->
+<tr >
+	<th class="freefield">{TXT_DATE}</th><td class="freefield">:</td><td class="freefield">{VALUE_DATE}</td>
+	<td class="freefield">&nbsp;</td>
+	<th class="freefield">{TXT_FREE_FIELD}</th><td class="freefield">:</td><td class="freefield_line"  >{VALUE_FREE_FIELD}</td>
+</tr>
+<!-- END freefield_bottom -->
+</table>
+<br>
+<!-- BEGIN confirm -->
+<form action="{FORM_ACTION}" method="POST">
+<p><input type="submit" class="submit" name="cmd[submit_answers]" value="{BTN_OK}" />
+&nbsp;<input type="submit" class="submit" name="cmd[cancel_show_answers]" value="{BTN_CANCEL}" />
+</form>
+<!-- END confirm -->

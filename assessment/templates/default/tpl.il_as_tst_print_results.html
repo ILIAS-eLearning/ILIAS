@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>{TITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{PRINT_CSS}" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+<script type="text/javascript" language="javascript1.2">
+<!--
+// Do print the page
+if (typeof(window.print) != 'undefined') {
+    //window.print();
+}
+//-->
+</script>
+<p><h1>{TEXT_RESULTS}</h1>
+<h3>{TITLE}</h3></p>
+<table >
+<tr><td class="std" align="left">{TXT_USR_NAME}</th><td class="freefield">:</td><td class="freefield">{VALUE_USR_NAME}</td><td class="freefield">&nbsp;</td><th class="freefield" align="left">{TXT_USR_MATRIC}</th><td class="freefield">:</td><td colspan="10" class="freefield">{VALUE_USR_MATRIC}</td></tr>
+<tr><td class="std" align="left">{TXT_TEST_DATE}</td><td>:</td><td>{VALUE_TEST_DATE}</td><td>&nbsp;</td><td class="std" align="left">{TXT_PRINT_DATE}</td><td>:</td><td>{VALUE_PRINT_DATE}</td></tr>
+</table>
+<br>
+{ADM_CONTENT}
+<p>
+{GRADE}
+</body>
+</html>

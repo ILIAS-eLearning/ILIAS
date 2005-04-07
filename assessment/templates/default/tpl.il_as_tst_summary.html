@@ -1,0 +1,34 @@
+<div class="summary">
+<!-- BEGIN info -->
+<table class="invisible">
+<!-- BEGIN info_row -->
+<tr><td>{TEXT_INFO_COL1}</td><td>{TEXT_INFO_COL2}</td></tr>
+<!-- END info_row -->
+</table>
+<!-- END info -->
+<p><strong>{USER_FEEDBACK}</strong></p>
+<h2>{TEXT_RESULTS}</h2>
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std">{QUESTION_COUNTER}</td>
+	<td class="std">{QUESTION_TITLE}</td>
+	<td class="std">{QUESTION_SOLVED}</td>
+</tr>
+<!-- BEGIN question -->
+<tr valign="middle" >
+	<td class="{COLOR_CLASS}" width="30%">{VALUE_QUESTION_COUNTER}</td>
+	<td class="{COLOR_CLASS}"><a href="{VALUE_QUESTION_HREF_GOTO}">{VALUE_QUESTION_GOTO}&nbsp;{VALUE_QUESTION_TITLE}&nbsp;</a></td>
+	<td class="{COLOR_CLASS}" width="30%"><a href="{VALUE_QUESTION_HREF_SET_SOLVED}">{VALUE_QUESTION_SOLVED}&nbsp;<small>{VALUE_QUESTION_SET_SOLVED}</small></a></td>
+</tr>
+<!-- END question --> 
+</table>
+<br>
+<table class="fullwidth">
+<form action="{FORM_ACTION}" method="POST" >
+<tr>
+	<td><input class="submit" type="submit" name="cmd[summary]" value="{TXT_BACK}"/></td>
+ 	<td align="right"><input class="submit" type="submit" name="cmd[show_answers]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
+</tr>
+</form>
+</table>
+</div>
