@@ -5703,7 +5703,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if (count($invited_users))
 		{
-			$this->outUserGroupTable("usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), $buttons);
+			$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
@@ -5751,9 +5751,12 @@ class ilObjTestGUI extends ilObjectGUI
 			// add users 
 			if (is_array($_POST["user_select"]))
 			{
+				$i = 0;
 				foreach ($_POST["user_select"] as $user_id)
-				{
-					$this->object->inviteUser($user_id);
+				{					
+					$client_ip = $_POST["client_ip"][$i];
+					$this->object->inviteUser($user_id, $client_ip);
+					$i++;				
 				}
 			}
 			// add groups members
@@ -5819,7 +5822,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$users = $this->object->getUserData($users);
 						
 						if (count ($users))
-							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"), $buttons);
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
 					}
 
 					$searchresult = array();
@@ -5835,7 +5838,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$groups = $this->object->getGroupData ($groups);
 						
 						if (count ($groups))
-							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), $buttons);
+							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
 					}
 					
 					$searchresult = array();
@@ -5852,7 +5855,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$roles = $this->object->getRoleData ($roles);			
 								
 						if (count ($roles))
-							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), $buttons);
+							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
 					}
 					
 				}
@@ -5867,13 +5870,48 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	
 	
-function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $title_text, $buttons)
+function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $title_text, $title_label, $buttons)
 	{
 		global $rbacsystem;
-		
 		$rowclass = array("tblrow1", "tblrow2");
+		
 		switch($a_type)
 		{
+			case "iv_usr":
+				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
+				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;				
+				foreach ($data_array as $data)
+				{
+					$counter = 0;
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $data->usr_id);
+					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
+					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
+					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
+					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
+				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
+				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
+				$this->tpl->setVariable("TEXT_IV_CLIENT_IP", $this->lng->txt("clientip"));
+				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
+					
+				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
 			case "usr":
 				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
 				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
@@ -5887,17 +5925,16 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$this->tpl->setVariable("VALUE_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_CLIENT_IP", $data->clientip);
-					$this->tpl->setVariable("VALUE_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_CLIENT_IP", $this->lng->txt("clientip"));
-				$this->tpl->setVariable("TEXT_TEST_FINISHED", $this->lng->txt("tst_finished"));
+					
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
@@ -5908,6 +5945,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				}
 				$this->tpl->parseCurrentBlock();
 				break;
+				
 			case "role":
 				
 			case "grp":
@@ -5923,7 +5961,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("TEXT_TABLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
