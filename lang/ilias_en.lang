@@ -4823,35 +4823,7 @@ survey#:#warning_survey_not_complete#:#The survey is not complete!
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#user_not_invited#:#You are not supposed to take this exam.
-assessment#:#tst_print#:#Test&Assessment Print Version
-assessment#:#tst_your_answers#:#These are your answers given to the following questions.
-assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
-assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.
-assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
-assessment#:#tst_tst_date#:#Date of Test
-assessment#:#tst_print_date#:#Date of Print
-assessment#:#tst_question_solved_state#:#Solved
-assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
-assessment#:#tst_qst_order#:#Order
-assessment#:#tst_qst_setsolved#:#Set Solved
-assessment#:#tst_qst_resetsolved#:#Reset
-assessment#:#tst_finished#:#Finished
-assessment#:#clientip#:#Client IP
-assessment#:#tst_qst_result_sheet#:#Show result sheet
-assessment#:#tt_online_exam#:#Online Exam
-assessment#:#participants#:#Participants
-assessment#:#search_users#:#Search Users
-assessment#:#search_roles#:#Search Roles
-assessment#:#search_groups#:#Search Groups
-assessment#:#search_term#:#Search Term
-assessment#:#concatenation#:#Concatenation
-assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
-assessment#:#tst_answer_sheet#:#Test Answer Sheet
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
-assessment#:#user_not_invited#:#You are not supposed to take this exam.
-assessment#:#tst_print#:#Test&Assessment Print Version
+assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
