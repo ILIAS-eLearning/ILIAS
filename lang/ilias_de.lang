@@ -4848,3 +4848,4 @@ assessment#:#search_term#:#Suchbegriff
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
+assessment#:#wrong_test_type#:#Teilnehmer können nur im Online-Prüfungsmodus eingeladen werden.
