@@ -5476,7 +5476,7 @@ class ilObjTest extends ilObject
 			
 		$result_array = array();
 			
-		$query = sprintf("SELECT usr_id, login, lastname, firstname, \"\" as clientip FROM usr_data WHERE usr_id IN (%s) ",			
+		$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ",			
 			join ($ids,",")
 		);
 				
