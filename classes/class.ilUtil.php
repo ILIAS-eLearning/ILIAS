@@ -26,7 +26,7 @@
 * util class
 * various functions, usage as namespace
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * @package ilias-core
@@ -271,8 +271,23 @@ class ilUtil
 		{
 			$str .= " disabled=\"disabled\"";
 		}
+		
+		$array_var = false;
+		
+		if (substr($varname,-2) == "[]")
+		{
+			$array_var = true;
+		}
 
-		$str .= " value=\"".$value."\" id=\"".$varname."\" />\n";
+		// if varname ends with [], use varname[-2] + _ + value as id tag (e.g. "user_id[]" => "user_id_15")
+		if ($array_var)
+		{
+			$str .= " value=\"".$value."\" id=\"".substr($varname,0,-2)."_".$value."\" />\n";
+		}
+		else
+		{
+			$str .= " value=\"".$value."\" id=\"".$varname."\" />\n";
+		}
 
 		return $str;
 	}

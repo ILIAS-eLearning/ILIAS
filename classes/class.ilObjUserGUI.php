@@ -1568,6 +1568,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$disabled = true;
 			}
 			
+			$role_ids[$counter] = $role["obj_id"];
+			
             $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
             $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf[0]."&obj_id=".$role["obj_id"]."&cmd=perm\">".$role["title"]."</a>";
             $result_set[$counter][] = $role["description"];
@@ -1576,7 +1578,7 @@ class ilObjUserGUI extends ilObjectGUI
    			++$counter;
         }
 
-		return $this->__showRolesTable($result_set);
+		return $this->__showRolesTable($result_set,$role_ids);
     }
 		
 	/**
@@ -1795,7 +1797,7 @@ class ilObjUserGUI extends ilObjectGUI
                       $a_time_arr["year"]);
     }
 
-	function __showRolesTable($a_result_set)
+	function __showRolesTable($a_result_set,$a_role_ids = NULL)
 	{
         global $rbacsystem;
 
@@ -1818,6 +1820,17 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->setCurrentBlock("tbl_action_btn");
 				$tpl->setVariable("BTN_NAME",$name);
 				$tpl->setVariable("BTN_VALUE",$value);
+				$tpl->parseCurrentBlock();
+			}
+			
+			if (!empty($a_role_ids))
+			{
+				// set checkbox toggles
+				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+				$tpl->setVariable("JS_VARNAME","role_id");			
+				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
+				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
 				$tpl->parseCurrentBlock();
 			}
 

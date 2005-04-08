@@ -25,8 +25,9 @@
 /**
 * Class ilObjUserFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de> 
+* @version $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -227,15 +228,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		if (AUTH_CURRENT != AUTH_LOCAL)
-		{
-			$this->showActions(false);
-		}
-		else
-		{
-			$this->showActions(true);
-		}
-		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		#$tbl->disable("footer");
@@ -268,6 +260,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				{
 					//build link
 					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+					
+					// dirty workaround to have ids for function showActions (checkbox toggle option)
+					$this->ids[] = $ctrl["obj_id"];
 
 					if ($key == "login")
 					{
@@ -289,9 +284,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			} //for
 		}
-
-
-
+		
+		if (AUTH_CURRENT != AUTH_LOCAL)
+		{
+			$this->showActions(false);
+		}
+		else
+		{
+			$this->showActions(true);
+		}
 	}
 	
 	/**
@@ -342,6 +343,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ((count($operations) > 0) or $subobjs === true)
 		{
+
+			if (!empty($this->ids))
+			{
+				// set checkbox toggles
+				$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+				$this->tpl->setVariable("JS_VARNAME","id");			
+				$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($this->ids));
+				$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+				$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+				$this->tpl->parseCurrentBlock();
+			}
+		
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 			$this->tpl->parseCurrentBlock();
@@ -716,8 +729,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
 
-		$this->showActions(true);
-		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
@@ -732,6 +743,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
 
+				// dirty workaround to have ids for function showActions (checkbox toggle option)
+				$this->ids[] = $ctrl["obj_id"];
+					
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
@@ -769,6 +783,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
+			
+			$this->showActions(true);
 		}
 	}
 

@@ -2232,8 +2232,6 @@ class ilObjectGUI
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
-		$this->showActions(true);
-
 		if (!empty($this->data["data"][0]))
 		{
 			//table cell
@@ -2261,7 +2259,10 @@ class ilObjectGUI
 					{
 						$link_id = $ctrl["ref_id"];
 					}
-	
+					
+					// dirty workaround to have ids for function showActions (checkbox toggle option)
+					$this->ids[] = $link_id;
+					
 					$this->tpl->setCurrentBlock("checkbox");
 					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -2368,6 +2369,8 @@ class ilObjectGUI
 			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("obj_not_found"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->showActions(true);
 		
 		// render table
 		$tbl->render();
@@ -2818,9 +2821,20 @@ class ilObjectGUI
 			$this->showPossibleSubObjects();
 		}
 		
+		if (!empty($this->ids))
+		{
+			// set checkbox toggles
+			$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$this->tpl->setVariable("JS_VARNAME","id");			
+			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($this->ids));
+			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();	
 	}
 
 	/**

@@ -26,7 +26,7 @@
 * Class ilObjCourseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$
+* @version $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI
@@ -1120,6 +1120,8 @@ class ilObjCourseGUI extends ilObjectGUI
 				// GET USER OBJ
 				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
 				{
+					$subscriber_ids[$counter] = $member_id;
+					
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"subscriber[]",$member_id);
 					$f_result[$counter][]	= $tmp_obj->getLogin();
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
@@ -1130,7 +1132,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					++$counter;
 				}
 			}
-			$this->__showSubscribersTable($f_result);
+			$this->__showSubscribersTable($f_result,$subscriber_ids);
 
 		} // END SUBSCRIBERS
 
@@ -1155,6 +1157,8 @@ class ilObjCourseGUI extends ilObjectGUI
 				// GET USER OBJ
 				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
 				{
+					$member_ids[$counter] = $member_id;
+					
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"member[]",$member_id);
 					$f_result[$counter][]	= $tmp_obj->getLogin();
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
@@ -1212,7 +1216,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			} // END IF MEMBERS
 
 		}
-		return $this->__showMembersTable($f_result);
+		return $this->__showMembersTable($f_result,$member_ids);
 	}
 
 
@@ -1878,6 +1882,9 @@ class ilObjCourseGUI extends ilObjectGUI
 					{
 						continue;
 					}
+					
+					$user_ids[$counter] = $user["id"];
+					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
 					$f_result[$counter][] = $tmp_obj->getLogin();
 					$f_result[$counter][] = $tmp_obj->getLastname();
@@ -1886,7 +1893,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					unset($tmp_obj);
 					++$counter;
 				}
-				$this->__showSearchUserTable($f_result);
+				$this->__showSearchUserTable($f_result,$user_ids);
 
 				return true;
 
@@ -1901,6 +1908,9 @@ class ilObjCourseGUI extends ilObjectGUI
 					{
 						continue;
 					}
+					
+					$grp_ids[$counter] = $group["id"];
+					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$group["id"]);
 					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
@@ -1908,7 +1918,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					unset($tmp_obj);
 					++$counter;
 				}
-				$this->__showSearchGroupTable($f_result);
+				$this->__showSearchGroupTable($f_result,$grp_ids);
 
 				return true;
 				
@@ -1932,6 +1942,8 @@ class ilObjCourseGUI extends ilObjectGUI
                         continue;
                     }
 
+					$role_ids[$counter] = $role["id"];
+					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role["id"]);
 					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
@@ -1940,7 +1952,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					++$counter;
 				}
 
-				$this->__showSearchRoleTable($f_result);
+				$this->__showSearchRoleTable($f_result,$role_ids);
 
 				return true;
 		}
@@ -1996,6 +2008,9 @@ class ilObjCourseGUI extends ilObjectGUI
 			{
 				continue;
 			}
+			
+			$user_ids[$counter] = $user;
+					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
@@ -2004,7 +2019,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsersGroup");
+		$this->__showSearchUserTable($f_result,$user_ids,"listUsersGroup");
 
 		return true;
 	}
@@ -2050,6 +2065,9 @@ class ilObjCourseGUI extends ilObjectGUI
 			{
 				continue;
 			}
+			
+			$user_ids[$counter] = $user;
+					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
@@ -2058,7 +2076,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsersRole");
+		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
 		
 		return true;
 	}
@@ -2635,7 +2653,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("EDIT_MEMBER_TABLE",$tbl->tpl->get());
 	}
 
-	function __showSearchUserTable($a_result_set,$a_cmd = "search")
+	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "search")
 	{
         $return_to  = "searchUser";
 
@@ -2662,6 +2680,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
+		
+		if (!empty($a_user_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","user");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -2692,7 +2721,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		return true;
 	}
 	
-		function __showSearchGroupTable($a_result_set)
+		function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
 	{
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -2710,6 +2739,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","listUsersGroup");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
 		$tpl->parseCurrentBlock();
+
+		if (!empty($a_grp_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","group");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_grp_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -2739,7 +2779,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function __showSearchRoleTable($a_result_set)
+	function __showSearchRoleTable($a_result_set,$a_role_ids)
 	{
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -2757,6 +2797,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","listUsersRole");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
 		$tpl->parseCurrentBlock();
+		
+		if (!empty($a_role_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","role");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -3023,7 +3074,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showMembersTable($a_result_set)
+	function __showMembersTable($a_result_set,$a_member_ids = NULL)
 	{
 		$actions = array("deleteMembersObject"	=> $this->lng->txt("crs_delete_member"));
 
@@ -3041,6 +3092,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		#$tpl->setCurrentBlock("input_text");
 		#$tpl->setVariable("PB_TXT_NAME",'member');
 		#$tpl->parseCurrentBlock();
+
+		if (!empty($a_member_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","member");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("plain_button");
 		$tpl->setVariable("PBTN_NAME","addUser");
@@ -3095,7 +3157,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showSubscribersTable($a_result_set)
+	function __showSubscribersTable($a_result_set,$a_subscriber_ids = NULL)
 	{
 		$actions = array("addSubscribers"		=> $this->lng->txt("crs_add_subscribers"),
 						 "deleteSubscribers"	=> $this->lng->txt("crs_delete_subscribers"));
@@ -3103,7 +3165,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
-		// SET FORMAACTION
+		// SET FORMACTION
 		$tpl->setCurrentBlock("tbl_form_header");
 
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -3130,6 +3192,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
 		$tpl->parseCurrentBlock();
 
+		if (!empty($a_subscriber_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","subscriber");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_subscriber_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
+		
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
