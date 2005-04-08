@@ -4309,7 +4309,7 @@ payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
 payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
 payment#:#pay_header#:#Payment
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
-payment#:#pay_item_already_in_sc_choose_another#:#This article was already taken up in its goods basket. Select if necessary a new price/continuous combination.
+payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
 payment#:#pay_locator#:#Payment
 payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.
 payment#:#pay_message_hello#:#Dear
