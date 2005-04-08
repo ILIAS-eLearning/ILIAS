@@ -137,9 +137,11 @@ assessment#:#checkbox_unchecked#:#Non coché###07 Apr 2005 content changed
 assessment#:#circle#:#Cercle###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désirée###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée###07 Apr 2005 content changed
+assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
 assessment#:#close_text_hint#:#Vous pouvez définir une lacune en saisissant <gap></gap> à la position de votre choix dans le texte.  Cliquez sur le bouton 'Créer les lacunes' pour ajouter un formulaire modifiable pour chaque lacune.###07 Apr 2005 content changed
 assessment#:#cloze_text#:#Texte de closure###07 Apr 2005 content changed
 assessment#:#code#:#Code###07 Apr 2005 content changed
+assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
 assessment#:#confirm_delete_all_user_data#:#Etes-vous sûr(e) de vouloir détruire toutes les informations utilisateurs du test ?###07 Apr 2005 content changed
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le sondage en cours. Voulez-vous modifier l'original de cette question également ?###07 Apr 2005 content changed
 assessment#:#coordinates#:#Coordonnées###07 Apr 2005 content changed
@@ -282,6 +284,7 @@ assessment#:#no_user_or_group_selected#:#Veuillez sélectionner le type d'objets
 assessment#:#or#:#ou###07 Apr 2005 content changed
 assessment#:#order_pictures#:#Ordonner les images###07 Apr 2005 content changed
 assessment#:#order_terms#:#Ordonner les termes###07 Apr 2005 content changed
+assessment#:#participants#:#Participants###08 Apr 2005 new variable
 assessment#:#passed_official#:#validé###07 Apr 2005 content changed
 assessment#:#passed_short#:#validé###07 Apr 2005 content changed
 assessment#:#percentage_solved#:#Vous avez résolu %.2f % de la question###07 Apr 2005 content changed
@@ -348,6 +351,10 @@ assessment#:#save_previous#:#Aller à la question précédente###07 Apr 2005 con
 assessment#:#save_text_answer_points#:#Enregistrer les points des questions texte###07 Apr 2005 content changed
 assessment#:#search_found_groups#:#Groupes trouvés###07 Apr 2005 content changed
 assessment#:#search_found_users#:#Utilisateurs trouvés###07 Apr 2005 content changed
+assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
+assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
+assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
+assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
 assessment#:#see_details_for_further_information#:#Voir détails pour les solutions proposées###07 Apr 2005 content changed
 assessment#:#select_an_answer#:#--- Veuillez sélectionner une réponse ---###07 Apr 2005 content changed
 assessment#:#select_gap#:#Selectionner lacune###07 Apr 2005 content changed
@@ -373,9 +380,12 @@ assessment#:#true#:#Vrai###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites###07 Apr 2005 content changed
 assessment#:#tst_already_taken#:#Tests déjà pris###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Résultats anonymes agrégés###07 Apr 2005 content changed
+assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Parcourir les questions###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats précédents des questions de ce test. Cela remettra toutes les questions à leur valeur par défaut. Souvenez-vous que vous ne pouvez pas réinitialiser le nombre de tentatives que vous avez faites pour ce test. Voulez-vous vraiment réinitialiser les résultats saisis ?###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Vos résultats précédemment saisis ont été détruits. Vous avez réinitialisé le test avec succès.###07 Apr 2005 content changed
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Réinitialiser le test###07 Apr 2005 content changed
@@ -389,6 +399,7 @@ assessment#:#tst_eval_total_passed#:#Total des tests passés###07 Apr 2005 conte
 assessment#:#tst_eval_total_passed_average_points#:#Moyenne des tests passés###07 Apr 2005 content changed
 assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont fait le test###07 Apr 2005 content changed
 assessment#:#tst_eval_user_answer#:#Réponse de l'utilisateur###07 Apr 2005 content changed
+assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Propriétés générales###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Générer une sortie Excel###07 Apr 2005 content changed
 assessment#:#tst_in_use_edit_questions_disabled#:#Le test est en cours d'utilisation par %d utilisateur(s). Vous n'êtes pas autorisé à modifier ou déplacer les questions de ce test.###07 Apr 2005 content changed
@@ -414,14 +425,24 @@ assessment#:#tst_no_question_selected_for_removal#:#Veuillez sélectionner au mo
 assessment#:#tst_no_questionpools_for_random_test#:#Vous n'avez pas ajouté de jeu de questions pour ce test aléatoire !  Veuillez sélectionner au moins un jeu de questions.###07 Apr 2005 content changed
 assessment#:#tst_no_questions_available#:#Aucune question n'est disponible. Vous devez créer des nouvelles questions, ou en rechercher.###07 Apr 2005 content changed
 assessment#:#tst_no_questions_for_random_test#:#Vous n'avez pris aucune question du jeu de questions pour ce test aléatoire.  Veuillez prendre au moins une question en choisissant un nombre de questions pour le jeu de questions ajouté.###07 Apr 2005 content changed
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
 assessment#:#tst_no_taken_tests#:#Aucun test pris.###07 Apr 2005 content changed
 assessment#:#tst_no_tries#:#aucun###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries#:#Nombre maximal d'essais###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries_of_user#:#Essais déjà réalisés###07 Apr 2005 content changed
+assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
 assessment#:#tst_percent_solved#:#Pourcentage des résolution###07 Apr 2005 content changed
+assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
+assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
 assessment#:#tst_processing_time#:#Temps de travail maximum###07 Apr 2005 content changed
+assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
+assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
+assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
+assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
 assessment#:#tst_question_no#:#Ordre###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Acceptez-vous cet échantillon ou en voulez-vous un autre ?###07 Apr 2005 content changed
+assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
 assessment#:#tst_question_title#:#Titre###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Type de question###07 Apr 2005 content changed
 assessment#:#tst_questions_inserted#:#Question(s) insérée(s)###07 Apr 2005 content changed
@@ -486,21 +507,29 @@ assessment#:#tst_status_missing_elements#:#Les éléments suivants sont manquant
 assessment#:#tst_status_not_entered#:#non saisi###07 Apr 2005 content changed
 assessment#:#tst_status_ok#:#L'état du test est valide. Il n'y a pas d'élément manquant###07 Apr 2005 content changed
 assessment#:#tst_status_progress#:#en cours###07 Apr 2005 content changed
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
 assessment#:#tst_time_already_spent#:#Temps déjà passé###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Nombre total de questions###07 Apr 2005 content changed
 assessment#:#tst_total_questions_description#:#Si vous saisissez une valeur ici, le nombre de questions pour chaque jeu de questions sera ignoré.  Si vous ne mettez rien ici, vous devez spécifier un nombre pour chaque jeu de questions.###07 Apr 2005 content changed
+assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
 assessment#:#tst_type#:#Type de test###07 Apr 2005 content changed
 assessment#:#tst_types#:#Types de test###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###07 Apr 2005 content changed
+assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
 assessment#:#tst_your_mark_is#:#Votre note est###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Test d'évaluation###07 Apr 2005 content changed
 assessment#:#tt_navigation_controlling#:#Contrôle du test de navigation des étudiants###07 Apr 2005 content changed
+assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#tt_self_assessment#:#Test d'auto-évaluation###07 Apr 2005 content changed
 assessment#:#unlimited#:#illimité###07 Apr 2005 content changed
 assessment#:#unlock#:#Déverrouiller###07 Apr 2005 content changed
 assessment#:#unlock_question#:#Cette question est utilisée dans au moins un test et il y a %s résultats envoyés. Si vous choisissez de déverrouiller la question, les résultats complets des utilisateurs concernés seront effacés après l'enregistrement de la question. Si vous voulez utiliser une version modifiée de la question sans détruire les résultats des utilisateurs, vous pouvez dupliquer la question dans le jeu de questions et changer cette nouvelle version.###07 Apr 2005 content changed
 assessment#:#upload_imagemap#:#Télécharger une image réactive###07 Apr 2005 content changed
 assessment#:#uploaded_material#:#Matériau téléchargé###07 Apr 2005 content changed
+assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#La question n'est pas terminée.###07 Apr 2005 content changed
 assessment#:#warning_test_not_complete#:#Le test n'est pas terminé###07 Apr 2005 content changed
 assessment#:#when#:#quand###07 Apr 2005 content changed

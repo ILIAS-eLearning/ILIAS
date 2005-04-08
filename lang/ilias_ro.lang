@@ -4496,3 +4496,32 @@ survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
 survey#:#warning_survey_not_complete#:#Sondajul nu este complet!
 common#:#include_local#:#include local###include local language file when updating language
 ###07 Apr 2005 new variable
+assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
+assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
+assessment#:#participants#:#Participants###08 Apr 2005 new variable
+assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
+assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
+assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
+assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
+assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
+assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
+assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
+assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
+assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
+assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
+assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
+assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
+assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
+assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
+assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
+assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable

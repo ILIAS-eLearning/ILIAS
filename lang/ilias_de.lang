@@ -139,9 +139,11 @@ assessment#:#checkbox_unchecked#:#Nicht ausgewählt###07 Apr 2005 content change
 assessment#:#circle#:#Kreis###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region###07 Apr 2005 content changed
+assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.###07 Apr 2005 content changed
 assessment#:#cloze_text#:#Lückentext-Frage###07 Apr 2005 content changed
 assessment#:#code#:#Code###07 Apr 2005 content changed
+assessment#:#concatenation#:#Verknüpfung
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?###07 Apr 2005 content changed
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?###07 Apr 2005 content changed
 assessment#:#coordinates#:#Koordinaten###07 Apr 2005 content changed
@@ -285,6 +287,7 @@ assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, 
 assessment#:#or#:#oder###07 Apr 2005 content changed
 assessment#:#order_pictures#:#Bilder ordnen###07 Apr 2005 content changed
 assessment#:#order_terms#:#Terme ordnen###07 Apr 2005 content changed
+assessment#:#participants#:#Teilnehmer
 assessment#:#passed_official#:#bestanden###07 Apr 2005 content changed
 assessment#:#passed_short#:#bestanden###07 Apr 2005 content changed
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!###07 Apr 2005 content changed
@@ -353,6 +356,10 @@ assessment#:#save_previous#:#Zurück###07 Apr 2005 content changed
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern###07 Apr 2005 content changed
 assessment#:#search_found_groups#:#Gefundene Gruppen###07 Apr 2005 content changed
 assessment#:#search_found_users#:#Gefundene Nutzerinnen###07 Apr 2005 content changed
+assessment#:#search_groups#:#nach Gruppen
+assessment#:#search_roles#:#nach Rollen
+assessment#:#search_term#:#Suchbegriff
+assessment#:#search_users#:#nach Benutzern
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails###07 Apr 2005 content changed
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---###07 Apr 2005 content changed
 assessment#:#select_gap#:#Auswahl-Lücke###07 Apr 2005 content changed
@@ -380,9 +387,12 @@ assessment#:#true#:#Wahr###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!###07 Apr 2005 content changed
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse###07 Apr 2005 content changed
+assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!###07 Apr 2005 content changed
+assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers um das sich öffnende Fenster auszudrucken.
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Test zurück setzen###07 Apr 2005 content changed
@@ -396,6 +406,7 @@ assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests###07 Apr 2
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests###07 Apr 2005 content changed
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben###07 Apr 2005 content changed
 assessment#:#tst_eval_user_answer#:#User-Antwort###07 Apr 2005 content changed
+assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Excel erzeugen###07 Apr 2005 content changed
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!###07 Apr 2005 content changed
@@ -421,14 +432,24 @@ assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens
 assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!###07 Apr 2005 content changed
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.###07 Apr 2005 content changed
 assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu Ihrem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens eine Frage durch die Angabe einer Anzahl von Fragen zu einem ausgewählten Fragenpool aus! ###07 Apr 2005 content changed
+assessment#:#tst_no_solution_available#:#Kurztext-Fragen besitzen keine Musterlösung.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!###07 Apr 2005 content changed
 assessment#:#tst_no_tries#:#keine###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Versuche###07 Apr 2005 content changed
+assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_percent_solved#:#Prozent gelöst###07 Apr 2005 content changed
+assessment#:#tst_print#:#Test & Assessment Druckansicht
+assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit###07 Apr 2005 content changed
+assessment#:#tst_qst_order#:#Reihenfolge
+assessment#:#tst_qst_resetsolved#:#zurücksetzen
+assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
+assessment#:#tst_qst_setsolved#:#habe ich gelöst
+assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question_no#:#Reihenfolge###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?###07 Apr 2005 content changed
+assessment#:#tst_question_solved_state#:#Gelöst
 assessment#:#tst_question_title#:#Titel###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Fragentyp###07 Apr 2005 content changed
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!###07 Apr 2005 content changed
@@ -493,24 +514,32 @@ assessment#:#tst_status_missing_elements#:#Die folgenden Elemente fehlen:###07 A
 assessment#:#tst_status_not_entered#:#unbearbeitet###07 Apr 2005 content changed
 assessment#:#tst_status_ok#:#Der Status des Tests ist in Ordnung. Es gibt keine fehlenden Elemente.###07 Apr 2005 content changed
 assessment#:#tst_status_progress#:#in Bearbeitung###07 Apr 2005 content changed
+assessment#:#tst_submit_answers#:#JA, ich möchte meine Antworten abschicken
+assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absenden Ihrer Anworten abschließen.
+assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen###07 Apr 2005 content changed
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.###07 Apr 2005 content changed
+assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ###07 Apr 2005 content changed
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!###07 Apr 2005 content changed
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!###07 Apr 2005 content changed
 assessment#:#tst_types#:#Test-Typen###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden###07 Apr 2005 content changed
+assessment#:#tst_your_answers#:#Dies sind die Antworten, dies Sie zu den folgenden Fragen gegeben haben.
 assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet###07 Apr 2005 content changed
 assessment#:#tst_your_mark_is#:#Ihre Note lautet###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen###07 Apr 2005 content changed
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen###07 Apr 2005 content changed
+assessment#:#tt_online_exam#:#Online Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung###07 Apr 2005 content changed
 assessment#:#unlimited#:#unbegrenzt###07 Apr 2005 content changed
 assessment#:#unlock#:#Entsperren###07 Apr 2005 content changed
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.###07 Apr 2005 content changed
 assessment#:#upload_imagemap#:#Imagemap hochladen###07 Apr 2005 content changed
 assessment#:#uploaded_material#:#Hochgeladene Materialien###07 Apr 2005 content changed
+assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
+assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!###07 Apr 2005 content changed
 assessment#:#when#:#wenn###07 Apr 2005 content changed
@@ -4820,33 +4849,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
-assessment#:#user_wrong_clientip#:#Falsche Client IP
-assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
-assessment#:#tst_print#:#Test & Assessment Druckansicht
-assessment#:#tst_your_answers#:#Dies sind die Antworten, dies Sie zu den folgenden Fragen gegeben haben.
-assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absenden Ihrer Anworten abschließen.
-assessment#:#tst_submit_answers#:#JA, ich möchte meine Antworten abschicken
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers um das sich öffnende Fenster auszudrucken.
-assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
-assessment#:#tst_tst_date#:#Datum des Tests
-assessment#:#tst_print_date#:#Datum des Ausdruck
-assessment#:#tst_question_solved_state#:#Gelöst
-assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
-assessment#:#tst_qst_order#:#Reihenfolge
-assessment#:#tst_qst_setsolved#:#habe ich gelöst
-assessment#:#tst_qst_resetsolved#:#zurücksetzen
-assessment#:#tst_finished#:#Beendet
-assessment#:#clientip#:#Client IP
-assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
-assessment#:#tt_online_exam#:#Online Prüfung
-assessment#:#participants#:#Teilnehmer
-assessment#:#search_users#:#nach Benutzern
-assessment#:#search_roles#:#nach Rollen
-assessment#:#search_groups#:#nach Gruppen
-assessment#:#search_term#:#Suchbegriff
-assessment#:#concatenation#:#Verknüpfung
-assessment#:#tst_participating_users#:#Teilnehmende Benutzer
-assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#wrong_test_type#:#Teilnehmer können nur im Online-Prüfungsmodus eingeladen werden.
-assessment#:#tst_no_solution_available#:#Kurztext-Fragen besitzen keine Musterlösung.

@@ -140,9 +140,11 @@ assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
+assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
 assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
+assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
@@ -286,6 +288,7 @@ assessment#:#no_user_or_group_selected#:#Please check an option what are you sea
 assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
+assessment#:#participants#:#Participants
 assessment#:#passed_official#:#passed
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
@@ -354,6 +357,10 @@ assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save text question points
 assessment#:#search_found_groups#:#Found groups
 assessment#:#search_found_users#:#Found users
+assessment#:#search_groups#:#Search Groups
+assessment#:#search_roles#:#Search Roles
+assessment#:#search_term#:#Search Term
+assessment#:#search_users#:#Search Users
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
@@ -381,9 +388,12 @@ assessment#:#true#:#True
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
+assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset test
@@ -397,6 +407,7 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
 assessment#:#tst_eval_user_answer#:#User answer
+assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -422,14 +433,24 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
+assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_percent_solved#:#Percent solved
+assessment#:#tst_print#:#Test & Assessment Print View
+assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. processing time
+assessment#:#tst_qst_order#:#Order
+assessment#:#tst_qst_resetsolved#:#Reset
+assessment#:#tst_qst_result_sheet#:#Show result sheet
+assessment#:#tst_qst_setsolved#:#Set Solved
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
+assessment#:#tst_question_solved_state#:#Solved
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
@@ -494,24 +515,32 @@ assessment#:#tst_status_missing_elements#:#The following elements are missing:
 assessment#:#tst_status_not_entered#:#Not started
 assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.
 assessment#:#tst_status_progress#:#In progress
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_total_questions#:#Total amount of questions
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!
+assessment#:#tst_tst_date#:#Date of Test
 assessment#:#tst_type#:#Test type
 assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_types#:#Test types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
+assessment#:#tst_your_answers#:#These are your answers given to the following questions.
 assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
 assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
+assessment#:#tt_online_exam#:#Online Exam
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you do not want to delete the users test results, you can duplicate the question in the question pool and change that version.
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
+assessment#:#user_not_invited#:#You are not supposed to take this exam.
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#warning_question_not_complete#:#The question is not complete!
 assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
@@ -4820,32 +4849,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-assessment#:#tst_answer_sheet#:#Test Answer Sheet
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
-assessment#:#user_not_invited#:#You are not supposed to take this exam.
-assessment#:#tst_print#:#Test & Assessment Print View
-assessment#:#tst_your_answers#:#These are your answers given to the following questions.
-assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
-assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.
-assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
-assessment#:#tst_tst_date#:#Date of Test
-assessment#:#tst_print_date#:#Date of Print
-assessment#:#tst_question_solved_state#:#Solved
-assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
-assessment#:#tst_qst_order#:#Order
-assessment#:#tst_qst_setsolved#:#Set Solved
-assessment#:#tst_qst_resetsolved#:#Reset
-assessment#:#tst_finished#:#Finished
-assessment#:#clientip#:#Client IP
-assessment#:#tst_qst_result_sheet#:#Show result sheet
-assessment#:#tt_online_exam#:#Online Exam
-assessment#:#participants#:#Participants
-assessment#:#search_users#:#Search Users
-assessment#:#search_roles#:#Search Roles
-assessment#:#search_groups#:#Search Groups
-assessment#:#search_term#:#Search Term
-assessment#:#concatenation#:#Concatenation
-assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
-assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
