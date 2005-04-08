@@ -42,6 +42,8 @@ administration#:#check_tree#:#Überprüfe Baumstruktur###07 Apr 2005 content cha
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!###07 Apr 2005 content changed
 administration#:#clean#:#Räume auf###07 Apr 2005 content changed
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur###07 Apr 2005 content changed
+content#:#msg_page_not_public#:#Seite ist nicht öffentlich
+content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.
 administration#:#cleaning#:#Bereinigen...###07 Apr 2005 content changed
 administration#:#cleaning_final#:#Endgültig bereinigen...###07 Apr 2005 content changed
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...###07 Apr 2005 content changed

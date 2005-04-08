@@ -279,7 +279,7 @@ class ilLMObject
 	*/
 	function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
 	{
-		global $ilDB,$ilLog,$ilErr;
+		global $ilDB,$ilLog,$ilErr,$ilTree;
 		
 		if (!is_array($a_pages))
 		{$a_pages = array(0);
@@ -297,6 +297,33 @@ class ilLMObject
 			return false;
 		}
 		
+		// update structure entries: if at least one page of a chapter is public set chapter to public too
+		$lm_tree = new ilTree($a_cont_obj_id);
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+		$lm_tree->readRootId();
+		
+		// get all st entries of cont_obj
+		$q = "SELECT obj_id FROM lm_data " . 
+			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id)." " .
+			 "AND type = 'st'";
+		$r = $ilDB->query($q);
+		
+		// add chapters with a public page to a_pages
+		while ($row = $r->fetchRow())
+		{
+			$childs = $lm_tree->getChilds($row[0]);
+			
+			foreach ($childs as $page)
+			{
+				if ($page["type"] == "pg" and in_array($page["obj_id"],$a_pages))
+				{
+					array_push($a_pages, $row[0]);
+					break;
+				}
+			}
+		}
+		
 		// update public access status of all pages of cont_obj
 		$q = "UPDATE lm_data SET " .
 			 "public_access = CASE " .
@@ -305,9 +332,9 @@ class ilLMObject
 			 "ELSE 'n' ".
 			 "END " .
 			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id)." " .
-			 "AND type = 'pg'";
+			 "AND type IN ('pg','st')";
 		$ilDB->query($q);
-
+		
 		return true;
 	}
 	

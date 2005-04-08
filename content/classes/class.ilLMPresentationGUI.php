@@ -970,6 +970,7 @@ class ilLMPresentationGUI
 
 	function getCurrentPageId()
 	{
+		global $ilUser;
 
 		// determine object id
 		if(empty($_GET["obj_id"]))
@@ -988,11 +989,12 @@ class ilLMPresentationGUI
 		}
 
 		$curr_node = $this->lm_tree->getNodeData($obj_id);
+		
 		if($curr_node["type"] == "pg")		// page in tree -> return page id
 		{
 			$page_id = $curr_node["obj_id"];
 		}
-		else				// no page -> search for next page and return its id
+		else 		// no page -> search for next page and return its id
 		{
 			$succ_node = $this->lm_tree->fetchSuccessorNode($obj_id, "pg");
 			$page_id = $succ_node["obj_id"];
@@ -1003,9 +1005,22 @@ class ilLMPresentationGUI
 				$this->ilias->raiseError($this->lng->txt("cont_no_page"),$this->ilias->error_obj->FATAL);
 				$this->tpl->show();
 				exit;
-//echo "2:".$succ_node["type"].":"; exit;
+			}
+
+			// if public access get first public page in chapter
+			if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+			{
+				$public = ilLMObject::_isPagePublic($page_id);
+
+				while ($public === false)
+				{
+					$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
+					$page_id = $succ_node["obj_id"];
+					$public = ilLMObject::_isPagePublic($page_id);
+				}
 			}
 		}
+
 		return $page_id;
 	}
 
@@ -1124,7 +1139,15 @@ class ilLMPresentationGUI
 	function ilPage(&$a_page_node)
 	{
 		global $ilBench,$ilUser;
-
+		
+		if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+		{
+			$public = ilLMObject::_isPagePublic($this->getCurrentPageId());
+			
+			if (!$public)
+				return $this->showNoPublicAccess($this->getCurrentPageId());
+		}
+		
 		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId()))
 		{
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
@@ -1220,7 +1243,7 @@ class ilLMPresentationGUI
 			$page_id, "pg", "read");
 
 		$ilBench->stop("ContentPresentation", "ilPage");
-
+		
 		return $page_object_gui->presentation($page_object_gui->getOutputMode());
 
 	}
@@ -1316,7 +1339,7 @@ class ilLMPresentationGUI
 		
 		$ilBench->stop("ContentPresentation", "showPagePreconditions");
 	}
-
+	
 	/**
 	* get xml for links
 	*/
@@ -2700,6 +2723,30 @@ class ilLMPresentationGUI
 		}
 		
 		return $link;
+	}
+	
+	function showNoPublicAccess()
+	{
+		$page_id = $this->getCurrentPageId();
+
+		// content style
+		$this->tpl->setCurrentBlock("ContentStyle");
+		
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
+		
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_nopublicaccess.html", true);
+		$this->tpl->setCurrentBlock("pg_content");
+		$this->tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS",$this->lng->txt("msg_page_no_public_access"));
+		$this->tpl->parseCurrentBlock();
 	}
 }
 ?>
