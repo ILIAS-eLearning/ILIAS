@@ -136,8 +136,10 @@ assessment#:#checkbox_unchecked#:#Uchecket###07 Apr 2005 content changed
 assessment#:#circle#:#Cirkel###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Klik venligst i midten af det &oslash;nkede omr&aring;de.###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Klik venligst p&aring; et dirkelpunkt i det &oslash;nkede omr&aring;de.###07 Apr 2005 content changed
+assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
 assessment#:#cloze_text#:#Luk tekst###07 Apr 2005 content changed
 assessment#:#code#:#Kode###07 Apr 2005 content changed
+assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
 assessment#:#confirm_delete_all_user_data#:#Er du sikker p&aring; at du vil slette alle brugerdata fra denne test?###07 Apr 2005 content changed
 assessment#:#confirm_sync_questions#:#Sp&oslash;rgsm&aring;let du har &aelig;ndret er en kopi som er blevet lavet for at blive brugt i en aktiv test. &oslash;nsker du at &aelig;ndre det originale sp&oslash;rgsm&aring;l?###07 Apr 2005 content changed
 assessment#:#coordinates#:#Kordinater###07 Apr 2005 content changed
@@ -257,6 +259,7 @@ assessment#:#no_target_selected_for_move#:#Du skal v&aelig;lge en possition!###0
 assessment#:#or#:#eller###07 Apr 2005 content changed
 assessment#:#order_pictures#:#Bestil billeder###07 Apr 2005 content changed
 assessment#:#order_terms#:#Bestil forklaring###07 Apr 2005 content changed
+assessment#:#participants#:#Participants###08 Apr 2005 new variable
 assessment#:#passed_official#:#best&aring;et###07 Apr 2005 content changed
 assessment#:#passed_short#:#best&aring;et###07 Apr 2005 content changed
 assessment#:#percentage_solved#:#Du har l&oslash;st %.2f procent af disse sp&oslash;rgsm&aring;l!###07 Apr 2005 content changed
@@ -320,6 +323,10 @@ assessment#:#save_finish#:#Afslut testen###07 Apr 2005 content changed
 assessment#:#save_introduction#:#G&aring; til introduktion###07 Apr 2005 content changed
 assessment#:#save_next#:#N&aelig;ste###07 Apr 2005 content changed
 assessment#:#save_previous#:#Tidligere###07 Apr 2005 content changed
+assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
+assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
+assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
+assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
 assessment#:#see_details_for_further_information#:#Se detaljer for foresl&aring;et l&oslash;sning###07 Apr 2005 content changed
 assessment#:#select_an_answer#:#--- V&aelig;lg venligst et svar ---###07 Apr 2005 content changed
 assessment#:#select_gap#:#V&aelig;lg hul###07 Apr 2005 content changed
@@ -344,9 +351,12 @@ assessment#:#true#:#Sandt###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Alle bruger data for denne test er blevet slettet!                                                    ###07 Apr 2005 content changed
 assessment#:#tst_already_taken#:#Test er allerede taget###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Annonymt gennemsnits resultat###07 Apr 2005 content changed
+assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Led efter sp&oslash;rgsm&aring;l###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidligere indtastet sp&oslash;rgsm&aring;ls resultater for denne test. Dette vil nulstille alle sp&oslash;rgsm&aring;l til dens standart v&aelig;rdi. Bem&aelig;rk venligst, at du ikke kan nulstille antalet af fors&oslash;g, du allerede har brugt p&aring; denne test. Vil du virkelig nulstille alle tidligere indtastet svar? ###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!###07 Apr 2005 content changed
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Slet alle bruger data###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#V&aelig;lg venligst mindst et m&aelig;rke for at slette det###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Nulstil test###07 Apr 2005 content changed
@@ -358,6 +368,7 @@ assessment#:#tst_eval_total_finished_average_time#:#Gennemsnitlig tid til at afs
 assessment#:#tst_eval_total_passed#:#Total antal best&aring;et test###07 Apr 2005 content changed
 assessment#:#tst_eval_total_passed_average_points#:#Gennemsnitlig point af best&aring;et test###07 Apr 2005 content changed
 assessment#:#tst_eval_total_persons#:#Total antal af personer der har taget denne test###07 Apr 2005 content changed
+assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Generelle egenskaber###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Generer Excel###07 Apr 2005 content changed
 assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. Du har ikke rettighedder til at flytte eller &aelig;ndre sp&oslash;rgsm&aring;lende i denne test!###07 Apr 2005 content changed
@@ -380,14 +391,24 @@ assessment#:#tst_missing_title#:#Du har ikke skrevet en test overskrift! G&aring
 assessment#:#tst_no_marks_defined#:#Der er ikke defineret nogen m&aelig;rker, opret venligst mindst et simpelt m&aelig;rke skema!###07 Apr 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Marker venligst et sp&oslash;rgsm&aring;l for at flytte det!###07 Apr 2005 content changed
 assessment#:#tst_no_questions_available#:#Der er ingen sp&oslash;rgsm&aring;l tilg&aelig;ngelige! Du skal oprette sp&oslash;rgsm&aring;l elelr s&oslash;ge efter sp&oslash;rgsm&aring;l.###07 Apr 2005 content changed
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
 assessment#:#tst_no_taken_tests#:#Der er ingen taget test!###07 Apr 2005 content changed
 assessment#:#tst_no_tries#:#Ingen###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries#:#Max. antal fors&oslash;g###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries_of_user#:#Fors&oslash;g allerede gennemf&oslash;rt###07 Apr 2005 content changed
+assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
 assessment#:#tst_percent_solved#:#Procent l&oslash;st###07 Apr 2005 content changed
+assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
+assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
 assessment#:#tst_processing_time#:#Max. svar tid###07 Apr 2005 content changed
+assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
+assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
+assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
+assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
 assessment#:#tst_question_no#:#Orden###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Vil du acceptere denne pr&oslash;ve eller vil du have en anden?###07 Apr 2005 content changed
+assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
 assessment#:#tst_question_title#:#Titel###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Sp&oslash;rgsm&aring;ls type###07 Apr 2005 content changed
 assessment#:#tst_questions_inserted#:#Sp&oslash;rgsm&aring;l indsat!###07 Apr 2005 content changed
@@ -447,22 +468,30 @@ assessment#:#tst_status_missing_elements#:#De f&oslash;lgende elementer mangler:
 assessment#:#tst_status_not_entered#:#Ikke startet###07 Apr 2005 content changed
 assessment#:#tst_status_ok#:#Status for testen er ok. Der mangler ingen elementer.###07 Apr 2005 content changed
 assessment#:#tst_status_progress#:#Igang###07 Apr 2005 content changed
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
 assessment#:#tst_time_already_spent#:#Tid allerede brugt p&aring; arbejde###07 Apr 2005 content changed
+assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
 assessment#:#tst_type#:#Test type###07 Apr 2005 content changed
 assessment#:#tst_type_changed#:#Du har &aelig;ndret test typen. Alle tidligere taget test er blevet slettet!###07 Apr 2005 content changed
 assessment#:#tst_type_comment#:#Advarsel: Hvis du &aelig;ndre test typen p&aring; en aktiv test sletter du alle tidligere taget test!###07 Apr 2005 content changed
 assessment#:#tst_types#:#Test typer###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Brug Javascript for tr&aelig;k og slip aktioner###07 Apr 2005 content changed
+assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
 assessment#:#tst_your_ects_mark_is#:#Din ECTS karakter er###07 Apr 2005 content changed
 assessment#:#tst_your_mark_is#:#Dit m&aelig;rke er###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Opgave test###07 Apr 2005 content changed
 assessment#:#tt_navigation_controlling#:#Kontrollere deltagers navigations test###07 Apr 2005 content changed
+assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#tt_self_assessment#:#Selv vurderingstest###07 Apr 2005 content changed
 assessment#:#unlimited#:#Uendelig###07 Apr 2005 content changed
 assessment#:#unlock#:#Ul&aring;s###07 Apr 2005 content changed
 assessment#:#unlock_question#:#Dette sp&oslash;rgsm&aring;l er i brug i mindst en test og der er %s angivet resultater. Hvis du v&aelig;lger at l&aring;se sp&oslash;rgsm&aring;let op vil alle resultaterne af de p&aring;virket brugere blive slettet n&aring;r du v&aelig;lger at gemme sp&oslash;rgsm&aring;let. Hvis du vil &aelig;ndre sp&oslash;rgsm&aring;let men ikke vil slette tidligere resultater, kan du kopiere sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen og &aelig;ndre den version.###07 Apr 2005 content changed
 assessment#:#upload_imagemap#:#Upload en billed mappe###07 Apr 2005 content changed
 assessment#:#uploaded_material#:#Uploadet Materialle###07 Apr 2005 content changed
+assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#Dette sp&oslash;rgsm&aring;l er ikk ef&aelig;rdigt!###07 Apr 2005 content changed
 assessment#:#warning_test_not_complete#:#Denne test er ikke f&aelig;rdig!###07 Apr 2005 content changed
 assessment#:#when#:#hvorn&aring;r###07 Apr 2005 content changed
