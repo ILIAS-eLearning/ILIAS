@@ -25,7 +25,7 @@
 * Class ilObjGroupGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Sascha Hofmann <saschahofmann@gmx.de>
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
@@ -859,29 +859,6 @@ class ilObjGroupGUI extends ilObjectGUI
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 
-
-			/*$grp_role_id = $this->object->getMemberRoles($mem["id"]);
-			$str_member_roles ="";
-
-			if (is_array($grp_role_id))
-			{
-				$count = count($grp_role_id);
-
-				foreach ($grp_role_id as $role_id)
-				{
-					$count--;
-					#$groupRole =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-					#$str_member_roles .= $groupRole->getTitle();
-					# improved performance: this way it is 2.5 to 3 times faster
-					$str_member_roles .= ilObject::_lookupTitle($role_id);
-				
-					if ($count > 0)
-					{
-						$str_member_roles .= ", ";
-					}
-				}
-			}*/
-			
 			// this is twice as fast than the code above
 			$str_member_roles = $this->object->getMemberRolesTitle($mem["id"]);
 
@@ -889,7 +866,9 @@ class ilObjGroupGUI extends ilObjectGUI
 			{
 				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$mem["id"]);
 			}
-
+			
+			$user_ids[$counter] = $mem["id"];
+            
             //discarding the checkboxes
 			$result_set[$counter][] = $mem["login"];
 			$result_set[$counter][] = $mem["firstname"];
@@ -905,7 +884,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$ilBench->stop("GroupGUI", "membersObject");
 
-		return $this->__showMembersTable($result_set);
+		return $this->__showMembersTable($result_set,$user_ids);
     }
 
 	function showNewRegistrationsObject()
@@ -1171,15 +1150,19 @@ class ilObjGroupGUI extends ilObjectGUI
 					{
 						continue;
 					}
+					
+					$user_ids[$counter] = $user["id"];
+					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
 					$f_result[$counter][] = $tmp_obj->getLogin();
 					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
+					$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
 
 					unset($tmp_obj);
 					++$counter;
 				}
-				$this->__showSearchUserTable($f_result);
+				$this->__showSearchUserTable($f_result,$user_ids);
 
 				return true;
 
@@ -1203,6 +1186,8 @@ class ilObjGroupGUI extends ilObjectGUI
                         continue;
                     }
                     
+                    $role_ids[$counter] = $role["id"];
+                    
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role["id"]);
 					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
@@ -1211,7 +1196,7 @@ class ilObjGroupGUI extends ilObjectGUI
 					++$counter;
 				}
 				
-				$this->__showSearchRoleTable($f_result);
+				$this->__showSearchRoleTable($f_result,$role_ids);
 
 				return true;
 				
@@ -1234,6 +1219,8 @@ class ilObjGroupGUI extends ilObjectGUI
                         continue;
                     }
                     
+                    $grp_ids[$counter] = $group["id"];
+                    
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$group["id"]);
 					$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
 					$f_result[$counter][] = $tmp_obj->getCountMembers();
@@ -1241,7 +1228,16 @@ class ilObjGroupGUI extends ilObjectGUI
 					unset($tmp_obj);
 					++$counter;
 				}
-				$this->__showSearchGroupTable($f_result);
+				
+				if(!count($f_result))
+				{
+					sendInfo($this->lng->txt("grp_no_results_found"));
+					$this->searchUserFormObject();
+
+					return false;
+				}
+				
+				$this->__showSearchGroupTable($f_result,$grp_ids);
 
 				return true;
 		}
@@ -1491,7 +1487,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		return $search->getResultByType($a_search_for);
 	}
 
-	function __showSearchUserTable($a_result_set,$a_cmd = "search")
+	function __showSearchUserTable($a_result_set,$a_user_ids = NULL, $a_cmd = "search")
 	{
         $return_to  = "searchUserForm";
 	
@@ -1517,6 +1513,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","addUser");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
+		
+		if (!empty($a_user_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","user");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -1549,7 +1556,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showSearchRoleTable($a_result_set)
+	function __showSearchRoleTable($a_result_set,$a_role_ids = NULL)
 	{
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -1567,6 +1574,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","listUsersRole");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
 		$tpl->parseCurrentBlock();
+		
+		if (!empty($a_role_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","role");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -1596,7 +1614,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showSearchGroupTable($a_result_set)
+	function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
 	{
     	$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -1614,6 +1632,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","listUsersGroup");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
 		$tpl->parseCurrentBlock();
+		
+		if (!empty($a_grp_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","group");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_grp_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
@@ -1643,10 +1672,10 @@ class ilObjGroupGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function __showMembersTable($a_result_set)
+	function __showMembersTable($a_result_set,$a_user_ids = NULL)
 	{
         global $rbacsystem,$ilBench;
-
+        
 		$ilBench->start("GroupGUI", "__showMembersTable");
 
 		$actions = array("RemoveMember"  => $this->lng->txt("remove"),"changeMember"  => $this->lng->txt("change"));
@@ -1680,7 +1709,18 @@ class ilObjGroupGUI extends ilObjectGUI
 				$tpl->setVariable("BTN_VALUE",$value);
 				$tpl->parseCurrentBlock();
 			}
-
+			
+			if (!empty($a_user_ids))
+			{
+				// set checkbox toggles
+				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+				$tpl->setVariable("JS_VARNAME","user_id");			
+				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
+				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+				$tpl->parseCurrentBlock();
+			}
+			
             $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		}
 
@@ -1806,15 +1846,19 @@ class ilObjGroupGUI extends ilObjectGUI
 			{
 				continue;
 			}
+			
+			$user_ids[$counter] = $user;
+
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
 
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsersRole");
+		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
 
 		return true;
 	}
@@ -1871,15 +1915,19 @@ class ilObjGroupGUI extends ilObjectGUI
 			{
 				continue;
 			}
+			
+			$user_ids[$counter] = $user;
+			
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
 
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showSearchUserTable($f_result,"listUsersGroup");
+		$this->__showSearchUserTable($f_result,$user_ids,"listUsersGroup");
 
 		return true;
 	}

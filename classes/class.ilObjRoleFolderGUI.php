@@ -195,6 +195,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             if ($_SESSION["filtered_roles"] != 4)
             {
                 $result_set[$counter][] = $checkbox;
+                $role_ids[$counter] = $role["obj_id"];
             }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
@@ -205,7 +206,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
    			++$counter;
         }
 
-		return $this->__showRolesTable($result_set);
+		return $this->__showRolesTable($result_set,$role_ids);
     }
 
 
@@ -481,7 +482,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
-	function __showRolesTable($a_result_set)
+	function __showRolesTable($a_result_set,$a_role_ids)
 	{
         global $rbacsystem;
 
@@ -504,12 +505,23 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-
 			foreach ($actions as $name => $value)
 			{
 				$tpl->setCurrentBlock("tbl_action_btn");
 				$tpl->setVariable("BTN_NAME",$name);
 				$tpl->setVariable("BTN_VALUE",$value);
+				$tpl->parseCurrentBlock();
+			}
+			
+			if (!empty($a_role_ids))
+			{
+		
+				// set checkbox toggles
+				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+				$tpl->setVariable("JS_VARNAME","role_id");			
+				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
+				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
 				$tpl->parseCurrentBlock();
 			}
 		}
