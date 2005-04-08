@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -48,6 +48,8 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
+content#:#msg_page_not_public#:#Page is not public
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
