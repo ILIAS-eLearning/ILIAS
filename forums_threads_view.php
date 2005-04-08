@@ -434,8 +434,18 @@ if (is_array($topicData = $frm->getOneTopic()))
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
 					}
 					// NOTIFY
-					$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
-					$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
+					include_once 'classes/class.ilMail.php';
+					$umail = new ilMail($_SESSION["AccountId"]);
+
+					if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+					{
+						$tpl->setCurrentBlock("notify");
+						$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
+						$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
+						$tpl->parseCurrentBlock();
+					}
+
+
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
 					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".

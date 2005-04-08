@@ -72,6 +72,13 @@ class ilCourseObjectiveResult
 				}
 			}
 		}
+
+		// unset hashed accomplished
+		unset($_SESSION['accomplished']);
+		unset($_SESSION['objectives_suggested']);
+		unset($_SESSION['objectives_status']);
+		unset($_SESSION['objectives_fullfilled']);
+
 		return true;
 	}
 
@@ -122,6 +129,11 @@ class ilCourseObjectiveResult
 				$this->addEntry($question_data['qid'],$question_data['reached']);
 			}
 		}
+		// unset hashed accomplished
+		unset($_SESSION['accomplished']);
+		unset($_SESSION['objectives_suggested']);
+		unset($_SESSION['objectives_status']);
+
 		return true;
 	}
 

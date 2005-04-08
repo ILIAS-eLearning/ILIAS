@@ -628,38 +628,71 @@ class ilCourseContentInterface
 	{
 		include_once "./course/classes/class.ilCourseStart.php";
 
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser,$ilBench;
+
+		$ilBench->start('Objectives','Objectives_view');
 
 		// Jump to start objects if there is one
-		$start_obj =& new ilCourseStart($this->cci_course_obj->getRefId(),$this->cci_course_obj->getId());
-		if(count($this->starter = $start_obj->getStartObjects()) and !$start_obj->isFullfilled($ilUser->getId()))
+
+		$ilBench->start('Objectives','Objectives_start_objects');
+		if(!$_SESSION['objectives_fullfilled'][$this->cci_course_obj->getId()])
 		{
-			$this->cci_start_objects();
-
-			return true;
+			$start_obj =& new ilCourseStart($this->cci_course_obj->getRefId(),$this->cci_course_obj->getId());
+			if(count($this->starter = $start_obj->getStartObjects()) and !$start_obj->isFullfilled($ilUser->getId()))
+			{
+				$this->cci_start_objects();
+				
+				return true;
+			}
+			$_SESSION['objectives_fullfilled'][$this->cci_course_obj->getId()] = true;
 		}
-
+		$ilBench->stop('Objectives','Objectives_start_objects');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
 		$this->__showButton('cciObjectivesAskReset',$this->lng->txt('crs_reset_results'));
 
+		$ilBench->start('Objectives','Objectives_read');
+
+		$ilBench->start('Objectives','Objectives_read_accomplished');
 		$this->__readAccomplished();
+		$ilBench->stop('Objectives','Objectives_read_accomplished');
+
+		$ilBench->start('Objectives','Objectives_read_suggested');
 		$this->__readSuggested();
+		$ilBench->stop('Objectives','Objectives_read_suggested');
+
+		$ilBench->start('Objectives','Objectives_read_status');
 		$this->__readStatus();
+		$ilBench->stop('Objectives','Objectives_read_status');
+
+		$ilBench->stop('Objectives','Objectives_read');
 
 		// (1) show infos
 		$this->__showInfo();
 
 		// (2) show objectives
+		$ilBench->start('Objectives','Objectives_objectives');
 		$this->__showObjectives();
+		$ilBench->stop('Objectives','Objectives_objectives');
 
 		// (3) show lm's
+		$ilBench->start('Objectives','Objectives_lms');
 		$this->__showLearningMaterials();
-		// (4) show tests
-		$this->__showTests();
-		// (5) show other resources
-		$this->__showOtherResources();
+		$ilBench->stop('Objectives','Objectives_lms');
 
+		// (4) show tests
+		$ilBench->start('Objectives','Objectives_tests');
+		$this->__showTests();
+		$ilBench->stop('Objectives','Objectives_tests');
+
+		// (5) show other resources
+		$ilBench->start('Objectives','Objectives_or');
+		$this->__showOtherResources();
+		$ilBench->stop('Objectives','Objectives_or');
+
+		$ilBench->stop('Objectives','Objectives_view');
+
+		$ilBench->save();
 
 		return true;
 	}
@@ -1379,6 +1412,12 @@ class ilCourseContentInterface
 	{
 		global $ilUser;
 
+		if(isset($_SESSION['accomplished'][$this->cci_course_obj->getId()]))
+		{
+			return $this->accomplished = $_SESSION['accomplished'][$this->cci_course_obj->getId()];
+		}
+
+
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
 		include_once './course/classes/class.ilCourseObjective.php';
 
@@ -1400,10 +1439,16 @@ class ilCourseContentInterface
 				$this->accomplished["$objective_id"] = false;
 			}
 		}
+		$_SESSION['accomplished'][$this->cci_course_obj->getId()] = $this->accomplished;
 	}
 	function __readSuggested()
 	{
 		global $ilUser;
+
+		if(isset($_SESSION['objectives_suggested'][$this->cci_course_obj->getId()]))
+		{
+			return $this->suggested = $_SESSION['objectives_suggested'][$this->cci_course_obj->getId()];
+		}
 
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
 
@@ -1421,12 +1466,18 @@ class ilCourseContentInterface
 				$this->suggested["$objective_id"] = $tmp_obj_res->isSuggested($objective_id);
 			}
 		}
+		return $_SESSION['objectives_suggested'][$this->cci_course_obj->getId()] = $this->suggested;
+
 	}
 
 	function __readStatus()
 	{
 		global $ilUser;
 
+		if(isset($_SESSION['objectives_status'][$this->cci_course_obj->getId()]))
+		{
+			return $this->objective_status = $_SESSION['objectives_status'][$this->cci_course_obj->getId()];
+		}
 		$all_success = true;
 
 		foreach($this->accomplished as $id => $success)
@@ -1439,7 +1490,8 @@ class ilCourseContentInterface
 		if($all_success)
 		{
 			$this->objective_status = 'finished';
-			
+			$_SESSION['objectives_status'][$this->cci_course_obj->getId()] = $this->objective_status;
+
 			return true;
 		}
 		include_once './course/classes/class.ilCourseObjectiveResult.php';
@@ -1456,11 +1508,13 @@ class ilCourseContentInterface
 			{
 				if($value)
 				{
+					$_SESSION['objectives_status'][$this->cci_course_obj->getId()] = $this->objective_status;
 					return true;
 				}
 			}
 			$this->objective_status = 'pretest_non_suggest';
 		}
+		$_SESSION['objectives_status'][$this->cci_course_obj->getId()] = $this->objective_status;
 
 		return true;
 	}

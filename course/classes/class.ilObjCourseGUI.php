@@ -3267,6 +3267,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
+
 		// check if object is purchased
 		include_once './payment/classes/class.ilPaymentObject.php';
 

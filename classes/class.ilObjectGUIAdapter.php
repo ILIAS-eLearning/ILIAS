@@ -26,7 +26,7 @@
 * Class ilObjectGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjectGUIAdapter.php,v 1.3 2004/04/12 13:46:52 shofmann Exp $
+* $Id$Id: class.ilObjectGUIAdapter.php,v 1.4.10.1 2005/04/08 12:24:37 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -154,32 +154,41 @@ class ilObjectGUIAdapter
 				// only show tab when the corresponding permission is granted
 				switch ($row[1])
 				{
-				  case 'view':
-					  if (!$rbacsystem->checkAccess('visible',$this->getId()))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'view':
+						if (!$rbacsystem->checkAccess('visible',$this->getId()))
+						{
+							$show = false;
+						}
+						break;
 
-				  case 'edit':
-					  if (!$rbacsystem->checkAccess('write',$this->getId()))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'edit':
+						if (!$rbacsystem->checkAccess('write',$this->getId()))
+						{
+							$show = false;
+						}
+						break;
 
-				  case 'perm':
-					  if (!$rbacsystem->checkAccess('edit_permission',$this->getId()))
-					  {
-						  $show = false;
-					  }
-					  break;
-				  case 'trash':
-					  if (!$this->gui_obj->tree->getSavedNodeData($this->getId()))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'perm':
+						if (!$rbacsystem->checkAccess('edit_permission',$this->getId()))
+						{
+							$show = false;
+						}
+						break;
+					case 'trash':
+						if (!$this->gui_obj->tree->getSavedNodeData($this->getId()))
+						{
+							$show = false;
+						}
+						break;
+
+					case 'newmembers':
+					case 'members':
+						if (!$rbacsystem->checkAccess('write',$this->getId()))
+						{
+							$show = false;
+						}
+						break;
+
 				} //switch
 			}
 
