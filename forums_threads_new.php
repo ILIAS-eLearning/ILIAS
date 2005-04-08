@@ -118,8 +118,18 @@ $tpl->setCurrentBlock("new_thread");
 $tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
-$tpl->setVariable("TXT_NOTIFY",$lng->txt("forum_notification"));
-$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
+
+
+include_once 'classes/class.ilMail.php';
+$umail = new ilMail($_SESSION["AccountId"]);
+// catch hack attempts
+if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
+{
+	$tpl->setCurrentBlock("notify");
+	$tpl->setVariable("TXT_NOTIFY",$lng->txt("forum_notification"));
+	$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
+	$tpl->parseCurrentBlock();
+}
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);

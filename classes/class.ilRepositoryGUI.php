@@ -170,6 +170,7 @@ class ilRepositoryGUI
 		global $tree, $rbacsystem, $ilias, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
+
 		/*if (empty($next_class))
 		{
 			// get object of current ref id
@@ -236,6 +237,7 @@ class ilRepositoryGUI
 				break;
 
 			case "ilobjcoursegui":
+
 				include_once("./course/classes/class.ilObjCourseGUI.php");
 
 				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);

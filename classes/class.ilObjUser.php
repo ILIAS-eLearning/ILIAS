@@ -2485,13 +2485,14 @@ class ilObjUser extends ilObject
 					{
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"description" => $item_rec["description"],
-							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjcoursegui", "target" => "bottom");
-
-                                                if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
-                                                {
-							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = "repository.php?cmdClass=ilobjcoursegui&cmd=edit&ref_id=".$item_rec["ref_id"];
-                                                }
+								   "description" => $item_rec["description"],
+								   "link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjcoursegui", "target" => "bottom");
+						
+						if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+						{
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = 
+								"repository.php?cmdClass=ilobjcoursegui&ref_id=".$item_rec["ref_id"];
+						}
 					}
 					break;
 				case "file":
