@@ -3018,6 +3018,8 @@ content#:#lm_menu_select_object_to_add#:#Wybierz obiekt, który chcesz dodać do
 content#:#msg_entry_added#:#Pozycja menu dodana###07 Apr 2005 content changed
 content#:#msg_entry_removed#:#Pozycja menu usunięta###07 Apr 2005 content changed
 content#:#msg_entry_updated#:#Pozycja menu uaktualniona###07 Apr 2005 content changed
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
+content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
 content#:#pages from#:#Strony od###07 Apr 2005 content changed
 content#:#par#:#Paragraf###07 Apr 2005 content changed
 content#:#pg#:#Strona###07 Apr 2005 content changed
