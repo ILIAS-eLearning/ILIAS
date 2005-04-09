@@ -395,7 +395,7 @@ assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Über
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers um das sich öffnende Fenster auszudrucken.
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!###07 Apr 2005 content changed
-assessment#:#tst_delete_results#:#Test zurück setzen###07 Apr 2005 content changed
+assessment#:#tst_delete_results#:#Test zurücksetzen###07 Apr 2005 content changed
 assessment#:#tst_ending_time#:#Endzeit###07 Apr 2005 content changed
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll###07 Apr 2005 content changed
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.###07 Apr 2005 content changed
@@ -4851,3 +4851,4 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
