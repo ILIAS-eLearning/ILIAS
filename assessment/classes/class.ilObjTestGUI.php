@@ -5699,9 +5699,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		{
 			case "iv_usr":
 				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
-				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;				
+				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				foreach ($data_array as $data)
 				{
+					$finished = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
 					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -6150,10 +6151,16 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
+			echo utf8_decode($this->lng->txt("cannot_edit_test"));
+			exit();
+		}
+		
+		$user_id = (int) $_GET["user_id"];
+		$user = $this->object->getInvitedUsers($user_id);
+		if (!is_array ($user) || count($user)!=1)
+		{
+			echo utf8_decode($this->lng->txt("user_not_invited"));
+			exit();
 		}
 			
 		$this->outTestPrintResults();
@@ -6169,9 +6176,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 * @access public
 */
 	function outTestPrintResults() {
-		global $ilUser;
-		
-		$active = $this->object->getActiveTestUser();
+		$user_id = (int) $_GET["user_id"];
+		$user  = new ilObjUser($user_id);
+		$active = $this->object->getActiveTestUser($user_id );
 		$t = $active->submittimestamp;
 		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
@@ -6183,9 +6190,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
+		$this->tpl->setVariable("VALUE_USR_NAME", $user->getLastname().", ".$user->getFirstname());
 		$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-		$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+		$this->tpl->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
 		$this->tpl->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
 		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%c",ilUtil::date_mysql2time($t)));
 		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
@@ -6194,7 +6201,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
-		$user_id = $ilUser->id;
+		
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 

@@ -24,15 +24,11 @@
 
 
 /**
-* Class ilObjTestGUI
+* Class OnlineTestCommandControl
 *
 * @author	Roland Küstermann <rku@aifb.uni-karlsruhe.de>
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI
-*
-* @extends ilObjectGUI
-* @package ilias-core
 * @package assessment
 */
 
@@ -44,6 +40,9 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		parent::DefaultTestCommandControl($gui, $object);
 	}
 
+	/**
+	 * prepare request variables
+	 */
 	function prepareRequestVariables (){
 		if ($_GET["sort_summary"])
 		//	sort summary: click on title to sort in summary
@@ -80,16 +79,22 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 			unset($_GET ["setsolved"]);
 			if ($_POST["cmd"]["show_answers"]  or $_POST["cmd"]["submit_answers"] or $_POST["cmd"]["run"])					
 				unset($_GET ["sequence"]);		
-		}	
-		
-		
-		
+		}			
 	}
 
+
+	/**
+	 * inherited behavior and checks access restrictions
+	 */
 	function onRunObjectEnter (){
 		parent::onRunObjectEnter();	
 		$this->checkOnlineTestAccess();					
 	}	
+	
+	/**
+	 * check access restrictions like client ip, partipating user etc. 
+	 *
+	 */
 		
 	function checkOnlineTestAccess () {
 		global $ilUser;
@@ -115,6 +120,9 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		}		
 	}	
 	
+	/**
+	 * handle start commands
+	 */
 	function handleStartCommands() {
 		$val = parent::handleStartCommands();
 			
@@ -123,6 +131,10 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 			$_POST["cmd"]["summary"]="1";
 		} 			
 	}
+	
+	/**
+	 * handle online test specific commands as well as standard commands
+	 */
 	
 	function handleCommands () {
 		global $ilUser;
@@ -172,16 +184,28 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		
 	}
 		
+	/*
+	 * test is resumable if it is not submitted and matches inherited behaviour
+	 */		
+		
 	function isTestResumable()  {
 		if ($this->obj->isActiveTestSubmitted())
 			return false;
 		else return parent::isTestResumable();
 	}
 
+
+	/**
+	 * test can show results if it is submmited and matches inherited behaviour
+	 */
 	function canShowTestResults () {
 		return parent::canShowTestResults() && $this->obj->isActiveTestSubmitted();
 	}
 	
+	
+	/**
+	 * get sequence delivers introduction page if test is submitted
+	 */
 	function getSequence () {
 		if ($this->obj->isActiveTestSubmitted())
 			return "";
