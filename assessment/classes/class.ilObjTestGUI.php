@@ -50,6 +50,15 @@ define ("TYPE_SPSS", "csv");
 class ilObjTestGUI extends ilObjectGUI
 {
 	var $sequence;
+	
+	var $cmdCtrl;
+	
+	var $maxProcessingTimeReached;
+	
+	var $endingTimeReached;
+	
+	var $saveResult;
+	
 	/**
 	* Constructor
 	* @access public
@@ -80,6 +89,23 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->ctrl->saveParameter($this,'crs_show_result',(int) $_GET['crs_show_result']);
 		}
+	}
+	
+	function createCommandControlObject() {
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		require_once "./assessment/classes/class.ilCommandControl.php";;
+		if ($this->object->isOnlineTest()) {
+			require_once "./assessment/classes/class.ilOnlineTestCommandControl.php";;
+			$this->cmdCtrl = new OnlineTestCommandControl (& $this, & $this->object);
+		} else 
+			$this->cmdCtrl = new DefaultTestCommandControl (& $this, & $this->object);
 	}
 
 	/**
@@ -698,7 +724,7 @@ class ilObjTestGUI extends ilObjectGUI
 			);
 		}
 
-		if (!$_POST["chb_reporting_date"])
+		if (!$_POST["chb_reporting_date"] && !$this->object->isOnlineTest())
 		{
 			$data["reporting_date"] = "";
 		}
@@ -727,6 +753,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setScoreReporting($data["score_reporting"]);
 		}
+		
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
@@ -734,7 +761,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
-
+		
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
 			$this->object->setScoreReporting(1);
@@ -2579,394 +2606,141 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		global $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// check online exams restrictions if nescessary
-		if ($this->object->isOnlineTest())
-		{
-			$this->checkOnlineTestAccess();			
-		}
-
-
-		if ($_POST["cmd"]["cancelTest"] && !$this->object->isOnlineTest())
-		{
-			sendInfo($this->lng->txt("test_cancelled"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
+		$this->createCommandControlObject();
 		
-		$add_parameter = $this->getAddParameter();
+		$this->cmdCtrl->prepareRequestVariables();
 		
+		$this->cmdCtrl->onRunObjectEnter();
+		
+		// update working time and set saveResult state
+		$this->updateWorkingTime();
+					
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
 		$title = $this->object->getTitle();
-		$maxprocessingtimereached = 0;
-		if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
-		{
-			// maximum processing time reached
-			$maxprocessingtimereached = 1;
-		}
 		
-		$directfeedback = 0;
-		$show_summary = $this->object->getTestType() == TYPE_ONLINE_TEST;
-		// catch feedback message
-		sendInfo();
-
-		$saveResult = $this->updateWorkingTime();
-
-		if ($_GET["sort_summary"] or $_POST["cmd"]["cancel_show_answers"])
-		//	sort summary: click on title to sort in summary
-		// cancel_show_answers: click on back in show_answer view
-			$_POST["cmd"]["summary"]="1";
-						
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
-		{
-			if ($_POST["cmd"]["start"] && $this->object->isRandomTest())
-			{
-				if ($this->object->getRandomQuestionCount() > 0)
-				{
-					$qpls =& $this->object->getRandomQuestionpools();
-					$rndquestions = $this->object->randomSelectQuestions($this->object->getRandomQuestionCount(), 0, 1, $qpls);
-					$allquestions = array();
-					foreach ($rndquestions as $question_id)
-					{
-						array_push($allquestions, $question_id);
-					}
-					srand ((float)microtime()*1000000);
-					shuffle($allquestions);
-					foreach ($allquestions as $question_id)
-					{
-						$this->object->saveRandomQuestion($question_id);
-					}
-					$this->object->loadQuestions();
-				}
-				else
-				{
-					$qpls =& $this->object->getRandomQuestionpools();
-					$allquestions = array();
-					foreach ($qpls as $key => $value)
-					{
-						if ($value["count"] > 0)
-						{
-							$rndquestions = $this->object->randomSelectQuestions($value["count"], $value["qpl"], 1);
-							foreach ($rndquestions as $question_id)
-							{
-								array_push($allquestions, $question_id);
-							}
-						}
-					}
-					srand ((float)microtime()*1000000);
-					shuffle($allquestions);
-					foreach ($allquestions as $question_id)
-					{
-						$this->object->saveRandomQuestion($question_id);
-					}
-					$this->object->loadQuestions();
-				}
-			}
-			
-			// create new time dataset and set start time
-			$active_time_id = $this->object->startWorkingTime($ilUser->id);
-			$_SESSION["active_time_id"] = $active_time_id;
-			if ($_POST["chb_javascript"])
-			{
-				$ilUser->setPref("tst_javascript", 1);
-				$ilUser->writePref("tst_javascript", 1);
-			}
-			else
-			{
-				$ilUser->setPref("tst_javascript", 0);
-				$ilUser->writePref("tst_javascript", 0);
-			}
-			if ($this->object->isOnlineTest()) {
-				$_POST["cmd"]["summary"]="summary";
-			}
-		}
-
-		$this->sequence = $_GET["sequence"];
-		
-		if ($_POST["cmd"]["deleteresults"] or $_POST["cmd"]["canceldeleteresults"] or $_POST["cmd"]["confirmdeleteresults"])
-		{
-			// reset sequence. it is not needed for test reset
-			$this->sequence = "";
-		}
-
-		if (($_POST["cmd"]["next"]) and $saveResult)
-		{
-			if($_GET['crs_show_result'])
-			{
-				$this->sequence = $this->object->incrementSequenceByResult($this->sequence);
-			}
-			else
-			{
-				$this->sequence++;
-			}
-		}
-		elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0) and ($saveResult))
-		{
-			if($_GET['crs_show_result'])
-			{
-				$this->sequence = $this->object->decrementSequenceByResult($this->sequence);
-			}
-			else
-			{
-				$this->sequence--;
-			}
-		}
-		$this->setLocator();
-
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-
-		if ($_POST["cmd"]["confirmdeleteresults"])
-		{
-			$this->object->deleteResults($ilUser->id);
-			sendInfo($this->lng->txt("tst_confirm_delete_results_info"));
-		}
 		
-		if ($_POST["cmd"]["deleteresults"])
-		{
-			$this->confirmDeleteResults();
-			return;
-		}
-		
-		if ($_GET["evaluation"])
-		{
-			$this->outEvaluationForm();
-			return;
-		}
-
-		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"]))
-		{
-			$this->outTestResults();
-			return;
-		}
-
-		
-		if ($this->object->isOnlineTest()) {
-			$num_of = $this->object->getNrOfTries();
-			$active = $this->object->getActiveTestUser($ilUser->getId());
-
-			if (($active->tries >= $num_of) or $maxprocessingtimereached) {
-				$this->outIntroductionPage();
-				return;
-			}
-		}
-		
-		if ($_POST["cmd"]["show_answers"]) {
-			$this->outShowAnswers(true);
-			return;
-		}
-		
-		if ($_POST["cmd"]["submit_answers"]) {
-			$this->confirmSubmitAnswers();
-			return;
-		}
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"])
+			$this->cmdCtrl->handleStartCommands ();
 				
-		if ($_POST["cmd"]["confirm_submit_answers"]) {
-			$this->object->submit_answers($ilUser->id);
-			$this->outShowAnswers(false);			
+
+		$this->setLocator();
+				
+		// catch feedback message
+		sendInfo();
+		
+		$this->sequence = $this->cmdCtrl->getSequence();	
+		
+		if ($this->cmdCtrl->handleCommands())
 			return;
-		}
-		
-		// set solved in summary
-		if (is_numeric($_GET["set_solved"]) && is_numeric($_GET["question_id"]))		 
-		{
-			$this->object->setQuestionSetSolved($_GET["set_solved"] , $_GET["question_id"], $ilUser->getId());
-			$_POST["cmd"]["summary"]="summary";
-		}
-		
-		// set solved in question
-		if ($_POST["cmd"]["resetsolved"] or $_POST["cmd"]["setsolved"] && $_GET["sequence"] )		 
-		{
-			$value = ($_POST["cmd"]["resetsolved"])?0:1;			
-			$q_id  = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);		
-			$this->object->setQuestionSetSolved($value , $q_id, $ilUser->getId());
-		}
-		
-		
-		if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"])) {
-			$this->outTestSummary();
-			return;
-		}
-		
+
+		// sequence not defined
 		if (!$this->sequence)
 		{
 			// show introduction page
-			$this->outIntroductionPage($maxprocessingtimereached);
+			$this->outIntroductionPage();
+			return;
 		}
-		else
+							
+		if ($this->isMaxProcessingTimeReached())
 		{
-			if ($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT || 
-													    $this->object->getTestType() == TYPE_ONLINE_TEST))
+			$this->maxProcessingTimeReached();
+			return;
+		}
+		
+		if ($this->isEndingTimeReached())
+		{
+			$this->endingTimeReached();
+			return;
+		}
+			
+		$user_question_order =& $this->object->getAllQuestionsForActiveUser();
+			
+		if ($this->sequence <= $this->object->getQuestionCount())
+		{
+			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
 			{
-				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
-				$this->object->setActiveTestUser(1, "", true);
-				if (!$this->object->canViewResults()) 
-				{
-					$this->outIntroductionPage($maxprocessingtimereached);
-				}
-				else
-				{
-					if ($this->object->isOnlineTest())
-						$this->outTestSummary();
-					else
-						$this->outTestResults();
-				}
-				return;
+				$this->tpl->setCurrentBlock("direct_feedback");
+				$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
+				$this->tpl->parseCurrentBlock();
 			}
-			if ($maxprocessingtimereached)
+			
+			// show next/previous question
+			$postpone = "";
+			if ($_POST["cmd"]["postpone"])
 			{
-				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
-				$this->object->setActiveTestUser(1, "", true);
-				if (!$this->object->canViewResults()) 
-				{
-					$this->outIntroductionPage($maxprocessingtimereached);
-				}
-				else
-				{
-					if ($this->object->isOnlineTest())
-						$this->$this->confirmSubmitAnswers();
-					else					
-						$this->outTestResults();
-				}
-				return;
+				$postpone = $this->sequence;
 			}
-			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
-			if ($this->sequence <= $this->object->getQuestionCount())
+		
+			$this->object->setActiveTestUser($this->sequence, $postpone);
+		
+			if ($this->sequence == $this->object->getQuestionCount())
 			{
-				if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
-				{
-					$this->tpl->setCurrentBlock("direct_feedback");
-					$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// show next/previous question
-				$postpone = "";
-				if ($_POST["cmd"]["postpone"])
-				{
-					$postpone = $this->sequence;
-				}
-				
-				$this->object->setActiveTestUser($this->sequence, $postpone);
-				
-				if ($this->sequence == $this->object->getQuestionCount())
-				{
-					$finish = true;
-				}
-				else
-				{
-					$finish = false;
-				}
-
-				$postpone = false;
-
-				if ($this->object->getSequenceSettings() == TEST_POSTPONE)
-				{
-					$postpone = true;
-				}
-				$active = $this->object->getActiveTestUser();
-
-				if(!$_GET['crs_show_result'])
-				{
-					$this->tpl->setCurrentBlock("percentage");
-					$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-					$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
-					$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("percentage_bottom");
-					$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-					$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
-					$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-					$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				if (!$this->object->isOnlineTest()) {
-					$this->tpl->setCurrentBlock("cancel_test");
-					$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-					$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-					$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("cancel_test_bottom");
-					$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-					$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-					$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
-					$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-					$this->tpl->parseCurrentBlock();
-				}
-
-				if ($this->object->getEnableProcessingTime())
-				{
-					$this->tpl->setCurrentBlock("enableprocessingtime");
-					$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
-					$processing_time = $this->object->getProcessingTimeInSeconds();
-					$time_seconds = $working_time;
-					$time_hours    = floor($time_seconds/3600);
-					$time_seconds -= $time_hours   * 3600;
-					$time_minutes  = floor($time_seconds/60);
-					$time_seconds -= $time_minutes * 60;
-					$this->tpl->setVariable("USER_WORKING_TIME", $this->lng->txt("tst_time_already_spent") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-					$time_seconds = $processing_time;
-					$time_hours    = floor($time_seconds/3600);
-					$time_seconds -= $time_hours   * 3600;
-					$time_minutes  = floor($time_seconds/60);
-					$time_seconds -= $time_minutes * 60;
-					$this->tpl->setVariable("MAXIMUM_PROCESSING_TIME", $this->lng->txt("tst_processing_time") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-					$this->tpl->parseCurrentBlock();
-				}
-
-
-				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $directfeedback, $show_summary);
-
+				$finish = true;
 			}
 			else
 			{
-				// finish test
-				
-				if ($this->object->isOnlineTest() && !$this->object->isActiveTestSubmitted($ilUser->getId())) {
-					$this->outTestSummary();
-					return;
-				}
-				
-				
-				$this->object->setActiveTestUser(1, "", true);
-				
-				if (!$this->object->canViewResults()) 
-				{
-					$this->outIntroductionPage($maxprocessingtimereached);
-				}
-				else
-				{					
-					$this->outTestResults();
-				}
-				// Update objectives
-				include_once './course/classes/class.ilCourseObjectiveResult.php';
-
-				$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
-				$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
-				unset($tmp_obj_res);
-
-				if($_GET['crs_show_result'])
-				{
-					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
-				}
-				
+				$finish = false;
 			}
+
+			$postpone = false;
+
+			if ($this->object->getSequenceSettings() == TEST_POSTPONE)
+			{
+				$postpone = true;
+			}
+
+			$active = $this->object->getActiveTestUser();
+
+			if(!$_GET['crs_show_result'])
+			{
+				$this->outShortResult($user_question_order);
+			}
+				
+			if ($this->object->getEnableProcessingTime())
+			{
+				$this->outProcessingTime();
+			}
+
+			$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order, $_POST["cmd"]["directfeedback"], $show_summary);
+
+		}
+		else
+		{
+			// finish test
+			
+			if ($this->object->isOnlineTest() && !$this->object->isActiveTestSubmitted($ilUser->getId())) {
+				$this->outTestSummary();
+				return;
+			}
+				
+				
+			$this->object->setActiveTestUser(1, "", true);
+				
+			if (!$this->object->canViewResults()) 
+			{
+				$this->outIntroductionPage($maxprocessingtimereached);
+			}
+			else
+			{					
+				$this->outTestResults();
+			}
+			// Update objectives
+			include_once './course/classes/class.ilCourseObjectiveResult.php';
+
+			$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+			$tmp_obj_res->updateResults($this->object->getTestResult($ilUser->getId()));
+			unset($tmp_obj_res);
+
+			if($_GET['crs_show_result'])
+			{
+				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
+			}
+				
 		}
 	}
 
@@ -2977,12 +2751,16 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access public
 	*/
-	function outIntroductionPage($maxprocessingtimereached = 0)
+	function outIntroductionPage()
 	{
 		global $ilUser;
+		// todo: max_processing_reached
+		
+		$maxprocessingtimereached = $this->isMaxProcessingTimeReached();
 
 		$add_parameter = $this->getAddParameter();
 		$active = $this->object->getActiveTestUser();
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
 		$this->tpl->setCurrentBlock("info_row");
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
@@ -2992,31 +2770,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
-		if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)
-		{
-			$seq_setting = "tst_sequence_fixed";
-		}
-		else
-		{
-			$seq_setting = "tst_sequence_postpone";
-		}
-		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
-		if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION) {
-			$score_reporting = "tst_report_after_question";
-		} else {
-			$score_reporting = "tst_report_after_test";
-		}
-		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($score_reporting));
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt(($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)?"tst_report_after_question":"tst_report_after_test"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
+
 		$num_of = $this->object->getNrOfTries();
 		if (!$num_of) {
 			$num_of = $this->lng->txt("unlimited");
 		}
 		$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
 		$this->tpl->parseCurrentBlock();
+
 		if ($num_of != 1)
 		{
 			// display number of tries of the user
@@ -3078,7 +2845,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$add_sequence = "&sequence=$seq";
 
-		if($_GET['crs_show_result'])
+		if($this->cmdCtrl->showTestResults())
 		{
 			$first_seq = $this->object->getFirstSequence();
 			$add_sequence = "&sequence=".$first_seq;
@@ -3088,12 +2855,21 @@ class ilObjTestGUI extends ilObjectGUI
 				sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 			}
 		}
-		$test_disabled = false;
-		if ($active) {
+				
+		// from here we have test type specific handling
+		
+		$test_disabled = !$this->cmdCtrl->isTestAccessible();
+		
+		if ($test_disabled) {
+			$add_sequence = "";
+		}
+		
+		if ($this->cmdCtrl->isTestResumable() && $this->cmdCtrl->isTestAccessible()){
+			// RESUME BLOCK 
 			$this->tpl->setCurrentBlock("resume");
 			if ($seq == 1)
 			{
-				if(!$_GET['crs_show_result'] or $first_seq)
+				if(!$this->cmdCtrl->showTestResults() or $first_seq)
 				{
 					$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_start_test"));
 				}
@@ -3102,25 +2878,43 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
 			}
-			if ((($active->tries >= $this->object->getNrOfTries()) and ($this->object->getNrOfTries() != 0)) or $maxprocessingtimereached) {
+			
+			// disable resume button
+			if ($test_disabled) {
 				$this->tpl->setVariable("DISABLED", " disabled");
-				$test_disabled = true;
-				$add_sequence = "";
 			}
-			elseif ($this->object->getTestType()!=TYPE_ONLINE_TEST)
+			$this->tpl->parseCurrentBlock();
+		} else {
+		// Start a new Test
+			if ($this->cmdCtrl->isTestAccessible()// ($this->object->startingTimeReached() and !$this->object->endingTimeReached()) 
+						//or ($this->object->getTestType() != TYPE_ASSESSMENT and !$this->object->isOnlineTest())
+					)
+			{
+				$this->tpl->setCurrentBlock("start");
+				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+				$this->tpl->parseCurrentBlock();
+			}							
+		}
+						
+		// we have results
+		if ($active) {
+			// DELETE RESULTS only available for non Online Exams
+			if (!$this->object->isOnlineTest())
 			{
 				// if resume is active it is possible to reset the test
 				$this->tpl->setCurrentBlock("delete_results");
 				$this->tpl->setVariable("BTN_DELETERESULTS", $this->lng->txt("tst_delete_results"));
 				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("results");
-			if (($active->tries < 1) or (!$this->object->canViewResults())) {
-				$this->tpl->setVariable("DISABLED", " disabled");
-			}
-			$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));
-			$this->tpl->parseCurrentBlock();
+			}			
+						
+			// RESULT BLOCK if we can show result because we have data
+			if ($this->cmdCtrl->canShowTestResults()) {
+				$this->tpl->setCurrentBlock("results");
+				$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));				
+				$this->tpl->parseCurrentBlock();
+			}			
+						
+			// Result Date not reached
 			if (!$this->object->canViewResults()) {
 				$this->tpl->setCurrentBlock("report_date_not_reached");
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
@@ -3128,19 +2922,29 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			if ($this->object->isOnlineTest() and $test_disabled) {
+				if (!$this->object->isActiveTestSubmitted($ilUser->getId())) {
+					$this->tpl->setCurrentBlock("show_summary");				
+					$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("save_finish"));
+					$this->tpl->parseCurrentBlock();
+				} else {
+					sendInfo($this->lng->txt("tst_already_submitted"));					
+				}
+			} 			
 		}
-		else
+		
+
+		$this->tpl->setCurrentBlock("adm_content");
+
+		// test is disabled
+		if ($test_disabled)
 		{
-			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or ($this->object->getTestType() != TYPE_ASSESSMENT || ($data["sel_test_types"] != TYPE_ONLINE_TEST)))
-			{
-				$this->tpl->setCurrentBlock("start");
-				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
+			if (!$this->object->startingTimeReached() or $this->object->endingTimeReached())
 			{
 				$this->tpl->setCurrentBlock("startingtime");
 				$this->tpl->setVariable("IMAGE_STARTING_TIME", ilUtil::getImagePath("time.gif", true));
+			
 				if (!$this->object->startingTimeReached())
 				{
 					$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
@@ -3153,19 +2957,15 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		if ($test_disabled)
-		{
-			if ($maxprocessingtimereached)
-			{
-				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
-			}
-			else
+			
+			if ($this->cmdCtrl->isNrOfTriesReached())				
 			{
 				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
 			}
+			if ($this->isMaxProcessingTimeReached())
+			{
+				sendInfo($this->lng->txt("detail_max_processing_time_reached"));					
+			}				
 		}		
 		$introduction = $this->object->getIntroduction();
 		$introduction = preg_replace("/\n/i", "<br />", $introduction);
@@ -3181,7 +2981,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0, $show_summary = false)
+	function outWorkingForm($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order, $directfeedback = 0)
 	{
 		global $ilUser;
 		
@@ -3196,7 +2996,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 		ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
-
+		
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
 		if ($ilUser->prefs["tst_javascript"])
 		{
@@ -3205,9 +3005,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
-		if ($active)
-		{
-			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and !($active->postponed == $question_gui->object->getId()))
+		if (is_object($active))
+		{			
+			if (!preg_match("/(^|\D)" . $question_gui->object->getId() . "($|\D)/", $active->postponed) and 
+				!($active->postponed == $question_gui->object->getId()))
 			{
 				$is_postponed = false;
 			}
@@ -3217,7 +3018,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
 				
 		// output question
@@ -3272,7 +3072,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($show_summary) {
+		if ($this->object->isOnlineTest()) {
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
 			$this->tpl->parseCurrentBlock();
@@ -3281,7 +3081,24 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		
+		if (!$this->object->isOnlineTest()) {
+			$this->tpl->setCurrentBlock("cancel_test");
+			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("cancel_test_bottom");
+			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
+			$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&cancelTest=true");
+			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
+			$this->tpl->parseCurrentBlock();			
+		}		
 
 		if ($finish)
 		{
@@ -4705,7 +4522,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("question");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
+				if ($this->object->isOnlineTest())
+					$this->tpl->setVariable("VALUE_QUESTION_TITLE", preg_replace("/<a[^>]*>(.*?)<\/a>/i","\\1", $value["title"]));
+				else
+					$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
 				if (preg_match("/http/", $value["solution"]))
@@ -6103,6 +5923,8 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$img_not_solved = " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("not_solved.png", true) . "\" alt=\"".$this->lng->txt("tst_click_to_change_state")."\" />";
 		$goto_question =  " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("goto_question.png", true) . "\" alt=\"".$this->lng->txt("tst_qst_goto")."\" />";
 		
+		$disabled = $this->isMaxProcessingTimeReached() | $this->object->endingTimeReached();
+		
 		foreach ($result_array as $key => $value) {
 			if (preg_match("/\d+/", $key)) {
 				$this->tpl->setCurrentBlock("question");
@@ -6111,7 +5933,8 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				$this->tpl->setVariable("VALUE_QUESTION_VISITED", ($value["visited"] > 0) ? " checked=\"checked\" ": ""); 
 				$this->tpl->setVariable("VALUE_QUESTION_SOLVED", ($value["solved"] > 0) ?$img_solved : $img_not_solved);  
-				$this->tpl->setVariable("VALUE_QUESTION_HREF_GOTO", $value["href_goto"]);
+				if (!$disabled)
+					$this->tpl->setVariable("VALUE_QUESTION_HREF_GOTO", "<a href=\"".$value["href_goto"]."\">");
 				$this->tpl->setVariable("VALUE_QUESTION_GOTO", $goto_question);
 				$this->tpl->setVariable("VALUE_QUESTION_HREF_SET_SOLVED", $value["href_setsolved"]."&sequence=".$_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"]);
 				$this->tpl->setVariable("VALUE_QUESTION_SET_SOLVED", ($value["solved"] > 0) ?$this->lng->txt("tst_qst_resetsolved"):$this->lng->txt("tst_qst_setsolved"));
@@ -6127,13 +5950,24 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl->setVariable("QUESTION_VISITED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortvisited&sort_summary=visited\">".$this->lng->txt("tst_question_visited")."</a>".$img_title_visited);
 		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
-		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));
-		
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);	
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
 		$this->tpl->parseCurrentBlock();
+		
+		if (!$disabled) {
+			$this->tpl->setCurrentBlock("back");
+			$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
+			$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+			$this->tpl->parseCurrentBlock();
+		} else 
+		{
+			sendinfo($this->lng->txt("detail_max_processing_time_reached"));
+		}
+		
+		
+		if ($this->object->getEnableProcessingTime())
+			$this->outProcessingTime();
 
 	}
 	
@@ -6256,84 +6090,59 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		}
 	}
 	
+	/**
+	 * updates working time and stores state saveresult to see if question has to be stored or not
+	 */
+	
 	function updateWorkingTime() {
+		// todo: check update within summary and back
+		// todo: back in summary does not work
+		// todo: check working time in summary
+		
 		global $ilUser;
+		
 		// command which do not require update
 		
-		$negs = isset($_POST["cmd"]["start"]) | isset($_POST["cmd"]["resume"]) 
-				| isset($_POST["cmd"]["submit_answers"]) | isset($_POST["cmd"]["confirm_submit_answers"]) 
-				| isset($_POST["cmd"]["cancel_show_answers"]) | isset($_POST["cmd"]["show_answers"]);
+		//print_r($_GET);
+				//print_r($_POST);
+		
+		$negs =  //is_numeric($_GET["set_solved"]) || is_numeric($_GET["question_id"]) ||  
+				  isset($_POST["cmd"]["start"]) || isset($_POST["cmd"]["resume"]) || 
+				  isset($_POST["cmd"]["showresults"]) || isset($_POST["cmd"]["deleteresults"])|| 
+				  isset($_POST["cmd"]["confirmdeleteresults"]) || isset($_POST["cmd"]["canceldeleteresults"]) ||
+				  isset($_POST["cmd"]["submit_answers"]) || isset($_POST["cmd"]["confirm_submit_answers"]) ||
+				  isset($_POST["cmd"]["cancel_show_answers"]) || isset($_POST["cmd"]["show_answers"]);
 		
 		// all other commands which require update
-		$pos  = (count($_POST["cmd"])>0 | isset($_GET["selImage"]));
+		$pos  = count($_POST["cmd"])>0 | isset($_GET["selImage"]) | isset($_GET["sequence"]);
+		
+		$this->saveResult = false;
 		
 		if ($pos==true & $negs==false)
+		//if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selImage"]))
 		{
 			// set new finish time for test
-			if ($_SESSION["active_time_id"])
+			if ($_SESSION["active_time_id"] && $this->object->getEnableProcessingTime())
 			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-			}
-			if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
-			{
-				// maximum processing time reached
-				$maxprocessingtimereached = 1;
-			}
-
-			// save question solution
-			$saveResult = false;
+				echo "updating Worktime<br>";
+			}	
 			
-			if ($_GET["sequence"] && !($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT || $data["sel_test_types"] == TYPE_ONLINE_TEST)) and (!$maxprocessingtimereached))
+			// save question solution
+			if ($_GET["sequence"] && 
+				!$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached())
 			{
 				// but only if the ending time is not reached
 				$q_id = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);
 				if (is_numeric($q_id)) 
 				{
 				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
-				 	$saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-				}								
-				
-
-				if ($_POST["cmd"]["directfeedback"])
-				{
-					$directfeedback = 1;
-				}
-			}
-		}
-		return $saveResult;
-	}
-		
-	function checkOnlineTestAccess () {
-		global $ilUser;
-		
-		// check if user is invited to participate
-		$user = $this->object->getInvitedUsers($ilUser->getId());
-		if (!is_array ($user) || count($user)!=1)
-		{
-				sendInfo($this->lng->txt("user_not_invited"), true);
-				$path = $this->tree->getPathFull($this->object->getRefID());
-				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-				exit();
-		}
-			
-		$user = array_pop($user);
-		// check if client ip is set and if current remote addr is equal to stored client-ip			
-		if (strcmp($user->clientip,"")!=0 && strcmp($user->clientip,$_SERVER["REMOTE_ADDR"])!=0)
-		{
-			sendInfo($this->lng->txt("user_wrong_clientip"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
-
-		if ($_POST["cmd"]["show_answers"] or $_POST["cmd"]["back"] or $_POST["cmd"]["submit_answers"]) {
-			unset($_GET ["sort_summary"]);			
-			unset($_GET ["setsolved"]);
-			if ($_POST["cmd"]["show_answers"]  or $_POST["cmd"]["submit_answers"])					
-				unset($_GET ["sequence"]);		
-		}	
-		
-	}		
+				 	$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
+				 	echo "saving question<br>";
+				}												
+			}			
+		}		
+	}	
 	
 	function resultsheetObject () {
 		global $rbacsystem, $ilUser;
@@ -6520,7 +6329,100 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$counter ++;
 		}
 	}
+	
+	
+	/**
+	 * handle endingTimeReached
+	 * @private
+	 */
+	
+	function endingTimeReached () {
+		sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+		$this->object->setActiveTestUser(1, "", true);
+		if (!$this->object->canViewResults()) 
+		{
+			$this->outIntroductionPage();
+		}
+		else
+		{
+			if ($this->object->isOnlineTest())
+				$this->outTestSummary();
+			else
+				$this->outTestResults();
+		}
+	}
+	
+	
+	function maxProcessingTimeReached (){
+		sendInfo($this->lng->txt("detail_max_processing_time_reached"));
+		$this->object->setActiveTestUser(1, "", true);
+		if (!$this->object->canViewResults()) 
+		{
+			$this->outIntroductionPage();
+		}
+		else
+		{
+			if ($this->object->isOnlineTest())
+				$this->outTestSummary();
+			else					
+				$this->outTestResults();
+		}
+	}		
 		
+		
+	function outProcessingTime () {
+		global $ilUser;
+		$this->tpl->setCurrentBlock("enableprocessingtime");
+		$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
+		$processing_time = $this->object->getProcessingTimeInSeconds();
+		$time_seconds = $working_time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("USER_WORKING_TIME", $this->lng->txt("tst_time_already_spent") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$time_seconds = $processing_time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("MAXIMUM_PROCESSING_TIME", $this->lng->txt("tst_processing_time") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function outShortResult ($user_question_order) {
+		$this->tpl->setCurrentBlock("percentage");
+		$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+		$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+		$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+		$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("percentage_bottom");
+		$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
+		$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+		$this->tpl->setVariable("HUNDRED_PERCENT", "200");
+		$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+		$this->tpl->parseCurrentBlock();				
+	}
+	
+	
+	function isMaxProcessingTimeReached () {
+		global $ilUser;
+ 
+		if (!is_bool($this->maxProcessingTimeReached))
+			$this->maxProcessingTimeReached = (($this->object->getEnableProcessingTime()) && ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()));
+		
+		return $this->maxProcessingTimeReached;
+	}
+	
+	function isEndingTimeReached () {
+		global $ilUser;
+		if (!is_bool($this->endingTimeReached))			
+			$this->endingTimeReached = $this->object->endingTimeReached() && ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->isOnlineTest());
+			
+		return $this->endingTimeReached;	
+	}			
+				
 } // END class.ilObjTestGUI
 
 ?>
