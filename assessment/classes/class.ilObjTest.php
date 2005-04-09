@@ -1578,16 +1578,16 @@ class ilObjTest extends ilObject
 * @see $reporting_date
 */
   function setReportingDate($reporting_date) 
+  {
+	if (!$reporting_date) 
 	{
-    if (!$reporting_date) 
-		{
-      $this->reporting_date = "";
-			$this->ects_output = 0;
+    	$this->reporting_date = "";
+		$this->ects_output = 0;
     }
-			else 
-		{
-      $this->reporting_date = $reporting_date;
-      $this->score_reporting = REPORT_AFTER_TEST;
+	else 
+	{
+    	$this->reporting_date = $reporting_date;
+      	$this->score_reporting = REPORT_AFTER_TEST;
     }
   }
 
@@ -2535,22 +2535,24 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		global $ilUser;
+		if (!is_object ($this->active)) {
+			$db =& $ilDB->db;
+			if (!$user_id) {
+				$user_id = $ilUser->id;
+			}
+			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				$db->quote($user_id),
+				$db->quote($this->test_id)
+			);
 		
-		$db =& $ilDB->db;
-		if (!$user_id) {
-			$user_id = $ilUser->id;
+			$result = $db->query($query);
+			if ($result->numRows()) {
+				$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			} else {
+				$this->active = null;
+			}
 		}
-		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$db->quote($user_id),
-			$db->quote($this->test_id)
-		);
-		
-		$result = $db->query($query);
-		if ($result->numRows()) {
-			return $result->fetchRow(DB_FETCHMODE_OBJECT);
-		} else {
-			return "";
-		}
+		return $this->active;
 	}
 	
 /**
@@ -3859,7 +3861,7 @@ class ilObjTest extends ilObject
 			{
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches);
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();
+				$now = mktime();				
 				if ($now > $epoch_time) 
 				{
 					// ending time reached
@@ -5705,7 +5707,11 @@ class ilObjTest extends ilObject
 		
 	}
 	
-	function isActiveTestSubmitted($user_id) {
+	function isActiveTestSubmitted($user_id = null) {
+		global $ilUser;
+		if (!is_numeric($user_id))
+			$user_id = $ilUser->getId();
+			
 		$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
 			$this->ilias->db->quote($this->test_id),
 			$this->ilias->db->quote($user_id)
@@ -5716,6 +5722,14 @@ class ilObjTest extends ilObject
 		
 	}
 	
+	function hasNrOfTriesRestriction () {
+		return $this->getNrOfTries() != 0;
+	}
+	
+	function isNrOfTriesReached ($tries) {
+		return $tries >= (int) $this->getNrOfTries();
+	}
+		
 
 } // END class.ilObjTest
 
