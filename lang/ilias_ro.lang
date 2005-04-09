@@ -4525,3 +4525,5 @@ assessment#:#tst_your_answers#:#These are your answers given to the following qu
 assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
+content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable

@@ -48,8 +48,6 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
-content#:#msg_page_not_public#:#Page is not public
-content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
@@ -3019,6 +3017,8 @@ content#:#lm_menu_select_object_to_add#:#Please select the object you want to ad
 content#:#msg_entry_added#:#Menu entry added
 content#:#msg_entry_removed#:#Menu entry removed
 content#:#msg_entry_updated#:#Menu entry updated
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.
+content#:#msg_page_not_public#:#Page is not public
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page

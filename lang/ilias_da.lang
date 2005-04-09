@@ -2666,6 +2666,8 @@ content#:#cont_wysiwyg#:#Indhold Wysiwyg###07 Apr 2005 content changed
 content#:#cont_xml_base#:#xml:base###07 Apr 2005 content changed
 content#:#cont_year#:#&aring;r###07 Apr 2005 content changed
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.###07 Apr 2005 content changed
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
+content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
 content#:#pages from#:#Sider fra###07 Apr 2005 content changed
 content#:#par#:#Linje###07 Apr 2005 content changed
 content#:#pg#:#side###07 Apr 2005 content changed
