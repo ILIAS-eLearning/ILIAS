@@ -349,6 +349,7 @@ assessment#:#time_format#:#HH MM SS###07 Apr 2005 content changed
 assessment#:#too_many_empty_parameters#:#Udfyld venligst du tomme applet parameter f&oslash;r du tilf&oslash;jer en ny!###07 Apr 2005 content changed
 assessment#:#true#:#Sandt###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Alle bruger data for denne test er blevet slettet!                                                    ###07 Apr 2005 content changed
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Test er allerede taget###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Annonymt gennemsnits resultat###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable

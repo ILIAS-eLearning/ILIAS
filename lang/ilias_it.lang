@@ -386,6 +386,7 @@ assessment#:#time_format#:#HH MM SS###07 Apr 2005 content changed
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!###07 Apr 2005 content changed
 assessment#:#true#:#Vero###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati relativi agli utenti di questo test sono stati cancellati!###07 Apr 2005 content changed
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable

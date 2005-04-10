@@ -385,6 +385,7 @@ assessment#:#time_format#:#HH MM SS###07 Apr 2005 content changed
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!###07 Apr 2005 content changed
 assessment#:#true#:#Wahr###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!###07 Apr 2005 content changed
+assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
@@ -4851,4 +4852,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.

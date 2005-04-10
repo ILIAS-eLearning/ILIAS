@@ -4503,6 +4503,7 @@ assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
 assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
 assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
 assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable

@@ -386,6 +386,7 @@ assessment#:#time_format#:#ÓÓ PP MM###07 Apr 2005 content changed
 assessment#:#too_many_empty_parameters#:#Töltse ki az üres applet-paramétereket mielőtt új paramétert ad hozzá!###07 Apr 2005 content changed
 assessment#:#true#:#"Igaz"###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került!###29 Nov 2004 content changed
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak###07 Apr 2005 content changed
 assessment#:#tst_anon_eval#:#Névtelen összesített eredménye###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
