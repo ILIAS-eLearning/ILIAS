@@ -386,6 +386,7 @@ assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#True###16 Mar 2004 new variable
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Tests already taken###16 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###16 Mar 2004 new variable
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
