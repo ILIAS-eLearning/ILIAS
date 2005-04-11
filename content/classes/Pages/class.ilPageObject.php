@@ -1742,13 +1742,6 @@ class ilPageObject
 				$content .= $this->dom->dump_node($childs[$j]);
 			}
 
-			//if ($subchar == "html")
-			//{
-			//$content = str_replace("&amp;lt;", "&lt;", $content);
-			//$content = str_replace("&amp;gt;", "&gt;", $content);
-			//$content = str_replace("&", "&amp;amp;", $content);
-			//}
-
 			while ($context_node->has_child_nodes ())
 			{
 				$node_del = $context_node->first_child ();
@@ -1790,11 +1783,10 @@ class ilPageObject
 			//$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");
 			$rows .= "<TD class=\"ilc_Sourcecode\"><PRE>".$content."</PRE></TD></TR>";
 
-			$newcontent = str_replace("\n", "<br />", $rows);
-			
-			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />
-			$newcontent  = str_replace("<br /><br />", "<br/> <br />", $newcontent  );
-//echo "<br>".htmlentities($newcontent);
+			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />; 
+			// workaround: add a space after each br.
+			$newcontent = str_replace("\n", "<br/> ", $rows);
+						
 			$context_node->set_content($newcontent);
 		}
 
