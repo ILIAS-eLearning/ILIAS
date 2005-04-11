@@ -23,26 +23,29 @@
 
 
 /**
-* Meta Data class (element annotation)
+* Meta Data class (element taxon_path)
 *
 * @package ilias-core
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
 
-class ilMDAnnotation extends ilMDBase
+class ilMDTaxonPath extends ilMDBase
 {
 	var $parent_obj = null;
 
-	function ilMDAnnotation(&$parent_obj,$a_id = null)
+	function ilMDTaxonPath(&$parent_obj,$a_id = null)
 	{
 		$this->parent_obj =& $parent_obj;
 
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
-						 'meta_annotation',
+						 'meta_taxon_path',
 						 $a_id);
+
+		$this->setParentType($this->parent_obj->getMetaType());
+		$this->setParentId($this->parent_obj->getMetaId());
 
 		if($a_id)
 		{
@@ -50,54 +53,59 @@ class ilMDAnnotation extends ilMDBase
 		}
 	}
 
+	// METHODS OF CHILD OBJECTS (Taxon)
+	function &getTaxonIds()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
+
+		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId());
+	}
+	function &getTaxon($a_taxon_id)
+	{
+		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
+
+		if(!$a_taxon_id)
+		{
+			return false;
+		}
+		return new ilMDTaxon($this,$a_taxon_id);
+	}
+	function &addTaxon()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
+
+		return new ilMDTaxon($this);
+	}
+
 	// SET/GET
-	function setEntity($a_entity)
+	function setSource($a_source)
 	{
-		$this->entity = $a_entity;
+		$this->source = $a_source;
 	}
-	function getEntity()
+	function getSource()
 	{
-		return $this->entity;
+		return $this->source;
 	}
-	function setDate($a_date)
-	{
-	    $this->date = $a_date;
-	}
-	function getDate()
-	{
-		return $this->date;
-	}
-	function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-	function getDescription()
-	{
-		return $this->description;
-	}
-	function setDescriptionLanguage($lng_obj)
+	function setSourceLanguage(&$lng_obj)
 	{
 		if(is_object($lng_obj))
 		{
-			$this->description_language =& $lng_obj;
+			$this->source_language = $lng_obj;
 		}
 	}
-	function &getDescriptionLanguage()
+	function &getSourceLanguage()
 	{
-		return $this->description_language;
+		return is_object($this->source_language) ? $this->source_language : false;
 	}
-	function getDescriptionLanguageCode()
+	function getSourceLanguageCode()
 	{
-		if(is_object($this->description_language))
-		{
-			return $this->description_language->getLanguageCode();
-		}
-		return false;
-	}
+		return is_object($this->source_language) ? $this->source_language->getLanguageCode() : false;
+	} 
+
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_annotation',
+		if($this->db->autoExecute('il_meta_taxon_path',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
@@ -112,10 +120,10 @@ class ilMDAnnotation extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_annotation',
+			if($this->db->autoExecute('il_meta_taxon_path',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_annotation_id = '".$this->getMetaId()."'"))
+									  "meta_taxon_path_id = '".$this->getMetaId()."'"))
 			{
 				return true;
 			}
@@ -127,8 +135,8 @@ class ilMDAnnotation extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = '".$this->getMetaId()."'";
+			$query = "DELETE FROM il_meta_taxon_path ".
+				"WHERE meta_taxon_path_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
 			
@@ -143,10 +151,10 @@ class ilMDAnnotation extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'entity'	=> ilUtil::prepareDBString($this->getEntity()),
-					 'date'		=> ilUtil::prepareDBString($this->getDate()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'parent_type' => $this->getParentType(),
+					 'parent_id' => $this->getParentId(),
+					 'source'	=> ilUtil::prepareDBString($this->getSource()),
+					 'source_language' => ilUtil::prepareDBString($this->getSourceLanguageCode()));
 	}
 
 	function read()
@@ -155,16 +163,14 @@ class ilMDAnnotation extends ilMDBase
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = '".$this->getMetaId()."'";
+			$query = "SELECT * FROM il_meta_taxon_path ".
+				"WHERE meta_taxon_path_id = '".$this->getMetaId()."'";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setEntity($row->entity);
-				$this->setDate($row->date);
-				$this->setDescription($row->description);
-				$this->description_language =& new ilMDLanguage($row->description_language);
+				$this->setSource($row->source);
+				$this->source_language = new ilMDLanguage($row->source_language);
 			}
 		}
 		return true;
@@ -177,29 +183,36 @@ class ilMDAnnotation extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Annotation');
-		$writer->xmlElement('Entity',null,$this->getEntity());
-		$writer->xmlElement('Date',null,$this->getDate());
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
-		$writer->xmlEndTag('Annotation');
+		$writer->xmlStartTag('TaxonPath');
+
+		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()),$this->getSource());
+
+		// Taxon
+		foreach($this->getTaxonIds() as $id)
+		{
+			$tax =& $this->getTaxon($id);
+			$tax->toXML($writer);
+		}
+		
+		$writer->xmlEndTag('TaxonPath');
 	}
 
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
+		$query = "SELECT meta_taxon_path_id FROM il_meta_taxon_path ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_annotation_id";
-
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND parent_id = '".$a_parent_id."' ORDER BY meta_taxon_path_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_annotation_id;
+			$ids[] = $row->meta_taxon_path_id;
 		}
 		return $ids ? $ids : array();
 	}

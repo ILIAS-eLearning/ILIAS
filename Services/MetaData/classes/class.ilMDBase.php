@@ -48,7 +48,10 @@ class ilMDBase
 	var $obj_type;
 
 
-	function ilMDBase($a_rbac_id,$a_obj_id,$a_type,$a_meta_type = 'meta_data',$a_meta_id = null)
+	function ilMDBase($a_rbac_id,
+					  $a_obj_id,
+					  $a_type,
+					  $a_meta_type = 'meta_data',$a_meta_id = null)
 	{
 		global $ilDB,$ilLog;
 
@@ -80,13 +83,29 @@ class ilMDBase
 	{
 		return $this->meta_type;
 	}
-	function setMetaId()
+	function setMetaId($a_meta_id)
 	{
 		$this->meta_id = $a_meta_id;
 	}
 	function getMetaId()
 	{
 		return $this->meta_id;
+	}
+	function setParentType($a_parent_type)
+	{
+		$this->parent_type = $a_parent_type;
+	}
+	function getParentType()
+	{
+		return $this->parent_type;
+	}
+	function setParentId($a_id)
+	{
+		$this->parent_id = $a_id;
+	}
+	function getParentId()
+	{
+		return $this->parent_id;
 	}
 
 	/*
@@ -130,5 +149,16 @@ class ilMDBase
 	function delete()
 	{
 	}
+
+	/*
+	 * Should be overwritten in all inherited classes
+	 * XML Export of all meta data
+	 * @param object (xml writer) see class.ilMD2XML.php
+	 * 
+	 */
+	function toXML(&$writer)
+	{
+	}
+
 }
 ?>
