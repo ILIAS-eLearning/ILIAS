@@ -2905,7 +2905,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 										}
 										if ($found)
 										{
-											array_push($csvrow, 1);
+											array_push($csvrow, "1");
 										}
 										else
 										{
@@ -2915,7 +2915,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								}
 								else
 								{
-									array_push($csvrow, $answerdata["value"]);
+									array_push($csvrow, $resultset["answers"][$question_id][0]["value"]);
 								}
 							}
 							else
@@ -3105,6 +3105,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$csv = "";
 				foreach ($csvfile as $csvrow)
 				{
+					foreach ($csvrow as $rowindex => $entry)
+					{
+						$surround = FALSE;
+						if (strpos($entry, "\"") !== FALSE)
+						{
+							$entry = str_replace("\"", "\"\"", $entry);
+							$surround = TRUE;
+						}
+						if (strpos($entry, ",") !== FALSE)
+						{
+							$surround = TRUE;
+						}
+						if ($surround)
+						{
+							$csvrow[$rowindex] = utf8_decode("\"" . $entry . "\"");
+						}
+						else
+						{
+							$csvrow[$rowindex] = utf8_decode($entry);
+						}
+					}
 					$csv .= join($csvrow, ",") . "\n";
 				}
 				ilUtil::deliverData($csv, "$surveyname.csv");
@@ -3270,7 +3291,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					array_push($csvrow, $this->lng->txt($eval["QUESTION_TYPE"]));
 					array_push($csvrow, $eval["USERS_ANSWERED"]);
 					array_push($csvrow, $eval["USERS_SKIPPED"]);
-					array_push($csvrow, $eval["MODE"], $matches);
+					array_push($csvrow, $eval["MODE"]);
 					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
 					array_push($csvrow, $eval["MEDIAN"]);
 					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
@@ -3630,6 +3651,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$csv = "";
 				foreach ($csvfile as $csvrow)
 				{
+					foreach ($csvrow as $rowindex => $entry)
+					{
+						$surround = FALSE;
+						if (strpos($entry, "\"") !== FALSE)
+						{
+							$entry = str_replace("\"", "\"\"", $entry);
+							$surround = TRUE;
+						}
+						if (strpos($entry, ",") !== FALSE)
+						{
+							$surround = TRUE;
+						}
+						if ($surround)
+						{
+							$csvrow[$rowindex] = utf8_decode("\"" . $entry . "\"");
+						}
+						else
+						{
+							$csvrow[$rowindex] = utf8_decode($entry);
+						}
+					}
 					$csv .= join($csvrow, ",") . "\n";
 				}
 				ilUtil::deliverData($csv, "$surveyname.csv");
