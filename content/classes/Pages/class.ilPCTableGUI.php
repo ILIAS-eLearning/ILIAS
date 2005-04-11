@@ -115,6 +115,8 @@ class ilPCTableGUI extends ilPageContentGUI
 		// unmask user html
 		$output = str_replace("&lt;","<",$output);
 		$output = str_replace("&gt;",">",$output);
+		$output = str_replace("&amp;","&",$output);
+
 //echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("CONT_TABLE", $output);
 
@@ -146,9 +148,11 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("VAL_TABLE_SPACING", $this->content_obj->getCellSpacing());
 
 		// caption
+		$caption = $this->content_obj->getCaption();
+		$caption = str_replace("&", "&amp;", $caption);
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("INPUT_CAPTION", "tab_caption");
-		$this->tpl->setVariable("VAL_CAPTION", $this->content_obj->getCaption());
+		$this->tpl->setVariable("VAL_CAPTION", $caption);
 		$select_align = ilUtil::formSelect ($this->content_obj->getCaptionAlign(),"tab_cap_align",
 			array("top" => $this->lng->txt("cont_top"), "bottom" => $this->lng->txt("cont_bottom")),false,true);
 		$this->tpl->setVariable("SELECT_CAPTION", $select_align);
@@ -202,12 +206,18 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function saveProperties()
 	{
+		// mask html
+		$caption = $_POST["tab_caption"];
+		$caption = str_replace("&","&amp;", $caption);
+		$caption = str_replace("<","&lt;", $caption);
+		$caption = str_replace(">","&gt;", $caption);
+
 		$this->content_obj->setLanguage($_POST["tab_language"]);
 		$this->content_obj->setWidth($_POST["tab_width"]);
 		$this->content_obj->setBorder($_POST["tab_border"]);
 		$this->content_obj->setCellSpacing($_POST["tab_spacing"]);
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
-		$this->content_obj->setCaption($_POST["tab_caption"], $_POST["tab_cap_align"]);
+		$this->content_obj->setCaption($caption, $_POST["tab_cap_align"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
