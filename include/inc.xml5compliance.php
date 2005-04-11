@@ -246,6 +246,8 @@ class php4DOMElement extends php4DOMNode
 		// the following replace has been added to conform with PHP4.
 		// A set_content("&amp;") brought a get_content() = "&" there,
 		// whereas PHP5 gives a get_content() = "&amp;"
+		$text = str_replace("&lt;", "<", $text);
+		$text = str_replace("&gt;", ">", $text);
 		$text = str_replace("&amp;", "&", $text);
 		
 		$text_node =& new DOMText();
