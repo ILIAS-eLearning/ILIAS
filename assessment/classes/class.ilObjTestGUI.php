@@ -6126,7 +6126,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			if ($_SESSION["active_time_id"] && $this->object->getEnableProcessingTime())
 			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-				echo "updating Worktime<br>";
+				#echo "updating Worktime<br>";
 			}	
 			
 			// save question solution
@@ -6139,7 +6139,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				{
 				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
 				 	$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-				 	echo "saving question<br>";
+				 	#echo "saving question<br>";
 				}												
 			}			
 		}		
