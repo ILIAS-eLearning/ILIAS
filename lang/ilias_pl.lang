@@ -4511,7 +4511,7 @@ survey#:#add_phrase#:#Dodaj frazę###07 Apr 2005 content changed
 survey#:#add_phrase_introduction#:#Wybierz frazę:###07 Apr 2005 content changed
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.###07 Apr 2005 content changed
 survey#:#anonymize_anonymous_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, musisz użyć 32-knakowego kodu, który otrzymasz z kreatora ankiety<br />Podaj go w poniższym polu tekstowym.###07 Apr 2005 content changed
-survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span>.<br />Podaj go w poniższym polu tekstowym.###07 Apr 2005 content changed
+survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span><br />Podaj go w poniższym polu tekstowym.###07 Apr 2005 content changed
 survey#:#anonymize_resume_introduction#:#Podaj swój kod dostępu do ankiety aby wrócić do ankiety. Został on przesłany do twojej skrzynki pocztowej ILIAS, gdy rozpocząłeś ankietę.###07 Apr 2005 content changed
 survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety###07 Apr 2005 content changed
 survey#:#anonymize_survey_explanation#:#Kiedy jest aktywne, wszystkie dane użytkownika są anonimowe i nie mogą być śledzone.###07 Apr 2005 content changed
