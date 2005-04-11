@@ -23,26 +23,29 @@
 
 
 /**
-* Meta Data class (element annotation)
+* Meta Data class (element keyword)
 *
 * @package ilias-core
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
 
-class ilMDAnnotation extends ilMDBase
+class ilMDKeyword extends ilMDBase
 {
 	var $parent_obj = null;
 
-	function ilMDAnnotation(&$parent_obj,$a_id = null)
+	function ilMDKeyword(&$parent_obj,$a_id = null)
 	{
 		$this->parent_obj =& $parent_obj;
 
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
-						 'meta_annotation',
+						 'meta_keyword',
 						 $a_id);
+
+		$this->setParentType($this->parent_obj->getMetaType());
+		$this->setParentId($this->parent_obj->getMetaId());
 
 		if($a_id)
 		{
@@ -51,53 +54,33 @@ class ilMDAnnotation extends ilMDBase
 	}
 
 	// SET/GET
-	function setEntity($a_entity)
+	function setKeyword($a_keyword)
 	{
-		$this->entity = $a_entity;
+		$this->keyword = $a_keyword;
 	}
-	function getEntity()
+	function getKeyword()
 	{
-		return $this->entity;
+		return $this->keyword;
 	}
-	function setDate($a_date)
-	{
-	    $this->date = $a_date;
-	}
-	function getDate()
-	{
-		return $this->date;
-	}
-	function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-	function getDescription()
-	{
-		return $this->description;
-	}
-	function setDescriptionLanguage($lng_obj)
+	function setKeywordLanguage(&$lng_obj)
 	{
 		if(is_object($lng_obj))
 		{
-			$this->description_language =& $lng_obj;
+			$this->keyword_language = $lng_obj;
 		}
 	}
-	function &getDescriptionLanguage()
+	function &getKeywordLanguage()
 	{
-		return $this->description_language;
+		return is_object($this->keyword_language) ? $this->keyword_language : false;
 	}
-	function getDescriptionLanguageCode()
+	function getKeywordLanguageCode()
 	{
-		if(is_object($this->description_language))
-		{
-			return $this->description_language->getLanguageCode();
-		}
-		return false;
+		return is_object($this->keyword_language) ? $this->keyword_language->getLanguageCode() : false;
 	}
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_annotation',
+		if($this->db->autoExecute('il_meta_keyword',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
@@ -112,10 +95,10 @@ class ilMDAnnotation extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_annotation',
+			if($this->db->autoExecute('il_meta_keyword',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_annotation_id = '".$this->getMetaId()."'"))
+									  "meta_keyword_id = '".$this->getMetaId()."'"))
 			{
 				return true;
 			}
@@ -127,8 +110,8 @@ class ilMDAnnotation extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = '".$this->getMetaId()."'";
+			$query = "DELETE FROM il_meta_keyword ".
+				"WHERE meta_keyword_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
 			
@@ -143,10 +126,10 @@ class ilMDAnnotation extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'entity'	=> ilUtil::prepareDBString($this->getEntity()),
-					 'date'		=> ilUtil::prepareDBString($this->getDate()),
-					 'description' => ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'parent_type' => $this->getParentType(),
+					 'parent_id' => $this->getParentId(),
+					 'keyword'	=> ilUtil::prepareDBString($this->getKeyword()),
+					 'keyword_language' => ilUtil::prepareDBString($this->getKeywordLanguageCode()));
 	}
 
 	function read()
@@ -155,21 +138,19 @@ class ilMDAnnotation extends ilMDBase
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = '".$this->getMetaId()."'";
+			$query = "SELECT * FROM il_meta_keyword ".
+				"WHERE meta_keyword_id = '".$this->getMetaId()."'";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setEntity($row->entity);
-				$this->setDate($row->date);
-				$this->setDescription($row->description);
-				$this->description_language =& new ilMDLanguage($row->description_language);
+				$this->setKeyword($row->keyword);
+				$this->keyword_language = new ilMDLanguage($row->keyword_language);
 			}
 		}
 		return true;
 	}
-
+				
 	/*
 	 * XML Export of all meta data
 	 * @param object (xml writer) see class.ilMD2XML.php
@@ -177,29 +158,25 @@ class ilMDAnnotation extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Annotation');
-		$writer->xmlElement('Entity',null,$this->getEntity());
-		$writer->xmlElement('Date',null,$this->getDate());
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
-		$writer->xmlEndTag('Annotation');
+		$writer->xmlElement('Keyword',array('Language' => $this->getKeywordLanguageCode()),$this->getKeyword());
 	}
 
-				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
+		$query = "SELECT meta_keyword_id FROM il_meta_keyword ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_annotation_id";
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND parent_id = '".$a_parent_id."' ORDER BY meta_keyword_id";
 
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_annotation_id;
+			$ids[] = $row->meta_keyword_id;
 		}
 		return $ids ? $ids : array();
 	}

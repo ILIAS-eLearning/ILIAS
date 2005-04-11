@@ -176,8 +176,6 @@ class ilMD extends ilMDBase
 	{
 		include_once 'class.ilMDAnnotation.php';
 
-		#var_dump("<pre>",ilMDAnnotation::_getIds($this->getRBACId(),$this->getObjId()),"<pre>");
-
 		return ilMDAnnotation::_getIds($this->getRBACId(),$this->getObjId());
 	}
 	function &getAnnotation($a_annotation_id)
@@ -199,7 +197,7 @@ class ilMD extends ilMDBase
 
 	function &getClassificationIds()
 	{
-		include_once 'class.ilLMClassification.php';
+		include_once 'class.ilMDClassification.php';
 
 		return ilMDClassification::_getIds($this->getRBACId(),$this->getObjId());
 	}
@@ -210,15 +208,41 @@ class ilMD extends ilMDBase
 			return false;
 		}
 
-		include_once 'class.ilLMClassification.php';
+		include_once 'class.ilMDClassification.php';
 
 		return new ilMDClassification($this,$a_classification_id);
 	}
-	function addClassification()
+	function &addClassification()
 	{
-		include_once 'class.ilLMClassification.php';
+		include_once 'class.ilMDClassification.php';
 
 		return new ilMDClassification($this);
-	}		
+	}
+
+	/*
+	 * XML Export of all meta data
+	 * @param object (xml writer) see class.ilMD2XML.php
+	 * 
+	 */
+	function toXML(&$writer)
+	{
+		$writer->xmlStartTag('MetaData');
+
+		// Annotations
+		foreach($this->getAnnotationIds() as $id)
+		{
+			$ann =& $this->getAnnotation($id);
+			$ann->toXML($writer);
+		}
+		
+		// Classification
+		foreach($this->getClassificationIds() as $id)
+		{
+			$cla =& $this->getClassification($id);
+			$cla->toXML($writer);
+		}
+		
+		$writer->xmlEndTag('MetaData');
+	}
 }
 ?>
