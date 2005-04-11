@@ -4188,18 +4188,77 @@ class ilObjTestGUI extends ilObjectGUI
 					$csv = "";
 					if (!$this->object->isRandomTest())
 					{
+						foreach ($titlerow as $rowindex => $entry)
+						{
+							$surround = FALSE;
+							if (strpos($entry, "\"") !== FALSE)
+							{
+								$entry = str_replace("\"", "\"\"", $entry);
+								$surround = TRUE;
+							}
+							if (strpos($entry, ",") !== FALSE)
+							{
+								$surround = TRUE;
+							}
+							if ($surround)
+							{
+								$titlerow[$rowindex] = utf8_decode("\"" . $entry . "\"");
+							}
+							else
+							{
+								$titlerow[$rowindex] = utf8_decode($entry);
+							}
+						}
 						$csv .= join($titlerow, ",") . "\n";
 					}
 					foreach ($eval_complete as $evalrow)
 					{
 						if ($this->object->isRandomTest())
 						{
+							foreach ($evalrow["title"] as $rowindex => $entry)
+							{
+								$surround = FALSE;
+								if (strpos($entry, "\"") !== FALSE)
+								{
+									$entry = str_replace("\"", "\"\"", $entry);
+									$surround = TRUE;
+								}
+								if (strpos($entry, ",") !== FALSE)
+								{
+									$surround = TRUE;
+								}
+								if ($surround)
+								{
+									$evalrow["title"][$rowindex] = utf8_decode("\"" . $entry . "\"");
+								}
+								else
+								{
+									$evalrow["title"][$rowindex] = utf8_decode($entry);
+								}
+							}
 							$csv .= join($evalrow["title"], ",") . "\n";
 						}
 						$csvarr = array();
-						foreach ($evalrow["data"] as $key => $value)
+						foreach ($evalrow["data"] as $rowindex => $entry)
 						{
-							array_push($csvarr, $value["csv"]);
+							$surround = FALSE;
+							if (strpos($entry["csv"], "\"") !== FALSE)
+							{
+								$entry["csv"] = str_replace("\"", "\"\"", $entry["csv"]);
+								$surround = TRUE;
+							}
+							if (strpos($entry["csv"], ",") !== FALSE)
+							{
+								$surround = TRUE;
+							}
+							if ($surround)
+							{
+								array_push($csvarr, utf8_decode("\"" . $entry["csv"] . "\""));
+							}
+							else
+							{
+								array_push($csvarr, utf8_decode($entry["csv"]));
+							}
 						}
 						$csv .= join($csvarr, ",") . "\n";
 					}
