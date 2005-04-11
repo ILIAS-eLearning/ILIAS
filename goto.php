@@ -38,9 +38,9 @@ if (isset($_GET["client_id"]))
 	setcookie("ilClientId",$_GET["client_id"]);
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
-
+//echo "1";
 require_once "./include/inc.header.php";
-
+//echo "2";
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];

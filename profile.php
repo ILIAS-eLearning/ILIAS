@@ -54,7 +54,7 @@ $tpl->parseCurrentBlock();
 
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("userdata"));
-$tpl->setVariable("LINK_ITEM", "");
+$tpl->setVariable("LINK_ITEM", "profile.php?user=".$_GET["user"]);
 $tpl->setVariable("LINK_TARGET","target=\"bottom\"");
 $tpl->parseCurrentBlock();
 
