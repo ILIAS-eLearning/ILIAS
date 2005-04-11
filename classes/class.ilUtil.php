@@ -2118,8 +2118,8 @@ class ilUtil
 	*/
 	function redirect($a_script)
 	{
-		global $log;
-
+		global $log, $PHP_SELF;
+//$log->write("redirect FROM:".$PHP_SELF." to ".$a_script);
 		header("Location: ".$a_script);
 		exit();
 	}
