@@ -133,8 +133,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'class.ilMDRights.php';
 
-		$rig =& new ilMDRights($this);
-		$rig->read();
+		$rig =& new ilMDRights($this,ilMDRights::_getId($this->getRBACId(),$this->getObjId()));
 		
 		return $rig;
 	}
@@ -227,6 +226,10 @@ class ilMD extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlStartTag('MetaData');
+
+		// Rights
+		$rig =& $this->getRights();
+		$rig->toXML($writer);
 
 		// Relations
 		foreach($this->getRelationIds() as $id)
