@@ -228,6 +228,13 @@ class ilMD extends ilMDBase
 	{
 		$writer->xmlStartTag('MetaData');
 
+		// Relations
+		foreach($this->getRelationIds() as $id)
+		{
+			$rel =& $this->getRelation($id);
+			$rel->toXML($writer);
+		}
+
 		// Annotations
 		foreach($this->getAnnotationIds() as $id)
 		{
