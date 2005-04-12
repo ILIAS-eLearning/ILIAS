@@ -4853,3 +4853,7 @@ survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
 assessment#:#points_short#:#Pt.
+crs#:#crs_visibility#:#Sichtbarkeit
+crs#:#crs_visibility_unvisible#:#Nicht sichtbar
+crs#:#crs_visibility_limitless#:#Sichtbar (unbegrenzt)
+crs#:#crs_visibility_until#:#Sichtbar (Von ... bis)

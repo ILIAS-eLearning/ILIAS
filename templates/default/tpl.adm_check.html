@@ -2,7 +2,7 @@
 <!--
 function handleScanOnly(form)
 {
-	if (form.analyze.checked || form.check_tree.checked)
+	if (form.analyze.checked)
 	{
 		form.clean.disabled = true;
 		form.restore.disabled = true;
@@ -136,11 +136,12 @@ function handlePurgeTrash(form)
    <td class="option_value"><input type="checkbox" name="mode[analyze]"  value="1" id="analyze" checked="checked" onClick="handleScanOnly(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_ANALYZE_DESC}</td>
   </tr>
+<!-- disabled 
   <tr>
    <td class="option"><label for="check_tree">{TXT_CHECK_TREE}</label></td>
    <td class="option_value"><input type="checkbox" name="mode[check_tree]"  value="1" id="check_tree" onClick="handleScanOnly(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_CHECK_TREE_DESC}</td>
-  </tr>
+  </tr>  disabled //-->
   <tr>
    <td class="option"><label for="clean">{TXT_CLEAN}</label></td>
    <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" id="clean" disabled="disabled" onClick="handleClean(document.ScanOptions)" /></td>

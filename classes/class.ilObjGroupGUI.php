@@ -25,7 +25,7 @@
 * Class ilObjGroupGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @author	Sascha Hofmann <saschahofmann@gmx.de>
+* @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
@@ -1155,8 +1155,8 @@ class ilObjGroupGUI extends ilObjectGUI
 					
 					$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
 					$f_result[$counter][] = $tmp_obj->getLogin();
-					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
+					$f_result[$counter][] = $tmp_obj->getLastname();
 					$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
 
 					unset($tmp_obj);

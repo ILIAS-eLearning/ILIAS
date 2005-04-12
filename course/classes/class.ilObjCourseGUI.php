@@ -26,7 +26,7 @@
 * Class ilObjCourseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$
+* $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI
@@ -457,9 +457,20 @@ class ilObjCourseGUI extends ilObjectGUI
 			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_consultation"],true) :
 			ilUtil::prepareFormOutput($this->object->getContactConsultation());
 
-		$activation_unlimited = $_SESSION["error_post_vars"]["crs"]["activation_unlimited"] ? 
+
+		$offline = $_SESSION["error_post_vars"]["crs"]["activation_type"] == 1 ? 1 : (int) $this->object->getOfflineStatus();
+
+		$activation_unlimited = $_SESSION["error_post_vars"]["crs"]["activation_type"] == 2 ? 
 			1 : 
 			(int) $this->object->getActivationUnlimitedStatus();
+
+		$activation_unlimited = $offline ? 0 : 1;
+
+		$activation_limit = $_SESSION['error_post_vars']['crs']['activation_type'] == 3 ?
+			1 :
+			(!$this->object->getOfflineStatus() and !$this->object->getActivationUnlimitedStatus()) ? 1 : 0;
+
+		$activation_limit = $offline ? 0 : 1;
 
 		$activation_start = $_SESSION["error_post_vars"]["crs"]["activation_start"] ? 
 			$this->__toUnix($_SESSION["error_post_vars"]["crs"]["activation_start"]) :
@@ -469,7 +480,6 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->__toUnix($_SESSION["error_post_vars"]["crs"]["activation_end"]) :
 			$this->object->getActivationEnd();
 
-		$offline = $_SESSION["error_post_vars"]["crs"]["activation_offline"] ? 1 : (int) $this->object->getOfflineStatus();
   
 		$subscription_unlimited = $_SESSION["error_post_vars"]["crs"]["subscription_unlimited"] ? 
 			1 : 
@@ -542,11 +552,10 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
 		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
 
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("crs_activation"));
-		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("crs_unlimited"));
-		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("crs_start"));
-		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("crs_end"));
-		$this->tpl->setVariable("TXT_ACTIVATION_OFFLINE",$this->lng->txt("set_online"));
+		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_visibility'));
+		$this->tpl->setVariable("TXT_VISIBILITY_UNVISIBLE",$this->lng->txt('crs_visibility_unvisible'));
+		$this->tpl->setVariable("TXT_VISIBILITY_LIMITLESS",$this->lng->txt('crs_visibility_limitless'));
+		$this->tpl->setVariable("TXT_VISIBILITY_UNTIL",$this->lng->txt('crs_visibility_until'));
 
 		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
 		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("crs_unlimited"));
@@ -580,7 +589,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("submit"));
 
-		$this->tpl->setVariable("ACTIVATION_UNLIMITED",ilUtil::formCheckbox($activation_unlimited,"crs[activation_unlimited]",1));
+		$this->tpl->setVariable("ACTIVATION_OFFLINE",ilUtil::formRadioButton($offline,"crs[activation_type]",1));
 
 
 		$this->tpl->setVariable("SELECT_ACTIVATION_START_MINUTE",$this->__getDateSelect("minute","crs[activation_start][minute]",
@@ -604,7 +613,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_YEAR",$this->__getDateSelect("year","crs[activation_end][year]",
 																					date("Y",$activation_end)));
 
-		$this->tpl->setVariable("CHECK_ACTIVATION_OFFLINE",ilUtil::formCheckbox(!$offline,"crs[activation_offline]",1));
+		$this->tpl->setVariable("ACTIVATION_UNLIMITED",ilUtil::formRadioButton($activation_unlimited,"crs[activation_type]",2));
+		$this->tpl->setVariable("ACTIVATION_UNTIL",ilUtil::formRadioButton($activation_limit,'crs[activation_type]',3));
 
 		$this->tpl->setVariable("SUBSCRIPTION_UNLIMITED",ilUtil::formCheckbox($subscription_unlimited,"crs[subscription_unlimited]",1));
 
@@ -715,10 +725,31 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setContactEmail(ilUtil::stripSlashes($_POST["crs"]["contact_email"]));
 		$this->object->setContactResponsibility(ilUtil::stripSlashes($_POST["crs"]["contact_responsibility"]));
 
-		$this->object->setActivationUnlimitedStatus((bool) $_POST["crs"]["activation_unlimited"]);
+
+
+		switch($_POST['crs']['activation_type'])
+		{
+			case 3:
+				$this->object->setOfflineStatus(false);
+				$this->object->setActivationUnlimitedStatus(false);
+				break;
+			
+			case 2:
+				$this->object->setOfflineStatus(false);
+				$this->object->setActivationUnlimitedStatus(true);
+				break;
+
+			case 1:
+			default:
+				$this->object->setOfflineStatus(true);
+				$this->object->setActivationUnlimitedStatus(false);
+				break;
+		}
+
+		#$this->object->setActivationUnlimitedStatus((bool) $_POST["crs"]["activation_unlimited"]);
 		$this->object->setActivationStart($this->__toUnix($_POST["crs"]["activation_start"]));
 		$this->object->setActivationEnd($this->__toUnix($_POST["crs"]["activation_end"]));
-		$this->object->setOfflineStatus(!$_POST["crs"]["activation_offline"]);
+		#$this->object->setOfflineStatus(!$_POST["crs"]["activation_offline"]);
 
 		$this->object->setSubscriptionUnlimitedStatus((bool) $_POST["crs"]["subscription_unlimited"]);
 		$this->object->setSubscriptionStart($this->__toUnix($_POST["crs"]["subscription_start"]));
