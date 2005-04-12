@@ -198,6 +198,7 @@ inst_name#:#installation name
 install#:#install
 installation#:#Installation
 installed#:#installed
+installed_local#:#Installed With Local
 institution#:#Institution
 intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
 ip_address#:#IP address
