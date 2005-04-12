@@ -1,0 +1,400 @@
+/**
+* ILIAS language file
+*
+* @module       language file romanian
+* @modulegroup  language
+* @author       Udrescu Tudor <tudrescu@univ-ovidius.ro> 
+* @author       Sergiu Pasca <sergiu_psc@yahoo.com>
+*/
+
+	+-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, Universitatea din Koln           |
+    |                                                                             |
+    | Acest program este free software; poate fi redistribuit si/sau              |
+    | modificat in conditiile GNU General Public License                          |
+    | publicata de Free Software Foundation; fie versiunea 2                      |
+    | a Licentei, sau (la optiunea dumneavoastra) oricare versiune ulterioara.    |
+    |                                                                             |
+    | Acest program este distribuit in speranta ca va va folosi,                  |
+    | dar FARA NICI O GARANTIE; fara garantia implicita ca va putea fi            |
+    | COMERCIALIZAT sau ca poate FI FOLOSIT CU UN SCOP PRECIS.  A se vedea        |
+    | GNU General Public License pentru detalii suplimentare.                     |
+    |                                                                             |
+    | Trebuie sa primiti o copie a  GNU General Public License                    |
+    | impreuna cu acest program; daca nu, scrieti la Free Software                |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+    
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+3rd_party_software#:#Software 3rd Party
+absolute_path#:#Calea absoluta
+access#:#Acces
+access_status#:#Starea accesului
+admin_login#:#Logare ca Administrator
+antivir#:#Anti-Virus
+available_clients#:#Clienti disponibili
+available_languages#:#Limbi disponibile
+back#:#Inapoi
+cannot_create_datadir_no_write_access#:#Nu aveti acces pentru scriere. Nu se poate crea director de date
+change#:#Schimbare
+change_basic_settings#:#Schimbarea setarilor de baza
+change_password#:#Schimbarea parolei
+change_sort_direction#:#Schimbarea directiei de sortare
+check_failed_convert#:#Testarea conversiei nu a reusit
+check_failed_htmldoc#:#Testarea FOP nu a reusit
+check_failed_htmldoc#:#Testarea HTMLdoc nu a reusit
+check_failed_java#:#Testarea Java nu a reusit
+check_failed_unzip#:#Testarea unzip nu a reusit
+check_failed_zip#:#Testarea zip nu a reusit
+choose_language#:#Alegeti limba
+choose_languages#:#Va rugam alegeti limbi suplimentare si/sau stergeti limbile selectate.
+choose_password#:#Va rugam alegeti o parola
+city#:#Orasul, statul
+clean_command#:#Sterge comanda
+client#:#Client
+client_access_mode_changed#:#Modul de acces al clientului schimbat
+client_data#:#Informatii client
+client_id#:#ID client
+client_info#:#Descriere
+client_institution#:#Institutie
+client_login#:#Logare cu ID-ul dvs. de client
+client_name#:#Nume
+client_setup_not_finished#:#Configurarea clientului nu s-a incheiat
+collation#:#Collation
+contact#:#Informatii de contact
+contact_data#:#Informatii de contact
+convert_path#:#Calea catre Convert
+convert_path_comment#:#necesar pentru afisarea imaginilor in format redus
+could_not_create_logfile#:#Nu se poate crea fisier de log
+country#:#Tara
+create#:#Creare
+create_datadir_failed#:#Crearea directorului de date nu a reusit
+create_new_client#:#Creare client nou
+create_webdir_failed#:#Crearea directorului web nu a reusit
+data_path#:#calea catre date
+database#:#baza de date
+database_create#:#Creare baza de date
+database_exists#:#Baza de date exista
+database_install#:#Instalare baza de date
+database_installed#:#Baza de date instalata
+database_is_uptodate#:#Baza dumneavoastra de date este actualizata
+database_needs_update#:#baza dumneavoastra de date trebuie actualizata
+database_not_exists_create_first#:#baza de date nu exista. va rugam sa creati mai intai baza de date.
+database_ready#:#Baza de date este pregatita.
+database_update#:#actualizare baza de date
+database_version#:#versiunea curenta a bazei de date
+datadir_path#:#calea catre directroul de date
+datadir_path_comment1#:#Obligatoriu
+datadir_path_comment2#:#Nu poate fi schimbat in aceasta versiune de setup
+datadir_webspacedir_match#:#Calea catre directorul dumneavoastra de date duce catre aceeasi locatie unde este amplasat si directorul WEB. Va rugam alegeti un alt director.
+date#:#data
+db_conn#:#Conectare baza de date
+db_host#:#Gazda baza de date
+db_name#:#Nume baza de date
+db_needs_update#:#Baza de date trebuie actualizata
+db_not_installed#:#Baza de date nu este instalata
+db_pass#:#Parola baza de date
+db_type#:#Tip baza de date
+db_user#:#Utilizator baza de date
+db_version#:#Versiune baza de date
+default#:#implicit
+default_client_changed#:#Clientul implicit schimbat
+default_language#:#Limba implicita
+delete#:#sterge
+delete_confirm#:#Confirmati stergerea clientului
+delete_info#:#Sunteti sigur?
+details#:#Detalii
+dir_exists_create#:#Directorul exista deja. Deselectati 'Creare' pentru a selecta acest director ca director de date
+disable#:#Dezactivare
+disable_check#:#Dezactivare selectie
+disable_logging#:#Dezactivare logare
+disabled#:#Dezactivat
+display_clientlist#:#Afiseaza selectia clientului
+email#:#Email
+email_not_valid#:#Adresa de email invalida
+en_by_default#:#(Limba engleza este instalata implicit si nu poate fi stearsa).
+enable#:#Activare
+enabled#:#Activat
+enter_dir_and_filename#:#Va rugam introduceti calea completa (absoluta) si numele fisierului!
+enter_password#:#Va rugam introduceti parola
+env_ok#:#Ok. Suna bine.
+env_using#:#ILIAS 3 va rula
+env_warning#:#ILIAS 3 a fost testat doar pe Linux si Windows folosind serverul web Apache !<br />Cu toate acestea, ILIAS 3 poate functiona si pe mediul dumneavoastra.
+environment#:#Mediu de lucru
+err_create_database_failed#:#Crearea bazei de date a esuat
+err_wrong_login#:#Login gresit
+error_recipient#:#Eroare la primire
+example#:#Exemplu
+feedback_recipient#:#Destinatar feedback
+file_does_not_exist#:#Fisierul nu exista.
+file_version#:#Versiunea fisierului
+fill_both_fields#:#Va rugam completati ambele campuri!
+fill_out_required_fields#:#Va rugam completati toate campurile marcate ca obligatorii.
+filled_out#:#completat corect
+finish#:#Termina configurarea
+finish_initial_setup_first#:#va rugam sa terminati prima configurare
+finish_setup#:#Terminarea configurarii
+firstname#:#Numele
+fop_path#:#Calea catre FOP
+fop_path_comment#:#Necesar pentru a crea fisiere PDF
+hide_clientlist#:#Ascunde selectia clientului
+host#:#Gazda
+htmldoc_path#:#Calea catre HTMLdoc
+htmldoc_path_comment#:#necesar pentru a crea fisire PDF
+http_path#:#Calea HTTP
+id#:#ID
+ilias_homepage#:#Pagina de start ILIAS
+ilias_nic#:#Inregistrarea NIC
+ilias_nic_id#:#Numarul de identificare al NIC
+ilias_setup#:#Setare ILIAS 3
+ilias_version#:#Versiunea ILIAS
+info_text_contact#:#Aici veti indica informatii client suplimentare si informatii de contact ale administratorului de sistem al acestui client. Campurile marcate cu asterisc trebuie completate. Toate informatiile sunt stocate in baza dumneavoastra de date. In ecranul urmator puteti inregistra instalarea la serverul ILIAS-NIC; aceste date vor fi transmise catre serverul ILIAS-NIC.
+info_text_db#:#Baza de date nu exista sau este goala. Apasati pe butonul de mai jos pentru a instala baza de date. Daca o baza de date cu numele ales nu exista inca, va rugam selectati optiunea 'creare baza de date'. Se va incerca crearea automata a bazei de date. In cazul in care crearea bazei de date esueaza (din cauza restrictiilor de acces), va rugam contactati administratorul de sistem al serverului de baze de date si rugati-l sa creeze o baza de date cu numele dorit pentru instalarea ILIAS.
+info_text_db_collation1#:#In cazul in care colationarea dorita de dumnevoastra nu este continuta in lista de colationari UTF-8, puteti sa creati baza de date si manual. In orice caz, asigurati-va ca setul de caractere pentru baza de date este fixat la utf8.
+info_text_db_collation2#:#Mai multe informatii despre colationarile MySQL pot fi gasite pe site-ul MySQL.
+info_text_delete#:#Puteti sterge acest client apasand pe butonul de stergere de mai jos. Cu toate acestea, numai fisierul client.ini va fi sters, pastrandu-se toate fisierele din directoarele de date ale clientilor si baza de date. Fisierele si baza de date trebuie sa fie sterse manual de catre administratorul de sistem.
+info_text_finish1#:#Felicitari! Configurarea clientului dumneavoastra s-a realizat cu succes. Apasati pe 'Logare' pentru a intra in pagina de instalare a ILIAS.
+info_text_finish2#:#Unele configurari inca lipsesc sau sunt incorecte. va rugam sa verificati starea curenta a instalarii pentru a vedea ce trebuie facut!
+info_text_first_client#:#Configurarile de baza au fost salvate. Acum vom configura primul dumneavoastra client. Meniul de configurare o sa va asiste pe tot parcursul procesului de instalare. Pe panoul din dreapta puteti intotdeauna vedea starea curenta a procesului de instalare.
+info_text_first_install#:#Se pare ca instalati ILIAS 3 pentru prima data, deoarece nu a fost gasit nici un fisier ilias.ini. In fisierul ilias.ini pastram o parola principala pentru a proteja configurarea ILIAS de un acces neautorizat.
+info_text_ini#:#Va rugam sa alegeti un client ID. Este acceptata orice litera (in afara de umlauturi) sau cifra.Client ID-ul trebuie sa fie un cuvant.<br />Apoi introduceti datele de legatura cu baza de date. Configurarea stabileste o legatura de test pentru a verifica setarile dumneavoastra si pentru a testa daca baza de date exista. Daca baza de date nu exista inca, in urmatorul pas din procesul de configurare puteti crea o baza de date.
+info_text_lang#:#Va rugam alegeti limbi suplimentare si/sau stergeti limbile selectate. Limba implicita va fi folosita pentru noile conturi de utilizator sau pentru utilizatorii care nu au selectat inca o limba preferata.
+info_text_list#:#In aceasta prezentare vedeti toti clientii disponibili si starea lor de configurare si acces. In partea dreapta sus puteti activa/dezactiva ecranul de selectie a clientilor. Daca selectia clientului este activa, toti clientii disponibili care sunt online vor fi afisati intr-o lista pe pagina de start a ILIAS. Daca selectia clientilor este inactiva si un utilizator viziteaza pagina de start, este afisat ecranul de logare al clientului <i>implicit</i>. Puteti determina clientul implicit cu butonul de mai jos.
+info_text_login#:#Va rugam introduceti Client ID-ul pentru instalarea dumneavoastra si datele de inregistrare. Contul dumneavoastra trebuie sa fie corespunzator rolului de 'administrator'.
+info_text_nic1#:#Obtineti un id de instalare (nic-id) de la serverul nostru ILIAS. Un nic-id unic este necesar daca vreti sa impartiti continutul cu alte instalari ILIAS. Inregistrarea este voluntara. Daca nu vreti sa va inregistrati, selectati 'fara inregistrare' (va puteti oricand inregistra mai tarziu).<br /> Noi va recomandam sa folositi inregistrarea online. Daca aveti probleme cu conectarea (adica sunteti in spatele unui firewall), puteti obtine un nic-id prin email. Va rugam trimiteti un
+info_text_nic2#:#email cu informatiile de instalare la ilias-info@uni-koeln.de. Introduceti nic-id pe care il veti primi prin email in campul corespunzator, si selectati 'inregistrare prin Email'.
+info_text_nic3#:#Ati inregistrat instalarea dumneavoastra. Nic-id-ul dumneavoastra este
+info_text_password#:#Aici puteti schimba parola principala pentru programul de configurare.
+info_text_pathes#:#ILIAS 3 suporta clienti multipli cu baze de date. Mai jos introduceti directorul de date principal, locatia fisierului de logare si caile catre software-ul 3rd party. Aceste setari sunt valide pentru toti clientii pe care ii veti crea mai tarziu.
+ini_client_id_exists#:#Un client cu acest ID deja exista! Va rugam alegeti un alt client ID.
+ini_client_id_invalid#:#ID-ul client pe care l-ati introdus contine caractere invalide
+ini_client_id_no_change#:#ID-ul client nu poate fi schimbat in aceasta versiune dupa ce directoarele client au fost create cu succes.
+ini_client_id_too_long#:#ID client prea lung
+ini_client_id_too_short#:#ID client prea scurt
+ini_db_name_exists#:#deja exista! Va rugam alegeti un alt nume pentru baza de date
+ini_no_client_id#:#Nu a fost dat un ID client.
+ini_no_db_host#:#Nu exista nume pentru gazda
+ini_no_db_name#:#Nu exista nume pentru baza de date
+ini_no_db_user#:#Nu exista nume de utilizator pentru baza de date
+inifile#:#fisier-ini
+inifile_can_write#:#Configurarea ILIAS 3 poate scrie fisierul-ini.
+inifile_cannot_write#:#Configurarea ILIAS 3 nu poate scrie fisierul-ini. Va rugam verificati permisiunile la scriere.
+inifile_content#:#Fisierul-ini are acest continut:
+inifile_exists#:#Un fisier-ini exista. Procesul de instalare sterge setarile precedente.
+inifile_fill_all#:#Va rugam completati toate campurile.
+inifile_firsttime#:#Nu exista nici un fisier-ini! Se pare ca aceasta este prima pornire a ILIAS 3.
+inifile_written#:#Fisierul-ini a fost salvat cu succes pe gazda dumneavoastra.
+input_error#:#Eroare de intrare
+inst_identification#:#Identificarea instalarii
+inst_name#:#Numele instalarii
+install#:#Instaleaza
+installation#:#Instalare
+installed#:#instalat
+institution#:#Institutia
+intro_install#:#Aceasta este pagina principala a configurarii ILIAS 3. De aici puteti parcurge pasii instalarii.
+ip_address#:#Adresa IP
+java_path#:#Calea catre Java
+java_path_comment#:#Necesar pentru Modulele de invatare SCORM
+lang_cs#:#Ceha
+lang_da#:#Daneza
+lang_de#:#Germana
+lang_en#:#Engleza
+lang_error_occurred#:#A aparut o eroare. Actiune intrerupta.
+lang_es#:#Spaniola
+lang_fr#:#Franceza
+lang_hu#:#Maghiara
+lang_id#:#Indoneziana
+lang_it#:#Italiana
+lang_lt#:#Lituaniana
+lang_min_one_language#:#Trebuie sa instalati cel putin o limba!
+lang_nl#:#Olandeza
+lang_no#:#Norvegiana
+lang_none_installed#:#Nici o limba instalata
+lang_not_installed_default#:#Limba pe care ati selectat-o ca limba implicita nu este instalata!
+lang_pl#:#Poloneza
+lang_pt#:#Portugheza
+lang_ro#:#Romana
+lang_se#:#Suedeza
+lang_ua#:#Ucrainiana
+lang_xx#:#La alegere
+lang_zh#:#Chineza
+langs_not_valid_not_installed#:#Urmatoarele limbi nu au fost instalate din cauza fisierelor de limba invalide
+language#:#Limba
+languages#:#Limbi
+languages_installed#:#Limba(i) instalata(e)
+lastname#:#Nume de familie
+list#:#Lista
+list_disabled#:#Selectie client dezactivata
+list_enabled#:#selectie client activata
+log_path#:#Calea catre fisierul de logare
+log_path_comment#:#Introduceti numele fisierului. Fisierul va fi creat.
+logged_out#:#Ati iesit.
+logging#:#Logging
+login#:#logare
+login_invalid#:#Logare invalida
+login_to_ilias#:#Logare in ILIAS
+logout#:#Logout
+main_datadir_outside_webspace#:#Directorul principal de date din afara spatiului WEB
+missing_data#:#Lipsesc date
+name#:#Nume
+new#:#Nou
+next#:#Urmatorul
+nic_not_disabled#:#Nu exista un NIC-ID & nu a fost dezactivat
+nic_reg_disable#:#Omite inregistrarea NIC
+nic_reg_disable_comment#:#(inregistreaza mai tarziu)
+nic_reg_disabled#:#inregistrarea NIC dezactivata
+nic_reg_email#:#inregistreaza prin Email
+nic_reg_enabled#:#inregistrarea NIC activata!
+nic_reg_enter_checksum#:#Introduceti suma de verificare trimisa
+nic_reg_enter_correct_id#:#Va rugam introduceti nic-id-ul corect
+nic_reg_enter_id#:#Introduceti NIC ID-ul trimis
+nic_reg_failed#:#inregistrarea NIC nu a reusit
+nic_reg_online#:#inregistreaza online
+nic_registration#:#Inregistrarea NIC
+no_changes#:#Fara schimbari.
+no_client_id#:#Nu s-a dat un ID client
+no_client_name#:#NICI UN NUME DE CLIENT
+no_clients_available#:#Nu exista clienti disponibili
+no_database#:#Nu exista nici o baza de date
+no_db_connect_consult_admin#:#Nu se poate face legatura cu baza de date. Va rugam consultati administratorul de sistem
+no_db_update_file#:#dbupdate.php nu a fost gasit!
+no_password#:#Nu s-a dat nici o parola
+no_path_convert#:#Nu s-a dat nici o cale catre convert
+no_path_datadir#:#Nu s-a dat nici un director de date
+no_path_fop#:#Nu s-a dat nici o cale catre FOP
+no_path_given#:#Nu s-a dat nici o cale
+no_path_htmldoc#:#Nu s-a dat nici o cale catre HTMLdoc
+no_path_java#:#Nu s-a dat nici o cale catre Java
+no_path_log#:#Nu s-a dat nici o cale catre log
+no_path_unzip#:#Nu s-a dat nici o cale catre unzip
+no_path_zip#:#Nu s-a dat nici o cale catre zip
+no_setup_pass_given#:#Nu s-a dat parola de configurare
+no_username#:#Nu s-a dat un nume de utilizator
+no_valid_client_id#:#Nici un ID client valid
+none#:#Nici unul
+not_connected_to_db#:#Nu sunteti conectat la baza de date
+online#:#online
+or#:#sau
+out_of_webspace#:#(in afara spatiului web)
+overall_status#:#Starea generala
+overview#:#Prezentare
+pass_does_not_match#:#Parolele introduse nu se potrivesc
+password#:#parola
+password_changed#:#Parola schimbata.
+password_empty#:#Nu a fost introdusa nici o parola!
+password_enter_old#:#Trebuie sa introduceti parola veche mai intai!
+password_info#:#Pentru a proteja informatiile de configurare de un acces neautorizat va rugam introduceti o parola pentru a schimba din nou aceste setari ulterior.
+password_new_master#:#Stabiliti noua parola master
+password_not_match#:#Noua parola introdusa nu se potriveste!
+password_old_wrong#:#Vechea parola introdusa este gresita!
+password_retype#:#Reintroduceti noua parola
+password_same#:#Vechea si noua parola sunt identice!
+password_set#:#Parola salvata
+path_not_set#:#Cale nesetata
+path_to_convert#:#Calea catre Convert
+path_to_fop#:#Calea catre FOP
+path_to_htmldoc#:#Calea catre HTMLdoc
+path_to_java#:#Calea catre Java
+path_to_unzip#:#Calea catre Unzip
+path_to_zip#:#Calea catre Zip
+pathes#:#Cai
+phone#:#Telefon
+port#:#port
+position#:#Pozitia
+pre_cookies_disabled#:#Cookie-urile sunt dezactivate. Cookie-urile sunt necesare pentru a folosi ILIAS 3.
+pre_cookies_enabled#:#Cookie-urile activate
+pre_error#:#Unul sau doua lucruri nu au reusit. Va rugam remediati mai intai aceste probleme sau nu puteti configura ILIAS 3.
+pre_folder_create#:#Noi directoare pot fi create in directorul ILIAS 3
+pre_folder_create_error#:#Nu se pot crea subdirectoare! Va rugam verificati daca aveti acces la fisiere!
+pre_folder_write#:#Director ILIAS 3 cu permisiune de scriere
+pre_folder_write_error#:#Nu se poate scrie in directorul ILIAS 3! Va rugam verificati daca aveti acces la fisiere!
+pre_intro#:#Lasati-ne sa verificam daca mediul dumneavoastra indeplineste toate cerintele pentru a instala si rula ILIAS 3.
+pre_javascript_comment#:#Puteti rula ILIAS fara JavaScript, dar unele reprezentari grafice vor lipsi.
+pre_javascript_enabled#:#JavaScript activata
+pre_php_version#:#Versiunea PHP
+pre_php_version_3#:#Versiunea dumneavoastra de PHP este mult prea veche pentru ILIAS 3! Va rugam instalati o versiune mai noua de PHP.
+pre_php_version_4.1#:#Clasele PEAR nu vor functiona cum trebuie cu aceasta versiune! Va rugam instalati o versiune mai noua de PHP.
+pre_php_version_4.2#:#DOMXML and XSLT nu vor functiona cum trebuie cu aceasta versiune!
+pre_php_version_5#:#ILIAS 3 nu a fost inca testat cu PHP 5. Folositi-l pe riscul dumneavoastra.
+pre_php_version_unknown#:#Configurarea ILIAS nu cunoaste aceasta versiune. Folositi-o pe riscul dumneavoastra!
+preliminaries#:#Preliminarii
+prev#:#Precedent
+required_field#:#Campuri obligatorii
+reset#:#Reset
+root_access#:#Acces root
+safe_mode_enabled#:#Modul sigur(Safe mode) este activat!
+save#:#Salvare
+save_error#:#Eroare la salvare!
+saved_successfully#:#Salvat cu succes
+scan_command#:#Comanda Scan 
+select_client#:#Selectati un client
+server_info#:#Informatii Server
+server_software#:#Server software
+set_default_client#:#Configurati clientul implicit
+set_newpasswd#:#Va rugam introduceti parola noua
+set_oldpasswd#:#Va rugam introduceti parola veche
+settings_changed#:#Configurarile schimbate
+settings_saved#:#Configurarile salvate
+setup#:#Configurare
+setup_basic_settings#:#Configurare optiuni de baza
+setup_contact_data#:#Configurare informatii de contact
+setup_database#:#Configurare baza de date
+setup_database_desc#:#Configurati baza de date
+setup_db_first#:#Va rugam configurati mai intai baza de date!
+setup_finished#:#Configurarea terminata
+setup_first_client#:#Configurati primul client
+setup_ini_first#:#Trebuie sa creati mai intai fisierul .ini!
+setup_inifile#:#Creare fisier-ini
+setup_inifile_desc#:#Creare fisier-ini pentru instalarea dvs.
+setup_languages#:#Instaleaza suport de limba
+setup_languages_desc#:#Instaleaza suport pentru alte limbi
+setup_login#:#Logare in Setup
+setup_mainmenu#:#Configurare meniu principal
+setup_menu#:#Meniu configurare
+setup_nic_desc#:#inregistrarea instalarii dvs. la ILIAS-NIC-Server
+setup_not_finished#:#Configurarea nu a fost terminata
+setup_pass#:#Parola
+setup_pass2#:#Reintroducere parola
+setup_pass_title#:#Definiti parola master
+setup_password#:#configurare parola
+setup_password_desc#:#stabiliti o parola pentru a accesa mai tarziu rutina de configurare (i.e. pentru actualizarea bazei de date)
+setup_process_status#:#Stare Proces Configurare
+setup_process_step_contact#:#Introduceti informatii de contact
+setup_process_step_db#:#Instaleaza/Actualizeaza baza de date
+setup_process_step_finish#:#Termina instalare
+setup_process_step_ini#:#Configurare date de baza
+setup_process_step_lang#:#Instaleaza suport pentru alte limbi
+setup_process_step_nic#:#Inregistrare la ILIAS-NIC
+setup_ready#:#Configurarea este terminata. puteti acum sa va logati si sa verificati setarile sistemului.
+setup_welcome#:#Bine ati venit in configurarea ILIAS 3. Aceasta rutina de configurare o sa va ajute sa
+sophos#:#Sophos
+sort_by_this_column#:#Sorteaza dupa aceasta coloana
+status#:#Stare
+step#:#Pas
+street#:#Strada
+submit#:#Trimite
+title#:#Titlu
+unknown_client_id#:#Client necunoscut
+unknown_command#:#Comanda necunoscuta
+unknown_display_mode#:#Mod de afisare necunoscut
+unzip_path#:#Cale catre Unzip
+unzip_path_comment#:#necesara pentru importul de module de invatare
+update_applied#:#Actualizare aplicata
+update_error#:#Eroare la actualizare
+update_not_found#:#Actualizarea nu a fost gasita!
+username#:#nume utilizator
+version#:#Versiune
+virus_scanner#:#Anti-virus
+webspace_dir#:#Calea catre directorul WEB
+with#:#cu
+wrong_password#:#Parola incorecta!
+zip_path#:#Calea catre Zip
+zip_path_comment#:#necesara pentru exportul de module de invatare
+zipcode#:#Cod Zip
