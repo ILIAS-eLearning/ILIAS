@@ -22,14 +22,14 @@
 */
 
 /**
-* Setup GUI class
-*
-* class to setup ILIAS first and maintain the ini-settings and the database
-*
-* @author   Sascha Hofmann <shofmann@databay.de>
-* @version  $Id$
-* @package  ilias-setup
-*/
+ * Setup GUI class
+ *
+ * class to setup ILIAS first and maintain the ini-settings and the database
+ *
+ * @author   Sascha Hofmann <shofmann@databay.de>
+ * @version  $Id$
+ * @package  ilias-setup
+ */
 
 require_once "class.ilSetup.php";
 
@@ -54,10 +54,10 @@ class ilSetupGUI extends ilSetup
 	var $cmd;                       // command variable
 	var $display_mode = "view";     // view mode (setup or details)
 
-   /**
-	* Constructor
-	*  
-	*/
+	/**
+	 * Constructor
+	 *  
+	 */
 	function ilSetupGUI()
 	{
 		global $tpl, $lng;
@@ -149,9 +149,9 @@ class ilSetupGUI extends ilSetup
 
 	// cmd subsets
 
-   /**
-	* process valid commands for pre-installation status
-	*/
+	/**
+	 * process valid commands for pre-installation status
+	 */
 	function cmdInstall()
 	{
 		switch ($this->cmd)
@@ -172,9 +172,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* process valid commands for admins
-	*/
+	/**
+	 * process valid commands for admins
+	 */
 	function cmdAdmin()
 	{
 		switch ($this->cmd)
@@ -228,9 +228,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 	
-   /**
-	* process valid commands for all clients
-	*/
+	/**
+	 * process valid commands for all clients
+	 */
 	function cmdClient()
 	{
 		switch ($this->cmd)
@@ -342,9 +342,9 @@ class ilSetupGUI extends ilSetup
 
 	// end cmd subsets 
 
-   /**
-	* display client overview panel 
-	*/
+	/**
+	 * display client overview panel 
+	 */
 	function displayClientOverview()
 	{       
 		$this->checkDisplayMode();
@@ -442,13 +442,14 @@ class ilSetupGUI extends ilSetup
 		$this->displayStatusPanel();
 	}
 
-   /**
-	* set display mode to 'view' or 'setup'
-	* 'setup' -> show status panel and (prev/next) navigation buttons 
-	* 'view' -> show overall status and tabs under title bar
-	* @param    string      display mode
-	* @return   boolean     true if display mode was successfully set 
-	*/
+	/**
+	 * set display mode to 'view' or 'setup'
+	 * 'setup' -> show status panel and (prev/next) navigation buttons 
+	 * 'view' -> show overall status and tabs under title bar
+	 * 
+	 * @param    string      display mode
+	 * @return   boolean     true if display mode was successfully set 
+	 */
 	function setDisplayMode($a_mode)
 	{
 		// security
@@ -463,9 +464,9 @@ class ilSetupGUI extends ilSetup
 		return true;
 	}
 	
-   /**
-	* display header with admin links and language flags
-	*/
+	/**
+	 * display header with admin links and language flags
+	 */
 	function displayHeader()
 	{
 		$languages = $this->lng->getLanguages();
@@ -542,9 +543,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("LANG", $this->lang);
 	}
 
-   /**
-	* page output and set title
-	*/
+	/**
+	 * page output and set title
+	 */
 	function displayFooter()
 	{
 		// footer (not really)
@@ -565,10 +566,11 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->show();
 	}
 
-   /**
-	* display navigation buttons
-	* @return   boolean     false if both buttons are deactivated
-	*/
+	/**
+	 * display navigation buttons
+	 * 
+	 * @return   boolean     false if both buttons are deactivated
+	 */
 	function displayNavButtons()
 	{
 		if (!$this->btn_prev_on and !$this->btn_next_on)
@@ -599,11 +601,12 @@ class ilSetupGUI extends ilSetup
 		return true;
 	}
 
-   /**
-	* set previous navigation button
-	* @param    string      command to process on click
-	* @param    string      button label
-	*/
+	/**
+	 * set previous navigation button
+	 * 
+	 * @param    string      command to process on click
+	 * @param    string      button label
+	 */
 	function SetButtonPrev($a_cmd = 0,$a_lng = 0)
 	{
 		$this->btn_prev_on = true;
@@ -611,11 +614,12 @@ class ilSetupGUI extends ilSetup
 		$this->btn_prev_lng = ($a_lng) ? $this->lng->txt($a_lng) : "<<&nbsp;&nbsp;&nbsp;".$this->lng->txt("prev");
 	}
 
-   /**
-	* set next navigation button
-	* @param    string      command to process on click
-	* @param    string      button label
-	*/
+	/**
+	 * set next navigation button
+	 * 
+	 * @param    string      command to process on click
+	 * @param    string      button label
+	 */
 	function SetButtonNext($a_cmd,$a_lng = 0)
 	{
 		$this->btn_next_on = true;
@@ -623,9 +627,9 @@ class ilSetupGUI extends ilSetup
 		$this->btn_next_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("next")."&nbsp;&nbsp;&nbsp;>>";
 	}
 
-   /**
-	* display preliminaries page
-	*/
+	/**
+	 * display preliminaries page
+	 */
 	function displayPreliminaries()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
@@ -747,9 +751,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 	
-   /**
-	* display master setup form & process form input
-	*/
+	/**
+	 * display master setup form & process form input
+	 */
 	function displayMasterSetup()
 	{
 		if ($_POST["form"])
@@ -930,9 +934,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 	
-   /**
-	* login to a client
-	*/
+	/**
+	 * login to a client
+	 */
 	function loginClient()
 	{
 		session_destroy();
@@ -940,9 +944,9 @@ class ilSetupGUI extends ilSetup
 		ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
 	}
 	
-   /**
-	* display login form and process form
-	*/
+	/**
+	 * display login form and process form
+	 */
 	function displayLogin()
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -989,9 +993,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("submit"));
 	}
 
-   /**
-	* display client list and process form input
-	*/
+	/**
+	 * display client list and process form input
+	 */
 	function displayClientList()
 	{
 		$_SESSION["ClientId"] = "";
@@ -1187,9 +1191,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* display master settings and process form input
-	*/
+	/**
+	 * display master settings and process form input
+	 */
 	function changeMasterSettings()
 	{
 		if ($_POST["form"])
@@ -1337,9 +1341,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->parseCurrentBlock();
 	}
 
-   /**
-	* display setup in step
-	*/
+	/**
+	 * display setup in step
+	 */
 	function displayIni()
 	{
 		$this->checkDisplayMode("create_new_client");
@@ -1507,11 +1511,11 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* display error page
-	* 
-	* @param    string  error message
-	*/
+	/**
+	 * display error page
+	 * 
+	 * @param    string  error message
+	 */
 	function displayError($a_message)
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
@@ -1526,9 +1530,9 @@ class ilSetupGUI extends ilSetup
 		exit();
 	}
 
-   /**
-	* display logout page
-	*/
+	/**
+	 * display logout page
+	 */
 	function displayLogout()
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.logout.html");
@@ -1543,9 +1547,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->parseCurrentBlock();
 	}
 
-   /**
-	* display process panel
-	*/
+	/**
+	 * display process panel
+	 */
 	function displayProcessPanel()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
@@ -1591,9 +1595,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* display status panel
-	*/
+	/**
+	 * display status panel
+	 */
 	function displayStatusPanel()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
@@ -1616,10 +1620,11 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 	
-   /**
-	* determine display mode and load according html layout 
-	* @param    string  set title for display mode 'setup' 
-	*/
+	/**
+	 * determine display mode and load according html layout 
+	 * 
+	 * @param    string  set title for display mode 'setup' 
+	 */
 	function checkDisplayMode($a_title = "")
 	{
 		switch ($this->display_mode)
@@ -1644,9 +1649,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* determine display mode and load correct panel
-	*/
+	/**
+	 * determine display mode and load correct panel
+	 */
 	function checkPanelMode()
 	{
 		switch ($this->display_mode)
@@ -1661,9 +1666,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* display intro page for the first client installation
-	*/
+	/**
+	 * display intro page for the first client installation
+	 */
 	function displayStartup()
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html");
@@ -1676,9 +1681,9 @@ class ilSetupGUI extends ilSetup
 		$this->setButtonNext("ini");
 	}
 
-   /**
-	* display database form and process form input
-	*/
+	/**
+	 * display database form and process form input
+	 */
 	function displayDatabase()
 	{
 		global $ilErr,$ilDB;
@@ -1885,9 +1890,9 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* display language form and process form input
-	*/
+	/**
+	 * display language form and process form input
+	 */
 	function displayLanguages()
 	{
 		$this->checkDisplayMode("setup_languages");
@@ -1949,6 +1954,7 @@ class ilSetupGUI extends ilSetup
 
 		$languages = $this->lng->getInstallableLanguages();
 		$installed_langs = $this->lng->getInstalledLanguages();
+		$installed_local_langs = $this->lng->getInstalledLocalLanguages();
 		$local_langs = $this->lng->getLocalLanguages();
 		$default_lang = $this->client->getDefaultLanguage();
 		
@@ -1993,6 +1999,10 @@ class ilSetupGUI extends ilSetup
 			{
 				$this->tpl->setVariable("LOCAL", ("disabled=\"disabled\""));        
 			}
+			else if (in_array($lang_key,$installed_local_langs))
+			{
+				$this->tpl->setVariable("LOCAL", ("checked=\"checked\""));
+			}
 
 			if ($lang_key == $default_lang)
 			{
@@ -2012,9 +2022,9 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* display contact data form and process form input
-	*/
+	/**
+	 * display contact data form and process form input
+	 */
 	function displayContactData()
 	{
 		$this->checkDisplayMode("setup_contact_data");
@@ -2162,9 +2172,9 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 
-   /**
-	* display nic registration form and process form input
-	*/
+	/**
+	 * display nic registration form and process form input
+	 */
 	function displayNIC()
 	{
 		$this->checkDisplayMode("nic_registration");
@@ -2283,9 +2293,9 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* display change password form and process form input
-	*/
+	/**
+	 * display change password form and process form input
+	 */
 	function changeMasterPassword()
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
@@ -2352,9 +2362,9 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	}
 
-   /**
-	* display finish setup page
-	*/
+	/**
+	 * display finish setup page
+	 */
 	function displayFinishSetup()
 	{
 		$this->checkDisplayMode("finish_setup");
@@ -2380,9 +2390,9 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* display delete client confirmation form and process form input
-	*/
+	/**
+	 * display delete client confirmation form and process form input
+	 */
 	function displayDeleteConfirmation()
 	{
 		$this->checkDisplayMode();
@@ -2434,10 +2444,11 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-   /**
-	* enable/disable access to a client
-	* @param    string  jump back to this script
-	*/
+	/**
+	 * enable/disable access to a client
+	 * 
+	 * @param    string  jump back to this script
+	 */
 	function changeAccessMode($a_back)
 	{
 		if ($this->client->status["finish"]["status"])
@@ -2457,9 +2468,9 @@ class ilSetupGUI extends ilSetup
 		ilUtil::redirect("setup.php?cmd=".$a_back);
 	}
 	
-   /**
-	* set defualt client
-	*/
+	/**
+	 * set defualt client
+	 */
 	function changeDefaultClient()
 	{
 		if ($_POST["form"])
@@ -2490,10 +2501,10 @@ class ilSetupGUI extends ilSetup
 		ilUtil::redirect("setup.php");
 	}
 
-   /**
-	* validatesetup status again
-	* and set access mode of the first client to online
-	*/
+	/**
+	 * validatesetup status again
+	 * and set access mode of the first client to online
+	 */
 	function validateSetup()
 	{
 		foreach ($this->client->status as $key => $val)
@@ -2522,9 +2533,9 @@ class ilSetupGUI extends ilSetup
 		return true;
 	}
 	
-   /**
-	* if setting up a client was not finished, jump back to the first uncompleted setup step
-	*/
+	/**
+	 * if setting up a client was not finished, jump back to the first uncompleted setup step
+	 */
 	function jumpToFirstUnfinishedSetupStep()
 	{
 		if (!$this->client->status["db"]["status"])
@@ -2563,9 +2574,9 @@ class ilSetupGUI extends ilSetup
 		}
 	}
 
-   /**
-	* enable/disable client list on index page
-	*/
+	/**
+	 * enable/disable client list on index page
+	 */
 	function toggleClientList()
 	{
 		if ($this->ini->readVariable("clients","list"))
