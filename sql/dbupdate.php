@@ -6194,4 +6194,4 @@ CREATE TABLE `tst_invited_user` (
   PRIMARY KEY  (`test_fi`,`user_fi`)
 ) TYPE=MyISAM;
 
-INSERT INTO tst_test_type SET test_type_id=4, type_tag='tt_online_exam';=======
+INSERT INTO tst_test_type SET test_type_id=4, type_tag='tt_online_exam';
