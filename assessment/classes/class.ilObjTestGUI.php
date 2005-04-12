@@ -6176,7 +6176,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		// all other commands which require update
 		$pos  = count($_POST["cmd"])>0 | isset($_GET["selImage"]) | isset($_GET["sequence"]);
 		
-		$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] || 
+		$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] || $_POST["cmd"]["directfeedback"] || 
 				   isset($_GET["selImage"])) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
 		
 		$this->saveResult = false;
