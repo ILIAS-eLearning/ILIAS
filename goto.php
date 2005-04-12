@@ -33,6 +33,11 @@
 * @version $Id$
 */
 
+//var_dump ($_SESSION);
+//var_dump ($_COOKIE);
+
+// this should bring us all session data of the desired
+// client
 if (isset($_GET["client_id"]))
 {
 	setcookie("ilClientId",$_GET["client_id"]);

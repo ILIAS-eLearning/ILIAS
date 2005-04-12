@@ -41,7 +41,7 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
-{	
+{
 	setcookie("ilClientId",$_GET["client_id"]);
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
@@ -51,8 +51,8 @@ require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
 // display client selection list if enabled
-if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
-{	
+if (!isset($_COOKIE["ilClientId"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
+{
 	// catch reload
 	if ($_GET["reload"])
 	{
