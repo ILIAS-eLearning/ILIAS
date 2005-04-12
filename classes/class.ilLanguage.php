@@ -23,113 +23,124 @@
 
 
 /**
-* language handling
-*
-* this class offers the language handling for an application.
-* it works initially on one file: languages.txt
-* from this file the class can generate many single language files.
-* the constructor is called with a small language abbreviation
-* e.g. $lng = new Language("en");
-* the constructor reads the single-languagefile en.lang and puts this into an array.
-* with 
-* e.g. $lng->txt("user_updated");
-* you can translate a lang-topic into the actual language
-*
-* @author Peter Gabriel <pgabriel@databay.de>
-* @version $Id$
-* 
-* @package application
-* 
-* @todo Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
-*  Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
-*  Daher->besser in class.Format
-*/
+ * language handling
+ *
+ * this class offers the language handling for an application.
+ * it works initially on one file: languages.txt
+ * from this file the class can generate many single language files.
+ * the constructor is called with a small language abbreviation
+ * e.g. $lng = new Language("en");
+ * the constructor reads the single-languagefile en.lang and puts this into an array.
+ * with 
+ * e.g. $lng->txt("user_updated");
+ * you can translate a lang-topic into the actual language
+ *
+ * @author Peter Gabriel <pgabriel@databay.de>
+ * @version $Id$
+ * 
+ * @package application
+ * 
+ * @todo Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
+ *  Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
+ *  Daher->besser in class.Format
+ */
 class ilLanguage
 {
 	/**
-	* ilias object
-	* @var object Ilias
-	* @access private
-	*/
+	 * ilias object
+	 * 
+	 * @var object Ilias
+	 * @access private
+	 */
 	var $ilias;
 	
 	/**
-	* text elements
-	* @var array
-	* @access private
-	*/
+	 * text elements
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	var $text;
 	
 	/**
-	* indicator for the system language
-	* this language must not be deleted
-	* @var		string
-	* @access	private
-	*/
+	 * indicator for the system language
+	 * this language must not be deleted
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $lang_default;
 
 	/**
-	* language that is in use
-	* by current user
-	* this language must not be deleted
-	* @var		string
-	* @access	private
-	*/
+	 * language that is in use
+	 * by current user
+	 * this language must not be deleted
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $lang_user;
 
 	/**
-	* path to language files
-	* relative path is taken from ini file
-	* and added to absolute path of ilias
-	* @var		string
-	* @access	private
-	*/
+	 * path to language files
+	 * relative path is taken from ini file
+	 * and added to absolute path of ilias
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $lang_path;
 
 	/**
-	* language key in use by current user
-	* @var		string	languagecode (two characters), e.g. "de", "en", "in"
-	* @access	private
-	*/
+	 * language key in use by current user
+	 * 
+	 * @var		string	languagecode (two characters), e.g. "de", "en", "in"
+	 * @access	private
+	 */
 	var $lang_key;
 
 	/**
-	* language full name in that language current in use
-	* @var		string
-	* @access	private
-	*/
+	 * language full name in that language current in use
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $lang_name;
 
 	/**
-	* separator value between module,identivier & value 
-	* @var		string
-	* @access	private
-	*/
+	 * separator value between module,identivier & value 
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $separator = "#:#";
 	
 	/**
-	* separator value between the content and the comment of the lang entry
-	* @var		string
-	* @access	private
-	*/
+	 * separator value between the content and the comment of the lang entry
+	 * 
+	 * @var		string
+	 * @access	private
+	 */
 	var $comment_separator = "###";
 
 	/**
-	* array of loaded languages
-	* @var		array
-	* @access	private
-	*/
+	 * array of loaded languages
+	 * 
+	 * @var		array
+	 * @access	private
+	 */
 	var $loaded_modules;
 
 	/**
-	* Constructor
-	* read the single-language file and put this in an array text.
-	* the text array is two-dimensional. First dimension is the language.
-	* Second dimension is the languagetopic. Content is the translation.
-	* @access	public
-	* @param	string		languagecode (two characters), e.g. "de", "en", "in"
-	* @return	boolean 	false if reading failed
-	*/
+	 * Constructor
+	 * read the single-language file and put this in an array text.
+	 * the text array is two-dimensional. First dimension is the language.
+	 * Second dimension is the languagetopic. Content is the translation.
+	 * 
+	 * @access	public
+	 * @param	string		languagecode (two characters), e.g. "de", "en", "in"
+	 * @return	boolean 	false if reading failed
+	 */
 	function ilLanguage($a_lang_key)
 	{
 		global $ilias,$log;
@@ -178,13 +189,13 @@ class ilLanguage
 	}
 	
 	/**
-	* gets the text for a given topic
-	*
-	* if the topic is not in the list, the topic itself with "-" will be returned
-	* @access	public 
-	* @param	string	topic
-	* @return	string	text clear-text
-	*/
+	 * gets the text for a given topic
+	 * if the topic is not in the list, the topic itself with "-" will be returned
+	 * 
+	 * @access	public 
+	 * @param	string	topic
+	 * @return	string	text clear-text
+	 */
 	function txt($a_topic)
 	{
 		if (empty($a_topic))
@@ -224,10 +235,10 @@ class ilLanguage
 			$lang_key = $this->lang_user;
 		}
 
-		$q = "SELECT identifier,value FROM lng_data ".
-			 "WHERE lang_key = '".$lang_key."' ".
-			 "AND module = '$a_module'";
-		$r = $this->ilias->db->query($q);
+		$query = "SELECT identifier,value FROM lng_data " .
+				"WHERE lang_key = '" . $lang_key."' " .
+				"AND module = '$a_module'";
+		$r = $this->ilias->db->query($query);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -241,7 +252,7 @@ class ilLanguage
 		
 		foreach ($langlist as $lang)
 		{
-			if ($lang["desc"] == "installed")
+			if (substr($lang["desc"], 0, 9) == "installed")
 			{
 				$languages[] = $lang["title"];
 			}
