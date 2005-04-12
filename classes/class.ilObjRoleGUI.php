@@ -25,8 +25,9 @@
 /**
 * Class ilObjRoleGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id$
 * 
 *
 * @extends ilObjectGUI
@@ -580,6 +581,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
 					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 					$output["adopt"][$key]["check_adopt"] = $radio;
+					$output["adopt"][$key]["role_id"] = $par["obj_id"];
 					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 					$output["adopt"][$key]["role_name"] = $par["title"];
 				}
@@ -609,8 +611,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			// BEGIN object_operations
 			$this->tpl->setCurrentBlock("object_operations");
 
+			$ops_ids = "";
+
 			foreach ($obj_data["ops"] as $operation)
 			{
+				$ops_ids[] = $operation["ops_id"];
+				
 				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW",$css_row);
 				$this->tpl->setVariable("PERMISSION",$operation["name"]);
@@ -622,6 +628,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 				$this->tpl->setVariable("CHECK_PERMISSION",$this->data["perm"][$obj_data["obj_id"]][$operation["ops_id"]]);
+				$this->tpl->setVariable("LABEL_ID","template_perm_".$obj_data["type"]."_".$operation["ops_id"]);
 				$this->tpl->parseCurrentBlock();
 			} // END object_operations
 
@@ -632,6 +639,13 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
 			}
+
+			// js checkbox toggles
+			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
+			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ops_ids));
+			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));			
+			
 			$this->tpl->parseCurrentBlock();
 			// END object_type
 		}
@@ -645,6 +659,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("ADOPT_PERM_ROW");
 				$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
 				$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
+				$this->tpl->setVariable("LABEL_ID",$value["role_id"]);
 				$this->tpl->setVariable("TYPE",$value["type"]);
 				$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
 				$this->tpl->parseCurrentBlock();
