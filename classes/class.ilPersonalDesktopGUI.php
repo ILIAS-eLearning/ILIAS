@@ -409,11 +409,11 @@ class ilPersonalDesktopGUI
 
 		// MAILS
 		// GET INBOX FOLDER FOR LINK_READ
-		require_once "./include/inc.header.php";
-		require_once "./include/inc.mail.php";
-		require_once "classes/class.ilObjUser.php";
-		require_once "classes/class.ilMailbox.php";
-		require_once "classes/class.ilMail.php";
+		include_once "./include/inc.header.php";
+		include_once "./include/inc.mail.php";
+		include_once "classes/class.ilObjUser.php";
+		include_once "classes/class.ilMailbox.php";
+		include_once "classes/class.ilMail.php";
 
 
 		// BEGIN MAILS
@@ -424,16 +424,14 @@ class ilPersonalDesktopGUI
 		//SHOW MAILS FOR EVERY USER
 		$mail_data = $umail->getMailsOfFolder($inbox);
 		$mail_counter = $umail->getMailCounterData();
-		$this->tpl->setVariable("MAIL_COUNTER", $mail_counter["total"]);
-		$this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
 		$unreadmails = 0;
 		
 
 		foreach ($mail_data as $mail)
 		{
 			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
-			if($mail_data = $mail["m_status"]==unread)
-				{
+			if($mail["m_status"]== 'unread')
+			{
 				//echo $mail["m_status"];
 				
 				$this->tpl->setCurrentBlock("tbl_mails");

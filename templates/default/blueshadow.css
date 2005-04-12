@@ -736,32 +736,32 @@ a:hover {
 }
 
 /* ------------------- mail links ----------- */
-a.mailread
+a.mailread, a.mailread:visited
 {
 	font-weight: normal;
 	color: #2255a0;
 }
 
-a.mailunread
+a.mailunread, a.mailunread:visited
 {
 	color: #2255a0;
 	font-weight: bold;
 }
 
 /* ------------------- forum links ----------- */
-a.postread
+a.postread, a.postread:visited
 {
 	font-weight: normal;
 	color: #2255a0;
 }
 
-a.postunread
+a.postunread, a.postunread:visited
 {
 	color: #2255a0;
 	font-weight: bold;
 }
 
-a.postnew
+a.postnew, a.postnew:visited
 {
     color: #2255a0;
     font-style: italic;
