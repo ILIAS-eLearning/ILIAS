@@ -491,7 +491,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 					$repl_str = "dummy=\"ord".$solution_value->value1."\"";
 	//echo "<br>".$repl_str;
 					if (!$show_question_page)
-						$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."] ", $output);
+						$output = $this->replaceInputElements($repl_str, $solution_value->value2, $output, "[","]"); 
+						/*$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."] ", $output);*/
 					else 
 						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
 				}
@@ -507,7 +508,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			if (!$show_question_page) 
 			{
 				//echo htmlentities ($output);
-				$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);
+				$output = $this->removeFormElements($output);
 			}
 			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 			{
@@ -551,6 +552,8 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$repl_str = "dummy=\"solution_ord$idx\"";
 			$solutionoutput = str_replace($repl_str, $repl_str." value=\"" . $answer->get_solution_order() . "\"", $solutionoutput);
 			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			if ($show_solution_only)
+				$solutionoutput = $this->replaceInputElements($repl_str, $answer->get_solution_order(), $solutionoutput , "[" , "]");
 		}
 
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";

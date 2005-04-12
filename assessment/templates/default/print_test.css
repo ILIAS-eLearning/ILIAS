@@ -9,6 +9,7 @@ table
 {
 	border-collapse: collapse;
 	background-color: white;
+	font-size: 10pt;
 }
 
 body
@@ -38,7 +39,7 @@ td
 {      	
 	text-align: left;
 	vertical-align: middle;
-	font-size : 12pt; 
+	font-size : 10pt; 
 }
 
 table.fullwidth  {
@@ -82,5 +83,9 @@ th.std {
 }
 
 .ilc_Question {
+	font-size: 10pt;
+}
+
+p,pre,code {
 	font-size: 10pt;
 }

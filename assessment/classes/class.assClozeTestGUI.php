@@ -613,26 +613,23 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				foreach ($solutions as $idx => $solution_value)
 				{
 					// text gaps
+					
 					$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
+					//
+					/* $output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."]", $output); */
 					if (!$show_question_page)
-						$output = preg_replace ("/(<input[^>]*?$repl_str.*?>)/" ,"[".$solution_value->value2."]", $output);
+					{
+						$output = $this->replaceInputElements($repl_str, $solution_value->value2, $output,"[","]");						
+					}
 					else 
 						$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
 					
 					// select gaps
 					$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
 					
-					if (!$show_question_page) {
-						$select_pattern = "/<select[^>]*name=\"gap_".$solution_value->value1."\".*?[^>]*>.*?<\/select>/";
-						// to extract the display value we need the according select statement 
-						if (preg_match($select_pattern, $output, $matches)) {
-							// got it, now we are trying to get the value
-							//echo "<br><br>".htmlentities ($matches[0]);
-							$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
-							if (preg_match($value_pattern, $matches[0], $matches))
-								$output = preg_replace ($select_pattern, "[".$matches[1]."]", $output);
-							else $output = preg_replace ($select_pattern, "[]", $output);
-						}										
+					if (!$show_question_page) 
+					{
+						$output = $this->replaceSelectElements("gap_".$solution_value->value1, $repl_str, $output,"[","]"); 
 					} else 
 						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
 					//echo "<br>".$repl_str;
@@ -641,15 +638,13 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			// now replace all empty inputs and selects with an []
 			if (!$show_question_page) 
 			{
-				//echo htmlentities ($output);
-				$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);		
-				$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);
+				$output = $this->removeFormElements($output);
 			}
 		}
 
 		if($showsolution)
 		{			
-			
+						
 			foreach ($this->object->gaps as $idx => $gap)
 			{
 				$solution_value = "";
@@ -667,6 +662,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				{
 					$maxpoints = 0;
 					$maxindex = -1;
+					$sol_points = array();
 					foreach ($gap as $answeridx => $answer)
 					{
 						if ($answer->get_points() > $maxpoints)
@@ -674,41 +670,68 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 							$maxpoints = $answer->get_points();
 							$maxindex = $answeridx;
 						}
+						if ($show_solution_only && $answer->get_points()>0) 
+						{							
+							$regexp = "/<select name=\"solution_gap_$idx\">.*?<option[^>]*dummy=\"solution_sgap_".$idx."_".$answeridx."\">(.*?)<\/option>.*?<\/select>/";
+							preg_match ($regexp, $solutionoutput, $matches);
+							$sol_points [] = $matches[1]." <em>(".$answer->get_points()." ".$this->lng->txt("points_short").")</em>";
+						}
 					}
-					if ($maxindex > -1)
-					{
-						$repl_str = "dummy=\"solution_sgap_$idx" . "_$maxindex\"";
-						$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
-					}
-					$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $maxpoints . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
+															
 					if ($this->object->suggested_solutions[$idx])
 					{
 						if ($showsolution)
 						{
 							$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-							$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+							$output = preg_replace("/(<select name\=\"gap_$idx\">.*?<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
 						}
 					}
+					
+					if (count ($sol_points)<=1)
+						$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx\">.*?<\/select>)/is", "\\1" . " <em>(" . $maxpoints . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
+					
+					if ($maxindex > -1)
+					{
+						$repl_str = "dummy=\"solution_sgap_$idx" . "_$maxindex\"";
+						if (!$show_solution_only)
+							$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+						else 
+						{
+							if (count ($sol_points)>1) 
+							{
+								$solutionoutput = preg_replace ("/<select[^>]*name=\"solution_gap_$idx\">.*?<\/select>/i","[".join($sol_points,", ")."]",$solutionoutput); 
+							} else 
+								$solutionoutput = $this->replaceSelectElements("solution_gap_$idx",$repl_str, $solutionoutput,"[","]" );
+						}
+					}
+					
 				}
 				else
 				{
-					$repl_str = "dummy=\"solution_tgap_$idx\"";
+					
+					$repl_str = "dummy=\"solution_tgap_$idx\"";					
 					$pvals = array();
 					foreach ($gap as $answeridx => $answer)
 					{
 						array_push($pvals, $answer->get_answertext());
 					}
 					$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
-					$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
-					$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
+					
+					$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx\"" . "[^>]*?>)/i", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
+					
 					if ($this->object->suggested_solutions[$idx])
 					{
 						if ($showsolution)
 						{
 							$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-							$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+							$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx\"" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
 						}
 					}
+					 
+					if (!$show_solution_only)
+						$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
+					else 
+						$solutionoutput = $this->replaceInputElements($repl_str, $possible_values, $solutionoutput,"[","]");					
 				}
 			}
 	
@@ -843,9 +866,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		{
 			unset($this->object->suggested_solutions[$removeFromGap]);
 		}
-	$this->object->saveToDb();
-	$this->editQuestion();
+		$this->object->saveToDb();
+		$this->editQuestion();
 	}
+		
+
+
 	
 }
 ?>
