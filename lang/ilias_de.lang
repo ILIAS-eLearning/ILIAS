@@ -1508,7 +1508,6 @@ common#:#in_use#:#Benutzersprache###07 Apr 2005 content changed
 common#:#inactive#:#Inaktiv###07 Apr 2005 content changed
 common#:#inbox#:#Posteingang###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 common#:#info#:#Information###07 Apr 2005 content changed
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?###07 Apr 2005 content changed
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:###07 Apr 2005 content changed
@@ -1574,6 +1573,7 @@ common#:#lang_no#:#Norwegisch###07 Apr 2005 content changed
 common#:#lang_path#:#Sprachdateien-Pfad###07 Apr 2005 content changed
 common#:#lang_pl#:#Polnisch###07 Apr 2005 content changed
 common#:#lang_pt#:#Portugisisch###07 Apr 2005 content changed
+common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#,###07 Apr 2005 content changed
 common#:#lang_sep_thousand#:#.###07 Apr 2005 content changed
 common#:#lang_sv#:#Schwedisch###07 Apr 2005 content changed

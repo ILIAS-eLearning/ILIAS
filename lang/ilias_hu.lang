@@ -1509,7 +1509,6 @@ common#:#in_use#:#Felhasználói nyelv###07 Apr 2005 content changed
 common#:#inactive#:#Inactive###05 Nov 2004 new variable
 common#:#inbox#:#Bejövő posta###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 common#:#info#:#Information###29 Nov 2004 new variable
 common#:#info_assign_sure#:#Biztosan hozzá akarja rendelni az alábbi felhasználó(ka)t?###07 Apr 2005 content changed
 common#:#info_delete_sure#:#Biztosan törölni akarja az alábbi objektum(ok)at?###07 Apr 2005 content changed
@@ -1575,6 +1574,7 @@ common#:#lang_no#:#Norvég###07 Apr 2005 content changed
 common#:#lang_path#:#Nyelv elérési útja###07 Apr 2005 content changed
 common#:#lang_pl#:#Lengyel###07 Apr 2005 content changed
 common#:#lang_pt#:#Portugál###07 Apr 2005 content changed
+common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#.###05 Nov 2004 new variable
 common#:#lang_sep_thousand#:#,###05 Nov 2004 new variable
 common#:#lang_sv#:#Svéd###07 Apr 2005 content changed

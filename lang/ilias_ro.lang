@@ -136,9 +136,11 @@ assessment#:#checkbox_unchecked#:#Neselectat
 assessment#:#circle#:#Incercuiti
 assessment#:#circle_click_center#:#Va rugam apasati in centrul perimetrului dorit.
 assessment#:#circle_click_circle#:#Va rugam apasati intr-un punct al perimetrului dorit.
+assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
 assessment#:#close_text_hint#:#Puteti crea spatii tastand <gap></gap> oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil.
 assessment#:#cloze_text#:#Text cu spatii se completat
 assessment#:#code#:#Cod
+assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
 assessment#:#confirm_delete_all_user_data#:#Sunteti sigur/sigura ca doriti sa stergeti toate informatiile despre utilizator din test?
 assessment#:#confirm_sync_questions#:#Intrebarea pe care ati schimbat-o este o copie creata pentru utilizare in testul activ. Doriti sa schimbati si intrebarea originala?
 assessment#:#coordinates#:#Coordonate
@@ -279,6 +281,7 @@ assessment#:#no_user_or_group_selected#:#Va rugam selectati ce optiune cautati(u
 assessment#:#or#:#sau
 assessment#:#order_pictures#:#Ordonati imagini
 assessment#:#order_terms#:#Ordonati termeni
+assessment#:#participants#:#Participants###08 Apr 2005 new variable
 assessment#:#passed_official#:#Trecut
 assessment#:#passed_short#:#Trecut
 assessment#:#percentage_solved#:#Ati rezolvat %.2f procente din aceasta intrebare!
@@ -347,6 +350,10 @@ assessment#:#save_previous#:#Anteriorul
 assessment#:#save_text_answer_points#:#Salvati punctele obtinute la intrebarile din test
 assessment#:#search_found_groups#:#Grupuri gasite
 assessment#:#search_found_users#:#Utilizatori gasiti
+assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
+assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
+assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
+assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
 assessment#:#see_details_for_further_information#:#Vedeti detalii despre solutiile sugerate
 assessment#:#select_an_answer#:#--- Va rugam selectati un raspuns ---
 assessment#:#select_gap#:#Selectati un spatiu
@@ -372,11 +379,15 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Va rugam completati parametrii din applet inainte de a adauga alti parametrii!
 assessment#:#true#:#Adevarat
 assessment#:#tst_all_user_data_deleted#:#Toate datele despre utilizator din acest test au foat sterse!
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Teste deja completate
 assessment#:#tst_anon_eval#:#Rezultate colective anonime
+assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Cautati intrebari
 assessment#:#tst_confirm_delete_results#:#Sunteti pe cale de a sterge toate raspunsurile la intrebarile din acest test. Acest lucru va reseta valorile intrebarilor la stadiul initial. Trebuie sa stiti ca nu puteti reseta numarul de incercari disponibile pentru acest test. Sunteti sigur/a ca doriti sa anulati toate raspunsurile deja date?
 assessment#:#tst_confirm_delete_results_info#:#Toate raspunsurile date la intrebari au fost sterse. Ati resetat testul cu succes!
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Stergeti toate datele despre utilizator
 assessment#:#tst_delete_missing_mark#:#Va rugam sa selectati cel putin o nota intermediara pentru a o sterge
 assessment#:#tst_delete_results#:#Resetati testul
@@ -388,6 +399,7 @@ assessment#:#tst_eval_total_finished_average_time#:#Timpul mediu de procesare al
 assessment#:#tst_eval_total_passed#:#Total teste trecute
 assessment#:#tst_eval_total_passed_average_points#:#Media de puncte pentru testele trecute
 assessment#:#tst_eval_total_persons#:#Numarul total al persoanelor care au accesat testul
+assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Proprietati generale
 assessment#:#tst_generate_xls#:#Generati fisa Excel
 assessment#:#tst_in_use_edit_questions_disabled#:#Testul este utilizat de %d utilizatori. Nu aveti voie sa editati sau sa mutati intrebarile din acest test!
@@ -411,14 +423,24 @@ assessment#:#tst_no_marks_defined#:#Nu exista nici o definitie a notelor, va rug
 assessment#:#tst_no_more_available_questionpools#:#Nu mai exista baze de intrebari disponibile
 assessment#:#tst_no_question_selected_for_removal#:#Va rugam selectati cel putin o intrebare pentru a o sterge!
 assessment#:#tst_no_questions_available#:#Nu exista intrebari disponibile! Trebuie sa creati intrebari noi sau sa cautati intrebari.
+assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
 assessment#:#tst_no_taken_tests#:#Nu exista teste rezolvate!
 assessment#:#tst_no_tries#:#Nici o incercare
 assessment#:#tst_nr_of_tries#:#Numarul maxim de incercari
 assessment#:#tst_nr_of_tries_of_user#:#Incercari deja completate
+assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
 assessment#:#tst_percent_solved#:#Procentaj teste rezolvate
+assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
+assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
 assessment#:#tst_processing_time#:#Timpul maxim de procesare
+assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
+assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
+assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
+assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
 assessment#:#tst_question_no#:#Ordine
 assessment#:#tst_question_offer#:#Acceptati aceasta mostra sau doriti sa incercati alt test?
+assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
 assessment#:#tst_question_title#:#Titlu
 assessment#:#tst_question_type#:#Tipul intrebarii
 assessment#:#tst_questions_inserted#:#Intrebari inserate!
@@ -483,24 +505,32 @@ assessment#:#tst_status_missing_elements#:#Urmatoarele cerinte nu au fost comple
 assessment#:#tst_status_not_entered#:#Neinceput
 assessment#:#tst_status_ok#:#Testul este in regula. Nu exista cerinte necompletate.
 assessment#:#tst_status_progress#:#In progres
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
 assessment#:#tst_time_already_spent#:#Timp deja utilizat
 assessment#:#tst_total_questions#:#Numarul total de intrebari
 assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!
+assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
 assessment#:#tst_type#:#Tipul testului
 assessment#:#tst_type_changed#:#Ati schimbat tipul de test. Toate celelalte teste precedente au fost sterse!
 assessment#:#tst_type_comment#:#Avertisment: Daca schimbati tipul acestui test toate celelalte teste precedente vor fi sterse!
 assessment#:#tst_types#:#Tipuri de teste
 assessment#:#tst_use_javascript#:#Foloseste Javascript pentru actiuni drag and drop
+assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
 assessment#:#tst_your_ects_mark_is#:#Nota dumneavoastra ECTS este
 assessment#:#tst_your_mark_is#:#Nota dumneavoastra este
 assessment#:#tt_assessment#:#Test de evaluare
 assessment#:#tt_navigation_controlling#:#Test de controlare a navigarii utilizatorilor
+assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
 assessment#:#tt_self_assessment#:#test de autoevaluare
 assessment#:#unlimited#:#nelimitat
 assessment#:#unlock#:#Deblocati
 assessment#:#unlock_question#:#Aceasta intrebare este folosita de cel putin un test la care exista %s rezultate. Daca deblocati intrebarea rezultatele complete ale utilizatorilor afectati vor fi sterse dupa ce salvati aceasta intrebare. Daca doriti sa folositi o varianta modificata a acestei intrebari dar nu doriti sa stergeti rezultatele la teste, puteti copia intrebarea intr-o baza de intrebari si sa schimbati acea versiune.
 assessment#:#upload_imagemap#:#Incarcati o imagine harta
 assessment#:#uploaded_material#:#Materiale incarcate
+assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#Intrebarea nu este completa!
 assessment#:#warning_test_not_complete#:#Testul nu este complet!
 assessment#:#when#:#cand
@@ -569,7 +599,6 @@ bibitem#:#bibitem_year#:#Anul
 chat#:#chat_active#:#Activ
 chat#:#chat_active_users#:#Utilizator (activ)
 chat#:#chat_add_allowed_hosts#:#Va rugam introduceti adresa host-urilor carora li se permite accesul la serverul de chat.
-chat#:#chat_add_ip#:#Va rugam introduceti IP-ul serverului.
 chat#:#chat_add_moderator_password#:#Va rugam introduceti o parola de moderator.
 chat#:#chat_add_port#:# Va rugam introduceti portul serverului.
 chat#:#chat_aqua#:#aqua
@@ -630,7 +659,6 @@ chat#:#chat_rooms_deleted#:#Chat-room(uri) sterse.
 chat#:#chat_select_one_room#:#Va rugam selectati un chat-room
 chat#:#chat_server_allowed#:#Host-uri permise
 chat#:#chat_server_allowed_b#:#(ex. 192.168.1.1, 192.168.1.2)
-chat#:#chat_server_ip#:#IP-ul server-ului
 chat#:#chat_server_logfile#:#Log pentru calea fisierului
 chat#:#chat_server_loglevel#:#Nivelul log-ului
 chat#:#chat_server_not_active#:#Serverul de chat nu este activ
@@ -931,7 +959,6 @@ common#:#crs_add#:#Adaugati Curs
 common#:#crs_added#:#Curs adaugat
 common#:#crs_archives#:#Arhive
 common#:#crs_at_least_one_admin#:#Trebuie sa existe cel putin un administrator de curs
-coommon#:#crs_available#:#Cursuri disponibile
 common#:#crs_container_link_not_allowed#:#Nu este posibil sa legati obiectele din dosar
 common#:#crs_create#:#Creati Curs
 common#:#crs_create_alm#:#Creati Modul de Invatare AICC
@@ -1404,6 +1431,7 @@ common#:#in#:#in
 common#:#in_use#:#Limba Utilizatorului
 common#:#inactive#:#Inactiv
 common#:#inbox#:#Inbox
+common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Informatii
 common#:#info_assign_sure#:#Sunteti sigur/a ca doriti sa acceptati urmatorii utilizatori?
 common#:#info_delete_sure#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele obicte?
@@ -1469,6 +1497,7 @@ common#:#lang_no#:#Norvegiana
 common#:#lang_path#:#Path catre limba
 common#:#lang_pl#:#Poloneza
 common#:#lang_pt#:#Portugheza
+common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Suedeza
@@ -2792,6 +2821,8 @@ content#:#lm_menu_select_object_to_add#:#Va rugam selectati obiectul pe care dor
 content#:#msg_entry_added#:#Intrare in meniu adaugata
 content#:#msg_entry_removed#:#Intrare in meniu inlaturata
 content#:#msg_entry_updated#:#Intrare in meniu actualizata
+content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
+content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
 content#:#pages from#:#Pagini din
 content#:#par#:#Paragraf
 content#:#pg#:#Pagina
@@ -4153,7 +4184,7 @@ survey#:#add_phrase#:#Adaugati fraza
 survey#:#add_phrase_introduction#:#VA rugam selectati o fraza:
 survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.
-survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos.
+survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos.###12 Apr 2005 content changed
 survey#:#anonymize_resume_introduction#:#Va rugam introduceti codul de acces pentru a va reintoarce in sondaj. V-a fost trimis pe mail in momentul in care ati raspuns la prima intrebare.
 survey#:#anonymize_survey#:#Pastrati anonime datele de utilizator din sondaj
 survey#:#anonymize_survey_explanation#:#Cand este activat, toate datele despre utilizator vor ramane anonime si nu pot fi urmarite.
@@ -4414,7 +4445,6 @@ survey#:#search_questions#:#Cautati intrebari
 survey#:#search_term#:#Termen de cautare
 survey#:#search_type_all#:#Cautati in toate tipurile de intrebari
 survey#:#search_users#:#Utilizatori
-survey#:#select_max_one_item#:#Va rugam selectati doar un obiect
 survey#:#select_option#:#--- Va rugam selectati o optiune ---
 survey#:#select_phrase_to_add#:#Va rugam selectati o fraza pentru a o adauga la intrebare!
 survey#:#select_prior_question#:#Selectati o intrebare anterioara
@@ -4494,37 +4524,3 @@ survey#:#view_phrase#:#Vedeti fraza
 survey#:#warning_question_in_use#:#Avertisment! Intreberea pe care doriti sa o editati este folosita de sondajele de mai jos. Daca decideti sa continuati si salvati/aplicati intrebarea, toate raspunsurile din sondajele de mai jos vor fi sterse. Daca doriti sa schimbati intrebarea si sa o folositi intr-un alt sondaj va rugam duplicati-o in browser-ul de intrebari pentru a crea o copie a acestei intrebari.
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
 survey#:#warning_survey_not_complete#:#Sondajul nu este complet!
-common#:#include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
-assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
-assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
-assessment#:#participants#:#Participants###08 Apr 2005 new variable
-assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
-assessment#:#search_roles#:#Search Roles###08 Apr 2005 new variable
-assessment#:#search_term#:#Search Term###08 Apr 2005 new variable
-assessment#:#search_users#:#Search Users###08 Apr 2005 new variable
-assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
-assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
-assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
-assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
-assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
-assessment#:#tst_participating_users#:#Participating Users###08 Apr 2005 new variable
-assessment#:#tst_print#:#Test & Assessment Print View###08 Apr 2005 new variable
-assessment#:#tst_print_date#:#Date of Print###08 Apr 2005 new variable
-assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
-assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
-assessment#:#tst_qst_result_sheet#:#Show result sheet###08 Apr 2005 new variable
-assessment#:#tst_qst_setsolved#:#Set Solved###08 Apr 2005 new variable
-assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###08 Apr 2005 new variable
-assessment#:#tst_question_solved_state#:#Solved###08 Apr 2005 new variable
-assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
-assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
-assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
-assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
-assessment#:#tst_your_answers#:#These are your answers given to the following questions.###08 Apr 2005 new variable
-assessment#:#tt_online_exam#:#Online Exam###08 Apr 2005 new variable
-assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
-content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
-content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
