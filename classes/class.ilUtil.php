@@ -282,12 +282,18 @@ class ilUtil
 		// if varname ends with [], use varname[-2] + _ + value as id tag (e.g. "user_id[]" => "user_id_15")
 		if ($array_var)
 		{
-			$str .= " value=\"".$value."\" id=\"".substr($varname,0,-2)."_".$value."\" />\n";
+			$varname_id = substr($varname,0,-2)."_".$value;
 		}
 		else
 		{
-			$str .= " value=\"".$value."\" id=\"".$varname."\" />\n";
+			$varname_id = $varname;
 		}
+		
+		// dirty removal of other "[]" in string
+		$varname_id = ereg_replace("\[","_",$varname_id);
+		$varname_id = ereg_replace("\]","",$varname_id);
+
+		$str .= " value=\"".$value."\" id=\"".$varname_id."\" />\n";
 
 		return $str;
 	}

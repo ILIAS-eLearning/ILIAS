@@ -1,3 +1,17 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_varname, a_elements, a_check)
+{
+	for(i=0;i<a_elements.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_varname + a_elements[i]].checked = a_check;
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
 <!-- BEGIN sysrole_msg -->
 <table class="fullwidth">
 	<tr>
@@ -20,12 +34,22 @@
   </tr>
 <!-- BEGIN object_type -->
   <tr class="tblheader">
-	<td class="std" colspan="4" align="left">{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span></td>
+  <td class="std" colspan="4">
+  <table class="fullwidth_invisible"><tr class="tblheader">
+	<td class="std" align="left">{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span></td>
+	<td class="std" align="right">
+<!-- EGIN obj_action_toggle_checkboxes -->
+    [<a href="" onclick="setCheckboxes('objectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('objectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+<!-- ND obj_action_toggle_checkboxes -->	
+	</td>
+	</tr></table>
+	</td>
   </tr>
 <!-- BEGIN object_operations -->
   <tr class="{CSS_ROW}">
- 	<td class="std" colspan="2">{PERMISSION} <span class="alert">{TXT_NOT_IMPL}</span></td>
-	<td class="std">{CHECK_PERMISSION}</td>
+	<td class="std" width="1%">{CHECK_PERMISSION}</td>
+ 	<td class="std" colspan="3" width="99%"><label for="{LABEL_ID}">{PERMISSION}</label><span class="alert">{TXT_NOT_IMPL}</span></td>
   </tr>
 <!-- END object_operations -->
 <!-- END object_type -->
@@ -42,8 +66,8 @@
 <!-- END tblfooter_sysrole -->
 <!-- BEGIN tblfooter_recursive -->
   <tr class="tblfooter">
-	<td class="std"><font color="red">{MESSAGE_TABLE}</font></td>
 	<td class="std" align="left" colspan="{COL_ANZ}">{CHECK_BOTTOM}</td>
+	<td class="std"><font color="red"><label for="recursive">{MESSAGE_TABLE}</label></font></td>
   </tr>
 <!-- END tblfooter_recursive -->
 <!-- BEGIN tblfooter_standard -->
@@ -71,7 +95,7 @@
 <!-- BEGIN ADOPT_PERM_ROW -->
   <tr class={CSS_ROW_ADOPT}>
     <td class="std">{CHECK_ADOPT}</td>
-	<td class="std">{ROLE_NAME}</td>
+	<td class="std"><label for="{LABEL_ID}">{ROLE_NAME}</label></td>
 	<td class="std">{TYPE}</td>
   </tr>
 <!-- END ADOPT_PERM_ROW -->
