@@ -21,28 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Class ilObjLanguage
-*
-* @author Sascha Hofmann <shofmann@databay.de>
-* @version $Id$
-*
-* @extends ilObject
-* @package ilias-core
-*/
-
 require_once "class.ilObject.php";
 
+/**
+ * Class ilObjLanguage
+ *
+ * @author Sascha Hofmann <shofmann@databay.de>
+ * @version $Id$
+ *
+ * @extends ilObject
+ * @package ilias-core
+ */
 class ilObjLanguage extends ilObject
 {
 	/**
-	* separator of module, comment separator, identifier & values
-	* in language files
-	*
-	* @var		string
-	* @access	private
-	*/
+	 * separator of module, comment separator, identifier & values
+	 * in language files
+	 *
+	 * @var		string
+	 * @access	private
+	 */
 	var $separator;
 	var $comment_separator;
 	var $lang_default;
@@ -54,11 +52,12 @@ class ilObjLanguage extends ilObject
 
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
+	 * Constructor
+	 * 
+	 * @access	public
+	 * @param	integer	reference_id or object_id
+	 * @param	boolean	treat the id as reference_id (true) or object_id (false)
+	 */
 	function ilObjLanguage($a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng;
@@ -77,28 +76,28 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
-	* get language key
-	*
-	* @return	string		language key
-	*/
+	 * get language key
+	 *
+	 * @return	string		language key
+	 */
 	function getKey()
 	{
 		return $this->key;
 	}
 
 	/**
-	* get language status
-	*
-	* @return	string		language status
-	*/
+	 * get language status
+	 *
+	 * @return	string		language status
+	 */
 	function getStatus()
 	{
 		return $this->status;
 	}
 
 	/**
-	* check if language is system language
-	*/
+	 * check if language is system language
+	 */
 	function isSystemLanguage()
 	{
 		if ($this->key == $this->lang_default)
@@ -108,8 +107,8 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
-	* check if language is system language
-	*/
+	 * check if language is system language
+	 */
 	function isUserLanguage()
 	{
 		if ($this->key == $this->lang_user)
@@ -124,22 +123,84 @@ class ilObjLanguage extends ilObject
 
 
 	/**
-	* install current language
-	*
-	* @return	string	installed language key
-	*/
-	function install ()
+	 * Check language object status, and return true if language is installed.
+	 * 
+	 * @return  boolean     true if installed
+	 */
+	function isInstalled()
 	{
-		if ($this->getStatus() != "installed")
+		if (substr($this->getStatus(), 0, 9) == "installed")
 		{
-			if ($this->check())
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Check language object status, and return true if a local language file 
+	 * is installed.
+	 * 
+	 * @return  boolean     true if local language is installed
+	 */
+	function isLocal()
+	{
+		if (substr($this->getStatus(), 10) == "local")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * install current language
+	 *
+	 * @return	string	installed language key
+	 * @param   string  $scope  empty (global) or "local"
+	 */
+	function install($scope = '')
+	{
+		if (!empty($scope))
+		{
+			if ($scope == 'global')
+			{
+				$scope = ''; 
+			}
+			else
+			{
+				$scopeExtension = '.' . $scope;
+			}
+		}
+
+		if (($this->isInstalled() == false) || 
+				($this->isInstalled() == true && $this->isLocal() == false && !empty($scope)))
+		{
+			if ($this->check($scope))
 			{
 				// lang-file is ok. Flush data in db and...
-				$this->flush();
+				if (empty($scope))
+				{
+					$this->flush();
+				}
+
 				// ...re-insert data from lang-file
-				$this->insert();
+				$this->insert($scope);
+
 				// update information in db-table about available/installed languages
-				$this->setDescription("installed");
+				if (empty($scope))
+				{
+					$newDesc = 'installed';
+				}
+				else if ($scope == 'local')
+				{
+					$newDesc = 'installed_local';
+				}
+				$this->setDescription($newDesc);
 				$this->update();
 				$this->optimizeData();
 				return $this->getKey();
@@ -150,13 +211,13 @@ class ilObjLanguage extends ilObject
 
 
 	/**
-	* uninstall current language
-	*
-	* @return	string	uninstalled language key
-	*/
-	function uninstall ()
+	 * uninstall current language
+	 *
+	 * @return	string	uninstalled language key
+	 */
+	function uninstall()
 	{
-		if (($this->status == "installed") && ($this->key != $this->lang_default) && ($this->key != $this->lang_user))
+		if ((substr($this->status, 0, 9) == "installed") && ($this->key != $this->lang_default) && ($this->key != $this->lang_user))
 		{
 			$this->flush();
 			$this->setTitle($this->key);
@@ -171,8 +232,8 @@ class ilObjLanguage extends ilObject
 
 
 	/**
-	* remove language data from database
-	*/
+	 * remove language data from database
+	 */
 	function flush()
 	{
 		$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
@@ -181,14 +242,28 @@ class ilObjLanguage extends ilObject
 
 
 	/**
-	* insert language data from file into database
-	*/
-	function insert ()
+	 * insert language data from file into database
+	 * 
+	 * @param   string  $scope  empty (global) or "local"
+	 */
+	function insert($scope = '')
 	{
+		if (!empty($scope))
+		{
+			if ($scope == 'global')
+			{
+				$scope = ''; 
+			}
+			else
+			{
+				$scopeExtension = '.' . $scope;
+			}
+		}
+
 		$tmpPath = getcwd();
 		chdir($this->lang_path);
 
-		$lang_file = "ilias_".$this->key.".lang";
+		$lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
 
 		if ($lang_file)
 		{
@@ -197,30 +272,55 @@ class ilObjLanguage extends ilObject
 			{
 				foreach ($content as $key => $val)
 				{
-					$separated = explode ($this->separator,trim($val));
+					$separated = explode($this->separator,trim($val));
 					
 					//get position of the comment_separator
 					$pos = strpos($separated[2], $this->comment_separator);
 				
-                	if ($pos !== false)
+					if ($pos !== false)
 					{ 
-                   		//cut comment of
-				   		$separated[2] = substr($separated[2] , 0 , $pos);
+						//cut comment of
+						$separated[2] = substr($separated[2] , 0 , $pos);
 					}
-					
-					
-					$num = count($separated);
 
-					$query = "INSERT INTO lng_data ".
-						 	 "(module,identifier,lang_key,value) ".
-						 	 "VALUES ".
-						 	 "('".$separated[0]."','".$separated[1]."','".$this->key."','".addslashes($separated[2])."')";
+					if (empty($scope))
+					{
+						$query = "INSERT INTO lng_data " .
+								"(module, identifier, lang_key, value) " .
+								"VALUES " .
+								"('" . $separated[0] . "','" . $separated[1] . "','" . $this->key . "','" . addslashes($separated[2]) . "')";
+					}
+					else if ($scope == 'local')
+					{
+						// UPDATE because the global values have already been INSERTed
+						$query = "UPDATE lng_data SET ".
+								 "module = '" . $separated[0] . "', " .
+								 "identifier = '" . $separated[1] . "', " . 
+								 "lang_key = '" . $this->key . "', " .
+								 "value = '" . addslashes($separated[2]) . "' " .
+								 "WHERE module = '" . $separated[0] . "' " .
+								 "AND identifier = '" . $separated[1] . "' " .
+								 "AND lang_key = '" . $this->key . "'";
+					}
 					$this->ilias->db->query($query);
 				}
-				$query = "UPDATE object_data SET ".
-						 "last_update = now() ".
-						 "WHERE title = '".$this->key."' ".
-						 "AND type = 'lng'";
+
+				if (empty($scope))
+				{
+					$query = "UPDATE object_data SET " .
+							"description = 'installed', " .
+							"last_update = now() " .
+							"WHERE title = '".$this->key."' " .
+							"AND type = 'lng'";
+				}
+				else if ($scope == 'local')
+				{
+					$query = "UPDATE object_data SET " .
+							"description = 'installed_local', " .
+							"last_update = now() " .
+							"WHERE title = '".$this->key."' " .
+							"AND type = 'lng'";
+				}
 				$this->ilias->db->query($query);
 			}
 		}
@@ -229,30 +329,29 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
-	* search ILIAS for users which have selected '$lang_key' as their prefered language and
-	* reset them to default language (english). A message is sent to all affected users
-	*
-	* @param	string		$lang_key	international language key (2 digits)
-	*/
+	 * search ILIAS for users which have selected '$lang_key' as their prefered language and
+	 * reset them to default language (english). A message is sent to all affected users
+	 *
+	 * @param	string		$lang_key	international language key (2 digits)
+	 */
 	function resetUserLanguage($lang_key)
 	{
-		$q = "UPDATE usr_pref SET ".
-			 "value = '".$this->lang_default."' ".
-			 "WHERE keyword = 'language' ".
-			 "AND value = '".$lang_key."'";
-		$this->ilias->db->query($q);
+		$query = "UPDATE usr_pref SET " .
+				"value = '" . $this->lang_default."' " .
+				"WHERE keyword = 'language' " .
+				"AND value = '" . $lang_key . "'";
+		$this->ilias->db->query($query);
 	}
 
 	/**
-	* remove lang-file haeder information from '$content'
-	*
-	* This function seeks for a special keyword where the language information starts.
-	* if found it returns the plain language information, otherwise returns false
-	*
-	* @param	string	$content	expecting an ILIAS lang-file
-	* @return	string	$content	content without header info OR false if no valid header was found
-	*/
-	function cut_header ($content)
+	 * remove lang-file haeder information from '$content'
+	 * This function seeks for a special keyword where the language information starts.
+	 * if found it returns the plain language information, otherwise returns false
+	 *
+	 * @param	string	$content	expecting an ILIAS lang-file
+	 * @return	string	$content	content without header info OR false if no valid header was found
+	 */
+	function cut_header($content)
 	{
 		foreach ($content as $key => $val)
 		{
@@ -266,35 +365,47 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
-	* optimizes the db-table langdata
-	*
-	* @return	boolean	true on success
-	*/
-	function optimizeData ()
+	 * optimizes the db-table langdata
+	 *
+	 * @return	boolean	true on success
+	 */
+	function optimizeData()
 	{
 		// optimize
-		$q = "OPTIMIZE TABLE lng_data";
-		$this->ilias->db->query($q);
+		$query = "OPTIMIZE TABLE lng_data";
+		$this->ilias->db->query($query);
 
 		return true;
 	}
 
 	/**
-	* validate the logical structure the lang file
-	*
-	* This function checks if a lang-file exists,
-	* the file has a header and each lang-entry consist of exact three elements
-	* (module,identifier,value)
-	*
-	* @return	string	system message
-	*/
-	function check ()
+	 * Validate the logical structure of a lang file.
+	 * This function checks if a lang file exists, the file has a 
+	 * header, and each lang-entry consists of exactly three elements
+	 * (module, identifier, value).
+	 *
+	 * @return	string	system message
+	 * @param   string  $scope  empty (global) or "local"
+	 */
+	function check($scope = '')
 	{
+		if (!empty($scope))
+		{
+			if ($scope == 'global')
+			{
+				$scope = ''; 
+			}
+			else
+			{
+				$scopeExtension = '.' . $scope;
+			}
+		}
+
 		$tmpPath = getcwd();
-		chdir ($this->lang_path);
+		chdir($this->lang_path);
 
 		// compute lang-file name format
-		$lang_file = "ilias_".$this->key.".lang";
+		$lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
 
 		// file check
 		if (!is_file($lang_file))
@@ -312,7 +423,7 @@ class ilObjLanguage extends ilObject
 		$line = 0;
 		foreach ($content as $key => $val)
 		{
-			$separated = explode ($this->separator,trim($val));
+			$separated = explode($this->separator, trim($val));
 			$num = count($separated);
 			$line ++;
 			if ($num != 3)
