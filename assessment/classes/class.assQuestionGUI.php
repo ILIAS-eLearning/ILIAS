@@ -758,5 +758,38 @@ class ASS_QuestionGUI
 				break;
 		}
 	}
+	
+	function replaceInputElements  ($gap_idx, $solution, $output, $before="", $after="") {		
+		#echo htmlentities ($output)."<br>";
+		#echo htmlentities ($gap_idx)."<br>";
+		$output = preg_replace ("/(<input[^>]*".$gap_idx."[^>]*>)/" , $before.$solution.$after, $output);
+		#echo htmlentities ($output)."<br>";		
+		return $output;	
+	}
+	
+	function replaceSelectElements ($gap_idx, $repl_str, $output, $before="", $after="") {
+		#echo htmlentities ($output)."<br>";
+		#echo htmlentities ($gap_idx)."<br>";
+		#echo htmlentities ($repl_str)."<br>";
+		$select_pattern = "/<select[^>]*name=\"$gap_idx\".*?[^>]*>.*?<\/select>/";
+		#echo  htmlentities ($select_pattern)."<br>";
+		// to extract the display value we need the according select statement 
+		if (preg_match($select_pattern, $output, $matches)) {
+			// got it, now we are trying to get the value
+			#echo "<br><br>".htmlentities ($matches[0]);
+			$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
+			if (preg_match($value_pattern, $matches[0], $matches))
+				$output = preg_replace ($select_pattern, $before.$matches[1].$after, $output);
+			else 
+				$output = preg_replace ($select_pattern, $before.$after, $output);
+		}
+		return $output;	
+	}
+	
+	function removeFormElements ($output) {
+		$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);			
+		$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);		
+		return $output;	
+	}
 }
 ?>

@@ -6356,12 +6356,13 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	
 	function outPrinttest() {
 		global $ilUser;
+		
+		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
-		
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_test.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_test.css");
-		$this->tpl->setVariable("SYNTAX_CSS","./templates/default/print_syntax.css");
 		
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_test.css");				
+		$this->tpl->setVariable("SYNTAX_CSS","./templates/default/print_syntax.css");
 		
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		$this->tpl->setVariable("PRINT_TEST", $this->lng->txt("tst_print"));
@@ -6373,18 +6374,18 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$tpl->setVariable("TITLE", $this->object->getTitle());	
 
 
-
 		$counter = 1;
-				
-		foreach ($this->object->questions as $question) {
-			$tpl->setCurrentBlock("question");
+					
+		foreach ($this->object->questions as $question) {		
+			$tpl->setCurrentBlock("question");			
 			$question_gui = $this->object->createQuestionGUI("", $question);
-
+			
 			$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
 			$tpl->setVariable("COUNTER_QUESTION", $counter.".");
 			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
 			switch ($question_gui->getQuestionType()) {
+				
 				case "qt_imagemap" :
 					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $formaction, $show_pages= true, $show_solutions_only= true);
 					break;
@@ -6395,8 +6396,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
 			}
 			$tpl->parseCurrentBlock("question");
-			$counter ++;
+			$counter ++;								
 		}
+		
 	}
 	
 	

@@ -531,16 +531,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
 					
 					if (!$show_question_page) {
-						$select_pattern = "/<select[^>]*name=\"sel_matching_".$solution_value->value2."\".*?[^>]*>.*?<\/select>/";
-						// to extract the display value we need the according select statement 
-						if (preg_match($select_pattern, $output, $matches)) {
-							// got it, now we are trying to get the value
-							//echo "<br><br>".htmlentities ($matches[0]);
-							$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
-							if (preg_match($value_pattern, $matches[0], $matches))
-								$output = preg_replace ($select_pattern,  "[".$matches[1]."]", $output);
-							else $output = preg_replace ($select_pattern, "[]", $output);
-						}
+						$output = $this->replaceFormElements ("name=\"sel_matching_".$solution_value->value2."\"",$repl_str,$output);
 					}
 					else 
 						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
@@ -569,7 +560,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				// remove all selects which don't have a solution
 				//echo htmlentities ($output);
-				$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);				
+				$output = $this->removeFormElements($output); // preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);				
 			}
 			
 		}
@@ -579,16 +570,25 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
 		}
-		
+
 		if ($this->object->getOutputType() == OUTPUT_HTML)
 		{
 			foreach ($this->object->matchingpairs as $idx => $answer)
 			{
 				$id = $answer->getDefinitionId()."_".$answer->getTermId();
 				$repl_str = "dummy=\"solution_match".$id."\"";
-				$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+				$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);				
 				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+												
+				if ($show_solution_only) {
+					//$regexp = "/<select name=\"solution_match_$idx\">.*?<option[^>]*dummy=\"solution_match$id\">(.*?)<\/option>.*?<\/select>/";
+					//					preg_match ($regexp, $solutionoutput, $matches);
+										//$sol_points [] = $matches[1]." (".$answer->getPoints()." ".$this->lng->txt("points").")";					
+					$solutionoutput = $this->replaceSelectElements("solution_sel_matching_".$answer->getDefinitionId(),$repl_str, $solutionoutput,"[","]" );
+				}								
 			}
+								//print_r($sol_points);
+								//$solutionoutput = preg_replace ("/<select[^>]*name=\"solution_gap_$idx\">.*?<\/select>/i","[".join($sol_points,", ")."]",$solutionoutput); 
 		}
 		else
 		{
@@ -710,6 +710,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_matching");
 		parent::addSuggestedSolution();
-	}
+	}	
 }
 ?>
