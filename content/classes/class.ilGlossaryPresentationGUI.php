@@ -146,9 +146,9 @@ class ilGlossaryPresentationGUI
 		// load template for table
 		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_pres_row.html", true);
 
-		$num = 0;
+		$num = 2;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post&offset=".$_GET["offset"]);
@@ -161,20 +161,20 @@ class ilGlossaryPresentationGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
-			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
+			 $this->lng->txt("cont_definitions")));
 
-		$cols = array("term", "language", "definitions", "id");
-		
+		$cols = array("term", "definitions");
+
 		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
-		
+
 		if (!empty ($filter)) {
 			$header_params ["cmd"] = "searchTerms";
 			$header_params ["term"] = $filter;
 			$header_params ["oldoffset"] = $_GET["oldoffset"];
 		}
-		
+
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("25%","15%","60%"));
+		$tbl->setColumnWidth(array("30%", "70%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -218,9 +218,9 @@ class ilGlossaryPresentationGUI
 
 					//
 					$this->tpl->setCurrentBlock("definition");
-					$short_str = strip_tags(ilPCParagraph::xml2output($def["short_text"]));
-					$short_str = str_replace("<", "&lt;", $short_str);
-					$short_str = str_replace(">", "&gt;", $short_str);
+					$short_str = ilPCParagraph::xml2output($def["short_text"]);
+					//$short_str = str_replace("<", "&lt;", $short_str);
+					//$short_str = str_replace(">", "&gt;", $short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 
@@ -369,8 +369,65 @@ class ilGlossaryPresentationGUI
 		$page =& new ilPageObject("gdf", $_GET["def_id"]);
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->showMediaFullscreen();
-		
+
 	}
+
+	/**
+	* show media object
+	*/
+	function media()
+	{
+		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		include_once("classes/class.ilObjStyleSheet.php");
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+
+		//$int_links = $page_object->getInternalLinks();
+		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
+
+		// later
+		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+
+		$link_xlm = "";
+
+		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+
+		$xml = "<dummy>";
+		// todo: we get always the first alias now (problem if mob is used multiple
+		// times in page)
+		$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+		$xml.= $link_xml;
+		$xml.="</dummy>";
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		$wb_path = ilUtil::getWebspaceDir("output");
+
+		$mode = "media";
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
+		$fullscreen_link = "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&obj_type=MediaObject&cmd=fullscreen"
+			;
+		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
+			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => $fullscreen_link,
+			'ref_id' => $_GET["ref_id"], 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$this->tpl->setVariable("MEDIA_CONTENT", $output);
+
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+
+	}
+
+
 
 
 	/**

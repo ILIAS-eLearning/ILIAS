@@ -205,7 +205,7 @@ class ilEditClipboardGUI
 			// delete button
 			$this->tpl->setCurrentBlock("tbl_action_btn");
 			$this->tpl->setVariable("BTN_NAME", "remove");
-			$this->tpl->setVariable("BTN_VALUE", "remove");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
 			$this->tpl->parseCurrentBlock();
 
 			// add list
@@ -222,7 +222,7 @@ class ilEditClipboardGUI
 			// insert button
 			$this->tpl->setCurrentBlock("tbl_action_btn");
 			$this->tpl->setVariable("BTN_NAME", "insert");
-			$this->tpl->setVariable("BTN_VALUE", "insert");
+			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("insert"));
 			$this->tpl->parseCurrentBlock();
 		}
 

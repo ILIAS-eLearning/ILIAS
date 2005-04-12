@@ -383,7 +383,10 @@ class ilGlossaryDefinition
 	{
 		$this->page_object->buildDom();
 		$text = $this->page_object->getFirstParagraphText();
-		$this->setShortText(ilUtil::shortenText($text, 190, true));
+		//$this->setShortText(ilUtil::shortenText($text, 180, true));
+		$text = str_replace("<br/>", "<br>", $text);
+
+		$this->setShortText(ilUtil::shortenText(strip_tags($text, "<br>"), 180, true));
 		$this->update();
 	}
 
@@ -399,7 +402,8 @@ class ilGlossaryDefinition
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
 				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
-				"short_text" => $def_rec["short_text"], "nr" => $def_rec["nr"]);
+				"short_text" => strip_tags($def_rec["short_text"], "<br>"),
+				"nr" => $def_rec["nr"]);
 		}
 		return $defs;
 	}
