@@ -223,6 +223,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="install">install</action>
+	<action name="installLocal">install_local</action>
 	<action name="uninstall">uninstall</action>
 	<action name="setSystemLanguage">setSystemLanguage</action>
 	<action name="setUserLanguage">setUserLanguage</action>
