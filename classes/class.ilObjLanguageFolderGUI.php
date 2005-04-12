@@ -23,14 +23,14 @@
 
 
 /**
-* Class ilObjLanguageFolderGUI
-*
-* @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$
-*
-* @extends	ilObject
-* @package	ilias-core
-*/
+ * Class ilObjLanguageFolderGUI
+ *
+ * @author	Stefan Meyer <smeyer@databay.de>
+ * @version	$Id$
+ *
+ * @extends	ilObject
+ * @package	ilias-core
+ */
 
 require_once "classes/class.ilObjLanguage.php";
 require_once "class.ilObjectGUI.php";
@@ -38,9 +38,10 @@ require_once "class.ilObjectGUI.php";
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
 	/**
-	* Constructor
-	* @access public
-	*/
+	 * Constructor
+	 * 
+	 * @access public
+	 */
 	function ilObjLanguageFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "lngf";
@@ -48,10 +49,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* show installed languages
-	*
-	* @access	public
-	*/
+	 * show installed languages
+	 *
+	 * @access	public
+	 */
 	function viewObject()
 	{
 		global $rbacsystem;
@@ -159,10 +160,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* display object list
-	*
-	* @access	public
- 	*/
+	 * display object list
+	 *
+	 * @access	public
+ 	 */
 	function displayList()
 	{
 		global $tree, $rbacsystem;
@@ -259,8 +260,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* install languages
-	*/
+	 * install languages
+	 */
 	function installObject()
 	{
 		if (!isset($_POST["id"]))
@@ -285,27 +286,102 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		{
 			if (count($lang_installed) == 1)
 			{
-				$this->data = $this->lng->txt("lang_".$lang_installed[0])." ".strtolower($this->lng->txt("installed")).".";
+				$this->data = $this->lng->txt("lang_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
 			}
 			else
 			{
 				foreach ($lang_installed as $lang_key)
 				{
-					$langnames[] = $this->lng->txt("lang_".$lang_key);
+					$langnames[] = $this->lng->txt("lang_" . $lang_key);
 				}
-				$this->data = implode(", ",$langnames)." ".strtolower($this->lng->txt("installed")).".";
+				$this->data = implode(", ",$langnames) . " " . strtolower($this->lng->txt("installed")) . ".";
 			}
 		}
 		else
+		{
 			$this->data = $this->lng->txt("languages_already_installed");
+		}
 
 		$this->out();
 	}
 
 
 	/**
-	* uninstall language
-	*/
+	 * Install local language modifications.
+	 */
+	function installLocalObject()
+	{
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach ($_POST["id"] as $obj_id)
+		{
+			$langObj = new ilObjLanguage($obj_id);
+			$key = $langObj->install();
+
+			if ($key != "")
+			{
+				$lang_installed[] = $key;
+			}
+
+			unset($langObj);
+
+			$langObj = new ilObjLanguage($obj_id);
+			$key = $langObj->install('local');
+
+			if ($key != "")
+			{
+				$local_installed[] = $key;
+			}
+
+			unset($langObj);
+		}
+
+		if (isset($lang_installed))
+		{
+			if (count($lang_installed) == 1)
+			{
+				$this->data = $this->lng->txt("lang_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
+			}
+			else
+			{
+				foreach ($lang_installed as $lang_key)
+				{
+					$langnames[] = $this->lng->txt("lang_" . $lang_key);
+				}
+				$this->data = implode(", ",$langnames) . " " . strtolower($this->lng->txt("installed")) . ".";
+			}
+		}
+
+		if (isset($local_installed))
+		{
+			if (count($local_installed) == 1)
+			{
+				$this->data .= " " . $this->lng->txt("lang_" . $local_installed[0]) . " " . $this->lng->txt("local_language_file") . " " . strtolower($this->lng->txt("installed")) . ".";
+			}
+			else
+			{
+				foreach ($local_installed as $lang_key)
+				{
+					$langnames[] = $this->lng->txt("lang_" . $lang_key);
+				}
+				$this->data .= " " . implode(", ",$langnames) . " " . $this->lng->txt("local_language_files") . " " . strtolower($this->lng->txt("installed")) . ".";
+			}
+		}
+		else
+		{
+			$this->data .= " " . $this->lng->txt("local_languages_already_installed");
+		}
+
+		$this->out();
+	}
+
+
+	/**
+	 * uninstall language
+	 */
 	function uninstallObject()
 	{
 		if (!isset($_POST["id"]))
@@ -361,8 +437,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* update all installed languages
-	*/
+	 * update all installed languages
+	 */
 	function refreshObject()
 	{
 		$languages = getObjectList("lng");
@@ -371,7 +447,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		{
 			$langObj = new ilObjLanguage($lang["obj_id"],false);
 
-			if ($langObj->getStatus() == "installed")
+			if ($langObj->isInstalled() == true)
 			{
 				if ($langObj->check())
 				{
@@ -381,6 +457,18 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					$langObj->setDescription($langObj->getStatus());
 					$langObj->update();
 					$langObj->optimizeData();
+
+					if ($langObj->isLocal() == true)
+					{
+						if ($langObj->check('local'))
+						{
+							$langObj->insert('local');
+							$langObj->setTitle($langObj->getKey());
+							$langObj->setDescription($langObj->getStatus());
+							$langObj->update();
+							$langObj->optimizeData();
+						}
+					}
 				}
 			}
 
@@ -394,8 +482,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
 	/**
-	* set user language
-	*/
+	 * set user language
+	 */
 	function setUserLanguageObject()
 	{
 		require_once "classes/class.ilObjUser.php";
@@ -419,7 +507,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("lang_".$newUserLangObj->getKey())." ".$this->lng->txt("is_already_your")." ".$this->lng->txt("user_language")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($newUserLangObj->getStatus() != "installed")
+		if ($newUserLangObj->isInstalled() == false)
 		{
 			$this->ilias->raiseError($this->lng->txt("lang_".$newUserLangObj->getKey())." ".$this->lng->txt("language_not_installed")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -436,9 +524,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
 	/**
-	* set the system language
-	*/
-	function setSystemLanguageObject ()
+	 * set the system language
+	 */
+	function setSystemLanguageObject()
 	{
 		if (!isset($_POST["id"]))
 		{
@@ -459,7 +547,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("lang_".$newSysLangObj->getKey())." is already the system language!<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($newSysLangObj->getStatus() != "installed")
+		if ($newSysLangObj->isInstalled() == false)
 		{
 			$this->ilias->raiseError($this->lng->txt("lang_".$newSysLangObj->getKey())." is not installed. Please install that language first.<br>Action aborted!",$this->ilias->error_obj->MESSAGE);
 		}
@@ -477,9 +565,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
 	/**
-	* check all languages
-	*/
-	function checkLanguageObject ()
+	 * check all languages
+	 */
+	function checkLanguageObject()
 	{
 		//$langFoldObj = new ilObjLanguageFolder($_GET["obj_id"]);
 		//$this->data = $langFoldObj->checkAllLanguages();
