@@ -956,8 +956,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ANALYZE_TITLE", $this->lng->txt("analyze_data"));
 			$this->tpl->setVariable("TXT_ANALYZE", $this->lng->txt("scan_only"));
 			$this->tpl->setVariable("TXT_ANALYZE_DESC", $this->lng->txt("analyze_desc"));
-			$this->tpl->setVariable("TXT_CHECK_TREE", $this->lng->txt("check_tree"));
-			$this->tpl->setVariable("TXT_CHECK_TREE_DESC", $this->lng->txt("check_tree_desc"));
+			//$this->tpl->setVariable("TXT_CHECK_TREE", $this->lng->txt("check_tree"));
+			//$this->tpl->setVariable("TXT_CHECK_TREE_DESC", $this->lng->txt("check_tree_desc"));
 			$this->tpl->setVariable("TXT_CLEAN", $this->lng->txt("clean"));
 			$this->tpl->setVariable("TXT_CLEAN_DESC", $this->lng->txt("clean_desc"));
 			$this->tpl->setVariable("TXT_RESTORE", $this->lng->txt("restore_missing"));
