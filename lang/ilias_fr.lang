@@ -1557,6 +1557,7 @@ common#:#lang_no#:#Norvégien###07 Apr 2005 content changed
 common#:#lang_path#:#Chemin des langues###07 Apr 2005 content changed
 common#:#lang_pl#:#Polonais###07 Apr 2005 content changed
 common#:#lang_pt#:#Portugais###07 Apr 2005 content changed
+common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#,###07 Apr 2005 content changed
 common#:#lang_sep_thousand#:#.###07 Apr 2005 content changed
 common#:#lang_sv#:#Suédois###07 Apr 2005 content changed
