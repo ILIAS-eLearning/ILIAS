@@ -685,9 +685,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 					// text
 					$this->tpl->setCurrentBlock("definition");
-					$short_str = strip_tags(ilPCParagraph::xml2output($def["short_text"]));
-					$short_str = str_replace("<", "&lt;", $short_str);
-					$short_str = str_replace(">", "&gt;", $short_str);
+					$short_str = ilPCParagraph::xml2output($def["short_text"]);
+					//$short_str = str_replace("<", "&lt;", $short_str);
+					//$short_str = str_replace(">", "&gt;", $short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 

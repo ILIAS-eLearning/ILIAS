@@ -652,7 +652,7 @@ class ilMediaItem
 	{
 		return ilObjMediaObject::_getThumbnailDirectory($this->getMobId(), $a_mode);
 	}
-	
+
 	/**
 	* get thumbnail target
 	*/
@@ -680,13 +680,14 @@ class ilMediaItem
 				$this->writeThumbTried("y");
 				ilObjMediaObject::_createThumbnailDirectory($this->getMobId());
 				$med_file = $this->getDirectory()."/".$this->getLocation();
+
 				if (is_file($med_file))
 				{
 					ilUtil::convertImage($med_file, $thumb_file, "jpeg", "80");
 					ilUtil::convertImage($med_file, $thumb_file_small, "jpeg", "40");
 				}
 			}
-			
+
 			if ($a_size == "small")
 			{
 				if (is_file($thumb_file_small))
@@ -704,7 +705,7 @@ class ilMediaItem
 				}
 			}
 		}
-		
+
 		return "";
 	}
 
