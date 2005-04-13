@@ -199,6 +199,7 @@ inst_name#:#nombre de la Instalación###07 Apr 2005 content changed
 install#:#instalar###07 Apr 2005 content changed
 installation#:#Installación###07 Apr 2005 content changed
 installed#:#instalado###07 Apr 2005 content changed
+installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Institución###07 Apr 2005 content changed
 intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.###07 Apr 2005 content changed
 ip_address#:#Dirección IP###07 Apr 2005 content changed

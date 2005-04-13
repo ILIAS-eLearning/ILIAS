@@ -295,6 +295,7 @@ assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
+assessment#:#points_short#:#Pt.
 assessment#:#polygon#:#Polygon
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.
@@ -1664,9 +1665,9 @@ common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LOs in Other Languages
 common#:#lo_overview#:#LO Overview
 common#:#local#:#Local
-common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
 common#:#local_language_file#:#local language file
 common#:#local_language_files#:#local language files
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
 common#:#locator#:#Location:
 common#:#logic_and#:#and
 common#:#logic_or#:#or
@@ -3323,6 +3324,9 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course
 crs#:#crs_update_objective#:#Edit learning objective
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
+crs#:#crs_visibility_limitless#:#Visible (unlimited)
+crs#:#crs_visibility_until#:#Visible (from ... until)
+crs#:#crs_visibility_unvisible#:#Not visible
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Edit content
 crs#:#learners_view#:#Learners view
@@ -4858,7 +4862,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-assessment#:#points_short#:#Pt.
-crs#:#crs_visibility_unvisible#:#Not visible
-crs#:#crs_visibility_limitless#:#Visible (unlimited)
-crs#:#crs_visibility_until#:#Visible (from ... until)

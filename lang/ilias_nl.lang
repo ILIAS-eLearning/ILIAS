@@ -295,6 +295,7 @@ assessment#:#percentage_solved#:#U heeft %.2f percent van deze vraag opgelost!##
 assessment#:#percentile#:#Percentile###05 Nov 2004 new variable
 assessment#:#please_select#:#-- selecteer a.u.b --###07 Apr 2005 content changed
 assessment#:#points#:#Punten###07 Apr 2005 content changed
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Polygoon###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Klik op de volgende punt van de polygoon of sla het gebied op. (Het is niet noodzakelijk om weer op het startpunt van de polygoon te klikken!)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Klik op de volgende punt van de polygoon###07 Apr 2005 content changed
@@ -1545,7 +1546,9 @@ common#:#inst_id#:#Installatie-ID###07 Apr 2005 content changed
 common#:#inst_info#:#Installatie-informatie###07 Apr 2005 content changed
 common#:#inst_name#:#Naam installatie###07 Apr 2005 content changed
 common#:#install#:#Installeer###07 Apr 2005 content changed
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Geïnstalleerd###07 Apr 2005 content changed
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Instituut###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Lokale rollen(alleen automatisch gegenereerd)###07 Apr 2005 content changed
 common#:#internal_system#:#Intern systeem###07 Apr 2005 content changed
@@ -1662,6 +1665,9 @@ common#:#lo_no_content#:#Geen leermiddelen beschikbaar###07 Apr 2005 content cha
 common#:#lo_other_langs#:#LO in andere talen###07 Apr 2005 content changed
 common#:#lo_overview#:#Lesobjecten-overzicht###07 Apr 2005 content changed
 common#:#local#:#Lokaal###07 Apr 2005 content changed
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Locatie:###07 Apr 2005 content changed
 common#:#logic_and#:#en###07 Apr 2005 content changed
 common#:#logic_or#:#of###07 Apr 2005 content changed
@@ -3318,6 +3324,9 @@ crs#:#crs_unsubscribed_from_crs#:#Abonnement beëindigen###07 Apr 2005 content c
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Wilt u zich van deze cursus uitschrijven###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#U heeft zich op deze cursus geabonneerd###07 Apr 2005 content changed
+crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
+crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
+crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#Nieuwe gebruiker aan cursus toegevoegd###07 Apr 2005 content changed
 crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable

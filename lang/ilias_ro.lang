@@ -288,6 +288,7 @@ assessment#:#percentage_solved#:#Ati rezolvat %.2f procente din aceasta intrebar
 assessment#:#percentile#:#Procentual
 assessment#:#please_select#:#-- Va rugam selectati --
 assessment#:#points#:#Puncte
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Poligon
 assessment#:#polygon_click_next_or_save#:#Va rugam apasati pe urmatorul punct al poligonului sau salvati aria. (Nu este necesar sa apasati din nou pe punctul de inceput al acestui poligon!)
 assessment#:#polygon_click_next_point#:#Va rugam apasati pe urmatorul punct al poligonului.
@@ -1468,7 +1469,9 @@ common#:#inst_id#:#Instalare ID
 common#:#inst_info#:#Instalare Info
 common#:#inst_name#:#Instalare Nume
 common#:#install#:#Instalati
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Instalat
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Institutie
 common#:#internal_local_roles_only#:#Roluri Locale (doar autogenerate)
 common#:#internal_system#:#Sistem Intern
@@ -1584,6 +1587,9 @@ common#:#lo_no_content#:#Nu exista resurse de invatare disponobile
 common#:#lo_other_langs#:#Obiecte de Studiu in alte limbi
 common#:#lo_overview#:#Vedere de ansamblu a Obiectelor de Studiu
 common#:#local#:#Local
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Locatia:
 common#:#logic_and#:#si
 common#:#logic_or#:#sau
@@ -2996,6 +3002,9 @@ crs#:#crs_unsubscribe_sure#:#Doriti sa va retrageti de la acest curs
 crs#:#crs_unsubscribed_from_crs#:#V-ati inscris la acest curs
 crs#:#crs_users_added#:#Utilizator adaugat la curs
 crs#:#crs_users_already_assigned#:#Utilizatorul a fost deja inscris la acest curs
+crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
+crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
+crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Mesaj

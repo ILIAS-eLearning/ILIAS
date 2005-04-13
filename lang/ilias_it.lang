@@ -295,6 +295,7 @@ assessment#:#percentage_solved#:#Hai risolto il %.2f percento di questa domanda!
 assessment#:#percentile#:#Percentuale###07 Apr 2005 content changed
 assessment#:#please_select#:#---- per favore seleziona ----###07 Apr 2005 content changed
 assessment#:#points#:#Punti###07 Apr 2005 content changed
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Poligono###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Per favore clicca sul punto successivo del poligono o salva l'area. (Non &#232; necessario cliccare di nuovo sul punto di partenza del poligono !)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Per favore clicca sul punto successivo del poligono.###07 Apr 2005 content changed
@@ -1545,7 +1546,9 @@ common#:#inst_id#:#ID dell&#039;installazione###07 Apr 2005 content changed
 common#:#inst_info#:#Informazioni sull&#039;installazione###07 Apr 2005 content changed
 common#:#inst_name#:#Nome dell&#039;installazione###07 Apr 2005 content changed
 common#:#install#:#Installa###07 Apr 2005 content changed
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Installata###07 Apr 2005 content changed
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Istituzione###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Ruoli locali (generati automaticamente)###07 Apr 2005 content changed
 common#:#internal_system#:#sistema interno###07 Apr 2005 content changed
@@ -1662,6 +1665,9 @@ common#:#lo_no_content#:#Non ci sono unit&#224; didattiche disponibili###07 Apr 
 common#:#lo_other_langs#:#Unit&#224; didattiche in altre lingue###07 Apr 2005 content changed
 common#:#lo_overview#:#Descrizione della unit&#224; didattica###07 Apr 2005 content changed
 common#:#local#:#Locale###07 Apr 2005 content changed
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Adesso sei in:###07 Apr 2005 content changed
 common#:#logic_and#:#AND###07 Apr 2005 content changed
 common#:#logic_or#:#OR###07 Apr 2005 content changed
@@ -3315,6 +3321,9 @@ crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.###07 Apr 2005 con
 crs#:#crs_update_objective#:#Modifica l'obiettivo formativo###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Utente iscritto a questo corso.###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso###07 Apr 2005 content changed
+crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
+crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
+crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Mofdifica il contenuto###07 Apr 2005 content changed
 crs#:#learners_view#:#Vista studenti###07 Apr 2005 content changed
