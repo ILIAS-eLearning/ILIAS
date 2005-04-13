@@ -2799,7 +2799,8 @@ class ilObjTest extends ilObject
 					"title" => $question->getTitle(),
 					"qid" => $question->getId(),
 					"visited" => $visited,
-					"solved" => (($solved)?"1":"0")
+					"solved" => (($solved)?"1":"0"),
+					"description" => $question->getComment()
 				);
 				array_push($result_array, $row);
 				$key++;
