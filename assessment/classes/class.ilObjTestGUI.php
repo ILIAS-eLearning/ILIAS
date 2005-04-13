@@ -5998,6 +5998,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$this->tpl->setVariable("VALUE_QUESTION_GOTO", $goto_question);
 				$this->tpl->setVariable("VALUE_QUESTION_HREF_SET_SOLVED", $value["href_setsolved"]."&sequence=".$_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"]);
 				$this->tpl->setVariable("VALUE_QUESTION_SET_SOLVED", ($value["solved"] > 0) ?$this->lng->txt("tst_qst_resetsolved"):$this->lng->txt("tst_qst_setsolved"));
+				$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
 			}
