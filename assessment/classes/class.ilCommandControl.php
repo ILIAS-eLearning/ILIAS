@@ -80,7 +80,7 @@ class DefaultTestCommandControl extends CommandControl {
 		// cancel Test if it's not online test
 		if ($_POST["cmd"]["cancelTest"])
 		{
-			$this->gui->handleCancelCommand();
+			$this->handleCancelCommand();
 		}		
 		// check online exams access restrictions due to participants and client ip
 	}	
