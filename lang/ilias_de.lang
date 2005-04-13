@@ -294,6 +294,7 @@ assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!#
 assessment#:#percentile#:#Perzentil###07 Apr 2005 content changed
 assessment#:#please_select#:#---- bitte auswählen ----###07 Apr 2005 content changed
 assessment#:#points#:#Punkte###07 Apr 2005 content changed
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Polygonzug###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.###07 Apr 2005 content changed
@@ -1544,7 +1545,9 @@ common#:#inst_id#:#Installations ID###07 Apr 2005 content changed
 common#:#inst_info#:#Installations-Info###07 Apr 2005 content changed
 common#:#inst_name#:#Installationsname###07 Apr 2005 content changed
 common#:#install#:#Installieren###07 Apr 2005 content changed
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Installiert###07 Apr 2005 content changed
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Institution###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)###07 Apr 2005 content changed
 common#:#internal_system#:#Internes System###07 Apr 2005 content changed
@@ -1661,6 +1664,9 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden###07 Apr 2005 content c
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen###07 Apr 2005 content changed
 common#:#lo_overview#:#Übersicht Lernmaterialien###07 Apr 2005 content changed
 common#:#local#:#Lokal###07 Apr 2005 content changed
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Position:###07 Apr 2005 content changed
 common#:#logic_and#:#und###07 Apr 2005 content changed
 common#:#logic_or#:#oder###07 Apr 2005 content changed
@@ -3317,6 +3323,9 @@ crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.###07 Apr 2005 
 crs#:#crs_update_objective#:#Lernziel bearbeiten###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses###07 Apr 2005 content changed
+crs#:#crs_visibility_limitless#:#Sichtbar (unbegrenzt)
+crs#:#crs_visibility_until#:#Sichtbar (Von ... bis)
+crs#:#crs_visibility_unvisible#:#Nicht sichtbar
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Kursinhalt bearbeiten###07 Apr 2005 content changed
 crs#:#learners_view#:#Lerneransicht###07 Apr 2005 content changed
@@ -4852,8 +4861,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#points_short#:#Pt.
-crs#:#crs_visibility#:#Sichtbarkeit
-crs#:#crs_visibility_unvisible#:#Nicht sichtbar
-crs#:#crs_visibility_limitless#:#Sichtbar (unbegrenzt)
-crs#:#crs_visibility_until#:#Sichtbar (Von ... bis)

@@ -354,6 +354,7 @@ installation#:#Installáció
 ###07 Apr 2005 content changed
 installed#:#installálva
 ###07 Apr 2005 content changed
+installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Intézmény
 ###07 Apr 2005 content changed
 intro_install#:#Ez az ILIAS3 setupjának főlapja. Innen le tudja folytatni az installációt.

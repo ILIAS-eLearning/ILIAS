@@ -198,6 +198,7 @@ inst_name#:#nazwa instalacji###07 Apr 2005 content changed
 install#:#instaluj###07 Apr 2005 content changed
 installation#:#Instaluj###07 Apr 2005 content changed
 installed#:#zainstalowany###07 Apr 2005 content changed
+installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Instytucja###07 Apr 2005 content changed
 intro_install#:#To jest główna strona instalatora ILIAS 3. Stąd można wywołać kolejne etapy instalacji.###07 Apr 2005 content changed
 ip_address#:#Adres IP###07 Apr 2005 content changed

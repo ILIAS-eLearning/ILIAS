@@ -295,6 +295,7 @@ assessment#:#percentage_solved#:#Rozwiązałeś %.2f procent tego pytania!###07 
 assessment#:#percentile#:#Procentowo###07 Apr 2005 content changed
 assessment#:#please_select#:#---- wybierz ----###07 Apr 2005 content changed
 assessment#:#points#:#Punkty###07 Apr 2005 content changed
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Wielobok###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Kliknij na następny punkt wieloboku lub zachowaj obszar. (nie jest potrzebne kliknięcie na punkt początkowy wieloboku!)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Kliknij na następny punkt wieloboku.###07 Apr 2005 content changed
@@ -1545,7 +1546,9 @@ common#:#inst_id#:#ID instalacji###07 Apr 2005 content changed
 common#:#inst_info#:#Informacja o instalacji###07 Apr 2005 content changed
 common#:#inst_name#:#Nazwa instalacji###07 Apr 2005 content changed
 common#:#install#:#Instaluj###07 Apr 2005 content changed
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Zainstalowane###07 Apr 2005 content changed
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Instytucja###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Lokalne role (tylko wygenerowane automatycznie)###07 Apr 2005 content changed
 common#:#internal_system#:#System wewnętrzny###07 Apr 2005 content changed
@@ -1662,6 +1665,9 @@ common#:#lo_no_content#:#Brak dostępnych zasobów nauczania###07 Apr 2005 conte
 common#:#lo_other_langs#:#PN w innym języku###07 Apr 2005 content changed
 common#:#lo_overview#:#Przegląd PN###07 Apr 2005 content changed
 common#:#local#:#Lokalny###07 Apr 2005 content changed
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Jesteś w:###07 Apr 2005 content changed
 common#:#logic_and#:#i###07 Apr 2005 content changed
 common#:#logic_or#:#lub###07 Apr 2005 content changed
@@ -3318,6 +3324,9 @@ crs#:#crs_unsubscribed_from_crs#:#Otrzymałeś  subskrypcję tego kursu###07 Apr
 crs#:#crs_update_objective#:#Edycja celu nauczania###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Dodano użytkownika do kursu###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#Ten użytkownik jest już przydzielony do tego kursu###07 Apr 2005 content changed
+crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
+crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
+crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Edycja zawartości###07 Apr 2005 content changed
 crs#:#learners_view#:#Widok uczniów###07 Apr 2005 content changed

@@ -214,6 +214,7 @@ inst_name#:#安装名称 ###07 Apr 2005 content changed
 install#:#安装 ###07 Apr 2005 content changed
 installation#:#安装 ###07 Apr 2005 content changed
 installed#:#已安装###07 Apr 2005 content changed
+installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#单位 ###07 Apr 2005 content changed
 intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
 ip_address#:#IP地址###07 Apr 2005 content changed

@@ -266,6 +266,7 @@ assessment#:#percentage_solved#:#Du har l&oslash;st %.2f procent af disse sp&osl
 assessment#:#percentile#:#Procentvis###07 Apr 2005 content changed
 assessment#:#please_select#:#-- V&aelig;lg venligst --###07 Apr 2005 content changed
 assessment#:#points#:#Point###07 Apr 2005 content changed
+assessment#:#points_short#:#Pt.###13 Apr 2005 new variable
 assessment#:#polygon#:#Polygon###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Klik venligst p&aring; det n&aelig;ste punkt p&aring; polygonen eller gem omr&aring;det. (Det er ikke n&oslash;dvendigt at klikke igen p&aring; startpunktet!)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Klik venligst p&aring; n&aelig;ste punkt p&aring; polygonen.###07 Apr 2005 content changed
@@ -1399,7 +1400,9 @@ common#:#inst_id#:#Installations ID###07 Apr 2005 content changed
 common#:#inst_info#:#Installations Info###07 Apr 2005 content changed
 common#:#inst_name#:#Installations Navn###07 Apr 2005 content changed
 common#:#install#:#Installer###07 Apr 2005 content changed
+common#:#install_local#:#Install With Local###13 Apr 2005 new variable
 common#:#installed#:#Installeret###07 Apr 2005 content changed
+common#:#installed_local#:#Installed With Local###13 Apr 2005 new variable
 common#:#institution#:#Institution###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Lokal roller (kun autogeneret)###07 Apr 2005 content changed
 common#:#internal_system#:#Internt system###07 Apr 2005 content changed
@@ -1506,6 +1509,9 @@ common#:#lo_no_content#:#Inngen l&aelig;rer resourser tilg&aelig;ngelige###07 Ap
 common#:#lo_other_langs#:#LOs p&aring; Andres sprog###07 Apr 2005 content changed
 common#:#lo_overview#:#LO Oversigt###07 Apr 2005 content changed
 common#:#local#:#Lokal###07 Apr 2005 content changed
+common#:#local_language_file#:#local language file###13 Apr 2005 new variable
+common#:#local_language_files#:#local language files###13 Apr 2005 new variable
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#Placering:###07 Apr 2005 content changed
 common#:#logic_and#:#og###07 Apr 2005 content changed
 common#:#logic_or#:#eller###07 Apr 2005 content changed
@@ -2842,6 +2848,9 @@ crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus###07 Apr 2005 content 
 crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Tilf&oslash;jet bruger til dette kursus###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus###07 Apr 2005 content changed
+crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
+crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
+crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs_#:#crs_archives#:#Arkiver###07 Apr 2005 content changed
 dateplaner#:#DateText#:#Besked###07 Apr 2005 content changed
