@@ -455,7 +455,6 @@ class ilForum
 
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		$forum_obj->updateUserAccess($lastInsert);
 		
 
 		return $this->generatePost($topic, $lastInsert, $user, $message,0,$notify,$subject,$date);

@@ -60,6 +60,19 @@ class ilObjForum extends ilObject
 	*/
 	function ilObjForum($a_id = 0,$a_call_by_reference = true)
 	{
+		global $ilias;
+
+		/*
+		 * this constant is used for the information if a single post is marked as new
+		 * All threads/posts created before this date are never marked as new
+		 * Default is 8 weeks
+		 *
+		 */
+		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ? 
+													 $ilias->getSetting('frm_store_new') : 
+													 8);
+		define('NEW_DEADLINE',$new_deadline);
+	
 		$this->type = "frm";
 		$this->ilObject($a_id,$a_call_by_reference);
 		
@@ -242,8 +255,6 @@ class ilObjForum extends ilObject
 			$ilBench->stop('Forum','getCountNew');
 
 			return $num;
-			
-
 		}
 		else
 		{
@@ -309,48 +320,36 @@ class ilObjForum extends ilObject
 
 		return $res->numRows() ? true : false;
 	}
-	
-	function updateUserAccess($a_thread_id)
-	{
-		global $ilBench;
-
-		$ilBench->start('Forum','updateUserAccess');
-
-		// Get all users
-		$query = "SELECT usr_id FROM usr_data ";
-		$res = $this->ilias->db->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$usr_ids[] = $row->usr_id;
-		}
-
-		foreach($usr_ids as $usr_id)
-		{
-			$query = "REPLACE INTO frm_thread_access ".
-				"SET usr_id = '".$usr_id."', ".
-				"obj_id = '".$this->getId()."', ".
-				"thread_id = '".$a_thread_id."', ".
-				"access_old = '".(time()-60)."', ".
-				"access_last = '".(time()-60)."' ";
-
-			$this->ilias->db->query($query);
-
-		}
-		$ilBench->stop('Forum','updateUserAccess');
-
-		return true;
-	}
 
 	function updateLastAccess($a_usr_id,$a_thread_id)
 	{
-		$query = "UPDATE frm_thread_access ".
-			"SET access_last = '".time()."' ".
+		$query = "SELECT * FROM frm_thread_access ".
 			"WHERE usr_id = '".$a_usr_id."' ".
 			"AND obj_id = '".$this->getId()."' ".
 			"AND thread_id = '".$a_thread_id."'";
 
-		$this->ilias->db->query($query);
+		$res = $this->ilias->db->query($query);
+		if($res->numRows())
+		{
+			$query = "UPDATE frm_thread_access ".
+				"SET access_last = '".time()."' ".
+				"WHERE usr_id = '".$a_usr_id."' ".
+				"AND obj_id = '".$this->getId()."' ".
+				"AND thread_id = '".$a_thread_id."'";
+
+			$this->ilias->db->query($query);
+		}
+		else
+		{
+			$query = "INSERT INTO frm_thread_access ".
+				"SET access_last = '".time()."', ".
+				"access_old = '0', ".
+				"usr_id = '".$a_usr_id."', ".
+				"obj_id = '".$this->getId()."', ".
+				"thread_id = '".$a_thread_id."'";
+
+			$this->ilias->db->query($query);
+		}			
 
 		return true;
 	}
@@ -358,14 +357,25 @@ class ilObjForum extends ilObject
 	// STATIC
 	function _updateOldAccess($a_usr_id)
 	{
-		global $ilDB;
+		global $ilDB,$ilias;
 
 		$query = "UPDATE frm_thread_access ".
 			"SET access_old = access_last ".
 			"WHERE usr_id = '".$a_usr_id."'";
 
 		$ilDB->query($query);
+		
+		// Delete old entries
 
+		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ? 
+													 $ilias->getSetting('frm_store_new') : 
+													 8);
+		
+		$query = "DELETE FROM frm_thread_access ".
+			"WHERE access_last < '".$new_deadline."'";
+
+		$ilDB->query($query);
+		
 		return true;
 	}
 
@@ -757,19 +767,10 @@ class ilObjForum extends ilObject
 		{
 			$last_access = $row->access_old;
 		}
-		// CREATE ENTRY IF IT DOES NOT EXIST
 		if(!$last_access)
 		{
-			$query = "INSERT INTO frm_thread_access ".
-				"SET usr_id = '".$a_usr_id."', ".
-				"obj_id = '".$this->getId()."', ".
-				"thread_id = '".$a_thread_id."', ".
-				"access_old = '".time()."', ".
-				"access_last = '".time()."'";
-
-			$this->ilias->db->query($query);
-
-			$last_access = time();
+			// Set last access according to administration setting
+			$last_access = NEW_DEADLINE;
 		}
 		return $last_access;
 	}
