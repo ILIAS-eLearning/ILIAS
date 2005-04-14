@@ -4735,116 +4735,116 @@ survey#:#qpl_questions_deleted#:#Питання видалені.
 survey#:#qpl_questions_pasted#:#Питання вставлені.
 survey#:#qpl_savephrase_empty#:#Будь ласка введіть назву фрази!
 survey#:#qpl_savephrase_exists#:#Назва фрази вже існує! Будь ласка введіть іншу назву фрази.
-survey#:#qpl_unfold_select_none#:#Будь ласка Please select a least one questionblock if you want to unfold question blocks!###23 May 2004 new variable
-survey#:#qt_metric#:#Metric question###21 May 2004 new variable
-survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
-survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
-survey#:#qt_text#:#Text question###21 May 2004 new variable
-survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
-survey#:#question_type#:#Question type###21 May 2004 new variable
-survey#:#questionblock#:#Question block###25 May 2004 new variable
-survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
-survey#:#questions#:#Questions###10 Jun 2004 new variable
-survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable
-survey#:#questions_removed#:#Question(s) and/or question block(s) removed!###25 May 2004 new variable
-survey#:#questiontype#:#Question type###21 May 2004 new variable
-survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
-survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
-survey#:#remove_question#:#Remove###24 May 2004 new variable
-survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
-survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
-survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
-survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
-survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
-survey#:#search_field_all#:#Search in all fields###10 Jun 2004 new variable
-survey#:#search_for#:#Search for###27 May 2004 new variable
-survey#:#search_groups#:#Groups###27 May 2004 new variable
-survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
-survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
-survey#:#search_term#:#Search term###27 May 2004 new variable
-survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
-survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
-survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
-survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
-survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
-survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable
-survey#:#select_relation#:#Select a relation###26 May 2004 new variable
-survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new variable
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
-survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
-survey#:#select_value#:#Select a value###26 May 2004 new variable
-survey#:#selection#:#Selection###22 Dec 2004 new variable
-survey#:#set_filter#:#Set filter###21 May 2004 new variable
-survey#:#skipped#:#skipped###10 Dec 2004 new variable
-survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
-survey#:#start_date#:#Start date###23 May 2004 new variable
-survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
-survey#:#start_survey#:#Start survey###25 May 2004 new variable
-survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
-survey#:#subtype#:#Subtype###04 Jun 2004 new variable
-survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
-survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
-survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
-survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
-survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
-survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
-survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
-survey#:#survey_questions#:#Questions###21 May 2004 new variable
-survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
-survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
-survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
-survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
-survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
-survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
-survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
-survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
-survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
-survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
-survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
-survey#:#svy_file#:#File###05 Nov 2004 new variable
-survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
-survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
-survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
-survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###03 Nov 2004 new variable
-survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###03 Nov 2004 new variable
-survey#:#svy_select_file_for_import#:#You must select a file for import!###05 Nov 2004 new variable
-survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###15 Oct 2004 new variable
-survey#:#svy_select_surveys#:#Please select a survey for duplication###05 Nov 2004 new variable
-survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
-survey#:#svy_size#:#Size###05 Nov 2004 new variable
-survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
-survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
-survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
-survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
-survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
-survey#:#unfold#:#Unfold###23 May 2004 new variable
-survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
-survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
-survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Jun 2004 new variable
-survey#:#used#:#used###20 Dec 2004 new variable
-survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
-survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
-survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
-survey#:#values#:#Values###04 Jun 2004 new variable
-survey#:#vertical#:#vertical###18 Nov 2004 new variable
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
-survey#:#view_phrase#:#View phrase###31 May 2004 new variable
-survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
-survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
-survey#:#warning_survey_not_complete#:#The survey is not complete!###13 Sep 2004 new variable
+survey#:#qpl_unfold_select_none#:#Будь ласка виберіть принаймні один блок питань якщо ви бажаєте відкрити блоки питань!
+survey#:#qt_metric#:#Метричне питання
+survey#:#qt_nominal#:#Іменне питання
+survey#:#qt_ordinal#:#Порядкове питання
+survey#:#qt_text#:#Текстове питання
+survey#:#question_has_constraints#:#Обмеження
+survey#:#question_obligatory#:#Питання є обов'язковим!
+survey#:#question_saved_for_upload#:#Питання було збережено автоматично для того щоб зарезервувати місце на жорстокому диску для збереження завантаженого файлу. Якщо ви відміните цю форму зараз, будьте впевнені, що ви видалите питання з банку питань, якщо ви не бажаєте його більше зберігати!
+survey#:#question_type#:#Тип питання
+survey#:#questionblock#:#Блок питань
+survey#:#questionblock_has_constraints#:#Обмеження
+survey#:#questionblocks#:#Блоки питань
+survey#:#questions#:#Питання
+survey#:#questions_inserted#:#Питання вставлені!
+survey#:#questions_removed#:#Питання та/або блоки питань видалені!
+survey#:#questiontype#:#Тип питання
+survey#:#ratio_absolute#:#Відношення-Абсолютне
+survey#:#ratio_non_absolute#:#Відношення-Не-Абсолютне
+survey#:#remove_question#:#Видалити
+survey#:#remove_questions#:#Ви впевнені що бажаєте видалити наступні питання та/або блоки питань з тесту?
+survey#:#reset_filter#:#Скинути фільтр
+survey#:#resume_survey#:#Відновити опитування
+survey#:#save_obligatory_state#:#Зберегти обов'язкові стани
+survey#:#save_phrase#:#Зберегти як фразу
+survey#:#save_phrase_categories_not_checked#:#Будь ласка перевірте принаймні дві категорії щоб зберегти категорії в новій фразі!
+survey#:#save_phrase_introduction#:#Якщо ви бажаєте зберегти категорії нижче як фразу по замовчанню, будь ласка введіть назву фрази. Ви маєте доступ до фрази по замовчанню де би ви не забажали додати фразу до порядкового питання.
+survey#:#search_field_all#:#Пошук по усім полям
+survey#:#search_for#:#Шукати
+survey#:#search_groups#:#Групи
+survey#:#search_invitation#:#Шукати користувачів або групи для запрошення
+survey#:#search_questions#:#Шукати питання
+survey#:#search_term#:#Шукати термін
+survey#:#search_type_all#:#Шукати в усіх типах питань
+survey#:#search_users#:#Користувачі
+survey#:#select_option#:#--- Будь ласка виберіть опцію ---
+survey#:#select_phrase_to_add#:#Будь ласка виберіть фразу щоб додати її до питання!
+survey#:#select_prior_question#:#Виберіть попереднє питання
+survey#:#select_questionpool#:#Будь ласка виберіть банк питань щоб зберегти створене питання
+survey#:#select_questionpool_short#:#Банк питань для Опитування
+survey#:#select_relation#:#Виберіть відношення
+survey#:#select_svy_option#:#--- Будь ласка виберіть опитування ---
+survey#:#select_target_position_for_move#:#Будь ласка виберіть цільову позицію для переміщення категорій та натисніть одну з кнопок вставки!
+survey#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для переміщення питань та натисніть одну з кнопо к вставки!
+survey#:#select_value#:#Виберіть значення
+survey#:#selection#:#Вибір
+survey#:#set_filter#:#Встановити фільтр
+survey#:#skipped#:#пропущений
+survey#:#spl_select_file_for_import#:#Ви маєте вибрати файл для імпорту!
+survey#:#start_date#:#Дата початку
+survey#:#start_date_not_reached#:#Ви не можете почати опитування пока початкова дата не досягнута!
+survey#:#start_survey#:#Почати опитування
+survey#:#subject_mail_survey_id#:#Ваш код опитування "%s"
+survey#:#subtype#:#Підтип
+survey#:#survey_code#:#Код доступу до опитування
+survey#:#survey_code_message_sent#:#Код опитування що дозволить вам відновити опитування був відісланий вам в ВХІДНІ!
+survey#:#survey_code_no_codes#:#Ви ще не створили жодного коду доступу до опитування.
+survey#:#survey_code_used#:#Код був використаний
+survey#:#survey_finish#:#зберегти за закінчити опитування >>>
+survey#:#survey_finished#:#Опитування закінчене. Дякуємо за вашу участь!
+survey#:#survey_is_offline#:#Ви не можете почати опитування! Опитування зараз оффлайн.
+survey#:#survey_next#:#збрегти та наступна сторінка >>>
+survey#:#survey_offline_message#:#Неможливо запросити користувачів. Опитування є оффлайн!
+survey#:#survey_online_warning#:#Опитування є онлайн. Ви не можете редагувати питання опитування!
+survey#:#survey_previous#:#<<< зберегти та попередня сторінка
+survey#:#survey_question_obligatory#:#(Це питання є обов'язковим. Ви маєте відповісти на питання)
+survey#:#survey_questions#:#Питання
+survey#:#survey_skip_finish#:#пропустити та закінчити опитування >>>
+survey#:#survey_skip_next#:#пропустити та наступна сторінка >>>
+survey#:#survey_skip_previous#:#<<< пропустити та попередня сторінка
+survey#:#survey_skip_start#:#<<< пропустити та перейти до початкової сторінки
+survey#:#survey_start#:#<<< зберегти та перейти до початкової сторінки
+survey#:#svy_all_user_data_deleted#:#Усі дані користувача цього опитування були видалені!
+survey#:#svy_create_export_file#:#Створити файл експорту
+survey#:#svy_delete_all_user_data#:#Видалити усі дані користувача
+survey#:#svy_eval_cumulated#:#Накопичені результати
+survey#:#svy_eval_detail#:#Накопичені результати (деталі)
+survey#:#svy_eval_user#:#Особисті результати користувача
+survey#:#svy_export_files#:#Експортувати файли
+survey#:#svy_file#:#Файл
+survey#:#svy_missing_author#:#Ви не ввели ім'я автора у властивостях опитування! Будь ласка додайте ім'я автора.
+survey#:#svy_missing_questions#:#Ви не маєте питань в опитуванні! Будь ласка додайте принаймні одне питання в опитування.
+survey#:#svy_missing_title#:#Ви не ввели назву опитування! Будь ласка перейдіть до секції мета даних та введіть назву.
+survey#:#svy_page_error#:#Вібулась помилка при відповіді на питання опитування. Будь ласка зверніться до питання щоб отримати більше інформації сточовно помилки!
+survey#:#svy_page_errors#:#Відбулися помилки при відповідях на питання опитування. Будь ласка зверніться до питань щоб отримати більше інформації стосовно помилок!
+survey#:#svy_select_file_for_import#:#Ви маєте вибрати файл для імпорту!
+survey#:#svy_select_questionpools#:#Будь ласка виберіть банк питань щоб зберігати імпортовані питання
+survey#:#svy_select_surveys#:#Будь ласка виберыть опитування для дублювання
+survey#:#svy_show_questiontitles#:#Показати назви питань в опитуванні
+survey#:#svy_size#:#Розмір
+survey#:#svy_statistical_evaluation#:#Статистичне оцінювання
+survey#:#svy_status_missing#:#Є необхідні елементи пропущені в цьому опитуванні!
+survey#:#svy_status_missing_elements#:#Наступні елементи є пропущені:
+survey#:#svy_status_ok#:#Статус опитування є OK. Немає пропущених елементів.
+survey#:#text_maximum_chars_allowed#:#Будь ласка не вводьте більше ніж максимум %s символів. Усі зайві символи будуть вирізані.
+survey#:#text_question_not_filled_out#:#Будь ласка заповніть поле відповіді!
+survey#:#text_resume_survey#:#Ви намагаєтесь продовжити анонімізоване опитування. Щоб продовжити опитування з вашими попередньо введеними значеннями будь ласка введіть 32 цифровий код опитування який ви отримали після початку опитування (він був відісланий з повідомленням на вашу ILIAS поштову скриньку). Замість набирання вашого коду опитування ви можете також скопіювати його з вашої скриньки та вставити в тесктове поле нижче.
+survey#:#title_resume_survey#:#Продовжити опитування - Введіть код опитування
+survey#:#unfold#:#Розкрити
+survey#:#unlimited_users#:#Необмежений
+survey#:#uploaded_material#:#Завантажені Матеріали
+survey#:#upper_limit#:#Верхній ліміт
+survey#:#upper_limit_must_be_greater#:#Верхній ліміт повинен бути більшим, ніж нижній ліміт!
+survey#:#used#:#використаний
+survey#:#users_answered#:#Користувачі що відповіли
+survey#:#users_skipped#:#Користувачі що пропустили
+survey#:#value_nr_entered#:#Кількість користувачів що ввели це значення
+survey#:#values#:#Значення
+survey#:#vertical#:#вертикальний
+survey#:#view_constraints_introduction#:#Ви переглядаєте обмеження наступного питання/блоку питань:
+survey#:#view_phrase#:#Дивитись фразу
+survey#:#warning_question_in_use#:#Попередження! Питання що ви бажаєте відредагувати використовується в опитуваннях перелічених нижче. Якщо ви вирішите продовжити та збережети/застосуєте це питання, усі відповіді в опитуваннях перелічених нижче будуть видалені. Якщо ви бажаєте змінити питання та використовувати його в іншому опитуванні, будь ласка виберіть дублювати в браузері питань щоб створити новий екземпляр цього питання.
+survey#:#warning_question_not_complete#:#Питання не закінчене!
+survey#:#warning_survey_not_complete#:#Опитування не закінчене!
