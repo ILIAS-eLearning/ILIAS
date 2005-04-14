@@ -390,9 +390,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["cron_user_check"] = $_POST["cron_user_check"];
 				$settings["cron_link_check"] = $_POST["cron_link_check"];
 				$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
+
+				// forums
+				$settings['frm_store_new'] = $_POST['frm_store_new'];
 				
 				// soap
 				$settings["soap_user_administration"] = $_POST["soap_user_administration"];
+
+				// forums
+				$settings['frm_store_new'] = $_POST['frm_store_new'];
 			}
 			else // all required fields ok
 			{
@@ -495,6 +501,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				
 				// webservice
 				$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
+
+				// forums
+				$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
 
 				// write ini settings
 				$this->ilias->ini->write();
@@ -603,6 +612,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
 	
+		// forums
+		$this->tpl->setVariable("TXT_FORUMS",$this->lng->txt('obj_frm'));
+		$this->tpl->setVariable("TXT_STATUS_NEW",$this->lng->txt('frm_status_new'));
+		$this->tpl->setVariable("TXT_STATUS_NEW_DESC",$this->lng->txt('frm_status_new_desc'));
+
+		$this->tpl->setVariable("TXT_ONE_WEEK","1 ". $this->lng->txt('week'));
+		$this->tpl->setVariable("TXT_TWO_WEEKS","2 ". $this->lng->txt('weeks'));
+		$this->tpl->setVariable("TXT_FOUR_WEEKS","4 ". $this->lng->txt('weeks'));
+		$this->tpl->setVariable("TXT_EIGHT_WEEKS","8 ". $this->lng->txt('weeks'));
 
 		// contact
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
@@ -884,6 +902,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			}
         }
+		switch($settings['frm_store_new'])
+		{
+			case 1:
+				$this->tpl->setVariable("ONE_SELECT",'selected="selected"');
+				break;
+
+			case 2:
+				$this->tpl->setVariable("TWO_SELECT",'selected="selected"');
+				break;
+
+			case 4:
+				$this->tpl->setVariable("FOUR_SELECT",'selected="selected"');
+				break;
+
+			case 8:
+			default:
+				$this->tpl->setVariable("EIGHT_SELECT",'selected="selected"');
+				break;
+		}
+				
         if ($settings["soap_user_administration"])
         {
             $this->tpl->setVariable("SOAP_USER_ADMINISTRATION_CHECK","checked=\"checked\"");
