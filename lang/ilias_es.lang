@@ -4803,62 +4803,62 @@ survey#:#start_survey#:#Comenzar encuesta
 survey#:#subject_mail_survey_id#:#Su código de encuesta para "%s"
 survey#:#subtype#:#Subtipo
 survey#:#survey_code#:#Código de acceso a encuesta
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###07 Apr 2005 content changed
-survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###07 Apr 2005 content changed
+survey#:#survey_code_message_sent#:#¡Un código de encuensta que le permite continuar la encuesta fue enviado a su bandeja de entrada!
+survey#:#survey_code_no_codes#:#Aún no ha creado ningún código de acceso
 survey#:#survey_code_used#:#Code was used###07 Apr 2005 content changed
-survey#:#survey_finish#:#save and finish survey >>>###07 Apr 2005 content changed
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###07 Apr 2005 content changed
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###07 Apr 2005 content changed
-survey#:#survey_next#:#save and next page >>>###07 Apr 2005 content changed
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###07 Apr 2005 content changed
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###07 Apr 2005 content changed
-survey#:#survey_previous#:#<<< save and previous page###07 Apr 2005 content changed
-survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###07 Apr 2005 content changed
-survey#:#survey_questions#:#Questions###07 Apr 2005 content changed
-survey#:#survey_skip_finish#:#skip and finish survey >>>###07 Apr 2005 content changed
-survey#:#survey_skip_next#:#skip and next page >>>###07 Apr 2005 content changed
-survey#:#survey_skip_previous#:#<<< skip and previous page###07 Apr 2005 content changed
-survey#:#survey_skip_start#:#<<< skip and go to start page###07 Apr 2005 content changed
-survey#:#survey_start#:#<<< save and go to start page###07 Apr 2005 content changed
-survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###07 Apr 2005 content changed
-survey#:#svy_create_export_file#:#Create export file###07 Apr 2005 content changed
-survey#:#svy_delete_all_user_data#:#Delete all user data###07 Apr 2005 content changed
-survey#:#svy_eval_cumulated#:#Cumulated results###07 Apr 2005 content changed
-survey#:#svy_eval_detail#:#Cumulated results (details)###07 Apr 2005 content changed
-survey#:#svy_eval_user#:#User specific results###07 Apr 2005 content changed
-survey#:#svy_export_files#:#Export files###07 Apr 2005 content changed
-survey#:#svy_file#:#File###07 Apr 2005 content changed
-survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###07 Apr 2005 content changed
-survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###07 Apr 2005 content changed
-survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###07 Apr 2005 content changed
-survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!###07 Apr 2005 content changed
-survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!###07 Apr 2005 content changed
-survey#:#svy_select_file_for_import#:#You must select a file for import!###07 Apr 2005 content changed
-survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions###07 Apr 2005 content changed
-survey#:#svy_select_surveys#:#Please select a survey for duplication###07 Apr 2005 content changed
-survey#:#svy_show_questiontitles#:#Show question titles in survey###07 Apr 2005 content changed
-survey#:#svy_size#:#Size###07 Apr 2005 content changed
-survey#:#svy_statistical_evaluation#:#Statistical evaluation###07 Apr 2005 content changed
-survey#:#svy_status_missing#:#There are required elements missing in this survey!###07 Apr 2005 content changed
-survey#:#svy_status_missing_elements#:#The following elements are missing:###07 Apr 2005 content changed
-survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###07 Apr 2005 content changed
-survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Apr 2005 content changed
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!###07 Apr 2005 content changed
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###07 Apr 2005 content changed
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code###07 Apr 2005 content changed
+survey#:#survey_finish#:#Salvar y terminar encuesta
+survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
+survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
+survey#:#survey_next#:#salvar y pasar a siguiente página >>>
+survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!
+survey#:#survey_online_warning#:#La encuesta está online. No puede editar las preguntas de la encuesta
+survey#:#survey_previous#:#<<< salvar y pasar a la página anterior
+survey#:#survey_question_obligatory#:#(Esta pregunta es obligatoria. Debe responder la pregunta)
+survey#:#survey_questions#:#Preguntas
+survey#:#survey_skip_finish#:#saltar y finalizar encuesta >>>
+survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>
+survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior
+survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
+survey#:#survey_start#:#<<< salvar e ir a página inicial
+survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
+survey#:#svy_create_export_file#:#Crear fichero de exportación
+survey#:#svy_delete_all_user_data#:#Eliminar todos los datos de usuario
+survey#:#svy_eval_cumulated#:#Resultados acumulados
+survey#:#svy_eval_detail#:#Resultados acumulados (detalles)
+survey#:#svy_eval_user#:#Resultados específicos por usuario
+survey#:#svy_export_files#:#Exportar ficheros
+survey#:#svy_file#:#Fichero
+survey#:#svy_missing_author#:#¡No ha introducido los nombres de los autores en las propiedades de la encuesta! Por favor añádalos para continuar.
+survey#:#svy_missing_questions#:#¡No hay ninguna pregunta en la encuesta! Por favor añada al menos una pregunta en la encuesta.
+survey#:#svy_missing_title#:#¡No ha introducido un título de encuesta! Por favor vaya a la sección meta datos e introduzca un título.
+survey#:#svy_page_error#:#Hubo un error respondiendo una pregunta de la encuesta. Por favor diríjase a la pregunta para ver más información sobre el error.
+survey#:#svy_page_errors#:#Hubo errores contestando las preguntas de la encuesta. Por favor diríjase a las preguntas para ver más información sobre los errores.
+survey#:#svy_select_file_for_import#:#!Debe seleccionar un fichero para importar!
+survey#:#svy_select_questionpools#:#Por favor seleccione un repositorio de preguntas para almacenar las preguntas importadas
+survey#:#svy_select_surveys#:#Por favor seleccione una encuesta a duplicar
+survey#:#svy_show_questiontitles#:#Mostrar títulos de las preguntas en la encuesta
+survey#:#svy_size#:#Tamaño
+survey#:#svy_statistical_evaluation#:#Evaluación estadística
+survey#:#svy_status_missing#:#¡Hay elementos requeridos que faltan en esta encuesta!
+survey#:#svy_status_missing_elements#:#Los siguientes elementos faltan:
+survey#:#svy_status_ok#:#El estado de la encuesta es OK. No falta ningún elemento.
+survey#:#text_maximum_chars_allowed#:#Por favor no introduzca más de un máximo de %s caracteres. Cualquier caracter extra será truncado
+survey#:#text_question_not_filled_out#:#¡Por favor rellene el campo respuesta!
+survey#:#text_resume_survey#:#Está intentando continuar una encuesta no identificada. Para continuar la encuesta por los valores introducidos anteriormente por favor introduzca los 32 dígitos del código de encuesta que recibió en su carpeta de correo antes de comenzar la encuesta. En lugar de escribir su código, puede copiar desde su bandeja de entrada y pegarlo en el campo de texto inferior
+survey#:#title_resume_survey#:#Continuar la encuesta - Introducir código de encuesta
 survey#:#unfold#:#Unfold###07 Apr 2005 content changed
-survey#:#unlimited_users#:#Unlimited###07 Apr 2005 content changed
-survey#:#uploaded_material#:#Uploaded Material###07 Apr 2005 content changed
-survey#:#upper_limit#:#Upper limit###07 Apr 2005 content changed
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Apr 2005 content changed
-survey#:#used#:#used###07 Apr 2005 content changed
-survey#:#users_answered#:#Users answered###07 Apr 2005 content changed
-survey#:#users_skipped#:#Users skipped###07 Apr 2005 content changed
-survey#:#value_nr_entered#:#Number of users that entered that value###07 Apr 2005 content changed
-survey#:#values#:#Values###07 Apr 2005 content changed
-survey#:#vertical#:#vertical###07 Apr 2005 content changed
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###07 Apr 2005 content changed
-survey#:#view_phrase#:#View phrase###07 Apr 2005 content changed
-survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###07 Apr 2005 content changed
-survey#:#warning_question_not_complete#:#The question is not complete!###07 Apr 2005 content changed
-survey#:#warning_survey_not_complete#:#The survey is not complete!
+survey#:#unlimited_users#:#Ilimitado
+survey#:#uploaded_material#:#Material cargado
+survey#:#upper_limit#:#Límite superior
+survey#:#upper_limit_must_be_greater#:#¡El límite superior debe ser mayor que el límite inferior!
+survey#:#used#:#usado
+survey#:#users_answered#:#Usuarios respondieron
+survey#:#users_skipped#:#Usuarios ignoraron
+survey#:#value_nr_entered#:#Número de usuarios que introdujeron el valor
+survey#:#values#:#Valores
+survey#:#vertical#:#vertical
+survey#:#view_constraints_introduction#:#Está viendo las restricciones de las siguientes preguntas o bloque de preguntas
+survey#:#view_phrase#:#Ver frase
+survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
+survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
+survey#:#warning_survey_not_complete#:#¡La encuesta no está completa!
