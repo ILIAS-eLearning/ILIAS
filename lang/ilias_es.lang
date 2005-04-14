@@ -449,7 +449,6 @@ assessment#:#tst_processing_time#:#Máximo tiempo de proceso###07 Apr 2005 conte
 assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
 assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
 assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
-assessment#:#tst_qst_set#:#Set Solved###08 Apr 2005 new variable
 assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Use los -bulbs- para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Acepta este -sample- or quiere otro?###07 Apr 2005 content changed
