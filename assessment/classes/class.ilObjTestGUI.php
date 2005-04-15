@@ -4186,6 +4186,7 @@ class ilObjTestGUI extends ilObjectGUI
 					exit;
 				case TYPE_SPSS:
 					$csv = "";
+					$separator = ";";
 					if (!$this->object->isRandomTest())
 					{
 						foreach ($titlerow as $rowindex => $entry)
@@ -4196,7 +4197,7 @@ class ilObjTestGUI extends ilObjectGUI
 								$entry = str_replace("\"", "\"\"", $entry);
 								$surround = TRUE;
 							}
-							if (strpos($entry, ",") !== FALSE)
+							if (strpos($entry, $separator) !== FALSE)
 							{
 								$surround = TRUE;
 							}
@@ -4209,7 +4210,7 @@ class ilObjTestGUI extends ilObjectGUI
 								$titlerow[$rowindex] = utf8_decode($entry);
 							}
 						}
-						$csv .= join($titlerow, ",") . "\n";
+						$csv .= join($titlerow, $separator) . "\n";
 					}
 					foreach ($eval_complete as $evalrow)
 					{
@@ -4223,7 +4224,7 @@ class ilObjTestGUI extends ilObjectGUI
 									$entry = str_replace("\"", "\"\"", $entry);
 									$surround = TRUE;
 								}
-								if (strpos($entry, ",") !== FALSE)
+								if (strpos($entry, $separator) !== FALSE)
 								{
 									$surround = TRUE;
 								}
@@ -4236,7 +4237,7 @@ class ilObjTestGUI extends ilObjectGUI
 									$evalrow["title"][$rowindex] = utf8_decode($entry);
 								}
 							}
-							$csv .= join($evalrow["title"], ",") . "\n";
+							$csv .= join($evalrow["title"], $separator) . "\n";
 						}
 						$csvarr = array();
 						foreach ($evalrow["data"] as $rowindex => $entry)
@@ -4247,7 +4248,7 @@ class ilObjTestGUI extends ilObjectGUI
 								$entry["csv"] = str_replace("\"", "\"\"", $entry["csv"]);
 								$surround = TRUE;
 							}
-							if (strpos($entry["csv"], ",") !== FALSE)
+							if (strpos($entry["csv"], $separator) !== FALSE)
 							{
 								$surround = TRUE;
 							}
@@ -4260,7 +4261,7 @@ class ilObjTestGUI extends ilObjectGUI
 								array_push($csvarr, utf8_decode($entry["csv"]));
 							}
 						}
-						$csv .= join($csvarr, ",") . "\n";
+						$csv .= join($csvarr, $separator) . "\n";
 					}
 					ilUtil::deliverData($csv, "$testname.csv");
 					break;
