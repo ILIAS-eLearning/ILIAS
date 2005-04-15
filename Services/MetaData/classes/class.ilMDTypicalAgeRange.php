@@ -23,25 +23,25 @@
 
 
 /**
-* Meta Data class (element description)
+* Meta Data class (element typicalagerange)
 *
 * @package ilias-core
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
 
-class ilMDDescription extends ilMDBase
+class ilMDTypicalAgeRange extends ilMDBase
 {
 	var $parent_obj = null;
 
-	function ilMDDescription(&$parent_obj,$a_id = null)
+	function ilMDTypicalAgeRange(&$parent_obj,$a_id = null)
 	{
 		$this->parent_obj =& $parent_obj;
 
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
-						 'meta_description',
+						 'meta_typical_age_range',
 						 $a_id);
 
 		$this->setParentType($this->parent_obj->getMetaType());
@@ -54,33 +54,33 @@ class ilMDDescription extends ilMDBase
 	}
 
 	// SET/GET
-	function setDescription($a_description)
+	function setTypicalAgeRange($a_typical_age_range)
 	{
-		$this->description = $a_description;
+		$this->typical_age_range = $a_typical_age_range;
 	}
-	function getDescription()
+	function getTypicalAgeRange()
 	{
-		return $this->description;
+		return $this->typical_age_range;
 	}
-	function setDescriptionLanguage(&$lng_obj)
+	function setTypicalAgeRangeLanguage(&$lng_obj)
 	{
 		if(is_object($lng_obj))
 		{
-			$this->description_language = $lng_obj;
+			$this->typical_age_range_language = $lng_obj;
 		}
 	}
-	function &getDescriptionLanguage()
+	function &getTypicalAgeRangeLanguage()
 	{
-		return is_object($this->description_language) ? $this->description_language : false;
+		return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : false;
 	}
-	function getDescriptionLanguageCode()
+	function getTypicalAgeRangeLanguageCode()
 	{
-		return is_object($this->description_language) ? $this->description_language->getLanguageCode() : false;
+		return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : false;
 	}
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_description',
+		if($this->db->autoExecute('il_meta_typical_age_range',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
@@ -95,10 +95,10 @@ class ilMDDescription extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_description',
+			if($this->db->autoExecute('il_meta_typical_age_range',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_description_id = '".$this->getMetaId()."'"))
+									  "meta_typical_age_range_id = '".$this->getMetaId()."'"))
 			{
 				return true;
 			}
@@ -110,8 +110,8 @@ class ilMDDescription extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_description ".
-				"WHERE meta_description_id = '".$this->getMetaId()."'";
+			$query = "DELETE FROM il_meta_typical_age_range ".
+				"WHERE meta_typical_age_range_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
 			
@@ -128,8 +128,8 @@ class ilMDDescription extends ilMDBase
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'description'	=> ilUtil::prepareDBString($this->getDescription()),
-					 'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
+					 'typical_age_range'	=> ilUtil::prepareDBString($this->getTypicalAgeRange()),
+					 'typical_age_range_language' => ilUtil::prepareDBString($this->getTypicalAgeRangeLanguageCode()));
 	}
 
 	function read()
@@ -138,14 +138,14 @@ class ilMDDescription extends ilMDBase
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_description ".
-				"WHERE meta_description_id = '".$this->getMetaId()."'";
+			$query = "SELECT * FROM il_meta_typical_age_range ".
+				"WHERE meta_typical_age_range_id = '".$this->getMetaId()."'";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setDescription($row->description);
-				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
+				$this->setTypicalAgeRange($row->typical_age_range);
+				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->typical_age_range_language));
 			}
 		}
 		return true;
@@ -158,7 +158,7 @@ class ilMDDescription extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('TypicalAgeRange',array('Language' => $this->getTypicalAgeRangeLanguageCode()),$this->getTypicalAgeRange());
 	}
 
 
@@ -167,17 +167,17 @@ class ilMDDescription extends ilMDBase
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_description_id FROM il_meta_description ".
+		$query = "SELECT meta_typical_age_range_id FROM il_meta_typical_age_range ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type."' ".
-			"ORDER BY meta_description_id";
+			"ORDER BY meta_typical_age_range_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_description_id;
+			$ids[] = $row->meta_typical_age_range_id;
 		}
 		return $ids ? $ids : array();
 	}

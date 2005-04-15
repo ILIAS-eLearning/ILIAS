@@ -134,7 +134,7 @@ class ilMDKeyword extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -145,7 +145,7 @@ class ilMDKeyword extends ilMDBase
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setKeyword($row->keyword);
-				$this->keyword_language = new ilMDLanguage($row->keyword_language);
+				$this->keyword_language = new ilMDLanguageItem($row->keyword_language);
 			}
 		}
 		return true;
@@ -163,14 +163,15 @@ class ilMDKeyword extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 
 		$query = "SELECT meta_keyword_id FROM il_meta_keyword ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ORDER BY meta_keyword_id";
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type ."' ORDER BY meta_keyword_id";
 
 
 		$res = $ilDB->query($query);

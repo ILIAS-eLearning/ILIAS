@@ -23,40 +23,46 @@
 
 
 /**
-* Meta Data to XML class
+* Meta Data class Language codes and translations
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'classes/class.ilXmlWriter.php';
 
-class ilMD2XML extends ilXmlWriter
+class ilMDLanguageItem
 {
-	var $md_obj = null;
+	var $language_code;
+	var $possible_language_codes = array();
 
-	function ilMD2XML($a_rbac_id,$a_obj_id,$a_type)
+
+	function ilMDLanguageItem($a_code)
 	{
-		define('CONTEXT_SCHOOL','School');
-		define('CONTEXT_HIGHER_EDUCATION','HigherEducation');
+		$this->language_code = $a_code;
 
-
-		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_type);
-
-		parent::ilXmlWriter();
+		$this->possible_language_codes = array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
+											   "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
+											   "es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
+											   "ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
+											   "jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln",
+											   "lo","lt","lv","mg","mi","mk","ml","mn","mo","mr","ms","mt",
+											   "my","na","ne","nl","no","oc","om","or","pa","pl","ps","pt",
+											   "qu","rm","rn","ro",
+											   "ru","rw",
+											   "sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
+											   "su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
+											   "tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
+											   "zu");
 	}
 
 
-	function startExport()
+	function getLanguageCode()
 	{
-		// Starts the xml export and calls all element classes
-		$this->md_obj->toXML($this);
+		if(in_array($this->language_code,$this->possible_language_codes))
+		{
+			return $this->language_code;
+		}
+		return false;
 	}
-
-	function getXML()
-	{
-		return $this->xmlDumpMem();
-	}
-
-
+		
 }
 ?>

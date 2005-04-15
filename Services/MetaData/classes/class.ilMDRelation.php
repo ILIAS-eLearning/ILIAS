@@ -55,7 +55,7 @@ class ilMDRelation extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
-		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId());
+		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
 	}
 	function &getIdentifier_($a_identifier__id)
 	{

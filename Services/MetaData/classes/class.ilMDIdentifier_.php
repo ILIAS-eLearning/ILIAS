@@ -157,14 +157,15 @@ class ilMDIdentifier_ extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 
 		$query = "SELECT meta_identifier__id FROM il_meta_identifier_ ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ORDER BY meta_identifier__id";
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ORDER BY meta_identifier__id";
 
 
 		$res = $ilDB->query($query);

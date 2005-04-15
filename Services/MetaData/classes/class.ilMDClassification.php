@@ -55,7 +55,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
-		return ilMDTaxonPath::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId());
+		return ilMDTaxonPath::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
 	}
 	function &getTaxonPath($a_taxon_path_id)
 	{
@@ -78,7 +78,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId());
+		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
 	}
 	function &getKeyword($a_keyword_id)
 	{
@@ -186,7 +186,7 @@ class ilMDClassification extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -198,7 +198,7 @@ class ilMDClassification extends ilMDBase
 			{
 				$this->setPurpose($row->purpose);
 				$this->setDescription($row->description);
-				$this->description_language = new ilMDLanguage($row->description_language);
+				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}
 		return true;

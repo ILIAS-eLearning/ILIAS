@@ -116,18 +116,17 @@ class ilMD extends ilMDBase
 	{
 		include_once 'class.ilMDEducational.php';
 
-		$tec =& new ilMDEducational($this);
-		$tec->read();
+		$edu =& new ilMDEducational($this,ilMDEducational::_getId($this->getRBACId(),$this->getObjId()));
 
-		return $tec;
+		return $edu;
 	}
 	function &addEducational()
 	{
 		include_once 'class.ilMDEducational.php';
 
-		$tec =& new ilMDEducational($this);
+		$edu =& new ilMDEducational($this);
 
-		return $tec;
+		return $edu;
 	}
 	function &getRights()
 	{
@@ -226,6 +225,10 @@ class ilMD extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlStartTag('MetaData');
+
+		// Educational
+		$edu =& $this->getEducational();
+		$edu->toXML($writer);
 
 		// Rights
 		$rig =& $this->getRights();

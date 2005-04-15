@@ -147,7 +147,7 @@ class ilMDRights extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 
 		if($this->getMetaId())
@@ -161,7 +161,7 @@ class ilMDRights extends ilMDBase
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setDescription($row->description);
-				$this->setDescriptionLanguage(new ilMDLanguage($row->description_language));
+				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
 				$this->setCosts($row->costs);
 				$this->setCopyrightAndOtherRestrictions($row->copyright_and_other_restrictions);
 			}
@@ -183,7 +183,6 @@ class ilMDRights extends ilMDBase
 		$writer->xmlEndTag('Rights');
 	}
 
-
 	// STATIC
 	function _getId($a_rbac_id,$a_obj_id)
 	{
@@ -196,9 +195,9 @@ class ilMDRights extends ilMDBase
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$id = $row->meta_rights_id;
+			return $row->meta_rights_id;
 		}
-		return $id;
+		return false;
 	}
 }
 ?>
