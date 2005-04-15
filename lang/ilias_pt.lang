@@ -1275,6 +1275,8 @@ common#:#frm_edit_permission#:#Mudar definições de permissões###07 Apr 2005 c
 common#:#frm_edit_post#:#Editar uma mensagem###07 Apr 2005 content changed
 common#:#frm_new#:#Novo Fórum###07 Apr 2005 content changed
 common#:#frm_read#:#Acesso de Leitura ao Fórum###07 Apr 2005 content changed
+common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#O Fórum é visível###07 Apr 2005 content changed
 common#:#frm_write#:#Editar fórum/escrever mensagem###07 Apr 2005 content changed
 common#:#from#:#De###07 Apr 2005 content changed
@@ -2603,6 +2605,7 @@ common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Semana###07 Apr 2005 content changed
 common#:#weekly#:#weekly###11 Mar 2005 new variable
+common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#Benvindo###07 Apr 2005 content changed
 common#:#who_is_online#:#Quem está ligado?###07 Apr 2005 content changed
 common#:#with#:#com###07 Apr 2005 content changed
@@ -3324,6 +3327,7 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###07 Aug 2004 ne
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable

@@ -1274,6 +1274,8 @@ common#:#frm_edit_permission#:#Rechteeinstellungen ändern###07 Apr 2005 content
 common#:#frm_edit_post#:#Forumbeiträge anlegen###07 Apr 2005 content changed
 common#:#frm_new#:#Neues Forum###07 Apr 2005 content changed
 common#:#frm_read#:#Forum lesen###07 Apr 2005 content changed
+common#:#frm_status_new#:#Status 'Neu'
+common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird.
 common#:#frm_visible#:#Forum ist sichtbar###07 Apr 2005 content changed
 common#:#frm_write#:#Forum bearbeiten###07 Apr 2005 content changed
 common#:#from#:#Von###07 Apr 2005 content changed
@@ -2602,6 +2604,7 @@ common#:#webr_write#:#Web-Resource bearbeiten###16 Mar 2005 content changed
 common#:#webservices#:#Web-Services###07 Apr 2005 content changed
 common#:#week#:#Woche###07 Apr 2005 content changed
 common#:#weekly#:#wöchentlich###07 Apr 2005 content changed
+common#:#weeks#:#Wochen
 common#:#welcome#:#Willkommen###07 Apr 2005 content changed
 common#:#who_is_online#:#Wer ist Online?###07 Apr 2005 content changed
 common#:#with#:#mit###07 Apr 2005 content changed
@@ -3323,6 +3326,7 @@ crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.###07 Apr 2005 
 crs#:#crs_update_objective#:#Lernziel bearbeiten###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses###07 Apr 2005 content changed
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Sichtbar (unbegrenzt)
 crs#:#crs_visibility_until#:#Sichtbar (Von ... bis)
 crs#:#crs_visibility_unvisible#:#Nicht sichtbar
@@ -4861,6 +4865,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#frm_status_new#:#Status 'Neu'
-common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird.
-common#:#weeks#:#Wochen

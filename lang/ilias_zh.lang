@@ -1293,6 +1293,8 @@ common#:#frm_edit_permission#:#更改许可设置###07 Apr 2005 content changed
 common#:#frm_edit_post#:#编辑帖子###30 Mar 2004 content changed
 common#:#frm_new#:#新论坛###07 Apr 2005 content changed
 common#:#frm_read#:#论坛设为读访问###07 Apr 2005 content changed
+common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#论坛可视Forum is visible###07 Apr 2005 content changed
 common#:#frm_write#:#编辑论坛###30 Mar 2004 content changed
 common#:#from#:#从###07 Apr 2005 content changed
@@ -2621,6 +2623,7 @@ common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#星期###07 Apr 2005 content changed
 common#:#weekly#:#weekly###11 Mar 2005 new variable
+common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#欢迎###07 Apr 2005 content changed
 common#:#who_is_online#:#谁在线？###07 Apr 2005 content changed
 common#:#with#:#同###07 Apr 2005 content changed
@@ -3342,6 +3345,7 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###07 Aug 2004 ne
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable

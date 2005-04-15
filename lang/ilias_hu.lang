@@ -1275,6 +1275,8 @@ common#:#frm_edit_permission#:#Jogosultsági beállítások változtatása###07 
 common#:#frm_edit_post#:#Hozzászólás szerkesztése###07 Apr 2005 content changed
 common#:#frm_new#:#Új fórum###07 Apr 2005 content changed
 common#:#frm_read#:#Olvasási elérés a fórumhoz###07 Apr 2005 content changed
+common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#A fórum látható###07 Apr 2005 content changed
 common#:#frm_write#:#Fórum szerkesztése###07 Apr 2005 content changed
 common#:#from#:#Írta###07 Apr 2005 content changed
@@ -2603,6 +2605,7 @@ common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Hét###07 Apr 2005 content changed
 common#:#weekly#:#weekly###11 Mar 2005 new variable
+common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#Üdvözöljük ###07 Apr 2005 content changed
 common#:#who_is_online#:#Ki van on-line?###07 Apr 2005 content changed
 common#:#with#:#Mivel###07 Apr 2005 content changed
@@ -3324,6 +3327,7 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###05 Nov 2004 ne
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Added user to the course###05 Nov 2004 new variable
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course###05 Nov 2004 new variable
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
