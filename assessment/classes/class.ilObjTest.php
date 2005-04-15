@@ -5730,8 +5730,44 @@ class ilObjTest extends ilObject
 	function isNrOfTriesReached ($tries) {
 		return $tries >= (int) $this->getNrOfTries();
 	}
-		
-
+	
+/**
+* Convertes an array for CSV usage
+* 
+* Processes an array as a CSV row and converts the array values to correct CSV
+* values. The "converted" array is returned
+*
+* @param array $row The array containing the values for a CSV row
+* @param string $separator The value separator in the CSV row (used for quoting)
+* @return array The converted array ready for CSV use
+* @access public
+*/
+	function &processCSVRow($row, $separator = ";")
+	{
+		$resultarray = array();
+		foreach ($row as $rowindex => $entry)
+		{
+			$surround = FALSE;
+			if (strpos($entry, "\"") !== FALSE)
+			{
+				$entry = str_replace("\"", "\"\"", $entry);
+				$surround = TRUE;
+			}
+			if (strpos($entry, $separator) !== FALSE)
+			{
+				$surround = TRUE;
+			}
+			if ($surround)
+			{
+				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+			}
+			else
+			{
+				$resultarray[$rowindex] = utf8_decode($entry);
+			}
+		}
+		return $resultarray;
+	}
 } // END class.ilObjTest
 
 ?>
