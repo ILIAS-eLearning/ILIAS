@@ -464,13 +464,11 @@ class ilObjCourseGUI extends ilObjectGUI
 			1 : 
 			(int) $this->object->getActivationUnlimitedStatus();
 
-		$activation_unlimited = $offline ? 0 : 1;
+		$activation_unlimited = $offline ? 0 : $activation_unlimited;
 
-		$activation_limit = $_SESSION['error_post_vars']['crs']['activation_type'] == 3 ?
+		$activation_limit = ($_SESSION['error_post_vars']['crs']['activation_type'] == 3) ?
 			1 :
-			(!$this->object->getOfflineStatus() and !$this->object->getActivationUnlimitedStatus()) ? 1 : 0;
-
-		$activation_limit = $offline ? 0 : 1;
+			((!$offline and !$activation_unlimited) ? 1 : 0);
 
 		$activation_start = $_SESSION["error_post_vars"]["crs"]["activation_start"] ? 
 			$this->__toUnix($_SESSION["error_post_vars"]["crs"]["activation_start"]) :
