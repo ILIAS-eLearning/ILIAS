@@ -151,7 +151,7 @@ class ilMDAnnotation extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -164,7 +164,7 @@ class ilMDAnnotation extends ilMDBase
 				$this->setEntity($row->entity);
 				$this->setDate($row->date);
 				$this->setDescription($row->description);
-				$this->description_language =& new ilMDLanguage($row->description_language);
+				$this->description_language =& new ilMDLanguageItem($row->description_language);
 			}
 		}
 		return true;

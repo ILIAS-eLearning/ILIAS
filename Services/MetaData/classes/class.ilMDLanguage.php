@@ -23,46 +23,153 @@
 
 
 /**
-* Meta Data class Language codes and translations
+* Meta Data class (element language)
 *
 * @package ilias-core
 * @version $Id$
 */
+include_once 'class.ilMDBase.php';
 
-class ilMDLanguage
+class ilMDLanguage extends ilMDBase
 {
-	var $language_code;
-	var $possible_language_codes = array();
+	var $parent_obj = null;
 
-
-	function ilMDLanguage($a_code)
+	function ilMDLanguage(&$parent_obj,$a_id = null)
 	{
-		$this->language_code = $a_code;
+		$this->parent_obj =& $parent_obj;
 
-		$this->possible_language_codes = array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
-											   "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
-											   "es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
-											   "ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
-											   "jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln",
-											   "lo","lt","lv","mg","mi","mk","ml","mn","mo","mr","ms","mt",
-											   "my","na","ne","nl","no","oc","om","or","pa","pl","ps","pt",
-											   "qu","rm","rn","ro",
-											   "ru","rw",
-											   "sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
-											   "su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
-											   "tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
-											   "zu");
+		parent::ilMDBase($this->parent_obj->getRBACId(),
+						 $this->parent_obj->getObjId(),
+						 $this->parent_obj->getObjType(),
+						 'meta_language',
+						 $a_id);
+
+		$this->setParentType($this->parent_obj->getMetaType());
+		$this->setParentId($this->parent_obj->getMetaId());
+
+		if($a_id)
+		{
+			$this->read();
+		}
 	}
 
-
+	// SET/GET
+	function setLanguage(&$lng_obj)
+	{
+		if(is_object($lng_obj))
+		{
+			$this->language =& $lng_obj;
+		}
+	}
+	function &getLanguage()
+	{
+		return is_object($this->language) ? $this->language : false;
+	}
 	function getLanguageCode()
 	{
-		if(in_array($this->language_code,$this->possible_language_codes))
+		return is_object($this->language) ? $this->language->getLanguageCode() : false;
+	}
+
+	function save()
+	{
+		if($this->db->autoExecute('il_meta_language',
+								  $this->__getFields(),
+								  DB_AUTOQUERY_INSERT))
 		{
-			return $this->language_code;
+			$this->setMetaId($this->db->getLastInsertId());
+
+			return $this->getMetaId();
 		}
 		return false;
 	}
-		
+
+	function update()
+	{
+		if($this->getMetaId())
+		{
+			if($this->db->autoExecute('il_meta_language',
+									  $this->__getFields(),
+									  DB_AUTOQUERY_UPDATE,
+									  "meta_language_id = '".$this->getMetaId()."'"))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function delete()
+	{
+		if($this->getMetaId())
+		{
+			$query = "DELETE FROM il_meta_language ".
+				"WHERE meta_language_id = '".$this->getMetaId()."'";
+			
+			$this->db->query($query);
+			
+			return true;
+		}
+		return false;
+	}
+			
+
+	function __getFields()
+	{
+		return array('rbac_id'	=> $this->getRBACId(),
+					 'obj_id'	=> $this->getObjId(),
+					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'parent_type' => $this->getParentType(),
+					 'parent_id' => $this->getParentId(),
+					 'language' => ilUtil::prepareDBString($this->getLanguageCode()));
+	}
+
+	function read()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		if($this->getMetaId())
+		{
+			$query = "SELECT * FROM il_meta_language ".
+				"WHERE meta_language_id = '".$this->getMetaId()."'";
+
+			$res = $this->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->setLanguage(new ilMDLanguageItem($row->language));
+			}
+		}
+		return true;
+	}
+				
+	/*
+	 * XML Export of all meta data
+	 * @param object (xml writer) see class.ilMD2XML.php
+	 * 
+	 */
+	function toXML(&$writer)
+	{
+		$writer->xmlElement('Language',array('Language' => $this->getLanguageCode()),$this->getLanguage());
+	}
+
+
+	// STATIC
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	{
+		global $ilDB;
+
+		$query = "SELECT meta_language_id FROM il_meta_language ".
+			"WHERE rbac_id = '".$a_rbac_id."' ".
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ".
+			"ORDER BY meta_language_id";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->meta_language_id;
+		}
+		return $ids ? $ids : array();
+	}
 }
 ?>

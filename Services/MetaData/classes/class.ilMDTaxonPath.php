@@ -58,7 +58,7 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
-		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId());
+		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
 	}
 	function &getTaxon($a_taxon_id)
 	{
@@ -159,7 +159,7 @@ class ilMDTaxonPath extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -170,7 +170,7 @@ class ilMDTaxonPath extends ilMDBase
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setSource($row->source);
-				$this->source_language = new ilMDLanguage($row->source_language);
+				$this->source_language = new ilMDLanguageItem($row->source_language);
 			}
 		}
 		return true;
@@ -200,14 +200,15 @@ class ilMDTaxonPath extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 
 		$query = "SELECT meta_taxon_path_id FROM il_meta_taxon_path ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ORDER BY meta_taxon_path_id";
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ORDER BY meta_taxon_path_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

@@ -144,7 +144,7 @@ class ilMDTaxon extends ilMDBase
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -155,7 +155,7 @@ class ilMDTaxon extends ilMDBase
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setTaxon($row->taxon);
-				$this->taxon_language = new ilMDLanguage($row->taxon_language);
+				$this->taxon_language = new ilMDLanguageItem($row->taxon_language);
 				$this->setTaxonId($row->taxon_id);
 			}
 		}
@@ -175,14 +175,15 @@ class ilMDTaxon extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 
 		$query = "SELECT meta_taxon_id FROM il_meta_taxon ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ORDER BY meta_taxon_id";
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ORDER BY meta_taxon_id";
 
 
 		$res = $ilDB->query($query);
