@@ -4189,79 +4189,19 @@ class ilObjTestGUI extends ilObjectGUI
 					$separator = ";";
 					if (!$this->object->isRandomTest())
 					{
-						foreach ($titlerow as $rowindex => $entry)
-						{
-							$surround = FALSE;
-							if (strpos($entry, "\"") !== FALSE)
-							{
-								$entry = str_replace("\"", "\"\"", $entry);
-								$surround = TRUE;
-							}
-							if (strpos($entry, $separator) !== FALSE)
-							{
-								$surround = TRUE;
-							}
-							if ($surround)
-							{
-								$titlerow[$rowindex] = utf8_decode("\"" . $entry . "\"");
-							}
-							else
-							{
-								$titlerow[$rowindex] = utf8_decode($entry);
-							}
-						}
+						$titlerow =& $this->processCSVRow($titlerow, $separator);
 						$csv .= join($titlerow, $separator) . "\n";
 					}
 					foreach ($eval_complete as $evalrow)
 					{
 						if ($this->object->isRandomTest())
 						{
-							foreach ($evalrow["title"] as $rowindex => $entry)
-							{
-								$surround = FALSE;
-								if (strpos($entry, "\"") !== FALSE)
-								{
-									$entry = str_replace("\"", "\"\"", $entry);
-									$surround = TRUE;
-								}
-								if (strpos($entry, $separator) !== FALSE)
-								{
-									$surround = TRUE;
-								}
-								if ($surround)
-								{
-									$evalrow["title"][$rowindex] = utf8_decode("\"" . $entry . "\"");
-								}
-								else
-								{
-									$evalrow["title"][$rowindex] = utf8_decode($entry);
-								}
-							}
+							$evalrow["title"] =& $this->processCSVRow($evalrow["title"], $separator);
 							$csv .= join($evalrow["title"], $separator) . "\n";
 						}
 						$csvarr = array();
-						foreach ($evalrow["data"] as $rowindex => $entry)
-						{
-							$surround = FALSE;
-							if (strpos($entry["csv"], "\"") !== FALSE)
-							{
-								$entry["csv"] = str_replace("\"", "\"\"", $entry["csv"]);
-								$surround = TRUE;
-							}
-							if (strpos($entry["csv"], $separator) !== FALSE)
-							{
-								$surround = TRUE;
-							}
-							if ($surround)
-							{
-								array_push($csvarr, utf8_decode("\"" . $entry["csv"] . "\""));
-							}
-							else
-							{
-								array_push($csvarr, utf8_decode($entry["csv"]));
-							}
-						}
-						$csv .= join($csvarr, $separator) . "\n";
+						$evalrow["data"] =& $this->processCSVRow($evalrow["data"], $separator);
+						$csv .= join($evalrow["data"], $separator) . "\n";
 					}
 					ilUtil::deliverData($csv, "$testname.csv");
 					break;
