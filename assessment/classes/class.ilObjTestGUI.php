@@ -4189,18 +4189,18 @@ class ilObjTestGUI extends ilObjectGUI
 					$separator = ";";
 					if (!$this->object->isRandomTest())
 					{
-						$titlerow =& $this->processCSVRow($titlerow, $separator);
+						$titlerow =& $this->object->processCSVRow($titlerow, TRUE, $separator);
 						$csv .= join($titlerow, $separator) . "\n";
 					}
 					foreach ($eval_complete as $evalrow)
 					{
 						if ($this->object->isRandomTest())
 						{
-							$evalrow["title"] =& $this->processCSVRow($evalrow["title"], $separator);
+							$evalrow["title"] =& $this->object->processCSVRow($evalrow["title"], TRUE, $separator);
 							$csv .= join($evalrow["title"], $separator) . "\n";
 						}
 						$csvarr = array();
-						$evalrow["data"] =& $this->processCSVRow($evalrow["data"], $separator);
+						$evalrow["data"] =& $this->object->processCSVRow($evalrow["data"], TRUE, $separator);
 						$csv .= join($evalrow["data"], $separator) . "\n";
 					}
 					ilUtil::deliverData($csv, "$testname.csv");
