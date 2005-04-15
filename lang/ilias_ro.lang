@@ -1227,6 +1227,8 @@ common#:#frm_edit_permission#:#Schimbati setarile de permisiune
 common#:#frm_edit_post#:#Adaugati thread nou, posta
 common#:#frm_new#:#Forum nou
 common#:#frm_read#:#Permisiune de citire a Forumului
+common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#Forumul este vizibil
 common#:#frm_write#:#Editati forumul
 common#:#from#:#De la
@@ -2418,6 +2420,7 @@ common#:#view_content#:#Vizualizare Continut
 common#:#visible_layers#:#Straturi Vizibile
 common#:#visits#:#Vizite
 common#:#week#:#Saptamana
+common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#Bine ati venit
 common#:#who_is_online#:#Cine este online?
 common#:#with#:#cu
@@ -3002,6 +3005,7 @@ crs#:#crs_unsubscribe_sure#:#Doriti sa va retrageti de la acest curs
 crs#:#crs_unsubscribed_from_crs#:#V-ati inscris la acest curs
 crs#:#crs_users_added#:#Utilizator adaugat la curs
 crs#:#crs_users_already_assigned#:#Utilizatorul a fost deja inscris la acest curs
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable

@@ -1275,6 +1275,8 @@ common#:#frm_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005
 common#:#frm_edit_post#:#Voeg nieuwe thread, posting toe###07 Apr 2005 content changed
 common#:#frm_new#:#Nieuw Forum###07 Apr 2005 content changed
 common#:#frm_read#:#Lees-recht op forum###07 Apr 2005 content changed
+common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
 common#:#frm_visible#:#Forum is zichtbaar###07 Apr 2005 content changed
 common#:#frm_write#:#Forum wijzigen###07 Apr 2005 content changed
 common#:#from#:#Van###07 Apr 2005 content changed
@@ -2603,6 +2605,7 @@ common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Week###05 Nov 2004 new variable
 common#:#weekly#:#weekly###11 Mar 2005 new variable
+common#:#weeks#:#Weeks###15 Apr 2005 new variable
 common#:#welcome#:#Welkom###07 Apr 2005 content changed
 common#:#who_is_online#:#Wie is online?###07 Apr 2005 content changed
 common#:#with#:#met###07 Apr 2005 content changed
@@ -3324,6 +3327,7 @@ crs#:#crs_unsubscribed_from_crs#:#Abonnement beëindigen###07 Apr 2005 content c
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Wilt u zich van deze cursus uitschrijven###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#U heeft zich op deze cursus geabonneerd###07 Apr 2005 content changed
+crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable

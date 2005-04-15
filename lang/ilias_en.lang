@@ -1275,6 +1275,8 @@ common#:#frm_edit_permission#:#Change permission settings
 common#:#frm_edit_post#:#Add new thread, posting
 common#:#frm_new#:#New Forum
 common#:#frm_read#:#Read access to Forum
+common#:#frm_status_new#:#Status 'New'
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
 common#:#frm_visible#:#Forum is visible
 common#:#frm_write#:#Edit forum
 common#:#from#:#From
@@ -2603,6 +2605,7 @@ common#:#webr_write#:#Edit Web Resource
 common#:#webservices#:#Webservices
 common#:#week#:#Week
 common#:#weekly#:#weekly
+common#:#weeks#:#Weeks
 common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
@@ -3324,6 +3327,7 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course
 crs#:#crs_update_objective#:#Edit learning objective
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
+crs#:#crs_visibility#:#Visiblity
 crs#:#crs_visibility_limitless#:#Visible (unlimited)
 crs#:#crs_visibility_until#:#Visible (from ... until)
 crs#:#crs_visibility_unvisible#:#Not visible
@@ -4862,7 +4866,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-crs#:#crs_visibility#:#Visiblity
-common#:#frm_status_new#:#Status 'New'
-common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#weeks#:#Weeks
