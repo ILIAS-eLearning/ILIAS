@@ -28,7 +28,7 @@
 * 
 * controls control flow through test mode 
 *
-* @author	Roland Küstermann <rku@aifb.uni-karlsruhe.de>
+* @author	Roland KÃ¼stermann <rku@aifb.uni-karlsruhe.de>
 * @version	$Id$
 ** 
 * @package ilias-core
