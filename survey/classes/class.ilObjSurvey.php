@@ -4816,16 +4816,21 @@ class ilObjSurvey extends ilObject
 * values. The "converted" array is returned
 *
 * @param array $row The array containing the values for a CSV row
-* @param string $separator The value separator in the CSV row (used for quoting)
+* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
+* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
 * @return array The converted array ready for CSV use
 * @access public
 */
-	function &processCSVRow($row, $separator = ";")
+	function &processCSVRow($row, $quoteAll = FALSE, $separator = ";")
 	{
 		$resultarray = array();
 		foreach ($row as $rowindex => $entry)
 		{
 			$surround = FALSE;
+			if ($quoteAll)
+			{
+				$surround = TRUE;
+			}
 			if (strpos($entry, "\"") !== FALSE)
 			{
 				$entry = str_replace("\"", "\"\"", $entry);

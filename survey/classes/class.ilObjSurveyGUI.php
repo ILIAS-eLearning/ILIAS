@@ -3106,7 +3106,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					$csvrow =& $this->processCSVRow($csvrow, $separator);
+					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				ilUtil::deliverData($csv, "$surveyname.csv");
