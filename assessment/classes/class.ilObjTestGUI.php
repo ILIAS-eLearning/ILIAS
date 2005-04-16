@@ -264,9 +264,18 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile&mode=xml");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
 		$this->tpl->parseCurrentBlock();
+		
+		// create export file button
+		if ($this->object->isOnlineTest()) {
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile&mode=results");
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_test_results"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 
 		// view last export log button
 		/*
@@ -376,7 +385,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			include_once("assessment/classes/class.ilTestExport.php");
-			$test_exp = new ilTestExport($this->object);
+			$test_exp = new ilTestExport($this->object, $_GET["mode"]);
 			$test_exp->buildExportFile();
 		}
 		else
@@ -385,6 +394,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->exportObject();
 	}
+	
 	
 	/**
 	* download export file

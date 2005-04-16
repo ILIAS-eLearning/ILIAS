@@ -60,16 +60,29 @@ class ilTestExport
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();
+		$this->export_dir = $this->test_obj->getExportDirectory();
 		switch($this->mode)
 		{
-			default:
-				$this->export_dir = $this->test_obj->getExportDirectory();
+			case "results":
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test"."_".$this->test_obj->getId();
-				$this->filename = $this->subdir.".xml";
+					"test_results_"."_".$this->test_obj->getId();
+				break;				
+			default:				
+				$this->subdir = $date."__".$this->inst_id."__".
+					"test_"."_".$this->test_obj->getId();
 				$this->qti_filename = $date."__".$this->inst_id."__".
 					"qti"."_".$this->test_obj->getId().".xml";
 				break;
+		}
+		$this->filename = $this->subdir.".".$this->getExtension();
+	}
+	
+	function getExtension () {
+		switch ($this->mode) {			
+			case "results": 
+				return "csv"; break;
+			default:
+			 	return "xml"; break;
 		}
 	}
 
@@ -89,11 +102,48 @@ class ilTestExport
 	{
 		switch ($this->mode)
 		{
+			case "results": 
+				return $this->buildExportResultFile();
+				break;			
 			default:
 				return $this->buildExportFileXML();
 				break;
 		}
 	}
+	
+	/**
+	* build xml export file
+	*/
+	function buildExportResultFile()
+	{
+		global $ilBench;
+		global $log;
+		//get Log File
+		$expDir = $this->test_obj->getExportDirectory();
+		$expLog = &$log;
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Of Results");
+
+		// make_directories
+		$this->test_obj->createExportDirectory();
+		ilUtil::makeDir($this->export_dir);
+
+		//get data
+		$data =  $this->test_obj->getAllTestResults();
+	
+		$file = fopen($this->export_dir."/".$this->filename, "w");
+		foreach ($data as $row) {
+			fwrite($file, join (";",$row)."\n");
+		}
+		fclose($file);
+		
+		// end
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export of Results");
+	
+		return $this->export_dir."/".$this->filename;	
+	}
+	
 
 	/**
 	* build xml export file

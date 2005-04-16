@@ -702,8 +702,8 @@ class ilObjTest extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test_)*[0-9]+\.zip\$", $entry))
+				//substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test(_results)?__)*[0-9]+\.[a-z]{1,3}\$", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -4758,49 +4758,43 @@ class ilObjTest extends ilObject
 				"D" => $passed_statistics->quantile($this->ects_grades["D"]),
 				"E" => $passed_statistics->quantile($this->ects_grades["E"])
 			);
-			if ($reached_points >= $ects_percentiles["A"])
+		
+		if ($reached_points >= $ects_percentiles["A"])
+		{
+			return "A";
+		}
+		else if ($reached_points >= $ects_percentiles["B"])
+		{
+			return "B";
+		}
+		else if ($reached_points >= $ects_percentiles["C"])
+		{
+			return "C";
+		}
+		else if ($reached_points >= $ects_percentiles["D"])
+		{
+			return "D";
+		}
+		else if ($reached_points >= $ects_percentiles["E"])
+		{
+			return "E";
+		}
+		else if (strcmp($this->ects_fx, "") != 0)
+		{
+			if ($max_points > 0)
 			{
-				return "A";
-			}
-			else if ($reached_points >= $ects_percentiles["B"])
-			{
-				return "B";
-			}
-			else if ($reached_points >= $ects_percentiles["C"])
-			{
-				return "C";
-			}
-			else if ($reached_points >= $ects_percentiles["D"])
-			{
-				return "D";
-			}
-			else if ($reached_points >= $ects_percentiles["E"])
-			{
-				return "E";
-			}
-			else if (strcmp($this->ects_fx, "") != 0)
-			{
-				if ($max_points > 0)
-				{
-					$percentage = ($reached_points / $max_points) * 100.0;
-				}
-				else
-				{
-					$percentage = 0.0;
-				}
-				if ($percentage >= $this->object->ects_fx)
-				{
-					return "FX";
-				}
-				else
-				{
-					return "F";
-				}
+				$percentage = ($reached_points / $max_points) * 100.0;
 			}
 			else
 			{
-				return "F";
+				$percentage = 0.0;
 			}
+			if ($percentage >= $this->object->ects_fx)
+			{
+				return "FX";
+			}
+		}
+		return "F";
 	}
 	
 	function checkMarks()
@@ -5438,25 +5432,29 @@ class ilObjTest extends ilObject
 * @return array The user id's of the invited users
 * @access public
 */
-	function &getInvitedUsers($user_id="")
+	function &getInvitedUsers($user_id="", $order="lastname, firstname")
 	{
 		$result_array = array();
 
 		if (is_numeric($user_id))
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished " .
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation " .
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
-							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s",
+							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s ".
+							 "ORDER BY %s",
 				$this->ilias->db->quote($this->test_id),
-				$user_id
+				$user_id,
+				$order
 			);
 		else 
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished " .							 				
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation " .							 				
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
-							 "WHERE t.test_fi = %s and t.user_fi=usr_id",
-				$this->ilias->db->quote($this->test_id)
+							 "WHERE t.test_fi = %s and t.user_fi=usr_id ".
+							 "ORDER BY %s",
+				$this->ilias->db->quote($this->test_id),
+				$order
 			);
 		}
 		
@@ -5687,6 +5685,9 @@ class ilObjTest extends ilObject
 	}
 	
 	
+	/**
+	 * sets question solved state to value for given user_id
+	 */
 	function setQuestionSetSolved ($value, $question_id, $user_id) {
 		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, test_fi=%s, user_fi=%s",
 			$this->ilias->db->quote($value),
@@ -5699,6 +5700,9 @@ class ilObjTest extends ilObject
 	}
 	
 	
+	/**
+	 * submits active test for user user_id
+	 */
 	function setActiveTestSubmitted($user_id) {
 		$query = sprintf("UPDATE tst_active SET submitted=1, tries=1, submittimestamp=NOW() WHERE test_fi=%s AND user_fi=%s",
 			$this->ilias->db->quote($this->test_id),
@@ -5708,6 +5712,9 @@ class ilObjTest extends ilObject
 		
 	}
 	
+	/**
+	 * returns if the active for user_id has been submitted
+	 */
 	function isActiveTestSubmitted($user_id = null) {
 		global $ilUser;
 		if (!is_numeric($user_id))
@@ -5722,13 +5729,86 @@ class ilObjTest extends ilObject
 		return 	$result->numRows() == 1;
 		
 	}
-	
+	/**
+	 * returns if the numbers of tries have to be checked
+	 */
 	function hasNrOfTriesRestriction () {
 		return $this->getNrOfTries() != 0;
 	}
 	
+	
+	/**
+	 * returns if number of tries are reached
+	 */
+	
 	function isNrOfTriesReached ($tries) {
 		return $tries >= (int) $this->getNrOfTries();
+	}
+	
+	
+	/**
+	 * returns all test results for all participants
+	 */
+	function getAllTestResults () {
+		$participants = $this->getInvitedUsers("matriculation");
+		$results = array();		
+		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
+					"lastname" =>  $this->lng->txt("lastname"),
+					"firstname" => $this->lng->txt("firstname"),					
+					"reached_points" => $this->lng->txt("tst_reached_points"),
+					"max_points" => $this->lng->txt("tst_maximum_points"),
+					"percent_value" => $this->lng->txt("tst_percent_solved"),
+					"mark" => $this->lng->txt("tst_mark"),
+					"ects" => $this->lng->txt("ects_grade"));
+		
+		$results[] = $row;
+		
+		foreach ($participants as $user_id => $user_rec) {
+			$row = array();		
+			$reached_points = 0;
+			$max_points = 0;					
+			
+			foreach ($this->questions as $value)
+			{
+			//$value = $this->questions[$seq];
+//				$ilBench->start("getTestResult","instanciate question"); 
+				$question =& ilObjTest::_instanciateQuestion($value);
+//				$ilBench->stop("getTestResult","instanciate question"); 
+				if (is_object($question))
+				{
+					$max_points += $question->getMaximumPoints();
+					$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+				}
+			}
+			
+			if ($max_points > 0)
+			{
+				$percentvalue = $reached_points / $max_points;
+			}
+			else
+			{
+				$percentvalue = 0;
+			}
+			$mark_obj = $this->mark_schema->get_matching_mark($percentvalue);
+			$passed = "";	
+			if ($mark_obj)
+			{
+				$mark = $mark_obj->get_official_name();
+				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
+			}
+
+			$row = array(
+					"matriculation" =>  $user_rec->matriculation,
+					"lastname" =>  $user_rec->lastname,
+					"firstname" => $user_rec->firstname,
+					"reached_points" => $reached_points,
+					"max_points" => $max_points,
+					"percent_value" => $percentvalue,
+					"mark" => $mark,
+					"ects" => $ects_mark);
+			$results[] = $this->processCSVRow ($row, true);
+		} 								
+		return $results;
 	}
 	
 /**
