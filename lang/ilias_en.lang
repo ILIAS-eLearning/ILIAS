@@ -117,6 +117,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_create_export_file#:#Create export file
+assessment#:#ass_create_export_test_results#:#Export<br>Test Results
 assessment#:#ass_export_files#:#Export files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
@@ -4866,4 +4867,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-assessment#:#ass_create_export_test_results#:#Export<br>Test Results
