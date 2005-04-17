@@ -4743,6 +4743,16 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+/**
+* Returns the ECTS grade for a number of reached points
+* 
+* Returns the ECTS grade for a number of reached points
+*
+* @param double $reached_points The points reached in the test
+* @param double $max_points The maximum number of points for the test
+* @return string The ECTS grade short description
+* @access public
+*/
 	function getECTSGrade($reached_points, $max_points)
 	{
 		require_once "./classes/class.ilStatistics.php";
@@ -4758,43 +4768,49 @@ class ilObjTest extends ilObject
 				"D" => $passed_statistics->quantile($this->ects_grades["D"]),
 				"E" => $passed_statistics->quantile($this->ects_grades["E"])
 			);
-		
-		if ($reached_points >= $ects_percentiles["A"])
-		{
-			return "A";
-		}
-		else if ($reached_points >= $ects_percentiles["B"])
-		{
-			return "B";
-		}
-		else if ($reached_points >= $ects_percentiles["C"])
-		{
-			return "C";
-		}
-		else if ($reached_points >= $ects_percentiles["D"])
-		{
-			return "D";
-		}
-		else if ($reached_points >= $ects_percentiles["E"])
-		{
-			return "E";
-		}
-		else if (strcmp($this->ects_fx, "") != 0)
-		{
-			if ($max_points > 0)
+			if (count($passed_array) && ($reached_points >= $ects_percentiles["A"]))
 			{
-				$percentage = ($reached_points / $max_points) * 100.0;
+				return "A";
+			}
+			else if (count($passed_array) && ($reached_points >= $ects_percentiles["B"]))
+			{
+				return "B";
+			}
+			else if (count($passed_array) && ($reached_points >= $ects_percentiles["C"]))
+			{
+				return "C";
+			}
+			else if (count($passed_array) && ($reached_points >= $ects_percentiles["D"]))
+			{
+				return "D";
+			}
+			else if (count($passed_array) && ($reached_points >= $ects_percentiles["E"]))
+			{
+				return "E";
+			}
+			else if (strcmp($this->ects_fx, "") != 0)
+			{
+				if ($max_points > 0)
+				{
+					$percentage = ($reached_points / $max_points) * 100.0;
+				}
+				else
+				{
+					$percentage = 0.0;
+				}
+				if ($percentage >= $this->ects_fx)
+				{
+					return "FX";
+				}
+				else
+				{
+					return "F";
+				}
 			}
 			else
 			{
-				$percentage = 0.0;
+				return "F";
 			}
-			if ($percentage >= $this->object->ects_fx)
-			{
-				return "FX";
-			}
-		}
-		return "F";
 	}
 	
 	function checkMarks()
