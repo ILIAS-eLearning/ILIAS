@@ -3839,27 +3839,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$statistics = new ilStatistics();
 		$statistics->setData($median_array);
 		$median = $statistics->median();
-		$passed_statistics = new ilStatistics();
-		//$passed_array =& $this->object->getTotalPointsPassedArray();
-		$passed_array = array();
-		foreach ($evaluation_array as $key => $value)
-		{
-			if ($value["passed"] == 1)
-			{
-				array_push($passed_array, $value["resultspoints"]);
-			}
-		}
 //			$ilBench->stop("Test_Statistical_evaluation", "calculate all statistical data");
 //			$ilBench->save();
-		$passed_statistics->setData($passed_array);
-		$ects_percentiles = array
-			(
-				"A" => $passed_statistics->quantile($this->object->ects_grades["A"]),
-				"B" => $passed_statistics->quantile($this->object->ects_grades["B"]),
-				"C" => $passed_statistics->quantile($this->object->ects_grades["C"]),
-				"D" => $passed_statistics->quantile($this->object->ects_grades["D"]),
-				"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
-			);
 		$evalcounter = 1;
 		$question_titles = array();
 		$question_title_counter = 1;
@@ -3979,49 +3960,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				if ($this->object->ects_output)
 				{
-					if ($stat_eval["resultspoints"] >= $ects_percentiles["A"])
-					{
-						$mark_ects = "A";
-					}
-					else if ($stat_eval["resultspoints"] >= $ects_percentiles["B"])
-					{
-						$mark_ects = "B";
-					}
-					else if ($stat_eval["resultspoints"] >= $ects_percentiles["C"])
-					{
-						$mark_ects = "C";
-					}
-					else if ($stat_eval["resultspoints"] >= $ects_percentiles["D"])
-					{
-						$mark_ects = "D";
-					}
-					else if ($stat_eval["resultspoints"] >= $ects_percentiles["E"])
-					{
-						$mark_ects = "E";
-					}
-					else if (strcmp($this->object->ects_fx, "") != 0)
-					{
-						if ($stat_eval["maxpoints"] > 0)
-						{
-							$percentage = ($stat_eval["resultspoints"] / $stat_eval["maxpoints"]) * 100.0;
-						}
-						else
-						{
-							$percentage = 0.0;
-						}
-						if ($percentage >= $this->object->ects_fx)
-						{
-							$mark_ects = "FX";
-						}
-						else
-						{
-							$mark_ects = "F";
-						}
-					}
-					else
-					{
-						$mark_ects = "F";
-					}
+					$mark_ects = $this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"]);
 					array_push($evalrow, array(
 						"html" => $mark_ects,
 						"xls"  => $mark_ects,
