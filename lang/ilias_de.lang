@@ -117,6 +117,7 @@ assessment#:#applet_parameter#:#Parameter###07 Apr 2005 content changed
 assessment#:#applet_parameters#:#Applet-Parameter###07 Apr 2005 content changed
 assessment#:#apply#:#Übernehmen###07 Apr 2005 content changed
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei###07 Apr 2005 content changed
+assessment#:#ass_create_export_test_results#:#Erstelle<br>Ergebnisdatei
 assessment#:#ass_export_files#:#Exportdateien###07 Apr 2005 content changed
 assessment#:#ass_file#:#Datei###07 Apr 2005 content changed
 assessment#:#ass_question#:#Frage###07 Apr 2005 content changed
@@ -4865,4 +4866,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#ass_create_export_test_results#:#Erstelle<br>Ergebnisdatei
