@@ -227,9 +227,11 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		global $ilUser;
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 		$output = $this->outQuestionPage("", $is_postponed,"", !$show_question_page);
 		
 		if (!$show_question_page)
@@ -245,7 +247,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		// set solutions
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$repl_str = $solution_value->value1."</textarea>";

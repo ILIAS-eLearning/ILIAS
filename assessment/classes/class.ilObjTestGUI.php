@@ -5957,16 +5957,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false);
+		$this->outShowAnswers(false, & $ilUser);
 	}		
 
-	function outShowAnswers($isForm, $ilUser = null) {
-		if (!is_numeric($ilUser)) {
-			global $ilUser;
-		} else {
-			$ilUser = new IlObjUser ($ilUser);
-		}
-					
+	function outShowAnswers($isForm, & $ilUser) {
 		$tpl = &$this->tpl;
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
 		
@@ -6022,13 +6016,13 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			
 			switch ($question_gui->getQuestionType()) {
 				case "qt_imagemap" :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_pages=false);
+					$question_gui->outWorkingForm($idx, false, $show_solutions=false, $formaction, $show_question_page=false, $show_solution_only = false, $ilUser);
 					break;
 				case "qt_javaapplet" :
-					$question_gui->outWorkingForm("", false, $show_solutions=false,  $show_pages=false);
+					$question_gui->outWorkingForm("", $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
 					break;
 				default :
-					$question_gui->outWorkingForm($idx, false, $show_solutions=false,  $show_pages=false);
+					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
 			}
 			$tpl->parseCurrentBlock("question");
 			$counter ++;
@@ -6141,7 +6135,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, $user_id);		
+		$this->outShowAnswers(false, new IlObjUser ($user_id));		
 	}
 	
 	

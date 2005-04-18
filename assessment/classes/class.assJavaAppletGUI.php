@@ -372,9 +372,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		global $ilUser;
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"JAVA_QUESTION", $is_postponed, $test_id);
 		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);

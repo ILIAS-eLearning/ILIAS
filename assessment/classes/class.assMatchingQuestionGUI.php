@@ -491,9 +491,11 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		global $ilUser;
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"MATCHING_QUESTION", $is_postponed, "", !$show_question_page);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
@@ -522,7 +524,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$solution_script = "";
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
 			$solution_script .= "";//"resetValues();\n";
 			foreach ($solutions as $idx => $solution_value)
 			{
