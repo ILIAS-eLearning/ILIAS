@@ -23,36 +23,66 @@
 
 
 /**
-* Meta Data to XML class
+* Meta Data class (element orComposite)
+* Extends MDRequirement
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'classes/class.ilXmlWriter.php';
+include_once 'class.ilMDBase.php';
 
-class ilMD2XML extends ilXmlWriter
+class ilMDOrComposite extends ilMDRequirement
 {
-	var $md_obj = null;
+	var $parent_obj = null;
 
-	function ilMD2XML($a_rbac_id,$a_obj_id,$a_type)
+	function ilMDOrComposite(&$parent_obj,$a_id = null)
 	{
-		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_type);
+		parent::ilMDRequirement($parent_obj,$a_id);
+	}
 
-		parent::ilXmlWriter();
+	// SET/GET
+	function setIsOrComposite($a_is_or_composite)
+	{
+		$this->is_or_composite = (int) $a_is_or_composite;
+	}
+	function getIsOrComposite()
+	{
+		return $this->is_or_composite;
+	}
+				
+	/*
+	 * XML Export of all meta data
+	 * @param object (xml writer) see class.ilMD2XML.php
+	 * 
+	 */
+	function toXML(&$writer)
+	{
+		$writer->xmlStartTag('OrComposite');
+		parent::toXML($writer);
+		$writer->xmlEndTag('OrComposite');
+		
 	}
 
 
-	function startExport()
+	// STATIC
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
-		// Starts the xml export and calls all element classes
-		$this->md_obj->toXML($this);
+		global $ilDB;
+
+		$query = "SELECT meta_requirement_id FROM il_meta_requirement ".
+			"WHERE rbac_id = '".$a_rbac_id."' ".
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ".
+			"AND is_or_composite = '1' ".
+			"ORDER BY meta_requirement_id";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->meta_requirement_id;
+		}
+		return $ids ? $ids : array();
 	}
-
-	function getXML()
-	{
-		return $this->xmlDumpMem();
-	}
-
-
 }
 ?>
