@@ -5793,7 +5793,7 @@ class ilObjTest extends ilObject
 				if (is_object($question))
 				{
 					$max_points += $question->getMaximumPoints();
-					$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+					$reached_points += $question->getReachedPoints($user_id, $this->getTestId());
 				}
 			}
 			
