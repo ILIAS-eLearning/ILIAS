@@ -105,7 +105,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		{
 				sendInfo($this->lng->txt("user_not_invited"), true);
 				$path = $this->tree->getPathFull($this->obj->getRefID());
-				ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+				ilUtil::redirect($this->gui->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 				exit();
 		}
 			
@@ -115,7 +115,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		{
 			sendInfo($this->lng->txt("user_wrong_clientip"), true);
 			$path = $this->tree->getPathFull($this->obj->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->gui->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}		
 	}	
