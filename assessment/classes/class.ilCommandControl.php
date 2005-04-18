@@ -42,12 +42,14 @@ class CommandControl
 	var $obj;
 	var $lng;
 	var $tpl;
+	var $tree;
 	
 	function CommandControl (&$gui, &$object) {
 		$this->gui = & $gui;
 		$this->obj = & $object;
 		$this->lng = & $gui->lng;
 		$this->tpl = & $gui->tpl;
+		$this->tree = & $gui->tree;
 	}		
 }
 
