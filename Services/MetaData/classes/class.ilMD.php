@@ -45,7 +45,7 @@ class ilMD extends ilMDBase
 
 	function &getGeneral()
 	{
-		include_once 'class.ilMDGeneral.php';
+		include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
 
 		$gen =& new ilMDGeneral($this);
 		$gen->read();
@@ -54,7 +54,7 @@ class ilMD extends ilMDBase
 	}
 	function &addGeneral()
 	{
-		include_once 'class.ilMDGeneral.php';
+		include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
 
 		$gen =& new ilMDGeneral($this);
 
@@ -64,7 +64,7 @@ class ilMD extends ilMDBase
 
 	function &getLifecycle()
 	{
-		include_once 'class.ilMDLifecycle.php';
+		include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
 
 		$lif =& new ilMDLifecycle($this);
 		$lif->read();
@@ -73,7 +73,7 @@ class ilMD extends ilMDBase
 	}
 	function &addLifecycle()
 	{
-		include_once 'class.ilMDLifecycle.php';
+		include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
 
 		$lif =& new ilMDLifecycle($this);
 
@@ -82,16 +82,16 @@ class ilMD extends ilMDBase
 
 	function &getMetaMetadata()
 	{
-		include_once 'class.ilMDMetaMetadata.php';
+		include_once 'Services/MetaData/classes/class.ilMDMetaMetadata.php';
 
-		$met =& new ilMDMetaMetadata($this);
+		$met =& new ilMDMetaMetadata($this,ilMDMetaMetadata::_getId($this->getRBACId(),$this->getObjId()));
 		$met->read();
 
 		return $met;
 	}
 	function &addMetaMetadata()
 	{
-		include_once 'class.ilMDMetaMetadata.php';
+		include_once 'Services/MetaData/classes/class.ilMDMetaMetadata.php';
 
 		$met =& new ilMDMetaMetadata($this);
 
@@ -100,7 +100,7 @@ class ilMD extends ilMDBase
 
 	function &getTechnical()
 	{
-		include_once 'class.ilMDTechnical.php';
+		include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
 
 		$tec =& new ilMDTechnical($this,ilMDTechnical::_getId($this->getRBACId(),$this->getObjId()));
 		$tec->read();
@@ -109,7 +109,7 @@ class ilMD extends ilMDBase
 	}
 	function &addTechnical()
 	{
-		include_once 'class.ilMDTechnical.php';
+		include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
 
 		$tec =& new ilMDTechnical($this);
 
@@ -118,7 +118,7 @@ class ilMD extends ilMDBase
 
 	function &getEducational()
 	{
-		include_once 'class.ilMDEducational.php';
+		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
 		$edu =& new ilMDEducational($this,ilMDEducational::_getId($this->getRBACId(),$this->getObjId()));
 
@@ -126,7 +126,7 @@ class ilMD extends ilMDBase
 	}
 	function &addEducational()
 	{
-		include_once 'class.ilMDEducational.php';
+		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
 		$edu =& new ilMDEducational($this);
 
@@ -134,7 +134,7 @@ class ilMD extends ilMDBase
 	}
 	function &getRights()
 	{
-		include_once 'class.ilMDRights.php';
+		include_once 'Services/MetaData/classes/class.ilMDRights.php';
 
 		$rig =& new ilMDRights($this,ilMDRights::_getId($this->getRBACId(),$this->getObjId()));
 		
@@ -142,7 +142,7 @@ class ilMD extends ilMDBase
 	}
 	function &addRights()
 	{
-		include_once 'class.ilMDRights.php';
+		include_once 'Services/MetaData/classes/class.ilMDRights.php';
 
 		$rig =& new ilMDRights($this);
 		
@@ -151,7 +151,7 @@ class ilMD extends ilMDBase
 
 	function &getRelationIds()
 	{
-		include_once 'class.ilMDRelation.php';
+		include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
 		return ilMDRelation::_getIds($this->getRBACId(),$this->getObjId());
 	}
@@ -162,13 +162,13 @@ class ilMD extends ilMDBase
 			return false;
 		}
 
-		include_once 'class.ilMDRelation.php';
+		include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
 		return new ilMDRelation($this,$a_relation_id);
 	}
 	function &addRelation()
 	{
-		include_once 'class.ilMDRelation.php';
+		include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
 		return new ilMDRelation($this);
 	}
@@ -176,7 +176,7 @@ class ilMD extends ilMDBase
 
 	function &getAnnotationIds()
 	{
-		include_once 'class.ilMDAnnotation.php';
+		include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
 
 		return ilMDAnnotation::_getIds($this->getRBACId(),$this->getObjId());
 	}
@@ -186,20 +186,20 @@ class ilMD extends ilMDBase
 		{
 			return false;
 		}
-		include_once 'class.ilMDAnnotation.php';
+		include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
 
 		return new ilMDAnnotation($this,$a_annotation_id);
 	}
 	function &addAnnotation()
 	{
-		include_once 'class.ilMDAnnotation.php';
+		include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
 		
 		return new ilMDAnnotation($this);
 	}
 
 	function &getClassificationIds()
 	{
-		include_once 'class.ilMDClassification.php';
+		include_once 'Services/MetaData/classes/class.ilMDClassification.php';
 
 		return ilMDClassification::_getIds($this->getRBACId(),$this->getObjId());
 	}
@@ -210,13 +210,13 @@ class ilMD extends ilMDBase
 			return false;
 		}
 
-		include_once 'class.ilMDClassification.php';
+		include_once 'Services/MetaData/classes/class.ilMDClassification.php';
 
 		return new ilMDClassification($this,$a_classification_id);
 	}
 	function &addClassification()
 	{
-		include_once 'class.ilMDClassification.php';
+		include_once 'Services/MetaData/classes/class.ilMDClassification.php';
 
 		return new ilMDClassification($this);
 	}
@@ -230,17 +230,29 @@ class ilMD extends ilMDBase
 	{
 		$writer->xmlStartTag('MetaData');
 
+		// Meta-Metadata
+		if(is_object($met =& $this->getMetaMetadata()))
+		{
+			$met->toXML($writer);
+		}
+
 		// Technical
-		$tec =& $this->getTechnical();
-		$tec->toXML($writer);
+		if(is_object($tec =& $this->getTechnical()))
+		{
+			$tec->toXML($writer);
+		}
 
 		// Educational
-		$edu =& $this->getEducational();
-		$edu->toXML($writer);
+		if(is_object($edu =& $this->getEducational()))
+		{
+			$edu->toXML($writer);
+		}
 
 		// Rights
-		$rig =& $this->getRights();
-		$rig->toXML($writer);
+		if(is_object($rig =& $this->getRights()))
+		{
+			$rig->toXML($writer);
+		}
 
 		// Relations
 		foreach($this->getRelationIds() as $id)
