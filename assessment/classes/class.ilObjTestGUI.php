@@ -5957,7 +5957,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, & $ilUser);
+		$this->outShowAnswers(false, & $ilUser); 
 	}		
 
 	function outShowAnswers($isForm, & $ilUser) {
