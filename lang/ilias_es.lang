@@ -118,7 +118,7 @@ assessment#:#applet_parameter#:#Parámetro###07 Apr 2005 content changed
 assessment#:#applet_parameters#:#Parámetros del applet###07 Apr 2005 content changed
 assessment#:#apply#:#Aplicar###07 Apr 2005 content changed
 assessment#:#ass_create_export_file#:#Crear fichero de exportación###07 Apr 2005 content changed
-assessment#:#ass_create_export_test_results#:#Export<br>Test Results###17 Apr 2005 new variable
+assessment#:#ass_create_export_test_results#:#Exportar<br>Resultados del Test
 assessment#:#ass_export_files#:#Exportar ficheros###07 Apr 2005 content changed
 assessment#:#ass_file#:#Fichero###07 Apr 2005 content changed
 assessment#:#ass_question#:#Pregunta###07 Apr 2005 content changed
@@ -146,7 +146,7 @@ assessment#:#clientip#:#IP Cliente
 assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.###07 Apr 2005 content changed
 assessment#:#cloze_text#:#Texto "rellenar el hueco"###07 Apr 2005 content changed
 assessment#:#code#:#Código###07 Apr 2005 content changed
-assessment#:#concatenation#:#Concatenation###08 Apr 2005 new variable
+assessment#:#concatenation#:#Unión
 assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?###07 Apr 2005 content changed
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? ###07 Apr 2005 content changed
 assessment#:#coordinates#:#Coordenadas###07 Apr 2005 content changed
@@ -447,8 +447,8 @@ assessment#:#tst_percent_solved#:#Porcentaje resuelto###07 Apr 2005 content chan
 assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso###07 Apr 2005 content changed
-assessment#:#tst_qst_order#:#Order###08 Apr 2005 new variable
-assessment#:#tst_qst_resetsolved#:#Reset###08 Apr 2005 new variable
+assessment#:#tst_qst_order#:#Orden
+assessment#:#tst_qst_resetsolved#:#Reiniciar
 assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
 assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Use los -bulbs- para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden###07 Apr 2005 content changed
@@ -518,8 +518,8 @@ assessment#:#tst_status_missing_elements#:#Los siguientes elementos no están:##
 assessment#:#tst_status_not_entered#:#no introducido###07 Apr 2005 content changed
 assessment#:#tst_status_ok#:#El estado del test es OK. No hay elementos sin rellenar.###07 Apr 2005 content changed
 assessment#:#tst_status_progress#:#en progreso###07 Apr 2005 content changed
-assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
-assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
+assessment#:#tst_submit_answers#:#Si, quiero enviar mis respuestas
+assessment#:#tst_submit_answers_txt#:#Puede finalizar el test enviando sus respuestas.
 assessment#:#tst_submit_results#:#Sí, quiero confirmar el envío
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Cantidad total de preguntas###07 Apr 2005 content changed
@@ -1276,8 +1276,8 @@ common#:#frm_edit_permission#:#Modificar configuración de permisos###07 Apr 200
 common#:#frm_edit_post#:#Editar un envío###07 Apr 2005 content changed
 common#:#frm_new#:#Nuevo Foro###07 Apr 2005 content changed
 common#:#frm_read#:#Acceso de Lecutra al Foro###07 Apr 2005 content changed
-common#:#frm_status_new#:#Status 'New'###15 Apr 2005 new variable
-common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###15 Apr 2005 new variable
+common#:#frm_status_new#:#Estado 'Nuevo'
+common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' en las entradas de los foros.
 common#:#frm_visible#:#El foro es visible###07 Apr 2005 content changed
 common#:#frm_write#:#Editar foro###07 Apr 2005 content changed
 common#:#from#:#desde###07 Apr 2005 content changed
@@ -2138,7 +2138,7 @@ common#:#qpl_read#:#Acceso de Lectura a Repositorio de Preguntas###07 Apr 2005 c
 common#:#qpl_upload_file#:#Cargar fichero###07 Apr 2005 content changed
 common#:#qpl_visible#:#Repositorio de Preguntas visible###07 Apr 2005 content changed
 common#:#qpl_write#:#Editar Repositorio de Preguntas###07 Apr 2005 content changed
-common#:#quarterly#:#quarterly###new variable
+common#:#quarterly#:#4 veces al año
 common#:#query_data#:#Consultar datos###07 Apr 2005 content changed
 common#:#question#:#question###07 Apr 2005 content changed
 common#:#question_pools#:#Repositorio de preguntas###07 Apr 2005 content changed
@@ -2606,7 +2606,7 @@ common#:#webr_write#:#Editar Recurso Web###07 Apr 2005 content changed
 common#:#webservices#:#Servicios Web (SOAP)###07 Apr 2005 content changed
 common#:#week#:#Semana###07 Apr 2005 content changed
 common#:#weekly#:#semanalmente###07 Apr 2005 content changed
-common#:#weeks#:#Weeks###15 Apr 2005 new variable
+common#:#weeks#:#Semanas
 common#:#welcome#:#Bienvenido###07 Apr 2005 content changed
 common#:#who_is_online#:#Who's online?###07 Apr 2005 content changed
 common#:#with#:#con###07 Apr 2005 content changed
@@ -3049,7 +3049,7 @@ crs#:#crs_activation#:#Activación###07 Apr 2005 content changed
 crs#:#crs_add_archive_html#:#Añadir Archivo-HTML###07 Apr 2005 content changed
 crs#:#crs_add_archive_xml#:#Añadir Archivo-XML###07 Apr 2005 content changed
 crs#:#crs_add_grouping#:#Add course grouping###new variable
-crs#:#crs_add_grp_assignment#:#Assign course(s)###new variable
+crs#:#crs_add_grp_assignment#:#Asignar curso(s)
 crs#:#crs_add_html_archive#:#Añadir Archivo-HTML###07 Apr 2005 content changed
 crs#:#crs_add_member#:#Añadir miembros###07 Apr 2005 content changed
 crs#:#crs_add_objective#:#Añadir objetivo###07 Apr 2005 content changed
@@ -3328,7 +3328,7 @@ crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso###07 Apr 2005 con
 crs#:#crs_update_objective#:#Editar objetivo de aprendizaje###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Usuario añadido al curso###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#El usuario ya está asignado a este curso###07 Apr 2005 content changed
-crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
+crs#:#crs_visibility#:#Visibilidad
 crs#:#crs_visibility_limitless#:#Visible (ilimitado)
 crs#:#crs_visibility_until#:#Visible (desde ... hasta)
 crs#:#crs_visibility_unvisible#:#No visible
