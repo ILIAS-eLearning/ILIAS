@@ -23,26 +23,25 @@
 
 
 /**
-* Meta Data class (element format)
+* Meta Data class (element identifier)
 *
-* @author Stefan Meyer <smeyer@databay.de>
 * @package ilias-core
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
 
-class ilMDFormat extends ilMDBase
+class ilMDIdentifier extends ilMDBase
 {
 	var $parent_obj = null;
 
-	function ilMDFormat(&$parent_obj,$a_id = null)
+	function ilMDIdentifier(&$parent_obj,$a_id = null)
 	{
 		$this->parent_obj =& $parent_obj;
 
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
-						 'meta_format',
+						 'meta_identifier',
 						 $a_id);
 
 		$this->setParentType($this->parent_obj->getMetaType());
@@ -55,18 +54,27 @@ class ilMDFormat extends ilMDBase
 	}
 
 	// SET/GET
-	function setFormat($a_format)
+	function setCatalog($a_catalog)
 	{
-		$this->format = $a_format;
+		$this->catalog = $a_catalog;
 	}
-	function getFormat()
+	function getCatalog()
 	{
-		return $this->format;
+		return $this->catalog;
 	}
+	function setEntry($a_entry)
+	{
+		$this->entry = $a_entry;
+	}
+	function getEntry()
+	{
+		return $this->entry;
+	}
+
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_format',
+		if($this->db->autoExecute('il_meta_identifier',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
@@ -81,10 +89,10 @@ class ilMDFormat extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_format',
+			if($this->db->autoExecute('il_meta_identifier',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_format_id = '".$this->getMetaId()."'"))
+									  "meta_identifier_id = '".$this->getMetaId()."'"))
 			{
 				return true;
 			}
@@ -96,8 +104,8 @@ class ilMDFormat extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_format ".
-				"WHERE meta_format_id = '".$this->getMetaId()."'";
+			$query = "DELETE FROM il_meta_identifier ".
+				"WHERE meta_identifier_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
 			
@@ -114,22 +122,23 @@ class ilMDFormat extends ilMDBase
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
-					 'format'	=> ilUtil::prepareDBString($this->getFormat()));
+					 'catalog'	=> ilUtil::prepareDBString($this->getCatalog()),
+					 'entry'	=> ilUtil::prepareDBString($this->getEntry()));
+
 	}
 
 	function read()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_format ".
-				"WHERE meta_format_id = '".$this->getMetaId()."'";
+			$query = "SELECT * FROM il_meta_identifier ".
+				"WHERE meta_identifier_id = '".$this->getMetaId()."'";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setFormat($row->format);
+				$this->setCatalog($row->catalog);
+				$this->setEntry($row->entry);
 			}
 		}
 		return true;
@@ -142,7 +151,8 @@ class ilMDFormat extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Format',null,$this->getFormat());
+		$writer->xmlElement('Identifier',array('Catalog' => $this->getCatalog(),
+												'Entry'	  => $this->getEntry()));
 	}
 
 
@@ -151,17 +161,17 @@ class ilMDFormat extends ilMDBase
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_format_id FROM il_meta_format ".
+		$query = "SELECT meta_identifier_id FROM il_meta_identifier ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
-			"AND parent_type = '".$a_parent_type."' ".
-			"ORDER BY meta_format_id";
+			"AND parent_type = '".$a_parent_type."' ORDER BY meta_identifier_id";
+
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_format_id;
+			$ids[] = $row->meta_identifier_id;
 		}
 		return $ids ? $ids : array();
 	}
