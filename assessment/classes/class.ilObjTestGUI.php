@@ -6067,8 +6067,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		// all other commands which require update
 		$pos  = count($_POST["cmd"])>0 | isset($_GET["selImage"]) | isset($_GET["sequence"]);
 		
-		$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] || $_POST["cmd"]["directfeedback"] || 
-				   isset($_GET["selImage"])) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
+		$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] 
+					|| $_POST["cmd"]["directfeedback"] ||  $_POST["cmd"]["setsolved"]  || $_POST["cmd"]["resetsolved"] 
+				    || isset($_GET["selImage"])) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
 		
 		$this->saveResult = false;
 		
@@ -6079,7 +6080,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			if ($_SESSION["active_time_id"] && $this->object->getEnableProcessingTime())
 			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-				#echo "updating Worktime<br>";
+				echo "updating Worktime<br>";
 			}	
 			
 			// save question solution
