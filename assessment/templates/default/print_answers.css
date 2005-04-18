@@ -86,3 +86,7 @@ textarea, input, select {
 	background-color: white;
 	color: black;
 }
+
+span.textanswer {
+	font-weight: bold;
+}

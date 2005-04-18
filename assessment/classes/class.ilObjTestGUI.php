@@ -5961,8 +5961,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}		
 
 	function outShowAnswers($isForm, $ilUser = null) {
-		if (!is_object($ilUser)) {
+		if (!is_numeric($ilUser)) {
 			global $ilUser;
+		} else {
+			$ilUser = new IlObjUser ($ilUser);
 		}
 					
 		$tpl = &$this->tpl;
@@ -6142,13 +6144,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			exit();
 		}
 		
-		$user = new IlObjUser ($user_id);
-			
-		$this->object->setActiveTestSubmitted($ilUser->getId());
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, $user);		
+		$this->outShowAnswers(false, $user_id);		
 	}
 	
 	
