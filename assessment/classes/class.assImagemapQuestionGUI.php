@@ -662,9 +662,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction, $show_question_page=true, $show_solution_only = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		global $ilUser;
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"IMAGEMAP_QUESTION", $is_postponed,"", !$show_question_page);
 //		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
 //		$solutionoutput = $matches[1];
@@ -685,7 +687,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		// set solutions
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($solutions as $idx => $solution_value)
 			{

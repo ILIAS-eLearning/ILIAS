@@ -789,10 +789,9 @@ class ASS_Question
 	* @access public
 	* @see $answers
 	*/
-	function &getSolutionValues($test_id)
+	function &getSolutionValues($test_id, $ilUser)
 	{
 		global $ilDB;
-		global $ilUser;
 
 		$db =& $ilDB->db;
 

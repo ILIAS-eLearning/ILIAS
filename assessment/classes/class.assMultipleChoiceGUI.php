@@ -659,9 +659,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, $show_question_page=true, $show_solution_only = false, $ilUser = null)
 	{
-		global $ilUser;
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 		$output = $this->outQuestionPage(($show_solution_only)?"":"MULTIPLE_CHOICE_QUESTION", $is_postponed, "", !$show_question_page);
 		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
@@ -685,7 +687,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		//echo "<br>".htmlentities($output);
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
 			
 			foreach ($solutions as $idx => $solution_value)
 			{
