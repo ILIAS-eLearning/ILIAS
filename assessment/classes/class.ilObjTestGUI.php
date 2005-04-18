@@ -5650,10 +5650,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			case "iv_usr":
 				$add_parameter = "?ref_id=" . $_GET["ref_id"];
 				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
-				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_answer_sheet")."</a>" ;
+				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_qst_answer_sheet")."</a>" ;
 				foreach ($data_array as $data)
 				{
-					$finished = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
+					$finished_line = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
 					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -5662,7 +5662,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}

@@ -89,3 +89,6 @@ th.std {
 p,pre,code {
 	font-size: 10pt;
 }
+span.textanswer {
+	font-weight: bold;
+}
