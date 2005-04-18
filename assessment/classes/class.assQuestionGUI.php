@@ -762,15 +762,20 @@ class ASS_QuestionGUI
 	function replaceInputElements  ($gap_idx, $solution, $output, $before="", $after="") {		
 		#echo htmlentities ($output)."<br>";
 		#echo htmlentities ($gap_idx)."<br>";
+		$before="<span class=\"textanswer\">";
+		$after="</span>";
 		$output = preg_replace ("/(<input[^>]*".$gap_idx."[^>]*>)/" , $before.$solution.$after, $output);
 		#echo htmlentities ($output)."<br>";		
 		return $output;	
 	}
 	
-	function replaceSelectElements ($gap_idx, $repl_str, $output, $before="", $after="") {
+	function replaceSelectElements ($gap_idx, $repl_str, $output)//, $before="", $after="") {
+	{
 		#echo htmlentities ($output)."<br>";
 		#echo htmlentities ($gap_idx)."<br>";
 		#echo htmlentities ($repl_str)."<br>";
+		$before="<span class=\"textanswer\">";
+		$after="</span>";		
 		$select_pattern = "/<select[^>]*name=\"$gap_idx\".*?[^>]*>.*?<\/select>/";
 		#echo  htmlentities ($select_pattern)."<br>";
 		// to extract the display value we need the according select statement 
