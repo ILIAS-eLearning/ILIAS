@@ -1,0 +1,248 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+
+/**
+* Meta Data class (element requirement)
+*
+* @package ilias-core
+* @version $Id$
+*/
+include_once 'class.ilMDBase.php';
+
+class ilMDRequirement extends ilMDBase
+{
+	var $parent_obj = null;
+
+	function ilMDRequirement(&$parent_obj,$a_id = null)
+	{
+		$this->parent_obj =& $parent_obj;
+
+		parent::ilMDBase($this->parent_obj->getRBACId(),
+						 $this->parent_obj->getObjId(),
+						 $this->parent_obj->getObjType(),
+						 'meta_requirement',
+						 $a_id);
+
+		$this->setParentType($this->parent_obj->getMetaType());
+		$this->setParentId($this->parent_obj->getMetaId());
+
+		if($a_id)
+		{
+			$this->read();
+		}
+	}
+
+	// SET/GET
+	function setIsOrComposite($a_is_or_composite)
+	{
+		$this->is_or_composite = (int) $a_is_or_composite;
+	}
+	function getIsOrComposite()
+	{
+		return $this->is_or_composite;
+	}
+
+
+	function setOperatingSystemName($a_val)
+	{
+		$this->operating_system_name = $a_val;
+	}
+	function getOperatingSystemName()
+	{
+		return $this->operating_system_name;
+	}
+	function setOperatingSystemMinimumVersion($a_val)
+	{
+		$this->operating_system_minimum_version = $a_val;
+	}
+	function getOperatingSystemMinimumVersion()
+	{
+		return $this->operating_system_minimum_version;
+	}
+	function setOperatingSystemMaximumVersion($a_val)
+	{
+		$this->operating_system_maximum_version = $a_val;
+	}
+	function getOperatingSystemMaximumVersion()
+	{
+		return $this->operating_system_maximum_version;
+	}
+	function setBrowserName($a_val)
+	{
+		$this->browser_name = $a_val;
+	}
+	function getBrowserName()
+	{
+		return $this->browser_name;
+	}
+	function setBrowserMinimumVersion($a_val)
+	{
+		$this->browser_minimum_version = $a_val;
+	}
+	function getBrowserMinimumVersion()
+	{
+		return $this->browser_minimum_version;
+	}
+	function setBrowserMaximumVersion($a_val)
+	{
+		$this->browser_maximum_version = $a_val;
+	}
+	function getBrowserMaximumVersion()
+	{
+		return $this->browser_maximum_version;
+	}
+
+	function save()
+	{
+		if($this->db->autoExecute('il_meta_requirement',
+								  $this->__getFields(),
+								  DB_AUTOQUERY_INSERT))
+		{
+			$this->setMetaId($this->db->getLastInsertId());
+
+			return $this->getMetaId();
+		}
+		return false;
+	}
+
+	function update()
+	{
+		if($this->getMetaId())
+		{
+			if($this->db->autoExecute('il_meta_requirement',
+									  $this->__getFields(),
+									  DB_AUTOQUERY_UPDATE,
+									  "meta_requirement_id = '".$this->getMetaId()."'"))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function delete()
+	{
+		if($this->getMetaId())
+		{
+			$query = "DELETE FROM il_meta_requirement ".
+				"WHERE meta_requirement_id = '".$this->getMetaId()."'";
+			
+			$this->db->query($query);
+			
+			return true;
+		}
+		return false;
+	}
+			
+
+	function __getFields()
+	{
+		return array('rbac_id'	=> $this->getRBACId(),
+					 'obj_id'	=> $this->getObjId(),
+					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+					 'parent_type' => $this->getParentType(),
+					 'parent_id' => $this->getParentId(),
+					 'operating_system_name'	=> ilUtil::prepareDBString($this->getOperatingSystemName()),
+					 'operating_system_minimum_version' => ilUtil::prepareDBString($this->getOperatingSystemMinimumVersion()),
+					 'operating_system_maximum_version' => ilUtil::prepareDBString($this->getOperatingSystemMaximumVersion()),
+					 'browser_name'	=> ilUtil::prepareDBString($this->getBrowserName()),
+					 'browser_minimum_version' => ilUtil::prepareDBString($this->getBrowserMinimumVersion()),
+					 'browser_maximum_version' => ilUtil::prepareDBString($this->getBrowserMaximumVersion()),
+					 'is_or_composite' => $this->getIsOrComposite());
+	}
+
+	function read()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		if($this->getMetaId())
+		{
+			$query = "SELECT * FROM il_meta_requirement ".
+				"WHERE meta_requirement_id = '".$this->getMetaId()."'";
+
+			$res = $this->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->setOperatingSystemName($row->operating_system_name);
+				$this->setOperatingSystemMinimumVersion($row->operating_system_minimum_version);
+				$this->setOperatingSystemMaximumVersion($row->operating_system_maximum_version);
+				$this->setBrowserName($row->browser_name);
+				$this->setBrowserMinimumVersion($row->browser_minimum_version);
+				$this->setBrowserMaximumVersion($row->browser_maximum_version);
+				$this->setIsOrComposite($row->is_or_composite);
+			}
+		}
+		return true;
+	}
+				
+	/*
+	 * XML Export of all meta data
+	 * @param object (xml writer) see class.ilMD2XML.php
+	 * 
+	 */
+	function toXML(&$writer)
+	{
+		$writer->xmlStartTag('Requirement');
+		$writer->xmlStartTag('Type');
+			
+		if(strlen($this->getOperatingSystemName()))
+		{
+			$writer->xmlElement('OperatingSystem',array('Name' => $this->getOperatingSystemName(),
+														'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
+														'MaximumVersion' => $this->getOperatingSystemMaximumVersion()));
+		}
+		else
+		{
+			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName(),
+												'MinimumVersion' => $this->getBrowserMinimumVersion(),
+												'MaximumVersion' => $this->getBrowserMaximumVersion()));
+		}
+		$writer->xmlEndTag('Type');
+		$writer->xmlEndTag('Requirement');
+		
+	}
+
+
+	// STATIC
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	{
+		global $ilDB;
+
+		$query = "SELECT meta_requirement_id FROM il_meta_requirement ".
+			"WHERE rbac_id = '".$a_rbac_id."' ".
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND parent_id = '".$a_parent_id."' ".
+			"AND parent_type = '".$a_parent_type."' ".
+			"AND is_or_composite = '0' ".
+			"ORDER BY meta_requirement_id";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->meta_requirement_id;
+		}
+		return $ids ? $ids : array();
+	}
+}
+?>

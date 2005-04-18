@@ -102,14 +102,18 @@ class ilMD extends ilMDBase
 	{
 		include_once 'class.ilMDTechnical.php';
 
-		$tec =& new ilMDTechnical($this);
+		$tec =& new ilMDTechnical($this,ilMDTechnical::_getId($this->getRBACId(),$this->getObjId()));
 		$tec->read();
+
+		return $tec;
 	}
 	function &addTechnical()
 	{
 		include_once 'class.ilMDTechnical.php';
 
 		$tec =& new ilMDTechnical($this);
+
+		return $tec;
 	}
 
 	function &getEducational()
@@ -225,6 +229,10 @@ class ilMD extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlStartTag('MetaData');
+
+		// Technical
+		$tec =& $this->getTechnical();
+		$tec->toXML($writer);
 
 		// Educational
 		$edu =& $this->getEducational();
