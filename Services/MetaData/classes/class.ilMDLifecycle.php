@@ -23,7 +23,7 @@
 
 
 /**
-* Meta Data class (element format)
+* Meta Data class (element annotation)
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @package ilias-core
@@ -31,22 +31,19 @@
 */
 include_once 'class.ilMDBase.php';
 
-class ilMDFormat extends ilMDBase
+class ilMDLifecycle extends ilMDBase
 {
 	var $parent_obj = null;
 
-	function ilMDFormat(&$parent_obj,$a_id = null)
+	function ilMDLifecycle(&$parent_obj,$a_id = null)
 	{
 		$this->parent_obj =& $parent_obj;
 
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
-						 'meta_format',
+						 'meta_lifecycle',
 						 $a_id);
-
-		$this->setParentType($this->parent_obj->getMetaType());
-		$this->setParentId($this->parent_obj->getMetaId());
 
 		if($a_id)
 		{
@@ -54,20 +51,71 @@ class ilMDFormat extends ilMDBase
 		}
 	}
 
+	// Get subelemsts 'Contribute'
+	function &getContributeIds()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+
+		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+	}
+	function &getContribute($a_contribute_id)
+	{
+		include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+		
+		if(!$a_contribute_id)
+		{
+			return false;
+		}
+		return new ilMDContribute($this,$a_contribute_id);
+	}
+	function &addContribute()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+
+		return new ilMDContribute($this);
+	}
+
 
 	// SET/GET
-	function setFormat($a_format)
+	function setStatus($a_status)
 	{
-		$this->format = $a_format;
+		$this->status = $a_status;
 	}
-	function getFormat()
+	function getStatus()
 	{
-		return $this->format;
+		return $this->status;
+	}
+	function setVersion($a_version)
+	{
+		$this->version = $a_version;
+	}
+	function getVersion()
+	{
+		return $this->version;
+	}
+	function setVersionLanguage($lng_obj)
+	{
+		if(is_object($lng_obj))
+		{
+			$this->version_language =& $lng_obj;
+		}
+	}
+	function &getVersionLanguage()
+	{
+		return $this->version_language;
+	}
+	function getVersionLanguageCode()
+	{
+		if(is_object($this->version_language))
+		{
+			return $this->version_language->getLanguageCode();
+		}
+		return false;
 	}
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_format',
+		if($this->db->autoExecute('il_meta_lifecycle',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
 		{
@@ -82,10 +130,10 @@ class ilMDFormat extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_format',
+			if($this->db->autoExecute('il_meta_lifecycle',
 									  $this->__getFields(),
 									  DB_AUTOQUERY_UPDATE,
-									  "meta_format_id = '".$this->getMetaId()."'"))
+									  "meta_lifecycle_id = '".$this->getMetaId()."'"))
 			{
 				return true;
 			}
@@ -97,8 +145,8 @@ class ilMDFormat extends ilMDBase
 	{
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_format ".
-				"WHERE meta_format_id = '".$this->getMetaId()."'";
+			$query = "DELETE FROM il_meta_lifecycle ".
+				"WHERE meta_lifecycle_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
 			
@@ -113,9 +161,9 @@ class ilMDFormat extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'format'	=> ilUtil::prepareDBString($this->getFormat()));
+					 'lifecycle_status'	=> ilUtil::prepareDBString($this->getStatus()),
+					 'meta_version'		=> ilUtil::prepareDBString($this->getVersion()),
+					 'version_language' => ilUtil::prepareDBString($this->getVersionLanguageCode()));
 	}
 
 	function read()
@@ -124,18 +172,20 @@ class ilMDFormat extends ilMDBase
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_format ".
-				"WHERE meta_format_id = '".$this->getMetaId()."'";
+			$query = "SELECT * FROM il_meta_lifecycle ".
+				"WHERE meta_lifecycle_id = '".$this->getMetaId()."'";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setFormat($row->format);
+				$this->setStatus($row->lifecycle_status);
+				$this->setVersion($row->meta_version);
+				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
 			}
 		}
 		return true;
 	}
-				
+
 	/*
 	 * XML Export of all meta data
 	 * @param object (xml writer) see class.ilMD2XML.php
@@ -143,28 +193,37 @@ class ilMDFormat extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Format',null,$this->getFormat());
+		$writer->xmlStartTag('Lifecycle',array('Status' => $this->getStatus()));
+		$writer->xmlElement('Version',array('Language' => $this->getVersionLanguageCode()),$this->getVersion());
+
+		// contribute
+		foreach($this->getContributeIds() as $id)
+		{
+			$con =& $this->getContribute($id);
+			$con->toXML($writer);
+		}
+
+		$writer->xmlEndTag('Lifecycle');
 	}
 
+				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	function _getId($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_format_id FROM il_meta_format ".
+		$query = "SELECT meta_lifecycle_id FROM il_meta_lifecycle ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ".
-			"AND parent_id = '".$a_parent_id."' ".
-			"AND parent_type = '".$a_parent_type."' ".
-			"ORDER BY meta_format_id";
+			"AND obj_id = '".$a_obj_id."' ORDER BY meta_lifecycle_id";
+
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_format_id;
+			return $row->meta_lifecycle_id;
 		}
-		return $ids ? $ids : array();
+		return false;
 	}
 }
 ?>
