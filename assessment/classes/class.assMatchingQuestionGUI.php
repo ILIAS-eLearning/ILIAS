@@ -531,7 +531,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
 					
 					if (!$show_question_page) {
-						$output = $this->replaceSelectElements ("name=\"sel_matching_".$solution_value->value2."\"",$repl_str,$output);
+						$output = $this->replaceSelectElements ("sel_matching_".$solution_value->value2,$repl_str,$output,"[","]");
 					}
 					else 
 						$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
