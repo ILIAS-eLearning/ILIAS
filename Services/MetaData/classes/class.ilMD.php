@@ -66,7 +66,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
 
-		$lif =& new ilMDLifecycle($this);
+		$lif =& new ilMDLifecycle($this,ilMDLifecycle::_getId($this->getRBACId(),$this->getObjId()));
 		$lif->read();
 
 		return $lif;
@@ -229,6 +229,12 @@ class ilMD extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlStartTag('MetaData');
+
+		// Lifecycle
+		if(is_object($lif =& $this->getLifecycle()))
+		{
+			$lif->toXML($writer);
+		}
 
 		// Meta-Metadata
 		if(is_object($met =& $this->getMetaMetadata()))
