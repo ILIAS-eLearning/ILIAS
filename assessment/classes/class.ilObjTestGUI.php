@@ -5648,8 +5648,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		switch($a_type)
 		{
 			case "iv_usr":
-				$add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=resultsheet";
-				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$add_parameter = "?ref_id=" . $_GET["ref_id"];
+				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_answer_sheet")."</a>" ;
 				foreach ($data_array as $data)
 				{
 					$finished = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
@@ -5952,7 +5953,6 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			return;
 		}
 		
-				
 		$this->object->setActiveTestSubmitted($ilUser->getId());
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
@@ -5960,8 +5960,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->outShowAnswers(false);
 	}		
 
-	function outShowAnswers($isForm) {
-		global $ilUser;
+	function outShowAnswers($isForm, $ilUser = null) {
+		if (!is_object($ilUser)) {
+			global $ilUser;
+		}
 					
 		$tpl = &$this->tpl;
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
@@ -6121,6 +6123,34 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->outTestPrintResults();
 		
 	}
+	
+	function answersheetObject () {
+		global $rbacsystem, $ilUser;
+		
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			echo utf8_decode($this->lng->txt("cannot_edit_test"));
+			exit();
+		}
+		
+		$user_id = (int) $_GET["user_id"];
+		$user = $this->object->getInvitedUsers($user_id);
+		if (!is_array ($user) || count($user)!=1)
+		{
+			echo utf8_decode($this->lng->txt("user_not_invited"));
+			exit();
+		}
+		
+		$user = new IlObjUser ($user_id);
+			
+		$this->object->setActiveTestSubmitted($ilUser->getId());
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->outShowAnswers(false, $user);		
+	}
+	
 	
 	
 /**

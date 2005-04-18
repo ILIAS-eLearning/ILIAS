@@ -175,7 +175,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		}
 		
 		
-		if ($_POST["cmd"]["summary"] && $this->gui->saveResults) {
+		if ($_POST["cmd"]["summary"] && empty($_SESSION["info"])){ //this->gui->saveResults) {
 			$this->gui->outTestSummary();
 			return true;
 		}
