@@ -6071,15 +6071,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		
 		// all other commands which require update
 		$pos  = count($_POST["cmd"])>0 | isset($_GET["selImage"]) | isset($_GET["sequence"]);
-		
-		$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] 
-					|| $_POST["cmd"]["directfeedback"] ||  $_POST["cmd"]["setsolved"]  || $_POST["cmd"]["resetsolved"] 
-				    || isset($_GET["selImage"])) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
-		
+				
 		$this->saveResult = false;
 		
-		if ($pos==true & $negs==false)
-		//if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selImage"]))
+		if ($pos==true && $negs==false)		
 		{
 			// set new finish time for test
 			if ($_SESSION["active_time_id"] && $this->object->getEnableProcessingTime())
@@ -6089,8 +6084,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			}	
 			
 			// save question solution
-			if ($do_save == true &&				
-				!$this->isEndingTimeReached() && !$this->isMaxProcessingTimeReached())
+			if ($this->cmdCtrl->canSaveResult())
 			{
 				// but only if the ending time is not reached
 				$q_id = $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]);
