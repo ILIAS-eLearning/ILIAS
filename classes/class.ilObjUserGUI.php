@@ -221,6 +221,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
 		$data["fields"]["matriculation"] = "";
+		$data["fields"]["client_ip"] = "";
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["create_date"] = "";
 		$data["fields"]["approve_date"] = "";
