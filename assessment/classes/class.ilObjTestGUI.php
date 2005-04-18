@@ -2615,6 +2615,10 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		global $rbacsystem;
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
+		$title = $this->object->getTitle();
 		
 		$this->createCommandControlObject();
 		
@@ -2625,9 +2629,6 @@ class ilObjTestGUI extends ilObjectGUI
 		// update working time and set saveResult state
 		$this->updateWorkingTime();
 					
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
-		$title = $this->object->getTitle();
 		
 		if (!empty($title))
 		{
@@ -6093,7 +6094,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				{
 				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
 				 	$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-				 	#echo "saving question<br>";
+				 	#echo "saving <br>";
 				}												
 			}			
 		}		
