@@ -6080,7 +6080,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			if ($_SESSION["active_time_id"] && $this->object->getEnableProcessingTime())
 			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-				echo "updating Worktime<br>";
+				#echo "updating Worktime<br>";
 			}	
 			
 			// save question solution
