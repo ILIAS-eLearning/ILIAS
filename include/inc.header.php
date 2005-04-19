@@ -291,14 +291,14 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 
 	$return_to = urlencode(substr($_SERVER["REQUEST_URI"],strlen($ilurl["path"])+1));
 
-    if (($_GET["inactive"]) || $inactive)
-    {
-        ilUtil::redirect($updir."index.php?reload=true&inactive=true&return_to=".$return_to);
-    }
-    else
-    {
-        ilUtil::redirect($updir."index.php?reload=true&return_to=".$return_to);
-    }
+	if (($_GET["inactive"]) || $inactive)
+	{
+		ilUtil::redirect($updir."index.php?reload=true&inactive=true&return_to=".$return_to);
+	}
+	else
+	{
+		ilUtil::redirect($updir."index.php?client_id=".$_GET["client_id"]."&reload=true&return_to=".$return_to);
+	}
 }
 
 //init language

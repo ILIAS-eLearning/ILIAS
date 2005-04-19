@@ -51,7 +51,7 @@ require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
 // display client selection list if enabled
-if (!isset($_COOKIE["ilClientId"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
+if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
 {
 	// catch reload
 	if ($_GET["reload"])
