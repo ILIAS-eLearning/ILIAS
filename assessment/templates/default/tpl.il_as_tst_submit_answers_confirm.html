@@ -1,9 +1,12 @@
+<! BEGIN submit_allowed -->
 <p class="warning">{TEXT_CONFIRM_SUBMIT_RESULTS}</p>
+<!-- END submit_allowed -->
+<! BEGIN not_submit_allowed -->
+<p class="warning">{TEXT_ALREADY_SUBMITTED}</p>
+<!-- END not_submit_allowed -->
 <table>
 <tr valign="top">
 <td><form action="{FORM_BACK_ACTION}" method="POST" ><input type="submit" class="submit" name="cmd[cancel_confirm_submit_answers]" value="{BTN_BACK}" /></form></td>
 <td><form action="{FORM_PRINT_ACTION}" method="POST" target="TOP"><input type="submit" class="submit" name="cmd[printanswers]" value="{BTN_OK}" /></form></td>
 </tr>
 </table>
-</form>
-

@@ -2908,7 +2908,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 						
 		// we have results
-		if ($active) {
+		if ($active && $active->tries > 0) {
 			// DELETE RESULTS only available for non Online Exams
 			if (!$this->object->isOnlineTest())
 			{
@@ -2923,16 +2923,22 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("results");
 				$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));				
 				$this->tpl->parseCurrentBlock();
+			}
+			
+			if (!$this->cmdCtrl->canShowTestResults() && $this->object->isActiveTestSubmitted()) {
+				$this->tpl->setCurrentBlock("show_answers");
+				$this->tpl->setVariable("BTN_ANSWERS", $this->lng->txt("tst_show_answer_sheet"));				
+				$this->tpl->parseCurrentBlock();				
 			}			
 						
 			// Result Date not reached
-			if (!$this->object->canViewResults()) {
-				$this->tpl->setCurrentBlock("report_date_not_reached");
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
-				$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-				$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
-				$this->tpl->parseCurrentBlock();
-			}
+			if (!$this->cmdCtrl->canShowTestResults()) {
+					$this->tpl->setCurrentBlock("report_date_not_reached");
+					preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
+					$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+					$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
+					$this->tpl->parseCurrentBlock();
+				}
 			
 			if ($this->object->isOnlineTest() and $test_disabled) {
 				if (!$this->object->isActiveTestSubmitted($ilUser->getId())) {
@@ -4806,14 +4812,14 @@ class ilObjTestGUI extends ilObjectGUI
 													 "&sequence=" . $this->sequence,"");
 						} else {
 						}
-						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
+						/*if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
 						{
 						$ilias_locator->navigate($i++, $this->lng->txt("summary"), 
 													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
 													 "/assessment/test.php" . "?crs_show_result=0".
 													 "&ref_id=".$row["child"] . $param . 
 												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-						}
+						}*/
 					} else {
 						if ($_POST["cmd"]["summary"] or isset($_GET["sort_summary"]))
 						{
@@ -4822,7 +4828,7 @@ class ilObjTestGUI extends ilObjectGUI
 													 "/assessment/test.php" . "?crs_show_result=0".
 													 "&ref_id=".$row["child"] . $param . 
 												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
-						} elseif ($_POST["cmd"]["show_answers"])
+						}/* elseif ($_POST["cmd"]["show_answers"])
 						{
 							$ilias_locator->navigate($i++, $this->lng->txt("preview"), 
 													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
@@ -4839,7 +4845,7 @@ class ilObjTestGUI extends ilObjectGUI
 													 "&ref_id=".$row["child"] . $param . 
 												 "&sequence=" . $_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"],"");
 							
-						}
+						}*/
 					}
 				} else {
 					$ilias_locator->navigate($i++, $row["title"], 
@@ -5650,7 +5656,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			case "iv_usr":
 				$add_parameter = "?ref_id=" . $_GET["ref_id"];
 				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
-				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_qst_answer_sheet")."</a>" ;
+				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
 				foreach ($data_array as $data)
 				{
 					$finished_line = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
@@ -5933,9 +5939,18 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_submit_answers_confirm.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_CONFIRM_SUBMIT_RESULTS", $this->lng->txt("tst_confirm_submit_answers"));
-		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_results"));
+		if ($this->object->isActiveTestSubmitted()) 
+		{
+			$this->tpl->setCurrentBlock("not_submit_allowed");
+			$this->tpl->setVariable("TEXT_ALREADY_SUBMITTED", $this->lng->txt("tst_already_submitted"));
+			$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_show_answer_sheet"));
+		} else 
+		{
+			$this->tpl->setCurrentBlock("submit_allowed");
+			$this->tpl->setVariable("TEXT_CONFIRM_SUBMIT_RESULTS", $this->lng->txt("tst_confirm_submit_answers"));
+			$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_results"));
+		}
+		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));		
 		$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
 		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript()."?ref_id=".$this->object->getRefId()."&cmd=printAnswers");
 		$this->tpl->parseCurrentBlock();
@@ -5953,7 +5968,8 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			return;
 		}
 		
-		$this->object->setActiveTestSubmitted($ilUser->getId());
+		if (!$this->object->isActiveTestSubmitted($ilUser->getId()))
+			$this->object->setActiveTestSubmitted($ilUser->getId());
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
