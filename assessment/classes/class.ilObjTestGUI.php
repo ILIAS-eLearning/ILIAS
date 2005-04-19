@@ -5996,7 +5996,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$tpl->setVariable("VALUE_DATE", date("d.m.Y"));
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
 
-		$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("signature"), "length" => 300)));
+		$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("tst_signature"), "length" => 300)));
 /*					"freefield_top" => 		array (	array ("title" => $this->lng->txt("semester"), "length" => 300), 
 											  		array ("title" => $this->lng->txt("career"), "length" => 300)
 											  	   ),*/
