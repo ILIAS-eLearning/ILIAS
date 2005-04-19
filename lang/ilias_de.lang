@@ -395,7 +395,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen###07 Apr 2005 co
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!###07 Apr 2005 content changed
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers um das sich öffnende Fenster auszudrucken.
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers, um das sich öffnende Fenster auszudrucken.
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Test zurücksetzen###07 Apr 2005 content changed
@@ -446,9 +446,9 @@ assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit###07 Apr 2005 content changed
 assessment#:#tst_qst_order#:#Reihenfolge
-assessment#:#tst_qst_resetsolved#:#zurücksetzen
+assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
-assessment#:#tst_qst_setsolved#:#habe ich gelöst
+assessment#:#tst_qst_setsolved#:#markiere als gelöst
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question_no#:#Reihenfolge###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?###07 Apr 2005 content changed
@@ -529,7 +529,7 @@ assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits du
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!###07 Apr 2005 content changed
 assessment#:#tst_types#:#Test-Typen###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden###07 Apr 2005 content changed
-assessment#:#tst_your_answers#:#Dies sind die Antworten, dies Sie zu den folgenden Fragen gegeben haben.
+assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben.
 assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet###07 Apr 2005 content changed
 assessment#:#tst_your_mark_is#:#Ihre Note lautet###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen###07 Apr 2005 content changed
@@ -4866,3 +4866,5 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
+assessment#:#tst_signature#:#Unterschrift
