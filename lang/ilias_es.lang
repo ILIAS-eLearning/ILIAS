@@ -926,7 +926,7 @@ common#:#chat_read#:#Acceso de Lectura/Escritura al Chat###07 Apr 2005 content c
 common#:#chat_visible#:#El Chat está visible###07 Apr 2005 content changed
 common#:#chat_write#:#Editar Chat###07 Apr 2005 content changed
 common#:#check#:#comprobar###07 Apr 2005 content changed
-common#:#check_all#:#Comprobar todo###07 Apr 2005 content changed
+common#:#check_all#:#seleccionar todo###07 Apr 2005 content changed
 common#:#check_langfile#:#Por favor, compruebe su fichero de idioma
 common#:#check_languages#:#Comprobar Idiomas###07 Apr 2005 content changed
 common#:#check_link#:#Comprobar Enlaces###07 Apr 2005 content changed
@@ -1075,7 +1075,7 @@ common#:#default#:#por defecto###07 Apr 2005 content changed
 common#:#default_language#:#Idioma por defecto###07 Apr 2005 content changed
 common#:#default_perm_settings#:#Permisos por defecto###07 Apr 2005 content changed
 common#:#default_role#:#Rol por defecto###07 Apr 2005 content changed
-common#:#default_roles#:#Roles por defecto###07 Apr 2005 content changed
+common#:#default_roles#:#roles por defecto
 common#:#default_skin#:#Skin por defecto###07 Apr 2005 content changed
 common#:#default_skin_style#:#Skin por defecto / Estilo###07 Apr 2005 content changed
 common#:#default_style#:#Estilo por defecto###07 Apr 2005 content changed
@@ -1088,7 +1088,7 @@ common#:#delete_tr_data#:#Eliminar datos de seguimiento###07 Apr 2005 content ch
 common#:#deleted#:#borrados###07 Apr 2005 content changed
 common#:#deleted_user#:#El usuario ha sido eliminado###07 Apr 2005 content changed
 common#:#deliver#:#Enviar ejercicio.###07 Apr 2005 content changed
-common#:#department#:#Departamento###07 Apr 2005 content changed
+common#:#department#:#departamento
 common#:#desc#:#descripción###07 Apr 2005 content changed
 common#:#description#:#descripción###07 Apr 2005 content changed
 common#:#desired_password#:#contraseña deseada###07 Apr 2005 content changed
@@ -1444,7 +1444,7 @@ common#:#hlm_leave#:#Darse de baja en Módulo de aprendizaje HACP###07 Apr 2005 
 common#:#hlm_read#:#Acceso de lectura a Módulo de aprendizaje HACP###07 Apr 2005 content changed
 common#:#hlm_visible#:#Módulo de aprendizaje HACP visible###07 Apr 2005 content changed
 common#:#hlm_write#:#Editar Módulo de aprendizaje HACP###07 Apr 2005 content changed
-common#:#hobby#:#Intereses/Hobbies###07 Apr 2005 content changed
+common#:#hobby#:#intereses/hobbies###07 Apr 2005 content changed
 common#:#home#:#Inicio###07 Apr 2005 content changed
 common#:#host#:#host###07 Apr 2005 content changed
 common#:#hours_of_day#:#Horas del día###07 Apr 2005 content changed
@@ -1725,7 +1725,7 @@ common#:#mails#:#correos###07 Apr 2005 content changed
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento###07 Apr 2005 content changed
 common#:#mark_all_read#:#marcar todos como leídos###07 Apr 2005 content changed
 common#:#mark_all_unread#:#marcar todos como no leídos###07 Apr 2005 content changed
-common#:#matriculation#:#Número de Matriculación###07 Apr 2005 content changed
+common#:#matriculation#:#Número de Matrícula
 common#:#max_number_rec#:#Máximo número de registros###07 Apr 2005 content changed
 common#:#max_time#:#Tiempo Máximo###07 Apr 2005 content changed
 common#:#member#:#Miembro###07 Apr 2005 content changed
@@ -2104,9 +2104,9 @@ common#:#pg_added#:#Página añadida###07 Apr 2005 content changed
 common#:#pg_edit#:#Editar página###07 Apr 2005 content changed
 common#:#pg_new#:#Nueva página###07 Apr 2005 content changed
 common#:#phone#:#teléfono###07 Apr 2005 content changed
-common#:#phone_home#:#Teléfono, Casa###07 Apr 2005 content changed
-common#:#phone_mobile#:#Teléfono, Móvil###07 Apr 2005 content changed
-common#:#phone_office#:#Teléfono, Oficina###07 Apr 2005 content changed
+common#:#phone_home#:#teléfono, casa###07 Apr 2005 content changed
+common#:#phone_mobile#:#teléfono, móvil###07 Apr 2005 content changed
+common#:#phone_office#:#teléfono, oficina###07 Apr 2005 content changed
 common#:#phrase#:#frase###07 Apr 2005 content changed
 common#:#please_enter_target#:#Por favor introduzca un destino.###07 Apr 2005 content changed
 common#:#please_enter_title#:#Por favor introduzca un título.###07 Apr 2005 content changed
@@ -2190,7 +2190,7 @@ common#:#require_institution#:#Solicitar institución###07 Apr 2005 content chan
 common#:#require_lastname#:#Solicitar apellidos###07 Apr 2005 content changed
 common#:#require_login#:#Solicitar login###07 Apr 2005 content changed
 common#:#require_mandatory#:#obligatorio###07 Apr 2005 content changed
-common#:#require_matriculation#:#Número de Matriculación Requerido###07 Apr 2005 content changed
+common#:#require_matriculation#:#Número de Matrícula Requerido
 common#:#require_passwd#:#Solicitar contraseña###07 Apr 2005 content changed
 common#:#require_passwd2#:#Solicitar reescribir contraseña###07 Apr 2005 content changed
 common#:#require_phone_home#:#Solicitar teléfono de casa###07 Apr 2005 content changed
@@ -2331,7 +2331,7 @@ common#:#show_structure#:#habilitar vista estructurada###07 Apr 2005 content cha
 common#:#show_users_online#:#Mostrar usuarios conectados###07 Apr 2005 content changed
 common#:#signature#:#firma###07 Apr 2005 content changed
 common#:#size#:#Tamaño###07 Apr 2005 content changed
-common#:#skin_style#:#Tema / Estilo por defecto###07 Apr 2005 content changed
+common#:#skin_style#:#tema / estilo por defecto###07 Apr 2005 content changed
 common#:#smtp#:#SMTP###07 Apr 2005 content changed
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)###07 Apr 2005 content changed
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.###07 Apr 2005 content changed
@@ -2532,7 +2532,7 @@ common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles p
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario###07 Apr 2005 content changed
 common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal###07 Apr 2005 content changed
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!###07 Apr 2005 content changed
-common#:#usr_skin_style#:#Tema / Estilo###07 Apr 2005 content changed
+common#:#usr_skin_style#:#tema / estilo
 common#:#usr_style#:#estilo de usuario###07 Apr 2005 content changed
 common#:#usrf#:#Cuentas de usuario###07 Apr 2005 content changed
 common#:#usrf_create_user#:#Crear nueva cuenta de usuario###07 Apr 2005 content changed
@@ -2614,8 +2614,8 @@ common#:#write#:#escribir###07 Apr 2005 content changed
 common#:#yes#:#si###07 Apr 2005 content changed
 common#:#you_may_add_local_roles#:#Puede añadir roles locales###07 Apr 2005 content changed
 common#:#your_message#:#su mensaje###07 Apr 2005 content changed
-common#:#zip#:#Código Postal###07 Apr 2005 content changed
-common#:#zipcode#:#Código Postal###07 Apr 2005 content changed
+common#:#zip#:#código postal###07 Apr 2005 content changed
+common#:#zipcode#:#código postal###07 Apr 2005 content changed
 content#:#HTML export#:#Exportar a HTML###07 Apr 2005 content changed
 content#:#PDF export#:#Exportar a PDF###07 Apr 2005 content changed
 content#:#Pages#:#Páginas###07 Apr 2005 content changed
@@ -3086,7 +3086,7 @@ crs#:#crs_contact#:#Contacto###07 Apr 2005 content changed
 crs#:#crs_contact_consultation#:#Tutorías###07 Apr 2005 content changed
 crs#:#crs_contact_email#:#Email###07 Apr 2005 content changed
 crs#:#crs_contact_name#:#Nombre###07 Apr 2005 content changed
-crs#:#crs_contact_phone#:#Teléfono###07 Apr 2005 content changed
+crs#:#crs_contact_phone#:#teléfono###07 Apr 2005 content changed
 crs#:#crs_contact_responsibility#:#Responsabilidad###07 Apr 2005 content changed
 crs#:#crs_content#:#Contenido del Curso###07 Apr 2005 content changed
 crs#:#crs_copy_cat_not_allowed#:#No es posible copiar categorías###07 Apr 2005 content changed
@@ -3339,16 +3339,16 @@ crs_#:#crs_archives#:#Archivos###07 Apr 2005 content changed
 dateplaner#:#DateText#:#Mensaje###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Vista diaria###07 Apr 2005 content changed
 dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.###07 Apr 2005 content changed
-dateplaner#:#ERROR_DB#:#Error al escribir en la Base de datos!###07 Apr 2005 content changed
+dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!###07 Apr 2005 content changed
 dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada###07 Apr 2005 content changed
 dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?###07 Apr 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy###07 Apr 2005 content changed
 dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm###07 Apr 2005 content changed
 dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"###07 Apr 2005 content changed
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un fichero csv válido###07 Apr 2005 content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un fichero CSV válido###07 Apr 2005 content changed
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Fecha fin de rotación incorrecta. Formato: dd/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROT_END_START#:#Fecha fin de rotación incorrecta. La fecha fin es anterior a la fecha inicio###07 Apr 2005 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio###07 Apr 2005 content changed
 dateplaner#:#ERROR_SHORTTEXT#:#Asunto Incorrecto. Necesita introducir un asunto###07 Apr 2005 content changed
 dateplaner#:#ERROR_STARTDATE#:#Datos incorrectos para "Fecha inicio". Formato: dd/mm/yyyy###07 Apr 2005 content changed
 dateplaner#:#ERROR_STARTTIME#:#Datos incorrectos para "Hora inicio". Formato: hh:mm###07 Apr 2005 content changed
@@ -3378,13 +3378,13 @@ dateplaner#:#app_#:#bandeja de citas ###07 Apr 2005 content changed
 dateplaner#:#app_date#:#insertar cita###07 Apr 2005 content changed
 dateplaner#:#app_day#:#vista diaria###07 Apr 2005 content changed
 dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)###07 Apr 2005 content changed
-dateplaner#:#app_inbox#:#bandeja de entrada de citas de grupo###07 Apr 2005 content changed
+dateplaner#:#app_inbox#:#bandeja de entrada###07 Apr 2005 content changed
 dateplaner#:#app_list#:#lista de citas###07 Apr 2005 content changed
 dateplaner#:#app_month#:#vista mensual###07 Apr 2005 content changed
 dateplaner#:#app_properties#:#propiedades###07 Apr 2005 content changed
 dateplaner#:#app_week#:#vista semanal###07 Apr 2005 content changed
 dateplaner#:#application#:#Calendario###07 Apr 2005 content changed
-dateplaner#:#apply#:#-aplicar-###07 Apr 2005 content changed
+dateplaner#:#apply#:#aplicar###07 Apr 2005 content changed
 dateplaner#:#back#:#volver###07 Apr 2005 content changed
 dateplaner#:#begin_date#:#Comienzo de cita:###07 Apr 2005 content changed
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo###07 Apr 2005 content changed
@@ -3394,8 +3394,8 @@ dateplaner#:#changedDates#:#Citas Modificadas###07 Apr 2005 content changed
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre###07 Apr 2005 content changed
 dateplaner#:#created#:#Creada###07 Apr 2005 content changed
 dateplaner#:#date#:#Fecha###07 Apr 2005 content changed
-dateplaner#:#date_format#:#m/d/Y H:i//mes/día/Año4dígitos Hora24:Minutos###07 Apr 2005 content changed
-dateplaner#:#date_format_middle#:#m/d/y//mes/día/Año###07 Apr 2005 content changed
+dateplaner#:#date_format#:#m/d/Y H:i
+dateplaner#:#date_format_middle#:#m/d/y
 dateplaner#:#del_all#:#eliminar todas las citas###07 Apr 2005 content changed
 dateplaner#:#del_one#:#eliminar una cita###07 Apr 2005 content changed
 dateplaner#:#delete#:#eliminar###07 Apr 2005 content changed
@@ -3414,24 +3414,24 @@ dateplaner#:#dv_groupselect#:#Seleccionar Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_groupview#:#Cita de Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_keywords#:#Palabras clave:###07 Apr 2005 content changed
-dateplaner#:#dv_keywordselect#:#Seleccion de Palabras Clave:###07 Apr 2005 content changed
+dateplaner#:#dv_keywordselect#:#Seleccion de palabras clave:###07 Apr 2005 content changed
 dateplaner#:#dv_message#:#Mensaje:###07 Apr 2005 content changed
-dateplaner#:#dv_noGroup#:#Sin Grupo###07 Apr 2005 content changed
-dateplaner#:#dv_noKey#:#no hay Palabra Clave###07 Apr 2005 content changed
-dateplaner#:#dv_preview#:#      <b>! Previsualizar !</b>###07 Apr 2005 content changed
-dateplaner#:#dv_rotation#:#Período de Rotación:###07 Apr 2005 content changed
-dateplaner#:#dv_rotation_date#:#Cita Periódica:###07 Apr 2005 content changed
-dateplaner#:#dv_rotation_end#:#Fin de Cita Periódica:###07 Apr 2005 content changed
+dateplaner#:#dv_noGroup#:#Sin grupo###07 Apr 2005 content changed
+dateplaner#:#dv_noKey#:#no hay palabra clave###07 Apr 2005 content changed
+dateplaner#:#dv_preview#:#      <b> previsualizar </b>###07 Apr 2005 content changed
+dateplaner#:#dv_rotation#:#Período de rotación:###07 Apr 2005 content changed
+dateplaner#:#dv_rotation_date#:#cita periódica:###07 Apr 2005 content changed
+dateplaner#:#dv_rotation_end#:#Fin de cita periódica:###07 Apr 2005 content changed
 dateplaner#:#dv_shorttext#:#Asunto:###07 Apr 2005 content changed
-dateplaner#:#dv_startdate#:#Fecha Inicial:###07 Apr 2005 content changed
+dateplaner#:#dv_startdate#:#Fecha comienzo:###07 Apr 2005 content changed
 dateplaner#:#dv_text#:#Nota:###07 Apr 2005 content changed
-dateplaner#:#dv_whole_day#:#Día completo###07 Apr 2005 content changed
-dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la Cita Periódica? (haga click en el checkbox)###07 Apr 2005 content changed
+dateplaner#:#dv_whole_day#:#día completo###07 Apr 2005 content changed
+dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga click en el checkbox)###07 Apr 2005 content changed
 dateplaner#:#end_date#:#Fecha de fin###07 Apr 2005 content changed
 dateplaner#:#endtime_for_view#:#Hora final de la vista###07 Apr 2005 content changed
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream###07 Apr 2005 content changed
-dateplaner#:#execute#:#ejecutar elecciones###07 Apr 2005 content changed
-dateplaner#:#extra_dates#:#Citas de Día Completo###07 Apr 2005 content changed
+dateplaner#:#execute#:#ejecutar acciones###07 Apr 2005 content changed
+dateplaner#:#extra_dates#:#citas de día completo###07 Apr 2005 content changed
 dateplaner#:#free#:#Libre###07 Apr 2005 content changed
 dateplaner#:#freetime#:#tiempo libre en el grupo###07 Apr 2005 content changed
 dateplaner#:#group#:#grupo###07 Apr 2005 content changed
@@ -3439,9 +3439,9 @@ dateplaner#:#help_day#:#Vista diaria del calendario###07 Apr 2005 content change
 dateplaner#:#help_day_l#:#En la vista diaria se muestran todas las citas de un día concreto###07 Apr 2005 content changed
 dateplaner#:#help_enddate#:#Fecha Fin - sintaxis [dd//mm/yyyy]###07 Apr 2005 content changed
 dateplaner#:#help_enddate_l#:#Contiene la fecha para el final de la cita <br> El simbolo abre un pequeño calendario para escoger la fecha apropiada###07 Apr 2005 content changed
-dateplaner#:#help_endrotation#:#Sintaxis para Fin de Cita Periódica [dd/mm/aaaa]###07 Apr 2005 content changed
-dateplaner#:#help_endrotation_l#:#En este dia termina la Cita Periódica.<br> El icono abre un pequeño calendario para escoger la fecha apropiada###07 Apr 2005 content changed
-dateplaner#:#help_endtime#:#Fecha de Fin - sintaxis[hh/mm] formato 24h###07 Apr 2005 content changed
+dateplaner#:#help_endrotation#:#Sintaxis para fin de cita periódica [dd/mm/aaaa]###07 Apr 2005 content changed
+dateplaner#:#help_endrotation_l#:#En este dia termina la cita periódica.<br> El icono abre un pequeño calendario para escoger la fecha apropiada###07 Apr 2005 content changed
+dateplaner#:#help_endtime#:#Fecha de fin - sintaxis[hh/mm] formato 24h###07 Apr 2005 content changed
 dateplaner#:#help_endtime_l#:#Contiene la fecha de fin de la cita usando el formato 24h###07 Apr 2005 content changed
 dateplaner#:#help_filename#:#dp_help_es.html###07 Apr 2005 content changed
 dateplaner#:#help_fullday#:#fecha de jornada completa - sintaxis[on/off]###07 Apr 2005 content changed
@@ -3464,9 +3464,9 @@ dateplaner#:#help_properties_alt_l#:#Escoja una palabra clave de la caja de diá
 dateplaner#:#help_properties_del#:#Elimina la palabra clave###07 Apr 2005 content changed
 dateplaner#:#help_properties_del_l#:#Escoja una palabra clave de la caja de diálogo. Haga click en el botón para eliminar la palabra clave.###07 Apr 2005 content changed
 dateplaner#:#help_properties_import#:#Importar desde ficheros CSV, Outlook###07 Apr 2005 content changed
-dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene Fechas de Outlook. Estas citas serán importadas en el calendario.###07 Apr 2005 content changed
+dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.###07 Apr 2005 content changed
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres###07 Apr 2005 content changed
-dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". Importante: máx. 20 caracteres###07 Apr 2005 content changed
+dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". importante: máx. 20 caracteres###07 Apr 2005 content changed
 dateplaner#:#help_properties_time#:#Fecha mostrada para vista diaria / vista semanal###07 Apr 2005 content changed
 dateplaner#:#help_properties_time_l#:#La vista estándar de hora mostrada para la vista diaria y mensual puede ser modificada. Si las fechas están fuera de la hora mostrada para un día dado o semana, la hora mostrada será modificada para ese período de tiempo. El estandar de hora mostrada es de 8h -18h.###07 Apr 2005 content changed
 dateplaner#:#help_rotation#:#Cita Periódica###07 Apr 2005 content changed
@@ -3531,7 +3531,7 @@ dateplaner#:#r_week#:#cada semana###07 Apr 2005 content changed
 dateplaner#:#r_year#:#cada año###07 Apr 2005 content changed
 dateplaner#:#readimportfile#:#insertar###07 Apr 2005 content changed
 dateplaner#:#rotation#:#Rotación###07 Apr 2005 content changed
-dateplaner#:#rotation_dates#:#Citas Periódicas###07 Apr 2005 content changed
+dateplaner#:#rotation_dates#:#Citas periódicas###07 Apr 2005 content changed
 dateplaner#:#semester_name#:#Nombre del Semestre###07 Apr 2005 content changed
 dateplaner#:#short_01#:#Ene###07 Apr 2005 content changed
 dateplaner#:#short_02#:#Feb###07 Apr 2005 content changed
