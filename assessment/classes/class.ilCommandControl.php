@@ -293,10 +293,13 @@ class DefaultTestCommandControl extends CommandControl {
 	 * 
 	 */
 	 function canSaveResult () {
-	 	$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["summary"] || $_POST["cmd"]["postpone"]  
+	 	#print_r($_POST);
+	 	#print_r($_GET);
+	 	$do_save = (($_POST["cmd"]["next"] || $_POST["cmd"]["previous"] || $_POST["cmd"]["postpone"]
+	 				|| ($_POST["cmd"]["summary"] && !$_GET["sort_summary"])  
 					|| $_POST["cmd"]["directfeedback"] ||  $_POST["cmd"]["setsolved"]  || $_POST["cmd"]["resetsolved"] 
 				    || isset($_GET["selImage"])) && (isset ($_GET["sequence"]) && is_numeric ($_GET["sequence"])));
-	 	
+
 	 	return $do_save == true &&				
 				!$this->gui->isEndingTimeReached() && !$this->gui->isMaxProcessingTimeReached();
 	 }
