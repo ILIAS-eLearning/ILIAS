@@ -762,8 +762,8 @@ class ASS_QuestionGUI
 	function replaceInputElements  ($gap_idx, $solution, $output, $before="", $after="") {		
 		#echo htmlentities ($output)."<br>";
 		#echo htmlentities ($gap_idx)."<br>";
-		$before="<span class=\"textanswer\">";
-		$after="</span>";
+		$before="<span class=\"textanswer\">[";
+		$after="]</span>";
 		$output = preg_replace ("/(<input[^>]*".$gap_idx."[^>]*>)/" , $before.$solution.$after, $output);
 		#echo htmlentities ($output)."<br>";		
 		return $output;	
@@ -774,8 +774,9 @@ class ASS_QuestionGUI
 		#echo htmlentities ($output)."<br>";
 		#echo htmlentities ($gap_idx)."<br>";
 		#echo htmlentities ($repl_str)."<br>";
-		$before="<span class=\"textanswer\">";
-		$after="</span>";		
+		$before="<span class=\"textanswer\">[";
+		$after="]</span>";	
+	
 		$select_pattern = "/<select[^>]*name=\"$gap_idx\".*?[^>]*>.*?<\/select>/";
 		#echo  htmlentities ($select_pattern)."<br>";
 		// to extract the display value we need the according select statement 
@@ -785,8 +786,8 @@ class ASS_QuestionGUI
 			$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
 			if (preg_match($value_pattern, $matches[0], $matches))
 				$output = preg_replace ($select_pattern, $before.$matches[1].$after, $output);
-			else 
-				$output = preg_replace ($select_pattern, $before.$after, $output);
+/*			else 
+				$output = preg_replace ($select_pattern, $before.$after, $output);*/
 		}
 		return $output;	
 	}

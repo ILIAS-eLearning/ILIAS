@@ -63,20 +63,21 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		
 		if ($_POST["cmd"]["cancel_confirm_submit_answers"]) {
 			if ($this->obj->isActiveTestSubmitted()) 
-			{	// everythings ok goto summary
+			{	
 				$_POST["cmd"]["run"]="1";
 			} 
 				else 
 			{
-				$_POST["cmd"]["show_ansers"]="1";
-				unset($_GET ["sequence"]);
+				$_POST["cmd"]["show_answers"]="1";
+				unset($_GET ["sequence"]);			
 			}			
-			
+			unset ($_POST["cmd"]["cancel_confirm_submit_answers"]);
 		}
 				
 		if ($_POST["cmd"]["show_answers"] or $_POST["cmd"]["back"] or $_POST["cmd"]["submit_answers"] or $_POST["cmd"]["run"]) {
 			unset($_GET ["sort_summary"]);			
 			unset($_GET ["setsolved"]);
+			unset($_GET ["resetsolved"]);
 			if ($_POST["cmd"]["show_answers"]  or $_POST["cmd"]["submit_answers"] or $_POST["cmd"]["run"])					
 				unset($_GET ["sequence"]);		
 		}			
@@ -138,13 +139,15 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	
 	function handleCommands () {
 		global $ilUser;
+		//print_r($_GET);
+		
 		$return = parent::handleCommands ();				
 		
 		if ($return)
 			return $return;
-			
+					
 		if ($_POST["cmd"]["show_answers"]) {
-			$this->gui->outShowAnswers(true);
+			$this->gui->outShowAnswers(true, & $ilUser);
 			return true;
 		}
 		
@@ -155,7 +158,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 				
 		if ($_POST["cmd"]["confirm_submit_answers"]) {
 			$this->obj->submit_answers($ilUser->id);
-			$this->gui->outShowAnswers(false);			
+			$this->gui->outShowAnswers(false, & $ilUser);			
 			return true;
 		}
 		
@@ -212,6 +215,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 		if ($this->obj->isActiveTestSubmitted())
 			return "";
 		return parent::getSequence();
-	} 
 	}
+	
+}
 ?>

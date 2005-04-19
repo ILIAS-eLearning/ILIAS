@@ -608,7 +608,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		// set solutions
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
+			$solutions =& $this->object->getSolutionValues($test_id, & $ilUser);
 	
 			if (is_array($solutions)) 
 			{
@@ -701,7 +701,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						{
 							if (count ($sol_points)>1) 
 							{
-								$solutionoutput = preg_replace ("/<select[^>]*name=\"solution_gap_$idx\">.*?<\/select>/i","[".join($sol_points,", ")."]",$solutionoutput); 
+								$solutionoutput = preg_replace ("/<select[^>]*name=\"solution_gap_$idx\">.*?<\/select>/i","<span class=\"textanswer\">[".join($sol_points,", ")."]</span>",$solutionoutput); 
 							} else 
 								$solutionoutput = $this->replaceSelectElements("solution_gap_$idx",$repl_str, $solutionoutput,"[","]" );
 						}

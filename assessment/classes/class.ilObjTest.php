@@ -2780,12 +2780,12 @@ class ilObjTest extends ilObject
 		$active = $this->getActiveTestUser();
 		
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->test_id, $user_id);
-	 	
+	 	$user = new IlObjUser($user_id);
 		foreach ($this->questions as $val) {
 			$question =& ilObjTest::_instanciateQuestion($val);
 			if (is_object($question))
 			{			
-				$answers = $question->getSolutionValues($this->test_id);
+				$answers = $question->getSolutionValues($this->test_id, $user);
 				$visited = count($answers);
 				$solved  = 0;
 				if (array_key_exists($question->getId(),$solved_questions)) {
