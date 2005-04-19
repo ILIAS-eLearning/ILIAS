@@ -5513,13 +5513,16 @@ class ilObjTestGUI extends ilObjectGUI
 			for ($i = 0; $i < count($_POST["invited_users"]); $i++)
 			{
 				$user_id = $_POST["invited_users"][$i];	
-				$client_ip = $_POST["clientip"][$i];
-				
 				if ($_POST["cmd"]["remove"])
 					$this->object->disinviteUser($user_id);
-				elseif ($_POST["cmd"]["save_client_ip"])
-					$this->object->setClientIP($user_id, $client_ip);
 			}
+		}
+		if (is_array($_POST["clientip"])) {
+			foreach ($_POST["clientip"] as $user_id => $client_ip)
+			{
+				if ($_POST["cmd"]["save_client_ip"])
+					$this->object->setClientIP($user_id, $client_ip);
+			}			
 		}
 
 		if ($_POST["cmd"]["add"])
@@ -5664,6 +5667,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $data->usr_id);
+					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->usr_id);
 					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
