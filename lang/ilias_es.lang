@@ -984,9 +984,9 @@ common#:#copy_of#:#Copia de###07 Apr 2005 content changed
 common#:#copy_to#:#a ###07 Apr 2005 content changed
 common#:#count#:#Cuenta###07 Apr 2005 content changed
 common#:#country#:#país###07 Apr 2005 content changed
-common#:#course#:#course###07 Apr 2005 content changed
-common#:#courses#:#courses###07 Apr 2005 content changed
-common#:#create#:#create###07 Apr 2005 content changed
+common#:#course#:#curso###07 Apr 2005 content changed
+common#:#courses#:#cursos###07 Apr 2005 content changed
+common#:#create#:#crear###07 Apr 2005 content changed
 common#:#create_date#:#Creado el###07 Apr 2005 content changed
 common#:#create_in#:#Creado en###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Crear Estilo###07 Apr 2005 content changed
@@ -1779,9 +1779,9 @@ common#:#month_11_short#:#Nov###07 Apr 2005 content changed
 common#:#month_12_long#:#Diciembre###07 Apr 2005 content changed
 common#:#month_12_short#:#Dic###07 Apr 2005 content changed
 common#:#monthly#:#mensualmente###07 Apr 2005 content changed
-common#:#move#:#Mover###07 Apr 2005 content changed
-common#:#moveChapter#:#Mover###07 Apr 2005 content changed
-common#:#movePage#:#Mover###07 Apr 2005 content changed
+common#:#move#:#mover###07 Apr 2005 content changed
+common#:#moveChapter#:#mover###07 Apr 2005 content changed
+common#:#movePage#:#mover###07 Apr 2005 content changed
 common#:#move_to#:#mover a###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Asignar usuarios al estilo###07 Apr 2005 content changed
 common#:#msg_cancel#:#Acción cancelada###07 Apr 2005 content changed
@@ -3711,7 +3711,7 @@ mail#:#mail_mark_unread#:#Marcar como no leídos###07 Apr 2005 content changed
 mail#:#mail_maxsize_attachment_error#:#El límite de subida es:###07 Apr 2005 content changed
 mail#:#mail_message_send#:#El mensaje se ha enviado###07 Apr 2005 content changed
 mail#:#mail_move_error#:#Error moviendo correo(s)###07 Apr 2005 content changed
-mail#:#mail_move_to#:#Mover correos a ###07 Apr 2005 content changed
+mail#:#mail_move_to#:#mover correos a ###07 Apr 2005 content changed
 mail#:#mail_moved#:#Los correo(s) han sido movidos###07 Apr 2005 content changed
 mail#:#mail_moved_to_trash#:#Los Correo(s) han sido movidos a la Papelera###07 Apr 2005 content changed
 mail#:#mail_new_file#:#Adjuntar nuevo fichero:###07 Apr 2005 content changed
@@ -4490,7 +4490,7 @@ search#:#search_lm_meta#:#Materiales de aprendizaje (metadatos)###07 Apr 2005 co
 search#:#search_meta#:#Metadatos###07 Apr 2005 content changed
 search#:#search_minimum_three#:#La cadena de búsqueda debe tener al menos 3 caracteres###07 Apr 2005 content changed
 search#:#search_move_folder_not_allowed#:#La carpeta no puede ser movida.###07 Apr 2005 content changed
-search#:#search_move_to#:#Mover a:###07 Apr 2005 content changed
+search#:#search_move_to#:#mover a:###07 Apr 2005 content changed
 search#:#search_my_search_results#:#Mis resultados de búsqueda###07 Apr 2005 content changed
 search#:#search_new_folder#:#Nueva carpeta###07 Apr 2005 content changed
 search#:#search_no_category#:#No ha seleccionado ninguna categoría de búsqueda###07 Apr 2005 content changed
