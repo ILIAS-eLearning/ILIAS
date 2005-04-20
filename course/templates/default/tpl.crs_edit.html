@@ -1,5 +1,5 @@
 	<form action="{FORMACTION}" {TARGET} method="post">
-	  <table class="std">
+	  <table class="std" width="60%">
 		<tr class="tblheader">
 		<td class="std" colspan="3">
 		  <table class="invisible_border" width="100%">
@@ -12,15 +12,15 @@
 		<tr>
 		  <td class="option" align="top" rowspan="5">{TXT_VISIBILITY}</td>
 		  <td class="sub_option">{TXT_VISIBILITY_UNVISIBLE}</td>
-		  <td class="option_value">{ACTIVATION_OFFLINE}</td>
+		  <td class="option_value">{ACTIVATION_OFFLINE}<div class="il_Description_no_margin">{ACTIVATION_UNV_INFO}</div></td>
 		</tr>
 		<tr>
 		  <td class="sub_option">{TXT_VISIBILITY_LIMITLESS}</td>
-		  <td class="option_value">{ACTIVATION_UNLIMITED}</td>
+		  <td class="option_value">{ACTIVATION_UNLIMITED}&nbsp;<div class="il_Description_no_margin">{ACTIVATION_UNL_INFO}</div></td>
 		</tr>
 		<tr>
 		  <td class="sub_option" rowspan="3">{TXT_VISIBILITY_UNTIL}</td>
-		  <td class="option_value">{ACTIVATION_UNTIL}</td>
+		  <td class="option_value">{ACTIVATION_UNTIL}<div class="il_Description_no_margin">{ACTIVATION_LIM_INFO}</div></td>
 		</tr>
 		<tr>
 		  <td class="option_value">{SELECT_ACTIVATION_START_DAY}&nbsp;{SELECT_ACTIVATION_START_MONTH}&nbsp;{SELECT_ACTIVATION_START_YEAR}&nbsp;{SELECT_ACTIVATION_START_HOUR}:&nbsp;{SELECT_ACTIVATION_START_MINUTE}</td>
@@ -30,9 +30,8 @@
 		</tr>
 	  <tr>
 		<td class="option">{TXT_SYLLABUS}</td>
-		<td class="sub_option" >&nbsp;</td>
-		<td class="option_value">
-		  <textarea id="syllabus" name="crs[syllabus]" rows="20" cols="50">{SYLLABUS}</textarea>
+		<td class="option_value" colspan="2">
+		  <textarea id="syllabus" name="crs[syllabus]" rows="10" cols="80">{SYLLABUS}</textarea>
 		</td>
 	  </tr>
 	  <tr>
@@ -54,26 +53,30 @@
 	  </tr>
 	  <tr>
 		<td class="sub_option">{TXT_CONTACT_CONSULTATION}</td>
-		<td class="option_value"><textarea id="consultation" name="crs[contact_consultation]" rows="10" cols="50">{CONTACT_CONSULTATION}</textarea></td>
+		<td class="option_value"><textarea id="consultation" name="crs[contact_consultation]" rows="10" cols="60">{CONTACT_CONSULTATION}</textarea></td>
 	  </tr>
+
 	  <tr>
-		<td class="option" align="top" rowspan="9">{TXT_SUBSCRIPTION}</td>
-		<td class="sub_option">{TXT_SUBSCRIPTION_UNLIMITED}</td>
-		<td class="option_value">{SUBSCRIPTION_UNLIMITED}</td>
+		<td class="option" align="top" rowspan="10">{TXT_SUBSCRIPTION}</td>
+		<td class="sub_option">{TXT_REGISTRATION_DEACTIVATED}</td>
+		<td class="option_value">{REGISTRATION_DEACTIVATED}<div class="il_Description_no_margin">{REG_DEAC_INFO}</div></td>
 	  </tr>		
 	  <tr>
-		<td class="sub_option">{TXT_SUBSCRIPTION_START}</td>
+		<td class="sub_option">{TXT_REGISTRATION_UNLIMITED}</td>
+		<td class="option_value">{REGISTRATION_UNLIMITED}<div class="il_Description_no_margin">{REG_UNLIM_INFO}</div></td>
+	  </tr>		
+	  <tr>
+		<td class="sub_option" rowspan="3">{TXT_REGISTRATION_LIMITED}</td>
+		<td class="option_value">{REGISTRATION_LIMITED}<div class="il_Description_no_margin">{REG_LIM_INFO}</div></td>
+	  </tr>		
+	  <tr>
 		<td class="option_value">{SELECT_SUBSCRIPTION_START_DAY}&nbsp;{SELECT_SUBSCRIPTION_START_MONTH}&nbsp;{SELECT_SUBSCRIPTION_START_YEAR}&nbsp;{SELECT_SUBSCRIPTION_START_HOUR}:&nbsp;{SELECT_SUBSCRIPTION_START_MINUTE}</td>
 	  </tr>
 	  <tr>
-		<td class="sub_option">{TXT_SUBSCRIPTION_END}</td>
 		<td class="option_value">{SELECT_SUBSCRIPTION_END_DAY}&nbsp;{SELECT_SUBSCRIPTION_END_MONTH}&nbsp;{SELECT_SUBSCRIPTION_END_YEAR}&nbsp;{SELECT_SUBSCRIPTION_END_HOUR}:&nbsp;{SELECT_SUBSCRIPTION_END_MINUTE}</td>
 	  </tr>
 	  <tr>
-		<td class="sub_option" rowspan="4">{TXT_SUBSCRIPTION_OPTIONS}</td>
-		<td class="option_value">{RADIO_SUB_DEACTIVATED}&nbsp;{TXT_DEACTIVATED}</td>
-	  </tr>
-	  <tr>
+		<td class="sub_option" rowspan="3">{TXT_REGISTRATION_TYPE}</td>
 		<td class="option_value">{RADIO_SUB_CONFIRMATION}&nbsp;{TXT_CONFIRMATION}</td>
 	  </tr>
 	  <tr>
@@ -84,12 +87,19 @@
 	  </tr>
 	  <tr>
 		<td class="sub_option">{TXT_SUBSCRIPTION_MAX_MEMBERS}</td>
-		<td class="option_value"><input name="crs[subscription_max]" value="{SUBSCRIPTION_MAX_MEMBERS}" size="3" maxlength="4" /></td>
+		<td class="option_value"><input name="crs[subscription_max]" value="{SUBSCRIPTION_MAX_MEMBERS}" size="3" maxlength="4" /><div class="il_Description_no_margin">{REG_MAX_INFO}</div></td>
 	  </tr>
 	  <tr>
 		<td class="sub_option">&nbsp;</td>
-		<td class="option_value">{CHECK_SUBSCRIPTION_NOTIFY}&nbsp;{TXT_SUBSCRIPTION_NOTIFY}</td>
+		<td class="option_value">{CHECK_SUBSCRIPTION_NOTIFY}<div class="il_Description_no_margin">{REG_NOTY_INFO}</div></td>
 	  </tr>
+
+
+
+
+
+
+
 	  <tr>
 		<td class="option" align="top" rowspan="5">{TXT_SORTORDER}</td>
 		<td class="sub_option" rowspan="5">&nbsp;</td>
