@@ -3329,10 +3329,10 @@ crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.###07 Apr 2005 
 crs#:#crs_update_objective#:#Lernziel bearbeiten###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses###07 Apr 2005 content changed
-crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
-crs#:#crs_visibility_limitless#:#Sichtbar (unbegrenzt)
-crs#:#crs_visibility_until#:#Sichtbar (Von ... bis)
-crs#:#crs_visibility_unvisible#:#Nicht sichtbar
+crs#:#crs_visibility#:#Verfügbarkeit
+crs#:#crs_visibility_unvisible#:#Nicht verfügbar
+crs#:#crs_visibility_limitless#:#Unbegrenzt
+crs#:#crs_visibility_until#:#Zeitlich begrenzt
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Kursinhalt bearbeiten###07 Apr 2005 content changed
 crs#:#learners_view#:#Lerneransicht###07 Apr 2005 content changed
@@ -4868,3 +4868,17 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, um den Kurs einzurichten. Nur Kursadministratoren und Tutoren können den Kurs sehen und bearbeiten.
+crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer, abhängig von der unten ausgewählten Registrierungsart, verfügbar zumachen.
+crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs nur während eines bestimmten Teitraumes freizuschalten.
+crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um die Registrierung zu deaktivieren. Es können sich keine neuen Benutzer registrieren.
+crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
+crs#:#crs_reg_lim_info#:#Registrierungen sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
+crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Registrierungen mehr möglich. ('0' bedeutet unbegrenzt)
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Registrierungen informiert.
+crs#:#crs_reg#:#Registrierung
+crs#:#crs_registration_type#:#Registrierungsart
+crs#:#crs_registration_limited#:#Zeitlich begrenzt
+crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
+crs#:#crs_reg_deactivated#:#Ausgeschaltet
+crs#:#crs_select_registration_type#:#Bitte wählen Sie eine Registrierungsart aus.
