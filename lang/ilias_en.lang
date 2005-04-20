@@ -4869,3 +4869,9 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+survey#:#import_no_file_selected#:#No file selected!
+survey#:#import_wrong_file_type#:#Wrong file type!
+survey#:#import_error_opening_file#:#Error opening the import file!
+survey#:#import_error_closing_file#:#Error closing the import file!
+survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!
+survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!
