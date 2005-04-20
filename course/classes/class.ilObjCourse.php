@@ -408,6 +408,11 @@ class ilObjCourse extends ilObject
 
 		$this->setMessage('');
 
+		if(!$this->getSubscriptionType())
+		{
+			$this->appendMessage($this->lng->txt('crs_select_registration_type'));
+		}
+
 		if(!$this->getActivationUnlimitedStatus() and $this->getActivationEnd() < $this->getActivationStart())
 		{
 			$this->appendMessage($this->lng->txt("activation_times_not_valid"));

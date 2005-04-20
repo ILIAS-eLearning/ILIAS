@@ -530,6 +530,24 @@ class ilObjCourseGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["crs"]["objective_view"] : 
 			$this->object->enabledObjectiveView();
 
+		// Registration
+		$registration_deactivated = $_SESSION['error_post_vars']['crs']['registration'] == 1 ?
+			1 :
+			( $this->object->getSubscriptionType() == $this->object->SUBSCRIPTION_DEACTIVATED ? 1 : 0);
+
+		$registration_unlimited = $_SESSION['error_post_vars']['crs']['registration'] == 1 ?
+			1 :
+			( $this->object->getSubscriptionUnlimitedStatus() ? 1 : 0);
+
+		if($registration_deactivated)
+		{
+			$registration_unlimited = 0;
+		}
+		if(!$registration_deactivated and !$registration_unlimited)
+		{
+			$registration_limited = 1;
+		}
+
 		// SET VALUES
 		$this->tpl->setVariable("SYLLABUS",$syllabus);
 		$this->tpl->setVariable("CONTACT_NAME",$contact_name);
@@ -554,8 +572,26 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_VISIBILITY_UNVISIBLE",$this->lng->txt('crs_visibility_unvisible'));
 		$this->tpl->setVariable("TXT_VISIBILITY_LIMITLESS",$this->lng->txt('crs_visibility_limitless'));
 		$this->tpl->setVariable("TXT_VISIBILITY_UNTIL",$this->lng->txt('crs_visibility_until'));
+		
+		$this->tpl->setVariable("ACTIVATION_UNV_INFO",$this->lng->txt('crs_availability_unvisible_info'));
+		$this->tpl->setVariable("ACTIVATION_UNL_INFO",$this->lng->txt('crs_availability_limitless_info'));
+		$this->tpl->setVariable("ACTIVATION_LIM_INFO",$this->lng->txt('crs_availability_until_info'));
 
-		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
+
+		// Registration
+		$this->tpl->setVariable("TXT_REGISTRATION_DEACTIVATED",$this->lng->txt('crs_reg_deactivated'));
+		$this->tpl->setVariable("TXT_REGISTRATION_UNLIMITED",$this->lng->txt('crs_registration_unlimited'));
+		$this->tpl->setVariable("TXT_REGISTRATION_LIMITED",$this->lng->txt('crs_registration_limited'));
+		$this->tpl->setVariable("TXT_REGISTRATION_TYPE",$this->lng->txt('crs_registration_type'));
+
+		$this->tpl->setVariable("REG_DEAC_INFO",$this->lng->txt('crs_registration_deactivated'));
+		$this->tpl->setVariable("REG_UNLIM_INFO",$this->lng->txt('crs_reg_unlim_info'));
+		$this->tpl->setVariable("REG_LIM_INFO",$this->lng->txt('crs_reg_lim_info'));
+		$this->tpl->setVariable("REG_MAX_INFO",$this->lng->txt('crs_reg_max_info'));
+		$this->tpl->setVariable("REG_NOTY_INFO",$this->lng->txt('crs_reg_notify_info'));
+		
+
+		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_reg"));
 		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("crs_unlimited"));
 		$this->tpl->setVariable("TXT_SUBSCRIPTION_START",$this->lng->txt("crs_start"));
 		$this->tpl->setVariable("TXT_SUBSCRIPTION_END",$this->lng->txt("crs_end"));
@@ -636,6 +672,19 @@ class ilObjCourseGUI extends ilObjectGUI
 																					   date("m",$subscription_end)));
 		$this->tpl->setVariable("SELECT_SUBSCRIPTION_END_YEAR",$this->__getDateSelect("year","crs[subscription_end][year]",
 																					  date("Y",$subscription_end)));
+
+		$this->tpl->setVariable("REGISTRATION_DEACTIVATED",
+								ilUtil::formRadioButton($registration_deactivated,
+														'crs[registration]',1));
+
+		$this->tpl->setVariable("REGISTRATION_UNLIMITED",
+								ilUtil::formRadioButton($registration_unlimited,
+														'crs[registration]',2));
+
+		$this->tpl->setVariable("REGISTRATION_LIMITED",
+								ilUtil::formRadioButton($registration_limited,
+														'crs[registration]',3));
+
 
 		$this->tpl->setVariable("RADIO_SUB_DEACTIVATED",
 								ilUtil::formRadioButton($subscription_type == $this->object->SUBSCRIPTION_DEACTIVATED ? 1 : 0,
@@ -743,13 +792,14 @@ class ilObjCourseGUI extends ilObjectGUI
 				$this->object->setActivationUnlimitedStatus(false);
 				break;
 		}
+				
 
 		#$this->object->setActivationUnlimitedStatus((bool) $_POST["crs"]["activation_unlimited"]);
 		$this->object->setActivationStart($this->__toUnix($_POST["crs"]["activation_start"]));
 		$this->object->setActivationEnd($this->__toUnix($_POST["crs"]["activation_end"]));
 		#$this->object->setOfflineStatus(!$_POST["crs"]["activation_offline"]);
 
-		$this->object->setSubscriptionUnlimitedStatus((bool) $_POST["crs"]["subscription_unlimited"]);
+		#$this->object->setSubscriptionUnlimitedStatus((bool) $_POST["crs"]["subscription_unlimited"]);
 		$this->object->setSubscriptionStart($this->__toUnix($_POST["crs"]["subscription_start"]));
 		$this->object->setSubscriptionEnd($this->__toUnix($_POST["crs"]["subscription_end"]));
 		$this->object->setSubscriptionType($_POST["crs"]["subscription_type"]);
@@ -762,6 +812,39 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setArchiveType($_POST["crs"]["archive_type"]);
 		$this->object->setAboStatus($_POST['crs']['abo_status']);
 		$this->object->setObjectiveViewStatus((bool) $_POST['crs']['objective_view']);
+
+		switch($_POST['crs']['registration'])
+		{
+			case '3':
+				if($this->object->getSubscriptionType() == $this->object->SUBSCRIPTION_DEACTIVATED or
+				   !$this->object->getSubscriptionType())
+				{
+					sendInfo($this->lng->txt('crs_select_registration_type'));
+					$this->editObject();
+
+					return false;
+				}
+				$this->object->setSubscriptionUnlimitedStatus(false);
+				break;
+
+			case '2':
+				if($this->object->getSubscriptionType() == $this->object->SUBSCRIPTION_DEACTIVATED or
+				   !$this->object->getSubscriptionType())
+				{
+					sendInfo($this->lng->txt('crs_select_registration_type'));
+					$this->editObject();
+
+					return false;
+				}
+				$this->object->setSubscriptionUnlimitedStatus(true);
+				break;
+
+			case '1':
+				$this->object->setSubscriptionUnlimitedStatus(false);
+				$this->object->setSubscriptionType($this->object->SUBSCRIPTION_DEACTIVATED);
+				break;
+		}
+
 
 		if($this->object->validate())
 		{
