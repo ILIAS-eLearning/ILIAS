@@ -369,7 +369,7 @@ class ilMDEducational extends ilMDBase
 	{
 		$writer->xmlStartTag('Educational',
 							 array('InteractivityType' => $this->getInteractivityType(),
-								   'RearningResourceType' => $this->getLearningResourceType(),
+								   'LearningResourceType' => $this->getLearningResourceType(),
 								   'InteractivityLevel' => $this->getInteractivityLevel(),
 								   'SemanticDensity' => $this->getSemanticDensity(),
 								   'IntendedEndUserRole' => $this->getIntendedEndUserRole(),
