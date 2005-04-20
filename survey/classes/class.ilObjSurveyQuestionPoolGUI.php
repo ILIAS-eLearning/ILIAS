@@ -1486,7 +1486,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* create export file
 	*/
-	function createExportFileObject($questions)
+	function createExportFileObject($questions = null)
 	{
 		global $rbacsystem;
 		
