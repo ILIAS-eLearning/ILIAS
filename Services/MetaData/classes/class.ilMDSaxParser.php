@@ -379,7 +379,7 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Title':
 				$par = $this->__getParent();
-				$par->setTitle($this->md_chr_data);
+				$par->setTitle($this->__getCharacterData());
 				break;
 
 			case 'Language':
@@ -392,27 +392,27 @@ class ilMDSaxParser extends ilSaxParser
 				$par = $this->__getParent();
 				if(strtolower(get_class($par)) == 'ilmddescription')
 				{
-					$par->setDescription($this->md_chr_data);
+					$par->setDescription($this->__getCharacterData());
 					$par->update();
 					$this->__popParent();
 					break;
 				}
 				else
 				{
-					$par->setDescription($this->md_chr_data);
+					$par->setDescription($this->__getCharacterData());
 					break;
 				}
 
 			case 'Keyword':
 				$par = $this->__getParent();
-				$par->setKeyword($this->md_chr_data);
+				$par->setKeyword($this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
 
 			case 'Coverage':
 				$par = $this->__getParent();
-				$par->setCoverage($this->md_chr_data);
+				$par->setCoverage($this->__getCharacterData());
 				break;
 
 			case 'Lifecycle':
@@ -423,7 +423,7 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Version':
 				$par = $this->__getParent();
-				$par->setVersion($this->md_chr_data);
+				$par->setVersion($this->__getCharacterData());
 				break;
 
 			case 'Contribute':
@@ -437,20 +437,20 @@ class ilMDSaxParser extends ilSaxParser
 
 				if(strtolower(get_class($par)) == 'ilmdentity')
 				{
-					$par->setEntity($this->md_chr_data);
+					$par->setEntity($this->__getCharacterData());
 					$par->update();
 					$this->__popParent();
 				}
 				else
 				{
 					// Single element in 'Annotation'
-					$par->setEntity($this->md_chr_data);
+					$par->setEntity($this->__getCharacterData());
 				}
 				break;
 
 			case 'Date':
 				$par = $this->__getParent();
-				$par->setDate($this->md_chr_data);
+				$par->setDate($this->__getCharacterData());
 				break;
 				
 			case 'Meta-Metadata':
@@ -467,19 +467,19 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Format':
 				$par = $this->__getParent();
-				$par->setFormat($this->md_chr_data);
+				$par->setFormat($this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
 
 			case 'Size':
 				$par = $this->__getParent();
-				$par->setSize($this->md_chr_data);
+				$par->setSize($this->__getCharacterData());
 				break;
 
 			case 'Location':
 				$par = $this->__getParent();
-				$par->setLocation($this->md_chr_data);
+				$par->setLocation($this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
@@ -501,17 +501,17 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'InstallationRemarks':
 				$par = $this->__getParent();
-				$par->setInstallationRemarks($this->md_chr_data);
+				$par->setInstallationRemarks($this->__getCharacterData());
 				break;
 
 			case 'OtherPlatformRequirements':
 				$par = $this->__getParent();
-				$par->setOtherPlatformRequirements($this->md_chr_data);
+				$par->setOtherPlatformRequirements($this->__getCharacterData());
 				break;
 
 			case 'Duration':
 				$par = $this->__getParent();
-				$par->setDuration($this->md_chr_data);
+				$par->setDuration($this->__getCharacterData());
 				break;
 
 			case 'Educational':
@@ -522,14 +522,14 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'TypicalAgeRange':
 				$par = $this->__getParent();
-				$par->setTypicalAgeRange($this->md_chr_data);
+				$par->setTypicalAgeRange($this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
 
 			case 'TypicalLearningTime':
 				$par = $this->__getParent();
-				$par->setTypicalLearningTime($this->md_chr_data);
+				$par->setTypicalLearningTime($this->__getCharacterData());
 				break;
 
 			case 'Rights':
@@ -573,14 +573,14 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Taxon':
 				$par = $this->__getParent();
-				$par->setTaxon($this->md_chr_data);
+				$par->setTaxon($this->__getCharacterData());
 				$par->update();
 				$this->__popParent();
 				break;
 
 			case 'Source':
 				$par = $this->__getParent();
-				$par->setSource($this->md_chr_data);
+				$par->setSource($this->__getCharacterData());
 				break;
 				
 		}
@@ -592,17 +592,23 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		if ($this->inMetaData())
+		if ($this->inMetaData() and $a_data != "\n")
 		{
-			// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-			$a_data = preg_replace("/\n/","",$a_data);
-			$a_data = preg_replace("/\t+/","",$a_data);
+			// Replace multiple tabs with one space
+			$a_data = preg_replace("/\t+/"," ",$a_data);
 
 			$this->md_chr_data .= $a_data;
 		}
 	}
 
+		
+
 	// PRIVATE
+	function __getCharacterData()
+	{
+		return trim($this->md_chr_data);
+	}
+
 	function __pushParent(&$md_obj)
 	{
 		$this->md_parent[] =& $md_obj;
