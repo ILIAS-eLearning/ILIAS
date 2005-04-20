@@ -25,7 +25,9 @@ class HFile
 	{
 		# Language name.
 		$this->lang_name 			= "";
-		# Language configuration hashtable. 
+		# Language configuration hashtable.
+		$this->indent_depth			= 8;
+		 
 		$this->config 				= array();
 		$color 					= 0;
 		$parsing				= "";

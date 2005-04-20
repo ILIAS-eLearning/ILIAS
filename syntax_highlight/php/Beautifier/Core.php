@@ -128,11 +128,12 @@ function highlight_text($text, $contextstack=undef)
 		{
 			if ($this->context->ind>0 && $sw!="")
 			{
-				$lineout = str_repeat("        ", ($this->context->ind-1));
+				//$lineout = str_repeat("        ", ($this->context->ind-1));
+				$lineout = str_repeat("\t", ($this->context->ind-1));
 			}
 			else
 			{
-				$lineout = str_repeat("        ", $this->context->ind);
+				$lineout = str_repeat("\t", $this->context->ind);
 			}
 		}
 		$ln = strlen($lineorig);
@@ -432,7 +433,8 @@ function highlight_text($text, $contextstack=undef)
 //print "17";
 				if (!$this->context->inwhitespace) 
 				{
-					$lineout .= str_repeat("        ", $this->context->ind);
+					//$lineout .= str_repeat("        ", $this->context->ind);
+					$lineout .= str_repeat("\t", $this->context->ind);
 				}
 				$lineout .= $stri;
 				$this->context->ind++;
@@ -447,7 +449,8 @@ function highlight_text($text, $contextstack=undef)
 				
 				if (!$this->context->inwhitespace) 
 				{
-					$lineout .= str_repeat("        ", $this->context->ind);
+					//$lineout .= str_repeat("        ", $this->context->ind);
+					$lineout .= str_repeat("\t", $this->context->ind);
 				}
 				$lineout .= $stru;
 				
@@ -513,6 +516,10 @@ function highlight_text($text, $contextstack=undef)
 		$out.= $this->context->select_parts[1];
 	}
 	if (isset($this->context->code_parts[1])) $out.= $this->context->code_parts[1];
+	
+	$pad = str_repeat(" ", $this->highlightfile->indent_depth);
+	$out = str_replace ("\t",$pad, $out);
+	
 	return $out;
 
 }

@@ -3151,12 +3151,14 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 			 	$solved = ilUtil::getImagePath("solved.png", true);
 			 	$solved_cmd = "resetsolved";
+			 	$solved_txt = $this->lng->txt("tst_qst_resetsolved");
 			} else 
 			{				 
 				$solved = ilUtil::getImagePath("not_solved.png", true);
 				$solved_cmd = "setsolved";
+				$solved_txt = $this->lng->txt("tst_qst_setsolved");
 			}			
-			$solved = "<input border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\">";//"<small>".$this->lng->txt("tst_qst_solved_state_click_to_change")."</small>"; 
+			$solved = "<input align=\"middle\" border=\"0\" alt=\"".$this->lng->txt("tst_qst_solved_state_click_to_change")."\" name=\"cmd[$solved_cmd]\" type=\"image\" src=\"$solved\">&nbsp;<small>$solved_txt</small>";
 			
 			$this->tpl->setCurrentBlock("question_status");
 			$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_solved_state").":");
@@ -5901,6 +5903,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$this->tpl->setVariable("VALUE_QUESTION_HREF_SET_SOLVED", $value["href_setsolved"]."&sequence=".$_GET["sequence"]."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"]);
 				$this->tpl->setVariable("VALUE_QUESTION_SET_SOLVED", ($value["solved"] > 0) ?$this->lng->txt("tst_qst_resetsolved"):$this->lng->txt("tst_qst_setsolved"));
 				$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
+				$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
 			}
@@ -5912,6 +5915,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sorttitle&sort_summary=title\">".$this->lng->txt("tst_question_title")."</a>".$img_title_title);
 		$this->tpl->setVariable("QUESTION_VISITED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortvisited&sort_summary=visited\">".$this->lng->txt("tst_question_visited")."</a>".$img_title_visited);
 		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->getCallingScript()."$add_parameter&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
+		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
 		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);	
