@@ -220,7 +220,7 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Location':
 				$par = $this->__getParent();
 				$this->md_loc =& $par->addLocation();
-				$this->md_loc->setLocationType($a_attribs['Location']);
+				$this->md_loc->setLocationType($a_attribs['Type']);
 				$this->md_loc->save();
 				$this->__pushParent($this->md_loc);
 				break;
@@ -348,6 +348,7 @@ class ilMDSaxParser extends ilSaxParser
 				$this->md_tax =& $par->addTaxon();
 				$this->md_tax->setTaxonLanguage(new ilMDLanguageItem($a_attribs['Language']));
 				$this->md_tax->setTaxonId($a_attribs['Id']);
+				$this->md_tax->save();
 				$this->__pushParent($this->md_tax);
 				break;
 		}
