@@ -168,8 +168,10 @@ class ilObjiLincClassroom extends ilObject
 			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
 		}
 		
+		//var_dump($response->data);exit;
+		
 		// return URL to join class room
-		return $response->data['response']['cdata'];
+		return $response->data['url']['cdata'];
 	}
 	
 	function findUser(&$a_user_obj)

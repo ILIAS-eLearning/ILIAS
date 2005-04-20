@@ -144,6 +144,9 @@ class ilnetucateResponse extends ilSaxParser
 				$this->data['element']['type'] = $a_attribs['type'];
 				break;
 
+			case "netucate.URL":
+				break;
+
 			case "netucate.ID":
 				break;
 		}
@@ -164,6 +167,10 @@ class ilnetucateResponse extends ilSaxParser
 
 			case "netucate.ElementID":
 				//$this->data['element']['cdata'] = $this->cdata;
+				break;
+
+			case "netucate.URL":
+				$this->data['url']['cdata'] = $this->cdata;
 				break;
 
 			case "netucate.ID":
