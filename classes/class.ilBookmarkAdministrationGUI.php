@@ -180,6 +180,9 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tree, $rbacsystem;
 
+		$mtree = new ilTree($_SESSION["AccountId"]);
+		$mtree->setTableNames('bookmark_tree','bookmark_data');
+
 		if ($a_output_header)
 		{
 			$this->main_header();
@@ -190,13 +193,49 @@ class ilBookmarkAdministrationGUI
 
 		$objects = ilBookmarkFolder::getObjects($this->id);
 		
-		$cnt = 0;
-
 		$this->tpl->setCurrentBlock("objects");
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.bookmark_row.html");
+		$cnt = 0;
+		
+		// return to parent folder
+		if ($this->id != $mtree->readRootId() || $this->id =="")
+		{			
+			$this->tpl->setCurrentBlock("tbl_content");
+			
+			// color changing
+			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
+
+			$this->tpl->setVariable("CHECKBOX", "&nbsp;");
+			$this->tpl->setVariable("ROWCOL", $css_row);
+
+			$val = ilUtil::getImagePath("icon_cat.gif");
+			$this->tpl->setVariable("IMG", $val);
+			
+			// title
+			$link = "usr_bookmarks.php?bmf_id=".$mtree->getParentId($this->id);
+			$this->tpl->setVariable("TXT_TITLE", "..");
+			$this->tpl->setVariable("LINK_TARGET", $link);
+
+			$this->tpl->parseCurrentBlock();
+		}
+
 		foreach ($objects as $key => $object)
 		{
+			// type icon
+			$link = ($object["type"] == "bmf") ?
+				"usr_bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
+				"usr_bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
+
+			
 			$this->tpl->setCurrentBlock("tbl_content");
+			
+			// edit link
+			$this->tpl->setCurrentBlock("edit");
+			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$this->tpl->setVariable("LINK_EDIT", $link);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("tbl_content");
+
 
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
@@ -206,15 +245,10 @@ class ilBookmarkAdministrationGUI
 			$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "id[]", $object["type"].":".$object["obj_id"]));
 			$this->tpl->setVariable("ROWCOL", $css_row);
 
-			// type icon
-			$link = ($object["type"] == "bmf") ?
-				"usr_bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
-				"usr_bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
 			$img_type = ($object["type"] == "bmf") ? "cat" : $object["type"];
-			$val = ilUtil::getImagePath("icon_".$img_type."_b.gif");
+			$val = ilUtil::getImagePath("icon_".$img_type.".gif");
 			$this->tpl->setVariable("IMG", $val);
-			$this->tpl->setVariable("IMG_LINK", $link);
-
+			
 			// title
 			$link = ($object["type"] == "bmf") ?
 				"usr_bookmarks.php?bmf_id=".$object["obj_id"] :
@@ -451,7 +485,9 @@ class ilBookmarkAdministrationGUI
 		// check title
 		if (empty($_POST["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("please_enter_title"), true);
+			ilUtil::redirect("usr_bookmarks.php?bmf_id=".$this->id."&cmd=newForm&type=bmf");
 		}
 
 		// create bookmark folder
@@ -493,11 +529,15 @@ class ilBookmarkAdministrationGUI
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("please_enter_title"), true);
+			ilUtil::redirect("usr_bookmarks.php?bmf_id=".$this->id."&cmd=newForm&type=bm");
 		}
 		if (empty($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("please_enter_target"), true);
+			ilUtil::redirect("usr_bookmarks.php?bmf_id=".$this->id."&cmd=newForm&type=bm");
 		}
 
 		// create bookmark
