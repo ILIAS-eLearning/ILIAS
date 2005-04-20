@@ -82,7 +82,30 @@ class ilMDContribute extends ilMDBase
 	// SET/GET
 	function setRole($a_role)
 	{
-		$this->role = $a_role;
+		switch($a_role)
+		{
+			case 'Author':
+			case 'Publisher':
+			case 'Unknown':
+			case 'Initiator':
+			case 'Terminator':
+			case 'Editor':
+			case 'GraphicalDesigner':
+			case 'TechnicalImplementer':
+			case 'ContentProvider':
+			case 'TechnicalValidator':
+			case 'EducationalValidator':
+			case 'ScriptWriter':
+			case 'InstructionalDesigner':
+			case 'SubjectMatterExpert':
+			case 'Creator':
+			case 'Validator':
+				$this->role = $a_role;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getRole()
 	{

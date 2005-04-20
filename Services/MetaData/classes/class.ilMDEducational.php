@@ -121,7 +121,17 @@ class ilMDEducational extends ilMDBase
 	// SET/GET
 	function setInteractivityType($a_iat)
 	{
-		$this->interactivity_type = $a_iat;
+		switch($a_iat)
+		{
+			case 'Active':
+			case 'Expositive':
+			case 'Mixed':
+				$this->interactivity_type = $a_iat;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getInteractivityType()
 	{
@@ -129,7 +139,29 @@ class ilMDEducational extends ilMDBase
 	}
 	function setLearningResourceType($a_lrt)
 	{
-		$this->learning_resource_type = $a_lrt;
+		switch($a_lrt)
+		{
+			case 'Exercise':
+			case 'Simulation':
+			case 'Questionnaire':
+			case 'Diagram':
+			case 'Figure':
+			case 'Graph':
+			case 'Index':
+			case 'Slide':
+			case 'Table':
+			case 'NarrativeText':
+			case 'Exam':
+			case 'Experiment':
+			case 'ProblemStatement':
+			case 'SelfAssessment':
+			case 'Lecture':
+				$this->learning_resource_type = $a_lrt;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getLearningResourceType()
 	{
@@ -137,7 +169,19 @@ class ilMDEducational extends ilMDBase
 	}
 	function setInteractivityLevel($a_iat)
 	{
-		$this->interactivity_level = $a_iat;
+		switch($a_iat)
+		{
+			case 'VeryLow':
+			case 'Low':
+			case 'Medium':
+			case 'High':
+			case 'VeryHigh':
+				$this->interactivity_level = $a_iat;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getInteractivityLevel()
 	{
@@ -145,7 +189,19 @@ class ilMDEducational extends ilMDBase
 	}
 	function setSemanticDensity($a_sd)
 	{
-		$this->semantic_density = $a_sd;
+		switch($a_sd)
+		{
+			case 'VeryLow':
+			case 'Low':
+			case 'Medium':
+			case 'High':
+			case 'VeryHigh':
+				$this->semantic_density = $a_sd;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getSemanticDensity()
 	{
@@ -153,7 +209,18 @@ class ilMDEducational extends ilMDBase
 	}
 	function setIntendedEndUserRole($a_ieur)
 	{
-		$this->intended_end_user_role = $a_ieur;
+		switch($a_ieur)
+		{
+			case 'Teacher':
+			case 'Author':
+			case 'Learner':
+			case 'Manager':
+				$this->intended_end_user_role = $a_ieur;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getIntendedEndUserRole()
 	{
@@ -161,7 +228,18 @@ class ilMDEducational extends ilMDBase
 	}
 	function setContext($a_context)
 	{
-		$this->context = $a_context;
+		switch($a_context)
+		{
+			case 'School':
+			case 'HigherEducation':
+			case 'Training':
+			case 'Other':
+				$this->context = $a_context;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getContext()
 	{
@@ -169,7 +247,19 @@ class ilMDEducational extends ilMDBase
 	}
 	function setDifficulty($a_difficulty)
 	{
-		$this->difficulty = $a_difficulty;
+		switch($a_difficulty)
+		{
+			case 'VeryEasy':
+			case 'Easy':
+			case 'Medium':
+			case 'Difficult':
+			case 'VeryDifficult':
+				$this->difficulty = $a_difficulty;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getDifficulty()
 	{

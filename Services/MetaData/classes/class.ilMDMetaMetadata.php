@@ -106,7 +106,8 @@ class ilMDMetaMetadata extends ilMDBase
 	}
 	function getMetaDataScheme()
 	{
-		return $this->meta_data_scheme;
+		// Fixed attribute
+		return 'LOM v 1.0';
 	}
 	function setLanguage(&$lng_obj)
 	{

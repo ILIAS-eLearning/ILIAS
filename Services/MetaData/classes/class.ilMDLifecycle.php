@@ -79,7 +79,17 @@ class ilMDLifecycle extends ilMDBase
 	// SET/GET
 	function setStatus($a_status)
 	{
-		$this->status = $a_status;
+		switch($a_status)
+		{
+			case 'Draft':
+			case 'Final':
+			case 'Revised':
+			case 'Unavailable':
+				$this->status = $a_status;
+
+			default:
+				return false;
+		}
 	}
 	function getStatus()
 	{

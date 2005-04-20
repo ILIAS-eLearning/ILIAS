@@ -147,7 +147,19 @@ class ilMDGeneral extends ilMDBase
 	// SET/GET
 	function setStructure($a_structure)
 	{
-		$this->structure = $a_structure;
+		switch($a_structure)
+		{
+			case 'Atomic':
+			case 'Collection':
+			case 'Networked':
+			case 'Hierachical':
+			case 'Linear':
+				$this->structure = $a_structure;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getStructure()
 	{

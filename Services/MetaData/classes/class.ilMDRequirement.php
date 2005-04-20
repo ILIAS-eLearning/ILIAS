@@ -66,7 +66,20 @@ class ilMDRequirement extends ilMDBase
 
 	function setOperatingSystemName($a_val)
 	{
-		$this->operating_system_name = $a_val;
+		switch($a_val)
+		{
+			case 'PC-DOS':
+			case 'MS-Windows':
+			case 'MacOS':
+			case 'Unix':
+			case 'Multi-OS':
+			case 'None':
+				$this->operating_system_name = $a_val;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getOperatingSystemName()
 	{
@@ -90,7 +103,20 @@ class ilMDRequirement extends ilMDBase
 	}
 	function setBrowserName($a_val)
 	{
-		$this->browser_name = $a_val;
+		switch($a_val)
+		{
+			case 'Any':
+			case 'NetscapeCommunicator':
+			case 'MS-InternetExplorer':
+			case 'Opera':
+			case 'Amaya':
+			case 'Mozilla':
+				$this->browser_name = $a_val;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getBrowserName()
 	{
