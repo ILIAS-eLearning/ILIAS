@@ -3630,29 +3630,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			case TYPE_SPSS:
 				$csv = "";
+				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					foreach ($csvrow as $rowindex => $entry)
-					{
-						$surround = FALSE;
-						if (strpos($entry, "\"") !== FALSE)
-						{
-							$entry = str_replace("\"", "\"\"", $entry);
-							$surround = TRUE;
-						}
-						if (strpos($entry, ",") !== FALSE)
-						{
-							$surround = TRUE;
-						}
-						if ($surround)
-						{
-							$csvrow[$rowindex] = utf8_decode("\"" . $entry . "\"");
-						}
-						else
-						{
-							$csvrow[$rowindex] = utf8_decode($entry);
-						}
-					}
+					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, ",") . "\n";
 				}
 				ilUtil::deliverData($csv, "$surveyname.csv");
