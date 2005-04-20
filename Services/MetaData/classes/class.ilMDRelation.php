@@ -100,7 +100,26 @@ class ilMDRelation extends ilMDBase
 	// SET/GET
 	function setKind($a_kind)
 	{
-		$this->kind = $a_kind;
+		switch($a_kind)
+		{
+			case 'IsPartOf':
+			case 'HasPart':
+			case 'IsVersionOf':
+			case 'HasVersion':
+			case 'IsFormatOf':
+			case 'HasFormat':
+			case 'References':
+			case 'IsReferencedBy':
+			case 'IsBasedOn':
+			case 'IsBasisFor':
+			case 'Requires':
+			case 'IsRequiredBy':
+				$this->kind = $a_kind;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getKind()
 	{

@@ -53,7 +53,16 @@ class ilMDRights extends ilMDBase
 	// SET/GET
 	function setCosts($a_costs)
 	{
-		$this->costs = $a_costs;
+		switch($a_costs)
+		{
+			case 'Yes':
+			case 'No':
+				$this->costs = $a_costs;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getCosts()
 	{
@@ -61,7 +70,16 @@ class ilMDRights extends ilMDBase
 	}
 	function setCopyrightAndOtherRestrictions($a_caor)
 	{
-		$this->caor = $a_caor;
+		switch($a_caor)
+		{
+			case 'Yes':
+			case 'No':
+				$this->caor = $a_caor;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 	function getCopyrightAndOtherRestrictions()
 	{

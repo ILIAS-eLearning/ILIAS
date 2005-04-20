@@ -100,7 +100,23 @@ class ilMDClassification extends ilMDBase
 	// SET/GET
 	function setPurpose($a_purpose)
 	{
-		$this->purpose = $a_purpose;
+		switch($a_purpose)
+		{
+			case 'Discipline':
+			case 'Idea':
+			case 'Prerequisite':
+			case 'EducationalObjective':
+			case 'AccessibilityRestrictions':
+			case 'EducationalLevel':
+			case 'SkillLevel':
+			case 'SecurityLevel':
+			case 'Competency':
+				$this->purpose = $a_purpose;
+				return true;
+
+			default: 
+				return false;
+		}
 	}
 	function getPurpose()
 	{
