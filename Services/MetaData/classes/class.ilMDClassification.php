@@ -196,8 +196,8 @@ class ilMDClassification extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setPurpose($row->purpose);
-				$this->setDescription($row->description);
+				$this->setPurpose(ilUtil::stripSlashes($row->purpose));
+				$this->setDescription(ilUtil::stripSlashes($row->description));
 				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}

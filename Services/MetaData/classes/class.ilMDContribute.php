@@ -164,8 +164,8 @@ class ilMDContribute extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setRole($row->role);
-				$this->setDate($row->date);
+				$this->setRole(ilUtil::stripSlashes($row->role));
+				$this->setDate(ilUtil::stripSlashes($row->date));
 			}
 		}
 		return true;

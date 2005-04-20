@@ -192,7 +192,7 @@ class ilMDMetaMetadata extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setMetaDataScheme($row->meta_data_scheme);
+				$this->setMetaDataScheme(ilUtil::stripSlashes($row->meta_data_scheme));
 				$this->setLanguage(new ilMDLanguageItem($row->language));
 			}
 			return true;

@@ -161,9 +161,9 @@ class ilMDAnnotation extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setEntity($row->entity);
-				$this->setDate($row->date);
-				$this->setDescription($row->description);
+				$this->setEntity(ilUtil::stripSlashes($row->entity));
+				$this->setDate(ilUtil::stripSlashes($row->date));
+				$this->setDescription(ilUtil::stripSlashes($row->description));
 				$this->description_language =& new ilMDLanguageItem($row->description_language);
 			}
 		}

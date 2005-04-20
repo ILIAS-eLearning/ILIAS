@@ -169,7 +169,7 @@ class ilMDRelation extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setKind($row->kind);
+				$this->setKind(ilUtil::stripSlashes($row->kind));
 			}
 		}
 		return true;

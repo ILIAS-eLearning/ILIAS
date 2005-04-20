@@ -147,7 +147,7 @@ class ilMDDescription extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setDescription($row->description);
+				$this->setDescription(ilUtil::stripSlashes($row->description));
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
 			}
 		}

@@ -184,13 +184,13 @@ class ilMDRequirement extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setOperatingSystemName($row->operating_system_name);
-				$this->setOperatingSystemMinimumVersion($row->operating_system_minimum_version);
-				$this->setOperatingSystemMaximumVersion($row->operating_system_maximum_version);
-				$this->setBrowserName($row->browser_name);
-				$this->setBrowserMinimumVersion($row->browser_minimum_version);
-				$this->setBrowserMaximumVersion($row->browser_maximum_version);
-				$this->setIsOrComposite($row->is_or_composite);
+				$this->setOperatingSystemName(ilUtil::stripSlashes($row->operating_system_name));
+				$this->setOperatingSystemMinimumVersion(ilUtil::stripSlashes($row->operating_system_minimum_version));
+				$this->setOperatingSystemMaximumVersion(ilUtil::stripSlashes($row->operating_system_maximum_version));
+				$this->setBrowserName(ilUtil::stripSlashes($row->browser_name));
+				$this->setBrowserMinimumVersion(ilUtil::stripSlashes($row->browser_minimum_version));
+				$this->setBrowserMaximumVersion(ilUtil::stripSlashes($row->browser_maximum_version));
+				$this->setIsOrComposite(ilUtil::stripSlashes($row->is_or_composite));
 			}
 		}
 		return true;

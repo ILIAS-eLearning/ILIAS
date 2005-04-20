@@ -256,14 +256,14 @@ class ilMDEducational extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setInteractivityType($row->interactivity_type);
-				$this->setLearningResourceType($row->learning_resource_type);
-				$this->setInteractivityLevel($row->interactivity_level);
-				$this->setSemanticDensity($row->semantic_density);
-				$this->setIntendedEndUserRole($row->intended_end_user_role);
-				$this->setContext($row->context);
-				$this->setDifficulty($row->difficulty);
-				$this->setTypicalLearningTime($row->typical_learning_time);
+				$this->setInteractivityType(ilUtil::stripSlashes($row->interactivity_type));
+				$this->setLearningResourceType(ilUtil::stripSlashes($row->learning_resource_type));
+				$this->setInteractivityLevel(ilUtil::stripSlashes($row->interactivity_level));
+				$this->setSemanticDensity(ilUtil::stripSlashes($row->semantic_density));
+				$this->setIntendedEndUserRole(ilUtil::stripSlashes($row->intended_end_user_role));
+				$this->setContext(ilUtil::stripSlashes($row->context));
+				$this->setDifficulty(ilUtil::stripSlashes($row->difficulty));
+				$this->setTypicalLearningTime(ilUtil::stripSlashes($row->typical_learning_time));
 			}
 			return true;
 		}

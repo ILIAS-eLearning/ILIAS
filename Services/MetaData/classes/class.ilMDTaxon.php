@@ -154,9 +154,9 @@ class ilMDTaxon extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setTaxon($row->taxon);
+				$this->setTaxon(ilUtil::stripSlashes($row->taxon));
 				$this->taxon_language = new ilMDLanguageItem($row->taxon_language);
-				$this->setTaxonId($row->taxon_id);
+				$this->setTaxonId(ilUtil::stripSlashes($row->taxon_id));
 			}
 		}
 		return true;
