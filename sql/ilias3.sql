@@ -163,6 +163,9 @@ CREATE TABLE `bookmark_data` (
 # Dumping data for table `bookmark_data`
 #
 
+INSERT INTO bookmark_data (obj_id, user_id, title, target, type)
+VALUES ('1', '0','dummy_folder','','bmf');
+
 # --------------------------------------------------------
 
 #

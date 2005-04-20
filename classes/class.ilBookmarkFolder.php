@@ -112,6 +112,13 @@ class ilBookmarkFolder
 	*/
 	function createNewBookmarkTree()
 	{
+		global $ilDB;
+		
+		/*
+		$q = "INSERT INTO bookmark_data (user_id, title, target, type) ".
+			"VALUES ('".$this->tree->getTreeId()."','dummy_folder','','bmf')";
+		$ilDB->query($q);*/
+		//$this->tree->addTree($this->tree->getTreeId(), $ilDB->getLastInsertId());
 		$this->tree->addTree($this->tree->getTreeId(), 1);
 	}
 
