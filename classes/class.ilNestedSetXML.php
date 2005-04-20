@@ -1309,7 +1309,7 @@ class ilNestedSetXML
 	*/
 	function updateDomContent($xPath, $name = "", $index = 0, $newNode) 
 	{
-#		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
+//		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 		if (count($nodes) > 0)
 		{
