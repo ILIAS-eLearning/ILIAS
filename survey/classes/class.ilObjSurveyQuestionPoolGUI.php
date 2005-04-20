@@ -1670,12 +1670,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
-			$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
-			$newObj->meta_data = $meta_data;
-			$newObj->setTitle($newObj->meta_data->getTitle());
-			$newObj->setDescription($newObj->meta_data->getDescription());
+			//$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
+			//$newObj->meta_data = $meta_data;
+			//$newObj->setTitle($newObj->meta_data->getTitle());
+			//$newObj->setDescription($newObj->meta_data->getDescription());
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
+			//echo "written the metadata";
+			//exit;
 		}
 
 		if ($redirect)

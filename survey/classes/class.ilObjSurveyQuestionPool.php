@@ -940,6 +940,16 @@ class ilObjSurveyQuestionPool extends ilObject
 					$nodes[0]["Entry"] = "il__" . $this->getType() . "_" . $this->getId();
 					$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 				}
+				$nodes = $nested->getDomContent("//MetaData/General", "Title");
+				if (is_array($nodes))
+				{
+					$this->setTitle($nodes[0]["value"]);
+				}
+				$nodes = $nested->getDomContent("//MetaData/General", "Description");
+				if (is_array($nodes))
+				{
+					$this->setDescription($nodes[0]["value"]);
+				}
 				$xml = $nested->dom->dump_mem(0);
 				$nested->import($xml, $this->getId(), $this->getType());
 			}
