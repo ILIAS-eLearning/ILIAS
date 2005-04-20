@@ -749,7 +749,7 @@ class ilObjectGUI
 				$rbacadmin->revokePermission($key);
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->putInTree($_GET["ref_id"]);
-				$obj_data->setPermissions($_GET["ref_id"]);
+				$obj_data->setPermissions($key);
 
 				// log entry
 				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
