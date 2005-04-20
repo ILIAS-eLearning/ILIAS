@@ -4076,13 +4076,13 @@ class ilObjSurvey extends ilObject
 		$error = 0;
 		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
 		{
-//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("import_no_file_selected"),$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
 		// check correct file type
-		if (strcmp($file_info["type"], "text/xml") != 0)
+		if (!((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0)))
 		{
-//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("import_wrong_file_type"),$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
 		if (!$error)
@@ -4095,7 +4095,7 @@ class ilObjSurvey extends ilObject
 			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
-//			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("import_error_opening_file"),$this->ilias->error_obj->MESSAGE);
 				$error = 1;
 				return $error;
 			}
@@ -4104,7 +4104,7 @@ class ilObjSurvey extends ilObject
 			unlink($importfile);
 			if (!$result)
 			{
-//			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("import_error_closing_file"),$this->ilias->error_obj->MESSAGE);
 				$error = 1;
 				return $error;
 			}
@@ -4114,14 +4114,14 @@ class ilObjSurvey extends ilObject
 				$import_results = $this->from_xml($matches[1]);
 				if ($import_results === false)
 				{
-//			$this->ilias->raiseError("The test properties do not contain proper values!",$this->ilias->error_obj->MESSAGE);
+					$this->ilias->raiseError($this->lng->txt("import_error_survey_no_proper_values"),$this->ilias->error_obj->MESSAGE);
 					$error = 1;
 					return $error;
 				}
 			}
 			else
 			{
-//			$this->ilias->raiseError("No test properties found. Cannot import test!",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("import_error_survey_no_properties"),$this->ilias->error_obj->MESSAGE);
 				$error = 1;
 				return $error;
 			}
