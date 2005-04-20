@@ -2800,7 +2800,8 @@ class ilObjTest extends ilObject
 					"qid" => $question->getId(),
 					"visited" => $visited,
 					"solved" => (($solved)?"1":"0"),
-					"description" => $question->getComment()
+					"description" => $question->getComment(),
+					"points" => $question->getMaximumPoints()
 				);
 				array_push($result_array, $row);
 				$key++;

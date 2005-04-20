@@ -10,6 +10,8 @@ require_once("$BEAUT_PATH/Beautifier/HFile.php");
 // Java 2 Version 1.22
 /*************************************/
 // Flags
+$this->indent_depth			= 2;
+
 
 $this->nocase            	= "0";
 $this->notrim            	= "0";
