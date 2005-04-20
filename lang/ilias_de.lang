@@ -485,7 +485,9 @@ assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest###07 Apr 2
 assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen###07 Apr 2005 content changed
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen###07 Apr 2005 content changed
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen###07 Apr 2005 content changed
+assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen###07 Apr 2005 content changed
+assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten###07 Apr 2005 content changed
 assessment#:#tst_starting_time#:#Startzeit###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Alle Nutzerinnen###07 Apr 2005 content changed
@@ -4866,5 +4868,3 @@ survey#:#view_phrase#:#Phrase ansehen###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!###07 Apr 2005 content changed
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_signature#:#Unterschrift

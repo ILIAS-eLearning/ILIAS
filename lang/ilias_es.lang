@@ -486,7 +486,9 @@ assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada###07 Ap
 assessment#:#tst_sequence_postpone#:#El estudiante puede posponer una pregunta para el final del test###07 Apr 2005 content changed
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia###07 Apr 2005 content changed
 assessment#:#tst_session_settings#:#Configuración de Sesión###07 Apr 2005 content changed
+assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Mostrar resultados del test###07 Apr 2005 content changed
+assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Comenzar el Test###07 Apr 2005 content changed
 assessment#:#tst_starting_time#:#Tiempo de Comienzo###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Todos los usuarios###07 Apr 2005 content changed
