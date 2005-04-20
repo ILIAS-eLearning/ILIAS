@@ -125,7 +125,10 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	 * handle start commands
 	 */
 	function handleStartCommands() {
+		global $ilias;
 		$val = parent::handleStartCommands();
+			
+		$ilias->auth->setIdle(0, false);					
 			
 		if (!$this->obj->isActiveTestSubmitted()) 
 		{
