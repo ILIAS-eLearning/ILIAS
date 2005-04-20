@@ -486,7 +486,9 @@ assessment#:#tst_sequence_fixed#:#Kolejność pytań została ustalona###07 Apr 
 assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu###07 Apr 2005 content changed
 assessment#:#tst_sequence_properties#:#Cechy sekwencji###07 Apr 2005 content changed
 assessment#:#tst_session_settings#:#Ustawienia sesji###07 Apr 2005 content changed
+assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Pokaż wyniki testu###07 Apr 2005 content changed
+assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Rozpoczęcie testu###07 Apr 2005 content changed
 assessment#:#tst_starting_time#:#Czas rozpoczęcia###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Wszyscy użytkownicy###07 Apr 2005 content changed

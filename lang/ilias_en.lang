@@ -486,7 +486,9 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
+assessment#:#tst_show_answer_sheet#:#show answers
 assessment#:#tst_show_results#:#Show test results
+assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_stat_all_users#:#All users
@@ -4867,5 +4869,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-assessment#:#tst_show_answer_sheet#:#show answers
-assessment#:#tst_signature#:#Signature
