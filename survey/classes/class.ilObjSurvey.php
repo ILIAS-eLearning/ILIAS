@@ -4840,6 +4840,8 @@ class ilObjSurvey extends ilObject
 			{
 				$surround = TRUE;
 			}
+			// replace all CR LF with LF (for Excel for Windows compatibility
+			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
 			if ($surround)
 			{
 				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
