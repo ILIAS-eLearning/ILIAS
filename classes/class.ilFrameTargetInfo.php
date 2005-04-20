@@ -52,6 +52,10 @@ class ilFrameTargetInfo
 						
 					case "MainContent":
 						return "bottom";
+						
+					// frame for external content (e.g. web bookmarks, external links) 
+					case "ExternalContent":
+						return "_new";
 				}
 		}
 		

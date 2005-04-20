@@ -179,6 +179,8 @@ class ilBookmarkAdministrationGUI
 	function view($a_output_header = true)
 	{
 		global $tree, $rbacsystem;
+		
+		include_once("classes/class.ilFrameTargetInfo.php");
 
 		$mtree = new ilTree($_SESSION["AccountId"]);
 		$mtree->setTableNames('bookmark_tree','bookmark_data');
@@ -215,6 +217,7 @@ class ilBookmarkAdministrationGUI
 			$link = "usr_bookmarks.php?bmf_id=".$mtree->getParentId($this->id);
 			$this->tpl->setVariable("TXT_TITLE", "..");
 			$this->tpl->setVariable("LINK_TARGET", $link);
+			$this->tpl->setVariable("FRAME_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -255,6 +258,15 @@ class ilBookmarkAdministrationGUI
 				$object["target"];
 			$this->tpl->setVariable("TXT_TITLE", $object["title"]);
 			$this->tpl->setVariable("LINK_TARGET", $link);
+			
+			if ($object["type"] == "bmf")
+			{
+				$this->tpl->setVariable("FRAME_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
+			}
+			else
+			{
+				$this->tpl->setVariable("FRAME_TARGET", ilFrameTargetInfo::_getFrame("ExternalContent"));
+			}
 
 			// target
 			$this->tpl->setVariable("TXT_TARGET", $object["target"]);

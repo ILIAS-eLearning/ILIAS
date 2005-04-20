@@ -217,7 +217,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.4.0_beta2.tar.gz
+    ilias-3.4.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -564,21 +564,22 @@ components:
         make
         make install
 		
-		PHP 5.x.x:
+        PHP 5.x.x: (Build apache first (see (d)) an replace the directive
+        '--activate-module=src/modules/php4/libphp4.a' by '--enable-so'.
 		
-		./configure \
-		--with-apxs \
-		--with-mysql=/opt/ilias \
-		--with-zlib=/opt/ilias \
-		--with-gd
-		--with-jpeg-dir=/opt/ilias \
-		--with-png-dir=/opt/ilias \
-		--with-config-file-path=/opt/ilias/config
-		--with-libxml-dir=/opt/ilias \
-		--with-xsl=/opt/ilias
-		make
-		make install
-
+        ./configure \
+        --with-apxs=/opt/ilias/bin/apxs \
+        --with-mysql=/opt/ilias \
+        --with-zlib=/opt/ilias \
+        --with-gd
+        --with-jpeg-dir=/opt/ilias \
+        --with-png-dir=/opt/ilias \
+        --with-config-file-path=/opt/ilias/config
+        --with-libxml-dir=/opt/ilias \
+        --with-xsl=/opt/ilias
+        make
+        make install
+		
     Newer PHP releases come with an integrated libgd which is activated by
     using the --with-gd directive. If you are using a version of PHP < 4.3.0 or
     want to build it with an external libgd you should specify the location of
@@ -716,7 +717,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -828,7 +829,7 @@ components:
 3. Updating ILIAS 3
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
-ILIAS 3.4.0 Beta 2.
+ILIAS 3.4.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -871,7 +872,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
