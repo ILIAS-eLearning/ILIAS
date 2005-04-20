@@ -47,6 +47,7 @@ class ilMDKeyword extends ilMDBase
 		$this->setParentType($this->parent_obj->getMetaType());
 		$this->setParentId($this->parent_obj->getMetaId());
 
+
 		if($a_id)
 		{
 			$this->read();
@@ -145,7 +146,7 @@ class ilMDKeyword extends ilMDBase
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setKeyword($row->keyword);
-				$this->keyword_language = new ilMDLanguageItem($row->keyword_language);
+				$this->setKeywordLanguage( new ilMDLanguageItem($row->keyword_language));
 			}
 		}
 		return true;
@@ -172,7 +173,6 @@ class ilMDKeyword extends ilMDBase
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type ."' ORDER BY meta_keyword_id";
-
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

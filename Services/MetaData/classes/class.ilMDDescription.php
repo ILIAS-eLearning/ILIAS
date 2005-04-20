@@ -38,6 +38,8 @@ class ilMDDescription extends ilMDBase
 	{
 		$this->parent_obj =& $parent_obj;
 
+
+
 		parent::ilMDBase($this->parent_obj->getRBACId(),
 						 $this->parent_obj->getObjId(),
 						 $this->parent_obj->getObjType(),
@@ -47,6 +49,7 @@ class ilMDDescription extends ilMDBase
 		$this->setParentType($this->parent_obj->getMetaType());
 		$this->setParentId($this->parent_obj->getMetaId());
 
+		
 		if($a_id)
 		{
 			$this->read();

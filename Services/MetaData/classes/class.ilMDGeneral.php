@@ -106,6 +106,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
+
 		if(!$a_description_id)
 		{
 			return false;

@@ -36,6 +36,23 @@
 class ilSaxParser extends PEAR
 {
 	/**
+	 * XML-Content type 'file' or 'string'
+	 * If you choose file set the filename in constructor
+	 * If you choose 'String' call the constructor with no argument and use setXMLContent()
+	 * @var string
+	 * @access private
+	 */
+	var $input_type = null;
+
+	/**
+	 * XML-Content in case of content type 'string'
+
+	 * @var string 
+	 * @access private
+	 */
+	var $xml_content = '';
+
+	/**
 	 * ilias object
 	 * @var object ilias
 	 * @access private
@@ -61,14 +78,34 @@ class ilSaxParser extends PEAR
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ilSaxParser($a_xml_file)
+	function ilSaxParser($a_xml_file = '')
 	{
 		global $ilias, $lng;
 
-		$this->xml_file = $a_xml_file;
+		if($a_xml_file)
+		{
+			$this->xml_file = $a_xml_file;
+			$this->input_type = 'file';
+		}
 		
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
+	}
+
+	function setXMLContent($a_xml_content)
+	{
+		$this->xml_content = $a_xml_content;
+		$this->input_type = 'string';
+	}
+	
+	function getXMLContent()
+	{
+		return $this->xml_content;
+	}
+
+	function getInputType()
+	{
+		return $this->input_type;
 	}
 
 	/**
@@ -81,8 +118,23 @@ class ilSaxParser extends PEAR
 		$xml_parser = $this->createParser();
 		$this->setOptions($xml_parser);
 		$this->setHandlers($xml_parser);
-		$fp = $this->openXMLFile();
-		$this->parse($xml_parser,$fp);
+
+		switch($this->getInputType())
+		{
+			case 'file':
+				$fp = $this->openXMLFile();
+				$this->parse($xml_parser,$fp);
+				break;
+
+			case 'string':
+				$this->parse($xml_parser);
+				break;
+
+			default:
+				$this->ilias->raiseError("No input type given. Set filename in constructor or choose setXMLContent()",
+										 $this->ilias->error_obj->FATAL);
+				break;
+		}
 		$this->freeParser($xml_parser);
 	}
 	/**
@@ -116,6 +168,7 @@ class ilSaxParser extends PEAR
 	*/
 	function setHandlers($a_xml_parser)
 	{
+		echo 'ilSaxParser::setHandlers() must be overwritten';
 	}
 	/**
 	* open xml file
@@ -135,17 +188,29 @@ class ilSaxParser extends PEAR
 	* 
 	* @access	private
 	*/
-	function parse($a_xml_parser,$a_fp)
+	function parse($a_xml_parser,$a_fp = null)
 	{
-		while($data = fread($a_fp,4096))
+		switch($this->getInputType())
 		{
-			$parseOk = xml_parse($a_xml_parser,$data,feof($a_fp));
-			if(!$parseOk
-			   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
-			{
-				$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
-			}
+			case 'file':
+
+				while($data = fread($a_fp,4096))
+				{
+					$parseOk = xml_parse($a_xml_parser,$data,feof($a_fp));
+				}
+				break;
+				
+			case 'string':
+				$parseOk = xml_parse($a_xml_parser,$this->getXMLContent());
+				break;
 		}
+		if(!$parseOk
+		   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
+		{
+			$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
+		}
+		return true;
+				
 	}
 	/**
 	* free xml parser handle
