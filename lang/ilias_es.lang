@@ -486,9 +486,9 @@ assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada###07 Ap
 assessment#:#tst_sequence_postpone#:#El estudiante puede posponer una pregunta para el final del test###07 Apr 2005 content changed
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia###07 Apr 2005 content changed
 assessment#:#tst_session_settings#:#Configuración de Sesión###07 Apr 2005 content changed
-assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
+assessment#:#tst_show_answer_sheet#:#mostrar respuestas
 assessment#:#tst_show_results#:#Mostrar resultados del test###07 Apr 2005 content changed
-assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
+assessment#:#tst_signature#:#Firma
 assessment#:#tst_start_test#:#Comenzar el Test###07 Apr 2005 content changed
 assessment#:#tst_starting_time#:#Tiempo de Comienzo###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Todos los usuarios###07 Apr 2005 content changed
@@ -2109,7 +2109,7 @@ common#:#phone#:#teléfono###07 Apr 2005 content changed
 common#:#phone_home#:#teléfono, casa###07 Apr 2005 content changed
 common#:#phone_mobile#:#teléfono, móvil###07 Apr 2005 content changed
 common#:#phone_office#:#teléfono, oficina###07 Apr 2005 content changed
-common#:#phrase#:#frase###07 Apr 2005 content changed
+common#:#phrase#:#conjunto###07 Apr 2005 content changed
 common#:#please_enter_target#:#Por favor introduzca un destino.###07 Apr 2005 content changed
 common#:#please_enter_title#:#Por favor introduzca un título.###07 Apr 2005 content changed
 common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un fichero enviado para borrar!###07 Apr 2005 content changed
@@ -4523,8 +4523,8 @@ search#:#search_user#:#Usuarios###07 Apr 2005 content changed
 survey#:#add_category#:#Añadir categoria###07 Apr 2005 content changed
 survey#:#add_heading#:#Añadir cabecera###07 Apr 2005 content changed
 survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite superior e inferior para los números estándar que quiere añadir como categorías###07 Apr 2005 content changed
-survey#:#add_phrase#:#Añadir frase###07 Apr 2005 content changed
-survey#:#add_phrase_introduction#:#Por favor seleccione una frase:###07 Apr 2005 content changed
+survey#:#add_phrase#:#Añadir conjunto###07 Apr 2005 content changed
+survey#:#add_phrase_introduction#:#Por favor seleccione un conjunto:###07 Apr 2005 content changed
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.###07 Apr 2005 content changed
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente###07 Apr 2005 content changed
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.###07 Apr 2005 content changed
@@ -4545,7 +4545,7 @@ survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar l
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el repositorio de preguntas!###07 Apr 2005 content changed
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!###07 Apr 2005 content changed
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!###07 Apr 2005 content changed
-survey#:#cannot_manage_phrases#:#No tiene derechos de escritura para gestionar las frases!###07 Apr 2005 content changed
+survey#:#cannot_manage_phrases#:#No tiene derechos de escritura para gestionar los conjuntos!###07 Apr 2005 content changed
 survey#:#cannot_participate_survey#:#No tiene derechos para participar en la encuesta!###07 Apr 2005 content changed
 survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas###07 Apr 2005 content changed
 survey#:#cannot_read_survey#:#No posee suficiente permisos para leer los datos de la encuesta###07 Apr 2005 content changed
@@ -4556,7 +4556,7 @@ survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguien
 survey#:#category_delete_select_none#:#Por favor seleccione al menos una categoría para eliminar!###07 Apr 2005 content changed
 survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categoría###07 Apr 2005 content changed
 survey#:#chart#:#Tabla/Gráfico###07 Apr 2005 content changed
-survey#:#check_category_to_save_phrase#:#¡Debe seleccionar al menos una categoría para guardar una frase!###07 Apr 2005 content changed
+survey#:#check_category_to_save_phrase#:#¡Debe seleccionar al menos una categoría para guardar un conjunto!###07 Apr 2005 content changed
 survey#:#codes#:#Códigos de acceso###07 Apr 2005 content changed
 survey#:#combobox#:#-Combobox-###07 Apr 2005 content changed
 survey#:#concatenation#:#Concatenación###07 Apr 2005 content changed
@@ -4606,7 +4606,7 @@ survey#:#dc_varying#:#variable###07 Apr 2005 content changed
 survey#:#dc_verygood#:#muy bien###07 Apr 2005 content changed
 survey#:#dc_yes#:#si###07 Apr 2005 content changed
 survey#:#define_questionblock#:#Definir bloque de preguntas###07 Apr 2005 content changed
-survey#:#description_maxchars#:#Si no se introdujo nada, el número de caracteres para esta respuesta es ilimitado.###07 Apr 2005 content changed
+survey#:#description_maxchars#:#Si no se introduce ningún valor, el número de caracteres para esta respuesta es ilimitado.###07 Apr 2005 content changed
 survey#:#disinvite#:#Disinvite###07 Apr 2005 content changed
 survey#:#display_all_available#:#Mostrar todas las disponibles###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)###07 Apr 2005 content changed
@@ -4639,7 +4639,7 @@ survey#:#edit_heading#:#Editar cabecera###07 Apr 2005 content changed
 survey#:#end_date#:#Fecha fin###07 Apr 2005 content changed
 survey#:#end_date_reached#:#No puede comenzar la encuesta. Se ha superado la fecha límite!###07 Apr 2005 content changed
 survey#:#enter_anonymous_id#:#Código de acceso a encuesta###07 Apr 2005 content changed
-survey#:#enter_phrase_title#:#Por favor introduzca un título de frase###07 Apr 2005 content changed
+survey#:#enter_phrase_title#:#Por favor introduzca un título del conjunto###07 Apr 2005 content changed
 survey#:#enter_questionblock_title#:#¡Por favor introduzca un título para el bloque de preguntas!###07 Apr 2005 content changed
 survey#:#enter_valid_number_of_codes#:#Por favor introduzca un número válido de códigos de encuesta a generar###07 Apr 2005 content changed
 survey#:#enter_value#:#Introduzca un valor###07 Apr 2005 content changed
@@ -4656,7 +4656,7 @@ survey#:#fill_out_all_category_fields#:#Por favor rellene todos los campos de ca
 survey#:#fill_out_all_required_fields_add_category#:#Por favor rellene todos los campos requeridos antes de añadir categorías!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_delete_category#:#¡Por favor rellene todos los campos requeridos antes de eliminar categorías!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_move_category#:#¡Por favor rellene todos los campos requeridos antes de mover categorías!###07 Apr 2005 content changed
-survey#:#fill_out_all_required_fields_save_phrase#:#¡Por favor rellene todos los campos requeridos antes de grabar una frase!###07 Apr 2005 content changed
+survey#:#fill_out_all_required_fields_save_phrase#:#¡Por favor rellene todos los campos requeridos antes de grabar un conjunto!###07 Apr 2005 content changed
 survey#:#filter#:#Filtro###07 Apr 2005 content changed
 survey#:#filter_all_question_types#:#Todos los tipos de pregunta###07 Apr 2005 content changed
 survey#:#filter_all_questionpools#:#Todos los repositorios###07 Apr 2005 content changed
@@ -4676,7 +4676,7 @@ survey#:#insert_before#:#Insertar antes###07 Apr 2005 content changed
 survey#:#insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en la encuesta!###07 Apr 2005 content changed
 survey#:#insert_missing_questionblock#:#Por favor seleccione al menos un bloque de preguntas para insertar en la encuesta!###07 Apr 2005 content changed
 survey#:#introduction#:#Introducción###07 Apr 2005 content changed
-survey#:#introduction_manage_phrases#:#Gestionar las frases que están disponibles para todas las preguntas ordinales que edita/crea.###07 Apr 2005 content changed
+survey#:#introduction_manage_phrases#:#Gestionar los conjuntos que están disponibles para todas las preguntas ordinales que edita/crea.###07 Apr 2005 content changed
 survey#:#invitation#:#Invitación###07 Apr 2005 content changed
 survey#:#invitation_mode#:#Modo Invitación###07 Apr 2005 content changed
 survey#:#invite_participants#:#Invitar participantes###07 Apr 2005 content changed
@@ -4687,7 +4687,7 @@ survey#:#last_update#:#Última actualización###07 Apr 2005 content changed
 survey#:#legend#:#Leyenda###07 Apr 2005 content changed
 survey#:#lower_limit#:#Límite inferior###07 Apr 2005 content changed
 survey#:#maintenance#:#Mantenimiento###07 Apr 2005 content changed
-survey#:#manage_phrases#:#Gestionar frases###07 Apr 2005 content changed
+survey#:#manage_phrases#:#Gestionar conjuntos###07 Apr 2005 content changed
 survey#:#material#:#Material###07 Apr 2005 content changed
 survey#:#material_added_successfully#:#You successfully set a material link!###07 Apr 2005 content changed
 survey#:#material_file#:#fichero de material###07 Apr 2005 content changed
@@ -4721,7 +4721,7 @@ survey#:#no_questions_available#:#No hay preguntas disponibles!###07 Apr 2005 co
 survey#:#no_search_results#:#No hay resultados de búsqueda!###07 Apr 2005 content changed
 survey#:#no_target_selected_for_move#:#Debe seleccionar una posición de destino!###07 Apr 2005 content changed
 survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que está buscando (usuarios y/o grupos)###07 Apr 2005 content changed
-survey#:#no_user_phrases_defined#:#No hay frases definidas por el usuario disponibles!###07 Apr 2005 content changed
+survey#:#no_user_phrases_defined#:#No hay conjuntos definidos por el usuario disponibles!###07 Apr 2005 content changed
 survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas!###07 Apr 2005 content changed
 survey#:#non_ratio#:#Non-Ratio###07 Apr 2005 content changed
 survey#:#not_finished#:#no finalizada###07 Apr 2005 content changed
@@ -4737,25 +4737,25 @@ survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas 
 survey#:#orientation#:#Orientación
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
-survey#:#phrase_saved#:#¡La frase fue grabada con éxito! 2005 content changed
+survey#:#phrase_saved#:#El conjunto fue grabado con éxito 2005 content changed
 survey#:#predefined_users#:#Predefined user set###07 Apr 2005 content changed
 survey#:#preview#:#vista previa
 survey#:#previous_question_rows#:#<< Preguntas %d - %d de %d
-survey#:#qpl_confirm_delete_phrases#:#¿Está seguro de que quiere eliminar las siguientes frases?
+survey#:#qpl_confirm_delete_phrases#:#¿Está seguro de que quiere eliminar los siguientes conjuntos?
 survey#:#qpl_confirm_delete_questions#:#¿Está seguro de que quiere eliminar las siguientes preguntas?
 survey#:#qpl_copy_select_none#:#Por favor elija al menos una pregunta para copiar
 survey#:#qpl_define_questionblock_select_missing#:#Por favor seleccione al menos dos preguntas si quiere definir un bloque de preguntas
-survey#:#qpl_delete_phrase_select_none#:#Por favor elija al menos una frase a eliminar
+survey#:#qpl_delete_phrase_select_none#:#Por favor elija al menos un conjunto a eliminar
 survey#:#qpl_delete_rbac_error#:#No tiene permisos para eliminar la(s) pregunta(s)
 survey#:#qpl_delete_select_none#:#Por favor elija al menos una pregunta a eliminar
 survey#:#qpl_duplicate_select_none#:#Por favor elija al menos una pregunta a duplicar
 survey#:#qpl_export_select_none#:#Por favor elija al menos una pregunta a exportar
 survey#:#qpl_past_questions_confirmation#:#¿Está seguro de que quiere pegar las siguientes preguntas en el respositorio?
-survey#:#qpl_phrases_deleted#:#Frase(s) eliminada(s)
+survey#:#qpl_phrases_deleted#:#Conjunto(s) eliminado(s)
 survey#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s)
 survey#:#qpl_questions_pasted#:#Pregunta(s) pegada(s)
-survey#:#qpl_savephrase_empty#:#Por favor introduzca un título para la frase
-survey#:#qpl_savephrase_exists#:#¡El título para esa frase ya existe! Por favor seleccione otro título
+survey#:#qpl_savephrase_empty#:#Por favor introduzca un título para el conjunto
+survey#:#qpl_savephrase_exists#:#¡El título para ese conjunto ya existe! Por favor seleccione otro título
 survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de preguntas si quiere desdoblar el bloque
 survey#:#qt_metric#:#Pregunta Métrica
 survey#:#qt_nominal#:#Pregunta Nominal
@@ -4779,9 +4779,9 @@ survey#:#remove_questions#:#¿Está seguro de que quiere eliminar las siguiente(
 survey#:#reset_filter#:#Reiniciar filtro
 survey#:#resume_survey#:#Continuar la encuesta
 survey#:#save_obligatory_state#:#Salvar estados obligatorios
-survey#:#save_phrase#:#Salvar como frase
-survey#:#save_phrase_categories_not_checked#:#Por favor elija al menos dos categorías para salvar categorías en una nueva frase
-survey#:#save_phrase_introduction#:#Si quiere salvar las categorías siguientes como frase por defecto, por favor introduzca un título de frase. Usted puede acceder a una frase por defecto cuando quiera añadir una frase a una pregunta ordinal
+survey#:#save_phrase#:#Salvar como conjunto
+survey#:#save_phrase_categories_not_checked#:#Por favor elija al menos dos categorías para salvar categorías en un nuevo conjunto
+survey#:#save_phrase_introduction#:#Si quiere salvar las categorías siguientes como conjunto por defecto, por favor introduzca un título de conjunto. Usted puede acceder a un conjunto por defecto cuando quiera añadir un conjunto a una pregunta ordinal
 survey#:#search_field_all#:#Buscar en todos los campos
 survey#:#search_for#:#Buscar
 survey#:#search_groups#:#Grupos
@@ -4791,7 +4791,7 @@ survey#:#search_term#:#Buscar término
 survey#:#search_type_all#:#Buscar en todos los tipos de pregunta
 survey#:#search_users#:#Usuarios
 survey#:#select_option#:#--- Por favor seleccione una opción ---
-survey#:#select_phrase_to_add#:#¡Por favor seleccione una frase para añadirla a la pregunta!
+survey#:#select_phrase_to_add#:#¡Por favor seleccione una conjunto para añadirlo a la pregunta!
 survey#:#select_prior_question#:#Seleccione una pregunta previa
 survey#:#select_questionpool#:#Por favor seleccione un repositorio para almacenar la pregunta creada
 survey#:#select_questionpool_short#:#Repositorio de preguntas para encuesta
@@ -4865,7 +4865,7 @@ survey#:#value_nr_entered#:#Número de usuarios que introdujeron el valor
 survey#:#values#:#Valores
 survey#:#vertical#:#vertical
 survey#:#view_constraints_introduction#:#Está viendo las restricciones de las siguientes preguntas o bloque de preguntas
-survey#:#view_phrase#:#Ver frase
+survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
 survey#:#warning_survey_not_complete#:#¡La encuesta no está completa!
