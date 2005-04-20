@@ -145,7 +145,7 @@ class ilMDKeyword extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setKeyword($row->keyword);
+				$this->setKeyword(ilUtil::stripSlashes($row->keyword));
 				$this->setKeywordLanguage( new ilMDLanguageItem($row->keyword_language));
 			}
 		}

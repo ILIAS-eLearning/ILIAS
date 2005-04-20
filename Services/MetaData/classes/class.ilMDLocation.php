@@ -137,8 +137,8 @@ class ilMDLocation extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setLocation($row->location);
-				$this->setLocationType($row->location_type);
+				$this->setLocation(ilUtil::stripSlashes($row->location));
+				$this->setLocationType(ilUtil::stripSlashes($row->location_type));
 			}
 		}
 		return true;

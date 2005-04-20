@@ -178,8 +178,8 @@ class ilMDLifecycle extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setStatus($row->lifecycle_status);
-				$this->setVersion($row->meta_version);
+				$this->setStatus(ilUtil::stripSlashes($row->lifecycle_status));
+				$this->setVersion(ilUtil::stripSlashes($row->meta_version));
 				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
 			}
 		}

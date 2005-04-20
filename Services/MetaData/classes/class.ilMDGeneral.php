@@ -270,10 +270,10 @@ class ilMDGeneral extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setStructure($row->general_structure);
-				$this->setTitle($row->title);
+				$this->setStructure(ilUtil::stripSlashes($row->general_structure));
+				$this->setTitle(ilUtil::stripSlashes($row->title));
 				$this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
-				$this->setCoverage($row->coverage);
+				$this->setCoverage(ilUtil::stripSlashes($row->coverage));
 				$this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
 			}
 		}

@@ -137,8 +137,8 @@ class ilMDIdentifier extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setCatalog($row->catalog);
-				$this->setEntry($row->entry);
+				$this->setCatalog(ilUtil::stripSlashes($row->catalog));
+				$this->setEntry(ilUtil::stripSlashes($row->entry));
 			}
 		}
 		return true;

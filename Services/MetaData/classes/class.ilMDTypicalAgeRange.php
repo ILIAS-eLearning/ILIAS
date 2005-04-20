@@ -144,7 +144,7 @@ class ilMDTypicalAgeRange extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setTypicalAgeRange($row->typical_age_range);
+				$this->setTypicalAgeRange(ilUtil::stripSlashes($row->typical_age_range));
 				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->typical_age_range_language));
 			}
 		}

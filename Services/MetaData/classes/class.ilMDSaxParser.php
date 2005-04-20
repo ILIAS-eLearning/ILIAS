@@ -592,23 +592,13 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		// i don't know why this is necessary, but
-		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
-		// in character data, but we don't want that, because it's the
-		// way we mask user html in our content, so we convert back...
-
 		if ($this->inMetaData())
 		{
-			$a_data = preg_replace("/&(?!amp;)/","&amp;",$a_data);
-			$a_data = str_replace("<","&lt;",$a_data);
-			$a_data = str_replace(">","&gt;",$a_data);
-
 			// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 			$a_data = preg_replace("/\n/","",$a_data);
 			$a_data = preg_replace("/\t+/","",$a_data);
 
 			$this->md_chr_data .= $a_data;
-
 		}
 	}
 

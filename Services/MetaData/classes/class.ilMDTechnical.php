@@ -279,12 +279,12 @@ class ilMDTechnical extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setSize($row->size);
-				$this->setInstallationRemarks($row->installation_remarks);
+				$this->setSize(ilUtil::stripSlashes($row->size));
+				$this->setInstallationRemarks(ilUtil::stripSlashes($row->installation_remarks));
 				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));
-				$this->setOtherPlatformRequirements($row->other_platform_requirements);
+				$this->setOtherPlatformRequirements(ilUtil::stripSlashes($row->other_platform_requirements));
 				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->other_platform_requirements_language));
-				$this->setDuration($row->duration);
+				$this->setDuration(ilUtil::stripSlashes($row->duration));
 			}
 			return true;
 		}

@@ -130,7 +130,7 @@ class ilMDFormat extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setFormat($row->format);
+				$this->setFormat(ilUtil::stripSlashes($row->format));
 			}
 		}
 		return true;

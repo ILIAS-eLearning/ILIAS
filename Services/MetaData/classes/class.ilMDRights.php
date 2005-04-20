@@ -160,10 +160,10 @@ class ilMDRights extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setDescription($row->description);
+				$this->setDescription(ilUtil::stripSlashes($row->description));
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
-				$this->setCosts($row->costs);
-				$this->setCopyrightAndOtherRestrictions($row->copyright_and_other_restrictions);
+				$this->setCosts(ilUtil::stripSlashes($row->costs));
+				$this->setCopyrightAndOtherRestrictions(ilUtil::stripSlashes($row->copyright_and_other_restrictions));
 			}
 			return true;
 		}

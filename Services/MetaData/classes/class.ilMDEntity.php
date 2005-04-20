@@ -127,7 +127,7 @@ class ilMDEntity extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setEntity($row->entity);
+				$this->setEntity(ilUtil::stripSlashes($row->entity));
 			}
 		}
 		return true;
