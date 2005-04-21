@@ -126,6 +126,7 @@ class ilWysiwygUtil
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", "../content/content.css" );
+		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 
 		
 		$this->tpl->setVariable("TXT_FOOTNOTES", $this->lng->txt("cont_title_footnotes"));
