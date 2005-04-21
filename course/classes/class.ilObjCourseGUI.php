@@ -1437,7 +1437,8 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("crs_no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
 		}
 		// CHECK LAST ADMIN
-		if((int) $_POST['role_status'] != 4 or (int) $_POST['role_status'] != 5)
+
+		if((int) $_POST['role_status'] != 4 and (int) $_POST['role_status'] != 5)
 		{
 			if(!$this->object->members_obj->checkLastAdmin(array((int) $_GET['member_id'])))
 			{
@@ -3259,6 +3260,11 @@ class ilObjCourseGUI extends ilObjectGUI
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 		$tbl->setColumnWidth(array("","15%","15%","15%","15%","15%","15%"));
+
+		$tpl->setCurrentBlock('tbl_footer_info');
+		$tpl->setVariable("INFO_TEXT",$this->object->members_obj->getCountMembers().' '.$this->lng->txt('crs_header_members').', '.
+						  $this->object->members_obj->getCountPassed().' '.$this->lng->txt('crs_passed'));
+		$tpl->parseCurrentBlock();
 
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");

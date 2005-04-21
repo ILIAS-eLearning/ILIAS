@@ -287,6 +287,16 @@ class ilCourseContentInterface
 						$tpl->parseCurrentBlock();
 					}
 				}
+				if($rbacsystem->checkAccess('delete',$cont_data['ref_id']))
+				{
+					$tpl->setCurrentBlock("crs_delete");
+
+					$this->cci_client_obj->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["ref_id"]);
+						
+					$tpl->setVariable("DELETE_LINK",$this->cci_client_obj->ctrl->getLinkTargetByClass("ilRepositoryGUI","delete"));
+					$tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
+					$tpl->parseCurrentBlock();
+				}
 
 				// add evaluation tool link
 				if (strcmp($cont_data["type"], "svy") == 0)
@@ -1489,6 +1499,11 @@ class ilCourseContentInterface
 		}
 		if($all_success)
 		{
+			// set status passed
+			include_once 'course/classes/class.ilCourseMembers.php';
+
+			ilCourseMembers::_setPassed($this->cci_course_obj->getId(),$ilUser->getId());
+
 			$this->objective_status = 'finished';
 			$_SESSION['objectives_status'][$this->cci_course_obj->getId()] = $this->objective_status;
 

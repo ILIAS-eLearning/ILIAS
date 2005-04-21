@@ -141,7 +141,7 @@ class ilCourseMembers
 					$status = $this->__getDefaultAdminStatus();
 				}
 				$role = $this->course_obj->getDefaultAdminRole();
-				$passed = 1;
+				$passed = $a_passed;
 				$this->addDesktopItem($user_obj->getId());
 				break;
 
@@ -159,7 +159,7 @@ class ilCourseMembers
 					$status = $this->__getDefaultTutorStatus();
 				}
 				$role = $this->course_obj->getDefaultTutorRole();
-				$passed = 1;
+				$passed = $a_passed;
 				$this->addDesktopItem($user_obj->getId());
 				break;
 				
@@ -256,6 +256,8 @@ class ilCourseMembers
 
 		return true;
 	}
+
+
 	function deleteAllEntries()
 	{
 		$query = "DELETE FROM crs_members ".
@@ -430,6 +432,16 @@ class ilCourseMembers
 		return $this->isAssigned($a_usr_id) && !$this->isBlocked($a_usr_id) ? true : false;
 	}
 
+	function getCountPassed()
+	{
+		$query = "SELECT * FROM crs_members ".
+			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"AND passed = 1";
+
+		$res = $this->ilDB->query($query);
+		
+		return $res->numRows() ? $res->numRows() : 0;
+	}
 
 	function checkLastAdmin($a_usr_ids)
 	{
@@ -799,6 +811,24 @@ class ilCourseMembers
 		
 		return $res->numRows() ? true : false;
 	}
+
+	function _setPassed($a_obj_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		if(!ilCourseMembers::_hasPassed($a_obj_id,$a_usr_id))
+		{
+			$query = "UPDATE crs_members ".
+				"SET passed = 1 WHERE usr_id = '".$a_usr_id."' ".
+				"AND obj_id = '".$a_obj_id."'";
+			
+			$ilDB->query($query);
+			
+			return true;
+		}
+		return false;
+	}
+
 
 	function __buildStatusBody(&$user_obj)
 	{
