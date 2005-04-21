@@ -1692,7 +1692,7 @@ common#:#mail#:#Correo###07 Apr 2005 content changed
 common#:#mail_a_root#:#Bandeja de Correo###07 Apr 2005 content changed
 common#:#mail_addressbook#:#Agenda###07 Apr 2005 content changed
 common#:#mail_allow_smtp#:#Permitir SMTP###07 Apr 2005 content changed
-common#:#mail_b_inbox#:#Bandeja de Entrada###07 Apr 2005 content changed
+common#:#mail_b_inbox#:#Bandeja de entrada###07 Apr 2005 content changed
 common#:#mail_c_trash#:#Papelera###07 Apr 2005 content changed
 common#:#mail_d_drafts#:#Borradores###07 Apr 2005 content changed
 common#:#mail_delete_error#:#Error borrando correo(s)###07 Apr 2005 content changed
@@ -3372,7 +3372,7 @@ dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto###07 Apr 2005 content change
 dateplaner#:#Fr_long#:#Viernes###07 Apr 2005 content changed
 dateplaner#:#Fr_short#:#Vi###07 Apr 2005 content changed
 dateplaner#:#Language_file#:#castellano###07 Apr 2005 content changed
-dateplaner#:#Listbox_long#:#Lista de Citas###07 Apr 2005 content changed
+dateplaner#:#Listbox_long#:#Lista de citas###07 Apr 2005 content changed
 dateplaner#:#Mo_long#:#Lunes###07 Apr 2005 content changed
 dateplaner#:#Mo_short#:#Lu###07 Apr 2005 content changed
 dateplaner#:#Month_long#:#Vista mensual###07 Apr 2005 content changed
@@ -3385,7 +3385,7 @@ dateplaner#:#Th_long#:#Jueves###07 Apr 2005 content changed
 dateplaner#:#Th_short#:#Ju###07 Apr 2005 content changed
 dateplaner#:#Tu_long#:#Martes###07 Apr 2005 content changed
 dateplaner#:#Tu_short#:#Ma###07 Apr 2005 content changed
-dateplaner#:#View#:#Vista:###07 Apr 2005 content changed
+dateplaner#:#View#:#Visualización (diaria/semanal):###07 Apr 2005 content changed
 dateplaner#:#We_long#:#Miércoles###07 Apr 2005 content changed
 dateplaner#:#We_short#:#Mi###07 Apr 2005 content changed
 dateplaner#:#Week_long#:#Vista semanal###07 Apr 2005 content changed
@@ -3394,7 +3394,7 @@ dateplaner#:#app_#:#Bandeja de entrada ###07 Apr 2005 content changed
 dateplaner#:#app_date#:#insertar cita###07 Apr 2005 content changed
 dateplaner#:#app_day#:#vista diaria###07 Apr 2005 content changed
 dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)###07 Apr 2005 content changed
-dateplaner#:#app_inbox#:#bandeja de entrada###07 Apr 2005 content changed
+dateplaner#:#app_inbox#:#Bandeja de entrada###07 Apr 2005 content changed
 dateplaner#:#app_list#:#lista de citas###07 Apr 2005 content changed
 dateplaner#:#app_month#:#vista mensual###07 Apr 2005 content changed
 dateplaner#:#app_properties#:#propiedades###07 Apr 2005 content changed
@@ -3406,7 +3406,7 @@ dateplaner#:#begin_date#:#Comienzo de cita:###07 Apr 2005 content changed
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo###07 Apr 2005 content changed
 dateplaner#:#c_date#:#Crear cita###07 Apr 2005 content changed
 dateplaner#:#changeTo#:#Modificar a:###07 Apr 2005 content changed
-dateplaner#:#changedDates#:#Citas Modificadas###07 Apr 2005 content changed
+dateplaner#:#changedDates#:#Citas modificadas###07 Apr 2005 content changed
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre###07 Apr 2005 content changed
 dateplaner#:#created#:#Creada###07 Apr 2005 content changed
 dateplaner#:#date#:#Fecha###07 Apr 2005 content changed
@@ -3415,7 +3415,7 @@ dateplaner#:#date_format_middle#:#m/d/y
 dateplaner#:#del_all#:#eliminar todas las citas###07 Apr 2005 content changed
 dateplaner#:#del_one#:#eliminar una cita###07 Apr 2005 content changed
 dateplaner#:#delete#:#eliminar###07 Apr 2005 content changed
-dateplaner#:#deletedDates#:#citas eliminadas###07 Apr 2005 content changed
+dateplaner#:#deletedDates#:#Citas eliminadas###07 Apr 2005 content changed
 dateplaner#:#discard#:#descartar###07 Apr 2005 content changed
 dateplaner#:#dv_Grouptime#:#tiempo libre###07 Apr 2005 content changed
 dateplaner#:#dv_button_cancel#:#Cancelar###07 Apr 2005 content changed
@@ -3424,33 +3424,33 @@ dateplaner#:#dv_button_insert#:#Insertar###07 Apr 2005 content changed
 dateplaner#:#dv_button_update#:#Actualizar###07 Apr 2005 content changed
 dateplaner#:#dv_date_begin#:#Comienzo de cita:###07 Apr 2005 content changed
 dateplaner#:#dv_date_end#:#Fin de cita:###07 Apr 2005 content changed
-dateplaner#:#dv_date_hm#:#Hora:Minutos###07 Apr 2005 content changed
+dateplaner#:#dv_date_hm#:#Hora:###07 Apr 2005 content changed
 dateplaner#:#dv_enddate#:#Fecha fin:###07 Apr 2005 content changed
 dateplaner#:#dv_groupselect#:#Seleccionar Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_groupview#:#Cita de Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupo:###07 Apr 2005 content changed
 dateplaner#:#dv_keywords#:#Palabras clave:###07 Apr 2005 content changed
-dateplaner#:#dv_keywordselect#:#Seleccion de palabras clave:###07 Apr 2005 content changed
+dateplaner#:#dv_keywordselect#:#Selección de palabras clave:###07 Apr 2005 content changed
 dateplaner#:#dv_message#:#Mensaje:###07 Apr 2005 content changed
-dateplaner#:#dv_noGroup#:#Sin grupo###07 Apr 2005 content changed
+dateplaner#:#dv_noGroup#:#sin grupo###07 Apr 2005 content changed
 dateplaner#:#dv_noKey#:#no hay palabra clave###07 Apr 2005 content changed
 dateplaner#:#dv_preview#:#      <b> previsualizar </b>###07 Apr 2005 content changed
 dateplaner#:#dv_rotation#:#Período de rotación:###07 Apr 2005 content changed
-dateplaner#:#dv_rotation_date#:#cita periódica:###07 Apr 2005 content changed
+dateplaner#:#dv_rotation_date#:#Cita periódica:###07 Apr 2005 content changed
 dateplaner#:#dv_rotation_end#:#Fin de cita periódica:###07 Apr 2005 content changed
 dateplaner#:#dv_shorttext#:#Asunto:###07 Apr 2005 content changed
 dateplaner#:#dv_startdate#:#Fecha comienzo:###07 Apr 2005 content changed
 dateplaner#:#dv_text#:#Nota:###07 Apr 2005 content changed
-dateplaner#:#dv_whole_day#:#día completo###07 Apr 2005 content changed
+dateplaner#:#dv_whole_day#:#Día completo###07 Apr 2005 content changed
 dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga click en el checkbox)###07 Apr 2005 content changed
 dateplaner#:#end_date#:#Fecha de fin###07 Apr 2005 content changed
-dateplaner#:#endtime_for_view#:#Hora final de la vista###07 Apr 2005 content changed
+dateplaner#:#endtime_for_view#:#Hora final para visualización
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream###07 Apr 2005 content changed
 dateplaner#:#execute#:#ejecutar acciones###07 Apr 2005 content changed
 dateplaner#:#extra_dates#:#citas de día completo###07 Apr 2005 content changed
 dateplaner#:#free#:#Libre###07 Apr 2005 content changed
 dateplaner#:#freetime#:#tiempo libre en el grupo###07 Apr 2005 content changed
-dateplaner#:#group#:#grupo###07 Apr 2005 content changed
+dateplaner#:#group#:#Grupo###07 Apr 2005 content changed
 dateplaner#:#help_day#:#Vista diaria del calendario###07 Apr 2005 content changed
 dateplaner#:#help_day_l#:#En la vista diaria se muestran todas las citas de un día concreto###07 Apr 2005 content changed
 dateplaner#:#help_enddate#:#Fecha Fin - sintaxis [dd//mm/yyyy]###07 Apr 2005 content changed
@@ -3461,7 +3461,7 @@ dateplaner#:#help_endtime#:#Fecha de fin - sintaxis[hh/mm] formato 24h###07 Apr 
 dateplaner#:#help_endtime_l#:#Contiene la fecha de fin de la cita usando el formato 24h###07 Apr 2005 content changed
 dateplaner#:#help_filename#:#dp_help_es.html###07 Apr 2005 content changed
 dateplaner#:#help_fullday#:#fecha de jornada completa - sintaxis[on/off]###07 Apr 2005 content changed
-dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoga esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.###07 Apr 2005 content changed
+dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoja esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.###07 Apr 2005 content changed
 dateplaner#:#help_further#:#<br><b>haga click aquí para más información</b>###07 Apr 2005 content changed
 dateplaner#:#help_group#:#Seleccion de fechas de grupo###07 Apr 2005 content changed
 dateplaner#:#help_group_l#:#Contiene los grupos para los que el usuario identificado tiene derechos de administrador y para el que una cita puede ser creada. <br> Despues de escoger esto es posible ver el tiempo libre del grupo.###07 Apr 2005 content changed
@@ -3504,7 +3504,7 @@ dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éx
 dateplaner#:#k_alldates#:#todas las citas###07 Apr 2005 content changed
 dateplaner#:#keep#:#guardar###07 Apr 2005 content changed
 dateplaner#:#keyword#:#Palabra clave###07 Apr 2005 content changed
-dateplaner#:#keywords#:#Palabras claves###07 Apr 2005 content changed
+dateplaner#:#keywords#:#Palabras clave###07 Apr 2005 content changed
 dateplaner#:#last_change#:#Ultima modificación###07 Apr 2005 content changed
 dateplaner#:#long_01#:#Enero###07 Apr 2005 content changed
 dateplaner#:#long_02#:#Febrero###07 Apr 2005 content changed
@@ -3528,7 +3528,7 @@ dateplaner#:#myeahr#:#último año###07 Apr 2005 content changed
 dateplaner#:#newDates#:#Nuevas citas###07 Apr 2005 content changed
 dateplaner#:#newKeyword#:#Nueva:###07 Apr 2005 content changed
 dateplaner#:#new_doc#:#crear nueva cita###07 Apr 2005 content changed
-dateplaner#:#no_entry#:#no hay citas disponibles###07 Apr 2005 content changed
+dateplaner#:#no_entry#:#No hay citas disponibles###07 Apr 2005 content changed
 dateplaner#:#o_day_date#:#fecha 24h###07 Apr 2005 content changed
 dateplaner#:#of#:#de###07 Apr 2005 content changed
 dateplaner#:#open_day#:#vista diaria###07 Apr 2005 content changed
@@ -3537,16 +3537,16 @@ dateplaner#:#printlist#:#imprimir###07 Apr 2005 content changed
 dateplaner#:#properties#:#Propiedades###07 Apr 2005 content changed
 dateplaner#:#pweek#:#siguiente semana###07 Apr 2005 content changed
 dateplaner#:#pyear#:#siguiente año###07 Apr 2005 content changed
-dateplaner#:#r_14#:#cada 14 días###07 Apr 2005 content changed
+dateplaner#:#r_14#:#cada 2 semanas###07 Apr 2005 content changed
 dateplaner#:#r_4_weeks#:#cada 4 semanas###07 Apr 2005 content changed
 dateplaner#:#r_day#:#cada día###07 Apr 2005 content changed
 dateplaner#:#r_halfyear#:#cada medio año###07 Apr 2005 content changed
 dateplaner#:#r_month#:#cada mes###07 Apr 2005 content changed
-dateplaner#:#r_nonrecurring#:#Una sóla vez###07 Apr 2005 content changed
+dateplaner#:#r_nonrecurring#:#una sóla vez###07 Apr 2005 content changed
 dateplaner#:#r_week#:#cada semana###07 Apr 2005 content changed
 dateplaner#:#r_year#:#cada año###07 Apr 2005 content changed
 dateplaner#:#readimportfile#:#insertar###07 Apr 2005 content changed
-dateplaner#:#rotation#:#Rotación###07 Apr 2005 content changed
+dateplaner#:#rotation#:#Frecuencia###07 Apr 2005 content changed
 dateplaner#:#rotation_dates#:#Citas periódicas###07 Apr 2005 content changed
 dateplaner#:#semester_name#:#Nombre del Semestre###07 Apr 2005 content changed
 dateplaner#:#short_01#:#Ene###07 Apr 2005 content changed
@@ -3561,9 +3561,9 @@ dateplaner#:#short_09#:#Sep###07 Apr 2005 content changed
 dateplaner#:#short_10#:#Oct###07 Apr 2005 content changed
 dateplaner#:#short_11#:#Nov###07 Apr 2005 content changed
 dateplaner#:#short_12#:#Dic###07 Apr 2005 content changed
-dateplaner#:#shorttext#:#Texto corto###07 Apr 2005 content changed
+dateplaner#:#shorttext#:#Asunto###07 Apr 2005 content changed
 dateplaner#:#singleDate#:#fecha única###07 Apr 2005 content changed
-dateplaner#:#starttime_for_view#:#hora inicial para vista:###07 Apr 2005 content changed
+dateplaner#:#starttime_for_view#:#hora inicial de visualización:###07 Apr 2005 content changed
 dateplaner#:#timedate#:#Hora / Fecha###07 Apr 2005 content changed
 dateplaner#:#timeslice#:#Hora:###07 Apr 2005 content changed
 dateplaner#:#title#:#calendario ILIAS###07 Apr 2005 content changed
