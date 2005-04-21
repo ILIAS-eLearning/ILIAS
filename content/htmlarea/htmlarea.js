@@ -1328,7 +1328,7 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 				extraButtons[3] = new Array("ilias-str","span","ilc_Strong");
 				extraButtons[4] = new Array("ilias-emp","span","ilc_Emph");
 				extraButtons[5] = new Array("ilias-xtl","a","ilc_ExtLink");
-				extraButtons[6] = new Array("ilias-itl","a","iliasiln");
+				extraButtons[6] = new Array("ilias-itl","a","ilc_IntLink");
 				
 				extraButtons[7] = new Array("ilias-str","strong","");
 				extraButtons[8] = new Array("ilias-emp","em","");

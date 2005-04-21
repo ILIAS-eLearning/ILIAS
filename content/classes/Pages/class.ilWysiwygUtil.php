@@ -270,7 +270,7 @@ class ilWysiwygUtil
             $new["convert2"] = "[/xln]";
 		}
 		
-		if ($attrs["class"] == "iliasiln") 
+		if ($attrs["class"] == "ilc_IntLink") 
 		{
 			reset ($attrs);
 			$N = "";
