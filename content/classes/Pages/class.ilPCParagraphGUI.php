@@ -84,6 +84,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 		
 		
 		if ($this->pg_obj->getParentType() == "lm" ||
@@ -104,6 +105,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->setVariable("REMOVELINK",$this->lng->txt("cont_removeiln"));
 			
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+			
+			$this->tpl->touchBlock("internal_link_active1");
+			$this->tpl->touchBlock("internal_link_active2");
 		}
 
 		$this->displayValidationError();
@@ -192,6 +196,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "content");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
@@ -208,6 +213,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->setVariable("LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+			$this->tpl->touchBlock("internal_link_active1");
+			$this->tpl->touchBlock("internal_link_active2");
 		}
 
 		$this->displayValidationError();

@@ -182,7 +182,7 @@ function deleteFootnote(i)
 	opener.editor.updateToolbar();
 	opener.refreshFootnotelist();
 	
-	window.location = "lm_edit.php?cmd=popup&ptype=footnote";
+	window.location = "lm_edit.php?ref_id={REF_ID}&cmd=popup&ptype=footnote";
 	
 	//window.close();
 }
