@@ -253,9 +253,13 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 	}
 
 	// set hits per page for all lists using table module
-	$_SESSION["tbl_limit"] = ($_SESSION["tbl_limit"]) ? intval($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
-	$_GET["limit"] = ($_SESSION["tbl_limit"]) ? ($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
-	$_GET["offset"] = intval($_GET["offset"]);
+	// Since hits_per_page is always read in ilObjUser we don't need to read it from the session
+	#_SESSION["tbl_limit"] = ($_SESSION["tbl_limit"]) ? intval($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
+	#_GET["limit"] = ($_SESSION["tbl_limit"]) ? ($_SESSION["tbl_limit"]) : intval($ilias->account->prefs["hits_per_page"]);
+	#_GET["offset"] = intval($_GET["offset"]);
+	$_GET['limit'] = $_SESSION['tbl_limit'] = (int) $ilUser->getPref('hits_per_page');
+	$_GET['offset'] = (int) $_GET['offset'];
+	
 
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
