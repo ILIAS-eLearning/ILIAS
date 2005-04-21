@@ -71,7 +71,7 @@ class ilRepositoryGUI
 	function ilRepositoryGUI()
 	{
 		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl;
+			$_GET, $ilCtrl, $ilLog;;
 //var_dump($_SESSION['il_rep_clipboard']);
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
@@ -79,6 +79,7 @@ class ilRepositoryGUI
 		$this->tree =& $tree;
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
+		
 		$this->ctrl =& $ilCtrl;
 
 		$this->ctrl->saveParameter($this, array("ref_id"));
@@ -99,6 +100,26 @@ class ilRepositoryGUI
 			else
 			{
 				$this->cur_ref_id = $this->tree->getRootId();
+				
+				// check wether command has been called with
+				// item that is not in tree
+				if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
+				{
+					$get_str = $post_str = "";
+					foreach($_GET as $key => $value)
+					{
+						$get_str.= "-$key:$value";
+					}
+					foreach($_POST as $key => $value)
+					{
+						$post_str.= "-$key:$value";
+					}
+					$ilLog->write("Repository: command called without ref_id.".
+						"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
+				}
+				$_GET = array();
+				$_POST = array();
+				$this->ctrl->setCmd("frameset");
 			}
 		}
 
@@ -134,6 +155,26 @@ class ilRepositoryGUI
 		if (!$tree->isInTree($this->cur_ref_id))
 		{
 			$this->cur_ref_id = $this->tree->getRootId();
+
+			// check wether command has been called with
+			// item that is not in tree
+			if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
+			{
+				$get_str = $post_str = "";
+				foreach($_GET as $key => $value)
+				{
+					$get_str.= "-$key:$value";
+				}
+				foreach($_POST as $key => $value)
+				{
+					$post_str.= "-$key:$value";
+				}
+				$ilLog->write("Repository: command called with ref_id that is not in tree.".
+					"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
+			}
+			$_GET = array();
+			$_POST = array();
+			$this->ctrl->setCmd("frameset");
 		}
 
 		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
