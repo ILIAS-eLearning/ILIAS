@@ -4892,3 +4892,7 @@ survey#:#warning_survey_not_complete#:#The survey is not complete!
 common#:#unread_lowercase#:#unread
 common#:#new_lowercase#:#new
 common#:#frm_article#:#article
+crs#:#activation_times_not_valid#:#The availability period is not valid.
+crs#:#subscription_times_not_valid#:#The registration period is not valid.
+crs#:#crs_members_footer#:#course member(s)
+crs#:#crs_members_footer_passed#:#passed

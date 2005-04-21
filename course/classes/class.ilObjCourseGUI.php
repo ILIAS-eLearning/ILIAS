@@ -3306,8 +3306,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl->setColumnWidth(array("","15%","15%","15%","15%","15%","15%"));
 
 		$tpl->setCurrentBlock('tbl_footer_info');
-		$tpl->setVariable("INFO_TEXT",$this->object->members_obj->getCountMembers().' '.$this->lng->txt('crs_header_members').', '.
-						  $this->object->members_obj->getCountPassed().' '.$this->lng->txt('crs_passed'));
+		$tpl->setVariable("INFO_TEXT",$this->object->members_obj->getCountMembers().' '.$this->lng->txt('crs_members_footer').', '.
+						  $this->object->members_obj->getCountPassed().' '.$this->lng->txt('crs_members_footer_passed'));
 		$tpl->parseCurrentBlock();
 
 
