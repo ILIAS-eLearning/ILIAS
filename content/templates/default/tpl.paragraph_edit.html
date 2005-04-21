@@ -626,8 +626,8 @@ addNATI("quot",	"code",	"code");
 addNATI("code",	"code",	"code");
 //addNATI("xln",	"xln",	"ilc_ExtLink");
 addNATI("iln",	"xln",	"ilc_ExtLink");
-addNATI("xln",	"iln",	"iliasiln");
-addNATI("iln",	"iln",	"iliasiln");
+addNATI("xln",	"iln",	"ilc_IntLink");
+addNATI("iln",	"iln",	"ilc_IntLink");
 // }}}
 
 function buttonX() 
@@ -1022,7 +1022,7 @@ function addInternalLink(Link,title)
 	else 
 	{
 	
-		Link = Link.replace("[iln ","<a class=\"iliasiln\" ");
+		Link = Link.replace("[iln ","<a class=\"ilc_IntLink\" ");
 		Link = Link.replace("\"]","\">");
 		Link = Link.replace(" [/iln]","");
 	
@@ -1081,7 +1081,7 @@ function buttonInternalLink()
 		var cl = el.className;
 		var tn = el.tagName.toLowerCase();
 		
-		if (tn=="a" && cl=="iliasiln") 
+		if (tn=="a" && cl=="ilc_IntLink") 
 		{
 			found = true;
 			break;
@@ -1090,7 +1090,7 @@ function buttonInternalLink()
 	
 	if(editor.hasSelectedText()) 
 	{
-		if (editor.getSelectedHTML().indexOf("iliasiln")!=-1) 
+		if (editor.getSelectedHTML().indexOf("ilc_IntLink")!=-1) 
 		{
 			found = true;
 		}
@@ -1216,7 +1216,7 @@ function buttonInternalLink()
 				Tc = Td+ Te+"[/iln]";
 				
 				// Ersetzen des �ffnenden Tags durch "a href" und class=...
-				T = T.replace(Td,"<a class=\"iliasiln\" "+Tb+">");
+				T = T.replace(Td,"<a class=\"ilc_IntLink\" "+Tb+">");
 			}
 			
 		}
