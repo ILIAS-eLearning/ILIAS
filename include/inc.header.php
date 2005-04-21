@@ -324,7 +324,7 @@ $ilBench->stop("Core", "HeaderInclude_initRBAC");
 
 
 // init ref_id on first start ref_id is set to ROOT_FOLDER_ID
-$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
+//$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
 
 // init tree
 $tree = new ilTree(ROOT_FOLDER_ID);

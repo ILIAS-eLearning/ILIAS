@@ -50,6 +50,7 @@ if (file_exists($start_template))
 {
 	$tpl = new ilTemplate("tpl.adm.html", false, false);
 	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+	$tpl->setVariable("REF_ID", ROOT_FOLDER_ID);
 	$tpl->parseCurrentBlock();
 	$tpl->show();
 }
