@@ -3064,6 +3064,9 @@ crs#:#crs_archive_type#:#Тип архіву
 crs#:#crs_archive_type_disabled#:#Немає доступу
 crs#:#crs_archives_deleted#:#Архіви видалені
 crs#:#crs_auto_fill#:#Автоматичне заповнення
+crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).###21 Apr 2005 new variable
+crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time.###21 Apr 2005 new variable
+crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.###21 Apr 2005 new variable
 crs#:#crs_blocked#:#Доступ відхилений
 crs#:#crs_blocked_member#:#Членство в курсі
 crs#:#crs_blocked_member_body#:#Ваше членство завершене.
@@ -3238,15 +3241,25 @@ crs#:#crs_password_not_valid#:#Ваш пароль невірний
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Список друку
 crs#:#crs_question_assignment#:#Призначення питання
+crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
+crs#:#crs_reg_deactivated#:#Disabled###21 Apr 2005 new variable
+crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.###21 Apr 2005 new variable
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###21 Apr 2005 new variable
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###21 Apr 2005 new variable
 crs#:#crs_reg_subscription_deactivated#:#Реєстрація заблокована
 crs#:#crs_reg_subscription_end_earlier#:#Час реєстрації скінчився
 crs#:#crs_reg_subscription_max_members_reached#:#Перевищена максимальна кількість користувачів.
 crs#:#crs_reg_subscription_start_later#:#Час реєстрації почався пізніше
+crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types above.###21 Apr 2005 new variable
 crs#:#crs_reg_until#:#Дата реєстрації
 crs#:#crs_reg_user_already_assigned#:#Ви вже призначені на цей курс
 crs#:#crs_reg_user_already_subscribed#:#Ви підписані на цей курс
 crs#:#crs_reg_user_blocked#:#Ви заблоковані від цього курсу
 crs#:#crs_registration#:#Реєстрація курсу
+crs#:#crs_registration_deactivated#:#Choose this option for disabling the registration. No you user can register for this course.###21 Apr 2005 new variable
+crs#:#crs_registration_limited#:#Temporally limited registration###21 Apr 2005 new variable
+crs#:#crs_registration_type#:#Registration type###21 Apr 2005 new variable
+crs#:#crs_registration_unlimited#:#Temporally unlimited###21 Apr 2005 new variable
 crs#:#crs_reject_subscriber#:#Підписка на курсу
 crs#:#crs_reject_subscriber_body#:#Ваша підписка відхилена.
 crs#:#crs_reset_results#:#Скинути результати
@@ -3262,6 +3275,7 @@ crs#:#crs_select_exactly_one_tst#:#Будь ласки виберіть викл
 crs#:#crs_select_native_lm#:#Одиночні глави можуть бути призначені тільки до власних навчальних модулів ILIAS.
 crs#:#crs_select_one_archive#:#Будь ласка виберіть один архів
 crs#:#crs_select_one_object#:#Будь ласка виберіть один елемент курсу.
+crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Виберіть початковий об'єкт
 crs#:#crs_settings#:#Настройки курсу
 crs#:#crs_settings_saved#:#Настроки збережені
@@ -3287,7 +3301,7 @@ crs#:#crs_structure#:#Структура курсу
 crs#:#crs_subscribers#:#Передплатники
 crs#:#crs_subscribers_deleted#:#Видалені передплатники
 crs#:#crs_subscription#:#Підписка
-crs#:#crs_subscription_max_members#:#Максимум членів
+crs#:#crs_subscription_max_members#:#Максимум членів###21 Apr 2005 content changed
 crs#:#crs_subscription_notify#:#Повідомлення про підписки
 crs#:#crs_subscription_options_confirmation#:#Підписка з підтвердженням
 crs#:#crs_subscription_options_deactivated#:#Деактивована
@@ -4652,7 +4666,13 @@ survey#:#glossary_term#:#Термін глосарію
 survey#:#harmonic_mean#:#Гармонійний означає
 survey#:#heading#:#Заголовок
 survey#:#horizontal#:#горизонтальний
+survey#:#import_error_closing_file#:#Error closing the import file!###21 Apr 2005 new variable
+survey#:#import_error_opening_file#:#Error opening the import file!###21 Apr 2005 new variable
+survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!###21 Apr 2005 new variable
+survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!###21 Apr 2005 new variable
+survey#:#import_no_file_selected#:#No file selected!###21 Apr 2005 new variable
 survey#:#import_question#:#Імпортувати питання
+survey#:#import_wrong_file_type#:#Wrong file type!###21 Apr 2005 new variable
 survey#:#insert_after#:#Вставити після
 survey#:#insert_before#:#Вставити перед
 survey#:#insert_missing_question#:#Будь ласка виберіть принаймні одне питання щоб вставити його в опитування!
