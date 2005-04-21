@@ -421,16 +421,16 @@ class ilObjCourse extends ilObject
 		{
 			$this->appendMessage($this->lng->txt("subscription_times_not_valid"));
 		}
-		if((!$this->getActivationUnlimitedStatus() and
-			!$this->getSubscriptionUnlimitedStatus()) and
-			($this->getSubscriptionStart() > $this->getActivationEnd() or
-			 $this->getSubscriptionStart() < $this->getActivationStart() or
-			 $this->getSubscriptionEnd() > $this->getActivationEnd() or
-			 $this->getSubscriptionEnd() <  $this->getActivationStart()))
-		   
-		{
-			$this->appendMessage($this->lng->txt("subscription_time_not_within_activation"));
-		}
+		#if((!$this->getActivationUnlimitedStatus() and
+		#	!$this->getSubscriptionUnlimitedStatus()) and
+		#	($this->getSubscriptionStart() > $this->getActivationEnd() or
+		#	 $this->getSubscriptionStart() < $this->getActivationStart() or
+		#	 $this->getSubscriptionEnd() > $this->getActivationEnd() or
+		#	 $this->getSubscriptionEnd() <  $this->getActivationStart()))
+		#   
+		#{
+		#	$this->appendMessage($this->lng->txt("subscription_time_not_within_activation"));
+		#}
 		if($this->getSubscriptionType() == $this->SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword())
 		{
 			$this->appendMessage($this->lng->txt("password_required"));

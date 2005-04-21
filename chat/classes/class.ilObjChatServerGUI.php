@@ -64,6 +64,10 @@ class ilObjChatServerGUI extends ilObjectGUI
             $_SESSION["error_post_vars"]["chat_internal_ip"] :
             $this->object->server_conf->getInternalIp();
 
+        $external_ip = $_SESSION["error_post_vars"]["chat_external_ip"] ? 
+            $_SESSION["error_post_vars"]["chat_external_ip"] :
+            $this->object->server_conf->getExternalIp();
+
 		$port = $_SESSION["error_post_vars"]["chat_port"] ? 
 			$_SESSION["error_post_vars"]["chat_port"] :
 			$this->object->server_conf->getPort();

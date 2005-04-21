@@ -1,14 +1,15 @@
 	<form action="{FORMACTION}" {TARGET} method="post">
 	  <table class="std" width="60%">
-		<tr class="tblheader">
-		<td class="std" colspan="3">
-		  <table class="invisible_border" width="100%">
-			<tr>
-			  <td>{TXT_HEADER}</td>
-			</tr>
-		  </table>
-		</td>
-	  </tr>
+		  <tr class="tbltitle">
+			<td colspan="4">
+			  <table class="fullwidth_invisible" cellspacing="0">
+				  <tr class="tbltitle">
+					<td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
+					<td class="tbltitle" align="left">&nbsp;{TXT_HEADER}</td>
+				  </tr>
+			  </table>
+			</td>
+		  </tr>
 		<tr>
 		  <td class="option" align="top" rowspan="5">{TXT_VISIBILITY}</td>
 		  <td class="sub_option">{TXT_VISIBILITY_UNVISIBLE}</td>

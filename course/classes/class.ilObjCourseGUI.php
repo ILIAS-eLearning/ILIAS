@@ -469,6 +469,9 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('edit_prpoperties'));
+
 		// LOAD SAVED DATA IN CASE OF ERROR
 		$syllabus = $_SESSION["error_post_vars"]["crs"]["syllabus"] ? 
 			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["syllabus"],true) :
@@ -1107,14 +1110,14 @@ class ilObjCourseGUI extends ilObjectGUI
 		if(!count($_POST['archives']))
 		{
 			sendInfo($this->lng->txt('crs_no_archive_selected'));
-			$this->archiveAdminObject();
+			$this->archiveObject();
 
 			return false;
 		}
 		if(count($_POST['archives']) > 1)
 		{
 			sendInfo($this->lng->txt('crs_select_one_archive'));
-			$this->archiveAdminObject();
+			$this->archiveObject();
 
 			return false;
 		}
