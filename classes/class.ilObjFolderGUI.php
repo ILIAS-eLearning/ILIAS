@@ -88,6 +88,10 @@ class ilObjFolderGUI extends ilObjectGUI
 				{
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
+												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+																										'listConditions')));
+
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else

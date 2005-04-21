@@ -87,6 +87,15 @@ class ilConditionHandlerInterface
 		
 	}
 
+	function setBackButtons($a_btn_arr)
+	{
+		$_SESSION['precon_btn'] = $a_btn_arr;
+	}
+	function getBackButtons()
+	{
+		return $_SESSION['precon_btn'] ? $_SESSION['precon_btn'] : array();
+	}
+
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
@@ -208,6 +217,7 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit.html');
 
+		$this->__showButtons();
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
@@ -325,6 +335,8 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
 
+		$this->__showButtons();
+
 		sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
@@ -363,11 +375,13 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
 
+		$this->__showButtons();
+
 		// does not work in the moment
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('new_selection'));
-		$this->tpl->parseCurrentBlock();
+		#this->tpl->setCurrentBlock("btn_cell");
+		#this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
+		#this->tpl->setVariable("BTN_TXT",$this->lng->txt('new_selection'));
+		#this->tpl->parseCurrentBlock();
 
 		$this->ctrl->setParameter($this,'source_id',(int) $_GET['source_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -482,6 +496,23 @@ class ilConditionHandlerInterface
 			}
 		}
 		return $cond ? $cond : array();
+	}
+
+	function __showButtons()
+	{
+		if(!$this->getBackButtons())
+		{
+			return false;
+		}
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		foreach($this->getBackButtons() as $name => $link)
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$link);
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt($name));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 }

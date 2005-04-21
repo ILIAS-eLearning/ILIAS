@@ -633,6 +633,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		include_once("classes/class.ilConditionHandlerInterface.php");
 
 		$this->condHI =& new ilConditionHandlerInterface($this);
+		$this->condHI->setBackButtons(array());
 		$this->condHI->setAutomaticValidation(false);
 		$this->condHI->setTargetType("st");
 		$this->condHI->setTargetId($this->obj->getId());

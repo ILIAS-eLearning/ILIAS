@@ -85,6 +85,9 @@ class ilCourseContentInterface
 
 				$new_gui =& new ilConditionHandlerInterface($this,$_GET['item_id']);
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+				$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
+											   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+																									'listConditions')));
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
@@ -727,6 +730,15 @@ class ilCourseContentInterface
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 	
 		// display button
+
+		$this->tpl->setCurrentBlock("btn_cell");
+
+		$this->ctrl->setParameterByClass(strtolower(get_class($this->cci_client_obj)),'item_id',(int) $_GET['item_id']);
+		$this->tpl->setVariable("BTN_LINK",
+								$this->ctrl->getLinkTarget($this->cci_client_obj,'cciEdit'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit'));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameterByClass('ilConditionHandlerInterface','item_id',(int) $_GET['item_id']);
 		$this->tpl->setVariable("BTN_LINK",
