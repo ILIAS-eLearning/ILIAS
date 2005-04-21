@@ -109,6 +109,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->touchBlock("internal_link_active1");
 			$this->tpl->touchBlock("internal_link_active2");
 		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+				ilObjStyleSheet::getContentStylePath(0));
+		}
 
 		$this->displayValidationError();
 
@@ -216,7 +221,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->touchBlock("internal_link_active1");
 			$this->tpl->touchBlock("internal_link_active2");
 		}
-
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
+				ilObjStyleSheet::getContentStylePath(0));
+		}
+		
 		$this->displayValidationError();
 
 		// language and characteristic selection
