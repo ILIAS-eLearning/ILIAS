@@ -3402,7 +3402,7 @@ dateplaner#:#app_week#:#vista semanal###07 Apr 2005 content changed
 dateplaner#:#application#:#Calendario###07 Apr 2005 content changed
 dateplaner#:#apply#:#aplicar###07 Apr 2005 content changed
 dateplaner#:#back#:#volver###07 Apr 2005 content changed
-dateplaner#:#begin_date#:#Comienzo de cita:###07 Apr 2005 content changed
+dateplaner#:#begin_date#:#Comienzo de cita###07 Apr 2005 content changed
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo###07 Apr 2005 content changed
 dateplaner#:#c_date#:#Crear cita###07 Apr 2005 content changed
 dateplaner#:#changeTo#:#Modificar a:###07 Apr 2005 content changed
@@ -3443,7 +3443,7 @@ dateplaner#:#dv_startdate#:#Fecha comienzo:###07 Apr 2005 content changed
 dateplaner#:#dv_text#:#Nota:###07 Apr 2005 content changed
 dateplaner#:#dv_whole_day#:#Día completo###07 Apr 2005 content changed
 dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga click en el checkbox)###07 Apr 2005 content changed
-dateplaner#:#end_date#:#Fecha de fin###07 Apr 2005 content changed
+dateplaner#:#end_date#:#Fin de Cita###07 Apr 2005 content changed
 dateplaner#:#endtime_for_view#:#Hora final para visualización
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream###07 Apr 2005 content changed
 dateplaner#:#execute#:#ejecutar acciones###07 Apr 2005 content changed
@@ -3499,7 +3499,7 @@ dateplaner#:#help_week#:#Vista semanal del calendario###07 Apr 2005 content chan
 dateplaner#:#help_week_l#:#En la vista semanal se muestran todas las citas de una semana dada.###07 Apr 2005 content changed
 dateplaner#:#hour#:#hora###07 Apr 2005 content changed
 dateplaner#:#importDates#:#Importar citas de Outlook###07 Apr 2005 content changed
-dateplaner#:#inbox#:#Bandeja de Entrada###07 Apr 2005 content changed
+dateplaner#:#inbox#:#Bandeja de entrada###07 Apr 2005 content changed
 dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éxito:###07 Apr 2005 content changed
 dateplaner#:#k_alldates#:#todas las citas###07 Apr 2005 content changed
 dateplaner#:#keep#:#guardar###07 Apr 2005 content changed
