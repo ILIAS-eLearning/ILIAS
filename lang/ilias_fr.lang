@@ -3053,6 +3053,9 @@ crs#:#crs_archive_type#:#Type d'archive###07 Apr 2005 content changed
 crs#:#crs_archive_type_disabled#:#Pas d'accès###07 Apr 2005 content changed
 crs#:#crs_archives_deleted#:#L'archive a été détruite###07 Apr 2005 content changed
 crs#:#crs_auto_fill#:#Auto-complètement###07 Apr 2005 content changed
+crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).###21 Apr 2005 new variable
+crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time.###21 Apr 2005 new variable
+crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.###21 Apr 2005 new variable
 crs#:#crs_blocked#:#Accès refusé###07 Apr 2005 content changed
 crs#:#crs_blocked_member#:#Appartenance au cours###07 Apr 2005 content changed
 crs#:#crs_blocked_member_body#:#Votre appartenance est terminée###07 Apr 2005 content changed
@@ -3227,15 +3230,25 @@ crs#:#crs_password_not_valid#:#Votre mot de passe n'est pas valide###07 Apr 2005
 crs#:#crs_pdf#:#PDF###07 Apr 2005 content changed
 crs#:#crs_print_list#:#Imprimer liste###07 Apr 2005 content changed
 crs#:#crs_question_assignment#:#Assignation de question###07 Apr 2005 content changed
+crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
+crs#:#crs_reg_deactivated#:#Disabled###21 Apr 2005 new variable
+crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.###21 Apr 2005 new variable
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###21 Apr 2005 new variable
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###21 Apr 2005 new variable
 crs#:#crs_reg_subscription_deactivated#:#L'inscription est désactivée.###07 Apr 2005 content changed
 crs#:#crs_reg_subscription_end_earlier#:#La période d'inscription a expiré.###07 Apr 2005 content changed
 crs#:#crs_reg_subscription_max_members_reached#:#Le nombre maximal d'utilisateurs est dépassé.###07 Apr 2005 content changed
 crs#:#crs_reg_subscription_start_later#:#La période d'inscription commence plus tard.###07 Apr 2005 content changed
+crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types above.###21 Apr 2005 new variable
 crs#:#crs_reg_until#:#Date d'inscription###07 Apr 2005 content changed
 crs#:#crs_reg_user_already_assigned#:#Vous êtes déjà inscrit à ce cours.###07 Apr 2005 content changed
 crs#:#crs_reg_user_already_subscribed#:#Vous vous êtes déjà inscrit à ce cours###07 Apr 2005 content changed
 crs#:#crs_reg_user_blocked#:#Vous êtes exclu de ce cours###07 Apr 2005 content changed
 crs#:#crs_registration#:#Inscription au cours###07 Apr 2005 content changed
+crs#:#crs_registration_deactivated#:#Choose this option for disabling the registration. No you user can register for this course.###21 Apr 2005 new variable
+crs#:#crs_registration_limited#:#Temporally limited registration###21 Apr 2005 new variable
+crs#:#crs_registration_type#:#Registration type###21 Apr 2005 new variable
+crs#:#crs_registration_unlimited#:#Temporally unlimited###21 Apr 2005 new variable
 crs#:#crs_reject_subscriber#:#Inscription au cours###07 Apr 2005 content changed
 crs#:#crs_reject_subscriber_body#:#Votre inscription a été refusée###07 Apr 2005 content changed
 crs#:#crs_reset_results#:#Réinitialiser résultats###07 Apr 2005 content changed
@@ -3251,6 +3264,7 @@ crs#:#crs_select_exactly_one_tst#:#Veuillez sélectionner exactement un test.###
 crs#:#crs_select_native_lm#:#Des chapitres seuls ne peuvent être assignés qu'à des documents ILIAS natifs.###07 Apr 2005 content changed
 crs#:#crs_select_one_archive#:#Veuillez sélectionner une archive###07 Apr 2005 content changed
 crs#:#crs_select_one_object#:#Veuillez sélectionner un objet du cours.###07 Apr 2005 content changed
+crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Sélectionner objet de départ###07 Apr 2005 content changed
 crs#:#crs_settings#:#Paramètres de cours###07 Apr 2005 content changed
 crs#:#crs_settings_saved#:#Paramètres enregistrés###07 Apr 2005 content changed
@@ -4646,7 +4660,13 @@ survey#:#glossary_term#:#Terme de glossaire###07 Apr 2005 content changed
 survey#:#harmonic_mean#:#Moyenne harmonique###07 Apr 2005 content changed
 survey#:#heading#:#Titre###07 Apr 2005 content changed
 survey#:#horizontal#:#horizontal###07 Apr 2005 content changed
+survey#:#import_error_closing_file#:#Error closing the import file!###21 Apr 2005 new variable
+survey#:#import_error_opening_file#:#Error opening the import file!###21 Apr 2005 new variable
+survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!###21 Apr 2005 new variable
+survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!###21 Apr 2005 new variable
+survey#:#import_no_file_selected#:#No file selected!###21 Apr 2005 new variable
 survey#:#import_question#:#Importer question(s)###07 Apr 2005 content changed
+survey#:#import_wrong_file_type#:#Wrong file type!###21 Apr 2005 new variable
 survey#:#insert_after#:#Insérer après###07 Apr 2005 content changed
 survey#:#insert_before#:#Insérer avant###07 Apr 2005 content changed
 survey#:#insert_missing_question#:#Veuillez sélectionner au moins une question pour l'insérer dans le sondage.###07 Apr 2005 content changed
