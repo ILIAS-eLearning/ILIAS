@@ -4891,3 +4891,7 @@ survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
 common#:#unread_lowercase#:#ungelesen
 common#:#new_lowercase#:#neu
 common#:#frm_article#:#Beitrag
+crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
+crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
+crs#:#crs_members_footer#:#Kursmitglied(er)
+crs#:#crs_members_footer_passed#:#bestanden
