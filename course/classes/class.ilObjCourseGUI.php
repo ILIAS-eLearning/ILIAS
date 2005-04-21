@@ -248,6 +248,28 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			return true;
 		}
+		else
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+			// display button
+		
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
+			$this->tpl->parseCurrentBlock();
+		}
+
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
@@ -319,10 +341,24 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+
+		// display button
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
 		$this->tpl->parseCurrentBlock();
+
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
@@ -414,6 +450,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		
 		if($this->ctrl->getTargetScript() != 'adm_object.php')
 		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
@@ -3510,13 +3551,23 @@ class ilObjCourseGUI extends ilObjectGUI
 
 				if($_GET['item_id'])
 				{
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+					$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
+												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+																										'listConditions')));
+					
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else
 				{
 					$new_gui =& new ilConditionHandlerInterface($this);
+					$new_gui->setBackButtons(array('edit_properties' => $this->ctrl->getLinkTarget($this,'edit'),
+												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+																										'listConditions'),
+												   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'list_structure')));
+
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				break;
