@@ -717,7 +717,7 @@ common#:#activate_tracking#:#Activar Seguimiento###07 Apr 2005 content changed
 common#:#activation#:#Activación###07 Apr 2005 content changed
 common#:#active#:#Activo###07 Apr 2005 content changed
 common#:#active_roles#:#Roles activos###07 Apr 2005 content changed
-common#:#add#:#añadir###07 Apr 2005 content changed
+common#:#add#:#Añadir###07 Apr 2005 content changed
 common#:#add_author#:#añadir author###07 Apr 2005 content changed
 common#:#add_condition#:#Crear nueva asociación###07 Apr 2005 content changed
 common#:#add_member#:#añadir miembro###07 Apr 2005 content changed
@@ -768,7 +768,7 @@ common#:#applied_users#:#Usuarios ¿matriculados?###07 Apr 2005 content changed
 common#:#apply#:#-Aplicar-###07 Apr 2005 content changed
 common#:#apply_filter#:#Aplicar filtro###07 Apr 2005 content changed
 common#:#appointment#:#Cita###07 Apr 2005 content changed
-common#:#appointment_list#:#Lista de Citas###07 Apr 2005 content changed
+common#:#appointment_list#:#Lista de citas###07 Apr 2005 content changed
 common#:#approve_date#:#Admitido###07 Apr 2005 content changed
 common#:#approve_recipient#:#Login ID del gestor de admisiones###07 Apr 2005 content changed
 common#:#archive#:#archivo###07 Apr 2005 content changed
@@ -944,10 +944,10 @@ common#:#chg_password#:#cambiar contraseña###07 Apr 2005 content changed
 common#:#choose_language#:#escoja su idioma###07 Apr 2005 content changed
 common#:#choose_location#:#Elija una ruta###07 Apr 2005 content changed
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma###07 Apr 2005 content changed
-common#:#city#:#ciudad###07 Apr 2005 content changed
+common#:#city#:#Ciudad###07 Apr 2005 content changed
 common#:#cleaned_file#:#El fichero ha sido limpiado.###07 Apr 2005 content changed
 common#:#cleaning_failed#:#La limpieza falló.###07 Apr 2005 content changed
-common#:#clear#:#-clear-###07 Apr 2005 content changed
+common#:#clear#:#Borrar
 common#:#clear_clipboard#:#Vaciar portapapeles.###07 Apr 2005 content changed
 common#:#client ip#:#Ip Cliente###07 Apr 2005 content changed
 common#:#client#:#Cliente###07 Apr 2005 content changed
@@ -985,7 +985,7 @@ common#:#copyPage#:#Copiar###07 Apr 2005 content changed
 common#:#copy_of#:#Copia de###07 Apr 2005 content changed
 common#:#copy_to#:#a ###07 Apr 2005 content changed
 common#:#count#:#Cuenta###07 Apr 2005 content changed
-common#:#country#:#país###07 Apr 2005 content changed
+common#:#country#:#País###07 Apr 2005 content changed
 common#:#course#:#curso###07 Apr 2005 content changed
 common#:#courses#:#cursos###07 Apr 2005 content changed
 common#:#create#:#crear###07 Apr 2005 content changed
@@ -1042,7 +1042,7 @@ common#:#crs_visible#:#El Curso es visible###07 Apr 2005 content changed
 common#:#crs_write#:#Editar Curso###07 Apr 2005 content changed
 common#:#cumulative_time#:#Tiempo Acumulado###07 Apr 2005 content changed
 common#:#cur_number_rec#:#Número actual de registros###07 Apr 2005 content changed
-common#:#current_password#:#contraseña actual###07 Apr 2005 content changed
+common#:#current_password#:#Contraseña actual###07 Apr 2005 content changed
 common#:#cut#:#cortar###07 Apr 2005 content changed
 common#:#cutPage#:#Cortar###07 Apr 2005 content changed
 common#:#daily#:#diariamente###07 Apr 2005 content changed
@@ -1077,7 +1077,7 @@ common#:#default#:#por defecto###07 Apr 2005 content changed
 common#:#default_language#:#Idioma por defecto###07 Apr 2005 content changed
 common#:#default_perm_settings#:#Permisos por defecto###07 Apr 2005 content changed
 common#:#default_role#:#Rol por defecto###07 Apr 2005 content changed
-common#:#default_roles#:#roles por defecto
+common#:#default_roles#:#Roles por defecto
 common#:#default_skin#:#Skin por defecto###07 Apr 2005 content changed
 common#:#default_skin_style#:#Skin por defecto / Estilo###07 Apr 2005 content changed
 common#:#default_style#:#Estilo por defecto###07 Apr 2005 content changed
@@ -1090,7 +1090,7 @@ common#:#delete_tr_data#:#Eliminar datos de seguimiento###07 Apr 2005 content ch
 common#:#deleted#:#borrados###07 Apr 2005 content changed
 common#:#deleted_user#:#El usuario ha sido eliminado###07 Apr 2005 content changed
 common#:#deliver#:#Enviar ejercicio.###07 Apr 2005 content changed
-common#:#department#:#departamento
+common#:#department#:#Departamento
 common#:#desc#:#descripción###07 Apr 2005 content changed
 common#:#description#:#descripción###07 Apr 2005 content changed
 common#:#desired_password#:#contraseña deseada###07 Apr 2005 content changed
@@ -1115,7 +1115,7 @@ common#:#edit_roleassignment#:#Editar asignación de rol###07 Apr 2005 content c
 common#:#edit_stylesheet#:#Editar hoja de estilos###07 Apr 2005 content changed
 common#:#edited_at#:#editado en###07 Apr 2005 content changed
 common#:#editor#:#editor###07 Apr 2005 content changed
-common#:#email#:#email###07 Apr 2005 content changed
+common#:#email#:#E-mail###07 Apr 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS###07 Apr 2005 content changed
 common#:#email_not_valid#:#La dirección de correo electrónico introducida no es válida!###07 Apr 2005 content changed
 common#:#enable#:#habilitar###07 Apr 2005 content changed
@@ -1222,7 +1222,7 @@ common#:#files#:#Ficheros###07 Apr 2005 content changed
 common#:#files_location#:#ubicación de los ficheros###07 Apr 2005 content changed
 common#:#fill_out_all_required_fields#:#por favor rellene todos los campos requeridos###07 Apr 2005 content changed
 common#:#filter#:#Filtro###07 Apr 2005 content changed
-common#:#firstname#:#nombre###07 Apr 2005 content changed
+common#:#firstname#:#Nombre###07 Apr 2005 content changed
 common#:#flatview#:#Vista Plana###07 Apr 2005 content changed
 common#:#fold#:#Carpeta###07 Apr 2005 content changed
 common#:#fold_a#:#una Carpeta###07 Apr 2005 content changed
@@ -1287,7 +1287,7 @@ common#:#fullname#:#Nombre Completo###07 Apr 2005 content changed
 common#:#functions#:#funciones###07 Apr 2005 content changed
 common#:#gdf_add#:#Añadir Definición###07 Apr 2005 content changed
 common#:#gdf_new#:#Nueva Definición###07 Apr 2005 content changed
-common#:#gender#:#género###07 Apr 2005 content changed
+common#:#gender#:#Género###07 Apr 2005 content changed
 common#:#gender_f#:#Mujer###07 Apr 2005 content changed
 common#:#gender_m#:#Hombre###07 Apr 2005 content changed
 common#:#general_settings#:#Configuración General###07 Apr 2005 content changed
@@ -1446,7 +1446,7 @@ common#:#hlm_leave#:#Darse de baja en Módulo de aprendizaje HACP###07 Apr 2005 
 common#:#hlm_read#:#Acceso de lectura a Módulo de aprendizaje HACP###07 Apr 2005 content changed
 common#:#hlm_visible#:#Módulo de aprendizaje HACP visible###07 Apr 2005 content changed
 common#:#hlm_write#:#Editar Módulo de aprendizaje HACP###07 Apr 2005 content changed
-common#:#hobby#:#intereses/hobbies###07 Apr 2005 content changed
+common#:#hobby#:#Intereses/hobbies###07 Apr 2005 content changed
 common#:#home#:#Inicio###07 Apr 2005 content changed
 common#:#host#:#host###07 Apr 2005 content changed
 common#:#hours_of_day#:#Horas del día###07 Apr 2005 content changed
@@ -1513,7 +1513,7 @@ common#:#imported#:#importado###07 Apr 2005 content changed
 common#:#in#:#en###07 Apr 2005 content changed
 common#:#in_use#:#idioma de usuario###07 Apr 2005 content changed
 common#:#inactive#:#Inactivo###07 Apr 2005 content changed
-common#:#inbox#:#Bandeja de Entrada###07 Apr 2005 content changed
+common#:#inbox#:#Bandeja de entrada###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Información###07 Apr 2005 content changed
 common#:#info_assign_sure#:#¿Está seguro de que quiere asignar los siguientes usuario(s)?###07 Apr 2005 content changed
@@ -1554,7 +1554,7 @@ common#:#install#:#instalar###07 Apr 2005 content changed
 common#:#install_local#:#Instalar fichero local
 common#:#installed#:#instalado###07 Apr 2005 content changed
 common#:#installed_local#:#Versión local instalada
-common#:#institution#:#institución###07 Apr 2005 content changed
+common#:#institution#:#Institución###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Roles locales (sólo autogenerados)###07 Apr 2005 content changed
 common#:#internal_system#:#Sistema Interno###07 Apr 2005 content changed
 common#:#ip_address#:#dirección IP###07 Apr 2005 content changed
@@ -1593,7 +1593,7 @@ common#:#lang_vi#:#Vietnamita###07 Apr 2005 content changed
 common#:#lang_xx#:#Propio###07 Apr 2005 content changed
 common#:#lang_zh#:#Chino simplificado###07 Apr 2005 content changed
 common#:#langfile_found#:#Fichero de Idioma encontrado###07 Apr 2005 content changed
-common#:#language#:#idioma###07 Apr 2005 content changed
+common#:#language#:#Idioma###07 Apr 2005 content changed
 common#:#language_not_installed#:#no está instalado. Por favor instale el idioma primero.###07 Apr 2005 content changed
 common#:#languages#:#idiomas###07 Apr 2005 content changed
 common#:#languages_already_installed#:#Extraño. Idioma(s) elegido(s) están ya instalados.###07 Apr 2005 content changed
@@ -1603,8 +1603,8 @@ common#:#last_access#:#Última acceso:###07 Apr 2005 content changed
 common#:#last_change#:#última modificación###07 Apr 2005 content changed
 common#:#last_update#:#Última Actualización###07 Apr 2005 content changed
 common#:#last_visit#:#Última visita###07 Apr 2005 content changed
-common#:#lastname#:#apellido###07 Apr 2005 content changed
-common#:#launch#:#-lanzar-###07 Apr 2005 content changed
+common#:#lastname#:#Apellidos###07 Apr 2005 content changed
+common#:#launch#:#ejecutar###07 Apr 2005 content changed
 common#:#ldap#:#LDAP###07 Apr 2005 content changed
 common#:#ldap_basedn#:#LDAP BaseDN###07 Apr 2005 content changed
 common#:#ldap_configure#:#Configurar Autenticación LDAP###07 Apr 2005 content changed
@@ -1727,7 +1727,7 @@ common#:#mails#:#correos###07 Apr 2005 content changed
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento###07 Apr 2005 content changed
 common#:#mark_all_read#:#marcar todos como leídos###07 Apr 2005 content changed
 common#:#mark_all_unread#:#marcar todos como no leídos###07 Apr 2005 content changed
-common#:#matriculation#:#Número de Matrícula
+common#:#matriculation#:#Número de matrícula
 common#:#max_number_rec#:#Máximo número de registros###07 Apr 2005 content changed
 common#:#max_time#:#Tiempo Máximo###07 Apr 2005 content changed
 common#:#member#:#Miembro###07 Apr 2005 content changed
@@ -1866,21 +1866,21 @@ common#:#msg_trash_empty#:#No hay objetos eliminados###07 Apr 2005 content chang
 common#:#msg_undeleted#:#Objeto(s) restaurado(s).###07 Apr 2005 content changed
 common#:#msg_user_last_role1#:#Los siguientes usuarios están únicamente asignados a este rol:###07 Apr 2005 content changed
 common#:#msg_user_last_role2#:#Por favor elimine los usuarios o asígnelos a otro rol para poder eliminar este rol###07 Apr 2005 content changed
-common#:#msg_userassignment_changed#:#-Asignación de usuario modificada-###07 Apr 2005 content changed
+common#:#msg_userassignment_changed#:#Asignación de usuario realizada
 common#:#multimedia#:#multimedia###07 Apr 2005 content changed
-common#:#my_bms#:#Mis Marcadores###07 Apr 2005 content changed
-common#:#my_frms#:#Mis Foros###07 Apr 2005 content changed
-common#:#my_grps#:#Mis Grupos###07 Apr 2005 content changed
-common#:#my_los#:#Mis Objetos de Aprendizaje###07 Apr 2005 content changed
-common#:#my_tsts#:#Mis Tests###07 Apr 2005 content changed
-common#:#name#:#nombre###07 Apr 2005 content changed
+common#:#my_bms#:#Mis marcadores###07 Apr 2005 content changed
+common#:#my_frms#:#Mis foros###07 Apr 2005 content changed
+common#:#my_grps#:#Mis grupos###07 Apr 2005 content changed
+common#:#my_los#:#Mis objetos de aprendizaje###07 Apr 2005 content changed
+common#:#my_tsts#:#Mis tests###07 Apr 2005 content changed
+common#:#name#:#Nombre###07 Apr 2005 content changed
 common#:#never#:#nunca###07 Apr 2005 content changed
 common#:#new#:#nuevo###07 Apr 2005 content changed
 common#:#new_appointment#:#Nueva Cita###07 Apr 2005 content changed
 common#:#new_folder#:#nueva carpeta###07 Apr 2005 content changed
 common#:#new_group#:#nuevo grupo###07 Apr 2005 content changed
 common#:#new_language#:#Nuevo idioma###07 Apr 2005 content changed
-common#:#new_list_password#:#Nuevas sugerencias###07 Apr 2005 content changed
+common#:#new_list_password#:#nuevas sugerencias###07 Apr 2005 content changed
 common#:#new_mail#:#Nuevo correo!###07 Apr 2005 content changed
 common#:#news#:#noticias###07 Apr 2005 content changed
 common#:#next#:#siguiente###07 Apr 2005 content changed
@@ -2097,18 +2097,18 @@ common#:#permission_settings#:#configuración de Permisos###07 Apr 2005 content 
 common#:#person_title#:#estado civil###07 Apr 2005 content changed
 common#:#personal_data#:#Información personal###07 Apr 2005 content changed
 common#:#personal_desktop#:#Escritorio Personal###07 Apr 2005 content changed
-common#:#personal_picture#:#foto personal###07 Apr 2005 content changed
-common#:#personal_profile#:#Perfil Personal###07 Apr 2005 content changed
+common#:#personal_picture#:#Foto personal###07 Apr 2005 content changed
+common#:#personal_profile#:#Perfil personal###07 Apr 2005 content changed
 common#:#persons#:#Personas###07 Apr 2005 content changed
 common#:#pg_a#:#una página###07 Apr 2005 content changed
 common#:#pg_add#:#Añadir página###07 Apr 2005 content changed
 common#:#pg_added#:#Página añadida###07 Apr 2005 content changed
 common#:#pg_edit#:#Editar página###07 Apr 2005 content changed
 common#:#pg_new#:#Nueva página###07 Apr 2005 content changed
-common#:#phone#:#teléfono###07 Apr 2005 content changed
-common#:#phone_home#:#teléfono, casa###07 Apr 2005 content changed
-common#:#phone_mobile#:#teléfono, móvil###07 Apr 2005 content changed
-common#:#phone_office#:#teléfono, oficina###07 Apr 2005 content changed
+common#:#phone#:#Teléfono###07 Apr 2005 content changed
+common#:#phone_home#:#Teléfono, casa###07 Apr 2005 content changed
+common#:#phone_mobile#:#Teléfono, móvil###07 Apr 2005 content changed
+common#:#phone_office#:#Teléfono, oficina###07 Apr 2005 content changed
 common#:#phrase#:#conjunto###07 Apr 2005 content changed
 common#:#please_enter_target#:#Por favor introduzca un destino.###07 Apr 2005 content changed
 common#:#please_enter_title#:#Por favor introduzca un título.###07 Apr 2005 content changed
@@ -2163,12 +2163,12 @@ common#:#reg_passwd_via_mail#:#Su contraseña será enviada a su dirección de e
 common#:#register#:#Registrar###07 Apr 2005 content changed
 common#:#register_info#:#Por favor rellene el formulario para registrarse(Los campos marcados con un asterisco son información obligada).###07 Apr 2005 content changed
 common#:#registered_since#:#registrado desde###07 Apr 2005 content changed
-common#:#registered_user#:#Usuario registrado###07 Apr 2005 content changed
-common#:#registered_users#:#Usuarios registrados###07 Apr 2005 content changed
+common#:#registered_user#:#Usuario online###07 Apr 2005 content changed
+common#:#registered_users#:#Usuarios online###07 Apr 2005 content changed
 common#:#registration#:#Nuevo registro de cuenta###07 Apr 2005 content changed
 common#:#registration_disabled#:#Sólo disponible con autenticación local###07 Apr 2005 content changed
 common#:#registration_expired#:#Período de Registro expiró...###07 Apr 2005 content changed
-common#:#remove#:#-Descartar-###07 Apr 2005 content changed
+common#:#remove#:#Eliminar
 common#:#remove_personal_picture#:#Eliminar###07 Apr 2005 content changed
 common#:#remove_translation#:#Eliminar traducción###07 Apr 2005 content changed
 common#:#rename#:#Renombrar###07 Apr 2005 content changed
@@ -2333,7 +2333,7 @@ common#:#show_structure#:#habilitar vista estructurada###07 Apr 2005 content cha
 common#:#show_users_online#:#Mostrar usuarios conectados###07 Apr 2005 content changed
 common#:#signature#:#firma###07 Apr 2005 content changed
 common#:#size#:#Tamaño###07 Apr 2005 content changed
-common#:#skin_style#:#tema / estilo por defecto###07 Apr 2005 content changed
+common#:#skin_style#:#Tema / estilo por defecto###07 Apr 2005 content changed
 common#:#smtp#:#SMTP###07 Apr 2005 content changed
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)###07 Apr 2005 content changed
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.###07 Apr 2005 content changed
@@ -2357,7 +2357,7 @@ common#:#statistic#:#Estadística###07 Apr 2005 content changed
 common#:#status#:#estado###07 Apr 2005 content changed
 common#:#step#:#step###07 Apr 2005 content changed
 common#:#stop_inheritance#:#Parar Herencia###07 Apr 2005 content changed
-common#:#street#:#calle###07 Apr 2005 content changed
+common#:#street#:#Calle###07 Apr 2005 content changed
 common#:#structure#:#estructura###07 Apr 2005 content changed
 common#:#sty#:#Estilo###07 Apr 2005 content changed
 common#:#style_activation#:#Activación de Estlo###07 Apr 2005 content changed
@@ -2428,7 +2428,7 @@ common#:#time_limit_reached#:#Su período de acceso expiró.###07 Apr 2005 conte
 common#:#time_limit_users_updated#:#Datos de usuario actualizados###07 Apr 2005 content changed
 common#:#time_limits#:#Acceso###07 Apr 2005 content changed
 common#:#time_segment#:#Segmento de Tiempo###07 Apr 2005 content changed
-common#:#title#:#título###07 Apr 2005 content changed
+common#:#title#:#Título###07 Apr 2005 content changed
 common#:#to#:#to:###07 Apr 2005 content changed
 common#:#to_client_list#:#Seleccionar Instalación###07 Apr 2005 content changed
 common#:#to_desktop#:#Al Escritorio###07 Apr 2005 content changed
@@ -2481,7 +2481,7 @@ common#:#update#:#Editar###07 Apr 2005 content changed
 common#:#update_applied#:#actualización realizada###07 Apr 2005 content changed
 common#:#update_language#:#actualizar idioma###07 Apr 2005 content changed
 common#:#update_on_conflict#:#Actualizar si hay conflicto###07 Apr 2005 content changed
-common#:#upload#:#Cargar###07 Apr 2005 content changed
+common#:#upload#:#cargar###07 Apr 2005 content changed
 common#:#upload_error_file_not_found#:#Error al cargar: fichero no encontrado###07 Apr 2005 content changed
 common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede comenzar a importarlo.###07 Apr 2005 content changed
 common#:#url#:#url###07 Apr 2005 content changed
@@ -2513,8 +2513,8 @@ common#:#user_language#:#Idioma de Usuario###07 Apr 2005 content changed
 common#:#user_not_chosen#:#No escogió un miembro de grupo!###07 Apr 2005 content changed
 common#:#user_profile_other#:#Otra Información###07 Apr 2005 content changed
 common#:#user_statistics#:#Datos estadísticos###07 Apr 2005 content changed
-common#:#userdata#:#datos de usuario###07 Apr 2005 content changed
-common#:#username#:#username###07 Apr 2005 content changed
+common#:#userdata#:#Datos de usuario###07 Apr 2005 content changed
+common#:#username#:#Username###07 Apr 2005 content changed
 common#:#users#:#usuarios###07 Apr 2005 content changed
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados###07 Apr 2005 content changed
 common#:#users_online#:#Usuarios conectados###07 Apr 2005 content changed
@@ -2527,14 +2527,14 @@ common#:#usr_added#:#Usuario añadido###07 Apr 2005 content changed
 common#:#usr_agreement#:#acuerdo de usuario###07 Apr 2005 content changed
 common#:#usr_agreement_empty#:#El acuerdo de usuario no contiene texto.###07 Apr 2005 content changed
 common#:#usr_edit#:#Editar Usuario###07 Apr 2005 content changed
-common#:#usr_hits_per_page#:#items/página en tablas###07 Apr 2005 content changed
+common#:#usr_hits_per_page#:#Items/página en tablas###07 Apr 2005 content changed
 common#:#usr_inactive_only#:#Sólo Usuarios Inactivos###07 Apr 2005 content changed
 common#:#usr_new#:#Nuevo Usuario###07 Apr 2005 content changed
 common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.###07 Apr 2005 content changed
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario###07 Apr 2005 content changed
 common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal###07 Apr 2005 content changed
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!###07 Apr 2005 content changed
-common#:#usr_skin_style#:#tema / estilo
+common#:#usr_skin_style#:#Tema / estilo
 common#:#usr_style#:#estilo de usuario###07 Apr 2005 content changed
 common#:#usrf#:#Cuentas de usuario###07 Apr 2005 content changed
 common#:#usrf_create_user#:#Crear nueva cuenta de usuario###07 Apr 2005 content changed
@@ -2616,8 +2616,8 @@ common#:#write#:#escribir###07 Apr 2005 content changed
 common#:#yes#:#si###07 Apr 2005 content changed
 common#:#you_may_add_local_roles#:#Puede añadir roles locales###07 Apr 2005 content changed
 common#:#your_message#:#su mensaje###07 Apr 2005 content changed
-common#:#zip#:#código postal###07 Apr 2005 content changed
-common#:#zipcode#:#código postal###07 Apr 2005 content changed
+common#:#zip#:#Código postal###07 Apr 2005 content changed
+common#:#zipcode#:#Código postal###07 Apr 2005 content changed
 content#:#HTML export#:#Exportar a HTML###07 Apr 2005 content changed
 content#:#PDF export#:#Exportar a PDF###07 Apr 2005 content changed
 content#:#Pages#:#Páginas###07 Apr 2005 content changed
@@ -3089,7 +3089,7 @@ crs#:#crs_change_status#:#Modificar estado del objetivo:###07 Apr 2005 content c
 crs#:#crs_chapter_already_assigned#:#Estos capítulos ya están asignados###07 Apr 2005 content changed
 crs#:#crs_contact#:#Contacto###07 Apr 2005 content changed
 crs#:#crs_contact_consultation#:#Tutorías###07 Apr 2005 content changed
-crs#:#crs_contact_email#:#Email###07 Apr 2005 content changed
+crs#:#crs_contact_email#:#E-mail###07 Apr 2005 content changed
 crs#:#crs_contact_name#:#Nombre###07 Apr 2005 content changed
 crs#:#crs_contact_phone#:#teléfono###07 Apr 2005 content changed
 crs#:#crs_contact_responsibility#:#Responsabilidad###07 Apr 2005 content changed
@@ -3375,7 +3375,7 @@ dateplaner#:#Language_file#:#castellano###07 Apr 2005 content changed
 dateplaner#:#Listbox_long#:#Lista de Citas###07 Apr 2005 content changed
 dateplaner#:#Mo_long#:#Lunes###07 Apr 2005 content changed
 dateplaner#:#Mo_short#:#Lu###07 Apr 2005 content changed
-dateplaner#:#Month_long#:#Vista Mensual###07 Apr 2005 content changed
+dateplaner#:#Month_long#:#Vista mensual###07 Apr 2005 content changed
 dateplaner#:#Sa_long#:#Sábado###07 Apr 2005 content changed
 dateplaner#:#Sa_short#:#Sa###07 Apr 2005 content changed
 dateplaner#:#Su_long#:#Domingo###07 Apr 2005 content changed
@@ -3388,9 +3388,9 @@ dateplaner#:#Tu_short#:#Ma###07 Apr 2005 content changed
 dateplaner#:#View#:#Vista:###07 Apr 2005 content changed
 dateplaner#:#We_long#:#Miércoles###07 Apr 2005 content changed
 dateplaner#:#We_short#:#Mi###07 Apr 2005 content changed
-dateplaner#:#Week_long#:#Vista Semanal###07 Apr 2005 content changed
+dateplaner#:#Week_long#:#Vista semanal###07 Apr 2005 content changed
 dateplaner#:#add_data#:#datos adicionales###07 Apr 2005 content changed
-dateplaner#:#app_#:#bandeja de citas ###07 Apr 2005 content changed
+dateplaner#:#app_#:#Bandeja de entrada ###07 Apr 2005 content changed
 dateplaner#:#app_date#:#insertar cita###07 Apr 2005 content changed
 dateplaner#:#app_day#:#vista diaria###07 Apr 2005 content changed
 dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)###07 Apr 2005 content changed
@@ -3404,7 +3404,7 @@ dateplaner#:#apply#:#aplicar###07 Apr 2005 content changed
 dateplaner#:#back#:#volver###07 Apr 2005 content changed
 dateplaner#:#begin_date#:#Comienzo de cita:###07 Apr 2005 content changed
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo###07 Apr 2005 content changed
-dateplaner#:#c_date#:#Crear Cita###07 Apr 2005 content changed
+dateplaner#:#c_date#:#Crear cita###07 Apr 2005 content changed
 dateplaner#:#changeTo#:#Modificar a:###07 Apr 2005 content changed
 dateplaner#:#changedDates#:#Citas Modificadas###07 Apr 2005 content changed
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre###07 Apr 2005 content changed
