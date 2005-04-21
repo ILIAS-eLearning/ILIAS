@@ -80,7 +80,7 @@ class ilChatServerConfig
     }
     function getExternalIp()
     {
-        return $this->external_ip;
+        return $this->external_ip ? $this->external_ip : $this->internal_ip;
     }
 	function setPort($port)
 	{
