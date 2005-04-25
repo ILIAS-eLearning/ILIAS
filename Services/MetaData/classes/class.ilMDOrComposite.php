@@ -30,24 +30,88 @@
 * @version $Id$
 */
 include_once 'class.ilMDBase.php';
+include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
 class ilMDOrComposite extends ilMDRequirement
 {
 	var $parent_obj = null;
 
-	function ilMDOrComposite(&$parent_obj,$a_id = null)
+	function ilMDOrComposite(&$parent_obj,$a_or_composite_id = null)
 	{
 		parent::ilMDRequirement($parent_obj,$a_id);
+
+		if($a_or_composite_id)
+		{
+			$this->setOrCompositeId($a_or_composite_id);
+		}
 	}
 
 	// SET/GET
-	function setIsOrComposite($a_is_or_composite)
+	function setOrCompositeId($a_or_composite_id)
 	{
-		$this->is_or_composite = (int) $a_is_or_composite;
+		$this->or_composite_id = (int) $a_or_composite_id;
 	}
-	function getIsOrComposite()
+	function getOrCompositeId()
 	{
-		return $this->is_or_composite;
+		if(!$this->or_composite_id)
+		{
+			$query = "SELECT MAX(or_composite_id) AS orc FROM il_meta_requirement ".
+				"WHERE rbac_id = '".$this->getRBACId()."' ".
+				"AND obj_id = '".$this->getObjId()."' ".
+				"GROUP BY or_composite_id";
+
+			$res = $this->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->or_composite_id = $row->orc;
+			}
+			++$this->or_composite_id;
+		}
+		return $this->or_composite_id;
+	}
+
+	function &getRequirementIds()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+
+		return ilMDRequirement::_getIds($this->getRBACId(),
+										$this->getObjId(),
+										$this->parent_obj->getMetaId(),
+										$this->parent_obj->getMetaType(),
+										$this->getOrCompositeId());
+	}
+
+	function &getRequirement($a_requirement_id)
+	{
+		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+
+		if(!$a_requirement_id)
+		{
+			return false;
+		}
+		$req = new ilMDRequirement($this->parent_obj,$a_requirement_id);
+		$req->setOrCompositeId($this->getOrCompositeId());
+
+		return $req;
+	}
+
+	function &addRequirement()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+
+		$req = new ilMDRequirement($this->parent_obj);
+		$req->setOrCompositeId($this->getOrCompositeId());
+
+		return $req;
+	}
+
+	/*
+	 * Overwritten save method, to get new or_composite_id
+	 * 
+	 */
+	function save()
+	{
+		echo 'Use ilMDOrcomposite::addRequirement()';
 	}
 				
 	/*
@@ -57,8 +121,14 @@ class ilMDOrComposite extends ilMDRequirement
 	 */
 	function toXML(&$writer)
 	{
+		// For all requirements
 		$writer->xmlStartTag('OrComposite');
-		parent::toXML($writer);
+
+		foreach($this->getRequirementIds() as $id)
+		{
+			$req = $this->getRequirement($id);
+			$req->toXML($writer);
+		}
 		$writer->xmlEndTag('OrComposite');
 		
 	}
@@ -69,18 +139,18 @@ class ilMDOrComposite extends ilMDRequirement
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_requirement_id FROM il_meta_requirement ".
+		$query = "SELECT DISTINCT(or_composite_id) AS or_composite_id FROM il_meta_requirement ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type."' ".
-			"AND is_or_composite = '1' ".
-			"ORDER BY meta_requirement_id";
+			"AND or_composite_id > 0 ".
+			"ORDER BY or_composite_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_requirement_id;
+			$ids[] = $row->or_composite_id;
 		}
 		return $ids ? $ids : array();
 	}

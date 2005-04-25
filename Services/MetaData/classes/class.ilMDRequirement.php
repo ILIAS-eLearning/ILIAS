@@ -54,13 +54,13 @@ class ilMDRequirement extends ilMDBase
 	}
 
 	// SET/GET
-	function setIsOrComposite($a_is_or_composite)
+	function setOrCompositeId($a_or_composite_id)
 	{
-		$this->is_or_composite = (int) $a_is_or_composite;
+		$this->or_composite_id = (int) $a_or_composite_id;
 	}
-	function getIsOrComposite()
+	function getOrCompositeId()
 	{
-		return $this->is_or_composite;
+		return (int) $this->or_composite_id;
 	}
 
 
@@ -195,7 +195,7 @@ class ilMDRequirement extends ilMDBase
 					 'browser_name'	=> ilUtil::prepareDBString($this->getBrowserName()),
 					 'browser_minimum_version' => ilUtil::prepareDBString($this->getBrowserMinimumVersion()),
 					 'browser_maximum_version' => ilUtil::prepareDBString($this->getBrowserMaximumVersion()),
-					 'is_or_composite' => $this->getIsOrComposite());
+					 'or_composite_id' => $this->getOrCompositeId());
 	}
 
 	function read()
@@ -216,7 +216,7 @@ class ilMDRequirement extends ilMDBase
 				$this->setBrowserName(ilUtil::stripSlashes($row->browser_name));
 				$this->setBrowserMinimumVersion(ilUtil::stripSlashes($row->browser_minimum_version));
 				$this->setBrowserMaximumVersion(ilUtil::stripSlashes($row->browser_maximum_version));
-				$this->setIsOrComposite(ilUtil::stripSlashes($row->is_or_composite));
+				$this->setOrCompositeId(ilUtil::stripSlashes($row->or_composite_id));
 			}
 		}
 		return true;
@@ -251,7 +251,7 @@ class ilMDRequirement extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
 		global $ilDB;
 
@@ -260,7 +260,7 @@ class ilMDRequirement extends ilMDBase
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type."' ".
-			"AND is_or_composite = '0' ".
+			"AND or_composite_id = '".$a_or_composite_id."' ".
 			"ORDER BY meta_requirement_id";
 
 		$res = $ilDB->query($query);

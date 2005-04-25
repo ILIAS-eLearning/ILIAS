@@ -232,6 +232,12 @@ class ilMDSaxParser extends ilSaxParser
 				$this->__pushParent($this->md_req);
 				break;
 
+			case 'OrComposite':
+				$par = $this->__getParent();
+				$this->md_orc =& $par->addOrComposite();
+				$this->__pushParent($this->md_orc);
+				break;
+
 			case 'Type':
 				break;
 
@@ -488,6 +494,10 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Requirement':
 				$par = $this->__getParent();
 				$par->update();
+				$this->__popParent();
+				break;
+
+			case 'OrComposite':
 				$this->__popParent();
 				break;
 
