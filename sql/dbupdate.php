@@ -6205,3 +6205,6 @@ ALTER TABLE `il_meta_identifier` CHANGE `entry_id` `entry` TEXT CHARACTER SET ut
 ALTER TABLE `il_meta_keyword` CHANGE `parent_id` `parent_id` INT( 11 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_taxon` CHANGE `parent_type` `parent_type` CHAR( 32 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_taxon_path` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL ;
+
+<#424>
+ALTER TABLE `il_meta_requirement` ADD `or_composite_id` INT( 11 ) NOT NULL ;
