@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @modulelanguage file german
@@ -187,7 +187,7 @@ dateplaner#:#keywords#:#Schlagwörter
 dateplaner#:#last_change#:#letzte Änderung am
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#Februar
-dateplaner#:#long_03#:#März
+dateplaner#:#long_03#:#M&auml;rz
 dateplaner#:#long_04#:#April###16 Mar 2004 new variable
 dateplaner#:#long_05#:#Mai
 dateplaner#:#long_06#:#Juni
@@ -229,18 +229,18 @@ dateplaner#:#readimportfile#:#Einlesen
 dateplaner#:#rotation#:#Turnus
 dateplaner#:#rotation_dates#:#Turnus Termine
 dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
-dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
-dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
-dateplaner#:#short_03#:#Mär
-dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Feb
+dateplaner#:#short_03#:#Mrz
+dateplaner#:#short_04#:#Apr
 dateplaner#:#short_05#:#Mai
-dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
-dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
-dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
-dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
-dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
-dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
-dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
+dateplaner#:#short_06#:#Jun
+dateplaner#:#short_07#:#Jul
+dateplaner#:#short_08#:#Aug
+dateplaner#:#short_09#:#Sep
+dateplaner#:#short_10#:#Okt
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dez
 dateplaner#:#shorttext#:#Kurztext
 dateplaner#:#singleDate#:#Einzeltermin
 dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
