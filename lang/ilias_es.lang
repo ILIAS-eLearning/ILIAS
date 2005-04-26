@@ -871,8 +871,8 @@ common#:#cat_create_frm#:#Crear Foro###07 Apr 2005 content changed
 common#:#cat_create_glo#:#Crear Glosario###07 Apr 2005 content changed
 common#:#cat_create_grp#:#Crear Grupo###07 Apr 2005 content changed
 common#:#cat_create_hlm#:#Create Módulo de aprendizaje HACP###07 Apr 2005 content changed
-common#:#cat_create_htlm#:#Crear Módulo de Aprendizaje HTML###07 Apr 2005 content changed
-common#:#cat_create_lm#:#Crear Módulo de Aprendizaje###07 Apr 2005 content changed
+common#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML###07 Apr 2005 content changed
+common#:#cat_create_lm#:#Crear Módulo de aprendizaje###07 Apr 2005 content changed
 common#:#cat_create_mep#:#Crear Depósito Multimedia###07 Apr 2005 content changed
 common#:#cat_create_qpl#:#Crear Depósito de Preguntas###07 Apr 2005 content changed
 common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
@@ -903,7 +903,7 @@ common#:#censorship#:#-censura-###07 Apr 2005 content changed
 common#:#centra_account#:#Cuenta de Administrador Centra###07 Apr 2005 content changed
 common#:#centra_rooms#:#Habitaciones Centra###07 Apr 2005 content changed
 common#:#centra_server#:#Servidor Centra###07 Apr 2005 content changed
-common#:#chac_edit_permission#:#Editar Permisos###07 Apr 2005 content changed
+common#:#chac_edit_permission#:#Editar permisos###07 Apr 2005 content changed
 common#:#chac_read#:#Acceso de Lectura a la Configuración de Chat###07 Apr 2005 content changed
 common#:#chac_visible#:#Configuración del Chat Visible###07 Apr 2005 content changed
 common#:#chac_write#:#Editar Configuración del Chat###07 Apr 2005 content changed
@@ -922,7 +922,7 @@ common#:#chapter_title#:#Título del capítulo###07 Apr 2005 content changed
 common#:#chat#:#Chat###07 Apr 2005 content changed
 common#:#chat_add#:#Añadir Chat###07 Apr 2005 content changed
 common#:#chat_delete#:#Eliminar Chat###07 Apr 2005 content changed
-common#:#chat_edit_permission#:#Modificar Configuración de Permisos###07 Apr 2005 content changed
+common#:#chat_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#chat_new#:#Nuevo Chat###07 Apr 2005 content changed
 common#:#chat_read#:#Acceso de Lectura/Escritura al Chat###07 Apr 2005 content changed
 common#:#chat_visible#:#El Chat está visible###07 Apr 2005 content changed
@@ -986,8 +986,8 @@ common#:#copy_of#:#Copia de###07 Apr 2005 content changed
 common#:#copy_to#:#a ###07 Apr 2005 content changed
 common#:#count#:#Cuenta###07 Apr 2005 content changed
 common#:#country#:#País###07 Apr 2005 content changed
-common#:#course#:#curso###07 Apr 2005 content changed
-common#:#courses#:#cursos###07 Apr 2005 content changed
+common#:#course#:#Curso###07 Apr 2005 content changed
+common#:#courses#:#Cursos###07 Apr 2005 content changed
 common#:#create#:#crear###07 Apr 2005 content changed
 common#:#create_date#:#Creado el###07 Apr 2005 content changed
 common#:#create_in#:#Creado en###07 Apr 2005 content changed
@@ -1026,7 +1026,7 @@ common#:#crs_create_tst#:#Crear Test###07 Apr 2005 content changed
 common#:#crs_create_webr#:#Crear nuevo Recurso Web###07 Apr 2005 content changed
 common#:#crs_delete#:#Eliminar Curso###07 Apr 2005 content changed
 common#:#crs_edit#:#Editar Curso###07 Apr 2005 content changed
-common#:#crs_edit_permission#:#Modificar configuración de Permisos###07 Apr 2005 content changed
+common#:#crs_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#crs_join#:#Subscribir al Curso###07 Apr 2005 content changed
 common#:#crs_leave#:#Darse de baja en el Curso###07 Apr 2005 content changed
 common#:#crs_management_system#:#Sistema de Gestión de Cursos###07 Apr 2005 content changed
@@ -1100,7 +1100,7 @@ common#:#disable#:#deshabilitar###07 Apr 2005 content changed
 common#:#disable_check#:#Deshabilitar comprobación###07 Apr 2005 content changed
 common#:#disabled#:#deshabilitado###07 Apr 2005 content changed
 common#:#domain#:#Dominio###07 Apr 2005 content changed
-common#:#down#:#-Abajo-###07 Apr 2005 content changed
+common#:#down#:#abajo###07 Apr 2005 content changed
 common#:#download#:#descargar###07 Apr 2005 content changed
 common#:#download_all_returned_files#:#Descargar todos los ficheros entregados
 common#:#drafts#:#borradores###07 Apr 2005 content changed
@@ -1346,7 +1346,7 @@ common#:#group_status#:#Estado del Grupo###07 Apr 2005 content changed
 common#:#group_status_closed#:#Cerrado###07 Apr 2005 content changed
 common#:#group_status_desc#:#Determina el estado inicial del grupo usando la configuración de permisos de las plantillas de rol 'il_grp_status_closed' or 'il_grp_status_open' <br/>Público: El grupo es visible; El usuario puede subscribirse. <br/> Cerrado: El grupo no es visible para los no-miembros; El usuario tiene que ser invitado por un miembro del grupo para unirse.###07 Apr 2005 content changed
 common#:#group_status_public#:#Público###07 Apr 2005 content changed
-common#:#groups#:#grupos###07 Apr 2005 content changed
+common#:#groups#:#Grupos###07 Apr 2005 content changed
 common#:#groups_overview#:#Resumen de grupos###07 Apr 2005 content changed
 common#:#grp#:#Grupo###07 Apr 2005 content changed
 common#:#grp_a#:#un Grupo###07 Apr 2005 content changed
@@ -1624,7 +1624,7 @@ common#:#ldap_visible#:#La configuración LDAP es visible###07 Apr 2005 content 
 common#:#ldap_write#:#Editar configuración LDAP###07 Apr 2005 content changed
 common#:#learning module#:#Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#learning_objects#:#Objetos de Aprendizaje###07 Apr 2005 content changed
-common#:#learning_resources#:#Recursos de Aprendizaje###07 Apr 2005 content changed
+common#:#learning_resources#:#Recursos de aprendizaje###07 Apr 2005 content changed
 common#:#level#:#nivel###07 Apr 2005 content changed
 common#:#link#:#enlace###07 Apr 2005 content changed
 common#:#link_check#:#Chequear Enlaces###07 Apr 2005 content changed
@@ -2093,7 +2093,7 @@ common#:#per_object#:#Accesos por objeto###07 Apr 2005 content changed
 common#:#perm_settings#:#permisos###07 Apr 2005 content changed
 common#:#permission#:#permiso###07 Apr 2005 content changed
 common#:#permission_denied#:#permiso denegado###07 Apr 2005 content changed
-common#:#permission_settings#:#configuración de Permisos###07 Apr 2005 content changed
+common#:#permission_settings#:#Configuración de permisos###07 Apr 2005 content changed
 common#:#person_title#:#estado civil###07 Apr 2005 content changed
 common#:#personal_data#:#Información personal###07 Apr 2005 content changed
 common#:#personal_desktop#:#Escritorio Personal###07 Apr 2005 content changed
@@ -2431,7 +2431,7 @@ common#:#time_segment#:#Segmento de Tiempo###07 Apr 2005 content changed
 common#:#title#:#Título###07 Apr 2005 content changed
 common#:#to#:#to:###07 Apr 2005 content changed
 common#:#to_client_list#:#Seleccionar Instalación###07 Apr 2005 content changed
-common#:#to_desktop#:#Al Escritorio###07 Apr 2005 content changed
+common#:#to_desktop#:#al escritorio###07 Apr 2005 content changed
 common#:#today#:#hoy###07 Apr 2005 content changed
 common#:#toggleGlobalDefault#:#Toggle Global Default###new variable
 common#:#toggleGlobalFixed#:#Toggle Global Fixed###new variable
@@ -2476,7 +2476,7 @@ common#:#unread#:#no leído###07 Apr 2005 content changed
 common#:#unselected#:#Deseleccionado###07 Apr 2005 content changed
 common#:#unsubscribe#:#dar de baja###07 Apr 2005 content changed
 common#:#unzip#:#Descomprimir###07 Apr 2005 content changed
-common#:#up#:#Arriba###07 Apr 2005 content changed
+common#:#up#:#arriba###07 Apr 2005 content changed
 common#:#update#:#Editar###07 Apr 2005 content changed
 common#:#update_applied#:#actualización realizada###07 Apr 2005 content changed
 common#:#update_language#:#actualizar idioma###07 Apr 2005 content changed
@@ -2575,7 +2575,7 @@ common#:#verification_log#:#Log de Verificación###07 Apr 2005 content changed
 common#:#verification_warning_log#:#Log de 'warning' en Verificación###07 Apr 2005 content changed
 common#:#version#:#versión###07 Apr 2005 content changed
 common#:#versions#:#Versiones###07 Apr 2005 content changed
-common#:#view#:#-Ver-###07 Apr 2005 content changed
+common#:#view#:#Ver###07 Apr 2005 content changed
 common#:#view_content#:#ver contenido###07 Apr 2005 content changed
 common#:#visible_layers#:#capas visibles###07 Apr 2005 content changed
 common#:#visits#:#visitas###07 Apr 2005 content changed
@@ -2680,10 +2680,10 @@ content#:#cont_chap_select_target_now#:#Capítulo marcado para mover. A continua
 content#:#cont_chapters#:#Capítulos###07 Apr 2005 content changed
 content#:#cont_chapters_and_pages#:#Capítulos y páginas###07 Apr 2005 content changed
 content#:#cont_chapters_only#:#Capítulos sólo###07 Apr 2005 content changed
-content#:#cont_characteristic#:#-Característica-###07 Apr 2005 content changed
+content#:#cont_characteristic#:#Característica###07 Apr 2005 content changed
 content#:#cont_choose_cont_obj#:#Escojer Objeto Contenido###07 Apr 2005 content changed
 content#:#cont_choose_glossary#:#Escoger Glosario###07 Apr 2005 content changed
-content#:#cont_choose_media_source#:#-Escoger Origen Multimedia-###07 Apr 2005 content changed
+content#:#cont_choose_media_source#:#Seleccionar fuente multimedia###07 Apr 2005 content changed
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición###07 Apr 2005 content changed
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida###07 Apr 2005 content changed
 content#:#cont_citations#:#Citas###07 Apr 2005 content changed
@@ -2758,7 +2758,7 @@ content#:#cont_ed_insert_table#:#insertar Tabla###07 Apr 2005 content changed
 content#:#cont_ed_item_down#:#mover item abajo###07 Apr 2005 content changed
 content#:#cont_ed_item_up#:#mover item arriba###07 Apr 2005 content changed
 content#:#cont_ed_moveafter#:#mover después###07 Apr 2005 content changed
-content#:#cont_ed_movebefore#:#-move before-###07 Apr 2005 content changed
+content#:#cont_ed_movebefore#:#mover antes###07 Apr 2005 content changed
 content#:#cont_ed_new_col_after#:#nueva columna después###07 Apr 2005 content changed
 content#:#cont_ed_new_col_before#:#nueva columna antes###07 Apr 2005 content changed
 content#:#cont_ed_new_item_after#:#nuevo item después###07 Apr 2005 content changed
@@ -3202,7 +3202,7 @@ crs#:#crs_no_tests_inside_crs#:#No existen tests en este curso, que puedan ser a
 crs#:#crs_no_users_added#:#No se añadieron miembros###07 Apr 2005 content changed
 crs#:#crs_no_users_selected#:#No ha seleccionado ningún usuario###07 Apr 2005 content changed
 crs#:#crs_no_valid_member_id_given#:#Id de miembro no válido###07 Apr 2005 content changed
-crs#:#crs_not_available#:#-No disponible-###07 Apr 2005 content changed
+crs#:#crs_not_available#:#No disponible###07 Apr 2005 content changed
 crs#:#crs_notify#:#Notificar nuevos registros###07 Apr 2005 content changed
 crs#:#crs_nr#:#Num.
 crs#:#crs_number_users_added#:#El siguiente número de usuarios ha sido asignado al curso###07 Apr 2005 content changed
@@ -4572,7 +4572,7 @@ survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categ
 survey#:#chart#:#Tabla/Gráfico###07 Apr 2005 content changed
 survey#:#check_category_to_save_phrase#:#¡Debe seleccionar al menos una categoría para guardar un conjunto!###07 Apr 2005 content changed
 survey#:#codes#:#Códigos de acceso###07 Apr 2005 content changed
-survey#:#combobox#:#-Combobox-###07 Apr 2005 content changed
+survey#:#combobox#:#Lista desplegable###07 Apr 2005 content changed
 survey#:#concatenation#:#Concatenación###07 Apr 2005 content changed
 survey#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de la encuesta?###07 Apr 2005 content changed
 survey#:#confirm_remove_heading#:#¿Está usted seguro de que quiere eliminar la cabecera?###07 Apr 2005 content changed
