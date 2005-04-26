@@ -211,7 +211,7 @@ class ilSCORMPresentationGUI
 		{
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);
-			$val_rec["rvalue"] = str_replace("\n", "%n%", $val_rec["rvalue"]);
+			$val_rec["rvalue"] = str_replace("\n", "\\n", $val_rec["rvalue"]);
 			$re_value[$val_rec["lvalue"]] = $val_rec["rvalue"];
 		}
 
