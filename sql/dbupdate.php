@@ -6201,10 +6201,15 @@ INSERT INTO tst_test_type SET test_type_id=4, type_tag='tt_online_exam';
 ALTER TABLE `il_meta_classification` CHANGE `obj_type` `obj_type` VARCHAR( 6 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_contribute` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_educational` CHANGE `intended_end_user_row` `intended_end_user_role` VARCHAR( 16 ) NULL DEFAULT NULL;
-ALTER TABLE `il_meta_identifier` CHANGE `entry_id` `entry` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `il_meta_identifier` CHANGE `entry_id` `entry` TEXT NULL DEFAULT NULL;
 ALTER TABLE `il_meta_keyword` CHANGE `parent_id` `parent_id` INT( 11 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_taxon` CHANGE `parent_type` `parent_type` CHAR( 32 ) NULL DEFAULT NULL;
 ALTER TABLE `il_meta_taxon_path` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL ;
 
 <#424>
 ALTER TABLE `il_meta_requirement` ADD `or_composite_id` INT( 11 ) NOT NULL ;
+
+<#425>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
