@@ -4,7 +4,7 @@
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body onunload="switch_icon()">
+<body>
 <script language="JavaScript">
 API=parent.APIFRAME.API;
 parent.API=API; // gut gell?
@@ -35,6 +35,7 @@ API.IliasSetValue('cmi.core.lesson_mode','{LESSON_MODE}');
 <!-- BEGIN set_value -->
 API.IliasSetValue('{VAR}','{VALUE}');
 <!-- END set_value -->
+switch_icon();
 document.location.href = '{HREF}'
 
 </script>
