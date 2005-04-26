@@ -197,10 +197,12 @@ public	class IliasApiAdapterApplet
 			return "true";
 		}
 
-		HttpURLConnection po;
+		//HttpURLConnection po;
+		URLConnection po;
 
 		try {
-			po = (HttpURLConnection) ( new java.net.URL (
+			//po = (HttpURLConnection) ( new java.net.URL (
+			po = (URLConnection) ( new java.net.URL (
 				getCodeBase().toString()
 				+ "../sahs_server.php"
 				+ "?cmd=store" 
@@ -219,7 +221,7 @@ public	class IliasApiAdapterApplet
 			);
 			po.setDoOutput (true);
 			po.setUseCaches (false);
-			po.setRequestMethod ("POST");
+			//po.setRequestMethod ("POST");
 			po.setAllowUserInteraction (false);
 
 			OutputStream os = po.getOutputStream();
