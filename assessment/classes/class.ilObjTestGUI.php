@@ -3119,12 +3119,21 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($finish)
 		{
-			$this->tpl->setCurrentBlock("next");
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("next_bottom");
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-			$this->tpl->parseCurrentBlock();
+			if (!$this->object->isOnlineTest()) {
+				$this->tpl->setCurrentBlock("next");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("next_bottom");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
+				$this->tpl->parseCurrentBlock();
+			} else {
+				$this->tpl->setCurrentBlock("next");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("next_bottom");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->parseCurrentBlock();				
+			}
 		}
 		else
 		{
@@ -5988,6 +5997,8 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$tpl = &$this->tpl;
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
 		
+		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
+		
 		$add_parameter = $this->getAddParameter();
 		
 		$tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
@@ -5996,6 +6007,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
 		$tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
 		$tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+		$tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
+		$tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
+		
 		$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
 		$tpl->setVariable("VALUE_DATE", date("d.m.Y"));
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
@@ -6307,7 +6321,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		
 		$tpl->setVariable("TITLE", $this->object->getTitle());	
 
-
+		$max_points= 0;
 		$counter = 1;
 					
 		foreach ($this->object->questions as $question) {		
@@ -6330,8 +6344,12 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$question_gui->outWorkingForm($idx = "", $postponed = false, $show_solution = true, $show_pages = true, $show_solutions_only= true);
 			}
 			$tpl->parseCurrentBlock("question");
-			$counter ++;								
+			$counter ++;					
+			$max_points += $question_gui->object->getMaximumPoints();			
 		}
+		$this->tpl->setVariable("TXT_MAXIMUM_POINTS", $this->lng->txt("tst_maximum_points"));
+		$this->tpl->setVariable("VALUE_MAXIMUM_POINTS", $max_points);
+		
 		
 	}
 	

@@ -387,10 +387,10 @@ class ASS_QuestionGUI
 		$page_gui->setSourcecodeDownloadScript("test.php?ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());
-		$page_gui->setPresentationTitle($this->object->getTitle().$postponed);
+		$page_gui->setPresentationTitle($this->object->getTitle().$postponed." (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")");
 		return $page_gui->presentation();
 	}
-
+	
 	/**
 	* cancel action
 	*/
