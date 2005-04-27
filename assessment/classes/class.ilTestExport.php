@@ -71,7 +71,7 @@ class ilTestExport
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test_"."_".$this->test_obj->getId();
 				$this->qti_filename = $date."__".$this->inst_id."__".
-					"qti"."_".$this->test_obj->getId().".xml";
+					"qti_"."_".$this->test_obj->getId().".xml";
 				break;
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();
