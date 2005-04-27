@@ -4203,7 +4203,7 @@ class ilRepositoryGUI
 					}
 					if(!ilSearch::_checkParentConditions($_GET['ref_id']))
 					{
-						$ilias->error_obj->raiseError($this->lng->txt('access_denied'),$ilias->error_obj->WARNING);
+						$this->ilias->raiseError($this->lng->txt('access_denied'),$ilias->error_obj->WARNING);
 					}
 					$this->gui_obj->object->sendfile($_GET["hist_id"]);
 					break;
