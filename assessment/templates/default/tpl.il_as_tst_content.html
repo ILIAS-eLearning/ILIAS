@@ -5,22 +5,22 @@
 		<td class="ilInvisibleBorder">
 
 			<div class="il_Header">
-				<table width="100%">
+				<table width="100%" border="0">
 					<tr>
-					<td align="left" colspan="4"><h1>{HEADER}</h1></td>
-					<td align="right">
+					<td align="left" colspan="1"><h1>{HEADER}</h1></td>
+					<td align="right" colspan="3">
 <!-- BEGIN cancel_test -->
 						<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
 <!-- END cancel_test -->
 					</td>
 					</tr>
 					<tr>
-						<td align="left">
+						<td align="left" width="33%">
 <!-- BEGIN prev -->
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev -->
 						</td>
-						<td align="center" width="1">
+						<td align="center" >
 <!-- BEGIN percentage -->
 <div align="left" style="height: 15px;
 width: {HUNDRED_PERCENT}px; 
@@ -42,19 +42,19 @@ text-align: center;">
 </div>
 <!-- END percentage -->
 </td>
-<td align="left" width="1">
+<td align="left" width="1" >
 <!-- BEGIN summary -->
 <input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
 <!-- END summary -->
 </td>
-<td align="right">
+<td align="right" width="33%">
 <!-- BEGIN postpone -->
-<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
-&nbsp;&nbsp;
-<!-- END postpone -->
-<!-- BEGIN next -->
-<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
-<!-- END next -->
+	<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+	&nbsp;&nbsp;
+	<!-- END postpone -->
+	<!-- BEGIN next -->
+	<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+	<!-- END next -->
 					</td>
 				</tr>
 			</table>
@@ -76,14 +76,14 @@ text-align: center;">
 {SYSTEMSETTINGS}
 <!-- BEGIN navigation_bottom -->
 			<div class="il_Header">
-				<table width="100%">
+				<table width="100%" border="0">
 					<tr>
-						<td align="left">
+						<td align="left" width="33%">
 <!-- BEGIN prev_bottom -->
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END prev_bottom -->
 						</td>
-						<td align="center" width="1">
+						<td align="center" >
 <!-- BEGIN percentage_bottom -->
 <div align="left" style="height: 15px;
 width: {HUNDRED_PERCENT}px; 
@@ -110,7 +110,7 @@ text-align: center;">
 <input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" />
 <!-- END summary_bottom -->
 </td>
-<td align="right">
+<td align="right" width="33%">
 <!-- BEGIN postpone_bottom -->
 <input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
 &nbsp;&nbsp;
@@ -121,8 +121,8 @@ text-align: center;">
 					</td>
 				</tr>
 				<tr>
-				<td align="left" colspan="3"></td>
-				<td align="right">
+				<td align="right" colspan="1">&nbsp;</td>
+				<td align="right" colspan="3">
 <!-- BEGIN cancel_test_bottom -->
 					<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
 <!-- END cancel_test_bottom -->
