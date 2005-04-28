@@ -164,7 +164,7 @@ class ilMDCreator
 	}
 	function getStructure()
 	{
-		return $this->structure ? $this->structure : 'Hierachical';
+		return $this->structure ? $this->structure : 'Hierarchical';
 	}
 
 

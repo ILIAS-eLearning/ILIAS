@@ -32,25 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTaxonPath extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDTaxonPath(&$parent_obj,$a_id = null)
+	function ilMDTaxonPath($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_taxon_path',
-						 $a_id);
-
-		$this->setParentType($this->parent_obj->getMetaType());
-		$this->setParentId($this->parent_obj->getMetaId());
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 	// METHODS OF CHILD OBJECTS (Taxon)
@@ -58,7 +44,7 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
-		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_taxon_path');
 	}
 	function &getTaxon($a_taxon_id)
 	{
@@ -68,13 +54,20 @@ class ilMDTaxonPath extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDTaxon($this,$a_taxon_id);
+		$tax =& new ilMDTaxon();
+		$tax->setMetaId($a_taxon_id);
+
+		return $tax;
 	}
 	function &addTaxon()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
-		return new ilMDTaxon($this);
+		$tax =& new ilMDTaxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax->setParentId($this->getMetaId());
+		$tax->setParentType('meta_taxon_path');
+
+		return $tax;
 	}
 
 	// SET/GET
@@ -139,6 +132,12 @@ class ilMDTaxonPath extends ilMDBase
 				"WHERE meta_taxon_path_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
+
+			foreach($this->getTaxonIds() as $id)
+			{
+				$tax = $this->getTaxon($id);
+				$tax->delete();
+			}
 			
 			return true;
 		}
@@ -169,6 +168,11 @@ class ilMDTaxonPath extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
+				$this->setParentId($row->parent_id);
+				$this->setParentType($row->parent_type);
 				$this->setSource(ilUtil::stripSlashes($row->source));
 				$this->source_language = new ilMDLanguageItem($row->source_language);
 			}

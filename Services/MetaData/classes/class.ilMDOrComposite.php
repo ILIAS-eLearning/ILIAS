@@ -34,16 +34,11 @@ include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
 class ilMDOrComposite extends ilMDRequirement
 {
-	var $parent_obj = null;
-
-	function ilMDOrComposite(&$parent_obj,$a_or_composite_id = null)
+	function ilMDOrComposite($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		parent::ilMDRequirement($parent_obj,$a_id);
-
-		if($a_or_composite_id)
-		{
-			$this->setOrCompositeId($a_or_composite_id);
-		}
+		parent::ilMDRequirement($a_rbac_id,
+								$a_obj_id,
+								$a_obj_type);
 	}
 
 	// SET/GET
@@ -76,8 +71,8 @@ class ilMDOrComposite extends ilMDRequirement
 
 		return ilMDRequirement::_getIds($this->getRBACId(),
 										$this->getObjId(),
-										$this->parent_obj->getMetaId(),
-										$this->parent_obj->getMetaType(),
+										$this->getParentId(),
+										'meta_technical',
 										$this->getOrCompositeId());
 	}
 
@@ -89,8 +84,8 @@ class ilMDOrComposite extends ilMDRequirement
 		{
 			return false;
 		}
-		$req = new ilMDRequirement($this->parent_obj,$a_requirement_id);
-		$req->setOrCompositeId($this->getOrCompositeId());
+		$req =& new ilMDRequirement();
+		$req->setMetaId($a_requirement_id);
 
 		return $req;
 	}
@@ -99,7 +94,9 @@ class ilMDOrComposite extends ilMDRequirement
 	{
 		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
-		$req = new ilMDRequirement($this->parent_obj);
+		$req =& new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$req->setParentId($this->getParentId());
+		$req->setParentType('meta_technical');
 		$req->setOrCompositeId($this->getOrCompositeId());
 
 		return $req;
@@ -112,6 +109,16 @@ class ilMDOrComposite extends ilMDRequirement
 	function save()
 	{
 		echo 'Use ilMDOrcomposite::addRequirement()';
+	}
+
+	function delete()
+	{
+		foreach($this->getRequirementIds() as $id)
+		{
+			$req = $this->getRequirement($id);
+			$req->delete();
+		}
+		return true;
 	}
 				
 	/*

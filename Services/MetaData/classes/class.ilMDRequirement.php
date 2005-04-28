@@ -32,25 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRequirement extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDRequirement(&$parent_obj,$a_id = null)
+	function ilMDRequirement($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_requirement',
-						 $a_id);
-
-		$this->setParentType($this->parent_obj->getMetaType());
-		$this->setParentId($this->parent_obj->getMetaId());
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 	// SET/GET
@@ -210,6 +196,11 @@ class ilMDRequirement extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
+				$this->setParentId($row->parent_id);
+				$this->setParentType($row->parent_type);
 				$this->setOperatingSystemName(ilUtil::stripSlashes($row->operating_system_name));
 				$this->setOperatingSystemMinimumVersion(ilUtil::stripSlashes($row->operating_system_minimum_version));
 				$this->setOperatingSystemMaximumVersion(ilUtil::stripSlashes($row->operating_system_maximum_version));

@@ -33,30 +33,29 @@ include_once 'class.ilMDBase.php';
 
 class ilMDGeneral extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDGeneral(&$parent_obj,$a_id = null)
+	function ilMDGeneral($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_general',
-						 $a_id);
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
+	function getPossibleSubelements()
+	{
+		$subs['Identifier'] = 'meta_identifier';
+		$subs['Language'] = 'meta_language';
+		$subs['Description'] = 'meta_description';
+		$subs['Keyword'] = 'meta_keyword';
+
+		return $subs;
+	}
+
 
 	// Subelements (Identifier, Language, Description, Keyword)
 	function &getIdentifierIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
-		return ilMDIdentifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDIdentifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getIdentifier($a_identifier_id)
 	{
@@ -66,19 +65,26 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDIdentifier($this,$a_identifier_id);
+		$ide =& new ilMDIdentifier();
+		$ide->setMetaId($a_identifier_id);
+		
+		return $ide;
 	}
 	function &addIdentifier()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
-		return new ilMDIdentifier($this);
+		$ide =& new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide->setParentId($this->getMetaId());
+		$ide->setParentType('meta_general');
+
+		return $ide;
 	}
 	function &getLanguageIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
-		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getLanguage($a_language_id)
 	{
@@ -88,19 +94,27 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDLanguage($this,$a_language_id);
+		$lan =& new ilMDLanguage();
+		$lan->setMetaId($a_language_id);
+
+		return $lan;
+
 	}
 	function &addLanguage()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 		
-		return new ilMDLanguage($this);
+		$lan =& new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lan->setParentId($this->getMetaId());
+		$lan->setParentType('meta_general');
+
+		return $lan;
 	}
 	function &getDescriptionIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getDescription($a_description_id)
 	{
@@ -111,19 +125,26 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDDescription($this,$a_description_id);
+		$des =& new ilMDDescription();
+		$des->setMetaId($a_description_id);
+
+		return $des;
 	}
 	function &addDescription()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		return new ilMDDescription($this);
+		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des->setParentId($this->getMetaId());
+		$des->setParentType('meta_general');
+
+		return $des;
 	}
 	function &getKeywordIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getKeyword($a_keyword_id)
 	{
@@ -133,13 +154,20 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDKeyword($this,$a_keyword_id);
+		$key =& new ilMDKeyword();
+		$key->setMetaId($a_keyword_id);
+
+		return $key;
 	}
 	function &addKeyword()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		return new ilMDKeyword($this);
+		$key =& new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key->setParentId($this->getMetaId());
+		$key->setParentType('meta_general');
+
+		return $key;
 	}
 
 
@@ -152,7 +180,7 @@ class ilMDGeneral extends ilMDBase
 			case 'Atomic':
 			case 'Collection':
 			case 'Networked':
-			case 'Hierachical':
+			case 'Hierarchical':
 			case 'Linear':
 				$this->structure = $a_structure;
 				return true;
@@ -245,6 +273,38 @@ class ilMDGeneral extends ilMDBase
 
 	function delete()
 	{
+		if(!$this->getMetaId())
+		{
+			return false;
+		}
+		// Identifier
+		foreach($this->getIdentifierIds() as $id)
+		{
+			$ide = $this->getIdentifier($id);
+			$ide->delete();
+		}
+
+		// Language
+		foreach($this->getLanguageIds() as $id)
+		{
+			$lan = $this->getLanguage($id);
+			$lan->delete();
+		}
+
+		// Description
+		foreach($this->getDescriptionIds() as $id)
+		{
+			$des = $this->getDescription($id);
+			$des->delete();
+		}
+
+		// Keyword
+		foreach($this->getKeywordIds() as $id)
+		{
+			$key = $this->getKeyword($id);
+			$key->delete();
+		}
+		
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_general ".
@@ -254,6 +314,8 @@ class ilMDGeneral extends ilMDBase
 			
 			return true;
 		}
+
+
 		return false;
 	}
 			
@@ -282,6 +344,9 @@ class ilMDGeneral extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
 				$this->setStructure(ilUtil::stripSlashes($row->general_structure));
 				$this->setTitle(ilUtil::stripSlashes($row->title));
 				$this->setTitleLanguage(new ilMDLanguageItem($row->title_language));

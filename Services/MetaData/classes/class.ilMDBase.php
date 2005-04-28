@@ -48,10 +48,9 @@ class ilMDBase
 	var $obj_type;
 
 
-	function ilMDBase($a_rbac_id,
-					  $a_obj_id,
-					  $a_type,
-					  $a_meta_type = 'meta_data',$a_meta_id = null)
+	function ilMDBase($a_rbac_id = 0,
+					  $a_obj_id = 0,
+					  $a_type = 0)
 	{
 		global $ilDB,$ilLog;
 
@@ -61,31 +60,41 @@ class ilMDBase
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_type;
-
-		$this->meta_type = $a_meta_type;
-		$this->meta_id = $a_meta_id;
 	}
 
 	// SET/GET
+	function setRBACId($a_id)
+	{
+		$this->rbac_id = $a_id;
+	}
 	function getRBACId()
 	{
 		return $this->rbac_id;
+	}
+	function setObjId($a_id)
+	{
+		$this->obj_id = $a_id;
 	}
 	function getObjId()
 	{
 		return $this->obj_id;
 	}
+	function setObjType($a_type)
+	{
+		$this->obj_type = $a_type;
+	}
 	function getObjType()
 	{
 		return $this->obj_type;
 	}
-	function getMetaType()
-	{
-		return $this->meta_type;
-	}
-	function setMetaId($a_meta_id)
+	function setMetaId($a_meta_id,$a_read_data = true)
 	{
 		$this->meta_id = $a_meta_id;
+
+		if($a_read_data)
+		{
+			$this->read();
+		}
 	}
 	function getMetaId()
 	{

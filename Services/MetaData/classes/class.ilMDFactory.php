@@ -23,73 +23,63 @@
 
 
 /**
-* Meta Data class Language codes and translations
+* Meta Data factory class 
 *
 * @package ilias-core
 * @version $Id$
 */
 
-class ilMDLanguageItem
+class ilMDFactory
 {
-	var $language_code;
-	var $possible_language_codes = array();
-
-
-	function ilMDLanguageItem($a_code)
-	{
-		$this->language_code = $a_code;
-	}
-
-
-	function getLanguageCode()
-	{
-		$lang = ilMDLanguageItem::_getPossibleLanguageCodes();
-		if(in_array($this->language_code,$lang))
-		{
-			return $this->language_code;
-		}
-		return false;
-	}
 
 
 	/*
-	 * @static
+	 * get md element by index and type
+	 *
+	 * @param string type (name e.g meta_general,meta_language)
+	 *
+	 * @return MD object
 	 */
-	function _getPossibleLanguageCodes()
+	function &_getInstance($a_type,$a_index)
 	{
-		return array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
-					 "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
-					 "es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
-					 "ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
-					 "jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln",
-					 "lo","lt","lv","mg","mi","mk","ml","mn","mo","mr","ms","mt",
-					 "my","na","ne","nl","no","oc","om","or","pa","pl","ps","pt",
-					 "qu","rm","rn","ro",
-					 "ru","rw",
-					 "sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
-					 "su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
-					 "tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
-					 "zu");
-	}
-
-	/*
-	 * @static
-	 */
-	function _getLanguages()
-	{
-		global $lng;
-
-		$lng->loadLanguageModule("meta");
-
-		$langs = array();
-		foreach(ilMDLanguageItem::_getPossibleLanguageCodes() as $lngcode)
+		switch($a_type)
 		{
-			$langs[$lngcode] = $lng->txt("meta_l_".$lngcode);
-		}
-		asort($langs);
-		return $langs;
-	}
+			case 'meta_identifier':
+				include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
-		
+				$ide =& new ilMDIdentifier();
+				$ide->setMetaId($a_index);
+				
+				return $ide;
+			
+			case 'meta_description':
+				include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+
+				$des =& new ilMDDescription();
+				$des->setMetaId($a_index);
+				
+				return $des;
+
+			case 'meta_keyword':
+				include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+
+				$key =& new ilMDKeyword();
+				$key->setMetaId($a_index);
+				
+				return $key;
+
+			case 'meta_language':
+				include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+
+				$lan =& new ilMDLanguage();
+				$lan->setMetaId($a_index);
+
+				return $lan;
+
+			default:
+				echo $a_type . " not known";
+				
+		}
+	}
 }
 ?>

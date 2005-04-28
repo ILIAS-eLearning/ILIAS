@@ -33,25 +33,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDContribute extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDContribute(&$parent_obj,$a_id = null)
+	function ilMDContribute($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_contribute',
-						 $a_id);
-
-		$this->setParentType($this->parent_obj->getMetaType());
-		$this->setParentId($this->parent_obj->getMetaId());
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 
@@ -60,7 +46,7 @@ class ilMDContribute extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
-		return ilMDEntity::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDEntity::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_contribute');
 	}
 	function &getEntity($a_entity_id)
 	{
@@ -70,13 +56,20 @@ class ilMDContribute extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDEntity($this,$a_entity_id);
+		$ent =& new ilMDEntity();
+		$ent->setMetaId($a_entity_id);
+
+		return $ent;
 	}
 	function &addEntity()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
-		return new ilMDEntity($this);
+		$ent = new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ent->setParentId($this->getMetaId());
+		$ent->setParentType('meta_contribute');
+
+		return $ent;
 	}
 
 	// SET/GET
@@ -158,6 +151,11 @@ class ilMDContribute extends ilMDBase
 			
 			$this->db->query($query);
 			
+			foreach($this->getEntityIds() as $id)
+			{
+				$ent = $this->getEntity($id);
+				$ent->delete();
+			}
 			return true;
 		}
 		return false;
@@ -187,6 +185,11 @@ class ilMDContribute extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
+				$this->setParentId($row->parent_id);
+				$this->setParentType($row->parent_type);
 				$this->setRole(ilUtil::stripSlashes($row->role));
 				$this->setDate(ilUtil::stripSlashes($row->date));
 			}
