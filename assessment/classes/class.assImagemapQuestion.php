@@ -561,7 +561,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				if ($fh == false)
 				{
 					global $ilErr;
-					$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
+					$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
 					return;
 				}
 				$imagefile = fwrite($fh, $image);
@@ -667,7 +667,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			if ($fh == false)
 			{
 				global $ilErr;
-				$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
+				$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->MESSAGE);
 				return;
 			}
 			$imagefile = fread($fh, filesize($imagepath));
