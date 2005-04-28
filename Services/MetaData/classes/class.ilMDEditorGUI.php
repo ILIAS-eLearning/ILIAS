@@ -227,13 +227,13 @@ class ilMDEditorGUI
 				$this->ctrl->setParameter($this,'meta_path','meta_keyword');
 
 				$this->tpl->setCurrentBlock("keyword_delete");
-				$this->tpl->setVariable("KEYWORD_LOOP_NO",$id);
 				$this->tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
 				$this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
 				$this->tpl->parseCurrentBlock();
 			}
 			
 			$this->tpl->setCurrentBlock("keyword_loop");
+			$this->tpl->setVariable("KEYWORD_LOOP_NO",$id);
 			$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
 			$this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
@@ -297,6 +297,7 @@ class ilMDEditorGUI
 		foreach($_POST['gen_keyword'] as $id => $data)
 		{
 			$md_key = $this->md_section->getKeyword($id);
+
 			$md_key->setKeyword(ilUtil::stripSlashes($data['keyword']));
 			$md_key->setKeywordLanguage(new ilMDLanguageItem($data['language']));
 			$md_key->update();
