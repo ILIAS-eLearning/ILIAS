@@ -3534,7 +3534,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
-				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
+				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -3561,7 +3561,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
+				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
