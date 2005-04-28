@@ -229,7 +229,7 @@ class ASS_JavaApplet extends ASS_Question
 		if ($fh == false)
 		{
 			//global $ilErr;
-			//$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->WARNING);
+			//$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->MESSAGE);
 			return;
 		}
 		$javafile = fread($fh, filesize($javapath));
@@ -467,7 +467,7 @@ class ASS_JavaApplet extends ASS_Question
 				if ($fh == false)
 				{
 					global $ilErr;
-					$ilErr->raiseError($this->lng->txt("error_save_java_file") . ": $php_errormsg", $ilErr->WARNING);
+					$ilErr->raiseError($this->lng->txt("error_save_java_file") . ": $php_errormsg", $ilErr->MESSAGE);
 					return;
 				}
 				$javafile = fwrite($fh, $java);

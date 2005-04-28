@@ -5113,7 +5113,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// CHECK ACCESS write of role folder
 			if (!$rbacsystem->checkAccess("write",$rolf_id))
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 			}
 
 			foreach ($_POST["stop_inherit"] as $stop_inherit)
