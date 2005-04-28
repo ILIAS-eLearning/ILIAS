@@ -141,7 +141,7 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	 */
 	
 	function handleCommands () {
-		global $ilUser;
+		global $ilUser, $ilias;
 		//print_r($_GET);
 		
 		$return = parent::handleCommands ();				
@@ -161,6 +161,8 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 				
 		if ($_POST["cmd"]["confirm_submit_answers"]) {
 			$this->obj->submit_answers($ilUser->id);
+			$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
+			$ilias->auth->setExpire(0);
 			$this->gui->outShowAnswers(false, & $ilUser);			
 			return true;
 		}
