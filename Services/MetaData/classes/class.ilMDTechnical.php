@@ -32,22 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTechnical extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDTechnical(&$parent_obj,$a_id = null)
+	function ilMDTechnical($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_technical',
-						 $a_id);
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 	// Methods for child objects (Format, Location, Requirement OrComposite)
@@ -55,7 +44,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
-		return ilMDFormat::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDFormat::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getFormat($a_format_id)
 	{
@@ -65,19 +54,26 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDFormat($this,$a_format_id);
+		$for =& new ilMDFormat($this,$a_format_id);
+		$for->setMetaId($a_format_id);
+
+		return $for;
 	}
 	function &addFormat()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
-		return new ilMDFormat($this);
+		$for =& new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$for->setParentId($this->getMetaId());
+		$for->setParentType('meta_format');
+
+		return $for;
 	}
 	function &getLocationIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
-		return ilMDLocation::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDLocation::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getLocation($a_location_id)
 	{
@@ -87,19 +83,26 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDLocation($this,$a_location_id);
+		$loc =& new ilMDLocation();
+		$loc->setMetaId($a_location_id);
+
+		return $loc;
 	}
 	function &addLocation()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
-		return new ilMDLocation($this);
+		$loc =& new ilMDLocation($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$loc->setParentId($this->getMetaId());
+		$loc->setParentType('meta_technical');
+
+		return $loc;
 	}
 	function &getRequirementIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
-		return ilMDRequirement::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDRequirement::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getRequirement($a_requirement_id)
 	{
@@ -109,19 +112,26 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDRequirement($this,$a_requirement_id);
+		$rec =& new ilMDRequirement();
+		$rec->setMetaId($a_requirement_id);
+		
+		return $rec;
 	}
 	function &addRequirement()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
-		return new ilMDRequirement($this);
+		$rec =& new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$rec->setParentId($this->getMetaId());
+		$rec->setParentType('meta_technical');
+
+		return $rec;
 	}
 	function &getOrCompositeIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
-		return ilMDOrComposite::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDOrComposite::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_technical');
 	}
 	function &getOrComposite($a_or_composite_id)
 	{
@@ -131,13 +141,22 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDOrComposite($this,$a_or_composite_id);
+		$orc =& new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$orc->setOrCompositeId($a_or_composite_id);
+		$orc->setParentId($this->getMetaId());
+		$orc->setParentType('meta_technical');
+
+		return $orc;
 	}
 	function &addOrComposite()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
-		return new ilMDOrComposite($this);
+		$orc =& new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$orc->setParentId($this->getMetaId());
+		$orc->setParentType('meta_technical');
+
+		return $orc;
 	}
 
 	// SET/GET
@@ -246,7 +265,30 @@ class ilMDTechnical extends ilMDBase
 			
 			$this->db->query($query);
 			
+			foreach($this->getFormatIds() as $id)
+			{
+				$for =& $this->getFormat($id);
+				$for->delete();
+			}
+
+			foreach($this->getLocationIds() as $id)
+			{
+				$loc =& $this->getLocation($id);
+				$loc->delete();
+			}
+			foreach($this->getRequirementIds() as $id)
+			{
+				$req =& $this->getRequirement($id);
+				$req->delete();
+			}
+			foreach($this->getOrCompositeIds() as $id)
+			{
+				$orc =& $this->getOrComposite($id);
+				$orc->delete();
+			}
+
 			return true;
+
 		}
 		return false;
 	}
@@ -279,6 +321,9 @@ class ilMDTechnical extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
 				$this->setSize(ilUtil::stripSlashes($row->size));
 				$this->setInstallationRemarks(ilUtil::stripSlashes($row->installation_remarks));
 				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));

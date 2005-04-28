@@ -32,22 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDEducational extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDEducational(&$parent_obj,$a_id = null)
+	function ilMDEducational($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_educational',
-						 $a_id);
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 	// Methods for child objects (TypicalAgeRange, Description, Language)
@@ -55,7 +44,7 @@ class ilMDEducational extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
-		return ilMDTypicalAgeRange::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDTypicalAgeRange::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getTypicalAgeRange($a_typical_age_range_id)
 	{
@@ -65,19 +54,26 @@ class ilMDEducational extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDTypicalAgeRange($this,$a_typical_age_range_id);
+		$typ =& new ilMDTypicalAgeRange();
+		$typ->setMetaId($a_typical_age_range_id);
+
+		return $typ;
 	}
 	function &addTypicalAgeRange()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
-		return new ilMDTypicalAgeRange($this);
+		$typ =& new ilMDTypicalAgeRange($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$typ->setParentId($this->getMetaId());
+		$typ->setParentType('meta_educational');
+
+		return $typ;
 	}
 	function &getDescriptionIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getDescription($a_description_id)
 	{
@@ -87,19 +83,26 @@ class ilMDEducational extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDDescription($this,$a_description_id);
+		$des =& new ilMDDescription();
+		$des->setMetaId($a_description_id);
+
+		return $des;
 	}
 	function &addDescription()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		return new ilMDDescription($this);
+		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des->setParentId($this->getMetaId());
+		$des->setParentType('meta_educational');
+
+		return $des;
 	}
 	function &getLanguageIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
-		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getLanguage($a_language_id)
 	{
@@ -109,13 +112,20 @@ class ilMDEducational extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDLanguage($this,$a_language_id);
+		$lan =& new ilMDLanguage();
+		$lan->setMetaId($a_language_id);
+
+		return $lan;
 	}
 	function &addLanguage()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 		
-		return new ilMDLanguage($this);
+		$lan =& new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lan->setParentId($this->getMetaId());
+		$lan->setParentType('meta_educational');
+
+		return $lan;
 	}
 
 	// SET/GET
@@ -312,6 +322,23 @@ class ilMDEducational extends ilMDBase
 				"WHERE meta_educational_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
+
+			foreach($this->getTypicalAgeRangeIds() as $id)
+			{
+				$typ = $this->getTypicalAgeRange($id);
+				$typ->delete();
+			}
+			foreach($this->getDescriptionIds() as $id)
+			{
+				$des = $this->getDescription($id);
+				$des->delete();
+			}
+			foreach($this->getLanguageIds() as $id)
+			{
+				$lan = $this->getLanguage($id);
+				$lan->delete();
+			}
+
 			
 			return true;
 		}
@@ -346,6 +373,9 @@ class ilMDEducational extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
 				$this->setInteractivityType(ilUtil::stripSlashes($row->interactivity_type));
 				$this->setLearningResourceType(ilUtil::stripSlashes($row->learning_resource_type));
 				$this->setInteractivityLevel(ilUtil::stripSlashes($row->interactivity_level));

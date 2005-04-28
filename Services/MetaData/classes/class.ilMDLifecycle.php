@@ -33,22 +33,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLifecycle extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDLifecycle(&$parent_obj,$a_id = null)
+	function ilMDLifecycle($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_lifecycle',
-						 $a_id);
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
 
 	// Get subelemsts 'Contribute'
@@ -56,7 +45,7 @@ class ilMDLifecycle extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
-		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_lifecycle');
 	}
 	function &getContribute($a_contribute_id)
 	{
@@ -66,13 +55,20 @@ class ilMDLifecycle extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDContribute($this,$a_contribute_id);
+		$con =& new ilMDContribute();
+		$con->setMetaId($a_contribute_id);
+
+		return $con;
 	}
 	function &addContribute()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
-		return new ilMDContribute($this);
+		$con =& new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$con->setParentId($this->getMetaId());
+		$con->setParentType('meta_lifecycle');
+
+		return $con;
 	}
 
 
@@ -153,6 +149,14 @@ class ilMDLifecycle extends ilMDBase
 
 	function delete()
 	{
+		// Delete 'contribute'
+		foreach($this->getContributeIds() as $id)
+		{
+			$con = $this->getContribute($id);
+			$con->delete();
+		}
+
+
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_lifecycle ".
@@ -188,6 +192,9 @@ class ilMDLifecycle extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
 				$this->setStatus(ilUtil::stripSlashes($row->lifecycle_status));
 				$this->setVersion(ilUtil::stripSlashes($row->meta_version));
 				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));

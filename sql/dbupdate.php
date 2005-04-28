@@ -6210,6 +6210,44 @@ ALTER TABLE `il_meta_taxon_path` CHANGE `parent_type` `parent_type` VARCHAR( 32 
 ALTER TABLE `il_meta_requirement` ADD `or_composite_id` INT( 11 ) NOT NULL ;
 
 <#425>
+ALTER TABLE `il_meta_keyword` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL
+
+<#426>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<?php
+$wd = getcwd();
+chdir('..');
+include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+
+$webr_ids = array();
+$query = "SELECT * FROM object_data WHERE type = 'webr'";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$webr_ids[$row->obj_id]['title'] = $row->title;
+	$webr_ids[$row->obj_id]['desc'] = $row->description;
+ 
+}
+
+foreach($webr_ids as $id => $data)
+{
+	$query = "SELECT ref_id FROM object_reference WHERE obj_id = '".$id."'";
+
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$md_creator = new ilMDCreator($row->ref_id,$id,'webr');
+		$md_creator->setTitle($data['title']);
+		$md_creator->setTitleLanguage('en');
+		$md_creator->setDescription($data['desc']);
+		$md_creator->setDescriptionLanguage('en');
+		$md_creator->setKeywordLanguage('en');
+		$md_creator->setLanguage('en');
+
+		$md_creator->create();
+	}
+}
+chdir($wd);
 ?>

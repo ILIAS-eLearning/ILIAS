@@ -27,6 +27,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -67,6 +69,17 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getRefId(),$this->object->getId(),$this->object->getType());
+				$md_gui->addObserver($this,'MDUpdateListener','Title');
+				$md_gui->addObserver($this,'MDUpdateListener','Description');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+				
 			default:
 				if(!$cmd)
 				{
@@ -603,6 +616,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
+		$newObj->createMetaData();
+
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();
 
@@ -793,8 +808,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+			$tabs_gui->addTarget("meta_data",
+								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''), 
+								 "meta_data", get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{

@@ -32,30 +32,20 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRelation extends ilMDBase
 {
-	var $parent_obj = null;
-
-	function ilMDRelation(&$parent_obj,$a_id = null)
+	function ilMDRelation($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
 	{
-		$this->parent_obj =& $parent_obj;
-
-		parent::ilMDBase($this->parent_obj->getRBACId(),
-						 $this->parent_obj->getObjId(),
-						 $this->parent_obj->getObjType(),
-						 'meta_relation',
-						 $a_id);
-
-		if($a_id)
-		{
-			$this->read();
-		}
+		parent::ilMDBase($a_rbac_id,
+						 $a_obj_id,
+						 $a_obj_type);
 	}
+
 
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getIdentifier_Ids()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
-		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getIdentifier_($a_identifier__id)
 	{
@@ -65,20 +55,27 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDIdentifier_($this,$a_identifier__id);
+		$ide =& new ilMDIdentifier_();
+		$ide->setMetaId($a_identifier__id);
+
+		return $ide;
 	}
 	function &addIdentifier_()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
-		return new ilMDIdentifier_($this);
+		$ide =& new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide->setParentId($this->getMetaId());
+		$ide->setParentType('meta_relation');
+
+		return $ide;
 	}
 
 	function &getDescriptionIds()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		return ilMdDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),$this->getMetaType());
+		return ilMdDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getDescription($a_description_id)
 	{
@@ -88,14 +85,20 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		return new ilMDDescription($this,$a_description_id);
+		$des =& new ilMDDescription();
+		$des->setMetaId($a_description_id);
 
+		return $des;
 	}
 	function &addDescription()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 		
-		return new ilMDDescription($this);
+		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des->setParentId($this->getMetaId());
+		$des->setParentType('meta_relation');
+
+		return $des;
 	}
 	// SET/GET
 	function setKind($a_kind)
@@ -163,6 +166,17 @@ class ilMDRelation extends ilMDBase
 				"WHERE meta_relation_id = '".$this->getMetaId()."'";
 			
 			$this->db->query($query);
+
+			foreach($this->getIdentifier_Ids() as $id)
+			{
+				$ide = $this->getIdentifier_($id);
+				$ide->delete();
+			}
+			foreach($this->getDescriptionIds() as $id)
+			{
+				$des = $this->getDescription();
+				$des->delete();
+			}
 			
 			return true;
 		}
@@ -188,6 +202,9 @@ class ilMDRelation extends ilMDBase
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				$this->setRBACId($row->rbac_id);
+				$this->setObjId($row->obj_id);
+				$this->setObjType($row->obj_type);
 				$this->setKind(ilUtil::stripSlashes($row->kind));
 			}
 		}

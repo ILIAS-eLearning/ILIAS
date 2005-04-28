@@ -100,7 +100,11 @@ class ilObjLinkResource extends ilObject
 		include_once './classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteObject($this->getId());
 
-		
+		// Delete meta data
+		include_once('Services/MetaData/classes/class.ilMD.php');
+
+		$md = new ilMD($this->getRefId(),$this->getId(),'webr');
+		$md->deleteAll();
 		
 		return true;
 	}
@@ -112,6 +116,25 @@ class ilObjLinkResource extends ilObject
 
 		return true;
 	}
+
+	function createMetaData()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+
+		global $ilUser;
+
+		$md_creator = new ilMDCreator($this->getRefId(),$this->getId(),'webr');
+		$md_creator->setTitle($this->getTitle());
+		$md_creator->setTitleLanguage($ilUser->getPref('language'));
+		$md_creator->setDescription($this->getDescription());
+		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
+		$md_creator->setLanguage($ilUser->getPref('language'));
+		$md_creator->create();
+
+		return true;
+	}
+
 
 	function _goto($a_target)
 	{
