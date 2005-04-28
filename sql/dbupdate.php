@@ -6210,7 +6210,7 @@ ALTER TABLE `il_meta_taxon_path` CHANGE `parent_type` `parent_type` VARCHAR( 32 
 ALTER TABLE `il_meta_requirement` ADD `or_composite_id` INT( 11 ) NOT NULL ;
 
 <#425>
-ALTER TABLE `il_meta_keyword` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL
+ALTER TABLE `il_meta_keyword` CHANGE `parent_type` `parent_type` VARCHAR( 32 ) NULL DEFAULT NULL;
 
 <#426>
 <?php
