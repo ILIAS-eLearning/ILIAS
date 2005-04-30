@@ -245,6 +245,7 @@ assessment#:#height#:#Height
 assessment#:#imagemap#:#Image map
 assessment#:#imagemap_file#:#Image map file
 assessment#:#imagemap_source#:#Image map source
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.
 assessment#:#import_question#:#Import question(s)
 assessment#:#insert_after#:#Insert after
 assessment#:#insert_before#:#Insert before
@@ -786,6 +787,7 @@ common#:#assessment_log_text#:#Log message
 common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment administration settings
+common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment administration
 common#:#assf_visible#:#Test&Assessment administration is visible

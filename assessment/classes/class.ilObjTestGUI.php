@@ -103,9 +103,9 @@ class ilObjTestGUI extends ilObjectGUI
 		require_once "./assessment/classes/class.ilCommandControl.php";;
 		if ($this->object->isOnlineTest()) {
 			require_once "./assessment/classes/class.ilOnlineTestCommandControl.php";;
-			$this->cmdCtrl = new OnlineTestCommandControl (& $this, & $this->object);
+			$this->cmdCtrl = new OnlineTestCommandControl ($this, $this->object);
 		} else 
-			$this->cmdCtrl = new DefaultTestCommandControl (& $this, & $this->object);
+			$this->cmdCtrl = new DefaultTestCommandControl ($this, $this->object);
 	}
 
 	/**
@@ -5362,7 +5362,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$tabs_gui =& new ilTabsGUI();
 		
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		$tabs_gui->addTarget("back", $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]), "",	"");
+		$addcmd = "";
+		if (strcmp($_SESSION["il_rep_mode"], "tree") == 0)
+		{
+			$addcmd = "&cmd=frameset";
+		}
+		$tabs_gui->addTarget("back", $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]) . $addcmd, "",	"");
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
@@ -5990,10 +5995,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, & $ilUser); 
+		$this->outShowAnswers(false, $ilUser); 
 	}		
 
-	function outShowAnswers($isForm, & $ilUser) {
+	function outShowAnswers($isForm, $ilUser) {
 		$tpl = &$this->tpl;
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
 		

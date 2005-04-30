@@ -2403,6 +2403,7 @@ class ilRepositoryGUI
 				{
 					$tpl->setCurrentBlock("tst_anon_eval");
 					$tpl->setVariable("ANON_EVAL_LINK", "assessment/test.php?cmd=eval_a&ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
 					$tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
 					$tpl->parseCurrentBlock();
 				}
@@ -2412,6 +2413,7 @@ class ilRepositoryGUI
 				{
 					$tpl->setCurrentBlock("tst_statistical_evaluation");
 					$tpl->setVariable("STATISTICAL_EVALUATION_LINK", "assessment/test.php?cmd=eval_stat&ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
 					$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
 					$tpl->parseCurrentBlock();
 				}
@@ -2626,6 +2628,7 @@ class ilRepositoryGUI
 				{
 					$tpl->setCurrentBlock("svy_evaluation");
 					$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$svy_data["ref_id"]);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
 					$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
 					$tpl->parseCurrentBlock();
 				}

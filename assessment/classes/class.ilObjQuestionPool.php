@@ -1066,6 +1066,14 @@ class ilObjQuestionPool extends ilObject
 			$fh = fopen($source, "r") or die("");
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
+
+			// here we have to work with the new QTI parser
+/*			include_once "./assessment/classes/class.ilQTIParser.php";
+			$qtiParser = new ilQTIParser($source);
+			$qtiParser->startParsing();
+			return FALSE;*/
+
+
 			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
 			{
 				foreach ($matches[1] as $index => $item)
@@ -1123,6 +1131,11 @@ class ilObjQuestionPool extends ilObject
 				}
 			}
 		}
+		else
+		{
+			return FALSE;
+		}
+		return TRUE;
 	}
 	
 	/**

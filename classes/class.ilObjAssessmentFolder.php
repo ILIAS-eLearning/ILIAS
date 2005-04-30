@@ -224,6 +224,16 @@ class ilObjAssessmentFolder extends ilObject
 	}
 
 	/**
+	* set the log language
+	*/
+	function _setLogLanguage($a_language)
+	{
+		global $ilias;
+
+		$ilias->setSetting("assessment_log_language", $a_language);
+	}
+
+	/**
 	* check wether assessment logging is enabled or not
 	*/
 	function _enabledAssessmentLogging()
@@ -231,6 +241,62 @@ class ilObjAssessmentFolder extends ilObject
 		global $ilias;
 
 		return (boolean) $ilias->getSetting("assessment_logging");
+	}
+	
+	/**
+	* retrieve the log language for assessment logging
+	*/
+	function _getLogLanguage()
+	{
+		global $ilias;
+
+		$lang = $ilias->getSetting("assessment_log_language");
+		if (strlen($lang) == 0)
+		{
+			$lang = "en";
+		}
+		return $lang;
+	}
+
+	/**
+	* Add an assessment log entry
+	*
+	* Add an assessment log entry
+	*
+	* @param integer $user_id The user id of the acting user
+	* @param integer $object_id The database id of the modified test object
+	* @param string $logtext The textual description for the log entry
+	* @param integer $question_id The database id of a modified question (optional)
+	* @param integer $original_id The database id of the original of a modified question (optional)
+	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
+	*/
+	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "")
+	{
+		global $ilUser, $ilDB;
+		if (strlen($question_id) == 0)
+		{
+			$question_id = "NULL";
+		}
+		else
+		{
+			$question_id = $ilDB->quote($question_id . "");
+		}
+		if (strlen($original_id) == 0)
+		{
+			$original_id = "NULL";
+		}
+		else
+		{
+			$original_id = $ilDB->quote($original_id . "");
+		}
+		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($object_id . ""),
+			$ilDB->quote($logtext . ""),
+			$question_id,
+			$original_id
+		);
+		$result = $ilDB->query($query);
 	}
 	
 	/**

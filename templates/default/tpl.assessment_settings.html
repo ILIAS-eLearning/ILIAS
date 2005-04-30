@@ -7,6 +7,14 @@
 		<td class="option"><label for="chb_assessment_logging">{TXT_ACTIVATE_ASSESSMENT_LOGGING}</label></td>
 		<td class="option_value"><input type="checkbox" name="chb_assessment_logging" id="chb_assessment_logging" value="1"{ASSESSMENT_LOGGING_CHECKED} /></td>
 	</tr>
+	<tr>
+		<td class="option"><label for="select_lang">{TXT_REPORTING_LANGUAGE}</label></td>
+		<td class="option_value"><select name="reporting_language" id="select_lang">
+<!-- BEGIN reporting_lang_row -->
+		<option value="{LANG_VALUE}"{LANG_SELECTED}>{LANG_NAME}</option>
+<!-- END reporting_lang_row -->		
+		</select></td>
+	</tr>
 	<tr class="tablefooter">
 	<td class="submit" colspan="2">
 		<div align="right">

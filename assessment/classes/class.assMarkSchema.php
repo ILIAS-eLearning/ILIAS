@@ -164,6 +164,7 @@ class ASS_MarkSchema {
       if ($result == DB_OK) {
       }
     }
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -200,27 +201,27 @@ class ASS_MarkSchema {
 					}
 					if (count($difffields))
 					{
-						$this->logAction($test_id, $lng->txt("log_mark_changed") . ": " . join($difffields, ", "));
+						$this->logAction($test_id, $lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join($difffields, ", "));
 					}
 				}
 				else
 				{
-					$this->logAction($test_id, $lng->txt("log_mark_removed") . ": " . 
-						$lng->txt("tst_mark_minimum_level") . " = " . $row["minimum_level"] . ", " .
-						$lng->txt("tst_mark_short_form") . " = " . $row["short_name"] . ", " .
-						$lng->txt("tst_mark_official_form") . " = " . $row["official_name"] . ", " .
-						$lng->txt("tst_mark_passed") . " = " . $row["passed"]);
+					$this->logAction($test_id, $lng->txtlng("assessment", "log_mark_removed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . 
+						$lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);						
 				}
 			}
 			foreach ($newmarks as $level => $row)
 			{
 				if (!array_key_exists($level, $oldmarks))
 				{
-					$this->logAction($test_id, $lng->txt("log_mark_added") . ": " . 
-						$lng->txt("tst_mark_minimum_level") . " = " . $row["minimum_level"] . ", " .
-						$lng->txt("tst_mark_short_form") . " = " . $row["short_name"] . ", " .
-						$lng->txt("tst_mark_official_form") . " = " . $row["official_name"] . ", " .
-						$lng->txt("tst_mark_passed") . " = " . $row["passed"]);
+					$this->logAction($test_id, $lng->txtlng("assessment", "log_mark_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . 
+						$lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
+						$lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
 				}
 			}
 		}
@@ -387,14 +388,9 @@ class ASS_MarkSchema {
 */
 	function logAction($test_id, $logtext = "")
 	{
-		global $ilUser, $ilDB;
-
-		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, NULL, NULL)",
-			$ilDB->quote($ilUser->id . ""),
-			$ilDB->quote(ilObjTest::_getObjectIDFromTestID($test_id) . ""),
-			$ilDB->quote($logtext . "")
-		);
-		$result = $ilDB->query($query);
+		global $ilUser;
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext);
 	}
 }
 

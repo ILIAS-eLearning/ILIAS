@@ -608,7 +608,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		// set solutions
 		if ($test_id)
 		{
-			$solutions =& $this->object->getSolutionValues($test_id, & $ilUser);
+			$solutions =& $this->object->getSolutionValues($test_id, $ilUser);
 	
 			if (is_array($solutions)) 
 			{

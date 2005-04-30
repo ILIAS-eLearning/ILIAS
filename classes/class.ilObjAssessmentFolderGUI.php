@@ -91,6 +91,24 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_ACTIVATE_ASSESSMENT_LOGGING", $this->lng->txt("activate_assessment_logging"));
 		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("assessment_settings"));
+		$this->tpl->setVariable("TXT_REPORTING_LANGUAGE", $this->lng->txt("assessment_settings_reporting_language"));
+		$languages = $this->lng->getInstalledLanguages();
+		$default_language = $this->object->_getLogLanguage();
+		if (!in_array($default_language, $languages))
+		{
+			$default_language = "en";
+		}
+		foreach ($languages as $key)
+		{
+			$this->tpl->setCurrentBlock("reporting_lang_row");
+			$this->tpl->setVariable("LANG_VALUE", $key);
+			$this->tpl->setVariable("LANG_NAME", $this->lng->txt("lang_" . $key));
+			if (strcmp($default_language, $key) == 0)
+			{
+				$this->tpl->setVariable("LANG_SELECTED", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		if($this->object->_enabledAssessmentLogging())
@@ -114,6 +132,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$this->object->_enableAssessmentLogging(0);
 		}
+		$this->object->_setLogLanguage($_POST["reporting_language"]);
 		sendInfo($this->lng->txt("msg_obj_modified"));
 		$this->settingsObject();
 	}
