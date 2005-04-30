@@ -1031,9 +1031,10 @@ class ilObjTest extends ilObject
         $db->quote($created)
       );
       
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txt("log_create_new_test"));
+				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
 			}
       $result = $db->query($query);
       if ($result == DB_OK) {
@@ -1077,6 +1078,7 @@ class ilObjTest extends ilObject
         $db->quote($this->test_id)
       );
       $result = $db->query($query);
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
@@ -1099,9 +1101,9 @@ class ilObjTest extends ilObject
 				$changes = join($changed_fields, ", ");
 				if (count($changed_fields) == 0)
 				{
-					$changes = $this->lng->txt("log_no_test_fields_changed");
+					$changes = $this->lng->txtlng("assessment", "log_no_test_fields_changed", ilObjAssessmentFolder::_getLogLanguage());
 				}
-				$this->logAction($this->lng->txt("log_modified_test") . " [".$changes."]");
+				$this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [".$changes."]");
 			}
     }
 		if (!$properties_only)
@@ -1156,6 +1158,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
@@ -1177,11 +1180,11 @@ class ilObjTest extends ilObject
 					$pos = array_search($question_id, $newquestions);
 					if ($pos === FALSE)
 					{
-						$this->logAction($this->lng->txt("log_question_removed"), $question_id);							
+						$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);							
 					}
 					else
 					{
-						$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($index+1) . " => " . ($pos+1), $question_id);
+						$this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($index+1) . " => " . ($pos+1), $question_id);
 					}
 				}
 			}
@@ -1189,7 +1192,7 @@ class ilObjTest extends ilObject
 			{
 				if (array_search($question_id, $oldquestions) === FALSE)
 				{
-					$this->logAction($this->lng->txt("log_question_added") . ": " . ($index+1), $question_id);							
+					$this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($index+1), $question_id);
 				}
 			}
 		}
@@ -1824,9 +1827,10 @@ class ilObjTest extends ilObject
 	function removeQuestion($question_id) 
 	{
 		$question = new ASS_Question();
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			$this->logAction($this->lng->txt("log_question_removed"), $question_id);
+			$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
 		}
 		$question->delete($question_id);
 		$this->removeAllTestEditings($question_id);
@@ -1911,9 +1915,10 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			$this->logAction($this->lng->txt("log_user_data_removed"));
+			$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 		}
 	}
 	
@@ -2017,9 +2022,10 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($data->sequence) . " => " . ($data->sequence-1), $question_id);
+				$this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence-1), $question_id);
 			}
 		}
 		$this->loadQuestions();
@@ -2064,9 +2070,10 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($data->sequence) . " => " . ($data->sequence+1), $question_id);
+				$this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence+1), $question_id);
 			}
 		}
 		$this->loadQuestions();
@@ -2128,9 +2135,10 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
+			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txt("log_question_added") . ": " . $sequence, $duplicate_id);
+				$this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . $sequence, $duplicate_id);
 			}
 		}
 		// remove test_active entries, because test has changed
@@ -4603,6 +4611,7 @@ class ilObjTest extends ilObject
 
 			$xml = fread($fh, filesize($source));
 			$result = fclose($fh);
+
 			if (!$result)
 			{
 //			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
@@ -5307,31 +5316,12 @@ class ilObjTest extends ilObject
 		global $ilUser;
 
 		$original_id = "";
-		if (strcmp($question_id, "") == 0)
-		{
-			$question_id = "NULL";
-		}
-		else
+		if (strcmp($question_id, "") != 0)
 		{
 			$original_id = ASS_Question::_getOriginalId($question_id);
-			$question_id = $this->ilias->db->quote($question_id . "");
 		}
-		if (strcmp($original_id, "") == 0)
-		{
-			$original_id = "NULL";
-		}
-		else
-		{
-			$original_id = $this->ilias->db->quote($original_id . "");
-		}
-		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($ilUser->id . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote($logtext . ""),
-			$question_id,
-			$original_id
-		);
-		$result = $this->ilias->db->query($query);
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		ilObjAssessmentFolder::_addLog($ilUser->id, $this->getId(), $logtext, $question_id, $original_id);
 	}
 	
 /**

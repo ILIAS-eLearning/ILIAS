@@ -411,11 +411,11 @@ class ASS_OrderingQuestion extends ASS_Question
 		// shuffle output
 		if ($this->getShuffle())
 		{
-			$qtiRenderChoice->set_attribute("shuffle", "yes");
+			$qtiRenderChoice->set_attribute("shuffle", "Yes");
 		}
 		else
 		{
-			$qtiRenderChoice->set_attribute("shuffle", "no");
+			$qtiRenderChoice->set_attribute("shuffle", "No");
 		}
 
 		// shuffle

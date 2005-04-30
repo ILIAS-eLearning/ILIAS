@@ -299,6 +299,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		// import qti data
 		$qtiresult = $newObj->importObject($qti_file);
+		echo "ilUtil::moveUploadedFile:" . $_FILES["xmldoc"]["tmp_name"] . " -> ". $_FILES["xmldoc"]["name"] . " : " . $full_path;
+
+		if ($qtiresult != TRUE)
+		{
+			sendInfo($this->lng->txt("import_errors_qti"));
+			$this->importObject();
+			$newObject->delete();
+			unlink($xml_file);
+			unlink($qti_file);
+			return;
+		}
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
@@ -316,6 +327,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
+		unlink($xml_file);
+		unlink($qti_file);
 		if ($redirect)
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);

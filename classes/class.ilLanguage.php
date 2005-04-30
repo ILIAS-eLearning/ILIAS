@@ -40,8 +40,8 @@
  * 
  * @package application
  * 
- * @todo Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
- *  Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
+ * @todo Das Datefeld wird bei ï¿½nderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
+ *  Die Formatfunktionen gehï¿½ren nicht in class.Language. Die sind auch woanders einsetzbar!!!
  *  Daher->besser in class.Format
  */
 class ilLanguage
@@ -188,6 +188,41 @@ class ilLanguage
 		return $this->lang_key;
 	}
 	
+	/**
+	 * gets the text for a given topic in a given language
+	 * if the topic is not in the list, the topic itself with "-" will be returned
+	 * 
+	 * @access	public 
+	 * @param	string	topic
+	 * @param string $a_language The language of the output string
+	 * @return	string	text clear-text
+	 */
+	function txtlng($a_module, $a_topic, $a_language)
+	{
+		if (strcmp($a_language, $this->lang_key) == 0)
+		{
+			return $this->txt($a_topic);
+		}
+		else
+		{
+			$query = sprintf("SELECT value FROM lng_data WHERE lang_key = %s AND module = %s AND identifier = %s",
+				$this->ilias->db->quote($a_language . ""),
+				$this->ilias->db->quote($a_module . ""),
+				$this->ilias->db->quote($a_topic . "")
+			);
+			$r = $this->ilias->db->query($query);
+	
+			if  ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				return $row->value;
+			}
+			else
+			{
+				return "-".$a_topic."-";
+			}
+		}
+	}
+
 	/**
 	 * gets the text for a given topic
 	 * if the topic is not in the list, the topic itself with "-" will be returned
