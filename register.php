@@ -169,6 +169,16 @@ function saveForm()
 		$ilias->raiseError($lng->txt("email_not_valid"),$ilias->error_obj->MESSAGE);
 	}
 
+	// validate role
+	include_once("classes/class.ilObjRole.php");
+	if (!ilObjRole::_lookupAllowRegister($_POST["Fobject"]["default_role"]))
+	{
+		$ilias->raiseError("Invalid role selection in registration: ".
+			ilObject::_lookupTitle($_POST["Fobject"]["default_role"])." [".$_POST["Fobject"]["default_role"]."]".
+			", IP: ".$_SERVER["REMOTE_ADDR"],$ilias->error_obj->FATAL);
+	}
+	
+
 	// TODO: check if login or passwd already exists
 	// TODO: check length of login and passwd
 
@@ -280,34 +290,34 @@ function saveForm()
         // mail subject
         $subject = $lng->txt("reg_mail_subject");
 
-        // mail body
-        $body = $lng->txt("reg_mail_body_salutation")." ".$userObj->getFullname().",\n\r".
-                $lng->txt("reg_mail_body_welcome")."\n\r".
-                $lng->txt("reg_mail_body_text1")."\n\r".
-                $lng->txt("reg_mail_body_text2")."\n\r".
-                ILIAS_HTTP_PATH."login.php?client_id=".$ilias->client_id."\n\r".
-                $lng->txt("login").": ".$userObj->getLogin()."\n\r".
-                $lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r\n\r".
-                $lng->txt("reg_mail_body_text3")."\n\r".
-                $lng->txt("title").": ".$userObj->getTitle()."\n\r".
-                $lng->txt("gender").": ".$userObj->getGender()."\n\r".
-                $lng->txt("firstname").": ".$userObj->getFirstname()."\n\r".
-                $lng->txt("lastname").": ".$userObj->getLastname()."\n\r".
-                $lng->txt("institution").": ".$userObj->getInstitution()."\n\r".
-                $lng->txt("department").": ".$userObj->getDepartment()."\n\r".
-                $lng->txt("street").": ".$userObj->getStreet()."\n\r".
-                $lng->txt("city").": ".$userObj->getCity()."\n\r".
-                $lng->txt("zipcode").": ".$userObj->getZipcode()."\n\r".
-                $lng->txt("country").": ".$userObj->getCountry()."\n\r".
-                $lng->txt("phone_office").": ".$userObj->getPhoneOffice()."\n\r".
-                $lng->txt("phone_home").": ".$userObj->getPhoneHome()."\n\r".
-                $lng->txt("phone_mobile").": ".$userObj->getPhoneMobile()."\n\r".
-                $lng->txt("fax").": ".$userObj->getFax()."\n\r".
-                $lng->txt("email").": ".$userObj->getEmail()."\n\r".
-                $lng->txt("hobby").": ".$userObj->getHobby()."\n\r".
-                $lng->txt("referral_comment").": ".$userObj->getComment()."\n\r".
-                $lng->txt("create_date").": ".$userObj->getCreateDate()."\n\r".
-                $lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+		// mail body
+		$body = $lng->txt("reg_mail_body_salutation")." ".$userObj->getFullname().",\n\r".
+				$lng->txt("reg_mail_body_welcome")."\n\r".
+				$lng->txt("reg_mail_body_text1")."\n\r".
+				$lng->txt("reg_mail_body_text2")."\n\r".
+				ILIAS_HTTP_PATH."login.php?client_id=".$ilias->client_id."\n\r".
+				$lng->txt("login").": ".$userObj->getLogin()."\n\r".
+				$lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r\n\r".
+				$lng->txt("reg_mail_body_text3")."\n\r".
+				$lng->txt("title").": ".$userObj->getTitle()."\n\r".
+				$lng->txt("gender").": ".$userObj->getGender()."\n\r".
+				$lng->txt("firstname").": ".$userObj->getFirstname()."\n\r".
+				$lng->txt("lastname").": ".$userObj->getLastname()."\n\r".
+				$lng->txt("institution").": ".$userObj->getInstitution()."\n\r".
+				$lng->txt("department").": ".$userObj->getDepartment()."\n\r".
+				$lng->txt("street").": ".$userObj->getStreet()."\n\r".
+				$lng->txt("city").": ".$userObj->getCity()."\n\r".
+				$lng->txt("zipcode").": ".$userObj->getZipcode()."\n\r".
+				$lng->txt("country").": ".$userObj->getCountry()."\n\r".
+				$lng->txt("phone_office").": ".$userObj->getPhoneOffice()."\n\r".
+				$lng->txt("phone_home").": ".$userObj->getPhoneHome()."\n\r".
+				$lng->txt("phone_mobile").": ".$userObj->getPhoneMobile()."\n\r".
+				$lng->txt("fax").": ".$userObj->getFax()."\n\r".
+				$lng->txt("email").": ".$userObj->getEmail()."\n\r".
+				$lng->txt("hobby").": ".$userObj->getHobby()."\n\r".
+				$lng->txt("referral_comment").": ".$userObj->getComment()."\n\r".
+				$lng->txt("create_date").": ".$userObj->getCreateDate()."\n\r".
+				$lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
 		$mmail->Subject($subject);
 		$mmail->Body($body);
@@ -333,22 +343,13 @@ function displayForm()
 	//infoPanel();
 	// role selection (only those roles marked with allow_register)
 	// TODO put query in a function
-	$q = "SELECT * FROM role_data ".
-		 "LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
-		 "WHERE allow_register = 1";
-	$r = $ilias->db->query($q);
+	include_once("classes/class.ilObjRole.php");
+	$reg_roles = ilObjRole::_lookupRegisterAllowed();
 
-	if ($r->numRows() > 0)
+	$rol = array();
+	foreach ($reg_roles as $role)
 	{
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$role_list[$row->obj_id] = fetchObjectData($row);
-		}
-	}
-
-	foreach ($role_list as $obj_data)
-	{
-		$rol[$obj_data["obj_id"]] = $obj_data["title"];
+		$rol[$role["id"]] = $role["title"];
 	}
 
 	$role = ilUtil::formSelect($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol,false,true);
@@ -356,14 +357,14 @@ function displayForm()
 	$data = array();
 	$data["fields"] = array();
 	$data["fields"]["login"] = "";
- 
+
     if ($settings["passwd_auto_generate"] != 1)
     {
         $data["fields"]["passwd"] = "";
         $data["fields"]["passwd2"] = "";
     }
     
-    $data["fields"]["title"] = "";
+	$data["fields"]["title"] = "";
 	$data["fields"]["gender"] = "";
 	$data["fields"]["firstname"] = "";
 	$data["fields"]["lastname"] = "";
