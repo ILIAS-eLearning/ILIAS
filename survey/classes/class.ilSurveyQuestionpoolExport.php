@@ -62,7 +62,7 @@ class ilSurveyQuestionpoolExport
 			default:
 				$this->export_dir = $this->spl_obj->getExportDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
-					"spl"."_".$this->spl_obj->getId();
+					"spl"."__".$this->spl_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				break;
 		}
