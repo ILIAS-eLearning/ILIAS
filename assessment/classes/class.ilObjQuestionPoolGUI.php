@@ -263,6 +263,46 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
+
+		// create import directory
+		ilObjQuestionPool::_createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filenames of xml files
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+		// here we have to work with the new QTI parser
+/*		include_once "./assessment/classes/class.ilQTIParser.php";
+		$qtiParser = new ilQTIParser($qti_file);
+		$result = $qtiParser->startParsing();
+
+		if ($result == FALSE)
+		{
+			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory()."/".$subdir);
+			unlink($full_path);
+			foreach ($qtiParser->items as $key => $value)
+			{
+				echo $value->getTitle() . "<br />";
+				foreach ($value->presentationitem as $item)
+				{
+					echo get_class($item) . "<br />";
+				}
+			}
+			exit;
+			sendInfo($this->lng->txt("import_errors_qti"), TRUE);
+			$this->importObject();
+			return;
+		}
+*/		
 		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
 		// set type of questionpool object
@@ -280,36 +320,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// notify the questionpool object and all its parent objects that a "new" object was created
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
-		// create import directory
-		$newObj->createImportDirectory();
-
-		// copy uploaded file to import directory
-		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
-		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
-
-		// unzip file
-		ilUtil::unzip($full_path);
-
-		// determine filenames of xml files
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-		$qti_file = $newObj->getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
-		
 		// import qti data
 		$qtiresult = $newObj->importObject($qti_file);
-		echo "ilUtil::moveUploadedFile:" . $_FILES["xmldoc"]["tmp_name"] . " -> ". $_FILES["xmldoc"]["name"] . " : " . $full_path;
 
-		if ($qtiresult != TRUE)
-		{
-			sendInfo($this->lng->txt("import_errors_qti"));
-			$this->importObject();
-			$newObject->delete();
-			unlink($xml_file);
-			unlink($qti_file);
-			return;
-		}
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
@@ -359,11 +372,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		else
 		{
 			// create import directory
-			$this->object->createImportDirectory();
+			ilObjQuestionPool::_createImportDirectory();
 	
 			// copy uploaded file to import directory
 			$file = pathinfo($_FILES["xmldoc"]["name"]);
-			$full_path = $this->object->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+			$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
 			ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 			//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 	
@@ -372,8 +385,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 			// determine filename of xml file
 			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = $this->object->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-			$qti_file = $this->object->getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+			$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
+			$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 			// import qti data
 			$qtiresult = $this->object->importObject($qti_file);
 			// import page data

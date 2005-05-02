@@ -951,41 +951,34 @@ class ilObjQuestionPool extends ilObject
 	* (data_dir/qpl_data/qpl_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createImportDirectory()
+	function _createImportDirectory()
 	{
+		global $ilias;
+		
 		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
 		ilUtil::makeDir($qpl_data_dir);
 		
 		if(!is_writable($qpl_data_dir))
 		{
-			$this->ilias->raiseError("Questionpool Data Directory (".$qpl_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilias->raiseError("Questionpool Data Directory (".$qpl_data_dir
+				.") not writeable.",$ilias->error_obj->FATAL);
 		}
 
-		// create questionpool directory (data_dir/qpl_data/qpl_<id>)
-		$qpl_dir = $qpl_data_dir."/qpl_".$this->getId();
+		// create questionpool directory (data_dir/qpl_data/qpl_import)
+		$qpl_dir = $qpl_data_dir."/qpl_import";
 		ilUtil::makeDir($qpl_dir);
 		if(!@is_dir($qpl_dir))
 		{
-			$this->ilias->raiseError("Creation of Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
-		}
-
-		// create import subdirectory (data_dir/qpl_data/qpl_<id>/import)
-		$import_dir = $qpl_dir."/import";
-		ilUtil::makeDir($import_dir);
-		if(!@is_dir($import_dir))
-		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilias->raiseError("Creation of Questionpool Directory failed.",$ilias->error_obj->FATAL);
 		}
 	}
 
 	/**
 	* get import directory of lm
 	*/
-	function getImportDirectory()
+	function _getImportDirectory()
 	{
-		$import_dir = ilUtil::getDataDir()."/qpl_data".
-			"/qpl_".$this->getId()."/import";
+		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
 		if(@is_dir($import_dir))
 		{
 			return $import_dir;
@@ -1066,13 +1059,6 @@ class ilObjQuestionPool extends ilObject
 			$fh = fopen($source, "r") or die("");
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
-
-			// here we have to work with the new QTI parser
-/*			include_once "./assessment/classes/class.ilQTIParser.php";
-			$qtiParser = new ilQTIParser($source);
-			$qtiParser->startParsing();
-			return FALSE;*/
-
 
 			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
 			{
