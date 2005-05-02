@@ -188,6 +188,57 @@ class ilObjRole extends ilObject
 	}
 
 	/**
+	* get all roles that are activated in user registration
+	*
+	* @access	public
+	* @return	array		array of int: role ids
+	*/
+	function _lookupRegisterAllowed()
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM role_data ".
+			"LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
+			"WHERE allow_register = 1";
+			
+		$r = $ilDB->query($q);
+	
+		$roles = array();
+		while ($role = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$roles[] = array("id" => $role["obj_id"],
+				"title" => $role["title"]);
+		}
+		
+		return $roles;
+	}
+
+	/**
+	* check whether role is allowed in user registration or not
+	*
+	* @param	int			$a_role_id		role id
+	* @return	boolean		true if role is allowed in user registration
+	*/
+	function _lookupAllowRegister($a_role_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM role_data ".
+			" WHERE role_id =".$ilDB->quote($a_role_id);
+			
+		$role_set = $ilDB->query($q);
+		
+		if ($role_rec = $role_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($role_rec["allow_register"])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	* set reference id of parent object
 	* this is neccessary for non RBAC protected objects!!!
 	* 
