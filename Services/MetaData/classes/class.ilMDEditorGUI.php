@@ -303,7 +303,11 @@ class ilMDEditorGUI
 			$md_key->update();
 		}
 
-		$this->listSection();
+		$this->callListeners('General');
+
+		// Redirect here to read new title and description
+		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
+		$this->ctrl->redirect($this,'listSection');
 	}
 
 
@@ -465,14 +469,14 @@ class ilMDEditorGUI
 
 		return true;
 	}
-	function callListeners($a_element,$a_value,$a_attribs = array())
+	function callListeners($a_element)
 	{
 		if(isset($this->observers[$a_element]))
 		{
 			$class =& $this->observers[$a_element]['class'];
-			$method =& $this->observers[$a_element]['method'];
+			$method = $this->observers[$a_element]['method'];
 
-			return $class->$method;
+			return $class->$method($a_element);
 		}
 		return false;
 	}

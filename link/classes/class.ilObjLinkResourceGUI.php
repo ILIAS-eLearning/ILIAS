@@ -74,8 +74,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getRefId(),$this->object->getId(),$this->object->getType());
-				$md_gui->addObserver($this,'MDUpdateListener','Title');
-				$md_gui->addObserver($this,'MDUpdateListener','Description');
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
