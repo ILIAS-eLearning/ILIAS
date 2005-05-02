@@ -47,6 +47,35 @@ class ilObjLinkResource extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	function MDUpdateListener($a_element)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{
+			case 'General':
+				// Update Title and description
+				$md = new ilMD($this->getRefId(),$this->getId(),'webr');
+				$md_gen = $md->getGeneral();
+
+				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+
+				foreach($md_gen->getDescriptionIds() as $id)
+				{
+					$md_des = $md_gen->getDescription($id);
+					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					break;
+				}
+				
+				
+				break;
+
+			default:
+		}
+		return true;
+	}
+
+
 	/**
 	* copy all entries of your object.
 	* 
