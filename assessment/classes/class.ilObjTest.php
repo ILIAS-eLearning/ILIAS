@@ -641,7 +641,7 @@ class ilObjTest extends ilObject
 		if(!is_writable($tst_data_dir))
 		{
 			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+				.") not writeable.",$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// create learning module directory (data_dir/lm_data/lm_<id>)
@@ -649,14 +649,14 @@ class ilObjTest extends ilObject
 		ilUtil::makeDir($tst_dir);
 		if(!@is_dir($tst_dir))
 		{
-			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->MESSAGE);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $tst_dir."/export";
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->MESSAGE);
 		}
 	}
 
@@ -4593,7 +4593,7 @@ class ilObjTest extends ilObject
 		$error = 0;
 		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
 		{
-//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->FATAL);
 			$error = 1;
 		}
 		
@@ -4604,7 +4604,7 @@ class ilObjTest extends ilObject
 			$fh = fopen($source, "r");
 			if (!$fh)
 			{
-//			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->FATAL);
 				$error = 1;
 				return $error;
 			}
@@ -4614,7 +4614,7 @@ class ilObjTest extends ilObject
 
 			if (!$result)
 			{
-//			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->FATAL);
 				$error = 1;
 				return $error;
 			}

@@ -67,10 +67,10 @@ class ilQuestionpoolExport
 			default:
 				$this->export_dir = $this->qpl_obj->getExportDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
-					"qpl"."_".$this->qpl_obj->getId();
+					"qpl"."__".$this->qpl_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				$this->qti_filename = $date."__".$this->inst_id."__".
-					"qti"."_".$this->qpl_obj->getId().".xml";
+					"qti"."__".$this->qpl_obj->getId().".xml";
 				break;
 		}
 	}

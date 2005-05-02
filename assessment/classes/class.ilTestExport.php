@@ -69,9 +69,10 @@ class ilTestExport
 				break;				
 			default:				
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test_"."_".$this->test_obj->getId();
+					"test"."__".$this->test_obj->getId();
+				$this->filename = $this->subdir.".xml";
 				$this->qti_filename = $date."__".$this->inst_id."__".
-					"qti_"."_".$this->test_obj->getId().".xml";
+					"qti"."__".$this->test_obj->getId().".xml";
 				break;
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();

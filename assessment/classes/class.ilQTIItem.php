@@ -45,15 +45,18 @@ class ilQTIItem
 	var $questiontype;
 	var $duration;
 	var $questiontext;
-	var $response;
 	var $resprocessing;
 	var $itemfeedback;
+	var $presentation;
+	var $presentationitem;
 	
 	function ilQTIItem()
 	{
 		$this->response = array();
 		$this->resprocessing = array();
 		$this->itemfeedback = array();
+		$this->presentation = null;
+		$this->presentationitem = array();
 	}
 	
 	function setIdent($a_ident)
@@ -127,16 +130,6 @@ class ilQTIItem
 		return $this->questiontext;
 	}
 	
-	function setResponse($response_type)
-	{
-		$this->response = new ilQTIResponse($response_type);
-	}
-	
-	function addResponse($a_response)
-	{
-		array_push($this->response, $a_response);
-	}
-	
 	function addResprocessing($a_resprocessing)
 	{
 		array_push($this->resprocessing, $a_resprocessing);
@@ -175,6 +168,33 @@ class ilQTIItem
 	function getXmllang()
 	{
 		return $this->xmllang;
+	}
+	
+	function setPresentation($a_presentation)
+	{
+		$this->presentation = $a_presentation;
+	}
+	
+	function getPresentation()
+	{
+		return $this->presentation;
+	}
+	
+	function collectResponses()
+	{
+		$result = array();
+		if ($this->presentation != null)
+		{
+		}
+	}
+	
+	function getQuestiontype()
+	{
+	}
+	
+	function addPresentationitem($a_presentationitem)
+	{
+		array_push($this->presentationitem, $a_presentationitem);
 	}
 }
 ?>
