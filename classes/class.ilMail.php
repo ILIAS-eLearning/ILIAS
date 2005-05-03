@@ -1043,6 +1043,20 @@ class ilMail
 										$a_rcp_bcc,'read',$a_type,$a_as_email,$a_m_subject,$a_m_message,$this->user_id);
 	}
 
+
+	
+	/**
+	* add user fullname to mail 'From'
+	* @param string email of sender
+	* @return string 'From' field
+	*/
+	function addFullname($a_email)
+	{
+		global $ilUser;
+		
+		return $ilUser->getFullname().'<'.$a_email.'>';
+	}
+
 	/**
 	* send mime mail using class.ilMimeMail.php
 	* @param string to or array of recipients
@@ -1058,7 +1072,7 @@ class ilMail
 	{
 		include_once "classes/class.ilMimeMail.php";
 
-		$sender = $this->getEmailOfSender();
+		$sender = $this->addFullname($this->getEmailOfSender());
 
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);
