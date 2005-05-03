@@ -1412,8 +1412,32 @@ class ilUtil
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(filesize($a_file)));
 		header("Connection: close");
-		readfile( $a_file );
+		ilUtil::readFile( $a_file );
 		exit;
+	}
+	
+	
+	/**
+	* there are some known problems with the original readfile method, which
+	* sometimes truncates delivered files regardless of php.ini setting
+	* (see http://de.php.net/manual/en/function.readfile.php) use this
+	* method to avoid these problems.
+	*/
+	function readFile($a_file)
+	{
+		$chunksize = 1*(1024*1024); // how many bytes per chunk
+		$buffer = '';
+		$handle = fopen($a_file, 'rb');
+		if ($handle === false)
+		{
+			return false;
+		}
+		while (!feof($handle))
+		{
+			$buffer = fread($handle, $chunksize);
+			print $buffer;
+		}
+		return fclose($handle); 
 	}
 
 	/**
