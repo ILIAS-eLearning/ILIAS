@@ -38,6 +38,7 @@
 
 // it is an action required to generate images..
 if ($_GET[action] == "show") {
+
 	$im = ImageCreate (162, 160)
       or die ("Kann keinen neuen GD-Bild-Stream erzeugen");
 	$im = showMinicalendar($_GET[month],$_GET[year], $im, $_GET[DP_Lang]);
@@ -63,22 +64,50 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 {
 
 	//language
-	$array_tmp = @file('../lang/dp_'.$DP_Lang.'.lang');
-	foreach($array_tmp as $v)
-	{
-		if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
-		{//Line mustn't start with a ';' and must contain at least one '=' symbol.
-			$pos		= strpos($v, '#:#', '13');
-			$offset1	= strpos($v, '#:#', '13')-13;
-			$offset2	= strpos($v, '###', '13')-$offset1-16;
-			if($offset2 != (-$offset1-16)) {
-				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3,$offset2));
-			}
-			else {
+	if(file_exists('../lang/dp_'.$DP_Lang.'.lang'))		//checks whether lang-file exists; if not english is used as fallback solution
+	{	
+		$array_tmp = @file('../lang/dp_'.$DP_Lang.'.lang');
+		foreach($array_tmp as $v)
+		{
+			if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
+			{//Line mustn't start with a ';' and must contain at least one '=' symbol.
+				$pos		= strpos($v, '#:#', '13');
+				$offset1	= strpos($v, '#:#', '13')-13;
+				$offset2	= strpos($v, '###', '13')-$offset1-16;
+				if($offset2 != (-$offset1-16)) 
+				{
+					$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3,$offset2));
+				}
+				else 
+				{
 				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3));
+				}
 			}
 		}
 	}
+	else
+	{
+		$DP_Lang = "en";
+		$array_tmp = @file('../lang/dp_'.$DP_Lang.'.lang');
+		foreach($array_tmp as $v)
+		{
+			if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
+			{//Line mustn't start with a ';' and must contain at least one '=' symbol.
+				$pos		= strpos($v, '#:#', '13');
+				$offset1	= strpos($v, '#:#', '13')-13;
+				$offset2	= strpos($v, '###', '13')-$offset1-16;
+				if($offset2 != (-$offset1-16)) 
+				{
+					$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3,$offset2));
+				}
+				else 
+				{
+				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3));
+				}
+			}
+		}			
+	}
+
 
 	if(!$month || !$year)
 	{
@@ -95,7 +124,7 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 
     $Tagesnamen = array($DP_language[wk_short], $DP_language[Mo_short], $DP_language[Tu_short], $DP_language[We_short], $DP_language[Th_short], $DP_language[Fr_short], $DP_language[Sa_short], $DP_language[Su_short]);
 	$Monatabk = array("", $DP_language[short_01], $DP_language[short_02], $DP_language[short_03], $DP_language[short_04], $DP_language[short_05], $DP_language[short_06], $DP_language[short_07], $DP_language[short_08], $DP_language[short_09], $DP_language[short_10],  $DP_language[short_11], $DP_language[short_12]);
-
+	
 	ImageColorAllocate ($im, 144, 144, 144);
 	$color[1] = ImageColorAllocate ($im,0,0,0); //schwarz
 	$color[2] = ImageColorAllocate ($im,144,144,144); //blau
