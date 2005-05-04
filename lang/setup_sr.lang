@@ -1,0 +1,395 @@
+/**
+* ILIAS language file
+*
+* @module       setup language file Serbian
+* @modulegroup  language
+* @author       Branislav Perovic <Branislav.Perovic@osce.org> 
+* @version      $Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+3rd_party_software#:#Softver trece strane
+absolute_path#:#Apsolutna putanja
+access#:#Pristup
+access_status#:#Pristupni status
+admin_login#:#Prijavite se kao administrator
+antivir#:#AntiVir
+available_clients#:#Raspoloživi klijenti
+available_languages#:#raspoloživi jezici
+back#:#nazad
+cannot_create_datadir_no_write_access#:#Nema pisanih pristupa. Ne može se napraviti direktorijum podataka
+change#:#promeni
+change_basic_settings#:#promeni osnovna podešavanja
+change_password#:#Promeni lozinku
+change_sort_direction#:#Promeni vrstu upravljanja
+check_failed_convert#:#Obrada testiranja nije uspela
+check_failed_htmldoc#:#Testiranje FOP nije uspelo
+check_failed_htmldoc#:#Testiranje HTMLdoc nije uspelo
+check_failed_java#:#Testiranje Java nije uspelo
+check_failed_unzip#:#Testiranje unzip nije uspelo
+check_failed_zip#:#Testiranje zip nije uspelo
+choose_language#:#izaberite vaš jezik
+choose_languages#:#Molimo dodajte dodatne jezike i/ili uklonite odabrane jezike.
+choose_password#:#Molimo odaberite lozinku
+city#:#Grad, Država
+clean_command#:#Obriši komandu
+client#:#Klijent
+client_access_mode_changed#:#Klijentov nacin pristupa je promenjen
+client_data#:#Klijentove informacije
+client_id#:#Klijentov ID
+client_info#:#Opis
+client_institution#:#Institucija
+client_login#:#Prijavite se sa vašim ID klijenta
+client_name#:#Ime
+client_setup_not_finished#:#Otvaranje klijenta još nije gotovo
+contact#:#Informacije za kontakt
+contact_data#:#Informacije za kontakt
+convert_path#:#Putanja do obrade
+convert_path_comment#:#neophodno za prikazivanje kratkog rezimea slika
+could_not_create_logfile#:#Ne može se kreirati pristupna datoteka 
+country#:#Država
+create#:#kreiraj
+create_datadir_failed#:#Kreiranje direktorijuma podataka nije uspelo
+create_new_client#:#Kreiraj novog klijenta
+create_webdir_failed#:#Kreiranje web direktorijuma nije uspelo
+data_path#:#putanja podataka
+database#:#baza podataka
+database_create#:#Kreiraj bazu podataka
+database_exists#:#baza podataka postoji
+database_install#:#Instaliraj bazu podataka
+database_installed#:#Baza podataka je instalirana
+database_is_uptodate#:#Vaša baza podataka je aktuelna
+database_needs_update#:#vašoj bazi podataka je potrebno ažuriranje
+database_not_exists_create_first#:#Baza podataka ne postoji. Molimo prvo unesite bazu podataka.
+database_ready#:#baza podataka je spremna.
+database_update#:#ažuriraj bazu podataka
+database_version#:#trenutna verzija baze podataka
+datadir_path#:#Putanja do Direktorijuma podataka
+datadir_path_comment1#:#Obavezan
+datadir_path_comment2#:#ne može biti izmenjeno u verziji postavljanja
+datadir_webspacedir_match#:#Putanja do vašeg direktorijuma podataka pokazuje isti direktorijum gde je vaš direktorijum web prostora lociran. Molimo odaberite drugi direktorijum.
+date#:#datum
+db_conn#:#povezanost baze podataka
+db_host#:#domacin baze podataka
+db_name#:#naziv baze podataka
+db_needs_update#:#Bazi podataka je potrebno ažuriranje
+db_not_installed#:#Baza podataka nije instalirana
+db_pass#:#lozinka baze podataka
+db_type#:#vrsta baze podataka
+db_user#:#korisnik baze podataka
+db_version#:#verzija baze podataka
+default#:#standardno
+default_client_changed#:#Promenjen standardni klijent
+default_language#:#Standardni jezik
+delete#:#Obriši komandu
+delete_confirm#:#Potvrdi klijentovo brisanje
+delete_info#:#Da li ste sigurni?
+details#:#Detalji
+dir_exists_create#:#Direktorijum vec postoji. Ne proveravajte 'create' da bi odabrao direktorijum kao što je vaš direktorijum podataka
+disable#:#onemoguci
+disable_check#:#onemoguci proveru
+disable_logging#:#onemoguci prijavljivanje
+disabled#:#onemoguceno
+display_clientlist#:#Prikaži klijentovu selekciju
+email#:#email
+email_not_valid#:#Pogrešna email adresa
+en_by_default#:#(Engleski jezik je instaliran po standardu i ne može biti obrisan).
+enable#:#omoguci
+enabled#:#omoguceno
+enter_dir_and_filename#:#Molimo unesite celu (apsolutnu) putanju i naziv datoteke!
+enter_password#:#Molimo unesite lozinku
+env_ok#:#Ok. Dobro zvuci.
+env_using#:#ILIAS 3 ce da radi na
+env_warning#:#ILIAS 3 je testiran samo na Linux i Windows korišcenje Apache web servera!<br />Kako bilo, iILIAS 3 može da radi i sa vašom okolinom. 
+environment#:#Okolina
+err_create_database_failed#:#kreiranje baze podataka nije uspelo
+err_wrong_login#:#Pogrešna prijava
+error_recipient#:#Greška primaoca
+feedback_recipient#:#Povratna informacija primaoca
+file_does_not_exist#:#Datoteka ne postoji.
+file_version#:#verzija datoteke
+fill_both_fields#:#Molimo popunite oba polja!
+fill_out_required_fields#:#Molimo popunite sva polja oznacena kao obavezna.
+filled_out#:#pravilno popunite
+finish#:#Završi postavljanje
+finish_initial_setup_first#:#Molimo prvo završite inicijalno postavljanje
+finish_setup#:#Završetak postavljanja
+firstname#:#Ime
+fop_path#:#Putanja do FOP
+fop_path_comment#:#zahteva se da generišete PDF dokumete
+hide_clientlist#:#Sakrij selekciju klijenta
+host#:#domacin baze podataka
+htmldoc_path#:#Putanja do HTML.doc
+htmldoc_path_comment#:#zahteva se da generišete PDF dokumete
+http_path#:#HTTP putanja
+id#:#identifikacija
+ilias_homepage#:#Pocetna strana ILIAS-a
+ilias_nic#:#Registracija nadimka
+ilias_nic_id#:#nadimak
+ilias_setup#:#postavljanje ILIAS 3 
+ilias_version#:#Verzija ILIAS-a
+info_text_contact#:#Ovde pokazujete dodatne informacije o klijentu i podatke za kontakt sa sistem administratorom za ovog klijenta. Polja oznacena zvezdicom moraju biti popunjena. Sve informacije su uskladištene u bazi podataka. Na sledecem ekranu možete registrovati vašu instalaciju ILIAS NIC Servera, registracija prenosi ovaj podatak do ILIAS-NIC servera.
+info_text_db#:#Baza podataka ne postoji ili je prazna. Kliknite na donje dugme da biste instalirali vašu bazu podataka. Ako ni onda ne bude postojala baza podataka sa tim imenom proverite opciju 'kreiraj bazu podataka'. Nakon toga pokušajte da kreirate automatski bazu podataka. Ukoliko kreiranje propadne (usled restriktivne dozvole za pristup), molimo kontaktirajte sistem administratora baze podataka na serveru i pitajte ga da kreira bazu podataka sa željenim imenom pre instaliranja ILIAS-a.
+info_text_delete#:#Možete obrisati ovog klijenta ako kliknete na donje dugme za brisanje. Kako bilo, samo vaša client.ini datoteka je uklonjena, cuvajuci sve podatke smeštene u klijentovim direktorijumima i bazama podataka.
+info_text_finish1#:#Cestitamo! Vaše postavljanje klijenta je uspešno. Kliknite na 'login' da biste uneli vašu ILIAS instalaciju.
+info_text_finish2#:#Neka podešavanja i dalje nedostaju ili su nepravilna. Molimo pogledajte procesnu tabelu šta treba uraditi.
+info_text_first_client#:#Vaša osnovna podešavanja su sacuvana. Sada cemo postaviti vašeg prvog klijenta. Postavljanje ce vas voditi kroz instalacioni proces. Sa desne strane uvek možete videti trenutni status instalacionog procesa.
+info_text_first_install#:#Izgleda da ste po prvi put instalirali ILIAS 3 zato što nijedan ilias.ini nije pronaden. U ilias.ini cuvamo glavnu lozinku da bi zaštitili ILIAS postavljanje od neovlašcenih pristupa. 
+info_text_ini#:#Molimo odaberite ID klijenta. Bilo koje slovo (osim umlauta) ili broj su dozvoljeni. ID klijenta mora biti jedna rec.<br />Zatim unesite vaše podatke vezane za bazu podataka. Postavljanje uspostavlja test vezu da bi proverilo vaša podešavanja i da bi testirala da li baza podataka postoji. Ako baza podataka vec ne postoji, možete brzo postaviti u sledecem instalacionom koraku bazu podataka za vas.
+info_text_lang#:#Molimo odaberite dodatne jezike i/ili uklonite odabrane jezike. Standardno odreden jezik za novi korisnicki nalog ili korisnika koji još uvek nema selektovan željeni jezik.
+info_text_list#:#Ovo je pregled gde vidite sve dostupne klijente i njihovo postavljanje, kao i pristupni status. Gore desno možete klijentov ekran za odabir ukljuciti ili iskljuciti. Ako je klijetov odabir ukljucen, svi raspoloživi klijenti koji su na vezi ce biti prikazani na spisku na pocetnoj strani ILIAS. Ako je iskljucen i korisnik vidi pocetnu stranu, prozor za prijavu <i>standardno</i> klijenta je prikazan. Možete odrediti standardnog klijenta uz pomoc donjeg dugmeta.
+info_text_login#:#Molimo unesite Klijentov ID vaše instalacije i vaše podatke o nalogu. Vašem nalogu mora biti dodeljena funkcija administratora.
+info_text_nic1#:#Dobijen instalacioni id (nic-id) od našeg ILIAS servera.Jedinstveni nic-id je neophodan ako želite da podelite sadržaj sa drugim ILIAS instalacijama. Registracija je dobrovoljna. Ako ne želite da se registrujete, odaberite 'skip registration' 8možete se registrovati i naknadno kada poželite).<br />preporucujemo da koristite registraciju dok ste na vezi. Ako imate problema da se konetktujete (nalazite se iza firewall-a), možete dobiti nic-id putem email-a. Molimo pošaljite 
+info_text_nic2#:#sa vašim instalacionim informacijama na ilias-info@uni-koeln.de. Unesite nic-id koji cete dobiti odgovor u email-u u odgovarajuce polje i oznacite 'regisrer via Email'.
+info_text_nic3#:#Registrovali ste vašu instalaciju. Vaš nic-id je
+info_text_password#:#Ovde možete promeniti glavnu lozinku za postavljanje programa.
+info_text_pathes#:#ILIAS 3 podržava više klijenata sa razlicitim bazama podataka. Ispod unesite direktorijum baze podataka, lokaciju datoteke pristupa i putanju do prodrama trece strane. Ova podešavanja su važeca za sve klijente koje kasnije kreirate.
+ini_client_id_exists#:#Klijent sa tim ID vec postoji. Odaberite drugi ID klijenta.
+ini_client_id_invalid#:#ID klijenta koji ste uneli sadrži nevažece karaktere
+ini_client_id_no_change#:#Klijentov ID ne može biti promenjen u ovoj verziji nakon što su direktorijumi klijenta kreirani uspešno.
+ini_client_id_too_long#:#Klijentov ID je predugacak
+ini_client_id_too_short#:#Klijentov ID je prekratak
+ini_db_name_exists#:#vec postoji! Molimo odaberite drugi naziv za bazu podataka
+ini_no_client_id#:#Nije dodeljen ID klijentu
+ini_no_db_host#:#Nema naziva domacina
+ini_no_db_name#:#nema naziva baze podataka
+ini_no_db_user#:#Nema korisnickog imena baze podataka
+inifile#:#ini-file
+inifile_can_write#:#ILIAS 3 set up može ispisati vaš ini-file.
+inifile_cannot_write#:#ILIAS 3 set up ne može ispisati vaš ini-file. Molimo prvo proverite dozvole.
+inifile_content#:#vaš ini-file ima ovakav sadržaj:
+inifile_exists#:#Postoji jedanini-file. Obratite pažnju da instalacioni proces briše prethodna podešavanja.
+inifile_fill_all#:#Molimo popunite sva polja.
+inifile_firsttime#:#Nema prisutnih ini-file! Izgleda da je ovo prvo pokretanje ILIAS #.
+inifile_written#:#Ini-file je uspešno snimljen.
+input_error#:#ulazna greška
+inst_identification#:#Instalaciona identifikacija
+inst_name#:#naziv instalacije
+install#:#Instaliraj bazu podataka
+installation#:#instalacija
+installed#:#instalirano
+institution#:#Institucija
+intro_install#:#Ovo je glavna stranisa ILIAS 3 postavljanja. Odavde možete videti kretanje kroz instalaciju.
+ip_address#:#IP adresa
+java_path#:#Putanja do Java
+java_path_comment#:#zahtevano za SCORM metode ucenja
+lang_cs#:#Ceški
+lang_da#:#Danski
+lang_de#:#Nemaci
+lang_en#:#Engleski
+lang_error_occurred#:#Pojavila se greška. Akcija je prekinuta.
+lang_es#:#Španski
+lang_fr#:#Francuski
+lang_hu#:#Madarski
+lang_id#:#Indonežanski
+lang_it#:#Italijanski
+lang_lt#:#Litvanski
+lang_min_one_language#:#Morate instalirati bar jedan jezik!
+lang_nl#:#Holandski
+lang_no#:#Norveški
+lang_none_installed#:#Nema instaliranog jezika
+lang_not_installed_default#:#Jezik koji ste odabrali kao standardni nije instaliran!
+lang_pl#:#Poljski
+lang_pt#:#Portugalski
+lang_se#:#Švedski
+lang_ua#:#Ukrajinski
+lang_xx#:#Standardni
+lang_zh#:#Kineski
+langs_not_valid_not_installed#:#Sledeci jezici nisu instalirani usled nevažecih jezickih datoteka
+language#:#Jezik
+languages#:#jezici
+languages_installed#:#Jezik(ci) instaliran(i)
+lastname#:#Prezime
+list#:#spisak
+list_disabled#:#Odabir klijenta onemogucen
+list_enabled#:#Odabir klijenta omogucen
+log_path#:#Putanja do datoteke za prijavu
+log_path_comment#:#unesi sa nazivom datoteke. Datoteka ce biti kreirana.
+logged_out#:#Odjavljeni ste.
+logging#:#Prijavljivanje
+login#:#prijava
+login_invalid#:#prijava nevažeca
+login_to_ilias#:#prijava na ILIAS 
+logout#:#Odjava
+main_datadir_outside_webspace#:#Glavni direktorijum podataka izvan web prostora
+missing_data#:#Nedostaju podaci
+name#:#Ime
+new#:#novo
+next#:#sledece
+nic_not_disabled#:#Nema NIC-ID i nije onemoguceno
+nic_reg_disable#:#preskoci registraciju nadimka
+nic_reg_disable_comment#:#(registruj kasnije)
+nic_reg_disabled#:#registracija nadimka onemogucena
+nic_reg_email#:#registruj putem email-a
+nic_reg_enabled#:#Registracija nadimka omogucena
+nic_reg_enter_checksum#:#Unesi poslatu proveru
+nic_reg_enter_correct_id#:#Molimo unesite pravilan nadimak
+nic_reg_enter_id#:#Unesi poslat NIC ID
+nic_reg_failed#:#Registracija nadimka nije uspela
+nic_reg_online#:#registruj se na vezi
+nic_registration#:#Registracija nadimaka
+no_changes#:#Nema izmena
+no_client_id#:#Nije dodeljen ID klijenta
+no_client_name#:#NEMA IMENA KLIJENTA
+no_clients_available#:#Nema raspoloživih klijenata
+no_database#:#Nema baze podataka
+no_db_connect_consult_admin#:#Ne može se pristupiti bazi podataka. Molimo konsultujte sistem administratora
+no_db_update_file#:#bdupdate.php nije pronaden1
+no_password#:#Nije data lozinka
+no_path_convert#:#Nije data obrnuta putanja
+no_path_datadir#:#Nisu dati podaci direktorijuma
+no_path_fop#:#Nije data putanja FOP
+no_path_given#:#Nije data putanja 
+no_path_htmldoc#:#Nije data HTML.doc putanja
+no_path_java#:#Nije data putanja za Java
+no_path_log#:#Nije data putanja za prijavu
+no_path_unzip#:#Nije data putanja otpakivanja
+no_path_zip#:#Nije data putanja za pakovanje
+no_setup_pass_given#:#Nije dato postavljanje lozinke
+no_username#:#Nije dato korisnicko ime
+no_valid_client_id#:#Nema validnih klijent ID
+none#:#Nijedan
+not_connected_to_db#:#Niste povezani na bazu podataka
+online#:#na vezi
+or#:#ili
+out_of_webspace#:#(van web prostora)
+overall_status#:#Opšti status
+overview#:#Opšti pregled
+pass_does_not_match#:#Uneta lozinka ne odgovara
+password#:#lozinka
+password_changed#:#lozinka promenjena
+password_empty#:#Nije data lozinka
+password_enter_old#:#Morate uneti prvo vašu stru lozinku!
+password_info#:#Da zaštitite vaše konfigurisane podatke od nedozvoljenih pristupa molimo unesite lozinku kao biste kasnije ponovo promenili ova podešavanja.
+password_new_master#:#Postavite novu glavnu lozinku
+password_not_match#:#Nova lozinka koja je uneta ne odgovara!
+password_old_wrong#:#Stara lozinka koja je uneta je pogrešna!
+password_retype#:#Ukucajte ponovo lozinku
+password_same#:#Stara i nova lozika su iste
+password_set#:#Lozinka sacuvana
+path_not_set#:#Putanja nije postavljena
+path_to_convert#:#Putanjaa za pretvaranje
+path_to_fop#:#Putanja do FOP
+path_to_htmldoc#:#Putanja do HTML.doc
+path_to_java#:#Putanja do Java
+path_to_unzip#:#Putanja do Unzip
+path_to_zip#:#Putanja do Zip
+pathes#:#Putanje
+phone#:#Telefon
+port#:#ulaz
+position#:#Pozicija
+pre_cookies_disabled#:#Kolacici su onemoguceni. Kolacicima se zahteva da koriste ILIAS 3.
+pre_cookies_enabled#:#Kolacici omoguceni
+pre_error#:#Jedna ili dve stvari su propale. Molimo prvo rešite probleme ili necete moci da postavite ILIAS 3.
+pre_folder_create#:#Moguce je kreirati novi registrator u registratoru ILIAS 3
+pre_folder_create_error#:#Ne mogu se kreirati pod registratori! Molimo proverite vaša podešavanja za dozvolu i vašem sistemu datoteke!
+pre_folder_write#:#ILIAS 3 registrator u kome je moguce pisati.
+pre_folder_write_error#:#Ne možete pisati u registratoru ILIAS 3! Molimo proverite vaša podešavanja za dozvolu i vašem sistemu datoteke!
+pre_intro#:#Dozvolite da prvo vidimo da li vaše okruženje odgovara na sve zahteve koji su da biste instalirali  i koristili ILIAS 3 na vašem sistemu.
+pre_javascript_comment#:#Možete koristiti ILIAS bez JavaScript, ali ce neki medusklopovi nedostajati.
+pre_javascript_enabled#:#JavaScript omogucen
+pre_php_version#:#PHP verzija
+pre_php_version_3#:#Vaša PHP verzija je mnogo stara da bi koristila ILIAS 3! Molimo nadogradite PHP.
+pre_php_version_4.1#:#PEAR klase nece da rade kako treba sa ovom verzijom. Molimo nadogradite PHP.
+pre_php_version_4.2#:#DOMXML i XSLT podrška ne radi ispravno uz ovu verziju!
+pre_php_version_5#:#ILIAS 3 još nije testiran sa PHP 5. Koristi uz sopstveni rizik.
+pre_php_version_unknown#:#ILIAS postavljanje ne poznaje ovu verziju. Koristi uz sopstveni rizik.
+preliminaries#:#pripreme
+prev#:#prethodni
+required_field#:#zahtevana polja
+reset#:#vracanje
+root_access#:#putanja pristup
+safe_mode_enabled#:#bezbednosni nacin je omogucen!
+save#:#Snimi
+save_error#:#snimi gršku!
+saved_successfully#:#Snimljeno je uspešno!
+scan_command#:#Komanda za proveru
+select_client#:#Odaberi klijenta
+server_info#:#Informacije o serveru
+server_software#:#Server program
+set_default_client#:#Postavi standardnog klijenta
+set_newpasswd#:#Molimo unesite novu lozinku 
+set_oldpasswd#:#Molimo unesite stru lozinku
+settings_changed#:#Podešavanja su promenjena
+settings_saved#:#Podešavanja su snimljena
+setup#:#postavljanje 
+setup_basic_settings#:#Postavljanje osnovnih podešavanja
+setup_contact_data#:#Postavljanje kontakt informacija
+setup_database#:#postavljanje baze podataka
+setup_database_desc#:#postavi bazu podataka
+setup_db_first#:#Molimo prvo postavite vašu bazu podataka!
+setup_finished#:#Postavljanje je završeno
+setup_first_client#:#Postavite vašeg prvog klijenta
+setup_ini_first#:#Molimo prvo kreirajte vaš ini-file!
+setup_inifile#:#kreiraj ini-file
+setup_inifile_desc#:#kreirajte vaš ini-file za vašu instalaciju
+setup_languages#:#Instaliraj jezike
+setup_languages_desc#:#instaliraj dodatne jezike
+setup_login#:#Pristupi postavljanju
+setup_mainmenu#:#Glavni meni za postavljanje
+setup_menu#:#meni za postavljanje
+setup_nic_desc#:#registracija vaše instalacije na ILIAS-NIC-Server
+setup_not_finished#:#Postavljanje nije završeno
+setup_pass#:#Lozinka
+setup_pass2#:#Ponovo ukucajte lozinku
+setup_pass_title#:#Odredi glavnu lozinku
+setup_password#:#kreiraj lozinku
+setup_password_desc#:#kreiraj lozinku za pristup rutinskom postavljanju kasnije (radi ažuriranja vaše baze podataka)
+setup_process_status#:#Status procesa posatvljanja
+setup_process_step_contact#:#Unesi informacije za kontakt
+setup_process_step_db#:#Instaliraj/Ažuriraj bazu podataka
+setup_process_step_finish#:#Završi instalaciju
+setup_process_step_ini#:#Osnovni podaci o postavljanju
+setup_process_step_lang#:#Instaliraj sistemske jezike
+setup_process_step_nic#:#Registruj na ILIAS-NIC
+setup_ready#:#Postavljanje je spremno. Sada možete nastaviti sa prijavom i proverom daljih sistemskih podašavanja.
+setup_welcome#:#Dobro došli na ILIAS 3 postavljanje. Rutinsko postavljanje vam pomaže da
+sophos#:#Sophos
+sort_by_this_column#:#Sortiraj po ovoj koloni
+status#:#Status procesa posatvljanja
+step#:#Korak
+street#:#Ulica
+submit#:#Potvrdi
+title#:#Naslov
+unknown_client_id#:#Nepoznat klijent
+unknown_command#:#Nepoznata komanda
+unknown_display_mode#:#Nepoznat nacin prikazivanja
+unzip_path#:#staza do Unzip
+unzip_path_comment#:#zahtevano radi unošenja metoda ucenja
+update_applied#:#Ažuriranje prihvaceno
+update_error#:#Greška tokom ažuriranja
+update_not_found#:#Ažuriranje nije pronadeno1
+username#:#korisnicko ime
+version#:#Verzija
+virus_scanner#:#Pregled virusa
+webspace_dir#:#staza do podataka o web prostoru
+with#:#sa
+wrong_password#:#pogrešna lozinka!
+zip_path#:#Putanja do Zip
+zip_path_comment#:#zahtevano radi unošenja metoda ucenja
+zipcode#:#poštanski broj
