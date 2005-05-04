@@ -25,9 +25,9 @@
 /**
 * Class ilObjUserFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
-* @version $Id$
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -843,8 +843,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// that one user session overwrites the import data that another session
 		// is currently importing.
 		global $ilUser;
-		ilUtil::makeDir(ilUtil::getDataDir()."/user_import");
-		return ilUtil::getDataDir().'/user_import/'.session_id();
+		$importDir = ilUtil::getDataDir().'/user_import/usr_'.$ilUser->getId().'_'.session_id(); 
+		ilUtil::makeDirParents($importDir);
+		return $importDir;
 	}
 
 	/**
@@ -950,6 +951,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
 		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
 		$this->tpl->setVariable("IMPORT_FILE", $file_name);
+		$this->tpl->setVariable("TXT_USER_ELEMENT_COUNT", $this->lng->txt("num_users"));
+		$this->tpl->setVariable("USER_ELEMENT_COUNT", $importParser->getUserCount());
 		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
 		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
@@ -966,7 +969,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		foreach ($all_gl_roles as $obj_data)
 		{
 			// check assignment permission if called from local admin
-			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+			if($this->object->getRefId() != USER_FOLDER_ID)
 			{
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
@@ -1070,6 +1073,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				&& $rolf[0] != ROLE_FOLDER_ID
 				)
 				{
+					// A local role is only displayed, if it is contained in the subtree of 
+					// the localy administrated category. If the import function has been 
+					// invoked from the user folder object, we show all local roles, because
+					// the user folder object is considered the parent of all local roles.
+					// Thus, if we start from the user folder object, we initialize the
+					// isInSubtree variable with true. In all other cases it is initialized 
+					// with false, and only set to true if we find the object id of the
+					// locally administrated category in the tree path to the local role.
+					$isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
+					
 					$path = "";
 					if ($this->tree->isInTree($rolf[0]))
 					{
@@ -1084,12 +1097,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							}
 							if ($i < 3 || $i > $n - 3)
 							{
-								$path = $path.$tmpPath[$i]["title"];
+								$path = $path.$tmpPath[$i]['title'];
 							} 
 							else if ($i == 3 || $i == $n - 3)
 							{
 								$path = $path.'...';
 							}
+							
+							$isInSubtree |= $tmpPath[$i]['obj_id'] == $this->object->getId();
 						}
 					}
 					else
@@ -1097,7 +1112,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
 
-					if ($loc_role["role_type"] != "Global")
+					if ($loc_role["role_type"] != "Global" && $isInSubtree)
 					{
 						$l_roles[$loc_role['obj_id']] = $loc_role["title"]." ($path)";
 						$l_roles_searcharray[$loc_role['obj_id']] = $loc_role["title"];
@@ -1164,7 +1179,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// Catch hack attempts
 		// We check here again, if the role folders are in the tree, and if the
-		// user has write permission on the roles.
+		// user has permission on the roles.
 		if ($_POST["role_assign"])
 		{
 			$global_roles = $rbacreview->getGlobalRoles();
@@ -1174,8 +1189,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				{
 					if (in_array($role_id, $global_roles))
 					{
-						if ($role_id != SYSTEM_ROLE_ID 
-						&& ! ilObjRole::_getAssignUsersStatus($role_id))
+						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"])
+						|| ($this->object->getRefId() != USER_FOLDER_ID 
+							&& ! ilObjRole::_getAssignUsersStatus($role_id))
+						)
 						{
 							ilUtil::delDir($import_dir);
 							$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 
@@ -1633,7 +1650,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function saveGlobalUserSettingsObject()
 	{
 		global $ilias;
-		
+
 		$profile_fields = array(
 			"gender",
 			"password",

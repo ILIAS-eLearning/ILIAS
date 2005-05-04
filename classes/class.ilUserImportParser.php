@@ -155,9 +155,22 @@ class ilUserImportParser extends ilSaxParser
 	var $currPassword;
 	/**
 	 * The active state of the current user.
-     */
-    var $currActive;
+	*/
+	var $currActive;
+	/**
+	* The count of user elements in the XML file
+    	*/
+	var $userCount;
 
+	/**
+	 * Cached local roles.
+	 * This is used to speed up access to local roles.
+	 * This is an associative array.  
+	 * The key is either a role_id  or  a role_id with the string "_parent" appended.
+	 * TThe value is a role object or  the object for which the role is defined
+	 */
+	var $localRoleCache;
+	
 	/**
 	* Constructor
 	*
@@ -177,6 +190,8 @@ class ilUserImportParser extends ilSaxParser
 		$this->error_level = IL_IMPORT_SUCCESS;
 		$this->protocol = array();
 		$this->logins = array();
+		$this->userCount = 0;
+		$this->localRoleCache = array();
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -299,6 +314,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->userCount++;
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
@@ -353,6 +369,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->userCount++;
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
@@ -406,10 +423,51 @@ class ilUserImportParser extends ilSaxParser
 				break;
 		}
 	}
+	
+	/**
+	 * Returns the parent object of the role folder object which contains the specified role.
+	 */
+	function getRoleObject($a_role_id)
+	{
+		if (array_key_exists($a_role_id, $this->localRoleCache)) 
+		{
+			return $this->localRoleCache[$a_role_id];
+		}
+		else
+		{
+			$role_obj = new ilObjRole($a_role_id, false);
+			$role_obj->read();
+			$this->localRoleCache[$a_role_id] = $role_obj;
+			return $role_obj;
+		}
+		
+	}
+	/**
+	 * Returns the parent object of the role folder object which contains the specified role.
+	 */
+	function getCourseMembersObjectForRole($a_role_id)
+	{
+		global $rbacreview, $rbacadmin, $tree;
+		
+		if (array_key_exists($a_role_id.'_courseMembersoObject', $this->localRoleCache)) 
+		{
+			return $this->localRoleCache[$a_role_id];
+		}
+		else
+		{
+			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id,true);
+			$course_ref = $tree->getParentId($rolf_refs[0]);
+			$course_obj = new ilObjCourse($course_ref, true);
+			$crsmembers_obj = new ilCourseMembers($course_obj);
+			$this->localRoleCache[$a_role_id.'_courseMembersObject'] = $crsmembers_obj;
+			return $crsmembers_obj;
+		}
+		
+	}
 
 	/**
 	 * Assigns a user to a role.
-     */
+         */
 	function assignToRole($a_user_obj, $a_role_id)
 	{
 		require_once "classes/class.ilObjRole.php";
@@ -420,14 +478,10 @@ class ilUserImportParser extends ilSaxParser
 
 		// If it is a course role, use the ilCourseMember object to assign
 		// the user to the role
-		$role_obj = new ilObjRole($a_role_id, false);
-		$role_obj->read();
+		$role_obj = $this->getRoleObject($a_role_id);
 		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
 		{
-			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id,true);
-			$course_ref = $tree->getParentId($rolf_refs[0]);
-			$course_obj = new ilObjCourse($course_ref, true);
-			$crsmembers_obj = new ilCourseMembers($course_obj);
+			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
 
 			switch (substr($role_obj->getTitle(),0,12))
 			{
@@ -474,14 +528,10 @@ class ilUserImportParser extends ilSaxParser
 
 		// If it is a course role, use the ilCourseMember object to assign
 		// the user to the role
-		$role_obj = new ilObjRole($a_role_id, false);
-		$role_obj->read();
+		$role_obj = $this->getRoleObject($a_role_id);
 		if (substr($role_obj->getTitle(),0,6) == 'il_crs')
 		{
-			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id,true);
-			$course_ref = $tree->getParentId($rolf_refs[0]);
-			$course_obj = new ilObjCourse($course_ref, true);
-			$crsmembers_obj = new ilCourseMembers($course_obj, false);
+			$crsmembers_obj = $this->getCourseMembersObjectForRole($role_id);
 			switch (substr($role_obj->getTitle(),0,12)) 
 			{
 				case 'il_crs_membe' :
@@ -860,10 +910,6 @@ class ilUserImportParser extends ilSaxParser
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Lastname", "Insert"));
 						}
-						if (is_null($this->userObj->getFirstname()))
-						{	
-							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Firstname", "Insert"));
-						}
 						if (count($this->roles) == 0)
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required","Role"), "Insert"));
@@ -1048,6 +1094,13 @@ class ilUserImportParser extends ilSaxParser
 	function getCollectedRoles()
 	{
 		return $this->roles;
+	}
+	/**
+	* get count of User elements
+	*/
+	function getUserCount()
+	{
+		return $this->userCount;
 	}
 
 	/**
