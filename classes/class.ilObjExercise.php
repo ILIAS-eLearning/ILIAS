@@ -330,9 +330,11 @@ class ilObjExercise extends ilObject
 	// PRIVATE METHODS
 	function __formatBody()
 	{
+		global $lng;
+		
 		$body = $this->getInstruction();
 		$body .= "\n";
-		$body .= "Zu bearbeiten bis: ".date("Y-m-d",$this->getTimestamp());
+		$body .= $lng->txt("exc_edit_until") . ": ".date("Y-m-d",$this->getTimestamp());
 
 		return $body;
 	}
