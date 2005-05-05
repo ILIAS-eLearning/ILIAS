@@ -630,6 +630,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// Check the values the user entered in the form
 		if (!$total)
 		{
+			$data["count_system"] = $_POST["count_system"];
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			if (!strlen($_POST["chb_random"]))
 			{
@@ -644,6 +645,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["sel_test_types"] = $this->object->getTestType();
 			$data["random_test"] = $this->object->random_test;
+			$data["count_system"] = $this->object->getCountSystem();
 		}
 		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
@@ -755,6 +757,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setAuthor($data["author"]);
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
+		$this->object->setCountSystem($data["count_system"]);
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
@@ -931,6 +934,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
+		$data["count_system"] = $this->object->getCountSystem();
 		if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
 		{
 			$proc_time = $this->object->getEstimatedWorkingTime();
@@ -1085,6 +1089,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
 		}
 
+		$this->tpl->setVariable("HEADING_SCORING", $this->lng->txt("tst_heading_scoring"));
+		$this->tpl->setVariable("TEXT_COUNT_SYSTEM", $this->lng->txt("tst_text_count_system"));
+		$this->tpl->setVariable("COUNT_PARTIAL_SOLUTIONS", $this->lng->txt("tst_count_partial_solutions"));
+		if ($data["count_system"] == COUNT_PARTIAL_SOLUTIONS)
+		{
+			$this->tpl->setVariable("SELECTED_PARTIAL", " selected=\"selected\"");
+		}
+		$this->tpl->setVariable("COUNT_CORRECT_SOLUTIONS", $this->lng->txt("tst_count_correct_solutions"));
+		if ($data["count_system"] == COUNT_CORRECT_SOLUTIONS)
+		{
+			$this->tpl->setVariable("SELECTED_CORRECT", " selected=\"selected\"");
+		}
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -1093,6 +1109,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($total > 0)
 		{
+			$this->tpl->setVariable("DISABLE_COUNT_SYSTEM", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}
@@ -4081,6 +4098,7 @@ class ilObjTestGUI extends ilObjectGUI
 			switch ($_POST["export_type"])
 			{
 				case TYPE_XLS:
+
 					// Creating a workbook
 					$workbook = new Spreadsheet_Excel_Writer();
 	
@@ -4142,7 +4160,13 @@ class ilObjTestGUI extends ilObjectGUI
 									$worksheet->write($row, $col, $value["xls"], $format_datetime);
 									break;
 								default:
-									$worksheet->write($row, $col, $value["xls"]);
+									//$str = "";
+									//for ($k = 1; $k <= 255; $k++)
+									//{
+									//	$worksheet->write($row +2+$k, 1, $k);
+									//	$worksheet->write($row +2+$k, 2, chr($k));
+									//}
+									$worksheet->write($row, $col, $this->object->convert_text($value["xls"]));
 									break;
 							}
 							$col++;
