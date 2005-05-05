@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.10 2004/10/06 06:57:49 hschottm Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.11.4.1 2005/05/05 13:26:58 hschottm Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -155,7 +155,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 				$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP"], $matches);
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP14"], $matches);
 				$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 				$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
 				$this->tpl->setVariable("DELIVERED_DATE", $date);
