@@ -791,8 +791,11 @@ if (userSettingVisible("upload"))
 			$tpl->setCurrentBlock("pers_image");
 			$tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
 			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("remove_pic");
-			$tpl->setVariable("TXT_REMOVE_PIC",$lng->txt("remove_personal_picture"));
+			if (userSettingEnabled("upload"))
+			{
+				$tpl->setCurrentBlock("remove_pic");
+				$tpl->setVariable("TXT_REMOVE_PIC",$lng->txt("remove_personal_picture"));
+			}
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("content");
 	}
