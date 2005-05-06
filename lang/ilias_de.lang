@@ -796,6 +796,8 @@ common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
+common#:#associated_user#:#Mitglied
+common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
@@ -1080,6 +1082,7 @@ common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
+common#:#default_value#:#Standardwert
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
@@ -2517,6 +2520,9 @@ common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
+common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
+common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
+common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
@@ -2576,7 +2582,10 @@ common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
+common#:#visible#:#Sichtbar
 common#:#visible_layers#:#Sichtbare Ebenen
+common#:#visitor#:#Besucher
+common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Web-Resourcen
 common#:#webr#:#Web-Resource

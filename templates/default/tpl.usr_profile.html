@@ -71,7 +71,9 @@ body { margin:0px; }
         <!-- END pers_image -->
     </td>
     <td class="option_value"><input type="file" name="userfile"{DISABLED_UPLOAD} />
+        <!-- BEGIN upload_pic -->
         <input class="submit" type="submit" name="usr_upload" value="{UPLOAD}" />
+        <!-- END upload_pic -->
         <!-- BEGIN remove_pic -->
         <br /><br />
         <input class="submit" type="submit" name="removePicture" value="{TXT_REMOVE_PIC}" />
@@ -282,10 +284,11 @@ body { margin:0px; }
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <!-- END skin_style -->
+<!-- BEGIN show_usr_hits_per_page -->
 <tr>
-    <td class="option">{TXT_USR_HITS_PER_PAGE}</td>
+    <td class="option">{TXT_HITS_PER_PAGE}</td>
     <td class="option_value">
-    <select name="usr_hits_per_page">
+    <select name="hits_per_page">
 <!-- BEGIN selecthits -->
         <option value="{HITSVALUE}" {HITSSELECTED}>{HITSOPTION}</option>
 <!-- END selecthits -->
@@ -293,13 +296,20 @@ body { margin:0px; }
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END show_usr_hits_per_page -->
+<!-- BEGIN show_users_online -->
 <tr>
     <td class="option">{TXT_SHOW_USERS_ONLINE}</td>
     <td class="option_value">
-        <input type="checkbox" name="show_users_online" value="y" {CHK_SHOW_USERS_ONLINE} /></td>
+    <select name="show_users_online" {DISABLED_SHOW_USERS_ONLINE}>
+<!-- BEGIN select_users_online -->
+        <option value="{USERS_ONLINE_VALUE}" {USERS_ONLINE_SELECTED}>{USERS_ONLINE_OPTION}</option>
+<!-- END select_users_online -->
+    </select>
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+<!-- END show_users_online -->
 <tr>
     <td class="submit" colspan="4"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}<br /><br /></span>
     <div align="right"><input class="submit" type="submit" value="{TXT_SAVE}" /></div></td>

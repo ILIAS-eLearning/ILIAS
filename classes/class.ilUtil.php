@@ -1112,7 +1112,81 @@ class ilUtil
 
 		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
 		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
-		" AND expires>UNIX_TIMESTAMP() GROUP BY user_id";
+		" AND expires>UNIX_TIMESTAMP() ".
+		"GROUP BY user_id ".
+		"ORDER BY lastname, firstname";
+		$r = $ilias->db->query($q);
+
+		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$users[$user["user_id"]] = $user;
+		}
+
+		return $users ? $users : array();
+	}
+
+	/**
+	* reads all active sessions from db and returns users that are online
+	* and who have a local role in a group or a course for which the
+    * the current user has also a local role.
+	*
+	* @param	integer	user_id User ID of the current user.
+	* @return	array
+	*/
+	function getAssociatedUsersOnline($a_user_id)
+	{
+		global $ilias;
+
+		// The difference between active time and session time
+		$time_diff = 0;
+
+		// Get a list of object id's of all courses and groups for which
+		// the current user has local roles.
+		// Note: we have to use DISTINCT here, because a user may assume
+		// multiple roles in a group or a course.
+		$q = "SELECT DISTINCT dat.obj_id as obj_id ".
+		"FROM rbac_ua AS ua ".
+		"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
+		"JOIN object_reference AS r1 ON r1.ref_id = fa.parent ".
+		"JOIN tree ON tree.child = r1.ref_id ".
+		"JOIN object_reference AS r2 ON r2.ref_id = tree.parent ".
+		"JOIN object_data AS dat ON dat.obj_id = r2.obj_id ".
+		"WHERE ua.usr_id = ".$a_user_id." ".
+		"AND fa.assign = 'y' ".
+		"AND dat.type IN ('grp','crs')";
+		$r = $ilias->db->query($q);
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$groups_and_courses_of_user[] = $row["obj_id"];
+		}
+
+		// If the user is not in a course or a group, he has no associated users.
+		if (count($groups_and_courses_of_user) == 0) 
+		{
+			$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login ".
+			"FROM usr_session ".
+			"JOIN usr_data ON user_id=usr_id ".
+			"WHERE user_id = ".$a_user_id." ".
+			"AND expires > UNIX_TIMESTAMP() - ".$time_diff." ".
+			"GROUP BY user_id";
+		}
+		else
+		{
+			$q = "SELECT count(user_id) as num,s.user_id,s.data,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
+			"FROM usr_session AS s ".
+			"JOIN usr_data AS ud ON ud.usr_id = s.user_id ".
+			"JOIN rbac_ua AS ua ON ua.usr_id = s.user_id ".
+			"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
+			"JOIN tree ON tree.child = fa.parent ".
+			"JOIN object_reference AS or1 ON or1.ref_id = tree.parent ".
+			"JOIN object_data AS od ON od.obj_id = or1.obj_id ".
+			"WHERE s.user_id != 0 ".
+			"AND s.expires > UNIX_TIMESTAMP() - ".$time_diff." ".
+			"AND fa.assign = 'y' ".
+			"AND od.obj_id IN (".implode(",",$groups_and_courses_of_user).") ".
+			"GROUP BY s.user_id ".
+			"ORDER BY ud.lastname, ud.firstname";
+		}
 		$r = $ilias->db->query($q);
 
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1157,8 +1231,9 @@ class ilUtil
 	* unzip file
 	*
 	* @param	string	$a_file		full path/filename
+	* @param	boolean	$overwrite	pass true to overwrite existing files
 	*/
-	function unzip($a_file)
+	function unzip($a_file, $overwrite = false)
 	{
 		//global $ilias;
 
@@ -1204,7 +1279,14 @@ class ilUtil
 		}
 
 		// real unzip
-		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($file);
+		if ($overvwrite) 
+		{
+			$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
+		}
+		else
+		{
+			$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($file);
+		}
 		exec($unzipcmd);
 
 		chdir($cdir);

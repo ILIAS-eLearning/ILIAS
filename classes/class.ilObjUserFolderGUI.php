@@ -54,7 +54,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->type = "usrf";
 
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-				
 	}
 
 	function &executeCommand()
@@ -158,7 +157,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
 			$this->tpl->parseCurrentBlock();
 		}
-					    
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
 		
@@ -189,7 +187,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once "./classes/class.ilTableGUI.php";
 
-		
 		// load template for table
 		$this->tpl->addBlockfile("USR_TABLE", "user_table", "tpl.table.html");
 		// load template for table content data
@@ -1587,11 +1584,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->viewObject();
 	}
 
-/**
-* Global user settings
-*
-* Allows to define global settings for user accounts
-*/
+	/**
+	* Global user settings
+	*
+	* Allows to define global settings for user accounts
+	*
+	* Note: The Global user settings form allows to specify default values
+	*       for some user preferences. To avoid redundant implementations, 
+	*       specification of default values can be done elsewhere in ILIAS
+	*       are not supported by this form. 
+	*/
 	function settingsObject()
 	{
 		global $ilias;
@@ -1600,16 +1602,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$profile_fields = array(
 			"gender",
-			"password",
 			"firstname",
 			"lastname",
 			"title",
 			"upload",
+			"password",
 			"institution",
 			"department",
 			"street",
-			"city",
 			"zipcode",
+			"city",
 			"country",
 			"phone_office",
 			"phone_home",
@@ -1617,52 +1619,134 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"fax",
 			"email",
 			"hobby",
-			"matriculation",
 			"referral_comment",
+			"matriculation",
 			"language",
-			"skin_style"
+			"skin_style",
+			"hits_per_page",
+			"show_users_online"
+		);
+		// For the following fields, the required state can not be changed.
+		// key = field, value = 1 (field is required), 0 (field is not required)
+		$fixed_required_fields = array(
+			"gender" => 1,
+			"firstname" => 1,
+			"lastname" => 1,
+			"upload" => 0,
+			"email" => 1,
+			"password" => 0,
+			"language" => 0,
+			"skin_style" => 0,
+			"hits_per_page" => 0,
+			"show_users_online" => 0
 		);
 		foreach ($profile_fields as $field)
 		{
 			$this->tpl->setCurrentBlock("profile_settings");
 			$this->tpl->setVariable("TXT_PROFILE_DATA", $this->lng->txt($field));
-			$this->tpl->setVariable("PROFILE_OPTION_DISABLE", "disable_" . $field);
-			$this->tpl->setVariable("PROFILE_OPTION_HIDE", "hide_" . $field);
-			if ($ilias->getSetting("usr_settings_disable_" . $field) == 1)
+			$this->tpl->setVariable("PROFILE_OPTION_ENABLED", "enabled_" . $field);
+			$this->tpl->setVariable("PROFILE_OPTION_VISIBLE", "visible_" . $field);
+			$this->tpl->setVariable("PROFILE_OPTION_REQUIRED", "required_" . $field);
+
+			// BEGIN Enable field in Personal Profile
+			if ($ilias->getSetting("usr_settings_disable_".$field) != "1")
 			{
-				$this->tpl->setVariable("CHECKED_DISABLE", " checked=\"checked\"");
+				$this->tpl->setVariable("CHECKED_ENABLED", " checked=\"checked\"");
 			}
-			if ($ilias->getSetting("usr_settings_hide_" . $field) == 1)
+			// END Enable field in Personal Profile
+			// BEGIN Show field in Personal Profile
+			if ($ilias->getSetting("usr_settings_hide_".$field) != "1")
 			{
-				$this->tpl->setVariable("CHECKED_HIDE", " checked=\"checked\"");
+				$this->tpl->setVariable("CHECKED_VISIBLE", " checked=\"checked\"");
 			}
+			// END Show field in Personal Profile
+			// BEGIN Require field in Personal Profile
+			$is_fixed = array_key_exists($field, $fixed_required_fields);
+			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && $ilias->getSetting("require_".$field) == "1")
+			{
+				$this->tpl->setVariable("CHECKED_REQUIRED", " checked=\"checked\"");
+			}
+			if ($is_fixed)
+			{
+				$this->tpl->setVariable("DISABLE_REQUIRED", " disabled=\"disabled\"");
+			}
+			// END Require field in Personal Profile
+
+			// BEGIN Default value for hits per pages field in Personal Profile
+			if ($field == "hits_per_page")
+			{
+				$this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
+				$options = array(2,10,15,20,30,40,50,100,9999);
+				$selected_option = $ilias->getSetting("hits_per_page");
+				if ($selected_option == null) $selected_option = 10;
+				$this->tpl->setCurrentBlock("default_value_option");
+				foreach ($options as $option)
+				{
+					if ($option == $selected_option)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");
+					}
+
+					$this->tpl->setVariable("OPTION_VALUE", $option);
+					$this->tpl->setVariable("OPTION_TEXT", ($option == 9999) ? $this->lng->txt("no_limit") : $option);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("profile_settings");
+			}
+			// END Default value for language field in Personal Profile
+
+			// BEGIN Show Users Online
+			else if ($field == "show_users_online")
+			{
+				$this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
+				$options = array('y','associated','n');
+				$selected_option = $ilias->getSetting("show_users_online");
+				if ($selected_option == null) $selected_option = 10;
+				$this->tpl->setCurrentBlock("default_value_option");
+				foreach ($options as $option)
+				{
+					if ($option == $selected_option)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");
+					}
+
+					$this->tpl->setVariable("OPTION_VALUE", $option);
+					$this->tpl->setVariable("OPTION_TEXT", $this->lng->txt("users_online_show_".$option));
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("profile_settings");
+			}
+			// END Show Users Online
+
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_HEADER_PROFILE", $this->lng->txt("usr_settings_header_profile"));
 		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));
 		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
-		$this->tpl->setVariable("HEADER_DISABLE", $this->lng->txt("disable"));
-		$this->tpl->setVariable("HEADER_HIDE", $this->lng->txt("hide"));
+		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));
+		$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	}
 	
 	function saveGlobalUserSettingsObject()
 	{
 		global $ilias;
-
+		
 		$profile_fields = array(
 			"gender",
-			"password",
 			"firstname",
 			"lastname",
 			"title",
 			"upload",
+			"password",
 			"institution",
 			"department",
 			"street",
-			"city",
 			"zipcode",
+			"city",
 			"country",
 			"phone_office",
 			"phone_home",
@@ -1670,24 +1754,68 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"fax",
 			"email",
 			"hobby",
-			"matriculation",
 			"referral_comment",
+			"matriculation",
 			"language",
-			"skin_style"
+			"skin_style",
+			"hits_per_page",
+			"show_users_online"
 		);
+		// For the following fields, the required state can not be changed
+		$fixed_required_fields = array(
+			"gender" => 1,
+			"firstname" => 1,
+			"lastname" => 1,
+			"upload" => 0,
+			"email" => 1,
+			"password" => 0,
+			"language" => 0,
+			"skin_style" => 0,
+			"hits_per_page" => 0,
+			"show_users_online" => 0
+		);
+
 		foreach ($profile_fields as $field)
 		{
-			$ilias->deleteSetting("usr_settings_disable_" . $field);
-			$ilias->deleteSetting("usr_settings_hide_" . $field);
-			if ($_POST["chb"]["hide_" . $field])
+			if (! $_POST["chb"]["visible_".$field])
 			{
-				$ilias->setSetting("usr_settings_hide_" . $field, "1");
+				$ilias->setSetting("usr_settings_hide_".$field, "1");
 			}
-			if ($_POST["chb"]["disable_" . $field])
+			else
 			{
-				$ilias->setSetting("usr_settings_disable_" . $field, "1");
+				$ilias->deleteSetting("usr_settings_hide_".$field);
+			}
+
+			if (! $_POST["chb"]["enabled_" . $field])
+			{
+				$ilias->setSetting("usr_settings_disable_".$field, "1");
+			}
+			else
+			{
+				$ilias->deleteSetting("usr_settings_disable_".$field);
+			}
+
+			$is_fixed = array_key_exists($field, $fixed_required_fields);
+			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && $_POST["chb"]["required_".$field])
+			{
+				$ilias->setSetting("require_".$field, "1");
+			}
+			else
+			{
+				$ilias->deleteSetting("require_" . $field);
 			}
 		}
+
+		if ($_POST["select"]["default_hits_per_page"])
+		{	
+			$ilias->setSetting("hits_per_page",$_POST["select"]["default_hits_per_page"]);
+		}
+
+		if ($_POST["select"]["default_show_users_online"])
+		{
+			$ilias->setSetting("show_users_online",$_POST["select"]["default_show_users_online"]);
+		}
+
 		sendInfo($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
 	}

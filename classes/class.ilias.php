@@ -347,9 +347,11 @@ class ILIAS
 	* read one value from settingstable
 	* @access	public
 	* @param	string	keyword
+	* @param	string	default_value This value is returned, when no setting has
+    *								  been found for the keyword.
 	* @return	string	value
 	*/
-	function getSetting($a_keyword)
+	function getSetting($a_keyword, $a_default_value = false)
 	{
 		if ($a_keyword == "ilias_version")
 		{
@@ -366,7 +368,7 @@ class ILIAS
 		}
 		else
 		{
-			return false;
+			return $a_default_value;
 		}
 	}
 	

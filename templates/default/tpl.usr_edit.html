@@ -162,6 +162,26 @@
 	</select>
 	</td>
 </tr>
+<tr>
+    <td class="option">{TXT_HITS_PER_PAGE}</td>
+    <td class="option_value">
+	<select name="Fobject[hits_per_page]">
+<!-- BEGIN selecthits -->
+        <option value="{HITSVALUE}" {HITSSELECTED}>{HITSOPTION}</option>
+<!-- END selecthits -->
+    </select>
+    </td>
+</tr>
+<tr>
+	<td class="option">{TXT_SHOW_USERS_ONLINE}</td>
+	<td class="option_value">
+	<select name="Fobject[show_users_online]">
+<!-- BEGIN show_users_online -->
+		<option value="{USERS_ONLINE_VALUE}" {USERS_ONLINE_SELECTED}>{USERS_ONLINE_OPTION}</option>
+<!-- END show_users_online -->
+	</select>
+	</td>
+</tr>
 <!-- BEGIN inform_user -->
   <tr>
     <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
