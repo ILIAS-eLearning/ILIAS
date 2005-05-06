@@ -526,6 +526,25 @@ class ilPersonalDesktopGUI
             $visitor_text = $visitors." ".$this->lng->txt("visitors");
         }
 
+		// determine whether the user want's to see details of the active users
+		// and remember user preferences, in case the user has changed them.
+		$showdetails = false;
+		if ($_GET['cmd'] == 'whoisdetail')
+		{
+			$ilias->account->writePref('show_users_online_details','y');
+			$showdetails = true;
+		}
+		else if ($_GET['cmd'] == 'hidedetails')
+		{
+			$ilias->account->writePref('show_users_online_details','n');
+			$showdetails = false;
+		} 
+		else
+		{
+			$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
+		}
+
+
 		// parse registered users text
 		if ($num > 0)
 		{
@@ -541,7 +560,7 @@ class ilPersonalDesktopGUI
 			}
 
 			// add details link
-			if ($_GET["cmd"] == "whoisdetail")
+			if ($showdetails)
 			{
 				$text = $this->lng->txt("hide_details");
 				$cmd = "hidedetails";
@@ -567,25 +586,6 @@ class ilPersonalDesktopGUI
 		}
 
 		$this->tpl->setVariable("USER_LIST",$user_list);
-
-		// determine whether the user want's to see details of the active users
-		// and remember user preferences, in case the user has changed them.
-		$showdetails = false;
-		if ($_GET['cmd'] == 'whoisdetail')
-		{
-			$ilias->account->writePref('show_users_online_details','y');
-			$showdetails = true;
-		}
-		else if ($_GET['cmd'] == 'hidedetails')
-		{
-			$ilias->account->writePref('show_users_online_details','n');
-			$showdetails = false;
-		} 
-		else
-		{
-			$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
-		}
-		
 
         // display details of users online
         if ($showdetails)
