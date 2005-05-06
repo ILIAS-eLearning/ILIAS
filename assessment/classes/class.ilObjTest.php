@@ -1650,7 +1650,32 @@ class ilObjTest extends ilObject
 	{
     return $this->count_system;
   }
-	
+
+/**
+* Helper function to detect the correct number of points given for a question
+* 
+* Helper function to detect the correct number of points given for a question.
+* Checks if the count_system setting has to be used or not and returns the
+* resulting points.
+*
+* @param integer $original_reached_points Number of points reached for a question with no count_system settings
+* @param integer $maximum_points Maximum number of points for a question
+* @return integer The points for a question depending of the count_system setting
+* @access private
+* @see $count_system
+*/
+	function getReachedPoints($original_reached_points, $maximum_points)
+	{
+		$reached_points = $original_reached_points;
+		if ($this->getCountSystem() == COUNT_CORRECT_SOLUTIONS)
+		{
+			if ($reached_points != $maximum_points)
+			{
+				$reached_points = 0;
+			}
+		}
+		return $reached_points;
+	}
 /**
 * Gets the test type
 * 
@@ -2741,7 +2766,7 @@ class ilObjTest extends ilObject
 			{
 				$max_points = $question->getMaximumPoints();
 				$total_max_points += $max_points;
-				$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+				$reached_points = $this->getReachedPoints($question->getReachedPoints($user_id, $this->getTestId()), $max_points);
 				$total_reached_points += $reached_points;
 				if ($max_points > 0)
 				{
@@ -5827,7 +5852,7 @@ class ilObjTest extends ilObject
 				if (is_object($question))
 				{
 					$max_points += $question->getMaximumPoints();
-					$reached_points += $question->getReachedPoints($user_id, $this->getTestId());
+					$reached_points += $this->getReachedPoints($question->getReachedPoints($user_id, $this->getTestId()), $question->getMaximumPoints()); 
 				}
 			}
 			
