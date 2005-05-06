@@ -480,16 +480,23 @@ class ilPersonalDesktopGUI
 	 */
     function displayUsersOnline()
     {
-        global $ilUser;
+        global $ilias;
 
-        if ($ilUser->getPref("show_users_online") != "y")
+		$users_online_pref = $ilias->account->getPref("show_users_online");
+        if ($users_online_pref != "y" && $users_online_pref != "associated")
         {
+
             return;
         }
 
         $this->tpl->setVariable("TXT_USERS_ONLINE",$this->lng->txt("users_online"));
 
-        $users = ilUtil::getUsersOnline();
+        if ($users_online_pref == "associated")
+		{
+			$users = ilUtil::getAssociatedUsersOnline($ilias->account->getId());
+		} else {
+			$users = ilUtil::getUsersOnline();
+		}
 
         $num = 0;
 
@@ -501,66 +508,87 @@ class ilPersonalDesktopGUI
             }
             else
             {
-                $guests = $user["num"];
+                $visitors = $user["num"];
             }
         }
 
-        // parse guests text
-        if (empty($guests))
+        // parse visitors text
+        if (empty($visitors) || $users_online_pref == "associated")
         {
-            $guest_text = "";
+            $visitor_text = "";
         }
-        elseif ($guests == "1")
+        elseif ($visitors == "1")
         {
-            $guest_text = "1 ".$this->lng->txt("guest");
+            $visitor_text = "1 ".$this->lng->txt("visitor");
         }
         else
         {
-            $guest_text = $guests." ".$this->lng->txt("guests");
+            $visitor_text = $visitors." ".$this->lng->txt("visitors");
         }
 
-        // parse registered users text
-        if ($num > 0)
-        {
-            if ($num == 1)
-            {
-                $user_list = $num." ".$this->lng->txt("registered_user");
-            }
-            else
-            {
-                $user_list = $num." ".$this->lng->txt("registered_users");
-            }
+		// parse registered users text
+		if ($num > 0)
+		{
+			$user_kind = ($users_online_pref == "associated") ? "associated_user" : "registered_user";
+			if ($num == 1)
+			{
+				$user_list = $num." ".$this->lng->txt($user_kind);
+			}
 
-            // add details link
-            if ($_GET["cmd"] == "whoisdetail")
-            {
-                $text = $this->lng->txt("hide_details");
-                $cmd = "hidedetails";
-            }
-            else
-            {
-                $text = $this->lng->txt("show_details");
-                $cmd = "whoisdetail";
-            }
+			else
+			{
+				$user_list = $num." ".$this->lng->txt($user_kind."s");
+			}
 
-            $user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
+			// add details link
+			if ($_GET["cmd"] == "whoisdetail")
+			{
+				$text = $this->lng->txt("hide_details");
+				$cmd = "hidedetails";
+			}
+			else
+			{
+				$text = $this->lng->txt("show_details");
+				$cmd = "whoisdetail";
+			}
 
-            if (!empty($guest_text))
-            {
-                $user_list .= " ".$this->lng->txt("and")." ".$guest_text;
-            }
+			$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
 
-            $user_list .= $user_details_link;
-        }
-        else
-        {
-            $user_list = $guest_text;
-        }
+			if (!empty($visitor_text))
+			{
+				$user_list .= " ".$this->lng->txt("and")." ".$visitor_text;
+			}
 
-        $this->tpl->setVariable("USER_LIST",$user_list);
+			$user_list .= $user_details_link;
+		}
+		else
+		{
+			$user_list = $visitor_text;
+		}
+
+		$this->tpl->setVariable("USER_LIST",$user_list);
+
+		// determine whether the user want's to see details of the active users
+		// and remember user preferences, in case the user has changed them.
+		$showdetails = false;
+		if ($_GET['cmd'] == 'whoisdetail')
+		{
+			$ilias->account->writePref('show_users_online_details','y');
+			$showdetails = true;
+		}
+		else if ($_GET['cmd'] == 'hidedetails')
+		{
+			$ilias->account->writePref('show_users_online_details','n');
+			$showdetails = false;
+		} 
+		else
+		{
+			$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
+		}
+		
 
         // display details of users online
-        if ($_GET["cmd"] == "whoisdetail")
+        if ($showdetails)
         {
             $z = 0;
 
@@ -628,8 +656,7 @@ class ilPersonalDesktopGUI
             if ($z > 0)
             {
                 $this->tpl->setCurrentBlock("tbl_users_header");
-                $this->tpl->setVariable("TXT_USR_LOGIN",ucfirst($this->lng->txt("username")));
-                $this->tpl->setVariable("TXT_USR_FULLNAME",ucfirst($this->lng->txt("fullname")));
+                $this->tpl->setVariable("TXT_USR",ucfirst($this->lng->txt("user")));
                 $this->tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($this->lng->txt("login_time")));
                 $this->tpl->parseCurrentBlock();
             }

@@ -85,6 +85,17 @@ function userSettingVisible($setting)
 	return $result;
 }
 
+function userSettingEnabled($setting)
+{
+	global $settings;
+	$result = TRUE;
+	if ($settings["usr_settings_disable_".$setting] == 1)
+	{
+		$result = FALSE;
+	}
+	return $result;
+}
+
 // purpose is to upload file of user
 // function added by ratana ty
 function upload_file()
@@ -301,6 +312,7 @@ include "./include/inc.personaldesktop_buttons.php";
 if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 {
 	$upload_error;
+
 	if (workWithUserSetting("upload"))
 	{
 		// upload usr_image
@@ -506,21 +518,19 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 					$reload = true;
 			}
 		}
-		
-		// set user hits per page
-		if ($_POST["usr_hits_per_page"] != "")
+		if (workWithUserSetting("hits_per_page"))
 		{
-			$ilias->account->setPref("hits_per_page",$_POST["usr_hits_per_page"]);
+			// set user hits per page
+			if ($_POST["hits_per_page"] != "")
+			{
+				$ilias->account->setPref("hits_per_page",$_POST["hits_per_page"]);
+			}
 		}
 
-		// set user hits per page
-		if ($_POST["show_users_online"] == "y")
+		// set show users online
+		if (workWithUserSetting("show_users_online"))
 		{
-			$ilias->account->setPref("show_users_online", "y");
-		}
-		else
-		{
-			$ilias->account->setPref("show_users_online", "n");
+			$ilias->account->setPref("show_users_online", $_POST["show_users_online"]);
 		}
 
 		// save user data & object_data
@@ -600,7 +610,7 @@ if (userSettingVisible("skin_style"))
 			{
 				continue;
 			}
-			
+
 			$tpl->setCurrentBlock("selectskin");
 	
 			if ($ilias->account->skin == $template["id"] &&
@@ -617,27 +627,52 @@ if (userSettingVisible("skin_style"))
 }
 
 // hits per page
-$hits_options = array(2,10,15,20,30,40,50,100,9999);
-
-foreach($hits_options as $hits_option)
+if (userSettingVisible("hits_per_page"))
 {
-	$tpl->setCurrentBlock("selecthits");
+	$hits_options = array(2,10,15,20,30,40,50,100,9999);
 
-	if ($ilias->account->prefs["hits_per_page"] == $hits_option)
+	foreach($hits_options as $hits_option)
 	{
-		$tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
+		$tpl->setCurrentBlock("selecthits");
+
+		if ($ilias->account->prefs["hits_per_page"] == $hits_option)
+		{
+			$tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
+		}
+
+		$tpl->setVariable("HITSVALUE", $hits_option);
+
+		if ($hits_option == 9999)
+		{
+			$hits_option = $lng->txt("no_limit");
+		}
+
+		$tpl->setVariable("HITSOPTION", $hits_option);
+		$tpl->parseCurrentBlock();
 	}
-
-	$tpl->setVariable("HITSVALUE", $hits_option);
-
-	if ($hits_option == 9999)
-	{
-		$hits_option = $lng->txt("no_limit");
-	}
-
-	$tpl->setVariable("HITSOPTION", $hits_option);
-	$tpl->parseCurrentBlock();
 }
+
+// Users Online
+if (userSettingVisible("show_users_online"))
+{
+	$users_online_options = array("y","associated","n");
+	$selected_option = $ilias->account->prefs["show_users_online"];
+	foreach($users_online_options as $an_option)
+	{
+		$tpl->setCurrentBlock("select_users_online");
+
+		if ($selected_option == $an_option)
+		{
+			$tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
+		}
+
+		$tpl->setVariable("USERS_ONLINE_VALUE", $an_option);
+
+		$tpl->setVariable("USERS_ONLINE_OPTION", $lng->txt("users_online_show_".$an_option));
+		$tpl->parseCurrentBlock();
+	}
+}
+
 
 if (AUTH_CURRENT == AUTH_LOCAL and userSettingVisible('password'))
 {
@@ -762,7 +797,11 @@ if (userSettingVisible("upload"))
 			$tpl->setCurrentBlock("content");
 	}
 	
-	$tpl->setVariable("UPLOAD",$lng->txt("upload"));
+	if (userSettingEnabled("upload"))
+	{
+		$tpl->setCurrentBlock("upload_pic");
+		$tpl->setVariable("UPLOAD",$lng->txt("upload"));
+	}
 	$tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 	$tpl->setVariable("USER_FILE", $lng->txt("user_file"));
 }
@@ -771,12 +810,22 @@ if (userSettingVisible("language"))
 {
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 }
+if (userSettingVisible("show_users_online"))
+{
+	$tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
+}
 if (userSettingVisible("skin_style"))
 {
 	$tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
 }
-$tpl->setVariable("TXT_USR_HITS_PER_PAGE",$lng->txt("usr_hits_per_page"));
-$tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
+if (userSettingVisible("hits_per_page"))
+{
+	$tpl->setVariable("TXT_HITS_PER_PAGE",$lng->txt("usr_hits_per_page"));
+}
+if (userSettingVisible("show_users_online"))
+{
+	$tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
+}
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_SYSTEM_INFO", $lng->txt("system_information"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
@@ -897,7 +946,7 @@ $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 // addeding by ratana ty
-if (userSettingVisible("upload"))
+if (userSettingEnabled("upload"))
 {
 	$tpl->setVariable("UPLOAD", $lng->txt("upload"));
 }
@@ -909,11 +958,9 @@ if ($ilias->account->prefs["public_profile"]=="y")
 {
 	$tpl->setVariable("CHK_PUB","checked");
 }
-
 $val_array = array("institution", "department", "upload", "street",
 	"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-	"fax", "email", "hobby", "matriculation");
-
+	"fax", "email", "hobby", "matriculation", "show_users_online");
 foreach($val_array as $key => $value)
 {
 	if (userSettingVisible("$value"))
@@ -927,10 +974,6 @@ foreach($val_array as $key => $value)
 // End of showing
 // Testing by ratana ty
 
-if ($ilias->account->prefs["show_users_online"] == "y")
-{
-	$tpl->setVariable("CHK_SHOW_USERS_ONLINE", "checked");
-}
 
 $profile_fields = array(
 	"gender",
@@ -953,7 +996,9 @@ $profile_fields = array(
 	"matriculation",
 	"referral_comment",
 	"language",
-	"skin_style"
+	"skin_style",
+	"hits_per_page",
+	"show_users_online"
 );
 foreach ($profile_fields as $field)
 {

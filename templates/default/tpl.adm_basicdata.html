@@ -23,16 +23,6 @@
       <td class="option_value"><input type="checkbox" name="open_views_inside_frameset"  value="1" {OPEN_VIEWS_INSIDE_FRAMESET} /><span class="subtitle">{TXT_REGISTRATION_DISABLED}</span></td>
     </tr>
     <tr>
-        <td class="option">{TXT_DEFAULT_LANGUAGE}</td>
-        <td class="option_value">
-          <select name="default_language">
-<!-- BEGIN selectlanguage -->
-             <option value="{LANGVALUE}"{LANGSELECTED}>{LANGOPTION}</option>
-<!-- END selectlanguage -->
-          </select>
-        </td>
-    </tr>
-    <tr>
       <td class="option">{TXT_HEADER_TITLE}</td>
       <td class="option_value">{VAL_HEADER_TITLE} [<a href="{LINK_HEADER_TITLE}">{TXT_CHANGE}</a>]</td>
     </tr>
@@ -82,91 +72,6 @@
         <td class="option">{TXT_APPROVE_RECIPIENT}</td>
         <td class="option_value"><input type="text" size="40" maxlength="200" name="approve_recipient"  value="{APPROVE_RECIPIENT}" /></td>
     </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_LOGIN}</td>
-        <td class="option_value"><input type="checkbox" name="require_login"  value="1" {REQUIRE_LOGIN} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_PASSWD}</td>
-        <td class="option_value"><input type="checkbox" name="require_passwd"  value="1" {REQUIRE_PASSWD} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_PASSWD2}</td>
-        <td class="option_value"><input type="checkbox" name="require_passwd2"  value="1" {REQUIRE_PASSWD2} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_FIRSTNAME}</td>
-        <td class="option_value"><input type="checkbox" name="require_firstname"  value="1" {REQUIRE_FIRSTNAME} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_GENDER}</td>
-        <td class="option_value"><input type="checkbox" name="require_gender"  value="1" {REQUIRE_GENDER} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_LASTNAME}</td>
-        <td class="option_value"><input type="checkbox" name="require_lastname"  value="1" {REQUIRE_LASTNAME} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_INSTITUTION}</td>
-        <td class="option_value"><input type="checkbox" name="require_institution"  value="1" {REQUIRE_INSTITUTION} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_DEPARTMENT}</td>
-        <td class="option_value"><input type="checkbox" name="require_department"  value="1" {REQUIRE_DEPARTMENT} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_STREET}</td>
-        <td class="option_value"><input type="checkbox" name="require_street"  value="1" {REQUIRE_STREET} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_CITY}</td>
-        <td class="option_value"><input type="checkbox" name="require_city"  value="1" {REQUIRE_CITY} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_ZIPCODE}</td>
-        <td class="option_value"><input type="checkbox" name="require_zipcode"  value="1" {REQUIRE_ZIPCODE} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_COUNTRY}</td>
-        <td class="option_value"><input type="checkbox" name="require_country"  value="1" {REQUIRE_COUNTRY} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_PHONE_OFFICE}</td>
-        <td class="option_value"><input type="checkbox" name="require_phone_office"  value="1" {REQUIRE_PHONE_OFFICE} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_PHONE_HOME}</td>
-        <td class="option_value"><input type="checkbox" name="require_phone_home"  value="1" {REQUIRE_PHONE_HOME} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_PHONE_MOBILE}</td>
-        <td class="option_value"><input type="checkbox" name="require_phone_mobile"  value="1" {REQUIRE_PHONE_MOBILE} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_FAX}</td>
-        <td class="option_value"><input type="checkbox" name="require_fax"  value="1" {REQUIRE_FAX} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_EMAIL}</td>
-        <td class="option_value"><input type="checkbox" name="require_email"  value="1" {REQUIRE_EMAIL} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_HOBBY}</td>
-        <td class="option_value"><input type="checkbox" name="require_hobby"  value="1" {REQUIRE_HOBBY} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_DEFAULT_ROLE}</td>
-        <td class="option_value"><input type="checkbox" name="require_default_role"  value="1" {REQUIRE_DEFAULT_ROLE} /> {TXT_REQUIRE_MANDATORY}</td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_REFERRAL_COMMENT}</td>
-        <td class="option_value"><input type="checkbox" name="require_referral_comment"  value="1" {REQUIRE_REFERRAL_COMMENT} /></td>
-    </tr>
-    <tr>
-        <td class="option">{TXT_REQUIRE_MATRICULATION}</td>
-        <td class="option_value"><input type="checkbox" name="require_matriculation"  value="1" {REQUIRE_MATRICULATION} /></td>
-    </tr>
-
     <tr class="tblheader">
       <td class="std" colspan="2">{TXT_SERVER_DATA}</td>
     </tr>
@@ -256,20 +161,6 @@
 			<br /><span class="subtitle">{TXT_SOAP_USER_ADMINISTRATION_DESC}</span></td>
     </tr>
 
-	<tr class="tblheader">
-      <td class="std" colspan="2">{TXT_FORUMS}</td>
-    </tr>
-	<tr>
-		  <td class="option">{TXT_STATUS_NEW}</td>
-		  <td class="option_value">
-			<select name="frm_store_new">
-			  <option value = "1" {ONE_SELECT}>{TXT_ONE_WEEK}</option>
-			  <option value = "2" {TWO_SELECT}>{TXT_TWO_WEEKS}</option>
-			  <option value = "4" {FOUR_SELECT}>{TXT_FOUR_WEEKS}</option>
-			  <option value = "8" {EIGHT_SELECT}>{TXT_EIGHT_WEEKS}</option>
-			</select>
-			<br /><span class="subtitle">{TXT_STATUS_NEW_DESC}</span></td>
-    </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
     </tr>

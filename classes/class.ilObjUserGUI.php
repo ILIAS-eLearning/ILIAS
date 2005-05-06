@@ -279,6 +279,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
+		$this->tpl->setVariable("TXT_HITS_PER_PAGE",$this->lng->txt("usr_hits_per_page"));
+		$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE",$this->lng->txt("show_users_online"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
@@ -293,7 +295,9 @@ class ilObjUserGUI extends ilObjectGUI
 		
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
-				if ($key != "default_role" and $key != "language" and $key != "skin_style")
+				if ($key != "default_role" and $key != "language" 
+					and $key != "skin_style" and $key != "hits_per_page"
+					and $key != "show_users_online")
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
@@ -380,7 +384,65 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection
-		
+
+		// BEGIN hits per page
+		$hits_options = array(2,10,15,20,30,40,50,100,9999);
+		// preselect previous chosen option otherwise default option
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["hits_per_page"]))
+		{
+			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["hits_per_page"];
+		}
+		else
+		{
+			$selected_option = $this->object->prefs["hits_per_page"];
+		}
+		foreach($hits_options as $hits_option)
+		{
+			$this->tpl->setCurrentBlock("selecthits");
+
+			if ($this->object->prefs["hits_per_page"] == $selected_option)
+			{
+				$this->tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
+			}
+
+			$this->tpl->setVariable("HITSVALUE", $hits_option);
+
+			if ($hits_option == 9999)
+			{
+				$hits_option = $this->lng->txt("no_limit");
+			}
+
+			$this->tpl->setVariable("HITSOPTION", $hits_option);
+			$this->tpl->parseCurrentBlock();
+		}
+		// END hits per page
+
+		// BEGIN show users online
+		// preselect previous chosen option otherwise default option
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["show_users_online"]))
+		{
+			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["show_users_online"];
+		}
+		else
+		{
+			$selected_option = $this->object->prefs["show_users_online"];
+		}
+		$users_online_options = array("y","associated","n");
+		foreach($users_online_options as $an_option)
+		{
+			$this->tpl->setCurrentBlock("show_users_online");
+
+			if ($selected_option == $an_option)
+			{
+				$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
+			}
+
+			$this->tpl->setVariable("USERS_ONLINE_VALUE", $an_option);
+
+			$this->tpl->setVariable("USERS_ONLINE_OPTION", $this->lng->txt("users_online_show_".$an_option));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END show users online
 		
 		// time limit
 		if (is_array($_SESSION["error_post_vars"]))
@@ -695,7 +757,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
-				if ($key != "default_role" and $key != "language" and $key != "skin_style")
+				if ($key != "default_role" and $key != "language" 
+					and $key != "skin_style" and $key != "hits_per_page"
+					and $key != "show_users_online")
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
 				}
@@ -780,6 +844,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
 		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
+		$this->tpl->setVariable("TXT_HITS_PER_PAGE",$this->lng->txt("hits_per_page"));
+		$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE",$this->lng->txt("show_users_online"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
@@ -804,7 +870,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
 		
-		// skin & style selection
+		// BEGIN skin & style selection
 		//$this->ilias->getSkins();
 		$templates = $styleDefinition->getAllTemplates();
 		
@@ -850,6 +916,65 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection
+
+		// BEGIN hits per page
+		$hits_options = array(2,10,15,20,30,40,50,100,9999);
+		// preselect previous chosen option otherwise default option
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["hits_per_page"]))
+		{
+			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["hits_per_page"];
+		}
+		else
+		{
+			$selected_option = $this->object->prefs["hits_per_page"];
+		}
+		foreach($hits_options as $hits_option)
+		{
+			$this->tpl->setCurrentBlock("selecthits");
+
+			if ($selected_option == $hits_option)
+			{
+				$this->tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
+			}
+
+			$this->tpl->setVariable("HITSVALUE", $hits_option);
+
+			if ($hits_option == 9999)
+			{
+				$hits_option = $this->lng->txt("no_limit");
+			}
+
+			$this->tpl->setVariable("HITSOPTION", $hits_option);
+			$this->tpl->parseCurrentBlock();
+		}
+		// END hits per page
+
+		// BEGIN show users online
+		$users_online_options = array("y","associated","n");
+		// preselect previous chosen option otherwise default option
+		if (isset($_SESSION["error_post_vars"]["Fobject"]["show_users_online"]))
+		{
+			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["show_users_online"];
+		}
+		else
+		{
+			$selected_option = $this->object->prefs["show_users_online"];
+		}
+		foreach($users_online_options as $an_option)
+		{
+			$this->tpl->setCurrentBlock("show_users_online");
+
+			if ($selected_option == $an_option)
+			{
+				$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
+			}
+
+			$this->tpl->setVariable("USERS_ONLINE_VALUE", $an_option);
+
+			$this->tpl->setVariable("USERS_ONLINE_OPTION", $this->lng->txt("users_online_show_".$an_option));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END show users online
 
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
@@ -1063,6 +1188,11 @@ class ilObjUserGUI extends ilObjectGUI
 			$userObj->setPref("style", $sknst[1]);
 		}
 
+		// set hits per pages
+		$userObj->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
+		// set show users online
+		$userObj->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
+
 		$userObj->writePrefs();
 
 		//set role entries
@@ -1222,7 +1352,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$end = $this->__toUnix($_POST["time_limit"]["until"]);
 
 		// validate time limit
-        if (!$_POST["time_limit"]["unlimited"]  and
+		if (!$_POST["time_limit"]["unlimited"] and 
 			( $start > $end))
         {
             $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
@@ -1281,6 +1411,11 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->object->setPref("skin", $sknst[0]);
 			$this->object->setPref("style", $sknst[1]);
 		}
+
+		// set hits per pages
+		$this->object->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
+		// set show users online
+		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
 
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());

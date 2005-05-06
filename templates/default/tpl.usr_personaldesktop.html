@@ -68,8 +68,7 @@ body { margin:0px; }
 <!-- BEGIN tbl_users_header -->
     <tr class="tblheader">
         <td class="std" valign="middle" align="center" width="1%">&nbsp;</td>
-        <td class="std" valign="top" width="30%"><b>{TXT_USR_LOGIN}</b></td>
-        <td class="std" valign="top" width="48%"><b>{TXT_USR_FULLNAME}</b></td>
+        <td class="std" valign="top" width="30%"><b>{TXT_USR}</b></td>
         <td class="std" valign="top" width="20%"><b>{TXT_USR_LOGIN_TIME}</b></td>
         <td class="std" valign="top" width="1%">&nbsp;</td>
     </tr>
@@ -81,8 +80,7 @@ body { margin:0px; }
         <img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
         <!-- END usr_image -->
         </td>
-        <td class="std" valign="top">{USR_LOGIN}</td>
-        <td class="std" valign="top">{USR_FULLNAME}</td>
+        <td class="std" valign="top"><span class='navigation'>{USR_FULLNAME}</span><br>{USR_LOGIN}</td>
         <td class="std" valign="top">{USR_LOGIN_TIME}</td>
         <td class="std" valign="top" nowrap="1">
 <!-- BEGIN profile_link -->
@@ -102,7 +100,7 @@ body { margin:0px; }
 <h2>{TXT_BM_HEADER}</h2>
 <table class="fullwidth">
   <tr class="tblheader">
-    <td class="std" colspan="1"><b>{TXT_BM_TITLE}</b></td>
+    <td class="std" colspan="2"><b>{TXT_BM_TITLE}</b></td>
   </tr>
 <!-- BEGIN tbl_bm_row -->
   <tr class="{ROWCOL}">
@@ -112,6 +110,14 @@ body { margin:0px; }
 [<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 <!-- END tbl_bm_drop -->
     </td>
+<td class="std">
+						<!-- BEGIN tbl_bm_edit -->
+						<a href="{BMEDIT_LINK}">{TXT_BMEDIT}</a>
+						<!-- END tbl_bm_edit -->
+						<!-- BEGIN tbl_empty_cell -->&nbsp;
+						<!-- END tbl_empty_cell -->
+
+</td>
   </tr>
 <!-- END tbl_bm_row -->
 <!-- BEGIN tbl_no_bm -->

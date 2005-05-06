@@ -803,6 +803,8 @@ common#:#assign_local_role#:#Assign to local role
 common#:#assign_user_to_role#:#Assign User to Role
 common#:#assigned_roles#:#Assigned roles
 common#:#assigned_users#:#Assigned users
+common#:#associated_user#:#associated User
+common#:#associated_users#:#associated Users
 common#:#at_least_one_style#:#At least one style must remain activated.
 common#:#at_location#:#at location
 common#:#attachment#:#Attachment
@@ -1087,6 +1089,7 @@ common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
 common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
+common#:#default_value#:#Default Value
 common#:#delete#:#Delete
 common#:#delete_all#:#Delete All
 common#:#delete_all_rec#:#Delete all records
@@ -2336,7 +2339,7 @@ common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#show_structure#:#Enable Structured-View
-common#:#show_users_online#:#Show users online
+common#:#show_users_online#:#Show active users
 common#:#signature#:#Signature
 common#:#size#:#Size
 common#:#skin_style#:#Default Skin / Style
@@ -2523,7 +2526,10 @@ common#:#userdata#:#User data
 common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
-common#:#users_online#:#Users online
+common#:#users_online#:#Active users
+common#:#users_online_show_associated#:#Show members of my courses and groups only
+common#:#users_online_show_n#:#Don't show active users
+common#:#users_online_show_y#:#Show all active users
 common#:#usertracking#:#User Tracking
 common#:#usr#:#User
 common#:#usr_a#:#a User
@@ -2584,6 +2590,9 @@ common#:#versions#:#Versions
 common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
+common#:#visible#:#Visible
+common#:#visitor#:#Visitor
+common#:#visitors#:#Visitors
 common#:#visits#:#Visits
 common#:#web_resources#:#Web Resources
 common#:#webr#:#Web Resource
