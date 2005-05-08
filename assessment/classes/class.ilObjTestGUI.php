@@ -709,14 +709,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["enable_processing_time"] = "0";
 		}
-		if ($_POST["chb_random"])
-		{
-			$data["random_test"] = "1";
-		}
-		else
-		{
-			$data["random_test"] = "0";
-		}
 
 		if ($data["enable_processing_time"])
 		{
