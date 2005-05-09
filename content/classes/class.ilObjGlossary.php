@@ -90,7 +90,7 @@ class ilObjGlossary extends ilObject
 		}
 
 		$q = "INSERT INTO glossary (id, online) VALUES ".
-			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").")";
+			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").")";
 		$ilDB->query($q);
 
 	}
