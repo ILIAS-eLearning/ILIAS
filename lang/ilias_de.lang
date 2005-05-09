@@ -1753,7 +1753,7 @@ common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
-common#:#missing#:#Es fehlt
+common#:#missing#:#Nicht vorhanden
 common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -1812,6 +1812,7 @@ common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Über
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
+common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
 common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:

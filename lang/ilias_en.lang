@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -87,6 +87,7 @@ administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
 administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
 administration#:#skipped#:#skipped
+common#:#msg_invalid_filetype#:#Invalid file type
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#System check
