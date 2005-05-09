@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -1587,6 +1587,8 @@ common#:#lang_pt#:#Portugisisch
 common#:#lang_ro#:#Rumänisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
+common#:#lang_sq#:#Albanisch
+common#:#lang_sr#:#Serbisch
 common#:#lang_sv#:#Schwedisch
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainisch
