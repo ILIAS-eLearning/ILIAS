@@ -2050,7 +2050,7 @@ class ilUtil
 		}
 		else
 		{
-			return "f";
+			return "n";
 		}
 	}
 
