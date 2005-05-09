@@ -187,32 +187,36 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
-		else
+		
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
 		{
-			// create and insert object in objecttree
-			include_once("content/classes/class.ilObjGlossary.php");
-			$newObj = new ilObjGlossary();
-			$newObj->setType($this->type);
-			$newObj->setTitle($_POST["Fobject"]["title"]);
-			$newObj->setDescription($_POST["Fobject"]["desc"]);
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
-			//$roles = $newObj->initDefaultRoles();
-
-			// assign author role to creator of forum object
-			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
-			//ilObjUser::updateActiveRoles($newObj->getOwner());
-
-			unset($newObj);
-
-			// always send a message
-			sendInfo($this->lng->txt("glo_added"),true);
-			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
 		}
+
+		// create and insert object in objecttree
+		include_once("content/classes/class.ilObjGlossary.php");
+		$newObj = new ilObjGlossary();
+		$newObj->setType($this->type);
+		$newObj->setTitle($_POST["Fobject"]["title"]);
+		$newObj->setDescription($_POST["Fobject"]["desc"]);
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		//$roles = $newObj->initDefaultRoles();
+
+		// assign author role to creator of forum object
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
+		//ilObjUser::updateActiveRoles($newObj->getOwner());
+
+		unset($newObj);
+
+		// always send a message
+		sendInfo($this->lng->txt("glo_added"),true);
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -229,7 +233,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$source = $_FILES["xmldoc"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
-			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
 		}
 		// check create permission
 		/*
@@ -242,7 +246,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed"
 			&& $_FILES["xmldoc"]["type"] != "application/x-zip")
 		{
-			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_invalid_filetype"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create and insert object in objecttree
