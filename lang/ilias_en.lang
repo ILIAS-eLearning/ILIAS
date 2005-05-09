@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file English
@@ -1595,6 +1595,8 @@ common#:#lang_pt#:#Portuguese
 common#:#lang_ro#:#Romanian
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
+common#:#lang_sq#:#Albanian
+common#:#lang_sr#:#Serbian
 common#:#lang_sv#:#Swedish
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian
