@@ -160,10 +160,25 @@ class ilGlossaryPresentationGUI
 		$tbl->setTitle($this->lng->txt("cont_terms").(($filter=="")?"":"*"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
-			 $this->lng->txt("cont_definitions")));
-
-		$cols = array("term", "definitions");
+		// display additional column 'glossary' for meta glossaries
+		if ($this->glossary->isVirtual())
+		{
+			$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
+				 $this->lng->txt("cont_definitions"),$this->lng->txt("obj_glo")));
+	
+			$cols = array("term", "definitions", "glossary");
+			
+			$tbl->setColumnWidth(array("30%", "35%", "35%"));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
+				 $this->lng->txt("cont_definitions")));
+	
+			$cols = array("term", "definitions");
+			
+			$tbl->setColumnWidth(array("30%", "70%"));
+		}
 
 		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
 
@@ -174,7 +189,6 @@ class ilGlossaryPresentationGUI
 		}
 
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("30%", "70%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -206,6 +220,7 @@ class ilGlossaryPresentationGUI
 			{
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
 				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
+
 				for($j=0; $j<count($defs); $j++)
 				{
 					$def = $defs[$j];
@@ -225,6 +240,15 @@ class ilGlossaryPresentationGUI
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("definition_row");
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				// display additional column 'glossary' for meta glossaries
+				if ($this->glossary->isVirtual())
+				{
+					$this->tpl->setCurrentBlock("glossary_row");
+					$glo_title = ilObject::_lookupTitle($term["glo_id"]);
+					$this->tpl->setVariable("GLO_TITLE", $glo_title);
 					$this->tpl->parseCurrentBlock();
 				}
 

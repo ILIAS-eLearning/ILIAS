@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -146,6 +146,11 @@ assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
 assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
+common#:#glo_mode#:#Mode
+common#:#glo_mode_normal#:#normal
+common#:#glo_mode_level#:#virtual (this level only)
+common#:#glo_mode_subtree#:#virtual (entire subtree)
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
 assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?

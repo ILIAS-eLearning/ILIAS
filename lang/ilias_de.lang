@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -2743,6 +2743,11 @@ content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
+common#:#glo_mode#:#Modus
+common#:#glo_mode_normal#:#normal
+common#:#glo_mode_level#:#virtuell (nur diese Ebene)
+common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
+common#:#glo_mode_desc#:#Ein Virtuelles Glossar enthält neben eigenen Begriffsdefinitionen auch die Begriffe aller Glossare, die sich in der gleichen Position im Magazin des virtuellen Glossars befinden (Ebene) bzw. auch die Begriffe aller Glossare, die ab der Position des virtuellen Glossars im Magazin darunter liegen (Teilbaum).
 content#:#cont_downloads_desc#:#Ermögliche Anwender, freigegebene Exportdateien herunterzuladen
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten

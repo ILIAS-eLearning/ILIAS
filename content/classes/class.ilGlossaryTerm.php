@@ -329,17 +329,36 @@ class ilGlossaryTerm
 
 	/**
 	* static
+	* 
+	* @access	public
+	* @param 	integer/array	$a_glo_id	array of glossary ids for meta glossaries
+	* @param	string			$searchterm	searchstring
 	*/
 	function getTermList($a_glo_id, $searchterm="")
 	{
+		global $ilDB;
+		
 		$terms = array();
+		
 		$searchterm = (!empty ($searchterm))?" AND term like '$searchterm%'":"";
-		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."' $searchterm ORDER BY language, term";
-		$term_set = $this->ilias->db->query($q);
+		
+		// meta glossary
+		if (is_array($a_glo_id))
+		{
+			$where = "IN(".implode(",",$a_glo_id).") ";
+		}
+		else
+		{
+			$where = "='".$a_glo_id."' ";
+		}
+		
+		$q = "SELECT * FROM glossary_term WHERE glo_id ".$where.$searchterm." ORDER BY language, term";
+		$term_set = $ilDB->query($q);
+
 		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$terms[] = array("term" => $term_rec["term"],
-				"language" => $term_rec["language"], "id" => $term_rec["id"]);
+				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
 		}
 		return $terms;
 	}
