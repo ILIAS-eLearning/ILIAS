@@ -132,40 +132,52 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		else
+		
+		$stati 	= array(
+						"none"=>$this->lng->txt("glo_mode_normal"),
+						"level"=>$this->lng->txt("glo_mode_level"),
+						"subtree"=>$this->lng->txt("glo_mode_subtree")
+						);
+
+		$glo_type = $_SESSION["error_post_vars"]["glo_type"];
+		
+		$opts 	= ilUtil::formSelect("none","glo_mode",$stati,false,true);
+
+		// fill in saved values in case of error
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+		$this->getTemplateFile("create", $new_type);
+
+		foreach ($data["fields"] as $key => $val)
 		{
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
 
-			$this->getTemplateFile("create", $new_type);
-
-			foreach ($data["fields"] as $key => $val)
+			if ($this->prepare_output)
 			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
+				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-			$this->tpl->setVariable("TXT_IMPORT_GLO", $this->lng->txt("import_glossary"));
-			$this->tpl->setVariable("TXT_GLO_FILE", $this->lng->txt("glo_upload_file"));
-			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 		}
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		
+		$this->tpl->setVariable("SELECT_GLO_MODE", $opts);
+		$this->tpl->setVariable("TXT_GLO_MODE", $this->lng->txt("glo_mode"));
+		$this->tpl->setVariable("TXT_GLO_MODE_DESC", $this->lng->txt("glo_mode_desc"));
+
+		$this->tpl->setVariable("TXT_IMPORT_GLO", $this->lng->txt("import_glossary"));
+		$this->tpl->setVariable("TXT_GLO_FILE", $this->lng->txt("glo_upload_file"));
+		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 	}
 
 	function importObject()
@@ -193,13 +205,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
 		}
-
+		
 		// create and insert object in objecttree
 		include_once("content/classes/class.ilObjGlossary.php");
 		$newObj = new ilObjGlossary();
 		$newObj->setType($this->type);
 		$newObj->setTitle($_POST["Fobject"]["title"]);
 		$newObj->setDescription($_POST["Fobject"]["desc"]);
+		$newObj->setVirtualMode($_POST["glo_mode"]);
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
@@ -505,10 +518,24 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
 		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
 		$this->tpl->setVariable("VAL_ONLINE", "y");
+
 		if ($this->object->getOnline())
 		{
 			$this->tpl->setVariable("CHK_ONLINE", "checked");
 		}
+		
+		// glossary mode
+		$stati 	= array(
+						"none"=>$this->lng->txt("glo_mode_normal"),
+						"level"=>$this->lng->txt("glo_mode_level"),
+						"subtree"=>$this->lng->txt("glo_mode_subtree")
+						);
+
+		$opts 	= ilUtil::formSelect($this->object->getVirtualMode(),"glo_mode",$stati,false,true);
+		
+		$this->tpl->setVariable("SELECT_GLO_MODE", $opts);
+		$this->tpl->setVariable("TXT_GLO_MODE", $this->lng->txt("glo_mode"));
+		$this->tpl->setVariable("TXT_GLO_MODE_DESC", $this->lng->txt("glo_mode_desc"));		
 
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
@@ -523,6 +550,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function saveProperties()
 	{
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setVirtualMode($_POST["glo_mode"]);
 		$this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

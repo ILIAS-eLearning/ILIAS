@@ -1,5 +1,5 @@
 <form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
-<table class="std">
+<table class="std" width="50%">
 <tr class="tblheader">
   <td class="std" colspan="2">
 	{TXT_HEADER}
@@ -12,6 +12,10 @@
 <tr>
   <td class="option">{TXT_DESC}</td>
   <td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+</tr>
+<tr>
+  <td class="option">{TXT_GLO_MODE}</td>
+  <td class="option_value">{SELECT_GLO_MODE}<br/><p class="option_desc">{TXT_GLO_MODE_DESC}</p></td>
 </tr>
 <tr>
   <td class="submit" colspan="2">

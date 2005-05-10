@@ -89,8 +89,8 @@ class ilObjGlossary extends ilObject
 			$this->meta_data->create();
 		}
 
-		$q = "INSERT INTO glossary (id, online) VALUES ".
-			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").")";
+		$q = "INSERT INTO glossary (id, online, virtual) VALUES ".
+			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").",".$ilDB->quote($this->getVirtualMode()).")";
 		$ilDB->query($q);
 
 	}
@@ -107,6 +107,7 @@ class ilObjGlossary extends ilObject
 		$gl_set = $this->ilias->db->query($q);
 		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
+		$this->setVirtualMode($gl_rec["virtual"]);
 
 	}
 
@@ -127,6 +128,43 @@ class ilObjGlossary extends ilObject
 	{
 		parent::setDescription($a_description);
 		$this->meta_data->setDescription($a_description);
+	}
+	
+	/**
+	* set glossary type (virtual: fixed/level/subtree, normal:none)
+	*/
+	function setVirtualMode($a_mode)
+	{
+		switch ($a_mode)
+		{
+			case "level":
+			case "subtree":
+			// case "fixed":
+				$this->virtual_mode = $a_mode;
+				$this->virtual = true;
+				break;
+				
+			default:
+				$this->virtual_mode = "none";
+				$this->virtual = false;
+				break;
+		}
+	}
+	
+	/**
+	* get glossary type (normal or virtual)
+	*/
+	function getVirtualMode()
+	{
+		return $this->virtual_mode;
+	}
+	
+	/**
+	 * returns true if glossary type is virtual (any mode)
+	 */
+	function isVirtual()
+	{
+		return $this->virtual;
 	}
 
 	/**
@@ -223,7 +261,8 @@ class ilObjGlossary extends ilObject
 		$this->updateMetaData();
 
 		$q = "UPDATE glossary SET ".
-			" online = '".ilUtil::tf2yn($this->getOnline())."'".
+			" online = '".ilUtil::tf2yn($this->getOnline())."',".
+			" virtual = '".$this->getVirtualMode()."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 
@@ -247,7 +286,54 @@ class ilObjGlossary extends ilObject
 	*/
 	function getTermList($searchterm="")
 	{
-		$list = ilGlossaryTerm::getTermList($this->getId(),$searchterm);
+		if ($this->isVirtual())
+		{
+			global $tree;
+			
+			$glo_ids = array();
+			
+			switch ($this->getVirtualMode())
+			{
+				case "level":
+					$glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()),"glo");
+					
+					foreach ($glo_arr as $glo)
+					{
+						{
+							$glo_ids[] = $glo['obj_id'];
+						}
+					}
+					break;
+
+				case "subtree":
+					$subtree_nodes = $tree->getSubTree($tree->getNodeData($tree->getParentId($this->getRefId())));
+
+					foreach ($subtree_nodes as $node)
+					{
+						if ($node['type'] == 'glo')
+						{
+							$glo_ids[] = $node['obj_id'];
+						}
+					}
+					break;
+				
+/* for futere enhancements
+				case "fixed":
+					
+					break;
+*/
+				// fallback to none virtual mode in case of error
+				default:
+					$glo_ids[] = $this->getId();
+					break;
+			}
+		}
+		else
+		{
+			$glo_ids = $this->getId();
+		}
+		
+		$list = ilGlossaryTerm::getTermList($glo_ids,$searchterm);
 		return $list;
 	}
 
@@ -608,6 +694,10 @@ class ilObjGlossary extends ilObject
 			$term_obj =& new ilGlossaryTerm($term["id"]);
 			$term_obj->delete();
 		}
+		
+		// delete glossary data entry
+		$q = "DELETE FROM glossary WHERE id = ".$this->getId();
+		$this->ilias->db->query($q);
 
 		// delete meta data
 		$nested = new ilNestedSetXML();

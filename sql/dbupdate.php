@@ -6255,3 +6255,6 @@ chdir($wd);
 <#427>
 ALTER  TABLE  `tst_tests`  ADD  `count_system` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `random_question_count` ;
 
+<#428>
+ALTER TABLE `glossary` ADD `virtual` ENUM('none','fixed','level','subtree') DEFAULT 'none' NOT NULL;
+
