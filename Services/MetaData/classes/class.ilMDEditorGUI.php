@@ -99,7 +99,11 @@ class ilMDEditorGUI
 
 	function listGeneral()
 	{
-		$this->md_section = $this->md_obj->getGeneral();
+		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
+		{
+			$this->md_section = $this->md_obj->addGeneral();
+			$this->md_section->save();
+		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
 		
@@ -268,41 +272,50 @@ class ilMDEditorGUI
 		$this->md_section->update();
 
 		// Identifier
-		foreach($_POST['gen_identifier'] as $id => $data)
+		if(is_array($_POST['gen_identifier']))
 		{
-			$md_ide = $this->md_section->getIdentifier($id);
-			$md_ide->setCatalog(ilUtil::stripSlashes($data['Catalog']));
-			$md_ide->setEntry(ilUtil::stripSlashes($data['Entry']));
-			$md_ide->update();
+			foreach($_POST['gen_identifier'] as $id => $data)
+			{
+				$md_ide = $this->md_section->getIdentifier($id);
+				$md_ide->setCatalog(ilUtil::stripSlashes($data['Catalog']));
+				$md_ide->setEntry(ilUtil::stripSlashes($data['Entry']));
+				$md_ide->update();
+			}
 		}
 
 		// Language
-		foreach($_POST['gen_language'] as $id => $data)
+		if(is_array($_POST['gen_language']))
 		{
-			$md_lan = $this->md_section->getLanguage($id);
-			$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
-			$md_lan->update();
+			foreach($_POST['gen_language'] as $id => $data)
+			{
+				$md_lan = $this->md_section->getLanguage($id);
+				$md_lan->setLanguage(new ilMDLanguageItem($data['language']));
+				$md_lan->update();
+			}
 		}
-
 		// Description
-		foreach($_POST['gen_description'] as $id => $data)
+		if(is_array($_POST['gen_description']))
 		{
-			$md_des = $this->md_section->getDescription($id);
-			$md_des->setDescription(ilUtil::stripSlashes($data['description']));
-			$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
-			$md_des->update();
+			foreach($_POST['gen_description'] as $id => $data)
+			{
+				$md_des = $this->md_section->getDescription($id);
+				$md_des->setDescription(ilUtil::stripSlashes($data['description']));
+				$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
+				$md_des->update();
+			}
 		}
-
 		// Keyword
-		foreach($_POST['gen_keyword'] as $id => $data)
+		if(is_array($_POST['gen_keyword']))
 		{
-			$md_key = $this->md_section->getKeyword($id);
+			foreach($_POST['gen_keyword'] as $id => $data)
+			{
+				$md_key = $this->md_section->getKeyword($id);
 
-			$md_key->setKeyword(ilUtil::stripSlashes($data['keyword']));
-			$md_key->setKeywordLanguage(new ilMDLanguageItem($data['language']));
-			$md_key->update();
+				$md_key->setKeyword(ilUtil::stripSlashes($data['keyword']));
+				$md_key->setKeywordLanguage(new ilMDLanguageItem($data['language']));
+				$md_key->update();
+			}
 		}
-
 		$this->callListeners('General');
 
 		// Redirect here to read new title and description
