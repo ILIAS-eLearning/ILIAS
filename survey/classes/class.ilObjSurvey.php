@@ -3310,10 +3310,20 @@ class ilObjSurvey extends ilObject
 		$numrows = $result->numRows();
 		if ($questions[$question_id]["subtype"] == SUBTYPE_MCMR)
 		{
-			$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", user_fi )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
-				$this->ilias->db->quote($question_id),
-				$this->ilias->db->quote($this->getSurveyId())
-			);
+			if ($this->getAnonymize())
+			{
+				$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
+					$this->ilias->db->quote($question_id),
+					$this->ilias->db->quote($this->getSurveyId())
+				);
+			}
+			else
+			{
+				$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", user_fi )  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
+					$this->ilias->db->quote($question_id),
+					$this->ilias->db->quote($this->getSurveyId())
+				);
+			}
 			$mcmr_result = $this->ilias->db->query($query);
 			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
 			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
