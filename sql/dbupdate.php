@@ -6219,7 +6219,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $wd = getcwd();
 chdir('..');
-include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+
 
 $webr_ids = array();
 $query = "SELECT * FROM object_data WHERE type = 'webr'";
