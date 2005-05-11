@@ -823,6 +823,9 @@ common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
+common#:#auth_shib#:#Shibboleth
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_mode#:#Authentication mode
 common#:#auth_mode_changed_to#:#Authentication mode changed to
 common#:#auth_mode_not_changed#:#(Nothing changed)
@@ -1639,6 +1642,34 @@ common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
+common#:#shib#:#Shibboleth
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.
+common#:#shib_configure#:#Configure Shibboleh Authentication
+common#:#shib_edit_permission#:#Change permission settings
+common#:#shib_login#:#Unique Shibboleth attribute
+common#:#shib_update#:#Update this field on login
+common#:#shib_firstname#:#Attribute for firstname
+common#:#shib_lastname#:#Attribute for lastname
+common#:#shib_email#:#Attribute for email address
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
+common#:#shib_institution#:#Attribute for institution
+common#:#shib_department#:#Attribute for department
+common#:#shib_zipcode#:#Attribute for zipcode
+common#:#shib_city#:#Attribute for city
+common#:#shib_country#:#Attribute for country
+common#:#shib_street#:#Attribute for street
+common#:#shib_phone_office#:#Attribute for office phone number
+common#:#shib_phone_home#:#Attribute for home phone number
+common#:#shib_phone_mobile#:#Attribute for mobile phone number
+common#:#shib_language#:#Attribute for language
+common#:#shib_login_button#:#Path to Shibboleth login button
+common#:#shib_login_instructions#:#Instructions shown in login field
+common#:#shib_data_conv#:#Absolute path to data manipulation API
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#shib_read#:#Read access to Shibboleth settings
+common#:#shib_settings_saved#:#The Shibboleth settings were saved
+common#:#shib_visible#:#Shibboleth settings are visible
+common#:#shib_write#:#Edit Shibboleth settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
@@ -1700,6 +1731,7 @@ common#:#login_exists#:#There is already a user with this login name! Please cho
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#logs#:#Log data

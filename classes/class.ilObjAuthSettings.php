@@ -58,7 +58,20 @@ class ilObjAuthSettings extends ilObject
 		
 		return true;
 	}
-
+	
+	function checkAuthSHIB()
+	{
+		$settings = $this->ilias->getAllSettings();
+		
+		if (!$settings["shib_only"] or !$settings["shib_user_default_role"] or !$settings["shib_login"]
+			 or !$settings["shib_firstname"]  or !$settings["shib_lastname"])
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 	function checkAuthRADIUS()
 	{
 		$settings = $this->ilias->getAllSettings();

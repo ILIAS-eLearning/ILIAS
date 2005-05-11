@@ -75,6 +75,7 @@ require_once "classes/class.ilTemplate.php";
 require_once "include/inc.db_session_handler.php";
 require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
+require_once "classes/class.ilShibboleth.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilFormat.php";
@@ -263,7 +264,7 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
-elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
+elseif ($script != "login.php" and $script != "shib_login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php"
 		and $script != "pwassist.php")
 {

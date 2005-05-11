@@ -1,0 +1,46 @@
+{RELOAD} 
+<div align="center">
+	<br />
+	<img src="./images/ilias_logo_big.png" border="0" /> 
+	<p class="small">
+		{ILIAS_RELEASE}
+	</p>
+	<p class="warning">
+		&nbsp;{TXT_MSG_LOGIN_FAILED}&nbsp;
+	</p>
+	<p>
+	<table class="std" width="400">
+		<tr class="tblheader">
+			<td class="std" align="center">
+				{TXT_SHIB_LOGIN}
+			</td>
+		</tr>
+		<tr>
+			<td class="std" align="center">
+				<a href="shib_login.php"><img src="{TXT_SHIB_LOGIN_BUTTON}" border="0" alt="Shibboleth Login Button"></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="std" align="center">
+				{TXT_SHIB_LOGIN_INSTRUCTIONS}
+			</td>
+		</tr>
+	</table>
+	</p>
+	<p>
+		<b>{TXT_CHOOSE_LANGUAGE}</b>
+		<br />
+<!-- BEGIN languages -->
+		<a href="./login.php?lang={LANG_KEY}"><img src="./images/flags/{LANG_KEY}.gif" border="{BORDER}" vspace="{VSPACE}" hspace="0" title="{LANG_NAME}" alt="{LANG_NAME}" /></a> 
+<!-- END languages -->
+	</p>
+	<p>
+		[<a href="view_usr_agreement.php?lang={LANG_ID}">{USER_AGREEMENT}</a>]
+	</p>
+</div>
+<script language="JavaScript">
+<!--
+	if(document.formlogin.username.value!="") document.formlogin.password.focus();
+	else document.formlogin.username.focus();
+//-->
+</script> 

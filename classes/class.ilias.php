@@ -248,6 +248,7 @@ class ILIAS
 		define ("AUTH_LDAP",2);
 		define ("AUTH_RADIUS",3);
 		define ("AUTH_SCRIPT",4);
+		define ("AUTH_SHIBBOLETH",5);
 
 		$auth_mode = $this->getSetting("auth_mode");
 		
@@ -257,7 +258,12 @@ class ILIAS
 			$auth_mode = AUTH_LOCAL;
 		}
 		
-		define ("AUTH_CURRENT",$auth_mode);
+		// If Shibboleth is active and the user is authenticated
+		// we set auth_mode to Shibboleth
+		if (empty($_SERVER[$this->getSetting("shib_login")]))
+			define ("AUTH_CURRENT",$auth_mode);
+		else
+			define ("AUTH_CURRENT",AUTH_SHIBBOLETH);
 		
 		// set session.save_handler to "user" & set expiry time
 
@@ -293,6 +299,15 @@ class ILIAS
 											'userattr'	=> $settings["ldap_login_key"]
 											);
 				$this->auth = new Auth("LDAP", $this->auth_params,"",false);
+
+				break;
+				
+				case AUTH_SHIBBOLETH:
+				$settings = $this->getAllSettings();
+
+				// build option string for SHIB::Auth
+				$this->auth_params = array();
+				$this->auth = new ShibAuth($this->auth_params,true);
 
 				break;
 				
