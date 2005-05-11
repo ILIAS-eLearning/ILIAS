@@ -3087,14 +3087,14 @@ class ilObjSurvey extends ilObject
 		$query = "";
 		if ($this->getAnonymize())
 		{
-			$query = sprintf("SELECT question_fi, TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s ORDER BY TIMESTAMP14 DESC",
+			$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s ORDER BY TIMESTAMP14 DESC",
 				$this->ilias->db->quote($this->getSurveyId() . ""),
 				$this->ilias->db->quote($_SESSION["anonymous_id"])
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT question_fi, TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP14 DESC",
+			$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP14 DESC",
 				$this->ilias->db->quote($this->getSurveyId() . ""),
 				$this->ilias->db->quote($user_id . "")
 			);
@@ -3647,7 +3647,7 @@ class ilObjSurvey extends ilObject
 		{
 			$existing = " AND survey_question.question_id NOT IN (" . join($existing_questions, ",") . ")";
 		}
-	  $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP+0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+	  $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -3659,7 +3659,7 @@ class ilObjSurvey extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP+0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -4772,7 +4772,7 @@ class ilObjSurvey extends ilObject
 	function &getSurveyCodes()
 	{
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP+0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY TIMESTAMP14",
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY TIMESTAMP14",
 			$this->ilias->db->quote($this->getSurveyId() . "")
 		);
 		$result = $this->ilias->db->query($query);
