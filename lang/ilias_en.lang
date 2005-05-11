@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -251,6 +251,8 @@ assessment#:#insert_after#:#Insert after
 assessment#:#insert_before#:#Insert before
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Update
+common#:#err_no_cookies#:#Please enable session cookies in your browser!
+common#:#cookies_howto#:#How to enable cookies
 assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
 assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
