@@ -1317,7 +1317,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}*/
 
 		$export_dir = $this->object->getExportDirectory();
-
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
@@ -1407,7 +1406,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function createExportFileObject()
 	{
 		global $rbacsystem;
-		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			require_once("assessment/classes/class.ilQuestionpoolExport.php");
