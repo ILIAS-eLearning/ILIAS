@@ -41,7 +41,7 @@ if (!isset($_COOKIE['iltest']))
 	if (empty($_GET['cookies']))
 	{
 		setcookie("iltest","cookie");
-		header('Location: '.$PHP_SELF."?cookies=nocookies&lang=".$_GET['lang']);
+		header('Location: '.$_SERVER['PHP_SELF']."?cookies=nocookies&lang=".$_GET['lang']);
 	}
 	else
 	{
