@@ -35,6 +35,20 @@
 // get pear
 include("include/inc.get_pear.php");
 
+// check for session cookies enabled
+if (!isset($_COOKIE['iltest']))
+{
+	if (empty($_GET['cookies']))
+	{
+		setcookie("iltest","cookie");
+		header('Location: '.$PHP_SELF."?cookies=nocookies&lang=".$_GET['lang']);
+	}
+	else
+	{
+		$_COOKIE['iltest'] = "";
+	}
+}
+
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
@@ -182,10 +196,12 @@ if (!empty($status))
 			break;
 		case AUTH_WRONG_LOGIN:
 		default:
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));			
 			break;
 	}
 }
+
+
 if($_GET['time_limit'])
 {
 	$tpl->setVariable("TXT_MSG_LOGIN_FAILED",$lng->txt('time_limit_reached'));
@@ -194,6 +210,13 @@ if($_GET['time_limit'])
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 $tpl->setVariable("USERNAME", $_POST["username"]);
 $tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
+
+// browser does not accept cookies
+if ($_GET['cookies'] == 'nocookies')
+{
+	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_no_cookies"));
+	$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));
+}
 
 $tpl->show(false);
 ?>

@@ -1150,6 +1150,8 @@ common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
 common#:#err_wrong_password#:#Falsches Passwort
+common#:#err_no_cookies#:#Bitte aktivieren Session-Cookies in Ihrem Browser!
+common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
