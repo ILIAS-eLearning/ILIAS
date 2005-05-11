@@ -85,7 +85,13 @@ if ($ilias->auth->getAuth())
 }
 
 //instantiate login template
-$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
+//use dual login template if shibboleth is also active
+if ($ilias->getSetting("auth_mode") == AUTH_SHIBBOLETH  && $ilias->getSetting("shib_login") != '')
+	$tpl->addBlockFile("CONTENT", "content", "tpl.login.shib_only.html");
+elseif ($ilias->getSetting("shib_login") != '')
+	$tpl->addBlockFile("CONTENT", "content", "tpl.login.dual.html");
+else
+	$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
 
 //language handling
 if ($_GET["lang"] == "")
@@ -139,6 +145,9 @@ if ($ilias->getSetting("password_assistance") and AUTH_CURRENT == AUTH_LOCAL)
 }
 
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
+$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));
+$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $ilias->getSetting("shib_login_instructions"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 $tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"]);
 $tpl->setVariable("TXT_USERNAME", $lng->txt("username"));

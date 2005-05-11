@@ -6,6 +6,8 @@ function handleLocal(form)
 	{
 		form.btn_ldap.disabled = true;
 		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = true;
+		form.btn_shib.style.color = "grey";
 		form.btn_radius.disabled = true;
 		form.btn_radius.style.color = "grey";
 		form.btn_script.disabled = true;
@@ -19,6 +21,23 @@ function handleLDAP(form)
 	{
 		form.btn_ldap.disabled = false;
 		form.btn_ldap.style.color = "#2255a0";
+		form.btn_shib.disabled = true;
+		form.btn_shib.style.color = "grey";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = true;
+		form.btn_script.style.color = "grey";
+	}
+}
+
+function handleSHIB(form)
+{
+	if (form.shib.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
 		form.btn_radius.disabled = true;
 		form.btn_radius.style.color = "grey";
 		form.btn_script.disabled = true;
@@ -32,6 +51,8 @@ function handleRADIUS(form)
 	{
 		form.btn_ldap.disabled = true;
 		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = true;
+		form.btn_shib.style.color = "grey";
 		form.btn_radius.disabled = false;
 		form.btn_radius.style.color = "#2255a0";
 		form.btn_script.disabled = true;
@@ -45,6 +66,8 @@ function handleScript(form)
 	{
 		form.btn_ldap.disabled = true;
 		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = true;
+		form.btn_shib.style.color = "grey";
 		form.btn_radius.disabled = true;
 		form.btn_radius.style.color = "grey";
 		form.btn_script.disabled = false;
@@ -78,6 +101,12 @@ function handleScript(form)
    <td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="2" id="ldap" {CHK_LDAP}onClick="handleLDAP(document.AuthOptions)" />
    <input class="submit{SUB_LDAP}" type="submit" name="cmd[editLDAP]" value="{TXT_CONFIGURE}" id="btn_ldap" {BTN_LDAP}/></td>
    <td class="option_desc">{TXT_LDAP_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="shib">{TXT_SHIB}</label></td>
+   <td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="5" id="shib" {CHK_SHIB}onClick="handleSHIB(document.AuthOptions)" />
+   <input class="submit{SUB_SHIB}" type="submit" name="cmd[editSHIB]" value="{TXT_CONFIGURE}" id="btn_shib" {BTN_SHIB}/></td>
+   <td class="option_desc">{TXT_SHIB_DESC}</td>
   </tr>
   <tr>
 	<td class="submit" colspan="3" align="left">
