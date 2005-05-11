@@ -2403,7 +2403,7 @@
 		    dd.obj.moveTo(dd.elements.term_<xsl:value-of select="@ident"/>.x + 250, dd.elements.term_<xsl:value-of select="@ident"/>.y);
 		<xsl:choose>
 			<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
-			<xsl:otherwise>dd.obj.write("&lt;strong&gt;<xsl:value-of select="$title"/>&lt;/strong&gt;");</xsl:otherwise>
+			<xsl:otherwise>dd.obj.write('&lt;strong&gt;<xsl:value-of select="$title"/>&lt;/strong&gt;');</xsl:otherwise>
 		</xsl:choose>
 				document.test_output.sel_matching_<xsl:value-of select="$ident"/>.value = '<xsl:value-of select="@ident"/>';
 		}
