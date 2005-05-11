@@ -715,7 +715,7 @@ class ilObjTest extends ilObject
 			if ($entry != "." and
 				$entry != ".." and
 				//substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test(_results)?__)*[0-9]+\.[a-z]{1,3}\$", $entry))
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test(__results)?__)*[0-9]+\.[a-z]{1,3}\$", $entry))
 			{
 				$file[] = $entry;
 			}

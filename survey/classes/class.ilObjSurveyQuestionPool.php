@@ -693,7 +693,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			if ($entry != "." and
 				$entry != ".." and
 				substr($entry, -4) == ".xml" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl_)*[0-9]+\.xml\$", $entry))
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl__)*[0-9]+\.xml\$", $entry))
 			{
 				$file[] = $entry;
 			}
