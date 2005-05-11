@@ -318,6 +318,8 @@ class ShibAuth
 				$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
 				
 				// Save mapping
+				// We save this mapping directly to prevent this value getting hashed
+				// That way local users cannot login using the Shibboleth unique login ID as password
 				$ilias->db->query("UPDATE usr_data SET passwd='".$_SERVER[$ilias->getSetting('shib_login')]."' WHERE login='".$username."'");
 				
 				unset($userObj);

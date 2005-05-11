@@ -95,8 +95,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHK_LOCAL", $checked);
 				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
 				$this->tpl->setVariable("BTN_LDAP", $disabled);
-				$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				$this->tpl->setVariable("BTN_SHIB", $disabled);	
+				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
+				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
 				$this->tpl->setVariable("BTN_RADIUS", $disabled);
 				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
@@ -105,8 +105,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				
 			case AUTH_LDAP: // LDAP
 				$this->tpl->setVariable("CHK_LDAP", $checked);
-				$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				$this->tpl->setVariable("BTN_SHIB", $disabled);	
+				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
+				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
 				$this->tpl->setVariable("BTN_RADIUS", $disabled);
 				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
@@ -115,6 +115,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				
 			case AUTH_SHIBBOLETH: // SHIB
 				$this->tpl->setVariable("BTN_LDAP", $disabled);
+				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
 				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
 				$this->tpl->setVariable("CHK_SHIB", $checked);
 				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
@@ -124,8 +125,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				break;
 				
 			case AUTH_RADIUS: // RADIUS
-				$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				$this->tpl->setVariable("BTN_SHIB", $disabled);	
+				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
+				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_RADIUS", $checked);
 				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
 				$this->tpl->setVariable("BTN_LDAP", $disabled);
@@ -134,8 +135,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				break;
 			
 			case AUTH_SCRIPT: // script
-				$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				$this->tpl->setVariable("BTN_SHIB", $disabled);	
+				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
+				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_SCRIPT", $checked);
 				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
 				$this->tpl->setVariable("BTN_LDAP", $disabled);
@@ -418,6 +419,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			if ($settings["shib_update_".$field])
 				$this->tpl->setVariable('CHK_SHIB_UPDATE_'.strtoupper($field), 'checked="checked"');
 		}
+		if ($settings["shib_active"])
+			$this->tpl->setVariable("CHK_SHIB_ACTIVE", 'checked="checked"');
+			
 		$this->tpl->setVariable("SHIB_USER_DEFAULT_ROLE", $selectElement);
 		$this->tpl->setVariable("SHIB_LOGIN_BUTTON", $settings["shib_login_button"]);
 		$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", $settings["shib_login_instructions"]);
@@ -429,7 +433,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SHIB_TITLE", $this->lng->txt("auth_shib"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_SHIB_UPDATE", $this->lng->txt("shib_update"));
-		
+		$this->tpl->setVariable("TXT_SHIB_ACTIVE", $this->lng->txt("shib_active"));
 		$this->tpl->setVariable("TXT_SHIB_USER_DEFAULT_ROLE", $this->lng->txt("shib_user_default_role"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->lng->txt("shib_login_button"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("shib_login_instructions"));
@@ -497,6 +501,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->setSetting($setting, $_POST["shib"][$field]);
 			$this->ilias->setSetting("shib_update_".$field, $_POST["shib"]["update_".$field]);
 		}
+		if ($_POST["shib"]["active"] != "1")
+		$this->ilias->setSetting("shib_active", "0");
+		else
+			$this->ilias->setSetting("shib_active", "1");
+			
 		$this->ilias->setSetting("shib_user_default_role", $_POST["shib"]["user_default_role"]);
 		$this->ilias->setSetting("shib_login_instructions", $_POST["shib"]["login_instructions"]);
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
