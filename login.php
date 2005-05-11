@@ -84,11 +84,12 @@ if ($ilias->auth->getAuth())
 	ilUtil::redirect($return_to);
 }
 
-//instantiate login template
-//use dual login template if shibboleth is also active
-if ($ilias->getSetting("auth_mode") == AUTH_SHIBBOLETH  && $ilias->getSetting("shib_login") != '')
+// Instantiate login template
+// Use Shibboleth only authentication if auth_mode is Shibboleth
+// Use dual login template if Shibboleth is also configured
+if ($ilias->getSetting("auth_mode") == AUTH_SHIBBOLETH)
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.shib_only.html");
-elseif ($ilias->getSetting("shib_login") != '')
+elseif ($ilias->getSetting("shib_active"))
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.dual.html");
 else
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
