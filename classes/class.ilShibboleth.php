@@ -251,6 +251,7 @@ class ShibAuth
 				
 				// Password must be random to prevent users from manually log in using the login data from Shibboleth users
 				$newUser["passwd"] = rand(); 
+				$newUser["passwd_type"] = IL_PASSWD_PLAIN; 
 				
 				if ( 
 					$ilias->getSetting('shib_update_gender')
@@ -261,20 +262,20 @@ class ShibAuth
 				
 				// other data
 				
-					$newUser["title"] = $_SERVER[$ilias->getSetting('shib_title')];
-					$newUser["institution"] = $_SERVER[$ilias->getSetting('shib_institution')];
-					$newUser["department"] = $_SERVER[$ilias->getSetting('shib_department')];
-					$newUser["street"] = $_SERVER[$ilias->getSetting('shib_street')];
-					$newUser["city"] = $_SERVER[$ilias->getSetting('shib_city')];
-					$newUser["zipcode"] = $_SERVER[$ilias->getSetting('shib_zipcode')];
-					$newUser["country"] = $_SERVER[$ilias->getSetting('shib_country')];
-					$newUser["phone_office"] = $_SERVER[$ilias->getSetting('shib_phone_office')];
-					$newUser["phone_home"] = $_SERVER[$ilias->getSetting('shib_phone_home')];
-					$newUser["phone_mobile"] = $_SERVER[$ilias->getSetting('shib_phone_mobile')];
-					$newUser["fax"] = $_SERVER[$ilias->getSetting('shib_fax')];
-					$newUser["matriculation"] = $_SERVER[$ilias->getSetting('shib_matriculation')];
-					$newUser["email"] = $_SERVER[$ilias->getSetting('shib_email')];
-					$newUser["hobby"] = $_SERVER[$ilias->getSetting('shib_hobby')];
+				$newUser["title"] = $_SERVER[$ilias->getSetting('shib_title')];
+				$newUser["institution"] = $_SERVER[$ilias->getSetting('shib_institution')];
+				$newUser["department"] = $_SERVER[$ilias->getSetting('shib_department')];
+				$newUser["street"] = $_SERVER[$ilias->getSetting('shib_street')];
+				$newUser["city"] = $_SERVER[$ilias->getSetting('shib_city')];
+				$newUser["zipcode"] = $_SERVER[$ilias->getSetting('shib_zipcode')];
+				$newUser["country"] = $_SERVER[$ilias->getSetting('shib_country')];
+				$newUser["phone_office"] = $_SERVER[$ilias->getSetting('shib_phone_office')];
+				$newUser["phone_home"] = $_SERVER[$ilias->getSetting('shib_phone_home')];
+				$newUser["phone_mobile"] = $_SERVER[$ilias->getSetting('shib_phone_mobile')];
+				$newUser["fax"] = $_SERVER[$ilias->getSetting('shib_fax')];
+				$newUser["matriculation"] = $_SERVER[$ilias->getSetting('shib_matriculation')];
+				$newUser["email"] = $_SERVER[$ilias->getSetting('shib_email')];
+				$newUser["hobby"] = $_SERVER[$ilias->getSetting('shib_hobby')];
 				
 				// system data
 				$userObj->assignData($newUser);
@@ -339,7 +340,7 @@ class ShibAuth
 					$userObj->setGender($_SERVER[$ilias->getSetting('shib_gender')]);
 				
 				if ($ilias->getSetting('shib_update_title'))
-				$userObj->setTitle($_SERVER[$ilias->getSetting('shib_title')]);
+					$userObj->setTitle($_SERVER[$ilias->getSetting('shib_title')]);
 				
 				$userObj->setFirstname($_SERVER[$ilias->getSetting('shib_firstname')]);
 				$userObj->setLastname($_SERVER[$ilias->getSetting('shib_lastname')]);
@@ -556,6 +557,8 @@ class ShibAuth
 		$lastname = $_SERVER[$ilias->getSetting('shib_lastname')];
 		$firstname = $_SERVER[$ilias->getSetting('shib_firstname')];
 		
+		// We use the passwd field as mapping attribute for Shibboleth users
+		// because they don't need a password
 		$r = $ilias->db->query("SELECT login FROM usr_data WHERE passwd='".$shibID."'");
 		
 		//query has got a result
@@ -567,11 +570,9 @@ class ShibAuth
 		
 		
 		// Generate new username
-		// Somewhen it probably will be possible to generate the username
-		// according to own rules.
-		
-		$prefix = ucfirst($lastname).ucfirst($firstname);
-		$prefix = ereg_replace(" ",'', $prefix);
+		// This can be overruled by the data conversion API but you have
+		// to do it yourself in that case
+		$prefix = $firstname." ".$lastname;
 		
 		if (!$this->checkMapping($prefix))
 		{
@@ -580,6 +581,7 @@ class ShibAuth
 		
 		// Add a number as prefix if the username already is taken
 		$number = 2;
+		$prefix .= " ";
 		while ($this->checkMapping($prefix.$number))
 		{
 			$number++;
