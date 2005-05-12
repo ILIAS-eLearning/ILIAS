@@ -807,7 +807,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
-echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
+//echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
 
 		$q = "SELECT * FROM content_object WHERE id = '".$a_id."'";
 		$lm_set = $this->ilias->db->query($q);
