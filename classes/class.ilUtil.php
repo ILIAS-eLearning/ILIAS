@@ -2377,7 +2377,7 @@ class ilUtil
 	*/
 	function excelTime($year = "", $month = "", $day = "", $hour = "", $minute = "", $second = "")
 	{
-		$starting_time = mktime(0, 0, 0, 1, 1, 1970);
+		$starting_time = mktime(0, 0, 0, 1, 2, 1970);
 		if (strcmp("$year$month$day$hour$minute$second", "") == 0)
 		{
 			$target_time = time();
@@ -2393,7 +2393,7 @@ class ilUtil
 		$difference = $target_time - $starting_time;
 		$days = (($difference - ($difference % 86400)) / 86400);
 		$difference = $difference - ($days * 86400) + 3600;
-		return ($days + 25569 + ($difference / 86400));
+		return ($days + 25570 + ($difference / 86400));
 	}
 
 	/**
