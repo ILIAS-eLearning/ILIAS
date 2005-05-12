@@ -260,13 +260,19 @@ class ILIAS
 		
 		// If Shibboleth is active and the user is authenticated
 		// we set auth_mode to Shibboleth
-		if (empty($_SERVER[$this->getSetting("shib_login")]))
-			define ("AUTH_CURRENT",$auth_mode);
-		else
+		if (	
+				$this->getSetting("shib_active")
+				&& $_SERVER[$this->getSetting("shib_login")]
+			)
+		{
 			define ("AUTH_CURRENT",AUTH_SHIBBOLETH);
+		}
+		else
+		{
+			define ("AUTH_CURRENT",$auth_mode);
+		}
 		
 		// set session.save_handler to "user" & set expiry time
-
 		if(ini_get('session.save_handler') != 'user')
 		{
 			ini_set("session.save_handler", "user");
