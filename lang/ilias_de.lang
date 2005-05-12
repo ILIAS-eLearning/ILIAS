@@ -4914,3 +4914,14 @@ crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht 
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
+common#:#obj_seas#:#Suche
+common#:#seas_settings#:#Sucheinstellungen
+common#:#seas_edit_permission#:#Rechteeinstellungen ändern
+common#:#seas_read#:#Sucheinstellungen lesen
+common#:#seas_write#:#Sucheinstellungen bearbeiten
+common#:#seas_visible#:#Sucheinstellungen sind sichtbar
+common#:#seas_max_hits#:#Maximalanzahl von Treffern
+common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
+common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
+common#:#seas_search#:#Benutzung der Suche erlauben
+common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.

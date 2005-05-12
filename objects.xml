@@ -28,6 +28,7 @@
 	<subobj name="auth" max="1">auth</subobj>
 	<subobj name="assf" max="1">assf</subobj>
 	<subobj name="stys" max="1">stys</subobj>
+	<subobj name="seas" max="1">seas</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -529,5 +530,9 @@
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
+</object>
+<object name="seas" class_name="SearchSettings" module="Services/Search" checkbox="0" inherit="0" translate="sys" rbac="1">
+	<property name="settings">settings</property>
+	<property name="perm">perm_settings</property>
 </object>
 </objects>

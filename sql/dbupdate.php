@@ -6258,3 +6258,73 @@ ALTER  TABLE  `tst_tests`  ADD  `count_system` ENUM(  '0',  '1'  ) DEFAULT  '0' 
 <#428>
 ALTER TABLE `glossary` ADD `virtual` ENUM('none','fixed','level','subtree') DEFAULT 'none' NOT NULL;
 
+<#429>
+<?php
+
+// insert style folder type to object data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'seas', 'Search settings', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// insert operations for style folder type
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$this->db->query($query);
+
+// CREATE SEarch settings object
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('seas', 'Search settings', 'Search settings', -1, now(), now())";
+$this->db->query($query);
+
+// get style folder number
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$sty_folder_id = $row->id;
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+?>
+<#430>
+<?php
+
+$query = "INSERT INTO rbac_operations SET operation = 'search', description = 'Allow using search'";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as ops_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$ops_id = $row->ops_id;
+
+  // Add permission tu use search
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'seas'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$obj_id = $row->obj_id;
+
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
+$this->db->query($query);
+?>
+
