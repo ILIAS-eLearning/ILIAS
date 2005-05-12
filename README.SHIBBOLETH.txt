@@ -120,6 +120,46 @@ this API file is included.
 The context of the API file is the same as within this login function. So you
 can directly edit the object $userObj.
 
+Example file:
+
+--
+<?php
+	
+	// Set the zip code and the adress
+	if ($_SERVER[$ilias->getSetting('shib_street')] != '')
+	{
+		// $address contains something like 'SWITCH$Limmatquai 138$CH-8021 Zurich'
+		// We want to split this up to get: 
+		// institution, street, zipcode, city and country
+		$address = $_SERVER[$ilias->getSetting('shib_street')];
+		list($institution, $street, $zip_city) = split('\$', $address);
+		
+		ereg('([0-9]{4,5})',$zip_city, $regs);
+		$zip = $regs[1];
+		
+		ereg(' (.+)',$zip_city, $regs);
+		$city = $regs[1];
+		
+		ereg('(.+)-',$zip_city, $regs);
+		$country = $regs[1];
+		
+		// Update fields for new user or if it has to be updated
+		if ($ilias->getSetting('shib_update_institution') || $newUser)
+			$userObj->setInstitution($institution);
+		if ($ilias->getSetting('shib_update_street') || $newUser)
+			$userObj->setStreet($street);
+		if ($ilias->getSetting('shib_update_zipcode') || $newUser)
+			$userObj->setZipcode($zip);
+		if ($ilias->getSetting('shib_update_city') || $newUser)
+			$userObj->setCity($city);
+		if ($ilias->getSetting('shib_update_country') || $newUser)
+			$userObj->setCountry($country);
+	}
+	
+	// Please ensure that there are no spaces or other characters outside
+	// the <?php ?> delimiters
+?>
+--
 
 Bugs
 --------------------------------------------------------------------------------
