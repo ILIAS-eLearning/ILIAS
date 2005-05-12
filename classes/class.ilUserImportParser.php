@@ -912,7 +912,7 @@ class ilUserImportParser extends ilSaxParser
 						}
 						if (count($this->roles) == 0)
 						{	
-							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required","Role"), "Insert"));
+							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Role", "Insert"));
 						} 
 						else 
 						{
