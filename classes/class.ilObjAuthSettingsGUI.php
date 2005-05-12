@@ -379,6 +379,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// Compose role list
 		$role_list = $rbacreview->getRolesByFilter(1,$this->object->getId());
 		$selectElement = '<select name="shib[user_default_role]">';
+		
+		if (!$settings["shib_user_default_role"])
+		{
+			$settings["shib_user_default_role"] = 4;
+		}
+			
 		foreach ($role_list as $role){
 			$selectElement .= '<option value="'.$role['obj_id'].'"';
 			if ($settings["shib_user_default_role"] == $role['obj_id'])
@@ -392,6 +398,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// Set text field content
 		$shib_settings = array(
 								'shib_login',
+								'shib_title',
 								'shib_firstname',
 								'shib_lastname',
 								'shib_email',
@@ -420,8 +427,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable('CHK_SHIB_UPDATE_'.strtoupper($field), 'checked="checked"');
 		}
 		if ($settings["shib_active"])
+		{
 			$this->tpl->setVariable("CHK_SHIB_ACTIVE", 'checked="checked"');
-			
+		}
+		
 		$this->tpl->setVariable("SHIB_USER_DEFAULT_ROLE", $selectElement);
 		$this->tpl->setVariable("SHIB_LOGIN_BUTTON", $settings["shib_login_button"]);
 		$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", $settings["shib_login_instructions"]);
@@ -430,7 +439,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SHIB_INSTRUCTIONS", $this->lng->txt("shib_instructions"));
-		$this->tpl->setVariable("TXT_SHIB_TITLE", $this->lng->txt("auth_shib"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_SHIB_UPDATE", $this->lng->txt("shib_update"));
 		$this->tpl->setVariable("TXT_SHIB_ACTIVE", $this->lng->txt("shib_active"));
@@ -450,13 +458,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		// Set some default values
 		if (!$settings["shib_login_instructions"] || $settings["shib_login_instructions"] == '')
+		{
 			$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", "Login for Shibboleth users");
-			
-		if (!$settings["shib_user_default_role"] || $settings["shib_user_default_role"] == '')
-			$this->tpl->setVariable("SHIB_USER_DEFAULT_ROLE", "4");
+		}
 		
 		if (!$settings["shib_login_button"] || $settings["shib_login_button"] == '')
+		{
 			$this->tpl->setVariable("SHIB_LOGIN_BUTTON", "images/shib_login_button.gif");
+		}
 	}
 
 	/**
@@ -469,7 +478,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         global $ilUser;
 
         // validate required data 
-		if (!$_POST["shib"]["login"] or !$_POST["shib"]["firstname"] or !$_POST["shib"]["lastname"] or !$_POST["shib"]["email"])
+		if (
+			!$_POST["shib"]["login"] 
+			or !$_POST["shib"]["firstname"] 
+			or !$_POST["shib"]["lastname"] 
+			or !$_POST["shib"]["email"] 
+			or !$_POST["shib"]["user_default_role"]
+			)
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -477,6 +492,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// all ok. save settings
 		$shib_settings = array(
 								'shib_login',
+								'shib_title',
 								'shib_firstname',
 								'shib_lastname',
 								'shib_email',
@@ -501,11 +517,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->setSetting($setting, $_POST["shib"][$field]);
 			$this->ilias->setSetting("shib_update_".$field, $_POST["shib"]["update_".$field]);
 		}
+		
 		if ($_POST["shib"]["active"] != "1")
+		{
 		$this->ilias->setSetting("shib_active", "0");
+		}
 		else
+		{
 			$this->ilias->setSetting("shib_active", "1");
-			
+		}
+		
 		$this->ilias->setSetting("shib_user_default_role", $_POST["shib"]["user_default_role"]);
 		$this->ilias->setSetting("shib_login_instructions", $_POST["shib"]["login_instructions"]);
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
