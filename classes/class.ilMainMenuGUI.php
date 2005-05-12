@@ -103,6 +103,16 @@ class ilMainMenuGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
+		{
+			$this->tpl->setCurrentBlock("searchbutton");
+			$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search.php'));
+			$this->tpl->setVariable("TARGET_SEARCH",$this->target);
+			$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// mail & desktop button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
@@ -202,7 +212,7 @@ class ilMainMenuGUI
 		// set target scripts
 		$scripts = array (	"SCRIPT_COURSE"	=> "lo_list.php",
 							"SCRIPT_CATALOG" => "repository.php?cmd=frameset&getlast=true",
-							"SCRIPT_SEARCH"	=> "search.php",
+							//"SCRIPT_SEARCH"	=> "search.php",
 							//"SCRIPT_LITERAT"=> "literature.php",
 							"SCRIPT_FORUMS"	=> "forums.php",
 							"SCRIPT_GROUPS"	=> "grp_list.php",
@@ -218,7 +228,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
 		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
-		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+		//$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 		//$this->tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
 		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
 		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
