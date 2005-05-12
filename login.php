@@ -99,14 +99,20 @@ if ($ilias->auth->getAuth())
 }
 
 // Instantiate login template
-// Use Shibboleth only authentication if auth_mode is Shibboleth
-// Use dual login template if Shibboleth is also configured
+// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
 if ($ilias->getSetting("auth_mode") == AUTH_SHIBBOLETH)
+{
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.shib_only.html");
+}
+// Use dual login template if Shibboleth is configured and enabled
 elseif ($ilias->getSetting("shib_active"))
+{
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.dual.html");
+}
 else
+{
 	$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
+}
 
 //language handling
 if ($_GET["lang"] == "")
