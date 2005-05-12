@@ -34,10 +34,10 @@
 * @package ilias-core
 */
 
-include_once "class.ilObjectGUI.php";
+include_once "class.ilContainerGUI.php";
 include_once "class.ilRegisterGUI.php";
 
-class ilObjGroupGUI extends ilObjectGUI
+class ilObjGroupGUI extends ilContainerGUI
 {
 	/**
 	* Constructor
@@ -60,7 +60,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 		else if(!$tree->checkForParentType($this->ref_id,'crs'))
 		{
-			$this->ctrl->returnToParent($this);
+			$this->renderObject();
+			//$this->ctrl->returnToParent($this);
 		}
 		else
 		{

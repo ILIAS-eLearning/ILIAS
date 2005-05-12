@@ -203,13 +203,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// edit public section
 		if ($this->ilias->getSetting("pub_section"))
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "editPublicSection"));
-			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("public_section"));
-			$this->tpl->parseCurrentBlock();
+			if ($this->object->getType() != "dbk")
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "editPublicSection"));
+				//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("public_section"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
-		
+
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -226,14 +229,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// layout
 		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
-		$layouts = ilObjLearningModule::getAvailableLayouts();
+		$layouts = ilObjContentObject::getAvailableLayouts();
 		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
 			$layouts, false, true);
 		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
 
 		// style
 		$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style"));
-		$layouts = ilObjLearningModule::getAvailableLayouts();
 		$fixed_style = $this->ilias->getSetting("fixed_content_style_id");
 		if ($fixed_style > 0)
 		{
@@ -248,7 +250,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VAL_STYLE",
 					ilObject::_lookupTitle($this->object->getStyleSheetId()));
-					
+
 				// edit icon
 				$this->tpl->setVariable("LINK_STYLE_EDIT",
 					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
@@ -256,7 +258,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$this->lng->txt("edit"));
 				$this->tpl->setVariable("IMG_STYLE_EDIT",
 					ilUtil::getImagePath("icon_pencil.gif"));
-					
+
 				// delete icon
 				$this->tpl->setVariable("LINK_STYLE_DROP",
 					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
@@ -439,7 +441,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 		}
 
-		
+
 
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object

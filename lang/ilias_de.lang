@@ -389,7 +389,7 @@ assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
+assessment#:#tst_anon_eval#:#Ergebnisse
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
@@ -511,7 +511,7 @@ assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
 assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
-assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
+assessment#:#tst_statistical_evaluation#:#Statistik
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!

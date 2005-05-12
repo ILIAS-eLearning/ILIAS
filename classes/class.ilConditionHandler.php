@@ -403,7 +403,7 @@ class ilConditionHandler
 	function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
 		global $ilDB;
-	
+
 		$query = "SELECT * FROM conditions ".
 			"WHERE trigger_obj_id = '".$a_trigger_id."'".
 			" AND trigger_type = '".$a_trigger_obj_type."'";
@@ -424,7 +424,7 @@ class ilConditionHandler
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
 		}
-		
+
 		return $conditions ? $conditions : array();
 	}
 
@@ -440,8 +440,10 @@ class ilConditionHandler
 	*/
 	function _getConditionsOfTarget($a_target_obj_id, $a_target_type = "")
 	{
-		global $ilDB;
-		
+		global $ilDB, $ilBench;
+
+		$ilBench->start("ilConditionHandler", "getConditionsOfTarget");
+
 		if ($a_target_type == "")
 		{
 			$a_target_type = ilObject::_lookupType($a_target_obj_id);
@@ -467,7 +469,9 @@ class ilConditionHandler
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
 		}
-		
+
+		$ilBench->stop("ilConditionHandler", "getConditionsOfTarget");
+
 		return $conditions ? $conditions : array();
 	}
 
@@ -507,14 +511,15 @@ class ilConditionHandler
 	{
 		$condition = ilConditionHandler::_getCondition($a_id);
 
+
 		switch($condition['trigger_type'])
 		{
 			case "tst":
 				include_once './assessment/classes/class.ilObjTest.php';
 				return ilObjTest::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				//include_once './assessment/classes/class.ilObjTestAccess.php';
+				//return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
-			case "qst":
-				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "crs":
 				include_once './course/classes/class.ilObjCourse.php';
@@ -522,12 +527,10 @@ class ilConditionHandler
 
 			case 'exc':
 				include_once './classes/class.ilObjExercise.php';
-
 				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'crsg':
 				include_once './course/classes/class.ilObjCourseGrouping.php';
-
 				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			default:
@@ -542,9 +545,15 @@ class ilConditionHandler
 	*/
 	function _checkAllConditionsOfTarget($a_target_id, $a_target_type = "")
 	{
+		global $ilBench;
+
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_id, $a_target_type) as $condition)
 		{
-			if(!ilConditionHandler::_checkCondition($condition['id']))
+			$ilBench->start("ilConditionHandler", "checkCondition");
+			$check = ilConditionHandler::_checkCondition($condition['id']);
+			$ilBench->stop("ilConditionHandler", "checkCondition");
+
+			if(!$check)
 			{
 				return false;
 			}
@@ -558,7 +567,7 @@ class ilConditionHandler
 		// check if obj_id is already assigned
 		$trigger_obj =& ilObjectFactory::getInstanceByRefId($this->getTriggerRefId());
 		$target_obj =& ilObjectFactory::getInstanceByRefId($this->getTargetRefId());
-		
+
 
 		$query = "SELECT * FROM conditions WHERE ".
 			"trigger_obj_id = '".$trigger_obj->getId()."' ".

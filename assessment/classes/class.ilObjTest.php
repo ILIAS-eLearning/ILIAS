@@ -2937,20 +2937,23 @@ class ilObjTest extends ilObject
 
 			case 'finished':
 				return ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
+
 			case 'not_finished':
 				return !ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
+
 			default:
 				return true;
 		}
 		return true;
+
 	}
-	
+
 /**
 * Returns information if a specific user has finished a test
-* 
+*
 * @param integer $user_id Database id of the user
 * @param integer test obj_id
-* @return bool 
+* @return bool
 * @access public
 * @static
 */

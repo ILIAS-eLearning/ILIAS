@@ -6229,7 +6229,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$webr_ids[$row->obj_id]['title'] = $row->title;
 	$webr_ids[$row->obj_id]['desc'] = $row->description;
- 
+
 }
 
 foreach($webr_ids as $id => $data)
@@ -6326,5 +6326,9 @@ $obj_id = $row->obj_id;
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
 $this->db->query($query);
+?>
+<#431>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
 

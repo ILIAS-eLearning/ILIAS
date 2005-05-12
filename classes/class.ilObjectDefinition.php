@@ -93,7 +93,19 @@ class ilObjectDefinition extends ilSaxParser
 
 
 	/**
-	* get class name by type
+	* get location by type
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function getLocation($a_obj_name)
+	{
+		return $this->obj_data[$a_obj_name]["location"];
+	}
+
+
+	/**
+	* get module by type
 	*
 	* @param	string	object type
 	* @access	public
@@ -487,6 +499,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->current_tag = '';
 				$this->obj_data["$a_attribs[name]"]["name"] = $a_attribs["name"];
 				$this->obj_data["$a_attribs[name]"]["class_name"] = $a_attribs["class_name"];
+				$this->obj_data["$a_attribs[name]"]["location"] = $a_attribs["location"];
 				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
 				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
 				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];

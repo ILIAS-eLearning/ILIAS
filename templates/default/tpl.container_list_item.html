@@ -1,20 +1,41 @@
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
 <!-- BEGIN warning -->
 <a href="{HREF_WARNING}"><img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" /></a>
 <!-- END warning -->
 <!-- BEGIN item_title -->
 <b>{TXT_TITLE}</b>
 <!-- END item_title -->
-&nbsp;
+</td><td>&nbsp;</td><td align="right">
 <!-- BEGIN payment -->
 <img src="{PAYMENT_TYPE_IMG}" alt="{PAYMENT_ALT_IMG}" title="{PAYMENT_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
 <!-- END payment -->
 <!-- BEGIN item_command -->
-<a href="{HREF_COMMAND}" <!-- BEGIN item_frame -->target="{TARGET_COMMAND}"<!-- END item_frame--> >{TXT_COMMAND}</a>
+<a class="il_ContainerItemCommand" href="{HREF_COMMAND}" <!-- BEGIN item_frame -->target="{TARGET_COMMAND}"<!-- END item_frame --> >{TXT_COMMAND}</a>
 <!-- END item_command -->
-<br />
+</td></tr></table>
 <!-- BEGIN item_description -->
-<div class="il_Description">{TXT_DESC}</div><br />
+<div class="il_Description">{TXT_DESC}</div>
 <!-- END item_description -->
-<!-- BEGIN item_param_value -->
-<div class="il_Description"><b>{TXT_PARAM}</b>: {TXT_VALUE}</div>
-<!-- END item_param_value -->
+<!-- BEGIN item_properties -->
+<div class="il_ItemProperties">
+<!-- BEGIN item_property -->
+<!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
+<span 	<!-- BEGIN std_prop -->class="il_ItemProperty"<!-- END std_prop -->
+		<!-- BEGIN alert_prop -->class="il_ItemAlertProperty"<!-- END alert_prop -->>
+<i><b>{TXT_PROP}</b></i>: {VAL_PROP}</span>
+<!-- END item_property -->
+</div>
+<!-- END item_properties -->
+<!-- BEGIN preconditions -->
+<div class="il_Preconditions">
+<b><i>{TXT_PRECONDITIONS}</i></b>:
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<!-- BEGIN precondition -->
+<tr><td width="1" style="white-space:nowrap">&nbsp;&nbsp;&nbsp;</td>
+	<td width="1" style="white-space:nowrap"><b>{TXT_CONDITION}:&nbsp;</b></td>
+	<td>{TRIGGER_ITEM}</td></tr>
+<!-- END precondition -->
+</table>
+</div>
+<!-- END preconditions -->

@@ -94,6 +94,7 @@ require_once "classes/class.ilFrameTargetInfo.php";
 require_once "include/inc.ilias_version.php";
 
 //include role based access control system
+require_once "Services/AccessControl/classes/class.ilAccessHandler.php";
 require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.ilRbacSystem.php";
 require_once "classes/class.ilRbacReview.php";
@@ -321,6 +322,9 @@ $rbacadmin = new ilRbacAdmin();
 $GLOBALS['rbacadmin'] =& $rbacadmin;
 $rbacreview = new ilRbacReview();
 $GLOBALS['rbacreview'] =& $rbacreview;
+$ilAccess =& new ilAccessHandler();
+$GLOBALS["ilAccess"] =& $ilAccess;
+
 $ilBench->stop("Core", "HeaderInclude_initRBAC");
 
 

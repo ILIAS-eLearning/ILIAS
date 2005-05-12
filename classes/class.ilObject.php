@@ -678,6 +678,22 @@ class ilObject
 		return $obj_rec["description"];
 	}
 
+	/**
+	* lookup last update
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupLastUpdate($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT last_update FROM object_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["last_update"];
+	}
+
 	function _lookupObjId($a_id)
 	{
 		global $ilDB;
@@ -1152,16 +1168,6 @@ class ilObject
 	function getHTMLDirectory()
 	{
 		return false;
-	}
-
-	// static method for condition handler
-	function _checkCondition($a_obj_id,$a_operator,$a_value)
-	{
-		switch($a_operator)
-		{
-			default:
-				return true;
-		}
 	}
 
 

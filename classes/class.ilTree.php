@@ -773,6 +773,7 @@ class ilTree
 	*/
 	function fetchPath ($a_endnode_id, $a_startnode_id)
 	{
+
 		if ($this->table_obj_reference)
 		{
 			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON T2.child=".$this->table_obj_reference.".".$this->ref_pk." ".
@@ -798,6 +799,7 @@ class ilTree
 			 "ORDER BY sort_col DESC";
 
 		$r = $this->ilDB->query($q);
+
 		if ($r->numRows() > 0)
 		{
 			return $r;
@@ -807,6 +809,7 @@ class ilTree
 
 			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
 		}
+
 	}
 
 	/**

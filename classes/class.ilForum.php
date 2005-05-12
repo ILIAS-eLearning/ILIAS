@@ -280,19 +280,35 @@ class ilForum
 	* @access	public
 	*/
 	function getOneTopic()
-	{	
+	{
 		$query = "SELECT * FROM frm_data WHERE ( ".$this->whereCondition." )";
-		
+
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
-		
+
 		$result["top_name"] = trim(stripslashes($result["top_name"]));
 		$result["top_description"] = nl2br(stripslashes($result["top_description"]));
-		
-		return $result;	
+
+		return $result;
 	}
-	
+
+	/**
+	* lookup forum data
+	*/
+	function _lookupForumData($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM frm_data WHERE top_frm_fk = ".$ilDB->quote($a_obj_id);
+
+		$result = $ilDB->getRow($query, DB_FETCHMODE_ASSOC);
+		$result["top_name"] = trim(stripslashes($result["top_name"]));
+		$result["top_description"] = nl2br(stripslashes($result["top_description"]));
+
+		return $result;
+	}
+
 	/**
 	* get one thread-dataset by WhereCondition
 	* @return	array	$result dataset of the thread
@@ -397,7 +413,7 @@ class ilForum
 		$q .= "thr_last_post = '".$lastPost. "' ";        
 		$q .= "WHERE thr_pk = '" . $thread . "'";
 		$result = $this->ilias->db->query($q);
-		
+
 		// update topic
 		$q = "UPDATE frm_data SET top_num_posts = top_num_posts + 1, ";
 		$q .= "top_last_post = '" .$lastPost. "' ";
@@ -759,26 +775,40 @@ class ilForum
 	/**
 	* get all users assigned to local role il_frm_moderator_<frm_ref_id>
 	*
-	* @return	array	user_ids 
+	* @return	array	user_ids
 	* @access	public
    	*/
 	function getModerators()
 	{
 		global $rbacreview;
-		
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getForumRefId());
+
+		return ilObjForum::_getModerators($this->getForumRefId());
+	}
+
+	/**
+	* get all users assigned to local role il_frm_moderator_<frm_ref_id> (static)
+	*
+	* @param	int		$a_ref_id	reference id
+	* @return	array	user_ids
+	* @access	public
+	*/
+	function _getModerators($a_ref_id)
+	{
+		global $rbacreview;
+
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($a_ref_id);
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		foreach ($role_arr as $role_id)
 		{
 			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			
-			if ($roleObj->getTitle() == "il_frm_moderator_".$this->getForumRefId())
+
+			if ($roleObj->getTitle() == "il_frm_moderator_".$a_ref_id)
 			{
 				return $rbacreview->assignedUsers($roleObj->getId());
 			}
 		}
-		
+
 		return array();
 	}
 
@@ -1308,13 +1338,13 @@ class ilForum
 	* @access	public
 	*/
 	function getModeratorFromPost($pos_pk) {
-		
-		$q = "SELECT frm_data.* FROM frm_data, frm_posts WHERE ";		
+
+		$q = "SELECT frm_data.* FROM frm_data, frm_posts WHERE ";
 		$q .= "pos_pk = '".$pos_pk."' AND ";
-		$q .= "pos_top_fk = top_pk";				
+		$q .= "pos_top_fk = top_pk";
 
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
-		
+
 		return $result;
 	}
 
