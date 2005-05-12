@@ -41,17 +41,18 @@ class ilObjectAccess
 	* (this method is called by ilAccessHandler::checkAccess)
 	*
 	* Please do not check any preconditions handled by
-	* ilConditionHandler here.
+	* ilConditionHandler here. Also don't do any RBAC checks.
 	*
-	* @param	string		$a_cmd		command (same as in rbac)
-	* @param	int			$a_ref_id	reference id
-	* @param	int			$a_obj_id	object id
-	* @param	int			$a_user_id	user id (if not provided, current user is taken)
+	* @param	string		$a_cmd			command (not permission!)
+ 	* @param	string		$a_permission	permission
+	* @param	int			$a_ref_id		reference id
+	* @param	int			$a_obj_id		object id
+	* @param	int			$a_user_id		user id (if not provided, current user is taken)
 	*
 	* @return	mixed		true, if everything is ok, message (string) when
 	*						access is not granted
 	*/
-	function _checkAccess($a_cmd, $a_ref_id, $a_obj_id, $a_user_id = "")
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 		global $ilUser;
 

@@ -61,6 +61,7 @@ class ilCtrl
 	*
 	* @param	object		$a_gui_object		gui object that should receive
 	*											the flow of control
+	* @access	public
 	*
 	* @return	mixed		return data of invoked executeCommand() method
 	*/
@@ -208,7 +209,22 @@ class ilCtrl
 
 
 	/**
-	* get call structure of class context
+	* Get call structure of class context. This method must be called
+	* for the top level gui class in the leading php script. It must be
+	* called before the the current command is forwarded to the top level
+	* gui class. Example:
+	*
+	*	include_once "classes/class.ilRepositoryGUI.php";
+	*	$ilCtrl->setTargetScript("repository.php");
+	*	$ilCtrl->getCallStructure("ilrepositorygui");
+	*	$repository_gui =& new ilRepositoryGUI();
+	*	$ilCtrl->forwardCommand($repository_gui);
+	*
+	* @param	string		$a_class	gui class name
+	* @param	int			$a_nr		internal counter (don't pass a value here)
+	* @param	int			$a_parent	internal counter (don't pass a value here)
+	*
+	* @access	public
 	*/
 	function getCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
@@ -238,8 +254,14 @@ class ilCtrl
 		return $a_nr;
 	}
 
+
 	/**
-	* stores which classes forward to which other classes
+	* Stores which classes forwards commands to which other classes.
+	*
+	* @param	string	$a_from_class	source class name
+	* @param	string	$a_to_class		target class name
+	*
+	* @access	private
 	*/
 	function forwards($a_from_class, $a_to_class)
 	{
@@ -260,12 +282,24 @@ class ilCtrl
 		}
 	}
 
+
 	/**
-	* set parameters that must be saved in forms an links
+	* Set parameters that should be passed in every form and link of a
+	* gui class. All links that relate to the specified gui object class and
+	* are build e.g. by using getLinkTarger() or getFormAction() will include
+	* this parameter. This is the mechanism to add url parameters to the standard
+	* url (which is set by the setTargetScript() method) target everytime.
 	*
-	* @param	object	$a_obj		 command object for that the parameter should be saved
-	*								 between multiple http requests
-	* @param	string	$a_parameter parameter name
+	* A typical example is the "ref_id" that should be included in almost every
+	* link or form action url. So the constructor of ilRepositoryGUI includes
+	* the command:
+	*
+	*	$this->ctrl->saveParameter($this, array("ref_id"));
+	*
+	* @param	object	$a_obj			gui object that will process the parameter
+	* @param	mixed	$a_parameter	parameter name (string) or array of parameter
+	*									names
+	*
 	* @access	public
 	*/
 	function saveParameter(&$a_obj, $a_parameter)
@@ -283,18 +317,45 @@ class ilCtrl
 		}
 	}
 
+
 	/**
-	* Set a parameter (note: if this is also a saved parameter, the saved
-	* value will be overwritten).
+	* Set parameters that should be passed a form and link of a
+	* gui class. All links that relate to the specified gui object class and
+	* are build e.g. by using getLinkTarger() or getFormAction() will include
+	* this parameter. This is the mechanism to add url parameters to the standard
+	* url (which is set by the setTargetScript() method) target. The difference
+	* to the saveParameter() method is, that setParameter() does not simply
+	* forward the url parameter of the last request. You can set a spefific value.
+	*
+	* If this parameter is also a "saved parameter" (set by saveParameter() method)
+	* the saved value will be overwritten.
+	*
+	* The method is usually used in conjunction with a getFormAction() or getLinkTarget()
+	* call. E.g.:
+	*
+	*		$this->ctrl->setParameter($this, "obj_id", $data_row["obj_id"]);
+	*		$obj_link = $this->ctrl->getLinkTarget($this, "view");
+	*
+	* @param	object		$a_obj			gui object
+	* @param	string		$a_parameter	parameter name
+	* @param	string		$a_parameter	parameter value
+	*
+	* @access	public
 	*/
 	function setParameter(&$a_obj, $a_parameter, $a_value)
 	{
 		$this->parameter[strtolower(get_class($a_obj))][$a_parameter] = $a_value;
 	}
 
+
 	/**
-	* Set a parameter (note: if this is also a saved parameter, the saved
-	* value will be overwritten).
+	* Same as setParameterByClass, except that a class name is passed.
+	*
+	* @param	string		$a_class		gui class name
+	* @param	string		$a_parameter	parameter name
+	* @param	string		$a_parameter	parameter value
+	*
+	* @access	public
 	*/
 	function setParameterByClass($a_class, $a_parameter, $a_value)
 	{
@@ -303,10 +364,10 @@ class ilCtrl
 
 
 	/**
-	* Get next class of the way from the current class
-	* to the target command class (this is the class that should
+	* Get next class in the control path from the current class
+	* to the target command class. This is the class that should
 	* be instantiated and be invoked via $ilCtrl->forwardCommand($class)
-	* next).
+	* next.
 	*
 	* @return	string		class name of next class
 	*/
@@ -335,6 +396,41 @@ class ilCtrl
 		}
 	}
 
+	/**
+	* Get class path that can be used in include statements
+	* for a given class name.
+	*
+	* @param	string		$a_class_name		class name
+	*/
+	function lookupClassPath($a_class_name)
+	{
+		global $ilDB;
+		$a_class_name = strtolower($a_class_name);
+
+		$q = "SELECT * FROM ctrl_classfile WHERE class = ".$ilDB->quote($a_class_name);
+
+		$class_set = $ilDB->query($q);
+		$class_rec = $class_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $class_rec["file"];
+	}
+
+	/**
+	* this method assumes that the class path has the format "dir/class.<class_name>.php"
+	*
+	* @param	string		$a_class_path		class path
+	* @access	public
+	*
+	* @return	string		class name
+	*/
+	function getClassForClasspath($a_class_path)
+	{
+		$path = pathinfo($a_class_path);
+		$file = $path["basename"];
+		$class = substr($file, 6, strlen($file) - 10);
+
+		return $class;
+	}
 
 	/**
 	* get path in call structure
@@ -375,127 +471,6 @@ class ilCtrl
 		}
 		return $path;
 	}
-
-	/*
-	function getPath(&$path, $a_class, $a_target_class = "", $a_transits = "")
-	{
-
-		// new path
-		if(!empty($this->call_node))
-		{
-			//$path = $this->getPathNew($a_class, $a_target_class);
-		}
-
-		$this->call_node[$nr] = array("class" => $a_class, "parent" => $a_parent);
-
-		$this->bench->start("GUIControl", "getPath");
-//echo "<br>"; var_dump($a_transits);
-		if ($a_target_class == "")
-		{
-			$a_target_class = $this->getCmdClass();
-		}
-		if ($a_target_class == "")
-		{
-//echo "1:$a_class<br>";
-			$path = array($a_class);
-			return;
-		}
-//echo "<br><b>FROM:".$a_class.":TO:".$a_target_class.":</b>";
-//echo "1";
-		$this->store_transit = $this->transit;
-		if (is_array($a_transits))
-		{
-			$this->transit = $a_transits;
-		}
-		else
-		{
-			if ($a_target_class != $this->getCmdClass())
-			{
-//echo "<br>:$a_target_class:".$this->getCmdClass().":DELTRANSIT";
-				$this->transit = array();
-			}
-		}
-//echo "<br>"; var_dump($this->transit);
-		$next = $this->searchNext($path, $a_class, $a_target_class, array($a_class));
-		$this->transit = $this->store_transit;
-//foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
-		$this->bench->stop("GUIControl", "getPath");
-	}*/
-
-	/**
-	* private
-	*/
-	/*
-	function searchNext(&$a_path, $a_class, $a_target_class, $c_path = "")
-	{
-		$a_target_class = strtolower($a_target_class);
-		$a_class = strtolower($a_class);
-
-		if ($targetClass = $this->getNextTransit())
-		{
-			if ($a_class == $targetClass)
-			{
-				$this->removeTransit();
-			}
-		}
-		else
-		{
-			$targetClass = $a_target_class;
-			if ($a_class == $a_target_class)
-			{
-//echo "2:$c_class<br>";
-				$a_path = $c_path;
-				return true;
-			}
-		}
-
-//echo "<br>...$a_class:$targetClass:<br>";
-
-		// recursively search each forward
-		if (is_array($this->forward[$a_class]))
-		{
-			reset($this->forward[$a_class]);
-			foreach($this->forward[$a_class] as $next_class)
-			{
-				if ($next_class == strtolower($targetClass))
-				{
-					// found command class
-					if ($next_class == $a_target_class)
-					{
-//echo "3:$next_class<br>";
-						$c_path[] = $next_class;
-						$a_path = $c_path;
-						return true;
-					}
-					else
-					{
-//echo "4:$next_class<br>";
-						// found a transit class
-						$c_path[] = $next_class;
-						$this->removeTransit();					// remove transit
-						if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
-						{
-							return true;
-						}
-						return false;
-					}
-				}
-			}
-			reset($this->forward[$a_class]);
-//echo "4a:($a_class)<br";
-			foreach($this->forward[$a_class] as $next_class)
-			{
-//echo "5:$a_class:$next_class<br>";
-				$c_path[] = $next_class;
-				if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
-				{
-//echo "6:YES:"; var_dump($a_path);
-					return true;
-				}
-			}
-		}
-		return false;
-	}*/
 
 
 	/**
@@ -567,7 +542,6 @@ class ilCtrl
 	{
 		$a_cmd_class = strtolower($a_cmd_class);
 
-//echo "<br><b>setCmdClass:$a_cmd_class:</b>";
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_cmd_class);
 		$_GET["cmdClass"] = $a_cmd_class;
 		$_GET["cmdNode"] = $nr;
@@ -581,17 +555,27 @@ class ilCtrl
 		return strtolower($_GET["cmdClass"]);
 	}
 
-	function getFormAction(&$a_gui_obj, $a_transits = "", $a_prepend_transits = false)
+	/**
+	* get form action url for gui class object
+	*
+	* @param	object		$a_gui_obj		gui object
+	*/
+	function getFormAction(&$a_gui_obj)
 	{
-		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)), $a_transits, $a_prepend_transits);
+		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)));
 		return $script;
 	}
 
-	function getFormActionByClass($a_class, $a_transits = "", $a_prepend_transits = false)
+	/**
+	* get form action url for gui class name
+	*
+	* @param	string		$a_class		gui class name
+	*/
+	function getFormActionByClass($a_class)
 	{
 		$a_class = strtolower($a_class);
 
-		$script = $this->getLinkTargetByClass($a_class, "post", $a_transits, $a_prepend_transits);
+		$script = $this->getLinkTargetByClass($a_class, "post");
 		return $script;
 	}
 

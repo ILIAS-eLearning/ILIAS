@@ -393,7 +393,7 @@ assessment#:#true#:#True
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
-assessment#:#tst_anon_eval#:#Anonymous aggregated results
+assessment#:#tst_anon_eval#:#Results
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
@@ -519,7 +519,7 @@ assessment#:#tst_stat_result_timeofwork#:#Time of work
 assessment#:#tst_stat_result_total_participants#:#Total number of participants
 assessment#:#tst_stat_selected_users#:#Selected participants
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
-assessment#:#tst_statistical_evaluation#:#Statistical evaluation
+assessment#:#tst_statistical_evaluation#:#Statistics
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!
@@ -709,6 +709,7 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#member_status#:#Member Status:
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
@@ -1665,6 +1666,7 @@ common#:#shib_write#:#Edit Shibboleth settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
+common#:#lres#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
@@ -1851,6 +1853,7 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
+common#:#no_permission#:#You do not have the necessary permission.
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -3615,7 +3618,7 @@ dateplaner#:#week#:#week
 dateplaner#:#year#:#year
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
-forum#:#forums_articles#:#Articles
+common#:#forums_articles#:#Articles
 forum#:#forums_attachments#:#Attachments
 forum#:#forums_attachments_add#:#Add attachment
 forum#:#forums_attachments_edit#:#Edit attachment
@@ -3631,10 +3634,10 @@ forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
-forum#:#forums_last_post#:#Last Article
+common#:#forums_last_post#:#Last Article
 forum#:#forums_mark_read#:#Mark all read
-forum#:#forums_moderators#:#Moderators
-forum#:#forums_new_articles#:#New articles
+common#:#forums_moderators#:#Moderators
+common#:#forums_new_articles#:#New articles
 forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
@@ -3656,7 +3659,7 @@ forum#:#forums_thread_create_date#:#Created at
 forum#:#forums_thread_create_from#:#Created from
 forum#:#forums_thread_marked#:#The Thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
-forum#:#forums_threads#:#Topics
+common#:#forums_threads#:#Topics
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply

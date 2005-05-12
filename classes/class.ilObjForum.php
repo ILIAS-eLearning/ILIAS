@@ -105,16 +105,21 @@ class ilObjForum extends ilObject
 	// METHODS FOR UN-READ STATUS
 	function getCountUnread($a_usr_id,$a_thread_id = 0)
 	{
-		global $ilBench;
+		return $this->_getCountUnread($this->getId(),$a_usr_id,$a_thread_id);
+	}
+
+	function _getCountUnread($a_frm_id, $a_usr_id,$a_thread_id = 0)
+	{
+		global $ilBench, $ilDB;
 
 		$ilBench->start("Forum",'getCountRead');
 		if(!$a_thread_id)
 		{
 			// Get topic_id
 			$query = "SELECT top_pk FROM frm_data ".
-				"WHERE top_frm_fk = '".$this->getId()."'";
+				"WHERE top_frm_fk = '".$a_frm_id."'";
 
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$topic_id = $row->top_pk;
@@ -124,17 +129,17 @@ class ilObjForum extends ilObject
 			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
 				"WHERE pos_top_fk = '".$topic_id."'";
 
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
 			}
 
 			$query = "SELECT COUNT(post_id) count_read FROM frm_user_read ".
-				"WHERE obj_id = '".$this->getId()."' ".
+				"WHERE obj_id = '".$a_frm_id."' ".
 				"AND usr_id = '".$a_usr_id."'";
 
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$count_read = $row->count_read;
@@ -149,7 +154,7 @@ class ilObjForum extends ilObject
 			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
 				"WHERE pos_thr_fk = '".$a_thread_id."'";
 
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
@@ -157,11 +162,11 @@ class ilObjForum extends ilObject
 
 
 			$query = "SELECT COUNT(post_id) as count_read FROM frm_user_read ".
-				"WHERE obj_id = '".$this->getId()."' ".
+				"WHERE obj_id = '".$a_frm_id."' ".
 				"AND usr_id = '".$a_usr_id."' ".
 				"AND thread_id = '".$a_thread_id."'";
 
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$count_read = $row->count_read;
@@ -174,6 +179,8 @@ class ilObjForum extends ilObject
 		$ilBench->stop("Forum",'getCountRead');
 		return false;
 	}
+
+
 	function markThreadRead($a_usr_id,$a_thread_id)
 	{
 		// Get all post ids
@@ -367,7 +374,7 @@ class ilObjForum extends ilObject
 		
 		// Delete old entries
 
-		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ? 
+		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ?
 													 $ilias->getSetting('frm_store_new') : 
 													 8);
 		
@@ -649,7 +656,7 @@ class ilObjForum extends ilObject
 		// create moderator role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("il_frm_moderator_".$this->getRefId(),"Moderator of forum obj_no.".$this->getId());
 		$roles[] = $roleObj->getId();
-		
+
 		// grant permissions: visible,read,write,edit_post,delete_post
 		$permissions = array(1,2,3,4,6,9,10);
 		$rbacadmin->grantPermission($roles[0],$permissions,$this->getRefId());
@@ -685,7 +692,7 @@ class ilObjForum extends ilObject
 				break;
 			
 			case "cut":
-				
+
 				//echo "Forum ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				
@@ -727,7 +734,7 @@ class ilObjForum extends ilObject
 		}
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-		
+
 	}
 
 	function createSettings()

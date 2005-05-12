@@ -28,7 +28,8 @@
 * This class contains methods that check object specific conditions
 * for accessing test objects.
 *
-* @author Alex Killing <alex.killing@gmx.de>
+* @author	Helmut Schottmueller <hschottm@tzi.de>
+* @author 	Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package AccessControl
@@ -42,7 +43,8 @@ class ilObjTestAccess extends ilObjectAccess
 	* Please do not check any preconditions handled by
 	* ilConditionHandler here.
 	*
-	* @param	string		$a_cmd		command (same as in rbac)
+	* @param	string		$a_cmd		command (not permission!)
+	* @param	string		$a_permission	permission
 	* @param	int			$a_ref_id	reference id
 	* @param	int			$a_obj_id	object id
 	* @param	int			$a_user_id	user id (if not provided, current user is taken)
@@ -50,13 +52,36 @@ class ilObjTestAccess extends ilObjectAccess
 	* @return	mixed		true, if everything is ok, message (string) when
 	*						access is not granted
 	*/
-	function _checkAccess($a_cmd, $a_ref_id, $a_obj_id, $a_user_id = "")
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser;
+		global $ilUser, $lng, $rbacsystem;
 
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
+		}
+
+		switch ($a_permission)
+		{
+			case "visible":
+				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
+					(!$rbacsystem->checkAccess('write', $a_ref_id)))
+				{
+					return $lng->txt("warning_test_not_complete");
+				}
+				break;
+		}
+
+		switch ($a_cmd)
+		{
+			case "eval_a":
+			case "eval_stat":
+				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id))
+				{
+					return $lng->txt("warning_test_not_complete");
+				}
+				break;
+
 		}
 
 		return true;
@@ -94,6 +119,35 @@ class ilObjTestAccess extends ilObjectAccess
 			default:
 				return true;
 		}
+		return true;
+	}
+
+	//
+	// object specific access related methods
+	//
+
+	/**
+	* checks wether all necessary parts of the test are given
+	*/
+	function _lookupCreationComplete($a_obj_id)
+	{
+		global $ilDB;
+
+		$q = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",
+			$ilDB->quote($a_obj_id)
+		);
+
+		$result = $ilDB->query($q);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		}
+
+		if (!$row->complete)
+		{
+			return false;
+		}
+
 		return true;
 	}
 

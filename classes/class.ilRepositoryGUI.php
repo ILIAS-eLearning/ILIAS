@@ -49,6 +49,7 @@ include_once("./ilinc/classes/class.ilObjiLincClassroomGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI
 *
 * @package core
 */
@@ -79,7 +80,7 @@ class ilRepositoryGUI
 		$this->tree =& $tree;
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
-		
+
 		$this->ctrl =& $ilCtrl;
 
 		$this->ctrl->saveParameter($this, array("ref_id"));
@@ -93,6 +94,7 @@ class ilRepositoryGUI
 		}
 		else
 		{
+//echo "1";
 			if (!empty($_SESSION["il_rep_ref_id"]))
 			{
 				$this->cur_ref_id = $_SESSION["il_rep_ref_id"];
@@ -100,7 +102,7 @@ class ilRepositoryGUI
 			else
 			{
 				$this->cur_ref_id = $this->tree->getRootId();
-				
+
 				// check wether command has been called with
 				// item that is not in tree
 				if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
@@ -154,8 +156,9 @@ class ilRepositoryGUI
 
 		if (!$tree->isInTree($this->cur_ref_id))
 		{
+//echo "-".$this->cur_ref_id."-";
 			$this->cur_ref_id = $this->tree->getRootId();
-
+//echo "-".$this->cur_ref_id."-";
 			// check wether command has been called with
 			// item that is not in tree
 			if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
@@ -212,31 +215,31 @@ class ilRepositoryGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 
-		/*if (empty($next_class))
-		{
-			// get object of current ref id
-			//include_once("classes/class.ilObjectFactory.php");
-			$obj = $this->ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
-			$next_class = get_class($obj)."gui";
-			$obj_type = $obj->getType();
-		}*/
-		$cmd = $this->ctrl->getCmd();
+		// check creation
+		$new_type = $_POST["new_type"]
+			? $_POST["new_type"]
+			: $_GET["new_type"];
 
+		if (!empty($new_type))
+		{
+			$obj_type = $new_type;
+			$class_name = $this->objDefinition->getClassName($obj_type);
+			$next_class = strtolower("ilObj".$class_name."GUI");
+		}
+		else if (empty($next_class))
+		{
+			// get GUI of current object
+			$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+			$class_name = $this->objDefinition->getClassName($obj_type);
+			$next_class = strtolower("ilObj".$class_name."GUI");
+		}
+
+		$cmd = $this->ctrl->getCmd();
+//echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
-			case "ilobjcategorygui":
-				include_once("./classes/class.ilObjCategoryGUI.php");
-				$this->gui_obj = new ilObjCategoryGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;
-
 			case "ilobjusergui":
 				include_once("./classes/class.ilObjUserGUI.php");
-
 
 				if(!$_GET['obj_id'])
 				{
@@ -254,93 +257,43 @@ class ilRepositoryGUI
 				}
 				$this->tpl->show();
 				break;
-				
 
-			case "ilobjuserfoldergui":
-
-				include_once("./classes/class.ilObjUserFolderGUI.php");
-
-				$this->gui_obj =& new ilObjUserFolderGUI('',$_GET['ref_id'],true,false);
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;
-
+			case "ilobjrootfoldergui":
+			case "ilobjcategorygui":
 			case "ilobjgroupgui":
-				include_once("./classes/class.ilObjGroupGUI.php");
-				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;
-
 			case "ilobjcoursegui":
-
-				include_once("./course/classes/class.ilObjCourseGUI.php");
-
-				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				$this->tpl->show();
-
-				break;
-
-
+			case "ilobjuserfoldergui":
 			case "ilobjfilegui":
-				include_once("./classes/class.ilObjFileGUI.php");
-				$this->gui_obj = new ilObjFileGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-
-				//$this->gui_obj->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				$this->tpl->show();
-				break;
-
 			case "ilobjforumgui":
-				include_once("./classes/class.ilObjForumGUI.php");
-				$this->gui_obj = new ilObjForumGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;
-
 			case "ilobjfoldergui":
-			
-				include_once("./classes/class.ilObjFolderGUI.php");
-				$this->gui_obj = new ilObjFolderGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-
-				//$this->gui_obj->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-				$this->tpl->show();
-				break;
-				
-		/*	case "ilobjilinccoursegui":
-				include_once("./ilinc/classes/class.ilObjiLincCourse.php");
-				$this->gui_obj = new ilObjiLincCourseGUI("", $this->cur_ref_id, true, false);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
-				$this->tpl->show();
-				break;*/
-				
 			case "ilobjilincclassroomgui":
-				include_once("./ilinc/classes/class.ilObjiLincClassroom.php");
-				$this->gui_obj = new ilObjiLincClassroomGUI("", $this->cur_ref_id, true, false);
+			//case "ilobjmediapoolgui":					// doesnt work, why?
 
-				$this->prepareOutput();
+				// get file path for class name
+				$class_path = $this->ctrl->lookupClassPath($next_class);
+
+				// get gui class instance
+				include_once($class_path);
+				$class_name = $this->ctrl->getClassForClasspath($class_path);
+				$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+
+				// special treatment for old admin compliance
+				// to do: get rid of it...
+				$this->cmd_admin_compliance($cmd, false);
+
+				$tabs_out = ($new_type == "")
+					? true
+					: false;
+				// forward command
+				$this->prepareOutput($tabs_out);
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
-
+				$html = $this->gui_obj->getHTML();
+				if ($html != "")
+				{
+					$this->tpl->setVariable("OBJECTS", $html);
+				}
 				$this->tpl->show();
+
 				break;
 
 			/*
@@ -356,7 +309,6 @@ class ilRepositoryGUI
 				break;*/
 
 			default:
-			
 				// process repository frameset
 				if ($cmd == "frameset")
 				{
@@ -373,7 +325,7 @@ class ilRepositoryGUI
 				{
 					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
 				}
-	
+
 				// get GUI of current object
 				$class_name = $this->objDefinition->getClassName($obj_type);
 				$module = $this->objDefinition->getModule($obj_type);
@@ -381,13 +333,15 @@ class ilRepositoryGUI
 				$class_constr = "ilObj".$class_name."GUI";
 				include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 				$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-							
+
 				// execute repository cmd
+//echo "0-$cmd-$obj_type-";
 				if (empty($cmd))
 				{
-					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or 
+					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or
 					   $obj_type == 'frm' or $obj_type == 'crsg')
 					{
+//echo "1-$obj_type-";
 						$this->prepareOutput();
 						$this->ctrl->forwardCommand($this->gui_obj);
 						$this->tpl->show();
@@ -395,11 +349,12 @@ class ilRepositoryGUI
 					}
 					else
 					{
+//echo "A-$cmd-$obj_type-";
 						$cmd = $this->ctrl->getCmd("ShowList");
 					}
 					//$next_class = "";
 				}
-				
+//echo "2-$cmd-$obj_type-";
 				// check read access for category
 				if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
 				{
@@ -410,7 +365,6 @@ class ilRepositoryGUI
 				}
 				else
 				{
-//echo "3-$cmd-";
 					$this->cmd = $cmd;
 					$this->$cmd();
 				}
@@ -503,7 +457,7 @@ class ilRepositoryGUI
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-		
+
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
@@ -513,7 +467,7 @@ class ilRepositoryGUI
 		$this->tpl->show(false);
 	}
 
-	
+
 	function getFlatListData ($ref_id) {
 		global $objDefinition, $ilBench;
 		// get all objects of current node
@@ -521,7 +475,7 @@ class ilRepositoryGUI
 		$objects = $this->tree->getChilds($ref_id, "title");
 		$ilBench->stop("Repository", "FlatList_01getChilds");
 
-				
+
 		$ilBench->start("Repository", "FlatList_02collectChilds");
 
 		$found = false;
@@ -649,7 +603,7 @@ class ilRepositoryGUI
 				case "fold":
 					$this->folders[$key] = $object;
 					break;
-					
+
 				// ilinc courses
 				case "icrs":
 					$this->ilinc_courses[$key] = $object;
@@ -689,37 +643,15 @@ class ilRepositoryGUI
 		global $objDefinition, $ilBench;
 
 		$this->visible_only_items = false;
-		
+
 		// set no limit for hits/page
 		$_GET["limit"] = 9999;
 
-    $this->getFlatListData($this->cur_ref_id);
+		$this->getFlatListData($this->cur_ref_id);
 
 		$ilBench->start("Repository", "FlatList");
 
 		$this->prepareOutput();
-
-		// output objects
-		/*$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		// output tabs
-		//$this->setTabs();
-
-		// output locator
-		$this->setLocator();
-
-		// output message
-		if($this->message)
-		{
-			sendInfo($this->message);
-		}
-
-		// display infopanel if something happened
-		infoPanel();
-
-		// set header
-		$this->setHeader();*/
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.repository_lists.html");
@@ -730,7 +662,11 @@ class ilRepositoryGUI
 		$ilBench->start("Repository", "FlatList_04showCategories");
 		if (count($this->categories))
 		{
-			$this->showCategories();
+			$list_html = $this->getListHTML($this->categories);
+			//$this->showCategories();
+			$this->tpl->setCurrentBlock("subcategories");
+			$this->tpl->setVariable("CATEGORIES", $list_html);
+			$this->tpl->parseCurrentBlock();
 		}
 		$ilBench->stop("Repository", "FlatList_04showCategories");
 
@@ -820,7 +756,7 @@ class ilRepositoryGUI
 		{
 			$this->showiLincCourses();
 		}
-		
+
 		if (count($this->ilinc_classrooms))
 		{
 			$this->showiLincClassrooms();
@@ -833,7 +769,7 @@ class ilRepositoryGUI
 		{
 			$this->showVisibleOnlyMessage();
 		}
-		
+
 		$this->tpl->show();
 
 		$ilBench->stop("Repository", "FlatList_03showObjects");
@@ -866,7 +802,7 @@ class ilRepositoryGUI
 			//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
 			{
 				$this->showPossibleSubObjects($this->gui_obj->object->getType());
-			}			
+			}
 		}
 
 		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
@@ -908,13 +844,14 @@ class ilRepositoryGUI
 		if (is_object($this->gui_obj))
 		{
 			$tabs_gui =& new ilTabsGUI();
+
 			$this->gui_obj->getTabs($tabs_gui);
 
 			// output tabs
 			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		}
 	}
-	
+
 	/**
 	* get "visible only" item explanation link
 	*
@@ -925,7 +862,7 @@ class ilRepositoryGUI
 		$this->visible_only_items = true;
 		return "<a href=\"#visible_only_expl\">[*]</a>";
 	}
-	
+
 	/**
 	* show explanation message for items that are
 	* only visible but not readable
@@ -944,171 +881,6 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	* show categories
-	*/
-	function showCategories()
-	{
-		global $ilBench;
-
-		$tpl =& new ilTemplate ("tpl.table.html", true, true);
-
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
-
-		$maxcount = count($this->categories);
-		$cats = array_slice($this->categories, $_GET["offset"], $_GET["limit"]);
-
-		// render table content data
-		$ilBench->start("Repository", "showCategories_01Rows");
-		if (count($cats) > 0)
-		{
-			$ilBench->start("Repository", "showCategories_01Rows_AddBlockFile");
-			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
-			$ilBench->stop("Repository", "showCategories_01Rows_AddBlockFile");
-
-			// counter for rowcolor change
-			$num = 0;
-
-			foreach ($cats as $cat)
-			{
-				// get category object
-				$ilBench->start("Repository", "showCategories_00Rows_getCategoryObject");
-				include_once("classes/class.ilObjCategory.php");
-				$cat_obj =& new ilObjCategory($cat["ref_id"], true);
-				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
-				$ilBench->stop("Repository", "showCategories_00Rows_getCategoryObject");
-
-				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
-
-				// read
-				$ilBench->start("Repository", "showCategories_01Rows_ReadLink");
-				if ($this->rbacsystem->checkAccess('read',$cat["ref_id"]))
-				{
-					$tpl->setCurrentBlock("cat_link");
-					$tpl->setVariable("CAT_LINK", $obj_link);
-					$tpl->setVariable("TITLE", $cat["title"]);
-					$tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$tpl->setCurrentBlock("cat_show");
-					$tpl->setVariable("STITLE", $cat["title"].
-						" ".$this->getVisibleOnly());
-					$tpl->parseCurrentBlock();
-				}
-				$ilBench->stop("Repository", "showCategories_01Rows_ReadLink");
-
-				// edit
-				$ilBench->start("Repository", "showCategories_01Rows_EditLink");
-				if ($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
-				{
-					$tpl->setCurrentBlock("cat_edit");
-					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&ref_id=".$cat["ref_id"]);
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-					$tpl->parseCurrentBlock();
-				}
-				$ilBench->stop("Repository", "showCategories_01Rows_EditLink");
-
-				// delete & move
-				$ilBench->start("Repository", "showCategories_01Rows_DeleteLink");
-				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
-				{
-					$tpl->setCurrentBlock("cat_delete");
-					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cat["ref_id"]);
-					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					$tpl->parseCurrentBlock();
-					
-					$tpl->setCurrentBlock("cat_cut");
-					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$cat["ref_id"]."&act=cut");
-					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
-					$tpl->parseCurrentBlock();
-				}
-				
-				$ilBench->stop("Repository", "showCategories_01Rows_DeleteLink");
-
-
-				// add to desktop link
-				$ilBench->start("Repository", "showCategories_01Rows_SubscribeLink");
-				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($cat["ref_id"], "cat"))
-				{
-					if ($this->rbacsystem->checkAccess('read', $cat["ref_id"]))
-					{
-						$tpl->setCurrentBlock("cat_subscribe");
-						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-							"&item_ref_id=".$cat["ref_id"]."&type=cat");
-
-						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-						$tpl->parseCurrentBlock();
-					}
-				}
-				$ilBench->stop("Repository", "showCategories_01Rows_SubscribeLink");
-
-
-				$ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
-				$tpl->setCurrentBlock("tbl_content");
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
-				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
-
-				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
-				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
-				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cat["last_update"]));
-				$ilBench->stop("Repository", "showCategories_01Rows_setTemplateVars");
-
-				// parse block
-				$ilBench->start("Repository", "showCategories_01Rows_parseBlock");
-				$tpl->parseCurrentBlock();
-				$ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
-			}
-		}
-		else
-		{
-			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("ROWCOL", "tblrow1");
-			$tpl->setVariable("COLSPAN", "2");
-			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
-			$tpl->parseCurrentBlock();
-		}
-		$ilBench->stop("Repository", "showCategories_01Rows");
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("categories"),
-			"icon_cat_b.gif", $this->lng->txt("categories"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("type"), $this->lng->txt("title")));
-		$tbl->setHeaderVars(array("type", "title"),
-			array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("1%", "99%"));
-
-		//$tbl->setOrderColumn($_GET["sort_by"]);
-		//$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($maxcount);
-
-		// footer
-		$tbl->setFooter("tblfooter", $this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("content");
-		$tbl->disable("footer");
-
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
-
-		// parse it
-		$tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("subcategories");
-		$this->tpl->setVariable("CATEGORIES", $tpl->get());
-		$this->tpl->parseCurrentBlock();
-
-	}
 
 	/**
 	* show learning resources
@@ -1200,12 +972,12 @@ class ilRepositoryGUI
 							$showViewInFrameset)
 						{
 						    $tpl->setVariable("VIEW_TARGET", "bottom");
-						} 
-						else 
+						}
+						else
 						{
 						    $tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
 						}
-						
+
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
 						$tpl->parseCurrentBlock();
@@ -1249,7 +1021,7 @@ class ilRepositoryGUI
 						$tpl->setVariable("LINK_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$lr_data["ref_id"]."&act=link");
 						$tpl->setVariable("TXT_LINK", $this->lng->txt("link"));
 						$tpl->parseCurrentBlock();
-						
+
 						$tpl->setCurrentBlock("lres_cut");
 						$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$lr_data["ref_id"]."&act=cut");
 						$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
@@ -1403,7 +1175,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$gl_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("glo_link");
 					$tpl->setVariable("LINK_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$gl_data["ref_id"]."&act=link");
 					$tpl->setVariable("TXT_LINK", $this->lng->txt("link"));
@@ -1696,16 +1468,16 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					//$tpl->parseCurrentBlock();
-					
+
 					//$tpl->setCurrentBlock("forum_link");
 					$tpl->setVariable("LINK_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$data["ref_id"]."&act=link");
 					$tpl->setVariable("TXT_LINK", $this->lng->txt("link"));
 					//$tpl->parseCurrentBlock();
-					
+
 					//$tpl->setCurrentBlock("forum_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
-					//$tpl->parseCurrentBlock();			
+					//$tpl->parseCurrentBlock();
 				}
 
 				// add to desktop link
@@ -1734,7 +1506,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
 					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
-					
+
 					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".
 									  $this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".
 									  $Start."\">".$moderator->getLogin()."</a>");
@@ -1914,7 +1686,7 @@ class ilRepositoryGUI
 				$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $cont_data["ref_id"]);
 				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-			
+
 				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]) or $this->rbacsystem->checkAccess('join',$cont_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("group_read");
@@ -1951,7 +1723,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("group_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$cont_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
@@ -2186,17 +1958,17 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
-				
+
                 // delete & move
 				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
 				{
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					
+
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$cont_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
 				}
-				
+
 				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "chat"))
 				{
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -2263,7 +2035,7 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("CHATS", $tpl->get());
 		$this->tpl->parseCurrentBlock();
 	}
-		
+
 
 	/**
 	* show test
@@ -2271,9 +2043,9 @@ class ilRepositoryGUI
 	function showTests()
 	{
 		global $ilias;
-		
+
 		$this->lng->loadLanguageModule("assessment");
-		
+
 		$maxcount = count($this->tests);
 		$tests = array_slice($this->tests, $_GET["offset"], $_GET["limit"]);
 
@@ -2306,8 +2078,8 @@ class ilRepositoryGUI
 				unset($tests[$key]);
 			}
 		}
-		
-			
+
+
 		$test_num = count($tests);
 		// render table content data
 		if ($test_num > 0)
@@ -2339,7 +2111,7 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tst_visible");
 					$tpl->setVariable("V_TITLE", $tst_data["title"]);
 					$tpl->parseCurrentBlock();
-					if (($this->rbacsystem->checkAccess('write', $tst_data["ref_id"])) || 
+					if (($this->rbacsystem->checkAccess('write', $tst_data["ref_id"])) ||
 						($this->rbacsystem->checkAccess('read', $tst_data["ref_id"])))
 					{
 						$tpl->setCurrentBlock("tst_warning");
@@ -2379,7 +2151,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("LINK_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$tst_data["ref_id"]."&act=link");
 					$tpl->setVariable("TXT_LINK", $this->lng->txt("link"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("tst_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$tst_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
@@ -2475,7 +2247,7 @@ class ilRepositoryGUI
 		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
 		$this->tpl->parseCurrentBlock();
 	}
-  
+
 	/**
 	* show surveys
 	*/
@@ -2483,7 +2255,7 @@ class ilRepositoryGUI
 	{
 		global $ilias;
 		$this->lng->loadLanguageModule("survey");
-		
+
 		$maxcount = count($this->surveys);
 		$surveys = array_slice($this->surveys, $_GET["offset"], $_GET["limit"]);
 
@@ -2591,7 +2363,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
-				} 
+				}
 
 				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]) and ($svy_data["status"] == 0))
 				{
@@ -2599,12 +2371,12 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$svy_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("svy_link");
 					$tpl->setVariable("LINK_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$svy_data["ref_id"]."&act=link");
 					$tpl->setVariable("TXT_LINK", $this->lng->txt("link"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("svy_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$svy_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
@@ -2632,7 +2404,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
 					$tpl->parseCurrentBlock();
 				}
-				
+
 				if (strcmp($svy_data["finished"], "") != 0)
 				{
 					$tpl->setCurrentBlock("svy_finished");
@@ -2708,7 +2480,7 @@ class ilRepositoryGUI
 		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	/**
 	* show survey question pools
 	*/
@@ -2750,7 +2522,7 @@ class ilRepositoryGUI
 						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 						$tpl->parseCurrentBlock();
 					}
-				} 
+				}
 				elseif ($this->rbacsystem->checkAccess('read',$spl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("spl_view");
@@ -2767,21 +2539,21 @@ class ilRepositoryGUI
 						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
-				
-				
+
+
 				if ($this->rbacsystem->checkAccess('delete', $spl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("spl_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$spl_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("spl_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$spl_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
 					$tpl->parseCurrentBlock();
 				}
-        
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color
@@ -2881,7 +2653,7 @@ class ilRepositoryGUI
 						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 						$tpl->parseCurrentBlock();
 					}
-				} 
+				}
 				elseif ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_view");
@@ -2899,20 +2671,20 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
-				
+
 				if ($this->rbacsystem->checkAccess('delete', $qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$qpl_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("qpl_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$qpl_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
 					$tpl->parseCurrentBlock();
 				}
-        
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color
@@ -3265,7 +3037,7 @@ class ilRepositoryGUI
 		global  $tree, $rbacsystem;
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-	
+
 		$maxcount = count($this->courses);
 
 		$cont_arr = array_slice($this->courses, $_GET["offset"], $_GET["limit"]);
@@ -3304,8 +3076,8 @@ class ilRepositoryGUI
 
 					$tpl->setVariable("CRS_IMG",ilUtil::getImagePath('icon_crs_offline.gif'));
 					$tpl->setVariable("ALT_IMG",$this->lng->txt('crs_offline'));
-				}					
-				
+				}
+
 				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id']))
 				{
 					#$this->ctrl->setTargetScript("course.php");
@@ -3330,7 +3102,7 @@ class ilRepositoryGUI
 						" ".$this->getVisibleOnly());
 					$tpl->parseCurrentBlock();
 				}
-				
+
 				// DISPLAY MEMBER STATUS
 				if($tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
 				{
@@ -3359,7 +3131,7 @@ class ilRepositoryGUI
 						{
 							$tpl->setCurrentBlock("link");
 							$tpl->setVariable("PRECONDITION_LINK",
-											  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
+								ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
 							$tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
 							$tpl->parseCurrentBlock();
 						}
@@ -3377,7 +3149,7 @@ class ilRepositoryGUI
 
 				// DEACTIVATED
 				// SHOW UNSUBSCRIBE LINK IF USER HAS leave permission AND IS MEMBER
-				#if($tmp_course->members_obj->isMember($this->ilias->account->getId()) and 
+				#if($tmp_course->members_obj->isMember($this->ilias->account->getId()) and
 				#   $rbacsystem->checkAccess('leave',$cont_data["ref_id"]))
 				#{
 				#	$tpl->setCurrentBlock("crs_unsubscribe");
@@ -3416,14 +3188,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELELTE_TARGET","bottom");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
-					
+
 					$tpl->setCurrentBlock("crs_cut");
 					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".$this->cur_ref_id."&item_ref_id=".$cont_data["ref_id"]."&act=cut");
 					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
 					$tpl->parseCurrentBlock();
-					
+
 				}
-				if($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
+				if($this->ilias->account->getId() != ANONYMOUS_USER_ID and
 				   !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "crs"))
 				{
 					$tpl->setCurrentBlock("crs_desklink");
@@ -4013,6 +3785,10 @@ class ilRepositoryGUI
 		}
 	}
 
+	/**
+	* moved to ilContainerGUI
+	*/
+	/*
 	function addToDesk()
 	{
 		if ($_GET["item_ref_id"] and $_GET["type"])
@@ -4034,13 +3810,14 @@ class ilRepositoryGUI
 
 			$this->showList();
 		}
-	}
+	}*/
+
 	function addToDeskCourse()
 	{
 		global $tree;
-		
+
 		/*$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
-		
+
 		while ($tmp_obj->getType() != 'crs')
 		{
 		    $parent_ref_id = $tree->getParentId($tmp_obj->getRefId());
@@ -4079,22 +3856,24 @@ class ilRepositoryGUI
 	*/
 	function executeAdminCommand()
 	{
+
 		$cmd = $this->cmd;
 		$tabs_out = true;
-		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete")
+		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete" ||
+			$cmd == "create" || $cmd == "save")
 		{
 			$tabs_out = false;
 		}
 		$this->prepareOutput($tabs_out);
 
+
 		$id = $this->cur_ref_id;
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
-//echo "A";
+
 		if (!empty($new_type))	// creation
 		{
-//echo "B";
 			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".
@@ -4138,82 +3917,156 @@ class ilRepositoryGUI
 			$class_constr = "ilObj".$class_name."GUI";
 			include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 			$obj_gui =& new $class_constr("", $this->cur_ref_id, true, false);*/
-			switch($cmd)
-			{
-				case "delete":
-					$_POST["id"] = array($this->cur_ref_id);
-					$this->gui_obj->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
-					$this->gui_obj->deleteObject();
-					break;
 
-				case "cancelDelete":
-					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$this->gui_obj->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
-					$this->gui_obj->cancelDeleteObject();
-					break;
+			$this->cmd_admin_compliance($cmd);
 
-				case "confirmedDelete":
-					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$this->gui_obj->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
-					$this->gui_obj->confirmedDeleteObject();
-					break;
-
-				case "edit":
-					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$_POST["id"] = array($this->cur_ref_id);
-					$_GET["type"] = $this->gui_obj->object->getType();
-					$this->gui_obj->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id);
-					$this->gui_obj->editObject();
-					break;
-
-				case "cancel":
-					$node = $this->tree->getNodeData($this->cur_ref_id);
-					//$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
-					$this->gui_obj->cancelObject(true);
-					break;
-
-				case "update":
-					$node = $this->tree->getNodeData($this->cur_ref_id);
-					$this->gui_obj->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
-					$this->gui_obj->updateObject();
-					break;
-					
-				case "clear":
-					$this->gui_obj->setReturnLocation("clear", "repository.php?ref_id=".$this->cur_ref_id);
-					$this->gui_obj->clearObject();
-					break;
-					
-				case "paste":
-					$this->gui_obj->setReturnLocation("paste", "repository.php?ref_id=".$this->cur_ref_id);
-					$this->gui_obj->pasteObject();
-					break;
-
-				case "addTranslation":
-					$this->gui_obj->setReturnLocation("addTranslation",
-						"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id);
-					$this->gui_obj->addTranslationObject();
-					break;
-
-				case "sendfile":
-					// PAYMENT STUFF
-					// check if object is purchased
-					include_once './payment/classes/class.ilPaymentObject.php';
-					include_once './classes/class.ilSearch.php';
-
-					if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
-					{
-						ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
-					}
-					if(!ilSearch::_checkParentConditions($_GET['ref_id']))
-					{
-						$this->ilias->raiseError($this->lng->txt('access_denied'),$ilias->error_obj->WARNING);
-					}
-					$this->gui_obj->object->sendfile($_GET["hist_id"]);
-					break;
-			}
 		}
 
 		$this->tpl->show();
+	}
+
+
+	/**
+	* old admin command handling compliance
+	*/
+	function cmd_admin_compliance($cmd, $execute = true)
+	{
+		// object creation
+		$new_type = $_POST["new_type"]
+			? $_POST["new_type"]
+			: $_GET["new_type"];
+		if (!empty($new_type))
+		{
+			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_object1")." ".
+										 $this->lng->txt($new_type."_a")." ".$this->lng->txt("msg_no_perm_create_object2"),
+										 $this->ilias->error_obj->MESSAGE);
+			}
+			else
+			{
+				$this->gui_obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("addTranslation",
+					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
+
+				$this->gui_obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
+			}
+		}
+
+		// other commands
+		switch($cmd)
+		{
+			case "cut":
+				$_POST["cmd"]["cut"] = "cut";
+				$_POST["id"] = array($_GET["item_ref_id"]);
+				$this->gui_obj->setReturnLocation("cut", "repository.php?ref_id=".$this->cur_ref_id);
+				break;
+
+			case "link":
+				$_POST["cmd"]["link"] = "link";
+				$_POST["id"] = array($_GET["item_ref_id"]);
+				$this->gui_obj->setReturnLocation("link", "repository.php?ref_id=".$this->cur_ref_id);
+				break;
+
+			case "delete":
+				$_POST["id"] = array($this->cur_ref_id);
+				$this->gui_obj->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
+				if ($execute)
+				{
+					$this->gui_obj->deleteObject();
+				}
+				break;
+
+			case "cancelDelete":
+				$node = $this->tree->getNodeData($this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
+				if ($execute)
+				{
+					$this->gui_obj->cancelDeleteObject();
+				}
+				break;
+
+			case "confirmedDelete":
+				$node = $this->tree->getNodeData($this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
+				if ($execute)
+				{
+					$this->gui_obj->confirmedDeleteObject();
+				}
+				break;
+
+			case "edit":
+				$node = $this->tree->getNodeData($this->cur_ref_id);
+				$_POST["id"] = array($this->cur_ref_id);
+				$_GET["type"] = $this->gui_obj->object->getType();
+				$this->gui_obj->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id);
+				if ($execute)
+				{
+					$this->gui_obj->editObject();
+				}
+				break;
+
+			case "cancel":
+				$node = $this->tree->getNodeData($this->cur_ref_id);
+				//$this->gui_obj->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
+				if ($execute)
+				{
+					$this->gui_obj->cancelObject(true);
+				}
+				break;
+
+			case "update":
+				$node = $this->tree->getNodeData($this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
+				if ($execute)
+				{
+					$this->gui_obj->updateObject();
+				}
+				break;
+
+			case "clear":
+				$this->gui_obj->setReturnLocation("clear", "repository.php?ref_id=".$this->cur_ref_id);
+				if ($execute)
+				{
+					$this->gui_obj->clearObject();
+				}
+				break;
+
+			case "paste":
+				$this->gui_obj->setReturnLocation("paste", "repository.php?ref_id=".$this->cur_ref_id);
+				if ($execute)
+				{
+					$this->gui_obj->pasteObject();
+				}
+				break;
+
+			case "addTranslation":
+				$this->gui_obj->setReturnLocation("addTranslation",
+					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id);
+				if ($execute)
+				{
+					$this->gui_obj->addTranslationObject();
+				}
+				break;
+
+			case "sendfile":
+				// PAYMENT STUFF
+				// check if object is purchased
+				include_once './payment/classes/class.ilPaymentObject.php';
+				include_once './classes/class.ilSearch.php';
+
+				if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+				{
+					ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+				}
+				if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+				{
+					$this->ilias->raiseError($this->lng->txt('access_denied'),$ilias->error_obj->WARNING);
+				}
+				$this->gui_obj->object->sendfile($_GET["hist_id"]);
+				break;
+		}
 	}
 
 	function save()
@@ -4270,12 +4123,12 @@ class ilRepositoryGUI
 	{
 		$this->executeAdminCommand();
 	}
-	
+
 	function edit()
 	{
 		$this->executeAdminCommand();
 	}
-	
+
 	function clear()
 	{
 		$this->executeAdminCommand();
@@ -4598,19 +4451,19 @@ class ilRepositoryGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_link")." ".
 										 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
 			}
-	
+
 			if (count($no_link))
 			{
 				$no_link = array_unique($no_link);
-	
+
 				foreach ($no_link as $type)
 				{
 					$txt_objs[] = $this->lng->txt("objs_".$type);
 				}
-	
+
 				$this->ilias->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_link"),$this->ilias->error_obj->MESSAGE);
-			}			
-			
+			}
+
 			$message = "msg_link_clipboard";
 		}
 		// CHECK CUT OPERATION
@@ -4639,8 +4492,8 @@ class ilRepositoryGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
 										 $this->ilias->error_obj->MESSAGE);
 			}
-			
-			$message = "msg_cut_clipboard";	
+
+			$message = "msg_cut_clipboard";
 		}
 
 		// clear clipboard (only one object is possible for now)

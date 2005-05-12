@@ -61,10 +61,10 @@ class ilObj<module_name> extends ilObject
 		}
 
 		// put here object specific stuff
-		
+
 		return true;
 	}
-	
+
 	/**
 	* copy all entries of your object.
 	* 
@@ -86,7 +86,7 @@ class ilObj<module_name> extends ilObject
 		//$roles = $newObj->initDefaultRoles();
 
 		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 
 		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
 		//unset($newObj);
@@ -143,10 +143,10 @@ class ilObj<module_name> extends ilObject
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
-	* 
+	*
 	* If you are not required to handle any events related to your module, just delete this method.
 	* (For an example how this method is used, look at ilObjGroup)
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
@@ -191,10 +191,10 @@ class ilObj<module_name> extends ilObject
 				//exit;
 				break;
 		}
-		
+
 		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
 		if ($a_node_id==$_GET["ref_id"])
-		{	
+		{
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
 			if($parent_type == $this->getType())

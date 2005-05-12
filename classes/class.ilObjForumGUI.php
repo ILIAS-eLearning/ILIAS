@@ -28,6 +28,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjForumGUI:
+*
 * @extends ilObject
 * @package ilias-core
 */

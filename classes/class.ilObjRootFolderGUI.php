@@ -25,17 +25,19 @@
 /**
 * Class ilObjRootFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.4 2004/03/05 22:55:51 akill Exp $
-* 
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.5 2004/04/12 13:46:52 shofmann Exp $
+*
+* @ilCtrl_Calls ilObjRootFolderGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "class.ilContainerGUI.php";
 require_once "class.ilObjCategoryGUI.php";
 
-class ilObjRootFolderGUI extends ilObjectGUI
+class ilObjRootFolderGUI extends ilContainerGUI
 {
 	/**
 	* Constructor
@@ -44,7 +46,7 @@ class ilObjRootFolderGUI extends ilObjectGUI
 	function ilObjRootFolderGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "root";
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 	/**

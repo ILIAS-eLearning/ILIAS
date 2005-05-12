@@ -29,6 +29,8 @@
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
+* @ilCtrl_Calls ilObjFileGUI:
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */

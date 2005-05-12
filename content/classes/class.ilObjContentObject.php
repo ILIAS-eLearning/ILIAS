@@ -807,6 +807,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
+echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
+
 		$q = "SELECT * FROM content_object WHERE id = '".$a_id."'";
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1217,6 +1219,7 @@ class ilObjContentObject extends ilObject
 
 		$tree =& $this->getLMTree();
 
+		// delete subtrees that have no lm_data records
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
 		foreach ($nodes as $node)
 		{
@@ -1229,6 +1232,24 @@ class ilObjContentObject extends ilObject
 				$tree->deleteTree($node_data);
 			}
 		}
+
+		// delete subtrees that have pages as parent
+		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		foreach ($nodes as $node)
+		{
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["parent"]);
+			$obj_set = $ilDB->query($q);
+			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($obj_rec["type"] == "pg")
+			{
+				$node_data = $tree->getNodeData($node["child"]);
+				if ($tree->isInTree($node["child"]))
+				{
+					$tree->deleteTree($node_data);
+				}
+			}
+		}
+
 	}
 
 

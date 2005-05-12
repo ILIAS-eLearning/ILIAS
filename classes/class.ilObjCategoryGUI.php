@@ -25,18 +25,19 @@
 /**
 * Class ilObjCategoryGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* @author Sascha Hofmann <shofmann@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
 * $Id$
-* 
+*
+* @ilCtrl_Calls ilObjCategoryGUI:
 *
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "class.ilContainerGUI.php";
 
-class ilObjCategoryGUI extends ilObjectGUI
+class ilObjCategoryGUI extends ilContainerGUI
 {
 	var $ctrl;
 
@@ -53,8 +54,9 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "cat";
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
+
 	function &executeCommand()
 	{
 		global $rbacsystem;
@@ -67,11 +69,11 @@ class ilObjCategoryGUI extends ilObjectGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = "render";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
-					
+
 				break;
 		}
 		return true;
@@ -92,40 +94,18 @@ class ilObjCategoryGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 		}
 
 		if($rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
 			$tabs_gui->addTarget("administrate_users",
-								 $this->ctrl->getLinkTarget($this, "listUsers"), "", get_class($this));
-		}
-		
-		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
-		{
-			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "listUsers"), "", get_class($this));
 		}
 
-		// show clipboard in repository
-		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
-		{
-			$tabs_gui->addTarget("clipboard",
-				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
-		}
-			
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			$tabs_gui->addTarget("show_owner",
-								 $this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-			
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$tabs_gui->addTarget("trash",
-									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
-			
+		// parent tabs (all container: edit_permission, clipboard, trash
+		parent::getTabs(&$tabs_gui);
+
 	}
 
 	/**

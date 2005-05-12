@@ -88,6 +88,7 @@ class ilUtil
 			$st_image_dir.
 			"/images/".$img;
 		}
+
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
 		if ($offline)
