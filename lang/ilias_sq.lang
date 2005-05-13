@@ -726,7 +726,7 @@ common#:#already_delivered_files#:#Skedarët tashmë të dorëzuara
 common#:#and#:#dhe
 common#:#announce#:#Lajmëro
 common#:#announce_changes#:#Lajmëro Ndryshimet
-common#:#answers#:#Përgjigjet
+common#:#answers#:#Përgjegjëve
 common#:#any_language#:#Cilado gjuhë
 common#:#application_completed#:#Aplikimi është kompletuar
 common#:#application_date#:#Data e aplikimit
@@ -4708,7 +4708,7 @@ survey#:#survey_next#:#vazhdo >>
 survey#:#survey_offline_message#:#Nuk mund të ftohen shfrytëzues. Kuestioneri është offline!
 survey#:#survey_online_warning#:#Kuestioneri është online. Nuk mund të modifikoni pyetjet!
 survey#:#survey_previous#:#<<prapa
-survey#:#survey_question_obligatory#:#(Kjo pyetje është obligative. Duhet të përgjigjeni)
+survey#:#survey_question_obligatory#:#(Kjo pyetje eshte e obligueshme. Ju duhet t'i pergjigjeni pyetjes)
 survey#:#survey_questions#:#Pyetjet
 survey#:#survey_skip_finish#:#anashkalo dhe përfundo kuestionerin
 survey#:#survey_skip_next#:#anashkalo >>>
