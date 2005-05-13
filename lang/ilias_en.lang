@@ -251,8 +251,6 @@ assessment#:#insert_after#:#Insert after
 assessment#:#insert_before#:#Insert before
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Update
-common#:#err_no_cookies#:#Please enable session cookies in your browser!
-common#:#cookies_howto#:#How to enable cookies
 assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
 assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
@@ -400,6 +398,8 @@ assessment#:#tst_confirm_delete_results#:#You are about to delete all your previ
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions
+assessment#:#tst_count_partial_solutions#:#Count partial solutions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset test
@@ -417,9 +417,6 @@ assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
-assessment#:#tst_text_count_system#:#Scoring system
-assessment#:#tst_count_partial_solutions#:#Count partial solutions
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
@@ -530,6 +527,7 @@ assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
+assessment#:#tst_text_count_system#:#Scoring system
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_total_questions#:#Total amount of questions
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!
@@ -709,7 +707,6 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#member_status#:#Member Status:
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
@@ -818,9 +815,6 @@ common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
-common#:#auth_shib#:#Shibboleth
-common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_mode#:#Authentication mode
 common#:#auth_mode_changed_to#:#Authentication mode changed to
 common#:#auth_mode_not_changed#:#(Nothing changed)
@@ -831,6 +825,9 @@ common#:#auth_remark_non_local_auth#:#When selecting another authentication mode
 common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
 common#:#auth_select#:#Select authentication mode
+common#:#auth_shib#:#Shibboleth
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
 common#:#author#:#Author
@@ -991,6 +988,7 @@ common#:#container#:#Container
 common#:#content_styles#:#Content Styles
 common#:#context#:#Context
 common#:#continue_work#:#Continue
+common#:#cookies_howto#:#How to enable cookies
 common#:#copied_object#:#Copied object
 common#:#copy#:#Copy
 common#:#copyPage#:#Copy
@@ -1151,6 +1149,7 @@ common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please en
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings
 common#:#err_ldap_search_failed#:#Connection to LDAP server failed! PLease check BaseDN and Search base
 common#:#err_ldap_user_not_found#:#User not found on LDAP server! Please check attribute for login name and Objectclass
+common#:#err_no_cookies#:#Please enable session cookies in your browser!
 common#:#err_no_langfile_found#:#No language file found!
 common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
@@ -1277,11 +1276,17 @@ common#:#forum_notification#:#Notification
 common#:#forum_notify_me#:#Notify me when a reply is posted
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
+common#:#forums_articles#:#Articles
+common#:#forums_last_post#:#Last Article
+common#:#forums_moderators#:#Moderators
+common#:#forums_new_articles#:#New articles
 common#:#forums_overview#:#Forums Overview
+common#:#forums_threads#:#Topics
 common#:#frm#:#Forum
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
+common#:#frm_article#:#article
 common#:#frm_create#:#Create Forum
 common#:#frm_delete#:#Delete Forum
 common#:#frm_delete_post#:#Delete a post, censorship
@@ -1634,40 +1639,9 @@ common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
-common#:#shib#:#Shibboleth
-common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.
-common#:#shib_configure#:#Configure Shibboleh Authentication
-common#:#shib_edit_permission#:#Change permission settings
-common#:#shib_active#:#Enable Shibboleth support
-common#:#shib_login#:#Unique Shibboleth attribute
-common#:#shib_update#:#Update this field on login
-common#:#shib_title#:#Attribute for title
-common#:#shib_firstname#:#Attribute for firstname
-common#:#shib_lastname#:#Attribute for lastname
-common#:#shib_email#:#Attribute for email address
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
-common#:#shib_institution#:#Attribute for institution
-common#:#shib_department#:#Attribute for department
-common#:#shib_zipcode#:#Attribute for zipcode
-common#:#shib_city#:#Attribute for city
-common#:#shib_country#:#Attribute for country
-common#:#shib_street#:#Attribute for street
-common#:#shib_phone_office#:#Attribute for office phone number
-common#:#shib_phone_home#:#Attribute for home phone number
-common#:#shib_phone_mobile#:#Attribute for mobile phone number
-common#:#shib_language#:#Attribute for language
-common#:#shib_login_button#:#Path to Shibboleth login button
-common#:#shib_login_instructions#:#Instructions shown in login field
-common#:#shib_data_conv#:#Absolute path to data manipulation API
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
-common#:#shib_read#:#Read access to Shibboleth settings
-common#:#shib_settings_saved#:#The Shibboleth settings were saved
-common#:#shib_visible#:#Shibboleth settings are visible
-common#:#shib_write#:#Edit Shibboleth settings
 common#:#learning module#:#Learning Module
 common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
-common#:#lres#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#link_check#:#Link check
@@ -1732,6 +1706,7 @@ common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#logs#:#Log data
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
+common#:#lres#:#Learning Resources
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Address book
@@ -1775,6 +1750,7 @@ common#:#matriculation#:#Matriculation number
 common#:#max_number_rec#:#Maximum number of records
 common#:#max_time#:#Maximum time
 common#:#member#:#Member
+common#:#member_status#:#Member Status:
 common#:#members#:#Members
 common#:#membership_annulled#:#Your membership has been cancelled
 common#:#mep#:#Media Pool
@@ -1854,7 +1830,6 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
-common#:#no_permission#:#You do not have the necessary permission.
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -1926,6 +1901,7 @@ common#:#new_folder#:#New Folder
 common#:#new_group#:#New Group
 common#:#new_language#:#New Language
 common#:#new_list_password#:#New suggestions
+common#:#new_lowercase#:#new
 common#:#new_mail#:#New mail!
 common#:#news#:#News
 common#:#next#:#next
@@ -1950,6 +1926,7 @@ common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_local_users#:#There are no local user
 common#:#no_objects#:#No objects
+common#:#no_permission#:#You do not have the necessary permission.
 common#:#no_permission_to_join#:#You are not allowed to join this group!
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
 common#:#no_title#:#No Title
@@ -2023,6 +2000,8 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_sahs#:#Learning Module SCORM/AICC
+common#:#obj_seas#:#Search
+common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_stys#:#Style Settings 
@@ -2342,6 +2321,14 @@ common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be
 common#:#search_recipient#:#Search Recipient
 common#:#search_result#:#Search result
 common#:#search_user#:#Search User
+common#:#seas_edit_permission#:#Change permission settings
+common#:#seas_max_hits#:#Max hits
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
+common#:#seas_read#:#Read search settings
+common#:#seas_search#:#Allow to use the search
+common#:#seas_settings#:#Search settings
+common#:#seas_visible#:#Search settings are visible
+common#:#seas_write#:#Edit search settings
 common#:#sections#:#Sections
 common#:#select#:#Select
 common#:#select_all#:#Select All
@@ -2369,6 +2356,37 @@ common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline
 common#:#set_online#:#Set Online
 common#:#settings#:#Settings
+common#:#settings_saved#:#Saved settings
+common#:#shib#:#Shibboleth
+common#:#shib_active#:#Enable Shibboleth support
+common#:#shib_city#:#Attribute for city
+common#:#shib_configure#:#Configure Shibboleh Authentication
+common#:#shib_country#:#Attribute for country
+common#:#shib_data_conv#:#Absolute path to data manipulation API
+common#:#shib_department#:#Attribute for department
+common#:#shib_edit_permission#:#Change permission settings
+common#:#shib_email#:#Attribute for email address
+common#:#shib_firstname#:#Attribute for firstname
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
+common#:#shib_institution#:#Attribute for institution
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.
+common#:#shib_language#:#Attribute for language
+common#:#shib_lastname#:#Attribute for lastname
+common#:#shib_login#:#Unique Shibboleth attribute
+common#:#shib_login_button#:#Path to Shibboleth login button
+common#:#shib_login_instructions#:#Instructions shown in login field
+common#:#shib_phone_home#:#Attribute for home phone number
+common#:#shib_phone_mobile#:#Attribute for mobile phone number
+common#:#shib_phone_office#:#Attribute for office phone number
+common#:#shib_read#:#Read access to Shibboleth settings
+common#:#shib_settings_saved#:#The Shibboleth settings were saved
+common#:#shib_street#:#Attribute for street
+common#:#shib_title#:#Attribute for title
+common#:#shib_update#:#Update this field on login
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#shib_visible#:#Shibboleth settings are visible
+common#:#shib_write#:#Edit Shibboleth settings
+common#:#shib_zipcode#:#Attribute for zipcode
 common#:#show#:#Show
 common#:#show_details#:#show details
 common#:#show_list#:#Show List
@@ -2518,6 +2536,7 @@ common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
+common#:#unread_lowercase#:#unread
 common#:#unselected#:#Unselected
 common#:#unsubscribe#:#unsubscribe
 common#:#unzip#:#Unzip
@@ -3088,6 +3107,7 @@ content#:#selected_pages_only#:#only that pages selected below
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
+crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#assigned#:#Assigned
 crs#:#crs_accept_subscriber#:#Course subscription
 crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.
@@ -3212,6 +3232,8 @@ crs#:#crs_member_blocked#:#Member (blocked)
 crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
+crs#:#crs_members_footer#:#course member(s)
+crs#:#crs_members_footer_passed#:#passed
 crs#:#crs_members_print_title#:#Course members
 crs#:#crs_members_title#:#Course members
 crs#:#crs_move_down#:#Move down
@@ -3396,6 +3418,7 @@ crs#:#crs_visibility_unvisible#:#Not available
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Edit content
 crs#:#learners_view#:#Learners view
+crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs_#:#crs_archives#:#Archives
 dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#Day View
@@ -3619,7 +3642,6 @@ dateplaner#:#week#:#week
 dateplaner#:#year#:#year
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
-common#:#forums_articles#:#Articles
 forum#:#forums_attachments#:#Attachments
 forum#:#forums_attachments_add#:#Add attachment
 forum#:#forums_attachments_edit#:#Edit attachment
@@ -3635,10 +3657,7 @@ forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
-common#:#forums_last_post#:#Last Article
 forum#:#forums_mark_read#:#Mark all read
-common#:#forums_moderators#:#Moderators
-common#:#forums_new_articles#:#New articles
 forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
@@ -3660,7 +3679,6 @@ forum#:#forums_thread_create_date#:#Created at
 forum#:#forums_thread_create_from#:#Created from
 forum#:#forums_thread_marked#:#The Thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
-common#:#forums_threads#:#Topics
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
@@ -4934,21 +4952,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#unread_lowercase#:#unread
-common#:#new_lowercase#:#new
-common#:#frm_article#:#article
-crs#:#activation_times_not_valid#:#The availability period is not valid.
-crs#:#subscription_times_not_valid#:#The registration period is not valid.
-crs#:#crs_members_footer#:#course member(s)
-crs#:#crs_members_footer_passed#:#passed
-common#:#obj_seas#:#Search
-common#:#seas_settings#:#Search settings
-common#:#seas_edit_permission#:#Change permission settings
-common#:#seas_read#:#Read search settings
-common#:#seas_write#:#Edit search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_max_hits#:#Max hits
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
-common#:#settings_saved#:#Saved settings
-common#:#seas_search#:#Allow to use the search
-common#:#obj_seas_desc#:#Manage the search settings here.

@@ -244,6 +244,7 @@ assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_file#:#Imagemap Datei
 assessment#:#imagemap_source#:#Imagemap Quelltext
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Frage(n) importieren
 assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
@@ -389,13 +390,15 @@ assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_anon_eval#:#Ergebnisse
+assessment#:#tst_anon_eval#:#Ergebnisse###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers, um das sich öffnende Fenster auszudrucken.
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_delete_results#:#Test zurücksetzen
@@ -412,6 +415,7 @@ assessment#:#tst_eval_user_answer#:#User-Antwort
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
@@ -511,7 +515,7 @@ assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
 assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
-assessment#:#tst_statistical_evaluation#:#Statistik
+assessment#:#tst_statistical_evaluation#:#Statistik###13 May 2005 content changed
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!
@@ -522,6 +526,7 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_submit_answers#:#JA, ich möchte meine Antworten abschicken
 assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absenden Ihrer Anworten abschließen.
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
@@ -785,6 +790,7 @@ common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der Nutzerinnen anzeigen
 common#:#assessment_settings#:#Test&Assessment Adminstration
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration
 common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
@@ -796,8 +802,6 @@ common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
-common#:#associated_user#:#Mitglied
-common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
@@ -820,6 +824,9 @@ common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausse
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
@@ -980,6 +987,7 @@ common#:#container#:#Container
 common#:#content_styles#:#Content Styles
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
+common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
@@ -1082,7 +1090,6 @@ common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
-common#:#default_value#:#Standardwert
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
@@ -1141,6 +1148,7 @@ common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bi
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
 common#:#err_ldap_search_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie BaseDN und Search base
 common#:#err_ldap_user_not_found#:#Benutzer konnte nicht gefunden werden! Bitte überprüfen Sie das Attribut für den Loginnamen und die Objectclass
+common#:#err_no_cookies#:#Bitte aktivieren Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
@@ -1150,8 +1158,6 @@ common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
 common#:#err_wrong_password#:#Falsches Passwort
-common#:#err_no_cookies#:#Bitte aktivieren Session-Cookies in Ihrem Browser!
-common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
@@ -1269,11 +1275,17 @@ common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Übersicht Foren
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
+common#:#frm_article#:#Beitrag
 common#:#frm_create#:#Neues Forum anlegen
 common#:#frm_delete#:#Forum löschen
 common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
@@ -1589,8 +1601,6 @@ common#:#lang_pt#:#Portugisisch
 common#:#lang_ro#:#Rumänisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
-common#:#lang_sq#:#Albanisch
-common#:#lang_sr#:#Serbisch
 common#:#lang_sv#:#Schwedisch
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainisch
@@ -1689,11 +1699,13 @@ common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w
 common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Adressbuch
@@ -1737,6 +1749,7 @@ common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
 common#:#mep#:#Media-Pool
@@ -1816,7 +1829,6 @@ common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Über
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
-common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
 common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
@@ -1888,6 +1900,7 @@ common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
 common#:#new_list_password#:#Weitere Vorschläge
+common#:#new_lowercase#:#neu
 common#:#new_mail#:#Neue Mail!
 common#:#news#:#News
 common#:#next#:#weiter
@@ -1912,6 +1925,7 @@ common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
 common#:#no_objects#:#Keine Objekte
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_roles_user_can_be_assigned_to#:#Sie haben keinen Zugriff auf globale Rollen, deswegen können Sie keine lokalen Benutzer anlegen.
 common#:#no_title#:#Kein Titel
@@ -1985,6 +1999,8 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
+common#:#obj_seas#:#Suche
+common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_stys#:#Skin/Style Einstellungen
@@ -2304,6 +2320,14 @@ common#:#search_note#:#Falls &quot;Suchen in&quot; leer gelassen wird, werden al
 common#:#search_recipient#:#Empfänger suchen
 common#:#search_result#:#Suchergebnis
 common#:#search_user#:#Benutzer suchen
+common#:#seas_edit_permission#:#Rechteeinstellungen ändern
+common#:#seas_max_hits#:#Maximalanzahl von Treffern
+common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
+common#:#seas_read#:#Sucheinstellungen lesen
+common#:#seas_search#:#Benutzung der Suche erlauben
+common#:#seas_settings#:#Sucheinstellungen
+common#:#seas_visible#:#Sucheinstellungen sind sichtbar
+common#:#seas_write#:#Sucheinstellungen bearbeiten
 common#:#sections#:#Bereiche
 common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
@@ -2331,6 +2355,37 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
+common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
@@ -2480,6 +2535,7 @@ common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
+common#:#unread_lowercase#:#ungelesen
 common#:#unselected#:#Auswahl aufheben
 common#:#unsubscribe#:#Abo beenden
 common#:#unzip#:#Entzippen
@@ -2525,9 +2581,6 @@ common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
-common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
-common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
-common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
@@ -2587,10 +2640,7 @@ common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
-common#:#visible#:#Sichtbar
 common#:#visible_layers#:#Sichtbare Ebenen
-common#:#visitor#:#Besucher
-common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Web Ressourcen
 common#:#webr#:#Web Ressource
@@ -2745,11 +2795,6 @@ content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
-common#:#glo_mode#:#Modus
-common#:#glo_mode_normal#:#normal
-common#:#glo_mode_level#:#virtuell (nur diese Ebene)
-common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
-common#:#glo_mode_desc#:#Ein Virtuelles Glossar enthält neben eigenen Begriffsdefinitionen auch die Begriffe aller Glossare, die sich in der gleichen Position im Magazin des virtuellen Glossars befinden (Ebene) bzw. auch die Begriffe aller Glossare, die ab der Position des virtuellen Glossars im Magazin darunter liegen (Teilbaum).
 content#:#cont_downloads_desc#:#Ermögliche Anwender, freigegebene Exportdateien herunterzuladen
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -3061,6 +3106,7 @@ content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten
 content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
@@ -3185,6 +3231,8 @@ crs#:#crs_member_blocked#:#Mitglied (gesperrt)
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+crs#:#crs_members_footer#:#Kursmitglied(er)
+crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
@@ -3369,6 +3417,7 @@ crs#:#crs_visibility_unvisible#:#Nicht verfügbar
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Kursinhalt bearbeiten
 crs#:#learners_view#:#Lerneransicht
+crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
 crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
@@ -3592,7 +3641,6 @@ dateplaner#:#week#:#Woche
 dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
-forum#:#forums_articles#:#Beiträge
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
@@ -3608,10 +3656,7 @@ forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
-forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
-forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_articles#:#Neue Beiträge
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
@@ -3633,7 +3678,6 @@ forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads#:#Themen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
@@ -4907,21 +4951,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#unread_lowercase#:#ungelesen
-common#:#new_lowercase#:#neu
-common#:#frm_article#:#Beitrag
-crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
-crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
-crs#:#crs_members_footer#:#Kursmitglied(er)
-crs#:#crs_members_footer_passed#:#bestanden
-common#:#obj_seas#:#Suche
-common#:#seas_settings#:#Sucheinstellungen
-common#:#seas_edit_permission#:#Rechteeinstellungen ändern
-common#:#seas_read#:#Sucheinstellungen lesen
-common#:#seas_write#:#Sucheinstellungen bearbeiten
-common#:#seas_visible#:#Sucheinstellungen sind sichtbar
-common#:#seas_max_hits#:#Maximalanzahl von Treffern
-common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
-common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
-common#:#seas_search#:#Benutzung der Suche erlauben
-common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.

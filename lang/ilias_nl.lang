@@ -245,6 +245,7 @@ assessment#:#height#:#Hoogte###07 Apr 2005 content changed
 assessment#:#imagemap#:#Grafische map###07 Apr 2005 content changed
 assessment#:#imagemap_file#:#Grafische kaart-bestand###07 Apr 2005 content changed
 assessment#:#imagemap_source#:#Grafische kaart-bron###07 Apr 2005 content changed
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importeren vraag(vragen)###07 Apr 2005 content changed
 assessment#:#insert_after#:#Voeg in na###07 Apr 2005 content changed
 assessment#:#insert_before#:#Voeg in voor###07 Apr 2005 content changed
@@ -397,6 +398,8 @@ assessment#:#tst_confirm_delete_results#:#You are about to delete all your previ
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Verwijder alle gebruikers-gegevens###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b op zijn minst één markerings-stap om deze te verwijderen###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
@@ -413,6 +416,7 @@ assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
 assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Algemeen eigenschappen###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Genereer Excel###07 Apr 2005 content changed
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
 assessment#:#tst_insert_missing_question#:#Selecteer a.u.b op zijn minst één vraag als u deze in de test wilt invoegen!###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de test wilt toevoegen?###07 Apr 2005 content changed
@@ -523,6 +527,7 @@ assessment#:#tst_status_progress#:#In voortgang###07 Apr 2005 content changed
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
@@ -786,6 +791,7 @@ common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
 common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
 common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
@@ -819,6 +825,9 @@ common#:#auth_remark_non_local_auth#:#Wanneer u een andere authenticatie modus k
 common#:#auth_script#:#Door gebruiker gedefinieerd###07 Apr 2005 content changed
 common#:#auth_script_desc#:#Authenticatie gebruikers via een extern script###07 Apr 2005 content changed
 common#:#auth_select#:#Selecteer audenticatie-modus###07 Apr 2005 content changed
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Authenticatie instellingen zijn zichtbaar###07 Apr 2005 content changed
 common#:#auth_write#:#Wijzig authenticatie-instellingen###07 Apr 2005 content changed
 common#:#author#:#Auteur###07 Apr 2005 content changed
@@ -979,6 +988,7 @@ common#:#container#:#Container###05 Nov 2004 new variable
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Context###05 Nov 2004 new variable
 common#:#continue_work#:#Doorlopend###07 Apr 2005 content changed
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Gecopiëerd object###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
 common#:#copyPage#:#Copie###07 Apr 2005 content changed
@@ -1139,6 +1149,7 @@ common#:#err_ldap_auth_failed#:#Gebruiker niet geauthenticeerd voor LDAP-server!
 common#:#err_ldap_connect_failed#:#Verbindingmaken met LDAP mislukt!. Controleer uw instellingen###07 Apr 2005 content changed
 common#:#err_ldap_search_failed#:#BaseDN###07 Apr 2005 content changed
 common#:#err_ldap_user_not_found#:#Gebruiker niet gevonden op de LDAP-server! Controleer attributen van inlog-naam en Objectclass###07 Apr 2005 content changed
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!###07 Apr 2005 content changed
 common#:#err_no_param#:#Geen parameter!###07 Apr 2005 content changed
 common#:#err_over_3_param#:#Meer dan 3 parameters!###07 Apr 2005 content changed
@@ -1265,11 +1276,17 @@ common#:#forum_notification#:#Bekendmaking###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Informeer mij wanneer een antwoord wordt ontvangen###07 Apr 2005 content changed
 common#:#forum_post_replied#:#Uw forum-bijdrage is beantwoord.###07 Apr 2005 content changed
 common#:#forums#:#Forums###05 Nov 2004 new variable
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Forums-overzicht###07 Apr 2005 content changed
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum###05 Nov 2004 new variable
 common#:#frm_a#:#een Forum###07 Apr 2005 content changed
 common#:#frm_add#:#Forum toevoegen###07 Apr 2005 content changed
 common#:#frm_added#:#Forum toegevoegd###07 Apr 2005 content changed
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Creëer forum###07 Apr 2005 content changed
 common#:#frm_delete#:#Verwijder forum###07 Apr 2005 content changed
 common#:#frm_delete_post#:#Verwijder een bijdrage, censuur###07 Apr 2005 content changed
@@ -1683,11 +1700,13 @@ common#:#login_exists#:#Er is al een gebruiker met deze inlog-naam! A.u.b. kies 
 common#:#login_invalid#:#De gekozen login is niet geldig! Alleen de vogende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~###07 Apr 2005 content changed
 common#:#login_time#:#Actuele online-tijd###07 Apr 2005 content changed
 common#:#login_to_ilias#:#Inloggen op ILIAS###07 Apr 2005 content changed
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Uitloggen###07 Apr 2005 content changed
 common#:#logout_text#:#U bent uitgelogd. Uw sessie is gesloten.###07 Apr 2005 content changed
 common#:#logs#:#Log data###07 Jan 2005 new variable
 common#:#los#:#Lesobjecten###07 Apr 2005 content changed
 common#:#los_last_visited#:#Laatst bezochte lesobjecten###07 Apr 2005 content changed
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Mail###05 Nov 2004 new variable
 common#:#mail_a_root#:#Mailbox###05 Nov 2004 new variable
 common#:#mail_addressbook#:#adres-boek###07 Apr 2005 content changed
@@ -1731,6 +1750,7 @@ common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maximum aantal rekords###07 Apr 2005 content changed
 common#:#max_time#:#Maximum tijd###07 Apr 2005 content changed
 common#:#member#:#Lid###07 Apr 2005 content changed
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Leden###07 Apr 2005 content changed
 common#:#membership_annulled#:#Uw lidmaatschap is gecancelled###07 Apr 2005 content changed
 common#:#mep#:#Media-pool###07 Apr 2005 content changed
@@ -1881,6 +1901,7 @@ common#:#new_folder#:#Nieuwe map###07 Apr 2005 content changed
 common#:#new_group#:#Nieuwe groep###07 Apr 2005 content changed
 common#:#new_language#:#Nieuwe taal###07 Apr 2005 content changed
 common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Nieuwe mail!###07 Apr 2005 content changed
 common#:#news#:#Nieuws###07 Apr 2005 content changed
 common#:#next#:#volgende###07 Apr 2005 content changed
@@ -1905,6 +1926,7 @@ common#:#no_limit#:#Geen limit###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.###07 Apr 2005 content changed
 common#:#no_local_users#:#Er zijn geen lokale gebruikers###07 Apr 2005 content changed
 common#:#no_objects#:#Geen objecten###07 Apr 2005 content changed
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#Er zijn geen globale rollen die aan de gebruiker kan worden toegekend. Daarom is het niet toegestaan gebruikers toe te voegen.###07 Apr 2005 content changed
 common#:#no_title#:#Geen titel###07 Apr 2005 content changed
@@ -1978,6 +2000,8 @@ common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr.###07 Apr 2005 c
 common#:#obj_rolt#:#Rol-sjabloon###07 Apr 2005 content changed
 common#:#obj_root#:#ILIAS root node###05 Nov 2004 new variable
 common#:#obj_sahs#:#SCORM/AICC Lesmodule###07 Apr 2005 content changed
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Vraagpool (Survey)###07 Apr 2005 content changed
 common#:#obj_st#:#Hoofdstuk###07 Apr 2005 content changed
 common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
@@ -2297,6 +2321,14 @@ common#:#search_note#:#Als &quot;zoeken in&quot; leeg gelaten wordt zullen alle 
 common#:#search_recipient#:#Zoek ontvanger###07 Apr 2005 content changed
 common#:#search_result#:#Zoek resultaat###07 Apr 2005 content changed
 common#:#search_user#:#Zoek gebruiker###07 Apr 2005 content changed
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Secties###07 Apr 2005 content changed
 common#:#select#:#Selecteren###07 Apr 2005 content changed
 common#:#select_all#:#Selecteer alles###07 Apr 2005 content changed
@@ -2324,6 +2356,37 @@ common#:#setUserLanguage#:#Stel gebruikerstaal in###07 Apr 2005 content changed
 common#:#set_offline#:#Ga offline###07 Apr 2005 content changed
 common#:#set_online#:#Ga online###07 Apr 2005 content changed
 common#:#settings#:#Instellingen###07 Apr 2005 content changed
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#laat zien###07 Apr 2005 content changed
 common#:#show_details#:#Laat details zien###07 Apr 2005 content changed
 common#:#show_list#:#Laat lijst zien###07 Apr 2005 content changed
@@ -2473,6 +2536,7 @@ common#:#uninstall#:#Deïnstalleer###07 Apr 2005 content changed
 common#:#uninstalled#:#Gedeïnstalleerd.###07 Apr 2005 content changed
 common#:#unknown#:#Onbekend###07 Apr 2005 content changed
 common#:#unread#:#Ongelezen###07 Apr 2005 content changed
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Ongeselecteerd###07 Apr 2005 content changed
 common#:#unsubscribe#:#abonnement beëindigen###07 Apr 2005 content changed
 common#:#unzip#:#Unzip###05 Nov 2004 new variable
@@ -3043,6 +3107,7 @@ content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 ne
 content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Lezen offline###07 Apr 2005 content changed
 content#:#start export#:#Selecteer a.u.b. een bestand.###07 Apr 2005 content changed
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#assigned#:#Assigned###01 Mar 2005 new variable
 crs#:#crs_accept_subscriber#:#Hoofdstuk###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber_body#:#Start exporteren###07 Apr 2005 content changed
@@ -3167,6 +3232,8 @@ crs#:#crs_member_blocked#:#Zend mail###03 Nov 2004 content changed
 crs#:#crs_member_unblocked#:#Lid###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Lid (ongeblokkeerd)###07 Apr 2005 content changed
 crs#:#crs_members_deleted#:#Lid (geblokkeerd)###07 Apr 2005 content changed
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Het lid is bijgewerkt###07 Apr 2005 content changed
 crs#:#crs_members_title#:#Leden verwijderd###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Cursus-leden###07 Apr 2005 content changed
@@ -3351,6 +3418,7 @@ crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#Nieuwe gebruiker aan cursus toegevoegd###07 Apr 2005 content changed
 crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#De gebruiker is al toegevoegd aan deze cursus###07 Apr 2005 content changed
 dateplaner#:#DateText#:#XML###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Archiveer###07 Apr 2005 content changed
@@ -3574,7 +3642,6 @@ dateplaner#:#week#:#vandaag###07 Apr 2005 content changed
 dateplaner#:#year#:#tonen###07 Apr 2005 content changed
 forum#:#forums#:#week###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
-forum#:#forums_articles#:#jaar###07 Apr 2005 content changed
 forum#:#forums_attachments#:#Forums###07 Apr 2005 content changed
 forum#:#forums_attachments_add#:#Artikelen###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Attachments###07 Apr 2005 content changed
@@ -3590,10 +3657,7 @@ forum#:#forums_edit_post#:#Verwijderen attachment###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#Download bestand###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Wijzigen artikel###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Herroep censor?###07 Apr 2005 content changed
-forum#:#forums_last_post#:#Weet u zeker, dat u dit artikel wil verbergen?###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
-forum#:#forums_moderators#:#Weet u zeker, dat u dit artikel wil verwijderen inclusief elke reactie?###07 Apr 2005 content changed
-forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
 forum#:#forums_new_entries#:#Laatste artikel###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Moderatoren###07 Apr 2005 content changed
 forum#:#forums_not_available#:#Nieuwe forum-bijdragen###07 Apr 2005 content changed
@@ -3615,7 +3679,6 @@ forum#:#forums_thread_create_date#:#Thema###07 Apr 2005 content changed
 forum#:#forums_thread_create_from#:#Artikelen van thema###07 Apr 2005 content changed
 forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Gecreëerd op###07 Apr 2005 content changed
-forum#:#forums_threads#:#Gecreëerd van###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Nieuw thema werd gecreërd###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#Threads###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#Thema niet beschikbaar###07 Apr 2005 content changed

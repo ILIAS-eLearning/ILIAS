@@ -245,6 +245,7 @@ assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#imagemap_file#:#File con immagine a mappa
 assessment#:#imagemap_source#:#Immagine a mappa
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importa domande
 assessment#:#insert_after#:#Inserisci dopo
 assessment#:#insert_before#:#Inserisci prima
@@ -390,13 +391,15 @@ assessment#:#true#:#Vero
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
 assessment#:#tst_already_submitted#:#Il test &#232; gi&#224; stato eseguito e inviato.
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
-assessment#:#tst_anon_eval#:#Risultati aggregati per utenti anonimi
+assessment#:#tst_anon_eval#:#Risultati aggregati per utenti anonimi###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Risultati delle risposte al test
 assessment#:#tst_browse_for_questions#:#Cerca la domanda
 assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi che puoi effettuare per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
 assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_confirm_print#:#Premi il pulsante per stampare tutte le domande con i punti e le soluzioni. La domanda compare sempre in fondo alla pagina.
 assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della soluzione. Non sarai pi&#250; in grado di correggere le risposte dopo aver premuto 'Invia'. Se vuoi stampare le risposte utilizza il menu 'Stampa' del tuo Browser.
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_delete_results#:#Annulla il test
@@ -413,6 +416,7 @@ assessment#:#tst_eval_user_answer#:#Risposta dell'utente
 assessment#:#tst_finished#:#Finito
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Crea un Foglio elettronico
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro che vuoi inserire le seguenti domande nel test?
@@ -510,7 +514,7 @@ assessment#:#tst_stat_result_timeofwork#:#Tempo di esecuzione
 assessment#:#tst_stat_result_total_participants#:#Numero totale dei partecipanti
 assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
-assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
+assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica###13 May 2005 content changed
 assessment#:#tst_status_completed#:#completato
 assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
 assessment#:#tst_status_missing#:#Mancano alcuni elementi che sono richiesti nel test!
@@ -521,6 +525,7 @@ assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_submit_answers#:#Accetto, voglio inviare le risposte
 assessment#:#tst_submit_answers_txt#:#Adesso puoi completare il test premendo 'Invia'.
 assessment#:#tst_submit_results#:#Si, confermo l'invio.
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_total_questions#:#Numero di domande
 assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, il numero di domande inserite nella raccolta viene ignorato ed il numero rappresenta le domande prelevate da ogni raccolta!
@@ -784,6 +789,7 @@ common#:#assessment_log_text#:#Messaggio del log
 common#:#assessment_log_user_answer#:#L'utente ha risposto ad una domanda
 common#:#assessment_log_user_answers#:#Mostra le azioni dell'utente
 common#:#assessment_settings#:#Impostazioni Test&Valutazioni
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Modificare i permessi
 common#:#assf_read#:#Accedere in lettura a Test&Valutazioni
 common#:#assf_visible#:#Vedere Test&Valutazioni
@@ -817,6 +823,9 @@ common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di
 common#:#auth_script#:#Personale
 common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
 common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
 common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
@@ -977,6 +986,7 @@ common#:#container#:#Contenitore
 common#:#content_styles#:#Stili presenti
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Oggetto copiato
 common#:#copy#:#Copia
 common#:#copyPage#:#Copia
@@ -1137,6 +1147,7 @@ common#:#err_ldap_auth_failed#:#Utente non autenticato sul server LDAP! Per favo
 common#:#err_ldap_connect_failed#:#Connessione al server LDAP fallita! Per favore controlla le impostazioni LDAP
 common#:#err_ldap_search_failed#:#Connessione al server LDAP fallita! Per favore controlla BaseDN e Search
 common#:#err_ldap_user_not_found#:#Utente non trvato sul server LDAP! Per favore controlla gli attributi di Login e Objectclass
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
@@ -1263,11 +1274,17 @@ common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
 common#:#forums#:#Forum
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Descrizione Forum
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#Un forum
 common#:#frm_add#:#Aggiungi forum
 common#:#frm_added#:#Forum aggiunto
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Crea un forum
 common#:#frm_delete#:#Cancellare un forum
 common#:#frm_delete_post#:#Cancellare un messaggio
@@ -1681,11 +1698,13 @@ common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, s
 common#:#login_invalid#:#L'utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS 3
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Logout
 common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
 common#:#logs#:#Log con i dati
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta
 common#:#mail_addressbook#:#Rubrica
@@ -1729,6 +1748,7 @@ common#:#matriculation#:#Numero di matricola
 common#:#max_number_rec#:#Numero massimo di record
 common#:#max_time#:#Tempo massimo
 common#:#member#:#Iscritto
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Utenti iscritti
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
 common#:#mep#:#Libreria multimediale
@@ -1879,6 +1899,7 @@ common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
 common#:#new_list_password#:#Password suggerite
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Nuova eMail!
 common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
@@ -1903,6 +1924,7 @@ common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_local_users#:#Non ci sono utenti locali
 common#:#no_objects#:#Nessun oggetto
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_roles_user_can_be_assigned_to#:#Non ci sono ruoli globali ai quali l'utente pu&#242; essere assegnato. Perci&#242; non ti &#232; consentito aggiungere utenti.
 common#:#no_title#:#Nessun titolo
@@ -1976,6 +1998,8 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Sondaggio
@@ -2293,6 +2317,14 @@ common#:#search_note#:#Se il campo 'Ricerca in' viene lasciato vuoto, verranno r
 common#:#search_recipient#:#Ricerca destinario
 common#:#search_result#:#Risultati ricerca
 common#:#search_user#:#Ricerca utente
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
@@ -2320,6 +2352,37 @@ common#:#setUserLanguage#:#Imposta come lingua utente
 common#:#set_offline#:#Metti offline
 common#:#set_online#:#Metti online
 common#:#settings#:#Impostazioni
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Mostra
 common#:#show_details#:#Mostra dettagli
 common#:#show_list#:#Mostra lista
@@ -2469,6 +2532,7 @@ common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#non lette
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Deseleziona
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
@@ -3038,6 +3102,7 @@ content#:#selected_pages_only#:#solamente le pagine selezionate sotto
 content#:#set_public_mode#:#Imposta in modalit&#224; di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#assigned#:#Assegnato
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
 crs#:#crs_accept_subscriber_body#:#Sei stato iscritto a questo corso.
@@ -3162,6 +3227,8 @@ crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_unblocked#:#Iscritto (bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Iscritti al corso
 crs#:#crs_members_title#:#Iscritti al corso
 crs#:#crs_move_down#:#Sposta in basso
@@ -3346,6 +3413,7 @@ crs#:#crs_visibility_unvisible#:#Non visibile
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Mofdifica il contenuto
 crs#:#learners_view#:#Vista studenti
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
@@ -3569,7 +3637,6 @@ dateplaner#:#week#:#Settimana
 dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
 forum#:#forums_all_threads_marked_read#:#Tutti gli argomenti sono stati indicati come letti
-forum#:#forums_articles#:#Articoli
 forum#:#forums_attachments#:#Allegati
 forum#:#forums_attachments_add#:#Aggiungi allegato
 forum#:#forums_attachments_edit#:#Modifica l&#039;allegato
@@ -3585,10 +3652,7 @@ forum#:#forums_edit_post#:#Modifica messaggio
 forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo messaggio?
 forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
-forum#:#forums_last_post#:#Ultimo messaggio
 forum#:#forums_mark_read#:#Segna come letto
-forum#:#forums_moderators#:#Moderatori
-forum#:#forums_new_articles#:#Nuovo articolo
 forum#:#forums_new_entries#:#Nuovi forum
 forum#:#forums_new_thread#:#Nuovo argomento
 forum#:#forums_not_available#:#Forum non disponbile
@@ -3610,7 +3674,6 @@ forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
 forum#:#forums_thread_marked#:#Questo argomento &#232; stato segnato come letto.
 forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
-forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta

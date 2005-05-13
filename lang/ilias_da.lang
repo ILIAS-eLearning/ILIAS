@@ -228,6 +228,7 @@ assessment#:#height#:#H&oslash;jde###07 Apr 2005 content changed
 assessment#:#imagemap#:#Billed mappe###07 Apr 2005 content changed
 assessment#:#imagemap_file#:#Billed mappe fil###07 Apr 2005 content changed
 assessment#:#imagemap_source#:#Billed mappe kilde###07 Apr 2005 content changed
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importer sp&oslash;rgsm&aring;l###07 Apr 2005 content changed
 assessment#:#insert_after#:#Inds&aelig;t efter###07 Apr 2005 content changed
 assessment#:#insert_before#:#Inds&aelig;t f&oslash;r###07 Apr 2005 content changed
@@ -360,6 +361,8 @@ assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidliger
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!###07 Apr 2005 content changed
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Slet alle bruger data###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#V&aelig;lg venligst mindst et m&aelig;rke for at slette det###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Nulstil test###07 Apr 2005 content changed
@@ -374,6 +377,7 @@ assessment#:#tst_eval_total_persons#:#Total antal af personer der har taget denn
 assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Generelle egenskaber###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Generer Excel###07 Apr 2005 content changed
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. Du har ikke rettighedder til at flytte eller &aelig;ndre sp&oslash;rgsm&aring;lende i denne test!###07 Apr 2005 content changed
 assessment#:#tst_insert_missing_question#:#V&aelig;lg venligst mindst et sp&oslash;rgsm&aring;l at inds&aelig;tte i denne test!###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Er du sikker p&aring; du vil inds&aelig;tte f&oslash;lgende sp&oslash;rgsm&aring;l i denne test?###07 Apr 2005 content changed
@@ -476,6 +480,7 @@ assessment#:#tst_status_progress#:#Igang###07 Apr 2005 content changed
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Tid allerede brugt p&aring; arbejde###07 Apr 2005 content changed
 assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
 assessment#:#tst_type#:#Test type###07 Apr 2005 content changed
@@ -717,6 +722,7 @@ common#:#approve_date#:#Godkendt den###07 Apr 2005 content changed
 common#:#approve_recipient#:#Login ID p&aring; administratoren###07 Apr 2005 content changed
 common#:#archive#:#Arkiver###07 Apr 2005 content changed
 common#:#are_you_sure#:#Er du sikker?###07 Apr 2005 content changed
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assign#:#Tildel###07 Apr 2005 content changed
 common#:#assign_global_role#:#Tildel en lokal rolle###07 Apr 2005 content changed
 common#:#assign_lo_forum#:#Tildel LO Forum###07 Apr 2005 content changed
@@ -744,6 +750,9 @@ common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertif
 common#:#auth_script#:#brugervalgte###07 Apr 2005 content changed
 common#:#auth_script_desc#:#Vertificer brugeren via external script###07 Apr 2005 content changed
 common#:#auth_select#:#V&aelig;lg vertifikations mode###07 Apr 2005 content changed
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Vertifikations indstllinger er synlige###07 Apr 2005 content changed
 common#:#auth_write#:#Rediger Vertifikations adgang###07 Apr 2005 content changed
 common#:#author#:#Forfatter###07 Apr 2005 content changed
@@ -891,6 +900,7 @@ common#:#contact_data#:#Kontakt Information###07 Apr 2005 content changed
 common#:#container#:#Kontainer###07 Apr 2005 content changed
 common#:#context#:#Kontekst###07 Apr 2005 content changed
 common#:#continue_work#:#Forts&aelig;t###07 Apr 2005 content changed
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Kopieret Objekt###07 Apr 2005 content changed
 common#:#copy#:#Kopier###07 Apr 2005 content changed
 common#:#copyPage#:#Kopier###07 Apr 2005 content changed
@@ -1035,6 +1045,7 @@ common#:#err_ldap_auth_failed#:#Brugeren kunne ikke genkendes af LDAP serveren! 
 common#:#err_ldap_connect_failed#:#Forbindelsen til LDAP serveren fejlede! Check venligst dine indstillinger###07 Apr 2005 content changed
 common#:#err_ldap_search_failed#:#Forbindelsen til LDAP serveren fejlede! Check venligst BaseDN og Search base###07 Apr 2005 content changed
 common#:#err_ldap_user_not_found#:#Brugeren kunne ikke findes p&aring; LDAP serveren!  Check venligst login name and Objekt klasser###07 Apr 2005 content changed
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Ingen sprogfil er fundet!###07 Apr 2005 content changed
 common#:#err_no_param#:#Intet parameter!###07 Apr 2005 content changed
 common#:#err_over_3_param#:#Mere end 3 parametre!###07 Apr 2005 content changed
@@ -1156,11 +1167,17 @@ common#:#forum_notification#:#Notification###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Kontakt mig n&aring;r der kommer et svar###07 Apr 2005 content changed
 common#:#forum_post_replied#:#Dit indl&aelig;g til forummet er blevet besvaret.###07 Apr 2005 content changed
 common#:#forums#:#Forummer###07 Apr 2005 content changed
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Oversigt over forum###07 Apr 2005 content changed
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum###07 Apr 2005 content changed
 common#:#frm_a#:#et Forum###07 Apr 2005 content changed
 common#:#frm_add#:#Tilf&oslash;j Forum###07 Apr 2005 content changed
 common#:#frm_added#:#Forum er tilf&oslash;jet###07 Apr 2005 content changed
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Opret Forum###07 Apr 2005 content changed
 common#:#frm_delete#:#Slet Forum###07 Apr 2005 content changed
 common#:#frm_delete_post#:#Slet et indl&aelig;g, censorship###07 Apr 2005 content changed
@@ -1527,10 +1544,12 @@ common#:#login_exists#:#Der er allerede med dette navn! V&aelig;lg venligst et a
 common#:#login_invalid#:#Det valgte login er ugyldigt! Kun f&oslash;lgende karaktere er gyldige (minimum 4 karaktere): A-Z a-z 0-9 _.-+*@!$%~###07 Apr 2005 content changed
 common#:#login_time#:#Tid online###07 Apr 2005 content changed
 common#:#login_to_ilias#:#Login p&aring; ILIAS###07 Apr 2005 content changed
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Log af###07 Apr 2005 content changed
 common#:#logout_text#:#Du er logget af ILIAS. Din Forbindelse er lukket.###07 Apr 2005 content changed
 common#:#los#:#L&aelig;rer objekter###07 Apr 2005 content changed
 common#:#los_last_visited#:#Sidst bes&oslash;gte l&aelig;rer objekter###07 Apr 2005 content changed
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Mail###07 Apr 2005 content changed
 common#:#mail_a_root#:#Mailboks###07 Apr 2005 content changed
 common#:#mail_addressbook#:#Addresse bog###07 Apr 2005 content changed
@@ -1573,6 +1592,7 @@ common#:#mark_all_unread#:#Marker alle som ul&aelig;st###07 Apr 2005 content cha
 common#:#max_number_rec#:#Maximalt antal data###07 Apr 2005 content changed
 common#:#max_time#:#Maximal tid###07 Apr 2005 content changed
 common#:#member#:#Medlem###07 Apr 2005 content changed
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Medlemmer###07 Apr 2005 content changed
 common#:#membership_annulled#:#Dit medlemskab er blevet annulleret###07 Apr 2005 content changed
 common#:#mep#:#Medie afstemning###07 Apr 2005 content changed
@@ -1717,6 +1737,7 @@ common#:#new_appointment#:#Ny aftale###07 Apr 2005 content changed
 common#:#new_folder#:#Ny mappe###07 Apr 2005 content changed
 common#:#new_group#:#Ny Gruppe###07 Apr 2005 content changed
 common#:#new_language#:#Nyt sprog###07 Apr 2005 content changed
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Ny mail!###07 Apr 2005 content changed
 common#:#news#:#Nyheder###07 Apr 2005 content changed
 common#:#next#:#n&aelig;ste###07 Apr 2005 content changed
@@ -1740,6 +1761,7 @@ common#:#no_limit#:#Ingen GR&aelig;nse###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Ingen l&aelig;rer objekter i din personlige liste.###07 Apr 2005 content changed
 common#:#no_local_users#:#Der er ingen lokal bruger###07 Apr 2005 content changed
 common#:#no_objects#:#Ingen objekter###07 Apr 2005 content changed
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Du har ikke tilladelse til at se denne gruppe!###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###07 Apr 2005 content changed
 common#:#no_title#:#Ingen Titel###07 Apr 2005 content changed
@@ -1808,6 +1830,8 @@ common#:#obj_rolf_local_desc#:#Indeholder lokale roller fra objekter.###07 Apr 2
 common#:#obj_rolt#:#Rolle template###07 Apr 2005 content changed
 common#:#obj_root#:#ILIAS root node###07 Apr 2005 content changed
 common#:#obj_sahs#:#L&aelig;rer Modul SCORM/AICC###07 Apr 2005 content changed
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Sp&oslash;rgsm&aring;l afstemning til unders&oslash;gelse###07 Apr 2005 content changed
 common#:#obj_st#:#Kapitel###07 Apr 2005 content changed
 common#:#obj_svy#:#Unders&oslash;gelse###07 Apr 2005 content changed
@@ -2094,6 +2118,14 @@ common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be
 common#:#search_recipient#:#S&oslash;g efter modtager###07 Apr 2005 content changed
 common#:#search_result#:#S&oslash;ge resultater###07 Apr 2005 content changed
 common#:#search_user#:#S&oslash;g efter bruger###07 Apr 2005 content changed
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Sektioner###07 Apr 2005 content changed
 common#:#select#:#v&aelig;lg###07 Apr 2005 content changed
 common#:#select_all#:#V&aelig;lg alle###07 Apr 2005 content changed
@@ -2119,6 +2151,37 @@ common#:#setUserLanguage#:#S&aelig;t Bruger sprog###07 Apr 2005 content changed
 common#:#set_offline#:#S&aelig;t til Offline###07 Apr 2005 content changed
 common#:#set_online#:#S&aelig;t til Online###07 Apr 2005 content changed
 common#:#settings#:#Indstillinger###07 Apr 2005 content changed
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Vis###07 Apr 2005 content changed
 common#:#show_details#:#Vis Detaljer###07 Apr 2005 content changed
 common#:#show_list#:#Vis Liste###07 Apr 2005 content changed
@@ -2254,6 +2317,7 @@ common#:#uninstall#:#afinstaller###07 Apr 2005 content changed
 common#:#uninstalled#:#afinstalleret.###07 Apr 2005 content changed
 common#:#unknown#:#Ukendt###07 Apr 2005 content changed
 common#:#unread#:#Ul&aelig;ste###07 Apr 2005 content changed
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Uvalgt###07 Apr 2005 content changed
 common#:#unsubscribe#:#Afmeld###07 Apr 2005 content changed
 common#:#unzip#:#Unzip###07 Apr 2005 content changed
@@ -2689,6 +2753,7 @@ content#:#read offline#:#L&aelig;s Offline###07 Apr 2005 content changed
 content#:#select_a_file#:#V&aelig;lg en fil.###07 Apr 2005 content changed
 content#:#st#:#Kapitel###07 Apr 2005 content changed
 content#:#start export#:#Start Exportering###07 Apr 2005 content changed
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.###07 Apr 2005 content changed
 crs#:#crs_access_password#:#Password###07 Apr 2005 content changed
@@ -2767,6 +2832,8 @@ crs#:#crs_member_blocked#:#Medlem (blokeret)###07 Apr 2005 content changed
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)###07 Apr 2005 content changed
 crs#:#crs_member_updated#:#Medlemmet er blevet opdateret###07 Apr 2005 content changed
 crs#:#crs_members_deleted#:#Slettede medlemmer###07 Apr 2005 content changed
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Kursus medlemmer###07 Apr 2005 content changed
 crs#:#crs_members_title#:#Kursus medlemmer###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Ryk ned###07 Apr 2005 content changed
@@ -2873,6 +2940,7 @@ crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Arkiver###07 Apr 2005 content changed
 dateplaner#:#DateText#:#Besked###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Dagsoversigt###07 Apr 2005 content changed
@@ -3095,7 +3163,6 @@ dateplaner#:#week#:#uge###07 Apr 2005 content changed
 dateplaner#:#year#:#&aring;r###07 Apr 2005 content changed
 forum#:#forums#:#Forums###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
-forum#:#forums_articles#:#Artikler###07 Apr 2005 content changed
 forum#:#forums_attachments#:#Vedh&aelig;ftninger###07 Apr 2005 content changed
 forum#:#forums_attachments_add#:#Tilf&oslash;j vedh&aelig;ftning###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Rediger vedh&aelig;ftning###07 Apr 2005 content changed
@@ -3111,10 +3178,7 @@ forum#:#forums_edit_post#:#Rediger Artikel###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#Genkald moderator?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Er du sikker p&aring; du vil skjule denne artikel?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Er du sikker p&aring; at du vil slette den artikel inkl. eventuelle svar p&aring; den?###07 Apr 2005 content changed
-forum#:#forums_last_post#:#Sidste Armtikel###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Marker alle som l&aelig;st###07 Apr 2005 content changed
-forum#:#forums_moderators#:#Moderatore###07 Apr 2005 content changed
-forum#:#forums_new_articles#:#Nye artikler###07 Apr 2005 content changed
 forum#:#forums_new_entries#:#Ny forum tr&aring;d###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Nyt emne###07 Apr 2005 content changed
 forum#:#forums_not_available#:#Forums ikke tilg&aelig;ngelige###07 Apr 2005 content changed
@@ -3135,7 +3199,6 @@ forum#:#forums_thread_articles#:#Artikler om alle emner###07 Apr 2005 content ch
 forum#:#forums_thread_create_date#:#Oprettet den###07 Apr 2005 content changed
 forum#:#forums_thread_create_from#:#Oprettet af###07 Apr 2005 content changed
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.###07 Apr 2005 content changed
-forum#:#forums_threads#:#Tr&aring;de###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#Emne Oversigt###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#Dit Svar###07 Apr 2005 content changed
