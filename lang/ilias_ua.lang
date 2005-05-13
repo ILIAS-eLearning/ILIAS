@@ -245,6 +245,7 @@ assessment#:#height#:#Висота
 assessment#:#imagemap#:#Карта зображення
 assessment#:#imagemap_file#:#Файл з картою зображення
 assessment#:#imagemap_source#:#Джерело карти зображення
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Імпортувати питання
 assessment#:#insert_after#:#Вставити після
 assessment#:#insert_before#:#Вставити перед
@@ -388,13 +389,15 @@ assessment#:#too_many_empty_parameters#:#Будь ласка заповніть 
 assessment#:#true#:#Правда
 assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
 assessment#:#tst_already_taken#:#Тест вже вибраний
-assessment#:#tst_anon_eval#:#Анонімно зібрані результати
+assessment#:#tst_anon_eval#:#Анонімно зібрані результати###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Лист з Тестовою Відповіддю
 assessment#:#tst_browse_for_questions#:#Огляд для питань
 assessment#:#tst_confirm_delete_results#:#Ви видаляєте усі ваші попередньо введені результати цього тесту. Це обнулить усі питання на їх початкове значення. Будь ласка зауважте, що ви не можете обнулити кількість спроб, вони ще потрібні для цього тесту. Ви дійсно бажаєте обнулити усі попередньо введені результати ?
 assessment#:#tst_confirm_delete_results_info#:#Ваші попередньо введені результати по питанням тесту були видалені. Ви вдало обнулили тест!
 assessment#:#tst_confirm_print#:#Натисніть кнопку щоб надрукувати усі питання з пунктами та відповідями. Питання завжди знаходиться у кінці сторінки.
 assessment#:#tst_confirm_submit_answers#:#Будь ласка підтвердіть ваш вибір. Ви не зможете повернутись та відповісти знову нісля натиснення на кнопку пітвердження. Будь ласка використовуйте механізм друку вашого браузера щоб надрукувати вибрану сторінку.
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Видалити усі дані користувача
 assessment#:#tst_delete_missing_mark#:#Будь ласка виберіть принаймні одну відмітку для видалення
 assessment#:#tst_delete_results#:#Обнулити тест
@@ -411,6 +414,7 @@ assessment#:#tst_eval_user_answer#:#Відповідь користувача
 assessment#:#tst_finished#:#Закінчений
 assessment#:#tst_general_properties#:#Загальні властивості
 assessment#:#tst_generate_xls#:#Сгенерувати Excel
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Тест виконують користувачі: %d осіб. Вам не дозволено редагувати або переміщувати питання в цьому тесті!
 assessment#:#tst_insert_missing_question#:#Будь ласка виберіть хоча б одне питання, щоб вставити його в тест!
 assessment#:#tst_insert_questions#:#Ви впервені що ви бажаєте вставити наступні питання в тест?
@@ -510,7 +514,7 @@ assessment#:#tst_stat_result_timeofwork#:#Час роботи
 assessment#:#tst_stat_result_total_participants#:#Загальна кількість учасників
 assessment#:#tst_stat_selected_users#:#Вибрані користувачі
 assessment#:#tst_stat_users_intro#:#Показати статистичні оцінки для
-assessment#:#tst_statistical_evaluation#:#Засіб статистичного аналізу
+assessment#:#tst_statistical_evaluation#:#Засіб статистичного аналізу###13 May 2005 content changed
 assessment#:#tst_status_completed#:#завершено
 assessment#:#tst_status_completed_more_tries_possible#:#(завершено)
 assessment#:#tst_status_missing#:#Існуєть потрібні елементи, що відсутні в цьому тесті!
@@ -521,6 +525,7 @@ assessment#:#tst_status_progress#:#в процессі
 assessment#:#tst_submit_answers#:#Так, я бажаю підтвердити мої відповіді
 assessment#:#tst_submit_answers_txt#:#Зараз ви можете закінчити тест підствердивши ваші відповіді.
 assessment#:#tst_submit_results#:#Так, Я підтверджую вибір.
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Час вже витрачений на роботу
 assessment#:#tst_total_questions#:#Загальна кількість питань
 assessment#:#tst_total_questions_description#:#Якщо ви встановите це значення, кількість питань, введених в пулі питань, буде проігноровано. Якщо ви не встановите це значення, ви маєте ввести кількість для кожного вибраного пулу питань!
@@ -784,6 +789,7 @@ common#:#assessment_log_text#:#Лог повідомлення
 common#:#assessment_log_user_answer#:#Користувач відповів на питання
 common#:#assessment_log_user_answers#:#Показати дії користувача
 common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Змінити настройки прав
 common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням
 common#:#assf_visible#:#Адміністрування Тестами & Оцінюванням є видимим
@@ -817,6 +823,9 @@ common#:#auth_remark_non_local_auth#:#Коли вибирається інший
 common#:#auth_script#:#Заказ
 common#:#auth_script_desc#:#Аутентифікація користувачів через зовнішній скрипт
 common#:#auth_select#:#Вибір методу аутентифікації
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Настройки аутентифікації є видимі
 common#:#auth_write#:#Редагувати настройки аутентифікації
 common#:#author#:#Автор
@@ -977,6 +986,7 @@ common#:#container#:#Контейнер
 common#:#content_styles#:#Стилі Вмісту
 common#:#context#:#Контекст
 common#:#continue_work#:#Продовжити
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Скопійовані об'єкти
 common#:#copy#:#Копіювати
 common#:#copyPage#:#Копіювати
@@ -1137,6 +1147,7 @@ common#:#err_ldap_auth_failed#:#Користувач не аутентифіко
 common#:#err_ldap_connect_failed#:#Невдале з'єднання з LDAP сервером! Будь ласка перевірте ваші настройки
 common#:#err_ldap_search_failed#:#Невдале з'єднання з LDAP сервером! Будь ласка перевірте BaseDN та Search базу
 common#:#err_ldap_user_not_found#:#Користувач не знайдений на LDAP сервері! Будь ласка перевірте атрібути - логіну та Objectclass
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
 common#:#err_no_param#:#Немає параметру!
 common#:#err_over_3_param#:#Більш ніж 3 параметри!
@@ -1263,11 +1274,17 @@ common#:#forum_notification#:#Повідомлення
 common#:#forum_notify_me#:#Повідомити меня про відповідь
 common#:#forum_post_replied#:#На вашу відку в форумі з'явилась відповідь!
 common#:#forums#:#Форуми
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Огляд Форумів
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Форум
 common#:#frm_a#:#Форум
 common#:#frm_add#:#Додати Форум
 common#:#frm_added#:#Форум доданий
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Створити Форум
 common#:#frm_delete#:#Видалити Форум
 common#:#frm_delete_post#:#Видалити пост, цензура
@@ -1673,11 +1690,13 @@ common#:#login_exists#:#Вже є користувач з цим логіном!
 common#:#login_invalid#:#Вибраний логін є невірним! Дозволеними є тільки наступні символи (мінімум 4 символи): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Час онлайн
 common#:#login_to_ilias#:#Логін в ILIAS
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Вихід
 common#:#logout_text#:#Ви вийшли з ILIAS. Ваша сессія була закрита.
 common#:#logs#:#Лог дата
 common#:#los#:#Учбові Об'єкти
 common#:#los_last_visited#:#Останні Відвідані Учбові Об'єкти
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Пошта
 common#:#mail_a_root#:#Поштова Скринька
 common#:#mail_addressbook#:#Адресна книга
@@ -1721,6 +1740,7 @@ common#:#matriculation#:#Номер зачислення
 common#:#max_number_rec#:#Максимальна кількість записів
 common#:#max_time#:#Максимальний час
 common#:#member#:#Член
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Члени
 common#:#membership_annulled#:#Ваше членство було відмінено
 common#:#mep#:#Медіа Банк
@@ -1871,6 +1891,7 @@ common#:#new_folder#:#Нова Папка
 common#:#new_group#:#Нова Група
 common#:#new_language#:#Нова Мова
 common#:#new_list_password#:#Нові пропозиції
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Нова пошта!
 common#:#news#:#Новини
 common#:#next#:#наступний
@@ -1895,6 +1916,7 @@ common#:#no_limit#:#Немає обмеження
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
 common#:#no_local_users#:#Немає локальних користувачів
 common#:#no_objects#:#Немає об'єктів
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
 common#:#no_roles_user_can_be_assigned_to#:#Немає глобальної ролі до якої може бути призначений користувач. Тому вам не дозволено додавати користувачів.
 common#:#no_title#:#Немає Назви
@@ -1968,6 +1990,8 @@ common#:#obj_rolf_local_desc#:#Містить локальні ролі об'є�
 common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
 common#:#obj_sahs#:#SCORM/AICC Учбовий Модуль
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Банк Питань (Опитування)
 common#:#obj_st#:#Глава
 common#:#obj_stys#:#Настройки Стилю
@@ -2287,6 +2311,14 @@ common#:#search_note#:#Якщо &quot;шукати в&quot; залишити п�
 common#:#search_recipient#:#Шукати Одержувача
 common#:#search_result#:#Результат пошуку
 common#:#search_user#:#Шукати Користувача
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Секції
 common#:#select#:#Вибрати
 common#:#select_all#:#Вибрати Усе
@@ -2314,6 +2346,37 @@ common#:#setUserLanguage#:#Встановити Мову Користувача
 common#:#set_offline#:#Встановити Оффлайн
 common#:#set_online#:#Встановити Онлайн
 common#:#settings#:#Настройки
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Показати
 common#:#show_details#:#показати деталі
 common#:#show_list#:#Показати Список
@@ -2463,6 +2526,7 @@ common#:#uninstall#:#Деінсталювати
 common#:#uninstalled#:#деінстальовано.
 common#:#unknown#:#НЕВІДОМИЙ
 common#:#unread#:#Непрочитаний
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Невибраний
 common#:#unsubscribe#:#відписатись
 common#:#unzip#:#Unzip
@@ -3030,6 +3094,7 @@ content#:#selected_pages_only#:#тільки ті сторінки вибран�
 content#:#set_public_mode#:#Встановити публічний режим доступу
 content#:#st#:#Глава
 content#:#start export#:#Почати Експорт
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#assigned#:#Призначений
 crs#:#crs_accept_subscriber#:#Підписка на курс
 crs#:#crs_accept_subscriber_body#:#Ви були призначені на цей курс.
@@ -3154,6 +3219,8 @@ crs#:#crs_member_blocked#:#Mitglied (разблокований)
 crs#:#crs_member_unblocked#:#Член (блокований)
 crs#:#crs_member_updated#:#Член оновлений
 crs#:#crs_members_deleted#:#Видалені члени
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Члени курсу
 crs#:#crs_members_title#:#Члени курсу
 crs#:#crs_move_down#:#Перемістити вниз
@@ -3334,6 +3401,7 @@ crs#:#crs_users_already_assigned#:#Користувач вже призначе�
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Редагувати вміст
 crs#:#learners_view#:#Учнівський вид
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Архіви
 dateplaner#:#DateText#:#Повідомлення
 dateplaner#:#Day_long#:#Денний Огляд
@@ -3557,7 +3625,6 @@ dateplaner#:#week#:#тиждень
 dateplaner#:#year#:#рік
 forum#:#forums#:#Форуми
 forum#:#forums_all_threads_marked_read#:#Усі теми помічені як прочитані
-forum#:#forums_articles#:#Пост
 forum#:#forums_attachments#:#Прикріплення
 forum#:#forums_attachments_add#:#Додати прикріплення
 forum#:#forums_attachments_edit#:#Редагувати прикріплення
@@ -3573,10 +3640,7 @@ forum#:#forums_edit_post#:#Редагувати Пост
 forum#:#forums_info_censor2_post#:#Відмінити права на Цензуру?
 forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте сховати цей пост?
 forum#:#forums_info_delete_post#:#Ви впевнені що ви бажаєте видалитти цей пост разом з усіма відповідями на нього?
-forum#:#forums_last_post#:#Останній Пост
 forum#:#forums_mark_read#:#Помітити усе як прочитане
-forum#:#forums_moderators#:#Модератори
-forum#:#forums_new_articles#:#Нові статті
 forum#:#forums_new_entries#:#Нові Надходження в Форуми
 forum#:#forums_new_thread#:#Нова Тема
 forum#:#forums_not_available#:#Форуми Недоступні
@@ -3598,7 +3662,6 @@ forum#:#forums_thread_create_date#:#Створений
 forum#:#forums_thread_create_from#:#Стоврений з
 forum#:#forums_thread_marked#:#Тема помічена як прочитана.
 forum#:#forums_thread_new_entry#:#Нова тема створена
-forum#:#forums_threads#:#Теми
 forum#:#forums_threads_not_available#:#Теми Недоступні
 forum#:#forums_topics_overview#:#Огляд Тем
 forum#:#forums_your_reply#:#Ваша Відповідь

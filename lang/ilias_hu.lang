@@ -245,6 +245,7 @@ assessment#:#height#:#Magasság###07 Apr 2005 content changed
 assessment#:#imagemap#:#Image Map###07 Apr 2005 content changed
 assessment#:#imagemap_file#:#Image map file###05 Nov 2004 new variable
 assessment#:#imagemap_source#:#Image Map forrása###07 Apr 2005 content changed
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Import question(s)###05 Nov 2004 new variable
 assessment#:#insert_after#:#Beszúrás utána###07 Apr 2005 content changed
 assessment#:#insert_before#:#Beszúrás elé###07 Apr 2005 content changed
@@ -397,6 +398,8 @@ assessment#:#tst_confirm_delete_results#:#You are about to delete all your previ
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###05 Nov 2004 new variable
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Minden felhasználói adat törlése###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Válasszon legalább egy jelöléslépést a törléshez###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Reset test###05 Nov 2004 new variable
@@ -413,6 +416,7 @@ assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
 assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Általános jellemzők###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Létrehozás Excel-ben###07 Apr 2005 content changed
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
 assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a tesztbe beillesztéshez!###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Biztosan be akarja tenni az alábbi kérdés(eke)t a tesztbe?###07 Apr 2005 content changed
@@ -523,6 +527,7 @@ assessment#:#tst_status_progress#:#Folyamatban###07 Apr 2005 content changed
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Time already spent working###05 Nov 2004 new variable
 assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
@@ -786,6 +791,7 @@ common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
 common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
 common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
@@ -819,6 +825,9 @@ common#:#auth_remark_non_local_auth#:#When selecting another authentication mode
 common#:#auth_script#:#Custom###05 Nov 2004 new variable
 common#:#auth_script_desc#:#Authenticate users via external script###05 Nov 2004 new variable
 common#:#auth_select#:#Select authentication mode###05 Nov 2004 new variable
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Authentication settings are visible###05 Nov 2004 new variable
 common#:#auth_write#:#Edit authentication settings###05 Nov 2004 new variable
 common#:#author#:#Szerző###07 Apr 2005 content changed
@@ -979,6 +988,7 @@ common#:#container#:#Konténer###07 Apr 2005 content changed
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Tartalom###07 Apr 2005 content changed
 common#:#continue_work#:#Folytatás###07 Apr 2005 content changed
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Copied object###05 Nov 2004 new variable
 common#:#copy#:#Másolás###07 Apr 2005 content changed
 common#:#copyPage#:#Másolás###07 Apr 2005 content changed
@@ -1139,6 +1149,7 @@ common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please en
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###05 Nov 2004 new variable
 common#:#err_ldap_search_failed#:#Connection to LDAP server failed! PLease check BaseDN and Search base###05 Nov 2004 new variable
 common#:#err_ldap_user_not_found#:#User not found on LDAP server! Please check attribute for login name and Objectclass###05 Nov 2004 new variable
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Nem található nyelvi fájl!###07 Apr 2005 content changed
 common#:#err_no_param#:#Nincs paraméter!###07 Apr 2005 content changed
 common#:#err_over_3_param#:#Több, mint 3 paraméter szükséges!###07 Apr 2005 content changed
@@ -1265,11 +1276,17 @@ common#:#forum_notification#:#Értesítés###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Értesítést kérek, ha a válasz elküldésre került###07 Apr 2005 content changed
 common#:#forum_post_replied#:#Fórum-hozzászólása megválaszolásra került###07 Apr 2005 content changed
 common#:#forums#:#Fórumok###07 Apr 2005 content changed
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Fórumok áttekintése###07 Apr 2005 content changed
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Fórum###07 Apr 2005 content changed
 common#:#frm_a#:#egy fórum###07 Apr 2005 content changed
 common#:#frm_add#:#Fórum hozzáadása###07 Apr 2005 content changed
 common#:#frm_added#:#Fórum hozzáadva###07 Apr 2005 content changed
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Fórum létrehozása###07 Apr 2005 content changed
 common#:#frm_delete#:#Fórum törlése###07 Apr 2005 content changed
 common#:#frm_delete_post#:#Hozzászólás törlése, cenzúra###07 Apr 2005 content changed
@@ -1683,11 +1700,13 @@ common#:#login_exists#:#Már van ilyen bejelentkezési nevű felhasználó! Vál
 common#:#login_invalid#:#A választott bejelentkezés nem érvényes! Csak a következő karakterek használhatók (minimum 4 karakter): A-Z a-z 0-9 _.+*@!$%~###07 Apr 2005 content changed
 common#:#login_time#:#On-line használat ideje###07 Apr 2005 content changed
 common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba###07 Apr 2005 content changed
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Kijelentkezés###07 Apr 2005 content changed
 common#:#logout_text#:#Kijelentkezett az ILIAS-ból. Kapcsolódása megszűnt.###07 Apr 2005 content changed
 common#:#logs#:#Log data###07 Jan 2005 new variable
 common#:#los#:#Tananyagobjektumok###07 Apr 2005 content changed
 common#:#los_last_visited#:#Utoljára látogatott tananyagobjektumok###07 Apr 2005 content changed
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#E-mail###07 Apr 2005 content changed
 common#:#mail_a_root#:#Postaláda###07 Apr 2005 content changed
 common#:#mail_addressbook#:#Címlista###07 Apr 2005 content changed
@@ -1731,6 +1750,7 @@ common#:#matriculation#:#Matriculation number###05 Nov 2004 new variable
 common#:#max_number_rec#:#Maximális rekordszám###07 Apr 2005 content changed
 common#:#max_time#:#Maximális idő###07 Apr 2005 content changed
 common#:#member#:#Tag###07 Apr 2005 content changed
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Tagok###07 Apr 2005 content changed
 common#:#membership_annulled#:#Tagságát felbontották###07 Apr 2005 content changed
 common#:#mep#:#Médiagyűjtemény###07 Apr 2005 content changed
@@ -1881,6 +1901,7 @@ common#:#new_folder#:#Új mappa###07 Apr 2005 content changed
 common#:#new_group#:#Új csoport###07 Apr 2005 content changed
 common#:#new_language#:#Új nyelv###07 Apr 2005 content changed
 common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Új e-mail!###07 Apr 2005 content changed
 common#:#news#:#Hírek###07 Apr 2005 content changed
 common#:#next#:#következő###07 Apr 2005 content changed
@@ -1905,6 +1926,7 @@ common#:#no_limit#:#Nincs korlát###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Nincs tananyagobjektum a személyes listában.###07 Apr 2005 content changed
 common#:#no_local_users#:#There are no local user###05 Nov 2004 new variable
 common#:#no_objects#:#Nincsenek objektumok###07 Apr 2005 content changed
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Nem engedélyezett, hogy csatlakozzon ehhez a csoporthoz!###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###05 Nov 2004 new variable
 common#:#no_title#:#Nincs cím###07 Apr 2005 content changed
@@ -1978,6 +2000,8 @@ common#:#obj_rolf_local_desc#:#Az objektum helyi szerepeit tartalmazza.###07 Apr
 common#:#obj_rolt#:#Szerepminta###07 Apr 2005 content changed
 common#:#obj_root#:#ILIAS gyökércsomópont###07 Apr 2005 content changed
 common#:#obj_sahs#:#Learning Module SCORM/AICC###05 Nov 2004 new variable
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Kérdésgyűjtemény (felmérés)###07 Apr 2005 content changed
 common#:#obj_st#:#Fejezet###07 Apr 2005 content changed
 common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
@@ -2297,6 +2321,14 @@ common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be
 common#:#search_recipient#:#Címzett keresése###07 Apr 2005 content changed
 common#:#search_result#:#Keresési eredmény###07 Apr 2005 content changed
 common#:#search_user#:#Felhasználó keresése###07 Apr 2005 content changed
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Szekciók###07 Apr 2005 content changed
 common#:#select#:#Kijelölés###07 Apr 2005 content changed
 common#:#select_all#:#Mindent kijelöl###07 Apr 2005 content changed
@@ -2324,6 +2356,37 @@ common#:#setUserLanguage#:#Felhasználói nyelv beállítása###07 Apr 2005 cont
 common#:#set_offline#:#Off-line-re állítás###07 Apr 2005 content changed
 common#:#set_online#:#On-line-ra állítás###07 Apr 2005 content changed
 common#:#settings#:#Beállítások###07 Apr 2005 content changed
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Mutat###07 Apr 2005 content changed
 common#:#show_details#:#részletek mutatása###07 Apr 2005 content changed
 common#:#show_list#:#Lista mutatása###07 Apr 2005 content changed
@@ -2473,6 +2536,7 @@ common#:#uninstall#:#Eltávolítás###07 Apr 2005 content changed
 common#:#uninstalled#:#eltávolítva.###07 Apr 2005 content changed
 common#:#unknown#:#ISMERETLEN###07 Apr 2005 content changed
 common#:#unread#:#Olvasatlan###07 Apr 2005 content changed
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Unselected###05 Nov 2004 new variable
 common#:#unsubscribe#:#leadás###07 Apr 2005 content changed
 common#:#unzip#:#Unzip###05 Nov 2004 new variable
@@ -3043,6 +3107,7 @@ content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 ne
 content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Fejezet###07 Apr 2005 content changed
 content#:#start export#:#Start Export###05 Nov 2004 new variable
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#assigned#:#Assigned###01 Mar 2005 new variable
 crs#:#crs_accept_subscriber#:#Course subscription###05 Nov 2004 new variable
 crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.###05 Nov 2004 new variable
@@ -3167,6 +3232,8 @@ crs#:#crs_member_blocked#:#Mitglied (blocked)###05 Nov 2004 new variable
 crs#:#crs_member_unblocked#:#Member (unblocked)###05 Nov 2004 new variable
 crs#:#crs_member_updated#:#The member has been updated###05 Nov 2004 new variable
 crs#:#crs_members_deleted#:#Deleted members###05 Nov 2004 new variable
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Course members###05 Nov 2004 new variable
 crs#:#crs_members_title#:#Course members###05 Nov 2004 new variable
 crs#:#crs_move_down#:#Move down###05 Nov 2004 new variable
@@ -3351,6 +3418,7 @@ crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###05 Nov 2004 new variable
 crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Archives###05 Nov 2004 new variable
 dateplaner#:#DateText#:#Üzenet###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Napi nézet###07 Apr 2005 content changed
@@ -3574,7 +3642,6 @@ dateplaner#:#week#:#hét###07 Apr 2005 content changed
 dateplaner#:#year#:#year###05 Nov 2004 new variable
 forum#:#forums#:#Fórumok###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
-forum#:#forums_articles#:#Hozzászólások###07 Apr 2005 content changed
 forum#:#forums_attachments#:#Csatolások###07 Apr 2005 content changed
 forum#:#forums_attachments_add#:#Csatolás hozzáadása###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Csatolás szerkesztése###07 Apr 2005 content changed
@@ -3590,10 +3657,7 @@ forum#:#forums_edit_post#:#Hozzászólás szerkesztése###07 Apr 2005 content ch
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?###07 Apr 2005 content changed
-forum#:#forums_last_post#:#Utolsó hozzászólás###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
-forum#:#forums_moderators#:#Moderátorok###07 Apr 2005 content changed
-forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
 forum#:#forums_new_entries#:#Új fórumbejegyzések###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Új téma###07 Apr 2005 content changed
 forum#:#forums_not_available#:#A fórumok nem érhetők el###07 Apr 2005 content changed
@@ -3615,7 +3679,6 @@ forum#:#forums_thread_create_date#:#Készült###07 Apr 2005 content changed
 forum#:#forums_thread_create_from#:#Létrehozta###07 Apr 2005 content changed
 forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Új téma került beírásra###07 Apr 2005 content changed
-forum#:#forums_threads#:#Témák###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#A témák nem elérhetők###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#Témák áttekintése###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#Your Reply###05 Nov 2004 new variable

@@ -241,6 +241,7 @@ assessment#:#height#:#Hauteur###07 Apr 2005 content changed
 assessment#:#imagemap#:#Image réactive###07 Apr 2005 content changed
 assessment#:#imagemap_file#:#Fichier d'image réactive###07 Apr 2005 content changed
 assessment#:#imagemap_source#:#Source d'image réactive###07 Apr 2005 content changed
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importer question(s)###07 Apr 2005 content changed
 assessment#:#insert_after#:#Insérer après###07 Apr 2005 content changed
 assessment#:#insert_before#:#Insérer avant###07 Apr 2005 content changed
@@ -389,6 +390,8 @@ assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire t
 assessment#:#tst_confirm_delete_results_info#:#Vos résultats précédemment saisis ont été détruits. Vous avez réinitialisé le test avec succès.###07 Apr 2005 content changed
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Réinitialiser le test###07 Apr 2005 content changed
@@ -405,6 +408,7 @@ assessment#:#tst_eval_user_answer#:#Réponse de l'utilisateur###07 Apr 2005 cont
 assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Propriétés générales###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Générer une sortie Excel###07 Apr 2005 content changed
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Le test est en cours d'utilisation par %d utilisateur(s). Vous n'êtes pas autorisé à modifier ou déplacer les questions de ce test.###07 Apr 2005 content changed
 assessment#:#tst_insert_missing_question#:#Veuillez sélectionner au moins une question pour l'insérer dans le test.###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Etes-vous sûr(e) de vouloir insérer la (les) question(s) suivante(s) dans le test ?###07 Apr 2005 content changed
@@ -515,6 +519,7 @@ assessment#:#tst_status_progress#:#en cours###07 Apr 2005 content changed
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Temps déjà passé###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Nombre total de questions###07 Apr 2005 content changed
 assessment#:#tst_total_questions_description#:#Si vous saisissez une valeur ici, le nombre de questions pour chaque jeu de questions sera ignoré.  Si vous ne mettez rien ici, vous devez spécifier un nombre pour chaque jeu de questions.###07 Apr 2005 content changed
@@ -774,6 +779,7 @@ common#:#assessment_log_text#:#Message du journal###07 Apr 2005 content changed
 common#:#assessment_log_user_answer#:#L'utilisateur a répondu à une question###07 Apr 2005 content changed
 common#:#assessment_log_user_answers#:#Montrer les actions de l'utilisateur###07 Apr 2005 content changed
 common#:#assessment_settings#:#Administration des paramètres de test & évaluation ###07 Apr 2005 content changed
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Modifier les paramètres de permission###07 Apr 2005 content changed
 common#:#assf_read#:#Accéder à l'administration des tests & évaluations###07 Apr 2005 content changed
 common#:#assf_visible#:#Administration des tests & évaluations est visible###07 Apr 2005 content changed
@@ -806,6 +812,9 @@ common#:#auth_remark_non_local_auth#:#Quand un mode d'authentification autre que
 common#:#auth_script#:#Personnalisé###07 Apr 2005 content changed
 common#:#auth_script_desc#:#Authentifier les utilisateurs par un script externe###07 Apr 2005 content changed
 common#:#auth_select#:#Sélectionner un mode d'authentification###07 Apr 2005 content changed
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Les paramètres d'authentification sont visibles###07 Apr 2005 content changed
 common#:#auth_write#:#Modifier les paramètres d'authentification ###07 Apr 2005 content changed
 common#:#author#:#Auteur###07 Apr 2005 content changed
@@ -966,6 +975,7 @@ common#:#container#:#Conteneur###07 Apr 2005 content changed
 common#:#content_styles#:#Styles de contenu###07 Apr 2005 content changed
 common#:#context#:#Contexte###07 Apr 2005 content changed
 common#:#continue_work#:#Continuer###07 Apr 2005 content changed
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Objet copié###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
 common#:#copyPage#:#Copie###07 Apr 2005 content changed
@@ -1124,6 +1134,7 @@ common#:#err_ldap_auth_failed#:#Utilisateur non authentifié sur le serveur LDAP
 common#:#err_ldap_connect_failed#:#Echec de la connexion au serveur LDAP. Veuillez vérifier vos paramètres.###07 Apr 2005 content changed
 common#:#err_ldap_search_failed#:#Echec de la connexion au serveur LDAP. Veuillez vérifier le DN de base et la base de recherche.###07 Apr 2005 content changed
 common#:#err_ldap_user_not_found#:#Utilisateur non trouvé sur le serveur LDAP. Veuillez vérifier les attributs login name et Objectclass###07 Apr 2005 content changed
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Pas de fichier de langue détecté !###07 Apr 2005 content changed
 common#:#err_no_param#:#Pas de paramètre !###07 Apr 2005 content changed
 common#:#err_over_3_param#:#Plus de 3 paramètres !###07 Apr 2005 content changed
@@ -1247,11 +1258,17 @@ common#:#forum_notification#:#Notification###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Me notifier quand une réponse est postée###07 Apr 2005 content changed
 common#:#forum_post_replied#:#Une réponse a été faite à votre contribution au forum###07 Apr 2005 content changed
 common#:#forums#:#Forums###07 Apr 2005 content changed
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Vue générale des forums###07 Apr 2005 content changed
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum###07 Apr 2005 content changed
 common#:#frm_a#:#un Forum###07 Apr 2005 content changed
 common#:#frm_add#:#Ajouter forum###07 Apr 2005 content changed
 common#:#frm_added#:#Forum ajouté###07 Apr 2005 content changed
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Créer forum###07 Apr 2005 content changed
 common#:#frm_delete#:#Détruire forum###07 Apr 2005 content changed
 common#:#frm_delete_post#:#Détruire un message###07 Apr 2005 content changed
@@ -1666,11 +1683,13 @@ common#:#login_exists#:#Il y a déjà un utilisateur avec ce login !  Veuillez e
 common#:#login_invalid#:#Le login choisi n'est pas valide/ Seuls les caractères suivants sont autorisés (au moins 4 caractères) : A-Z a-z 0-9 _.-+*@!$%~###07 Apr 2005 content changed
 common#:#login_time#:#Temps de connexion###07 Apr 2005 content changed
 common#:#login_to_ilias#:#Connexion à ILIAS###07 Apr 2005 content changed
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Déconnexion###07 Apr 2005 content changed
 common#:#logout_text#:#Vous êtes déconnecté d'ILIAS.  Votre session est fermée.###07 Apr 2005 content changed
 common#:#logs#:#Données du journal###07 Apr 2005 content changed
 common#:#los#:# Documents###07 Apr 2005 content changed
 common#:#los_last_visited#:# Documents visités récemment###07 Apr 2005 content changed
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Messagerie###07 Apr 2005 content changed
 common#:#mail_a_root#:#Boîte aux lettres###07 Apr 2005 content changed
 common#:#mail_addressbook#:#Carnet d'adresses###07 Apr 2005 content changed
@@ -1713,6 +1732,7 @@ common#:#mark_all_unread#:#Marquer tout comme non lu###07 Apr 2005 content chang
 common#:#max_number_rec#:#Nombre maximum d'enregistrement###07 Apr 2005 content changed
 common#:#max_time#:#Durée maximale###07 Apr 2005 content changed
 common#:#member#:#Membre###07 Apr 2005 content changed
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Membres###07 Apr 2005 content changed
 common#:#membership_annulled#:#Votre inscription a été annulée###07 Apr 2005 content changed
 common#:#mep#:#Media pool###07 Apr 2005 content changed
@@ -1862,6 +1882,7 @@ common#:#new_folder#:#Nouveau fichier###07 Apr 2005 content changed
 common#:#new_group#:#Nouveau groupe###07 Apr 2005 content changed
 common#:#new_language#:#Nouvelle langue###07 Apr 2005 content changed
 common#:#new_list_password#:#Nouvelles suggestions###07 Apr 2005 content changed
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Nouveau message !###07 Apr 2005 content changed
 common#:#news#:#Actualités###07 Apr 2005 content changed
 common#:#next#:#suivant###07 Apr 2005 content changed
@@ -1886,6 +1907,7 @@ common#:#no_limit#:#Pas de limite###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle###07 Apr 2005 content changed
 common#:#no_local_users#:#Pas d'utilisateur local###07 Apr 2005 content changed
 common#:#no_objects#:#Pas d'objet###07 Apr 2005 content changed
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Vous n'êtes pas autorisé à rejoindre ce groupe.###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#Il n'y a aucun rôle global auquel l'utilisateur peut être assigné. Vous n'êtes donc pas autorisé à ajouter des utilisateurs.###07 Apr 2005 content changed
 common#:#no_title#:#Pas de titre###07 Apr 2005 content changed
@@ -1959,6 +1981,8 @@ common#:#obj_rolf_local_desc#:#Contient les rôles locaux de l'objet n°###07 Ap
 common#:#obj_rolt#:#Modèle de rôle###07 Apr 2005 content changed
 common#:#obj_root#:#racine###07 Apr 2005 content changed
 common#:#obj_sahs#:#Document  SCORM/AICC###07 Apr 2005 content changed
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Jeu de questions (sondage)###07 Apr 2005 content changed
 common#:#obj_st#:#Chapitre###07 Apr 2005 content changed
 common#:#obj_stys#:#Paramètres de style###07 Apr 2005 content changed
@@ -2278,6 +2302,14 @@ common#:#search_note#:#Si &quot;rechercher dans&quot; est laissé vide, tous les
 common#:#search_recipient#:#Rechercher destinataire###07 Apr 2005 content changed
 common#:#search_result#:#Résultat de recherche###07 Apr 2005 content changed
 common#:#search_user#:#Recherche utilisateur###07 Apr 2005 content changed
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Sections###07 Apr 2005 content changed
 common#:#select#:#Sélection###07 Apr 2005 content changed
 common#:#select_all#:#Sélectionner tout###07 Apr 2005 content changed
@@ -2303,6 +2335,37 @@ common#:#setUserLanguage#:#Fixer la langue utilisateur###07 Apr 2005 content cha
 common#:#set_offline#:#Mettre hors-ligne###07 Apr 2005 content changed
 common#:#set_online#:#Mettre en ligne###07 Apr 2005 content changed
 common#:#settings#:#Paramètres###07 Apr 2005 content changed
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Afficher###07 Apr 2005 content changed
 common#:#show_details#:#Afficher détails###07 Apr 2005 content changed
 common#:#show_list#:#Afficher liste###07 Apr 2005 content changed
@@ -2452,6 +2515,7 @@ common#:#uninstall#:#Désinstaller###07 Apr 2005 content changed
 common#:#uninstalled#:#désinstallé.###07 Apr 2005 content changed
 common#:#unknown#:#INCONNU###07 Apr 2005 content changed
 common#:#unread#:#Non lu###07 Apr 2005 content changed
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Désélectionné###07 Apr 2005 content changed
 common#:#unsubscribe#:#désabonnement###07 Apr 2005 content changed
 common#:#unzip#:#Décompresser###07 Apr 2005 content changed
@@ -3019,6 +3083,7 @@ content#:#selected_pages_only#:#seulement les pages sélectionnées ci-dessous##
 content#:#set_public_mode#:#Définir le mode d'accès public###07 Apr 2005 content changed
 content#:#st#:#Chapitre###07 Apr 2005 content changed
 content#:#start export#:#Commencer l'exportation###07 Apr 2005 content changed
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#assigned#:#Assigné###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber#:#Abonnement au cours###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber_body#:#Vous avez été inscrit à ce cours###07 Apr 2005 content changed
@@ -3143,6 +3208,8 @@ crs#:#crs_member_blocked#:#Membre (bloqué)###07 Apr 2005 content changed
 crs#:#crs_member_unblocked#:#Membre (non bloqué)###07 Apr 2005 content changed
 crs#:#crs_member_updated#:#Le membre a été mis à jour###07 Apr 2005 content changed
 crs#:#crs_members_deleted#:#Membres détruits###07 Apr 2005 content changed
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Membres du cours###07 Apr 2005 content changed
 crs#:#crs_members_title#:#Membres du cours###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Déplacer vers le bas###07 Apr 2005 content changed
@@ -3327,6 +3394,7 @@ crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Modifier contenu###07 Apr 2005 content changed
 crs#:#learners_view#:#Affichage élève###07 Apr 2005 content changed
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Archives###07 Apr 2005 content changed
 dateplaner#:#DateText#:#Message###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#vue par journée###07 Apr 2005 content changed
@@ -3550,7 +3618,6 @@ dateplaner#:#week#:#semaine###07 Apr 2005 content changed
 dateplaner#:#year#:#année###07 Apr 2005 content changed
 forum#:#forums#:#Forums###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#Tous les fils de discussion ont été marqués comme lus###07 Apr 2005 content changed
-forum#:#forums_articles#:#Articles###07 Apr 2005 content changed
 forum#:#forums_attachments#:#Documents joints###07 Apr 2005 content changed
 forum#:#forums_attachments_add#:#Ajouter document joint###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Modifier document joint###07 Apr 2005 content changed
@@ -3566,10 +3633,7 @@ forum#:#forums_edit_post#:#Modifier article###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?###07 Apr 2005 content changed
-forum#:#forums_last_post#:#Dernier article###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Marquer tous lus###07 Apr 2005 content changed
-forum#:#forums_moderators#:#Modérateurs###07 Apr 2005 content changed
-forum#:#forums_new_articles#:#Nouveaux articles###07 Apr 2005 content changed
 forum#:#forums_new_entries#:#Nouvelles entrées de forum###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Nouveau sujet###07 Apr 2005 content changed
 forum#:#forums_not_available#:#Forums non disponible###07 Apr 2005 content changed
@@ -3591,7 +3655,6 @@ forum#:#forums_thread_create_date#:#Créé à ###07 Apr 2005 content changed
 forum#:#forums_thread_create_from#:#Créé par###07 Apr 2005 content changed
 forum#:#forums_thread_marked#:#Fil de discussion marqué comme lu###07 Apr 2005 content changed
 forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit###07 Apr 2005 content changed
-forum#:#forums_threads#:#Fils de discussion###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Sujets non disponibles###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#Vue générale des sujets###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#Votre réponse###07 Apr 2005 content changed

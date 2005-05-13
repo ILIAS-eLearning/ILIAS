@@ -239,6 +239,7 @@ assessment#:#height#:#Inaltime
 assessment#:#imagemap#:#Harta imagine
 assessment#:#imagemap_file#:#Fisier harta imagine
 assessment#:#imagemap_source#:#Sursa hartii imagine
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importa intrebare/intrebari
 assessment#:#insert_after#:#Inserati dupa
 assessment#:#insert_before#:#Inserati inainte
@@ -383,13 +384,15 @@ assessment#:#true#:#Adevarat
 assessment#:#tst_all_user_data_deleted#:#Toate datele despre utilizator din acest test au foat sterse!
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Teste deja completate
-assessment#:#tst_anon_eval#:#Rezultate colective anonime
+assessment#:#tst_anon_eval#:#Rezultate colective anonime###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Cautati intrebari
 assessment#:#tst_confirm_delete_results#:#Sunteti pe cale de a sterge toate raspunsurile la intrebarile din acest test. Acest lucru va reseta valorile intrebarilor la stadiul initial. Trebuie sa stiti ca nu puteti reseta numarul de incercari disponibile pentru acest test. Sunteti sigur/a ca doriti sa anulati toate raspunsurile deja date?
 assessment#:#tst_confirm_delete_results_info#:#Toate raspunsurile date la intrebari au fost sterse. Ati resetat testul cu succes!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###08 Apr 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. Please use your browsers print engine to print the appearing answer sheet.###08 Apr 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
+assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Stergeti toate datele despre utilizator
 assessment#:#tst_delete_missing_mark#:#Va rugam sa selectati cel putin o nota intermediara pentru a o sterge
 assessment#:#tst_delete_results#:#Resetati testul
@@ -404,6 +407,7 @@ assessment#:#tst_eval_total_persons#:#Numarul total al persoanelor care au acces
 assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Proprietati generale
 assessment#:#tst_generate_xls#:#Generati fisa Excel
+assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testul este utilizat de %d utilizatori. Nu aveti voie sa editati sau sa mutati intrebarile din acest test!
 assessment#:#tst_insert_missing_question#:#Va rugam selectati cel putin o intrebare pentru a fi inserata in test!
 assessment#:#tst_insert_questions#:#Sunteti sigur ca doriti sa inserati urmatoarele intrebari in test?
@@ -501,7 +505,7 @@ assessment#:#tst_stat_result_timeofwork#:#Timpul de munca
 assessment#:#tst_stat_result_total_participants#:#Numarul total de participanti
 assessment#:#tst_stat_selected_users#:#Participantii selectati
 assessment#:#tst_stat_users_intro#:#Aratati evaluarea statistica pentru
-assessment#:#tst_statistical_evaluation#:#Evaluarea statistica
+assessment#:#tst_statistical_evaluation#:#Evaluarea statistica###13 May 2005 content changed
 assessment#:#tst_status_completed#:#completate
 assessment#:#tst_status_completed_more_tries_possible#:#Completate
 assessment#:#tst_status_missing#:#Exista cerinte necompletate in acest test!
@@ -512,6 +516,7 @@ assessment#:#tst_status_progress#:#In progres
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers###08 Apr 2005 new variable
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###08 Apr 2005 new variable
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Timp deja utilizat
 assessment#:#tst_total_questions#:#Numarul total de intrebari
 assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!
@@ -761,6 +766,7 @@ common#:#are_you_sure#:#Sunteti sigur/a?
 common#:#articels_unread#:#Articole necitite:
 common#:#as_of#:#din
 common#:#assessment_settings#:#Setari administrative de Testare si Evaluare
+common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Schimbati setarile de permisiune
 common#:#assf_read#:#Acces la administrarea Testarii si Evaluarii
 common#:#assf_visible#:#Administrarea Testarii si Evaluarii aste vizibila
@@ -792,6 +798,9 @@ common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare
 common#:#auth_script#:#Normal
 common#:#auth_script_desc#:#Autentificare utilizatori prin script extern
 common#:#auth_select#:#Selectati modul de autentificare
+common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Setarile de Autentificare sunt vizibile
 common#:#auth_write#:#Editati setarile de autentificare
 common#:#author#:#Autor
@@ -942,6 +951,7 @@ common#:#contact_data#:#Informatii despre Contact
 common#:#container#:#Container
 common#:#context#:#Context
 common#:#continue_work#:#Continuati
+common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Obiect copiat
 common#:#copy#:#Copiati
 common#:#copyPage#:#Copie
@@ -1091,6 +1101,7 @@ common#:#err_ldap_auth_failed#:#Utilizatorul nu a fost autentificat pe serverul 
 common#:#err_ldap_connect_failed#:#Conexiunea la serverul LDAP nu a reusit! Va rugam verificati setarile
 common#:#err_ldap_search_failed#:#Conexiunea la  serverul LDAP nu a reusit! Va rugam verificati Baza DN si Baza de Cautare
 common#:#err_ldap_user_not_found#:#Utilizatorul nu a fost gasit pe serverul LDAP! Va rugam verificati proprietatile pentru numele de login si clasa Obiectului
+common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#Nici un fisier de limba gasit!
 common#:#err_no_param#:#Fara parametrii!
 common#:#err_over_3_param#:#Mai mult de 3 parametrii!
@@ -1217,11 +1228,17 @@ common#:#forum_notification#:#Notificare
 common#:#forum_notify_me#:#Anuntati cand se primeste raspuns
 common#:#forum_post_replied#:#Ati primit raspuns la intrarea in forum.
 common#:#forums#:#Forumuri
+common#:#forums_articles#:#Articles###13 May 2005 new variable
+common#:#forums_last_post#:#Last Article###13 May 2005 new variable
+common#:#forums_moderators#:#Moderators###13 May 2005 new variable
+common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Privire de ansamblu a Forumurilor
+common#:#forums_threads#:#Topics###13 May 2005 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#un Forum
 common#:#frm_add#:#Adaugati Forum
 common#:#frm_added#:#Forum adaugat
+common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Creati Forum
 common#:#frm_delete#:#Stergeti Forum
 common#:#frm_delete_post#:#Stergeti un mesaj, cenzura
@@ -1605,11 +1622,13 @@ common#:#login_exists#:#Exista deja un utilizator cu acest nume de login! Va rug
 common#:#login_invalid#:#Login-ul ales nu easte valid! Numai urmatoarele caractere sunt permise (minimum 4 caractere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Timp online
 common#:#login_to_ilias#:#Login la ILIAS
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#Logout
 common#:#logout_text#:#Ati iesit din ILIAS. Sesiunea dumneavoastra a fost inchisa.
 common#:#logs#:#Date despre Log
 common#:#los#:#Obiecte de Studiu
 common#:#los_last_visited#:#Ultimele Obiecte de Studiu vizitate
+common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Agenda
@@ -1653,6 +1672,7 @@ common#:#matriculation#:#Numar de inmatriculare
 common#:#max_number_rec#:#Numarul maxim de inregistrari
 common#:#max_time#:#Timpul maxim
 common#:#member#:#Membru
+common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Membrii
 common#:#membership_annulled#:#Calitatea de membru v-a fost anulata
 common#:#mep#:#Baza Media
@@ -1798,6 +1818,7 @@ common#:#new_folder#:#Dosar nou
 common#:#new_group#:#Grup nou
 common#:#new_language#:#Limba noua
 common#:#new_list_password#:#Sugestii noi
+common#:#new_lowercase#:#new###13 May 2005 new variable
 common#:#new_mail#:#Mail nou!
 common#:#news#:#Noutati
 common#:#next#:#urmatorul
@@ -1819,6 +1840,7 @@ common#:#no_limit#:#Nici o limita
 common#:#no_lo_in_personal_list#:#Nu aveti obiecte de studiu in lista personala.
 common#:#no_local_users#:#Nu exista nici un utilizator local
 common#:#no_objects#:#Nici un obiect
+common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Nu aveti permisiunea de a va alatura acestui grup!
 common#:#no_roles_user_can_be_assigned_to#:#Nu exista roluri globale care sa poata fi distribuite utilizatorului. Din acest motiv nu puteti adauga utilizatori.
 common#:#no_title#:#Nici un titlu
@@ -1888,6 +1910,8 @@ common#:#obj_rolf_local_desc#:#Contine rolurile locale ale obiectului nr.
 common#:#obj_rolt#:#Tabel de Roluri
 common#:#obj_root#:#nucleul de baza ILIAS
 common#:#obj_sahs#:#Modul de Invatare SCORM/AICC
+common#:#obj_seas#:#Search###13 May 2005 new variable
+common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
 common#:#obj_spl#:#Sondaj din bazele de intrebari
 common#:#obj_st#:#Capitol
 common#:#obj_svy#:#Sondaj
@@ -2190,6 +2214,14 @@ common#:#search_note#:#Daca spatiul &quot;Cauta utilizator&quot; este lasat neco
 common#:#search_recipient#:#Destinatar cautat
 common#:#search_result#:#Rezultatul cautarii
 common#:#search_user#:#Cautati Utilizator
+common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
+common#:#seas_read#:#Read search settings###13 May 2005 new variable
+common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+common#:#seas_settings#:#Search settings###13 May 2005 new variable
+common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#Sectiuni
 common#:#select#:#Selectati
 common#:#select_all#:#Selectati Tot
@@ -2216,6 +2248,37 @@ common#:#setUserLanguage#:#Setati Limba Utilizatorului
 common#:#set_offline#:#Setati Offline
 common#:#set_online#:#Setati Online
 common#:#settings#:#Setari
+common#:#settings_saved#:#Saved settings###13 May 2005 new variable
+common#:#shib#:#Shibboleth###13 May 2005 new variable
+common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib_city#:#Attribute for city###13 May 2005 new variable
+common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
+common#:#shib_country#:#Attribute for country###13 May 2005 new variable
+common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_department#:#Attribute for department###13 May 2005 new variable
+common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
+common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
+common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
+common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_language#:#Attribute for language###13 May 2005 new variable
+common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
+common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
+common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
+common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
+common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
+common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
+common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
+common#:#shib_street#:#Attribute for street###13 May 2005 new variable
+common#:#shib_title#:#Attribute for title###13 May 2005 new variable
+common#:#shib_update#:#Update this field on login###13 May 2005 new variable
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
+common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
+common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
+common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Aratati
 common#:#show_details#:#Aratati detalii
 common#:#show_list#:#Aratati Lista
@@ -2349,6 +2412,7 @@ common#:#uninstall#:#Dezinstalati
 common#:#uninstalled#:#Dezinstalat.
 common#:#unknown#:#NECUNOSCUT
 common#:#unread#:#Necitit
+common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Neselectat
 common#:#unsubscribe#:#Anulare inscriere
 common#:#unzip#:#Dezarhivati
@@ -2845,6 +2909,7 @@ content#:#selected_pages_only#:#numai paginile selectate mai jos
 content#:#set_public_mode#:#Setati mod de acces public
 content#:#st#:#Capitol
 content#:#start export#:#Incepeti Exportarea
+crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
 crs#:#crs_accept_subscriber#:#Inscrierea la curs
 crs#:#crs_accept_subscriber_body#:#Ati fost inscris la acest curs.
 crs#:#crs_access_password#:#Parola
@@ -2921,6 +2986,8 @@ crs#:#crs_member_blocked#:#Blocat
 crs#:#crs_member_unblocked#:#Membru (deblocat)
 crs#:#crs_member_updated#:#Membrul a fost actualizat
 crs#:#crs_members_deleted#:#Membrii stersi
+crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
+crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Membrii cursului
 crs#:#crs_members_title#:#Membrii cursului
 crs#:#crs_move_down#:#Jos
@@ -3027,6 +3094,7 @@ crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Mesaj
 dateplaner#:#Day_long#:#Vizualizarea zilei
@@ -3249,7 +3317,6 @@ dateplaner#:#viewlist#:#vizualizare
 dateplaner#:#week#:#saptamana
 dateplaner#:#year#:#an
 forum#:#forums#:#Forumuri
-forum#:#forums_articles#:#Articole
 forum#:#forums_attachments#:#Fisiere atasate
 forum#:#forums_attachments_add#:#Adauga fisiere atasate
 forum#:#forums_attachments_edit#:#Editeaza fisierul atasat
@@ -3264,10 +3331,7 @@ forum#:#forums_edit_post#:#Editeaza Articolul
 forum#:#forums_info_censor2_post#:#Revoc Cenzura?
 forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_delete_post#:#Sunteti sigur/a ca doriti sa stergeti acest articol inclusiv raspunsurile?
-forum#:#forums_last_post#:#Ultimul Articol
 forum#:#forums_mark_read#:#Marcheaza toate ca citite
-forum#:#forums_moderators#:#Moderatori
-forum#:#forums_new_articles#:#Articole noi
 forum#:#forums_new_entries#:#Intrari noi in forumuri
 forum#:#forums_new_thread#:#Subiect nou
 forum#:#forums_not_available#:#Nu exista forumuri disponibile
@@ -3288,7 +3352,6 @@ forum#:#forums_thread_create_date#:#Creat la
 forum#:#forums_thread_create_from#:#Creat din
 forum#:#forums_thread_marked#:#Subiectul a fost marcat drept citit.
 forum#:#forums_thread_new_entry#:#Subiect nou creat
-forum#:#forums_threads#:#Subiecte
 forum#:#forums_threads_not_available#:#Nu exista subiecte disponibile
 forum#:#forums_topics_overview#:#Vedere de ansamblu a subiectelor
 forum#:#forums_your_reply#:#Raspunsul dumneavoastra
