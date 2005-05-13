@@ -47,12 +47,11 @@ class ilObjSurveyAccess extends ilObjectAccess
 	* @param	int			$a_obj_id	object id
 	* @param	int			$a_user_id	user id (if not provided, current user is taken)
 	*
-	* @return	mixed		true, if everything is ok, message (string) when
-	*						access is not granted
+	* @return	boolean		true, if everything is ok
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem;
+		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
 		if ($a_user_id == "")
 		{
@@ -65,7 +64,8 @@ class ilObjSurveyAccess extends ilObjectAccess
 				if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id) &&
 					(!$rbacsystem->checkAccess('write', $a_ref_id)))
 				{
-					return $lng->txt("warning_survey_not_complete");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+					return false;
 				}
 				break;
 		}
@@ -76,20 +76,23 @@ class ilObjSurveyAccess extends ilObjectAccess
 				if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)
 					|| !(ilObjSurveyAccess::_lookupStatus($a_obj_id) == 1))
 				{
-					return $lng->txt("warning_survey_not_complete");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+					return false;
 				}
 				break;
 
 			case "evaluation":
 				if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id))
 				{
-					return $lng->txt("warning_survey_not_complete");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+					return false;
 				}
 				// maybe an additional evaluation permission would be suitable
 				if (!$rbacsystem->checkAccess('write',$a_ref_id) &&
 					!ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id))
 				{
-					return $lng->txt("no_permission");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("no_permission"));
+					return false;
 				}
 				break;
 		}

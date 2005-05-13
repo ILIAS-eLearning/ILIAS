@@ -49,12 +49,11 @@ class ilObjTestAccess extends ilObjectAccess
 	* @param	int			$a_obj_id	object id
 	* @param	int			$a_user_id	user id (if not provided, current user is taken)
 	*
-	* @return	mixed		true, if everything is ok, message (string) when
-	*						access is not granted
+	* @return	boolean		true, if everything is ok
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem;
+		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
 		if ($a_user_id == "")
 		{
@@ -67,7 +66,8 @@ class ilObjTestAccess extends ilObjectAccess
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
 					(!$rbacsystem->checkAccess('write', $a_ref_id)))
 				{
-					return $lng->txt("warning_test_not_complete");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_test_not_complete"));
+					return false;
 				}
 				break;
 		}
@@ -78,7 +78,8 @@ class ilObjTestAccess extends ilObjectAccess
 			case "eval_stat":
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id))
 				{
-					return $lng->txt("warning_test_not_complete");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_test_not_complete"));
+					return false;
 				}
 				break;
 

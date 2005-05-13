@@ -44,6 +44,7 @@ class ilAccessHandler
 
 		$this->rbacsystem =& $rbacsystem;
 		$this->results = array();
+		$this->current_info = new ilAccessInfo();
 	}
 
 	/**
@@ -54,10 +55,9 @@ class ilAccessHandler
 	* @param	string		$a_cmd					command string
 	* @param	int			$a_ref_id				reference id
 	* @param	boolean		$a_access_granted		true if access is granted
-	* @param	object		$a_info_obj				info object
 	* @param	int			$a_user_id				user id (if no id passed, current user id)
 	*/
-	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, &$a_info_obj, $a_user_id = "")
+	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = "")
 	{
 		global $ilUser;
 
@@ -67,7 +67,10 @@ class ilAccessHandler
 		}
 
 		$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] =
-			array("granted" => $a_access_granted, "info" => $a_info_obj);
+			array("granted" => $a_access_granted, "info" => $this->current_info);
+
+		// get new info object
+		$this->current_info = new ilAccessInfo();
 	}
 
 
@@ -97,6 +100,15 @@ class ilAccessHandler
 
 
 	/**
+	* add an info item to current info object
+	*/
+	function addInfoItem($a_type, $a_text, $a_data = "")
+	{
+		$this->current_info->addInfoItem($a_type, $a_text, $a_data);
+	}
+
+
+	/**
 	* check access for an object
 	* (provide $a_type and $a_obj_id if available for better performance)
 	*
@@ -111,6 +123,7 @@ class ilAccessHandler
 	{
 		global $tree, $objDefinition, $lng, $ilBench;
 
+		$this->current_info->clear();
 
 		if ($a_type == "")
 		{
@@ -136,9 +149,8 @@ class ilAccessHandler
 		{
 			if (!$this->rbacsystem->checkAccess($a_permission, $a_ref_id))
 			{
-				$this->last_info = new ilAccessInfo();
-				$this->last_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $this->last_info);
+				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false);
 				$ilBench->stop("AccessControl", "2000_checkAccess_rbac_check");
 				return false;
 			}
@@ -158,9 +170,8 @@ class ilAccessHandler
 			if (!$this->checkAccess("read", "", $id))
 			{
 				$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
-				$this->last_info = new ilAccessInfo();
-				$this->last_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"));
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $this->last_info);
+				$this->current_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"));
+				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false);
 				$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
 				return false;
 			}
@@ -176,17 +187,16 @@ class ilAccessHandler
 		{
 			if(!ilConditionHandler::_checkAllConditionsOfTarget($obj_id))
 			{
-				$this->last_info = new ilAccessInfo();
 				$conditions = ilConditionHandler::_getConditionsOfTarget($obj_id, $a_type);
 				foreach ($conditions as $condition)
 				{
-					$this->last_info->addInfoItem(IL_MISSING_PRECONDITION,
+					$this->current_info->addInfoItem(IL_MISSING_PRECONDITION,
 						$lng->txt("missing_precondition").": ".
 						ilObject::_lookupTitle($condition["trigger_obj_id"])." ".
 						$lng->txt("condition_".$condition["operator"])." ".
 						$condition["value"], $condition);
 				}
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $this->last_info);
+				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false);
 				$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 				return false;
 			}
@@ -204,9 +214,8 @@ class ilAccessHandler
 			$a_cmd, $a_permission, $a_ref_id, $a_obj_id);
 		if (!($obj_access === true))
 		{
-			$this->last_info = new ilAccessInfo();
-			$this->last_info->addInfoItem(IL_NO_OBJECT_ACCESS, $obj_acess);
-			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $this->last_info);
+			//$this->last_info->addInfoItem(IL_NO_OBJECT_ACCESS, $obj_acess);
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false);
 			$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 			return false;
 		}
@@ -224,6 +233,6 @@ class ilAccessHandler
 	*/
 	function getInfo()
 	{
-		return $this->last_info;
+		return $this->current_info;
 	}
 }
