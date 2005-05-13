@@ -223,11 +223,10 @@ class ilContainerGUI extends ilObjectGUI
 
 					if (is_array($this->items[$type]))
 					{
-						// add a header for each resource type
-						$this->addHeaderRow($tpl, $type);
-
 						foreach($this->items[$type] as $key => $item)
 						{
+							$item_html = array();
+
 							// get list gui class for each object type
 							if ($cur_obj_type != $item["type"])
 							{
@@ -239,10 +238,25 @@ class ilContainerGUI extends ilObjectGUI
 							}
 							// render item row
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");
-							$item_html = $item_list_gui->getListItemHTML($item["ref_id"],
+							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
-							$this->addStandardRow($tpl, $item_html);
+							if ($html != "")
+							{
+								$item_html[] = $html;
+							}
+						}
+
+						// output block for resource type
+						if (count($item_html) > 0)
+						{
+							// add a header for each resource type
+							$this->addHeaderRow($tpl, $type);
+
+							foreach($item_html as $html)
+							{
+								$this->addStandardRow($tpl, $html);
+							}
 						}
 					}
 				}
