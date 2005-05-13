@@ -22,77 +22,65 @@
 */
 
 /**
-* Class ilObjSearchSettingsGUI
+* Class ilObjSearchController
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @extends ilObjectGUI
-* @package ilias-core
+* @package ilias-search
+*
+* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilSearchResultGUI
+*
 */
 
-class ilSearchSettings
+class ilSearchController
 {
+	var $ctrl = null;
 	var $ilias = null;
-	var $max_hits = null;
-
-	function ilSearchSettings()
-	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-		$this->__read();
-	}
+	var $lng = null;
 
 	/**
-	* Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
-	* @return int ref_id
-	* @access	public
+	* Constructor
+	* @access public
 	*/
-	function _getSearchSettingRefId()
+	function ilSearchController()
 	{
-		global $ilDB;
+		global $ilCtrl,$ilias,$lng;
 
-		static $seas_ref_id = 0;
+		$this->ilias =& $ilias;
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
+	}
 
-		if($seas_ref_id)
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+
+		// Check hacks
+		if(!$rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
 		{
-			return $seas_ref_id;
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		$query = "SELECT object_reference.ref_id as ref_id FROM object_reference,tree,object_data ".
-			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
-			"AND object_data.type = 'seas' ".
-			"AND object_reference.ref_id = tree.child ".
-			"AND object_reference.obj_id = object_data.obj_id";
-			
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		return $seas_ref_id = $row->ref_id;
-	}	
 
-	function getMaxHits()
-	{
-		return $this->max_hits;
-	}
-	function setMaxHits($a_max_hits)
-	{
-		$this->max_hits = $a_max_hits;
-	}
+		switch($this->ctrl->getNextClass($this))
+		{
+			case 'ilsearchresultgui':
+				include_once 'Services/Search/classes/class.ilSearchResultGUI.php';
 
+				$this->ctrl->forwardCommand(new ilSearchResultGUI());
+				break;
 
-	function update()
-	{
-		// setSetting writes to db
-		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
+			case 'ilsearchgui':
+			default:
+				include_once 'Services/Search/classes/class.ilSearchGUI.php';
 
+				$search_gui = new ilSearchGUI();
+				$this->ctrl->forwardCommand($search_gui);
+				break;
+		}
 		return true;
-	}
-
-	// PRIVATE
-	function __read()
-	{
-		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
 	}
 }
 ?>

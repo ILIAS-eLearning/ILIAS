@@ -21,78 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* Class ilObjSearchSettingsGUI
+* Search base script
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
-* @extends ilObjectGUI
-* @package ilias-core
+*
+* @package ilias-search
 */
+chdir("../..");
+define(ILIAS_MODULE,'Services/Search');
 
-class ilSearchSettings
-{
-	var $ilias = null;
-	var $max_hits = null;
-
-	function ilSearchSettings()
-	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-		$this->__read();
-	}
-
-	/**
-	* Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
-	* @return int ref_id
-	* @access	public
-	*/
-	function _getSearchSettingRefId()
-	{
-		global $ilDB;
-
-		static $seas_ref_id = 0;
-
-		if($seas_ref_id)
-		{
-			return $seas_ref_id;
-		}
-		$query = "SELECT object_reference.ref_id as ref_id FROM object_reference,tree,object_data ".
-			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
-			"AND object_data.type = 'seas' ".
-			"AND object_reference.ref_id = tree.child ".
-			"AND object_reference.obj_id = object_data.obj_id";
-			
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		return $seas_ref_id = $row->ref_id;
-	}	
-
-	function getMaxHits()
-	{
-		return $this->max_hits;
-	}
-	function setMaxHits($a_max_hits)
-	{
-		$this->max_hits = $a_max_hits;
-	}
+include_once "include/inc.header.php";
+include_once "Services/Search/classes/class.ilSearchController.php";
 
 
-	function update()
-	{
-		// setSetting writes to db
-		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
+$ilCtrl->setTargetScript("./search.php");
+$ilCtrl->getCallStructure("ilsearchcontroller");
 
-		return true;
-	}
+$ilCtrl->forwardCommand(new ilSearchController());
 
-	// PRIVATE
-	function __read()
-	{
-		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
-	}
-}
+$tpl->show();
 ?>

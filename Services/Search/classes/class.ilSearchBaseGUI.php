@@ -22,77 +22,45 @@
 */
 
 /**
-* Class ilObjSearchSettingsGUI
+* Class ilSearchBaseGUI
+*
+* Base class for all search gui classes. Offers functionallities like set Locator set Header ...
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @extends ilObjectGUI
-* @package ilias-core
+* @package ilias-search
+*
 */
 
-class ilSearchSettings
+class ilSearchBaseGUI
 {
+	var $ctrl = null;
 	var $ilias = null;
-	var $max_hits = null;
-
-	function ilSearchSettings()
-	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-		$this->__read();
-	}
+	var $lng = null;
+	var $tpl = null;
 
 	/**
-	* Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
-	* @return int ref_id
-	* @access	public
+	* Constructor
+	* @access public
 	*/
-	function _getSearchSettingRefId()
+	function ilSearchBaseGUI()
 	{
-		global $ilDB;
+		global $ilCtrl,$ilias,$lng,$tpl;
 
-		static $seas_ref_id = 0;
-
-		if($seas_ref_id)
-		{
-			return $seas_ref_id;
-		}
-		$query = "SELECT object_reference.ref_id as ref_id FROM object_reference,tree,object_data ".
-			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
-			"AND object_data.type = 'seas' ".
-			"AND object_reference.ref_id = tree.child ".
-			"AND object_reference.obj_id = object_data.obj_id";
-			
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		return $seas_ref_id = $row->ref_id;
-	}	
-
-	function getMaxHits()
-	{
-		return $this->max_hits;
-	}
-	function setMaxHits($a_max_hits)
-	{
-		$this->max_hits = $a_max_hits;
+		$this->ilias =& $ilias;
+		$this->ctrl =& $ilCtrl;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('search');
 	}
 
-
-	function update()
+	function prepareOutput()
 	{
-		// setSetting writes to db
-		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.search_base.html",'Services/Search');
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		infoPanel();
 
-		return true;
-	}
-
-	// PRIVATE
-	function __read()
-	{
-		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
 	}
 }
 ?>

@@ -68,7 +68,14 @@ class ilUtil
 
 		if(defined("ILIAS_MODULE") and !defined("KEEP_IMAGE_PATH") and $mode != "filesystem")
 		{
-			$dir = ".";
+			// added to find path for MODULES like Services/Search
+			$base = '';
+			for($i = 1;$i < count(explode('/',ILIAS_MODULE));$i++)
+			{
+				$base .= "../";
+			}
+
+			$dir .= ($base.".");
 		}
 		else
 		{
@@ -164,7 +171,12 @@ class ilUtil
 
 		if(defined("ILIAS_MODULE") && $mode != "filesystem")
 		{
-			$base = "../";
+			// added to find Stylesheet for MODULES like Services/Search
+			$base = '';
+			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
+			{
+				$base .= "../";
+			}
 		}
 		else
 		{
