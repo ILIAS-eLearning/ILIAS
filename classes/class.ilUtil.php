@@ -2535,6 +2535,11 @@ class ilUtil
 	 */
 	function array_php2js($data)
 	{
+		if (empty($data))
+		{
+			$data = array();
+		}
+
 		foreach($data as $k=>$datum)
   		{
   			if(is_null($datum)) $data[$k] = 'null';
