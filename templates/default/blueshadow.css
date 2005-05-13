@@ -330,6 +330,7 @@ td.submit {
 }
 
 /* Container  list related styles */
+
 a.il_ContainerItemCommand
 {
 	padding-top:1px;
@@ -364,6 +365,23 @@ span.il_ItemAlertProperty
 span.il_ItemProperty,
 {
 	font-size: 13px;
+}
+
+td.il_ContainerBlockHeader
+{
+	background-image: url(images/cellpic5.gif);
+	background-color:#e5e5e5;
+	font-weight: bold;
+	padding: 2px;
+}
+
+table.il_ContainerBlock
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	border-width:0px;
 }
 
 /* Personal Desktop Header*/
