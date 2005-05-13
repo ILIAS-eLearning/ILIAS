@@ -405,7 +405,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// basic data
 				$this->ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
 				$this->ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-				$this->ilias->ini->setVariable("language","default",$_POST["default_language"]);
+				//$this->ilias->ini->setVariable("language","default",$_POST["default_language"]);
 
 				//set default skin and style
 				/*
