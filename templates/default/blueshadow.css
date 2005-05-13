@@ -349,6 +349,12 @@ a.il_ContainerItemCommand
 	background-color:#E6ECF8;
 }
 
+div.il_ContainerItemCommands
+{
+	line-height: 18px;
+}
+
+
 div.il_ItemProperties
 {
 	margin-top: 3px;
