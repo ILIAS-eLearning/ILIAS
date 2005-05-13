@@ -21,78 +21,58 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* Class ilObjSearchSettingsGUI
+* Class ilSearchItemFactory
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
-* @extends ilObjectGUI
-* @package ilias-core
+*
+* @package ilias-search
 */
-
-class ilSearchSettings
+class ilSearchItemFactory
 {
-	var $ilias = null;
-	var $max_hits = null;
-
-	function ilSearchSettings()
+		
+	/**
+	* get an instance of an Ilias object by object id
+	*
+	* @param	int		$obj_id		object id
+	* @return	object	instance of Ilias object (i.e. derived from ilObject)
+	*/
+	function &getInstance($a_obj_id,$a_user_id = '')
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
-		$this->__read();
-	}
+		define("TABLE_SEARCH_DATA","search_data");
 
-	/**
-	* Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
-	* @return int ref_id
-	* @access	public
-	*/
-	function _getSearchSettingRefId()
-	{
-		global $ilDB;
-
-		static $seas_ref_id = 0;
-
-		if($seas_ref_id)
+		if(!$a_user_id)
 		{
-			return $seas_ref_id;
+			$user_id = $_SESSION["AccountId"];
 		}
-		$query = "SELECT object_reference.ref_id as ref_id FROM object_reference,tree,object_data ".
-			"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
-			"AND object_data.type = 'seas' ".
-			"AND object_reference.ref_id = tree.child ".
-			"AND object_reference.obj_id = object_data.obj_id";
-			
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+		$query = "SELECT type FROM ".TABLE_SEARCH_DATA." ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$type = $row->type;
+		}
 		
-		return $seas_ref_id = $row->ref_id;
-	}	
+		switch($type)
+		{
+			case "seaf":
 
-	function getMaxHits()
-	{
-		return $this->max_hits;
-	}
-	function setMaxHits($a_max_hits)
-	{
-		$this->max_hits = $a_max_hits;
-	}
+				include_once "Services/Search/classes/class.ilSearchFolder.php";
 
+				return new ilSearchFolder($user_id,$a_obj_id);
+				
+			case "sea":
 
-	function update()
-	{
-		// setSetting writes to db
-		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
+				include_once "Services/Search/classes/class.ilSearchResult.php";
 
-		return true;
-	}
-
-	// PRIVATE
-	function __read()
-	{
-		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
+				return new ilSearchResult($user_id,$a_obj_id);
+		}
 	}
 }
 ?>

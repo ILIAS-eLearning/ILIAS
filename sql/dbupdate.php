@@ -6332,3 +6332,7 @@ $this->db->query($query);
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#432>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
