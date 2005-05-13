@@ -439,6 +439,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SHIB_INSTRUCTIONS", $this->lng->txt("shib_instructions"));
+		$this->tpl->setVariable("TXT_SHIB", $this->lng->txt("shib"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_SHIB_UPDATE", $this->lng->txt("shib_update"));
 		$this->tpl->setVariable("TXT_SHIB_ACTIVE", $this->lng->txt("shib_active"));
