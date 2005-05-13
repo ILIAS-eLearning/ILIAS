@@ -5455,7 +5455,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if (count($_POST))
 		{
-			$this->writeInviteFormData();
+			$this->handleCommands();
+			return;
 		}
 		
 		if ($_POST["cmd"]["save"])
@@ -5507,7 +5508,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$invited_users = $this->object->getInvitedUsers();
 
-		$buttons = array("save","remove");
+		$buttons = array("save","remove","print_answers","print_results");
 		
 		if (count($invited_users))
 		{
@@ -5534,19 +5535,27 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function writeInviteFormData()
+	function handleCommands()
 	{
 		global $ilUser;
 
 		$message = "";
 		
 		if (is_array($_POST["invited_users"]))
-		{
+		{			
+			if ($_POST["cmd"]["print_answers"]) {
+				$this->_printAnswerSheets($_POST["invited_users"]);
+				return;
+			} elseif ($_POST["cmd"]["print_results"]) {
+				$this->_printResultSheets($_POST["invited_users"]);
+				return;					
+			}
+			
 			for ($i = 0; $i < count($_POST["invited_users"]); $i++)
 			{
 				$user_id = $_POST["invited_users"][$i];	
 				if ($_POST["cmd"]["remove"])
-					$this->object->disinviteUser($user_id);
+					$this->object->disinviteUser($user_id);				
 			}
 		}
 		if (is_array($_POST["clientip"])) {
@@ -5556,7 +5565,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->setClientIP($user_id, $client_ip);
 			}			
 		}
-
+		
 		if ($_POST["cmd"]["add"])
 		{
 			// add users 
@@ -5996,7 +6005,6 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	
 	function printAnswersObject(){
 		global $ilUser,$rbacsystem;
-		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -6008,20 +6016,55 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		
 		if (!$this->object->isActiveTestSubmitted($ilUser->getId()))
 			$this->object->setActiveTestSubmitted($ilUser->getId());
+
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, $ilUser); 
-	}		
-
-	function outShowAnswers($isForm, $ilUser) {
-		$tpl = &$this->tpl;
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true); 			
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		
+		$this->outShowAnswersDetails(false, $ilUser); 
+	}
+	
+	function _printAnswerSheets ($users) {	
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
+		
+		foreach ($users as $user_id) {
+			if ($this->object->isActiveTestSubmitted($user_id)) {
+				$this->outShowAnswersDetails(false, new ilObjUser ($user_id));
+			}
+		}
+	}
+	
+	function _printResultSheets ($users) {	
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
+		
+		foreach ($users as $user_id) {
+			if ($this->object->isActiveTestSubmitted($user_id)) {
+				$this->outPrintUserResults($user_id);			
+			}
+		}
+	}	
+	
+	function outShowAnswers ($isForm, &$ilUser) {
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
+		$this->outShowAnswersDetails($isForm, &$ilUser);
+	}
+	
+	function outShowAnswersDetails($isForm, &$ilUser) {
+		$tpl = &$this->tpl;		 				
 		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$t = $active->submittimestamp;
 		
 		$add_parameter = $this->getAddParameter();
 		
+			
 		$tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
 		$tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
@@ -6032,7 +6075,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
 		
 		$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$tpl->setVariable("VALUE_DATE", date("d.m.Y"));
+		$tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
 
 		$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("tst_signature"), "length" => 300)));
@@ -6055,12 +6098,14 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			
 				$counter ++;
 			
-				$tpl->parseCurrentBlock();
+				$tpl->parseCurrentBlock($type);
 			}
 		}
 
+		$tpl->setCurrentBlock("prolog");
 		$tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-
+		$tpl->parseCurrentBlock();
+		
 		$counter = 1;
 		
 		foreach ($this->object->questions as $question) {
@@ -6087,8 +6132,6 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$counter ++;
 		}
 
-
-
 		if ($isForm) {
 			$tpl->setCurrentBlock("confirm");
 			$tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
@@ -6097,6 +6140,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
 			$tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setCurrentBlock ("adm_content");
+		$this->tpl->parseCurrentBlock();
+		
 	}
 	
 	/**
@@ -6169,7 +6216,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			exit();
 		}
 			
-		$this->outTestPrintResults();
+		$this->outPrintTestResults($user_id);
 		
 	}
 	
@@ -6194,7 +6241,9 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->outShowAnswers(false, new IlObjUser ($user_id));		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
+		
+		$this->outShowAnswersDetails(false, new IlObjUser ($user_id));			
 	}
 	
 	
@@ -6206,17 +6255,21 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 *
 * @access public
 */
-	function outTestPrintResults() {
-		$user_id = (int) $_GET["user_id"];
-		$user  = new ilObjUser($user_id);
-		$active = $this->object->getActiveTestUser($user_id );
+	function outPrintTestResults($user_id) {
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
+		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);			
+		
+		$this->outPrintUserResults ($user_id);
+	}
+	
+	function outPrintUserResults ($user_id) {
+		$user = new IlObjUser ($user_id);
+		$active = $this->object->getActiveTestUser($user_id);
 		$t = $active->submittimestamp;
 		
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
-		
-		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_results.html", true, true);
-		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_results.css");
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
 		
 		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
@@ -6225,13 +6278,12 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
 		$this->tpl->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
 		$this->tpl->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
-		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%c",ilUtil::date_mysql2time($t)));
+		$this->tpl->setVariable("VALUE_TEST_DATE", strftime("%Y-%m-%d %H:%M:%S",ilUtil::date_mysql2time($t)));
 		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
-		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
+		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
 		
 
 		$add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);
 		
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -6246,6 +6298,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		{
 			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
 		}
+		
 		$total_max = $result_array["test"]["total_max_points"];
 		$total_reached = $result_array["test"]["total_reached_points"];
 
@@ -6259,28 +6312,28 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
 				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock("question");
 				$counter++;
 			}
 		}
 
-		$this->tpl->setCurrentBlock("question");
-		$this->tpl->setVariable("COLOR_CLASS", "std");
-		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
-		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("SOLUTION_HINT", "");
-		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
-		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
-		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
 
-		$this->tpl->setCurrentBlock("results");
 		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
+
+		// SUM
+		$this->tpl->setVariable("TOTAL", $this->lng->txt("total"));
+		$this->tpl->setVariable("TOTAL_MAX_POINTS", $total_max);
+		$this->tpl->setVariable("TOTAL_REACHED_POINTS",  $total_reached);
+		$this->tpl->setVariable("TOTAL_PERCENT_SOLVED", sprintf("%01.2f",$percentage)." %");
+
+
+
 		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
 		if ($mark_obj)
 		{
@@ -6290,10 +6343,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		{
 			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
 			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
-		}
+		}	
+ 
 		$this->tpl->setVariable("GRADE", $mark);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
 	}
