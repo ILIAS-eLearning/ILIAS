@@ -49,7 +49,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem;
+		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
 		if ($a_user_id == "")
 		{
@@ -63,7 +63,8 @@ class ilObjGlossaryAccess extends ilObjectAccess
 				if(!ilObjGlossaryAccess::_lookupOnline($a_obj_id)
 					&& !$rbacsystem->checkAccess('write',$a_ref_id))
 				{
-					return $lng->txt("offline");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
 				}
 				break;
 		}
@@ -74,7 +75,8 @@ class ilObjGlossaryAccess extends ilObjectAccess
 				if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id) &&
 					(!$rbacsystem->checkAccess('write', $a_ref_id)))
 				{
-					return $lng->txt("offline");
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
 				}
 				break;
 		}

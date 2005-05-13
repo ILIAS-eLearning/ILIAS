@@ -40,6 +40,11 @@ class ilAccessInfo
 		$this->info_items = array();
 	}
 
+	function clear()
+	{
+		$this->info_items = array();
+	}
+
 	/**
 	* add an info item
 	*/

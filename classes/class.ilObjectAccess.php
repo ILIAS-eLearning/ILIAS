@@ -49,17 +49,19 @@ class ilObjectAccess
 	* @param	int			$a_obj_id		object id
 	* @param	int			$a_user_id		user id (if not provided, current user is taken)
 	*
-	* @return	mixed		true, if everything is ok, message (string) when
-	*						access is not granted
+	* @return	boolean		true, if everything is ok
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser;
+		global $ilUser, $ilAccess;
 
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
 		}
+
+		// add no access info item and return false if access is not granted
+		// $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
 
 		return true;
 	}
