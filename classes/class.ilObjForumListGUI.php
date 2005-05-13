@@ -118,7 +118,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$moderators .= ", ";
 			}
-			$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
+			$moderators .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
 				$MODS[$i]."&backurl=repository&offset=".$Start."\">".ilObjUser::_lookupLogin($MODS[$i])."</a>";
 		}
 
@@ -160,14 +160,14 @@ class ilObjForumListGUI extends ilObjectListGUI
 		{
 			$last_user = $this->frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
 
-			$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".
+			$lpCont = "<a class=\"il_ItemProperty\" href=\"forums_frameset.php?target=true&pos_pk=".
 				$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
 				$this->ref_id."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a> ".
 				strtolower($lng->txt("from"))."&nbsp;";
 
 			if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]))
 			{
-				$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
+				$lpCont .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
 					$last_user["usr_id"]."&backurl=repository&offset=".$Start."\">".$last_user["login"]."</a>, ";
 				$lpCont .= $lastPost["pos_date"];
 			}

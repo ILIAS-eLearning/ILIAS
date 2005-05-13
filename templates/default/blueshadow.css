@@ -343,7 +343,6 @@ a.il_ContainerItemCommand
 	border-style: solid;
 	border-color: #B6B6B6;
 	font-size:10px;
-	font-weight: normal;
 	color: black;
 	white-space: nowrap;
 	background-color:#E6ECF8;
@@ -361,6 +360,17 @@ div.il_ItemProperties
 	font-size: 13px;
 	text-align:left;
 }
+
+a.il_ItemProperty:link, a.il_ItemProperty:visited {
+	text-decoration:none;
+	font-weight: normal;
+	color:#2255a0;
+}
+
+a.il_ItemProperty:hover {
+	color:#000000;
+}
+
 
 span.il_ItemAlertProperty
 {
@@ -595,7 +605,7 @@ div.il_Description, td.il_Description
 {
 	margin-top:5px;
 	font-size: 13px;
-	font-style: italic;
+	#font-style: italic;
 	text-align:left;
 }
 div.il_Description_no_margin, td.il_Description_no_margin
