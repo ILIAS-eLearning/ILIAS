@@ -1,8 +1,9 @@
-<table class="fullwidth">
+<table class="il_ContainerBlock">
 <!-- BEGIN container_row -->
 <!-- BEGIN container_header_row -->
-<tr class="tblheader">
-<td class="std">{BLOCK_HEADER_CONTENT}</td>
+<tr>
+<td class="il_ContainerBlockHeader" width="1"><img border="0" src="{HEADER_IMG}"></td>
+<td class="il_ContainerBlockHeader">{BLOCK_HEADER_CONTENT}</td>
 </tr>
 <!-- END container_header_row -->
 <!-- BEGIN container_standard_row -->
@@ -12,8 +13,14 @@
 <!-- BEGIN row_type_2 -->
 <tr class="tblrow2">
 <!-- END row_type_2 -->
-<td class="std">{BLOCK_ROW_CONTENT}</td>
+<td class="std">&nbsp;</td><td class="std">{BLOCK_ROW_CONTENT}</td>
 </tr>
 <!-- END container_standard_row -->
+<!-- BEGIN separator_row -->
+<tr></table>
+<br />
+<table class="il_ContainerBlock">
+</tr>
+<!-- END separator_row -->
 <!-- END container_row -->
 </table>
