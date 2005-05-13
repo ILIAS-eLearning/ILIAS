@@ -408,8 +408,32 @@ class ilContainerGUI extends ilObjectGUI
 			{
 				foreach ($_POST["items"] as $item)
 				{
-					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
-					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
+					$type = ilObject::_lookupType($item, true);
+					$this->ilias->account->addDesktopItem($item, $type);
+					unset($tmp_obj);
+				}
+			}
+		}
+		$this->renderObject();
+	}
+
+	/**
+	* unsubscribe item
+	*/
+	function removeFromDeskObject()
+	{
+		if ($_GET["item_ref_id"] and $_GET["type"])
+		{
+			$this->ilias->account->dropDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+		}
+		else
+		{
+			if ($_POST["items"])
+			{
+				foreach ($_POST["items"] as $item)
+				{
+					$type = ilObject::_lookupType($item, true);
+					$this->ilias->account->dropDesktopItem($item, $type);
 					unset($tmp_obj);
 				}
 			}
