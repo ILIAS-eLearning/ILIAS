@@ -486,17 +486,28 @@ return;
 	*/
 	function insertSubscribeCommand()
 	{
-		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID &&
-			!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
+		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
 		{
-			if ($this->rbacsystem->checkAccess("read", $this->ref_id))
+			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
 			{
-				$this->ctrl->setParameter($this->container_obj, "ref_id",
-					$this->container_obj->object->getRefId());
-				$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-				$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-				$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+				if ($this->rbacsystem->checkAccess("read", $this->ref_id))
+				{
+					$this->ctrl->setParameter($this->container_obj, "ref_id",
+						$this->container_obj->object->getRefId());
+					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
+					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
+					$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+				}
+			}
+			else
+			{
+					$this->ctrl->setParameter($this->container_obj, "ref_id",
+						$this->container_obj->object->getRefId());
+					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
+					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
+					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
 			}
 		}
 	}
