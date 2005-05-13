@@ -27,6 +27,7 @@ body
 	background : white; 
 	font-family : "Arial"; 
 	font-size : 8pt; 
+	page-break-after:always;
 } 
 
 tr 
@@ -78,6 +79,7 @@ div.ilc_Question {
 	padding-top: 5px;	
 	padding-bottom: 5px;	
 	padding-left: 2px;	
+	page-break-inside: avoid;
 }
 
 
