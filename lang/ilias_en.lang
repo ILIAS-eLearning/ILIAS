@@ -1641,6 +1641,7 @@ common#:#shib_edit_permission#:#Change permission settings
 common#:#shib_active#:#Enable Shibboleth support
 common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_update#:#Update this field on login
+common#:#shib_title#:#Attribute for title
 common#:#shib_firstname#:#Attribute for firstname
 common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_email#:#Attribute for email address
