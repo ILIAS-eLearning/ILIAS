@@ -1683,6 +1683,7 @@ common#:#mep_delete#:#Fshij Fondin Multimedial
 common#:#mep_edit#:#Edito Karakteristikat e Fondit Multimedial
 common#:#mep_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#mep_new#:#Fond Multimedial i Ri
+common#:#mep_not_insert_already_exist#:#Artikujt vijues nuk janë futur për arsye se ata tanimë janë në këtë fond multimedial:
 common#:#mep_read#:#Lexo Përmbajtjen e Fondit Multimedial
 common#:#mep_visible#:#Fondi Multimedial është i dukshëm
 common#:#mep_write#:#Edito Përmbajtjen e Fondit Multimedial
@@ -2079,7 +2080,6 @@ common#:#qpl_visible#:#Fondi i Pyetjeve për Test është i dukshëm
 common#:#qpl_write#:#Edito Fondin e Pyetjeve për Test
 common#:#query_data#:#Kërko shënime
 common#:#question#:#Pyetje
-common#:#mep_not_insert_already_exist#:#Artikujt vijues nuk janë futur për arsye se ata tanimë janë në këtë fond multimedial:
 common#:#question_pools#:#Fondet e Pyetjeve
 common#:#quit#:#Dil
 common#:#quote#:#Citat
@@ -2410,7 +2410,7 @@ common#:#uninstalled#:#e deinstaluar.
 common#:#unknown#:#PADEFINUAR
 common#:#unread#:#e Palexuar
 common#:#unselected#:#e Pazgjedhur
-common#:#unsubscribe#:#çregjistrohu
+common#:#unsubscribe#:#çregjistrohu###14 May 2005 content changed
 common#:#unzip#:#Unzip
 common#:#up#:#Lart
 common#:#update#:#Edito
@@ -2539,7 +2539,6 @@ content#:#cont_Headline1#:#Titull 1
 content#:#cont_Headline2#:#Titull 2
 content#:#cont_Headline3#:#Titull 3
 content#:#cont_List#:#Listë
-content#:#cont_paste_from_clipboard#:#Vendos nga Klipbordi
 content#:#cont_LocalFile#:#Skedari Lokale
 content#:#cont_Mnemonic#:#Fjalë Kyçe
 content#:#cont_Number#:#Numër
@@ -2547,7 +2546,6 @@ content#:#cont_Poly#:#Poligon
 content#:#cont_Rect#:#Katërkëndësh
 content#:#cont_Reference#:#Referencë
 content#:#cont_Remark#:#Koment
-content#:#cont_copy_to_media_pool#:#Kopjo në Fondin Multimedial
 content#:#cont_Roman#:#Sipas numrave Romak I, II, …
 content#:#cont_TableContent#:#Përmbajtja
 content#:#cont_Unordered#:#Të paradhitura
@@ -2608,6 +2606,7 @@ content#:#cont_contents#:#Përmbajtjet
 content#:#cont_coords#:#Koordinatat
 content#:#cont_copy_object#:#kopjo objektin
 content#:#cont_copy_to_clipboard#:#Kopjo në Klipbord
+content#:#cont_copy_to_media_pool#:#Kopjo në Fondin Multimedial
 content#:#cont_create_dir#:#Krijo Direktorium
 content#:#cont_create_export_file#:#Krijo Skedar për Eksport
 content#:#cont_create_export_file_html#:#Krijo Skedar për Eksport (HTML)
@@ -2799,6 +2798,7 @@ content#:#cont_page_select_target_now#:#Faqja është shënjuar për zhvendosje.
 content#:#cont_pages#:#Faqet
 content#:#cont_parameter#:#Parametër
 content#:#cont_parameters#:#parametrat
+content#:#cont_paste_from_clipboard#:#Vendos nga Klipbordi
 content#:#cont_personal_clipboard#:#Klipbordi Personal
 content#:#cont_pg_content#:#Përmbajtje e Faqes
 content#:#cont_pg_title#:#Titull i Faqes
@@ -3450,7 +3450,6 @@ dateplaner#:#viewlist#:#aktualizo pamjen
 dateplaner#:#week#:#java
 dateplaner#:#year#:#viti
 forum#:#forums#:#Forumet
-forum#:#forums_articles#:#Artikujt
 forum#:#forums_attachments#:#Shtesat (attachments)
 forum#:#forums_attachments_add#:#Bashkëngjit një shtesë
 forum#:#forums_attachments_edit#:#Edito shtesën
@@ -3465,10 +3464,7 @@ forum#:#forums_edit_post#:#Edito Artikullin
 forum#:#forums_info_censor2_post#:#A jeni të sigurt për ta tërhequr censurën?
 forum#:#forums_info_censor_post#:#A jeni të sigurt për ta fshehur këtë artikull?
 forum#:#forums_info_delete_post#:#A jeni të sigurt për ta fshirë artikullin dukë përfshirë edhe të gjitha përgjigjet.
-forum#:#forums_last_post#:#Artikulli i Fundit
 forum#:#forums_mark_read#:#Shënjo të gjitha të lexuara
-forum#:#forums_moderators#:#Moderatorët
-forum#:#forums_new_articles#:#Artikuj të ri
 forum#:#forums_new_entries#:#Forume të Reja
 forum#:#forums_new_thread#:#Tenë e Re
 forum#:#forums_not_available#:#Asnjë Forum në Posedim
@@ -3489,7 +3485,6 @@ forum#:#forums_thread_create_date#:#Krijuar më
 forum#:#forums_thread_create_from#:#Krijuar nga
 forum#:#forums_thread_marked#:#Postimi është shënjuar si i lexuar.
 forum#:#forums_thread_new_entry#:#Temë e re është krijuar.
-forum#:#forums_threads#:#Postime
 forum#:#forums_threads_not_available#:#Asnjë Temë në Posedim
 forum#:#forums_topics_overview#:#Pasqyrë e Përgjithshme e Temave
 forum#:#forums_your_reply#:#Përgjigja Juaj
