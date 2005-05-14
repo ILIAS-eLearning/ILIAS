@@ -1683,6 +1683,7 @@ common#:#mep_delete#:#Obriši Bazu sredstava
 common#:#mep_edit#:#Uredi podešavanja Baze sredstava
 common#:#mep_edit_permission#:#Promenite okvir za dozvolu
 common#:#mep_new#:#Nova Baza sredstava
+common#:#mep_not_insert_already_exist#:#Sledeci predmeti nisu ubaceni u bazu medija pošto se vec nalaze u njoj:
 common#:#mep_read#:#Procitaj sadržaj beze sredstava
 common#:#mep_visible#:#Baza sredstavja je vidljiva
 common#:#mep_write#:#Uredi sadržaj Baze sredstava
@@ -2079,7 +2080,6 @@ common#:#qpl_visible#:#Baza pitanja za test je vidljiva
 common#:#qpl_write#:#Uredi bazu pitanja za test
 common#:#query_data#:#Podaci o pitanjima
 common#:#question#:#Pitanje
-common#:#mep_not_insert_already_exist#:#Sledeci predmeti nisu ubaceni u bazu medija pošto se vec nalaze u njoj:
 common#:#question_pools#:#Baze pitanja
 common#:#quit#:#Odustani
 common#:#quote#:#Citat
@@ -2410,7 +2410,7 @@ common#:#uninstalled#:#deinstalirano.
 common#:#unknown#:#NEPOZNATO
 common#:#unread#:#Neprocitano
 common#:#unselected#:#Nije odabrano
-common#:#unsubscribe#:#Odjava
+common#:#unsubscribe#:#Odjava###14 May 2005 content changed
 common#:#unzip#:#Odpakuj
 common#:#up#:#Gore
 common#:#update#:#Uredi
@@ -2539,7 +2539,6 @@ content#:#cont_Headline1#:#Glavni naslov 1
 content#:#cont_Headline2#:#Glavni naslov 2
 content#:#cont_Headline3#:#Glavni naslov 3
 content#:#cont_List#:#Lista
-content#:#cont_paste_from_clipboard#:#Zalepi sa tablice
 content#:#cont_LocalFile#:#Lokalni fajl
 content#:#cont_Mnemonic#:#Simbolicki
 content#:#cont_Number#:#Broj
@@ -2547,7 +2546,6 @@ content#:#cont_Poly#:#Poligon
 content#:#cont_Rect#:#Pravougaonik
 content#:#cont_Reference#:#Primedba
 content#:#cont_Remark#:#Napomena
-content#:#cont_copy_to_media_pool#:#Kopiraj u bazu medija
 content#:#cont_Roman#:#Rimski I, II, ...
 content#:#cont_TableContent#:#Sadržaj tabele
 content#:#cont_Unordered#:#Nenarucen
@@ -2608,6 +2606,7 @@ content#:#cont_contents#:#Sadržaji
 content#:#cont_coords#:#Koordinate
 content#:#cont_copy_object#:#kopiraj objekat
 content#:#cont_copy_to_clipboard#:#Kopiraj na klipbord
+content#:#cont_copy_to_media_pool#:#Kopiraj u bazu medija
 content#:#cont_create_dir#:#Kreiraj direktorijum
 content#:#cont_create_export_file#:#Kreiraj ispisan fajl
 content#:#cont_create_export_file_html#:#Kreiraj ispisan fajl (HTML)
@@ -2799,6 +2798,7 @@ content#:#cont_page_select_target_now#:#Stranica obeležena za premeštanje.  Sa
 content#:#cont_pages#:#Stranice
 content#:#cont_parameter#:#Parametar
 content#:#cont_parameters#:#parametri
+content#:#cont_paste_from_clipboard#:#Zalepi sa tablice
 content#:#cont_personal_clipboard#:#Licni Klipbord
 content#:#cont_pg_content#:#Sadržaj stranice
 content#:#cont_pg_title#:#Naslov stranice
@@ -3450,7 +3450,6 @@ dateplaner#:#viewlist#:#Pregled
 dateplaner#:#week#:#nedelja
 dateplaner#:#year#:#godina
 forum#:#forums#:#Forumi
-forum#:#forums_articles#:#Clanci
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak
 forum#:#forums_attachments_edit#:#Uredi dodatak
@@ -3465,10 +3464,7 @@ forum#:#forums_edit_post#:#Uredi clanak
 forum#:#forums_info_censor2_post#:#Opozvati cenzuru?
 forum#:#forums_info_censor_post#:#Da li ste sigurni da želite da sakrijete ovaj clanak?
 forum#:#forums_info_delete_post#:#Da li ste sigurni da želite da obrišete ovaj clanak ukljucujuci i reagovanja?
-forum#:#forums_last_post#:#Poslednji clanak
 forum#:#forums_mark_read#:#Markiraj sve procitano
-forum#:#forums_moderators#:#Moderatori
-forum#:#forums_new_articles#:#Novi clanak
 forum#:#forums_new_entries#:#Novi unosi na forumu
 forum#:#forums_new_thread#:#Nova tema
 forum#:#forums_not_available#:#Forumi nisu dostupni
@@ -3489,7 +3485,6 @@ forum#:#forums_thread_create_date#:#Kreiranu u
 forum#:#forums_thread_create_from#:#Kreirano iz
 forum#:#forums_thread_marked#:#Stupci su obeleženi kao procitani
 forum#:#forums_thread_new_entry#:#Nova tema je kreirana
-forum#:#forums_threads#:#Stupci
 forum#:#forums_threads_not_available#:#Teme nisu dostupne
 forum#:#forums_topics_overview#:#Pregled tema
 forum#:#forums_your_reply#:#Vaš odgovor
