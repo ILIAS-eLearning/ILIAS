@@ -216,23 +216,20 @@ class ASS_ClozeTest extends ASS_Question
 					{
 						$shuffle = " shuffle=\"" . $assoc_array["gaps"][$gap]["params"]["shuffle"] . "\"";
 					}
-					if (strlen($assoc_array["gaps"][$gap]["text"]["text"]))
+					$textarray = array();
+					foreach ($assoc_array["gaps"][$gap]["text"] as $textindex => $textvalue)
 					{
-						$textarray = array();
-						foreach ($assoc_array["gaps"][$gap]["text"] as $textindex => $textvalue)
+						if (preg_match("/\d+/", $textindex))
 						{
-							if (preg_match("/\d+/", $textindex))
-							{
-								array_push($textarray, $textvalue);
-							}
+							array_push($textarray, $textvalue);
 						}
-						$this->cloze_text .= sprintf("<gap name=\"%s\" type=\"%s\"%s>%s</gap>",
-							$assoc_array["gaps"][$gap]["params"]["name"],
-							$assoc_array["gaps"][$gap]["params"]["type"],
-							$shuffle,
-							join(",", $textarray)
-						);
 					}
+					$this->cloze_text .= sprintf("<gap name=\"%s\" type=\"%s\"%s>%s</gap>",
+						$assoc_array["gaps"][$gap]["params"]["name"],
+						$assoc_array["gaps"][$gap]["params"]["type"],
+						$shuffle,
+						join(",", $textarray)
+					);
 					$gap++;
 				}
 				$this->cloze_text .= $value[0];

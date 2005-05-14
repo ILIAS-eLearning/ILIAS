@@ -568,7 +568,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->setGapValues(false);
 		$this->setGapPoints();
 		$this->setShuffleState();
-
 		$this->object->update_all_gap_params();
 		$this->editQuestion();
 	}
