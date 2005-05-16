@@ -218,7 +218,8 @@ assessment#:#eval_search_users#:#Users
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
 assessment#:#eval_selected_users#:#Evaluation for selected users
 assessment#:#exp_eval_data#:#Export evaluation data as
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel (PC)
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
 assessment#:#failed_official#:#failed
@@ -4646,7 +4647,6 @@ survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
 survey#:#create_questionpool_before_add_question#:#You must create at least one question pool to store your questions!
-survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
 survey#:#dc_definitelyfalse#:#definitely false
@@ -4726,7 +4726,9 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
-survey#:#excel#:#Microsoft Excel
+survey#:#exp_type_csv#:#Comma separated value (CSV)
+survey#:#exp_type_excel#:#Microsoft Excel (PC)
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#exit#:#Exit
 survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!

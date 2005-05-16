@@ -41,7 +41,8 @@ require_once "./classes/class.ilObjUser.php";
 require_once "./classes/class.ilObjGroup.php";
 require_once "./survey/classes/class.SurveySearch.php";
 
-define ("TYPE_XLS", "excel");
+define ("TYPE_XLS", "latin1");
+define ("TYPE_XLS_MAC", "macos");
 define ("TYPE_SPSS", "csv");
 define ("TYPE_PRINT", "prnt");
 
@@ -3033,8 +3034,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("PRINT_TYPE", "summary");
 		}
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -3046,8 +3048,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
+			case TYPE_XLS_MAC:
 				// Let's send the file
 				// Creating a workbook
+				include_once ("./classes/class.ilExcelUtils.php");
 				$workbook = new Spreadsheet_Excel_Writer();
 
 				// sending HTTP headers
@@ -3079,7 +3083,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						foreach ($csvrow as $text)
 						{
-							$mainworksheet->writeString($row, $col++, $text, $format_title);
+							$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
 						}
 					}
 					else
@@ -3092,7 +3096,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							}
 							else
 							{
-								$mainworksheet->writeString($row, $col++, $text);
+								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]));
 							}
 						}
 					}
@@ -3154,6 +3158,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
+			case TYPE_XLS_MAC:
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
 
@@ -3173,17 +3178,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$format_title->setPattern(1);
 				$format_title->setFgColor('silver');
 				// Creating a worksheet
+				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();
-				$mainworksheet->writeString(0, 0, $this->lng->txt("title"), $format_bold);
-				$mainworksheet->writeString(0, 1, $this->lng->txt("question"), $format_bold);
-				$mainworksheet->writeString(0, 2, $this->lng->txt("question_type"), $format_bold);
-				$mainworksheet->writeString(0, 3, $this->lng->txt("users_answered"), $format_bold);
-				$mainworksheet->writeString(0, 4, $this->lng->txt("users_skipped"), $format_bold);
-				$mainworksheet->writeString(0, 5, $this->lng->txt("mode"), $format_bold);
-				$mainworksheet->writeString(0, 6, $this->lng->txt("mode_text"), $format_bold);
-				$mainworksheet->writeString(0, 7, $this->lng->txt("mode_nr_of_selections"), $format_bold);
-				$mainworksheet->writeString(0, 8, $this->lng->txt("median"), $format_bold);
-				$mainworksheet->writeString(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
+				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 2, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 3, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 4, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 5, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 6, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 7, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 8, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
+				$mainworksheet->writeString(0, 9, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
 				break;
 			case (TYPE_SPSS || TYPE_PRINT):
 				$csvfile = array();
@@ -3244,9 +3250,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
-					$mainworksheet->writeString($counter+1, 0, $data["title"]);
-					$mainworksheet->writeString($counter+1, 1, $data["questiontext"]);
-					$mainworksheet->writeString($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
+				case TYPE_XLS_MAC:
+					include_once ("./classes/class.ilExcelUtils.php");
+					$mainworksheet->writeString($counter+1, 0, ilExcelUtils::_convert_text($data["title"], $_POST["export_format"]));
+					$mainworksheet->writeString($counter+1, 1, ilExcelUtils::_convert_text($data["questiontext"], $_POST["export_format"]));
+					$mainworksheet->writeString($counter+1, 2, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
 					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
 					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
 					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
@@ -3286,16 +3294,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 				switch ($_POST["export_format"])
 				{
 					case TYPE_XLS:
+					case TYPE_XLS_MAC:
+						include_once ("./classes/class.ilExcelUtils.php");
 						$worksheet =& $workbook->addWorksheet();
-						$worksheet->writeString(0, 0, $this->lng->txt("title"), $format_bold);
-						$worksheet->writeString(0, 1, $data["title"]);
-						$worksheet->writeString(1, 0, $this->lng->txt("question"), $format_bold);
-						$worksheet->writeString(1, 1, $data["questiontext"]);
-						$worksheet->writeString(2, 0, $this->lng->txt("question_type"), $format_bold);
-						$worksheet->writeString(2, 1, $this->lng->txt($eval["QUESTION_TYPE"]));
-						$worksheet->writeString(3, 0, $this->lng->txt("users_answered"), $format_bold);
+						$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
+						$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($data["title"], $_POST["export_format"]));
+						$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
+						$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($data["questiontext"], $_POST["export_format"]));
+						$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
+						$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
+						$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
 						$worksheet->write(3, 1, $eval["USERS_ANSWERED"]);
-						$worksheet->writeString(4, 0, $this->lng->txt("users_skipped"), $format_bold);
+						$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
 						$worksheet->write(4, 1, $eval["USERS_SKIPPED"]);
 						$rowcounter = 5;
 						break;
@@ -3328,6 +3338,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
+							case TYPE_XLS_MAC:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
 								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
 								$worksheet->write($rowcounter++, 1, $matches[1]);
@@ -3360,6 +3371,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								switch ($_POST["export_format"])
 								{
 									case TYPE_XLS:
+									case TYPE_XLS_MAC:
 										$worksheet->write($rowcounter, 1, $value["title"]);
 										$worksheet->write($rowcounter, 2, $key+1);
 										$worksheet->write($rowcounter, 3, $value["selected"]);
@@ -3396,6 +3408,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
+							case TYPE_XLS_MAC:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
 								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
 								$worksheet->write($rowcounter++, 1, $matches[1]);
@@ -3439,6 +3452,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							switch ($_POST["export_format"])
 							{
 								case TYPE_XLS:
+								case TYPE_XLS_MAC:
 									$worksheet->write($rowcounter, 1, $value["title"]);
 									$worksheet->write($rowcounter, 2, $key+1);
 									$worksheet->write($rowcounter, 3, $value["selected"]);
@@ -3474,6 +3488,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
+							case TYPE_XLS_MAC:
 								$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
 								switch ($data["subtype"])
 								{
@@ -3538,6 +3553,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							switch ($_POST["export_format"])
 							{
 								case TYPE_XLS:
+								case TYPE_XLS_MAC:
 									$worksheet->write($rowcounter, 1, $value["value"]);
 									$worksheet->write($rowcounter, 2, $value["selected"]);
 									$worksheet->write($rowcounter++, 3, $value["percentage"], $format_percent);
@@ -3574,6 +3590,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
+							case TYPE_XLS_MAC:
 								$worksheet->write($rowcounter, 0, $this->lng->txt("given_answers"), $format_bold);
 								break;
 						}
@@ -3585,6 +3602,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							switch ($_POST["export_format"])
 							{
 								case TYPE_XLS:
+								case TYPE_XLS_MAC:
 									$worksheet->write($rowcounter++, 1, $textvalue);
 									break;
 							}
@@ -3624,6 +3642,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
+			case TYPE_XLS_MAC:
 				// Let's send the file
 				$workbook->close();
 				exit();
@@ -3661,8 +3680,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
 		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
 		$this->tpl->setVariable("VALUE_DETAIL", $details);
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
