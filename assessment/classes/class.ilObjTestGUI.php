@@ -44,7 +44,8 @@ require_once "./classes/class.ilSearch.php";
 require_once "./classes/class.ilObjUser.php";
 require_once "./classes/class.ilObjGroup.php";
 
-define ("TYPE_XLS", "excel");
+define ("TYPE_XLS_PC", "latin1");
+define ("TYPE_XLS_MAC", "macos");
 define ("TYPE_SPSS", "csv");
 
 class ilObjTestGUI extends ilObjectGUI
@@ -4083,14 +4084,13 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$noqcount = count($titlerow_without_questions);
-
 		if ($export)
 		{
 			$testname = preg_replace("/\s/", "_", $this->object->getTitle());
 			switch ($_POST["export_type"])
 			{
-				case TYPE_XLS:
-
+				case TYPE_XLS_PC:
+				case TYPE_XLS_MAC:
 					// Creating a workbook
 					$workbook = new Spreadsheet_Excel_Writer();
 	
@@ -4112,11 +4112,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$worksheet =& $workbook->addWorksheet();
 					$row = 0;
 					$col = 0;
+					include_once ("./classes/class.ilExcelUtils.php");
 					if (!$this->object->isRandomTest())
 					{
 						foreach ($titlerow as $title)
 						{
-							$worksheet->write($row, $col, $legend[$title], $format_title);
+							$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$title], $_POST["export_type"]), $format_title);
 							$col++;
 						}
 						$row++;
@@ -4130,11 +4131,11 @@ class ilObjTestGUI extends ilObjectGUI
 							{
 								if ($key == 0)
 								{
-									$worksheet->write($row, $col, $value, $format_title);
+									$worksheet->write($row, $col, ilExcelUtils::_convert_text($value, $_POST["export_type"]), $format_title);
 								}
 								else
 								{
-									$worksheet->write($row, $col, $legend[$value], $format_title);
+									$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$value], $_POST["export_type"]), $format_title);
 								}
 								$col++;
 							}
@@ -4152,7 +4153,7 @@ class ilObjTestGUI extends ilObjectGUI
 									$worksheet->write($row, $col, $value["xls"], $format_datetime);
 									break;
 								default:
-									$worksheet->write($row, $col, $this->object->convert_text($value["xls"]));
+									$worksheet->write($row, $col, ilExcelUtils::_convert_text($value["xls"], $_POST["export_type"]));
 									break;
 							}
 							$col++;
@@ -4306,6 +4307,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("export_btn");
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_EXCEL_MAC", $this->lng->txt("exp_type_excel_mac"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));

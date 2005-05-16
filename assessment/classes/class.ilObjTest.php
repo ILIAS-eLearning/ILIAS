@@ -5933,25 +5933,6 @@ class ilObjTest extends ilObject
 		}
 		return $resultarray;
 	}
-	
-	function convert_text($str){
-		return $str;
-		$out = "";
-		$str = utf8_decode($str);
-		for ($i = 0; $i<strlen($str);$i++){
-			switch($str{$i}) {
-				 case utf8_decode("ü"): $out .= chr(0X9F);break; //u Umlaut
-				 case utf8_decode("Ü"): $out .= chr(0x86);break;//U Umlaut 
-				 case utf8_decode("ä"): $out .= chr(0x8A);break;//a Umlaut  
-				 case utf8_decode("Ä"): $out .= chr(0x80);break;//A Umlaut 
-				 case utf8_decode("Ö"): $out .= chr(0x85);break;//O Umlaut  
-				 case utf8_decode("ö"): $out .= chr(0x9A);break;//o Umlaut 
-				 case utf8_decode("ß"): $out .= chr(0xA7);break;//SZ 
-				 default: $out .= $str{$i};
-			 }
-		}
-		return $out;
-	}
 
 } // END class.ilObjTest
 
