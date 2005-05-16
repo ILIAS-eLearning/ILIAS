@@ -55,7 +55,7 @@ class ilQTIItem
 		$this->response = array();
 		$this->resprocessing = array();
 		$this->itemfeedback = array();
-		$this->presentation = null;
+		$this->presentation = NULL;
 		$this->presentationitem = array();
 	}
 	
@@ -183,7 +183,7 @@ class ilQTIItem
 	function collectResponses()
 	{
 		$result = array();
-		if ($this->presentation != null)
+		if ($this->presentation != NULL)
 		{
 		}
 	}

@@ -38,14 +38,12 @@ class ilQTIPresentation
 	var $width;
 	var $height;
 	
-	var $flow;
 	var $material;
 	var $response;
 	
 	function ilQTIPresentation()
 	{
 		$this->response = array();
-		$this->flow = array();
 		$this->material = array();
 	}
 	
@@ -109,19 +107,14 @@ class ilQTIPresentation
 		return $this->height;
 	}
 	
-	function addFlow($a_flow, $a_index)
+	function addMaterial($a_material)
 	{
-		$this->flow[$a_index] = $a_flow;
+		array_push($this->material, $a_material);
 	}
 	
-	function addMaterial($a_material, $a_index)
+	function addResponse($a_response)
 	{
-		$this->material[$a_index] = $a_material;
-	}
-	
-	function addResponse($a_response, $a_index)
-	{
-		$this->response[$a_index] = $a_response;
+		array_push($this->response, $a_response);
 	}
 }
 ?>
