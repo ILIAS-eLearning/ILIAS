@@ -4152,12 +4152,6 @@ class ilObjTestGUI extends ilObjectGUI
 									$worksheet->write($row, $col, $value["xls"], $format_datetime);
 									break;
 								default:
-									//$str = "";
-									//for ($k = 1; $k <= 255; $k++)
-									//{
-									//	$worksheet->write($row +2+$k, 1, $k);
-									//	$worksheet->write($row +2+$k, 2, chr($k));
-									//}
 									$worksheet->write($row, $col, $this->object->convert_text($value["xls"]));
 									break;
 							}
