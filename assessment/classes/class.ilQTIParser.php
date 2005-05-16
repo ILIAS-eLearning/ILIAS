@@ -58,7 +58,6 @@ class ilQTIParser extends ilSaxParser
 	var $flow_mat;
 	var $flow;
 	var $presentation;
-	var $order;
 	var $mattext;
 	var $sametag;
 	var $characterbuffer;
@@ -79,28 +78,27 @@ class ilQTIParser extends ilSaxParser
 		$this->hasRootElement = FALSE;
 		$this->path = array();
 		$this->items = array();
-		$this->item = null;
+		$this->item = NULL;
 		$this->depth = array();
 		$this->qti_element = "";
 		$this->in_presentation = FALSE;
 		$this->in_reponse = FALSE;
-		$this->render_choice = null;
-		$this->response_label = null;
-		$this->material = null;
-		$this->response = null;
-		$this->matimage = null;
-		$this->resprocessing = null;
-		$this->outcomes = null;
-		$this->decvar = null;
-		$this->respcondition = null;
-		$this->setvar = null;
-		$this->displayfeedback = null;
-		$this->itemfeedback = null;
+		$this->render_choice = NULL;
+		$this->response_label = NULL;
+		$this->material = NULL;
+		$this->response = NULL;
+		$this->matimage = NULL;
+		$this->resprocessing = NULL;
+		$this->outcomes = NULL;
+		$this->decvar = NULL;
+		$this->respcondition = NULL;
+		$this->setvar = NULL;
+		$this->displayfeedback = NULL;
+		$this->itemfeedback = NULL;
 		$this->flow_mat = array();
-		$this->flow = array();
-		$this->presentation = null;
-		$this->order = 0;
-		$this->mattext = null;
+		$this->flow = 0;
+		$this->presentation = NULL;
+		$this->mattext = NULL;
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
 	}
@@ -150,7 +148,7 @@ class ilQTIParser extends ilSaxParser
 		{
 			case "flow":
 				include_once ("./assessment/classes/class.ilQTIFlow.php");
-				array_push($this->flow, new ilQTIFlow());
+				$this->flow++;
 				break;
 			case "flow_mat":
 				include_once ("./assessment/classes/class.ilQTIFlowMat.php");
@@ -432,6 +430,7 @@ class ilQTIParser extends ilSaxParser
 			case "material":
 				include_once("./assessment/classes/class.ilQTIMaterial.php");
 				$this->material = new ilQTIMaterial();
+				$this->material->setFlow($this->flow);
 				break;
 			case "mattext":
 				include_once ("./assessment/classes/class.ilQTIMattext.php");
@@ -455,7 +454,7 @@ class ilQTIParser extends ilSaxParser
 				$this->presentation = new ilQTIPresentation();
 				break;
 			case "response_label":
-				if ($this->render_choice != null)
+				if ($this->render_choice != NULL)
 				{
 				include_once("./assessment/classes/class.ilQTIResponseLabel.php");
 					$this->response_label = new ilQTIResponseLabel();
@@ -503,6 +502,7 @@ class ilQTIParser extends ilSaxParser
 				$this->in_response = TRUE;
 				include_once("./assessment/classes/class.ilQTIResponse.php");
 				$this->response = new ilQTIResponse(RT_RESPONSE_LID);
+				$this->response->setFlow($this->flow);
 				if (is_array($a_attribs))
 				{
 					foreach ($a_attribs as $attribute => $value)
@@ -585,19 +585,7 @@ class ilQTIParser extends ilSaxParser
 		switch (strtolower($a_name))
 		{
 			case "flow":
-				if (count($this->flow))
-				{
-					$flow = array_pop($this->flow);
-					if (count($this->flow))
-					{
-						$this->flow[count($this->flow)-1]->addFlow($flow, $this->order);
-					}
-					else if ($this->presentation != null)
-					{
-						$this->presentation->addFlow($flow, $this->order);
-					}
-					$this->order++;
-				}
+				$this->flow--;
 				break;
 			case "flow_mat":
 				if (count($this->flow_mat))
@@ -607,45 +595,45 @@ class ilQTIParser extends ilSaxParser
 					{
 						$this->flow_mat[count($this->flow_mat)-1]->addFlow_mat($flow_mat);
 					}
-					else if ($this->itemfeedback != null)
+					else if ($this->itemfeedback != NULL)
 					{
 						$this->itemfeedback->addFlow_mat($flow_mat);
 					}
-					else if ($this->response_label != null)
+					else if ($this->response_label != NULL)
 					{
 						$this->response_label->addFlow_mat($flow_mat);
 					}
 				}
 				break;
 			case "itemfeedback":
-				if ($this->item != null)
+				if ($this->item != NULL)
 				{
-					if ($this->itemfeedback != null)
+					if ($this->itemfeedback != NULL)
 					{
 						$this->item->addItemfeedback($this->itemfeedback);
 					}
 				}
-				$this->itemfeedback = null;
+				$this->itemfeedback = NULL;
 				break;
 			case "displayfeedback":
-				if ($this->respcondition != null)
+				if ($this->respcondition != NULL)
 				{
-					if ($this->displayfeedback != null)
+					if ($this->displayfeedback != NULL)
 					{
 						$this->respcondition->addDisplayfeedback($this->displayfeedback);
 					}
 				}
-				$this->displayfeedback = null;
+				$this->displayfeedback = NULL;
 				break;
 			case "setvar":
-				if ($this->respcondition != null)
+				if ($this->respcondition != NULL)
 				{
-					if ($this->setvar != null)
+					if ($this->setvar != NULL)
 					{
 						$this->respcondition->addSetvar($this->setvar);
 					}
 				}
-				$this->setvar = null;
+				$this->setvar = NULL;
 				break;
 			case "varequal":
 			case "varlt":
@@ -655,92 +643,80 @@ class ilQTIParser extends ilSaxParser
 			case "varsubset":
 			case "varinside":
 			case "varsubstring":
-				if ($this->conditionvar != null)
+				if ($this->conditionvar != NULL)
 				{
-					if ($this->responsevar != null)
+					if ($this->responsevar != NULL)
 					{
 						$this->conditionvar->addResponseVar($this->responsevar);
 					}
 				}
-				$this->responsevar = null;
+				$this->responsevar = NULL;
 				break;
 			case "respcondition":
-				if ($this->resprocessing != null)
+				if ($this->resprocessing != NULL)
 				{
 					$this->resprocessing->addRespcondition($this->respcondition);
 				}
-				$this->respcondition = null;
+				$this->respcondition = NULL;
 				break;
 			case "outcomes":
-				if ($this->resprocessing != null)
+				if ($this->resprocessing != NULL)
 				{
 					$this->resprocessing->setOutcomes($this->outcomes);
 				}
-				$this->outcomes = null;
+				$this->outcomes = NULL;
 				break;
 			case "decvar":
-				if ($this->outcomes != null)
+				if ($this->outcomes != NULL)
 				{
 					$this->outcomes->addDecvar($this->decvar);
 				}
-				$this->decvar = null;
+				$this->decvar = NULL;
 				break;
 			case "presentation":
 				$this->in_presentation = FALSE;
-				if ($this->presentation != null)
+				if ($this->presentation != NULL)
 				{
-					if ($this->item != null)
+					if ($this->item != NULL)
 					{
 						$this->item->setPresentation($this->presentation);
 					}
 				}
-				$this->presentation = null;
+				$this->presentation = NULL;
 				break;
 			case "response_label":
-				if ($this->render_choice != null)
+				if ($this->render_choice != NULL)
 				{
 					$this->render_choice->addResponseLabel($this->response_label);
-					$this->response_label = null;
+					$this->response_label = NULL;
 				}
 				break;
 			case "render_choice":
 				if ($this->in_response)
 				{
-					if ($this->response != null)
+					if ($this->response != NULL)
 					{
-						if ($this->render_choice != null)
+						if ($this->render_choice != NULL)
 						{
-							$this->response->addRenderChoice($this->render_choice);
-							$this->render_choice = null;
+							$this->response->setRenderType($this->render_choice);
+							$this->render_choice = NULL;
 						}
 					}
 				}
 				break;
 			case "response_lid":
-				if (count($this->flow))
+				if ($this->presentation != NULL)
 				{
-					if ($this->reponse != null)
+					if ($this->response != NULL)
 					{
-						$this->flow[count($this->flow)-1]->addResponse($this->response, $this->order);
-						if ($this->item != null)
+						$this->presentation->addResponse($this->response);
+						if ($this->item != NULL)
 						{
 							$this->item->addPresentationitem($this->response);
 						}
 					}
 				}
-				else if ($this->presentation != null)
-				{
-					if ($this->reponse != null)
-					{
-						$this->presentation->addResponse($this->response, $this->order);
-						if ($this->item != null)
-						{
-							$this->item->addPresentationitem($this->response);
-						}
-					}
-				}
-				$this->response = null;
-				$this->order++;
+				$this->response = NULL;
 				break;
 			case "response_xy":
 			case "response_str":
@@ -749,7 +725,7 @@ class ilQTIParser extends ilSaxParser
 				$this->in_response = FALSE;
 				break;
 			case "item":
-				// $this->item = null;
+				// $this->item = NULL;
 				break;
 			case "material":
 				if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
@@ -757,60 +733,62 @@ class ilQTIParser extends ilSaxParser
 					$this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
 					echo "add material to flow_mat<br />";
 				}
-				else if (count($this->flow) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow") == 0))
-				{
-					$this->flow[count($this->flow)-1]->addMaterial($this->material, $this->order);
-					echo "add material to flow<br />";
-					if ($this->item != null)
-					{
-						$this->item->addPresentationitem($this->material);
-					}
-				}
-				else if ($this->itemfeedback != null)
+				else if ($this->itemfeedback != NULL)
 				{
 					$this->itemfeedback->addMaterial($this->material);
 					echo "add material to itemfeedback<br />";
 				}
-				else if ($this->response_label != null)
+				else if ($this->response_label != NULL)
 				{
 					$this->response_label->addMaterial($this->material);
 					echo "add material to reponse_label<br />";
 				}
-				else if ($this->presentation != null)
+				else if ($this->response != NULL)
 				{
-					$this->presentation->addMaterial($this->material, $this->order);
+					if ($this->response->hasRendering())
+					{
+						$this->response->setMaterial2($this->material);
+					}
+					else
+					{
+						$this->response->setMaterial1($this->material);
+					}
+					echo "add material to reponse<br />";
+				}
+				else if ($this->presentation != NULL)
+				{
+					$this->presentation->addMaterial($this->material);
 					echo "add material to presentation<br />";
-					if ($this->item != null)
+					if ($this->item != NULL)
 					{
 						$this->item->addPresentationitem($this->material);
 					}
 				}
-				$this->material = null;
-				$this->order++;
+				$this->material = NULL;
 				break;
 			case "matimage";
-				if ($this->material != null)
+				if ($this->material != NULL)
 				{
-					if ($this->matimage != null)
+					if ($this->matimage != NULL)
 					{
 						$this->material->addMatimage($this->matimage);
 					}
 				}
-				$this->matimage = null;
+				$this->matimage = NULL;
 				break;
 			case "resprocessing":
-				if ($this->item != null)
+				if ($this->item != NULL)
 				{
 					$this->item->addResprocessing($this->resprocessing);
 				}
-				$this->resprocessing = null;
+				$this->resprocessing = NULL;
 				break;
 			case "mattext":
-				if ($this->material != null)
+				if ($this->material != NULL)
 				{
 					$this->material->addMattext($this->mattext);
 				}
-				$this->mattext = null;
+				$this->mattext = NULL;
 		}
 		$this->depth[$a_xml_parser]--;
 	}
@@ -825,13 +803,13 @@ class ilQTIParser extends ilSaxParser
 		switch ($this->qti_element)
 		{
 			case "setvar":
-				if ($this->setvar != null)
+				if ($this->setvar != NULL)
 				{
 					$this->setvar->setContent($a_data);
 				}
 				break;
 			case "displayfeedback":
-				if ($this->displayfeedback != null)
+				if ($this->displayfeedback != NULL)
 				{
 					$this->displayfeedback->setContent($a_data);
 				}
@@ -844,7 +822,7 @@ class ilQTIParser extends ilSaxParser
 			case "varsubset":
 			case "varinside":
 			case "varsubstring":
-				if ($this->responsevar != null)
+				if ($this->responsevar != NULL)
 				{
 					$this->responsevar->setContent($a_data);
 				}
@@ -852,14 +830,14 @@ class ilQTIParser extends ilSaxParser
 			case "decvar":
 				if (strlen($a_data))
 				{
-					if ($this->outcomes != null)
+					if ($this->outcomes != NULL)
 					{
 						$this->outcomes->setContent($a_data);
 					}
 				}
 				break;
 			case "mattext":
-				if ($this->mattext != null)
+				if ($this->mattext != NULL)
 				{
 					$this->mattext->setContent($a_data);
 				}

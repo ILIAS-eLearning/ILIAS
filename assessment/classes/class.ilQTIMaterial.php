@@ -31,6 +31,7 @@
 */
 class ilQTIMaterial
 {
+	var $flow;
 	var $comment;
 	var $mattext;
 	var $matemtext;
@@ -46,6 +47,7 @@ class ilQTIMaterial
 	
 	function ilQTIMaterial()
 	{
+		$this->flow = 0;
 		$this->mattext = array();
 		$this->matemtext = array();
 		$this->matimage = array();
@@ -112,6 +114,16 @@ class ilQTIMaterial
 	function addAltmaterial($a_altmaterial)
 	{
 		array_push($this->altmaterial, $a_altmaterial);
+	}
+	
+	function setFlow($a_flow)
+	{
+		$this->flow = $a_flow;
+	}
+	
+	function getFlow()
+	{
+		return $this->flow;
 	}
 }
 ?>

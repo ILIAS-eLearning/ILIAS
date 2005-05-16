@@ -2379,7 +2379,11 @@
 								dd.elements.definition_<xsl:value-of select="@ident"/>.moveTo(dd.elements.definition_<xsl:value-of select="@ident"/>.defx, dd.elements.definition_<xsl:value-of select="@ident"/>.defy);
 								<xsl:choose>
 									<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
-									<xsl:otherwise>dd.elements.definition_<xsl:value-of select="@ident"/>.write('<xsl:value-of select="material/mattext"/>');</xsl:otherwise>
+									<xsl:otherwise>dd.elements.definition_<xsl:value-of select="@ident"/>.write(&quot;<xsl:call-template name="replace-substring">
+										<xsl:with-param name="original"><xsl:value-of select="material/mattext"/></xsl:with-param>
+										<xsl:with-param name="substring">&quot;</xsl:with-param>
+										<xsl:with-param name="replacement">&amp;quot;</xsl:with-param>
+									</xsl:call-template>&quot;);</xsl:otherwise>
 								</xsl:choose>
 							</xsl:if>
 					</xsl:for-each>
@@ -2403,7 +2407,11 @@
 		    dd.obj.moveTo(dd.elements.term_<xsl:value-of select="@ident"/>.x + 250, dd.elements.term_<xsl:value-of select="@ident"/>.y);
 		<xsl:choose>
 			<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
-			<xsl:otherwise>dd.obj.write('&lt;strong&gt;<xsl:value-of select="$title"/>&lt;/strong&gt;');</xsl:otherwise>
+			<xsl:otherwise>dd.obj.write(&quot;&lt;strong&gt;<xsl:call-template name="replace-substring">
+	<xsl:with-param name="original"><xsl:value-of select="$title"/></xsl:with-param>
+  <xsl:with-param name="substring">&quot;</xsl:with-param>
+  <xsl:with-param name="replacement">&amp;quot;</xsl:with-param>
+</xsl:call-template>&lt;/strong&gt;&quot;);</xsl:otherwise>
 		</xsl:choose>
 				document.test_output.sel_matching_<xsl:value-of select="$ident"/>.value = '<xsl:value-of select="@ident"/>';
 		}
@@ -2513,6 +2521,62 @@
     <xsl:param name="original"/>
     <xsl:param name="substring"/>
     <xsl:value-of select="substring-after($original, $substring)"/>
+</xsl:template>
+
+<!-- helper function to replace strings -->
+<xsl:template name="replace-substring">
+  <xsl:param name="original"/>
+  <xsl:param name="substring"/>
+  <xsl:param name="replacement" select="''"/>
+  <xsl:variable name="first">
+    <xsl:choose>
+      <xsl:when test="contains($original, $substring)">
+        <xsl:value-of select="substring-before($original, $substring)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$original"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:variable name="middle">
+    <xsl:choose>
+      <xsl:when test="contains($original, $substring)">
+        <xsl:value-of select="$replacement"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text></xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:variable name="last">
+    <xsl:choose>
+      <xsl:when test="contains($original, $substring)">
+        <xsl:choose>
+          <xsl:when test="contains(substring-after($original, $substring), 
+                                   $substring)">
+            <xsl:call-template name="replace-substring">
+              <xsl:with-param name="original">
+                <xsl:value-of select="substring-after($original, $substring)"/>
+              </xsl:with-param>
+              <xsl:with-param name="substring">
+                <xsl:value-of select="$substring"/>
+              </xsl:with-param>
+              <xsl:with-param name="replacement">
+                <xsl:value-of select="$replacement"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="substring-after($original, $substring)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text></xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:value-of select="concat($first, $middle, $last)"/>
 </xsl:template>
 
 <!-- dump language variable data -->
