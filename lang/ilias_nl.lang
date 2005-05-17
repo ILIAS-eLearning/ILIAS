@@ -219,6 +219,7 @@ assessment#:#eval_search_userselection#:#Search the users you want to add to the
 assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Exporteer evaluatie-gegevens als###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#Microsoft Excel###05 Nov 2004 new variable
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Door komma's gescheiden waarde(CVS)###07 Apr 2005 content changed
 assessment#:#export#:#Exporteer###07 Apr 2005 content changed
 assessment#:#failed_official#:#mislukt###07 Apr 2005 content changed
@@ -4646,7 +4647,6 @@ survey#:#continue#:#Beperkingen###07 Apr 2005 content changed
 survey#:#create_date#:#Bevat###07 Apr 2005 content changed
 survey#:#create_new#:#Doorlopend >>###07 Apr 2005 content changed
 survey#:#create_questionpool_before_add_question#:#Gecreëerd###07 Apr 2005 content changed
-survey#:#csv#:#Creëer een nieuwe###07 Apr 2005 content changed
 survey#:#dc_agree#:#Uw moet tensminste één vraagpool creëren om uw vragen te kunnen opslaan!###07 Apr 2005 content changed
 survey#:#dc_always#:#Door komma's gescheiden waarde(CVS)###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#overeenkomen###07 Apr 2005 content changed
@@ -4726,8 +4726,10 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Voer een gezegde-titel in###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Voer een waarde in###07 Apr 2005 content changed
-survey#:#excel#:#Evaluatie###07 Apr 2005 content changed
 survey#:#exit#:#Toegang tot evaluatie###07 Apr 2005 content changed
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Microsoft Excel###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Uitgang###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Exporteer gegevens als###07 Apr 2005 content changed

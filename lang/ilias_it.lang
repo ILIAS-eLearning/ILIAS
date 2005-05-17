@@ -218,7 +218,8 @@ assessment#:#eval_search_users#:#Utenti
 assessment#:#eval_search_userselection#:#Ricerca gli utenti che vuoi inserire tra nelle valutazioni statistiche
 assessment#:#eval_selected_users#:#Valutazione per gli utenti selezionati
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato&nbsp; 
-assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_excel#:#  Excel  ###17 May 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
 assessment#:#failed_official#:#Respinto
@@ -4641,7 +4642,6 @@ survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
 survey#:#create_new#:#Nuova domanda
 survey#:#create_questionpool_before_add_question#:#Devi creare almeno una raccolta di domande per poter salvare le tue domande!
-survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#accordo
 survey#:#dc_always#:#sempre
 survey#:#dc_definitelyfalse#:#falso
@@ -4721,8 +4721,10 @@ survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i 
 survey#:#eval_legend_link#:#Per favore controlla nella legenda il significato dei simboli nell'intestazione delle colonne.
 survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Esci
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!

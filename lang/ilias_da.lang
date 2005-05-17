@@ -202,6 +202,7 @@ assessment#:#eval_matching_result#:#De to ens %s - %s er %s. Du har modtaget %s 
 assessment#:#eval_order_result#:#Ordren for v&aelig;rdien %s er %s. Du har modtaget %s point.###07 Apr 2005 content changed
 assessment#:#exp_eval_data#:#Eksporter evaluerings data som###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#Microsoft Excel###07 Apr 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#komma sepereret v&aelig;rdier (CSV)###07 Apr 2005 content changed
 assessment#:#export#:#Eksporter###07 Apr 2005 content changed
 assessment#:#failed_official#:#Fejl###07 Apr 2005 content changed
@@ -4156,7 +4157,6 @@ survey#:#continue#:#Forts&aelig;t >>###07 Apr 2005 content changed
 survey#:#create_date#:#Oprettet###07 Apr 2005 content changed
 survey#:#create_new#:#Opret nyt###07 Apr 2005 content changed
 survey#:#create_questionpool_before_add_question#:#Du skal oprette mindst en sp&oslash;rgsm&aring;ls gruppe for at gemme dine sp&oslash;rgsm&aring;l!###07 Apr 2005 content changed
-survey#:#csv#:#komma separaret v&aelig;rdier (CSV)###07 Apr 2005 content changed
 survey#:#dc_agree#:#Enig###07 Apr 2005 content changed
 survey#:#dc_always#:#altid###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#Helt sikkert falsk###07 Apr 2005 content changed
@@ -4232,8 +4232,10 @@ survey#:#error_importing_question#:#Der opstod en fejl ved importering af sp&osl
 survey#:#error_retrieving_anonymous_survey#:#Systemet kunne ikke finde sp&oslash;rgeskema data for skema kode %s. Kontroller venligst den kode du har indtastet!###07 Apr 2005 content changed
 survey#:#evaluation#:#Evaluering###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Evaluerings adgang###07 Apr 2005 content changed
-survey#:#excel#:#Microsoft Excel###07 Apr 2005 content changed
 survey#:#exit#:#Afslut###07 Apr 2005 content changed
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Eksporter data som###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Udfyld venligst alle kategorier inden du tilf&oslash;jer en ny!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Udfyld venligst alle n&oslash;dvendige felter f&oslash;r du tilf&oslash;jer en kategori!###07 Apr 2005 content changed

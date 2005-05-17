@@ -220,6 +220,7 @@ assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir
 assessment#:#eval_selected_users#:#Evaluación para los usuarios seleccionados###07 Apr 2005 content changed
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#  Excel  ###07 Apr 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###07 Apr 2005 content changed
 assessment#:#export#:#Exportar###07 Apr 2005 content changed
 assessment#:#failed_official#:#no superado###07 Apr 2005 content changed
@@ -4646,7 +4647,6 @@ survey#:#continue#:#Continuar >>###07 Apr 2005 content changed
 survey#:#create_date#:#Creada###07 Apr 2005 content changed
 survey#:#create_new#:#Crear nueva###07 Apr 2005 content changed
 survey#:#create_questionpool_before_add_question#:#Debe crear al menos un repositorio para almacenar sus preguntas!###07 Apr 2005 content changed
-survey#:#csv#:#Valor separado por comas (CSV)###07 Apr 2005 content changed
 survey#:#dc_agree#:#de acuerdo###07 Apr 2005 content changed
 survey#:#dc_always#:#siempre###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#absolutamente falso###07 Apr 2005 content changed
@@ -4726,8 +4726,10 @@ survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los da
 survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna###07 Apr 2005 content changed
 survey#:#evaluation#:#Evaluación###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Acceso de Evaluación###07 Apr 2005 content changed
-survey#:#excel#:#Microsoft Excel###07 Apr 2005 content changed
 survey#:#exit#:#Salir###07 Apr 2005 content changed
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Exportar datos como###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Por favor rellene todos los campos de categoría antes de añadir uno nuevo!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Por favor rellene todos los campos requeridos antes de añadir categorías!###07 Apr 2005 content changed

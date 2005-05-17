@@ -219,6 +219,7 @@ assessment#:#eval_search_userselection#:#Search the users you want to add to the
 assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Kiértékelési adatok exportja###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#  Excel###07 Apr 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS###07 Apr 2005 content changed
 assessment#:#export#:#Export###05 Nov 2004 new variable
 assessment#:#failed_official#:#failed###05 Nov 2004 new variable
@@ -4646,7 +4647,6 @@ survey#:#continue#:#Folytatás >>###07 Apr 2005 content changed
 survey#:#create_date#:#Létrehozva###07 Apr 2005 content changed
 survey#:#create_new#:#Új létrehozása###07 Apr 2005 content changed
 survey#:#create_questionpool_before_add_question#:#You must create at least one question pool to store your questions!###05 Nov 2004 new variable
-survey#:#csv#:#Vesszővel elválasztott érték###07 Apr 2005 content changed
 survey#:#dc_agree#:#egyetértek###07 Apr 2005 content changed
 survey#:#dc_always#:#mindig###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#definíció szerűen hamis###07 Apr 2005 content changed
@@ -4726,8 +4726,10 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Kiértékelés###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Kiértékelési elérés###07 Apr 2005 content changed
-survey#:#excel#:#Microsoft Excel###05 Nov 2004 new variable
 survey#:#exit#:#Kijárat###07 Apr 2005 content changed
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Adatok exportálása, mint###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Töltsön ki minden kategóriamezőt, mielőtt újat vesz fel!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Töltsön ki minden kötelező mezőt, mielőtt új kategóriát vesz fel!###07 Apr 2005 content changed

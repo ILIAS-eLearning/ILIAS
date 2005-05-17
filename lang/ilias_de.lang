@@ -217,7 +217,8 @@ assessment#:#eval_search_users#:#Nutzerinnen
 assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Sie in die statistische Auswertung einbeziehen wollen
 assessment#:#eval_selected_users#:#Auswertung für ausgewählte Nutzerinnen
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -4645,7 +4646,6 @@ survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
 survey#:#create_questionpool_before_add_question#:#Sie müssen mindestens einen Fragenpool erzeugen, um Ihre Fragen ablegen zu können!
-survey#:#csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#dc_agree#:#einverstanden
 survey#:#dc_always#:#immer
 survey#:#dc_definitelyfalse#:#eindeutig falsch
@@ -4725,8 +4725,10 @@ survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Beenden
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien hinzufügen können!

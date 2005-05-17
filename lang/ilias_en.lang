@@ -4726,10 +4726,10 @@ survey#:#error_retrieving_anonymous_survey#:#The system could not find your surv
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
+survey#:#exit#:#Exit
 survey#:#exp_type_csv#:#Comma separated value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel (PC)
 survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
-survey#:#exit#:#Exit
 survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
