@@ -377,7 +377,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$settings = $this->ilias->getAllSettings();
 		
 		// Compose role list
-		$role_list = $rbacreview->getRolesByFilter(1,$this->object->getId());
+		$role_list = $rbacreview->getRolesByFilter(2,$this->object->getId());
 		$selectElement = '<select name="shib[user_default_role]">';
 		
 		if (!$settings["shib_user_default_role"])
