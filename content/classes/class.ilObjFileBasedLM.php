@@ -34,7 +34,7 @@
 */
 
 require_once "classes/class.ilObject.php";
-require_once "classes/class.ilMetaData.php";
+//require_once "classes/class.ilMetaData.php";
 
 class ilObjFileBasedLM extends ilObject
 {
@@ -52,11 +52,13 @@ class ilObjFileBasedLM extends ilObject
 		$this->type = "htlm";
 		$this->ilObject($a_id,$a_call_by_reference);
 
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 
 	}
 
@@ -65,66 +67,79 @@ class ilObjFileBasedLM extends ilObject
 	*
 	* @return	string		title
 	*/
+/*
 	function getTitle()
 	{
 		return parent::getTitle();
 		//return $this->meta_data->getTitle();
 	}
+*/
 
 	/**
 	* set title of content object
 	*
 	* @param	string	$a_title		title
 	*/
+/*
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
 	}
+*/
 
 	/**
 	* get description of content object
 	*
 	* @return	string		description
 	*/
+/*
 	function getDescription()
 	{
 		return $this->meta_data->getDescription();
 	}
+*/
 
 	/**
 	* set description of content object
 	*
 	* @param	string	$a_description		description
 	*/
+/*
 	function setDescription($a_description)
 	{
 		$this->meta_data->setDescription($a_description);
 	}
+*/
 
 	/**
 	* assign a meta data object to content object
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of content object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->meta_data->update();
@@ -141,8 +156,8 @@ class ilObjFileBasedLM extends ilObject
 			$this->setDescription($this->meta_data->getDescription());
 		}
 		parent::update();
-
 	}
+*/
 
 	/**
 	* update object data
@@ -152,7 +167,9 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function update()
 	{
-		$this->updateMetaData();
+//		$this->updateMetaData();
+
+		parent::update();
 
 		$q = "UPDATE file_based_lm SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
@@ -169,7 +186,7 @@ class ilObjFileBasedLM extends ilObject
 	function read()
 	{
 		parent::read();
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
 		$q = "SELECT * FROM file_based_lm WHERE id = '".$this->getId()."'";
 		$lm_set = $this->ilias->db->query($q);
@@ -202,12 +219,15 @@ class ilObjFileBasedLM extends ilObject
 
 		parent::create();
 		$this->createDataDirectory();
+
+/*
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
 		$this->meta_data->setTitle($this->getTitle());
 		$this->meta_data->setDescription($this->getDescription());
 		$this->meta_data->setObject($this);
 		$this->meta_data->create();
+*/
 
 		$q = "INSERT INTO file_based_lm (id, online, startfile) VALUES ".
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
@@ -312,11 +332,17 @@ class ilObjFileBasedLM extends ilObject
 		}
 
 		// delete meta data of content object
+/*
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
+*/
+
+		// Delete meta data
+		$this->deleteMetaData();
 
 		// delete bibliographical items of object
+		include_once("classes/class.ilNestedSetXML.php");
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), "bib");
 		$nested->deleteAllDBData();

@@ -47,38 +47,11 @@ class ilObjLinkResource extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-	function MDUpdateListener($a_element)
-	{
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-
-		switch($a_element)
-		{
-			case 'General':
-				// Update Title and description
-				$md = new ilMD($this->getRefId(),$this->getId(),'webr');
-				$md_gen = $md->getGeneral();
-
-				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
-
-				foreach($md_gen->getDescriptionIds() as $id)
-				{
-					$md_des = $md_gen->getDescription($id);
-					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
-					break;
-				}
-				
-				
-				break;
-
-			default:
-		}
-		return true;
-	}
 
 
 	/**
 	* copy all entries of your object.
-	* 
+	*
 	* @access	public
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
@@ -107,36 +80,34 @@ class ilObjLinkResource extends ilObject
 	}
 
 	/**
-	* delete object and all related data	
+	* delete object and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
 		// delete items
 		include_once './link/classes/class.ilLinkResourceItems.php';
 		ilLinkResourceItems::_deleteAll($this->getId());
-		
+
 
 		// Delete notify entries
 		include_once './classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteObject($this->getId());
 
 		// Delete meta data
-		include_once('Services/MetaData/classes/class.ilMD.php');
+		$this->deleteMetaData();
 
-		$md = new ilMD($this->getRefId(),$this->getId(),'webr');
-		$md->deleteAll();
-		
 		return true;
 	}
+
 	function initLinkResourceItemsObject()
 	{
 		include_once './link/classes/class.ilLinkResourceItems.php';
@@ -145,25 +116,6 @@ class ilObjLinkResource extends ilObject
 
 		return true;
 	}
-
-	function createMetaData()
-	{
-		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
-
-		global $ilUser;
-
-		$md_creator = new ilMDCreator($this->getRefId(),$this->getId(),'webr');
-		$md_creator->setTitle($this->getTitle());
-		$md_creator->setTitleLanguage($ilUser->getPref('language'));
-		$md_creator->setDescription($this->getDescription());
-		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
-		$md_creator->setLanguage($ilUser->getPref('language'));
-		$md_creator->create();
-
-		return true;
-	}
-
 
 	function _goto($a_target)
 	{
@@ -180,7 +132,7 @@ class ilObjLinkResource extends ilObject
 	}
 
 	// PRIVATE
-	
+
 
 } // END class.ilObjLinkResource
 ?>

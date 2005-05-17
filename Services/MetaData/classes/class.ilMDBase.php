@@ -54,6 +54,11 @@ class ilMDBase
 	{
 		global $ilDB,$ilLog;
 
+		if ($a_obj_id == 0)
+		{
+			$a_obj_id = $a_rbac_id;
+		}
+
 		$this->db =& $ilDB;
 		$this->log =& $ilLog;
 

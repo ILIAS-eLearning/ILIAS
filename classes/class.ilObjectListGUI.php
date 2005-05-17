@@ -29,6 +29,14 @@ define ("IL_LIST_FULL", "full");
 /**
 * Class ilObjectListGUI
 *
+* Important note:
+*
+* All access checking should be made within $ilAccess and
+* the checkAccess of the ilObj...Access classes. Do not additionally
+* enable or disable any commands within this GUI class or in derived
+* classes, except when the container (e.g. a search result list)
+* generally refuses them.
+*
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
@@ -200,6 +208,8 @@ class ilObjectListGUI
 			$cmd = $command["cmd"];
 			$lang_var = $command["lang_var"];
 
+			// all access checking should be made within $ilAccess and
+			// the checkAccess of the ilObj...Access classes
 			$ilBench->start("ilObjectListGUI", "4110_get_commands_check_access");
 			$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id);
 			$ilBench->stop("ilObjectListGUI", "4110_get_commands_check_access");
@@ -208,7 +218,7 @@ class ilObjectListGUI
 			{
 				$cmd_link = $this->getCommandLink($command["cmd"]);
 				$cmd_frame = $this->getCommandFrame($command["cmd"]);
-				$access_granted = true;			// todo: check additional conditions
+				$access_granted = true;
 			}
 			else
 			{
@@ -360,7 +370,8 @@ class ilObjectListGUI
 	function insertPreconditions()
 	{
 		global $ilAccess, $lng, $objDefinition;
-return;
+return;			// to do: enable this, when courses and tests do not
+				// instantiate whole objects anymore
 		include_once("classes/class.ilConditionHandler.php");
 
 		$missing_cond_exist = false;

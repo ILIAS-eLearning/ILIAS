@@ -576,6 +576,71 @@ class ilObject
 		return true;
 	}
 
+	/**
+	* Meta data update listener
+	*
+	* @param	string		$a_element
+	*/
+	function MDUpdateListener($a_element)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{
+			case 'General':
+				// Update Title and description
+				$md = new ilMD($this->getId(), 0, $this->getType());
+				$md_gen = $md->getGeneral();
+
+				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+
+				foreach($md_gen->getDescriptionIds() as $id)
+				{
+					$md_des = $md_gen->getDescription($id);
+					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					break;
+				}
+
+
+				break;
+
+			default:
+		}
+		return true;
+	}
+
+	/**
+	* create meta data entry
+	*/
+	function createMetaData()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+
+		global $ilUser;
+
+		$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
+		$md_creator->setTitle($this->getTitle());
+		$md_creator->setTitleLanguage($ilUser->getPref('language'));
+		$md_creator->setDescription($this->getDescription());
+		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
+		$md_creator->setLanguage($ilUser->getPref('language'));
+		$md_creator->create();
+
+		return true;
+	}
+
+	/**
+	* delete meta data entry
+	*/
+	function deleteMetaData()
+	{
+		// Delete meta data
+		include_once('Services/MetaData/classes/class.ilMD.php');
+		$md = new ilMD($this->getId(), 0, $this->getType());
+		$md->deleteAll();
+	}
+
     /**
      * update owner of object in db
      *
