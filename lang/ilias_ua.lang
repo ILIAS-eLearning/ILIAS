@@ -218,7 +218,8 @@ assessment#:#eval_search_users#:#Користувачі
 assessment#:#eval_search_userselection#:#Пошук користувачів, яких ви бажаєте додати до статистичної оцінки
 assessment#:#eval_selected_users#:#Оцінювання для вибраних користувачів
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
-assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_excel#:#  Excel  ###17 May 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Експорт
 assessment#:#failed_official#:#провалений
@@ -4628,7 +4629,6 @@ survey#:#continue#:#Продовжити >>
 survey#:#create_date#:#Створений
 survey#:#create_new#:#Створити новий
 survey#:#create_questionpool_before_add_question#:#Ви повинні створити принаймні один банк питань щоб зберігати ваші питання!
-survey#:#csv#:#Значення розділені комами (CSV)
 survey#:#dc_agree#:#погоджуватись
 survey#:#dc_always#:#завджи
 survey#:#dc_definitelyfalse#:#безперечно невірно
@@ -4708,8 +4708,10 @@ survey#:#error_retrieving_anonymous_survey#:#Система не дані ваш
 survey#:#eval_legend_link#:#Будь ласка слідкуйте за умовними позначеннями для значення символів у назвах колонок.
 survey#:#evaluation#:#Оцінка
 survey#:#evaluation_access#:#Доступ до оцінювання
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Вихід
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Експортувати дані як
 survey#:#fill_out_all_category_fields#:#Будь ласка усі поля категорії перед тим як додавати нову!
 survey#:#fill_out_all_required_fields_add_category#:#Будь ласка заповніть усі необхідні поля перед додаванням нових категорій!

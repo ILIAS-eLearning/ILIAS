@@ -219,6 +219,7 @@ assessment#:#eval_search_userselection#:#Wyszukaj użytkowników, dla których c
 assessment#:#eval_selected_users#:#Oszacowanie dla wybranych użytkowników###07 Apr 2005 content changed
 assessment#:#exp_eval_data#:#Eksport danej szacunkowej###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#  Excel###07 Apr 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS###07 Apr 2005 content changed
 assessment#:#export#:#Eksport###07 Apr 2005 content changed
 assessment#:#failed_official#:#błędny###07 Apr 2005 content changed
@@ -4646,7 +4647,6 @@ survey#:#continue#:#Kontynuuj >>###07 Apr 2005 content changed
 survey#:#create_date#:#Utworzony###07 Apr 2005 content changed
 survey#:#create_new#:#Twórz nowy###07 Apr 2005 content changed
 survey#:#create_questionpool_before_add_question#:#Musisz utworzyć conajmniej jedną pulę pytań dla zapamiętania pytania!###07 Apr 2005 content changed
-survey#:#csv#:#Wartości rozdzielone przecinkami (CSV)###07 Apr 2005 content changed
 survey#:#dc_agree#:#zgodny###07 Apr 2005 content changed
 survey#:#dc_always#:#zawsze###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#wyraźnie fałsz###07 Apr 2005 content changed
@@ -4726,8 +4726,10 @@ survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych 
 survey#:#eval_legend_link#:#Aby poznać znaczenie symboli nagłówków kolumn, zajrzyj do legendy.###07 Apr 2005 content changed
 survey#:#evaluation#:#Wyniki###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Ograniczenie dostępu###07 Apr 2005 content changed
-survey#:#excel#:#Microsoft Excel###07 Apr 2005 content changed
 survey#:#exit#:#Wyjście###07 Apr 2005 content changed
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Eksportuj dane jako###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Wypełnij wszystkie pola kategorii przed dodaniem nowej!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Wypełnij wszystkie niezbędne pola  przed dodaniem kategorii!###07 Apr 2005 content changed

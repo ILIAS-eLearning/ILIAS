@@ -215,7 +215,8 @@ assessment#:#eval_search_users#:#Korisnici
 assessment#:#eval_search_userselection#:#Pronadite korisnike koje želite da dodate statistickom ocenjivanju
 assessment#:#eval_selected_users#:#Ocenjivanje za selektovane korisnike
 assessment#:#exp_eval_data#:#Ispišite podatke o ocenjivanju kao
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Zarezom odvojene vrednosti (CSV)
 assessment#:#export#:#Prenošenje
 assessment#:#failed_official#:#neizvršeno
@@ -4452,7 +4453,6 @@ survey#:#continue#:#Nastavi >>
 survey#:#create_date#:#Kreirano
 survey#:#create_new#:#Kreiraj novi
 survey#:#create_questionpool_before_add_question#:#Morate kreirati najmanje jedno pitanje da biste sacuvali vaša pitanja!
-survey#:#csv#:#Vrednost odvojena zarezom
 survey#:#dc_agree#:#saglasno
 survey#:#dc_always#:#uvek
 survey#:#dc_definitelyfalse#:#definitivno pogrešno
@@ -4532,8 +4532,10 @@ survey#:#error_retrieving_anonymous_survey#:#Sistem ne može da pronade anketne 
 survey#:#eval_legend_link#:#Molimo pogledajte u legendi znacenje simbola u zaglavlju kolone.
 survey#:#evaluation#:#Vrednovanje
 survey#:#evaluation_access#:#Pristup vrednovanju
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Izlaz
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Izvezi podatke kao
 survey#:#fill_out_all_category_fields#:#Molimo popunite sve kategorijska polja pre nego dodate novo!
 survey#:#fill_out_all_required_fields_add_category#:#Molimo popunite sve zahtevanaa polja pre nego dodate kategorije!

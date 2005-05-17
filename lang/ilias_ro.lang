@@ -212,7 +212,8 @@ assessment#:#eval_search_users#:#Utilizatori
 assessment#:#eval_search_userselection#:#Cautati utilizatorii pe care doriti sa-i adaugati la evaluarea statistica
 assessment#:#eval_selected_users#:#Evaluarea pentru utilizatorii selectati
 assessment#:#exp_eval_data#:#Exportati datele evaluarii ca
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#Valori separate de virgula (CSV)
 assessment#:#export#:#Exporta
 assessment#:#failed_official#:#picat
@@ -4317,7 +4318,6 @@ survey#:#continue#:#Continuati >>
 survey#:#create_date#:#Creat
 survey#:#create_new#:#Creati nou
 survey#:#create_questionpool_before_add_question#:#Trebuie sa creati cel putin o baza de intrebari pentru a stoca intrebarile!
-survey#:#csv#:#Valori separate prin virgula (CSV)
 survey#:#dc_agree#:#de acord
 survey#:#dc_always#:#intotdeauna
 survey#:#dc_definitelyfalse#:#sigur fals
@@ -4397,8 +4397,10 @@ survey#:#error_retrieving_anonymous_survey#:#Sistemul nu a putut gasi datele des
 survey#:#eval_legend_link#:#Va rugam verificati legenda pentru a afla intelesul simbolurilor de la capatul coloanei.
 survey#:#evaluation#:#Evaluare
 survey#:#evaluation_access#:#Acces la evaluare
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Iesire
+survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Exportati datele ca
 survey#:#fill_out_all_category_fields#:#Va rugam completati toate campurile de categorii inainte de a mai adauga altele!
 survey#:#fill_out_all_required_fields_add_category#:#Va rugam completati toate campurile cerute inainte de a mai adauga alte categorii!
