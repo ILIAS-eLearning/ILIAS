@@ -56,6 +56,11 @@ class ilMDCreator
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 
+		if ($a_obj_id == 0)
+		{
+			$a_obj_id = $a_rbac_id;
+		}
+
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_type;

@@ -29,7 +29,7 @@
 *
 * $Id$
 *
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package content
@@ -88,6 +88,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 //echo "<br>cmd:$cmd:next_class:$next_class:";
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilfilesystemgui":
 //echo "<br>data_dir:".$this->object->getDataDirectory().":";
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
@@ -179,6 +189,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
+		$newObj->createMetaData();
 
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();
@@ -306,6 +317,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	* choose meta data section
 	* (called by administration)
 	*/
+/*
 	function chooseMetaSectionObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -319,21 +331,25 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$a_target, $_REQUEST["meta_section"]);
 	}
+*/
 
 	/**
 	* choose meta data section
 	* (called by module)
 	*/
+/*
 	function chooseMetaSection()
 	{
 		//$this->setTabs();
 		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by administration)
 	*/
+/*
 	function addMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -360,21 +376,25 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by module)
 	*/
+/*
 	function addMeta()
 	{
 		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 
 	/**
 	* delete meta data object
 	* (called by administration)
 	*/
+/*
 	function deleteMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -389,20 +409,24 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* delete meta data object
 	* (called by module)
 	*/
+/*
 	function deleteMeta()
 	{
 		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by administration)
 	*/
+/*
 	function editMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -415,20 +439,24 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by module)
 	*/
+/*
 	function editMeta()
 	{
 		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by administration)
 	*/
+/*
 	function saveMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -443,15 +471,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
 			"meta_section=" . $_POST["meta_section"]));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by module)
 	*/
+/*
 	function saveMeta()
 	{
 		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
 	}
+*/
 
 	/**
 	* save bib item (admin call)
@@ -781,12 +812,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			get_class($this));
 
 		// edit meta
+/*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
 			get_class($this));
+*/
+
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			"meta_data", get_class($this));
+
 
 		// edit bib item information
-
 		$tabs_gui->addTarget("bib_data",
 			$this->ctrl->getLinkTarget($this, "editBibItem"), "editBibItem",
 			get_class($this));

@@ -73,12 +73,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
-				$md_gui =& new ilMDEditorGUI($this->object->getRefId(),$this->object->getId(),$this->object->getType());
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-				
+
 			default:
 				if(!$cmd)
 				{
@@ -603,7 +603,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
-	
+
 	/**
 	* save object
 	* @access	public
@@ -624,7 +624,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
 
 		// put here object specific stuff
-			
+
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
@@ -808,7 +808,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''), 
+								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 								 "meta_data", get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
