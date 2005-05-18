@@ -66,6 +66,22 @@ class ilObjContentObjectAccess extends ilObjectAccess
 					return false;
 				}
 				break;
+				
+			case "continue":
+				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id)
+					&& !$rbacsystem->checkAccess('write',$a_ref_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
+				}
+
+				if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id) <= 0)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
+					return false;
+				}
+				break;
+
 		}
 
 		switch ($a_permission)
@@ -102,6 +118,27 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
 
+	/**
+	* get last accessed page
+	*
+	* @param	int		$a_id		content object id
+	*/
+	function _getLastAccessedPage($a_ref_id)
+	{
+		global $ilUser, $ilDB;
+
+		$q = "SELECT * FROM lo_access WHERE ".
+			"usr_id = ".$ilDB->quote($ilUser->getId())." AND ".
+			"lm_id = ".$ilDB->quote($a_ref_id);
+		$acc_set = $ilDB->query($q);
+
+		if ($acc_rec = $acc_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $acc_rec["obj_id"];
+		}
+		
+		return 0;
+	}
 
 
 }

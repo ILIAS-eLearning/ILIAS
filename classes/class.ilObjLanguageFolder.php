@@ -118,6 +118,8 @@ class ilObjLanguageFolder extends ilObject
 	function getLanguages ()
 	{
 		global $lng;
+		
+		$lng->loadLanguageModule("meta");
 
 		// set path to directory where lang-files reside
 		$d = dir($this->lang_path);
@@ -184,6 +186,7 @@ class ilObjLanguageFolder extends ilObject
 		}
 
 		chdir($tmpPath);
+		
 		// Insert languages with files new found into table language
 		$languages = $this->addNewLanguages($languages);
 
@@ -193,7 +196,7 @@ class ilObjLanguageFolder extends ilObject
 		// setting language's full names
 		foreach ($languages as $lang_key => $lang_data)
 		{
-			$languages[$lang_key]["name"] = $lng->txt("lang_".$lang_key);
+			$languages[$lang_key]["name"] = $lng->txt("meta_l_".$lang_key);
 		}
 
 		$this->languages = $languages;
