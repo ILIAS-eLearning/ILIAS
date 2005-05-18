@@ -33,6 +33,8 @@
 */
 class ilSearchResult
 {
+	var $user_id;
+
 	// OBJECT VARIABLES
 	var $ilias;
 	var $ilAccess;
@@ -43,11 +45,22 @@ class ilSearchResult
 	* Constructor
 	* @access	public
 	*/
-	function ilSearchResult()
+	function ilSearchResult($a_user_id = 0)
 	{
-		global $ilias,$ilAccess;
+		global $ilias,$ilAccess,$ilDB;
 
 		$this->ilAccess =& $ilAccess;
+		$this->user_id = $a_user_id;
+		$this->db =& $ilDB;
+	}
+
+	function setUserId($a_user_id)
+	{
+		$this->user_id = $a_user_id;
+	}
+	function getUserId()
+	{
+		return $this->user_id;
 	}
 
 	function getEntries()
@@ -94,7 +107,6 @@ class ilSearchResult
 	{
 		return $this->results ? $this->results : array();
 	}
-
 
 	function getResultsForPresentation()
 	{
@@ -150,7 +162,36 @@ class ilSearchResult
 		return false;
 	}
 
-	
+	function save()
+	{
+		if ($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			$query = "REPLACE INTO usr_search ".
+				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."')";
+
+			$res = $this->db->query($query);
+
+			return true;
+		}
+
+		return false;
+	}
+	function read()
+	{
+		if($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			$query = "SELECT search_result FROM usr_search ".
+				"WHERE usr_id = '".$this->getUserId()."'";
+
+			$res = $this->db->query($query);
+
+			if($res->numRows())
+			{
+				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->results = unserialize(stripslashes($row->search_result));
+			}
+		}
+	}
 	// PRIVATE
 	function __initSearchSettingsObject()
 	{
