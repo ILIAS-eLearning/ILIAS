@@ -1172,7 +1172,7 @@ class ASS_MultipleChoice extends ASS_Question
 				}
 			}
 		}
-		//parent::saveWorkingData($limit_to);
+    parent::saveWorkingData($test_id);
 		return true;
 	}
 

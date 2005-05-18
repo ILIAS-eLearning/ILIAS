@@ -1111,6 +1111,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
 	{
+    parent::saveWorkingData($test_id);
 		return true;
 		/*    global $ilDB;
 			global $ilUser;

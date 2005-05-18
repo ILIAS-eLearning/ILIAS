@@ -1202,8 +1202,8 @@ class ASS_OrderingQuestion extends ASS_Question
 					}
 				}
 			}
-		//    parent::saveWorkingData($limit_to);
 		}
+    parent::saveWorkingData($test_id);
 		return $saveWorkingDataResult;
 	}
 
