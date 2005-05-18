@@ -39,13 +39,10 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	/**
 	* constructor
 	*
-	* @param	object		$a_container_obj	container gui object, e.g.
-	*											an instance of ilObjCategoryGUI or
-	*											ilObjCourseGUI
 	*/
-	function ilObjSurveyListGUI(&$a_container_obj)
+	function ilObjSurveyListGUI()
 	{
-		$this->ilObjectListGUI($a_container_obj);
+		$this->ilObjectListGUI();
 	}
 
 	/**

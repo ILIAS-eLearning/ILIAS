@@ -39,13 +39,10 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 	/**
 	* constructor
 	*
-	* @param	object		$a_container_obj	container gui object, e.g.
-	*											an instance of ilObjCategoryGUI or
-	*											ilObjCourseGUI
 	*/
-	function ilObjMediaPoolListGUI(&$a_container_obj)
+	function ilObjMediaPoolListGUI()
 	{
-		$this->ilObjectListGUI($a_container_obj);
+		$this->ilObjectListGUI();
 	}
 
 	/**

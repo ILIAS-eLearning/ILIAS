@@ -21,58 +21,114 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Class ilSearchItemFactory
+* Class ilQueryParser
+*
+* Class for parsing search queries. An instance of this object is required for every Search class (MetaSearch ...)
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-*
+* 
 * @package ilias-search
+*
 */
-class ilSearchItemFactory
+class ilQueryParser
 {
-		
+	var $lng = null;
+
+
+	var $query_str;
+	var $message; // Translated error message
+	var $combination; // combiniation of search words e.g 'and' or 'or'
+
 	/**
-	* get an instance of an Ilias object by object id
-	*
-	* @param	int		$obj_id		object id
-	* @return	object	instance of Ilias object (i.e. derived from ilObject)
+	* Constructor
+	* @access public
 	*/
-	function &getInstance($a_obj_id,$a_user_id = '')
+	function ilQueryParser($a_query_str)
 	{
-		global $ilias;
+		global $lng;
 
-		define("TABLE_SEARCH_DATA","search_data");
+		$this->lng =& $lng;
 
-		if(!$a_user_id)
+		$this->query_str = $a_query_str;
+		$this->message = '';
+	}
+
+
+	function setMessage($a_msg)
+	{
+		$this->message = $a_msg;
+	}
+	function getMessage()
+	{
+		return $this->message;
+	}
+	function appendMessage($a_msg)
+	{
+		if(strlen($this->getMessage()))
 		{
-			$user_id = $_SESSION["AccountId"];
+			$this->message .= '<br />';
+		}
+		$this->message .= $a_msg;
+	}
+
+	function setCombination($a_combination)
+	{
+		$this->combination = $a_combination;
+	}
+	function getCombination()
+	{
+		return $this->combination;
+	}
+
+	function getQueryString()
+	{
+		return trim($this->query_str);
+	}
+	function getWords()
+	{
+		return $this->words ? $this->words : array();
+	}
+
+	function parse()
+	{
+		$this->words = array();
+
+		if(!strlen($this->getQueryString()))
+		{
+			return false;
 		}
 
-		$query = "SELECT type FROM ".TABLE_SEARCH_DATA." ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$words = explode(' ',$this->getQueryString());
+		foreach($words as $word)
 		{
-			$type = $row->type;
+			if(strlen(trim($word)) < 3)
+			{
+				$this->setMessage($this->lng->txt('search_minimum_three'));
+				continue;
+			}
+			$this->words[] = $word;
 		}
-		
-		switch($type)
+
+		return true;
+	}
+
+	function validate()
+	{
+		// Words with less than 3 characters
+		if(strlen($this->getMessage()))
 		{
-			case "seaf":
-
-				include_once "Services/Search/classes/class.ilSearchFolder.php";
-
-				return new ilSearchFolder($user_id,$a_obj_id);
-				
-			case "sea":
-
-				include_once "Services/Search/classes/class.ilUserResult.php";
-
-				return new ilUserResult($user_id,$a_obj_id);
+			return false;
 		}
+		// No search string given
+		if(!count($this->getWords()))
+		{
+			$this->setMessage($this->lng->txt('msg_no_search_string'));
+			return false;
+		}
+
+		return true;
 	}
 }
 ?>

@@ -49,11 +49,8 @@ class ilObjectListGUI
 	/**
 	* constructor
 	*
-	* @param	object		$a_container_obj	container gui object, e.g.
-	*											an instance of ilObjCategoryGUI or
-	*											ilObjCourseGUI
 	*/
-	function ilObjectListGUI(&$a_container_obj)
+	function ilObjectListGUI()
 	{
 		global $rbacsystem, $ilCtrl, $lng, $ilias;
 
@@ -61,10 +58,20 @@ class ilObjectListGUI
 		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
-		$this->container_obj = $a_container_obj;
 		$this->mode = IL_LIST_FULL;
 
 		$this->init();
+	}
+
+	/**
+	* set the container object (e.g categorygui)
+	* Used for link, delete ... commands
+	*
+	* this method should be overwritten by derived classes
+	*/
+	function setContainerObject(&$container_obj)
+	{
+		$this->container_obj =& $container_obj;
 	}
 
 

@@ -271,7 +271,6 @@ class ilRepositoryGUI
 
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
-
 				// get gui class instance
 				include_once($class_path);
 				$class_name = $this->ctrl->getClassForClasspath($class_path);

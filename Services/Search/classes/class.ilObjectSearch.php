@@ -21,25 +21,103 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Search base script
+* Class ilSearchGUI
+*
+* GUI class for 'simple' search
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-*
+* 
 * @package ilias-search
+*
 */
-chdir("../..");
-define(ILIAS_MODULE,'Services/Search');
 
-include_once "include/inc.header.php";
-include_once "Services/Search/classes/class.ilSearchController.php";
+class ilObjectSearch
+{
+	/*
+	 *
+	 * List of all searchable objects
+	 *
+	 */
+	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','html','exc','file','qpl','tst','svy','spl',
+						 'chat','icrs','icla','webr');
 
-$ilCtrl->setTargetScript("./search.php");
-$ilCtrl->getCallStructure("ilsearchcontroller");
 
-$ilCtrl->forwardCommand(new ilSearchController());
+	/*
+	 * instance of query parser
+	 */
+	var $qp_obj = null;
 
-$tpl->show();
+	/**
+	* Constructor
+	* @access public
+	*/
+	function ilObjectSearch(&$qp_obj)
+	{
+
+		global $ilDB;
+
+		$this->qp_obj =& $qp_obj;
+		
+		$this->db =& $ilDB;
+
+
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+
+		$this->search_result = new ilSearchResult();
+	}
+
+	function &performSearch()
+	{
+		$in = $this->__createInStatement();
+		$where = $this->__createWhereCondition();
+
+		$query = "SELECT obj_id,type FROM object_data ".
+			$where." ".$in.' '.
+			"ORDER BY obj_id DESC";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->obj_id,$row->type);
+		}
+
+		return $this->search_result;
+	}
+
+
+
+	// Private
+	function __createInStatement()
+	{
+		$type = "('";
+		$type .= implode("','",$this->object_types);
+		$type .= "')";
+		
+		$in = " AND type IN ".$type;
+
+		return $in;
+	}
+
+	function __createWhereCondition()
+	{
+		$concat  = " CONCAT(";
+		$concat .= 'title,description';
+		$concat .= ") ";
+
+		$where = "WHERE ";
+		foreach($this->qp_obj->getWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= strtoupper($this->qp_obj->getCombination());
+			}
+			$where .= $concat;
+			$where .= ("LIKE ('%".$word."%')");
+		}
+		return $where;
+	}
+
+}
 ?>
