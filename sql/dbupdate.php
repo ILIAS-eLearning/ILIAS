@@ -6363,3 +6363,8 @@ CREATE TABLE `tst_test_result` (
   KEY `test_fi` (`test_fi`),
   KEY `question_fi` (`question_fi`)
 ) COMMENT='Test and Assessment user results for test questions';
+<#437>
+ALTER TABLE  `tst_test_result` DROP INDEX  `test_result_id`;
+ALTER TABLE  `tst_test_result` DROP INDEX  `test_result_id_2`;
+ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi`;
+ALTER TABLE  `tst_test_result` ADD UNIQUE (`user_fi` ,`test_fi` ,`question_fi`);
