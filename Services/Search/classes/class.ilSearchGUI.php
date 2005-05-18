@@ -62,7 +62,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "showSearch";
+					$cmd = "showSavedResults";
 				}
 
 				$this->prepareOutput();
@@ -74,6 +74,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function showSearch()
 	{
+		$_POST['combination'] = $_POST['combination'] ? $_POST['combination'] : $_SESSION['search']['combiniation'];
+		$_POST['search_str'] = $_POST['search_str'] ? $_POST['search_str'] : $_SESSION['search']['search_str'];
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 
 		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
@@ -97,9 +100,45 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		return true;
 	}
+	
+	function showSavedResults()
+	{
+		global $ilUser;
+
+		// Read old result sets
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+	
+		$result_obj = new ilSearchResult($ilUser->getId());
+		$result_obj->read();
+
+		$this->showSearch();
+
+		// Show them
+		if(count($result_obj->getResults()))
+		{
+			$result_obj->filter();
+			
+			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
+			
+			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
+			$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
+		}
+
+		return true;
+	}
+		
 
 	function performSearch()
 	{
+		global $ilUser;
+
+		// Save search string combiniatioon inb session
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$_SESSION['search']['combiniation'] = $_POST['combiniation'];
+			$_SESSION['search']['search_str'] = $_POST['search_str'];
+		}
+
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 		// Step 1: parse query string
@@ -136,6 +175,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$search_result_presentation = new ilSearchResultPresentationGUI($result);
 		$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
+
+		// Step 7: save as user result
+		$result->setUserId($ilUser->getId());
+		$result->save();
 
 		return true;
 	}
