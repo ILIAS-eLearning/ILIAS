@@ -31,7 +31,7 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerInterface
+* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerInterface, ilMDEditorGUI
 *
 * @package content
 */
@@ -83,6 +83,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->content_object->getID(),
+					$this->obj->getId(), $this->obj->getType());
+				$md_gui->addObserver($this->obj,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilconditionhandlerinterface":
 				include_once './classes/class.ilConditionHandlerInterface.php';
 
@@ -334,10 +345,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function save()
 	{
-		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
+//		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
 
 		$this->obj =& new ilStructureObject($this->content_object);
-		$this->obj->assignMetaData($meta_data);
+//		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType("st");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -359,6 +370,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	/**
 	* save meta data
 	*/
+/*
 	function saveMeta()
 	{
 //echo "lmobjectgui_Savemeta1<br>";
@@ -370,6 +382,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 //echo "lmobjectgui_Savemeta3<br>";
 		$this->ctrl->redirect($this, "view");
 	}
+*/
 
 	/**
 	* put chapter into tree
@@ -574,7 +587,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$tree->insertNode($id, $this->obj->getId(), $target);
 			ilEditClipboard::clear();
 		}
-		
+
 		// write history comments
 		include_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($id, "paste",
@@ -622,12 +635,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->ctrl->redirect($this, "subchap");
 	}
-	
-	
+
+
 	//
 	// Condition handling stuff
 	//
-	
+
 	function initConditionHandlerInterface()
 	{
 		include_once("classes/class.ilConditionHandlerInterface.php");
@@ -639,7 +652,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->condHI->setTargetId($this->obj->getId());
 		$this->condHI->setTargetTitle($this->obj->getTitle());
 	}
-	
+
 
 	/**
 	* cancel creation of new page or chapter
@@ -671,6 +684,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tabs_gui =& new ilTabsGUI();
 		//$this->getTabs($tabs_gui);
 		$tabs_gui->getTargetsByObjectType($this, "st");
+
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
+
+
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
@@ -690,8 +709,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
 			, "preview", get_class($this));
 
-		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
-			, "editMeta", get_class($this));
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
 
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 			, "view", "ilEditClipboardGUI");

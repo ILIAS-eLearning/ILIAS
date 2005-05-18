@@ -32,7 +32,7 @@ require_once ("classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ilCtrl_Calls ilObjMediaObjectGUI: ilInternalLinkGUI
+* @ilCtrl_Calls ilObjMediaObjectGUI: ilInternalLinkGUI, ilMDEditorGUI
 *
 * @package content
 */
@@ -87,6 +87,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilinternallinkgui":
 				require_once("content/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
@@ -163,10 +173,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		// create dummy object in db (we need an id)
 		$this->object = new ilObjMediaObject();
-		$dummy_meta =& new ilMetaData();
-		$dummy_meta->setObject($this->object);
+//		$dummy_meta =& new ilMetaData();
+//		$dummy_meta->setObject($this->object);
 
-		$this->object->assignMetaData($dummy_meta);
+//		$this->object->assignMetaData($dummy_meta);
 		$this->object->setTitle($title);
 		$this->object->setDescription("");
 		$this->object->create();
@@ -179,8 +189,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$media_item =& new ilMediaItem();
 		$this->object->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
-		$meta =& $this->object->getMetaData();
-		$meta_technical =& new ilMetaTechnical($meta);
+//		$meta =& $this->object->getMetaData();
+//		$meta_technical =& new ilMetaTechnical($meta);
 
 		if ($_POST["standard_type"] == "File")
 		{
@@ -206,9 +216,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($location);
 			$media_item->setLocationType("LocalFile");
-			$meta_technical->addFormat($format);
-			$meta_technical->setSize($_FILES['standard_file']['size']);
-			$meta_technical->addLocation("LocalFile", $location);
+//			$meta_technical->addFormat($format);
+//			$meta_technical->setSize($_FILES['standard_file']['size']);
+//			$meta_technical->addLocation("LocalFile", $location);
 			$this->object->setTitle($_FILES['standard_file']['name']);
 		}
 		else	// standard type: reference
@@ -217,12 +227,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($_POST["standard_reference"]);
 			$media_item->setLocationType("Reference");
-			$meta_technical->addFormat($format);
-			$meta_technical->setSize(0);
-			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
+//			$meta_technical->addFormat($format);
+//			$meta_technical->setSize(0);
+//			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
 			$this->object->setTitle($_POST["standard_reference"]);
 		}
-		$meta->addTechnicalSection($meta_technical);
+//		$meta->addTechnicalSection($meta_technical);
 		$this->object->setDescription($format);
 
 		// determine width and height of known image types
@@ -294,10 +304,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$media_item->setFormat($format);
 				$media_item->setLocation($location);
 				$media_item->setLocationType("LocalFile");
+/*
 				$meta_technical->addFormat($format);
 				$meta_technical->setSize($meta_technical->getSize()
 				+ $_FILES['full_file']['size']);
 				$meta_technical->addLocation("LocalFile", $location);
+*/
 
 			}
 			else	// reference
@@ -308,8 +320,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$media_item->setFormat($format);
 					$media_item->setLocation($_POST["full_reference"]);
 					$media_item->setLocationType("Reference");
+/*
 					$meta_technical->addFormat($format);
 					$meta_technical->addLocation("Reference", $_POST["full_reference"]);
+*/
 				}
 			}
 
@@ -2160,6 +2174,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* edit meta data
 	*/
+/*
 	function editMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -2168,10 +2183,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* choose meta section
 	*/
+/*
 	function chooseMetaSectionObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -2180,10 +2197,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this), $_REQUEST["meta_section"]);
 	}
+*/
 
 	/**
 	* delete a meta object
 	*/
+/*
 	function deleteMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -2194,10 +2213,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* save meta data
 	*/
+/*
 	function saveMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -2209,10 +2230,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "editMeta");
 
 	}
+*/
 
 	/**
 	* add meta object
 	*/
+/*
 	function addMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -2235,14 +2258,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this), $meta_section);
 	}
-	
+*/
+
 	/**
 	* get media info as html
 	*/
 	function _getMediaInfoHTML(&$a_mob)
 	{
 		global $lng;
-		
+
 		$tpl =& new ilTemplate("tpl.media_info.html", true, true, "content");
 		$types = array("Standard", "Fullscreen");
 		foreach ($types as $type)
@@ -2279,7 +2303,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$tpl->setVariable("VAL_SIZE", $med->getWidth()."x".$med->getHeight());
 				$tpl->parseCurrentBlock();
 			}
-				
+
 			// original size
 			if ($orig_size = $med->getOriginalSize())
 			{
@@ -2299,7 +2323,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		return $tpl->get();
 	}
-
 
 	/**
 	* set admin tabs
@@ -2364,9 +2387,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			// meta data
+/*
 			$tabs_gui->addTarget("meta_data",
 				$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
 				get_class($this));
+*/
+
+
+			$tabs_gui->addTarget("meta_data",
+				$this->ctrl->getLinkTargetByClass(
+					array("ilobjmediaobjectgui", "ilmdeditorgui"),''),
+				"meta_data", get_class($this));
+
 
 			//$tabs[] = array("meta_data", "editMeta");
 		}

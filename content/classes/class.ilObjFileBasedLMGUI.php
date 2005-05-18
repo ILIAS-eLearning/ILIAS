@@ -189,7 +189,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
-		$newObj->createMetaData();
 
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();

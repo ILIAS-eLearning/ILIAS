@@ -97,16 +97,18 @@ class ilObjMediaObject extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
 
 	function getTitle()
 	{
 		return parent::getTitle();
+/*
 		if (is_object($this->meta_data))
 		{
 			return $this->meta_data->getTitle();
 		}
+*/
 	}
 
 	/**
@@ -140,14 +142,17 @@ class ilObjMediaObject extends ilObject
 		{
 			// remove directory
 			ilUtil::delDir(ilObjMediaObject::_getDirectory($this->getId()));
-			
+
 			// remove thumbnail directory
 			ilUtil::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
 
 			// delete meta data of mob
+/*
 			$nested = new ilNestedSetXML();
 			$nested->init($this->getId(), $this->getType());
 			$nested->deleteAllDBData();
+*/
+			$this->deleteMetaData();
 
 			// delete media items
 			ilMediaItem::deleteAllItemsOfMob($this->getId());
@@ -165,7 +170,7 @@ class ilObjMediaObject extends ilObject
 	function getDescription()
 	{
 		return parent::getDescription();
-		return $this->meta_data->getDescription();
+//		return $this->meta_data->getDescription();
 	}
 
 	/**
@@ -174,26 +179,30 @@ class ilObjMediaObject extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
+//		$this->meta_data->setDescription($a_description);
 	}
 
 
 	/**
 	* assign meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 		$a_meta_data->setObject($this);
 	}
+*/
 
 	/**
 	* get meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 
 	/**
@@ -281,7 +290,7 @@ class ilObjMediaObject extends ilObject
 		ilMediaItem::_getMediaItemsOfMOb($this);
 
 		// get meta data
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 
 	/**
@@ -340,7 +349,7 @@ class ilObjMediaObject extends ilObject
 		else
 		{
 //echo "getting import id for mob:".$this->meta_data->getImportIdentifierEntryID().":<br>";
-			return $this->meta_data->getImportIdentifierEntryID();
+//			return $this->meta_data->getImportIdentifierEntryID();
 		}
 	}
 
@@ -362,12 +371,15 @@ class ilObjMediaObject extends ilObject
 	function create()
 	{
 		parent::create();
+		$this->createMetaData();
 
 		// create meta data
+/*
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
 		$this->meta_data->create();
 		$this->meta_data->getDom();
+*/
 		$media_items =& $this->getMediaItems();
 		for($i=0; $i<count($media_items); $i++)
 		{
@@ -383,6 +395,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -390,7 +403,7 @@ class ilObjMediaObject extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -398,10 +411,12 @@ class ilObjMediaObject extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -422,16 +437,15 @@ class ilObjMediaObject extends ilObject
 
 		return true;
 	}
-
+*/
 
 	/**
 	* update media object in db
 	*/
 	function update()
 	{
-		parent::update();
-
 		$this->updateMetaData();
+		parent::update();
 
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
@@ -541,7 +555,7 @@ class ilObjMediaObject extends ilObject
 			case IL_MODE_OUTPUT:
 
 				// get first technical section
-				$meta =& $this->getMetaData();
+//				$meta =& $this->getMetaData();
 				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">";
 
 				$media_items =& $this->getMediaItems();
@@ -590,13 +604,16 @@ class ilObjMediaObject extends ilObject
 			// full xml for export
 			case IL_MODE_FULL:
 
-				$meta =& $this->getMetaData();
+//				$meta =& $this->getMetaData();
 				$xml = "<MediaObject>";
 
 				// meta data
+/*
 				$nested = new ilNestedSetXML();
 				$nested->setParameterModifier($this, "modifyExportIdentifier");
 				$xml.= $nested->export($this->getId(), $this->getType());
+*/
+echo "ObjMediaObject::getXML(): meta data export temporary not available";
 
 				$media_items =& $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)

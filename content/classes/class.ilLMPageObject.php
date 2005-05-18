@@ -125,16 +125,16 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->delete();
 	}
 
-	
+
 	/**
 	* copy page
 	*/
 	function &copy()
 	{
-
-		$meta =& new ilMetaData();
+echo "copy temporary not available";
+//		$meta =& new ilMetaData();
 		$lm_page =& new ilLMPageObject($this->getContentObject());
-		$lm_page->assignMetaData($meta);
+//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($this->getLMId());
 		$lm_page->setType($this->getType());
@@ -154,10 +154,11 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function &copyToOtherContObject(&$a_cont_obj)
 	{
+echo "copy temporary not available";
 //echo "<br>from page lm:".$this->getLMId().", pg: ".$this->getId();
-		$meta =& new ilMetaData();
+//		$meta =& new ilMetaData();
 		$lm_page =& new ilLMPageObject($a_cont_obj);
-		$lm_page->assignMetaData($meta);
+//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
 		$lm_page->setType($this->getType());
@@ -201,9 +202,9 @@ class ilLMPageObject extends ilLMObject
 		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
 
 		// create new page
-		$meta =& new ilMetaData();
+//		$meta =& new ilMetaData();
 		$lm_page =& new ilLMPageObject($cont_obj);
-		$lm_page->assignMetaData($meta);
+//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($source_lm_page->getTitle());
 		$lm_page->setLMId($source_lm_page->getLMId());
 		$lm_page->setType($source_lm_page->getType());
@@ -215,7 +216,7 @@ class ilLMPageObject extends ilLMObject
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($source_page->getXMLContent());
 		$page->buildDom();
-		
+
 		// insert new page in tree (after original page)
 		$tree = new ilTree($cont_obj->getId());
 		$tree->setTableNames('lm_tree','lm_data');
@@ -520,6 +521,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+echo "export temporary not available";
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
