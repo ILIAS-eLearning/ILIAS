@@ -6368,3 +6368,10 @@ ALTER TABLE  `tst_test_result` DROP INDEX  `test_result_id`;
 ALTER TABLE  `tst_test_result` DROP INDEX  `test_result_id_2`;
 ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi`;
 ALTER TABLE  `tst_test_result` ADD UNIQUE (`user_fi` ,`test_fi` ,`question_fi`);
+<#438>
+UPDATE ut_access SET language='uk' WHERE language='ua';
+UPDATE usr_pref SET value='uk' WHERE value='ua' and keyword='language';
+UPDATE settings SET value='uk' WHERE value='ua' and keyword='language';
+UPDATE object_translation SET lang_code='uk' WHERE lang_code='ua';
+UPDATE lng_data SET lang_key='uk' WHERE lang_key='ua';
+UPDATE glossary_term SET language='uk' WHERE language='ua';
