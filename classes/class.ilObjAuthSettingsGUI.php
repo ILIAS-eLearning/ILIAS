@@ -359,6 +359,120 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "saveLDAP");
 	}
 
+
+	/**
+	* validates all input data, save them to database if correct and active chosen auth mode
+	* 
+	* @access	public
+	*/
+	function saveLDAPObject()
+	{
+        global $ilUser;
+
+        // validate required data 
+		if (!$_POST["ldap"]["server"] or !$_POST["ldap"]["basedn"] or !$_POST["ldap"]["port"] or !$_POST["ldap"]["login_key"] or !$_POST["ldap"]["objectclass"])
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// validate password 
+		if (!$_POST["ldap"]["passwd"])
+		{
+			$this->ilias->raiseError($this->lng->txt("err_enter_current_passwd"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// validate port
+		if ((preg_match("/^[0-9]{0,5}$/",$_POST["ldap"]["port"])) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// TODO: implement TLS support
+		if ($_POST["ldap"]["tls"] != "1")
+		{
+			$_POST["ldap"]["tls"] = "0";
+		}	
+		
+		// check connection to ldap server
+		
+		
+		$ldap_host	= $_POST["ldap"]["server"];
+		$ldap_port	= $_POST["ldap"]["port"];
+		$ldap_pass	= $_POST["ldap"]["passwd"];
+		
+		$ldap_userattr = $_POST["ldap"]["login_key"];
+		$ldap_useroc = $_POST["ldap"]["objectclass"];
+
+		$ldap_dn	= $ldap_userattr."=".$this->ilias->account->getLogin().",";
+
+        // create base_dn
+        if ($_POST["ldap"]["search_base"])
+		{
+			$ldap_searchbase .= $_POST["ldap"]["search_base"].",";
+		}
+		
+		$ldap_searchbase 	.= $_POST["ldap"]["basedn"];
+		
+		$ldap_dn .= $ldap_searchbase;
+		
+		// test connection
+		$ldap_conn = ldap_connect($ldap_host,$ldap_port);
+
+		@ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, $_POST["ldap"]["version"]);
+		
+		// bind anonymously
+		if (($ldap_bind = ldap_bind($ldap_conn)) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_ldap_connect_failed"),$this->ilias->error_obj->MESSAGE);
+		}
+
+        // make user search
+        $filter = sprintf('(&(objectClass=%s)(%s=%s))', $ldap_useroc, $ldap_userattr, $ilUser->getLogin());
+
+        // make functions params array
+        $func_params = array($ldap_conn, $ldap_searchbase, $filter, array($ldap_userattr));
+
+        // search
+        if (($result_id = @call_user_func_array('ldap_search', $func_params)) == false)
+        {
+   			$this->ilias->raiseError($this->lng->txt("err_ldap_search_failed"),$this->ilias->error_obj->MESSAGE);
+        }
+
+        if (ldap_count_entries($ldap_conn, $result_id) != 1)
+        {
+   			$this->ilias->raiseError($this->lng->txt("err_ldap_user_not_found"),$this->ilias->error_obj->MESSAGE);
+        }
+
+        // then get the user dn
+        $entry_id = ldap_first_entry($ldap_conn, $result_id);
+        $user_dn  = ldap_get_dn($ldap_conn, $entry_id);
+
+        ldap_free_result($result_id);
+
+        // bind with password
+        if (@ldap_bind($ldap_conn, $user_dn, $ldap_pass) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_ldap_auth_failed"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// close connection
+		@ldap_unbind($ldap_conn);
+
+		// all ok. save settings and activate LDAP
+		$this->ilias->setSetting("ldap_tls", $_POST["ldap"]["tls"]);
+		$this->ilias->setSetting("ldap_server", $_POST["ldap"]["server"]);
+		$this->ilias->setSetting("ldap_basedn", $_POST["ldap"]["basedn"]);
+		$this->ilias->setSetting("ldap_search_base", $_POST["ldap"]["search_base"]);
+		$this->ilias->setSetting("ldap_port", $_POST["ldap"]["port"]);
+		$this->ilias->setSetting("ldap_version", $_POST["ldap"]["version"]);
+		$this->ilias->setSetting("ldap_login_key", $_POST["ldap"]["login_key"]);
+		$this->ilias->setSetting("ldap_objectclass", $_POST["ldap"]["objectclass"]);
+		$this->ilias->setSetting("auth_mode", AUTH_LDAP);
+
+		sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
+		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
+	}
+
 	/**
 	* Configure SHIB settings
 	* 
@@ -490,6 +604,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		// validate port
+		if (!is_readable($_POST["shib"]["data_conv"]) )
+		{
+			$this->ilias->raiseError($this->lng->txt("shib_data_conv_warning"),$this->ilias->error_obj->MESSAGE);
+		}
+		
 		// all ok. save settings
 		$shib_settings = array(
 								'shib_login',
@@ -534,119 +654,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
 	
 		sendInfo($this->lng->txt("shib_settings_saved"),true);
-		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
-	}
-
-	/**
-	* validates all input data, save them to database if correct and active chosen auth mode
-	* 
-	* @access	public
-	*/
-	function saveLDAPObject()
-	{
-        global $ilUser;
-
-        // validate required data 
-		if (!$_POST["ldap"]["server"] or !$_POST["ldap"]["basedn"] or !$_POST["ldap"]["port"] or !$_POST["ldap"]["login_key"] or !$_POST["ldap"]["objectclass"])
-		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		// validate password 
-		if (!$_POST["ldap"]["passwd"])
-		{
-			$this->ilias->raiseError($this->lng->txt("err_enter_current_passwd"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// validate port
-		if ((preg_match("/^[0-9]{0,5}$/",$_POST["ldap"]["port"])) == false)
-		{
-			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		// TODO: implement TLS support
-		if ($_POST["ldap"]["tls"] != "1")
-		{
-			$_POST["ldap"]["tls"] = "0";
-		}	
-		
-		// check connection to ldap server
-		
-		
-		$ldap_host	= $_POST["ldap"]["server"];
-		$ldap_port	= $_POST["ldap"]["port"];
-		$ldap_pass	= $_POST["ldap"]["passwd"];
-		
-		$ldap_userattr = $_POST["ldap"]["login_key"];
-		$ldap_useroc = $_POST["ldap"]["objectclass"];
-
-		$ldap_dn	= $ldap_userattr."=".$this->ilias->account->getLogin().",";
-
-        // create base_dn
-        if ($_POST["ldap"]["search_base"])
-		{
-			$ldap_searchbase .= $_POST["ldap"]["search_base"].",";
-		}
-		
-		$ldap_searchbase 	.= $_POST["ldap"]["basedn"];
-		
-		$ldap_dn .= $ldap_searchbase;
-		
-		// test connection
-		$ldap_conn = ldap_connect($ldap_host,$ldap_port);
-
-		@ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, $_POST["ldap"]["version"]);
-		
-		// bind anonymously
-		if (($ldap_bind = ldap_bind($ldap_conn)) == false)
-		{
-			$this->ilias->raiseError($this->lng->txt("err_ldap_connect_failed"),$this->ilias->error_obj->MESSAGE);
-		}
-
-        // make user search
-        $filter = sprintf('(&(objectClass=%s)(%s=%s))', $ldap_useroc, $ldap_userattr, $ilUser->getLogin());
-
-        // make functions params array
-        $func_params = array($ldap_conn, $ldap_searchbase, $filter, array($ldap_userattr));
-
-        // search
-        if (($result_id = @call_user_func_array('ldap_search', $func_params)) == false)
-        {
-   			$this->ilias->raiseError($this->lng->txt("err_ldap_search_failed"),$this->ilias->error_obj->MESSAGE);
-        }
-
-        if (ldap_count_entries($ldap_conn, $result_id) != 1)
-        {
-   			$this->ilias->raiseError($this->lng->txt("err_ldap_user_not_found"),$this->ilias->error_obj->MESSAGE);
-        }
-
-        // then get the user dn
-        $entry_id = ldap_first_entry($ldap_conn, $result_id);
-        $user_dn  = ldap_get_dn($ldap_conn, $entry_id);
-
-        ldap_free_result($result_id);
-
-        // bind with password
-        if (@ldap_bind($ldap_conn, $user_dn, $ldap_pass) == false)
-		{
-			$this->ilias->raiseError($this->lng->txt("err_ldap_auth_failed"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// close connection
-		@ldap_unbind($ldap_conn);
-
-		// all ok. save settings and activate LDAP
-		$this->ilias->setSetting("ldap_tls", $_POST["ldap"]["tls"]);
-		$this->ilias->setSetting("ldap_server", $_POST["ldap"]["server"]);
-		$this->ilias->setSetting("ldap_basedn", $_POST["ldap"]["basedn"]);
-		$this->ilias->setSetting("ldap_search_base", $_POST["ldap"]["search_base"]);
-		$this->ilias->setSetting("ldap_port", $_POST["ldap"]["port"]);
-		$this->ilias->setSetting("ldap_version", $_POST["ldap"]["version"]);
-		$this->ilias->setSetting("ldap_login_key", $_POST["ldap"]["login_key"]);
-		$this->ilias->setSetting("ldap_objectclass", $_POST["ldap"]["objectclass"]);
-		$this->ilias->setSetting("auth_mode", AUTH_LDAP);
-
-		sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
 		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
 	}
 
