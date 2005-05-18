@@ -6348,4 +6348,18 @@ $this->db->query('DELETE FROM usr_search');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#436>
+CREATE TABLE `tst_test_result` (
+  `test_result_id` int(10) unsigned NOT NULL auto_increment,
+  `user_fi` int(10) unsigned NOT NULL default '0',
+  `test_fi` int(10) unsigned NOT NULL default '0',
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `points` double NOT NULL default '0',
+  `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`test_result_id`),
+  UNIQUE KEY `test_result_id` (`test_result_id`),
+  KEY `test_result_id_2` (`test_result_id`),
+  KEY `user_fi` (`user_fi`),
+  KEY `test_fi` (`test_fi`),
+  KEY `question_fi` (`question_fi`)
+) COMMENT='Test and Assessment user results for test questions';
