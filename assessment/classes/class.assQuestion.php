@@ -97,6 +97,17 @@ class ASS_Question
 	var $author;
 
 	/**
+	* The maximum available points for the question
+	*
+	* Contains the calculated maximum available points for the
+	* question. This should be caculated normally be a method of
+	* one of the derived classes
+	*
+	* @var integer
+	*/
+	var $points;
+
+	/**
 	* Contains estimates working time on a question (HH MM SS)
 	*
 	* Contains estimates working time on a question (HH MM SS)
@@ -1545,6 +1556,40 @@ class ASS_Question
 			return $question;
 		}
   }
+	
+/**
+* Returns the maximum available points for the question
+*
+* Returns the maximum available points for the question
+*
+* @return integer The points
+* @access public
+*/
+	function getPoints()
+	{
+		if (strcmp($this->points, "") == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return $this->points;
+		}
+	}
+
+	
+/**
+* Sets the maximum available points for the question
+*
+* Sets the maximum available points for the question
+*
+* @param integer $a_points The points
+* @access public
+*/
+	function setPoints($a_points)
+	{
+		$this->points = $a_points;
+	}
 
 }
 

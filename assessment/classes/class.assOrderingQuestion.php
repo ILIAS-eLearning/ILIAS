@@ -70,17 +70,6 @@ class ASS_OrderingQuestion extends ASS_Question
 	var $ordering_type;
 
 	/**
-	* Points for solving the ordering question
-	*
-	* Enter the number of points the user gets when he/she enters the correct order of the ordering
-	* question. This value overrides the point values of single answers when set different
-	* from zero.
-	*
-	* @var double
-	*/
-	var $points;
-
-	/**
 	* ASS_OrderingQuestion constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_OrderingQuestion object.
@@ -90,7 +79,6 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @param string $author A string containing the name of the questions author
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @param string $question The question string of the ordering test
-	* @param points double The points for solving the ordering question
 	* @access public
 	*/
 	function ASS_OrderingQuestion (
@@ -99,14 +87,12 @@ class ASS_OrderingQuestion extends ASS_Question
 		$author = "",
 		$owner = -1,
 		$question = "",
-		$points = 0.0,
 		$ordering_type = OQ_TERMS
 	)
 	{
 		$this->ASS_Question($title, $comment, $author, $owner);
 		$this->answers = array();
 		$this->question = $question;
-		$this->points = $points;
 		$this->ordering_type = $ordering_type;
 	}
 
@@ -592,7 +578,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
 				$db->quote($this->ordering_type . ""),
-				$db->quote($this->points . ""),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
 				$db->quote($created . ""),
 				$original_id
@@ -623,7 +609,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
 				$db->quote($this->ordering_type . ""),
-				$db->quote($this->points . ""),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->id . "")
 			);
@@ -632,7 +618,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
-			// alte Antworten l�schen
+			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -868,7 +854,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		if ($found >= 0)
 		{
-			// Antwort einf�gen
+			// Antwort einfügen
 			$answer = new ASS_AnswerOrdering($answertext, $points, $found, $solution_order);
 			array_push($this->answers, $answer);
 			for ($i = $found + 1; $i < count($this->answers); $i++)
@@ -879,7 +865,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		}
 		else
 		{
-			// Anwort anh�ngen
+			// Anwort anhängen
 			$answer = new ASS_AnswerOrdering($answertext, $points,
 				count($this->answers), $solution_order);
 			array_push($this->answers, $answer);
@@ -968,41 +954,12 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
-	* Gets the points
-	*
-	* Gets the points for entering the correct order of the ASS_OrderingQuestion object
-	*
-	* @return double The points for entering the correct order of the ordering question
-	* @access public
-	* @see $points
-	*/
-	function get_points()
-	{
-		return $this->points;
-	}
-
-	/**
-	* Sets the points
-	*
-	* Sets the points for entering the correct order of the ASS_OrderingQuestion object
-	*
-	* @param points double The points for entering the correct order of the ordering question
-	* @access public
-	* @see $points
-	*/
-	function set_points($points = 0.0)
-	{
-		$this->points = $points;
-	}
-
-	/**
 	* Returns the maximum solution order
 	*
 	* Returns the maximum solution order of all ordering answers
 	*
 	* @return integer The maximum solution order of all ordering answers
 	* @access public
-	* @see $points
 	*/
 	function get_max_solution_order()
 	{
@@ -1273,7 +1230,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
 				$db->quote($this->ordering_type . ""),
-				$db->quote($this->points . ""),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->original_id . "")
 			);

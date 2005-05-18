@@ -91,15 +91,6 @@ class ASS_JavaApplet extends ASS_Question
 	var $parameters;
 
 	/**
-	* The maximum number of points that can be reached working with the Java Applet
-	*
-	* The maximum number of points that can be reached working with the Java Applet
-	*
-	* @var double
-	*/
-	var $points;
-
-	/**
 	* ASS_JavaApplet constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_JavaApplet object.
@@ -810,20 +801,6 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
-	* Gets the maximum number of available points for the java applet
-	*
-	* Gets the maximum number of available points for the java applet
-	*
-	* @return double 	The maximum number of available points for the java applet
-	* @access public
-	* @see $points
-	*/
-	function getPoints()
-	{
-		return $this->points;
-	}
-
-	/**
 	* Sets the question text
 	*
 	* Sets the question string of the ASS_JavaApplet object
@@ -887,19 +864,6 @@ class ASS_JavaApplet extends ASS_Question
 	function getJavaWidth()
 	{
 		return $this->java_width;
-	}
-
-	/**
-	* Sets the maximum number of points for the java applet
-	*
-	* Sets the maximum number of points for the java applet
-	*
-	* @param double $points Maximum number of points for the java applet
-	* @access public
-	*/
-	function setPoints($points = 0.0)
-	{
-		$this->points = $points;
 	}
 
 	/**

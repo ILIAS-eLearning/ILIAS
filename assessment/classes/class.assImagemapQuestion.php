@@ -57,17 +57,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
   var $answers;
 
 /**
-* Points for solving the imagemap question
-*
-* Enter the number of points the user gets when he/she solves the imagemap
-* question. This value overrides the point values of single answers when set different
-* from zero.
-*
-* @var double
-*/
-  var $points;
-
-/**
 * The imagemap file containing the name of imagemap file
 *
 * The imagemap file containing the name of imagemap file
@@ -125,7 +114,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $this->imagemap_filename = $imagemap_filename;
     $this->image_filename = $image_filename;
     $this->answers = array();
-		$this->points = $points;
 		$this->coords = array();
   }
 
@@ -195,7 +183,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				$db->quote($this->owner),
 				$db->quote($this->question),
 				$db->quote($estw_time),
-				$db->quote($this->points),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->image_filename),
 				$db->quote("$complete"),
 				$db->quote($created),
@@ -226,7 +214,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				$db->quote($this->author),
 				$db->quote($this->question),
 				$db->quote($estw_time),
-				$db->quote($this->points),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->image_filename),
 				$db->quote("$complete"),
 				$db->quote($this->id)
@@ -952,32 +940,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
   }
 
 /**
-* Gets the points
-*
-* Gets the points for solving the question of the ASS_ImagemapQuestion object
-*
-* @return double The points for solving the imagemap question
-* @access public
-* @see $points
-*/
-  function get_points() {
-    return $this->points;
-  }
-
-/**
-* Sets the points
-*
-* Sets the points for solving the question of the ASS_ImagemapQuestion object
-*
-* @param points double The points for solving the imagemap question
-* @access public
-* @see $points
-*/
-  function set_points($points = 0.0) {
-    $this->points = $points;
-  }
-
-/**
 * Adds a possible answer for a imagemap question
 *
 * Adds a possible answer for a imagemap question. A ASS_AnswerImagemap object will be
@@ -1258,7 +1220,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				$db->quote($this->author . ""),
 				$db->quote($this->question . ""),
 				$db->quote($estw_time . ""),
-				$db->quote($this->points . ""),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->image_filename . ""),
 				$db->quote($complete . ""),
 				$db->quote($this->original_id . "")

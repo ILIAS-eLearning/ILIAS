@@ -56,15 +56,6 @@ class ASS_TextQuestion extends ASS_Question
 	var $maxNumOfChars;
 
 	/**
-	* The available points for the correct answer
-	*
-	* The available points for the correct answer
-	*
-	* @var integer
-	*/
-	var $points;
-	
-	/**
 	* ASS_TextQuestion constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_TextQuestion object.
@@ -597,41 +588,6 @@ class ASS_TextQuestion extends ASS_Question
 	function setMaxNumOfChars($maxchars = 0)
 	{
 		$this->maxNumOfChars = $maxchars;
-	}
-
-	/**
-	* Gets the maximum number of points for the text solution
-	*
-	* Gets the maximum number of points for the text solution
-	*
-	* @return integer The maximum number of points for the text solution
-	* @access public
-	* @see $points
-	*/
-	function getPoints()
-	{
-		if (strcmp($this->points, "") == 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return $this->points;
-		}
-	}
-
-	/**
-	* Sets the maximum number of points for the text solution
-	*
-	* Sets the maximum number of points for the text solution
-	*
-	* @param integer $maxchars The maximum number of points for the text solution
-	* @access public
-	* @see $points
-	*/
-	function setPoints($points = 0)
-	{
-		$this->points = $points;
 	}
 
 	/**
