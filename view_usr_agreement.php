@@ -94,6 +94,7 @@ if ($_GET["cmd"] == "getAcceptance")
 		$ilias->account->writeAccepted();
 		ilUtil::redirect("start.php");
 	}
+	$tpl->setVariable("VAL_CMD", "getAcceptance");
 	$tpl->setCurrentBlock("get_acceptance");
 	$tpl->setVariable("FORM_ACTION", "view_usr_agreement.php?cmd=getAcceptance&lang=".$_GET["lang"]);
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
