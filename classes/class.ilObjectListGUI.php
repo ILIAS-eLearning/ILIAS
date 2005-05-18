@@ -242,8 +242,8 @@ class ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		#$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
-		#	$a_cmd);
+		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
+			$a_cmd);
 
 		return $cmd_link;
 	}
