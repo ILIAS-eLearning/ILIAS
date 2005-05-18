@@ -40,8 +40,8 @@
  * 
  * @package application
  * 
- * @todo Das Datefeld wird bei �nderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
- *  Die Formatfunktionen geh�ren nicht in class.Language. Die sind auch woanders einsetzbar!!!
+ * @todo Das Datefeld wird bei Aenderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
+ *  Die Formatfunktionen gehoeren nicht in class.Language. Die sind auch woanders einsetzbar!!!
  *  Daher->besser in class.Format
  */
 class ilLanguage
@@ -281,6 +281,7 @@ class ilLanguage
 		}
 	}
 	
+	
 	function getInstalledLanguages()
 	{
 		$langlist = getObjectList("lng");
@@ -295,6 +296,27 @@ class ilLanguage
 		}
 		
 		return $languages;
+	}
+	
+	function _lookupEntry($a_lang_key, $a_mod, $a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM lng_data WHERE".
+			" module = ".$ilDB->quote($a_mod).
+			" AND lang_key =".$ilDB->quote($a_lang_key).
+			" AND identifier =".$ilDB->quote($a_id);
+			
+		$set = $ilDB->query($q);
+		
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($rec["value"] != "")
+		{
+			return $rec["value"];
+		}
+		
+		return "-".$a_id."-";
 	}
 } // END class.Language
 ?>

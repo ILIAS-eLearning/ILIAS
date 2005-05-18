@@ -63,10 +63,22 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		// general commands array
 		$this->commands = array
 		(
+			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue"),
 			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 		);
 	}
+	
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	{
+		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		
+		include_once("content/classes/class.ilObjLearningModuleAccess.php");
+		$this->last_accessed_page = 
+			ilObjLearningModuleAccess::_getLastAccessedPage($this->ref_id);
+		
+	}
+
 
 	/**
 	* Overwrite this method, if link target is not build by ctrl class
@@ -81,6 +93,11 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	{
 		switch($a_cmd)
 		{
+			case "continue":
+				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id.
+					"&obj_id=".$this->last_accessed_page;
+				break;
+				
 			case "view":
 				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;
 				break;
@@ -112,6 +129,8 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
+			case "continue":
+
 				include_once 'payment/classes/class.ilPaymentObject.php';
 
 				$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";

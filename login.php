@@ -136,13 +136,17 @@ if ($_GET["reload"])
     }
 }
 
+
+$tpl->setVariable("TXT_OK", $lng->txt("ok"));
+
 $languages = $lng->getInstalledLanguages();
 
 foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
 	$tpl->setVariable("LANG_KEY", $lang_key);
-	$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+	$tpl->setVariable("LANG_NAME",
+		ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
 	$tpl->setVariable("BORDER", 0);
 	$tpl->setVariable("VSPACE", 0);
 	$tpl->parseCurrentBlock();

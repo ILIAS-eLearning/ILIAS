@@ -579,7 +579,8 @@ if (userSettingVisible("language"))
 	foreach($languages as $lang_key)
 	{
 		$tpl->setCurrentBlock("sel_lang");
-		$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+		//$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+		$tpl->setVariable("LANG", ilLanguage::_lookupEntry($lang_key,"meta", "meta_l_".$lang_key));
 		$tpl->setVariable("LANGSHORT", $lang_key);
 	
 		if ($selected_lang == $lang_key)
