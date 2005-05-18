@@ -135,7 +135,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
 
 		$search_result_presentation = new ilSearchResultPresentationGUI($result);
-		$search_result_presentation->showResults();
+		$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
 
 		return true;
 	}

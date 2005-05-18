@@ -102,6 +102,114 @@ class ilObjectListGUI
 		);*/
 	}
 
+	// Single get set methods
+	/**
+	* En/disable delete
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableDelete($a_status)
+	{
+		$this->delete_enabled = $a_status;
+
+		return;
+	}
+	/**
+	* 
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getDeleteStatus()
+	{
+		return $this->delete_enabled;
+	}
+	/**
+	* En/disable cut
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableCut($a_status)
+	{
+		$this->cut_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getCutStatus()
+	{
+		return $this->cut_enabled;
+	}
+	/**
+	* En/disable subscribe
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableSubscribe($a_status)
+	{
+		$this->subscribe_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getSubscribeStatus()
+	{
+		return $this->subscribe_enabled;
+	}
+	/**
+	* En/disable payment
+	*
+	* @param bool
+	* @return void
+	*/
+	function enablePayment($a_status)
+	{
+		$this->payment_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getPaymentStatus()
+	{
+		return $this->payment_enabled;
+	}
+	/**
+	* En/disable link
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableLink($a_status)
+	{
+		$this->link_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getLinkStatus()
+	{
+		return $this->link_enabled;
+	}
+
 	/**
 	* inititialize new item (is called by getItemHTML())
 	*
@@ -134,8 +242,8 @@ class ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
-			$a_cmd);
+		#$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
+		#	$a_cmd);
 
 		return $cmd_link;
 	}
