@@ -773,6 +773,7 @@ class ASS_TextQuestion extends ASS_Question
 			$db->quote($text)
 		);
 		$result = $db->query($query);
+    parent::saveWorkingData($test_id);
 		return true;
 	}
 

@@ -1635,7 +1635,7 @@ class ASS_ClozeTest extends ASS_Question
 */
   function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
     global $ilDB;
-	global $ilUser;
+		global $ilUser;
     $db =& $ilDB->db;
 
     $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
@@ -1657,8 +1657,8 @@ class ASS_ClozeTest extends ASS_Question
         $result = $db->query($query);
       }
     }
-    //parent::saveWorkingData($limit_to);
-	return true;
+    parent::saveWorkingData($test_id);
+		return true;
   }
 
 	function syncWithOriginal()

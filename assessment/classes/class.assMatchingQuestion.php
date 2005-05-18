@@ -1232,7 +1232,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 			$saveWorkingDataResult = true;
 		}
-		//    parent::saveWorkingData($limit_to);
+    parent::saveWorkingData($test_id);
 		return $saveWorkingDataResult;
 	}
 

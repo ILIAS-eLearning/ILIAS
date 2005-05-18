@@ -1194,7 +1194,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$db->quote($_GET["selImage"])
 		);
 		$result = $db->query($query);
-//    parent::saveWorkingData($limit_to);
+    parent::saveWorkingData($test_id);
 		return true;
   }
 

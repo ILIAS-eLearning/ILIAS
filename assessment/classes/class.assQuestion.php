@@ -714,28 +714,23 @@ class ASS_Question
 	*
 	* Saves the learners input of the question to the database
 	*
+*	* @param integer $test_id The database id of the test containing this question
 	* @access public
 	* @see $answers
 	*/
-	function saveWorkingData($limit_to = LIMIT_NO_LIMIT)
+	function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT)
 	{
-	/*    global $ilias;
-		$db =& $ilias->db;
-
-		// Increase the number of tries for that question
-		$query = sprintf("SELECT * FROM dum_assessment_solution_order WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-		$db->quote($this->ilias->account->id),
-		$db->quote($_GET["test"]),
-		$db->quote($this->getId())
+    global $ilDB;
+		global $ilUser;
+    $db =& $ilDB->db;
+		$reached_points = $this->getReachedPoints($ilUser->id, $test_id);
+		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+			$db->quote($ilUser->id . ""),
+			$db->quote($test_id . ""),
+			$db->quote($this->getId() . ""),
+			$db->quote($reached_points . "")
 		);
-		$result = $db->query($query);
-		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		$query = sprintf("UPDATE dum_assessment_solution_order SET tries = %s WHERE solution_order_id = %s",
-		$db->quote($data->tries + 1),
-		$db->quote($data->solution_order_id)
-		);
-		$result = $db->query($query);
-	*/
+    $result = $db->query($query);
 	}
 
 	/**
