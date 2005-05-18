@@ -294,7 +294,7 @@ class ShibAuth
 				// certain Shibboleth user attributes
 				if (	$ilias->getSetting('shib_data_conv') 
 						&& $ilias->getSetting('shib_data_conv') != ''
-						&& file_exists($ilias->getSetting('shib_data_conv'))
+						&& is_readable($ilias->getSetting('shib_data_conv'))
 						)
 				{
 					include($ilias->getSetting('shib_data_conv'));
@@ -379,7 +379,7 @@ class ShibAuth
 				// certain Shibboleth user attributes
 				if (	$ilias->getSetting('shib_data_conv') 
 						&& $ilias->getSetting('shib_data_conv') != ''
-						&& file_exists($ilias->getSetting('shib_data_conv'))
+						&& is_readable($ilias->getSetting('shib_data_conv'))
 						)
 				{
 					include($ilias->getSetting('shib_data_conv'));

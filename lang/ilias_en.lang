@@ -2364,6 +2364,7 @@ common#:#shib_city#:#Attribute for city
 common#:#shib_configure#:#Configure Shibboleh Authentication
 common#:#shib_country#:#Attribute for country
 common#:#shib_data_conv#:#Absolute path to data manipulation API
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_edit_permission#:#Change permission settings
 common#:#shib_email#:#Attribute for email address
