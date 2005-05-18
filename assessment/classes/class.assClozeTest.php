@@ -279,11 +279,12 @@ class ASS_ClozeTest extends ASS_Question
 			// Neuen Datensatz schreiben
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getQuestionType()),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
 				$db->quote($this->comment),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->author),
 				$db->quote($this->owner),
 				$db->quote($this->cloze_text),
@@ -311,10 +312,11 @@ class ASS_ClozeTest extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->author),
 				$db->quote($this->cloze_text),
 				$db->quote($estw_time),
@@ -385,6 +387,7 @@ class ASS_ClozeTest extends ASS_Question
 				$this->solution_hint = $data->solution_hint;
 				$this->original_id = $data->original_id;
         $this->author = $data->author;
+				$this->points = $data->points;
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
 				$this->shuffle = $data->shuffle;
@@ -1673,10 +1676,11 @@ class ASS_ClozeTest extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
+				$db->quote($this->getMaximumPoints() . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->cloze_text . ""),
 				$db->quote($estw_time . ""),
