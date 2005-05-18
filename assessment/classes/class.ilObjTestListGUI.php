@@ -40,13 +40,10 @@ class ilObjTestListGUI extends ilObjectListGUI
 	/**
 	* constructor
 	*
-	* @param	object		$a_container_obj	container gui object, e.g.
-	*											an instance of ilObjCategoryGUI or
-	*											ilObjCourseGUI
 	*/
-	function ilObjTestListGUI(&$a_container_obj)
+	function ilObjTestListGUI()
 	{
-		$this->ilObjectListGUI($a_container_obj);
+		$this->ilObjectListGUI();
 	}
 
 	/**

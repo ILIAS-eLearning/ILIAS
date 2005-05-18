@@ -76,10 +76,69 @@ class ilSearchGUI extends ilSearchBaseGUI
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 
-		$this->tpl->setVariable("HALLO",'Hallo');
+		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SEARCHTERM",$this->lng->txt("search_search_term"));
+		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
+		$this->tpl->setVariable("TXT_OR",$this->lng->txt('search_any_word'));
+		$this->tpl->setVariable("BTN_SEARCH",$this->lng->txt('search'));
+
+		// Check 'or' as default
+		if($_POST['combination'] == 'and')
+		{
+			$this->tpl->setVariable("AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("OR_CHECKED",'checked=checked');
+		}
+		// Set old query string
+		$this->tpl->setVariable("FORM_SEARCH_STR",ilUtil::prepareFormOutput($_POST['search_str'],true));
+
+
+		return true;
 	}
 
+	function performSearch()
+	{
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
+		// Step 1: parse query string
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($_POST['search_str']));
+		$query_parser->setCombination($_POST['combination']);
+		$query_parser->parse();
+
+		if(!$query_parser->validate())
+		{
+			sendInfo($query_parser->getMessage());
+			$this->showSearch();
+			
+			return false;
+		}
+
+		// Step 2: perform object search
+		include_once 'Services/Search/classes/class.ilObjectSearch.php';
+
+		$obj_search = new ilObjectSearch($query_parser);
+		$result = $obj_search->performSearch();
+
+
+		// Step 3: perform meta keyword search
+
+
+		// Step 4: merge and validate results
+		$result->filter();
+
+		// Step 5: show search form 
+		$this->showSearch();
+
+		// Step 6: show results
+		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
+
+		$search_result_presentation = new ilSearchResultPresentationGUI($result);
+		$search_result_presentation->showResults();
+
+		return true;
+	}
 
 	function prepareOutput()
 	{

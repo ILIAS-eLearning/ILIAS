@@ -22,156 +22,143 @@
 */
 
 /**
-* search
+* searchResult stores all result of a search query.
+* Offers methods like mergeResults. To merge result sets of different queries.
+* 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version Id$
 * 
 * @package ilias-search
 */
-
 class ilSearchResult
 {
 	// OBJECT VARIABLES
 	var $ilias;
+	var $ilAccess;
 
-	var $title;
-	var $obj_id;
-	var $user_id;
-	var $target;
 
+	var $result;
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilSearchResult($a_user_id,$a_obj_id = 0)
+	function ilSearchResult()
 	{
-		global $ilias;
+		global $ilias,$ilAccess;
 
-		define("TABLE_SEARCH_DATA","search_data");
-
-		$this->ilias =& $ilias;
-
-		$this->obj_id = $a_obj_id;
-		$this->user_id = $a_user_id;
-
-		$this->__init();
+		$this->ilAccess =& $ilAccess;
 	}
 
-	// SET/GET
-	function getUserId()
+	function getEntries()
 	{
-		return $this->user_id;
+		return $this->entries ? $this->entries : array();
 	}
 
-	function getType()
-	{
-		return "sea";
-	}
-	function setObjId($a_obj_id)
-	{
-		$this->obj_id = $a_obj_id;
-	}
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
-	function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-	function getTitle()
-	{
-		return $this->title;
-	}
-	function setTarget($a_target)
-	{
-		$this->target = $a_target;
-	}
-	function getTarget()
-	{
-		return $this->target;
-	}
+	/**
+	 *
+	 * add search result entry
+	 * Entries are stored with 'obj_id'. This method is typically called to store db query results.
+	 * @param integer object object_id
+	 * @param string obj_type 'lm' or 'crs' ...
+	 * @param integer rbac_id in case of pages, chapters add the id of the rbac object (the lm id)
+	 * @access	public
+	 */
 
-	function createLink()
+	function addEntry($a_obj_id,$a_type,$a_rbac_id = 0)
 	{
-		$target = $this->getTarget();
-
-		switch($target["type"])
-		{
-			case "lm":
-				include_once "content/classes/class.ilObjContentObject.php";
-				
-				if($target["subtype"] == "meta")
-				{
-					return list($book["link"],$book["target"]) = ilObjContentObject::_getLinkToObject($target["id"],"meta");
-				}
-				else
-				{
-					return list($book["link"],$book["target"]) = 
-						ilObjContentObject::_getLinkToObject($target["id"],"content",$target["page_id"]);
-				}
-				break;
-				
-			case "dbk":
-
-				include_once "content/classes/class.ilObjDlBook.php";
-				
-				if($target["subtype"] == "meta")
-				{
-					return list($book["link"],$book["target"]) = ilObjDlBook::_getLinkToObject($target["id"],"meta");
-				}
-				else
-				{
-					return list($book["link"],$book["target"]) = 
-						ilObjDlBook::_getLinkToObject($target["id"],"content",$target["page_id"]);
-				}
-				break;
-
-			case "grp":
-				
-				include_once "classes/class.ilObjGroup.php";
-				
-				return list($group["link"],$group["target"]) = ilObjGroup::_getLinkToObject($target["id"]);
-
-			case "usr":
-
-				include_once "classes/class.ilObjUser.php";
-				
-				return list($group["link"],$group["target"]) = ilObjUser::_getLinkToObject($target["id"]);
-		}
-	}
-
-	function updateTitle($a_title)
-	{
-		$query = "UPDATE ".TABLE_SEARCH_DATA." ".
-			"SET title = '".addslashes($a_title)."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND user_id = '".$this->getUserId()."'";
-
-		$res = $this->ilias->db->query($query);
+		$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
+		$this->entries[$a_obj_id]['type'] = $a_type;
+		$this->entries[$a_obj_id]['rbac_id'] = $a_rbac_id ? $a_rbac_id : $a_obj_id;
 
 		return true;
 	}
-		
-		
-	// PRIVATE METHODS
-	function __init()
-	{
-		if($this->getObjId())
-		{
-			$query = "SELECT * FROM ".TABLE_SEARCH_DATA." ".
-				"WHERE obj_id = '".$this->getObjId()."' ".
-				"AND user_id = '".$this->getUserId()."'";
 
-			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$this->setTitle($row->title);
-				$this->setTarget(unserialize(stripslashes($row->target)));
-			}
-			return true;
-		}
+	/**
+	 *
+	 * add search result
+	 * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
+	 * @param integer ref_id
+	 * @param integer obj_id e.g. id og structure object
+	 * @param string obj_type 'lm' or 'crs' ...
+	 * @access	public
+	 */
+	function addResult($a_ref_id,$a_obj_id,$a_type)
+	{
+		$this->results[$a_ref_id]['ref_id'] = $a_ref_id;
+		$this->results[$a_ref_id]['obj_id'] = $a_obj_id;
+		$this->results[$a_ref_id]['type']	= $a_type;
 	}
+
+	function getResults()
+	{
+		return $this->results ? $this->results : array();
+	}
+
+
+	function getResultsForPresentation()
+	{
+		foreach($this->results as $result)
+		{
+			switch($result['type'])
+			{
+				// learning material
+				case "sahs":
+				case "lm":
+				case "dbk":
+				case "htlm":
+					$type = "lres";
+					break;
+
+				default:
+					$type = $result['type'];
+					break;
+			}
+			$title = ilObject::_lookupTitle($result['obj_id']);
+			$description = ilObject::_lookupDescription($result['obj_id']);
+
+			$presentation_result[$type][] = array('ref_id' => $result['ref_id'],
+												  'title' => $title,
+												  'description' => $description,
+												  'type' => $result['type'],
+												  'obj_id' => $result['obj_id']);
+		}
+		return $presentation_result ? $presentation_result : array();
+	}
+
+	function filter()
+	{
+		$this->__initSearchSettingsObject();
+
+		// get ref_ids and check access
+		$counter = 0;
+		foreach($this->getEntries() as $entry)
+		{
+			foreach(ilObject::_getAllReferences($entry['rbac_id']) as $ref_id)
+			{
+				if($this->ilAccess->checkAccess('visible','',$ref_id,$entry['type'],$entry['obj_id']))
+				{
+					$this->addResult($ref_id,$entry['obj_id'],$entry['type']);
+					// Stop if maximum of hits is reached
+					if(++$counter == $this->search_settings->getMaxHits())
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	
+	// PRIVATE
+	function __initSearchSettingsObject()
+	{
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+
+		$this->search_settings = new ilSearchSettings();
+	}
+
+
 } // END class.Search
 ?>

@@ -40,13 +40,10 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	/**
 	* constructor
 	*
-	* @param	object		$a_container_obj	container gui object, e.g.
-	*											an instance of ilObjCategoryGUI or
-	*											ilObjCourseGUI
 	*/
-	function ilObjQuestionPoolListGUI(&$a_container_obj)
+	function ilObjQuestionPoolListGUI()
 	{
-		$this->ilObjectListGUI($a_container_obj);
+		$this->ilObjectListGUI();
 	}
 
 	/**

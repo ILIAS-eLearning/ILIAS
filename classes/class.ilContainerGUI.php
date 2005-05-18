@@ -234,7 +234,8 @@ class ilContainerGUI extends ilObjectGUI
 								$location = $objDefinition->getLocation($item["type"]);
 								$full_class = "ilObj".$class."ListGUI";
 								include_once($location."/class.".$full_class.".php");
-								$item_list_gui = new $full_class($this);
+								$item_list_gui = new $full_class();
+								$item_list_gui->setContainerObject($this);
 							}
 							// render item row
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");

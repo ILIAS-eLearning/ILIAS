@@ -319,7 +319,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 			$objects[] =& $tmp_obj;
 			unset($tmp_obj);
 		}
-		include_once "Services/Search/classes/class.ilSearchResult.php";
+		include_once "Services/Search/classes/class.ilUserResult.php";
 
 		$tmp_folder =& new ilSearchFolder($this->getUserId(),$_POST["action"]);
 		
@@ -327,7 +327,7 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 		foreach($objects as $obj)
 		{
 			// COPY DATA
-			$search_res_obj =& new ilSearchResult($this->getUserId());
+			$search_res_obj =& new ilUserResult($this->getUserId());
 			$search_res_obj->setTitle($obj->getTitle());
 			$search_res_obj->setTarget(addslashes(serialize($obj->getTarget())));
 			
@@ -463,9 +463,9 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 				return array($this->ctrl->getLinkTarget($this),'bottom');
 
 			case "sea":
-				include_once "./classes/class.ilSearchResult.php";
+				include_once "Services/Search/classes/class.ilUserResult.php";
 
-				$tmp_obj =& new ilSearchResult($this->getUserId(),$a_item["obj_id"]);
+				$tmp_obj =& new ilUserResult($this->getUserId(),$a_item["obj_id"]);
 
 				$link = $tmp_obj->createLink();
 				unset($tmp_obj);
