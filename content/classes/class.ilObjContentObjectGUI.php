@@ -84,6 +84,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addLocations();
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilobjstylesheetgui":
 				include_once ("classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "properties");
@@ -464,7 +474,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->proceedDragDrop();
 		}
 	
-		
+
 		if ($_GET["lmexpand"] == "")
 		{
 			$mtree = new ilTree($this->object->getId());
@@ -646,7 +656,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 
 			$target_pos = $target_id;
-			
+
 			// insert before
 			if ($position == "before")
 			{
@@ -729,7 +739,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		}
 
-		
+
 		$this->object->checkTree();
 	}
 
@@ -752,7 +762,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
 		$this->object->updateProperties();
-		
+
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
 
@@ -806,12 +816,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_".$new_type));
 			$this->tpl->setVariable("TXT_LM_FILE", $this->lng->txt("file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-			
+
 			// get the value for the maximal uploadable filesize from the php.ini (if available)
 			$umf=get_cfg_var("upload_max_filesize");
 			// get the value for the maximal post data from the php.ini (if available)
 			$pms=get_cfg_var("post_max_size");
-	
+
 			// use the smaller one as limit
 			$max_filesize=min($umf, $pms);
 			if (!$max_filesize) $max_filesize=max($umf, $pms);
@@ -819,7 +829,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// gives out the limit as a littel notice :)
 			$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize.");
 
-		}		
+		}
 	}
 
 	/**
@@ -844,7 +854,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("please_enter_title"), $this->ilias->error_obj->MESSAGE);
 				return;
 			}
-			
+
 			// create and insert object in objecttree
 			include_once("content/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
@@ -873,6 +883,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	// called by administration
+/*
 	function chooseMetaSectionObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -886,15 +897,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$a_target, $_REQUEST["meta_section"]);
 	}
+*/
 
 	// called by editor
+/*
 	function chooseMetaSection()
 	{
 		$this->setTabs();
 //echo "<br>target:".$this->ctrl->getLinkTarget($this).":";
 		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
+/*
 	function addMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -921,12 +936,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
+*/
 
+/*
 	function addMeta()
 	{
 		$this->setTabs();
 		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* add bib item (admin call)
@@ -968,6 +986,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
+/*
 	function deleteMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -982,12 +1001,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
+/*
 	function deleteMeta()
 	{
 		$this->setTabs();
 		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* delete bib item (admin call)
@@ -1020,6 +1042,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
+/*
 	function editMetaObject($a_target = "")
 	{
 
@@ -1040,6 +1063,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->setTabs();
 		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* edit bib items (admin call)
@@ -1072,6 +1096,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
+/*
 	function saveMetaObject($a_target = "adm_object.php")
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -1086,6 +1111,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->saveMetaObject("lm_edit.php");
 	}
+*/
 
 	/**
 	* save bib item (admin call)
@@ -1161,7 +1187,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
 		}
-				
+
 		// set page view link
 		if ($showViewInFrameset)
 		{
@@ -1254,7 +1280,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		
+
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
 			$_FILES["xmldoc"]["name"], $full_path);
 
@@ -1271,7 +1297,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
-		
+
 		// import style
 		$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
 		if (is_file($style_file))
@@ -1283,6 +1309,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		/* update title and description in object data */
+// to do (update should be called somewhere in import parser
+/*
 		if (is_object($newObj->meta_data))
 		{
 			$newObj->meta_data->read();
@@ -1293,6 +1321,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
 			//$this->ilias->db->query($q);
 		}
+*/
 
 		sendInfo($this->lng->txt($this->type."_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -2456,7 +2485,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				{
 					$entry["link"] = "http://".$entry["link"];
 				}
-				
+
 				$tpl_menu->setVariable("BTN_LINK", $entry["link"]);
 				$tpl_menu->setVariable("BTN_TXT", $entry["title"]);
 				//$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
@@ -2593,8 +2622,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		// back to upper context
 		$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
+
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			"meta_data", get_class($this));
+
 	}
-	
+
 	function editPublicSection()
 	{
 		$this->setTabs();

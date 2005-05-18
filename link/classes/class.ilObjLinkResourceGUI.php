@@ -566,7 +566,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 
 		$this->object->initLinkResourceItemsObject();
-		
+
 		if(!$_POST['title'] or $_POST['target'] == 'http://')
 		{
 			sendInfo($this->lng->txt('webr_fillout_all'));
@@ -614,8 +614,6 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
-
-		$newObj->createMetaData();
 
 		// setup rolefolder & default local roles
 		//$roles = $newObj->initDefaultRoles();

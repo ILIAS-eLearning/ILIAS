@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilMDEditorGUI
 *
 * @package content
 */

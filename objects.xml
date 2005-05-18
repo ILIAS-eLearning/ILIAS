@@ -77,7 +77,6 @@
 	<property name="view" module="n">subobjects</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
-	<property name="editMeta">meta_data</property>
 	<property name="editBibItem">bib_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -191,7 +190,6 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
-	<property name="editMeta">meta_data</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="exportList" module="1">export</property>
@@ -336,7 +334,6 @@
 <object name="st">
 	<property name="view">cont_pages</property>
 	<property name="subchap">cont_subchapters</property>
-	<property name="editMeta">meta_data</property>
 	<property name="listConditions">preconditions</property>
 	<subobj name="st">st</subobj>
 	<subobj name="pg">pg</subobj>

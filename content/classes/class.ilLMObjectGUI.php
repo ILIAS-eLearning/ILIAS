@@ -90,6 +90,7 @@ class ilLMObjectGUI
 	/**
 	* add meta data
 	*/
+/*
 	function addMeta()
 	{
 		$this->setTabs();
@@ -113,11 +114,12 @@ class ilLMObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
 			$meta_section);
 	}
-
+*/
 
 	/**
 	* delete meta data
 	*/
+/*
 	function deleteMeta()
 	{
 		$this->setTabs();
@@ -129,11 +131,12 @@ class ilLMObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
 			$_GET["meta_section"]);
 	}
-
+*/
 
 	/**
 	* choose meta data section
 	*/
+/*
 	function chooseMetaSection()
 	{
 		$this->setTabs();
@@ -143,11 +146,12 @@ class ilLMObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
 			$_REQUEST["meta_section"]);
 	}
-
+*/
 
 	/**
 	* edit meta data
 	*/
+/*
 	function editMeta()
 	{
 		$this->setTabs();
@@ -157,11 +161,12 @@ class ilLMObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
 			$_GET["meta_section"]);
 	}
-
+*/
 
 	/**
 	* save meta data
 	*/
+/*
 	function saveMeta()
 	{
 //echo "lmobjectgui_Savemeta1<br>";
@@ -174,7 +179,7 @@ class ilLMObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editMeta");
 	}
-
+*/
 
 	/**
 	* get target frame for command (command is method name without "Object", e.g. "perm")

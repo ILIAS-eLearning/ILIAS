@@ -97,15 +97,15 @@ class ilStructureObject extends ilLMObject
 	*/
 	function &copy(&$lmtree, $a_parent, $a_pos = IL_LAST_NODE)
 	{
-		$meta =& new ilMetaData();
+//		$meta =& new ilMetaData();
 		$chap =& new ilLMPageObject($this->getContentObject());
-		$chap->assignMetaData($meta);
+//		$chap->assignMetaData($meta);
 		$chap->setTitle($this->getTitle());
 		$chap->setLMId($this->getLMId());
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
 		$chap->create();
-		
+
 		// insert chapter in tree
 		$lmtree->insertNode($chap->getId(), $a_parent, $a_pos);
 
@@ -196,6 +196,7 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+echo "export temporary not available";
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),

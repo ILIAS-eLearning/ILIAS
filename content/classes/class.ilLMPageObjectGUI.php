@@ -36,7 +36,7 @@ require_once ("content/classes/class.ilInternalLinkGUI.php");
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI, ilMDEditorGUI
 *
 * @package content
 */
@@ -89,12 +89,23 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->content_object->getID(),
+					$this->obj->getId(), $this->obj->getType());
+				$md_gui->addObserver($this->obj,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilpageobjectgui":
-			
+
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
 				$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-			
+
 				$this->ctrl->setReturn($this, "view");
 				//require_once("content/classes/class.ilContObjLocatorGUI.php");
 				//$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
@@ -106,7 +117,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$int_links = $page_object->getInternalLinks();
 				$link_xml = $this->getLinkXML($int_links);
 				$page_gui =& new ilPageObjectGUI($page_object);
-				
+
 				// set page view link
 				if ($showViewInFrameset)
 				{
@@ -118,7 +129,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				}
 				$page_gui->setViewPageLink("../goto.php?target=pg_".$this->obj->getId(),
 					$view_frame);
-					
+
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);
@@ -175,10 +186,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function save()
 	{
 		// create new object
-		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
+//		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
 
 		$this->obj =& new ilLMPageObject($this->content_object);
-		$this->obj->assignMetaData($meta_data);
+//		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType("pg");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -361,8 +372,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
 			, "preview", get_class($this));
 
-		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
-			, "editMeta", get_class($this));
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
 
 		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 			, "history", get_class($this));

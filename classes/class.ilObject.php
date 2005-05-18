@@ -419,14 +419,14 @@ class ilObject
 	{
 		return ilObject::_lookupOwnerName($this->getOwner());
 	}
-	
+
 	/**
 	* lookup owner name for owner id
 	*/
 	function _lookupOwnerName($a_owner_id)
 	{
 		global $lng;
-		
+
 		if ($a_owner_id != -1)
 		{
 			if (ilObject::_exists($a_owner_id))
@@ -508,7 +508,7 @@ class ilObject
 			$message = get_class($this)."::create(): No object type given!";
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-		
+
 		// write log entry
 		$log->write("ilObject::create(), start");
 
@@ -579,6 +579,12 @@ class ilObject
 	/**
 	* Meta data update listener
 	*
+	* Important note: Do never call create() or update()
+	* method of ilObject here. It would result in an
+	* endless loop: update object -> update meta -> update
+	* object -> ...
+	* Use static _writeTitle() ... methods instead.
+	*
 	* @param	string		$a_element
 	*/
 	function MDUpdateListener($a_element)
@@ -588,6 +594,7 @@ class ilObject
 		switch($a_element)
 		{
 			case 'General':
+
 				// Update Title and description
 				$md = new ilMD($this->getId(), 0, $this->getType());
 				$md_gen = $md->getGeneral();
@@ -600,7 +607,6 @@ class ilObject
 					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
 					break;
 				}
-
 
 				break;
 
@@ -628,6 +634,31 @@ class ilObject
 		$md_creator->create();
 
 		return true;
+	}
+
+	/**
+	* update meta data entry
+	*/
+	function updateMetaData()
+	{
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
+		include_once("Services/MetaData/classes/class.ilMDDescription.php");
+
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_gen =& $md->getGeneral();
+		$md_gen->setTitle($this->getTitle());
+
+		// sets first description (maybe not appropriate)
+		$md_des_ids =& $md_gen->getDescriptionIds();
+		if (count($md_des_ids) > 0)
+		{
+			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des->setDescription($this->getDescription());
+			$md_des->update();
+		}
+		$md_gen->update();
+
 	}
 
 	/**

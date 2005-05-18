@@ -63,6 +63,105 @@ class ilLMObject
 	}
 
 	/**
+	* Meta data update listener
+	*
+	* Important note: Do never call create() or update()
+	* method of ilObject here. It would result in an
+	* endless loop: update object -> update meta -> update
+	* object -> ...
+	* Use static _writeTitle() ... methods instead.
+	*
+	* @param	string		$a_element
+	*/
+	function MDUpdateListener($a_element)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{
+			case 'General':
+
+				// Update Title and description
+				$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
+				$md_gen = $md->getGeneral();
+
+				ilLMObject::_writeTitle($this->getId(),$md_gen->getTitle());
+
+				foreach($md_gen->getDescriptionIds() as $id)
+				{
+					$md_des = $md_gen->getDescription($id);
+//					ilLMObject::_writeDescription($this->getId(),$md_des->getDescription());
+					break;
+				}
+
+				break;
+
+			default:
+		}
+		return true;
+	}
+
+	/**
+	* create meta data entry
+	*/
+	function createMetaData()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+
+		global $ilUser;
+
+		$md_creator = new ilMDCreator($this->getLMId(), $this->getId(), $this->getType());
+		$md_creator->setTitle($this->getTitle());
+		$md_creator->setTitleLanguage($ilUser->getPref('language'));
+		$md_creator->setDescription($this->getDescription());
+		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
+		$md_creator->setLanguage($ilUser->getPref('language'));
+		$md_creator->create();
+
+		return true;
+	}
+
+	/**
+	* update meta data entry
+	*/
+	function updateMetaData()
+	{
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
+		include_once("Services/MetaData/classes/class.ilMDDescription.php");
+
+		$md =& new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$md_gen =& $md->getGeneral();
+		$md_gen->setTitle($this->getTitle());
+
+		// sets first description (maybe not appropriate)
+		$md_des_ids =& $md_gen->getDescriptionIds();
+		if (count($md_des_ids) > 0)
+		{
+			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+//			$md_des->setDescription($this->getDescription());
+			$md_des->update();
+		}
+		$md_gen->update();
+
+	}
+
+
+	/**
+	* delete meta data entry
+	*/
+	function deleteMetaData()
+	{
+		// Delete meta data
+		include_once('Services/MetaData/classes/class.ilMD.php');
+		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$md->deleteAll();
+	}
+
+
+
+	/**
 	* this method should only be called by class ilLMObjectFactory
 	*/
 	function setDataRecord($a_record)
@@ -86,9 +185,11 @@ class ilLMObject
 		}
 
 		$this->type = $this->data_record["type"];
+/*
 		$ilBench->start("ContentPresentation", "ilLMObject_read_getMeta");
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
 		$ilBench->stop("ContentPresentation", "ilLMObject_read_getMeta");
+*/
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
 
@@ -100,13 +201,14 @@ class ilLMObject
 	*/
 	function setTitle($a_title)
 	{
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 		$this->title = $a_title;
 	}
 
 	function getTitle()
 	{
-		return $this->title ? $this->title : $this->meta_data->getTitle();
+//		return $this->title ? $this->title : $this->meta_data->getTitle();
+		return $this->title;
 	}
 
 
@@ -121,15 +223,38 @@ class ilLMObject
 		return $obj_rec["title"];
 	}
 
+	function _writeTitle($a_obj_id, $a_title)
+	{
+		global $ilDB;
+
+		$query = "UPDATE lm_data SET ".
+			" title = ".$ilDB->quote($a_title).
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$ilDB->query($query);
+	}
+
+/*
+	function _writeDescription($a_obj_id, $a_desc)
+	{
+		global $ilDB;
+
+		$query = "UPDATE lm_data SET ".
+			" description = ".$ilDB->quote($a_desc).
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$ilDB->query($query);
+	}
+*/
+
 	function setDescription($a_description)
 	{
-		$this->meta_data->setDescription($a_description);
+//		$this->meta_data->setDescription($a_description);
 		$this->description = $a_description;
 	}
 
 	function getDescription()
 	{
-		return $this->description ? $this->description : $this->meta_data->getDescription();
+//		return $this->description ? $this->description : $this->meta_data->getDescription();
+		return $this->description;
 	}
 
 	function setType($a_type)
@@ -175,12 +300,12 @@ class ilLMObject
 
 	function getImportId()
 	{
-		return $this->meta_data->getImportIdentifierEntryID();
+//		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
-		$this->meta_data->setImportIdentifierEntryID($a_id);
+//		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
 
@@ -192,12 +317,15 @@ class ilLMObject
 			"', now())";
 		$this->ilias->db->query($query);
 		$this->setId($this->ilias->db->getLastInsertId());
-		
+
 		// create history entry
 		include_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", "",
 			$this->content_object->getType().":pg");
 
+		$this->createMetaData();
+
+/*
 		if (!$a_upload)
 		{
 			// create meta data
@@ -208,23 +336,26 @@ class ilLMObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+*/
 	}
 
-
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
 
+
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
-
+*/
 
 	/**
 	* update meta data of object and lm_data table
 	*/
+/*
 	function updateMetaData()
 	{
 		global $ilDB;
@@ -252,6 +383,7 @@ class ilLMObject
 		$this->meta_data->update();
 //$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObject::updateMetaData(), end\n"); fclose($f);
 	}
+*/
 
 	/**
 	* update complete object
@@ -260,15 +392,17 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE lm_data SET ".
-			" lm_id = ".$ilDB->quote($this->getLMId()).
-			" WHERE obj_id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
-
 		$this->updateMetaData();
 
+		$query = "UPDATE lm_data SET ".
+			" lm_id = ".$ilDB->quote($this->getLMId()).
+			" ,title = ".$ilDB->quote($this->getTitle()).
+			" WHERE obj_id = ".$ilDB->quote($this->getId());
+
+		$ilDB->query($query);
 	}
-	
+
+
 	/**
 	* update public access flags in lm_data for all pages of a content object
 	* @static
@@ -375,16 +509,19 @@ class ilLMObject
 	*/
 	function delete($a_delete_meta_data = true)
 	{
+/*
 		if ($a_delete_meta_data)
 		{
-			/* Delete meta data in nested set table for given object and type */
+			// Delete meta data in nested set table for given object and type
 			$nested = new ilNestedSetXML();
 			$nested->init($this->getId(), $this->getType());
 			$nested->deleteAllDBData();
 		}
-
+*/
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
+
+		$this->deleteMetaData();
 	}
 
 	/**
@@ -480,7 +617,7 @@ class ilLMObject
 	{
 		include_once './classes/class.ilNestedSetXML.php';
 
-		$page_ids = ilNestedSetXML::_getAllChildIds($a_cobj->getId());
+//		$page_ids = ilNestedSetXML::_getAllChildIds($a_cobj->getId());
 
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= '".$a_cobj->getId()."'";
@@ -492,10 +629,11 @@ class ilLMObject
 			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"]);
 			if (is_object($lm_obj))
 			{
-				$lm_obj->delete(false);
+//				$lm_obj->delete(false);
+				$lm_obj->delete(true);
 			}
 		}
-		ilNestedSetXML::_deleteAllChildMetaData($page_ids);
+//		ilNestedSetXML::_deleteAllChildMetaData($page_ids);
 
 		return true;
 	}

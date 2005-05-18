@@ -167,8 +167,7 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function update()
 	{
-//		$this->updateMetaData();
-
+		$this->updateMetaData();
 		parent::update();
 
 		$q = "UPDATE file_based_lm SET ".
@@ -233,6 +232,8 @@ class ilObjFileBasedLM extends ilObject
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
 			$ilDB->quote("").")";
 		$ilDB->query($q);
+
+		$this->createMetaData();
 	}
 
 	function getDataDirectory($mode = "filesystem")

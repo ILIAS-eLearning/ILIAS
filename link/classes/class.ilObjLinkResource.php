@@ -24,7 +24,7 @@
 /**
 * Class ilObjLinkResource
 * 
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @extends ilObject
@@ -47,7 +47,23 @@ class ilObjLinkResource extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	/**
+	* create object
+	*/
+	function create()
+	{
+		parent::create();
+		$this->createMetaData();
+	}
 
+	/**
+	* update object
+	*/
+	function update()
+	{
+		$this->updateMetaData();
+		parent::update();
+	}
 
 	/**
 	* copy all entries of your object.

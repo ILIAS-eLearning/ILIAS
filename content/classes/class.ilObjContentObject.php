@@ -73,6 +73,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function initMeta()
 	{
+/*
 		if (!is_object($this->meta_data))
 		{
 			if ($this->getId())
@@ -85,6 +86,7 @@ class ilObjContentObject extends ilObject
 			}
 			$this->assignMetaData($new_meta);
 		}
+*/
 	}
 
 	/**
@@ -95,6 +97,8 @@ class ilObjContentObject extends ilObject
 		global $ilUser;
 
 		parent::create();
+		$this->createMetaData();
+
 		$this->createProperties();
 		if (!$a_upload)
 		{
@@ -102,6 +106,7 @@ class ilObjContentObject extends ilObject
 			{
 				//$this->meta_data->setLanguage($ilUser->getLanguage());
 			}
+/* moved to gui::saveObject
 			$this->initMeta();
 			$this->meta_data->setId($this->getId());
 			$this->meta_data->setType($this->getType());
@@ -109,6 +114,7 @@ class ilObjContentObject extends ilObject
 			$this->meta_data->setDescription($this->getDescription());
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
+*/
 		}
 	}
 
@@ -181,7 +187,7 @@ class ilObjContentObject extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
 
 	/**
@@ -200,7 +206,7 @@ class ilObjContentObject extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
+//		$this->meta_data->setDescription($a_description);
 	}
 
 	/**
@@ -208,26 +214,31 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of content object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		$this->initMeta();
 		return $this->meta_data;
 	}
+*/
 
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -246,17 +257,18 @@ class ilObjContentObject extends ilObject
 		}
 		parent::update();
 	}
+*/
 
 	function getImportId()
 	{
-		$this->initMeta();
-		return $this->meta_data->getImportIdentifierEntryID();
+//		$this->initMeta();
+//		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
-		$this->initMeta();
-		$this->meta_data->setImportIdentifierEntryID($a_id);
+//		$this->initMeta();
+//		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
 	function &getTree()
@@ -270,6 +282,7 @@ class ilObjContentObject extends ilObject
 	function update()
 	{
 		$this->updateMetaData();
+		parent::update();
 		$this->updateProperties();
 	}
 
@@ -499,17 +512,19 @@ class ilObjContentObject extends ilObject
 
 
 		// delete meta data of content object
+/*
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
-		
+*/
+		$this->deleteMetaData();
 
 		// delete bibitem data
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), "bib");
 		$nested->deleteAllDBData();
 
-		
+
 		// delete learning module tree
 		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
 
@@ -526,7 +541,7 @@ class ilObjContentObject extends ilObject
 
 		#$ilBench->stop('NestedSet','lm_delete');
 		#$ilBench->save();
-	
+
 		return true;
 	}
 
@@ -572,7 +587,7 @@ class ilObjContentObject extends ilObject
 	function writeStyleSheetId($a_style_id)
 	{
 		global $ilDB;
-		
+
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote($a_style_id).
 			" WHERE id = '".$this->getId()."'";
@@ -587,7 +602,7 @@ class ilObjContentObject extends ilObject
 	function _lookupStyleSheetId($a_cont_obj_id)
 	{
 		global $ilDB;
-		
+
 		$q = "SELECT stylesheet FROM content_object ".
 			" WHERE id = '".$a_cont_obj_id."'";
 		$res = $ilDB->query($q);
@@ -1155,7 +1170,7 @@ class ilObjContentObject extends ilObject
 		{
 			case "content":
 				return array("content/lm_presentation.php?ref_id=".$a_ref_id."&obj_id=".$a_obj_id,"_blank");
-				
+
 			case "meta":
 				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_blank");
 		}
@@ -1328,10 +1343,13 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
+/*
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+*/
 	}
 
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)

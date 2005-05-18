@@ -6344,3 +6344,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $this->db->query('DELETE FROM usr_search');
 ?>
+<#435>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
