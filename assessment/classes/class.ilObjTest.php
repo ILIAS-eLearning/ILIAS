@@ -1965,6 +1965,10 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($this->getTestId()),				
 				$this->ilias->db->quote($question_id)
 			);
+			$query3 = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s AND question_fi = %s",
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($question_id)
+			);
 		} else {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())
@@ -1972,9 +1976,13 @@ class ilObjTest extends ilObject
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE test_fi = %s",
 				$this->ilias->db->quote($this->getTestId())							
 			);			
+			$query3 = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId())
+			);
 		}
 		$result = $this->ilias->db->query($query);
 		$result = $this->ilias->db->query($query2);
+		$result = $this->ilias->db->query($query3);
 
 		if ($this->isRandomTest())
 		{
@@ -2020,6 +2028,11 @@ class ilObjTest extends ilObject
 	{
 		if ($user_id) {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($user_id)
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM tst_test_result WHERE test_fi = %s AND user_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($user_id)
 			);
