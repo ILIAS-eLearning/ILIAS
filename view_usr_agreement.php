@@ -43,6 +43,8 @@ sendInfo();
 // display infopanel if something happened
 infoPanel();
 
+$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+$tpl->setVariable("TXT_OK", $lng->txt("ok"));
 	// language selection
 	$languages = $lng->getInstalledLanguages();
 	
@@ -60,8 +62,10 @@ infoPanel();
 
 			$tpl->setCurrentBlock("languages");
 			$tpl->setVariable("LINK_LANG", "./view_usr_agreement.php?lang=".$lang_key."&cmd=".$_GET["cmd"]);
-			$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+			$tpl->setVariable("LANG_NAME",
+				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
 			$tpl->setVariable("LANG_ICON", $lang_key);
+			$tpl->setVariable("LANG_KEY", $lang_key);
 			$tpl->setVariable("BORDER", 0);
 			$tpl->setVariable("VSPACE", 0);
 			$tpl->parseCurrentBlock();
@@ -90,8 +94,8 @@ if ($_GET["cmd"] == "getAcceptance")
 		$ilias->account->writeAccepted();
 		ilUtil::redirect("start.php");
 	}
-	$tpl->setVariable("FORM_ACTION", "view_usr_agreement.php?cmd=getAcceptance&lang=".$_GET["lang"]);
 	$tpl->setCurrentBlock("get_acceptance");
+	$tpl->setVariable("FORM_ACTION", "view_usr_agreement.php?cmd=getAcceptance&lang=".$_GET["lang"]);
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
 	$tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement"));
 	$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
