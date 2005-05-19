@@ -209,7 +209,7 @@ lang_not_installed_default#:#Jazyk, který jste zvolili jako implicitní není i
 lang_pl#:#Polština
 lang_pt#:#Portuguese###new variable 09 Mar 2004
 lang_se#:#Švédština
-lang_ua#:#Ukrajinština
+lang_uk#:#Ukrajinština
 lang_xx#:#Uživatelský
 lang_zh#:#Čínština
 langs_not_valid_not_installed#:#Následující jazyky nebyly instalovány z důvodu chyby v jazykovém souboru
