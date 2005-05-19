@@ -1214,6 +1214,7 @@ common#:#folders#:#Direktoriumet
 common#:#force_accept_usr_agreement#:#Ju duhet të pranoni marrëveshjen si shfrytëzues
 common#:#forename#:#Emri
 common#:#forgot_password#:#Keni harruar parullën?
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Ju lutem të kompletoni këto fusha:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importo Forum
@@ -2262,6 +2263,7 @@ common#:#setUserLanguage#:#Vendos Gjuhën e Shfrytëzuesit
 common#:#set_offline#:#Vendos Offline
 common#:#set_online#:#Vendos në Online
 common#:#settings#:#Konfigurimet
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#show#:#Shih
 common#:#show_details#:#shih detajet
 common#:#show_list#:#Shih Listën
@@ -4349,8 +4351,10 @@ payment#:#price_a#:#Çmimi
 payment#:#prices#:#Çmimet
 payment#:#update#:#Aktualizo
 pwassist#:#password_assistance#:#Ndihma për parullë
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Jepni emrin identifikues dhe e-mail adresën përkatëse në fushat e mëposhtme.\n ILIAS do të ju dërgon një porosi në atë e-mail. Porosia do të përmbaj një adresë të faqes ku mund të jepni parullën e re për llogarinë tuaj.\nNë rast se keni probleme gjatë caktimit të parullës së re, kontaktoni administratorin e kursit ose dërgoni e-mail në %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Jepni emrin identifikues dhe parullën e re më poshtë.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Ju lutem korrigjoni tekstin.\nEmri identifikues dhe e-mail adresa që keni dhënë nuk përkasin me ndonjërën në databazë.
 pwassist#:#pwassist_login_not_match#:#Ju lutem zgjedhni emër identifikues tjetër.\nEmri identifikues që keni dhënë tash nuk është i njëjtë me atë të cilin e keni dhënë kur keni kërkuar ndihmë për parullë.
 pwassist#:#pwassist_mail_body#:#Regjistroni parullë të re për llogarinë tuaj shfrytëzuese:\n\t%1$s\n\nKjo porosi është gjeneruar automatikisht nga serveri i ILIAS-it\n\t%2$s\n\nJu (ose dikush në %3$s) ka kërkuar ndihmë për parullë për llogarinë shfrytëzuese \%4$s.\n\nJu lutem shikoni me kujdes kushtet e më poshtme dhe veproni në përputhje sipas rrethanave:\n\n- Nëse keni përdorur ndihmën për parullë në serverin e ILIAS aksidentalisht:\nFshini këtë e-mail.\n\n- Nëse jeni të sigurt se kurrë nuk keni përdorur ndihmën për parullë në ILIAS server:\n Ju lutem kontaktoni %5$s.\n\n- Nëse keni kërkuar nihmën për parullë, ju lutem veproni si më vijim:\n\n1. Aktivizoni Brouserin(shfletuesin e faqeve).\n\n2.Shënoni adresën vijuese në brouser:\n\t%1$s\n\nMe rëndësi: Adresa është në një vij të vetme të pandarë. Nëse kjo adresë është e ndarë në disa pjesë, atëherë programi juaj për e-mail ka këto vendosur vija të ndarjes.\n\n3. Në web faqen e hapur me brouserin tuaj, jepni parullë të re për llogarin tuaj shfrytëzuese.\n\nJu lutem vëni re se, për shkaqe sigurie, mund të kaloni nëpër këto tre hapa saktësisht vetëm një herë dhe për afat kohe të kufizuar. Mëpas adresa shëndrrohet në jovalide, dhe ju duhet të përdorni përsëri ndihmën për parullë.
@@ -4360,6 +4364,7 @@ pwassist#:#pwassist_not_permitted#:#Ju lutem zgjedhni emër identifikues tjetër
 pwassist#:#pwassist_password_assigned#:#Parulla është vendosur më sukses për shfrytëzuesin "%1$s"
 pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.\n Sesioni juaj për ndihmë për parullë ka skaduar. Kjo ka mund të ndodhë, për arsye se keni shfrytëzuar web adresën që ju është dërguar më e-mail më shumë se një herë, ose për arsye se ka kaluar shumë kohë që nga koha kur keni pranuar adresën përmes e-mailit.
 pwassist#:#pwassist_update_error#:#Ju lutem të kontaktoni administratorin e sistemit.\n Parulla nuk mund të vendoset në llogarinë shfrytëzuese për shkak të ndonjë gabimi gjatë aktualizimit të databazës
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Përfshijë shfrytëzuesit aktiv
 search#:#search_all_results#:#Të gjitha rezultatet
 search#:#search_and#:#dhe

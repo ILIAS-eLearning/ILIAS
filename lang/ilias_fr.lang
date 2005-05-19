@@ -1251,6 +1251,7 @@ common#:#folders#:#Dossiers###07 Apr 2005 content changed
 common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !###07 Apr 2005 content changed
 common#:#forename#:#Prénom###07 Apr 2005 content changed
 common#:#forgot_password#:#Mot de passe oublié ?###07 Apr 2005 content changed
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Veuillez renseigner ces champs :###07 Apr 2005 content changed
 common#:#forum#:#Forum###07 Apr 2005 content changed
 common#:#forum_import#:#Importation de forum###07 Apr 2005 content changed
@@ -2342,6 +2343,7 @@ common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
 common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#shib_department#:#Attribute for department###13 May 2005 new variable
 common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
@@ -4518,8 +4520,10 @@ payment#:#price_a#:#Prix###07 Apr 2005 content changed
 payment#:#prices#:#Prix###07 Apr 2005 content changed
 payment#:#update#:#Mise à jour###07 Apr 2005 content changed
 pwassist#:#password_assistance#:#Assistance pour les mots de passe###07 Apr 2005 content changed
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Saisissez un nom d'utilisateur et l'adresse email associée dans les champs ci-dessous.\nILIAS enverra un message à cette adresse. Le message contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur.Si vous ne parvenez à obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un message à %1$s###07 Apr 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Saisissez le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous.###07 Apr 2005 content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Veuillez corriger vos saisies.\nLe nom d'utilisateur et l'adresse email que vous avez saisis ne correspondent à aucune entrée dans la base de données.###07 Apr 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur.\nLe nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.###07 Apr 2005 content changed
 pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur:\n\t%1$s\n\nCe message a été généré automatiquement par le serveur ILIAS\n\t%2$s\n\nVous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".\n\nVeuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :\n\n- Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :\n détruisez ce message\n\n- Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :\veuillez contacter %5$s.\n\n- Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :\n\n1. Ouvrez votre navigateur web.\n\n2. Saisissez l'adresse suivante dans le navigateur :\n\t%1$s\n\nImportant : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de messagerie qui a ajouté ces retours à la ligne.\n\n3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.\n\nAttention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à nouveau.###07 Apr 2005 content changed
@@ -4529,6 +4533,7 @@ pwassist#:#pwassist_not_permitted#:#Veuillez saisir un autre nom d'utilisateur.\
 pwassist#:#pwassist_password_assigned#:#Le mot de passe a été assigné avec succès à l'utilisateur %1$s.###07 Apr 2005 content changed
 pwassist#:#pwassist_session_expired#:#Veuillez remplir le formulaire à nouveau.\nVotre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps est passé depuis que le message vous a été envoyé.###07 Apr 2005 content changed
 pwassist#:#pwassist_update_error#:#Veuillez contacter votre adminsitrateur système.\nLe mot de passe n'a pas pu être assigné à l'utilisateur à cause d'une erreur lors de la modification de la base de données.###07 Apr 2005 content changed
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Inclure utilisateurs actifs###07 Apr 2005 content changed
 search#:#search_all_results#:#Tous les résultats###07 Apr 2005 content changed
 search#:#search_and#:#et###07 Apr 2005 content changed

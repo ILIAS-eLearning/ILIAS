@@ -155,7 +155,6 @@ ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
 ilias_setup#:#ILIAS3 Setup###07 Apr 2005 content changed
 ilias_version#:#ILIAS Version###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.###07 Apr 2005 content changed
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.###07 Apr 2005 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -222,7 +221,10 @@ lang_none_installed#:#Keine Sprache installiert###07 Apr 2005 content changed
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! ###07 Apr 2005 content changed
 lang_pl#:#Polnisch###07 Apr 2005 content changed
 lang_pt#:#Portugiesisch###07 Apr 2005 content changed
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Schwedisch###07 Apr 2005 content changed
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ukrainisch###07 Apr 2005 content changed
 lang_xx#:#benutzerdefiniert###07 Apr 2005 content changed
 lang_zh#:#Chinesisch###07 Apr 2005 content changed

@@ -1269,6 +1269,7 @@ common#:#folders#:#Složky###07 Apr 2005 content changed
 common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednání!###14 Sep 2004 content changed
 common#:#forename#:#Křestní jméno###07 Apr 2005 content changed
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Vypňte prosím tato políčka:###07 Apr 2005 content changed
 common#:#forum#:#Diskusní skupina###07 Apr 2005 content changed
 common#:#forum_import#:#Forum import###09 Apr 2004 new variable
@@ -2364,6 +2365,7 @@ common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
 common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#shib_department#:#Attribute for department###13 May 2005 new variable
 common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
@@ -4543,8 +4545,10 @@ payment#:#price_a#:#Price###04 Oct 2004 new variable
 payment#:#prices#:#Prices###29 Nov 2004 new variable
 payment#:#update#:#Update###04 Oct 2004 new variable
 pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.###12 Nov 2004 new variable
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###12 Nov 2004 new variable
 pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.###12 Nov 2004 new variable
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###12 Nov 2004 new variable
@@ -4554,6 +4558,7 @@ pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword as
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".###12 Nov 2004 new variable
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###12 Nov 2004 new variable
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###12 Nov 2004 new variable
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Include active users###14 Sep 2004 new variable
 search#:#search_all_results#:#Všechny výsledky###07 Apr 2005 content changed
 search#:#search_and#:#and###14 Sep 2004 new variable

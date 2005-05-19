@@ -155,7 +155,6 @@ ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
 ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
 ilias_version#:#Versão ILIAS###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.###14 Sep 2004 content changed
 info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.###14 Sep 2004 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -222,7 +221,10 @@ lang_none_installed#:#Nenhuma linguagem instalada###07 Apr 2005 content changed
 lang_not_installed_default#:#A linguagem que seleccionou como omissão não está instalada!###14 Sep 2004 content changed
 lang_pl#:#Poláco###07 Apr 2005 content changed
 lang_pt#:#Portuguese###new variable 09 Mar 2004
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Suéco###07 Apr 2005 content changed
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ucrâniano###07 Apr 2005 content changed
 lang_xx#:#Personalizado###07 Apr 2005 content changed
 lang_zh#:#Chinês###07 Apr 2005 content changed

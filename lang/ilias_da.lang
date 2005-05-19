@@ -1160,6 +1160,7 @@ common#:#folders#:#Mapper###07 Apr 2005 content changed
 common#:#force_accept_usr_agreement#:#Du skal acceptere bruger aftalen!###07 Apr 2005 content changed
 common#:#forename#:#Mellemnavn###07 Apr 2005 content changed
 common#:#forgot_password#:#Glemt password?###07 Apr 2005 content changed
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Gennemf&oslash;rst disse felter:###07 Apr 2005 content changed
 common#:#forum#:#Forum###07 Apr 2005 content changed
 common#:#forum_import#:#import af Forum###07 Apr 2005 content changed
@@ -2158,6 +2159,7 @@ common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
 common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#shib_department#:#Attribute for department###13 May 2005 new variable
 common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
@@ -4062,8 +4064,10 @@ payment#:#price_a#:#Pris###07 Apr 2005 content changed
 payment#:#prices#:#Priser###07 Apr 2005 content changed
 payment#:#update#:#Opdater###07 Apr 2005 content changed
 pwassist#:#password_assistance#:#Password Hj&aelig;lp###07 Apr 2005 content changed
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilh&oslash;rende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det v&aelig;re tilf&aelig;ldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s.###07 Apr 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.###07 Apr 2005 content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.###07 Apr 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.###07 Apr 2005 content changed
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\Registrer et nyt password for din brugerkonto:\n\t%1$s\n\ndenne besked er blevet generet automatisk af ILIAS serveren\n\t%2$s\n\ndig (eller nogen ved %3$s) har anmodet om password asistance til en brugerkonto  "%4$s".\n\nTjek venligst forsigtigt tilstandene der er beskrevet nedenunder, og forts&aelig;t i trin derfra:\n\n- Hvis du har brugt password asistance formularen p&aring; ILIAS ved et uheld?:\n Slet denne mail.\n\n- Hvis du er sikker p&aring; du aldrig har brugt password assistance ved denne ILIAS server:\nKontakt venligst %5$s.\n\n- Hvis du HAR bedt om password assistance kan du fors&aelig;tte p&aring; f&oslash;lgende m&aring;de:\n\n1. &aring;ben din browser.\n\n2. Indtast f&oslash;lgende URL: \n\t%1$s\n\nVIGTIGT: URL er 1 linke. Hvis du ser denne URL delt op i flere linjer, er det dit email der har delt den op. \n\n3. P&aring; websiden indtaster du et nyt password for din brugerkonto\n\n Bem&aelig;rk venligst at du af sikkerhedsgrunde kun kan g&oslash;re dette 1 gang, og indenfor en vis tidsgr&aelig;nse. Hvis dette ikke lykkedes, skal du bede om password assistance igen.###07 Apr 2005 content changed
@@ -4073,6 +4077,7 @@ pwassist#:#pwassist_not_permitted#:#Indtast venligst et andet brugernavn.\nPassw
 pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til bruger "%1$s".###07 Apr 2005 content changed
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\nDin passwordassistancesession er udl&oslash;bet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig p&aring; email mere end 1 gang, eller fordi der er g&aring;et for lang tid siden linket blev sendt til dig.###07 Apr 2005 content changed
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.###07 Apr 2005 content changed
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_all_results#:#Alle resultater###07 Apr 2005 content changed
 search#:#search_and#:#og###07 Apr 2005 content changed
 search#:#search_concatenation#:#Sammenk&aelig;dning###07 Apr 2005 content changed

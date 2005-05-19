@@ -44,6 +44,7 @@ available_languages#:#Limbi disponibile
 back#:#Inapoi
 cannot_create_datadir_no_write_access#:#Nu aveti acces pentru scriere. Nu se poate crea director de date
 change#:#Schimbare
+###19 May 2005 content changed
 change_basic_settings#:#Schimbarea setarilor de baza
 change_password#:#Schimbarea parolei
 change_sort_direction#:#Schimbarea directiei de sortare
@@ -54,6 +55,7 @@ check_failed_java#:#Testarea Java nu a reusit
 check_failed_unzip#:#Testarea unzip nu a reusit
 check_failed_zip#:#Testarea zip nu a reusit
 choose_language#:#Alegeti limba
+###19 May 2005 content changed
 choose_languages#:#Va rugam alegeti limbi suplimentare si/sau stergeti limbile selectate.
 choose_password#:#Va rugam alegeti o parola
 city#:#Orasul, statul
@@ -222,6 +224,8 @@ lang_pl#:#Poloneza
 lang_pt#:#Portugheza
 lang_ro#:#Romana
 lang_se#:#Suedeza
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ucrainiana
 lang_xx#:#La alegere
 lang_zh#:#Chineza

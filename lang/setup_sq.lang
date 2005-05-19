@@ -43,17 +43,17 @@ available_clients#:#Klientët në Posedim
 available_languages#:#gjuhët në posedim
 back#:#prapa
 cannot_create_datadir_no_write_access#:#Mohohet qasja për të shkruar. Nuk mund të krijoj direktorium të të dhënave
-change#:#ndërro
+change#:#ndërro###19 May 2005 content changed
 change_basic_settings#:#Ndërro parametrat bazë
 change_password#:#Ndërro parullën
 change_sort_direction#:#Ndërro direktoriumin e sortimit
 check_failed_convert#:#Testimi për konvertim ka dështuar
-check_failed_htmldoc#:#Testimi për FOP ka dështuar
 check_failed_htmldoc#:#Testimi i HTMLdoc ka dështuar
+check_failed_htmldoc#:#Testimi për FOP ka dështuar
 check_failed_java#:#Testimi i Java ka dështuar
 check_failed_unzip#:#Testimi i Unzip-it ka dështuar
 check_failed_zip#:#Testimi i Zip-it ka dështuar
-choose_language#:#zgjedh gjuhën
+choose_language#:#zgjedh gjuhën###19 May 2005 content changed
 choose_languages#:#Ju lutem zgjedhni ndonjë gjuhë shtesë dhe/ose largoni gjuhët e zgjedhura.
 choose_password#:#Ju lutem shkruani ndonjë parullë
 city#:#Qyteti,Shteti
@@ -216,7 +216,10 @@ lang_none_installed#:#Nuk është instaluar asnjë gjuhë
 lang_not_installed_default#:#Gjuha që keni zgjedhur si të paradefinuar nuk është e instaluar!
 lang_pl#:#Polonisht
 lang_pt#:#Portugalisht
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Suedisht
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ukrainisht
 lang_xx#:#Zgjedhje personale
 lang_zh#:#Kinezisht
