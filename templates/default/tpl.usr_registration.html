@@ -11,14 +11,16 @@ body { margin:0px; }
     <td nowrap="1" align="right">
     <table align="right">
     <tr>
-<!-- BEGIN languages -->
-        <td>
-        <a href="{LINK_LANG}"><img src="./images/flags/{LANG_ICON}.gif" border="{BORDER}" vspace="{VSPACE}" hspace="0" title="{LANG_NAME}" alt="{LANG_NAME}" /></a>
-        </td>
-<!-- BEGIN lng_new_row -->
-    </tr><tr>
-<!-- END lng_new_row -->
-<!-- END languages -->
+<form name="languageselection" method="get">
+  <input type="hidden" name="cmd" value="">
+  <select name="lang" onChange="this.form.submit()">
+ 	  <option value="">{TXT_CHOOSE_LANGUAGE}</option>
+	<!-- BEGIN languages -->
+	  <option value="{LANG_ICON}" {SELECTED_LANG}>{LANG_NAME}</option>
+	<!-- END languages -->
+</select>
+<input class="submit" type="submit" value="{TXT_OK}"/>
+</form>
 <!-- BEGIN lng_empty_cell -->
     <td>&nbsp;</td>
 <!-- END lng_empty_cell -->

@@ -440,6 +440,8 @@ function displayForm()
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 	$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
 	$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
+	$tpl->setVariable("TXT_OK",$lng->txt("ok"));
+	$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
 	// language selection
 	$languages = $lng->getInstalledLanguages();
@@ -458,7 +460,8 @@ function displayForm()
 
 			$tpl->setCurrentBlock("languages");
 			$tpl->setVariable("LINK_LANG", "./register.php?lang=".$lang_key);
-			$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+			$tpl->setVariable("LANG_NAME",
+				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
 			$tpl->setVariable("LANG_ICON", $lang_key);
 			$tpl->setVariable("BORDER", 0);
 			$tpl->setVariable("VSPACE", 0);
