@@ -105,6 +105,22 @@ class ilLanguage
 		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
 
 		// set lang file...
+		$txt = file($this->lang_path."/setup_lang_sel_multi.lang");
+
+		// ...and load langdata
+		if (is_array($txt))
+		{
+			foreach ($txt as $row)
+			{
+				if ($row[0] != "#")
+				{
+					$a = explode($this->separator,trim($row));
+					$this->text[trim($a[0])] = trim($a[1]);
+				}
+			}
+		}
+
+		// set lang file...
 		$txt = file($this->lang_path."/setup_".$this->lang_key.".lang");
 
 		// ...and load langdata
@@ -118,10 +134,10 @@ class ilLanguage
 					$this->text[trim($a[0])] = trim($a[1]);
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 	

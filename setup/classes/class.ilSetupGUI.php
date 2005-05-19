@@ -470,10 +470,10 @@ class ilSetupGUI extends ilSetup
 	function displayHeader()
 	{
 		$languages = $this->lng->getLanguages();
-		
+
 		$count = (int) round(count($languages) / 2);
 		$num = 1;
-		
+
 		foreach ($languages as $lang_key)
 		{
 			if ($num === $count)
@@ -483,20 +483,21 @@ class ilSetupGUI extends ilSetup
 
 			$this->tpl->setCurrentBlock("languages");
 			$this->tpl->setVariable("LINK_LANG", "./setup.php?cmd=".$this->cmd."&amp;lang=".$lang_key);
-			$this->tpl->setVariable("LANG_NAME", $this->lng->txt("lang_".$lang_key));
+			$this->tpl->setVariable("LANG_NAME", $this->lng->txt("meta_l_".$lang_key));
 			$this->tpl->setVariable("LANG_ICON", $lang_key);
+			$this->tpl->setVariable("LANG_KEY", $lang_key);
 			$this->tpl->setVariable("BORDER", 0);
 			$this->tpl->setVariable("VSPACE", 0);
 			$this->tpl->parseCurrentBlock();
 
 			$num++;
 		}
-		
+
 		if (count($languages) % 2)
 		{
 			$this->tpl->touchBlock("lng_empty_cell");
 		}
-		
+
 		if ($this->cmd != "logout" and $this->isInstalled())
 		{
 			// add client link
@@ -508,12 +509,12 @@ class ilSetupGUI extends ilSetup
 					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new")));
 					$this->tpl->parseCurrentBlock();
 				}
-	
+
 				// client list link
 				$this->tpl->setCurrentBlock("display_list");
 				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list")));
 				$this->tpl->parseCurrentBlock();
-			
+
 				// edit paths link
 				$this->tpl->setCurrentBlock("edit_pathes");
 				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("pathes"));
@@ -534,6 +535,9 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 
+		$this->tpl->setVariable("VAL_CMD", $_GET["cmd"]);
+		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
+		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
 		$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
 		$this->tpl->setVariable("LOCATION_JAVASCRIPT","../templates/default");

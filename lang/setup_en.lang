@@ -43,7 +43,7 @@ available_clients#:#Available Clients
 available_languages#:#available languages
 back#:#back
 cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory
-change#:#change
+change#:#Change
 change_basic_settings#:#Change basic settings
 change_password#:#Change password
 change_sort_direction#:#Change sort direction
@@ -53,7 +53,7 @@ check_failed_htmldoc#:#Testing HTMLdoc failed
 check_failed_java#:#Testing Java failed
 check_failed_unzip#:#Testing unzip failed
 check_failed_zip#:#Testing zip failed
-choose_language#:#choose your language
+choose_language#:#Choose your language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password
 city#:#City, State
