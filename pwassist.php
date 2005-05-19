@@ -323,7 +323,7 @@ function submitUsernameAssistanceForm()
 	{
 		showUsernameAssistanceForm
 		(
-			$lng->txt("pwassist_invalid_username_or_email"),
+			$lng->txt("pwassist_invalid_email"),
 			"",
 			$email
 		);
@@ -483,14 +483,13 @@ function sendUsernameAssistanceMail($email, $logins)
 			array("\n","\t"),
 			sprintf
 			(
-			$lng->txt("pwassist_username_mail_body"),
-						join ($logins,",\n"), 
-			$server_url, 
-			$_SERVER['REMOTE_ADDR'], 
-			$email,
-			$login_url,
-			'mailto:'.$contact_address
-			
+					$lng->txt("pwassist_username_mail_body"),
+					join ($logins,",\n"), 
+					$server_url, 
+					$_SERVER['REMOTE_ADDR'], 
+					$email,
+					'mailto:'.$contact_address,
+					$login_url								
 			)
 		)
 	);
