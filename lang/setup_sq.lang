@@ -153,6 +153,7 @@ ilias_nic#:#Regjistrimi i NIC (Network Information Center)
 ilias_nic_id#:#NIC-ID (Network Information Center)
 ilias_setup#:#Instalimi i ILIAS 3
 ilias_version#:#ILIAS Versioni
+include_local#:#include local
 info_text_contact#:#Këtu janë sugjerimet për informacione shtesë të klientit dhe të dhënat për kontakt të administratorit të sistemit për këtë klient. Fushat e shënjuara me një yll (*) duhet të kompletohen patjetër. Të gjithë informacionet do të ruhen në databazën tuaj. Në dritaren e ardhshme mund të regjistroni instalimin tuaj në serverin ILIAS-NIC; regjistrimi dërgon këto të dhëna në serverin ILIAS-NIC.
 info_text_db#:#Databaza nuk ekziston ose është e zbrazët. Klikoni në butonin e më poshtëm për ta instaluar databazën tuaj. Nëse databaza me emrin e zgjedhur nuk ekziston ende,  ju lutem ta aktivizoni opsionin 'krijo databazë'. Instalimi i databazës pastaj do të bëhet në mënyrë automatike. Nëse krijimi do të dështoj (p.sh. në mungesë të të drejtave për qasje), ju lutem ta kontaktoni administratorin e serverit të databazës dhe të kërkoni prej tij krijimin e databazës me një emër të dëshiruar para se të instaloni ILIAS-in. 
 info_text_delete#:#Mund ta fshini klientin duke klikuar në butonin 'fshij'. Megjithatë, vetëm skedari client.ini do të largohet, duke mos i fshirë të gjithë skedarit e klientit të ruajtura në direktoriumet e të dhënave dhe në databazë. skedarit dhe databaza duhet të fshihen ne mënyrë manuale nga administratori i sistemit.

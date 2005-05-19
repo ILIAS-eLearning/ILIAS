@@ -185,6 +185,7 @@ ini_no_client_id#:#Nu a fost dat un ID client.
 ini_no_db_host#:#Nu exista nume pentru gazda
 ini_no_db_name#:#Nu exista nume pentru baza de date
 ini_no_db_user#:#Nu exista nume de utilizator pentru baza de date
+include_local#:#include local
 inifile#:#fisier-ini
 inifile_can_write#:#Configurarea ILIAS 3 poate scrie fisierul-ini.
 inifile_cannot_write#:#Configurarea ILIAS 3 nu poate scrie fisierul-ini. Va rugam verificati permisiunile la scriere.

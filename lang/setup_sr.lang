@@ -190,6 +190,7 @@ inifile_written#:#Ini-file je uspešno snimljen.
 input_error#:#ulazna greška
 inst_identification#:#Instalaciona identifikacija
 inst_name#:#naziv instalacije
+include_local#:#include local
 install#:#Instaliraj bazu podataka
 installation#:#instalacija
 installed#:#instalirano
