@@ -6355,7 +6355,7 @@ CREATE TABLE `tst_test_result` (
   `test_fi` int(10) unsigned NOT NULL default '0',
   `question_fi` int(10) unsigned NOT NULL default '0',
   `points` double NOT NULL default '0',
-  `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp,
   PRIMARY KEY  (`test_result_id`),
   UNIQUE KEY `test_result_id` (`test_result_id`),
   KEY `test_result_id_2` (`test_result_id`),
