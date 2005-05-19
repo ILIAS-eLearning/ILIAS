@@ -32,6 +32,10 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+//
+// Important note: This is a multi-lingual language file. Every entry should be
+// in the corresponding language. meta_l_en in english, meta_l_fr in french, ...
+//
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 
