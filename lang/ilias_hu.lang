@@ -1605,7 +1605,7 @@ common#:#lang_sep_decimal#:#.###05 Nov 2004 new variable
 common#:#lang_sep_thousand#:#,###05 Nov 2004 new variable
 common#:#lang_sv#:#Svéd###07 Apr 2005 content changed
 common#:#lang_timeformat#:#H:i:s###05 Nov 2004 new variable
-common#:#lang_ua#:#Ukrán###07 Apr 2005 content changed
+common#:#lang_uk#:#Ukrán###07 Apr 2005 content changed
 common#:#lang_version#:#1###05 Nov 2004 new variable
 common#:#lang_vi#:#Vietnámi###07 Apr 2005 content changed
 common#:#lang_xx#:#Szokásos###07 Apr 2005 content changed
