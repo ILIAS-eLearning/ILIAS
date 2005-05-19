@@ -614,6 +614,494 @@ class ilObjectGUI
 	}
 
 	/**
+<<<<<<< class.ilObjectGUI.php
+=======
+	* paste object from clipboard to current place
+	* Depending on the chosen command the object(s) are linked, copied or moved
+	*
+	* @access	public
+ 	*/
+	function pasteObject()
+	{
+		global $rbacsystem, $rbacadmin, $rbacreview, $log;
+		
+		if ($this->ctrl->getTargetScript() == "repository.php")
+		{
+			$_SESSION["clipboard"] = "";
+			$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+			$_SESSION["clipboard"]["cmd"] = $_SESSION["il_rep_clipboard"][0]["act"];
+			$_SESSION["clipboard"]["ref_ids"] = array($_SESSION["il_rep_clipboard"][0]["ref_id"]);
+			//var_dump("rep",$_SESSION["clipboard"]);exit;
+		}
+//var_dump("adm",$_SESSION["clipboard"]);exit;
+		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
+		{
+			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		// this loop does all checks
+		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+			
+			// CHECK ACCESS
+			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
+			{
+				$no_paste[] = $ref_id;
+			}
+
+			// CHECK IF REFERENCE ALREADY EXISTS
+			if ($_GET["ref_id"] == $this->tree->getParentId($obj_data->getRefId()))
+			{
+				$exists[] = $ref_id;
+				break;
+			}
+
+			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+			if ($this->tree->isGrandChild($ref_id,$_GET["ref_id"]))
+			{
+				$is_child[] = $ref_id;
+			}			
+
+			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+			$obj_type = $obj_data->getType();
+
+			if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($this->object->getType()))))
+			{
+				$not_allowed_subobject[] = $obj_data->getType();
+			}
+		}
+
+		////////////////////////////
+		// process checking results
+		if (count($exists))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($is_child))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($not_allowed_subobject))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($no_paste))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// log pasteObject call
+		$log->write("ilObjectGUI::pasteObject(), cmd: ".$_SESSION["clipboard"]["cmd"]);
+
+		////////////////////////////////////////////////////////
+		// everything ok: now paste the objects to new location
+		
+		// to prevent multiple actions via back/reload button
+		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
+		unset($_SESSION["clipboard"]["ref_ids"]);
+
+		// process COPY command
+		if ($_SESSION["clipboard"]["cmd"] == "copy")
+		{
+			// CALL PRIVATE CLONE METHOD
+			$this->cloneObject($ref_ids);
+		}
+
+		// process CUT command
+		if ($_SESSION["clipboard"]["cmd"] == "cut")
+		{
+			// get subtrees
+			foreach($ref_ids as $ref_id)
+			{
+				// get node data
+				$top_node = $this->tree->getNodeData($ref_id);
+
+				// get subnodes of top nodes
+				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
+			}
+			
+			// STEP 1: Move all subtrees to trash
+			$log->write("ilObjectGUI::pasteObject(), (1/3) move subtrees to trash");
+			
+			foreach($ref_ids as $ref_id)
+			{
+				$tnodes = $this->tree->getSubtree($this->tree->getNodeData($ref_id));
+				
+				foreach ($tnodes as $tnode)
+				{
+					$rbacadmin->revokePermission($tnode["child"]);
+					$affected_users = ilUtil::removeItemFromDesktops($tnode["child"]);
+				}
+
+				$this->tree->saveSubTree($ref_id);
+				$this->tree->deleteTree($this->tree->getNodeData($ref_id));
+			}
+			
+	
+			// STEP 2: Move all subtrees to new location
+			$log->write("ilObjectGUI::pasteObject(), (2/3) move subtrees to new location");
+
+			// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
+			foreach ($subnodes as $key => $subnode)
+			{
+				// first paste top_node ...
+				$rbacadmin->revokePermission($key);
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->setPermissions($key);
+
+				// log entry
+				$log->write("ilObjectGUI::pasteObject(), inserted top node. ref_id: $key,".
+					" rgt: ".$subnode[0]["rgt"].", lft: ".$subnode[0]["lft"].", parent: ".$subnode[0]["parent"].",".
+					" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
+					", title: ".$obj_data->getTitle());
+
+				// ... remove top_node from list ...
+				array_shift($subnode);
+
+				// ... insert subtree of top_node if any subnodes exist
+				if (count($subnode) > 0)
+				{
+					foreach ($subnode as $node)
+					{
+						$rbacadmin->revokePermission($node["child"]);
+						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+						$obj_data->putInTree($node["parent"]);
+						$obj_data->setPermissions($node["parent"]);
+						
+						// log entry
+						$log->write("ilObjectGUI::pasteObject(), inserted subnode. ref_id: ".$node["child"].",".
+							" rgt: ".$node["rgt"].", lft: ".$node["lft"].", parent: ".$node["parent"].",".
+							" obj_id: ".$obj_data->getId().", type: ".$obj_data->getType().
+							", title: ".$obj_data->getTitle());
+					}
+				}
+			}
+			
+			// STEP 3: Remove trashed objects from system
+			$log->write("ilObjectGUI::pasteObject(), (3/3) remove trashed subtrees from system");
+
+			foreach ($ref_ids as $ref_id)
+			{
+				// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+				$saved_tree = new ilTree(-(int)$ref_id);
+				$node_data = $saved_tree->getNodeData($ref_id);
+				$subtree_nodes = $saved_tree->getSubTree($node_data);
+	
+				// remember already checked deleted node_ids
+				$checked[] = -(int) $ref_id;
+
+				// dive in recursive manner in each already deleted subtrees and remove these objects too
+				$this->removeDeletedNodes($ref_id, $checked, false);
+		
+				// delete save tree
+				$this->tree->deleteTree($node_data);
+				
+				// write log entry
+				$log->write("ilObjectGUI::pasteObject(), deleted tree, tree_id: ".$node_data["tree"].
+					", child: ".$node_data["child"]);
+			}
+
+			
+			$log->write("ilObjectGUI::pasteObject(), cut finished");
+			
+			// inform other objects in hierarchy about paste operation
+			//$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+
+			// inform other objects in hierarchy about cut operation
+			// the parent object where cut occured
+			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
+			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$ref_ids);
+			unset($tmp_object);
+		} // END CUT
+
+		// process LINK command
+		if ($_SESSION["clipboard"]["cmd"] == "link")
+		{
+			foreach ($ref_ids as $ref_id)
+			{
+				// get node data
+				$top_node = $this->tree->getNodeData($ref_id);
+		
+				// get subnodes of top nodes
+				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
+			}
+
+			// now move all subtrees to new location
+			foreach ($subnodes as $key => $subnode)
+			{
+				// first paste top_node....
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+				$new_ref_id = $obj_data->createReference();
+				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->setPermissions($_GET["ref_id"]);
+
+				// ... remove top_node from list ...
+				array_shift($subnode);
+				
+				// ... store mapping of old ref_id => new_ref_id in hash array ...
+				$mapping[$new_ref_id] = $key;
+
+				// save old ref_id & create rolefolder if applicable
+				$old_ref_id = $obj_data->getRefId();
+				$obj_data->setRefId($new_ref_id);
+				$obj_data->initDefaultRoles();
+				$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+				
+				if (isset($rolf_data["child"]))
+				{
+					// a role folder was created, so map it to old role folder
+					$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+					
+					// ... use mapping array to find out the correct new parent node where to put in the node...
+					//$new_parent = array_search($node["parent"],$mapping);
+					// ... append node to mapping for further possible subnodes ...
+					$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+					
+					// log creation of role folder
+					$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
+						", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+						", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+
+				}
+
+				// ... insert subtree of top_node if any subnodes exist ...
+				if (count($subnode) > 0)
+				{
+					foreach ($subnode as $node)
+					{
+						if ($node["type"] != 'rolf')
+						{
+							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+							$new_ref_id = $obj_data->createReference();
+						
+							// ... use mapping array to find out the correct new parent node where to put in the node...
+							$new_parent = array_search($node["parent"],$mapping);
+							// ... append node to mapping for further possible subnodes ...
+							$mapping[$new_ref_id] = (int) $node["child"];
+
+							$obj_data->putInTree($new_parent);
+							$obj_data->setPermissions($new_parent);
+							
+							// save old ref_id & create rolefolder if applicable
+							$old_ref_id = $obj_data->getRefId();
+							$obj_data->setRefId($new_ref_id);
+							$obj_data->initDefaultRoles();
+							$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+							
+							if (isset($rolf_data["child"]))
+							{
+								// a role folder was created, so map it to old role folder
+								$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+
+								// ... use mapping array to find out the correct new parent node where to put in the node...
+								//$new_parent = array_search($node["parent"],$mapping);
+								// ... append node to mapping for further possible subnodes ...
+								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+								
+								// log creation of role folder
+								$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
+									", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+									", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+
+							}
+						}
+						
+						// re-map $subnodes
+						foreach ($subnodes as $old_ref => $subnode)
+						{
+							$new_ref = array_search($old_ref,$mapping);
+							
+							foreach ($subnode as $node)
+							{
+								$node["child"] = array_search($node["child"],$mapping);
+								$node["parent"] = array_search($node["parent"],$mapping);
+								$new_subnodes[$ref_id][] = $node; 
+							}
+						}
+						
+					}
+				}
+			}
+			
+			$log->write("ilObjectGUI::pasteObject(), link finished");
+			
+			// inform other objects in hierarchy about link operation
+			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+		} // END LINK
+
+		// save cmd for correct message output after clearing the clipboard
+		$last_cmd = $_SESSION["clipboard"]["cmd"];
+		
+		
+		// clear clipboard
+		$this->clearObject();
+		
+		if ($last_cmd == "cut")
+		{
+			sendInfo($this->lng->txt("msg_cut_copied"),true);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("msg_linked"),true);		
+		}
+		
+		ilUtil::redirect($this->getReturnLocation("paste",$this->ctrl->getLinkTarget($this)),get_class($this));
+		//ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+	} // END PASTE
+
+	/**
+	* clear clipboard and go back to last object
+	*
+	* @access	public
+	*/
+	function clearObject()
+	{ 	
+		unset($_SESSION["clipboard"]);
+		unset($_SESSION["il_rep_clipboard"]);
+		//var_dump($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
+
+		// only redirect if clipboard was cleared
+		if (isset($_POST["cmd"]["clear"]))
+		{
+			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
+
+			//ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
+			ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
+		}
+	}
+
+	/**
+	* cut object(s) out from a container and write the information to clipboard
+	*
+	* @access	public
+	*/
+	function cutObject()
+	{
+		global $rbacsystem;
+//echo $_SESSION["referer"];
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
+		foreach ($_POST["id"] as $ref_id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
+
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			foreach ($subtree_nodes as $node)
+			{
+				if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
+				{
+					$no_cut[] = $node["ref_id"];
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
+		if (count($no_cut))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
+		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+		
+		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
+
+		ilUtil::redirect($this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+	} // END CUT
+
+	/**
+	* create an new reference of an object in tree
+	* it's like a hard link of unix
+	*
+	* @access	public
+	*/
+	function linkObject()
+	{
+		global $clipboard, $rbacsystem, $rbacadmin;
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// CHECK ACCESS
+		foreach ($_POST["id"] as $ref_id)
+		{
+			if (!$rbacsystem->checkAccess('delete',$ref_id))
+			{
+				$no_cut[] = $ref_id;
+			}
+
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+
+			if (!$this->objDefinition->allowLink($object->getType()))
+			{
+				$no_link[] = $object->getType();
+			}
+		}
+
+		// NO ACCESS
+		if (count($no_cut))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_link")." ".
+									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($no_link))
+		{
+			$no_link = array_unique($no_link);
+
+			foreach ($no_link as $type)
+			{
+				$txt_objs[] = $this->lng->txt("objs_".$type);
+			}
+
+			$this->ilias->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_link"),$this->ilias->error_obj->MESSAGE);
+
+			//$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
+			//						 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// WRITE TO CLIPBOARD
+		$clipboard["parent"] = $_GET["ref_id"];
+		$clipboard["cmd"] = key($_POST["cmd"]);
+		
+		foreach ($_POST["id"] as $ref_id)
+		{
+			$clipboard["ref_ids"][] = $ref_id;
+		}
+
+		$_SESSION["clipboard"] = $clipboard;
+	
+		sendinfo($this->lng->txt("msg_link_clipboard"),true);
+
+		ilUtil::redirect($this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+	} // END LINK
+
+	/**
+>>>>>>> 1.229.2.3
 	* clone Object subtree
 	*
 	* @access	private
@@ -792,7 +1280,7 @@ class ilObjectGUI
 		// TODO: move checkings to deleteObject
 		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
 		// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
-		
+
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
 		{
@@ -1051,7 +1539,7 @@ class ilObjectGUI
 					", child: ".$del_node_data["child"]);
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -1779,10 +2267,10 @@ class ilObjectGUI
 					{
 						$link_id = $ctrl["ref_id"];
 					}
-					
+
 					// dirty workaround to have ids for function showActions (checkbox toggle option)
 					$this->ids[] = $link_id;
-					
+
 					$this->tpl->setCurrentBlock("checkbox");
 					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -1829,24 +2317,27 @@ class ilObjectGUI
 					if (($key == "title" || $key == "name") and isset($_SESSION["clipboard"]))
 					{
 						// TODO: broken! fix me
-						if (in_array($ctrl["ref_id"],$_SESSION["clipboard"]["ref_ids"]))
+						if (is_array($_SESSION["clipboard"]["ref_ids"]))
 						{
-                            switch($_SESSION["clipboard"]["cmd"])
+							if (in_array($ctrl["ref_id"],$_SESSION["clipboard"]["ref_ids"]))
 							{
-                                case "cut":
-                                    $name_field[0] = "<del>".$name_field[0]."</del>";
-                                    break;
+								switch($_SESSION["clipboard"]["cmd"])
+								{
+									case "cut":
+										$name_field[0] = "<del>".$name_field[0]."</del>";
+										break;
 
-                                case "copy":
-                                    $name_field[0] = "<font color=\"green\">+</font>  ".$name_field[0];
-                                    break;
-                                        
-                                case "link":
-                                    $name_field[0] = "<font color=\"black\"><</font> ".$name_field[0];
-                                    break;
-                            }
-         				}
-         			}
+									case "copy":
+										$name_field[0] = "<font color=\"green\">+</font>  ".$name_field[0];
+										break;
+
+									case "link":
+										$name_field[0] = "<font color=\"black\"><</font> ".$name_field[0];
+										break;
+								}
+							}
+						}
+					}
 
 					$this->tpl->setCurrentBlock("text");
 
@@ -1858,7 +2349,7 @@ class ilObjectGUI
 					if ($key == "name" || $key == "title")
 					{
 						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
-						
+
 						$this->tpl->setCurrentBlock("subtitle");
 						$this->tpl->setVariable("DESC", $name_field[1]);
 						$this->tpl->parseCurrentBlock();
