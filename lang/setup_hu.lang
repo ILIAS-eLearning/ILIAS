@@ -34,715 +34,715 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3. fél szoftvere
-###07 Apr 2005 content changed
+
 absolute_path#:#Abszolúlt útvonal
-###07 Apr 2005 content changed
+
 access#:#Elérés
-###07 Apr 2005 content changed
+
 access_status#:#Elérési állapot
-###07 Apr 2005 content changed
+
 admin_login#:#Bejelentkezés adminisztrátorként
-###07 Apr 2005 content changed
+
 antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#A kliens elérhető
-###07 Apr 2005 content changed
+
 available_languages#:#elérhető nyelvek
-###07 Apr 2005 content changed
+
 back#:#vissza
-###07 Apr 2005 content changed
+
 cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat
-###07 Apr 2005 content changed
+
 change#:#cserél
-###07 Apr 2005 content changed
+
 change_basic_settings#:#Alapbeállítások cseréje
-###07 Apr 2005 content changed
+
 change_password#:#Jelszócsere
-###07 Apr 2005 content changed
+
 change_sort_direction#:#Rövid útvonal cseréje
-###07 Apr 2005 content changed
+
 check_failed_convert#:#A konvertálás-tesztelés nem sikerült
-###07 Apr 2005 content changed
+
 check_failed_htmldoc#:#A HTML dokumentum tesztelése nem sikerült
-###07 Apr 2005 content changed
+
 check_failed_htmldoc#:#A HTML dokumentum tesztelése nem sikerült
-###07 Apr 2005 content changed
+
 check_failed_java#:#A java-tesztelés nem sikerült
-###07 Apr 2005 content changed
+
 check_failed_unzip#:#Az unzip-tesztelés nem sikerült
-###07 Apr 2005 content changed
+
 check_failed_zip#:#A zip-tesztelés nem sikerült
-###07 Apr 2005 content changed
+
 choose_language#:#válasszon nyelvet
-###07 Apr 2005 content changed
+
 choose_languages#:#Válasszon ki további nyelveket és / vagy távolítsa el a kiválasztottakat. 
-###07 Apr 2005 content changed
+
 choose_password#:#Válasszon jelszót
-###07 Apr 2005 content changed
+
 city#:#Város
-###07 Apr 2005 content changed
+
 clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#Kliens
-###07 Apr 2005 content changed
+
 client_access_mode_changed#:#Kliens elérési módja cserélve
-###07 Apr 2005 content changed
+
 client_data#:#Kliens-információk
-###07 Apr 2005 content changed
+
 client_id#:#Kliens azonosító (ID)
-###07 Apr 2005 content changed
+
 client_info#:#Leírás
-###07 Apr 2005 content changed
+
 client_institution#:#Intézmény
-###07 Apr 2005 content changed
+
 client_login#:#Bejelentkezés a kliensazonosítójával
-###07 Apr 2005 content changed
+
 client_name#:#Név
-###07 Apr 2005 content changed
+
 client_setup_not_finished#:#A kliens-setup még nem fejeződött be
-###07 Apr 2005 content changed
+
 collation#:#Collation###23 Mar 2005 new variable
 contact#:#Kapcsolattartási információk
-###07 Apr 2005 content changed
+
 contact_data#:#Kapcsolattartási információk
-###07 Apr 2005 content changed
+
 convert_path#:#Elérési út konvertáláshoz
-###07 Apr 2005 content changed
+
 convert_path_comment#:#a megjelenítés miatt szükségesek a miniatürizált képek
-###07 Apr 2005 content changed
+
 could_not_create_logfile#:#Nem hozhat létre logfájlt
-###07 Apr 2005 content changed
+
 country#:#Ország
-###07 Apr 2005 content changed
+
 create#:#létrehozás
-###07 Apr 2005 content changed
+
 create_datadir_failed#:#Az adatkönyvtár létrehozása nem sikerült
-###07 Apr 2005 content changed
+
 create_new_client#:#Új kliens létrehozása
-###07 Apr 2005 content changed
+
 create_webdir_failed#:#A webkönyvtár létrehozása nem sikerült
-###07 Apr 2005 content changed
+
 data_path#:#adat elérési útvonala
-###07 Apr 2005 content changed
+
 database#:#adatbázis
-###07 Apr 2005 content changed
+
 database_create#:#Adatbázis létrehozása
-###07 Apr 2005 content changed
+
 database_exists#:#az adatbázis létezik
-###07 Apr 2005 content changed
+
 database_install#:#Adatbázis installálása
-###07 Apr 2005 content changed
+
 database_installed#:#Adatbázis installálva
-###07 Apr 2005 content changed
+
 database_is_uptodate#:#Adatbázisa frissítve
-###07 Apr 2005 content changed
+
 database_needs_update#:#Adatbázisa frissítésre szorul
-###07 Apr 2005 content changed
+
 database_not_exists_create_first#:#Az adatbázis nem létezik. Hozza előbb létre.
-###07 Apr 2005 content changed
+
 database_ready#:#az adatbázis készen van.
-###07 Apr 2005 content changed
+
 database_update#:#adatbázis-frissítés
-###07 Apr 2005 content changed
+
 database_version#:#jelenlegi adatbázis-változat
-###07 Apr 2005 content changed
+
 datadir_path#:#Elérési út az adatkönyvtárhoz
-###07 Apr 2005 content changed
+
 datadir_path_comment1#:#Kötelező
-###07 Apr 2005 content changed
+
 datadir_path_comment2#:#nem cserélhető ez a setup-változat
-###07 Apr 2005 content changed
+
 datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanoda mutat, ahol a webkönyvtára is van. Válasszon másik könyvtárat.
-###07 Apr 2005 content changed
+
 date#:#dátum
-###07 Apr 2005 content changed
+
 db_conn#:#Adatbázis-kapcsolódás
-###07 Apr 2005 content changed
+
 db_host#:#adatbázis-host
-###07 Apr 2005 content changed
+
 db_name#:#adatbázisnév
-###07 Apr 2005 content changed
+
 db_needs_update#:#Az adatbázis frissítésre szorul
-###07 Apr 2005 content changed
+
 db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#adatbázisjelszó
-###07 Apr 2005 content changed
+
 db_type#:#adatbázistípus
-###07 Apr 2005 content changed
+
 db_user#:#adatbázis-felhasználó
-###07 Apr 2005 content changed
+
 db_version#:#adatbázis-változat
-###07 Apr 2005 content changed
+
 default#:#alapértelmezett
-###07 Apr 2005 content changed
+
 default_client_changed#:#Alapértelmezett kliens cserélve
-###07 Apr 2005 content changed
+
 default_language#:#Alapértelmezett nyelv
-###07 Apr 2005 content changed
+
 delete#:#törlés
-###07 Apr 2005 content changed
+
 delete_confirm#:#Kliens törlésének megerősítése
-###07 Apr 2005 content changed
+
 delete_info#:#Biztos?
-###07 Apr 2005 content changed
+
 details#:#Részletek
-###07 Apr 2005 content changed
+
 dir_exists_create#:#A könyvtár már létezik. Ellenőrzés nélküli 'létrehozás'-sal ez a könyvtár adatkönyvtára
-###07 Apr 2005 content changed
+
 disable#:#tiltott
-###07 Apr 2005 content changed
+
 disable_check#:#ellenőrzés tiltása
-###07 Apr 2005 content changed
+
 disable_logging#:#tiltott bejelentkezés
-###07 Apr 2005 content changed
+
 disabled#:#tiltva
-###07 Apr 2005 content changed
+
 display_clientlist#:#Klienskiválasztás kijelzése
-###07 Apr 2005 content changed
+
 email#:#E-mail
-###07 Apr 2005 content changed
+
 email_not_valid#:#Nem megfelelő e-mail cím
-###07 Apr 2005 content changed
+
 en_by_default#:#(Az angol alapértelmezettként installált, nem törölhető.)
-###07 Apr 2005 content changed
+
 enable#:#engedélyezés
-###07 Apr 2005 content changed
+
 enabled#:#engedélyezve
-###07 Apr 2005 content changed
+
 enter_password#:#Gépelje be a jelszót
-###07 Apr 2005 content changed
+
 env_ok#:#Rendben. Jól hangzik.
-###07 Apr 2005 content changed
+
 env_using#:#Az ILIAS 3 mindjárt működik
-###07 Apr 2005 content changed
+
 env_warning#:#Az ILIAS 3 csak Linux-on és Windows-on volt tesztelve Apache webszerber használatával!<br/>Emellett működhet más környezetben is.
-###07 Apr 2005 content changed
+
 environment#:#Környezet
-###07 Apr 2005 content changed
+
 err_create_database_failed#:#az adatbázis létrehozása nem sikerült
-###07 Apr 2005 content changed
+
 err_wrong_login#:#Hibás bejelentkezés
-###07 Apr 2005 content changed
+
 error_recipient#:#Hibás címzett
-###07 Apr 2005 content changed
+
 example#:#Example###23 Mar 2005 new variable
 feedback_recipient#:#Visszacsatolt címzett
-###07 Apr 2005 content changed
+
 file_does_not_exist#:#A fájl nem létezik.
-###07 Apr 2005 content changed
+
 file_version#:#fájlverzió
-###07 Apr 2005 content changed
+
 fill_both_fields#:#Töltse ki mindkét mezőt!
-###07 Apr 2005 content changed
+
 fill_out_required_fields#:#Minden megjelölt mezőt töltsön ki.
-###07 Apr 2005 content changed
+
 filled_out#:#helyesen kitöltve
-###07 Apr 2005 content changed
+
 finish#:#A setup befejeződött
-###07 Apr 2005 content changed
+
 finish_initial_setup_first#:#Először fejezze be a megkezdett setup-ot!
-###07 Apr 2005 content changed
+
 finish_setup#:#Setup befejezése
-###07 Apr 2005 content changed
+
 firstname#:#Keresztnév
-###07 Apr 2005 content changed
+
 fop_path#:#Elérési útvonal az FOP-hez
-###07 Apr 2005 content changed
+
 fop_path_comment#:#PDF dokumentumok készítése szükséges
-###07 Apr 2005 content changed
+
 hide_clientlist#:#Kliens-szekció elrejtése
-###07 Apr 2005 content changed
+
 host#:#Host
-###07 Apr 2005 content changed
+
 htmldoc_path#:#HTML dokumentum elérési útja
-###07 Apr 2005 content changed
+
 htmldoc_path_comment#:#szükséges a PDF számlák generálásához (fizetőrendszer)
-###07 Apr 2005 content changed
+
 http_path#:#HTTP elérési út
-###07 Apr 2005 content changed
+
 id#:#Azonosító
-###07 Apr 2005 content changed
+
 ilias_homepage#:#ILIAS honlap
-###07 Apr 2005 content changed
+
 ilias_nic#:#NIC-regisztráció
-###07 Apr 2005 content changed
+
 ilias_nic_id#:#NIC-azonosító
-###07 Apr 2005 content changed
+
 ilias_setup#:#ILIAS3 setup
-###07 Apr 2005 content changed
+
 ilias_version#:#ILIAS verzió
-###07 Apr 2005 content changed
+
 include_local#:#include local###include local language file when updating language
 ###07 Apr 2005 new variable
 info_text_contact#:#További kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait is mutathatja. A csillaggal jelölt mezők kötelezően kitöltendők. Minden adat adatbázisában tárolt. A következő képernyőn regisztrálhatja installációját az ILIAS-NIC szerveren, így ezek az adatok átkerülnek erre a szerverre. 
-###07 Apr 2005 content changed
+
 info_text_db#:#Az adatbázis nem létezik vagy üres. Kattintson a lenti gombra adatbázisa installálásához. Ha a kiválasztott névvel nem létezik adatbázis, válassza az 'adatbázis létrehozása' opciót. A setup ezután csatlakozik, hogy automatikusan létrehozza adatbázisát. Ha a létrehozás nem sikerülne (pl. jogosultságok hiányában), vegye fel a kapcsolatot az adatbázis megfelelő rendszeradminisztrátorával, és kérje őt az adatbázis létrehozására a kívánt néven.
-###07 Apr 2005 content changed
+
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
 info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Bár client.ini fájlja eltávolításra kerül, minden fájl a kliens adatkönyvtárakban és az adatbázisban lesz. A fájlokat és adatbázist a rendszergazdának manuálisan kell eltávolítania.
-###07 Apr 2005 content changed
+
 info_text_finish1#:#Gratulálunk! Kliens setupja sikeres volt. Kattintson a 'Bejelentkezés"-re, hogy bejelentkezhessen az ILIAS-ba.
-###07 Apr 2005 content changed
+
 info_text_finish2#:#Néhány beállítás még hiányzik vagy nem pontos. Nézze meg az eljárásvázlatot, hogy megtudhassa, mit kell elvégeznie.
-###07 Apr 2005 content changed
+
 info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most setupoljuk első kliensét. A setup végigvezeti Önt az installációs folyamaton. A jobb oldali panelen mindig láthatja az installációs folyamat aktuális állapotát.
-###07 Apr 2005 content changed
+
 info_text_first_install#:#Úgy tűnik, először installálja az ILIAS3-t, mert nem található ilias.ini fálj. Az ilias.ini-ben tároljuk a master jelszót, amely megvéd az ILIAS engedély nélküli elérésétől.
-###07 Apr 2005 content changed
+
 info_text_ini#:#Válasszon kliens-azonosítót (ID). Minden betű használható (kivéve az umlautosak) és számok. A kliens-azonosítónak egy szónak kell lennie.<br/>Majd az adatbázis-kapcsolódáshoz szükséges adatokat adja meg. A setup egy tesztkapcsolódással megvizsgálja beállításait, és teszteli, hogy létezik-e az adatbázis. A setup a következő installációs lépésben létrehozza Önnek az adatbázis.
-###07 Apr 2005 content changed
+
 info_text_lang#:#Válasszon további nyelveket és / vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
-###07 Apr 2005 content changed
+
 info_text_list#:#Ebben az áttekintésben minden elérhető kliens, setup és elérési állapot látszik. Jobb fönn a kliensszekció képernyőjét be-/kikapcsolhatja. Ha a kliensszekció bekapcsolt, minden elérhető on-line kliens megjelenik az ILIAS kezdőlapján egy listában. Ha a kliensszekció kikapcsolt, és egy felhasználó a startlapra lép, az <i>alapértelmezett</> kliens bejelentkezési képernyője jelenik meg. Az alapértelmezett klienst az alul lévő gombbal határozhatja meg.
-###07 Apr 2005 content changed
+
 info_text_login#:#Adja meg installálációja kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'adminisztrátor' szerephez.
-###07 Apr 2005 content changed
+
 info_text_nic1#:#Érvényes installációs ID (nic-id) ILIAS szerverétől. Egyedi nic-id szükséges, ha más ILIAS installációkkal akar megosztani tartalmat. A regisztráció önkéntes. Ha nem akar regisztrálni, válassza a 'regisztrációt átlép'-et (később bármikor regisztrálhat).<br/>Azt tanácsoljuk, használja az on-line regisztrációt. Ha gondjai vannak a kapcsolódással (pl. tűzfal mötött van), alternatív megoldásként e-mailen keresztül kaphat nic-id-t - kérjük, írjon egy
-###07 Apr 2005 content changed
+
 info_text_nic2#:#az Ön installálásának információival az ilias-info@uni-koeln.de címre. Megadva a nic-id-t, egy válasz e-mailt fog kapni, válassza a 'regisztrálás e-mailen keresztül'-t.
-###07 Apr 2005 content changed
+
 info_text_nic3#:#Regisztrálta installációját. Az Ön nic-idje
-###07 Apr 2005 content changed
+
 info_text_password#:#Itt cserélheti le setup-programjának master jelszavát.
-###07 Apr 2005 content changed
+
 info_text_pathes#:#Az ILIAS3 támogatja a sok klienses struktúrát különböző adatbázisokkal. Alább megadhatja az alap adatkönyvtárat, a log fájl helyét és az elérési utat a 3. felek által készített programokhoz. Ezek a beállítások minden Ön által a későbbiekben létrehozott kliensre érvényesek.
-###07 Apr 2005 content changed
+
 ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens! Válasszon másik kliensazonosítót!
-###07 Apr 2005 content changed
+
 ini_client_id_invalid#:#A megadott kliensazonosító (ID) nem megfelelő karaktereket is tartalmaz
-###07 Apr 2005 content changed
+
 ini_client_id_no_change#:#A kliens azonosító (ID) nem változtatható meg ebben a verzióban, miután a kliens könyvtárak sikeresen létre lettek hozva.
-###07 Apr 2005 content changed
+
 ini_client_id_too_long#:#A kliens-azonosító túl hosszú
-###07 Apr 2005 content changed
+
 ini_client_id_too_short#:#A kliensazonosító (ID) túl rövid
-###07 Apr 2005 content changed
+
 ini_db_name_exists#:#már létezik! Válasszon másik adatbázisnevet
-###07 Apr 2005 content changed
+
 ini_no_client_id#:#Nincs megadva kliensazonosító (ID).
-###07 Apr 2005 content changed
+
 ini_no_db_host#:#Nem hostnév
-###07 Apr 2005 content changed
+
 ini_no_db_name#:#nem adatbázisnév
-###07 Apr 2005 content changed
+
 ini_no_db_user#:#Nem adatbázis-felhasználónév
-###07 Apr 2005 content changed
+
 inifile#:#ini-fájl
-###07 Apr 2005 content changed
+
 inifile_can_write#:#Az ILIAS3 setup tudja írni az ini-fájlját.
-###07 Apr 2005 content changed
+
 inifile_cannot_write#:#Az ILIAS3 setup nem tudja írni az ini-fájlját. Először ellenőrizze az írási jogosultságokat.
-###07 Apr 2005 content changed
+
 inifile_content#:#Ini-fájljának ez a tartalma:
-###07 Apr 2005 content changed
+
 inifile_exists#:#Létezik egy ini-fájl. Ez az installációs folyamat törli az előző beállításokat.
-###07 Apr 2005 content changed
+
 inifile_fill_all#:#Töltsön ki minden mezőt.
-###07 Apr 2005 content changed
+
 inifile_firsttime#:#Nincs előzetes ini-fájl! Úgy tűnik, ez az első indítása az ILIAS3-nak.
-###07 Apr 2005 content changed
+
 inifile_written#:#Az ini-fájl sikeresen elmentésre került hostjára.
-###07 Apr 2005 content changed
+
 input_error#:#Inputhiba
-###07 Apr 2005 content changed
+
 inst_identification#:#Installációs azonosítás
-###07 Apr 2005 content changed
+
 inst_name#:#installáció neve
-###07 Apr 2005 content changed
+
 install#:#installálás
-###07 Apr 2005 content changed
+
 installation#:#Installáció
-###07 Apr 2005 content changed
+
 installed#:#installálva
-###07 Apr 2005 content changed
+
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Intézmény
-###07 Apr 2005 content changed
+
 intro_install#:#Ez az ILIAS3 setupjának főlapja. Innen le tudja folytatni az installációt.
-###07 Apr 2005 content changed
+
 ip_address#:#IP-cím
-###07 Apr 2005 content changed
+
 java_path#:#Java elérési út
-###07 Apr 2005 content changed
+
 java_path_comment#:#szükséges a SCORM tananyagok számára
-###07 Apr 2005 content changed
+
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Német
-###07 Apr 2005 content changed
+
 lang_en#:#Angol
-###07 Apr 2005 content changed
+
 lang_error_occurred#:#Hiba. Tevékenység megszakítva.
-###07 Apr 2005 content changed
+
 lang_es#:#Spanyol
-###07 Apr 2005 content changed
+
 lang_fr#:#Francia
-###07 Apr 2005 content changed
+
 lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indonéz
-###07 Apr 2005 content changed
+
 lang_it#:#Olasz
-###07 Apr 2005 content changed
+
 lang_lt#:#Litván
-###07 Apr 2005 content changed
+
 lang_min_one_language#:#Legalább egy nyelvet installálnia kell
-###07 Apr 2005 content changed
+
 lang_nl#:#Holland
-###07 Apr 2005 content changed
+
 lang_no#:#Norvég
-###07 Apr 2005 content changed
+
 lang_none_installed#:#Nincs nyelv installálva
-###07 Apr 2005 content changed
+
 lang_not_installed_default#:#Az alapértelmezettnek kiválasztott nyelv nincs installálva.
-###07 Apr 2005 content changed
+
 lang_pl#:#Lengyel
-###07 Apr 2005 content changed
+
 lang_pt#:#Portugál
-###07 Apr 2005 content changed
+
 lang_se#:#Svéd
-###07 Apr 2005 content changed
-lang_ua#:#Ukrán
-###07 Apr 2005 content changed
+
+lang_uk#:#Ukrán
+
 lang_xx#:#Szokásos
-###07 Apr 2005 content changed
+
 lang_zh#:#Kínai
-###07 Apr 2005 content changed
+
 langs_not_valid_not_installed#:#Az alábbi nyelvek nincsenek installálva érvénytelen nyelvi fájlok miatt
-###07 Apr 2005 content changed
+
 language#:#nyelv
-###07 Apr 2005 content changed
+
 languages#:#nyelvek
-###07 Apr 2005 content changed
+
 languages_installed#:#A nyelv(ek) installálva vannak
-###07 Apr 2005 content changed
+
 lastname#:#Vezetéknév
-###07 Apr 2005 content changed
+
 list#:#lista
-###07 Apr 2005 content changed
+
 list_disabled#:#A kliensszekció nem engedélyezett
-###07 Apr 2005 content changed
+
 list_enabled#:#A kliensszekció engedélyezett
-###07 Apr 2005 content changed
+
 log_path#:#Logfájl elérési útvonala
-###07 Apr 2005 content changed
+
 log_path_comment#:#fáljnévvel megadás. A fájl létre lesz hozva.
-###07 Apr 2005 content changed
+
 logged_out#:#Ön kijelentkezett.
-###07 Apr 2005 content changed
+
 logging#:#Naplózás (logging)
-###07 Apr 2005 content changed
+
 login#:#bejelentkezés
-###07 Apr 2005 content changed
+
 login_invalid#:#Érvénytelen bejelentkezés
-###07 Apr 2005 content changed
+
 login_to_ilias#:#bejelentkezés az ILIAS-ba
-###07 Apr 2005 content changed
+
 logout#:#kijelentkezés
-###07 Apr 2005 content changed
+
 main_datadir_outside_webspace#:#A fő adatkönyvtár a webhelyen kívül van
-###07 Apr 2005 content changed
+
 missing_data#:#Hiányzó adatok
-###07 Apr 2005 content changed
+
 name#:#Név
-###07 Apr 2005 content changed
+
 new#:#új
-###07 Apr 2005 content changed
+
 next#:#Következő
-###07 Apr 2005 content changed
+
 nic_not_disabled#:#Nincs NIC-ID és nem engedélyezett
-###07 Apr 2005 content changed
+
 nic_reg_disable#:#NIC-regisztrációra lépés
-###07 Apr 2005 content changed
+
 nic_reg_disable_comment#:#(regisztráció később)
-###07 Apr 2005 content changed
+
 nic_reg_disabled#:#A NIC regisztráció nem engedélyezett
-###07 Apr 2005 content changed
+
 nic_reg_email#:#regisztráció e-mailen keresztül
-###07 Apr 2005 content changed
+
 nic_reg_enabled#:#A NIC regisztráció engedélyezett!
-###07 Apr 2005 content changed
+
 nic_reg_enter_checksum#:#Elküldött ellenőrzőösszeg megadása
-###07 Apr 2005 content changed
+
 nic_reg_enter_correct_id#:#Pontos nic_id-t adjon meg
-###07 Apr 2005 content changed
+
 nic_reg_enter_id#:#Elküldött NIC ID megadása
-###07 Apr 2005 content changed
+
 nic_reg_failed#:#A NIC-regisztráció nem sikerült
-###07 Apr 2005 content changed
+
 nic_reg_online#:#regisztrálás on-line
-###07 Apr 2005 content changed
+
 nic_registration#:#NIC-regisztráció
-###07 Apr 2005 content changed
+
 no_changes#:#Nincsenek változások.
-###07 Apr 2005 content changed
+
 no_client_id#:#Nincs megadva kliens-azonosító (ID)
-###07 Apr 2005 content changed
+
 no_client_name#:#NINCS KLIENSNÉV
-###07 Apr 2005 content changed
+
 no_clients_available#:#Nincs elérhető kliens
-###07 Apr 2005 content changed
+
 no_database#:#Nincs adatbázis
-###07 Apr 2005 content changed
+
 no_db_connect_consult_admin#:#Nem tudott kapcsolódni az adatbázishoz. Konzultáljon a rendszeradminisztrátorral
-###07 Apr 2005 content changed
+
 no_db_update_file#:#a dbupdate.php nem található!
-###07 Apr 2005 content changed
+
 no_password#:#Nincs megadva jelszó
-###07 Apr 2005 content changed
+
 no_path_convert#:#Nincs megadva konvertálási útvonal
-###07 Apr 2005 content changed
+
 no_path_datadir#:#Nincs megadva adatkönyvtár
-###07 Apr 2005 content changed
+
 no_path_fop#:#Nincs megadva FOP elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_given#:#Nincs megadva elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_htmldoc#:#Nincs megadva HTML dokumentum elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_java#:#Nincs megadva java elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_log#:#Nincs megadva log elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_unzip#:#Nincs megadva Unzip elérési útvonal
-###07 Apr 2005 content changed
+
 no_path_zip#:#Nincs megadva Zip elérési útvonal
-###07 Apr 2005 content changed
+
 no_setup_pass_given#:#Nincs megadva setup-jelszó
-###07 Apr 2005 content changed
+
 no_username#:#Nincs megadva felhasználónév
-###07 Apr 2005 content changed
+
 no_valid_client_id#:#Nincs érvényes kliens-azonosító (ID)
-###07 Apr 2005 content changed
+
 none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Nem kapcsolódott az adatbázishoz
-###07 Apr 2005 content changed
+
 online#:#on-line
-###07 Apr 2005 content changed
+
 or#:#vagy
-###07 Apr 2005 content changed
+
 out_of_webspace#:#(webhelyen kívüli)
-###07 Apr 2005 content changed
+
 overall_status#:#Állapot áttekintése
-###07 Apr 2005 content changed
+
 overview#:#Áttekintés
-###07 Apr 2005 content changed
+
 pass_does_not_match#:#A megadott jelszó nem illeszkedik
-###07 Apr 2005 content changed
+
 password#:#jelszó
-###07 Apr 2005 content changed
+
 password_changed#:#Jelszó megváltoztatva.
-###07 Apr 2005 content changed
+
 password_empty#:#Nincs megadott jelszó!
-###07 Apr 2005 content changed
+
 password_enter_old#:#Előbb meg kell adnia régi jelszavát!
-###07 Apr 2005 content changed
+
 password_info#:#A konfiguráció adatainak illetéktelen hozzáférésektől való megvédése érdekében, hogy a beállításokat később is elérhesse, adjon meg egy jelszót.
-###07 Apr 2005 content changed
+
 password_new_master#:#Új master-jelszó beállítása
-###07 Apr 2005 content changed
+
 password_not_match#:#Az új jelszó nem egyezik!
-###07 Apr 2005 content changed
+
 password_old_wrong#:#A megadott régi jelszó hibás.
-###07 Apr 2005 content changed
+
 password_retype#:#Jelszó újragépelése
-###07 Apr 2005 content changed
+
 password_same#:#A régi és új jelszó ugyanaz!
-###07 Apr 2005 content changed
+
 password_set#:#Jelszó elmentve
-###07 Apr 2005 content changed
+
 path_not_set#:#Az elérési út nincs beállítva
-###07 Apr 2005 content changed
+
 path_to_convert#:#Elérési út konvertáláshoz
-###07 Apr 2005 content changed
+
 path_to_fop#:#Elérési útvonal FOP-hoz
-###07 Apr 2005 content changed
+
 path_to_htmldoc#:#Elérési út HTML dokumentumokhoz
-###07 Apr 2005 content changed
+
 path_to_java#:#Elérési út a Java-hoz
-###07 Apr 2005 content changed
+
 path_to_unzip#:#Elérési út az Unzip-hez
-###07 Apr 2005 content changed
+
 path_to_zip#:#Elérési út a Zip-hez
-###07 Apr 2005 content changed
+
 pathes#:#Elérési útvonalak
-###07 Apr 2005 content changed
+
 phone#:#Telefon
-###07 Apr 2005 content changed
+
 port#:#port
-###07 Apr 2005 content changed
+
 position#:#Pozíció
-###07 Apr 2005 content changed
+
 pre_cookies_disabled#:#A cookie-k le vannak tiltva, pedig szükségesek az ILIAS3-hoz.
-###07 Apr 2005 content changed
+
 pre_cookies_enabled#:#Cookie-k engedélyezve
-###07 Apr 2005 content changed
+
 pre_error#:#Egy vagy két dolog nem sikerült. Javítsa a problémákat először, máskülönben nem tudja elvégezni az ILIAS3 setup-ját.
-###07 Apr 2005 content changed
+
 pre_folder_create#:#Új mappák hozhatók létre az ILIAS3 mappában
-###07 Apr 2005 content changed
+
 pre_folder_create_error#:#Nem hozhatók létre almappák! Ellenőrizze jogosultsági beállításait fájlrendszerében!
-###07 Apr 2005 content changed
+
 pre_folder_write#:#Írható ILIAS3 mappa.
-###07 Apr 2005 content changed
+
 pre_folder_write_error#:#Nem írható az ILIAS3-ban mappa! Ellenőrizze jogosultsági beállításait a fájlrendszerében!
-###07 Apr 2005 content changed
+
 pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy installálja és futtassa az ILIAS3-at rendszerében.
-###07 Apr 2005 content changed
+
 pre_javascript_comment#:#Javascript nélkül is futtathatja az ILIAS-t, de néhány interfészjellemzőt elveszít.
-###07 Apr 2005 content changed
+
 pre_javascript_enabled#:#Javascript engedélyezett
-###07 Apr 2005 content changed
+
 pre_php_version#:#PHP-verzió
-###07 Apr 2005 content changed
+
 pre_php_version_3#:#PHP-verziója túl régi az ILIAS3 használatához! Frissítse a PHP-t!
-###07 Apr 2005 content changed
+
 pre_php_version_4.1#:#A PEAR osztályok nem működnek megfelelően együtt ezzel a verzióval! Frissítse PHP-jét.
-###07 Apr 2005 content changed
+
 pre_php_version_4.2#:#A DOMXML és az XSLT támogatás nem működik megfelelően ebben a verzióban!
-###07 Apr 2005 content changed
+
 pre_php_version_5#:#Az ILIAS3 nem volt még tesztelve a PHP5-tel. Használja saját felelősségére.
-###07 Apr 2005 content changed
+
 pre_php_version_unknown#:#Az ILIAS setup nem ismeri ezt a verziót. Használja saját felelősségére.
-###07 Apr 2005 content changed
+
 preliminaries#:#Előzetes
-###07 Apr 2005 content changed
+
 prev#:#Előző
-###07 Apr 2005 content changed
+
 required_field#:#szükséges mezők
-###07 Apr 2005 content changed
+
 reset#:#Alaphelyzetbe állítás (reset)
-###07 Apr 2005 content changed
+
 root_access#:#root hozzáférés
-###07 Apr 2005 content changed
+
 safe_mode_enabled#:#A biztonságos mód engedélyezett
-###07 Apr 2005 content changed
+
 save#:#Mentés
-###07 Apr 2005 content changed
+
 save_error#:#Mentési hiba!
-###07 Apr 2005 content changed
+
 saved_successfully#:#A mentés sikeres volt
-###07 Apr 2005 content changed
+
 scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Kliens kiválasztása
-###07 Apr 2005 content changed
+
 server_info#:#Szerver-információk
-###07 Apr 2005 content changed
+
 server_software#:#Szerver-szoftver
-###07 Apr 2005 content changed
+
 set_default_client#:#Alapértelmezett kliens beállítása (set)
-###07 Apr 2005 content changed
+
 set_newpasswd#:#Adjon meg új jelszót
-###07 Apr 2005 content changed
+
 set_oldpasswd#:#Adja meg a régi jelszót
-###07 Apr 2005 content changed
+
 settings_changed#:#Beállítások megváltoztatva
-###07 Apr 2005 content changed
+
 settings_saved#:#Beállítások elmentve
-###07 Apr 2005 content changed
+
 setup#:#beállítás (setup)
-###07 Apr 2005 content changed
+
 setup_basic_settings#:#Alapbeállítások (setup)
-###07 Apr 2005 content changed
+
 setup_contact_data#:#Kapcsolati információk beállítása (setup)
-###07 Apr 2005 content changed
+
 setup_database#:#adatbázis-beállítás (setup)
-###07 Apr 2005 content changed
+
 setup_database_desc#:#adatbázis beállítása (setup)
-###07 Apr 2005 content changed
+
 setup_db_first#:#Először állítsa be (setup) adatbázisát!
-###07 Apr 2005 content changed
+
 setup_finished#:#A beállítás (setup) befejeződött
-###07 Apr 2005 content changed
+
 setup_first_client#:#1. kliensének beállítása (setup)
-###07 Apr 2005 content changed
+
 setup_ini_first#:#Először hozza létre ini-fájlját!
-###07 Apr 2005 content changed
+
 setup_inifile#:#ini-fájl létrehozása
-###07 Apr 2005 content changed
+
 setup_inifile_desc#:#ini-fájl létrehozása installációjához
-###07 Apr 2005 content changed
+
 setup_languages#:#nyelvek installálása
-###07 Apr 2005 content changed
+
 setup_languages_desc#:#további nyelvek installálása
-###07 Apr 2005 content changed
+
 setup_login#:#Bejelentkezés a setup-ba
-###07 Apr 2005 content changed
+
 setup_mainmenu#:#Setup-főmenü
-###07 Apr 2005 content changed
+
 setup_menu#:#setup-menü
-###07 Apr 2005 content changed
+
 setup_nic_desc#:#installációjának regisztrációja az ILIAS-NIC-Server-en
-###07 Apr 2005 content changed
+
 setup_not_finished#:#A setup nem fejeződött be
-###07 Apr 2005 content changed
+
 setup_pass#:#Jelszó
-###07 Apr 2005 content changed
+
 setup_pass2#:#Jelszó újragépelése
-###07 Apr 2005 content changed
+
 setup_pass_title#:#Master-jelszó beállítása
-###07 Apr 2005 content changed
+
 setup_password#:#jelszó létrehozása
-###07 Apr 2005 content changed
+
 setup_password_desc#:#jelszó létrehozása a setup-rutin későbbi eléréséhez (pl. adatbázisa frissítéséhez)
-###07 Apr 2005 content changed
+
 setup_process_status#:#Folyamatállapot beállítása
-###07 Apr 2005 content changed
+
 setup_process_step_contact#:#Kapcsolati információk megadása
-###07 Apr 2005 content changed
+
 setup_process_step_db#:#Adatbázis installálása / frissítése
-###07 Apr 2005 content changed
+
 setup_process_step_finish#:#Installáció befejezése
-###07 Apr 2005 content changed
+
 setup_process_step_ini#:#Alapadatok beállítása
-###07 Apr 2005 content changed
+
 setup_process_step_lang#:#Rendszernyelvek installálása
-###07 Apr 2005 content changed
+
 setup_process_step_nic#:#ILIAS-NIC-nél regisztrálás
-###07 Apr 2005 content changed
+
 setup_ready#:#A setup befejeződött. Folytathatja a munkát a bejelentkezéssel és a további rendszerbeállítások ellenőrzésével.
-###07 Apr 2005 content changed
+
 setup_welcome#:#Üdvözli az ILIAS3 setup. Ez a setup-rutin segít Önnek, hogy
-###07 Apr 2005 content changed
+
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Rendezés oszlopok szerint
-###07 Apr 2005 content changed
+
 status#:#Állapot
-###07 Apr 2005 content changed
+
 step#:#Lépés
-###07 Apr 2005 content changed
+
 street#:#Utca, házszám, emelet/ajtó
-###07 Apr 2005 content changed
+
 submit#:#Elküldés
-###07 Apr 2005 content changed
+
 title#:#Cím
-###07 Apr 2005 content changed
+
 unknown_client_id#:#Ismeretlen kliens
-###07 Apr 2005 content changed
+
 unknown_command#:#Ismeretlen parancs
-###07 Apr 2005 content changed
+
 unknown_display_mode#:#Ismeretlen megjelenítési mód
-###07 Apr 2005 content changed
+
 unzip_path#:#Unzip elérési útvonal
-###07 Apr 2005 content changed
+
 unzip_path_comment#:#megkívánt a tananyagok importálásához
-###07 Apr 2005 content changed
+
 update_applied#:#A frissítés alkalmazva van
-###07 Apr 2005 content changed
+
 update_error#:#Hiba frissítés közben
-###07 Apr 2005 content changed
+
 update_not_found#:#A frissítés nem található
-###07 Apr 2005 content changed
+
 username#:#felhasználónév
-###07 Apr 2005 content changed
+
 version#:#Verzió
-###07 Apr 2005 content changed
+
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#webhely adatútvonal
-###07 Apr 2005 content changed
+
 with#:#with
-###07 Apr 2005 content changed
+
 wrong_password#:#Hibás jelszó!
-###07 Apr 2005 content changed
+
 zip_path#:#Zip elrési út
-###07 Apr 2005 content changed
+
 zip_path_comment#:#megkívánt a tananyagok exportálásához
-###07 Apr 2005 content changed
+
 zipcode#:#Irányítószám

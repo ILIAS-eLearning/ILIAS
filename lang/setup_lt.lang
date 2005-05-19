@@ -223,7 +223,7 @@ lang_not_installed_default#:#The language you selected as defualt language is no
 lang_pl#:#Lenkų###07 Apr 2005 content changed
 lang_pt#:#Portuguese###09 Mar 2004 new variable
 lang_se#:#Švedų###07 Apr 2005 content changed
-lang_ua#:#Ukrainian###15 Jan 2004 new variable
+lang_uk#:#Ukrainian###15 Jan 2004 new variable
 lang_xx#:#(kita)###07 Apr 2005 content changed
 lang_zh#:#Chinese###05 Jan 2003 new variable
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files###05 Jan 2003 new variable
