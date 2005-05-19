@@ -1605,7 +1605,7 @@ common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Swedish
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrainian
+common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
 common#:#lang_xx#:#Custom
