@@ -81,6 +81,17 @@ switch ($_GET["cmd"])
 		submitAssistanceForm();
 		break;
 	
+	case "submitusernameassign":
+		break;
+		
+	case "submitusernameassist":
+		submitUsernameAssistanceForm();
+		break;
+		
+	case "forgot_username":
+		showUsernameAssistanceForm();
+		break;
+	
 	default :
 		if (!empty($_GET["key"])) {
 			showAssignPasswordForm();
@@ -132,6 +143,57 @@ function showAssistanceForm($message="", $username="", $email="")
 			sprintf
 				(
 				$lng->txt("pwassist_enter_username_and_email"),
+				"<a href=\"mailto:".$contact_address."\">".$contact_address."</a>"
+				)
+		)
+	);
+	$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
+	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
+	$tpl->setVariable("USERNAME", $username);
+	$tpl->setVariable("EMAIL", $email);
+	$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+	$tpl->setVariable("BACK", $lng->txt("back"));
+	$tpl->setVariable("LANG", $lng->getLangKey());
+
+	$tpl->show();
+}
+
+
+/* Shows the password assistance form.
+ * This form is used to request a password assistance mail from ILIAS.
+ *
+ * This form contains the following fields: 
+ * username 
+ * email 
+ *
+ * When the user submits the form, then this script is invoked with the cmd
+ * 'submitassist'.
+ *
+ * @param message  A message to display on the form.
+ * @param username The user name to be shown in the form.
+ * @param email    The e-mail to be shown in the form.
+ */
+function showUsernameAssistanceForm($message="", $username="", $email="")
+{
+	global $tpl, $ilias, $lng;
+	
+	// Create the form
+	$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_username_assistance.html");
+	$tpl->setVariable("FORMACTION","pwassist.php?cmd=submitusernameassist&lang=".$lng->getLangKey());
+	$tpl->setVariable("TARGET","target=\"_parent\"");
+	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
+	$tpl->setVariable("TXT_MESSAGE", str_replace("\\n","<br>",$message));
+
+	$contact_address = $ilias->getSetting("admin_email");
+	$tpl->setVariable
+	(
+		"TXT_ENTER_USERNAME_AND_EMAIL", 
+		str_replace
+		(
+			"\\n","<br>",
+			sprintf
+				(
+				$lng->txt("pwassist_enter_email"),
 				"<a href=\"mailto:".$contact_address."\">".$contact_address."</a>"
 				)
 		)
@@ -230,6 +292,79 @@ function submitAssistanceForm()
 	}
 }
 
+/** Reads the submitted data from the password assistance form.
+ * 
+ * The following form fields are read as HTTP POST parameters:
+ * username
+ * email
+ *
+ * If the submitted username and email address matches an entry in the user data 
+ * table, then ILIAS creates a password assistance session for the user, and
+ * sends a password assistance mail to the email address.
+ * For details about the creation of the session and the e-mail see function
+ * sendPasswordAssistanceMail().
+ */
+function submitUsernameAssistanceForm()
+{
+	global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
+	
+	require_once "classes/class.ilObjUser.php";
+	require_once "classes/class.ilUtil.php";
+	
+	// Retrieve form data
+	$email = $_POST["email"];
+	
+	// Retrieve a user object with matching user name and email address.
+	$logins = ilObjUser::_getUserIdsByEmail($email);
+	
+	// No matching user object found?
+	// Show the password assistance form again, and display an error message.
+	if (count($logins)< 1)  
+	{
+		showUsernameAssistanceForm
+		(
+			$lng->txt("pwassist_invalid_username_or_email"),
+			"",
+			$email
+		);
+	}
+
+	// Matching user object found?
+	// Check if the user is permitted to use the password assistance function,
+	// and then send a password assistance mail to the email address.
+	else
+	{
+		// FIXME: Extend this if-statement to check whether the user
+		// has the permission to use the password assistance function.
+		// The anonymous user and users who are system administrators are
+		// not allowed to use this feature
+/*		if ($rbacreview->isAssigned($userObj->getID, ANONYMOUS_ROLE_ID)
+		|| $rbacreview->isAssigned($userObj->getID, SYSTEM_ROLE_ID)
+		) 
+		{
+			showAssistanceForm
+			(
+				$lng->txt("pwassist_not_permitted"),
+				$username,
+				$email
+			);
+		} 
+		else */
+		{
+			sendUsernameAssistanceMail($email, $logins);
+			showMessageForm
+			(
+				null,
+				sprintf
+				(
+					$lng->txt("pwassist_mail_sent"),
+					$email
+				)
+			);
+		}
+	}
+}
+
 /** Creates (or reuses) a password assistance session, and sends a password
  * assistance mail to the specified user.
  * 
@@ -295,6 +430,67 @@ function sendPasswordAssistanceMail($userObj)
 			$_SERVER['REMOTE_ADDR'],
 			$userObj->getLogin(),
 			'mailto:'.$contact_address
+			)
+		)
+	);
+	
+	$mm->Send();
+}
+
+
+/** Creates (or reuses) a password assistance session, and sends a password
+ * assistance mail to the specified user.
+ * 
+ * Note: To prevent DOS attacks, a new session is created only, if no session
+ * exists, or if the existing session has been expired.
+ *
+ * The password assistance mail contains an URL, which points to this script
+ * and contains the following URL parameters:
+ * client_id
+ * key
+ *
+ * @param usrObj An instance of class.ilObjUserObject.php.
+ */
+function sendUsernameAssistanceMail($email, $logins)
+{
+	global $lng, $ilias;
+
+	include_once "classes/class.ilMailbox.php";
+	include_once "classes/class.ilMimeMail.php";
+	require_once "include/inc.pwassist_session_handler.php";
+	
+
+	// Compose the mail
+	$server_url='http://'.$_SERVER['HTTP_HOST'].
+		substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],'/')).
+		'/';
+	$login_url=$server_url."pwassist.php"
+				."?client_id=".$ilias->getClientId()
+				."&lang=".$lng->getLangKey();
+	
+	$contact_address=$ilias->getSetting("admin_email");
+
+	$mm = new ilMimeMail();
+	$mm->Subject($lng->txt("pwassist_mail_subject"));
+	$mm->From($contact_address);
+	$mm->To($email);
+	
+	$mm->Body
+	(
+		str_replace
+		(
+			array("\\n","\\t"),
+			array("\n","\t"),
+			sprintf
+			(
+			$lng->txt("pwassist_username_mail_body"),
+						join ($logins,",\n"), 
+			$server_url, 
+			$_SERVER['REMOTE_ADDR'], 
+			$email,
+			$login_url,
+			'mailto:'.$contact_address
+			
 			)
 		)
 	);
