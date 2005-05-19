@@ -1214,6 +1214,7 @@ common#:#folders#:#Registratori
 common#:#force_accept_usr_agreement#:#Morate prihvatiti Korisnicki sporazum!
 common#:#forename#:#Ime
 common#:#forgot_password#:#Zaboravili ste šifru?
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Molimo kompletirajte ova polja:
 common#:#forum#:#Forum
 common#:#forum_import#:#Uvoz foruma.
@@ -2262,6 +2263,7 @@ common#:#setUserLanguage#:#Podesi jezik korisnika
 common#:#set_offline#:#Podesi nezavisno
 common#:#set_online#:#Podesi onlajn
 common#:#settings#:#Podešavanje
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#show#:#Prikaži
 common#:#show_details#:#prikaži detalje
 common#:#show_list#:#Prikaži Listu
@@ -4349,8 +4351,10 @@ payment#:#price_a#:#Cena
 payment#:#prices#:#Cene
 payment#:#update#:#Ažuriraj
 pwassist#:#password_assistance#:#Pomoc oko lozinke
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Unesite korisnicko ime i novu lozinku zu polja za unos.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Molimo ispravite tekst u polja za unos.\nKorisnicko ime i email adresa koje ste uneli ne odgovaraju nijednom unosu iz baze podataka.
 pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke.
 pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru.
@@ -4360,6 +4364,7 @@ pwassist#:#pwassist_not_permitted#:#Molimo unesite drugo korisnicko ime. \nPomoc
 pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s".
 pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata.
 pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Ukljuci aktivne korisnike
 search#:#search_all_results#:#Svi rezulati
 search#:#search_and#:#i

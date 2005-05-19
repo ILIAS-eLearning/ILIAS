@@ -1267,6 +1267,7 @@ common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#forgot_password#:#Dimenticata la password?
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importa forum
@@ -2360,6 +2361,7 @@ common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
 common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#shib_department#:#Attribute for department###13 May 2005 new variable
 common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
@@ -4538,8 +4540,10 @@ payment#:#price_a#:#Prezzo
 payment#:#prices#:#Prezzi
 payment#:#update#:#Aggiornamento
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell'utente e la nuova password nei campi qui sotto.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.
 pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\nIl nome dell'utente che &#232; stato indicato non corrisponde all'utente per il quale hai chiesto assistenza.
 pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.
@@ -4549,6 +4553,7 @@ pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\nIL servi
 pwassist#:#pwassist_password_assigned#:#La password &#232; stata assegnata con successo all'utente "%1$s".
 pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.
 pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di sistema.\nLa password non pu&#242; essere assegnata all'utente indicato per un errore nell'aggiornamento del Database.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_and#:#AND

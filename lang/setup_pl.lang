@@ -155,7 +155,6 @@ ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
 ilias_setup#:#Instalowanie ILIAS3###07 Apr 2005 content changed
 ilias_version#:#wersja ILIAS###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 info_text_contact#:#Tutaj należy podać dodatkowe informacje o kliencie i dane kontaktowe administratora systemu dla tego klienta. Pola zaznaczone gwiazdką muszą być wypełnione. Wszystkie informacje są pamiętane w twojej bazie danych. Na następnym ekranie możesz zarejestrować swoją instalację na serwerze ILIAS-NIC (aby te dane zostały przesłane na ten serwer).###07 Apr 2005 content changed
 info_text_db#:#Baza danych nie istnieje lub jest pusta. Kliknij na przycisk umieszczony poniżej aby zainstalować bazę danych. Jeśli baza danych z wybraną nazwą nie istnieje, wybierz opcję 'Twórz bazę danych'. Instalator automatycznie utworzy bazę danych. Jeśli utworzenie się nie uda, (np. z powodu braku uprawnień) skontaktuj się z administratorem  serwera bazy danych i poproś o utworzenie bazy danych z tą nazwą.###07 Apr 2005 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -222,7 +221,10 @@ lang_none_installed#:#Żaden język nie został zainstalowany###07 Apr 2005 cont
 lang_not_installed_default#:#Język wybrany przez Ciebie jako domyślny nie jest zainstalowany!###07 Apr 2005 content changed
 lang_pl#:#Polski###07 Apr 2005 content changed
 lang_pt#:#Portugalski###07 Apr 2005 content changed
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Szwedzki###07 Apr 2005 content changed
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ukraiński###07 Apr 2005 content changed
 lang_xx#:#Inny###07 Apr 2005 content changed
 lang_zh#:#Chiński###07 Apr 2005 content changed

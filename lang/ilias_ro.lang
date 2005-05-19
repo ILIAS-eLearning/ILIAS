@@ -1221,6 +1221,7 @@ common#:#folders#:#Dosare
 common#:#force_accept_usr_agreement#:#Trebuie sa fiti de acord cu termenii impusi utilizatorului!
 common#:#forename#:#Nume
 common#:#forgot_password#:#Ati uitat parola?
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Va rugam completati aceste campuri:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importati Forum
@@ -2256,6 +2257,7 @@ common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
 common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
+common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
 common#:#shib_department#:#Attribute for department###13 May 2005 new variable
 common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
@@ -4216,8 +4218,10 @@ payment#:#price_a#:#Pret
 payment#:#prices#:#Preturi
 payment#:#update#:#Actualizare
 pwassist#:#password_assistance#:#Ajutor pentru parola
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Introduceti un nume de utilizator si adresa de mail asociata in campurile de mai jos.\nILIAS va trimite un mesaj la adresa mentionata. Mesajul contine adresa unei pagini de web, unde puteti introduce o parola noua pentru contul de utilizator.\nIn cazul in care nu puteti desemna parola contului dumneavoastra de utilizator folosind aceasta metoda, contactati-l pe administratorul cursului sau trimiteti un e-mail la %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduceti numele de utilizator si noua parola in campurile de mai jos.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Va rugam corectati textul din campuri.\nNumele de utilizator si adresa de e-mail pe care le-ati introdus nu corespund unei intrari din baza de date.
 pwassist#:#pwassist_login_not_match#:#Va rugam introduceti un alt nume de utilizator.\nNumele de utilizator pe care l-ati introdus nu corespunde numelui de utilizator pentru cere ati cerut ajutor pentru parola.
 pwassist#:#pwassist_mail_body#:#Inregistrati o noua parola pentru contul de utilizator  :\n\t%1$s\n\nAcest mesaj a fost generat automat de catre serverul ILIAS \n\t%2$s\n\nDumneavoastra (sau cineva de la %3$s) a cerut ajutor pentru parola pentru contul de utilizator "%4$s".\n\nVa rugam verificati cu atentie conditiile exprimate mai jossi continuati conform cu ele:\n\n- Daca ati folosit ajutorul pentru parola al serverului ILIAS din intamplare:\nStergeti acest mail.\n\n- Daca sunteti sigur/a ca nu ati cerut niciodata ajutorul pentru parola de pe acest server ILIAS :\nVa rugam contactati %5$s.\n\n- Daca ati cerut ajutor pentru parole continuati dupa cum urmeaza:\n\n1. Deschideti browser-ul.\n\n2. Introduceti urmatoarea adresa in browser:\n\t%1$s\n\nImportant: Adresa trebuie sa fie pe un singur rand. Daca adresa este impartita in randuri multiple, programul dumneavoastra de e-mail a introdus spatii pentru.\n\n3. Pe pagina de web deschisa de browser, introduceti o noua parola pentru contul de utilizator.\n\nFiti atenti ca, din motive de securitate, puteti urma cei trei pasi de mai sus numai o data si intr-un timp limitat. Dupa aceea adresa nu mai este valabila si trebuie sa folositi ajutorul pentru parola de pe serverul ILIAS din nou.
@@ -4227,6 +4231,7 @@ pwassist#:#pwassist_not_permitted#:#Va rugam introduceti un alt nume de utilizat
 pwassist#:#pwassist_password_assigned#:#Parola a fost desemnata catre utilizatorul "%1$s" cu succes.
 pwassist#:#pwassist_session_expired#:#Va rugam completati din nou acest formular.\nSesiunea de ajutor pentru parola dumneavoastra a expirat. Acest lucru s-a intamplat probabil pentru ca ati incercat sa folositi link-ul trimis mai mult de o singura data, sau pentru ca a trecut prea mult timp de cand v-a fost trimis.
 pwassist#:#pwassist_update_error#:#Va rugam contactati-l pe administratorul de sistem.\nParola nu a putut fi desemnata contului de utilizator din cauza unei erori aparute la actualizarea bazei de date.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Includeti utilizatorii activi
 search#:#search_all_results#:#Toate rezultatele
 search#:#search_and#:#si

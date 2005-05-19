@@ -222,11 +222,11 @@ lang_none_installed#:#No language installed
 lang_not_installed_default#:#The language you selected as the default language is not installed!
 lang_pl#:#Polish
 lang_pt#:#Portuguese
-lang_se#:#Swedish
 lang_ro#:#Romanian
-lang_uk#:#Ukrainian
+lang_se#:#Swedish
 lang_sq#:#Albanian
 lang_sr#:#Serbian
+lang_uk#:#Ukrainian
 lang_xx#:#Custom
 lang_zh#:#Chinese
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files

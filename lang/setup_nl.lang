@@ -156,7 +156,6 @@ ilias_nic_id#:#NIC-ID###07 Apr 2005 content changed
 ilias_setup#:#Setup ILIAS 3###07 Apr 2005 content changed
 ilias_version#:#ILIAS-versie###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 info_text_contact#:#Hier kunt u additionele cliënt-informatie en contact-gegevens van de systeem-administrateur van deze cliënt opgeven. De velden gemarkeerd met een asteriks moeten ingevuld worden. Alle informatie wordt in uw databank opgeslagen. In het volgende scherm kunt u de installatie op onze ILIAS-NIC-server registreren, waarbij deze gegevens naar deze server worden verzonden. ###07 Apr 2005 content changed
 info_text_db#:#De databank bestaat niet of is leeg. Klik op de knop Installeren databank. Indien de databank met de gekozen naam niet bestaat kies de optie Creëer databank. Setup probeert dan uw databank aan te leggen. Als het  creëren niet lukt, (bijv. door onvoldoende rechten), neem contact op met de databank-administrateur en vraag hem een databank met de gewenste naam aan te leggen voordat u de databank installeert.###07 Apr 2005 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -223,7 +222,10 @@ lang_none_installed#:#Geen taal geïnstalleerd###07 Apr 2005 content changed
 lang_not_installed_default#:#De taal die uw selecteerde als de standaard taal  is niet geïnstalleerd!###07 Apr 2005 content changed
 lang_pl#:#Pools###07 Apr 2005 content changed
 lang_pt#:#Portugees###07 Apr 2005 content changed
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Zweeds###07 Apr 2005 content changed
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Oekrainsch###07 Apr 2005 content changed
 lang_xx#:#Door gebruiker gedefinieerd###07 Apr 2005 content changed
 lang_zh#:#Chinees###07 Apr 2005 content changed

@@ -238,8 +238,11 @@ lang_none_installed#:#未安装语言 ###07 Apr 2005 content changed
 lang_not_installed_default#:#您选择的缺省语言未安装！###14 Sep 2004 content changed
 lang_pl#:#波兰语 ###07 Apr 2005 content changed
 lang_pt#:#Portuguese###09 Mar 2004 new variable
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#瑞典语 ###07 Apr 2005 content changed
-lang_ua#:#乌克兰语###07 Apr 2005 content changed
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
+lang_uk#:#Ukrainian###19 May 2005 new variable
 lang_xx#:#自定义###07 Apr 2005 content changed
 lang_zh#:#汉语 ###07 Apr 2005 content changed
 langs_not_valid_not_installed#:#因为无效语言文件，下列语言未安装###07 Apr 2005 content changed

@@ -43,7 +43,7 @@ available_clients#:#Raspoloživi klijenti
 available_languages#:#raspoloživi jezici
 back#:#nazad
 cannot_create_datadir_no_write_access#:#Nema pisanih pristupa. Ne može se napraviti direktorijum podataka
-change#:#promeni
+change#:#promeni###19 May 2005 content changed
 change_basic_settings#:#promeni osnovna podešavanja
 change_password#:#Promeni lozinku
 change_sort_direction#:#Promeni vrstu upravljanja
@@ -53,7 +53,7 @@ check_failed_htmldoc#:#Testiranje HTMLdoc nije uspelo
 check_failed_java#:#Testiranje Java nije uspelo
 check_failed_unzip#:#Testiranje unzip nije uspelo
 check_failed_zip#:#Testiranje zip nije uspelo
-choose_language#:#izaberite vaš jezik
+choose_language#:#izaberite vaš jezik###19 May 2005 content changed
 choose_languages#:#Molimo dodajte dodatne jezike i/ili uklonite odabrane jezike.
 choose_password#:#Molimo odaberite lozinku
 city#:#Grad, Država
@@ -216,7 +216,10 @@ lang_none_installed#:#Nema instaliranog jezika
 lang_not_installed_default#:#Jezik koji ste odabrali kao standardni nije instaliran!
 lang_pl#:#Poljski
 lang_pt#:#Portugalski
+lang_ro#:#Romanian###19 May 2005 new variable
 lang_se#:#Švedski
+lang_sq#:#Albanian###19 May 2005 new variable
+lang_sr#:#Serbian###19 May 2005 new variable
 lang_uk#:#Ukrajinski
 lang_xx#:#Standardni
 lang_zh#:#Kineski

@@ -1267,6 +1267,7 @@ common#:#folders#:#Папки
 common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
 common#:#forename#:#Ім'я
 common#:#forgot_password#:#Забули пароль?
+common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
 common#:#forum#:#Форум
 common#:#forum_import#:#Імпортувати форума
@@ -4525,8 +4526,10 @@ payment#:#pays_vendor#:#Вендор
 payment#:#price_a#:#Ціна
 payment#:#prices#:#Ціни
 payment#:#update#:#Оновити
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Введіть ім'я користувача та відповідну e-mail адресу в поля показані нижче.\nILIAS відішле повідомлення на цю e-mail адресу. Повідомлення містить адресу веб сторінки, де ви можете ввести новий пароль для акаунту користувача.
 pwassist#:#pwassist_enter_username_and_new_password#:#Введіть ім'я користувача та новий пароль в поля нижче.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Будь ласка відредагуйте текст в полях вводу.\nІм'я користувача та e-mail адреса не співпадають с записом в базі даних.
 pwassist#:#pwassist_login_not_match#:#Будь ласка введіть інше ім'я користувача.\nІм'я користувача що ви ввели не співпадає з ім'ям користувача для якого ви запросили відновлення паролю.
 pwassist#:#pwassist_mail_body#:#Реєстрація нового паролю для вашого акаунту користувача:\n\t%1$s\n\nЦе повідомлення було згенеровано автоматично сервером ILIAS\n\t%2$s\n\nВи (або хтось %3$s) запросив відновлення паролю для акаунту користувача "%4$s".\n\nБудь ласка перевірте уважно умови наведені нижче, та дійте відповідно:\n\n- Якщо ви випадково використали відновлення паролю на ILIAS сервері:\nВидаліть цей лист.\n\n- Якщо ви впевнені, що ви ніколи не користувались відновленням паролю на сервері ILIAS:\nБудь ласка зв'яжіться з %5$s.\n\n- Якщо ви використовували відновлення паролю, будь ласка виконайте наступне:\n\n1. Відкрийте ваш браузер.\n\n2. Введіть наступну адресу в ваш браузер:\n\t%1$s\n\nВажливо: Адреса має бути однією стрічкою. Якщо ви бачите, що адреса розділена на декілька ліній, це означає що ваша e-mail програма вставила ці розділи стрічок.\n\n3. На веб сторінці показаній вашим браузером, введіть новий пароль для вашого акаунту користувача.\n\nБудь ласка зауважте, що з міркувань безпеки, ви можете виконати три кроки вище тільки віключно один раз та тільки за обмежений час. Пізніше адреса стане невірною, та ви буду змушені використати відновлення паролю на ILIAS сервері знову.
@@ -4536,6 +4539,7 @@ pwassist#:#pwassist_not_permitted#:#Будь ласка введіть інше 
 pwassist#:#pwassist_password_assigned#:#Пароль був вдало призначений до користувача "%1$s".
 pwassist#:#pwassist_session_expired#:#Будь ласка заповніть цю форму знову.\nСтрок дії вашої сесія відновлення паролю скінчився. Це могло трапитись, тому що ви намагались використати лінк, що був надісланий вам більше ніж один раз, або тому що дуже багато часу пройшло з тих пір, як лінк був вам відісланий.
 pwassist#:#pwassist_update_error#:#Будь ласка зв'яжіться з вашим системним ідміністратором.\nПароль не може бути призначений до акаунту користувача через помилку при оновленні бази даних.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Включаючи активних користувачів
 search#:#search_all_results#:#Усі результати
 search#:#search_and#:#та
