@@ -173,6 +173,7 @@ ini_no_db_host#:#Jméno serveru nebylo uvedeno
 ini_no_db_name#:#Nezadáno databázové jméno
 ini_no_db_user#:#Nezadáno uživatelské jméno
 inifile#:#konfigurační soubor
+include_local#:#include local
 inifile_can_write#:#Konfigurační soubor byl zapsán
 inifile_cannot_write#:#Konfigurační soubor nebyl zapsán. Prosím zkontrolujte přístupová práva
 inifile_content#:#Váš konfigurační soubor obsahuje následující:
@@ -210,6 +211,11 @@ lang_pl#:#Polština
 lang_pt#:#Portuguese###new variable 09 Mar 2004
 lang_se#:#Švédština
 lang_uk#:#Ukrajinština
+lang_da#:#Danish
+lang_hu#:#Hungarian
+lang_ro#:#Romanian
+lang_sq#:#Albanian
+lang_sr#:#Serbian
 lang_xx#:#Uživatelský
 lang_zh#:#Čínština
 langs_not_valid_not_installed#:#Následující jazyky nebyly instalovány z důvodu chyby v jazykovém souboru

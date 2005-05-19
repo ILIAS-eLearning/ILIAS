@@ -221,10 +221,10 @@ lang_none_installed#:#Keine Sprache installiert###07 Apr 2005 content changed
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! ###07 Apr 2005 content changed
 lang_pl#:#Polnisch###07 Apr 2005 content changed
 lang_pt#:#Portugiesisch###07 Apr 2005 content changed
-lang_ro#:#Romanian###19 May 2005 new variable
+lang_ro#:#Romänisch###19 May 2005 new variable
 lang_se#:#Schwedisch###07 Apr 2005 content changed
-lang_sq#:#Albanian###19 May 2005 new variable
-lang_sr#:#Serbian###19 May 2005 new variable
+lang_sq#:#Albanisch###19 May 2005 new variable
+lang_sr#:#Serbisch###19 May 2005 new variable
 lang_uk#:#Ukrainisch###07 Apr 2005 content changed
 lang_xx#:#benutzerdefiniert###07 Apr 2005 content changed
 lang_zh#:#Chinesisch###07 Apr 2005 content changed
