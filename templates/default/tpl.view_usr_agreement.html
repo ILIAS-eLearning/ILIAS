@@ -9,24 +9,16 @@ body { margin:0px; }
 	<tr>
 	<td><h1>{TXT_PAGEHEADLINE}</h1></td>
 	<td nowrap="1" align="right">
-	<table align="right">
-	<tr>
-<form name="languageselection" method="get">
-  <input type="hidden" name="cmd" value="{VAL_CMD}" />
-  <select name="lang" onChange="this.form.submit()">
- 
-	  <option value="">{TXT_CHOOSE_LANGUAGE}</option>
-<!-- BEGIN languages -->
-	  <option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
-<!-- END languages -->
-</select>
-<input class="submit" type="submit" value="{TXT_OK}"/>
-</form>
-<!-- BEGIN lng_empty_cell -->
-	<td>&nbsp;</td>
-<!-- END lng_empty_cell -->
-	</tr>
-	</table>
+		<form name="languageselection" method="get">
+		<input type="hidden" name="cmd" value="{VAL_CMD}" />
+		<select name="lang" onChange="this.form.submit()">
+			<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+		<!-- BEGIN languages -->
+			<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+		<!-- END languages -->
+		</select>
+		<input class="submit" type="submit" value="{TXT_OK}"/>
+		</form>
 	</td>
 	</tr>
 	</table>
