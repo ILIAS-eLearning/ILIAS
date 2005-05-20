@@ -1488,6 +1488,7 @@ class ilCourseContentInterface
 				$this->suggested["$objective_id"] = $tmp_obj_res->isSuggested($objective_id);
 			}
 		}
+
 		return $_SESSION['objectives_suggested'][$this->cci_course_obj->getId()] = $this->suggested;
 
 	}

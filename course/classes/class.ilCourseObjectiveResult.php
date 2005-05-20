@@ -139,7 +139,7 @@ class ilCourseObjectiveResult
 
 	function isSuggested($a_objective_id)
 	{
-		$suggested = false;
+		$suggested = true;
 		$edited_final = true;
 
 		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
@@ -151,7 +151,6 @@ class ilCourseObjectiveResult
 		{
 			$tmp_points = $this->__getReachedPoints($tmp_obj_question->getQuestionsByTest($test_data['ref_id']));
 			$max = $tmp_obj_question->getMaxPointsByTest($test_data['ref_id']);
-
 			if(!$max)
 			{
 				return false;
@@ -174,6 +173,10 @@ class ilCourseObjectiveResult
 			if($percent < $test_data['tst_limit'])
 			{
 				$suggested = true;
+			}
+			else
+			{
+				$suggested = false;
 			}
 		}
 		return $suggested;

@@ -3569,7 +3569,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					$new_gui->setBackButtons(array('edit_properties' => $this->ctrl->getLinkTarget($this,'edit'),
 												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
 																										'listConditions'),
-												   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'list_structure')));
+												   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'listStructure')));
 
 					$this->ctrl->forwardCommand($new_gui);
 				}
