@@ -203,13 +203,13 @@ intro_install#:#Ez az ILIAS3 setupjának főlapja. Innen le tudja folytatni az i
 ip_address#:#IP-cím
 java_path#:#Java elérési út
 java_path_comment#:#szükséges a SCORM tananyagok számára
+lang_cs#:#Czech
 lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Német
 lang_en#:#Angol
 lang_error_occurred#:#Hiba. Tevékenység megszakítva.
 lang_es#:#Spanyol
 lang_fr#:#Francia
-lang_cs#:#Czech
 lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indonéz
 lang_it#:#Olasz
