@@ -1388,7 +1388,8 @@ class ilObjectGUI
 
 				if($this->ctrl->getTargetScript() != 'adm_object.php')
 				{
-					$this->tpl->setVariable("LINK_ROLE_RULESET",'role.php?cmd=perm&ref_id='.
+					$up_path = defined('ILIAS_MODULE') ? "../" : "";
+					$this->tpl->setVariable("LINK_ROLE_RULESET",$up_path.'role.php?cmd=perm&ref_id='.
 											$role_folder_id.'&obj_id='.$role['obj_id']);
 
 					#$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);

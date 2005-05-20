@@ -317,6 +317,7 @@ elseif (
 
 //init language
 $ilBench->start("Core", "HeaderInclude_initLanguage");
+$_SESSION['lang'] = $_GET['lang'] ? $_GET['lang'] : $_SESSION['lang'];
 $lang_key = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
 $lng = new ilLanguage($lang_key);
 $GLOBALS['lng'] =& $lng;

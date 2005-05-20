@@ -323,6 +323,16 @@ class ilFormat
 		$i = substr($a_str,14,2);
 		$s = substr($a_str,17,4);
 
+		// Minimum date is 1.1.1970
+		if(($y < 1970) or
+		   ($y == 1970 and ($m < 1 or $d < 1)))
+		{
+			$y = 1970;
+			$m = 1;
+			$d = 2;
+			$h = $i = $s = 0;
+		}
+
 		if ($a_mode == "time")
 		{
 			return date($a_timeformat,mktime($h,$i,$s,1,1,1999));		
