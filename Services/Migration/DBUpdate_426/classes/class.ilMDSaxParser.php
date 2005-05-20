@@ -82,7 +82,7 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLanguageItem.php';
 
 		switch($a_name)
 		{
