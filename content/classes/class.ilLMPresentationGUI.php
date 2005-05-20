@@ -692,7 +692,7 @@ class ilLMPresentationGUI
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
 			$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-			
+
 			// set style sheets
 			if (!$this->offlineMode())
 			{
@@ -1147,7 +1147,7 @@ class ilLMPresentationGUI
 			if (!$public)
 				return $this->showNoPublicAccess($this->getCurrentPageId());
 		}
-		
+
 		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId()))
 		{
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
@@ -1485,8 +1485,17 @@ class ilLMPresentationGUI
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
+
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				"syntaxhighlight.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$int_links = $term_gui->getInternalLinks();
@@ -1499,7 +1508,7 @@ class ilLMPresentationGUI
 	}
 
 	/**
-	* output media 
+	* output media
 	*/
 	function ilMedia()
 	{
