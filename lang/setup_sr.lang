@@ -153,6 +153,7 @@ ilias_nic#:#Registracija nadimka
 ilias_nic_id#:#nadimak
 ilias_setup#:#postavljanje ILIAS 3 
 ilias_version#:#Verzija ILIAS-a
+include_local#:#include local###20 May 2005 content changed
 info_text_contact#:#Ovde pokazujete dodatne informacije o klijentu i podatke za kontakt sa sistem administratorom za ovog klijenta. Polja oznacena zvezdicom moraju biti popunjena. Sve informacije su uskladištene u bazi podataka. Na sledecem ekranu možete registrovati vašu instalaciju ILIAS NIC Servera, registracija prenosi ovaj podatak do ILIAS-NIC servera.
 info_text_db#:#Baza podataka ne postoji ili je prazna. Kliknite na donje dugme da biste instalirali vašu bazu podataka. Ako ni onda ne bude postojala baza podataka sa tim imenom proverite opciju 'kreiraj bazu podataka'. Nakon toga pokušajte da kreirate automatski bazu podataka. Ukoliko kreiranje propadne (usled restriktivne dozvole za pristup), molimo kontaktirajte sistem administratora baze podataka na serveru i pitajte ga da kreira bazu podataka sa željenim imenom pre instaliranja ILIAS-a.
 info_text_delete#:#Možete obrisati ovog klijenta ako kliknete na donje dugme za brisanje. Kako bilo, samo vaša client.ini datoteka je uklonjena, cuvajuci sve podatke smeštene u klijentovim direktorijumima i bazama podataka.
@@ -190,7 +191,6 @@ inifile_written#:#Ini-file je uspešno snimljen.
 input_error#:#ulazna greška
 inst_identification#:#Instalaciona identifikacija
 inst_name#:#naziv instalacije
-include_local#:#include local
 install#:#Instaliraj bazu podataka
 installation#:#instalacija
 installed#:#instalirano

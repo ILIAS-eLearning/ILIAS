@@ -44,7 +44,6 @@ available_languages#:#Limbi disponibile
 back#:#Inapoi
 cannot_create_datadir_no_write_access#:#Nu aveti acces pentru scriere. Nu se poate crea director de date
 change#:#Schimbare
-###19 May 2005 content changed
 change_basic_settings#:#Schimbarea setarilor de baza
 change_password#:#Schimbarea parolei
 change_sort_direction#:#Schimbarea directiei de sortare
@@ -55,7 +54,6 @@ check_failed_java#:#Testarea Java nu a reusit
 check_failed_unzip#:#Testarea unzip nu a reusit
 check_failed_zip#:#Testarea zip nu a reusit
 choose_language#:#Alegeti limba
-###19 May 2005 content changed
 choose_languages#:#Va rugam alegeti limbi suplimentare si/sau stergeti limbile selectate.
 choose_password#:#Va rugam alegeti o parola
 city#:#Orasul, statul
@@ -157,6 +155,7 @@ ilias_nic#:#Inregistrarea NIC
 ilias_nic_id#:#Numarul de identificare al NIC
 ilias_setup#:#Setare ILIAS 3
 ilias_version#:#Versiunea ILIAS
+include_local#:#include local###20 May 2005 content changed
 info_text_contact#:#Aici veti indica informatii client suplimentare si informatii de contact ale administratorului de sistem al acestui client. Campurile marcate cu asterisc trebuie completate. Toate informatiile sunt stocate in baza dumneavoastra de date. In ecranul urmator puteti inregistra instalarea la serverul ILIAS-NIC; aceste date vor fi transmise catre serverul ILIAS-NIC.
 info_text_db#:#Baza de date nu exista sau este goala. Apasati pe butonul de mai jos pentru a instala baza de date. Daca o baza de date cu numele ales nu exista inca, va rugam selectati optiunea 'creare baza de date'. Se va incerca crearea automata a bazei de date. In cazul in care crearea bazei de date esueaza (din cauza restrictiilor de acces), va rugam contactati administratorul de sistem al serverului de baze de date si rugati-l sa creeze o baza de date cu numele dorit pentru instalarea ILIAS.
 info_text_db_collation1#:#In cazul in care colationarea dorita de dumnevoastra nu este continuta in lista de colationari UTF-8, puteti sa creati baza de date si manual. In orice caz, asigurati-va ca setul de caractere pentru baza de date este fixat la utf8.
@@ -185,7 +184,6 @@ ini_no_client_id#:#Nu a fost dat un ID client.
 ini_no_db_host#:#Nu exista nume pentru gazda
 ini_no_db_name#:#Nu exista nume pentru baza de date
 ini_no_db_user#:#Nu exista nume de utilizator pentru baza de date
-include_local#:#include local
 inifile#:#fisier-ini
 inifile_can_write#:#Configurarea ILIAS 3 poate scrie fisierul-ini.
 inifile_cannot_write#:#Configurarea ILIAS 3 nu poate scrie fisierul-ini. Va rugam verificati permisiunile la scriere.
