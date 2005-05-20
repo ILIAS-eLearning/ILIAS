@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilXML2DOM.php";
 
 /**
 * Class NestedSetXML
@@ -613,6 +612,8 @@ class ilNestedSetXML
 	*/
 	function addXMLNode($xPath, $xml, $index = 0)
 	{
+		include_once "./classes/class.ilXML2DOM.php";
+
 		$newDOM = new XML2DOM($xml);
 //echo "<br>addXMLNode:-".htmlspecialchars($this->dom->dump_mem(0));
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
