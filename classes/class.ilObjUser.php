@@ -378,7 +378,7 @@ class ilObjUser extends ilObject
                 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,matriculation,approve_date,active,"
+                . "referral_comment,matriculation,client_ip, approve_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
@@ -1805,6 +1805,32 @@ class ilObjUser extends ilObject
 
 		return $row->usr_id ? $row->usr_id : 0;
 	}
+
+	/**
+	 * STATIC METHOD
+	 * get all user_ids of an email address
+	 * @param	string email of user
+	 * @return  integer id of user
+	 * @static
+	 * @access	public
+	 */
+	function _getUserIdsByEmail($a_email)
+	{
+		global $ilias;
+		$query = "SELECT login FROM usr_data ".
+			"WHERE email = '".$a_email."' and active=1";
+
+ 		$res = $ilias->db->query($query);
+ 		$ids = array ();
+        while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+        {
+            $ids[] = $row->login;
+        }
+
+		return $ids;	
+	}
+
+
 
 	/**
 	 * STATIC METHOD
