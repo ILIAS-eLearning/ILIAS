@@ -42,7 +42,7 @@ class ilSearchResultPresentationGUI
 
 	function ilSearchResultPresentationGUI(&$result)
 	{
-		global $tpl,$lng;
+		global $tpl,$lng,$ilCtrl;
 
 		$this->lng =& $lng;
 		
@@ -53,6 +53,7 @@ class ilSearchResultPresentationGUI
 			"glo", "webr", "file", "exc",
 			"tst", "svy", "mep", "qpl", "spl");
 
+		$this->ctrl =& $ilCtrl;
 	}
 
 	function &showResults()
@@ -83,15 +84,12 @@ class ilSearchResultPresentationGUI
 			{
 				foreach($results[$act_type] as $key => $item)
 				{
-					// I use here a searchObjListFactory to disable link, delete ... for all object types
-
 					// get list gui class for each object type
 					if ($cur_obj_type != $item["type"])
 					{
 						include_once 'Services/Search/classes/class.ilSearchObjectListFactory.php';
 
 						$item_list_gui = ilSearchObjectListFactory::_getInstance($item['type']);
-						
 					}
 					$html = $item_list_gui->getListItemHTML(
 						$item["ref_id"],
@@ -99,30 +97,29 @@ class ilSearchResultPresentationGUI
 						$item["title"], 
 						$item["description"]);
 
-					if ($html)
+					if($html)
 					{
 						$item_html[] = $html;
 					}
-					
-					// output block for resource type
-					if (count($item_html) > 0)
+				}
+				// output block for resource type
+				if(count($item_html) > 0)
+				{
+					// separator row
+					if (!$first)
 					{
-						// separator row
-						if (!$first)
-						{
-							$this->addSeparatorRow($tpl);
-						}
-						$first = false;
+						$this->addSeparatorRow($tpl);
+					}
+					$first = false;
 						
-						// add a header for each resource type
-						$this->addHeaderRow($tpl, $act_type);
-						$this->resetRowType();
+					// add a header for each resource type
+					$this->addHeaderRow($tpl, $act_type);
+					$this->resetRowType();
 						
-						// content row
-						foreach($item_html as $html)
-						{
-							$this->addStandardRow($tpl, $html);
-						}
+					// content row
+					foreach($item_html as $html)
+					{
+						$this->addStandardRow($tpl, $html);
 					}
 				}
 			}

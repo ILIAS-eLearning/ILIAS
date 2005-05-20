@@ -89,6 +89,22 @@ class ilSearchResult
 
 	/**
 	 *
+	 * merge entries of this instance and another result object
+	 * @param object result_obj
+	 * @access	public
+	 */
+	function mergeEntries(&$result_obj)
+	{
+		foreach($result_obj->getEntries() as $entry)
+		{
+			$this->addEntry($entry['obj_id'],$entry['type'],$entry['rbac_id']);
+		}
+		return true;
+	}
+			
+
+	/**
+	 *
 	 * add search result
 	 * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
 	 * @param integer ref_id
@@ -110,7 +126,7 @@ class ilSearchResult
 
 	function getResultsForPresentation()
 	{
-		foreach($this->results as $result)
+		foreach($this->getResults() as $result)
 		{
 			switch($result['type'])
 			{

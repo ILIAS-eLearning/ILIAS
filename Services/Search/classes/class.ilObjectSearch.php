@@ -68,6 +68,15 @@ class ilObjectSearch
 		$this->search_result = new ilSearchResult();
 	}
 
+	function enableKeywords($a_mode)
+	{
+		$this->keyword_search = $a_mode;
+	}
+	function enabledKeywords()
+	{
+		return $this->keyword_search;
+	}
+
 	function &performSearch()
 	{
 		$in = $this->__createInStatement();

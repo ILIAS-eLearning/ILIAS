@@ -76,9 +76,12 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case "visible":
-
 				// to do: try to do this without instantiation
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
+				if(get_class($tmp_obj) != "ilobjcourse")
+				{
+					return false;
+				}
 				$tmp_obj->initCourseMemberObject();
 
 				if(!$tmp_obj->isActivated() and !$rbacsystem->checkAccess('write',$a_ref_id))
