@@ -6375,3 +6375,39 @@ UPDATE settings SET value='uk' WHERE value='ua' and keyword='language';
 UPDATE object_translation SET lang_code='uk' WHERE lang_code='ua';
 UPDATE lng_data SET lang_key='uk' WHERE lang_key='ua';
 UPDATE glossary_term SET language='uk' WHERE language='ua';
+
+<#439>
+<?php
+$wd = getcwd();
+chdir('..');
+
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+ilMD::_deleteAllByType('webr');
+
+$webr_ids = array();
+$query = "SELECT * FROM object_data WHERE type = 'webr'";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$webr_ids[$row->obj_id]['title'] = $row->title;
+	$webr_ids[$row->obj_id]['desc'] = $row->description;
+
+}
+
+foreach($webr_ids as $id => $data)
+{
+	$md_creator = new ilMDCreator($id,$id,'webr');
+	$md_creator->setTitle($data['title']);
+	$md_creator->setTitleLanguage('en');
+	$md_creator->setDescription($data['desc']);
+	$md_creator->setDescriptionLanguage('en');
+	$md_creator->setKeywordLanguage('en');
+	$md_creator->setLanguage('en');
+
+	$md_creator->create();
+}
+chdir($wd);
+?>
+
