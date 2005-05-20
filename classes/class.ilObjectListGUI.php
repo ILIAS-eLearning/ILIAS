@@ -63,6 +63,7 @@ class ilObjectListGUI
 		$this->init();
 	}
 
+
 	/**
 	* set the container object (e.g categorygui)
 	* Used for link, delete ... commands
@@ -241,10 +242,12 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		// don't use ctrl here in the moment
+		return 'repository.php?ref_id='.$this->ref_id.'&cmd='.$a_cmd;
+
 		// separate method for this line
 		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
 			$a_cmd);
-
 		return $cmd_link;
 	}
 

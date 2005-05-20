@@ -158,14 +158,27 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilObjectSearch.php';
 
 		$obj_search = new ilObjectSearch($query_parser);
+		$obj_search->enableKeywords(true);
 		$result = $obj_search->performSearch();
 
 
 		// Step 3: perform meta keyword search
+		include_once 'Services/MetaData/classes/class.ilMDSearch.php';
 
+		$meta_search = new ilMDSearch($query_parser);
+		$meta_search->setMode('keyword');
+		$result_meta = $meta_search->performSearch();
+
+		// Step 3.1: Merge entries
+		$result->mergeEntries($result_meta);
 
 		// Step 4: merge and validate results
 		$result->filter();
+
+		if(!count($result->getResults()))
+		{
+			sendInfo($this->lng->txt('search_no_match'));
+		}
 
 		// Step 5: show search form 
 		$this->showSearch();
