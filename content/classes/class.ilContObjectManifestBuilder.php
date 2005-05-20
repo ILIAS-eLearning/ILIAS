@@ -68,18 +68,22 @@ class ilContObjectManifestBuilder
 
 		// set xml header
 		$this->writer->xmlHeader();
-		
+
 		// manifest start tag
 		$attrs = array();
 		$attrs["identifier"] = "il_".IL_INST_ID."_"."man".
 			"_".$this->cont_obj->getId();
 		$attrs["version"] = "";
+		$attrs["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
 		$attrs["xsi:schemaLocation"] = "http://www.imsproject.org/xsd/imscp_rootv1p1p2".
 			" imscp_rootv1p1p2.xsd".
 			" http://www.imsglobal.org/xsd/imsmd_rootv1p2p1".
 			" imsmd_rootv1p2p1.xsd".
 			" http://www.adlnet.org/xsd/adlcp_rootv1p2".
 			" adlcp_rootv1p2.xsd";
+		$attrs["xmlns:imsmd"] = "http://www.imsproject.org/xsd/imsmd_rootv1p2p1";
+		$attrs["xmlns:adlcp"] = "http://www.adlnet.org/xsd/adlcp_rootv1p2";
+		$attrs["xmlns"] = "http://www.imsproject.org/xsd/imscp_rootv1p1p2";
 		$this->writer->xmlStartTag("manifest", $attrs);
 
 		// organizations start tag

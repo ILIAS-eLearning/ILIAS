@@ -1606,7 +1606,8 @@ echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
 		copy("content/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir."/adlcp_rootv1p2.xsd");
 		copy("content/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir."/imscp_rootv1p1p2.xsd");
 		copy("content/scorm_xsd/imsmd_rootv1p2p1.xsd", $a_target_dir."/imsmd_rootv1p2p1.xsd");
-		
+		copy("content/scorm_xsd/ims_xml.xsd", $a_target_dir."/ims_xml.xsd");
+
 		// zip it all
 		$date = time();
 		$zip_file = $a_target_dir."/".$date."__".IL_INST_ID."__".
@@ -1616,9 +1617,10 @@ echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
 			$a_target_dir."/imsmanifest.xml",
 			$a_target_dir."/adlcp_rootv1p2.xsd",
 			$a_target_dir."/imscp_rootv1p1p2.xsd",
+			$a_target_dir."/ims_xml.xsd",
 			$a_target_dir."/imsmd_rootv1p2p1.xsd")
 			, $zip_file);
-			
+
 		$dest_file = $this->getExportDirectory("scorm")."/".$date."__".IL_INST_ID."__".
 			$this->getType()."_".$this->getId().".zip";
 		
