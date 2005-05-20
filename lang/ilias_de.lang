@@ -803,6 +803,8 @@ common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
+common#:#associated_user#:#Mitglied
+common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
@@ -1091,6 +1093,7 @@ common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
+common#:#default_value#:#Standardwert
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
@@ -1603,6 +1606,8 @@ common#:#lang_pt#:#Portugisisch
 common#:#lang_ro#:#Rumänisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
+common#:#lang_sq#:#Albanisch
+common#:#lang_sr#:#Serbisch
 common#:#lang_sv#:#Schwedisch
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_uk#:#Ukrainisch
@@ -1821,6 +1826,7 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
+common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
@@ -2577,6 +2583,9 @@ common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
+common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
+common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
+common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#user_profile_other#:#Weitere Informationen
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
@@ -2632,6 +2641,9 @@ common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Akt
 common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert
+common#:#visible#:#Sichtbar
+common#:#visitor#:#Besucher
+common#:#visitors#:#Besucher
 common#:#vcard#:#Visitenkarte
 common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
@@ -3644,6 +3656,7 @@ dateplaner#:#week#:#Woche
 dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
+forum#:#forums_articles#:#Beiträge
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
@@ -3659,7 +3672,10 @@ forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
+forum#:#forums_moderators#:#Moderatoren
+forum#:#forums_new_articles#:#Neue Beiträge
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
@@ -3681,6 +3697,7 @@ forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+forum#:#forums_threads#:#Themen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
