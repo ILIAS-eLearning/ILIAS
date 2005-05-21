@@ -619,7 +619,7 @@ class ASS_MultipleChoice extends ASS_Question
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
-			// alte Antworten l�schen
+			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);

@@ -130,6 +130,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
+				$this->tpl->setVariable("HEADER", $question->getTitle());
 				$this->ctrl->saveParameter($this, "q_id");
 				$count = $question->isInUse();
 				if ($count)
