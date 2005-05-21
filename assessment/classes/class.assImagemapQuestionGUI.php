@@ -432,8 +432,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outOtherQuestionData()
 	{
-		$colspan = " colspan=\"3\"";
-
 		$this->tpl->setCurrentBlock("other_question_data");
 		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
