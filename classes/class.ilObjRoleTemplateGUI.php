@@ -26,8 +26,8 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.32 2004/05/13 14:59:27 smeyer Exp $
-* 
+* @version $Id$
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -289,6 +289,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	
 			foreach ($obj_data["ops"] as $operation)
 			{
+				$ops_ids[] = $operation["ops_id"];
+				
 				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW",$css_row);
 				$this->tpl->setVariable("PERMISSION",$operation["name"]);
@@ -299,6 +301,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			// BEGIN object_type
 			$this->tpl->setCurrentBlock("object_type");
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+			
+			// js checkbox toggles
+			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
+			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ops_ids));
+			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));	
+
+
 			$this->tpl->parseCurrentBlock();
 			// END object_type
 		}

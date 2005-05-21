@@ -25,8 +25,9 @@
 /**
 * Class ilObjRoleFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -106,7 +107,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
             if ($_SESSION['filtered_roles'] == 0)
             {
-                $_SESSION['filtered_roles'] = 1;
+                $_SESSION['filtered_roles'] = 2;
             }
         
 		    $this->tpl->setCurrentBlock("filter");

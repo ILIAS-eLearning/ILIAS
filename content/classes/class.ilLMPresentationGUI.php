@@ -1928,7 +1928,7 @@ class ilLMPresentationGUI
 	*/
 	function showPrintViewSelection()
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
 
 		require_once("content/classes/class.ilStructureObject.php");
 
@@ -1994,8 +1994,16 @@ class ilLMPresentationGUI
 				// page
 				case "pg":
 					$this->tpl->setVariable("TXT_TITLE",
-						ilLMPageObject::_getPresentationTitle($node["obj_id"],
-						$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+					ilLMPageObject::_getPresentationTitle($node["obj_id"],
+					$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+					
+					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					{
+						if (ilLMObject::_isPagePublic($node["obj_id"]))
+						{
+							$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
+						}
+					}
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
 					break;
 
@@ -2017,6 +2025,13 @@ class ilLMPresentationGUI
 						$this->lm->isActiveNumbering())
 						."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
+
+					// if public access get first public page in chapter
+					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					{
+						$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
+					}
+
 					break;
 			}
 			
@@ -2026,10 +2041,12 @@ class ilLMPresentationGUI
 			}
 
 			$this->tpl->setVariable("ITEM_ID", $node["obj_id"]);
+
 			if ($_POST["item"][$node["obj_id"]] == "y")
 			{
 				$this->tpl->setVariable("CHECKED", "checked=\"1\"");
 			}
+			
 
 			$this->tpl->parseCurrentBlock();
 		}
