@@ -144,7 +144,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
-assessment#:#cloze_text#:#Close text
+assessment#:#cloze_text#:#Cloze text
 assessment#:#code#:#Code
 common#:#glo_mode#:#Mode
 common#:#glo_mode_normal#:#normal
@@ -329,7 +329,7 @@ assessment#:#qpl_export_select_none#:#Please check at least one question to expo
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
-assessment#:#qt_cloze#:#Close Question
+assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_javaapplet#:#Java Applet Question
 assessment#:#qt_matching#:#Matching Question

@@ -6375,7 +6375,6 @@ UPDATE settings SET value='uk' WHERE value='ua' and keyword='language';
 UPDATE object_translation SET lang_code='uk' WHERE lang_code='ua';
 UPDATE lng_data SET lang_key='uk' WHERE lang_key='ua';
 UPDATE glossary_term SET language='uk' WHERE language='ua';
-
 <#439>
 <?php
 $wd = getcwd();
@@ -6410,4 +6409,3 @@ foreach($webr_ids as $id => $data)
 }
 chdir($wd);
 ?>
-
