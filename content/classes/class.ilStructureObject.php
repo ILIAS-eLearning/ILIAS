@@ -75,7 +75,7 @@ class ilStructureObject extends ilLMObject
 		$childs = $a_tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"]);
+			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if($obj->getType() == "st")

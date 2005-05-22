@@ -518,6 +518,7 @@ class ilLMObject
 			$nested->deleteAllDBData();
 		}
 */
+
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
 
@@ -626,7 +627,8 @@ class ilLMObject
 		require_once("content/classes/class.ilLMObjectFactory.php");
 		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"]);
+			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"],false);
+
 			if (is_object($lm_obj))
 			{
 //				$lm_obj->delete(false);
