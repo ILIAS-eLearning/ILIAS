@@ -6409,3 +6409,383 @@ foreach($webr_ids as $id => $data)
 }
 chdir($wd);
 ?>
+<#440>
+<?php
+	global $log;
+	$log->write("test&assessment (update step 440): starting with conversion. creating database entries with maximum available points for every question");
+	$idx = 1;
+	$query = "SELECT * FROM qpl_questions";
+	$result = $ilDB->query($query);
+	$maxidx = $result->numRows() + 1;
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$maxidx--;
+		$log->write("processing question $maxidx");
+		$query_answer = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
+			$ilDB->quote($row["question_id"] . "")
+		);
+		$result_answer = $ilDB->query($query_answer);
+		$answers = array();
+		while ($row_answer = $result_answer->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($answers, $row_answer);
+		}
+		$maxpoints = 0;
+		switch ($row["question_type_fi"])
+		{
+			case 1: // multiple choice single response
+				$points = array("set" => 0, "unset" => 0);
+				foreach ($answers as $key => $value) 
+				{
+					if ($value["points"] > $points["set"])
+					{
+						$points["set"] = $value["points"];
+					}
+				}
+				$maxpoints = $points["set"];
+				break;
+			case 2: // multiple choice multiple response
+				$points = array("set" => 0, "unset" => 0);
+				$allpoints = 0;
+				foreach ($answers as $key => $value) 
+				{
+					$allpoints += $value["points"];
+				}
+				$maxpoints = $allpoints;
+				break;
+			case 3: // close question
+				$gaps = array();
+				foreach ($answers as $key => $value)
+				{
+					if (!array_key_exists($value["gap_id"], $gaps))
+					{
+						$gaps[$value["gap_id"]] = array();
+					}
+					array_push($gaps[$value["gap_id"]], $value);
+				}
+				$points = 0;
+				foreach ($gaps as $key => $value) {
+					if ($value[0]["cloze_type"] == 0) {
+						$points += $value[0]["points"];
+					} else {
+						$points_arr = array("set" => 0, "unset" => 0);
+						foreach ($value as $key2 => $value2) {
+							if ($value2["points"] > $points_arr["set"])
+							{
+								$points_arr["set"] = $value2["points"];
+							}
+						}
+						$points += $points_arr["set"];
+					}
+				}
+				$maxpoints = $points;
+				break;
+			case 4: // matching question
+				$points = 0;
+				foreach ($answers as $key => $value)
+				{
+					if ($value["points"] > 0)
+					{
+						$points += $value["points"];
+					}
+				}
+				$maxpoints = $points;
+				break;
+			case 5: // ordering question
+				$points = 0;
+				foreach ($answers as $key => $value)
+				{
+					$points += $value["points"];
+				}
+				$maxpoints = $points;
+				break;
+			case 6: // imagemap question
+				$points = array("set" => 0, "unset" => 0);
+				foreach ($answers as $key => $value) {
+					if ($value["points"] > $points["set"])
+					{
+						$points["set"] = $value["points"];
+					}
+				}
+				$maxpoints = $points["set"];
+				break;
+			case 7: // java applet question
+			case 8: // text question
+				break;
+		}
+		if ($row["question_type_fi"] < 7)
+		{
+			$updatequery = sprintf("UPDATE qpl_questions SET points = %s WHERE question_id = %s",
+				$ilDB->quote($maxpoints . ""),
+				$ilDB->quote($row["question_id"] . "")
+			);
+			$resultupdate = $ilDB->query($updatequery);
+			$log->write("  $idx. creating maximum question points: $updatequery");
+			$idx++;
+		}
+	}
+	$log->write("test&assessment: conversion completed. maximum available points for every question");
+
+	
+	$log->write("test&assessment: starting with conversion. creating database entry for reached points of every user for every processed question");
+	// update code
+	$idx = 1;
+	$query = "SELECT question_id, question_type_fi FROM qpl_questions";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
+			$ilDB->quote($row["question_id"] . "")
+		);
+		$resultanswers = $ilDB->query($queryanswers);
+		$answers = array();
+		while ($rowanswer = $resultanswers->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($answers, $rowanswer);
+		}
+		$querytests = sprintf("SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
+			$ilDB->quote($row["question_id"] . "")
+		);
+		$resulttests = $ilDB->query($querytests);
+		$tests = array();
+		while ($rowtest = $resulttests->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($tests, $rowtest["test_fi"]);
+		}
+		foreach ($tests as $test_id)
+		{
+			$queryusers = sprintf("SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($row["question_id"])
+			);
+			$resultusers = $ilDB->query($queryusers);
+			$users = array();
+			while ($rowuser = $resultusers->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($users, $rowuser["user_fi"]);
+			}
+			// now begin the conversion
+			foreach ($users as $user_id)
+			{
+				$querysolutions = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($row["question_id"] . "")
+				);
+				$resultsolutions = $ilDB->query($querysolutions);
+				switch ($row["question_type_fi"])
+				{
+					case 1:
+					case 2:
+						// multiple choice questions
+						$found_values = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if (strcmp($data["value1"], "") != 0)
+							{
+								array_push($found_values, $data["value1"]);
+							}
+						}
+						$points = 0;
+						if (count($found_values) > 0)
+						{
+							foreach ($answers as $key => $answer)
+							{
+								if ($answer["correctness"])
+								{
+									if (in_array($key, $found_values))
+									{
+										$points += $answer["points"];
+									}
+								}
+								else
+								{
+									if (!in_array($key, $found_values))
+									{
+										$points += $answer["points"];
+									}
+								}
+							}
+						}
+						// save $points
+						break;
+					case 3:
+						// close questions
+						$found_value1 = array();
+						$found_value2 = array();
+						$user_result = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if (strcmp($data["value2"], "") != 0)
+							{
+								$user_result[$data["value1"]] = array(
+									"gap_id" => $data["value1"],
+									"value" => $data["value2"]
+								);
+							}
+						}
+						$points = 0;
+						$counter = 0;
+						$gaps = array();
+						foreach ($answers as $key => $value)
+						{
+							if (!array_key_exists($value["gap_id"], $gaps))
+							{
+								$gaps[$value["gap_id"]] = array();
+							}
+							array_push($gaps[$value["gap_id"]], $value);
+						}
+						foreach ($user_result as $gap_id => $value) 
+						{
+							if ($gaps[$gap_id][0]["cloze_type"] == 0) 
+							{
+								$foundsolution = 0;
+								foreach ($gaps[$gap_id] as $k => $v) 
+								{
+									if ((strcmp(strtolower($v["answertext"]), strtolower($value["value"])) == 0) && (!$foundsolution)) 
+									{
+										$points += $v["points"];
+										$foundsolution = 1;
+									}
+								}
+							} 
+							else 
+							{
+								if ($value["value"] >= 0)
+								{
+									foreach ($gaps[$gap_id] as $answerkey => $answer)
+									{
+										if ($value["value"] == $answerkey)
+										{
+											$points += $answer["points"];
+										}
+									}
+								}
+							}
+						}
+						// save $points;
+						break;
+					case 4:
+						// matching questions
+						$found_value1 = array();
+						$found_value2 = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if (strcmp($data["value1"], "") != 0)
+							{
+								array_push($found_value1, $data["value1"]);
+								array_push($found_value2, $data["value2"]);
+							}
+						}
+						$points = 0;
+						foreach ($found_value2 as $key => $value)
+						{
+							foreach ($answers as $answer_value)
+							{
+								if (($answer_value["matching_order"] == $value) and ($answer_value["aorder"] == $found_value1[$key]))
+								{
+									$points += $answer_value["points"];
+								}
+							}
+						}
+						// save $points;
+						break;
+					case 5:
+						// ordering questions
+						$found_value1 = array();
+						$found_value2 = array();
+						$user_order = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
+							{
+								$user_order[$data["value2"]] = $data["value1"];
+							}
+						}
+						ksort($user_order);
+						$user_order = array_values($user_order);
+						$answer_order = array();
+						foreach ($answers as $key => $answer)
+						{
+							$answer_order[$answer["solution_order"]] = $key;
+						}
+						ksort($answer_order);
+						$answer_order = array_values($answer_order);
+						$points = 0;
+						foreach ($answer_order as $index => $answer_id)
+						{
+							if (strcmp($user_order[$index], "") != 0)
+							{
+								if ($answer_id == $user_order[$index])
+								{
+									$points += $answers[$answer_id]["points"];
+								}
+							}
+						}
+						// save $points;
+						break;
+					case 6:
+						// imagemap questions
+						$found_values = array();
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							if (strcmp($data["value1"], "") != 0)
+							{
+								array_push($found_values, $data["value1"]);
+							}
+						}
+						$points = 0;
+						if (count($found_values) > 0)
+						{
+							foreach ($answers as $key => $answer)
+							{
+								if ($answer["correctness"])
+								{
+									if (in_array($key, $found_values))
+									{
+										$points += $answer["points"];
+									}
+								}
+							}
+						}
+						// save $points;
+						break;
+					case 7:
+						// java applet questions
+						$found_values = array();
+						$points = 0;
+						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						{
+							$points += $data["points"];
+						}
+						// save $points;
+						break;
+					case 8:
+						// text questions
+						$points = 0;
+						if ($resultsolutions->numRows() == 1)
+						{
+							$data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC);
+							if ($data["points"])
+							{
+								$points = $data["points"];
+							}
+						}
+						// save $points;
+						break;
+				}
+				$insertquery = sprintf("REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($user_id . ""),
+					$ilDB->quote($test_id . ""),
+					$ilDB->quote($row["question_id"] . ""),
+					$ilDB->quote($points . "")
+				);
+				$ilDB->query($insertquery);
+				$log->write("  $idx. creating user result: $insertquery");
+				$idx++;
+			}
+		}
+	}
+	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
+?>
+
