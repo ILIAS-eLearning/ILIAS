@@ -1594,7 +1594,7 @@ echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
 		//ilUtil::makeDir($a_target_dir."/res");
 		
 		// export everything to html
-		$this->exportHTML($a_target_dir."/res", $log, false);
+		$this->exportHTML($a_target_dir."/res", $log, false, "scorm");
 		
 		// build manifest file
 		include("content/classes/class.ilContObjectManifestBuilder.php");
@@ -1633,7 +1633,7 @@ echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
 	/**
 	* export html package
 	*/
-	function exportHTML($a_target_dir, $log, $a_zip_file = true)
+	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html")
 	{
 		global $ilias, $tpl;
 
@@ -1672,6 +1672,7 @@ echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
 		$_GET["cmd"] = "nop";
 		$lm_gui =& new ilLMPresentationGUI();
 		$lm_gui->setOfflineMode(true);
+		$lm_gui->setExportFormat($a_export_format);
 
 		// export pages
 		$this->exportHTMLPages($lm_gui, $a_target_dir);
