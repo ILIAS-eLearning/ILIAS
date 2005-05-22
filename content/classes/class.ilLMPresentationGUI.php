@@ -125,6 +125,25 @@ class ilLMPresentationGUI
 		return $this->offline;
 	}
 	
+	/**
+	* set export format
+	*
+	* @param	string		$a_format		"html" / "scorm"
+	*/
+	function setExportFormat($a_format)
+	{
+		$this->export_format = $a_format;
+	}
+	
+	/**
+	* get export format
+	*
+	* @return	string		export format
+	*/
+	function getExportFormat()
+	{
+		$this->export_format;
+	}
 	
 	/**
 	* this dummy function is needed for offline package creation
@@ -446,8 +465,16 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "layout");
 
-		$layout = $this->lm->getLayout();
-
+		// export scorm always to 1window
+		if ($this->getExportFormat() == "scorm")
+		{
+			$layout = "1window";
+		}
+		else
+		{
+			$layout = $this->lm->getLayout();
+		}
+		
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 
 		// xmldocfile is deprecated! Use domxml_open_file instead.
