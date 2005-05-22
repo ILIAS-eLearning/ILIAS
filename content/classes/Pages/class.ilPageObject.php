@@ -81,6 +81,7 @@ class ilPageObject
 		$this->update_listener_cnt = 0;
 		$this->dom_builded = false;
 		$this->halt_on_error = $a_halt;
+		$this->page_not_found = false;
 
 		if($a_id != 0)
 		{
@@ -114,6 +115,7 @@ class ilPageObject
 			}
 			else
 			{
+				$this->page_not_found = true;
 				return;
 			}
 		}
@@ -1116,9 +1118,15 @@ class ilPageObject
 	*/
 	function delete()
 	{
-		$this->buildDom();
-		$mobs = $this->collectMediaObjects(false);
-		$files = $this->collectFileItems();
+		$mobs = array();
+		$files = array();
+		
+		if (!$this->page_not_found)
+		{
+			$this->buildDom();
+			$mobs = $this->collectMediaObjects(false);
+			$files = $this->collectFileItems();
+		}
 
 		// delete mob usages
 		$this->saveMobUsage("<dummy></dummy>");
