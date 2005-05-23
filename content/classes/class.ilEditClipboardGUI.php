@@ -227,13 +227,14 @@ class ilEditClipboardGUI
 		}
 
 		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//
 		//$tbl->disable("footer");
 
 		$objs = $this->ilias->account->getClipboardObjects("mob");
 		$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
-		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
 		$tbl->setMaxCount(count($objs));
+		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
 		$tbl->render();
 		if(count($objs) > 0)
