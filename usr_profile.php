@@ -752,18 +752,26 @@ $data["fields"]["default_role"] = $role;
 // fill presets
 foreach($data["fields"] as $key => $val)
 {
-    $str = $lng->txt($key);
+	// note: general "title" is not as "title" for a person
+	if ($key != "title")
+	{
+		$str = $lng->txt($key);
+	}
+	else
+	{
+		$str = $lng->txt("person_title");
+	}
 
-    // check to see if dynamically required
-    if (isset($settings["require_" . $key]) && $settings["require_" . $key])
-    {
+	// check to see if dynamically required
+	if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+	{
 				$str = $str . '<span class="asterisk">*</span>';
-    }
+	}
 
-		if (userSettingVisible("$key"))
-		{
-			$tpl->setVariable("TXT_".strtoupper($key), $str);
-		}
+	if (userSettingVisible("$key"))
+	{
+		$tpl->setVariable("TXT_".strtoupper($key), $str);
+	}
 }
 
 if (userSettingVisible("gender"))
