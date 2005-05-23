@@ -143,7 +143,11 @@ class ilStructureObject extends ilLMObject
 		// check read permissions
 		foreach ($ref_ids as $ref_id)
 		{
-			if ($rbacsystem->checkAccess("read", $ref_id))
+			include_once 'classes/class.ilSearch.php';
+			
+			// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
+			// Will be replaced in future releases by ilAccess::checkAccess()
+			if ($rbacsystem->checkAccess("read", $ref_id) and ilSearch::_checkParentConditions($ref_id))
 			{
 				ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
 					"&obj_id=$a_target");

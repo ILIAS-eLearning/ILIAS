@@ -401,7 +401,11 @@ class ilGlossaryTerm
 
 		if ($a_type == "glo")
 		{
-			if (!$rbacsystem->checkAccess("read", $a_target))
+			include_once 'classes/class.ilSearch.php';
+			
+			// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
+			// Will be replaced in future releases by ilAccess::checkAccess()
+			if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 			{
 				$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 			}
@@ -420,7 +424,11 @@ class ilGlossaryTerm
 		// check read permissions
 		foreach ($ref_ids as $ref_id)
 		{
-			if ($rbacsystem->checkAccess("read", $ref_id))
+			include_once 'classes/class.ilSearch.php';
+			
+			// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
+			// Will be replaced in future releases by ilAccess::checkAccess()
+			if ($rbacsystem->checkAccess("read", $ref_id) and ilSearch::_checkParentConditions($ref_id))
 			{
 				ilUtil::redirect(
 					"./content/glossary_presentation.php?cmd=listDefinitions&term_id=".$a_target."&ref_id=".$ref_id);				

@@ -24,7 +24,7 @@
 /**
 * Class ilObjLinkResource
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
 * @extends ilObject
@@ -137,7 +137,11 @@ class ilObjLinkResource extends ilObject
 	{
 		global $rbacsystem, $ilErr, $lng;
 
-		if ($rbacsystem->checkAccess("read", $a_target))
+		include_once 'classes/class.ilSearch.php';
+			
+		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
+		// Will be replaced in future releases by ilAccess::checkAccess()
+		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
 			ilUtil::redirect("link/link_resources.php?ref_id=$a_target");
 		}
