@@ -920,6 +920,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			//move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				//$cur_dir."/".$_FILES["new_file"]["name"]);
+			$file = $cur_dir."/".$_FILES["new_file"]["name"];
 			ilUtil::moveUploadedFile($_FILES['new_file']['tmp_name'],
 				$_FILES['new_file']['name'], $file);
 
