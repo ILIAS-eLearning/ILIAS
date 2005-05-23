@@ -51,11 +51,12 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilTableOfContentsExplorer($a_target,&$a_lm_obj)
+	function ilTableOfContentsExplorer($a_target,&$a_lm_obj, $a_export_format = "")
 	{
 		parent::ilLMExplorer($a_target, $a_lm_obj);
 		$this->setExpandTarget("lm_presentation.php?cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 		$this->setSessionExpandVariable("lmtocexpand");
+		$this->export_format = $a_export_format;
 
 		$this->addFilter("du");
 		$this->addFilter("st");
@@ -70,7 +71,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		// be shown in the frameset of ilias, or in a separate window.
 		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-		if ($showViewInFrameset) 
+		if ($showViewInFrameset)
 		{
 			$this->setFrameTarget("bottom");
 		}
@@ -87,6 +88,15 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	function setOfflineMode($a_offline = true)
 	{
 		$this->offline = $a_offline;
+
+		if ($a_offline)
+		{
+			if ($this->export_format == "scorm")
+			{
+				$this->setFrameTarget("");
+			}
+		}
+
 	}
 
 	/**
@@ -103,7 +113,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	function buildTitle($a_title, $a_id, $a_type)
 	{
 		global $lng;
-		
+
 		include_once("content/classes/class.ilObjContentObject.php");
 		$access_str = "";
 		if (!ilObjContentObject::_checkPreconditionsOfPage(
@@ -142,7 +152,14 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		// be shown in the frameset of ilias, or in a separate window.
 		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-		if ($showViewInFrameset) 
+		if ($this->offlineMode() &&
+			$this->export_format == "scorm")
+		{
+			return "";
+		}
+
+
+		if ($showViewInFrameset)
 		{
 			return "bottom";
 		}

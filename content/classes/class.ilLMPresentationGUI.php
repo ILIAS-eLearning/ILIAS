@@ -134,7 +134,7 @@ class ilLMPresentationGUI
 	{
 		$this->export_format = $a_format;
 	}
-	
+
 	/**
 	* get export format
 	*
@@ -142,9 +142,9 @@ class ilLMPresentationGUI
 	*/
 	function getExportFormat()
 	{
-		$this->export_format;
+		return $this->export_format;
 	}
-	
+
 	/**
 	* this dummy function is needed for offline package creation
 	*/
@@ -474,7 +474,7 @@ class ilLMPresentationGUI
 		{
 			$layout = $this->lm->getLayout();
 		}
-		
+
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 
 		// xmldocfile is deprecated! Use domxml_open_file instead.
@@ -607,7 +607,7 @@ class ilLMPresentationGUI
 								unset($_SESSION["tr_id"]);
 								unset($_SESSION["bib_id"]);
 								unset($_SESSION["citation"]);
-								$content = $this->ilPage($child);								
+								$content = $this->ilPage($child);
 								break;
 
 							case "dbk":
@@ -664,7 +664,7 @@ class ilLMPresentationGUI
 					case "ilLMMenu":
 						$this->ilLMMenu();
 						break;
-						
+
 					case "ilLMSubMenu":
 						$this->ilLMSubMenu();
 						break;
@@ -776,6 +776,7 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
+
 		$ilBench->start("ContentPresentation", "ilTOC");
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
 		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", $a_target),$this->lm);
@@ -806,7 +807,7 @@ class ilLMPresentationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		
+
 		// set style sheets
 		if (!$this->offlineMode())
 		{
@@ -820,7 +821,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_toc"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", 
+		$this->tpl->setVariable("ACTION",
 			$this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]).
 			"&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
@@ -832,7 +833,8 @@ class ilLMPresentationGUI
 	*/
 	function ilLMMenu()
 	{
-		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()));
+		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
+			,$this->getExportFormat()));
 	}
 
 	/**
@@ -1166,11 +1168,11 @@ class ilLMPresentationGUI
 	function ilPage(&$a_page_node)
 	{
 		global $ilBench,$ilUser;
-		
+
 		if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
 		{
 			$public = ilLMObject::_isPagePublic($this->getCurrentPageId());
-			
+
 			if (!$public)
 				return $this->showNoPublicAccess($this->getCurrentPageId());
 		}
@@ -1416,6 +1418,13 @@ class ilLMPresentationGUI
 									$ltarget="_top";
 								}
 							}
+							// scorm always in 1window view and link target
+							// is always same frame
+							if ($this->getExportFormat() == "scorm" &&
+								$this->offlineMode())
+							{
+								$ltarget = "";
+							}
 							$href =
 								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type);
 						}
@@ -1454,7 +1463,7 @@ class ilLMPresentationGUI
 						$href =
 							$this->getLink($_GET["ref_id"], $a_cmd = "media", $target_id, $nframe, $type);
 						break;
-						
+
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
@@ -1466,7 +1475,7 @@ class ilLMPresentationGUI
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
 					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
-					
+
 				// set equal link info for glossary links of target "None" and "Glossary"
 				/*
 				if ($targetframe=="None" && $type=="GlossaryItem")
@@ -1895,7 +1904,7 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
-		
+
 		// set style sheets
 		if (!$this->offlineMode())
 		{
@@ -1912,10 +1921,11 @@ class ilLMPresentationGUI
 		// set title header
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
 
+
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
 		$exp = new ilTableOfContentsExplorer(
 			"lm_presentation.php?ref_id=".$_GET["ref_id"]
-			, $this->lm);
+			, $this->lm, $this->getExportFormat());
 		$exp->setTargetGet("obj_id");
 		$exp->setOfflineMode($this->offlineMode());
 
@@ -1937,7 +1947,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->setVariable("EXPLORER", $output);
 		$this->tpl->parseCurrentBlock();
-		
+
 		if ($this->offlineMode())
 		{
 			return $this->tpl->get();

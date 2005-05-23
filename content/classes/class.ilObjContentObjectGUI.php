@@ -2402,7 +2402,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	/**
 	* get lm menu html
 	*/
-	function setilLMMenu($a_offline = false)
+	function setilLMMenu($a_offline = false, $a_export_format = "")
 	{
 		if (!$this->object->isActiveLMMenu())
 		{
@@ -2418,13 +2418,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// be shown in the frameset of ilias, or in a separate window.
 		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-		if ($showViewInFrameset) 
+		if ($showViewInFrameset)
 		{
 			$buttonTarget = "bottom";
 		}
 		else
 		{
 			$buttonTarget = "_top";
+		}
+
+		if ($a_export_format == "scorm")
+		{
+			$buttonTarget = "";
 		}
 
 		if ($this->object->isActiveTOC())
@@ -2465,11 +2470,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
 		}
-		
+
 		// get user defined menu entries
 		$this->__initLMMenuEditor();
 		$entries = $this->lmme_obj->getMenuEntries(true);
-		
+
 		if (count($entries) > 0)
 		{
 			foreach ($entries as $entry)
