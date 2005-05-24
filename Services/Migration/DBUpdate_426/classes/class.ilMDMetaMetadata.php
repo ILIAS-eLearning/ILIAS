@@ -191,7 +191,7 @@ class ilMDMetaMetadata extends ilMDBase
 		return array('rbac_id'	=> $this->getRBACId(),
 					 'obj_id'	=> $this->getObjId(),
 					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'meta_data_scheme'	=> ilUtil::prepareDBString($this->getMigration/DBUpdate_426Scheme()),
+					 'meta_data_scheme'	=> ilUtil::prepareDBString($this->getMetaDataScheme()),
 					 'language' => ilUtil::prepareDBString($this->getLanguageCode()));
 	}
 
@@ -213,7 +213,7 @@ class ilMDMetaMetadata extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setMigration/DBUpdate_426Scheme(ilUtil::stripSlashes($row->meta_data_scheme));
+				$this->setMetaDataScheme(ilUtil::stripSlashes($row->meta_data_scheme));
 				$this->setLanguage(new ilMDLanguageItem($row->language));
 			}
 			return true;
