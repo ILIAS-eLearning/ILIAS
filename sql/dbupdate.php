@@ -6788,4 +6788,112 @@ chdir($wd);
 	}
 	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
+<#441>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
 
+<#442>
+<?php
+$tables = array('il_meta_annotation',
+				'il_meta_classification',
+				'il_meta_contribute',
+				'il_meta_description',
+				'il_meta_educational',
+				'il_meta_entity',
+				'il_meta_format',
+				'il_meta_general',
+				'il_meta_identifier',
+				'il_meta_identifier_',
+				'il_meta_keyword',
+				'il_meta_language',
+				'il_meta_lifecycle',
+				'il_meta_location',
+				'il_meta_meta_data',
+				'il_meta_relation',
+				'il_meta_requirement',
+				'il_meta_rights',
+				'il_meta_taxon',
+				'il_meta_taxon_path',
+				'il_meta_technical',
+				'il_meta_typical_age_range');
+
+foreach($tables as $table)
+{
+	$ilDB->query("ALTER TABLE ".$table." ADD INDEX ('obj_id','rbac_id','obj_type')");
+}
+
+<#443>
+<?php
+$wd = getcwd();
+chdir('..');
+
+include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDXMLParser.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+global $log;
+
+$log->write("MetaData (Migration type 'mob'): Start");
+
+$nested = new ilNestedSetXML();
+
+// Get last processes mob object
+$res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$max_id = $row->max_id;
+}
+$max_id = $max_id ? $max_id : 0;
+
+// MetaData migration of mobs
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'mob' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+
+$log->write("MetaData (Migration type 'mob'): Number of objects: ".$res->numRows());
+
+$counter = 0;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if(!(++$counter%100))
+	{
+		$log->write("MetaData (Migration type 'mob'): Processing obj number: ".$row->obj_id);
+	}
+
+	// Check if already processed
+	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
+	if($done_res->numRows())
+	{
+		continue;
+	}
+	// Delete old entries
+	$md = new ilMD($row->obj_id,$row->obj_id,'mob');
+	$md->deleteAll();
+
+	// Get xml data
+	if($xml = $nested->export($row->obj_id,'mob'))
+	{
+		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'mob');
+		$parser->startParsing();
+	}
+	else
+	{
+		// Create new entry
+		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'mob');
+		$md_creator->setTitle($row->title);
+		$md_creator->setTitleLanguage('en');
+		$md_creator->setDescription($row->desc);
+		$md_creator->setDescriptionLanguage('en');
+		$md_creator->setKeywordLanguage('en');
+		$md_creator->setLanguage('en');
+
+		$md_creator->create();
+	}
+	// Set passed
+	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+}
+$log->write("MetaData (Migration type 'mob'): Finished migration");
+
+chdir($wd);
+?>
