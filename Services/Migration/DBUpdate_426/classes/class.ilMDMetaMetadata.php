@@ -108,7 +108,7 @@ class ilMDMetaMetadata extends ilMDBase
 	{
 		$this->meta_data_scheme = $a_val;
 	}
-	function getMetaDataScheme($a_val)
+	function getMetaDataScheme()
 	{
 		// Fixed attribute
 		return 'LOM v 1.0';

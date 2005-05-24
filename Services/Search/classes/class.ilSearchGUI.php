@@ -36,6 +36,7 @@ include_once 'Services/Search/classes/class.ilSearchBaseGUI.php';
 
 class ilSearchGUI extends ilSearchBaseGUI
 {
+	var $root_node;
 
 	/**
 	* Constructor
@@ -43,9 +44,20 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function ilSearchGUI()
 	{
+		$this->root_node = $_SESSION['search_root'] ? $_SESSION['search_root'] : ROOT_FOLDER_ID;
+
 		parent::ilSearchBaseGUI();
 	}
 
+	function getRootNode()
+	{
+		return $this->root_node;
+	}
+	function setRootNode($a_node_id)
+	{
+		$_SESSION['search_root'] = $this->root_node = $a_node_id;
+	}
+		
 	/**
 	* Control
 	* @access public
@@ -79,6 +91,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('search'));
+		$this->tpl->setVariable("TXT_SEARCHAREA",$this->lng->txt('search_area'));
 		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SEARCHTERM",$this->lng->txt("search_search_term"));
 		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
@@ -97,9 +111,39 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Set old query string
 		$this->tpl->setVariable("FORM_SEARCH_STR",ilUtil::prepareFormOutput($_POST['search_str'],true));
 
+		$this->tpl->setVariable("HREF_UPDATE_AREA",$this->ctrl->getLinkTarget($this,'showSelectRoot'));
+		$this->tpl->setVariable("UPDATE_AREA",$this->lng->txt('search_change'));
+		$this->tpl->setVariable("SEARCHAREA",$this->lng->txt('search_in_magazin'));
 
 		return true;
 	}
+
+	function showSelectRoot()
+	{
+		global $tree;
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search_root_selector.html','Services/Search');
+
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+
+		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'showSelectRoot'));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showSelectRoot'));
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+	}
+
+	function selectRoot()
+	{
+		$this->setRootNode((int) $_GET['root_id']);
+		$this->showSavedResults();
+
+		return true;
+	}
+
 	
 	function showSavedResults()
 	{
@@ -114,10 +158,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->showSearch();
 
 		// Show them
+		$result_obj->filterResults($this->getRootNode());
 		if(count($result_obj->getResults()))
 		{
-			$result_obj->filter();
-			
 			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
 			
 			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
@@ -173,7 +216,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result->mergeEntries($result_meta);
 
 		// Step 4: merge and validate results
-		$result->filter();
+		$result->filter($this->getRootNode());
 
 		if(!count($result->getResults()))
 		{
@@ -195,6 +238,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		return true;
 	}
+
+		
 
 	function prepareOutput()
 	{
