@@ -1,15 +1,11 @@
 	<form action="{SEARCH_ACTION}" METHOD="post">
-	  <table class="std">
-		<tr class="tblheader">
-		  <td class="std" colspan="4">
-			<table class="invisible_border" width="100%">
-			  <tr>
-				<td>&nbsp;</td>
-			  </tr>
-			</table>
+	  <table cellpadding="0" cellspacing="1">
+		<tr>
+		  <td colspan="4">
+			<h2>{TBL_TITLE}&nbsp</h2>
 		  </td>
 		</tr>
-		<tr>
+		<tr class="tblrow1">
 		  <td class="option">
 			{TXT_SEARCHTERM}
 		  </td>
@@ -23,14 +19,21 @@
 			<input type="RADIO" name="combination" value="and" {AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
-		<tr>
-		  <tr class="tablefooter">
-			<td class="submit" colspan="4">
-			  <div align="right">
-				<input class="submit" type="SUBMIT" name="cmd[performSearch]" value="{BTN_SEARCH}"/>
-			  </div>
-			</td>
-		  </tr>
+		<tr class="tblrow1">
+		  <td class="option">
+			{TXT_SEARCHAREA}
+		  </td>
+		  <td class="option_value" colspan="3">
+			{SEARCHAREA}&nbsp;[<a href="{HREF_UPDATE_AREA}">{UPDATE_AREA}</a>]
+		  </td>
+		</tr>
+		<tr class="tablefooter">
+		  <td class="submit" colspan="4">
+			<div align="right">
+			  <input class="submit" type="SUBMIT" name="cmd[performSearch]" value="{BTN_SEARCH}"/>
+			</div>
+		  </td>
+		</tr>
 	  </table>
 	  <br />
 	  {RESULTS}

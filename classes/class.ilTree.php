@@ -1268,8 +1268,10 @@ class ilTree
 	{
 		if (!isset($a_startnode_id) or !isset($a_querynode_id))
 		{
-			$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".
-									 $a_querynode_id,$this->ilErr->WARNING);
+			return false;
+			// No raise error, since it is a already a check function
+			#$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".
+			#						 $a_querynode_id,$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".

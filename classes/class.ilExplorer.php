@@ -877,11 +877,9 @@ class ilExplorer
 		{
 			$this->filter = array();
 		}
-		
 		if ($is_present == 0)
 		{
 			$this->filter[] = $a_item;
-
 		}
 
 		return true;
