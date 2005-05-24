@@ -489,7 +489,7 @@ class ilInternalLinkGUI
 							$tpl->setVariable("ROWCLASS", $css_row);
 							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
 							$tpl->setVariable("LINK_CHAPTER",
-								$this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]"));
+											  $this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]"." "."[/iln]"));
 							$tpl->parseCurrentBlock();
 							$tpl->setCurrentBlock("row");
 							$tpl->parseCurrentBlock();
