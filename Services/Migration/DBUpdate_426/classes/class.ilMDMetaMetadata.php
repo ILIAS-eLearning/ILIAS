@@ -104,11 +104,11 @@ class ilMDMetaMetadata extends ilMDBase
 
 
 	// SET/GET
-	function setMigration/DBUpdate_426Scheme($a_val)
+	function setMetaDataScheme($a_val)
 	{
 		$this->meta_data_scheme = $a_val;
 	}
-	function getMigration/DBUpdate_426Scheme()
+	function getMetaDataScheme($a_val)
 	{
 		// Fixed attribute
 		return 'LOM v 1.0';
