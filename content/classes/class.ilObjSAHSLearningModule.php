@@ -24,7 +24,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "content/classes/class.ilObjSCORMValidator.php";
-require_once "classes/class.ilMetaData.php";
+//require_once "classes/class.ilMetaData.php";
 
 /**
 * Class ilObjSCORMLearningModule
@@ -38,7 +38,7 @@ require_once "classes/class.ilMetaData.php";
 class ilObjSAHSLearningModule extends ilObject
 {
 	var $validator;
-	var $meta_data;
+//	var $meta_data;
 
 	/**
 	* Constructor
@@ -52,8 +52,10 @@ class ilObjSAHSLearningModule extends ilObject
 		parent::ilObject($a_id,$a_call_by_reference);
 		if ($a_id == 0)
 		{
+/*
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
+*/
 		}
 
 	}
@@ -66,7 +68,11 @@ class ilObjSAHSLearningModule extends ilObject
 		global $ilDB;
 
 		parent::create();
+		$this->createMetaData();
+
 		$this->createDataDirectory();
+
+/*
 		$this->meta_data->setId($this->getId());
 //echo "<br>title:".$this->getId();
 		$this->meta_data->setType($this->getType());
@@ -76,6 +82,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->meta_data->setDescription($this->getDescription());
 		$this->meta_data->setObject($this);
 		$this->meta_data->create();
+*/
 
 		$q = "INSERT INTO sahs_lm (id, online, api_adapter, type) VALUES ".
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
@@ -89,7 +96,7 @@ class ilObjSAHSLearningModule extends ilObject
 	function read()
 	{
 		parent::read();
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
 		$q = "SELECT * FROM sahs_lm WHERE id = '".$this->getId()."'";
 		$lm_set = $this->ilias->db->query($q);
@@ -136,61 +143,73 @@ class ilObjSAHSLearningModule extends ilObject
 	*
 	* @return	string		title
 	*/
+/*
 	function getTitle()
 	{
 		return parent::getTitle();
 	}
+*/
 
 	/**
 	* set title of content object
 	*
 	* @param	string	$a_title		title
 	*/
+/*
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
+*/
 
 	/**
 	* get description of content object
 	*
 	* @return	string		description
 	*/
+/*
 	function getDescription()
 	{
 		return $this->meta_data->getDescription();
 	}
+*/
 
 	/**
 	* set description of content object
 	*
 	* @param	string	$a_description		description
 	*/
+/*
 	function setDescription($a_description)
 	{
 		$this->meta_data->setDescription($a_description);
 	}
+*/
 
 	/**
 	* assign a meta data object to content object
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of content object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 
 	/**
@@ -298,6 +317,7 @@ class ilObjSAHSLearningModule extends ilObject
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->meta_data->update();
@@ -316,6 +336,7 @@ class ilObjSAHSLearningModule extends ilObject
 		parent::update();
 
 	}
+*/
 
 
 	/**
@@ -329,6 +350,7 @@ class ilObjSAHSLearningModule extends ilObject
 		global $ilDB;
 
 		$this->updateMetaData();
+		parent::update();
 
 		$q = "UPDATE sahs_lm SET ".
 			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
@@ -417,9 +439,12 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 
 		// delete meta data of scorm content object
+/*
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
+*/
+		$this->deleteMetaData();
 
 		// delete data directory
 		ilUtil::delDir($this->getDataDirectory());

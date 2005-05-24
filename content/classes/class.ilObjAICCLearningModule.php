@@ -22,7 +22,7 @@
 */
 
 require_once "classes/class.ilObject.php";
-require_once "classes/class.ilMetaData.php";
+//require_once "classes/class.ilMetaData.php";
 require_once "content/classes/class.ilObjSCORMLearningModule.php";
 
 /**
@@ -36,7 +36,7 @@ require_once "content/classes/class.ilObjSCORMLearningModule.php";
 */
 class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 {
-	var $meta_data;
+	//var $meta_data;
 
 	/**
 	* Constructor
@@ -48,11 +48,13 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	{
 		$this->type = "sahs";
 		parent::ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 	}
 
 	/**
@@ -106,9 +108,12 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		}
 
 		// delete meta data of scorm content object
+/*
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
+*/
+		$this->deleteMetaData();
 
 		// delete data directory
 		ilUtil::delDir($this->getDataDirectory());

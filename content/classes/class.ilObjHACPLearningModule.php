@@ -13,7 +13,7 @@ require_once "content/classes/class.ilObjAICCLearningModule.php";
 */
 class ilObjHACPLearningModule extends ilObjAICCLearningModule
 {
-	var $meta_data;
+	//var $meta_data;
 
 	/**
 	* Constructor
@@ -25,11 +25,13 @@ class ilObjHACPLearningModule extends ilObjAICCLearningModule
 	{
 		$this->type = "sahs";
 		parent::ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 	}
 
 

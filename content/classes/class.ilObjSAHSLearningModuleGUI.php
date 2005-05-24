@@ -31,7 +31,7 @@ require_once("classes/class.ilTabsGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,6 +69,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilfilesystemgui":
 				//$ret =& $this->fs_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
@@ -324,6 +334,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	* choose meta data section
 	* (called by administration)
 	*/
+/*
 	function chooseMetaSectionObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -337,20 +348,23 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$a_target, $_REQUEST["meta_section"]);
 	}
-
+*/
 	/**
 	* choose meta data section
 	* (called by module)
 	*/
+/*
 	function chooseMetaSection()
 	{
 		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by administration)
 	*/
+/*
 	function addMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -377,21 +391,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by module)
 	*/
+/*
 	function addMeta()
 	{
 		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
-
+*/
 
 	/**
 	* delete meta data object
 	* (called by administration)
 	*/
+/*
 	function deleteMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -406,20 +423,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* delete meta data object
 	* (called by module)
 	*/
+/*
 	function deleteMeta()
 	{
 		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by administration)
 	*/
+/*
 	function editMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -432,20 +453,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by module)
 	*/
+/*
 	function editMeta()
 	{
 		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by administration)
 	*/
+/*
 	function saveMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -460,15 +485,18 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
 			"meta_section=" . $_POST["meta_section"]));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by module)
 	*/
+/*
 	function saveMeta()
 	{
 		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
 	}
+*/
 
 
 	/**
@@ -610,7 +638,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
-		
+
 		// file system gui tabs
 		if (is_object($this->fs_gui))
 		{
@@ -623,9 +651,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			get_class($this));
 
 		// edit meta
+/*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
 			get_class($this));
+*/
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
 
 		// perm
 		$tabs_gui->addTarget("perm_settings",
@@ -640,5 +673,5 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 
 
-} // END class.ilObjSCORMLearningModule
+} // END class.ilObjSAHSLearningModule
 ?>

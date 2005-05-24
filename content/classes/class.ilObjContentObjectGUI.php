@@ -2499,6 +2499,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 		}
 
+		// close button
 		if(!$showViewInFrameset and
 		   $this->object->isActiveLMMenu())
 		{
@@ -2506,6 +2507,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tpl_menu->setVariable("JS_BTN_TXT",$this->lng->txt('close'));
 			$tpl_menu->parseCurrentBlock();
 		}
+
+		// Jump to...
+		/*
+		$tpl_menu->setCurrentBlock("jump");
+		$tpl_menu->setVariable("JUMP_TXT", $this->lng->txt("jump_to"));
+		$tpl_menu->parseCurrentBlock();
+		*/
 
 		return $tpl_menu->get();
 	}

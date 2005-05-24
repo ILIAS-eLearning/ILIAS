@@ -28,7 +28,7 @@
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI
+* @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -37,7 +37,7 @@
 
 include_once "./assessment/classes/class.ilObjQuestionPool.php";
 include_once "./classes/class.ilObjectGUI.php";
-include_once "./classes/class.ilMetaDataGUI.php";
+//include_once "./classes/class.ilMetaDataGUI.php";
 include_once "./assessment/classes/class.assQuestionGUI.php";
 include_once './classes/Spreadsheet/Excel/Writer.php';
 require_once "./classes/class.ilSearch.php";
@@ -51,15 +51,15 @@ define ("TYPE_SPSS", "csv");
 class ilObjTestGUI extends ilObjectGUI
 {
 	var $sequence;
-	
+
 	var $cmdCtrl;
-	
+
 	var $maxProcessingTimeReached;
-	
+
 	var $endingTimeReached;
-	
+
 	var $saveResult;
-	
+
 	/**
 	* Constructor
 	* @access public
@@ -121,6 +121,16 @@ class ilObjTestGUI extends ilObjectGUI
 		#echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+				$this->setAdminTabs();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			default:
 				switch ($cmd)
 				{
@@ -165,7 +175,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		return "test.php";
 	}
-	
+
 	/**
 	* form for new test object import
 	*/
@@ -598,6 +608,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$contParser->startParsing();
 
 		/* update title and description in object data */
+/*
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
@@ -608,6 +619,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
+*/
 
 		$newObj->saveToDb();
 		if ($redirect)
@@ -776,7 +788,7 @@ class ilObjTestGUI extends ilObjectGUI
     		$this->object->setRandomTest(0);
 		}
 
-		$this->object->updateTitleAndDescription();
+//		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
 		$this->object->saveToDb(true);
 
@@ -796,7 +808,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->removeRandomTestData();
 			}
 		}
-		$this->propertiesObject();
+		$this->ctrl->redirect($this, "properties");
 	}
 	
 	/**
@@ -5147,7 +5159,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilias_locator->output();
 	}
 
-
+/*
 	function editMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -5241,7 +5253,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
-
+*/
 	/**
 	* form for new content object creation
 	*/
@@ -6500,8 +6512,23 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		if (!is_bool($this->endingTimeReached))			
 			$this->endingTimeReached = $this->object->endingTimeReached() && ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->isOnlineTest());
 			
-		return $this->endingTimeReached;	
-	}			
+		return $this->endingTimeReached;
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->getTargetsByObjectType($this, "tst");
+
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
+	}
+
 				
 } // END class.ilObjTestGUI
 

@@ -34,7 +34,7 @@
 
 require_once "./classes/class.ilObject.php";
 require_once "./assessment/classes/class.assMarkSchema.php";
-require_once "./classes/class.ilMetaData.php";
+//require_once "./classes/class.ilMetaData.php";
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assClozeTest.php";
 require_once "./assessment/classes/class.assImagemapQuestion.php";
@@ -339,11 +339,13 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
@@ -353,6 +355,8 @@ class ilObjTest extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
+		$this->createMetaData();
+/*
 		if (!$a_upload)
 		{
 			$this->meta_data->setId($this->getId());
@@ -362,6 +366,7 @@ class ilObjTest extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+*/
 	}
 
 	/**
@@ -372,8 +377,9 @@ class ilObjTest extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
 		if (!parent::update())
-		{			
+		{
 			return false;
 		}
 
@@ -415,12 +421,12 @@ class ilObjTest extends ilObject
 	{
 		parent::read($a_force_db);
 		$this->loadFromDb();
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
-	
+
 /**
 	* copy all entries of your object.
-	* 
+	*
 	* @access	public
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
@@ -449,28 +455,31 @@ class ilObjTest extends ilObject
 	}
 
 	/**
-	* delete object and all related data	
+	* delete object and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
+		// delet meta data
+		$this->deleteMetaData();
+
 		//put here your module specific stuff
 		$this->deleteTest();
-		
+
 		return true;
 	}
 
 /**
 * Deletes the test and all related objects, files and database entries
-* 
+*
 * Deletes the test and all related objects, files and database entries
 *
 * @access	public
@@ -486,7 +495,7 @@ class ilObjTest extends ilObject
 		{
 			array_push($active_array, $row["active_id"]);
 		}
-		
+
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
@@ -502,12 +511,12 @@ class ilObjTest extends ilObject
 				$result = $this->ilias->db->query($query);
 			}
 		}
-		
+
 		$query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
+
 		$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
@@ -516,29 +525,29 @@ class ilObjTest extends ilObject
 		{
 			$this->removeQuestion($row->question_fi);
 		}
-		
+
 		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
+
 		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
+
 		$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
+
 		$this->removeAllTestEditings();
-		
+
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
+
 		// delete export files
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		$directory = $tst_data_dir."/tst_".$this->getId();
@@ -551,10 +560,10 @@ class ilObjTest extends ilObject
 
 	/**
 	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
+	*
+	* If your module does not require any default roles, delete this method
 	* (For an example how this method is used, look at ilObjForum)
-	* 
+	*
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
@@ -3017,24 +3026,29 @@ class ilObjTest extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of glossary object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -3042,7 +3056,7 @@ class ilObjTest extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -3050,10 +3064,11 @@ class ilObjTest extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 /**
 * Returns the number of persons who started the test
-* 
+*
 * Returns the number of persons who started the test
 *
 * @return integer The number of persons who started the test
@@ -4411,15 +4426,18 @@ class ilObjTest extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+// to do: export meta data
+/*
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+*/
 	}
 
 /**
 * Returns the installation id for a given identifier
-* 
+*
 * Returns the installation id for a given identifier
 *
 * @access	private
@@ -4915,15 +4933,18 @@ class ilObjTest extends ilObject
 	/**
 	* Set the title and the description for the meta data
 	*/
+/*
 	function updateTitleAndDescription()
 	{
 		$this->initMeta();
 		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -4942,10 +4963,11 @@ class ilObjTest extends ilObject
 		}
 		parent::update();
 	}
-	
+*/
+
 /**
 * Returns the available question pools for the active user
-* 
+*
 * Returns the available question pools for the active user
 *
 * @return array The available question pools
@@ -5072,8 +5094,11 @@ class ilObjTest extends ilObject
 			}
 		}
 		
-		$newObj->saveToDb();		
+		$newObj->saveToDb();
+
+// to do: clone meta data
 		// clone meta data
+/*
 		$meta_data =& new ilMetaData($original->getType(), $original->getId());
 		include_once("./classes/class.ilNestedSetXML.php");
 		$nested = new ilNestedSetXML();
@@ -5086,12 +5111,13 @@ class ilObjTest extends ilObject
 		}
 		$xml = $nested->dom->dump_mem(0);
 		$nested->import($xml, $newObj->getId(), $newObj->getType());
+*/
 	}
 
 	function _getRefIdFromObjId($obj_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
 			$ilDB->quote($obj_id)
 			

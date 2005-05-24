@@ -33,7 +33,7 @@
 */
 
 require_once "./classes/class.ilObject.php";
-require_once "./classes/class.ilMetaData.php";
+//require_once "./classes/class.ilMetaData.php";
 require_once "./survey/classes/class.SurveyQuestion.php";
 require_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
 require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
@@ -202,11 +202,13 @@ class ilObjSurvey extends ilObject
 		global $ilUser;
 		$this->type = "svy";
 		$this->ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 		$this->survey_id = -1;
 		$this->introduction = "";
 		$this->author = $ilUser->fullname;
@@ -227,6 +229,8 @@ class ilObjSurvey extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
+		$this->createMetaData();
+/*
 		if (!$a_upload)
 		{
 			$this->meta_data->setId($this->getId());
@@ -236,6 +240,7 @@ class ilObjSurvey extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+*/
 	}
 
 	/**
@@ -246,16 +251,18 @@ class ilObjSurvey extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
+
 		if (!parent::update())
-		{			
+		{
 			return false;
 		}
 
 		// put here object specific stuff
-		
+
 		return true;
 	}
-	
+
 	function createReference() {
 		$result = parent::createReference();
 		$this->saveToDb();
@@ -271,12 +278,12 @@ class ilObjSurvey extends ilObject
 	{
 		parent::read($a_force_db);
 		$this->loadFromDb();
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
-	
+
 	/**
 	* copy all entries of your object.
-	* 
+	*
 	* @access	public
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
@@ -305,20 +312,22 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* delete object and all related data	
+	* delete object and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		$remove = parent::delete();
 		// always call parent delete function first!!
 		if (!$remove)
 		{
 			return false;
 		}
-		
+
+		$this->deleteMetaData();
+
 		// Delete all survey questions, constraints and materials
 		foreach ($this->questions as $question_id)
 		{
@@ -897,6 +906,7 @@ class ilObjSurvey extends ilObject
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -904,7 +914,7 @@ class ilObjSurvey extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -912,6 +922,7 @@ class ilObjSurvey extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 /**
 * Loads a survey object from a database
@@ -1062,20 +1073,24 @@ class ilObjSurvey extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of glossary object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 /**
 * Sets the authors name
@@ -3980,7 +3995,7 @@ class ilObjSurvey extends ilObject
 				$qtiFieldEntry->append_child($qtiFieldEntryText);
 				$qtiMetadatafield->append_child($qtiFieldLabel);
 				$qtiMetadatafield->append_child($qtiFieldEntry);
-				$qtiMetadata->append_child($qtiMetadatafield);				
+				$qtiMetadata->append_child($qtiMetadatafield);
 			}
 		}
 		// add constraints
@@ -4002,7 +4017,7 @@ class ilObjSurvey extends ilObject
 						$qtiFieldEntry->append_child($qtiFieldEntryText);
 						$qtiMetadatafield->append_child($qtiFieldLabel);
 						$qtiMetadatafield->append_child($qtiFieldEntry);
-						$qtiMetadata->append_child($qtiMetadatafield);				
+						$qtiMetadata->append_child($qtiMetadatafield);
 					}
 				}
 			}
@@ -4023,7 +4038,7 @@ class ilObjSurvey extends ilObject
 					$qtiFieldEntry->append_child($qtiFieldEntryText);
 					$qtiMetadatafield->append_child($qtiFieldLabel);
 					$qtiMetadatafield->append_child($qtiFieldEntry);
-					$qtiMetadata->append_child($qtiMetadatafield);				
+					$qtiMetadata->append_child($qtiMetadatafield);
 				}
 			}
 		}
@@ -4354,15 +4369,18 @@ class ilObjSurvey extends ilObject
 	/**
 	* Set the title and the description of the meta data
 	*/
+/*
 	function updateTitleAndDescription()
 	{
 		$this->initMeta();
 		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -4381,10 +4399,11 @@ class ilObjSurvey extends ilObject
 		}
 		parent::update();
 	}
+*/
 
 /**
 * Returns the available surveys for the active user
-* 
+*
 * Returns the available surveys for the active user
 *
 * @return array The available surveys
@@ -4523,7 +4542,9 @@ class ilObjSurvey extends ilObject
 			}
 		}
 
+// to do: clone meta data!
 		// clone meta data
+/*
 		$meta_data =& new ilMetaData($original->getType(), $original->getId());
 		include_once("./classes/class.ilNestedSetXML.php");
 		$nested = new ilNestedSetXML();
@@ -4536,8 +4557,9 @@ class ilObjSurvey extends ilObject
 		}
 		$xml = $nested->dom->dump_mem(0);
 		$nested->import($xml, $newObj->getId(), $newObj->getType());
+*/
 	}
-	
+
 	/**
 	* creates data directory for export files
 	* (data_dir/svy_data/svy_<id>/export, depending on data

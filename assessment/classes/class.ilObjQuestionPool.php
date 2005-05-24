@@ -33,7 +33,7 @@
 */
 
 require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilMetaData.php";
+//require_once "./classes/class.ilMetaData.php";
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assClozeTestGUI.php";
 require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
@@ -54,11 +54,13 @@ class ilObjQuestionPool extends ilObject
 	{
 		$this->type = "qpl";
 		$this->ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 	}
 
 	/**
@@ -67,6 +69,9 @@ class ilObjQuestionPool extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
+		$this->createMetaData();
+
+/*
 		if (!$a_upload)
 		{
 			$this->meta_data->setId($this->getId());
@@ -76,6 +81,7 @@ class ilObjQuestionPool extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+*/
 	}
 
 	/**
@@ -86,6 +92,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
 		if (!parent::update())
 		{
 			return false;
@@ -104,7 +111,7 @@ class ilObjQuestionPool extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 
 	/**
@@ -150,6 +157,9 @@ class ilObjQuestionPool extends ilObject
 		{
 			return false;
 		}
+
+		// delete meta data
+		$this->deleteMetaData();
 
 		//put here your module specific stuff
 		$this->deleteQuestionpool();
@@ -405,7 +415,7 @@ class ilObjQuestionPool extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
+//		$this->meta_data->setDescription($a_description);
 	}
 
 	/**
@@ -424,7 +434,7 @@ class ilObjQuestionPool extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
 
 	/**
@@ -432,24 +442,29 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of glossary object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -457,7 +472,7 @@ class ilObjQuestionPool extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -465,10 +480,12 @@ class ilObjQuestionPool extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -487,7 +504,7 @@ class ilObjQuestionPool extends ilObject
 		}
 		parent::update();
 	}
-
+*/
 
 	/**
 	* Checks whether the question is in use or not
@@ -748,10 +765,13 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+// to do: export meta data
+/*
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+*/
 	}
 
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)

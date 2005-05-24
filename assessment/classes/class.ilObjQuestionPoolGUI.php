@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_TextQuestionGUI, ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -41,7 +41,7 @@
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./assessment/classes/class.assQuestionGUI.php";
 require_once "./assessment/classes/class.ilObjQuestionPool.php";
-require_once "./classes/class.ilMetaDataGUI.php";
+//require_once "./classes/class.ilMetaDataGUI.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
@@ -125,6 +125,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+				$this->setAdminTabs();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilpageobjectgui":
 
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
@@ -330,6 +340,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$contParser->startParsing();
 
 		/* update title and description in object data */
+/*
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
@@ -340,6 +351,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
+*/
 		unlink($xml_file);
 		unlink($qti_file);
 		if ($redirect)
@@ -347,7 +359,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::redirect("adm_object.php?".$this->link_params);
 		}
 	}
-	
+
 	/**
 	* imports question(s) into the questionpool
 	*/
@@ -926,7 +938,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	function updateObject()
 	{
-		$this->update = $this->object->updateMetaData();
+//		$this->update = $this->object->updateMetaData();
+		$this->update = $this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
@@ -1197,6 +1210,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //		echo "<br>end setQuestionTabs<br>";
 	}
 
+/*
 	function editMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -1287,6 +1301,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
+*/
 
 	/*
 	* list all export files
@@ -1611,6 +1626,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->uploadQplObject(false);
 		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->getTargetsByObjectType($this, "qpl");
+
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
+	}
+
 
 } // END class.ilObjQuestionPoolGUI
 ?>
