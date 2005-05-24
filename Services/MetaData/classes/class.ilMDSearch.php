@@ -21,46 +21,105 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("IL_NO_PERMISSION", "no_permission");
-define("IL_MISSING_PRECONDITION", "missing_precondition");
-define("IL_NO_OBJECT_ACCESS", "no_object_access");
-define("IL_DELETED",'object_deleted');
-
 /**
-* class ilAccessInfo
+* Class ilMDSearch
 *
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+* Base class for searching meta 
 *
-* @package AccessControl
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id
+* 
+* @package ilias-search
+*
 */
-class ilAccessInfo
+
+class ilMDSearch
 {
-	function ilAccessInfo()
-	{
-		$this->info_items = array();
-	}
+	var $mode = '';
 
-	function clear()
+	/*
+	 * instance of query parser
+	 */
+	var $query_parser = null;
+
+	var $db = null;
+
+	/**
+	* Constructor
+	* @access public
+	*/
+	function ilMDSearch(&$qp_obj)
 	{
-		$this->info_items = array();
+		global $ilDB;
+		
+		$this->query_parser =& $qp_obj;
+		$this->db =& $ilDB;
+
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+
+		$this->search_result = new ilSearchResult();
 	}
 
 	/**
-	* add an info item
+	* Define meta elements to search
+	* 
+	* @param string mode keyword or all
+	* @access public
 	*/
-	function addInfoItem($a_type, $a_text, $a_data = "")
+	function setMode($a_mode)
 	{
-		$this->info_items[] = array("type" => $a_type, "text" => $a_text,
-			"data" => $a_data);
+		$this->mode = $a_mode;
+	}
+	function getMode()
+	{
+		return $this->mode;
 	}
 
-	/**
-	* get all info items
-	*/
-	function getInfoItems()
+
+	function &performSearch()
 	{
-		return $this->info_items;
+		switch($this->getMode())
+		{
+			case 'all':
+				break;
+			case 'keyword':
+				return $this->__searchKeywordsOnly();
+				break;
+
+			default:
+				echo "ilMDSearch::performSearch() no mode given";
+				return false;
+		}
 	}
+
+
+
+	// Private
+	function __searchKeywordsOnly()
+	{
+		$where = " WHERE ";
+		$field = " keyword ";
+		foreach($this->query_parser->getWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= strtoupper($this->query_parser->getCombination());
+			}
+			$where .= $field;
+			$where .= ("LIKE ('%".$word."%')");
+		}
+
+		$query = "SELECT * FROM il_meta_keyword".
+			$where.
+			"ORDER BY meta_keyword_id DESC";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
+		}
+
+		return $this->search_result;
+	}		
 }
 ?>

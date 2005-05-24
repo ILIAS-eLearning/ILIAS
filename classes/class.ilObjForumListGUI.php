@@ -115,7 +115,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$moderators .= ", ";
 			}
-			$moderators .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
+			$moderators .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
 				$MODS[$i]."&backurl=repository&offset=".$Start."\">".ilObjUser::_lookupLogin($MODS[$i])."</a>";
 		}
 
@@ -164,7 +164,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 			if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]))
 			{
-				$lpCont .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->container_obj->object->getRefId()."&user=".
+				$lpCont .= "<a class=\"il_ItemProperty\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
 					$last_user["usr_id"]."&backurl=repository&offset=".$Start."\">".$last_user["login"]."</a>, ";
 				$lpCont .= $lastPost["pos_date"];
 			}

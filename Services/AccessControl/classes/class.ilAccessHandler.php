@@ -143,6 +143,18 @@ class ilAccessHandler
 
 		// to do: payment handling
 
+
+		// Added check if object is in tree and not deleted
+		$ilBench->start("AccessControl", "2000_checkAccess_in_tree");
+		if(!$tree->isInTree($a_ref_id) or $tree->isDeleted($a_ref_id))
+		{
+			$this->current_info->addInfoItem(IL_DELETED, $lng->txt("object_deleted"));
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false);
+			$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
+
+			return false;
+		}			
+
 		// rbac check for current object
 		$ilBench->start("AccessControl", "2000_checkAccess_rbac_check");
 		if ($a_permission != "")

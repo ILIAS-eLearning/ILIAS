@@ -1466,6 +1466,14 @@ class ilTree
 	}
 
 	/**
+	* This is a wrapper for isSaved() with a more useful name
+	*/
+	function isDeleted($a_node_id)
+	{
+		return $this->isSaved($a_node_id);
+	}
+
+	/**
 	* check if node is saved
 	*/
 	function isSaved($a_node_id)
