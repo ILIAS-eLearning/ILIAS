@@ -6897,3 +6897,8 @@ $log->write("MetaData (Migration type 'mob'): Finished migration");
 
 chdir($wd);
 ?>
+
+<#444>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

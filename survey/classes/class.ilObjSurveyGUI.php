@@ -28,13 +28,15 @@
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version  $Id$
 *
+* @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 * @package survey
 */
 
 require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilMetaDataGUI.php";
+//require_once "./classes/class.ilMetaDataGUI.php";
 require_once "./classes/class.ilUtil.php";
 require_once "./classes/class.ilSearch.php";
 require_once "./classes/class.ilObjUser.php";
@@ -97,6 +99,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+				$this->setAdminTabs();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			default:
 				if (($cmd != "run") and ($cmd != "evaluation") and ($cmd != "evaluationdetails") and ($cmd != "evaluationuser"))
 				{
@@ -4229,6 +4241,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     $ilias_locator->output();
 	}
 
+/*
 	function editMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -4322,6 +4335,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
+*/
 
 	function prepareOutput()
 	{
@@ -4547,6 +4561,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
 
 		/* update title and description in object data */
+/*
 		if (is_object($newObj->meta_data))
 		{
 			$newObj->meta_data->read();
@@ -4555,6 +4570,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
+*/
 
 		$newObj->update();
 		$newObj->saveToDb();
@@ -4873,6 +4889,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("enter_valid_number_of_codes"), true);
 		}
 		$this->ctrl->redirect($this, "codes");
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->getTargetsByObjectType($this, "svy");
+
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
 	}
 
 } // END class.ilObjSurveyGUI

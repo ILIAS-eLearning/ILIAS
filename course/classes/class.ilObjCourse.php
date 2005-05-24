@@ -75,17 +75,17 @@ class ilObjCourse extends ilObject
 		}
 		else
 		{
-			
+
 		}
-			
+
 	}
-	
+
 	// SET/GET
 	function setId($a_id)
 	{
 		parent::setId($a_id);
-		
-		unset($this->meta_data);
+
+//		unset($this->meta_data);
 		#$this->__initMetaObject();
 	}
 
@@ -97,9 +97,9 @@ class ilObjCourse extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-		
-		$this->__initMetaObject();
-		$this->meta_data->setDescription($a_description);
+
+//		$this->__initMetaObject();
+//		$this->meta_data->setDescription($a_description);
 
 		return true;
 	}
@@ -110,8 +110,8 @@ class ilObjCourse extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->__initMetaObject();
-		$this->meta_data->setTitle($a_title);
+//		$this->__initMetaObject();
+//		$this->meta_data->setTitle($a_title);
 	}
 	function getSyllabus()
 	{
@@ -388,6 +388,8 @@ class ilObjCourse extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create($a_upload);
+		$this->createMetaData();
+/*
 		if (!$a_upload)
 		{
 			$this->__initMetaObject();
@@ -400,6 +402,7 @@ class ilObjCourse extends ilObject
 
 			$this->__createDefaultSettings();
 		}
+*/
 	}
 
 	function validate()
@@ -518,17 +521,21 @@ class ilObjCourse extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
+
+		// delete meta data
+		$this->deleteMetaData();
+
 		// put here course specific stuff
 
 		$this->__deleteSettings();
-		
+
 		$this->initCourseItemObject();
 		$this->items_obj->deleteAllEntries();
 
@@ -601,6 +608,7 @@ class ilObjCourse extends ilObject
 	}
 
 	// META DATA METHODS
+/*
 	function &getMetaData()
 	{
 		// CALLED BY META DATA GUI
@@ -609,10 +617,12 @@ class ilObjCourse extends ilObject
 
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->__initMetaObject();
@@ -632,6 +642,7 @@ class ilObjCourse extends ilObject
 		}
 		parent::update();
 	}
+*/
 
 	/**
 	* update complete object
@@ -640,8 +651,10 @@ class ilObjCourse extends ilObject
 	{
 		$this->updateMetaData();
 		$this->__updateSettings();
+		parent::update();
 	}
 
+/*
 	function __initMetaObject()
 	{
 		include_once "./classes/class.ilMetaData.php";
@@ -662,6 +675,7 @@ class ilObjCourse extends ilObject
 
 		return true;
 	}
+*/
 
 	function __updateSettings()
 	{

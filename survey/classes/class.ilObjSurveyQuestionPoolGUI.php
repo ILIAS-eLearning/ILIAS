@@ -26,7 +26,7 @@ require_once "./survey/classes/class.SurveyTextQuestionGUI.php";
 require_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
 require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilMetaDataGUI.php";
+//require_once "./classes/class.ilMetaDataGUI.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -35,10 +35,11 @@ require_once "./classes/class.ilMetaDataGUI.php";
 * @version  $Id$
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyNominalQuestionGUI, SurveyMetricQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyOrdinalQuestionGUI, SurveyTextQuestionGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
-* @package assessment
+* @package Survey
 */
 
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
@@ -912,6 +913,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		unset($_SESSION["calling_survey"]);
   }
 
+/*
 	function editMetaObject()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -919,11 +921,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			"$this->defaultscript?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
-	
+
 	function saveMetaObject()
 	{
 		global $rbacsystem;
-		
+
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			sendInfo($this->lng->txt("cannot_save_metaobject"));
@@ -1010,9 +1012,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->deleteMetaObject("$this->defaultscript?ref_id=".
 			$this->object->getRefId());
 	}
-	
+*/
+
 	function updateObject() {
-		$this->update = $this->object->updateMetaData();
+//		$this->update = $this->object->updateMetaData();
+		$this->update = $this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
@@ -1394,6 +1398,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// import qti data
 		$qtiresult = $newObj->importObject($full_path);
 		/* update title and description in object data */
+/*
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
@@ -1406,13 +1411,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			//echo "written the metadata";
 			//exit;
 		}
+*/
 
 		if ($redirect)
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);
 		}
 	}
-		
+
 	/**
 	* form for new content object creation
 	*/
@@ -1493,6 +1499,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 //echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+				$this->setAdminTabs();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "surveynominalquestiongui":
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
@@ -1570,7 +1586,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->setLocator();
 
 	}
-	
+
 	/**
 	* edit question
 	*/
@@ -1614,6 +1630,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$ret =& $this->executeCommand();
 		return $ret;
 	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->getTargetsByObjectType($this, "spl");
+
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
+	}
+
 
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

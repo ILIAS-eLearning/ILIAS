@@ -265,7 +265,10 @@ class ilObjectGUI
 		// temp. for groups and systemfolder
 		// TODO: use this style for all objects
 		if ($this->object->getType() == "grp" or $this->object->getType() == "adm"
-			or $this->object->getType() == "sty")
+			or $this->object->getType() == "sty" or $this->object->getType() == "svy"
+			or $this->object->getType() == "spl" or $this->object->getType() == "tst"
+			or $this->object->getType() == "qpl"
+			)
 		{
 			include_once "./classes/class.ilTabsGUI.php";
 			$tabs_gui =& new ilTabsGUI();
@@ -2473,10 +2476,10 @@ class ilObjectGUI
 
 		return $title ? $title : array();
 	}
-	
+
 	/**
 	* get tabs
-	* abstract method. 
+	* abstract method.
 	* @abstract	overwrite in derived GUI class of your object type
 	* @access	public
 	* @param	object	instance of ilTabsGUI
@@ -2490,7 +2493,7 @@ class ilObjectGUI
 	function __showButton($a_cmd,$a_text,$a_target = '')
 	{
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
+
 		// display button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));

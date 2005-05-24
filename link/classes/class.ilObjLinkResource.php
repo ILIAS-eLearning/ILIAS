@@ -118,7 +118,7 @@ class ilObjLinkResource extends ilObject
 		include_once './classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteObject($this->getId());
 
-		// Delete meta data
+		// delete meta data
 		$this->deleteMetaData();
 
 		return true;

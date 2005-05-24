@@ -374,7 +374,6 @@
 <object name="qpl" class_name="QuestionPool" location="assessment/classes" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
 	<property name="questions" module="1">ass_questions</property>
 	<property name="export" module="1">export</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
@@ -388,7 +387,6 @@
 	<property name="export" module="1">export</property>
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
@@ -401,7 +399,6 @@
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
 	<property name="codes" module="1">codes</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
@@ -410,7 +407,6 @@
 	<property name="questions" module="1">survey_questions</property>
 	<property name="phrases" module="1">manage_phrases</property>
 	<property name="export" module="1">export</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>

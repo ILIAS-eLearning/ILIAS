@@ -29,7 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -158,7 +158,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
 		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
 
-		// FILL 
+		// FILL
 		$this->tpl->setVariable("SYLLABUS",nl2br($this->object->getSyllabus() ? 
 												 $this->object->getSyllabus() : 
 												 $this->lng->txt("crs_not_available")));
@@ -956,7 +956,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("crs_no_archives_available"));
 			return true;
 		}
-		
+
 		$counter = 0;
 		foreach($archives as $id => $archive_data)
 		{
@@ -1146,7 +1146,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		return true;
 	}
-	
+
 	function performDeleteArchivesObject()
 	{
 		if(!$_SESSION["crs_archives"])
@@ -2234,10 +2234,10 @@ class ilObjCourseGUI extends ilObjectGUI
 			++$counter;
 		}
 		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
-		
+
 		return true;
 	}
-		
+
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
@@ -2280,7 +2280,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTarget($this, "editMeta"), "editMeta", get_class($this));
+				 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),''),
+				 "meta_data", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -2618,6 +2619,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 	
 	// META DATA METHODS
+/*
 	function editMetaObject()
 	{
 		$this->__initMetaDataGUI();
@@ -2662,7 +2664,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($_REQUEST["meta_name"])
 		{
 			$_REQUEST["meta_index"] = $_REQUEST["meta_index"] ? $_REQUEST["meta_index"] : 0;
-			
+
 			$this->meta_gui->meta_obj->add($_REQUEST["meta_name"],$_REQUEST["meta_path"], $_REQUEST["meta_index"]);
 
 			sendInfo($this->lng->txt("added_item"));
@@ -2695,6 +2697,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		$this->deleteMetaObject();
 	}
+*/
 	// END META DATA METHODS
 
 
@@ -3421,6 +3424,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		return $search->getResultByType($a_search_for);
 	}		
 
+/*
 	function __initMetaDataGUI()
 	{
 		include_once "./classes/class.ilMetaDataGUI.php";
@@ -3431,8 +3435,8 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->meta_gui->setObject($this->object);
 		}
 	}
+*/
 
-	
 	function __getDateSelect($a_type,$a_varname,$a_selected)
 	{
 		switch($a_type)
@@ -3526,6 +3530,16 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilmdeditorgui':
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilcourseregistergui":
 				$this->ctrl->setReturn($this,"");
 				$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());

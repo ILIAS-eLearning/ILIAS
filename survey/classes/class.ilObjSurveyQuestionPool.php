@@ -33,7 +33,7 @@
 */
 
 require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilMetaData.php";
+//require_once "./classes/class.ilMetaData.php";
 require_once "./survey/classes/class.SurveyNominalQuestion.php";
 require_once "./survey/classes/class.SurveyTextQuestion.php";
 require_once "./survey/classes/class.SurveyMetricQuestion.php";
@@ -52,11 +52,13 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		$this->type = "spl";
 		$this->ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+*/
 	}
 
 	/**
@@ -65,6 +67,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
+		$this->createMetaData();
+/*
 		if (!$a_upload)
 		{
 			$this->meta_data->setId($this->getId());
@@ -74,6 +78,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
+*/
 	}
 
 	/**
@@ -84,16 +89,17 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
 		if (!parent::update())
-		{			
+		{
 			return false;
 		}
 
 		// put here object specific stuff
-		
+
 		return true;
 	}
-	
+
 /**
 	* read object data from db into object
 	* @param	boolean
@@ -102,12 +108,12 @@ class ilObjSurveyQuestionPool extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
-	
+
 	/**
 	* copy all entries of your object.
-	* 
+	*
 	* @access	public
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
@@ -136,22 +142,25 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
-	* delete object and all related data	
+	* delete object and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		$remove = parent::delete();
 		// always call parent delete function first!!
 		if (!$remove)
 		{
 			return false;
 		}
-		
+
 		// delete all related questions
 		$this->deleteAllData();
+
+		// delete meta data
+		$this->deleteMetaData();
 		
 		return true;
 	}
@@ -288,7 +297,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
 
 	/**
@@ -296,24 +305,29 @@ class ilObjSurveyQuestionPool extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of survey question pool object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -321,7 +335,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -329,10 +343,12 @@ class ilObjSurveyQuestionPool extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -351,27 +367,28 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		parent::update();
 	}
+*/
 
 /**
 * Removes a question from the question pool
-* 
+*
 * Removes a question from the question pool
 *
 * @param integer $question_id The database id of the question
 * @access private
 */
-  function removeQuestion($question_id) 
+  function removeQuestion($question_id)
   {
     if ($question_id < 1)
       return;
-		
+
 		$question = new SurveyQuestion();
 		$question->delete($question_id);
 	}
 
 /**
 * Returns the question type of a question with a given id
-* 
+*
 * Returns the question type of a question with a given id
 *
 * @param integer $question_id The database id of the question
@@ -819,9 +836,12 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qtiFieldlabelText = $domxml->create_text_node("SCORM");
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $domxml->create_element("fieldentry");
-		$this->initMeta();
 
+// to do: export meta data
+/*
+		$this->initMeta();
 		$metadata = $this->meta_data->nested_obj->dom->dump_mem(0);
+*/
 		$qtiFieldentryText = $domxml->create_CDATA_Section($metadata);
 		$qtiFieldentry->append_child($qtiFieldentryText);
 		$qtiMetadatafield->append_child($qtiFieldlabel);
@@ -834,7 +854,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$domxml->free();
 		return $qtixml;
 	}
-	
+
 	function &getQuestions()
 	{
 		$questions = array();
@@ -853,7 +873,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	function importObject($source)
-	{	
+	{
 		$metadata = "";
 		if (is_file($source))
 		{
@@ -931,6 +951,8 @@ class ilObjSurveyQuestionPool extends ilObject
 			
 			if ($metadata)
 			{
+// to do: import meta data
+/*
 				include_once("./classes/class.ilNestedSetXML.php");
 				$nested = new ilNestedSetXML();
 				$nested->dom = domxml_open_mem($metadata);
@@ -952,9 +974,11 @@ class ilObjSurveyQuestionPool extends ilObject
 				}
 				$xml = $nested->dom->dump_mem(0);
 				$nested->import($xml, $this->getId(), $this->getType());
+*/
 			}
+
 		}
 	}
-	
+
 } // END class.ilSurveyObjQuestionPool
 ?>
