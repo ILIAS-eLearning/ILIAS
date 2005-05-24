@@ -218,8 +218,8 @@ assessment#:#eval_search_users#:#Utenti
 assessment#:#eval_search_userselection#:#Ricerca gli utenti che vuoi inserire tra nelle valutazioni statistiche
 assessment#:#eval_selected_users#:#Valutazione per gli utenti selezionati
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato&nbsp; 
-assessment#:#exp_type_excel#:#  Excel  ###17 May 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
 assessment#:#failed_official#:#Respinto
@@ -246,7 +246,7 @@ assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#imagemap_file#:#File con immagine a mappa
 assessment#:#imagemap_source#:#Immagine a mappa
-assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
+assessment#:#import_errors_qti#:#Ci sono errori nel file QTI. L'importazione è stata cancellata.
 assessment#:#import_question#:#Importa domande
 assessment#:#insert_after#:#Inserisci dopo
 assessment#:#insert_before#:#Inserisci prima
@@ -392,15 +392,15 @@ assessment#:#true#:#Vero
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
 assessment#:#tst_already_submitted#:#Il test &#232; gi&#224; stato eseguito e inviato.
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
-assessment#:#tst_anon_eval#:#Risultati aggregati per utenti anonimi###13 May 2005 content changed
+assessment#:#tst_anon_eval#:#Risultati aggregati per utenti anonimi.
 assessment#:#tst_answer_sheet#:#Risultati delle risposte al test
 assessment#:#tst_browse_for_questions#:#Cerca la domanda
 assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi che puoi effettuare per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
 assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_confirm_print#:#Premi il pulsante per stampare tutte le domande con i punti e le soluzioni. La domanda compare sempre in fondo alla pagina.
 assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della soluzione. Non sarai pi&#250; in grado di correggere le risposte dopo aver premuto 'Invia'. Se vuoi stampare le risposte utilizza il menu 'Stampa' del tuo Browser.
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
-assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Conta solo i test completati.
+assessment#:#tst_count_partial_solutions#:#Conta anche i test risolti parzialmente.
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_delete_results#:#Annulla il test
@@ -417,7 +417,7 @@ assessment#:#tst_eval_user_answer#:#Risposta dell'utente
 assessment#:#tst_finished#:#Finito
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Crea un Foglio elettronico
-assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_heading_scoring#:#Punteggio
 assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro che vuoi inserire le seguenti domande nel test?
@@ -465,13 +465,13 @@ assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
 assessment#:#tst_random_nr_of_questions#:#Quante domande vuoi inserire?
 assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.
-assessment#:#tst_random_questionpools#:#Raccolta di domande sorgente
+assessment#:#tst_random_questionpools#:#Numero di domande
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dalla quale verranno prese le domande
 assessment#:#tst_random_test#:#Test casuale
 assessment#:#tst_random_test_description#:#Se abilitato, le domande del test saranno generate casualmente.
 assessment#:#tst_reached_points#:#Punteggio raggiunto
-assessment#:#tst_remove_questions#:#Sei sicuro che vuoi eliminare le seguenti domande dal test?
-assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
+assessment#:#tst_remove_questions#:#Sei sicuro di voler eliminare le seguenti domande dal test?
+assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro di voler rimuovere le seguenti domande dal test?
 assessment#:#tst_report_after_question#:#Esegui un rapporto con il punteggio dopo ogni risposta
 assessment#:#tst_report_after_test#:#Esegui un rapporto con il punteggio al termine del test
 assessment#:#tst_result_congratulations#:#Congratulazioni! Hai superato il test!
@@ -484,7 +484,7 @@ assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_file_for_import#:#Devi scegliere un file da importare!
 assessment#:#tst_select_questionpool#:#Per favore, seleziona la raccolta alla quale verr&#224; aggiunta la domanda
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
-assessment#:#tst_select_random_questions#:#Seleziona la(e) raccolta(e) di domande ed il numero di domande che comporranno il test casuale
+assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
@@ -515,7 +515,7 @@ assessment#:#tst_stat_result_timeofwork#:#Tempo di esecuzione
 assessment#:#tst_stat_result_total_participants#:#Numero totale dei partecipanti
 assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
-assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica###13 May 2005 content changed
+assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
 assessment#:#tst_status_completed#:#completato
 assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
 assessment#:#tst_status_missing#:#Mancano alcuni elementi che sono richiesti nel test!
@@ -526,10 +526,10 @@ assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_submit_answers#:#Accetto, voglio inviare le risposte
 assessment#:#tst_submit_answers_txt#:#Adesso puoi completare il test premendo 'Invia'.
 assessment#:#tst_submit_results#:#Si, confermo l'invio.
-assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
+assessment#:#tst_text_count_system#:#Sistema di punteggio
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_total_questions#:#Numero di domande
-assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, il numero di domande inserite nella raccolta viene ignorato ed il numero rappresenta le domande prelevate da ogni raccolta!
+assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, esso rappresenta il numero di domande prelevate da ogni raccolta ed il numero indicato per ogni singola raccolta viene ignorato!
 assessment#:#tst_tst_date#:#Data del test
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test precedentemente svolti sono stati eliminati!
@@ -790,7 +790,7 @@ common#:#assessment_log_text#:#Messaggio del log
 common#:#assessment_log_user_answer#:#L'utente ha risposto ad una domanda
 common#:#assessment_log_user_answers#:#Mostra le azioni dell'utente
 common#:#assessment_settings#:#Impostazioni Test&Valutazioni
-common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
+common#:#assessment_settings_reporting_language#:#Lingua del report
 common#:#assf_edit_permission#:#Modificare i permessi
 common#:#assf_read#:#Accedere in lettura a Test&Valutazioni
 common#:#assf_visible#:#Vedere Test&Valutazioni
@@ -824,9 +824,9 @@ common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di
 common#:#auth_script#:#Personale
 common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
 common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
-common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
-common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
+common#:#auth_shib#:#Shibboleth
+common#:#auth_shib_desc#:#Il riconoscimento degli utenti tramite Shibboleth pu&#242; essere usato come secondo metodo di autenticazione.
+common#:#auth_shib_not_configured#:#Shibboleth non &#232; ancora configurato
 common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
 common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
@@ -987,7 +987,7 @@ common#:#container#:#Contenitore
 common#:#content_styles#:#Stili presenti
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua
-common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
+common#:#cookies_howto#:#Come abilitare i cookie
 common#:#copied_object#:#Oggetto copiato
 common#:#copy#:#Copia
 common#:#copyPage#:#Copia
@@ -1001,7 +1001,7 @@ common#:#create#:#Crea
 common#:#create_date#:#Creato il
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
-common#:#created#:#Crea appuntamemto
+common#:#created#:#Appuntamemto creato
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
 common#:#crs#:#Corso
@@ -1036,8 +1036,8 @@ common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#crs_join#:#Iscrivere ad un corso
-common#:#crs_leave#:#Annullare iscrizione ad un corso
+common#:#crs_join#:#Iscriversi ad un corso
+common#:#crs_leave#:#Annullare l'iscrizione ad un corso
 common#:#crs_management_system#:#Sistema di gestione corsi
 common#:#crs_member_not_passed#:#Non superato
 common#:#crs_member_passed#:#Superato
@@ -1103,7 +1103,7 @@ common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
-common#:#desktop_items#:#Oggetti del desktop personale
+common#:#desktop_items#:#Oggetti sul desktop personale
 common#:#details#:#Dettagli
 common#:#disable#:#disabilita
 common#:#disable_check#:#Disabilita controllo
@@ -1148,7 +1148,7 @@ common#:#err_ldap_auth_failed#:#Utente non autenticato sul server LDAP! Per favo
 common#:#err_ldap_connect_failed#:#Connessione al server LDAP fallita! Per favore controlla le impostazioni LDAP
 common#:#err_ldap_search_failed#:#Connessione al server LDAP fallita! Per favore controlla BaseDN e Search
 common#:#err_ldap_user_not_found#:#Utente non trvato sul server LDAP! Per favore controlla gli attributi di Login e Objectclass
-common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
+common#:#err_no_cookies#:#Verifica l'abilitazione  dei <br> cookie di sessione nel tuo browser!
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
@@ -1267,7 +1267,7 @@ common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#forgot_password#:#Dimenticata la password?
-common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
+common#:#forgot_username#:#Hai dimenticato il tuo username?
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importa forum
@@ -1276,17 +1276,17 @@ common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
 common#:#forums#:#Forum
-common#:#forums_articles#:#Articles###13 May 2005 new variable
-common#:#forums_last_post#:#Last Article###13 May 2005 new variable
-common#:#forums_moderators#:#Moderators###13 May 2005 new variable
-common#:#forums_new_articles#:#New articles###13 May 2005 new variable
+common#:#forums_articles#:#Articoli
+common#:#forums_last_post#:#Ultimo articolo
+common#:#forums_moderators#:#Moderatori
+common#:#forums_new_articles#:#Nuovi articoli
 common#:#forums_overview#:#Descrizione Forum
-common#:#forums_threads#:#Topics###13 May 2005 new variable
+common#:#forums_threads#:#Argomenti
 common#:#frm#:#Forum
 common#:#frm_a#:#Un forum
 common#:#frm_add#:#Aggiungi forum
 common#:#frm_added#:#Forum aggiunto
-common#:#frm_article#:#article###13 May 2005 new variable
+common#:#frm_article#:#articolo
 common#:#frm_create#:#Crea un forum
 common#:#frm_delete#:#Cancellare un forum
 common#:#frm_delete_post#:#Cancellare un messaggio
@@ -1577,7 +1577,7 @@ common#:#internal_system#:#sistema interno
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;
 common#:#item#:#item
-common#:#kb#:#KByte
+common#:#kb#:#KB
 common#:#keywords#:#Parole chiave
 common#:#lang_cs#:#Ceco
 common#:#lang_da#:#Danese
@@ -1599,7 +1599,7 @@ common#:#lang_no#:#Norvegese
 common#:#lang_path#:#Percorso lingue
 common#:#lang_pl#:#Polacco
 common#:#lang_pt#:#Portoghese
-common#:#lang_ro#:#Romanian
+common#:#lang_ro#:#Romeno
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_sv#:#Svedese
@@ -1607,7 +1607,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_uk#:#Ucraino
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
-common#:#lang_xx#:#Custom
+common#:#lang_xx#:#Personalizzato
 common#:#lang_zh#:#Cinese semplificato
 common#:#langfile_found#:#Trovato file
 common#:#language#:#Lingua
@@ -1700,13 +1700,13 @@ common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, s
 common#:#login_invalid#:#L'utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS 3
-common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
+common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth
 common#:#logout#:#Logout
 common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
 common#:#logs#:#Log con i dati
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
-common#:#lres#:#Learning Resources###13 May 2005 new variable
+common#:#lres#:#Risorse formative
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta
 common#:#mail_addressbook#:#Rubrica
@@ -1750,7 +1750,7 @@ common#:#matriculation#:#Numero di matricola
 common#:#max_number_rec#:#Numero massimo di record
 common#:#max_time#:#Tempo massimo
 common#:#member#:#Iscritto
-common#:#member_status#:#Member Status:###13 May 2005 new variable
+common#:#member_status#:#Stato del membro
 common#:#members#:#Utenti iscritti
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
 common#:#mep#:#Libreria multimediale
@@ -1901,7 +1901,7 @@ common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
 common#:#new_list_password#:#Password suggerite
-common#:#new_lowercase#:#new###13 May 2005 new variable
+common#:#new_lowercase#:#nuovo
 common#:#new_mail#:#Nuova eMail!
 common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
@@ -1926,7 +1926,7 @@ common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_local_users#:#Non ci sono utenti locali
 common#:#no_objects#:#Nessun oggetto
-common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
+common#:#no_permission#:#Non hai sufficienti diritti
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_roles_user_can_be_assigned_to#:#Non ci sono ruoli globali ai quali l'utente pu&#242; essere assegnato. Perci&#242; non ti &#232; consentito aggiungere utenti.
 common#:#no_title#:#Nessun titolo
@@ -2000,8 +2000,8 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
-common#:#obj_seas#:#Search###13 May 2005 new variable
-common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
+common#:#obj_seas#:#Impostazioni della ricerca
+common#:#obj_seas_desc#:#Imposta i criteri di ricerca qui.
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Sondaggio
@@ -2074,7 +2074,7 @@ common#:#open_views_inside_frameset#:#Apri all'interno del frameset
 common#:#operation#:#Operazione
 common#:#optimize#:#Ottimizza
 common#:#options#:#Opzioni
-common#:#options_for_subobjects#:#Opzioni dei sotto-oggetti
+common#:#options_for_subobjects#:#Opzioni degli oggetti contenuti
 common#:#order_by#:#Ordinato per
 common#:#other#:#Altro
 common#:#overview#:#Visione generale
@@ -2224,7 +2224,7 @@ common#:#require_referral_comment#:#Richiede un commento
 common#:#require_street#:#Indirizzo obbligatorio
 common#:#require_zipcode#:#Codice Postale obbligatorio
 common#:#required_field#:#Campo obbligatorio
-common#:#reset#:#Reset
+common#:#reset#:#Azzera
 common#:#resources#:#Risorse
 common#:#retype_password#:#Riscrivi la password
 common#:#right#:#Diritto
@@ -2319,14 +2319,14 @@ common#:#search_note#:#Se il campo 'Ricerca in' viene lasciato vuoto, verranno r
 common#:#search_recipient#:#Ricerca destinario
 common#:#search_result#:#Risultati ricerca
 common#:#search_user#:#Ricerca utente
-common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
-common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
-common#:#seas_read#:#Read search settings###13 May 2005 new variable
-common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
-common#:#seas_settings#:#Search settings###13 May 2005 new variable
-common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
-common#:#seas_write#:#Edit search settings###13 May 2005 new variable
+common#:#seas_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#seas_max_hits#:#Numero massimo di risultati
+common#:#seas_max_hits_info#:#Indica il numero massimo di risultati che vuoi visualizzare al termine della ricerca.
+common#:#seas_read#:#Vedere la ricerca
+common#:#seas_search#:#Consentire l'uso della ricerca
+common#:#seas_settings#:#Impostazioni della ricerca
+common#:#seas_visible#:#Vedere le impostazioni di ricerca
+common#:#seas_write#:#Modificare le impostazioni di ricerca
 common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
@@ -2354,38 +2354,38 @@ common#:#setUserLanguage#:#Imposta come lingua utente
 common#:#set_offline#:#Metti offline
 common#:#set_online#:#Metti online
 common#:#settings#:#Impostazioni
-common#:#settings_saved#:#Saved settings###13 May 2005 new variable
-common#:#shib#:#Shibboleth###13 May 2005 new variable
-common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
-common#:#shib_city#:#Attribute for city###13 May 2005 new variable
-common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
-common#:#shib_country#:#Attribute for country###13 May 2005 new variable
-common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
-common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
-common#:#shib_department#:#Attribute for department###13 May 2005 new variable
-common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
-common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
-common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
-common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
-common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
-common#:#shib_language#:#Attribute for language###13 May 2005 new variable
-common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
-common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
-common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
-common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
-common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
-common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
-common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
-common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
-common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
-common#:#shib_street#:#Attribute for street###13 May 2005 new variable
-common#:#shib_title#:#Attribute for title###13 May 2005 new variable
-common#:#shib_update#:#Update this field on login###13 May 2005 new variable
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
-common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
-common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
-common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
+common#:#settings_saved#:#Impostazioni salvate
+common#:#shib#:#Shibboleth
+common#:#shib_active#:#Abilita l'uso di Shibboleth
+common#:#shib_city#:#Attributo per la citt&#224;
+common#:#shib_configure#:#Configura il meccanismo di autenticazione tramite Shibboleh
+common#:#shib_country#:#Attributo per la nazione
+common#:#shib_data_conv#:#Percorso assoluto per le API di gestione dei dati
+common#:#shib_data_conv_warning#:#Il file con le API per la gestione dei dati non pu&#242; essere letto
+common#:#shib_department#:#Attributo per il dipartimento
+common#:#shib_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#shib_email#:#Attributo per l'indirizzo di eMail
+common#:#shib_firstname#:#Attributo per il nome
+common#:#shib_gender#:#Attributo per il sesso<br>(deve essere 'm' o 'f')
+common#:#shib_institution#:#Attributo per l'istituzione
+common#:#shib_instructions#:#Attenzione: leggi il <a href="README.SHIBBOLETH.txt" target="_blank">file con le istruzioni</a> su come configurare Shibboleth per essere usato con ILIAS.
+common#:#shib_language#:#Attributo per la lingua
+common#:#shib_lastname#:#Attributo per i cognome
+common#:#shib_login#:#Attributo univoco per Shibboleth
+common#:#shib_login_button#:#Percorso per il bottone di accesso a Shibboleth
+common#:#shib_login_instructions#:#Istruzioni mostrate nel file di login
+common#:#shib_phone_home#:#Attributo per il numero di telefono
+common#:#shib_phone_mobile#:#Attributo per il numero del cellulare
+common#:#shib_phone_office#:#Attributo per il numero di telefono di ufficio
+common#:#shib_read#:#Accedere in lettura alle impostazioni di Shibboleth
+common#:#shib_settings_saved#:#Le impostazioni di Shibboleth sono state salvate.
+common#:#shib_street#:#Attributo per l'indirizzo
+common#:#shib_title#:#Attributo per il titolo
+common#:#shib_update#:#Aggiorna al login
+common#:#shib_user_default_role#:#Ruolo da assegnare agli utenti Shibboleth
+common#:#shib_visible#:#Vedere le impostazioni di Shibboleth
+common#:#shib_write#:#Modificare le impostazioni di Shibboleth
+common#:#shib_zipcode#:#Attributo per il codice postale
 common#:#show#:#Mostra
 common#:#show_details#:#Mostra dettagli
 common#:#show_list#:#Mostra lista
@@ -2395,7 +2395,7 @@ common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
-common#:#skin_style#:#Default Skin/Style
+common#:#skin_style#:#Predefinito Skin / Stile
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Amministrazione utenti esterna (SOAP)
 common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potranno essere amministrati tramite un client SOAP esterno.
@@ -2535,9 +2535,9 @@ common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#non lette
-common#:#unread_lowercase#:#unread###13 May 2005 new variable
+common#:#unread_lowercase#:#unread
 common#:#unselected#:#Deseleziona
-common#:#unsubscribe#:#Annulla l&#039;iscrizione###14 May 2005 content changed
+common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
 common#:#up#:#Su
 common#:#update#:#Modifica
@@ -2587,7 +2587,7 @@ common#:#usr_a#:#un utente
 common#:#usr_active_only#:#Utenti attivi
 common#:#usr_add#:#Aggiungi utente
 common#:#usr_added#:#Utente aggiunto
-common#:#usr_agreement#:#Dichiarazione di accettazione
+common#:#usr_agreement#:#Dichiarazione<br>di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
@@ -2645,11 +2645,11 @@ common#:#visits#:#Visite
 common#:#web_resources#:#Risorse web
 common#:#webr#:#Risorsa web
 common#:#webr_active#:#Attivo
-common#:#webr_add#:#Crea risorsa web
+common#:#webr_add#:#Aggiungi risorsa web
 common#:#webr_add_item#:#Aggiungi risorsa web
-common#:#webr_delete#:#Eliminare una risorse web
-common#:#webr_delete_items#:#Elimina risorse web
-common#:#webr_deleted_items#:#Risorse web eliminate.
+common#:#webr_delete#:#Elimina risorsa web
+common#:#webr_delete_items#:#Elimina risorsa web
+common#:#webr_deleted_items#:#Eliminata risorsa web
 common#:#webr_disable_check#:#Disabilita controllo
 common#:#webr_edit#:#Modifica risorsa web
 common#:#webr_edit_item#:#Modifica risorsa web
@@ -2671,7 +2671,7 @@ common#:#webr_write#:#Modificare le risorse web
 common#:#webservices#:#Webservices
 common#:#week#:#Settimana
 common#:#weekly#:#settimanale
-common#:#weeks#:#Weeks
+common#:#weeks#:#Settimane
 common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
 common#:#with#:#con
@@ -3093,8 +3093,8 @@ content#:#lm_menu_select_object_to_add#:#Per favore, seleziona l'oggetto che vuo
 content#:#msg_entry_added#:#Voce aggiunta la menu
 content#:#msg_entry_removed#:#Voce tolta dal menu
 content#:#msg_entry_updated#:#Voce del menu aggiornata
-content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.
-content#:#msg_page_not_public#:#Page is not public
+content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Only registered users may view this page. Please login first to access this page.###21 Apr 2005 new variable
+content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
@@ -3105,7 +3105,7 @@ content#:#selected_pages_only#:#solamente le pagine selezionate sotto
 content#:#set_public_mode#:#Imposta in modalit&#224; di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
-crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
+crs#:#activation_times_not_valid#:#Il periodo non &#232; valido.
 crs#:#assigned#:#Assegnato
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
 crs#:#crs_accept_subscriber_body#:#Sei stato iscritto a questo corso.
@@ -3113,7 +3113,7 @@ crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Attivazione
 crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
 crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
-crs#:#crs_add_grouping#:#Aggiungi piano formativo
+crs#:#crs_add_grouping#:#Aggiungi gruppo di corsi
 crs#:#crs_add_grp_assignment#:#Aggiungi corso
 crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
 crs#:#crs_add_member#:#Iscrivi utente
@@ -3140,15 +3140,15 @@ crs#:#crs_archive_type#:#Tipo di archivi
 crs#:#crs_archive_type_disabled#:#Accesso disabilitato
 crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
 crs#:#crs_auto_fill#:#Riempimento automatico
-crs#:#crs_availability_limitless_info#:#Scegli questa impostazione se vuoi rendere disponibile il corso e consentire l'accesso degli utenti (dipende dalle impostazioni sulla registrazione che sono sotto).
-crs#:#crs_availability_until_info#:#Scegli questa impostazione se vuoi rendere disponibile il corso e consentire l'accesso degli utenti solo per un periodo di tempo stabilito.
-crs#:#crs_availability_unvisible_info#:#Scegli questa impostazione se sei in fase di preparazione del corso. Solo gli amministratori ed i tutor possono vedere e modificare il corso.
+crs#:#crs_availability_limitless_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti (&#232; legato anche alla modalit&#224; di registrazione pi&#249; sotto).
+crs#:#crs_availability_until_info#:#Scegli questa modalit&#224; se vuoi rendere il corso disponibile ed accessibile agli utenti solo per un periodo di tempo.
+crs#:#crs_availability_unvisible_info#:#Scegli questa modalit&#224; durante la fase di preparazione del corso. Solo gli amministratori ed i tutor potranno vedere e modificare il corso.
 crs#:#crs_blocked#:#Accesso negato
 crs#:#crs_blocked_member#:#Iscritti al corso
 crs#:#crs_blocked_member_body#:#La tua iscrizione al corso &#232; terminata.
 crs#:#crs_cancel_subscription#:#Cancellazioni dal Corso
 crs#:#crs_cancel_subscription_body#:#Un utente si &#232; cancellato dal corso.
-crs#:#crs_change_status#:#Modifica lo stato dell'obiettivo:
+crs#:#crs_change_status#:#Modifica lo stato dell'obiettivo:<br>(se non viene settato, l'obiettivo sar&#224; cosiderato come autovalutazione)
 crs#:#crs_chapter_already_assigned#:#Questi capitoli sono gi&#224; stati aggiunti.
 crs#:#crs_contact#:#Contatti
 crs#:#crs_contact_consultation#:#Consultazione
@@ -3178,15 +3178,15 @@ crs#:#crs_end#:#Fine periodo
 crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_from#:#Da:
-crs#:#crs_grouping#:#Piano formativo
-crs#:#crs_grouping_assign#:#Modifica iscrizione piano formativo
-crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente piano formativo?
+crs#:#crs_grouping#:#Gruppo di corsi
+crs#:#crs_grouping_assign#:#Modifica iscrizione al gruppo di corsi
+crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente gruppo di corsi?
 crs#:#crs_grouping_deleted#:#Rimossi piani formativi.
 crs#:#crs_grouping_modified_assignment#:#Iscrizione modificata.
-crs#:#crs_grouping_select_one#:#Scegli il piano formativo.
-crs#:#crs_groupings#:#Piani formativi
-crs#:#crs_groupings_ask_delete#:#Elimina il piano formativo
-crs#:#crs_grp_already_assigned#:#Hai gi&#224; aggiunto di questo piano formativo.
+crs#:#crs_grouping_select_one#:#Scegli il gruppo di corsi.
+crs#:#crs_groupings#:#Gruppi di corsi
+crs#:#crs_groupings_ask_delete#:#Elimina il gruppo di corsi
+crs#:#crs_grp_already_assigned#:#Hai gi&#224; aggiunto di questo gruppo di corsi.
 crs#:#crs_grp_assign_crs#:#Aggiungi corso
 crs#:#crs_grp_assigned_courses#:#Corso aggiunto
 crs#:#crs_grp_assigned_courses_info#:#Corsi presenti:
@@ -3195,8 +3195,8 @@ crs#:#crs_grp_crs_assignment#:#Inserimento corso
 crs#:#crs_grp_deassigned_courses#:#Corso rimosso
 crs#:#crs_grp_enter_title#:#Per favore indica un titolo.
 crs#:#crs_grp_info_reg#:#Puoi registrarti solamente ad uno dei seguenti piani formativi:
-crs#:#crs_grp_matriculation_required#:#Questo piano formativo richiede un numero di matricola univoco. <br />Inserisci questo valore tra le impostazioni del desktop personale.
-crs#:#crs_grp_modified_grouping#:#Modificato piano formativo.
+crs#:#crs_grp_matriculation_required#:#Questo gruppo di corsi richiede un numero di matricola univoco. <br />Inserisci questo valore tra le impostazioni del desktop personale.
+crs#:#crs_grp_modified_grouping#:#Modificato gruppo di corsi.
 crs#:#crs_grp_no_course_selected#:#Per favore scegli un corso.
 crs#:#crs_grp_no_courses_assigned#:#Non sono presenti corsi.
 crs#:#crs_grp_table_assigned_courses#:#Corsi presenti
@@ -3230,8 +3230,8 @@ crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_unblocked#:#Iscritto (bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
-crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
-crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
+crs#:#crs_members_footer#:#membri del corso
+crs#:#crs_members_footer_passed#:#superato
 crs#:#crs_members_print_title#:#Iscritti al corso
 crs#:#crs_members_title#:#Iscritti al corso
 crs#:#crs_move_down#:#Sposta in basso
@@ -3245,8 +3245,8 @@ crs#:#crs_no_archive_selected#:#Nessun archivio &#232; stato scelto
 crs#:#crs_no_archives_available#:#Non ci sono archivi disponibili
 crs#:#crs_no_archives_selected#:#Per favore scegli un archivio
 crs#:#crs_no_chapter_selected#:#Per favore scelgi un capitolo.
-crs#:#crs_no_groupings_assigned#:#Nessun piano formativo presente.
-crs#:#crs_no_groups_selected#:#Per favore scegli un piano formativo
+crs#:#crs_no_groupings_assigned#:#Nessun gruppo di corsi presente.
+crs#:#crs_no_groups_selected#:#Per favore scegli un gruppo di corsi
 crs#:#crs_no_items_found#:#Non sono stati definiti oggetti
 crs#:#crs_no_language#:#Nessuna lingua
 crs#:#crs_no_lm_selected#:#Per favore scegli almeno un materiale formativo.
@@ -3274,8 +3274,8 @@ crs#:#crs_number_users_added#:#Il seguente numero di utenti &#232; stato iscritt
 crs#:#crs_objective_accomplished#:#Completato
 crs#:#crs_objective_assign_chapter#:#Aggiungi capitoli
 crs#:#crs_objective_assign_lm#:#Aggiungi materiale formativo
-crs#:#crs_objective_assign_question#:#Aggiungi domanda
-crs#:#crs_objective_deassign_question#:#Rimuovi domanda
+crs#:#crs_objective_assign_question#:#Aggiungi domande
+crs#:#crs_objective_deassign_question#:#Rimuovi domande
 crs#:#crs_objective_delete_lm_assignment#:#Rimuovi materiale formativo
 crs#:#crs_objective_insert_percent#:#Per favore indica un numero compreso tra 1 e 100.
 crs#:#crs_objective_modified#:#Modifica l'obiettivo formativo
@@ -3283,16 +3283,16 @@ crs#:#crs_objective_no_title_given#:#Per favore indica il titolo
 crs#:#crs_objective_not_accomplished#:#Non completato
 crs#:#crs_objective_overview_objectives#:#Mostra obiettivi formativi
 crs#:#crs_objective_overview_question_assignment#:#Mostra domande
-crs#:#crs_objective_pretest#:#Auto assegnamento
-crs#:#crs_objective_question_assignment#:#Domande assegnate
+crs#:#crs_objective_pretest#:#Auto valutatione
+crs#:#crs_objective_question_assignment#:#Assegna domande
 crs#:#crs_objective_result#:#Risultati
 crs#:#crs_objective_updated_test#:#Modifiche eseguite.
-crs#:#crs_objective_view#:#Vista orientamento obiettivi
+crs#:#crs_objective_view#:#Abilita la vista degli obiettivi formativi
 crs#:#crs_objectives#:#Obiettivi formativi
 crs#:#crs_objectives_assign_chapter#:#Aggiungi capitolo
 crs#:#crs_objectives_assigned_lm#:#Il materiale formativo selezionato &#232; stato aggiunto.
 crs#:#crs_objectives_assigned_lms#:#Modifica materiale formativo
-crs#:#crs_objectives_assigned_new_questions#:#Aggiunto nuovo assegnamento
+crs#:#crs_objectives_assigned_new_questions#:#Aggiunte domande
 crs#:#crs_objectives_assigned_questions#:#Domande aggiunte
 crs#:#crs_objectives_chapter_assignment#:#Capitolo aggiunto
 crs#:#crs_objectives_deassign_question_sure#:#Vuoi veramente rimuovere le seguenti domande?
@@ -3312,7 +3312,7 @@ crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di q
 crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opzioni
-crs#:#crs_other_groupings#:#Piano formativo di altri corsi
+crs#:#crs_other_groupings#:#Gruppo di altri corsi
 crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
@@ -3320,24 +3320,24 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Stampa elenco
 crs#:#crs_question_assignment#:#Modifica domande
 crs#:#crs_reg#:#Registrazione
-crs#:#crs_reg_deactivated#:#Disabilitata
-crs#:#crs_reg_lim_info#:#Le registrazioni sono possibili solamente per un periodo di tempo limitato.
-crs#:#crs_reg_max_info#:#Definisci il numero massimo di utenti che possono essere Define the maximum number of users that can be assigned to this course. '0' means unlimited.###21 Apr 2005 new variable
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###21 Apr 2005 new variable
+crs#:#crs_reg_deactivated#:#Disabilitato
+crs#:#crs_reg_lim_info#:#Le registrazioni sono possibili solamente nel periodo di tempo indicato.
+crs#:#crs_reg_max_info#:#Definisci il numero massimo di utenti che pu&#242; inscriversi a questo corso. '0' significa senza limite.
+crs#:#crs_reg_notify_info#:#Se scelta tutti gli amministratori/tutor del corso che hanno scelto l'opzione 'Notifica' saranno informati tramite email delle nuove registrazioni.
 crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
 crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti &#232; stato raggiunto.
 crs#:#crs_reg_subscription_start_later#:#Il periodo di registrazione inizier&#224; successivamente
-crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types above.###21 Apr 2005 new variable
+crs#:#crs_reg_unlim_info#:#Se scelta, non verranno posti limiti alle registrazioni. Scegli uno dei tipi qui sotto.
 crs#:#crs_reg_until#:#Scadenza registrazione
 crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato iscritto a questo corso
 crs#:#crs_reg_user_already_subscribed#:#Ti sei gi&#224; iscritto a questo corso
 crs#:#crs_reg_user_blocked#:#La tua iscrizione a questo corso non pu&#242; essere modificata
 crs#:#crs_registration#:#Iscrizione al corso
-crs#:#crs_registration_deactivated#:#Scegli questa opzione se vuoi disabilitare la registrazione. Nessun utente potr&#224; registrarsi per questo corso.
-crs#:#crs_registration_limited#:#Registrazione limitata temporalmente
+crs#:#crs_registration_deactivated#:#Scegli questa opzione se vuoi disabilitare la registrazione. Nessun utente potr&#224; registrarsi a questo corso.
+crs#:#crs_registration_limited#:#Registrazione limitata nel tempo
 crs#:#crs_registration_type#:#Tipo di registrazione
-crs#:#crs_registration_unlimited#:#Registrazione senza limiti temporali
+crs#:#crs_registration_unlimited#:#Registrazione non limitata temporalmente
 crs#:#crs_reject_subscriber#:#Iscrizione al corso
 crs#:#crs_reject_subscriber_body#:#La tua richiesta di iscrizione &#232; stata rifiutata.
 crs#:#crs_reset_results#:#Risultati azzerati
@@ -3387,7 +3387,7 @@ crs#:#crs_subscription_options_direct#:#Iscrizione diretta
 crs#:#crs_subscription_options_password#:#Iscrizione con password
 crs#:#crs_subscription_successful#:#Sei stato iscritto a questo corso
 crs#:#crs_subscription_type#:#Tipo di iscrizione
-crs#:#crs_suggest_lm#:#Suggerisci il materiale formativo se:
+crs#:#crs_suggest_lm#:#Suggerisci il materiale formativo (per un eventuale approfondimento) se la percentuale raggiunta &#232;:<br>
 crs#:#crs_sure_delete_selected_archives#:#Sei sicuro di voler eliminare gli archivi selezionati
 crs#:#crs_syllabus#:#Sommario
 crs#:#crs_table_start_objects#:#Oggetti di partenza
@@ -3416,7 +3416,7 @@ crs#:#crs_visibility_unvisible#:#Non visibile
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Mofdifica il contenuto
 crs#:#learners_view#:#Vista studenti
-crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
+crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; valido.
 crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
@@ -3437,7 +3437,7 @@ dateplaner#:#ERROR_STARTTIME#:#Ora iniziale errata. Formato: hh:mm
 dateplaner#:#ERROR_TS#:#Formato della data non corretto
 dateplaner#:#Fr_long#:#Venerdi
 dateplaner#:#Fr_short#:#Ve
-dateplaner#:#Language_file#:#inglese
+dateplaner#:#Language_file#:#Inglese
 dateplaner#:#Listbox_long#:#Lista degli appuntamenti
 dateplaner#:#Mo_long#:#Lunedi
 dateplaner#:#Mo_short#:#Lu
@@ -4116,145 +4116,145 @@ meta#:#meta_is_required_by#:#E&#039; richiesto da
 meta#:#meta_is_version_of#:#E&#039; la versione di
 meta#:#meta_keyword#:#Chiave
 meta#:#meta_kind#:#Tipo
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#africano
-meta#:#meta_l_am#:#amaraico
-meta#:#meta_l_ar#:#arabo
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaigiano
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#bielorusso
-meta#:#meta_l_bg#:#bulgaro
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengalese
-meta#:#meta_l_bo#:#tibetano
-meta#:#meta_l_br#:#bretone
-meta#:#meta_l_ca#:#catalano
-meta#:#meta_l_co#:#corso
-meta#:#meta_l_cs#:#ceco
-meta#:#meta_l_cy#:#gallese
-meta#:#meta_l_da#:#danese
-meta#:#meta_l_de#:#tedesco
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greco
-meta#:#meta_l_en#:#inglese
-meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#spagnolo
-meta#:#meta_l_et#:#estone
-meta#:#meta_l_eu#:#basco
-meta#:#meta_l_fa#:#persiano
-meta#:#meta_l_fi#:#finnico
-meta#:#meta_l_fj#:#fijiano
-meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#francese
-meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irlandese
-meta#:#meta_l_gd#:#scozzese gaelico
-meta#:#meta_l_gl#:#galiziano
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#ebraico
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croato
-meta#:#meta_l_hu#:#ungherese
-meta#:#meta_l_hy#:#armeno
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesiano
-meta#:#meta_l_ie#:#interlingua
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#islandese
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkhazian
+meta#:#meta_l_af#:#Africano
+meta#:#meta_l_am#:#Amaraico
+meta#:#meta_l_ar#:#Arabo
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aymara
+meta#:#meta_l_az#:#Azerbaigiano
+meta#:#meta_l_ba#:#Bashkir
+meta#:#meta_l_be#:#Bielorusso
+meta#:#meta_l_bg#:#Bulgaro
+meta#:#meta_l_bh#:#Bihari
+meta#:#meta_l_bi#:#Bislama
+meta#:#meta_l_bn#:#Bengalese
+meta#:#meta_l_bo#:#Tibetano
+meta#:#meta_l_br#:#Bretone
+meta#:#meta_l_ca#:#Catalano
+meta#:#meta_l_co#:#Corso
+meta#:#meta_l_cs#:#Ceco
+meta#:#meta_l_cy#:#Gallese
+meta#:#meta_l_da#:#Danese
+meta#:#meta_l_de#:#Tedesco
+meta#:#meta_l_dz#:#Bhutani
+meta#:#meta_l_el#:#Greco
+meta#:#meta_l_en#:#Inglese
+meta#:#meta_l_eo#:#Esperanto
+meta#:#meta_l_es#:#Spagnolo
+meta#:#meta_l_et#:#Estone
+meta#:#meta_l_eu#:#Basco
+meta#:#meta_l_fa#:#Persiano
+meta#:#meta_l_fi#:#Finnico
+meta#:#meta_l_fj#:#Fijiano
+meta#:#meta_l_fo#:#Faroese
+meta#:#meta_l_fr#:#Francese
+meta#:#meta_l_fy#:#Frisian
+meta#:#meta_l_ga#:#Irlandese
+meta#:#meta_l_gd#:#Scozzese gaelico
+meta#:#meta_l_gl#:#Galiziano
+meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gu#:#Gujarati
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Ebraico
+meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hr#:#Croato
+meta#:#meta_l_hu#:#Ungherese
+meta#:#meta_l_hy#:#Armeno
+meta#:#meta_l_ia#:#Interlingua
+meta#:#meta_l_id#:#Indonesiano
+meta#:#meta_l_ie#:#Interlingua
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Islandese
 meta#:#meta_l_it#:#Italiano
-meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#giapponese
-meta#:#meta_l_jv#:#javanese
-meta#:#meta_l_ka#:#georgiano
-meta#:#meta_l_kk#:#kazako
-meta#:#meta_l_kl#:#groenlandese
-meta#:#meta_l_km#:#cambogiano
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#koreano
-meta#:#meta_l_ks#:#kashmiro
-meta#:#meta_l_ku#:#kurdistano
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latino
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lituano
-meta#:#meta_l_lv#:#latvian
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedone
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolo
-meta#:#meta_l_mo#:#moldavo
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malay
-meta#:#meta_l_mt#:#maltese
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#nepalese
-meta#:#meta_l_nl#:#olandese
-meta#:#meta_l_no#:#norvegese
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polacco
-meta#:#meta_l_ps#:#pashto
-meta#:#meta_l_pt#:#portoghese
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#rumeno
-meta#:#meta_l_ru#:#russo
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanskrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croato
-meta#:#meta_l_si#:#cingalese
-meta#:#meta_l_sk#:#slovacco
-meta#:#meta_l_sl#:#sloveno
-meta#:#meta_l_sm#:#samoano
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somalo
-meta#:#meta_l_sq#:#albanese
-meta#:#meta_l_sr#:#serbo
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sudanese
-meta#:#meta_l_sv#:#svedese
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamil
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmeno
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turco
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ucraino
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbeco
-meta#:#meta_l_vi#:#vietnamita
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#cinese
-meta#:#meta_l_zu#:#zulu
+meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_ja#:#Giapponese
+meta#:#meta_l_jv#:#Javanese
+meta#:#meta_l_ka#:#Georgiano
+meta#:#meta_l_kk#:#Kazako
+meta#:#meta_l_kl#:#Groenlandese
+meta#:#meta_l_km#:#Cambogiano
+meta#:#meta_l_kn#:#Kannada
+meta#:#meta_l_ko#:#Koreano
+meta#:#meta_l_ks#:#Kashmiro
+meta#:#meta_l_ku#:#Kurdistano
+meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_la#:#Latino
+meta#:#meta_l_ln#:#Lingala
+meta#:#meta_l_lo#:#Laothian
+meta#:#meta_l_lt#:#Lituano
+meta#:#meta_l_lv#:#Latvian
+meta#:#meta_l_mg#:#Malagasy
+meta#:#meta_l_mi#:#Maori
+meta#:#meta_l_mk#:#Macedone
+meta#:#meta_l_ml#:#Malayalam
+meta#:#meta_l_mn#:#Mongolo
+meta#:#meta_l_mo#:#Moldavo
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malay
+meta#:#meta_l_mt#:#Maltese
+meta#:#meta_l_my#:#Burmese
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepalese
+meta#:#meta_l_nl#:#Olandese
+meta#:#meta_l_no#:#Norvegese
+meta#:#meta_l_oc#:#Occitan
+meta#:#meta_l_om#:#Afan (oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
+meta#:#meta_l_pl#:#Polacco
+meta#:#meta_l_ps#:#Pashto
+meta#:#meta_l_pt#:#Portoghese
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rhaeto-romance
+meta#:#meta_l_rn#:#Kurundi
+meta#:#meta_l_ro#:#Rumeno
+meta#:#meta_l_ru#:#Russo
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
+meta#:#meta_l_sh#:#Serbo-croato
+meta#:#meta_l_si#:#Cingalese
+meta#:#meta_l_sk#:#Slovacco
+meta#:#meta_l_sl#:#Sloveno
+meta#:#meta_l_sm#:#Samoano
+meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_so#:#Somalo
+meta#:#meta_l_sq#:#Albanese
+meta#:#meta_l_sr#:#Serbo
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sudanese
+meta#:#meta_l_sv#:#Svedese
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmeno
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
+meta#:#meta_l_to#:#Tonga
+meta#:#meta_l_tr#:#Turco
+meta#:#meta_l_ts#:#Tsonga
+meta#:#meta_l_tt#:#Tatar
+meta#:#meta_l_tw#:#Twi
+meta#:#meta_l_ug#:#Uigur
+meta#:#meta_l_uk#:#Ucraino
+meta#:#meta_l_ur#:#Urdu
+meta#:#meta_l_uz#:#Uzbeco
+meta#:#meta_l_vi#:#Vietnamita
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
+meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_yi#:#Yiddish
+meta#:#meta_l_yo#:#Yoruba
+meta#:#meta_l_za#:#Zhuang
+meta#:#meta_l_zh#:#Cinese
+meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Lingua
 meta#:#meta_learner#:#Studente
 meta#:#meta_learning_resource_type#:#Tipo di risorsa
@@ -4540,10 +4540,10 @@ payment#:#price_a#:#Prezzo
 payment#:#prices#:#Prezzi
 payment#:#update#:#Aggiornamento
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
+pwassist#:#pwassist_enter_email#:#Per favore, indica un indirizzo di eMail valido e premi Invia.\nILIAS ti invier&#224; una eMail all'indirizzo indicato che conterr&#224; tutti i nomi degli utenti registrati con quell'indirizzo di eMail.\nScegli l'utente opportuno e usa il servizio associato per l'ottenimento di una nuova password. Se non ricevi alcuna eMail da questo servizio contatta l'amministratore del server o %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell'utente e l'indirizzo di eMail associato nei campi indicati qui sotto.\nILIAS invier&#224; una mail all'indirizzo di posta specificato, la quale conterr&#224; un link ad una pagina nella quale poter inserire una nuova password per l'utente indicato.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell'utente e la nuova password nei campi qui sotto.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
+pwassist#:#pwassist_invalid_email#:#Per favore correggi il tuo indirizzo di eMail.\nL'indirizzo di eMail che hai indicato non &#232; stato trovato nel database.
 pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\nIL nome dell'utente e l'indirizzo di e-mail che sono stati indicati non corrispondono ad un utentevalido.
 pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\nIl nome dell'utente che &#232; stato indicato non corrisponde all'utente per il quale hai chiesto assistenza.
 pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l'utente::\n\t%1$s\n\nQuesto messaggio &#232; stato generato automaticamente dalla piattaforma ILIAS \n\t%2$s\n\nTu (o qualcuno a %3$s) ha richiesto il servizio di assistenza per le password per l'utente "%4$s".\n\nPer favore, verifica con attenzione le condizioni elencate qui sotto, e procedi nel seguente modo:\n\n- Se hai richiesto il servizio di assistenza per le password per errore:\nCancella questa mail.\n\n- Se sei sicuro di non aver mai richiesto il servizio di assistenza per le password a questo server di ILIAS:\nper favore contatta %5$s.\n\n- Se hai richiesto il servizio di assistenza per le password, procedi come indicato di seguito:\n\n1. Apri il tuo browser.\n\n2. Vai all apgina indicata nel seguente indirizzo:\n\t%1$s\n\nImportante: L'indirizzo &#232; costituito da un unica riga. Se per qualche motivo lo vedi suddiviso in pi&#249; righe, &#232; perch&#232; il tuo client di posta ha inserito dei ritorni a capo.\n\n3. Nella pagina web che viene mostrata dal tuo browser, inserisci una nuova password per l'utente indicato.\n\nNota che, per ragioni di sicurezza, tu puoi eseguire i passi indicati solamente una volta e solo per un tempo limitato, dopodich&#232; l'indirizzo non sar&#224; pi&#249; valido, e dovrai di nuovo richiedere il supporto del servizio di assistenza per le password di ILIAS.
@@ -4553,7 +4553,7 @@ pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\nIL servi
 pwassist#:#pwassist_password_assigned#:#La password &#232; stata assegnata con successo all'utente "%1$s".
 pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\nLa tua sessione con il servizio di assistenza per le password &#232; scaduta. Questo pu&#242; essere stato causato dall'aver richiamato pi&#249; volte il link indicato nella mail o perch&#232; &#232; trascorso troppo tempo da quando ti &#232; stata inviata la e-mail.
 pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di sistema.\nLa password non pu&#242; essere assegnata all'utente indicato per un errore nell'aggiornamento del Database.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
+pwassist#:#pwassist_username_mail_body#:#Questi sono gli utenti attivi che sono stati trovati nel database con l'indirizzo di eMail :\n%s\n\nQuesto messaggio &#232; stato creato automaticamente dal server ILIAS:\n\t%s\n\nTu (o qualcuno con l'IP %s) ha richiesto il supporto fornito agli utenti che hanno dimenticato il loro username associato all'indirizzo di eMail '%s'.\n\nVerifica le opzioni seguenti ed agisci come indicato::\n\n-Hai richiesto questa mail per sbaglio:\nsemplicemente puoi cancellarla.\n\n-Sei sicuro di non aver mai richiesto questa eMail:\ncontatta %s.\n\n- Hai richiesto questa eMail, procedi come segue::\n\n1. Lancia il tuo browser preferito.\n\n2. Scrivi la seguente url:\n\t%s\n\nImportante: l'indirizzo indicato &#232; su un'unica riga. Se vedi l'indirizzo suddiviso su pi&#249; righe, ci&#242; &#232; dovuto al tuo client di posta che ha inserito degli ritorno a capo.\n\n3. Il tuo browser adesso mostra il Servizio per le Password. Utilizza questa pagina con uno degli utenti che sono indicati nella eMail per ottenere una nuova password.
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_and#:#AND
@@ -4727,9 +4727,9 @@ survey#:#eval_legend_link#:#Per favore controlla nella legenda il significato de
 survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
 survey#:#exit#:#Esci
-survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_csv#:#Comma separated value (CSV)
+survey#:#exp_type_excel#:#Microsoft Excel (PC)
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
@@ -4749,10 +4749,10 @@ survey#:#glossary_term#:#Voce del glossario
 survey#:#harmonic_mean#:#Significato armonico
 survey#:#heading#:#Intestazione
 survey#:#horizontal#:#orizzontale
-survey#:#import_error_closing_file#:#Errore nella chiusura del file di import!
-survey#:#import_error_opening_file#:#Errore nella apertura del file di import!
+survey#:#import_error_closing_file#:#Errore nella chiusura del file da importare!
+survey#:#import_error_opening_file#:#Errore nella apertura del file da importare!
 survey#:#import_error_survey_no_proper_values#:#Le propriet&#224; del sondaggio non contengono valori corretti!
-survey#:#import_error_survey_no_properties#:#Non sono state trovate le propriet&#224; del sondaggio. Non &#232; possibile importare il sondaggio!
+survey#:#import_error_survey_no_properties#:#Non trovate le propriet&#224; del sondaggio. Non &#232; possibile importarlo!
 survey#:#import_no_file_selected#:#Nessun file selezionato!
 survey#:#import_question#:#Importa domande
 survey#:#import_wrong_file_type#:#Tipo di file errato!
