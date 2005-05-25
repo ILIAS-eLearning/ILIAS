@@ -5558,7 +5558,7 @@ class ilObjTest extends ilObject
 		$result_array = array();
 
 		if (is_numeric($user_id))
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation " .
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s ".
@@ -5569,7 +5569,7 @@ class ilObjTest extends ilObject
 			);
 		else 
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation " .							 				
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .							 				
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id ".
