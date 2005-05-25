@@ -326,6 +326,20 @@ class ilGlossaryTerm
 
 		return $obj_rec["term"];
 	}
+	
+	/**
+	* lookup term language
+	*/
+	function _lookLanguage($term_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["language"];
+	}
 
 	/**
 	* static

@@ -397,7 +397,9 @@ table.il_ContainerBlock
 	background-color:#bbbbbb;
 	width:100%;
 	border-spacing:0px;
-	border-width:0px;
+	#border-width:1px;
+	#border-style:solid;
+	#border-color:#a0a0a0;
 }
 
 /* Personal Desktop Header*/

@@ -30,7 +30,7 @@ require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilPageObjectGUI, ilMDEditorGUI
 *
 * @package content
 */
@@ -99,6 +99,17 @@ class ilTermDefinitionEditorGUI
 
 		switch ($next_class)
 		{
+			case "ilmdeditorgui":
+				$gloss_loc->display();
+				$this->setTabs();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->glossary->getId(), $this->definition->getId(), "gdf");
+				//$md_gui->addObserver($this->definition,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 
 			case "ilpageobjectgui":
 				if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
@@ -148,6 +159,7 @@ class ilTermDefinitionEditorGUI
 	/**
 	* edit meta data of glossary term definition
 	*/
+/*
 	function editMeta()
 	{
 		include_once("classes/class.ilMetaDataGUI.php");
@@ -156,11 +168,12 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this, "saveMeta"));
 	}
-
+*/
 
 	/**
 	* save meta data of glossary term definition
 	*/
+/*
 	function saveMeta()
 	{
 		include_once("classes/class.ilMetaDataGUI.php");
@@ -169,10 +182,12 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->save();
 		$this->ctrl->redirect($this, "editMeta");
 	}
+*/
 
 	/**
 	* choose meta section
 	*/
+/*
 	function chooseMetaSection()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -181,11 +196,12 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
 			$_REQUEST["meta_section"]);
 	}
-
+*/
 
 	/**
 	* add a meta subsection/-tag
 	*/
+/*
 	function addMeta()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -208,10 +224,12 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
 			$meta_section);
 	}
+*/
 
 	/**
 	* delete meta subsection/-tag
 	*/
+/*
 	function deleteMeta()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -222,6 +240,7 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
 			$_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* output main header (title and locator)
@@ -267,10 +286,15 @@ class ilTermDefinitionEditorGUI
 			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
 			"ilPageObjectGUI");
 
-		// properties
+		// meta data
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			"meta_data", get_class($this));
+/*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
 			get_class($this));
+*/
 
 		// back to upper context
 		$tabs_gui->addTarget("cont_back",
