@@ -5452,7 +5452,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (count($_POST))
 		{
 			$this->handleCommands();
-			return;
+			//return;
 		}
 		
 		if ($_POST["cmd"]["save"])
