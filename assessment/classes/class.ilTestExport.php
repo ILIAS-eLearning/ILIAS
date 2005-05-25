@@ -65,7 +65,7 @@ class ilTestExport
 		{
 			case "results":
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test_results_"."_".$this->test_obj->getId();
+					"test__results__".$this->test_obj->getId();
 				break;				
 			default:				
 				$this->subdir = $date."__".$this->inst_id."__".
