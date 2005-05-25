@@ -50,6 +50,11 @@ class ASS_QuestionGUI
 	var $error;
 	
 	/**
+	 * sequence number in test
+	 */
+	
+	var $sequence_no;
+	/**
 	* ASS_QuestionGUI constructor
 	*
 	* ASS_QuestionGUI constructor
@@ -387,7 +392,10 @@ class ASS_QuestionGUI
 		$page_gui->setSourcecodeDownloadScript("test.php?ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());
-		$page_gui->setPresentationTitle($this->object->getTitle().$postponed." (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")");
+		if (!$a_postponed && is_numeric($this->sequence_no))
+			$page_gui->setPresentationTitle($this->lng->txt("question")." ".$this->sequence_no." - ".$this->object->getTitle().$postponed." (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")");
+		else 
+			$page_gui->setPresentationTitle($this->object->getTitle().$postponed." (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")");
 		return $page_gui->presentation();
 	}
 	
@@ -797,5 +805,14 @@ class ASS_QuestionGUI
 		$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);		
 		return $output;	
 	}
+	
+	function setSequenceNumber ($nr) {
+		$this->sequence_no = $nr;
+	}
+	
+	function getSequenceNumber () {
+		return $this->sequence_no;
+	}
+	
 }
 ?>
