@@ -214,6 +214,9 @@ class ilWysiwygUtil
 		$this->newXml = str_replace("</p><p>","\n",$this->newXml);
 		$this->newXml = str_replace("<p>","",$this->newXml);
 		$this->newXml = str_replace("</p>","",$this->newXml);
+
+		$this->newXml = str_replace("<p class=\"MsoNormal\">","\n",$this->newXml);
+		$this->newXml = str_replace("<p class=\"MsoNormal\" style=\"MARGIN: 0cm 0cm 0pt\">","\n",$this->newXml);
 		
 		
 		$this->newXml = str_replace("<Strong/>","",$this->newXml);
