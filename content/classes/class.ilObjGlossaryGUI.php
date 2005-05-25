@@ -22,7 +22,7 @@
 */
 
 require_once("classes/class.ilObjectGUI.php");
-require_once("classes/class.ilMetaDataGUI.php");
+//require_once("classes/class.ilMetaDataGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTermGUI.php");
 require_once("content/classes/class.ilGlossaryDefinition.php");
@@ -37,7 +37,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI
 *
 * @package content
 */
@@ -80,6 +80,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		switch ($next_class)
 		{
+			case 'ilmdeditorgui':
+				$this->getTemplate();
+				$this->setTabs();
+				$this->setLocator();
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+
 			case "ilglossarytermgui":
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
@@ -300,6 +313,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		/* update title and description in object data */
 		// not allowed here: move to glossary class!
+/*
 		if (is_object($newObj->meta_data))
 		{
 			//$newObj->meta_data->read();
@@ -310,6 +324,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
 			//$this->ilias->db->query($q);
 		}
+*/
 
 		sendInfo($this->lng->txt("glo_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -320,6 +335,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	* choose meta data section
 	* (called by administration)
 	*/
+/*
 	function chooseMetaSectionObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -333,21 +349,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$a_target, $_REQUEST["meta_section"]);
 	}
+*/
 
 	/**
 	* choose meta data section
 	* (called by module)
 	*/
+/*
 	function chooseMetaSection()
 	{
 		//$this->prepareOutput();
 		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by administration)
 	*/
+/*
 	function addMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -374,22 +394,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
+*/
 
 	/**
 	* add meta data object
 	* (called by module)
 	*/
+/*
 	function addMeta()
 	{
 		//$this->prepareOutput();
 		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
-
+*/
 
 	/**
 	* delete meta data object
 	* (called by administration)
 	*/
+/*
 	function deleteMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -404,21 +427,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* delete meta data object
 	* (called by module)
 	*/
+/*
 	function deleteMeta()
 	{
 		//$this->prepareOutput();
 		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by administration)
 	*/
+/*
 	function editMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -430,21 +457,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
+*/
 
 	/**
 	* edit meta data
 	* (called by module)
 	*/
+/*
 	function editMeta()
 	{
 		//$this->prepareOutput();
 		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by administration)
 	*/
+/*
 	function saveMetaObject($a_target = "")
 	{
 		if ($a_target == "")
@@ -459,15 +490,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
 			"meta_section=" . $_POST["meta_section"]));
 	}
+*/
 
 	/**
 	* save meta data
 	* (called by module)
 	*/
+/*
 	function saveMeta()
 	{
 		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
 	}
+*/
 
 
 	function viewObject()
@@ -1486,8 +1520,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// meta data
 		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "meta_data", get_class($this));
 
 		// permissions
 		$tabs_gui->addTarget("permission_settings",

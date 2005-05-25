@@ -6902,3 +6902,8 @@ chdir($wd);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#445>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -22,7 +22,7 @@
 */
 
 require_once("classes/class.ilObject.php");
-require_once("classes/class.ilMetaData.php");
+//require_once("classes/class.ilMetaData.php");
 require_once("./content/classes/class.ilGlossaryTerm.php");
 
 /**
@@ -44,16 +44,19 @@ class ilObjGlossary extends ilObject
 	{
 		$this->type = "glo";
 		$this->ilObject($a_id,$a_call_by_reference);
+/*
 		if ($a_id == 0)
 		{
 			$this->initMeta();
 		}
+*/
 
 	}
 
 	/**
 	* init meta data object if needed
 	*/
+/*
 	function initMeta()
 	{
 		if (!is_object($this->meta_data))
@@ -69,6 +72,7 @@ class ilObjGlossary extends ilObject
 			$this->assignMetaData($new_meta);
 		}
 	}
+*/
 
 	/**
 	* create glossary object
@@ -78,6 +82,9 @@ class ilObjGlossary extends ilObject
 		global $ilDB;
 
 		parent::create();
+		$this->createMetaData();
+		
+/*
 		if (!$a_upload)
 		{
 			$this->initMeta();
@@ -88,7 +95,7 @@ class ilObjGlossary extends ilObject
 			$this->meta_data->setObject($this);
 			$this->meta_data->create();
 		}
-
+*/
 		$q = "INSERT INTO glossary (id, online, virtual) VALUES ".
 			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").",".$ilDB->quote($this->getVirtualMode()).")";
 		$ilDB->query($q);
@@ -127,7 +134,7 @@ class ilObjGlossary extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
+//		$this->meta_data->setDescription($a_description);
 	}
 	
 	/**
@@ -183,7 +190,7 @@ class ilObjGlossary extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
+//		$this->meta_data->setTitle($a_title);
 	}
 
 	function setOnline($a_online)
@@ -215,25 +222,30 @@ class ilObjGlossary extends ilObject
 	*
 	* @param	object		$a_meta_data	meta data object
 	*/
+/*
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+*/
 
 	/**
 	* get meta data object of glossary object
 	*
 	* @return	object		meta data object
 	*/
+/*
 	function &getMetaData()
 	{
 		$this->initMeta();
 		return $this->meta_data;
 	}
+*/
 
 	/**
 	* update meta data only
 	*/
+/*
 	function updateMetaData()
 	{
 		$this->initMeta();
@@ -252,6 +264,7 @@ class ilObjGlossary extends ilObject
 		}
 		parent::update();
 	}
+*/
 
 	/**
 	* update complete object
@@ -265,9 +278,11 @@ class ilObjGlossary extends ilObject
 			" virtual = '".$this->getVirtualMode()."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
-
+		
+		parent::update();
 	}
 
+/*
 	function getImportId()
 	{
 		$this->initMeta();
@@ -279,7 +294,7 @@ class ilObjGlossary extends ilObject
 		$this->initMeta();
 		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
-
+*/
 
 	/**
 	* get term list
@@ -589,10 +604,12 @@ class ilObjGlossary extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
+/*
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
+*/
 	}
 
 	/**
@@ -700,9 +717,12 @@ class ilObjGlossary extends ilObject
 		$this->ilias->db->query($q);
 
 		// delete meta data
+		$this->deleteMetaData();
+/*
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
+*/
 
 		return true;
 	}
