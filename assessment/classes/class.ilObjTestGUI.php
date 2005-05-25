@@ -3332,6 +3332,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			default:
+				$question_gui->setSequenceNumber ($sequence);
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback);
 				break;
 		}
@@ -5696,9 +5697,12 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$add_parameter = "?ref_id=" . $_GET["ref_id"];
 				$finished = "<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=resultsheet&user_id=\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				$finished .= "&nbsp;<a target=\"_BLANK\" href=\"".$this->getCallingScript().$add_parameter."&cmd=answersheet&user_id=\">&nbsp;".$this->lng->txt("tst_show_answer_sheet")."</a>" ;
+				$started   = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"\" />" ;
+				
 				foreach ($data_array as $data)
 				{
-					$finished_line = str_replace ("user_id=","&user_id=".$data->usr_id,$finished);
+					$finished_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$finished);
+					$started_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$started); 
 					$counter = 0;
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
@@ -5709,6 +5713,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
@@ -5719,6 +5724,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_IV_CLIENT_IP", $this->lng->txt("clientip"));
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
+				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 					
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
 				{
@@ -6014,7 +6020,10 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable ("FRAME_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable ("FRAME_CLIENTIP",$_SERVER["REMOTE_ADDR"]);		
+		$this->tpl->setVariable ("FRAME_MATRICULATION",$ilUser->getMatriculation());
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		
 		$this->outShowAnswersDetails(false, $ilUser); 
@@ -6047,7 +6056,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}	
 	
 	function outShowAnswers ($isForm, &$ilUser) {
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);		
 		$this->outShowAnswersDetails($isForm, &$ilUser);
 	}
 	
@@ -6175,7 +6184,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			if ($_SESSION["active_time_id"]) // && $this->object->getEnableProcessingTime())
 			{
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
-				#echo "updating Worktime<br>";
+				//echo "updating Worktime<br>";
 			}	
 			
 			// save question solution
@@ -6187,7 +6196,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				{
 				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
 				 	$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-				 	#echo "saving <br>";
+				 	//echo "saving <br>";
 				}												
 			}			
 		}		
@@ -6216,7 +6225,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}
 	
 	function answersheetObject () {
-		global $rbacsystem, $ilUser;
+		global $rbacsystem;//, $ilUser;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
@@ -6232,13 +6241,14 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			echo utf8_decode($this->lng->txt("user_not_invited"));
 			exit();
 		}
-		
+		$ilUser = new IlObjUser ($user_id);		
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("FRAME_CLIENTIP",$_SERVER["REMOTE_ADDR"]);		
+		$this->tpl->setVariable("FRAME_MATRICULATION",$ilUser->getMatriculation());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
-		
-		$this->outShowAnswersDetails(false, new IlObjUser ($user_id));			
+		$this->outShowAnswersDetails(false, $ilUser);			
 	}
 	
 	
