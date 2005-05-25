@@ -404,7 +404,5 @@ class ilMD extends ilMDBase
 		
 		return true;
 	}
-		
-
 }
 ?>

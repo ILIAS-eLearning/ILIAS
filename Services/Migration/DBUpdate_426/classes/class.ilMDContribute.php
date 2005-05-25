@@ -226,8 +226,7 @@ class ilMDContribute extends ilMDBase
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
-			"AND parent_type = '".$a_parent_type."' ".
-			"ORDER BY meta_contribute_id";
+			"AND parent_type = '".$a_parent_type."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

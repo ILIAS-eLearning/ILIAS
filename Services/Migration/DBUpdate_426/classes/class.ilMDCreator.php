@@ -203,6 +203,13 @@ class ilMDCreator
 		$md_key->setKeywordLanguage($this->getKeywordLanguage());
 		$md_key->save();
 
+
+		unset($md_gen);
+		unset($md_ide);
+		unset($md_lng);
+		unset($md_des);
+		unset($md_key);
+
 		return true;
 	}
 }

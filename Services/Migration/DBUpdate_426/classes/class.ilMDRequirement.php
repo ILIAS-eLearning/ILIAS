@@ -251,8 +251,7 @@ class ilMDRequirement extends ilMDBase
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type."' ".
-			"AND or_composite_id = '".$a_or_composite_id."' ".
-			"ORDER BY meta_requirement_id";
+			"AND or_composite_id = '".$a_or_composite_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

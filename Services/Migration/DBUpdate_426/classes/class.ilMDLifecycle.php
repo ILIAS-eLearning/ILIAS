@@ -232,7 +232,7 @@ class ilMDLifecycle extends ilMDBase
 
 		$query = "SELECT meta_lifecycle_id FROM il_meta_lifecycle ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_lifecycle_id";
+			"AND obj_id = '".$a_obj_id."'";
 
 
 		$res = $ilDB->query($query);

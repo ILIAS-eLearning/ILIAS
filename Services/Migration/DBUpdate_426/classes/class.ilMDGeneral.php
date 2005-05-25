@@ -414,7 +414,7 @@ class ilMDGeneral extends ilMDBase
 
 		$query = "SELECT meta_general_id FROM il_meta_general ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_general_id";
+			"AND obj_id = '".$a_obj_id."'";
 
 
 		$res = $ilDB->query($query);
