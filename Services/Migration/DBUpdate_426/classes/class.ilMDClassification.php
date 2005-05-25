@@ -273,7 +273,7 @@ class ilMDClassification extends ilMDBase
 
 		$query = "SELECT meta_classification_id FROM il_meta_classification ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_classification_id";
+			"AND obj_id = '".$a_obj_id."'";
 
 
 		$res = $ilDB->query($query);
