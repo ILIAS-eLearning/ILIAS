@@ -104,16 +104,16 @@ class ilPersonalDesktopGUI
     }
 
 
-    /**
+	/**
 	 * get selected item block
 	 */
-    function getSelectedItemBlockHTML($a_title, $a_type)
-    {
-        include_once './classes/class.ilRepositoryExplorer.php';
+	function getSelectedItemBlockHTML($a_title, $a_type)
+	{
+		include_once './classes/class.ilRepositoryExplorer.php';
 
-        global $rbacsystem;
-
-        $items = $this->ilias->account->getDesktopItems($a_type);
+		global $rbacsystem, $objDefinition, $ilBench;
+		
+		$items = $this->ilias->account->getDesktopItems($a_type);
 
         // Determine whether the view of a learning resource should
         // be shown in the frameset of ilias, or in a separate window.
@@ -168,184 +168,36 @@ class ilPersonalDesktopGUI
                     $tstCount++;
                     $tpl->parseCurrentBlock();
                 }
-                if (strcmp($a_type, "svy")==0) {
-                    if ($item["finished"] === 0)
-                    {
-                        $tpl->setCurrentBlock("finished");
-                        $tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
-                        $tpl->parseCurrentBlock();
-                    }
-                    else if ($item["finished"] === 1)
-                    {
-                        $tpl->setCurrentBlock("finished");
-                        $tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
-                        $tpl->parseCurrentBlock();
-                    }
-                    else
-                    {
-                        $tpl->setCurrentBlock("finished");
-                        $tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_started"));
-                        $tpl->parseCurrentBlock();
-                    }
-                }
+				
+				// get list gui class for each object type
+				if ($cur_obj_type != $item["type"])
+				{
+					$class = $objDefinition->getClassName($item["type"]);
+					$location = $objDefinition->getLocation($item["type"]);
+					$full_class = "ilObj".$class."ListGUI";
+					include_once($location."/class.".$full_class.".php");
+					$item_list_gui = new $full_class();
+					$item_list_gui->enableDelete(false);
+					$item_list_gui->enableCut(false);
+					$item_list_gui->enablePayment(false);
+					$item_list_gui->enableLink(false);
+// to do: make unsubscribe work
+					//$item_list_gui->enableSubscribe(false);
+					//$item_list_gui->setContainerObject($this);
+				}
+				// render item row
+				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
 
-                // continue link
-                if ($item["continue_link"] != "" &&
-                    $rbacsystem->checkAccess("read", $item["id"]))
-                {
-                    $tpl->setCurrentBlock("continue_link");
-                    $tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
-
-                    if ($showViewInFrameset)
-                    {
-                        $tpl->setVariable("TARGET_CONTINUE", "bottom");
-                    }
-                    else
-                    {
-                        $tpl->setVariable("TARGET_CONTINUE", $item["target"]);
-                    }
-
-                    $tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
-                    $tpl->setVariable("IMG_CONTINUE", ilUtil::getImagePath("nav_arr_R.gif"));
-                    $tpl->parseCurrentBlock();
-                }
-                else
-                {
-                    $tpl->setVariable("CONTINUE", "&nbsp;");
-                }
-
-                // edit link
-                if ($item["edit_link"] != "" and
-                    $rbacsystem->checkAccess("write", $item["id"]))
-                {
-                    $tpl->setCurrentBlock("edit_link");
-                    $tpl->setVariable("LINK_EDIT", $item["edit_link"]);
-                    $tpl->setVariable("TARGET_EDIT", "bottom");
-                    $tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-                    $tpl->setVariable("IMG_EDIT", ilUtil::getImagePath("icon_pencil.gif"));
-                    $tpl->parseCurrentBlock();
-                }
-                else
-                {
-                    $tpl->setVariable("EDIT", "&nbsp;");
-                }
-
-                // drop link
-                $tpl->setCurrentBlock("drop_link");
-                $tpl->setVariable("TYPE", $item["type"]);
-                $tpl->setVariable("ID", $item["id"]);
-                $tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
-                $tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
-                $tpl->parseCurrentBlock();
-
-                // description
-                if ($item["description"] != "")
-                {
-                    $tpl->setCurrentBlock("description");
-                    $tpl->setVariable("TXT_ITEM_DESCRIPTION", $item["description"]);
-                    $tpl->parseCurrentBlock();
-                }
-
-                if($a_type == 'crs')
-                {
-                    $tmp_course =& ilObjectFactory::getInstanceByRefId($item['id']);
-                    $tmp_course->initCourseMemberObject();
-                    $id = ilObject::_lookupObjId($item['id']);
-
-                    if($tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
-                    {
-                        $tpl->setCurrentBlock("crs_status");
-                        $tpl->setVariable("STATUS",$this->lng->txt("crs_status_blocked"));
-                        $tpl->parseCurrentBlock();
-                    }
-                    $conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($id);
-
-                    if(!$conditions_ok and 0)
-                    {
-                        foreach(ilConditionHandler::_getConditionsOfTarget($id) as $condition)
-                        {
-                            if(ilConditionHandler::_checkCondition($id))
-                            {
-                                continue;
-                            }
-                            $trigger_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
-
-                            if(ilRepositoryExplorer::isClickable($trigger_obj->getType(),$trigger_obj->getRefId(),$trigger_obj->getId()))
-                            {
-                                $tpl->setCurrentBlock("pre_link");
-                                $tpl->setVariable("PRECONDITION_LINK",
-                                                  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
-                                $tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
-                                $tpl->parseCurrentBlock();
-                            }
-                            else
-                            {
-                                $tpl->setCurrentBlock("pre_no_link");
-                                $tpl->setVariable("PRECONDITION_NO_TITLE",$trigger_obj->getTitle());
-                                $tpl->parseCurrentBlock();
-                            }
-                        }
-                        $tpl->setCurrentBlock("crs_preconditions");
-                        $tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('condition_precondition'));
-                        $tpl->parseCurrentBlock();
-                    }
-
-
-                }
-                // Show fora infos
-                if($a_type == 'frm')
-                {
-                    global $ilUser;
-
-                    $frm_obj = ilObjectFactory::getInstanceByRefId($item['id']);
-                    $this->lng->loadLanguageModule('forum');
-
-                    $num_unread = $frm_obj->getCountUnread($ilUser->getId());
-                    $num_new = $frm_obj->getCountNew($ilUser->getId());
-
-                    if($num_unread)
-                    {
-                        $tpl->setCurrentBlock("frm_info");
-						
-						$art_1 = $num_unread == 1 ? $this->lng->txt('frm_article') : $this->lng->txt('forums_articles');
-						$art_2 = $num_new == 1 ? $this->lng->txt('frm_article') : $this->lng->txt('forums_articles');
-
-
-						$text = $num_unread.' '.$art_1.' '.$this->lng->txt('unread_lowercase').
-							', '.$num_new.' '.$art_2.' '.$this->lng->txt('new_lowercase');
-
-                        $tpl->setVariable("TXT_FRM_INFO",$text);
-                        $tpl->parseCurrentBlock();
-                    }
-                }
-
-                // show link
-                if($a_type != 'crs' or ilRepositoryExplorer::isClickable($a_type,$item['id'],ilObject::_lookupObjId($item['id'])))
-                {
-                    $tpl->setCurrentBlock("show_link");
-                    $tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
-                    $tpl->setVariable("LINK_SHOW", $item["link"]);
-                    if ($showViewInFrameset)
-                    {
-                        $tpl->setVariable("TARGET_SHOW", "bottom");
-                    }
-                    else
-                    {
-                        $tpl->setVariable("TARGET_SHOW", $item["target"]);
-                    }
-                    $tpl->parseCurrentBlock();
-                }
-                else
-                {
-                    $tpl->setCurrentBlock("no_link");
-                    $tpl->setVariable("TXT_NO_LINK_TITLE",$item['title']);
-                    $tpl->parseCurrentBlock();
-                }
-
-                $tpl->setCurrentBlock("block_row");
-                $tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
-                $tpl->parseCurrentBlock();
-
+				$html = $item_list_gui->getListItemHTML($item["ref_id"],
+					$item["obj_id"], $item["title"], $item["description"]);
+				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
+				if ($html != "")
+				{
+					$tpl->setVariable("ITEM_HTML", $html);
+					$tpl->setCurrentBlock("block_row");
+					$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
+					$tpl->parseCurrentBlock();
+				}
             }
             return $tpl->get();
         }

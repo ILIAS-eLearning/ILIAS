@@ -619,7 +619,8 @@ return;			// to do: enable this, when courses and tests do not
 		{
 			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
 			{
-				if ($this->rbacsystem->checkAccess("read", $this->ref_id))
+				if ($this->rbacsystem->checkAccess("read", $this->ref_id)
+					&& is_object($this->container_obj))
 				{
 					$this->ctrl->setParameter($this->container_obj, "ref_id",
 						$this->container_obj->object->getRefId());
@@ -631,12 +632,22 @@ return;			// to do: enable this, when courses and tests do not
 			}
 			else
 			{
+				// not so nice, if no container object given, it must
+				// be personal desktop
+				if (is_object($this->container_obj))
+				{
 					$this->ctrl->setParameter($this->container_obj, "ref_id",
 						$this->container_obj->object->getRefId());
 					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
+				}
+				else
+				{
+					$this->insertCommand("usr_personaldesktop.php?cmd=dropItem&".
+						"type=".$this->type."&id=".$this->ref_id, $this->lng->txt("unsubscribe"));
+				}
 			}
 		}
 	}

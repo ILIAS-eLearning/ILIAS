@@ -54,7 +54,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			$a_user_id = $ilUser->getId();
 		}
-
+		
 		switch ($a_cmd)
 		{
 			case "view":
@@ -78,7 +78,7 @@ class ilObjCourseAccess extends ilObjectAccess
 			case "visible":
 				// to do: try to do this without instantiation
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
-				if(get_class($tmp_obj) != "ilobjcourse")
+				if(strtolower(get_class($tmp_obj)) != "ilobjcourse")
 				{
 					return false;
 				}
@@ -92,7 +92,6 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				break;
 		}
-
 
 		return true;
 	}

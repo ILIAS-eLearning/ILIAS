@@ -84,8 +84,10 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		{
 			case "view":
 			case "join":
-				$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $this->ref_id);
-				$cmd_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
+				// using ilCtrl does not work on personal desktop
+				//$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $this->ref_id);
+				//$cmd_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
+				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
 
 			case "edit":

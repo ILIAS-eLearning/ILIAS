@@ -235,6 +235,12 @@ class ilRepositoryGUI
 		}
 
 		$cmd = $this->ctrl->getCmd();
+
+		if ($cmd == "frameset")
+		{
+			$next_class = "";
+		}
+		
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
@@ -308,6 +314,7 @@ class ilRepositoryGUI
 				break;*/
 
 			default:
+
 				// process repository frameset
 				if ($cmd == "frameset")
 				{

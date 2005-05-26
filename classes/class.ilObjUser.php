@@ -2261,6 +2261,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilUser, $rbacsystem;
 
+		
 		if (!is_array($a_types))
 		{
 			$a_types = array($a_types);
@@ -2269,6 +2270,25 @@ class ilObjUser extends ilObject
 		$foundsurveys = array();
 		foreach($a_types as $a_type)
 		{
+			$q = "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+				", object_data AS obj WHERE ".
+				"it.item_id = oref.ref_id AND ".
+				"oref.obj_id = obj.obj_id AND ".
+				"it.type = '$a_type' AND ".
+				"it.user_id = '".$this->getId()."' ".
+				"ORDER BY title";
+
+			$item_set = $this->ilias->db->query($q);
+			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+					array("ref_id" => $item_rec["ref_id"], 
+					"obj_id" => $item_rec["obj_id"], "type" => $a_type,
+					"title" => $item_rec["title"], "description" => $item_rec["description"]);
+			}
+			
+			
+/* old stuff					
 			switch ($a_type)
 			{
 				case "lm":
@@ -2697,6 +2717,7 @@ class ilObjUser extends ilObject
 					}
 				}
 			}
+*/
 		}
 		ksort($items);
 		return $items;
