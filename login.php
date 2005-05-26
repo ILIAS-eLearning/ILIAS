@@ -48,6 +48,10 @@ if (!isset($_COOKIE['iltest']))
 		$_COOKIE['iltest'] = "";
 	}
 }
+else
+{
+	unset($_GET['cookies']);
+}
 
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
