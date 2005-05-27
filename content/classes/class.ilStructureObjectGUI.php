@@ -282,7 +282,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		//{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$acts = array("delete" => "delete", "move" => "moveChapter");
+			$acts = array("delete" => "delete", "move" => "moveChapter",
+				"copy" => "copyChapter");
 			if(ilEditClipboard::getContentObjectType() == "st")
 			{
 				if ($this->tree->isInTree(ilEditClipboard::getContentObjectId()))
@@ -616,6 +617,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->ctrl->redirect($this, "subchap");
 	}
 
+	/**
+	* copy a single chapter (selection)
+	*/
+	function copyChapter()
+	{
+		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+			true, false);
+		$cont_obj_gui->copyChapter($this->obj->getId());
+
+		$this->ctrl->redirect($this, "subchap");
+	}
 
 	/**
 	* paste chapter

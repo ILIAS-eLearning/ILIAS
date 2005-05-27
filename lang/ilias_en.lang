@@ -1001,6 +1001,7 @@ common#:#cookies_howto#:#How to enable cookies
 common#:#copied_object#:#Copied object
 common#:#copy#:#Copy
 common#:#copyPage#:#Copy
+common#:#copyChapter#:#Copy
 common#:#copy_of#:#Copy of
 common#:#copy_to#:#to
 common#:#count#:#Count
@@ -2761,6 +2762,7 @@ content#:#cont_caption#:#Caption
 content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.
 content#:#cont_chapters#:#Chapters
 content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_chapters_only#:#Chapters only

@@ -533,30 +533,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
 
-		
+
 		// node-id of dragged object
 		$source_id = $_GET["dragdropSource"];
-		
+
 		// node-id of object under dragged obj at drop
 		$target_id = $_GET["dragdropTarget"];
-		
+
 		// "move" | "copy"
 		$movecopy = $_GET["dragdropCopymove"];
-		
+
 		// "after" | "before" : copy or move the source-object before or after the selected target-object.
 		$position = $_GET["dragdropPosition"];
-		
+
 		//echo "sourceId: $sourceId<br>";
 		//echo "targetId: $targetId<br>";
 		//echo "move or copy: $movecopy<br>";
 		//echo "position: $position<br>";
-		
+
 		$source_obj = ilLMObjectFactory::getInstance($this->object, $source_id, true);
 		$source_obj->setLMId($this->object->getId());
 		$target_obj = ilLMObjectFactory::getInstance($this->object, $target_id, true);
 		$target_obj->setLMId($this->object->getId());
 		$target_parent = $lmtree->getParentId($target_id);
-		
+
 
 		// handle pages
 		if ($source_obj->getType() == "pg")
@@ -564,13 +564,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			if ($lmtree->isInTree($source_obj->getId()))
 			{
 				$node_data = $lmtree->getNodeData($source_obj->getId());
-				
+
 				// cut on move
 				if ($movecopy == "move")
 				{
 					$parent_id = $lmtree->getParentId($source_obj->getId());
 					$lmtree->deleteTree($node_data);
-					
+
 					// write history entry
 					require_once("classes/class.ilHistory.php");
 					ilHistory::_createEntry($source_obj->getId(), "cut",
@@ -587,7 +587,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$source_id = $new_page->getId();
 					$source_obj =& $new_page;
 				}
-				
+
 				// paste page
 				if(!$lmtree->isInTree($source_obj->getId()))
 				{
@@ -613,11 +613,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						$target_pos = IL_FIRST_NODE;
 						$parent = $target_id;
 					}
-					
+
 					// insert page into tree
 					$lmtree->insertNode($source_obj->getId(),
 						$parent, $target_pos);
-					
+
 					// write hisroty entry
 					if ($movecopy == "move")
 					{
@@ -634,7 +634,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		// handle chapters
 		if ($source_obj->getType() == "st")
 		{
@@ -644,7 +644,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				return;
 			}
 			$source_node = $lmtree->getNodeData($source_id);
-			$subnodes = $lmtree->getSubtree($source_node);					
+			$subnodes = $lmtree->getSubtree($source_node);
 
 			// check, if target is within subtree
 			foreach ($subnodes as $subnode)
@@ -661,7 +661,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			if ($position == "before")
 			{
 				$target_pos = IL_FIRST_NODE;
-				
+
 				// look for predecessor chapter on same level
 				$childs = $lmtree->getChildsByType($target_parent, "st");
 				$found = false;
@@ -676,24 +676,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						$target_pos = $child["obj_id"];
 					}
 				}
-				
-				// if target_pos is still first node we must skip all pages
-				if ($target_pos == IL_FIRST_NODE)
-				{
-					$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
-					if (count($pg_childs) != 0)
-					{
-						$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-					}
-				}
-			}
-			
-			// insert into
-			if ($position == "into")
-			{
-				$target_parent = $target_id;
-				$target_pos = IL_FIRST_NODE;
-										
+
 				// if target_pos is still first node we must skip all pages
 				if ($target_pos == IL_FIRST_NODE)
 				{
@@ -705,7 +688,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 			}
 
-			
+			// insert into
+			if ($position == "into")
+			{
+				$target_parent = $target_id;
+				$target_pos = IL_FIRST_NODE;
+
+				// if target_pos is still first node we must skip all pages
+				if ($target_pos == IL_FIRST_NODE)
+				{
+					$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
+					if (count($pg_childs) != 0)
+					{
+						$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+					}
+				}
+			}
+
+
 			// delete source tree
 			if ($movecopy == "move")
 			{
@@ -716,11 +716,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				// copy chapter (incl. subcontents)
 				$new_chapter =& $source_obj->copy($lmtree, $target_parent, $target_pos);
 			}
-			
+
 			if (!$lmtree->isInTree($source_id))
 			{
 				$lmtree->insertNode($source_id, $target_parent, $target_pos);
-				
+
 				// insert moved tree
 				if ($movecopy == "move")
 				{
@@ -733,7 +733,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					}
 				}
 			}
-	
+
 			// check the tree
 			$this->object->checkTree();
 
@@ -1386,7 +1386,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$acts = array("delete" => "delete", "move" => "moveChapter");
+			$acts = array("delete" => "delete", "move" => "moveChapter",
+				"copy" => "copyChapter");
 			if (ilEditClipboard::getContentObjectType() == "st")
 			{
 				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId()))
@@ -1888,7 +1889,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// SAVE POST VALUES
-		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
+		ilEditClipboard::storeContentObject("st", $_POST["id"][0], "move");
 
 		sendInfo($this->lng->txt("cont_chap_select_target_now"), true);
 
@@ -1898,6 +1899,37 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+
+	/**
+	* copy a single chapter  (selection)
+	*/
+	function copyChapter($a_parent_subobj_id = 0)
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		ilEditClipboard::storeContentObject("st", $_POST["id"][0], "copy");
+
+		sendInfo($this->lng->txt("cont_chap_copy_select_target_now"), true);
+
+		if ($a_parent_subobj_id == 0)
+		{
+			$this->ctrl->redirect($this, "chapters");
+		}
+	}
 
 	/**
 	* paste chapter
@@ -1934,10 +1966,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "chapters");
 		}
 
+		// determin parent
+		$parent = ($a_parent_subobj_id == 0)
+			? $tree->getRootId()
+			: $a_parent_subobj_id;
 
-		//echo ":".$id.":";
-		// delete old tree entries
-		$tree->deleteTree($node);
+		// determine target position
 		if(!isset($_POST["id"]))
 		{
 			$target = IL_LAST_NODE;
@@ -1946,14 +1980,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$target = $_POST["id"][0];
 		}
-
-		// determin parent
-		$parent = ($a_parent_subobj_id == 0)
-			? $tree->getRootId()
-			: $a_parent_subobj_id;
-
-		// do not move a chapter in front of a page
-		if($target == IL_FIRST_NODE)
+		if($target == IL_FIRST_NODE) // do not move a chapter in front of a page
 		{
 			$childs =& $tree->getChildsByType($parent, "pg");
 			if (count($childs) != 0)
@@ -1962,20 +1989,34 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 		}
 
-
-		if (!$tree->isInTree($id))
+		//echo ":".$id.":";
+		// delete old tree entries
+//echo "-".ilEditClipboard::getAction()."-";
+		if (ilEditClipboard::getAction() == "move")
 		{
-			$tree->insertNode($id, $parent, $target);
+			$tree->deleteTree($node);
 
-			foreach ($subnodes as $node)
+			if (!$tree->isInTree($id))
 			{
-				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-				//$obj_data->putInTree($node["parent"]);
-				if($node["obj_id"] != $id)
+				$tree->insertNode($id, $parent, $target);
+
+				foreach ($subnodes as $node)
 				{
-					$tree->insertNode($node["obj_id"], $node["parent"]);
+					//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+					//$obj_data->putInTree($node["parent"]);
+					if($node["obj_id"] != $id)
+					{
+						$tree->insertNode($node["obj_id"], $node["parent"]);
+					}
 				}
 			}
+		}
+		else
+		{
+			$id = ilEditClipboard::getContentObjectId();
+			$source_obj = ilLMObjectFactory::getInstance($this->object, $id, true);
+			$source_obj->setLMId($this->object->getId());
+			$source_obj->copy($tree, $parent, $target);
 		}
 
 		ilEditClipboard::clear();
