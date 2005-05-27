@@ -59,6 +59,7 @@ class ilObjectListGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->mode = IL_LIST_FULL;
+		$this->path_enabled = false;
 
 		$this->init();
 	}
@@ -209,6 +210,27 @@ class ilObjectListGUI
 	function getLinkStatus()
 	{
 		return $this->link_enabled;
+	}
+
+	/**
+	* En/disable path
+	*
+	* @param bool
+	* @return void
+	*/
+	function enablePath($a_path)
+	{
+		$this->path_enabled = $a_path;
+	}
+
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getPathStatus()
+	{
+		return $this->path_enabled;
 	}
 
 	/**
@@ -704,6 +726,37 @@ return;			// to do: enable this, when courses and tests do not
 	}
 
 	/**
+	* insert path
+	*/
+	function insertPath()
+	{
+		global $tree, $lng;
+
+		if ($this->getPathStatus() != false)
+		{
+			$path = $tree->getPathId($this->ref_id);
+			$sep = false;
+			unset($path[count($path) - 1]);
+			unset($path[0]);
+			foreach ($path as $id)
+			{
+				$this->tpl->setCurrentBlock("path_item");
+				if ($sep)
+				{
+					$this->tpl->setVariable("SEPARATOR", " > ");
+				}
+				$this->tpl->setVariable("PATH_ITEM",
+					ilObject::_lookupTitle(ilObject::_lookupObjId($id)));
+				$this->tpl->parseCurrentBlock();
+				$sep = true;
+			}
+			$this->tpl->setCurrentBlock("path");
+			$this->tpl->setVariable("TXT_LOCATION", $lng->txt("locator"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
 	* Get all item information (title, commands, description) in HTML
 	*
 	* @access	public
@@ -718,7 +771,7 @@ return;			// to do: enable this, when courses and tests do not
 		global $ilAccess, $ilBench;
 
 		// only for permformance exploration
-		//$type = ilObject::_lookupType($a_obj_id);
+		$type = ilObject::_lookupType($a_obj_id);
 
 		// initialization
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
@@ -755,14 +808,19 @@ return;			// to do: enable this, when courses and tests do not
 		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
 
 		// properties
-		$ilBench->start("ilObjectListGUI", "6000_insert_properties");
+		$ilBench->start("ilObjectListGUI", "6000_insert_properties$type");
 		$this->insertProperties();
-		$ilBench->stop("ilObjectListGUI", "6000_insert_properties");
+		$ilBench->stop("ilObjectListGUI", "6000_insert_properties$type");
 
 		// preconditions
-		$ilBench->start("ilObjectListGUI", "6000_insert_preconditions");
+		$ilBench->start("ilObjectListGUI", "7000_insert_preconditions");
 		$this->insertPreconditions();
-		$ilBench->stop("ilObjectListGUI", "6000_insert_preconditions");
+		$ilBench->stop("ilObjectListGUI", "7000_insert_preconditions");
+
+		// path
+		$ilBench->start("ilObjectListGUI", "8000_insert_path");
+		$this->insertPath();
+		$ilBench->stop("ilObjectListGUI", "8000_insert_path");
 
 		return $this->tpl->get();
 	}
