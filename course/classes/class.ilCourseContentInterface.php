@@ -321,9 +321,9 @@ class ilCourseContentInterface
 				// add test evaluation links
 				if (strcmp($cont_data["type"], "tst") == 0)
 				{
-					require_once("./assessment/classes/class.ilObjTest.php");
+					require_once("./assessment/classes/class.ilObjTestAccess.php");
 					$this->lng->loadLanguageModule("assessment");
-					$complete = ilObjTest::_isComplete($cont_data["obj_id"]);
+					$complete = ilObjTestAccess::_isComplete($cont_data["obj_id"]);
 					// add anonymous aggregated test results link
 					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and ($complete))
 					{
@@ -618,8 +618,8 @@ class ilCourseContentInterface
 			switch($tmp_obj->getType())
 			{
 				case 'tst':
-					include_once './assessment/classes/class.ilObjTest.php';
-					$accomplished = ilObjTest::_checkCondition($tmp_obj->getId(),'finished','') ? 'accomplished' : 'not_accomplished';
+					include_once './assessment/classes/class.ilObjTestAccess.php';
+					$accomplished = ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished','') ? 'accomplished' : 'not_accomplished';
 					break;
 
 				default:

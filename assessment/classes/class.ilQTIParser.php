@@ -501,6 +501,7 @@ class ilQTIParser extends ilSaxParser
 				// Multiple choice multiple response
 				$this->in_response = TRUE;
 				include_once("./assessment/classes/class.ilQTIResponse.php");
+				echo "create new response_lid<br />";
 				$this->response = new ilQTIResponse(RT_RESPONSE_LID);
 				$this->response->setFlow($this->flow);
 				if (is_array($a_attribs))
@@ -679,6 +680,7 @@ class ilQTIParser extends ilSaxParser
 				{
 					if ($this->item != NULL)
 					{
+						echo "set presentation for item<br />";
 						$this->item->setPresentation($this->presentation);
 					}
 				}
@@ -709,6 +711,7 @@ class ilQTIParser extends ilSaxParser
 				{
 					if ($this->response != NULL)
 					{
+						echo "add response to presentation<br />";
 						$this->presentation->addResponse($this->response);
 						if ($this->item != NULL)
 						{

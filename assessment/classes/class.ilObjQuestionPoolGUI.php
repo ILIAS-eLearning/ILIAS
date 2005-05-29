@@ -292,7 +292,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
 		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 		// here we have to work with the new QTI parser
-		include_once "./assessment/classes/class.ilQTIParser.php";
+/*		include_once "./assessment/classes/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file);
 		$result = $qtiParser->startParsing();
 
@@ -300,19 +300,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory()."/".$subdir);
 			unlink($full_path);
+			echo "number of items: " . count($qtiParser->items) . "<br />";
 			foreach ($qtiParser->items as $key => $value)
 			{
+				echo "item $key<br />";
 //				echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value, true))); 
 				//echo $value->getTitle() . "<br />";
-				echo $value->presentation->response[0]->rcardinality;
-				echo $value->presentation->response[0]->determineQuestionType();
+				//echo "rcardinality: " . $value->presentation->response[0]->rcardinality . "<br />";
+				//echo "question type: " . $value->presentation->response[0]->determineQuestionType() . "<br />";
 			}
 			exit;
 			sendInfo($this->lng->txt("import_errors_qti"), TRUE);
 			$this->importObject();
 			return;
 		}
-		
+*/		
 		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
 		// set type of questionpool object

@@ -159,9 +159,9 @@ class ilCourseStart
 
 			if($tmp_obj->getType() == 'tst')
 			{
-				include_once './assessment/classes/class.ilObjTest.php';
+				include_once './assessment/classes/class.ilObjTestAccess.php';
 
-				if(!ilObjTest::_checkCondition($tmp_obj->getId(),'finished',''))
+				if(!ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished',''))
 				{
 					$fullfilled = false;
 					continue;

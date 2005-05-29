@@ -515,11 +515,8 @@ class ilConditionHandler
 		switch($condition['trigger_type'])
 		{
 			case "tst":
-				include_once './assessment/classes/class.ilObjTest.php';
-				return ilObjTest::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
-				//include_once './assessment/classes/class.ilObjTestAccess.php';
-				//return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
-
+				include_once './assessment/classes/class.ilObjTestAccess.php';
+				return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "crs":
 				include_once './course/classes/class.ilObjCourse.php';

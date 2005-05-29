@@ -166,7 +166,6 @@ class ilQTIResponse
 	{
 		if ($this->render_type != NULL)
 		{
-
 			switch ($this->response_type)
 			{
 				case RT_RESPONSE_LID:
