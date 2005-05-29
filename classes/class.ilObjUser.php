@@ -31,7 +31,7 @@ require_once "classes/class.ilObject.php";
 /**
 * user class for ilias
 *
-* @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Sascha Hofmann <saschahofmann@gmx.de>
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @version	$Id$
@@ -1476,7 +1476,8 @@ class ilObjUser extends ilObject
 	*/
 	function setLanguage($a_str)
 	{
-		$this->prefs["language"] = $a_str;
+		$this->setPref("language",$a_str);
+		unset($_SESSION['lang']);
 	}
 
 	/**

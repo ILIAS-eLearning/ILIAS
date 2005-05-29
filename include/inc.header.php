@@ -26,7 +26,7 @@
 * in ILIAS. Inits RBAC-Classes & recent user, log-,language- & tree-object
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
 * @package ilias-core
@@ -317,9 +317,16 @@ elseif (
 
 //init language
 $ilBench->start("Core", "HeaderInclude_initLanguage");
-$_SESSION['lang'] = $_GET['lang'] ? $_GET['lang'] : $_SESSION['lang'];
-$lang_key = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
-$lng = new ilLanguage($lang_key);
+
+if (is_null($_SESSION['lang']))
+{
+	$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
+	//var_dump($_GET['lang'],$ilias->account->prefs['language']);
+}
+
+$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
+
+$lng = new ilLanguage($_SESSION['lang']);
 $GLOBALS['lng'] =& $lng;
 $ilBench->stop("Core", "HeaderInclude_initLanguage");
 
