@@ -137,7 +137,7 @@ class ilTree
 		}
 		else
 		{
-			$this->lang_code = $ilUser->getPref("language");
+			$this->lang_code = $ilUser->getCurrentLanguage();
 		}
 
 		if (!isset($a_tree_id) or (func_num_args() == 0) )

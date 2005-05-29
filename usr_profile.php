@@ -512,10 +512,12 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 		if (workWithUserSetting("language"))
 		{
 			// set user language
+			$ilias->account->setLanguage($_POST["usr_language"]);
+
+			// reload page if language was changed
 			if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $_SESSION['lang'])
 			{
-					$ilias->account->setLanguage($_POST["usr_language"]);
-					$reload = true;
+				$reload = true;
 			}
 		}
 		if (workWithUserSetting("hits_per_page"))
@@ -542,7 +544,7 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 		if ($reload)
 		{
 			// feedback
-			sendInfo($lng->txt("saved_successfully"));
+			sendInfo($lng->txt("saved_successfully"),true);
 			$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 		}
 		else
