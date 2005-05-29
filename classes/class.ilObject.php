@@ -250,7 +250,7 @@ class ilObject
 		{
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$this->id." ".
-				 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+				 "AND lang_code = '".$this->ilias->account->getCurrentLanguage()."' ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
