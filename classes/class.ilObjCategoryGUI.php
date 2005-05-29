@@ -26,11 +26,11 @@
 * Class ilObjCategoryGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
-* $Id$
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI:
-*
+* 
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -338,6 +338,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->ctrl->setParameter($this,"mode","edit");
 
 		// for lang selection include metadata class
 		include_once "./classes/class.ilMetaData.php";
@@ -452,7 +454,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
-//		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));

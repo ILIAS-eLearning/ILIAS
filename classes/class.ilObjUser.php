@@ -1489,6 +1489,15 @@ class ilObjUser extends ilObject
 	{
 		 return $this->prefs["language"];
 	}
+	
+	/**
+	 * returns the current language (may differ from user's pref setting!)
+	 * 
+	 */
+	function getCurrentLanguage()
+	{
+		return $_SESSION['lang'];
+	}
 
 	/**
 	* set user's last login
