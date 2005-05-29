@@ -914,28 +914,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns true, if a test is complete for use
-*
-* Returns true, if a test is complete for use
-*
-* @return boolean True, if the test is complete for use, otherwise false
-* @access public
-*/
-	function _isComplete($obj_id)
-	{
-		$test = new ilObjTest($obj_id, false);
-		$test->loadFromDb();
-		if (($test->getTitle()) and ($test->author) and (count($test->mark_schema->mark_steps)) and (count($test->questions)))
-		{
-			return true;
-		} 
-			else 
-		{
-			return false;
-		}
-	}
-
-/**
 * Saves the ECTS status (output of ECTS grades in a test) to the database
 * 
 * Saves the ECTS status (output of ECTS grades in a test) to the database
@@ -2939,6 +2917,9 @@ class ilObjTest extends ilObject
 * @return boolean True if the test was passed, False otherwise
 * @access public
 */
+/*
+  MOVED TO ilObjTestAccess
+
 	function _checkCondition($a_exc_id,$a_operator,$a_value)
 	{
 		global $ilias;
@@ -2969,57 +2950,7 @@ class ilObjTest extends ilObject
 		return true;
 
 	}
-
-/**
-* Returns information if a specific user has finished a test
-*
-* @param integer $user_id Database id of the user
-* @param integer test obj_id
-* @return bool
-* @access public
-* @static
 */
-	function _hasFinished($a_user_id,$a_test_id)
-	{
-		global $ilDB;
-
-		$tmp_test =& new ilObjTest($a_test_id,false);
-
-		$query = "SELECT * FROM tst_active ".
-			"WHERE user_fi = '".$a_user_id."' ".
-			"AND test_fi = '".$tmp_test->getTestId()."' ".
-			"AND tries > '0'";
-		$res = $ilDB->query($query);
-
-		return $res->numRows() ? true : false;
-	}
-	
-/**
-* Returns the resulting mark of a test for a given user
-* 
-* Returns the resulting mark of a test for a given user
-*
-* @param integer $user_id Database id of the user
-* @param integer $test_obj_id Object id of the test
-* @return object The resulting mark object 
-* @access public
-*/
-	function &_getMark($user_id, $test_obj_id) 
-	{
-		$test = new ilObjTest($test_obj_id, false);
-		$test->loadFromDb();
-		$result =& $test->getTestResult($user_id);
-		if ($result["test"]["total_max_points"] == 0)
-		{
-			$pct = 0;
-		}
-			else
-		{
-			$pct = ($result["test"]["total_reached_points"] / $result["test"]["total_max_points"]) * 100.0;
-		}
-		$mark = $test->mark_schema->get_matching_mark($pct);
-		return $mark;
-	}
 
 	/**
 	* assign a meta data object to glossary object
@@ -5793,14 +5724,14 @@ class ilObjTest extends ilObject
 		if (is_numeric($question_fi))
 			$query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
 						 "WHERE user_fi = %s AND test_fi = %s AND question_fi=%s",
-							$this->ilias->db->quote($user_fi),
-							$this->ilias->db->quote($test_fi),
+							$ilDB->quote($user_fi),
+							$ilDB->quote($test_fi),
 							$question_fi
 			);
 		else $query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
 						 "WHERE user_fi = %s AND test_fi = %s",
-			$this->ilias->db->quote($user_fi),
-			$this->ilias->db->quote($test_fi)
+			$ilDB->quote($user_fi),
+			$ilDB->quote($test_fi)
 		);
 		return ilObjTest::_getArrayData ($query, "question_fi");		
 	}

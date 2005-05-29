@@ -100,8 +100,8 @@ class ilObjTestAccess extends ilObjectAccess
 		switch($a_operator)
 		{
 			case 'passed':
-				$result = ilObjTest::_getTestResult($ilias->account->getId(), $a_exc_id);
-				if ($result["test"]["passed"])
+				$result = ilObjTestAccess::_getTestResult($ilias->account->getId(), $a_exc_id);
+				if ($result["passed"] == 1)
 				{
 					return true;
 				}
@@ -112,10 +112,10 @@ class ilObjTestAccess extends ilObjectAccess
 				break;
 
 			case 'finished':
-				return ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
+				return ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_exc_id);
 
 			case 'not_finished':
-				return !ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
+				return !ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_exc_id);
 
 			default:
 				return true;
@@ -152,6 +152,243 @@ class ilObjTestAccess extends ilObjectAccess
 		return true;
 	}
 
+/**
+* Returns information if a specific user has finished a test
+*
+* @param integer $user_id Database id of the user
+* @param integer test obj_id
+* @return bool
+* @access public
+* @static
+*/
+	function _hasFinished($a_user_id,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND tries > '0'",
+			$ilDB->quote($a_user_id . ""),
+			$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id) . "")
+		);
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
+/**
+* Returns the ILIAS test id for a given object id
+* 
+* Returns the ILIAS test id for a given object id
+*
+* @param integer $object_id The object id
+* @return mixed The ILIAS test id or FALSE if the query was not successful
+* @access public
+*/
+	function _getTestIDFromObjectID($object_id)
+	{
+		global $ilDB;
+		$test_id = FALSE;
+		$query = sprintf("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
+			$ilDB->quote($object_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$test_id = $row["test_id"];
+		}
+		return $test_id;
+	}
+	
+/**
+* Calculates the results of a test for a given user
+* 
+* Calculates the results of a test for a given user and
+* returns the failed/passed status
+*
+* @return array An array containing the test results for the given user
+* @access public
+*/
+	function &_getTestResult($user_id, $test_obj_id) 
+	{
+		global $ilDB;
+		
+		$test_result = array();
+		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY tst_mark.minimum_level",
+			$ilDB->quote($test_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$test_result["marks"] = array();
+			$min_passed_percentage = 100;
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (($row["passed"] == 1) && ($row["minimum_level"] < $min_passed_percentage))
+				{
+					$min_passed_percentage = $row["minimum_level"];
+				}
+				array_push($test_result["marks"], $row);
+			}
+			// count points
+			$query = sprintf("SELECT qpl_questions.*, tst_test_result.points AS reached_points FROM qpl_questions, tst_test_result WHERE qpl_questions.question_id = tst_test_result.question_fi AND tst_test_result.test_fi = %s AND tst_test_result.user_fi = %s",
+				$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($test_obj_id) . ""),
+				$ilDB->quote($user_id . "")
+			);
+			$result = $ilDB->query($query);
+			$max_points = 0;
+			$reached_points = 0;
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$max_points += $row["points"];
+				switch ($tst_marks[0]["count_system"])
+				{
+					case 0: // COUNT_PARTIAL_SOLUTIONS
+						$reached_points += $row["reached_points"];
+						break;
+					case 1: // COUNT_CORRECT_SOLUTIONS
+						if ($row["reached_points"] == $row["points"])
+						{
+							$reached_points += $row["reached_points"];
+						}
+						break;
+				}
+			}
+			$test_result["max_points"] = $max_points;
+			$test_result["reached_points"] = $reached_points;
+			// calculate the percentage of the reached points
+			$solved = 0;
+			if ($max_points > 0)
+			{
+				$solved = ($reached_points / $max_points) * 100.0;
+			}
+			// get the mark for the reached points
+			$mark_percentage = 0;
+			$mark_value = null;
+			foreach ($test_result["marks"] as $key => $value)
+			{
+				if (($value["minimum_level"] <= $solved) && ($mark_percentage < $value["minimum_level"]))
+				{
+					$mark_percentage = $value["minimum_level"];
+					$mark_value = $value;
+				}
+			}
+			$test_result["mark"] = $mark_value;
+			// get the passed state
+			$test_result["passed"] = $test_result["mark"][passed];
+		}
+		return $test_result;
+	}
+
+/**
+* Returns true, if a test is complete for use
+*
+* Returns true, if a test is complete for use
+*
+* @return boolean True, if the test is complete for use, otherwise false
+* @access public
+*/
+	function _isComplete($a_obj_id)
+	{
+		global $ilDB;
+		
+		$test_id = ilObjTestAccess::_getTestIDFromObjectID($a_obj_id);
+		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_tests, tst_mark WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = %s",
+			$ilDB->quote($test_id . "")
+		);
+		$result = $ilDB->query($query);
+		$found = $result->numRows();
+		if ($found)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			// check for at least: title, author and minimum of 1 mark step
+			if ((strlen($row["title"])) &&
+				(strlen($row["author"])) &&
+				($found))
+			{
+				// check also for minmum of 1 question
+				if (ilObjTestAccess::_getQuestionCount($test_id) > 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+		$test = new ilObjTest($obj_id, false);
+		$test->loadFromDb();
+		if (($test->getTitle()) and ($test->author) and (count($test->mark_schema->mark_steps)) and (count($test->questions)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+	
+/**
+* Calculates the number of questions in a test
+*
+* Calculates the number of questions in a test
+*
+* @return int The number of questions in the test
+* @access public
+*/
+	function _getQuestionCount($a_test_id)
+	{
+		global $ilDB;
+
+		$num = 0;
+		
+		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($a_test_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows != 1) return 0;
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($row["random_test"] == 1)
+		{
+			if ($row["random_question_count"] > 0)
+			{
+				$num = $row["random_question_count"];
+			}
+				else
+			{
+				$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+					$ilDB->quote($a_test_id . "")
+				);
+				$result = $ilDB->query($query);
+				if ($result->numRows())
+				{
+					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$num += $row["num_of_q"];
+					}
+				}
+			}
+		}
+		else
+		{
+			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
+				$ilDB->quote($a_test_id . "")
+			);
+			$result = $ilDB->query($query);
+			$num = $result->numRows();
+		}
+		return $num;
+	}
+	
 }
 
 ?>
