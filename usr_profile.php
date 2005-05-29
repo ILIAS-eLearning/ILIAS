@@ -512,9 +512,9 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 		if (workWithUserSetting("language"))
 		{
 			// set user language
-			if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
+			if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $_SESSION['lang'])
 			{
-					$ilias->account->setPref("language",$_POST["usr_language"]);
+					$ilias->account->setLanguage($_POST["usr_language"]);
 					$reload = true;
 			}
 		}
