@@ -27,7 +27,6 @@
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
-*
 * @package ilias
 */
 
@@ -80,7 +79,7 @@ if ($_GET["cmd"] == "login")
 	setcookie("ilClientId","");
 	$_COOKIE["ilClientId"] = "";
 
-	ilUtil::redirect("login.php?client_id=".$client_id);
+	ilUtil::redirect("login.php?client_id=".$client_id."&lang=".$_GET['lang']);
 }
 
 // check correct setup
