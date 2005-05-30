@@ -6057,7 +6057,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	
 	function outShowAnswers ($isForm, &$ilUser) {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);		
-		$this->outShowAnswersDetails($isForm, &$ilUser);
+		$this->outShowAnswersDetails($isForm, $ilUser);
 	}
 	
 	function outShowAnswersDetails($isForm, &$ilUser) {

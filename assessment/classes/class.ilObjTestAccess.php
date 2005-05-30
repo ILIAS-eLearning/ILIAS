@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObjectAccess.php";
 
 /**
 * Class ilObjTestAccess
