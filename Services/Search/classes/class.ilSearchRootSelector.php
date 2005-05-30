@@ -133,14 +133,20 @@ class ilSearchRootSelector extends ilExplorer
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
-		$tpl->setCurrentBlock("text");
-		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
+		$tpl->setCurrentBlock("link");
+		$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
+		
+		$this->ctrl->setParameterByClass('ilsearchgui','root_id',ROOT_FOLDER_ID);
+		$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass('ilsearchgui','selectRoot'));
+		$tpl->setVariable("TITLE", $lng->txt("repository"));
+		
 		$tpl->parseCurrentBlock();
-
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+
+		return true;
 	}
 
 } // END class ilRepositoryExplorer

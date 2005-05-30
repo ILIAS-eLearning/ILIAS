@@ -113,7 +113,18 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$this->tpl->setVariable("HREF_UPDATE_AREA",$this->ctrl->getLinkTarget($this,'showSelectRoot'));
 		$this->tpl->setVariable("UPDATE_AREA",$this->lng->txt('search_change'));
-		$this->tpl->setVariable("SEARCHAREA",$this->lng->txt('search_in_magazin'));
+
+		if($this->getRootNode() == ROOT_FOLDER_ID)
+		{
+			$this->tpl->setVariable("SEARCHAREA",$this->lng->txt('search_in_magazin'));
+		}
+		else
+		{
+			$text = $this->lng->txt('below').": '";
+			$text .= ilObject::_lookupTitle(ilObject::_lookupObjId($this->getRootNode()));
+			$text .= "'";
+			$this->tpl->setVariable("SEARCHAREA",$text);
+		}
 
 		return true;
 	}
