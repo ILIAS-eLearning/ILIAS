@@ -230,7 +230,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		if(is_object($lng_obj))
 		{
-			$this->coverage_language = $lng_obj;
+			$this->coverage_language =& $lng_obj;
 		}
 	}
 	function &getCoverageLanguage()

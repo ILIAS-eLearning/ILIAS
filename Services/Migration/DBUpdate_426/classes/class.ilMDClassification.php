@@ -137,7 +137,7 @@ class ilMDClassification extends ilMDBase
 	{
 		if(is_object($lng_obj))
 		{
-			$this->description_language = $lng_obj;
+			$this->description_language =& $lng_obj;
 		}
 	}
 	function &getDescriptionLanguage()
@@ -189,12 +189,12 @@ class ilMDClassification extends ilMDBase
 
 			foreach($this->getTaxonPathIds() as $id)
 			{
-				$tax = $this->getTaxonPath($id);
+				$tax =& $this->getTaxonPath($id);
 				$tax->delete();
 			}
 			foreach($this->getKeywordIds() as $id)
 			{
-				$key = $this->getKeyword($id);
+				$key =& $this->getKeyword($id);
 				$key->delete();
 			}
 			
