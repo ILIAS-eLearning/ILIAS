@@ -325,17 +325,17 @@ class ilMDEducational extends ilMDBase
 
 			foreach($this->getTypicalAgeRangeIds() as $id)
 			{
-				$typ = $this->getTypicalAgeRange($id);
+				$typ =& $this->getTypicalAgeRange($id);
 				$typ->delete();
 			}
 			foreach($this->getDescriptionIds() as $id)
 			{
-				$des = $this->getDescription($id);
+				$des =& $this->getDescription($id);
 				$des->delete();
 			}
 			foreach($this->getLanguageIds() as $id)
 			{
-				$lan = $this->getLanguage($id);
+				$lan =& $this->getLanguage($id);
 				$lan->delete();
 			}
 
