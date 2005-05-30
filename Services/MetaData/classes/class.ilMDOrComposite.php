@@ -151,8 +151,7 @@ class ilMDOrComposite extends ilMDRequirement
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
 			"AND parent_type = '".$a_parent_type."' ".
-			"AND or_composite_id > 0 ".
-			"ORDER BY or_composite_id";
+			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

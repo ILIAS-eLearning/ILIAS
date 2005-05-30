@@ -246,8 +246,7 @@ class ilMDRelation extends ilMDBase
 
 		$query = "SELECT meta_relation_id FROM il_meta_relation ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ".
-			"ORDER BY meta_relation_id";
+			"AND obj_id = '".$a_obj_id."' ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
