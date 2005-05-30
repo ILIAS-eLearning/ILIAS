@@ -6907,3 +6907,41 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#446>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+<#447>
+<?php
+$tables = array('il_meta_annotation',
+                                'il_meta_classification',
+                                'il_meta_contribute',
+                                'il_meta_description',
+                                'il_meta_educational',
+                                'il_meta_entity',
+                                'il_meta_format',
+                                'il_meta_general',
+                                'il_meta_identifier',
+                                'il_meta_identifier_',
+                                'il_meta_keyword',
+                                'il_meta_language',
+                                'il_meta_lifecycle',
+                                'il_meta_location',
+                                'il_meta_meta_data',
+                                'il_meta_relation',
+                                'il_meta_requirement',
+                                'il_meta_rights',
+                                'il_meta_taxon',
+                                'il_meta_taxon_path',
+                                'il_meta_technical',
+                                'il_meta_typical_age_range');
+
+foreach($tables as $table)
+{
+        $ilDB->query("ALTER TABLE ".$table." ADD INDEX rbac_obj(rbac_id,obj_id)");
+}
+$ilDB->query("ALTER TABLE tmp_migration ADD INDEX (obj_id)");
+?>
+
