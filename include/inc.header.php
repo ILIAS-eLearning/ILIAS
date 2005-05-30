@@ -320,7 +320,7 @@ $ilBench->start("Core", "HeaderInclude_initLanguage");
 
 if (is_null($_SESSION['lang']))
 {
-	$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->getPref["language"];
+	$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->getPref("language");
 }
 
 $_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
