@@ -104,7 +104,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs(&$tabs_gui);
+		parent::getTabs($tabs_gui);
 
 	}
 
