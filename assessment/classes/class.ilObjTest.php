@@ -1584,16 +1584,16 @@ class ilObjTest extends ilObject
 */
   function setReportingDate($reporting_date) 
   {
-	if (!$reporting_date) 
-	{
-    	$this->reporting_date = "";
-		$this->ects_output = 0;
-    }
-	else 
-	{
-    	$this->reporting_date = $reporting_date;
-      	$this->score_reporting = REPORT_AFTER_TEST;
-    }
+		if (!$reporting_date) 
+		{
+			$this->reporting_date = "";
+			$this->ects_output = 0;
+		}
+		else 
+		{
+			$this->reporting_date = $reporting_date;
+			$this->score_reporting = REPORT_AFTER_TEST;
+		}
   }
 
 /**
@@ -1943,7 +1943,8 @@ class ilObjTest extends ilObject
 		$this->clearEvalSelectedGroups();
 		
 		// remove the question from tst_solutions
-		if ($question_id) {
+		if ($question_id) 
+		{
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
 				$this->ilias->db->quote($this->getTestId()),
 				$this->ilias->db->quote($question_id)
