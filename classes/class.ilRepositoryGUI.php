@@ -236,11 +236,16 @@ class ilRepositoryGUI
 
 		$cmd = $this->ctrl->getCmd();
 
-		if ($cmd == "frameset")
+		if ($cmd == "frameset" && $_SESSION["il_rep_mode"] == "tree")
 		{
 			$next_class = "";
 		}
-		
+		else if ($cmd == "frameset" && $_SESSION["il_rep_mode"] != "tree")
+		{
+			$this->ctrl->setCmd("");
+			$cmd = "";
+		}
+
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
