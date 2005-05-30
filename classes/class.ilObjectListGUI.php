@@ -118,7 +118,7 @@ class ilObjectListGUI
 		return;
 	}
 	/**
-	* 
+	*
 	*
 	* @param bool
 	* @return bool
@@ -510,8 +510,7 @@ class ilObjectListGUI
 	function insertPreconditions()
 	{
 		global $ilAccess, $lng, $objDefinition;
-return;			// to do: enable this, when courses and tests do not
-				// instantiate whole objects anymore
+
 		include_once("classes/class.ilConditionHandler.php");
 
 		$missing_cond_exist = false;
@@ -535,10 +534,10 @@ return;			// to do: enable this, when courses and tests do not
 			$item_list_gui = new $full_class($this);
 			$item_list_gui->setMode(IL_LIST_AS_TRIGGER);
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
-				$condition['trigger_obj_id'], ilObject::_lookupTitle($condition["trigger_obj_id"]),
+				$condition['trigger_obj_id'], trim($cond_txt).": ".ilObject::_lookupTitle($condition["trigger_obj_id"]),
 				 "");
 			$this->tpl->setCurrentBlock("precondition");
-			$this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
+			//$this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
 			$this->tpl->setVariable("TRIGGER_ITEM", $trigger_html);
 			$this->tpl->parseCurrentBlock();
 		}
