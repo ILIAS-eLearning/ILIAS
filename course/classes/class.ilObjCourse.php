@@ -361,6 +361,44 @@ class ilObjCourse extends ilObject
 		return true;
 	}
 
+	/**
+	 * Static version of isActive() to avoid instantiation of course object
+	 *
+	 * @param int id of user
+	 * @return boolean
+	 */
+	function _isActivated($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$offline = $row->activation_offline;
+			$unlimited = $row->activation_unlimited;
+			$start = $row->activation_start;
+			$end = $row->activation_end;
+		}
+		if($offline)
+		{
+			return false;
+		}
+		if($unlimited)
+		{
+			return true;
+		}
+		if(time() < $start or
+		   time() > $end)
+		{
+			return false;
+		}
+		return true;
+	}
+
+
 	function isArchived()
 	{
 		if($this->getArchiveType() == $this->ARCHIVE_DISABLED)
