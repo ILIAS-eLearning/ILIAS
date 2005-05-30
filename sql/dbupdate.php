@@ -6945,3 +6945,324 @@ foreach($tables as $table)
 $ilDB->query("ALTER TABLE tmp_migration ADD INDEX (obj_id)");
 ?>
 
+<#448>
+<?php
+$wd = getcwd();
+chdir('..');
+
+include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDXMLParser.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+global $log;
+
+$log->write("MetaData (Migration type 'lm'): Start");
+
+$nested = new ilNestedSetXML();
+
+// Get last processed lm object
+$res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+        $max_id = $row->max_id;
+}
+$max_id = $max_id ? $max_id : 0;
+
+// MetaData migration of lm's
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'lm' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+
+$log->write("MetaData (Migration type 'lm,st,pg'): Number of lm's: ".$res->numRows());
+
+$counter = 0;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$log->write("MetaData (Migration type 'lm'): Processing obj number: ".$row->obj_id);
+
+	// Check if already processed
+	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
+	if($done_res->numRows())
+	{
+		continue;
+	}
+	// Delete old entries
+	$md = new ilMD($row->obj_id,$row->obj_id,'lm');
+	$md->deleteAll();
+	unset($md);
+
+	// Get xml data
+	$xml = $nested->export($row->obj_id,'lm');
+	if($xml)
+	{
+		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'lm');
+		$parser->startParsing();
+	}
+	else
+	{
+		// Create new entry
+		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'lm');
+		$md_creator->setTitle($row->title);
+		$md_creator->setTitleLanguage('en');
+		$md_creator->setDescription($row->description);
+		$md_creator->setDescriptionLanguage('en');
+		$md_creator->setKeywordLanguage('en');
+		$md_creator->setLanguage('en');
+
+		$md_creator->create();
+	}
+
+	// Now migrate all pages and chapters
+	$res_pg = $ilDB->query("SELECT * FROM lm_data WHERE lm_id = '".$row->obj_id."' AND (type = 'pg' OR type = 'st')");
+	while($row_pg = $res_pg->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		if(function_exists('memory_get_usage'))
+		{
+			$memory_usage = " Memory usage: ".memory_get_usage();
+		}
+
+		$log->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
+
+		// Delete old entries
+		$md = new ilMD($row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
+		$md->deleteAll();
+		unset($md);
+			   
+		// Get xml data
+		if($xml = $nested->export($row_pg->obj_id,$row_pg->type))
+		{
+			$parser = new ilMDXMLParser($xml,$row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
+			$parser->startParsing();
+		}
+		else
+		{
+			if(function_exists('memory_get_usage'))
+			{
+				$memory_usage = " Memory usage: ".memory_get_usage();
+			}
+			$log->write("-- --  MetaData (Migration type '".$row_pg->type."'): (Creating new entry!) Processing obj number: ".
+						$row_pg->obj_id.$memory_usage);
+
+			// Create new entry
+			$md_creator = new ilMDCreator($row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
+			$md_creator->setTitle($row_pg->title);
+			$md_creator->setTitleLanguage('en');
+			$md_creator->setDescription('');
+			$md_creator->setDescriptionLanguage('en');
+			$md_creator->setKeywordLanguage('en');
+			$md_creator->setLanguage('en');
+
+			$md_creator->create();
+		}
+	}
+	// Finally set lm passed
+	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+}
+$log->write("MetaData (Migration type 'lm'): Finished migration");
+
+chdir($wd);
+?>
+<#449>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+<#450>
+<?php
+// Migration of glossaries
+$wd = getcwd();
+chdir('..');
+
+include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDXMLParser.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+global $log;
+
+$log->write("MetaData (Migration type 'glo'): Start");
+
+$nested = new ilNestedSetXML();
+
+// Get last processed lm object
+$res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+        $max_id = $row->max_id;
+}
+$max_id = $max_id ? $max_id : 0;
+
+// MetaData migration of glossaries
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'glo' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+
+$log->write("MetaData (Migration type 'glo'): Number of glossaries: ".$res->numRows());
+
+$counter = 0;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$log->write("MetaData (Migration type 'glo'): Processing obj number: ".$row->obj_id);
+
+	// Check if already processed
+	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
+	if($done_res->numRows())
+	{
+		continue;
+	}
+	// Delete old entries
+	$md = new ilMD($row->obj_id,$row->obj_id,'glo');
+	$md->deleteAll();
+	unset($md);
+
+	// Get xml data
+	$xml = $nested->export($row->obj_id,'glo');
+	if($xml)
+	{
+		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'glo');
+		$parser->startParsing();
+	}
+	else
+	{
+		// Create new entry
+		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'glo');
+		$md_creator->setTitle($row->title);
+		$md_creator->setTitleLanguage('en');
+		$md_creator->setDescription($row->description);
+		$md_creator->setDescriptionLanguage('en');
+		$md_creator->setKeywordLanguage('en');
+		$md_creator->setLanguage('en');
+
+		$md_creator->create();
+	}
+
+	// Now migrate all glossary definitions
+	$res_gdf = $ilDB->query("select gd.id as gdid,term from glossary_definition as gd, glossary_term as gt where gd.term_id = gt.id".
+							" and glo_id = '".$row->obj_id."'");
+	while($row_gdf = $res_gdf->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		if(function_exists('memory_get_usage'))
+		{
+			$memory_usage = " Memory usage: ".memory_get_usage();
+		}
+
+		$log->write("-- MetaData (Migration type 'gdf'): Processing definition nr.: ".$row_gdf->gdid.$memory_usage);
+
+		// Delete old entries
+		$md = new ilMD($row->obj_id,$row_gdf->gdid,'gdf');
+		$md->deleteAll();
+		unset($md);
+			   
+		// Get xml data
+		if($xml = $nested->export($row_gdf->gdid,'gdf'))
+		{
+			$log->write('xml: '.$xml);
+			$parser = new ilMDXMLParser($xml,$row->obj_id,$row_gdf->gdid,'gdf');
+			$parser->startParsing();
+		}
+		else
+		{
+			if(function_exists('memory_get_usage'))
+			{
+				$memory_usage = " Memory usage: ".memory_get_usage();
+			}
+			$log->write("-- --  MetaData (Migration type 'gdf'): (Creating new entry!) Processing glossary definition number: ".
+						$row_gdf->gdid.$memory_usage);
+
+			// Create new entry
+			$md_creator = new ilMDCreator($row->obj_id,$row_gdf->gdid,'gdf');
+			$md_creator->setTitle($row_gdf->term);
+			$md_creator->setTitleLanguage('en');
+			$md_creator->setDescription('');
+			$md_creator->setDescriptionLanguage('en');
+			$md_creator->setKeywordLanguage('en');
+			$md_creator->setLanguage('en');
+
+			$md_creator->create();
+		}
+	}
+	// Finally set gdf passed
+	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+}
+$log->write("MetaData (Migration type 'glo'): Finished migration");
+
+chdir($wd);
+?>
+<#451>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+<#452>
+<?php
+  // Migration of type tst,svy,crs,sahs,icla,icrs
+$wd = getcwd();
+chdir('..');
+
+include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDXMLParser.php';
+include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
+
+global $log;
+
+$log->write("MetaData (Migration type tst,svy,crs,sahs,icla,icrs): Start");
+
+$nested = new ilNestedSetXML();
+
+// Get last processed object
+$res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+        $max_id = $row->max_id;
+}
+$max_id = $max_id ? $max_id : 0;
+
+// MetaData migration of glossaries
+$res = $ilDB->query("SELECT * FROM object_data WHERE type IN ('tst','svy','qpl','spl','crs','icla','icrs','sahs','htlm') AND obj_id >= '".
+					$max_id."' ORDER BY obj_id");
+
+$log->write("MetaData (Migration): Number of objects: ".$res->numRows());
+
+$counter = 0;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$log->write("MetaData (Migration type '".$row->type."'): Processing obj number: ".$row->obj_id);
+
+	// Check if already processed
+	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
+	if($done_res->numRows())
+	{
+		continue;
+	}
+	// Delete old entries
+	$md = new ilMD($row->obj_id,$row->obj_id,$row->type);
+	$md->deleteAll();
+	unset($md);
+
+	// Get xml data
+	$xml = $nested->export($row->obj_id,$row->type);
+	if($xml)
+	{
+		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,$row->type);
+		$parser->startParsing();
+	}
+	else
+	{
+		// Create new entry
+		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,$row->type);
+		$md_creator->setTitle($row->title);
+		$md_creator->setTitleLanguage('en');
+		$md_creator->setDescription($row->description);
+		$md_creator->setDescriptionLanguage('en');
+		$md_creator->setKeywordLanguage('en');
+		$md_creator->setLanguage('en');
+
+		$md_creator->create();
+	}
+}
+$log->write("MetaData (Migration): Finished migration");
+
+chdir($wd);
+?>
+<#453>
+DROP TABLE IF EXISTS tmp_migration;
