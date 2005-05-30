@@ -174,7 +174,7 @@ class ilMDTaxon extends ilMDBase
 			"WHERE rbac_id = '".$a_rbac_id."' ".
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND parent_id = '".$a_parent_id."' ".
-			"AND parent_type = '".$a_parent_type."' ORDER BY meta_taxon_id";
+			"AND parent_type = '".$a_parent_type."'";
 
 
 		$res = $ilDB->query($query);

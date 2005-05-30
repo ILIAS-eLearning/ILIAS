@@ -185,7 +185,7 @@ class ilMDAnnotation extends ilMDBase
 
 		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
 			"WHERE rbac_id = '".$a_rbac_id."' ".
-			"AND obj_id = '".$a_obj_id."' ORDER BY meta_annotation_id";
+			"AND obj_id = '".$a_obj_id."'";
 
 
 		$res = $ilDB->query($query);
