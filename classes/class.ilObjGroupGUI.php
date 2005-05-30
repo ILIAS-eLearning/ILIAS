@@ -25,7 +25,7 @@
 * Class ilObjGroupGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Sascha Hofmann <saschahofmann@gmx.de>
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
@@ -1691,7 +1691,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setCurrentBlock("tbl_action_row");
 		
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write,delete",$this->object->getRefId()))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{			//user is administrator
             $tpl->setCurrentBlock("plain_button");
 		    $tpl->setVariable("PBTN_NAME","searchUserForm");
@@ -1732,7 +1732,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId()))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			//user must be administrator
 			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));

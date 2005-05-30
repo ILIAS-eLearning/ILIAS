@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
-* $Id$
+* @version $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -575,17 +575,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$obj_str = "&obj_id=".$this->obj_id;
 
 		$_POST["search_string"] = $_POST["search_string"] ? $_POST["search_string"] : urldecode($_GET["search_string"]);
-        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : array();
+        $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
 
         if (empty($_POST["search_string"]))
         {
             $_POST["search_string"] = "%";
         }
 
+        if (empty($_POST["search_fields"]))
+        {
+            $_POST["search_fields"] = array();
+        }
+        
 		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"])) == 0)
 		{
 			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
-
 			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
 			exit();		
 		}
@@ -710,7 +714,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$header_params = array(
 							"ref_id"		=> $this->ref_id,
 							"cmd"			=> "searchUser",
-							"search_string" => urlencode($_POST["search_string"])
+							"search_string" => urlencode($_POST["search_string"]),
+							"search_fields" => urlencode(implode(",",$_POST["search_fields"]))
 					  		);
 
 		$tbl->setHeaderVars($this->data["cols"],$header_params);

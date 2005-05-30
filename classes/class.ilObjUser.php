@@ -874,10 +874,12 @@ class ilObjUser extends ilObject
 
 		// delete user_prefs
 		$this->ilias->db->query("DELETE FROM usr_pref WHERE usr_id='".$this->getId()."'");
+		
+		// delete user_session
+		$this->ilias->db->query("DELETE FROM usr_session WHERE user_id='".$this->getId()."'");
 
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
-
 
 		// remove bookmarks
 		// TODO: move this to class.ilBookmarkFolder
