@@ -28,7 +28,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
-* 
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1159,6 +1158,17 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		
+		// ensure that at least one role is available in the new user register form if registration is enabled
+		if (($_POST["Fobject"]["allow_register"] == "") and ($this->ilias->getSetting("enable_registration") == ""))
+		{
+			$roles_allowed = $this->object->_lookupRegisterAllowed();
+			if (count($roles_allowed) == 1 and $roles_allowed[0]['id'] == $this->object->getId())
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_last_role_for_registration"),$this->ilias->error_obj->MESSAGE);
+			}	
+		}
+
 		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$this->object->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
 		$this->object->update();
@@ -1487,7 +1497,10 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		$return_location = "userassignment";
+		if ($_GET["new_type"] != "role")
+		{
+			$return_location = "userassignment";
+		}
 
 		sendInfo($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
