@@ -73,16 +73,6 @@ class ilContainerGUI extends ilObjectGUI
 	}
 
 	/**
-	* output tree frameset
-	*/
-	function framesetObject()
-	{
-		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
-		$this->tpl->setVariable("REF_ID", $this->object->getRefId());
-		$this->tpl->show();
-	}
-
-	/**
 	* display tree view
 	*/
 	function showTreeObject()
