@@ -420,6 +420,29 @@ class ilCourseMembers
 		
 		return $this->member_data["status"] == $this->STATUS_BLOCKED ? true : false;
 	}
+	/**
+	 * Static version of isBlocked() to avoid instantiation of course object
+	 *
+	 * @param int id of user
+	 * @return boolean
+	 */
+	function _isBlocked($a_obj_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_members ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->status == 3 ? true : false;
+		}
+		return false;
+	}
+	
+
 	function hasAccess($a_usr_id)
 	{
 		global $rbacsystem;

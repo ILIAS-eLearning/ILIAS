@@ -58,41 +58,29 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "view":
+				include_once 'course/classes/class.ilCourseMembers.php';
 
-				// to do: try to do this without instantiation
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
-				$tmp_obj->initCourseMemberObject();
-
-				if($tmp_obj->members_obj->isBlocked($ilUser->getId()))
+				if(ilCourseMembers::_isBlocked($a_obj_id,$a_user_id))
 				{
-					unset($tmp_obj);
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
-				}
+				}					
 				break;
 		}
-
 
 		switch ($a_permission)
 		{
 			case "visible":
-				// to do: try to do this without instantiation
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
-				if(strtolower(get_class($tmp_obj)) != "ilobjcourse")
+				include_once 'course/classes/class.ilObjCourse.php';
+				
+				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccess('write',$a_ref_id))
 				{
-					return false;
-				}
-				$tmp_obj->initCourseMemberObject();
-
-				if(!$tmp_obj->isActivated() and !$rbacsystem->checkAccess('write',$a_ref_id))
-				{
-					unset($tmp_obj);
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+
 					return false;
 				}
 				break;
 		}
-
 		return true;
 	}
 
