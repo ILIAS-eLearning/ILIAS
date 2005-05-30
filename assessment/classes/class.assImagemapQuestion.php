@@ -911,8 +911,8 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			} else {
 				// create thumbnail file
 				$size = 100;
-				$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-				$convert_cmd = ilUtil::getConvertCmd() . " $imagepath$image_filename -resize $sizex$size $thumbpath";
+				$thumbpath = escapeshellcmd($imagepath . $image_filename . "." . "thumb.jpg");
+				$convert_cmd = ilUtil::getConvertCmd() . " " . escapeshellcmd($imagepath.$image_filename) . " -resize $sizex$size $thumbpath";
 				system($convert_cmd);
 			}
 		}

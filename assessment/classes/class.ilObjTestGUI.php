@@ -5583,7 +5583,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->inviteGroup($group_id);
 				}
 			}
-			// add role memebers
+			// add role members
 			if (is_array($_POST["role_select"]))
 			{
 				foreach ($_POST["role_select"] as $role_id)
