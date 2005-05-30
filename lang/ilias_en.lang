@@ -47,6 +47,7 @@ administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
+common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results

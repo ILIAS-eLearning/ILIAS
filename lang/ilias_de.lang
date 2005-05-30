@@ -49,6 +49,7 @@ administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
+common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Anmeldeformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...

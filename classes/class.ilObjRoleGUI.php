@@ -1160,7 +1160,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		
 		// ensure that at least one role is available in the new user register form if registration is enabled
-		if (($_POST["Fobject"]["allow_register"] == "") and ($this->ilias->getSetting("enable_registration") == ""))
+		if ($_POST["Fobject"]["allow_register"] == "")
 		{
 			$roles_allowed = $this->object->_lookupRegisterAllowed();
 			if (count($roles_allowed) == 1 and $roles_allowed[0]['id'] == $this->object->getId())
