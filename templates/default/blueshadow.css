@@ -361,6 +361,13 @@ div.il_ItemProperties
 	text-align:left;
 }
 
+div.il_Preconditions
+{
+	margin-top: 3px;
+	font-size: 13px;
+	text-align:left;
+}
+
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
 	text-decoration:none;
 	font-weight: normal;
