@@ -4980,3 +4980,5 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
 assessment#:#tst_started#:#Test Started
+assessment#:#print_answers#:#Print Answers
+assessment#:#print_results#:#Print Results

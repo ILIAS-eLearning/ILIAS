@@ -4977,3 +4977,5 @@ survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
 assessment#:#tst_started#:#Test gestartet
+assessment#:#print_answers#:#Antworten drucken
+assessment#:#print_results#:#Ergebnisse drucken  
