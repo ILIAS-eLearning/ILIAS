@@ -22,102 +22,47 @@
 */
 
 /**
-* Class ilSearchGUI
+* Class ilSearchObjectListFactory
 *
-* GUI class for 'simple' search
+* Factory for Fulltext/LikeObjectSearch classes
+* It depends on the search administration setting which class is instantiated
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
 * @package ilias-search
-*
 */
 
-class ilObjectSearch
+class ilObjectSearchFactory
 {
+	
 	/*
-	 *
-	 * List of all searchable objects
-	 *
+	 * get reference of ilFulltext/LikeObjectSearch.
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltext/LikeObjectSearch
 	 */
-	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','html','exc','file','qpl','tst','svy','spl',
-						 'chat','icrs','icla','webr');
-
-
-	/*
-	 * instance of query parser
-	 */
-	var $qp_obj = null;
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilObjectSearch(&$qp_obj)
+	function &_getObjectSearchInstance(&$query_parser)
 	{
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
 
-		global $ilDB;
+		$search_settings = new ilSearchSettings();
 
-		$this->qp_obj =& $qp_obj;
-		
-		$this->db =& $ilDB;
-
-
-		include_once 'Services/Search/classes/class.ilSearchResult.php';
-
-		$this->search_result = new ilSearchResult();
-	}
-
-	function &performSearch()
-	{
-		$in = $this->__createInStatement();
-		$where = $this->__createWhereCondition();
-
-		$query = "SELECT obj_id,type FROM object_data ".
-			$where." ".$in.' '.
-			"ORDER BY obj_id DESC";
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($search_settings->enabledIndex())
 		{
-			$this->search_result->addEntry($row->obj_id,$row->type);
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextObjectSearch.php';
+
+			return new ilFulltextObjectSearch($query_parser);
 		}
-
-		return $this->search_result;
-	}
-
-
-
-	// Protected can be overwritten in Like or Fulltext classes
-	function __createInStatement()
-	{
-		$type = "('";
-		$type .= implode("','",$this->object_types);
-		$type .= "')";
-		
-		$in = " AND type IN ".$type;
-
-		return $in;
-	}
-
-	function __createWhereCondition()
-	{
-		$concat  = " CONCAT(";
-		$concat .= 'title,description';
-		$concat .= ") ";
-
-		$where = "WHERE ";
-		foreach($this->qp_obj->getWords() as $word)
+		else
 		{
-			if($counter++)
-			{
-				$where .= strtoupper($this->qp_obj->getCombination());
-			}
-			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%')");
-		}
-		return $where;
-	}
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
 
+			return new ilLikeObjectSearch($query_parser);
+		}
+			
+	}
 }
 ?>

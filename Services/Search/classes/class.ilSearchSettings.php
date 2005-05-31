@@ -35,6 +35,7 @@ class ilSearchSettings
 {
 	var $ilias = null;
 	var $max_hits = null;
+	var $index = null;
 
 	function ilSearchSettings()
 	{
@@ -69,7 +70,16 @@ class ilSearchSettings
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $seas_ref_id = $row->ref_id;
-	}	
+	}
+
+	function enabledIndex()
+	{
+		return $this->index ? true : false;
+	}
+	function enableIndex($a_status)
+	{
+		$this->index = $a_status;
+	}
 
 	function getMaxHits()
 	{
@@ -85,6 +95,7 @@ class ilSearchSettings
 	{
 		// setSetting writes to db
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
+		$this->ilias->setSetting('search_index',$this->enabledIndex());
 
 		return true;
 	}
@@ -93,6 +104,7 @@ class ilSearchSettings
 	function __read()
 	{
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
+		$this->enableIndex($this->ilias->getSetting('search_index',0));
 	}
 }
 ?>

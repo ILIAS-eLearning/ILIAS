@@ -169,7 +169,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->showSearch();
 
 		// Show them
-		$result_obj->filterResults($this->getRootNode());
 		if(count($result_obj->getResults()))
 		{
 			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
@@ -208,12 +207,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
-		// Step 2: perform object search
-		include_once 'Services/Search/classes/class.ilObjectSearch.php';
+		// Step 2: perform object search. Get an ObjectSearch object via factory. Depends on fulltext or like search type.
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
-		$obj_search = new ilObjectSearch($query_parser);
-		$obj_search->enableKeywords(true);
-		$result = $obj_search->performSearch();
+		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		$result =& $obj_search->performSearch();
 
 
 		// Step 3: perform meta keyword search
@@ -221,7 +219,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$meta_search = new ilMDSearch($query_parser);
 		$meta_search->setMode('keyword');
-		$result_meta = $meta_search->performSearch();
+		$result_meta =& $meta_search->performSearch();
 
 		// Step 3.1: Merge entries
 		$result->mergeEntries($result_meta);
