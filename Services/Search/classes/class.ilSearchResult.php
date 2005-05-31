@@ -108,7 +108,7 @@ class ilSearchResult
 	 * add search result
 	 * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
 	 * @param integer ref_id
-	 * @param integer obj_id e.g. id og structure object
+	 * @param integer obj_id 
 	 * @param string obj_type 'lm' or 'crs' ...
 	 * @access	public
 	 */
@@ -166,11 +166,12 @@ class ilSearchResult
 		{
 			foreach(ilObject::_getAllReferences($entry['rbac_id']) as $ref_id)
 			{
-				if($this->ilAccess->checkAccess('visible','',$ref_id,$entry['type'],$entry['obj_id']))
+				$type = ilObject::_lookupType($ref_id, true);
+				if($this->ilAccess->checkAccess('visible','',$ref_id,$type,$entry['rbac_id']))
 				{
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
-						$this->addResult($ref_id,$entry['obj_id'],$entry['type']);
+						$this->addResult($ref_id,$entry['rbac_id'],$type);
 						// Stop if maximum of hits is reached
 						if(++$counter == $this->search_settings->getMaxHits())
 						{
