@@ -101,8 +101,30 @@ class ilSearchResult
 		}
 		return true;
 	}
-			
 
+	/**
+	 *
+	 * diff entries of this instance and another result object
+	 * Used for search in results
+	 * @param object result_obj
+	 * @access	public
+	 */
+	function diffEntries(&$result_obj)
+	{
+		$new_entries = $this->getEntries();
+		$this->entries = array();
+
+		foreach($result_obj->getResults() as $result)
+		{
+			$obj_id = $result['obj_id'];
+			if(isset($new_entries[$obj_id]))
+			{
+				$this->addEntry($new_entries[$obj_id]['obj_id'],
+								$new_entries[$obj_id]['type'],
+								$new_entries[$obj_id]['rbac_id']);
+			}
+		}
+	}
 	/**
 	 *
 	 * add search result
