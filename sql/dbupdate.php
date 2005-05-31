@@ -7266,3 +7266,8 @@ chdir($wd);
 ?>
 <#453>
 DROP TABLE IF EXISTS tmp_migration;
+<#454>
+ALTER TABLE `object_data` ADD FULLTEXT (
+	`title`);
+ALTER TABLE `object_data` ADD FULLTEXT (
+	`description`);
