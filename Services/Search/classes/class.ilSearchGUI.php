@@ -232,9 +232,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result->mergeEntries($result_meta);
 
 		// Search in results
-		if($this->mode == 'in_results')
+		if($this->search_mode == 'in_results')
 		{
-			echo 1;
 			include_once 'Services/Search/classes/class.ilSearchResult.php';
 
 			$old_result_obj = new ilSearchResult($ilUser->getId());

@@ -108,7 +108,7 @@ class ilQueryParser
 				$this->setMessage($this->lng->txt('search_minimum_three'));
 				continue;
 			}
-			$this->words[] = $word;
+			$this->words[] = ilUtil::prepareDBString($word);
 		}
 
 		return true;
