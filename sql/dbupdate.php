@@ -7271,3 +7271,8 @@ ALTER TABLE `object_data` ADD FULLTEXT (
 	`title`);
 ALTER TABLE `object_data` ADD FULLTEXT (
 	`description`);
+<#455>
+ALTER TABLE `object_data` DROP INDEX `title`;
+ALTER TABLE `object_data` DROP INDEX `description`;
+
+ALTER TABLE `object_data` ADD FULLTEXT `title_desc` (`title` ,`description`	);
