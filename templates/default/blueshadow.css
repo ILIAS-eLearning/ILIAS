@@ -59,21 +59,21 @@ textarea.fullwidth {
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-	background-color:#f7f7f7;
+	background-color:#F6F6F6;
 	color:#222222;
 	font-size:13px;
 	padding:3px;
 }
 
 .tblrow1 {
-	background-color:#eeeeee;
+	background-color:#FFFFFF;
 	color:#222222;
 	font-size:13px;
 	padding:3px;
 }
 
 .tblrow2light {
-	background-color:#f7f7f7;
+	background-color:#F6F6F6;
 	color:#808080;
 	font-size:13px;
 	padding:3px;
@@ -81,7 +81,7 @@ textarea.fullwidth {
 }
 
 .tblrow1light {
-	background-color:#eeeeee;
+	background-color:#FFFFFF;
 	color:#808080;
 	font-size:13px;
 	padding:3px;
@@ -96,7 +96,7 @@ textarea.fullwidth {
 }
 
 .tblrow2top {
-	background-color:#f7f7f7;
+	background-color:#f6f6f6;
 	color:#222222;
 	font-size:13px;
 	padding:3px;
@@ -104,7 +104,7 @@ textarea.fullwidth {
 }
 
 .tblrow1top {
-	background-color:#eeeeee;
+	background-color:#FFFFFF;
 	color:#222222;
 	font-size:13px;
 	padding:3px;
@@ -231,7 +231,7 @@ tr.tblfooter {
 }
 
 tr.std {
-	background-color:#eeeeee;
+	background-color:#FFFFFF;
 	color:#222222;
 	padding:3px;
 }
@@ -247,7 +247,7 @@ td.option {
 }
 
 td.sub_option {
-	background-color:#eeeeee;
+	background-color:#FFFFFF;
 	color:#222222;
 	padding:3px;
 	font-size:13px;
@@ -562,7 +562,7 @@ a.tabinactive
 
 div.il_Explorer
 {
-	background-color: #FBFBFB;
+	background-color: #FFFFFF;
 	border-color: #a0a0a0;
 	border-width: 1px;
 	border-style: solid;
@@ -570,7 +570,7 @@ div.il_Explorer
 
 div.il_RepExplorer
 {
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 	padding:20px;
 	border-spacing: 1px;
 	border-style: outset;

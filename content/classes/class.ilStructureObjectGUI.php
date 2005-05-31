@@ -286,7 +286,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				"copy" => "copyChapter");
 			if(ilEditClipboard::getContentObjectType() == "st")
 			{
-				if ($this->tree->isInTree(ilEditClipboard::getContentObjectId()))
+				if ($this->tree->isInTree(ilEditClipboard::getContentObjectId())
+					|| ilEditClipboard::getAction() == "copy")
 				{
 					$acts["pasteChapter"] =  "pasteChapter";
 				}

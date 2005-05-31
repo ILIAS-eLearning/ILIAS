@@ -1390,7 +1390,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				"copy" => "copyChapter");
 			if (ilEditClipboard::getContentObjectType() == "st")
 			{
-				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId()))
+				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
+					|| ilEditClipboard::getAction() == "copy")
 				{
 					$acts["pasteChapter"] =  "pasteChapter";
 				}
@@ -1941,18 +1942,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$tree = new ilTree($this->object->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
+		$target_tree = new ilTree($this->object->getId());
+		$target_tree->setTableNames('lm_tree','lm_data');
+		$target_tree->setTreeTablePK("lm_id");
 
-		// cut selected object
-		$id = ilEditClipboard::getContentObjectId();
-
-		$node = $tree->getNodeData($id);
-
-		$subnodes = $tree->getSubtree($node);
+		// check wether page belongs to lm
+		$source_tree =& $target_tree;
+		if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+			!= $this->object->getID())
+		{
+			$source_tree = new ilTree(ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId()));
+			$source_tree->setTableNames('lm_tree','lm_data');
+			$source_tree->setTreeTablePK("lm_id");
+		}
 
 		// check, if target is within subtree
+		$id = ilEditClipboard::getContentObjectId();
+		$node = $source_tree->getNodeData($id);
+		$subnodes = $source_tree->getSubtree($node);
 		foreach ($subnodes as $subnode)
 		{
 			if($subnode["obj_id"] == $a_parent_subobj_id)
@@ -1968,7 +1975,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// determin parent
 		$parent = ($a_parent_subobj_id == 0)
-			? $tree->getRootId()
+			? $target_tree->getRootId()
 			: $a_parent_subobj_id;
 
 		// determine target position
@@ -1982,7 +1989,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		if($target == IL_FIRST_NODE) // do not move a chapter in front of a page
 		{
-			$childs =& $tree->getChildsByType($parent, "pg");
+			$childs =& $target_tree->getChildsByType($parent, "pg");
 			if (count($childs) != 0)
 			{
 				$target = $childs[count($childs) - 1]["obj_id"];
@@ -1994,11 +2001,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 //echo "-".ilEditClipboard::getAction()."-";
 		if (ilEditClipboard::getAction() == "move")
 		{
-			$tree->deleteTree($node);
-
-			if (!$tree->isInTree($id))
+			if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+				!= $this->object->getID())
 			{
-				$tree->insertNode($id, $parent, $target);
+				// we should never reach these lines, moving chapters from on
+				// lm to another is not supported
+				ilEditClipboard::clear();
+				if ($a_parent_subobj_id == 0)
+				{
+					$this->ctrl->redirect($this, "chapters");
+				}
+				return;
+			}
+
+			$target_tree->deleteTree($node);
+
+			if (!$target_tree->isInTree($id))
+			{
+				$target_tree->insertNode($id, $parent, $target);
 
 				foreach ($subnodes as $node)
 				{
@@ -2006,17 +2026,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					//$obj_data->putInTree($node["parent"]);
 					if($node["obj_id"] != $id)
 					{
-						$tree->insertNode($node["obj_id"], $node["parent"]);
+						$target_tree->insertNode($node["obj_id"], $node["parent"]);
 					}
 				}
 			}
 		}
-		else
+		else	// copy
 		{
 			$id = ilEditClipboard::getContentObjectId();
-			$source_obj = ilLMObjectFactory::getInstance($this->object, $id, true);
-			$source_obj->setLMId($this->object->getId());
-			$source_obj->copy($tree, $parent, $target);
+
+			if (ilLMObject::_lookupContObjID($id)
+				== $this->object->getID())
+			{
+				$source_obj = ilLMObjectFactory::getInstance($this->object, $id, true);
+				$source_obj->setLMId($this->object->getId());
+				$source_obj->copy($target_tree, $parent, $target);
+			}
+			else
+			{
+				$lm_id = ilLMObject::_lookupContObjID($id);
+				$source_lm =& ilObjectFactory::getInstanceByObjId($lm_id);
+				$source_obj = ilLMObjectFactory::getInstance($source_lm, $id, true);
+				$source_obj->setLMId($lm_id);
+				$source_obj->copy($target_tree, $parent, $target);
+			}
 		}
 
 		ilEditClipboard::clear();
