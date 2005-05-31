@@ -91,33 +91,46 @@ class ilStructureObject extends ilLMObject
 		}
 		parent::delete($a_delete_meta_data);
 	}
-	
+
 	/**
 	* copy chapter
 	*/
-	function &copy(&$lmtree, $a_parent, $a_pos = IL_LAST_NODE)
+	function &copy(&$a_target_tree, $a_parent, $a_pos = IL_LAST_NODE)
 	{
+echo "copy temporary not available";
+echo "st1";
+		$source_tree = new ilTree($this->object->getId());
+		$source_tree->setTableNames('lm_tree','lm_data');
+		$source_tree->setTreeTablePK("lm_id");
+echo "st2";
 //		$meta =& new ilMetaData();
-		$chap =& new ilLMPageObject($this->getContentObject());
+		$target_lm_id = $target_tree->getTreeId();
+		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
+		$chap =& new ilStructureObject($target_lm);
 //		$chap->assignMetaData($meta);
 		$chap->setTitle($this->getTitle());
-		$chap->setLMId($this->getLMId());
+		$chap->setLMId($target_lm_id);
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
 		$chap->create();
-
+echo "st3";
 		// insert chapter in tree
-		$lmtree->insertNode($chap->getId(), $a_parent, $a_pos);
-
-		$childs =& $lmtree->getChilds($this->getId());
+		$a_target_tree->insertNode($chap->getId(), $a_parent, $a_pos);
+echo "st4";
+		$childs =& $source_tree->getChilds($this->getId());
 		foreach($childs as $child)
 		{
 			$lmobj = ilLMObjectFactory::getInstance($this->getContentObject(), $child["obj_id"], true);
-			$newobj =& $lmobj->copy($lmtree, $chap->getId());
-			// insert page in tree
-			if ($newobj->getType() == "pg")
+			if ($child["type"] == "st")
 			{
-				$lmtree->insertNode($newobj->getId(), $chap->getId());
+echo "st5";
+				$newobj =& $lmobj->copy($a_target_tree, $chap->getId());
+			}
+			else
+			{
+echo "st6";
+				$newobj =& $lmobj->copyToOtherContObject($target_lm);
+				$a_target_tree->insertNode($newobj->getId(), $chap->getId());
 			}
 		}
 
