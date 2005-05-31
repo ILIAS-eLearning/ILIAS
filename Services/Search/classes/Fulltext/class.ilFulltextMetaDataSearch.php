@@ -69,7 +69,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		else
 		{
 			// Mysql 3.23
-			$query .= "WHERE ";
+			$query .= " WHERE ";
 			$counter = 0;
 			foreach($this->query_parser->getWords() as $word)
 			{
@@ -79,7 +79,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 				}
 				$query .= " MATCH (keyword) AGAINST('";
 				$query .= $word;
-				$query .= "')";
+				$query .= "') ";
 			}
 		}			
 			
