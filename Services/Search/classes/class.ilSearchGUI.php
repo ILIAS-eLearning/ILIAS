@@ -214,11 +214,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result =& $obj_search->performSearch();
 
 
-		// Step 3: perform meta keyword search
-		include_once 'Services/MetaData/classes/class.ilMDSearch.php';
-
-		$meta_search = new ilMDSearch($query_parser);
-		$meta_search->setMode('keyword');
+		// Step 3: perform meta keyword search. Get an MetaDataSearch object.
+		$meta_search =& ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
+		$meta_search->setMode('keyword_contribute');
 		$result_meta =& $meta_search->performSearch();
 
 		// Step 3.1: Merge entries

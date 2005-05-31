@@ -90,11 +90,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
 //echo "B-".memory_get_usage();echo "-".$full_class;
 		$ilBench->start("ilObjCourseListGUI", "2000_getInstance");
-		$this->course_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
+		#$this->course_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$ilBench->stop("ilObjCourseListGUI", "2000_getInstance");
 //echo "C-".memory_get_usage();echo "-".$full_class;
 		$ilBench->start("ilObjCourseListGUI", "3000_initCourseMemberObject");
-		$this->course_obj->initCourseMemberObject();
+		#$this->course_obj->initCourseMemberObject();
 		$ilBench->stop("ilObjCourseListGUI", "3000_initCourseMemberObject");
 //echo "D-".memory_get_usage();echo "-".$full_class;
 	}
@@ -115,21 +115,23 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$props = array();
 
 		// offline
-		if (!$this->course_obj->isActivated())
+		include_once 'course/classes/class.ilObjCourse.php';
+		if(!ilObjCourse::_isActivated($$this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
 		}
 
 		// blocked
-		if ($this->course_obj->members_obj->isBlocked($ilUser->getId()))
+		include_once 'course/classes/class.ilCourseMembers.php';
+		if(ilCourseMembers::_isBlocked($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_blocked"));
 		}
 
 		// pending subscription
-		if ($this->course_obj->members_obj->isSubscriber($ilUser->getId()))
+		if (ilCourseMembers::_isSubscriber($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_pending"));

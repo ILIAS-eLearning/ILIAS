@@ -624,6 +624,26 @@ class ilCourseMembers
 		return false;
 	}
 
+	/*
+	 * Static method
+	 */
+	function _isSubscriber($a_obj_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_subscribers ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	function sendNotification($a_type, $a_usr_id)
 	{
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
