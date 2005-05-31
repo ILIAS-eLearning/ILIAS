@@ -22,75 +22,74 @@
 */
 
 /**
-* Class ilSearchObjectListFactory
+* Class ilFulltextMetaDataSearch
 *
-* Factory for Fulltext/LikeObjectSearch classes
-* It depends on the search administration setting which class is instantiated
+* class for searching meta 
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
+* @version $Id
 * 
 * @package ilias-search
+*
 */
+include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
-class ilObjectSearchFactory
+class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 {
-	
-	/*
-	 * get reference of ilFulltext/LikeObjectSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of ilFulltext/LikeObjectSearch
-	 */
-	function &_getObjectSearchInstance(&$query_parser)
+
+	/**
+	* Constructor
+	* @access public
+	*/
+	function ilFulltextMetaDataSearch(&$qp_obj)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
-
-		$search_settings = new ilSearchSettings();
-
-		if($search_settings->enabledIndex())
-		{
-			// FULLTEXT
-			include_once 'Services/Search/classes/Fulltext/class.ilFulltextObjectSearch.php';
-
-			return new ilFulltextObjectSearch($query_parser);
-		}
-		else
-		{
-			// LIKE
-			include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-
-			return new ilLikeObjectSearch($query_parser);
-		}
-			
+		parent::ilMetaDataSearch($qp_obj);
 	}
 
-	/*
-	 * get reference of ilFulltext/LikeMetaDataSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of ilFulltext/LikeMetaDataSearch
-	 */
-	function _getMetaDataSearchInstance(&$query_parser)
+	// Private
+	function __searchKeywordContribute()
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		// Todo: add contribute
 
-		$search_settings = new ilSearchSettings();
+		$query = "SELECT obj_id,rbac_id,obj_type FROM il_meta_keyword as kw";
 
-		if($search_settings->enabledIndex())
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
 		{
-			// FULLTEXT
-			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMetaDataSearch.php';
-
-			return new ilFulltextMetaDataSearch($query_parser);
+			$query .= " WHERE MATCH(keyword) AGAINST('";
+			$prefix = $this->query_parser->getCombination() == 'and' ? '+*' : '*';
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $prefix;
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
 		}
 		else
 		{
-			// LIKE
-			include_once 'Services/Search/classes/Like/class.ilLikeMetaDataSearch.php';
-
-			return new ilLikeMetaDataSearch($query_parser);
+			// Mysql 3.23
+			$query .= "WHERE ";
+			$counter = 0;
+			foreach($this->query_parser->getWords() as $word)
+			{
+				if($counter++)
+				{
+					$query .= strtoupper($this->query_parser->getCombination());
+				}
+				$query .= " MATCH (keyword) AGAINST('";
+				$query .= $word;
+				$query .= "')";
+			}
+		}			
+			
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
 		}
+
+		return $this->search_result;
 	}		
 }
 ?>

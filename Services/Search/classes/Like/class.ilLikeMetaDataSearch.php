@@ -22,75 +22,56 @@
 */
 
 /**
-* Class ilSearchObjectListFactory
+* Class ilLikeMetaDataSearch
 *
-* Factory for Fulltext/LikeObjectSearch classes
-* It depends on the search administration setting which class is instantiated
+* class for searching meta 
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
+* @version $Id
 * 
 * @package ilias-search
+*
 */
+include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
-class ilObjectSearchFactory
+class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 {
-	
-	/*
-	 * get reference of ilFulltext/LikeObjectSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of ilFulltext/LikeObjectSearch
-	 */
-	function &_getObjectSearchInstance(&$query_parser)
+
+	/**
+	* Constructor
+	* @access public
+	*/
+	function ilLikeMetaDataSearch(&$qp_obj)
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
-
-		$search_settings = new ilSearchSettings();
-
-		if($search_settings->enabledIndex())
-		{
-			// FULLTEXT
-			include_once 'Services/Search/classes/Fulltext/class.ilFulltextObjectSearch.php';
-
-			return new ilFulltextObjectSearch($query_parser);
-		}
-		else
-		{
-			// LIKE
-			include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-
-			return new ilLikeObjectSearch($query_parser);
-		}
-			
+		parent::ilMetaDataSearch($qp_obj);
 	}
 
-	/*
-	 * get reference of ilFulltext/LikeMetaDataSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of ilFulltext/LikeMetaDataSearch
-	 */
-	function _getMetaDataSearchInstance(&$query_parser)
+	// Private
+	function __searchKeywordContribute()
 	{
-		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+		// Todo: add contribute
+		$query = "SELECT obj_id,rbac_id,obj_type FROM il_meta_keyword as kw";
+		
 
-		$search_settings = new ilSearchSettings();
-
-		if($search_settings->enabledIndex())
+		$concat = ' keyword ';
+		$where = " WHERE ";
+		foreach($this->query_parser->getWords() as $word)
 		{
-			// FULLTEXT
-			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMetaDataSearch.php';
-
-			return new ilFulltextMetaDataSearch($query_parser);
+			if($counter++)
+			{
+				$where .= strtoupper($this->query_parser->getCombination());
+			}
+			$where .= $concat;
+			$where .= (" LIKE ('%".$word."%')");
 		}
-		else
+		
+			
+		$res = $this->db->query($query.$where);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			// LIKE
-			include_once 'Services/Search/classes/Like/class.ilLikeMetaDataSearch.php';
-
-			return new ilLikeMetaDataSearch($query_parser);
+			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
 		}
+		return $this->search_result;
 	}		
 }
 ?>
