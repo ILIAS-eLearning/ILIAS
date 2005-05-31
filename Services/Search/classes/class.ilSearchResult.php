@@ -154,35 +154,6 @@ class ilSearchResult
 		return $presentation_result ? $presentation_result : array();
 	}
 
-	function filterResults($a_root_node = ROOT_FOLDER_ID)
-	{
-		$this->__initSearchSettingsObject();
-
-		global $tree;
-
-		$counter = 0;
-		$results = $this->getResults();
-
-		$this->results = array();
-		foreach($results as $result)
-		{
-			if($this->ilAccess->checkAccess('visible','',$result['ref_id'],$result['type'],$result['obj_id']))
-			{
-				if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$result['ref_id']))
-				{
-					$this->addResult($result['ref_id'],$result['obj_id'],$result['type']);
-
-					// Stop if maximum of hits is reached
-					if(++$counter == $this->search_settings->getMaxHits())
-					{
-						return true;
-					}
-				}
-			}
-		}
-	}
-	
-
 	function filter($a_root_node = ROOT_FOLDER_ID)
 	{
 		global $tree;

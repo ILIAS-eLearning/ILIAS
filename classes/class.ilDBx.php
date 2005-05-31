@@ -392,7 +392,19 @@ class ilDBx extends PEAR
 		
 		return false;
 	}
-	
+
+	/**
+	* check wether current MySQL server is version 4.0.x or higher
+	*/
+	function isMysql4_0OrHigher()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if((int) $version[0] >= 4)
+		{
+			return true;
+		}
+		return false;
+	}		
 
 } //end Class
 ?>

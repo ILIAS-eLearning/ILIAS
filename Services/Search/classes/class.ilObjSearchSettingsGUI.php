@@ -79,6 +79,17 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 																	 'max_hits',
 																	 $max_hits,false,true));
 
+		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt('search_type'));
+		$this->tpl->setVariable("TXT_LIKE_INFO",$this->lng->txt('search_like_info'));
+		$this->tpl->setVariable("TXT_FULL_INFO",$this->lng->txt('search_full_info'));
+
+		$this->tpl->setVariable("RADIO_TYPE_LIKE",ilUtil::formRadioButton($this->object->settings_obj->enabledIndex() ? 0 : 1,
+																		  'search_index',0));
+
+		$this->tpl->setVariable("RADIO_TYPE_FULL",ilUtil::formRadioButton($this->object->settings_obj->enabledIndex() ? 1 : 0,
+																		  'search_index',1));
+									
+
 		$this->tpl->setVariable("CMD_SUBMIT",'saveSettings');
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
@@ -102,6 +113,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		
 		$this->object->initSettingsObject();
 		$this->object->settings_obj->setMaxHits((int) $_POST['max_hits']);
+		$this->object->settings_obj->enableIndex($_POST['search_index']);
 		$this->object->settings_obj->update();
 
 		sendInfo($this->lng->txt('settings_saved'));

@@ -22,9 +22,9 @@
 */
 
 /**
-* Class ilSearchGUI
+* Class ilFulltextObjectSearch
 *
-* GUI class for 'simple' search
+* Performs Mysql fulltext search in object_data title and description
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -32,92 +32,53 @@
 * @package ilias-search
 *
 */
+include_once 'Services/Search/classes/class.ilObjectSearch.php';
 
-class ilObjectSearch
+class ilFulltextObjectSearch extends ilObjectSearch
 {
-	/*
-	 *
-	 * List of all searchable objects
-	 *
-	 */
-	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','html','exc','file','qpl','tst','svy','spl',
-						 'chat','icrs','icla','webr');
-
-
-	/*
-	 * instance of query parser
-	 */
-	var $qp_obj = null;
-
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilObjectSearch(&$qp_obj)
+	function ilFulltextObjectSearch(&$qp_obj)
 	{
-
-		global $ilDB;
-
-		$this->qp_obj =& $qp_obj;
-		
-		$this->db =& $ilDB;
-
-
-		include_once 'Services/Search/classes/class.ilSearchResult.php';
-
-		$this->search_result = new ilSearchResult();
-	}
-
-	function &performSearch()
-	{
-		$in = $this->__createInStatement();
-		$where = $this->__createWhereCondition();
-
-		$query = "SELECT obj_id,type FROM object_data ".
-			$where." ".$in.' '.
-			"ORDER BY obj_id DESC";
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->search_result->addEntry($row->obj_id,$row->type);
-		}
-
-		return $this->search_result;
-	}
-
-
-
-	// Protected can be overwritten in Like or Fulltext classes
-	function __createInStatement()
-	{
-		$type = "('";
-		$type .= implode("','",$this->object_types);
-		$type .= "')";
-		
-		$in = " AND type IN ".$type;
-
-		return $in;
+		parent::ilObjectSearch($qp_obj);
 	}
 
 	function __createWhereCondition()
 	{
-		$concat  = " CONCAT(";
-		$concat .= 'title,description';
-		$concat .= ") ";
-
-		$where = "WHERE ";
-		foreach($this->qp_obj->getWords() as $word)
+		
+		if($this->db->isMysql4_0OrHigher())
 		{
-			if($counter++)
+			$where = " WHERE MATCH (title,description) AGAINST(' ";
+			
+			$prefix = $this->qp_obj->getCombination() == 'and' ? '+*' : '*';
+			foreach($this->qp_obj->getWords() as $word)
 			{
-				$where .= strtoupper($this->qp_obj->getCombination());
+				$where .= $prefix;
+				$where .= $word;
+				$where .= '* ';
 			}
-			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%')");
+			$where .= "' IN BOOLEAN MODE) ";
+			
+			return $where;
 		}
-		return $where;
+		else
+		{
+			$where = "WHERE ";
+			$counter = 0;
+			foreach($this->qp_obj->getWords() as $word)
+			{
+				if($counter++)
+				{
+					$where .= strtoupper($this->qp_obj->getCombination());
+				}
+				$where .= " MATCH (title,description) AGAINST('";
+				$where .= $word;
+				$where .= "')";
+			}
+			return $where;
+		}
 	}
-
 }
 ?>
