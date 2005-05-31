@@ -171,11 +171,21 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Show them
 		if(count($result_obj->getResults()))
 		{
+			$this->__showSearchInResults();
+
 			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
 			
 			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
 			$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
 		}
+
+		return true;
+	}
+
+	function searchInResults()
+	{
+		$this->search_mode = 'in_results';
+		$this->performSearch();
 
 		return true;
 	}
@@ -219,19 +229,34 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$meta_search->setMode('keyword_contribute');
 		$result_meta =& $meta_search->performSearch();
 
-		// Step 3.1: Merge entries
 		$result->mergeEntries($result_meta);
+
+		// Search in results
+		if($this->mode == 'in_results')
+		{
+			echo 1;
+			include_once 'Services/Search/classes/class.ilSearchResult.php';
+
+			$old_result_obj = new ilSearchResult($ilUser->getId());
+			$old_result_obj->read();
+
+			$result->diffEntries($old_result_obj);
+		}
+			
 
 		// Step 4: merge and validate results
 		$result->filter($this->getRootNode());
+
+		$this->showSearch();
 
 		if(!count($result->getResults()))
 		{
 			sendInfo($this->lng->txt('search_no_match'));
 		}
-
-		// Step 5: show search form 
-		$this->showSearch();
+		else
+		{
+			$this->__showSearchInResults();
+		}
 
 		// Step 6: show results
 		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
@@ -275,6 +300,15 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_search_results"));
 		$this->tpl->parseCurrentBlock();
 		
+	}
+
+	function __showSearchInResults()
+	{
+		$this->tpl->setCurrentBlock("search_results");
+		$this->tpl->setVariable("BTN_SEARCHRESULTS",$this->lng->txt('search_in_result'));
+		$this->tpl->parseCurrentBlock();
+
+		return true;
 	}
 }
 ?>
