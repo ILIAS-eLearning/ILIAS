@@ -94,7 +94,6 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
 	$DP_StyleFname	= $Interface->getStyleFname();		// style(-sheet)-name including path, selected by the user 
 	$DP_GroupIds	= $Interface->getGroupIds();		// GroupIDs of the current UserID (stub)
 	$DP_dlI			= $Interface->getDpDBHandler ();	// dateplaner database handler
-	$locator		= $Interface->showLocator($tpl, $lng,$app); // Locate for ilias3
 	$app			= $_REQUEST["app"];					// dateplaner application
 	
 		/*
@@ -149,8 +148,9 @@ switch($_REQUEST["app"]) {
 			
 		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];	
 										// set page titel
+		$locator		= $Interface->showLocator($tpl, $lng,$app); // Locate for ilias3
 		include	('.'.DATEPLANER_ROOT_DIR.'/inbox.php');												// include specific datplaner function
-		
+				
 		
 		break;
 	case 'date':
@@ -161,12 +161,14 @@ switch($_REQUEST["app"]) {
 		} else {
 			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".@$DateValues[shorttext];	// set page titel
 		}
+
 		include	('.'.DATEPLANER_ROOT_DIR.'/date.php');												// include specific datplaner function
 		
 		break;
 	default :
 	
 		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];											// set page titel
+		$locator		= $Interface->showLocator($tpl, $lng,$app); // Locate for ilias3
 		include	('.'.DATEPLANER_ROOT_DIR.'/'.$_REQUEST["app"].'.php');	
 		
 							// include specific datplaner function
