@@ -3654,6 +3654,7 @@ dateplaner#:#to#:#bis
 dateplaner#:#today#:#Heute
 dateplaner#:#viewlist#:#Ansicht aktualisieren
 dateplaner#:#week#:#Woche
+dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
@@ -4991,3 +4992,4 @@ search#:#search_all_words#:#Alle Begriffe
 search#:#search_advanced#:#Erweiterte Suche
 search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
+
