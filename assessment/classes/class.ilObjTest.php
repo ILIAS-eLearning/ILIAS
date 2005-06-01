@@ -3563,6 +3563,7 @@ class ilObjTest extends ilObject
 	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "")
 	{
 		global $rbacsystem;
+		// get the questionpool id if a questionpool ref id was entered
 		if ($questionpool != 0)
 		{
 			// retrieve object id
@@ -3576,7 +3577,8 @@ class ilObjTest extends ilObject
 				$questionpool = $row[0];
 			}
 		}
-		// get all questions in the test
+		
+		// get all existing questions in the test
 		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
 			$this->ilias->db->quote($this->getTestId() . "")
 		);
@@ -3594,14 +3596,19 @@ class ilObjTest extends ilObject
 		{
 			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
 		}
-
-		$forbidden_pools =& $this->getForbiddenQuestionpools();
-		$forbidden = "";
-		$constraint_qpls = "";
-		if (count($forbidden_pools))
+		
+		// get a list of questionpools which are not allowed for the test (only for random selection of questions in test questions editor)
+		if (($questionpool == 0) && (!is_array($qpls)))
 		{
-			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+			$forbidden_pools =& $this->getForbiddenQuestionpools();
+			$forbidden = "";
+			$constraint_qpls = "";
+			if (count($forbidden_pools))
+			{
+				$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+			}
 		}
+		
 		$result_array = array();
 		if ($questionpool == 0)
 		{
