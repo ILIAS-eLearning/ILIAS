@@ -71,8 +71,7 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 
 /*static variables */
 define("DATEPLANER_ROOT_DIR", $modulDir ); /* relative path to the dateplaner directory */
-
-
+	
 /*dynamic variables and interface connection to ilias*/
 require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
 	$Interface		= new ilCalInterface($ilias);
@@ -97,7 +96,7 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
 	$DP_dlI			= $Interface->getDpDBHandler ();	// dateplaner database handler
 	$locator		= $Interface->showLocator($tpl, $lng,$app); // Locate for ilias3
 	$app			= $_REQUEST["app"];					// dateplaner application
-
+	
 		/*
 
 		$tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
@@ -124,18 +123,41 @@ include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.session.php');
 //db_session_write(session_id(),session_encode());
 /* --------------  end session initialisation ---------------------*/
 
-
 /*dateplaner functions*/
+
+include ('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilMiniCal.php');
+
+
+if (!$_GET["month"])
+{
+	$month = date(m);
+	$year = date(Y);
+}
+else
+{
+	$month = $_GET["month"];	
+	$year = $_GET["year"];
+}
+$MiniCal = new ilMiniCal();
+
+$CALENDAR = $MiniCal->show($month, $year, $MiniCal);
+
+
 switch($_REQUEST["app"]) {
 	case False :
 	case 'inbox':
-		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];											// set page titel
+			
+		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];	
+										// set page titel
 		include	('.'.DATEPLANER_ROOT_DIR.'/inbox.php');												// include specific datplaner function
+		
+		
 		break;
 	case 'date':
+		
 		if ($_REQUEST["date_id"]){
 			$DateArray		= $DB->getDate ($_REQUEST["date_id"], $DP_UId);
-			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".$DateArray[8];				// set page titel
+			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".$DateArray[8];		// set page titel
 		} else {
 			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".@$DateValues[shorttext];	// set page titel
 		}
@@ -143,7 +165,12 @@ switch($_REQUEST["app"]) {
 		
 		break;
 	default :
+	
 		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];											// set page titel
-		include	('.'.DATEPLANER_ROOT_DIR.'/'.$_REQUEST["app"].'.php');								// include specific datplaner function
+		include	('.'.DATEPLANER_ROOT_DIR.'/'.$_REQUEST["app"].'.php');	
+		
+							// include specific datplaner function
 }
+
 ?>
+
