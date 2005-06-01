@@ -313,7 +313,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 		$result =& $obj_search->performSearch();
 
-
 		// Step 3: perform meta keyword search. Get an MetaDataSearch object.
 		$meta_search =& ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
 		$meta_search->setMode('keyword_contribute');

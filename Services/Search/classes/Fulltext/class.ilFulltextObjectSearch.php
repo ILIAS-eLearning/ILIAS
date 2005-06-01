@@ -52,7 +52,7 @@ class ilFulltextObjectSearch extends ilObjectSearch
 		{
 			$where = " WHERE MATCH (title,description) AGAINST(' ";
 			
-			$prefix = $this->qp_obj->getCombination() == 'and' ? '+*' : '*';
+			$prefix = $this->qp_obj->getCombination() == 'and' ? '+' : '';
 			foreach($this->qp_obj->getWords() as $word)
 			{
 				$where .= $prefix;
