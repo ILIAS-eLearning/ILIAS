@@ -97,14 +97,13 @@ class ilStructureObject extends ilLMObject
 	*/
 	function &copy(&$a_target_tree, $a_parent, $a_pos = IL_LAST_NODE)
 	{
-echo "copy temporary not available";
-echo "st1";
-		$source_tree = new ilTree($this->object->getId());
+		$lm =& $this->getContentObject();
+		$source_tree = new ilTree($lm->getId());
 		$source_tree->setTableNames('lm_tree','lm_data');
 		$source_tree->setTreeTablePK("lm_id");
-echo "st2";
+
 //		$meta =& new ilMetaData();
-		$target_lm_id = $target_tree->getTreeId();
+		$target_lm_id = $a_target_tree->getTreeId();
 		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
 		$chap =& new ilStructureObject($target_lm);
 //		$chap->assignMetaData($meta);
@@ -113,22 +112,20 @@ echo "st2";
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
 		$chap->create();
-echo "st3";
+
 		// insert chapter in tree
 		$a_target_tree->insertNode($chap->getId(), $a_parent, $a_pos);
-echo "st4";
+
 		$childs =& $source_tree->getChilds($this->getId());
 		foreach($childs as $child)
 		{
 			$lmobj = ilLMObjectFactory::getInstance($this->getContentObject(), $child["obj_id"], true);
 			if ($child["type"] == "st")
 			{
-echo "st5";
 				$newobj =& $lmobj->copy($a_target_tree, $chap->getId());
 			}
 			else
 			{
-echo "st6";
 				$newobj =& $lmobj->copyToOtherContObject($target_lm);
 				$a_target_tree->insertNode($newobj->getId(), $chap->getId());
 			}
@@ -213,7 +210,6 @@ echo "st6";
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-echo "export temporary not available";
 		$nested = new ilNestedSetXML();
 		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
