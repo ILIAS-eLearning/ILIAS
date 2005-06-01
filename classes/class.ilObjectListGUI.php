@@ -456,8 +456,23 @@ class ilObjectListGUI
 	*/
 	function insertProperties()
 	{
+		global $ilAccess, $lng;
+
 		$props = $this->getProperties();
 
+		// add no item access note in public section
+		// for items that are visible but not readable
+		if ($this->ilias->account->getId() == ANONYMOUS_USER_ID)
+		{
+			if (!$ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
+			{
+				$props[] = array("alert" => true,
+					"value" => $lng->txt("no_access_item_public"),
+					"newline" => true);
+			}
+		}
+
+		$cnt = 1;
 		if (is_array($props) && count($props) > 0)
 		{
 			foreach($props as $prop)
@@ -470,14 +485,21 @@ class ilObjectListGUI
 				{
 					$this->tpl->touchBlock("std_prop");
 				}
-				if ($prop["newline"] == true)
+				if ($prop["newline"] == true && $cnt > 1)
 				{
 					$this->tpl->touchBlock("newline_prop");
 				}
+				if (isset($prop["property"]))
+				{
+					$this->tpl->setCurrentBlock("prop_name");
+					$this->tpl->setVariable("TXT_PROP", $prop["property"]);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock("item_property");
-				$this->tpl->setVariable("TXT_PROP", $prop["property"]);
 				$this->tpl->setVariable("VAL_PROP", $prop["value"]);
 				$this->tpl->parseCurrentBlock();
+
+				$cnt++;
 			}
 			$this->tpl->setCurrentBlock("item_properties");
 			$this->tpl->parseCurrentBlock();

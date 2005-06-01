@@ -52,7 +52,8 @@ else
 // look if there is a file tpl.start.html (containing a frameset definition)
 $start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.html";
 
-// TO DO: $script is never used via $_GET. Maybe deprecated
+// start script is used for switching from public section
+// to last repository position right after login
 $start_script = (!empty($_GET["script"])) ? $_GET["script"] : $default_start_script;
 
 if (file_exists($start_template))

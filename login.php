@@ -35,6 +35,13 @@
 // get pear
 include("include/inc.get_pear.php");
 
+
+// login language selection is post type
+if ($_POST["lang"] != "")
+{
+	$_GET["lang"] = $_POST["lang"];
+}
+
 // check for session cookies enabled
 if (!isset($_COOKIE['iltest']))
 {
@@ -86,14 +93,19 @@ if ($ilias->auth->getAuth())
 		include_once "./chat/classes/class.ilChatServerCommunicator.php";
 		ilChatServerCommunicator::_login();
 	}
-	
+
 	// UPDATE LAST FORUM VISIT
 	include_once './classes/class.ilObjForum.php';
 
 	ilObjForum::_updateOldAccess($ilUser->getId());
-	
+
 	$return_to = "start.php";
-	
+
+	if ($_GET["rep_ref_id"] != "")
+	{
+		$return_to.= "?script=".rawurlencode("repository.php?ref_id=".$_GET["rep_ref_id"]);
+	}
+
 	if (!empty($_GET["return_to"]))
 	{
 		$return_to = urldecode($_GET["return_to"]);
@@ -179,10 +191,12 @@ $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));
 $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $ilias->getSetting("shib_login_instructions"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
-$tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"]);
+$tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"].
+	"&rep_ref_id=".$_GET["rep_ref_id"]);
 $tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+$tpl->setVariable("LANG_FORM_ACTION", "login.php?rep_ref_id=".$_GET["rep_ref_id"]);
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 $tpl->setVariable("LANG_ID", $_GET["lang"]);
 

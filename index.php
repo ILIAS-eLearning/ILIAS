@@ -71,6 +71,8 @@ if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->r
 
 if ($_GET["cmd"] == "login")
 {
+	$rep_ref_id = $_SESSION["il_rep_ref_id"];
+
 	$ilias->auth->logout();
 	session_destroy();
 
@@ -79,7 +81,8 @@ if ($_GET["cmd"] == "login")
 	setcookie("ilClientId","");
 	$_COOKIE["ilClientId"] = "";
 
-	ilUtil::redirect("login.php?client_id=".$client_id."&lang=".$_GET['lang']);
+	ilUtil::redirect("login.php?client_id=".$client_id."&lang=".$_GET['lang'].
+		"&rep_ref_id=".$rep_ref_id);
 }
 
 // check correct setup
