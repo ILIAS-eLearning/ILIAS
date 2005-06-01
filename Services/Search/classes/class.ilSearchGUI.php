@@ -84,7 +84,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	}
 	function getCombination()
 	{
-		return $this->combination ? $this->combination : SEARCH_AND;
+		return $this->combination ? $this->combination : SEARCH_OR;
 	}
 	/**
 	* Set/get search string
