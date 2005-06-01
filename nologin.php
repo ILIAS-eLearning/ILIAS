@@ -63,7 +63,16 @@ if ($_GET["reload"])
 {
 	if (!empty($_GET["return_to"]))
 	{
-		$return_to = "&return_to=".$_GET["return_to"];
+// temporary disabled, this seems to delete main menu
+// e.g. if repository.php is loaded in top.location.href
+// (public section enabled), the problem can be reproduced
+// by uncomment the following line and
+// - enter the public section
+// - destroy the session (table usr_session)
+// - hit repository in the locator bar
+// -> ILIAS shows public repository without top menu
+
+//		$return_to = "&return_to=".$_GET["return_to"];
 	}
 
     if ($_GET["inactive"])
