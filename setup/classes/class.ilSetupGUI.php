@@ -411,7 +411,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);  // not used
 		$this->tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 		$this->tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
-		$this->tpl->setVariable("ILIAS_VERSION",($this->client->db_installed) ? $settings["ilias_version"] : $txt_no_database);
+		$this->tpl->setVariable("ILIAS_VERSION", ILIAS_VERSION);
 
 		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->client->db_installed) ? $settings["feedback_recipient"] : $txt_no_database);
 		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_installed) ? $settings["error_recipient"] : $txt_no_database);
