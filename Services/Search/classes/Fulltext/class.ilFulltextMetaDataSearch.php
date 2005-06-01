@@ -57,7 +57,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(keyword) AGAINST('";
-			$prefix = $this->query_parser->getCombination() == 'and' ? '+*' : '*';
+			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
 			foreach($this->query_parser->getWords() as $word)
 			{
 				$query .= $prefix;
