@@ -4978,4 +4978,16 @@ survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
 assessment#:#tst_started#:#Test gestartet
 assessment#:#print_answers#:#Antworten drucken
-assessment#:#print_results#:#Ergebnisse drucken  
+assessment#:#print_results#:#Ergebnisse drucken
+search#:#search_area#:#Suchbereich
+search#:#search_type#:#Suchart
+search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
+search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
+search#:#search_in_magazin#:#Im Magazin
+search#:#search_below#:#Unterhalb von:
+search#:#search_change#:#Ändern
+search#:#search_any_word#:#Einen der Begriffe
+search#:#search_all_words#:#Alle Begriffe
+search#:#search_advanced#:#Erweiterte Suche
+search#:#search_tst_svy#:#Tests/Umfragen
+search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.

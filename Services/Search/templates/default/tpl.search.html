@@ -10,13 +10,13 @@
 			{TXT_SEARCHTERM}
 		  </td>
 		  <td class="option_value" >
-			<input type="TEXT" name="search_str" value="{FORM_SEARCH_STR}" size="30"/>
+			<input type="TEXT" name="search[string]" value="{FORM_SEARCH_STR}" size="30"/>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="combination" value="or" {OR_CHECKED}>{TXT_OR}</input>
+			<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED}>{TXT_OR}</input>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="combination" value="and" {AND_CHECKED}>{TXT_AND}</input>
+			<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="tblrow1">
@@ -25,6 +25,36 @@
 		  </td>
 		  <td class="option_value" colspan="3">
 			{SEARCHAREA}&nbsp;[<a href="{HREF_UPDATE_AREA}">{UPDATE_AREA}</a>]
+		  </td>
+		</tr>
+		<tr class="tblrow1">
+		  <td class="option" rowspan="2">
+			{TXT_SEARCH_TYPE}
+		  </td>
+		  <td class="option_value" colspan="3">
+			{CHECK_FAST}&nbsp;{INFO_FAST}
+		  </td>
+		</tr>
+		<tr class="tblrow1">
+		  <td class="option_value" colspan="3" align="left">
+			{CHECK_DETAILS}&nbsp;{INFO_DETAILS}
+			<table width="100%">
+			  <tr>
+				<td align="left" valign="center" width="33%" nowrap="nowrap">{CHECK_LMS} {LMS}</td>
+				<td align="left" valign="center"  width="33%" nowrap="nowrap">{CHECK_GLO} {GLO}</td>
+				<td align="left" valign="center"  width="33%" nowrap="nowrap">{CHECK_MEP} {MEP}</td>
+			  </tr>
+			  <tr>
+				<td align="left" valign="center"  nowrap="nowrap">{CHECK_TST} {TST}</td>
+				<td align="left" valign="center"  nowrap="nowrap">{CHECK_FOR} {FOR}</td>
+				<td align="left" valign="center"  nowrap="nowrap">{CHECK_EXC} {EXC}</td>
+			  </tr>
+			  <tr>
+				<td align="left" valign="center"  nowrap="nowrap">{CHECK_FIL} {FIL}</td>
+				<td align="left" valign="center"  nowrap="nowrap"></td>
+				<td align="left" valign="center"  nowrap="nowrap"></td>
+			  </tr>
+			</table>
 		  </td>
 		</tr>
 		<tr class="tablefooter">
