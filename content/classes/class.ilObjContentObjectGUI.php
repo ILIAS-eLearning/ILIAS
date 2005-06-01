@@ -1947,13 +1947,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$target_tree->setTreeTablePK("lm_id");
 
 		// check wether page belongs to lm
-		$source_tree =& $target_tree;
 		if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
 			!= $this->object->getID())
 		{
 			$source_tree = new ilTree(ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId()));
 			$source_tree->setTableNames('lm_tree','lm_data');
 			$source_tree->setTreeTablePK("lm_id");
+		}
+		else
+		{
+			$source_tree =& $target_tree;
 		}
 
 		// check, if target is within subtree
@@ -2045,6 +2048,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			else
 			{
 				$lm_id = ilLMObject::_lookupContObjID($id);
+
 				$source_lm =& ilObjectFactory::getInstanceByObjId($lm_id);
 				$source_obj = ilLMObjectFactory::getInstance($source_lm, $id, true);
 				$source_obj->setLMId($lm_id);
