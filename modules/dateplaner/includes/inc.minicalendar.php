@@ -34,21 +34,22 @@
 * @modulegroup  dateplaner                    
 * @package		dateplaner-functions
 */
-
+//require('./classes/class.ilMiniCal.php');
 
 // it is an action required to generate images..
-if ($_GET[action] == "show") {
-
-	$im = ImageCreate (162, 160)
-      or die ("Kann keinen neuen GD-Bild-Stream erzeugen");
-	$im = showMinicalendar($_GET[month],$_GET[year], $im, $_GET[DP_Lang]);
+//if ($_GET[action] == "show") {
+	
+//	$im = ImageCreate (162, 160)
+//    	or die ("Kann keinen neuen GD-Bild-Stream erzeugen");
+// 	$im = showMinicalendar($_GET[month],$_GET[year], $im, $_GET[DP_Lang]);
+//	$CALENDAR = $MiniCal->show($month, $year);
 	// Ilias3 + GD >1.6.1
-	ImagePNG($im);
+//	ImagePNG($im);
 
 	// Ilias2 + GD <1.6.1
 	//ImageGif($im);
-
-}
+	
+//}
 
 
 
@@ -60,17 +61,25 @@ if ($_GET[action] == "show") {
 *   @param string $im				( pointer to image )
 * 	@global Array DP_Lang			( Name of the active Language )
 */
+//
+//include ('./classes/class.ilMiniCal.php');
+
 function showMinicalendar($month,$year, $im, $DP_Lang)
 {
 
+/*		
 	//language
 	if(file_exists('../lang/dp_'.$DP_Lang.'.lang'))		//checks whether lang-file exists; if not english is used as fallback solution
 	{	
+		
+		$z = 0;
+		$test = $DP_language;
 		$array_tmp = @file('../lang/dp_'.$DP_Lang.'.lang');
 		foreach($array_tmp as $v)
 		{
 			if ((substr(trim($v),0,13)=='dateplaner#:#') && (substr_count($v,'#:#')>=2))
 			{//Line mustn't start with a ';' and must contain at least one '=' symbol.
+				$z++;				
 				$pos		= strpos($v, '#:#', '13');
 				$offset1	= strpos($v, '#:#', '13')-13;
 				$offset2	= strpos($v, '###', '13')-$offset1-16;
@@ -83,7 +92,9 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 				$DP_language[trim(substr($v,13,$offset1))] = trim(substr($v, $pos+3));
 				}
 			}
+			
 		}
+
 	}
 	else
 	{
@@ -124,6 +135,7 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 
     $Tagesnamen = array($DP_language[wk_short], $DP_language[Mo_short], $DP_language[Tu_short], $DP_language[We_short], $DP_language[Th_short], $DP_language[Fr_short], $DP_language[Sa_short], $DP_language[Su_short]);
 	$Monatabk = array("", $DP_language[short_01], $DP_language[short_02], $DP_language[short_03], $DP_language[short_04], $DP_language[short_05], $DP_language[short_06], $DP_language[short_07], $DP_language[short_08], $DP_language[short_09], $DP_language[short_10],  $DP_language[short_11], $DP_language[short_12]);
+	
 	
 	ImageColorAllocate ($im, 144, 144, 144);
 	$color[1] = ImageColorAllocate ($im,0,0,0); //schwarz
@@ -248,8 +260,9 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 			}
 		}
 	}
-
+	
 	return $im;
+*/	
 } // end func
 
 
@@ -259,9 +272,10 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 * 	@param int $month
 * 	@param int $year
 */
+
 function setMinicalendar($month, $year, $DP_Lang, $app)
 {
-		
+/*		
 	
 	if(!$month || !$year)
 	{
@@ -270,9 +284,9 @@ function setMinicalendar($month, $year, $DP_Lang, $app)
 	}
 
 
-	$lastday		= strftime("%d.", mktime (0,0,0,$month,0,$year));
+	$lastday		= strftime("%d", mktime (0,0,0,$month,0,$year));
 	$firstday		= strftime ("%u", mktime(0,0,0,$month,1,$year))-2;
-
+	
 	if ($firstday == -1) $firstday = 6; 
 	
 	$startday = $lastday - $firstday;
@@ -359,6 +373,6 @@ function setMinicalendar($month, $year, $DP_Lang, $app)
 <img src='.".DATEPLANER_ROOT_DIR."/includes/inc.minicalendar.php?action=show&month=".$month."&year=".$year."&DP_Lang=".$DP_Lang."' usemap='#Calendar' border=0>
 ";
 	return $minical_show;
-		
+*/		
 } // end func
 ?>

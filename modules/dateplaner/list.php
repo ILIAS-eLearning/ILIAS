@@ -45,7 +45,7 @@ else // if not printview
 {
 /* ------------------------------------  generate frames --------------------------- */
 // -----------------------------------------  fixed ---------------------------------//
-if($_GET[action] == "next"){
+/*if($_GET[action] == "next"){
 		$_GET[year] = $_GET[year] + 1;
 		$minical_show = setMinicalendar($_GET[month], $_GET[year], $DP_Lang, $_GET[app]);
 }elseif($_GET[action] == "last"){
@@ -53,7 +53,7 @@ if($_GET[action] == "next"){
 		$minical_show = setMinicalendar($_GET[month], $_GET[year], $DP_Lang, $_GET[app]);
 }else{
 	$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
-}
+}*/
 $keywords_float	= showKeywords($_REQUEST[S_Keywords], $DB);
 eval ("\$keywords_show = \"".$Gui->getTemplate("menue_keyword")."\";");
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
