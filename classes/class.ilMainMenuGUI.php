@@ -108,10 +108,12 @@ class ilMainMenuGUI
 		{
 			$this->tpl->setCurrentBlock("searchbutton");
 			$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search.php'));
+			#$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search_new.php'));
 			$this->tpl->setVariable("TARGET_SEARCH",$this->target);
 			$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 			$this->tpl->parseCurrentBlock();
 		}
+
 
 		// mail & desktop button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)

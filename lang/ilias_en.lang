@@ -4982,3 +4982,15 @@ survey#:#warning_survey_not_complete#:#The survey is not complete!
 assessment#:#tst_started#:#Test Started
 assessment#:#print_answers#:#Print Answers
 assessment#:#print_results#:#Print Results
+search#:#search_area#:#Search area
+search#:#search_type#:#Search type
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
+search#:#search_details_info#:#Detail search. Please select one or more objects above.
+search#:#search_in_magazin#:#In the repository
+search#:#search_below#:#Beneath:
+search#:#search_change#:#Change
+search#:#search_any_word#:#Any word
+search#:#search_all_words#:#All words
+search#:#search_advanced#:#Advanced search
+search#:#search_tst_svy#:#Tests/Surveys
+search#:#search_area_info#:#Please select an area where the search should start.

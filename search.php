@@ -22,12 +22,23 @@
 */
 
 
-require_once "./include/inc.header.php";
-require_once "./classes/class.ilSearchGUI.php";
+/**
+* Search base script
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+*
+* @package ilias-search
+*/
+#define(ILIAS_MODULE,'Services/Search');
 
-$search_gui = new ilSearchGUI($_SESSION["AccountId"]);
+include_once "include/inc.header.php";
+include_once "Services/Search/classes/class.ilSearchController.php";
+
+$ilCtrl->setTargetScript("search.php");
+$ilCtrl->getCallStructure("ilsearchcontroller");
+
+$ilCtrl->forwardCommand(new ilSearchController());
 
 $tpl->show();
-
-$ilBench->save();
 ?>
