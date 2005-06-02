@@ -63,18 +63,31 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		}
 		else
 		{
-			// Mysql 3.23
-			$where .= " AND ";
-			$counter = 0;
-			foreach($this->query_parser->getWords() as $word)
+			if($this->query_parser->getCombination() == 'or')
 			{
-				if($counter++)
+				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+				$where .= " AND MATCH (content) AGAINST(' ";
+				foreach($this->query_parser->getWords() as $word)
 				{
-					$where .= strtoupper($this->query_parser->getCombination());
+					$where .= $word;
+					$where .= ' ';
 				}
-				$where .= " MATCH (content) AGAINST('";
-				$where .= $word;
 				$where .= "') ";
+			}
+			else
+			{
+				$where .= " AND ";
+				$counter = 0;
+				foreach($this->query_parser->getWords() as $word)
+				{
+					if($counter++)
+					{
+						$where .= strtoupper($this->query_parser->getCombination());
+					}
+					$where .= " MATCH (content) AGAINST('";
+					$where .= $word;
+					$where .= "') ";
+				}
 			}
 		}
 		return $where;

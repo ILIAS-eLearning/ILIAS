@@ -65,19 +65,35 @@ class ilFulltextObjectSearch extends ilObjectSearch
 		}
 		else
 		{
-			$where = "WHERE ";
-			$counter = 0;
-			foreach($this->qp_obj->getWords() as $word)
+			if($this->qp_obj->getCombination() == 'or')
 			{
-				if($counter++)
+				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+				$where = " WHERE MATCH (title,description) AGAINST(' ";
+			
+				foreach($this->qp_obj->getWords() as $word)
 				{
-					$where .= strtoupper($this->qp_obj->getCombination());
+					$where .= $word;
 				}
-				$where .= " MATCH (title,description) AGAINST('";
-				$where .= $word;
 				$where .= "')";
+			
+				return $where;
 			}
-			return $where;
+			else
+			{
+				$where = "WHERE ";
+				$counter = 0;
+				foreach($this->qp_obj->getWords() as $word)
+				{
+					if($counter++)
+					{
+						$where .= strtoupper($this->qp_obj->getCombination());
+					}
+					$where .= " MATCH (title,description) AGAINST('";
+					$where .= $word;
+					$where .= "')";
+				}
+				return $where;
+			}
 		}
 	}
 }

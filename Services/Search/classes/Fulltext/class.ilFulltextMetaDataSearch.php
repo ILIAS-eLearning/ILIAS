@@ -68,18 +68,32 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		}
 		else
 		{
-			// Mysql 3.23
-			$query .= " WHERE ";
-			$counter = 0;
-			foreach($this->query_parser->getWords() as $word)
+			if($this->query_parser->getCombination() == 'or')
 			{
-				if($counter++)
+				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+				$query .= " WHERE MATCH (keyword) AGAINST(' ";
+				foreach($this->query_parser->getWords() as $word)
 				{
-					$query .= strtoupper($this->query_parser->getCombination());
+					$query .= $word;
+					$query .= ' ';
 				}
-				$query .= " MATCH (keyword) AGAINST('";
-				$query .= $word;
 				$query .= "') ";
+			}
+			else
+			{
+				// Mysql 3.23
+				$query .= " WHERE ";
+				$counter = 0;
+				foreach($this->query_parser->getWords() as $word)
+				{
+					if($counter++)
+					{
+						$query .= strtoupper($this->query_parser->getCombination());
+					}
+					$query .= " MATCH (keyword) AGAINST('";
+					$query .= $word;
+					$query .= "') ";
+				}
 			}
 		}
 		// Filter specific object types

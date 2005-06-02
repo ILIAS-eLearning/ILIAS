@@ -65,7 +65,6 @@ class ilLMContentSearch
 		$query = "SELECT lm_id,parent_type FROM lm_data as ld,page_object as po WHERE ld.obj_id = po.page_id ";
 		
 		$res = $this->db->query($query.$and.$in);
-
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->lm_id,$row->parent_type);
