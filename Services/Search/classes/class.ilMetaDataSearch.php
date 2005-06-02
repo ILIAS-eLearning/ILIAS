@@ -61,6 +61,28 @@ class ilMetaDataSearch
 	}
 
 	/**
+	* set object type to search in
+	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
+	* @access public
+	*/
+	function setFilter($a_filter)
+	{
+		if(is_array($a_filter))
+		{
+			$this->object_types = $a_filter;
+		}
+	}
+	/**
+	* get object type to search in
+	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
+	* @access public
+	*/
+	function getFilter()
+	{
+		return $this->object_types ? $this->object_types : array();
+	}
+
+	/**
 	* Define meta elements to search
 	* 
 	* @param array elements to search in. E.G array('keyword','contribute')
@@ -92,6 +114,24 @@ class ilMetaDataSearch
 
 
 	// Private
+	function __createInStatement()
+	{
+		if(!$this->getFilter())
+		{
+			return '';
+		}
+		else
+		{
+			$type = "('";
+			$type .= implode("','",$this->getFilter());
+			$type .= "')";
+			
+			$in = " AND obj_type IN ".$type;
+
+			return $in;
+		}
+	}
+
 	function __searchKeywordsOnly()
 	{
 		$where = " WHERE ";

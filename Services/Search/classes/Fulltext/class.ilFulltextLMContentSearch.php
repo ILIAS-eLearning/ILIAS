@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilLikeMetaDataSearch
+* Class ilFulltextLMContentSearch
 *
 * class for searching meta 
 *
@@ -32,46 +32,52 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
+include_once 'Services/Search/classes/class.ilLMContentSearch.php';
 
-class ilLikeMetaDataSearch extends ilMetaDAtaSearch
+class ilFulltextLMContentSearch extends ilLMContentSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilLikeMetaDataSearch(&$qp_obj)
+	function ilFulltextLMContentSearch(&$qp_obj)
 	{
-		parent::ilMetaDataSearch($qp_obj);
+		parent::ilLMContentSearch($qp_obj);
 	}
 
-	// Private
-	function __searchKeywordContribute()
+	function __createWhereCondition()
 	{
-		// Todo: add contribute
-		$query = "SELECT obj_id,rbac_id,obj_type FROM il_meta_keyword as kw";
-		
-
-		$concat = ' keyword ';
-		$where = " WHERE ";
-		foreach($this->query_parser->getWords() as $word)
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
 		{
-			if($counter++)
+			$where .= " WHERE MATCH(content) AGAINST('";
+			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
+			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= strtoupper($this->query_parser->getCombination());
+				$where .= $prefix;
+				$where .= $word;
+				$where .= '* ';
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$where .= "' IN BOOLEAN MODE) ";
 		}
-		$query = $query . $where . $this->__createInStatement();
-			
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		else
 		{
-			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
+			// Mysql 3.23
+			$where .= " WHERE ";
+			$counter = 0;
+			foreach($this->query_parser->getWords() as $word)
+			{
+				if($counter++)
+				{
+					$where .= strtoupper($this->query_parser->getCombination());
+				}
+				$where .= " MATCH (content) AGAINST('";
+				$where .= $word;
+				$where .= "') ";
+			}
 		}
-		return $this->search_result;
+		return $where;
 	}		
 }
 ?>

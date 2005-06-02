@@ -72,7 +72,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	}
 	function getType()
 	{
-		return $this->type ? $this->type : SEARCH_DETAILS;
+		return $this->type ? $this->type : SEARCH_FAST;
 	}
 	/**
 	* Set/get combination of search ('and' or 'or')
@@ -199,7 +199,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 		$details = $this->getDetails();
 		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1,true));
-		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1,true));
+		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
 		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1,true));
 		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1,true));
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['for'] ? 1 : 0,'search[details][for]',1,true));
@@ -292,37 +292,42 @@ class ilSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser;
 
-		include_once 'Services/Search/classes/class.ilQueryParser.php';
+		if($this->getType() == SEARCH_DETAILS and !$this->getDetails())
+		{
+			sendInfo($this->lng->txt('search_choose_object_type'));
+			$this->showSearch();
+
+			return false;
+		}
 
 		// Step 1: parse query string
-		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->getString()));
-		$query_parser->setCombination($this->getCombination());
-		$query_parser->parse();
-
-		if(!$query_parser->validate())
+		if(!is_object($query_parser =& $this->__parseQueryString()))
 		{
-			sendInfo($query_parser->getMessage());
+			sendInfo($query_parser);
 			$this->showSearch();
 			
 			return false;
 		}
-
 		// Step 2: perform object search. Get an ObjectSearch object via factory. Depends on fulltext or like search type.
-		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-
-		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-		$result =& $obj_search->performSearch();
+		$result =& $this->__searchObjects($query_parser);
 
 		// Step 3: perform meta keyword search. Get an MetaDataSearch object.
-		$meta_search =& ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
-		$meta_search->setMode('keyword_contribute');
-		$result_meta =& $meta_search->performSearch();
-
+		$result_meta =& $this->__searchMeta($query_parser);
+		
+		// Step 4: merge results
 		$result->mergeEntries($result_meta);
 
-		// Search in results
+		// Perform details search in object specific tables
+		if($this->getType() == SEARCH_DETAILS)
+		{
+			$result =& $this->__performDetailsSearch($query_parser,$result);
+		}
+		
+		// Step 5: Search in results
 		if($this->search_mode == 'in_results')
 		{
+			$this->__searchInResults();
+
 			include_once 'Services/Search/classes/class.ilSearchResult.php';
 
 			$old_result_obj = new ilSearchResult($ilUser->getId());
@@ -389,6 +394,101 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->parseCurrentBlock();
 		
 	}
+
+	// PRIVATE
+	function &__performDetailsSearch(&$query_parser,&$result)
+	{
+		foreach($this->getDetails() as $type => $always_one)
+		{
+			switch($type)
+			{
+				case 'lms':
+					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+					$result->mergeEntries($content_search->performSearch());
+					break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	* parse query string, using query parser instance
+	* @return object of query parser or error message if an error occured
+	* @access public
+	*/
+	function &__parseQueryString()
+	{
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->getString()));
+		$query_parser->setCombination($this->getCombination());
+		$query_parser->parse();
+
+		if(!$query_parser->validate())
+		{
+			return $query_parser->getMessage();
+		}
+		return $query_parser;
+	}
+	/**
+	* Search in obect title,desctiption
+	* @return object result object
+	* @access public
+	*/
+	function &__searchObjects(&$query_parser)
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+
+		if($this->getType() == SEARCH_DETAILS)
+		{
+			$obj_search->setFilter($this->__getFilter());
+		}
+		return $obj_search->performSearch();
+	}
+
+
+	/**
+	* Search in object meta data (keyword)
+	* @return object result object
+	* @access public
+	*/
+	function &__searchMeta(&$query_parser)
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$meta_search =& ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
+		if($this->getType() == SEARCH_DETAILS)
+		{
+			$meta_search->setFilter($this->__getFilter());
+		}
+		$meta_search->setMode('keyword_contribute');
+
+	   return $meta_search->performSearch();
+	}
+	/**
+	* Get object type for filter (If detail search is enabled)
+	* @return array object types
+	* @access public
+	*/
+	function __getFilter()
+	{
+		foreach($this->getDetails() as $key => $detail_type)
+		{
+			switch($key)
+			{
+				case 'lms':
+					$filter[] = 'lm';
+					$filter[] = 'dbk';
+					$filter[] = 'pg';
+					$filter[] = 'st';
+					break;
+			}
+		}
+		return $filter ? $filter : array();
+	}
+
 
 	function __showSearchInResults()
 	{
