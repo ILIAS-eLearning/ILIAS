@@ -46,12 +46,12 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		parent::ilLMContentSearch($qp_obj);
 	}
 
-	function __createWhereCondition()
+	function __createAndCondition()
 	{
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$where .= " WHERE MATCH(content) AGAINST('";
+			$where .= " AND MATCH(content) AGAINST('";
 			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
 			foreach($this->query_parser->getWords() as $word)
 			{
@@ -64,7 +64,7 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		else
 		{
 			// Mysql 3.23
-			$where .= " WHERE ";
+			$where .= " AND ";
 			$counter = 0;
 			foreach($this->query_parser->getWords() as $word)
 			{
