@@ -1323,15 +1323,15 @@ class ilObjCourseGUI extends ilObjectGUI
 					switch($member_data["role"])
 					{
 						case $this->object->members_obj->ROLE_ADMIN:
-							$role = $this->lng->txt("crs_admin");
+							$role = $this->lng->txt("il_crs_admin");
 							break;
 
 						case $this->object->members_obj->ROLE_TUTOR:
-							$role = $this->lng->txt("crs_tutor");
+							$role = $this->lng->txt("il_crs_tutor");
 							break;
 
 						case $this->object->members_obj->ROLE_MEMBER:
-							$role = $this->lng->txt("crs_member");
+							$role = $this->lng->txt("il_crs_member");
 							break;
 					}
 					$f_result[$counter][]   = $role;
@@ -2357,15 +2357,15 @@ class ilObjCourseGUI extends ilObjectGUI
 					switch($member_data["role"])
 					{
 						case $this->object->members_obj->ROLE_ADMIN:
-							$role = $this->lng->txt("crs_admin");
+							$role = $this->lng->txt("il_crs_admin");
 							break;
 
 						case $this->object->members_obj->ROLE_TUTOR:
-							$role = $this->lng->txt("crs_tutor");
+							$role = $this->lng->txt("il_crs_tutor");
 							break;
 
 						case $this->object->members_obj->ROLE_MEMBER:
-							$role = $this->lng->txt("crs_member");
+							$role = $this->lng->txt("il_crs_member");
 							break;
 					}
 					$tpl->setVariable("ROLE",$role);

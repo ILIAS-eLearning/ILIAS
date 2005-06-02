@@ -130,6 +130,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$rbacreview->setRoleType($role_list);
 
         $counter = 0;
+        
+        include_once ('class.ilObjRole.php');
 
 		foreach ($role_list as $role)
 		{
@@ -198,9 +200,26 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 $result_set[$counter][] = $checkbox;
                 $role_ids[$counter] = $role["obj_id"];
             }
+            
+            if (substr($role["title"],0,3) == "il_" and $role['type'] != "rolt")
+            {
+            	if (!$assignable)
+            	{
+            		$rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
+            		$rolf2 = $rolf_arr[0];
+            	}
+            	else
+            	{
+            		$rolf2 = $rolf;
+            	}
+            		
+				$parent_node = $this->tree->getParentNodeData($rolf2);
+				
+				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(".$parent_node["obj_id"].")";
+            }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
-            $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".$role["title"]."</a>";
+            $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
             $result_set[$counter][] = $path." (".$role["role_type"].")";;
 

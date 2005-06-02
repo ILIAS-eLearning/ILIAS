@@ -444,5 +444,25 @@ class ilObjRole extends ilObject
 			}
 		}
 	}
+	
+	function _getTranslation($a_role_title)
+	{
+		global $lng;
+		
+		$test_str = explode('_',$a_role_title);
+
+		if ($test_str[0] == 'il') 
+		{
+			$test2 = (int) $test_str[3];
+			if ($test2 > 0)
+			{
+				unset($test_str[3]);
+			}
+
+			return $lng->txt(implode('_',$test_str));
+		}
+		
+		return $a_role_title;
+	}
 } // END class.ilObjRole
 ?>
