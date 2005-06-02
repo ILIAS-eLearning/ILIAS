@@ -60,11 +60,11 @@ class ilLMContentSearch
 	function &performSearch()
 	{
 		$in = $this->__createInStatement();
-		$where = $this->__createWhereCondition();
+		$and = $this->__createAndCondition();
 
-		$query = "SELECT lm_id,parent_type FROM lm_data as ld JOIN page_object as po ON ld.obj_id = po.page_id ";
+		$query = "SELECT lm_id,parent_type FROM lm_data as ld,page_object as po WHERE ld.obj_id = po.page_id ";
 		
-		$res = $this->db->query($query.$where.$in);
+		$res = $this->db->query($query.$and.$in);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -79,10 +79,10 @@ class ilLMContentSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		return " AND type = 'pg'";
+		return " AND parent_type IN('lm','dbk')";
 	}
 
-	function __createWhereCondition()
+	function __createAndCondition()
 	{
 		echo "Overwrite me!";
 	}
