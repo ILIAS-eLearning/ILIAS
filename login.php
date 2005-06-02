@@ -105,7 +105,7 @@ if ($ilias->auth->getAuth())
 
 	if ($_GET["rep_ref_id"] != "")
 	{
-		$return_to.= "?script=".rawurlencode("repository.php?ref_id=".$_GET["rep_ref_id"]);
+		$return_to.= "?script=".rawurlencode("repository.php?cmd=frameset&ref_id=".$_GET["rep_ref_id"]);
 	}
 
 	if (!empty($_GET["return_to"]))
