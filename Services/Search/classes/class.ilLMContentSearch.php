@@ -22,9 +22,9 @@
 */
 
 /**
-* Class ilSearchGUI
+* Class ilLMContentSearch
 *
-* GUI class for 'simple' search
+* Abstract class for lm content. Should be inherited by ilFulltextLMContentSearch
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -33,33 +33,22 @@
 *
 */
 
-class ilObjectSearch
+class ilLMContentSearch
 {
-	/*
-	 *
-	 * List of all searchable objects
-	 *
-	 */
-	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','html','exc','file','qpl','tst','svy','spl',
-						 'chat','icrs','icla','webr');
-
-
 	/*
 	 * instance of query parser
 	 */
-	var $qp_obj = null;
+	var $query_parser = null;
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilObjectSearch(&$qp_obj)
+	function ilLMContentSearch(&$query_parser)
 	{
-
 		global $ilDB;
 
-		$this->qp_obj =& $qp_obj;
-		
+		$this->query_parser =& $query_parser;
 		$this->db =& $ilDB;
 
 
@@ -68,43 +57,18 @@ class ilObjectSearch
 		$this->search_result = new ilSearchResult();
 	}
 
-	/**
-	* set object type to search in
-	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
-	* @access public
-	*/
-	function setFilter($a_filter)
-	{
-		if(is_array($a_filter))
-		{
-			$this->object_types = $a_filter;
-		}
-	}
-	/**
-	* get object type to search in
-	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
-	* @access public
-	*/
-	function getFilter()
-	{
-		return $this->object_types ? $this->object_types : array();
-	}
-
-
-
 	function &performSearch()
 	{
 		$in = $this->__createInStatement();
 		$where = $this->__createWhereCondition();
 
-		$query = "SELECT obj_id,type FROM object_data ".
-			$where." ".$in.' '.
-			"ORDER BY obj_id DESC";
+		$query = "SELECT lm_id,parent_type FROM lm_data as ld JOIN page_object as po ON ld.obj_id = po.page_id ";
+		
+		$res = $this->db->query($query.$where.$in);
 
-		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->obj_id,$row->type);
+			$this->search_result->addEntry($row->lm_id,$row->parent_type);
 		}
 
 		return $this->search_result;
@@ -115,32 +79,12 @@ class ilObjectSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		$type = "('";
-		$type .= implode("','",$this->object_types);
-		$type .= "')";
-		
-		$in = " AND type IN ".$type;
-
-		return $in;
+		return " AND type = 'pg'";
 	}
 
 	function __createWhereCondition()
 	{
-		$concat  = " CONCAT(";
-		$concat .= 'title,description';
-		$concat .= ") ";
-
-		$where = "WHERE ";
-		foreach($this->qp_obj->getWords() as $word)
-		{
-			if($counter++)
-			{
-				$where .= strtoupper($this->qp_obj->getCombination());
-			}
-			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%')");
-		}
-		return $where;
+		echo "Overwrite me!";
 	}
 
 }

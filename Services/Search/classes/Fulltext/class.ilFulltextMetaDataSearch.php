@@ -81,8 +81,10 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 				$query .= $word;
 				$query .= "') ";
 			}
-		}			
-			
+		}
+		// Filter specific object types
+		$query .= $this->__createInStatement();
+	
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

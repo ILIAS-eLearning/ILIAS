@@ -71,7 +71,7 @@ class ilObjectSearchFactory
 	 * @param object query parser object
 	 * @return object reference of ilFulltext/LikeMetaDataSearch
 	 */
-	function _getMetaDataSearchInstance(&$query_parser)
+	function &_getMetaDataSearchInstance(&$query_parser)
 	{
 		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
 
@@ -91,6 +91,21 @@ class ilObjectSearchFactory
 
 			return new ilLikeMetaDataSearch($query_parser);
 		}
-	}		
+	}
+
+	/*
+	 * get reference of ilFulltextLMContentSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextLMContentSearch
+	 */
+	function &_getLMContentSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextLMContentSearch.php';
+		
+		return new ilFulltextLMContentSearch($query_parser);
+
+	}
 }
 ?>
