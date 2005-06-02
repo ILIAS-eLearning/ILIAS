@@ -94,6 +94,12 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+common#:#il_crs_admin#:#Administrator
+common#:#il_crs_tutor#:#Tutor
+common#:#il_crs_member#:#Mitglied
+common#:#il_grp_admin#:#Administrator
+common#:#il_grp_member#:#Mitglied
+common#:#il_frm_moderator#:#Moderator
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
@@ -4992,4 +4998,3 @@ search#:#search_all_words#:#Alle Begriffe
 search#:#search_advanced#:#Erweiterte Suche
 search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
-

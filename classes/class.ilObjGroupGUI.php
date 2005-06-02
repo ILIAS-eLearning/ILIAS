@@ -737,7 +737,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
 		}
 
-		$stati = array_flip($this->object->getLocalGroupRoles());
+		$stati = array_flip($this->object->getLocalGroupRoles(true));
+		//var_dump($stati);exit;
 
 		//build data structure
 		foreach ($member_ids as $member_id)
