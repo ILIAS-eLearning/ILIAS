@@ -27,7 +27,6 @@
 *
 * @author Alex Killing
 * @version $Id$
-*
 * @package ilias-core
 */
 class ilMainMenuGUI
@@ -167,7 +166,7 @@ class ilMainMenuGUI
 			$this->tpl->setCurrentBlock("userisloggedin");
 			$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
-			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php");
+			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
 			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
 			$this->tpl->parseCurrentBlock();
 		}

@@ -53,7 +53,7 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
 if ($ilias->getSetting("pub_section"))
 {
 	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
+	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
 	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
 	$tpl->parseCurrentBlock();
 }
@@ -68,7 +68,7 @@ if ($ilias->ini_ilias->readVariable("clients","list"))
 $tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
 $tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
 $tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
+$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
 	
 $tpl->show();
 ?>
