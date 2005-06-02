@@ -325,6 +325,12 @@ if (is_null($_SESSION['lang']))
 
 $_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
 
+// prefer personal setting when coming from login screen 
+if ($script == "login.php")
+{
+	$_SESSION['lang'] = $ilias->account->getPref("language");
+}
+
 $lng = new ilLanguage($_SESSION['lang']);
 $GLOBALS['lng'] =& $lng;
 $ilBench->stop("Core", "HeaderInclude_initLanguage");

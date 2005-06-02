@@ -25,7 +25,7 @@
 /**
 * login script for ilias
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
 *
@@ -81,6 +81,8 @@ if (!$ilias->getSetting("setup_ok"))
 // check for auth
 if ($ilias->auth->getAuth())
 {
+
+	
 	if(!$ilias->account->checkTimeLimit())
 	{
 		$ilias->auth->logout();
@@ -191,8 +193,12 @@ $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));
 $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $ilias->getSetting("shib_login_instructions"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
+<<<<<<< login.php
 $tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"].
 	"&rep_ref_id=".$_GET["rep_ref_id"]);
+=======
+$tpl->setVariable("FORMACTION", "login.php");
+>>>>>>> 1.43.4.1
 $tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
