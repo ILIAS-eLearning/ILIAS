@@ -54,11 +54,11 @@ class ilLikeObjectSearch extends ilObjectSearch
 		$concat .= ") ";
 
 		$where = "WHERE ";
-		foreach($this->qp_obj->getWords() as $word)
+		foreach($this->query_parser->getWords() as $word)
 		{
 			if($counter++)
 			{
-				$where .= strtoupper($this->qp_obj->getCombination());
+				$where .= strtoupper($this->query_parser->getCombination());
 			}
 			$where .= $concat;
 			$where .= ("LIKE ('%".$word."%')");
