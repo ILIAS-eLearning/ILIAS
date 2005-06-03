@@ -60,7 +60,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 			case "view":
 
 				if(!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccess('write',$a_ref_id))
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
@@ -72,7 +72,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		{
 			case "visible":
 				if (!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id) &&
-					(!$rbacsystem->checkAccess('write', $a_ref_id)))
+					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
