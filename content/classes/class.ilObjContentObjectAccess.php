@@ -126,8 +126,8 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*/
 	function _getLastAccessedPage($a_user_id,$a_ref_id)
 	{
-		global $ilUser, $ilDB;
-
+		global $ilDB;
+		
 		$q = "SELECT * FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($a_user_id)." AND ".
 			"lm_id = ".$ilDB->quote($a_ref_id);
