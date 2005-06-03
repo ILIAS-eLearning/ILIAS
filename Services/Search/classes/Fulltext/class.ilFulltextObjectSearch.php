@@ -52,10 +52,10 @@ class ilFulltextObjectSearch extends ilObjectSearch
 		{
 			$where = " WHERE MATCH (title,description) AGAINST(' ";
 			
-			$prefix = $this->qp_obj->getCombination() == 'and' ? '+' : '';
-			foreach($this->qp_obj->getWords() as $word)
+			#$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
+			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $prefix;
+				#$where .= $prefix;
 				$where .= $word;
 				$where .= '* ';
 			}
@@ -65,35 +65,16 @@ class ilFulltextObjectSearch extends ilObjectSearch
 		}
 		else
 		{
-			if($this->qp_obj->getCombination() == 'or')
-			{
-				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-				$where = " WHERE MATCH (title,description) AGAINST(' ";
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$where = " WHERE MATCH (title,description) AGAINST(' ";
 			
-				foreach($this->qp_obj->getWords() as $word)
-				{
-					$where .= $word;
-				}
-				$where .= "')";
-			
-				return $where;
-			}
-			else
+			foreach($this->query_parser->getWords() as $word)
 			{
-				$where = "WHERE ";
-				$counter = 0;
-				foreach($this->qp_obj->getWords() as $word)
-				{
-					if($counter++)
-					{
-						$where .= strtoupper($this->qp_obj->getCombination());
-					}
-					$where .= " MATCH (title,description) AGAINST('";
-					$where .= $word;
-					$where .= "')";
-				}
-				return $where;
+				$where .= $word;
 			}
+			$where .= "')";
+			
+			return $where;
 		}
 	}
 }

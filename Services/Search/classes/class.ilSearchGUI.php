@@ -114,7 +114,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 	function getRootNode()
 	{
-		return $this->root_node;
+		return $this->root_node ? $this->root_node : ROOT_FOLDER_ID;
 	}
 	function setRootNode($a_node_id)
 	{
@@ -326,8 +326,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Step 5: Search in results
 		if($this->search_mode == 'in_results')
 		{
-			$this->__searchInResults();
-
 			include_once 'Services/Search/classes/class.ilSearchResult.php';
 
 			$old_result_obj = new ilSearchResult($ilUser->getId());
@@ -338,7 +336,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			
 
 		// Step 4: merge and validate results
-		$result->filter($this->getRootNode());
+		$result->filter($this->getRootNode(),$query_parser->getCombination() == 'and');
 
 		$this->showSearch();
 
@@ -406,6 +404,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
 					$result->mergeEntries($content_search->performSearch());
 					break;
+
+				case 'frm':
+					$forum_search =& ilObjectSearchFactory::_getForumSearchInstance($query_parser);
+					$result->mergeEntries($forum_search->performSearch());
+					break;
+					
 			}
 		}
 		return $result;
@@ -463,7 +467,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		{
 			$meta_search->setFilter($this->__getFilter());
 		}
-		$meta_search->setMode('keyword_contribute');
+		$meta_search->setMode('keyword');
 
 	   return $meta_search->performSearch();
 	}
@@ -483,6 +487,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$filter[] = 'dbk';
 					$filter[] = 'pg';
 					$filter[] = 'st';
+					break;
+
+				case 'frm':
+					;
 					break;
 			}
 		}

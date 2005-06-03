@@ -74,16 +74,31 @@ class ilSearchResult
 	 * Entries are stored with 'obj_id'. This method is typically called to store db query results.
 	 * @param integer object object_id
 	 * @param string obj_type 'lm' or 'crs' ...
-	 * @param integer rbac_id in case of pages, chapters add the id of the rbac object (the lm id)
+	 * @param array value position of query parser words in query string
 	 * @access	public
 	 */
-
-	function addEntry($a_obj_id,$a_type,$a_rbac_id = 0)
+	function addEntry($a_obj_id,$a_type,$found)
 	{
-		$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
-		$this->entries[$a_obj_id]['type'] = $a_type;
-		$this->entries[$a_obj_id]['rbac_id'] = $a_rbac_id ? $a_rbac_id : $a_obj_id;
-
+		// Create new entry if it not exists
+		if(!$this->entries[$a_obj_id])
+		{
+			$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
+			$this->entries[$a_obj_id]['type'] = $a_type;
+			$this->entries[$a_obj_id]['found'] = $found;
+		}
+		else
+		{
+			// UPDATE FOUND
+			$counter = 0;
+			foreach($found as $position)
+			{
+				if($position)
+				{
+					$this->entries[$a_obj_id]['found'][$counter] = $position;
+				}
+				$counter++;
+			}
+		}
 		return true;
 	}
 
@@ -97,7 +112,7 @@ class ilSearchResult
 	{
 		foreach($result_obj->getEntries() as $entry)
 		{
-			$this->addEntry($entry['obj_id'],$entry['type'],$entry['rbac_id']);
+			$this->addEntry($entry['obj_id'],$entry['type'],$entry['found']);
 		}
 		return true;
 	}
@@ -176,7 +191,7 @@ class ilSearchResult
 		return $presentation_result ? $presentation_result : array();
 	}
 
-	function filter($a_root_node = ROOT_FOLDER_ID)
+	function filter($a_root_node,$check_and)
 	{
 		global $tree;
 
@@ -186,14 +201,18 @@ class ilSearchResult
 		$counter = 0;
 		foreach($this->getEntries() as $entry)
 		{
-			foreach(ilObject::_getAllReferences($entry['rbac_id']) as $ref_id)
+			if($check_and and in_array(0,$entry['found']))
+			{
+				continue;
+			}
+			foreach(ilObject::_getAllReferences($entry['obj_id']) as $ref_id)
 			{
 				$type = ilObject::_lookupType($ref_id, true);
-				if($this->ilAccess->checkAccess('visible','',$ref_id,$type,$entry['rbac_id']))
+				if($this->ilAccess->checkAccess('visible','',$ref_id,$type,$entry['obj_id']))
 				{
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
-						$this->addResult($ref_id,$entry['rbac_id'],$type);
+						$this->addResult($ref_id,$entry['obj_id'],$type);
 						// Stop if maximum of hits is reached
 						if(++$counter == $this->search_settings->getMaxHits())
 						{

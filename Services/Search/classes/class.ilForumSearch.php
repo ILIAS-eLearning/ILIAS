@@ -22,56 +22,49 @@
 */
 
 /**
-* Class ilFulltextMetaDataSearch
+* Class ilLMContentSearch
 *
-* class for searching meta 
+* Abstract class for lm content. Should be inherited by ilFulltextLMContentSearch
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id
+* @version $Id$
 * 
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
+include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
-class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
+class ilForumSearch extends ilAbstractSearch
 {
-
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilFulltextMetaDataSearch(&$qp_obj)
+	function ilForumSearch(&$query_parser)
 	{
-		parent::ilMetaDataSearch($qp_obj);
+		parent::ilAbstractSearch($query_parser);
 	}
 
-	// Private
-	function __createKeywordWhereCondition()
+	function &performSearch()
 	{
-		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$and = $this->__createAndCondition();
+		$query = "SELECT top_frm_fk FROM frm_data as fd,frm_threads as ft,frm_posts as fp ".
+			"WHERE  top_pk = thr_top_fk AND thr_pk = pos_thr_fk ";
+
+		
+		$res = $this->db->query($query.$and);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$query .= " WHERE MATCH(keyword) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$this->search_result->addEntry($row->lm_id,$row->parent_type);
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
-		return $query;
-	}		
+
+		return $this->search_result;
+	}
+
+	function __createAndCondition()
+	{
+		echo "Overwrite me!";
+	}
+
 }
 ?>
