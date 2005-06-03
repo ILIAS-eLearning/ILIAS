@@ -7276,3 +7276,6 @@ ALTER TABLE `object_data` DROP INDEX `title`;
 ALTER TABLE `object_data` DROP INDEX `description`;
 
 ALTER TABLE `object_data` ADD FULLTEXT `title_desc` (`title` ,`description`	);
+<#456>
+ALTER TABLE `il_meta_keyword` ADD FULLTEXT `keyword` (`keyword`);
+ALTER TABLE `il_meta_entity` ADD FULLTEXT `entity` (`entity`);
