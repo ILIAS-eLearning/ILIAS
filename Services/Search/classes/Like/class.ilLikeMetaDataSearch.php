@@ -62,5 +62,21 @@ class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 		}
 		return $where;
 	}		
+
+	function __createContributeWhereCondition()
+	{
+		$concat = ' entity ';
+		$where = " WHERE ";
+		foreach($this->query_parser->getWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= strtoupper($this->query_parser->getCombination());
+			}
+			$where .= $concat;
+			$where .= (" LIKE ('%".$word."%')");
+		}
+		return $where;
+	}		
 }
 ?>

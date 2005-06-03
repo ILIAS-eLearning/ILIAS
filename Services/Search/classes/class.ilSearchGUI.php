@@ -312,11 +312,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result =& $this->__searchObjects($query_parser);
 
 		// Step 3: perform meta keyword search. Get an MetaDataSearch object.
-		$result_meta =& $this->__searchMeta($query_parser);
-		
-		// Step 4: merge results
+		$result_meta =& $this->__searchMeta($query_parser,'keyword');
 		$result->mergeEntries($result_meta);
 
+		$result_meta =& $this->__searchMeta($query_parser,'contribute');
+		$result->mergeEntries($result_meta);
+	
 		// Perform details search in object specific tables
 		if($this->getType() == SEARCH_DETAILS)
 		{
@@ -458,7 +459,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	* @return object result object
 	* @access public
 	*/
-	function &__searchMeta(&$query_parser)
+	function &__searchMeta(&$query_parser,$a_type)
 	{
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
@@ -467,8 +468,16 @@ class ilSearchGUI extends ilSearchBaseGUI
 		{
 			$meta_search->setFilter($this->__getFilter());
 		}
-		$meta_search->setMode('keyword');
+		switch($a_type)
+		{
+			case 'keyword':
+				$meta_search->setMode('keyword');
+				break;
 
+			case 'contribute':
+				$meta_search->setMode('contribute');
+				break;
+		}
 	   return $meta_search->performSearch();
 	}
 	/**
