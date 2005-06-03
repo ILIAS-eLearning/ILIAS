@@ -60,7 +60,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 			case "view":
 
 				if(!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccess('write',$a_ref_id))
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
@@ -72,7 +72,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 		{
 			case "visible":
 				if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id) &&
-					(!$rbacsystem->checkAccess('write', $a_ref_id)))
+					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;

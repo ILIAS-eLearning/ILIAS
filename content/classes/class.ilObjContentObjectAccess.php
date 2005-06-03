@@ -60,7 +60,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 			case "view":
 
 				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccess('write',$a_ref_id))
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
@@ -69,13 +69,13 @@ class ilObjContentObjectAccess extends ilObjectAccess
 				
 			case "continue":
 				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccess('write',$a_ref_id))
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
 				}
 
-				if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id) <= 0)
+				if (ilObjContentObjectAccess::_getLastAccessedPage($a_user_id,$a_ref_id) <= 0)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
 					return false;
@@ -88,7 +88,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		{
 			case "visible":
 				if (!ilObjContentObjectAccess::_lookupOnline($a_obj_id) &&
-					(!$rbacsystem->checkAccess('write', $a_ref_id)))
+					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
@@ -121,14 +121,15 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	/**
 	* get last accessed page
 	*
-	* @param	int		$a_id		content object id
+	* @param	int		$a_user_id	user object id
+	* @param	int		$a_ref_id	content object id
 	*/
-	function _getLastAccessedPage($a_ref_id)
+	function _getLastAccessedPage($a_user_id,$a_ref_id)
 	{
 		global $ilUser, $ilDB;
 
 		$q = "SELECT * FROM lo_access WHERE ".
-			"usr_id = ".$ilDB->quote($ilUser->getId())." AND ".
+			"usr_id = ".$ilDB->quote($a_user_id)." AND ".
 			"lm_id = ".$ilDB->quote($a_ref_id);
 		$acc_set = $ilDB->query($q);
 

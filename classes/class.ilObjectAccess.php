@@ -62,6 +62,9 @@ class ilObjectAccess
 
 		// add no access info item and return false if access is not granted
 		// $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
+		//
+		// for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
+		// $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
 
 		return true;
 	}

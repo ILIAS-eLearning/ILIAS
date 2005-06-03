@@ -73,7 +73,7 @@ class ilObjCourseAccess extends ilObjectAccess
 			case "visible":
 				include_once 'course/classes/class.ilObjCourse.php';
 				
-				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccess('write',$a_ref_id))
+				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
