@@ -70,7 +70,7 @@ class ilFulltextObjectSearch extends ilObjectSearch
 			
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $word;
+				$where .= ($word.' ');
 			}
 			$where .= "')";
 			
