@@ -71,11 +71,13 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
+		global $ilUser;
+
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		
 		include_once("content/classes/class.ilObjLearningModuleAccess.php");
 		$this->last_accessed_page = 
-			ilObjLearningModuleAccess::_getLastAccessedPage($this->ref_id);
+			ilObjLearningModuleAccess::_getLastAccessedPage($ilUser->getId(),$this->ref_id);
 		
 	}
 
