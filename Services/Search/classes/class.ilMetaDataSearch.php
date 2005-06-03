@@ -77,6 +77,9 @@ class ilMetaDataSearch extends ilAbstractSearch
 			case 'keyword':
 				return $this->__searchKeywords();
 
+			case 'contribute':
+				return $this->__searchContribute();
+
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
 				return false;
@@ -103,6 +106,28 @@ class ilMetaDataSearch extends ilAbstractSearch
 			return $in;
 		}
 	}
+	function __searchContribute()
+	{
+		$this->setFields(array('entity'));
+
+		$in = $this->__createInStatement();
+		$where = $this->__createContributeWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_entity ".
+			$where." ".$in.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+		}
+
+		return $this->search_result;
+	}		
+
 
 	function __searchKeywords()
 	{
