@@ -107,5 +107,20 @@ class ilObjectSearchFactory
 		return new ilFulltextLMContentSearch($query_parser);
 
 	}
+
+	/*
+	 * get reference of ilFulltextForumSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextForumSearch
+	 */
+	function &_getForumSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextForumSearch.php';
+		
+		return new ilFulltextForumSearch($query_parser);
+	}
+		
 }
 ?>

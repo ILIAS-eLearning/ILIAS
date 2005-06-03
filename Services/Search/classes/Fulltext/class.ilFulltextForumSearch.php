@@ -22,9 +22,9 @@
 */
 
 /**
-* Class ilFulltextMetaDataSearch
+* Class ilFulltextLMContentSearch
 *
-* class for searching meta 
+* class for searching forum entries 
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id
@@ -32,46 +32,65 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
+include_once 'Services/Search/classes/class.ilForumSearch.php';
 
-class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
+class ilFulltextForumSearch extends ilForumSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilFulltextMetaDataSearch(&$qp_obj)
+	function ilFulltextForumSearch(&$qp_obj)
 	{
-		parent::ilMetaDataSearch($qp_obj);
+		parent::ilForumSearch($qp_obj);
 	}
 
-	// Private
-	function __createKeywordWhereCondition()
+	function __createAndCondition()
 	{
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE MATCH(keyword) AGAINST('";
+			$where .= " AND MATCH(content) AGAINST('";
+			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$query .= $word;
-				$query .= '* ';
+				$where .= $prefix;
+				$where .= $word;
+				$where .= '* ';
 			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$where .= "' IN BOOLEAN MODE) ";
 		}
 		else
 		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			if($this->query_parser->getCombination() == 'or')
 			{
-				$query .= $word;
-				$query .= ' ';
+				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+				$where .= " AND MATCH (content) AGAINST(' ";
+				foreach($this->query_parser->getWords() as $word)
+				{
+					$where .= $word;
+					$where .= ' ';
+				}
+				$where .= "') ";
 			}
-			$query .= "') ";
+			else
+			{
+				$where .= " AND ";
+				$counter = 0;
+				foreach($this->query_parser->getWords() as $word)
+				{
+					if($counter++)
+					{
+						$where .= strtoupper($this->query_parser->getCombination());
+					}
+					$where .= " MATCH (content) AGAINST('";
+					$where .= $word;
+					$where .= "') ";
+				}
+			}
 		}
-		return $query;
+		return $where;
 	}		
 }
 ?>

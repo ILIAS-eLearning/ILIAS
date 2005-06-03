@@ -32,8 +32,9 @@
 * @package ilias-search
 *
 */
+include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
-class ilMetaDataSearch
+class ilMetaDataSearch extends ilAbstractSearch
 {
 	var $mode = '';
 
@@ -50,36 +51,7 @@ class ilMetaDataSearch
 	*/
 	function ilMetaDataSearch(&$qp_obj)
 	{
-		global $ilDB;
-		
-		$this->query_parser =& $qp_obj;
-		$this->db =& $ilDB;
-
-		include_once 'Services/Search/classes/class.ilSearchResult.php';
-
-		$this->search_result = new ilSearchResult();
-	}
-
-	/**
-	* set object type to search in
-	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
-	* @access public
-	*/
-	function setFilter($a_filter)
-	{
-		if(is_array($a_filter))
-		{
-			$this->object_types = $a_filter;
-		}
-	}
-	/**
-	* get object type to search in
-	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
-	* @access public
-	*/
-	function getFilter()
-	{
-		return $this->object_types ? $this->object_types : array();
+		parent::ilAbstractSearch($qp_obj);
 	}
 
 	/**
@@ -102,8 +74,8 @@ class ilMetaDataSearch
 	{
 		switch($this->getMode())
 		{
-			case 'keyword_contribute':
-				return $this->__searchKeywordContribute();
+			case 'keyword':
+				return $this->__searchKeywords();
 
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
@@ -132,28 +104,23 @@ class ilMetaDataSearch
 		}
 	}
 
-	function __searchKeywordsOnly()
+	function __searchKeywords()
 	{
-		$where = " WHERE ";
-		$field = " keyword ";
-		foreach($this->query_parser->getWords() as $word)
-		{
-			if($counter++)
-			{
-				$where .= strtoupper($this->query_parser->getCombination());
-			}
-			$where .= $field;
-			$where .= ("LIKE ('%".$word."%')");
-		}
+		$this->setFields(array('keyword'));
 
-		$query = "SELECT * FROM il_meta_keyword".
-			$where.
-			"ORDER BY meta_keyword_id DESC";
+		$in = $this->__createInStatement();
+		$where = $this->__createKeywordWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_keyword ".
+			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
 		}
 
 		return $this->search_result;

@@ -32,13 +32,10 @@
 * @package ilias-search
 *
 */
+include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
-class ilLMContentSearch
+class ilLMContentSearch extends ilAbstractSearch
 {
-	/*
-	 * instance of query parser
-	 */
-	var $query_parser = null;
 
 	/**
 	* Constructor
@@ -48,13 +45,7 @@ class ilLMContentSearch
 	{
 		global $ilDB;
 
-		$this->query_parser =& $query_parser;
-		$this->db =& $ilDB;
-
-
-		include_once 'Services/Search/classes/class.ilSearchResult.php';
-
-		$this->search_result = new ilSearchResult();
+		parent::ilAbstractSearch($query_parser);
 	}
 
 	function &performSearch()

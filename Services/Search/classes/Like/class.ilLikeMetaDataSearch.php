@@ -47,12 +47,8 @@ class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 	}
 
 	// Private
-	function __searchKeywordContribute()
+	function __createKeywordWhereCondition()
 	{
-		// Todo: add contribute
-		$query = "SELECT obj_id,rbac_id,obj_type FROM il_meta_keyword as kw";
-		
-
 		$concat = ' keyword ';
 		$where = " WHERE ";
 		foreach($this->query_parser->getWords() as $word)
@@ -64,14 +60,7 @@ class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
-		$query = $query . $where . $this->__createInStatement();
-			
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
-		}
-		return $this->search_result;
+		return $where;
 	}		
 }
 ?>
