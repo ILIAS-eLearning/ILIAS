@@ -75,7 +75,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 					return false;
 				}
 
-				if (ilObjContentObjectAccess::_getLastAccessedPage($a_user_id,$a_ref_id) <= 0)
+				if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
 					return false;
@@ -124,9 +124,14 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	* @param	int		$a_user_id	user object id
 	* @param	int		$a_ref_id	content object id
 	*/
-	function _getLastAccessedPage($a_user_id,$a_ref_id)
+	function _getLastAccessedPage($a_ref_id,$a_user_id = "")
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
+		
+		if ($a_user_id == "")
+		{
+			$a_user_id = $ilUser->getId();
+		}
 		
 		$q = "SELECT * FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($a_user_id)." AND ".
