@@ -1365,9 +1365,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-		require_once "./survey/classes/class.ilObjSurveyQuestionpool.php";
+		require_once "./survey/classes/class.ilObjSurveyQuestionPool.php";
 		// create new questionpool object
-		$newObj = new ilObjSurveyQuestionpool();
+		$newObj = new ilObjSurveyQuestionPool();
 		// set type of questionpool object
 		$newObj->setType($_GET["new_type"]);
 		// set title of questionpool object to "dummy"
