@@ -288,6 +288,7 @@
 	<subobj name="usr">usr</subobj>
 	<property name="view">view_content</property>
 	<property name="settings">global_settings</property>
+	<property name="export">export</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
