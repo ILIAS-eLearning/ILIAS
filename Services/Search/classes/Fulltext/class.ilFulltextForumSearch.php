@@ -62,7 +62,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (thr_subject) AGAINST(' ";
+			$query .= " AND MATCH (thr_subject) AGAINST(' ";
 			foreach($this->query_parser->getWords() as $word)
 			{
 				$query .= $word;
@@ -89,7 +89,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (pos_message,pos_subject) AGAINST(' ";
+			$query .= " AND MATCH (pos_message,pos_subject) AGAINST(' ";
 			foreach($this->query_parser->getWords() as $word)
 			{
 				$query .= $word;
