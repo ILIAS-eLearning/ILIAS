@@ -1,4 +1,4 @@
-﻿/**
+﻿
 * ILIAS language file
 *
 * @module		language file spanish
@@ -104,9 +104,9 @@ assessment#:#add_area#:#Añadir area###07 Apr 2005 content changed
 assessment#:#add_gap#:#Añadir texto 'Gap'###07 Apr 2005 content changed
 assessment#:#add_imagemap#:#Añadir mapa de imagen###07 Apr 2005 content changed
 assessment#:#add_matching_pair#:#Añadir opcion de "unir parejas"###07 Apr 2005 content changed
-assessment#:#add_questionpool#:#Añadir repositorio de preguntas###07 Apr 2005 content changed
+assessment#:#add_questionpool#:#Añadir banco de preguntas###07 Apr 2005 content changed
 assessment#:#add_solution#:#Añadir solución recomendada###07 Apr 2005 content changed
-assessment#:#all_available_question_pools#:#Todos los depósitos de preguntas disponibles###07 Apr 2005 content changed
+assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles###07 Apr 2005 content changed
 assessment#:#answer#:#Respuesta###07 Apr 2005 content changed
 assessment#:#answer_is_right#:#Su solución es correcta###07 Apr 2005 content changed
 assessment#:#answer_is_wrong#:#Su solución es errónea###07 Apr 2005 content changed
@@ -118,7 +118,6 @@ assessment#:#applet_parameter#:#Parámetro###07 Apr 2005 content changed
 assessment#:#applet_parameters#:#Parámetros del applet###07 Apr 2005 content changed
 assessment#:#apply#:#Aplicar###07 Apr 2005 content changed
 assessment#:#ass_create_export_file#:#Crear fichero de exportación###07 Apr 2005 content changed
-assessment#:#ass_create_export_test_results#:#Exportar<br>Resultados del Test
 assessment#:#ass_export_files#:#Exportar ficheros###07 Apr 2005 content changed
 assessment#:#ass_file#:#Fichero###07 Apr 2005 content changed
 assessment#:#ass_question#:#Pregunta###07 Apr 2005 content changed
@@ -131,10 +130,10 @@ assessment#:#by#:#por###07 Apr 2005 content changed
 assessment#:#cancel_test#:#Cancelar el test###30 Mar 2005 content changed
 assessment#:#cannot_edit_test#:#¡No posee permisos suficientes para editar el test!###07 Apr 2005 content changed
 assessment#:#cannot_execute_test#:#¡No posee permisos suficientes para lanzar el test!###07 Apr 2005 content changed
-assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!###07 Apr 2005 content changed
+assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el banco de preguntas!###07 Apr 2005 content changed
 assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar el test!###07 Apr 2005 content changed
 assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!###07 Apr 2005 content changed
-assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del repositorio de preguntas!###07 Apr 2005 content changed
+assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!###07 Apr 2005 content changed
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!###07 Apr 2005 content changed
 assessment#:#change_solution#:#Modificar solución recomendada###07 Apr 2005 content changed
 assessment#:#checkbox_checked#:#Caja marcada###07 Apr 2005 content changed
@@ -142,11 +141,9 @@ assessment#:#checkbox_unchecked#:#Caja no marcada###07 Apr 2005 content changed
 assessment#:#circle#:#Circulo###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Por favor haga click en el centro del area deseada.###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.###07 Apr 2005 content changed
-assessment#:#clientip#:#IP Cliente
 assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.###07 Apr 2005 content changed
 assessment#:#cloze_text#:#Texto "rellenar el hueco"###07 Apr 2005 content changed
 assessment#:#code#:#Código###07 Apr 2005 content changed
-assessment#:#concatenation#:#Unión
 assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?###07 Apr 2005 content changed
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? ###07 Apr 2005 content changed
 assessment#:#coordinates#:#Coordenadas###07 Apr 2005 content changed
@@ -205,7 +202,7 @@ assessment#:#eval_all_users#:#Evaluación para los nuevos usuarios###07 Apr 2005
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.###07 Apr 2005 content changed
 assessment#:#eval_cloze_result#:#Gap número %s con el valor %s es %s.Usted recibió %s puntos.###07 Apr 2005 content changed
 assessment#:#eval_concatenation#:#Concatenación###07 Apr 2005 content changed
-assessment#:#eval_data#:#Datos de Evaluación###07 Apr 2005 content changed
+assessment#:#eval_data#:#Datos de evaluación###07 Apr 2005 content changed
 assessment#:#eval_found_selected_groups#:#Grupos seleccionados###07 Apr 2005 content changed
 assessment#:#eval_found_selected_users#:#Usuarios seleccionados###07 Apr 2005 content changed
 assessment#:#eval_imagemap_result#:#La selección del mapa de imagen es %s. Usted recibió %s puntos.###07 Apr 2005 content changed
@@ -220,7 +217,6 @@ assessment#:#eval_search_userselection#:#Buscar los usuarios que quieres añadir
 assessment#:#eval_selected_users#:#Evaluación para los usuarios seleccionados###07 Apr 2005 content changed
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.###07 Apr 2005 content changed
 assessment#:#exp_type_excel#:#  Excel  ###07 Apr 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###07 Apr 2005 content changed
 assessment#:#export#:#Exportar###07 Apr 2005 content changed
 assessment#:#failed_official#:#no superado###07 Apr 2005 content changed
@@ -236,9 +232,9 @@ assessment#:#fill_out_all_required_fields_upload_imagemap#:#Por favor rellene to
 assessment#:#fill_out_all_required_fields_upload_material#:#Por favor rellene todos los campos requeridos antes de cargar materiales!###07 Apr 2005 content changed
 assessment#:#filter#:#Filtro###07 Apr 2005 content changed
 assessment#:#filter_all_question_types#:#Todos los tipos de pregunta###07 Apr 2005 content changed
-assessment#:#filter_all_questionpools#:#Todos los repositorios de preguntas###07 Apr 2005 content changed
+assessment#:#filter_all_questionpools#:#Todos los bancos de preguntas###07 Apr 2005 content changed
 assessment#:#filter_show_question_types#:#Mostrar tipos de preguntas###07 Apr 2005 content changed
-assessment#:#filter_show_questionpools#:#Mostrar depósitos de preguntas###07 Apr 2005 content changed
+assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas###07 Apr 2005 content changed
 assessment#:#gap#:#Hueco###07 Apr 2005 content changed
 assessment#:#gap_definition#:#Definición de hueco###07 Apr 2005 content changed
 assessment#:#gap_selection#:#Selección de hueco###07 Apr 2005 content changed
@@ -247,7 +243,6 @@ assessment#:#height#:#Altura###07 Apr 2005 content changed
 assessment#:#imagemap#:#Mapa de imagen###07 Apr 2005 content changed
 assessment#:#imagemap_file#:#Fichero de mapa de imagen###07 Apr 2005 content changed
 assessment#:#imagemap_source#:#Fuente del mapa de imagen###07 Apr 2005 content changed
-assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
 assessment#:#import_question#:#Importar pregunta(s)###07 Apr 2005 content changed
 assessment#:#insert_after#:#Insertar después###07 Apr 2005 content changed
 assessment#:#insert_before#:#Insertar antes###07 Apr 2005 content changed
@@ -292,14 +287,12 @@ assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué
 assessment#:#or#:#o###07 Apr 2005 content changed
 assessment#:#order_pictures#:#Ordenar imágenes###07 Apr 2005 content changed
 assessment#:#order_terms#:#Ordenar términos###07 Apr 2005 content changed
-assessment#:#participants#:#Participantes
 assessment#:#passed_official#:#superado###07 Apr 2005 content changed
 assessment#:#passed_short#:#superado###07 Apr 2005 content changed
 assessment#:#percentage_solved#:#Usted ha solucionado el %.2f por ciento de esta pregunta!###07 Apr 2005 content changed
 assessment#:#percentile#:#Percentil###07 Apr 2005 content changed
 assessment#:#please_select#:#---- por favor seleccione ----###07 Apr 2005 content changed
 assessment#:#points#:#Puntos###07 Apr 2005 content changed
-assessment#:#points_short#:#Pt.
 assessment#:#polygon#:#Polígono###07 Apr 2005 content changed
 assessment#:#polygon_click_next_or_save#:#Por favor haga click en el siguiente punto del polígono o grabe el area. (No es necesario hacer click de nuevo en el punto inicial de este polígono !)###07 Apr 2005 content changed
 assessment#:#polygon_click_next_point#:#Por favor haga click en el siguiente punto del polígono.###07 Apr 2005 content changed
@@ -332,11 +325,11 @@ assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta 
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)###07 Apr 2005 content changed
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'###07 Apr 2005 content changed
 assessment#:#qt_text#:#Pregunta de Respuesta Corta (texto)###07 Apr 2005 content changed
-assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el depósito de preguntas si no quiere guardarla!###07 Apr 2005 content changed
+assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el banco de preguntas si no quiere guardarla!###07 Apr 2005 content changed
 assessment#:#question_short#:#P###07 Apr 2005 content changed
 assessment#:#question_title#:#Titulo de la pregunta###07 Apr 2005 content changed
 assessment#:#question_type#:#Tipo de pregunta###07 Apr 2005 content changed
-assessment#:#questionpool_not_entered#:#Por favor introduzca un nombre para un depósito de preguntas!###07 Apr 2005 content changed
+assessment#:#questionpool_not_entered#:#Por favor introduzca un nombre para un banco de preguntas!###07 Apr 2005 content changed
 assessment#:#questions_from#:#preguntas de###07 Apr 2005 content changed
 assessment#:#radio_set#:#Activar###07 Apr 2005 content changed
 assessment#:#radio_unset#:#Desactivar###07 Apr 2005 content changed
@@ -362,10 +355,6 @@ assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior###07 Apr 2005
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto###07 Apr 2005 content changed
 assessment#:#search_found_groups#:#Grupos encontrados ###07 Apr 2005 content changed
 assessment#:#search_found_users#:#Usuarios encontrados###07 Apr 2005 content changed
-assessment#:#search_groups#:#Buscar Grupos
-assessment#:#search_roles#:#Buscar Roles
-assessment#:#search_term#:#Buscar Término
-assessment#:#search_users#:#Buscar Usuarios
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas###07 Apr 2005 content changed
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---###07 Apr 2005 content changed
 assessment#:#select_gap#:#Seleccionar hueco###07 Apr 2005 content changed
@@ -391,22 +380,16 @@ assessment#:#time_format#:#HH MM SS###07 Apr 2005 content changed
 assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vacíos para el applet antes de añadir un nuevo parámetro!###07 Apr 2005 content changed
 assessment#:#true#:#Verdadero###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!###07 Apr 2005 content changed
-assessment#:#tst_already_submitted#:#El Test ya se terminó y fue enviado.
 assessment#:#tst_already_taken#:#Tests realizados###07 Apr 2005 content changed
-assessment#:#tst_anon_eval#:#Resultados acumulados###13 May 2005 content changed
-assessment#:#tst_answer_sheet#:#Hoja de Respuesta del Test
+assessment#:#tst_anon_eval#:#resultados acumulados
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!###07 Apr 2005 content changed
-assessment#:#tst_confirm_print#:#Presione el botón para imprimir todas las preguntas con puntos y solución. La pregunta siempre aparece al final de la página.
-assessment#:#tst_confirm_submit_answers#:#Por favor confirme el envío de su solución. No será capaz de corregir sus respuestas después de presionar el botón de envío. Por favor use el método común de impresión de su navegador para imprimir la hoja de respuestas.
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
-assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_delete_all_user_data#:#Borrar todos los datos de usuario###07 Apr 2005 content changed
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación (mark step) para eliminarlo###07 Apr 2005 content changed
 assessment#:#tst_delete_results#:#Reiniciar test###07 Apr 2005 content changed
 assessment#:#tst_ending_time#:#Tiempo de finalización###07 Apr 2005 content changed
-assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de depósito de preguntas donde la nueva pregunta será almacenada###07 Apr 2005 content changed
+assessment#:#tst_enter_questionpool#:#Por favor introduzca un nombre de banco de preguntas donde la nueva pregunta será almacenada###07 Apr 2005 content changed
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nadie ha rellenado el test todavía. No existen resultados de test agregados de forma anónima disponibles.###07 Apr 2005 content changed
 assessment#:#tst_eval_show_answer#:#Mostrar respuesta###07 Apr 2005 content changed
 assessment#:#tst_eval_total_finished#:#Total de tests finalizados###07 Apr 2005 content changed
@@ -415,10 +398,8 @@ assessment#:#tst_eval_total_passed#:#Total de tests superados###07 Apr 2005 cont
 assessment#:#tst_eval_total_passed_average_points#:#Puntuación media de tests superados###07 Apr 2005 content changed
 assessment#:#tst_eval_total_persons#:#Número total de personas que realizaron el test###07 Apr 2005 content changed
 assessment#:#tst_eval_user_answer#:#Respuesta del usuario###07 Apr 2005 content changed
-assessment#:#tst_finished#:#Finalizado
 assessment#:#tst_general_properties#:#Propiedades generales###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Generar Excel###07 Apr 2005 content changed
-assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#El test está en uso por %d usuario(s). No tiene permiso para editar o mover las preguntas en este test!###07 Apr 2005 content changed
 assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en el test!###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar  la(s) siguiente(s) pregunta(s) en el test?###07 Apr 2005 content changed
@@ -428,45 +409,36 @@ assessment#:#tst_mark#:#Nota###07 Apr 2005 content changed
 assessment#:#tst_mark_create_new_mark_step#:#Crear nuevo rango de calificación###07 Apr 2005 content changed
 assessment#:#tst_mark_create_simple_mark_schema#:#Crear un esquema simple de calificación###07 Apr 2005 content changed
 assessment#:#tst_mark_minimum_level#:#Nivel Mínimo (en %)###07 Apr 2005 content changed
-assessment#:#tst_mark_official_form#:#Formulario Oficial###07 Apr 2005 content changed
+assessment#:#tst_mark_official_form#:#Forma oficial###07 Apr 2005 content changed
 assessment#:#tst_mark_passed#:#Superado###07 Apr 2005 content changed
-assessment#:#tst_mark_short_form#:#Formulario abreviado###07 Apr 2005 content changed
+assessment#:#tst_mark_short_form#:#Forma abreviada###07 Apr 2005 content changed
 assessment#:#tst_maximum_points#:#Máxima puntuación###07 Apr 2005 content changed
 assessment#:#tst_missing_author#:#No ha introducido el nombre de los autores en las propiedades del test! Por favor introduzca un nombre para el/los autor(es).###07 Apr 2005 content changed
 assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test! Por favor añada al menos un esquema simple de calificación en el test.###07 Apr 2005 content changed
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.###07 Apr 2005 content changed
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.###07 Apr 2005 content changed
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.###07 Apr 2005 content changed
-assessment#:#tst_no_more_available_questionpools#:#No hay más repositorios de preguntas disponibles###07 Apr 2005 content changed
+assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles###07 Apr 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!###07 Apr 2005 content changed
-assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un repositorio de preguntas para este test aleatorio! Por favor seleccione al menos un repositorio.###07 Apr 2005 content changed
+assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un banco de preguntas para este test aleatorio! Por favor seleccione al menos un banco .###07 Apr 2005 content changed
 assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita 'crear nuevas preguntas' o 'explorar en busca de preguntas'.###07 Apr 2005 content changed
-assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los repositorios para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un repositorio dado###07 Apr 2005 content changed
-assessment#:#tst_no_solution_available#:#La pregunta de respuesta corta no tiene una solución
+assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los bancos para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un banco dado###07 Apr 2005 content changed
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!###07 Apr 2005 content changed
-assessment#:#tst_no_tries#:#-none-###07 Apr 2005 content changed
+assessment#:#tst_no_tries#:#ninguno###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries#:#Número máximo de intentos###07 Apr 2005 content changed
 assessment#:#tst_nr_of_tries_of_user#:#Intentos ya completados###07 Apr 2005 content changed
-assessment#:#tst_participating_users#:#Usuarios participantes
 assessment#:#tst_percent_solved#:#Porcentaje resuelto###07 Apr 2005 content changed
-assessment#:#tst_print#:#Vista de Impresión de Test
-assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso###07 Apr 2005 content changed
-assessment#:#tst_qst_order#:#Orden
-assessment#:#tst_qst_resetsolved#:#Reiniciar
-assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
-assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Use los -bulbs- para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden###07 Apr 2005 content changed
 assessment#:#tst_question_offer#:#Acepta este -sample- or quiere otro?###07 Apr 2005 content changed
-assessment#:#tst_question_solved_state#:#Resuelta
 assessment#:#tst_question_title#:#Título###07 Apr 2005 content changed
 assessment#:#tst_question_type#:#Tipo de pregunta###07 Apr 2005 content changed
 assessment#:#tst_questions_inserted#:#Pregunta(s) insertada!###07 Apr 2005 content changed
 assessment#:#tst_questions_removed#:#Pregunta(s) eliminada!###07 Apr 2005 content changed
 assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?###07 Apr 2005 content changed
-assessment#:#tst_random_qpl_unselected#:#Hay al menos un repositorio no seleccionado! No necesita añadir un nuevo repositorio de preguntas###07 Apr 2005 content changed
-assessment#:#tst_random_questionpools#:#Repositorios de preguntas origen###07 Apr 2005 content changed
-assessment#:#tst_random_select_questionpool#:#Seleccione el depósito de preguntas desde el que desea elegir preguntas###07 Apr 2005 content changed
+assessment#:#tst_random_qpl_unselected#:#Hay al menos un banco no seleccionado! No necesita añadir un nuevo banco de preguntas###07 Apr 2005 content changed
+assessment#:#tst_random_questionpools#:#Bancos de preguntas origen###07 Apr 2005 content changed
+assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas###07 Apr 2005 content changed
 assessment#:#tst_random_test#:#Test aleatorio###07 Apr 2005 content changed
 assessment#:#tst_random_test_description#:#Si se activa, las preguntas del test serán generadas de modo aleatorio###07 Apr 2005 content changed
 assessment#:#tst_reached_points#:#Puntos conseguidos###07 Apr 2005 content changed
@@ -482,18 +454,16 @@ assessment#:#tst_score_reporting#:#Informe de puntuación###07 Apr 2005 content 
 assessment#:#tst_score_reporting_date#:#Fecha del informe de puntuación###07 Apr 2005 content changed
 assessment#:#tst_score_type#:#Tipo de informe de puntuación###07 Apr 2005 content changed
 assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un fichero para importar!###07 Apr 2005 content changed
-assessment#:#tst_select_questionpool#:#Por favor seleccione un depósito de preguntas para almacenar la pregunta creada###07 Apr 2005 content changed
-assessment#:#tst_select_questionpools#:#Por favor seleccione un repositorio de preguntas para almacenar las preguntas importadas###07 Apr 2005 content changed
-assessment#:#tst_select_random_questions#:#Seleccione los repositorios y la cantidad de preguntas para el test aleatorio###07 Apr 2005 content changed
+assessment#:#tst_select_questionpool#:#Por favor seleccione un banco de preguntas para almacenar la pregunta creada###07 Apr 2005 content changed
+assessment#:#tst_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas###07 Apr 2005 content changed
+assessment#:#tst_select_random_questions#:#Seleccione los bancos y la cantidad de preguntas para el test aleatorio###07 Apr 2005 content changed
 assessment#:#tst_select_tsts#:#Por favor seleccione un test para duplicar###07 Apr 2005 content changed
 assessment#:#tst_sequence#:#Secuencia###07 Apr 2005 content changed
 assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada###07 Apr 2005 content changed
 assessment#:#tst_sequence_postpone#:#El estudiante puede posponer una pregunta para el final del test###07 Apr 2005 content changed
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia###07 Apr 2005 content changed
 assessment#:#tst_session_settings#:#Configuración de Sesión###07 Apr 2005 content changed
-assessment#:#tst_show_answer_sheet#:#mostrar respuestas
 assessment#:#tst_show_results#:#Mostrar resultados del test###07 Apr 2005 content changed
-assessment#:#tst_signature#:#Firma
 assessment#:#tst_start_test#:#Comenzar el Test###07 Apr 2005 content changed
 assessment#:#tst_starting_time#:#Tiempo de Comienzo###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Todos los usuarios###07 Apr 2005 content changed
@@ -517,7 +487,7 @@ assessment#:#tst_stat_result_timeofwork#:#Tiempo de trabajo###07 Apr 2005 conten
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes###07 Apr 2005 content changed
 assessment#:#tst_stat_selected_users#:#Usuarios seleccionados###07 Apr 2005 content changed
 assessment#:#tst_stat_users_intro#:#Mostrar evaluación estadística para###07 Apr 2005 content changed
-assessment#:#tst_statistical_evaluation#:#Herramienta de evaluación estadística###07 Apr 2005 content changed
+assessment#:#tst_statistical_evaluation#:#herramienta de evaluación estadística###07 Apr 2005 content changed
 assessment#:#tst_status_completed#:#completado###07 Apr 2005 content changed
 assessment#:#tst_status_completed_more_tries_possible#:#(completado)###07 Apr 2005 content changed
 assessment#:#tst_status_missing#:#Hay elementos requeridos sin rellenar en este test!###07 Apr 2005 content changed
@@ -525,33 +495,24 @@ assessment#:#tst_status_missing_elements#:#Los siguientes elementos no están:##
 assessment#:#tst_status_not_entered#:#no introducido###07 Apr 2005 content changed
 assessment#:#tst_status_ok#:#El estado del test es OK. No hay elementos sin rellenar.###07 Apr 2005 content changed
 assessment#:#tst_status_progress#:#en progreso###07 Apr 2005 content changed
-assessment#:#tst_submit_answers#:#Si, quiero enviar mis respuestas
-assessment#:#tst_submit_answers_txt#:#Puede finalizar el test enviando sus respuestas.
-assessment#:#tst_submit_results#:#Sí, quiero confirmar el envío
-assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento###07 Apr 2005 content changed
 assessment#:#tst_total_questions#:#Cantidad total de preguntas###07 Apr 2005 content changed
-assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los repositorios serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada repositorio seleccionado!###07 Apr 2005 content changed
-assessment#:#tst_tst_date#:#Fecha del Test
+assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!###07 Apr 2005 content changed
 assessment#:#tst_type#:#Tipo de Test###07 Apr 2005 content changed
 assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests procesados anteriormente han sido eliminados###07 Apr 2005 content changed
 assessment#:#tst_type_comment#:#Aviso: Modificar el tipo de test de un test en ejecución eliminará todos los tests procesados anteriormente!###07 Apr 2005 content changed
 assessment#:#tst_types#:#Tipos de Test###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'###07 Apr 2005 content changed
-assessment#:#tst_your_answers#:#Estas son sus respuestas para las siguientes preguntas.
 assessment#:#tst_your_ects_mark_is#:#Su calificación ECTS es###07 Apr 2005 content changed
 assessment#:#tst_your_mark_is#:#Su calificación es###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Test de evaluación###07 Apr 2005 content changed
 assessment#:#tt_navigation_controlling#:#Test de control de navegación de estudiantes###07 Apr 2005 content changed
-assessment#:#tt_online_exam#:#Examen online
 assessment#:#tt_self_assessment#:#Test de autoevaluación###07 Apr 2005 content changed
 assessment#:#unlimited#:#ilimitado###07 Apr 2005 content changed
 assessment#:#unlock#:#Desbloquear###07 Apr 2005 content changed
-assessment#:#unlock_question#:#Esta pregunta está en uso de al menos un test y hay %s resultados enviados. Si elige desbloquear la pregunta el  resultado de test al completo de los usuarios afectados será borrado después de grabar esta pregunta. Si quiere usar una versión modificada de esta pregunta pero no quiere eliminar los resultados de los usuarios, puede duplicar la pregunta en el depósito de preguntas y modificar esa nueva versión.###07 Apr 2005 content changed
+assessment#:#unlock_question#:#Esta pregunta está en uso de al menos un test y hay %s resultados enviados. Si elige desbloquear la pregunta el  resultado de test al completo de los usuarios afectados será borrado después de grabar esta pregunta. Si quiere usar una versión modificada de esta pregunta pero no quiere eliminar los resultados de los usuarios, puede duplicar la pregunta en el banco de preguntas y modificar esa nueva versión.###07 Apr 2005 content changed
 assessment#:#upload_imagemap#:#Cargar un mapa de imagen###07 Apr 2005 content changed
 assessment#:#uploaded_material#:#Material Cargado###07 Apr 2005 content changed
-assessment#:#user_not_invited#:#No ha sido invitado para realizar este examen.
-assessment#:#user_wrong_clientip#:#No tiene la dirección IP correcta para usar este test.
 assessment#:#warning_question_not_complete#:#La pregunta no está completa!###07 Apr 2005 content changed
 assessment#:#warning_test_not_complete#:#El test no está completo!###07 Apr 2005 content changed
 assessment#:#when#:#cuando###07 Apr 2005 content changed
@@ -559,7 +520,7 @@ assessment#:#width#:#Anchura###07 Apr 2005 content changed
 assessment#:#with_order#:#con orden###07 Apr 2005 content changed
 assessment#:#working_time#:#Tiempo de Trabajo###07 Apr 2005 content changed
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles###07 Apr 2005 content changed
-bibitem#:#bibitem_add#:#Añadir###07 Apr 2005 content changed
+bibitem#:#bibitem_add#:#añadir###07 Apr 2005 content changed
 bibitem#:#bibitem_author#:#Autor###07 Apr 2005 content changed
 bibitem#:#bibitem_av#:#AV###07 Apr 2005 content changed
 bibitem#:#bibitem_bibitem#:#Información Bibliográfica###07 Apr 2005 content changed
@@ -720,20 +681,20 @@ common#:#actions#:#acciones###07 Apr 2005 content changed
 common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests###07 Apr 2005 content changed
 common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)###07 Apr 2005 content changed
 common#:#activate_tracking#:#Activar Seguimiento###07 Apr 2005 content changed
-common#:#activation#:#Activación###07 Apr 2005 content changed
+common#:#activation#:#activación###07 Apr 2005 content changed
 common#:#active#:#Activo###07 Apr 2005 content changed
 common#:#active_roles#:#Roles activos###07 Apr 2005 content changed
-common#:#add#:#Añadir###07 Apr 2005 content changed
+common#:#add#:#añadir###07 Apr 2005 content changed
 common#:#add_author#:#añadir author###07 Apr 2005 content changed
 common#:#add_condition#:#Crear nueva asociación###07 Apr 2005 content changed
-common#:#add_member#:#añadir miembro###07 Apr 2005 content changed
+common#:#add_member#:#Añadir miembro###07 Apr 2005 content changed
 common#:#add_members#:#Añadir Miembros###07 Apr 2005 content changed
 common#:#add_translation#:#Añadir Traducción###07 Apr 2005 content changed
 common#:#add_user#:#Añadir usuario local###07 Apr 2005 content changed
 common#:#added_new_condition#:#Crear nueva condición.###07 Apr 2005 content changed
 common#:#adm_create_tax#:#Crear taxonomía###07 Apr 2005 content changed
 common#:#adm_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#adm_read#:#Acceso de Lectura a la Configuración Básica del sistema###07 Apr 2005 content changed
+common#:#adm_read#:#Acceso de lectura a la configuración básica del sistema###07 Apr 2005 content changed
 common#:#adm_visible#:#Configuración del sistema visible###07 Apr 2005 content changed
 common#:#adm_write#:#Editar Configuración Básica del sistema###07 Apr 2005 content changed
 common#:#administrate#:#administrar###07 Apr 2005 content changed
@@ -779,7 +740,7 @@ common#:#approve_date#:#Admitido###07 Apr 2005 content changed
 common#:#approve_recipient#:#Login ID del gestor de admisiones###07 Apr 2005 content changed
 common#:#archive#:#archivo###07 Apr 2005 content changed
 common#:#are_you_sure#:#Está seguro?###07 Apr 2005 content changed
-common#:#articels_unread#:#Artículos no leídos:###07 Apr 2005 content changed
+common#:#articels_unread#:#Mensajes no leídos:###07 Apr 2005 content changed
 common#:#as_of#:#as of###07 Apr 2005 content changed
 common#:#assessment_log#:#Crear un informe de la herramienta Test para un período específico###07 Apr 2005 content changed
 common#:#assessment_log_datetime#:#Fecha/hora###07 Apr 2005 content changed
@@ -792,7 +753,6 @@ common#:#assessment_log_text#:#Mensaje de Log###07 Apr 2005 content changed
 common#:#assessment_log_user_answer#:#El usuario respondió una pregunta###07 Apr 2005 content changed
 common#:#assessment_log_user_answers#:#Mostrar acciones de usuario###07 Apr 2005 content changed
 common#:#assessment_settings#:#Configuración de la herramienta de Test###07 Apr 2005 content changed
-common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#assf_read#:#Acceso a la administración de Tests###07 Apr 2005 content changed
 common#:#assf_visible#:#La administración de Test es visible###07 Apr 2005 content changed
@@ -826,9 +786,6 @@ common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación
 common#:#auth_script#:#Personalizado###07 Apr 2005 content changed
 common#:#auth_script_desc#:#Autenticar usuarios mediante un script externo###07 Apr 2005 content changed
 common#:#auth_select#:#Seleccionar modo de autenticación###07 Apr 2005 content changed
-common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
-common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_visible#:#Configuración de autenticación visible###07 Apr 2005 content changed
 common#:#auth_write#:#Editar Configuración de autenticación###07 Apr 2005 content changed
 common#:#author#:#autor###07 Apr 2005 content changed
@@ -844,15 +801,15 @@ common#:#benchmark#:#Benchmark###07 Apr 2005 content changed
 common#:#benchmark_settings#:#Configuración del Benchmark ###07 Apr 2005 content changed
 common#:#benchmarks#:#Benchmarks###07 Apr 2005 content changed
 common#:#bib_data#:#Datos Bibliográficos###07 Apr 2005 content changed
-common#:#bm#:#Marcadores###07 Apr 2005 content changed
-common#:#bmf#:#Carpeta de Marcadores###07 Apr 2005 content changed
-common#:#bookmark_edit#:#Editar Marcador###07 Apr 2005 content changed
-common#:#bookmark_folder_edit#:#Editar Carpeta de Marcadores###07 Apr 2005 content changed
-common#:#bookmark_folder_new#:#Nueva Carpeta de Marcadores###07 Apr 2005 content changed
-common#:#bookmark_new#:#Nuevo Marcador###07 Apr 2005 content changed
+common#:#bm#:#Favoritos###07 Apr 2005 content changed
+common#:#bmf#:#Carpeta de favoritos###07 Apr 2005 content changed
+common#:#bookmark_edit#:#Editar favorito###07 Apr 2005 content changed
+common#:#bookmark_folder_edit#:#Editar carpeta de favoritos###07 Apr 2005 content changed
+common#:#bookmark_folder_new#:#Nueva carpeta de favoritos###07 Apr 2005 content changed
+common#:#bookmark_new#:#Nuevo favorito###07 Apr 2005 content changed
 common#:#bookmark_target#:#URL###07 Apr 2005 content changed
-common#:#bookmarks#:#Marcadores###07 Apr 2005 content changed
-common#:#bookmarks_of#:#Marcadores de###07 Apr 2005 content changed
+common#:#bookmarks#:#Favoritos###07 Apr 2005 content changed
+common#:#bookmarks_of#:#Favoritos de###07 Apr 2005 content changed
 common#:#btn_remove_system#:#eliminar del sistema###07 Apr 2005 content changed
 common#:#btn_undelete#:#recuperaar###07 Apr 2005 content changed
 common#:#by#:#por###07 Apr 2005 content changed
@@ -886,7 +843,7 @@ common#:#cat_create_lm#:#Crear Módulo de aprendizaje###07 Apr 2005 content chan
 common#:#cat_create_mep#:#Crear Depósito Multimedia###07 Apr 2005 content changed
 common#:#cat_create_qpl#:#Crear Depósito de Preguntas###07 Apr 2005 content changed
 common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)###07 Apr 2005 content changed
+common#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)###07 Apr 2005 content changed
 common#:#cat_create_svy#:#Crear Encuesta###07 Apr 2005 content changed
 common#:#cat_create_tst#:#Crear Test###07 Apr 2005 content changed
 common#:#cat_create_url#:#Crear URL###07 Apr 2005 content changed
@@ -895,11 +852,11 @@ common#:#cat_delete#:#Eliminar Categoría###07 Apr 2005 content changed
 common#:#cat_edit#:#Editar Categoría###07 Apr 2005 content changed
 common#:#cat_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#cat_new#:#Nueva Categoría###07 Apr 2005 content changed
-common#:#cat_read#:#Acceso de Lectura a Categoría###07 Apr 2005 content changed
+common#:#cat_read#:#Acceso de lectura a Categoría###07 Apr 2005 content changed
 common#:#cat_read_users#:#Acceso de lectura a las cuentas de usuario locales###07 Apr 2005 content changed
 common#:#cat_visible#:#La Categoría es visible###07 Apr 2005 content changed
 common#:#cat_write#:#Editar Categoría###07 Apr 2005 content changed
-common#:#categories#:#categorías###07 Apr 2005 content changed
+common#:#categories#:#Categorías###07 Apr 2005 content changed
 common#:#categories_imported#:#Importación de Categorías completada.###07 Apr 2005 content changed
 common#:#cc#:#cc###07 Apr 2005 content changed
 common#:#cen#:#Evento Centra###07 Apr 2005 content changed
@@ -909,12 +866,12 @@ common#:#cen_delete#:#Eliminar Evento Centra###07 Apr 2005 content changed
 common#:#cen_edit#:#Editar Evento Centra###07 Apr 2005 content changed
 common#:#cen_new#:#Nuevo Evento Centra###07 Apr 2005 content changed
 common#:#cen_save#:#Guardar Evento Centra###07 Apr 2005 content changed
-common#:#censorship#:#-censura-###07 Apr 2005 content changed
+common#:#censorship#:#censurar###07 Apr 2005 content changed
 common#:#centra_account#:#Cuenta de Administrador Centra###07 Apr 2005 content changed
 common#:#centra_rooms#:#Habitaciones Centra###07 Apr 2005 content changed
 common#:#centra_server#:#Servidor Centra###07 Apr 2005 content changed
 common#:#chac_edit_permission#:#Editar permisos###07 Apr 2005 content changed
-common#:#chac_read#:#Acceso de Lectura a la Configuración de Chat###07 Apr 2005 content changed
+common#:#chac_read#:#Acceso de lectura a la Configuración de Chat###07 Apr 2005 content changed
 common#:#chac_visible#:#Configuración del Chat Visible###07 Apr 2005 content changed
 common#:#chac_write#:#Editar Configuración del Chat###07 Apr 2005 content changed
 common#:#change#:#modificar###07 Apr 2005 content changed
@@ -934,7 +891,7 @@ common#:#chat_add#:#Añadir Chat###07 Apr 2005 content changed
 common#:#chat_delete#:#Eliminar Chat###07 Apr 2005 content changed
 common#:#chat_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#chat_new#:#Nuevo Chat###07 Apr 2005 content changed
-common#:#chat_read#:#Acceso de Lectura/Escritura al Chat###07 Apr 2005 content changed
+common#:#chat_read#:#Acceso de lectura/escritura al Chat###07 Apr 2005 content changed
 common#:#chat_visible#:#El Chat está visible###07 Apr 2005 content changed
 common#:#chat_write#:#Editar Chat###07 Apr 2005 content changed
 common#:#check#:#comprobar###07 Apr 2005 content changed
@@ -958,7 +915,7 @@ common#:#city#:#Ciudad###07 Apr 2005 content changed
 common#:#cleaned_file#:#El fichero ha sido limpiado.###07 Apr 2005 content changed
 common#:#cleaning_failed#:#La limpieza falló.###07 Apr 2005 content changed
 common#:#clear#:#Borrar
-common#:#clear_clipboard#:#Vaciar portapapeles.###07 Apr 2005 content changed
+common#:#clear_clipboard#:#Vaciar portapapeles###07 Apr 2005 content changed
 common#:#client ip#:#Ip Cliente###07 Apr 2005 content changed
 common#:#client#:#Cliente###07 Apr 2005 content changed
 common#:#client_id#:#ID de Cliente###07 Apr 2005 content changed
@@ -989,7 +946,6 @@ common#:#container#:#Contenedor###07 Apr 2005 content changed
 common#:#content_styles#:#Estilos de Contenido###07 Apr 2005 content changed
 common#:#context#:#contexto###07 Apr 2005 content changed
 common#:#continue_work#:#Continuar###07 Apr 2005 content changed
-common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Objeto copiado###07 Apr 2005 content changed
 common#:#copy#:#copiar###07 Apr 2005 content changed
 common#:#copyPage#:#Copiar###07 Apr 2005 content changed
@@ -1028,10 +984,10 @@ common#:#crs_create_grp#:#Crear Grupo###07 Apr 2005 content changed
 common#:#crs_create_hlm#:#Crear Módulo de aprendizaje HACP###07 Apr 2005 content changed
 common#:#crs_create_htlm#:#Crear Módulo de Aprendizaje HTML###07 Apr 2005 content changed
 common#:#crs_create_lm#:#Crear Módulo de Aprendizaje###07 Apr 2005 content changed
-common#:#crs_create_mep#:#Crear Repositorio Multimedia###07 Apr 2005 content changed
-common#:#crs_create_qpl#:#Crear Repositorio de Preguntas para Test###07 Apr 2005 content changed
+common#:#crs_create_mep#:#Crear Banco Multimedia###07 Apr 2005 content changed
+common#:#crs_create_qpl#:#Crear Banco de Preguntas para Test###07 Apr 2005 content changed
 common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#crs_create_spl#:#Crear Repositorio de Preguntas para Encuesta###07 Apr 2005 content changed
+common#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta###07 Apr 2005 content changed
 common#:#crs_create_svy#:#Crear Encuesta###07 Apr 2005 content changed
 common#:#crs_create_tst#:#Crear Test###07 Apr 2005 content changed
 common#:#crs_create_webr#:#Crear nuevo Recurso Web###07 Apr 2005 content changed
@@ -1045,7 +1001,7 @@ common#:#crs_member_not_passed#:#No superado###07 Apr 2005 content changed
 common#:#crs_member_passed#:#Superado###07 Apr 2005 content changed
 common#:#crs_new#:#Nuevo Curso###07 Apr 2005 content changed
 common#:#crs_no_content#:#Sin contenido###07 Apr 2005 content changed
-common#:#crs_read#:#Acceso de Lectura al Curso###07 Apr 2005 content changed
+common#:#crs_read#:#Acceso de lectura al Curso###07 Apr 2005 content changed
 common#:#crs_status_blocked#:#[Acceso denegado]###07 Apr 2005 content changed
 common#:#crs_status_pending#:#[Esperando ser registrado]###07 Apr 2005 content changed
 common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)###07 Apr 2005 content changed
@@ -1100,10 +1056,10 @@ common#:#delete_selected#:#eliminar seleccionados###07 Apr 2005 content changed
 common#:#delete_tr_data#:#Eliminar datos de seguimiento###07 Apr 2005 content changed
 common#:#deleted#:#borrados###07 Apr 2005 content changed
 common#:#deleted_user#:#El usuario ha sido eliminado###07 Apr 2005 content changed
-common#:#deliver#:#Enviar ejercicio.###07 Apr 2005 content changed
+common#:#deliver#:#Enviar ejercicio###07 Apr 2005 content changed
 common#:#department#:#Departamento
-common#:#desc#:#descripción###07 Apr 2005 content changed
-common#:#description#:#descripción###07 Apr 2005 content changed
+common#:#desc#:#Descripción###07 Apr 2005 content changed
+common#:#description#:#Descripción###07 Apr 2005 content changed
 common#:#desired_password#:#contraseña deseada###07 Apr 2005 content changed
 common#:#desktop_items#:#Items del Escritorio Personal###07 Apr 2005 content changed
 common#:#details#:#Detalles###07 Apr 2005 content changed
@@ -1121,7 +1077,7 @@ common#:#edit_content#:#Editar contenido###07 Apr 2005 content changed
 common#:#edit_data#:#editar datos###07 Apr 2005 content changed
 common#:#edit_operations#:#editar operaciones###07 Apr 2005 content changed
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto###07 Apr 2005 content changed
-common#:#edit_properties#:#Editar Propiedades###07 Apr 2005 content changed
+common#:#edit_properties#:#Editar propiedades###07 Apr 2005 content changed
 common#:#edit_roleassignment#:#Editar asignación de rol###07 Apr 2005 content changed
 common#:#edit_stylesheet#:#Editar hoja de estilos###07 Apr 2005 content changed
 common#:#edited_at#:#editado en###07 Apr 2005 content changed
@@ -1150,7 +1106,6 @@ common#:#err_ldap_auth_failed#:#Usuario no autenticado en el servidor LDAP! Por 
 common#:#err_ldap_connect_failed#:#Falló la conexión al servidor LDAP! Por favor compruebe su configuración###07 Apr 2005 content changed
 common#:#err_ldap_search_failed#:#Falló la conexión al servidor LDAP! Por favor compruebe BaseDN y Search base###07 Apr 2005 content changed
 common#:#err_ldap_user_not_found#:#Usuario no encontrado en servidor LDAP! Por favor compruebe los atributos para login name y Objectclass###07 Apr 2005 content changed
-common#:#err_no_cookies#:#Please enable session cookies in your browser!###13 May 2005 new variable
 common#:#err_no_langfile_found#:#No se encontró el fichero de idioma!###07 Apr 2005 content changed
 common#:#err_no_param#:#Falta el parámetro!###07 Apr 2005 content changed
 common#:#err_over_3_param#:#Más de 3 parámetros!###07 Apr 2005 content changed
@@ -1175,7 +1130,7 @@ common#:#exc_delete#:#Eliminar Actividad###07 Apr 2005 content changed
 common#:#exc_edit#:#Nuevo actividad creada###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Editar actividad###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#exc_edit_until#:#Editar hasta###07 Apr 2005 content changed
+common#:#exc_edit_until#:#Enviar hasta###07 Apr 2005 content changed
 common#:#exc_files#:#Ficheros###07 Apr 2005 content changed
 common#:#exc_files_returned#:#Ficheros entregados
 common#:#exc_groups#:#Grupos###07 Apr 2005 content changed
@@ -1192,11 +1147,11 @@ common#:#exc_roles#:#Roles###07 Apr 2005 content changed
 common#:#exc_save_changes#:#Guardar###07 Apr 2005 content changed
 common#:#exc_search_for#:#Buscar###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#Por favor seleccione exactamente un fichero###07 Apr 2005 content changed
-common#:#exc_send_exercise#:#Envíar actividad###07 Apr 2005 content changed
+common#:#exc_send_exercise#:#Enviar actividad###07 Apr 2005 content changed
 common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados###07 Apr 2005 content changed
 common#:#exc_status_returned#:#entregado
 common#:#exc_status_saved#:#Actividad Actualizada###07 Apr 2005 content changed
-common#:#exc_status_solved#:#Resuelto###07 Apr 2005 content changed
+common#:#exc_status_solved#:#corregido###07 Apr 2005 content changed
 common#:#exc_upload_error#:#Error cargando fichero###07 Apr 2005 content changed
 common#:#exc_users#:#Usuarios###07 Apr 2005 content changed
 common#:#exc_visible#:#Actividad es visible###07 Apr 2005 content changed
@@ -1212,7 +1167,7 @@ common#:#faq_exercise#:#actividad FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax###07 Apr 2005 content changed
 common#:#feedback#:#feedback###07 Apr 2005 content changed
 common#:#feedback_recipient#:#destinatario feedback###07 Apr 2005 content changed
-common#:#file#:#fichero###07 Apr 2005 content changed
+common#:#file#:#Fichero###07 Apr 2005 content changed
 common#:#file_a#:#un Fichero###07 Apr 2005 content changed
 common#:#file_add#:#Cargar fichero###07 Apr 2005 content changed
 common#:#file_added#:#Fichero cargado###07 Apr 2005 content changed
@@ -1229,7 +1184,7 @@ common#:#file_valid#:#Fichero válido###07 Apr 2005 content changed
 common#:#file_version#:#version facilitada en el fichero###07 Apr 2005 content changed
 common#:#file_visible#:#El fichero es visible###07 Apr 2005 content changed
 common#:#file_write#:#Editar fichero###07 Apr 2005 content changed
-common#:#filename#:#Nombre de Fichero###07 Apr 2005 content changed
+common#:#filename#:#Nombre de fichero###07 Apr 2005 content changed
 common#:#files#:#Ficheros###07 Apr 2005 content changed
 common#:#files_location#:#ubicación de los ficheros###07 Apr 2005 content changed
 common#:#fill_out_all_required_fields#:#por favor rellene todos los campos requeridos###07 Apr 2005 content changed
@@ -1251,10 +1206,10 @@ common#:#fold_create_glo#:#Crear Glosario###07 Apr 2005 content changed
 common#:#fold_create_hlm#:#Create Módulo de aprendizaje HACP###07 Apr 2005 content changed
 common#:#fold_create_htlm#:#Create Módulo de aprendizaje HTML###07 Apr 2005 content changed
 common#:#fold_create_lm#:#Crear Módulo de aprendizaje###07 Apr 2005 content changed
-common#:#fold_create_mep#:#Crear Repositorio Multimedia###07 Apr 2005 content changed
-common#:#fold_create_qpl#:#Crear Repositorio de Preguntas para Test###07 Apr 2005 content changed
+common#:#fold_create_mep#:#Crear Banco Multimedia###07 Apr 2005 content changed
+common#:#fold_create_qpl#:#Crear Banco de Preguntas para Test###07 Apr 2005 content changed
 common#:#fold_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#fold_create_spl#:#Crear Repositorio de Preguntas para Encuesta###07 Apr 2005 content changed
+common#:#fold_create_spl#:#Crear Banco de Preguntas para Encuesta###07 Apr 2005 content changed
 common#:#fold_create_svy#:#Crear Encuesta###07 Apr 2005 content changed
 common#:#fold_create_tst#:#Crear Test###07 Apr 2005 content changed
 common#:#fold_delete#:#Borrar Carpeta###07 Apr 2005 content changed
@@ -1269,7 +1224,6 @@ common#:#folders#:#carpeta###07 Apr 2005 content changed
 common#:#force_accept_usr_agreement#:#Tiene que aceptar el acuerdo de usuario!###07 Apr 2005 content changed
 common#:#forename#:#nombre ###07 Apr 2005 content changed
 common#:#forgot_password#:#¿Olvidó su contraseña?###07 Apr 2005 content changed
-common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#por favor complete estos campos:###07 Apr 2005 content changed
 common#:#forum#:#Foro###07 Apr 2005 content changed
 common#:#forum_import#:#Importación de foro###07 Apr 2005 content changed
@@ -1278,17 +1232,12 @@ common#:#forum_notification#:#Notificación###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Notificarme cuando se envíe una respuesta###07 Apr 2005 content changed
 common#:#forum_post_replied#:#Tu envío al foro ha sido respondido###07 Apr 2005 content changed
 common#:#forums#:#Foros###07 Apr 2005 content changed
-common#:#forums_articles#:#Articles###13 May 2005 new variable
-common#:#forums_last_post#:#Last Article###13 May 2005 new variable
-common#:#forums_moderators#:#Moderators###13 May 2005 new variable
-common#:#forums_new_articles#:#New articles###13 May 2005 new variable
 common#:#forums_overview#:#Resumen de Foros###07 Apr 2005 content changed
-common#:#forums_threads#:#Topics###13 May 2005 new variable
-common#:#frm#:#Foro de Debate###07 Apr 2005 content changed
+common#:#frm#:#Foro de debate###07 Apr 2005 content changed
 common#:#frm_a#:#un Foro###07 Apr 2005 content changed
 common#:#frm_add#:#Añadir Foro###07 Apr 2005 content changed
 common#:#frm_added#:#Foro añadido###07 Apr 2005 content changed
-common#:#frm_article#:#article###13 May 2005 new variable
+common#:#frm_article#:#mensaje
 common#:#frm_create#:#Crear Foro###07 Apr 2005 content changed
 common#:#frm_delete#:#Eliminar Foro###07 Apr 2005 content changed
 common#:#frm_delete_post#:#Eliminar un envío###07 Apr 2005 content changed
@@ -1321,7 +1270,7 @@ common#:#glo_edit_permission#:#Modificar configuración de permisos###07 Apr 200
 common#:#glo_join#:#Suscribir al Glosario###07 Apr 2005 content changed
 common#:#glo_leave#:#Darse de baja en el Glosario###07 Apr 2005 content changed
 common#:#glo_new#:#Nuevo Glosario###07 Apr 2005 content changed
-common#:#glo_read#:#Acceso de Lectura al Glosario###07 Apr 2005 content changed
+common#:#glo_read#:#Acceso de lectura al Glosario###07 Apr 2005 content changed
 common#:#glo_upload_file#:#Fichero###07 Apr 2005 content changed
 common#:#glo_visible#:#El Glosario es visible###07 Apr 2005 content changed
 common#:#glo_write#:#Editar Glosario###07 Apr 2005 content changed
@@ -1389,9 +1338,9 @@ common#:#grp_create_hlm#:#Create Módulo de aprendizaje HACP###07 Apr 2005 conte
 common#:#grp_create_htlm#:#Create Módulo de aprendizaje HTML###07 Apr 2005 content changed
 common#:#grp_create_lm#:#Crear Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#grp_create_mep#:#Crear Depósito Multimedia###07 Apr 2005 content changed
-common#:#grp_create_qpl#:#Crear Repositorio de Preguntas para Test###07 Apr 2005 content changed
+common#:#grp_create_qpl#:#Crear Banco de Preguntas para Test###07 Apr 2005 content changed
 common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#grp_create_spl#:#Crear Repositorio de Preguntas para Encuesta###07 Apr 2005 content changed
+common#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta###07 Apr 2005 content changed
 common#:#grp_create_svy#:#Crear Encuesta###07 Apr 2005 content changed
 common#:#grp_create_tst#:#Crear Test###07 Apr 2005 content changed
 common#:#grp_create_webr#:#Crear nuevo Recurso Web###07 Apr 2005 content changed
@@ -1425,7 +1374,7 @@ common#:#grp_no_groups_selected#:#No se ha seleccionado un grupo###07 Apr 2005 c
 common#:#grp_no_results_found#:#No se han encontrado resultados###07 Apr 2005 content changed
 common#:#grp_no_roles_selected#:#No hay roles seleccionados###07 Apr 2005 content changed
 common#:#grp_options#:#Opciones###07 Apr 2005 content changed
-common#:#grp_read#:#Acceso de Lectura al Grupo###07 Apr 2005 content changed
+common#:#grp_read#:#Acceso de lectura al Grupo###07 Apr 2005 content changed
 common#:#grp_register#:#Registrar###07 Apr 2005 content changed
 common#:#grp_registration_completed#:#Registro completado###07 Apr 2005 content changed
 common#:#grp_search_enter_search_string#:#Por favor entre una cadena de búsqueda###07 Apr 2005 content changed
@@ -1472,7 +1421,7 @@ common#:#hours_of_day#:#Horas del día###07 Apr 2005 content changed
 common#:#htlm#:#Módulo de aprendizaje HTML###07 Apr 2005 content changed
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML###07 Apr 2005 content changed
 common#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML###07 Apr 2005 content changed
-common#:#htlm_edit#:#Editar Propiedades del Módulo de Aprendizaje HTML###07 Apr 2005 content changed
+common#:#htlm_edit#:#Editar propiedades del Módulo de Aprendizaje HTML###07 Apr 2005 content changed
 common#:#htlm_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#htlm_new#:#Nuevo Módulo de Aprendizaje HTML###07 Apr 2005 content changed
 common#:#htlm_read#:#Leer Módulo de Aprendizaje HTML###07 Apr 2005 content changed
@@ -1486,7 +1435,7 @@ common#:#icla_add#:#Añadir iLinc Classroom
 common#:#icla_delete#:#Eliminar iLinc Classroom
 common#:#icla_edit_permission#:#Editar configuración de permisos
 common#:#icla_new#:#Nueva iLinc Classroom
-common#:#icla_read#:#Acceso de Lectura a iLinc Classroom
+common#:#icla_read#:#Acceso de lectura a iLinc Classroom
 common#:#icla_visible#:#iLinc Classroom es visible
 common#:#icla_write#:#Editar iLinc Classroom
 common#:#icrs#:#Curso iLinc
@@ -1494,7 +1443,7 @@ common#:#icrs_add#:#Añadir Curso iLinc
 common#:#icrs_delete#:#Eliminar Curso iLinc
 common#:#icrs_edit_permission#:#Editar configuración de permisos
 common#:#icrs_new#:#Nuevo Curso iLinc
-common#:#icrs_read#:#Acceso de Lectura a un Curso iLinc
+common#:#icrs_read#:#Acceso de lectura a un Curso iLinc
 common#:#icrs_visible#:#Curso iLinc visible
 common#:#icrs_write#:#Editar Curso iLinc
 common#:#id#:#ID###07 Apr 2005 content changed
@@ -1520,10 +1469,10 @@ common#:#import_glossary#:#Importar Glosario###07 Apr 2005 content changed
 common#:#import_grp_finished#:#Grupo importado sin errores###07 Apr 2005 content changed
 common#:#import_hlm#:#Importar Paquete HACP###07 Apr 2005 content changed
 common#:#import_lm#:#Importar Módulo de Aprendizaje###07 Apr 2005 content changed
-common#:#import_qpl#:#Importar Repositorio de preguntas de Test###07 Apr 2005 content changed
+common#:#import_qpl#:#Importar Banco de preguntas de Test###07 Apr 2005 content changed
 common#:#import_root_user#:#Import Usuario Root###07 Apr 2005 content changed
 common#:#import_sahs#:#Importar Paquete SCORM/AICC###07 Apr 2005 content changed
-common#:#import_spl#:#Importar Repositorio de preguntas para encuestas###07 Apr 2005 content changed
+common#:#import_spl#:#Importar Banco de preguntas para encuestas###07 Apr 2005 content changed
 common#:#import_svy#:#Importar Encuesta###07 Apr 2005 content changed
 common#:#import_tst#:#Importar Test###07 Apr 2005 content changed
 common#:#import_users#:#Importar Usuarios###07 Apr 2005 content changed
@@ -1533,7 +1482,6 @@ common#:#in#:#en###07 Apr 2005 content changed
 common#:#in_use#:#idioma de usuario###07 Apr 2005 content changed
 common#:#inactive#:#Inactivo###07 Apr 2005 content changed
 common#:#inbox#:#Bandeja de entrada###07 Apr 2005 content changed
-common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Información###07 Apr 2005 content changed
 common#:#info_assign_sure#:#¿Está seguro de que quiere asignar los siguientes usuario(s)?###07 Apr 2005 content changed
 common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?###07 Apr 2005 content changed
@@ -1570,9 +1518,7 @@ common#:#inst_id#:#ID de instalación###07 Apr 2005 content changed
 common#:#inst_info#:#información de instalación###07 Apr 2005 content changed
 common#:#inst_name#:#nombre de la instalación###07 Apr 2005 content changed
 common#:#install#:#instalar###07 Apr 2005 content changed
-common#:#install_local#:#Instalar fichero local
 common#:#installed#:#instalado###07 Apr 2005 content changed
-common#:#installed_local#:#Versión local instalada
 common#:#institution#:#Institución###07 Apr 2005 content changed
 common#:#internal_local_roles_only#:#Roles locales (sólo autogenerados)###07 Apr 2005 content changed
 common#:#internal_system#:#Sistema Interno###07 Apr 2005 content changed
@@ -1606,7 +1552,7 @@ common#:#lang_sep_decimal#:#,###07 Apr 2005 content changed
 common#:#lang_sep_thousand#:#.###07 Apr 2005 content changed
 common#:#lang_sv#:#Sueco###07 Apr 2005 content changed
 common#:#lang_timeformat#:#H:i:s###07 Apr 2005 content changed
-common#:#lang_uk#:#Ukraniano###07 Apr 2005 content changed
+common#:#lang_ua#:#Ukraniano###07 Apr 2005 content changed
 common#:#lang_version#:#1###07 Apr 2005 content changed
 common#:#lang_vi#:#Vietnamita###07 Apr 2005 content changed
 common#:#lang_xx#:#Propio###07 Apr 2005 content changed
@@ -1632,7 +1578,7 @@ common#:#ldap_login_key#:#Atributo para login name###07 Apr 2005 content changed
 common#:#ldap_objectclass#:#ObjectClass de las cuentas de usuario###07 Apr 2005 content changed
 common#:#ldap_passwd#:#Su contraseña actual###07 Apr 2005 content changed
 common#:#ldap_port#:#Puerto LDAP###07 Apr 2005 content changed
-common#:#ldap_read#:#Acceso de Lectura a LDAP###07 Apr 2005 content changed
+common#:#ldap_read#:#Acceso de lectura a LDAP###07 Apr 2005 content changed
 common#:#ldap_search_base#:#LDAP Search base###07 Apr 2005 content changed
 common#:#ldap_server#:#URL del servidor LDAP###07 Apr 2005 content changed
 common#:#ldap_tls#:#Usar LDAP TLS###07 Apr 2005 content changed
@@ -1641,8 +1587,8 @@ common#:#ldap_v3#:#LDAPv3###07 Apr 2005 content changed
 common#:#ldap_version#:#version de protocolo LDAP###07 Apr 2005 content changed
 common#:#ldap_visible#:#La configuración LDAP es visible###07 Apr 2005 content changed
 common#:#ldap_write#:#Editar configuración LDAP###07 Apr 2005 content changed
-common#:#learning module#:#Módulo de Aprendizaje###07 Apr 2005 content changed
-common#:#learning_objects#:#Objetos de Aprendizaje###07 Apr 2005 content changed
+common#:#learning module#:#Módulo de aprendizaje###07 Apr 2005 content changed
+common#:#learning_objects#:#Objetos de aprendizaje###07 Apr 2005 content changed
 common#:#learning_resources#:#Recursos de aprendizaje###07 Apr 2005 content changed
 common#:#level#:#nivel###07 Apr 2005 content changed
 common#:#link#:#enlace###07 Apr 2005 content changed
@@ -1658,7 +1604,7 @@ common#:#linked_pages#:#páginas enlazadas###07 Apr 2005 content changed
 common#:#list_of_pages#:#lista de páginas###07 Apr 2005 content changed
 common#:#list_of_questions#:#lista de preguntas###07 Apr 2005 content changed
 common#:#literature#:#literatura###07 Apr 2005 content changed
-common#:#literature_bookmarks#:#Marcadores de Literatura###07 Apr 2005 content changed
+common#:#literature_bookmarks#:#Favoritos de literatura###07 Apr 2005 content changed
 common#:#lm#:#Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#lm_a#:#un Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#lm_add#:#Añadir Módulo de Aprendizaje###07 Apr 2005 content changed
@@ -1669,7 +1615,7 @@ common#:#lm_edit_permission#:#Modificar configuración de permisos###07 Apr 2005
 common#:#lm_join#:#Suscribir a un Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#lm_leave#:#Darse de baja en el Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#lm_new#:#Nuevo Módulo de Aprendizaje###07 Apr 2005 content changed
-common#:#lm_read#:#Acceso de Lectura a Módulo de Aprendizaje###07 Apr 2005 content changed
+common#:#lm_read#:#Acceso de lectura a Módulo de Aprendizaje###07 Apr 2005 content changed
 common#:#lm_type_aicc#:#AICC###07 Apr 2005 content changed
 common#:#lm_type_hacp#:#HACP###07 Apr 2005 content changed
 common#:#lm_type_scorm#:#SCORM###07 Apr 2005 content changed
@@ -1689,29 +1635,24 @@ common#:#lo_no_content#:#No hay recursos de aprendizaje disponibles###07 Apr 200
 common#:#lo_other_langs#:#objetos de aprendizaje en otros idiomas###07 Apr 2005 content changed
 common#:#lo_overview#:#resumen de objetos de aprendizaje###07 Apr 2005 content changed
 common#:#local#:#Local###07 Apr 2005 content changed
-common#:#local_language_file#:#fichero de idioma local
-common#:#local_language_files#:#ficheros de idioma locales
-common#:#local_languages_already_installed#:#Los fichero(s) de idioma locales seleccionados están ya instalados
-common#:#locator#:#Localizador###07 Apr 2005 content changed
+common#:#locator#:#Estás en:###07 Apr 2005 content changed
 common#:#logic_and#:#y###07 Apr 2005 content changed
 common#:#logic_or#:#o###07 Apr 2005 content changed
-common#:#login#:#login
+common#:#login#:#Usuario
 common#:#login_as#:#Identificado como###07 Apr 2005 content changed
 common#:#login_data#:#Datos de Identificación###07 Apr 2005 content changed
 common#:#login_exists#:#Ya existe un usuario con este identificador! Por favor escoja otro diferente.###07 Apr 2005 content changed
 common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes caracteres están permitidos (mínimo 4 caracteres): A-Z a-z 0-9 _.-+*@!$%~###07 Apr 2005 content changed
 common#:#login_time#:#Tiempo online###07 Apr 2005 content changed
 common#:#login_to_ilias#:#entrada a ILIAS###07 Apr 2005 content changed
-common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
 common#:#logout#:#salir###07 Apr 2005 content changed
 common#:#logout_text#:#Ha abandonado ILIAS. Su sesión ha sido cerrada.###07 Apr 2005 content changed
 common#:#logs#:#Datos de Log###07 Apr 2005 content changed
 common#:#los#:#objetos de aprendizaje###07 Apr 2005 content changed
 common#:#los_last_visited#:#últimos objetos de aprendizaje visitados###07 Apr 2005 content changed
-common#:#lres#:#Learning Resources###13 May 2005 new variable
 common#:#mail#:#Correo###07 Apr 2005 content changed
 common#:#mail_a_root#:#Bandeja de Correo###07 Apr 2005 content changed
-common#:#mail_addressbook#:#Agenda###07 Apr 2005 content changed
+common#:#mail_addressbook#:#agenda###07 Apr 2005 content changed
 common#:#mail_allow_smtp#:#Permitir SMTP###07 Apr 2005 content changed
 common#:#mail_b_inbox#:#Bandeja de entrada###07 Apr 2005 content changed
 common#:#mail_c_trash#:#Papelera###07 Apr 2005 content changed
@@ -1732,7 +1673,7 @@ common#:#mail_maxsize_mail#:#Máx. tamaño de un correo###07 Apr 2005 content ch
 common#:#mail_maxtime_attach#:#Número Máx. de días para guardar los adjuntos###07 Apr 2005 content changed
 common#:#mail_maxtime_mail#:#Número Máx. de días para guardar los correos###07 Apr 2005 content changed
 common#:#mail_not_sent#:#Correo no enviado!###07 Apr 2005 content changed
-common#:#mail_read#:#Acceso de Lectura a la configuración del Correo###07 Apr 2005 content changed
+common#:#mail_read#:#Acceso de lectura a la configuración del correo###07 Apr 2005 content changed
 common#:#mail_search_no#:#No se encontraron entradas###07 Apr 2005 content changed
 common#:#mail_search_word#:#Buscar palabra###07 Apr 2005 content changed
 common#:#mail_select_one#:#Debe seleccionar un correo###07 Apr 2005 content changed
@@ -1746,13 +1687,12 @@ common#:#mail_write#:#Editar configuración del Correo###07 Apr 2005 content cha
 common#:#mail_z_local#:#Carpetas de usuario###07 Apr 2005 content changed
 common#:#mails#:#correos###07 Apr 2005 content changed
 common#:#manage_tracking_data#:#Gestionar Datos de Seguimiento###07 Apr 2005 content changed
-common#:#mark_all_read#:#marcar todos como leídos###07 Apr 2005 content changed
-common#:#mark_all_unread#:#marcar todos como no leídos###07 Apr 2005 content changed
+common#:#mark_all_read#:#marcar cadena como leída###07 Apr 2005 content changed
+common#:#mark_all_unread#:#marcar cadena como no leída###07 Apr 2005 content changed
 common#:#matriculation#:#Número de matrícula
 common#:#max_number_rec#:#Máximo número de registros###07 Apr 2005 content changed
 common#:#max_time#:#Tiempo Máximo###07 Apr 2005 content changed
 common#:#member#:#Miembro###07 Apr 2005 content changed
-common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Miembros###07 Apr 2005 content changed
 common#:#membership_annulled#:#Tu pertenencia ha sido cancelada###07 Apr 2005 content changed
 common#:#mep#:#Depósito Multimedia###07 Apr 2005 content changed
@@ -1762,7 +1702,7 @@ common#:#mep_delete#:#Eliminar Depósito Multimedia###07 Apr 2005 content change
 common#:#mep_edit#:#Editar propiedades de Depósito Multimedia###07 Apr 2005 content changed
 common#:#mep_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#mep_new#:#Nuevo Depósito Multimedia###07 Apr 2005 content changed
-common#:#mep_not_insert_already_exist#:#Los siguientes items no han sido insertados porque ya están en el repositorio multimedia:###07 Apr 2005 content changed
+common#:#mep_not_insert_already_exist#:#Los siguientes items no han sido insertados porque ya están en el banco multimedia:###07 Apr 2005 content changed
 common#:#mep_read#:#Leer contenido del Depósito Multimedia###07 Apr 2005 content changed
 common#:#mep_visible#:#Nuevo Depósito Multimedia visible###07 Apr 2005 content changed
 common#:#mep_write#:#Editar contenido del Depósito Multimedia###07 Apr 2005 content changed
@@ -1890,7 +1830,7 @@ common#:#msg_user_last_role1#:#Los siguientes usuarios están únicamente asigna
 common#:#msg_user_last_role2#:#Por favor elimine los usuarios o asígnelos a otro rol para poder eliminar este rol###07 Apr 2005 content changed
 common#:#msg_userassignment_changed#:#Asignación de usuario realizada
 common#:#multimedia#:#multimedia###07 Apr 2005 content changed
-common#:#my_bms#:#Mis marcadores###07 Apr 2005 content changed
+common#:#my_bms#:#Mis favoritos###07 Apr 2005 content changed
 common#:#my_frms#:#Mis foros###07 Apr 2005 content changed
 common#:#my_grps#:#Mis grupos###07 Apr 2005 content changed
 common#:#my_los#:#Mis objetos de aprendizaje###07 Apr 2005 content changed
@@ -1903,7 +1843,7 @@ common#:#new_folder#:#nueva carpeta###07 Apr 2005 content changed
 common#:#new_group#:#nuevo grupo###07 Apr 2005 content changed
 common#:#new_language#:#Nuevo idioma###07 Apr 2005 content changed
 common#:#new_list_password#:#nuevas sugerencias###07 Apr 2005 content changed
-common#:#new_lowercase#:#new###13 May 2005 new variable
+common#:#new_lowercase#:#nuevo
 common#:#new_mail#:#Nuevo correo!###07 Apr 2005 content changed
 common#:#news#:#noticias###07 Apr 2005 content changed
 common#:#next#:#siguiente###07 Apr 2005 content changed
@@ -1912,7 +1852,7 @@ common#:#no#:#no###07 Apr 2005 content changed
 common#:#no_access_item#:#No tiene permiso para acceder a este item.###07 Apr 2005 content changed
 common#:#no_access_item_public#:#Este item no puede ser accedido en la sección pública.###07 Apr 2005 content changed
 common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto###07 Apr 2005 content changed
-common#:#no_bm_in_personal_list#:#No hay marcadores definidos.###07 Apr 2005 content changed
+common#:#no_bm_in_personal_list#:#No hay favoritos definidos###07 Apr 2005 content changed
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal###07 Apr 2005 content changed
 common#:#no_checkbox#:#No se ha marcado ningún checkbox!###07 Apr 2005 content changed
 common#:#no_datasets#:#La tabla está vacía###07 Apr 2005 content changed
@@ -1928,7 +1868,6 @@ common#:#no_limit#:#Sin límite###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal###07 Apr 2005 content changed
 common#:#no_local_users#:#No hay usuario local###07 Apr 2005 content changed
 common#:#no_objects#:#no hay objetos###07 Apr 2005 content changed
-common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.###07 Apr 2005 content changed
 common#:#no_title#:#sin título###07 Apr 2005 content changed
@@ -1980,7 +1919,7 @@ common#:#obj_lngf_desc#:#Gestione sus idiomas del sistema aquí###07 Apr 2005 co
 common#:#obj_lo#:#Objeto de Aprendizaje###07 Apr 2005 content changed
 common#:#obj_mail#:#Configuración de Correo###07 Apr 2005 content changed
 common#:#obj_mail_desc#:#Configure sus opciones globales de correo aquí.###07 Apr 2005 content changed
-common#:#obj_mep#:#Repositorio Multimedia###07 Apr 2005 content changed
+common#:#obj_mep#:#Banco Multimedia###07 Apr 2005 content changed
 common#:#obj_mob#:#Objeto Multimedia ###07 Apr 2005 content changed
 common#:#obj_not_found#:#objeto no encontrado###07 Apr 2005 content changed
 common#:#obj_note#:#Nota###07 Apr 2005 content changed
@@ -1991,7 +1930,7 @@ common#:#obj_owner#:#Este objeto es propiedad de###07 Apr 2005 content changed
 common#:#obj_pays#:#Configuración de Sistema de Pago###07 Apr 2005 content changed
 common#:#obj_pays_desc#:#Configurar sistema de pago y vendors###07 Apr 2005 content changed
 common#:#obj_pg#:#Página###07 Apr 2005 content changed
-common#:#obj_qpl#:#Repositorio de Preguntas###07 Apr 2005 content changed
+common#:#obj_qpl#:#Banco de Preguntas (Test)###07 Apr 2005 content changed
 common#:#obj_recf#:#Objetos Restaurados###07 Apr 2005 content changed
 common#:#obj_recf_desc#:#Contiene objetos restaurados a partir del chequeo de sistema###07 Apr 2005 content changed
 common#:#obj_role#:#Rol###07 Apr 2005 content changed
@@ -2002,9 +1941,7 @@ common#:#obj_rolf_local_desc#:#Contiene los roles locales del objeto no.###07 Ap
 common#:#obj_rolt#:#Plantilla de Rol###07 Apr 2005 content changed
 common#:#obj_root#:#root###07 Apr 2005 content changed
 common#:#obj_sahs#:#Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#obj_seas#:#Search###13 May 2005 new variable
-common#:#obj_seas_desc#:#Manage the search settings here.###13 May 2005 new variable
-common#:#obj_spl#:#Repositorio de Preguntas (Encuesta)###07 Apr 2005 content changed
+common#:#obj_spl#:#Banco de preguntas (Encuesta)###07 Apr 2005 content changed
 common#:#obj_st#:#Capítulo###07 Apr 2005 content changed
 common#:#obj_stys#:#Configuración de Estilo###07 Apr 2005 content changed
 common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos###07 Apr 2005 content changed
@@ -2028,7 +1965,7 @@ common#:#object_added#:#Objeto añadido###07 Apr 2005 content changed
 common#:#objects#:#objetos###07 Apr 2005 content changed
 common#:#objf#:#Definiciones de objeto###07 Apr 2005 content changed
 common#:#objf_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#objf_read#:#Acceso de Lectura a definiciones de objeto###07 Apr 2005 content changed
+common#:#objf_read#:#Acceso de lectura a definiciones de objeto###07 Apr 2005 content changed
 common#:#objf_visible#:#Definiciones de objeto visibles###07 Apr 2005 content changed
 common#:#objf_write#:#Editar definiciones de objeto###07 Apr 2005 content changed
 common#:#objs_alm#:#Módulos de Aprendizaje AICC###07 Apr 2005 content changed
@@ -2051,15 +1988,15 @@ common#:#objs_icrs#:#Cursos iLinc
 common#:#objs_lm#:#Módulos de Aprendizaje###07 Apr 2005 content changed
 common#:#objs_lng#:#Idiomas###07 Apr 2005 content changed
 common#:#objs_lo#:#Objetos de Aprendizaje###07 Apr 2005 content changed
-common#:#objs_mep#:#Repositorios Multimedia###07 Apr 2005 content changed
+common#:#objs_mep#:#Bancos Multimedia###07 Apr 2005 content changed
 common#:#objs_mob#:#Objetos Multimedia###07 Apr 2005 content changed
 common#:#objs_note#:#Notas###07 Apr 2005 content changed
 common#:#objs_pg#:#Páginas###07 Apr 2005 content changed
-common#:#objs_qpl#:#Repositorios de Preguntas###07 Apr 2005 content changed
+common#:#objs_qpl#:#Bancos de Preguntas###07 Apr 2005 content changed
 common#:#objs_role#:#Roles###07 Apr 2005 content changed
 common#:#objs_rolt#:#Plantillas de Rol###07 Apr 2005 content changed
 common#:#objs_sahs#:#Módulos de Aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#objs_spl#:#Repositorios de Preguntas (Encuestas)###07 Apr 2005 content changed
+common#:#objs_spl#:#Bancos de preguntas (Encuestas)###07 Apr 2005 content changed
 common#:#objs_st#:#Capítulos###07 Apr 2005 content changed
 common#:#objs_svy#:#Encuestas###07 Apr 2005 content changed
 common#:#objs_tst#:#Tests###07 Apr 2005 content changed
@@ -2116,7 +2053,7 @@ common#:#pays_read#:#Modificar configuración del sistema de pago###07 Apr 2005 
 common#:#pays_visible#:#Configuración del sistema de pago visible###07 Apr 2005 content changed
 common#:#pays_write#:#Editar configuración del sistema de pago###07 Apr 2005 content changed
 common#:#per_object#:#Accesos por objeto###07 Apr 2005 content changed
-common#:#perm_settings#:#permisos###07 Apr 2005 content changed
+common#:#perm_settings#:#Permisos###07 Apr 2005 content changed
 common#:#permission#:#permiso###07 Apr 2005 content changed
 common#:#permission_denied#:#permiso denegado###07 Apr 2005 content changed
 common#:#permission_settings#:#Configuración de permisos###07 Apr 2005 content changed
@@ -2157,19 +2094,19 @@ common#:#publication_date#:#fecha de publicación###07 Apr 2005 content changed
 common#:#published#:#publicado###07 Apr 2005 content changed
 common#:#publishing_organisation#:#organización de publicación###07 Apr 2005 content changed
 common#:#purpose#:#Propósito###07 Apr 2005 content changed
-common#:#qpl#:#Repositorio de preguntas###07 Apr 2005 content changed
-common#:#qpl_add#:#Añadir repositorio de preguntas###07 Apr 2005 content changed
-common#:#qpl_delete#:#Eliminar repositorio de preguntas###07 Apr 2005 content changed
+common#:#qpl#:#Banco de preguntas (Tests)###07 Apr 2005 content changed
+common#:#qpl_add#:#Añadir banco de preguntas###07 Apr 2005 content changed
+common#:#qpl_delete#:#Eliminar banco de preguntas###07 Apr 2005 content changed
 common#:#qpl_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#qpl_new#:#Nuevo repositorio de preguntas###07 Apr 2005 content changed
-common#:#qpl_read#:#Acceso de Lectura a Repositorio de Preguntas###07 Apr 2005 content changed
+common#:#qpl_new#:#Nuevo banco de preguntas###07 Apr 2005 content changed
+common#:#qpl_read#:#Acceso de lectura a Banco de Preguntas###07 Apr 2005 content changed
 common#:#qpl_upload_file#:#Cargar fichero###07 Apr 2005 content changed
-common#:#qpl_visible#:#Repositorio de Preguntas visible###07 Apr 2005 content changed
-common#:#qpl_write#:#Editar Repositorio de Preguntas###07 Apr 2005 content changed
+common#:#qpl_visible#:#Banco de Preguntas visible###07 Apr 2005 content changed
+common#:#qpl_write#:#Editar Banco de Preguntas###07 Apr 2005 content changed
 common#:#quarterly#:#4 veces al año
 common#:#query_data#:#Consultar datos###07 Apr 2005 content changed
 common#:#question#:#question###07 Apr 2005 content changed
-common#:#question_pools#:#Repositorio de preguntas###07 Apr 2005 content changed
+common#:#question_pools#:#Banco de preguntas###07 Apr 2005 content changed
 common#:#quit#:#-salir-###07 Apr 2005 content changed
 common#:#quote#:#Cita###07 Apr 2005 content changed
 common#:#read#:#read###07 Apr 2005 content changed
@@ -2186,7 +2123,7 @@ common#:#reg_mail_body_text2#:#Para acceder a ILIAS use los siguientes datos:###
 common#:#reg_mail_body_text3#:#Información personal detallada:###07 Apr 2005 content changed
 common#:#reg_mail_subject#:#ILIAS - Sus datos de acceso###07 Apr 2005 content changed
 common#:#reg_passwd_via_mail#:#Su contraseña será enviada a su dirección de e-mail mostrada abajo.###07 Apr 2005 content changed
-common#:#register#:#Registrar###07 Apr 2005 content changed
+common#:#register#:#Registro###07 Apr 2005 content changed
 common#:#register_info#:#Por favor rellene el formulario para registrarse(Los campos marcados con un asterisco son información obligada).###07 Apr 2005 content changed
 common#:#registered_since#:#registrado desde###07 Apr 2005 content changed
 common#:#registered_user#:#Usuario online###07 Apr 2005 content changed
@@ -2288,7 +2225,7 @@ common#:#rolt_new#:#Nueva Plantilla de Rol###07 Apr 2005 content changed
 common#:#root_create_cat#:#El Usuario puede crear Categorías###07 Apr 2005 content changed
 common#:#root_edit#:#Editar nodo raíz del sistema###07 Apr 2005 content changed
 common#:#root_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#root_read#:#Acceso de Lectura al sistema ILIAS###07 Apr 2005 content changed
+common#:#root_read#:#Acceso de lectura al sistema ILIAS###07 Apr 2005 content changed
 common#:#root_visible#:#el sistema ILIAS es visible###07 Apr 2005 content changed
 common#:#root_write#:#Editar datos del nodo raíz ILIAS###07 Apr 2005 content changed
 common#:#sahs#:#Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
@@ -2298,7 +2235,7 @@ common#:#sahs_delete#:#Eliminar Módulo de aprendizaje SCORM/AICC###07 Apr 2005 
 common#:#sahs_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#sahs_join#:#Subscribirse a Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
 common#:#sahs_leave#:#Desuscribirse de Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
-common#:#sahs_read#:#Acceso de Lectura a Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
+common#:#sahs_read#:#Acceso de lectura a Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
 common#:#sahs_visible#:#Módulo de aprendizaje SCORM/AICC visible###07 Apr 2005 content changed
 common#:#sahs_write#:#Editar Módulo de aprendizaje SCORM/AICC###07 Apr 2005 content changed
 common#:#salutation#:#salutation###07 Apr 2005 content changed
@@ -2323,14 +2260,6 @@ common#:#search_note#:#Si &quot;la búsqueda in&quot; se deja en blanco, se busc
 common#:#search_recipient#:#Elegir destinatario###07 Apr 2005 content changed
 common#:#search_result#:#Resultado de la Búsqueda###07 Apr 2005 content changed
 common#:#search_user#:#Buscar Usuario###07 Apr 2005 content changed
-common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
-common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
-common#:#seas_read#:#Read search settings###13 May 2005 new variable
-common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
-common#:#seas_settings#:#Search settings###13 May 2005 new variable
-common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
-common#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#sections#:#secciones###07 Apr 2005 content changed
 common#:#select#:#Seleccionar###07 Apr 2005 content changed
 common#:#select_all#:#seleccionar todo###07 Apr 2005 content changed
@@ -2340,10 +2269,10 @@ common#:#select_mode#:#Seleccionar modo###07 Apr 2005 content changed
 common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar###07 Apr 2005 content changed
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar###07 Apr 2005 content changed
 common#:#select_password#:#Seleccione una nueva contraseña###07 Apr 2005 content changed
-common#:#select_questionpool#:#Repositorio de preguntas para Test###07 Apr 2005 content changed
-common#:#select_questionpool_option#:#Por favor seleccione un repositorio de preguntas###07 Apr 2005 content changed
+common#:#select_questionpool#:#Banco de preguntas para Test###07 Apr 2005 content changed
+common#:#select_questionpool_option#:#Por favor seleccione un banco de preguntas###07 Apr 2005 content changed
 common#:#selected#:#seleccionado###07 Apr 2005 content changed
-common#:#selected_items#:#Items Personales###07 Apr 2005 content changed
+common#:#selected_items#:#Items personales###07 Apr 2005 content changed
 common#:#send#:#enviar###07 Apr 2005 content changed
 common#:#sender#:#De###07 Apr 2005 content changed
 common#:#sent#:#enviado###07 Apr 2005 content changed
@@ -2358,43 +2287,11 @@ common#:#setUserLanguage#:#Establecer Idioma del Usuario###07 Apr 2005 content c
 common#:#set_offline#:#set offline###07 Apr 2005 content changed
 common#:#set_online#:#set online###07 Apr 2005 content changed
 common#:#settings#:#Configuración###07 Apr 2005 content changed
-common#:#settings_saved#:#Saved settings###13 May 2005 new variable
-common#:#shib#:#Shibboleth###13 May 2005 new variable
-common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
-common#:#shib_city#:#Attribute for city###13 May 2005 new variable
-common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
-common#:#shib_country#:#Attribute for country###13 May 2005 new variable
-common#:#shib_data_conv#:#Absolute path to data manipulation API###13 May 2005 new variable
-common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
-common#:#shib_department#:#Attribute for department###13 May 2005 new variable
-common#:#shib_edit_permission#:#Change permission settings###13 May 2005 new variable
-common#:#shib_email#:#Attribute for email address###13 May 2005 new variable
-common#:#shib_firstname#:#Attribute for firstname###13 May 2005 new variable
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###13 May 2005 new variable
-common#:#shib_institution#:#Attribute for institution###13 May 2005 new variable
-common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
-common#:#shib_language#:#Attribute for language###13 May 2005 new variable
-common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
-common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
-common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
-common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
-common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
-common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
-common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
-common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
-common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
-common#:#shib_street#:#Attribute for street###13 May 2005 new variable
-common#:#shib_title#:#Attribute for title###13 May 2005 new variable
-common#:#shib_update#:#Update this field on login###13 May 2005 new variable
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###13 May 2005 new variable
-common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variable
-common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
-common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Mostrar###07 Apr 2005 content changed
 common#:#show_details#:#mostrar detalles###07 Apr 2005 content changed
 common#:#show_list#:#mostrar lista###07 Apr 2005 content changed
-common#:#show_members#:#mostrar miembros###07 Apr 2005 content changed
-common#:#show_owner#:#mostrar propietario###07 Apr 2005 content changed
+common#:#show_members#:#Mostrar miembros###07 Apr 2005 content changed
+common#:#show_owner#:#Mostrar propietario###07 Apr 2005 content changed
 common#:#show_structure#:#habilitar vista estructurada###07 Apr 2005 content changed
 common#:#show_users_online#:#Mostrar usuarios conectados###07 Apr 2005 content changed
 common#:#signature#:#firma###07 Apr 2005 content changed
@@ -2404,15 +2301,15 @@ common#:#smtp#:#SMTP###07 Apr 2005 content changed
 common#:#soap_user_administration#:#Administración externa de usuarios (SOAP)###07 Apr 2005 content changed
 common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas de usuario pueden ser administradas por un cliente SOAP externo.###07 Apr 2005 content changed
 common#:#sort_by_this_column#:#Ordenar por esta columna###07 Apr 2005 content changed
-common#:#spl#:#Repositorio de Preguntas (Encuesta)###07 Apr 2005 content changed
-common#:#spl_add#:#Añadir repositorio de preguntas###07 Apr 2005 content changed
-common#:#spl_delete#:#Eliminar repositorio de preguntas###07 Apr 2005 content changed
+common#:#spl#:#Banco de preguntas (Encuesta)###07 Apr 2005 content changed
+common#:#spl_add#:#Añadir banco de preguntas###07 Apr 2005 content changed
+common#:#spl_delete#:#Eliminar banco de preguntas###07 Apr 2005 content changed
 common#:#spl_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#spl_new#:#Nuevo repositorio de preguntas###07 Apr 2005 content changed
-common#:#spl_read#:#Acceso de lectura al repositorio de preguntas###07 Apr 2005 content changed
+common#:#spl_new#:#Nuevo banco de preguntas###07 Apr 2005 content changed
+common#:#spl_read#:#Acceso de lectura al banco de preguntas###07 Apr 2005 content changed
 common#:#spl_upload_file#:#Cargar fichero###07 Apr 2005 content changed
-common#:#spl_visible#:#Repositorio de preguntas visible###07 Apr 2005 content changed
-common#:#spl_write#:#Editar repositorio de preguntas###07 Apr 2005 content changed
+common#:#spl_visible#:#Banco de preguntas visible###07 Apr 2005 content changed
+common#:#spl_write#:#Editar banco de preguntas###07 Apr 2005 content changed
 common#:#st_a#:#un capítulo###07 Apr 2005 content changed
 common#:#st_add#:#Añadir capítulo###07 Apr 2005 content changed
 common#:#st_added#:#Capítulo añadido###07 Apr 2005 content changed
@@ -2426,9 +2323,9 @@ common#:#stop_inheritance#:#Parar Herencia###07 Apr 2005 content changed
 common#:#street#:#Calle###07 Apr 2005 content changed
 common#:#structure#:#estructura###07 Apr 2005 content changed
 common#:#sty#:#Estilo###07 Apr 2005 content changed
-common#:#style_activation#:#Activación de Estlo###07 Apr 2005 content changed
+common#:#style_activation#:#Activación de Estilo###07 Apr 2005 content changed
 common#:#stys_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
-common#:#stys_read#:#Acceso de Lectura a configuración de estilo###07 Apr 2005 content changed
+common#:#stys_read#:#Acceso de lectura a configuración de estilo###07 Apr 2005 content changed
 common#:#stys_visible#:#Configuración de estilo visible###07 Apr 2005 content changed
 common#:#stys_write#:#Editar configuración de estilo###07 Apr 2005 content changed
 common#:#subcat_name#:#nombre de subcategoría###07 Apr 2005 content changed
@@ -2481,7 +2378,7 @@ common#:#test#:#Test###07 Apr 2005 content changed
 common#:#test_intern#:#test interno###07 Apr 2005 content changed
 common#:#test_module#:#Módulo de Test###07 Apr 2005 content changed
 common#:#tests#:#Tests###07 Apr 2005 content changed
-common#:#time#:#-time-###07 Apr 2005 content changed
+common#:#time#:#hora###07 Apr 2005 content changed
 common#:#time_d#:#Día###07 Apr 2005 content changed
 common#:#time_h#:#Hora###07 Apr 2005 content changed
 common#:#time_limit#:#Acceso###07 Apr 2005 content changed
@@ -2514,14 +2411,14 @@ common#:#tracking_data_deleted#:#Datos de seguimiento eliminados###07 Apr 2005 c
 common#:#tracking_settings#:#Configuración de Seguimiento###07 Apr 2005 content changed
 common#:#translation#:#Traducción###07 Apr 2005 content changed
 common#:#trash#:#papelera###07 Apr 2005 content changed
-common#:#treeview#:#Vista Árbol###07 Apr 2005 content changed
+common#:#treeview#:#vista arbol###07 Apr 2005 content changed
 common#:#tst#:#Test###07 Apr 2005 content changed
 common#:#tst_add#:#Añadir Test###07 Apr 2005 content changed
 common#:#tst_delete#:#Eliminar Test###07 Apr 2005 content changed
 common#:#tst_edit_permission#:#Modificar configuración permisos###07 Apr 2005 content changed
 common#:#tst_new#:#Nuevo test###07 Apr 2005 content changed
 common#:#tst_no_content#:#No hay tests disponibles###07 Apr 2005 content changed
-common#:#tst_read#:#Acceso de Lectura al Test###07 Apr 2005 content changed
+common#:#tst_read#:#Acceso de lectura al Test###07 Apr 2005 content changed
 common#:#tst_upload_file#:#Cargar fichero###07 Apr 2005 content changed
 common#:#tst_visible#:#Test visible###07 Apr 2005 content changed
 common#:#tst_write#:#Editar Test###07 Apr 2005 content changed
@@ -2530,7 +2427,7 @@ common#:#txt_add_object_instruction2#:#.###07 Apr 2005 content changed
 common#:#txt_registered#:#Se registró con éxito en ILIAS. Por favor haga click en el botón inferior para entrar en ILIAS con su cuenta de usuario.###07 Apr 2005 content changed
 common#:#txt_submitted#:#Se envió con éxito una solicitud de cuenta a ILIAS. Su solicitud será revisada por los administradores de sistema, y debe ser activada en 48 horas. No será capaz de entrar hasta que su cuenta sea activada.###07 Apr 2005 content changed
 common#:#typ#:#Definición de Tipo de Objeto###07 Apr 2005 content changed
-common#:#type#:#tipo###07 Apr 2005 content changed
+common#:#type#:#Tipo###07 Apr 2005 content changed
 common#:#type_your_message_here#:#escriba su mensaje aquí###07 Apr 2005 content changed
 common#:#uid#:#uid###07 Apr 2005 content changed
 common#:#unambiguousness#:#Identificación
@@ -2539,7 +2436,7 @@ common#:#uninstall#:#desinstalar###07 Apr 2005 content changed
 common#:#uninstalled#:#desinstalado###07 Apr 2005 content changed
 common#:#unknown#:#DESCONOCIDO###07 Apr 2005 content changed
 common#:#unread#:#no leído###07 Apr 2005 content changed
-common#:#unread_lowercase#:#unread###13 May 2005 new variable
+common#:#unread_lowercase#:#no leído
 common#:#unselected#:#Deseleccionado###07 Apr 2005 content changed
 common#:#unsubscribe#:#dar de baja###07 Apr 2005 content changed
 common#:#unzip#:#Descomprimir###07 Apr 2005 content changed
@@ -2581,21 +2478,19 @@ common#:#user_not_chosen#:#No escogió un miembro de grupo!###07 Apr 2005 conten
 common#:#user_profile_other#:#Otra Información###07 Apr 2005 content changed
 common#:#user_statistics#:#Datos estadísticos###07 Apr 2005 content changed
 common#:#userdata#:#Datos de usuario###07 Apr 2005 content changed
-common#:#username#:#Username###07 Apr 2005 content changed
+common#:#username#:#Usuario###07 Apr 2005 content changed
 common#:#users#:#usuarios###07 Apr 2005 content changed
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados###07 Apr 2005 content changed
 common#:#users_online#:#Usuarios conectados###07 Apr 2005 content changed
 common#:#usertracking#:#Seguimiento de usuarios###07 Apr 2005 content changed
 common#:#usr#:#usuario###07 Apr 2005 content changed
 common#:#usr_a#:#un Usuario###07 Apr 2005 content changed
-common#:#usr_active_only#:#Sólo Usuarios Activos###07 Apr 2005 content changed
 common#:#usr_add#:#Añadir Usuario###07 Apr 2005 content changed
 common#:#usr_added#:#Usuario añadido###07 Apr 2005 content changed
 common#:#usr_agreement#:#acuerdo de usuario###07 Apr 2005 content changed
 common#:#usr_agreement_empty#:#El acuerdo de usuario no contiene texto.###07 Apr 2005 content changed
 common#:#usr_edit#:#Editar Usuario###07 Apr 2005 content changed
 common#:#usr_hits_per_page#:#Items/página en tablas###07 Apr 2005 content changed
-common#:#usr_inactive_only#:#Sólo Usuarios Inactivos###07 Apr 2005 content changed
 common#:#usr_new#:#Nuevo Usuario###07 Apr 2005 content changed
 common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.###07 Apr 2005 content changed
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario###07 Apr 2005 content changed
@@ -2609,7 +2504,7 @@ common#:#usrf_delete#:#Eliminar cuentas de usuario###07 Apr 2005 content changed
 common#:#usrf_edit_permission#:#Modificar configuración de permisos###07 Apr 2005 content changed
 common#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario###07 Apr 2005 content changed
 common#:#usrf_push_desktop_items#:#Permite añadir items en el escritorio personal.###07 Apr 2005 content changed
-common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario###07 Apr 2005 content changed
+common#:#usrf_read#:#Acceso de lectura a las cuentas de usuario###07 Apr 2005 content changed
 common#:#usrf_read_users#:#Asignación de rol para administradores locales###07 Apr 2005 content changed
 common#:#usrf_visible#:#Cuentas de usuario visibles###07 Apr 2005 content changed
 common#:#usrf_write#:#Editar cuentas de usuario###07 Apr 2005 content changed
@@ -2643,7 +2538,7 @@ common#:#verification_warning_log#:#Log de 'warning' en Verificación###07 Apr 2
 common#:#version#:#versión###07 Apr 2005 content changed
 common#:#versions#:#Versiones###07 Apr 2005 content changed
 common#:#view#:#Ver###07 Apr 2005 content changed
-common#:#view_content#:#ver contenido###07 Apr 2005 content changed
+common#:#view_content#:#Ver contenido###07 Apr 2005 content changed
 common#:#visible_layers#:#capas visibles###07 Apr 2005 content changed
 common#:#visits#:#visitas###07 Apr 2005 content changed
 common#:#web_resources#:#Recursos Web###07 Apr 2005 content changed
@@ -2668,7 +2563,7 @@ common#:#webr_modified_items#:#Modificaciones guardadas###07 Apr 2005 content ch
 common#:#webr_never_checked#:#Nunca comprobado###07 Apr 2005 content changed
 common#:#webr_new#:#Añadir nuevo Recurso Web###07 Apr 2005 content changed
 common#:#webr_no_items_created#:#No se han creado Recursos Web###07 Apr 2005 content changed
-common#:#webr_read#:#Acceso de Lectura a Recurso Web###07 Apr 2005 content changed
+common#:#webr_read#:#Acceso de lectura a Recurso Web###07 Apr 2005 content changed
 common#:#webr_sure_delete_items#:#Realmente quiere eliminar el/los siguiente(s) Recurso(s) Web?###07 Apr 2005 content changed
 common#:#webr_visible#:#El Recurso Web visible###07 Apr 2005 content changed
 common#:#webr_write#:#Editar Recurso Web###07 Apr 2005 content changed
@@ -2754,7 +2649,7 @@ content#:#cont_choose_media_source#:#Seleccionar fuente multimedia###07 Apr 2005
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición###07 Apr 2005 content changed
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida###07 Apr 2005 content changed
 content#:#cont_citations#:#Citas###07 Apr 2005 content changed
-content#:#cont_clean_frames#:#Quitar marcos adicionales en la navegación###07 Apr 2005 content changed
+content#:#cont_clean_frames#:#Deshabilitar ventana adicional en la navegación###07 Apr 2005 content changed
 content#:#cont_clean_frames_desc#:#Esta opción evita marcos adicionales (ej: marco multimedia o marco de glosario) si se usan plantillas con múltiples marcos (ej: 3window) y el usuario navega desde una página a otra.###07 Apr 2005 content changed
 content#:#cont_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada###07 Apr 2005 content changed
 content#:#cont_click_center#:#Por favor haga click en el centro del área deseada.###07 Apr 2005 content changed
@@ -2770,7 +2665,7 @@ content#:#cont_contents#:#Contenidos###07 Apr 2005 content changed
 content#:#cont_coords#:#Coordenadas###07 Apr 2005 content changed
 content#:#cont_copy_object#:#copiar objeto###07 Apr 2005 content changed
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles###07 Apr 2005 content changed
-content#:#cont_copy_to_media_pool#:#Copiar a repositorio multimedia###07 Apr 2005 content changed
+content#:#cont_copy_to_media_pool#:#Copiar a banco multimedia###07 Apr 2005 content changed
 content#:#cont_create_dir#:#Crear Directorio###07 Apr 2005 content changed
 content#:#cont_create_export_file#:#Crear Fichero de Exportación###07 Apr 2005 content changed
 content#:#cont_create_export_file_html#:#Crear Fichero de Exportación (HTML)###07 Apr 2005 content changed
@@ -2797,7 +2692,7 @@ content#:#cont_details#:#Detalles###07 Apr 2005 content changed
 content#:#cont_dir_file#:#Directorio/Fichero###07 Apr 2005 content changed
 content#:#cont_disable_js#:#Deshabilitar JavaScript###07 Apr 2005 content changed
 content#:#cont_disable_media#:#Deshabilitar Multimedia###07 Apr 2005 content changed
-content#:#cont_download_title#:#Descargar Título###07 Apr 2005 content changed
+content#:#cont_download_title#:#Nombre del fichero de descarga###07 Apr 2005 content changed
 content#:#cont_downloads#:#Descargas###07 Apr 2005 content changed
 content#:#cont_downloads_desc#:#Habilita la descarga de todos los ficheros públicos de exportación.###07 Apr 2005 content changed
 content#:#cont_ed_align_center#:#alinear: centro###07 Apr 2005 content changed
@@ -2814,7 +2709,7 @@ content#:#cont_ed_delete_col#:#eliminar columna###07 Apr 2005 content changed
 content#:#cont_ed_delete_item#:#eliminar item###07 Apr 2005 content changed
 content#:#cont_ed_delete_row#:#eliminar fila###07 Apr 2005 content changed
 content#:#cont_ed_edit#:#editar###07 Apr 2005 content changed
-content#:#cont_ed_edit_prop#:#Editar Propiedades###07 Apr 2005 content changed
+content#:#cont_ed_edit_prop#:#Editar propiedades###07 Apr 2005 content changed
 content#:#cont_ed_go#:#Ok###07 Apr 2005 content changed
 content#:#cont_ed_insert_code#:#insertar código###07 Apr 2005 content changed
 content#:#cont_ed_insert_filelist#:#insertar Lista de Ficheros###07 Apr 2005 content changed
@@ -2839,11 +2734,11 @@ content#:#cont_ed_split_page#:#dividir página###07 Apr 2005 content changed
 content#:#cont_ed_split_page_next#:#pasar a la siguiente página###07 Apr 2005 content changed
 content#:#cont_ed_width#:#Anchura###07 Apr 2005 content changed
 content#:#cont_edit_area#:#Editar Area###07 Apr 2005 content changed
-content#:#cont_edit_file_list_properties#:#Editar Propiedades de la Lista de Ficheros###07 Apr 2005 content changed
+content#:#cont_edit_file_list_properties#:#Editar propiedades de la Lista de Ficheros###07 Apr 2005 content changed
 content#:#cont_edit_mob#:#Editar Objeto Media###07 Apr 2005 content changed
-content#:#cont_edit_mob_alias_prop#:#Editar Propiedades de la Instancia del Media Object###07 Apr 2005 content changed
+content#:#cont_edit_mob_alias_prop#:#Editar propiedades de la Instancia del Media Object###07 Apr 2005 content changed
 content#:#cont_edit_mob_files#:#Ficheros del Objeto###07 Apr 2005 content changed
-content#:#cont_edit_mob_properties#:#Editar Propiedades de Media Object###07 Apr 2005 content changed
+content#:#cont_edit_mob_properties#:#Editar propiedades de Media Object###07 Apr 2005 content changed
 content#:#cont_edit_par#:#Editar Párrafo###07 Apr 2005 content changed
 content#:#cont_edit_src#:#Editar código fuente###07 Apr 2005 content changed
 content#:#cont_edit_tab_properties#:#Propiedades de Tabla###07 Apr 2005 content changed
@@ -2921,7 +2816,7 @@ content#:#cont_matches#:#coincide###07 Apr 2005 content changed
 content#:#cont_matching_question_javascript_hint#:#Arrastre una definición/imagen en la parte derecha sobre un término de la parte izquierda y suelte la definición/imagen para to hacerla coincidir con el término.###07 Apr 2005 content changed
 content#:#cont_max_time_allowed#:#adlcp:max_tiempo_permitido###07 Apr 2005 content changed
 content#:#cont_media_source#:#Fuente Multimedia###07 Apr 2005 content changed
-content#:#cont_mep_structure#:#Estructura Repositorio Multimedia###07 Apr 2005 content changed
+content#:#cont_mep_structure#:#Estructura Banco Multimedia###07 Apr 2005 content changed
 content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo "%s".###07 Apr 2005 content changed
 content#:#cont_mob_files#:#Ficheros Multimedia###07 Apr 2005 content changed
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia###07 Apr 2005 content changed
@@ -2971,7 +2866,7 @@ content#:#cont_please_select#:#por favor seleccione###07 Apr 2005 content change
 content#:#cont_prereq_type#:#adlcp:prerequisites.type###07 Apr 2005 content changed
 content#:#cont_prerequisites#:#adlcp:prerequisites###07 Apr 2005 content changed
 content#:#cont_preview#:#previsualizar###07 Apr 2005 content changed
-content#:#cont_print_view#:#Vista de Impresión###07 Apr 2005 content changed
+content#:#cont_print_view#:#Vista de impresión###07 Apr 2005 content changed
 content#:#cont_public_access#:#Acceso público###07 Apr 2005 content changed
 content#:#cont_publisher#:#Editor/Editorial###07 Apr 2005 content changed
 content#:#cont_purpose#:#Propósito###07 Apr 2005 content changed
@@ -3110,7 +3005,7 @@ content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo###07 Ap
 content#:#set_public_mode#:#Activar modo de acceso público###07 Apr 2005 content changed
 content#:#st#:#Capítulo###07 Apr 2005 content changed
 content#:#start export#:#Exportar###07 Apr 2005 content changed
-crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
+crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
 crs#:#assigned#:#Asignado###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber#:#Suscripción de Curso###07 Apr 2005 content changed
 crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso###07 Apr 2005 content changed
@@ -3139,7 +3034,7 @@ crs#:#crs_archive#:#Archivos###07 Apr 2005 content changed
 crs#:#crs_archive_disabled#:#Deshabilitado###07 Apr 2005 content changed
 crs#:#crs_archive_download#:#Descargar###07 Apr 2005 content changed
 crs#:#crs_archive_lang#:#Idioma###07 Apr 2005 content changed
-crs#:#crs_archive_read#:#Acceso de Lectura###07 Apr 2005 content changed
+crs#:#crs_archive_read#:#Acceso de lectura###07 Apr 2005 content changed
 crs#:#crs_archive_select_type#:#Acceso a Archivos###07 Apr 2005 content changed
 crs#:#crs_archive_type#:#Tipo de Archivo###07 Apr 2005 content changed
 crs#:#crs_archive_type_disabled#:#Sin acceso###07 Apr 2005 content changed
@@ -3161,7 +3056,7 @@ crs#:#crs_contact_email#:#E-mail###07 Apr 2005 content changed
 crs#:#crs_contact_name#:#Nombre###07 Apr 2005 content changed
 crs#:#crs_contact_phone#:#teléfono###07 Apr 2005 content changed
 crs#:#crs_contact_responsibility#:#Responsabilidad###07 Apr 2005 content changed
-crs#:#crs_content#:#Contenido del Curso###07 Apr 2005 content changed
+crs#:#crs_content#:#Contenido del curso###07 Apr 2005 content changed
 crs#:#crs_copy_cat_not_allowed#:#No es posible copiar categorías###07 Apr 2005 content changed
 crs#:#crs_count_members#:#Número de miembros###07 Apr 2005 content changed
 crs#:#crs_count_questions#:#Número de preguntas###07 Apr 2005 content changed
@@ -3174,8 +3069,8 @@ crs#:#crs_delete_members_sure#:#¿Quiere eliminar los siguientes miembros de est
 crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?###07 Apr 2005 content changed
 crs#:#crs_delete_subscribers#:#Eliminar subscriptor###07 Apr 2005 content changed
 crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar los siguientes usuarios?###07 Apr 2005 content changed
-crs#:#crs_details#:#Detalles del Curso###07 Apr 2005 content changed
-crs#:#crs_dismiss_member#:#Pertenencia al Curso###07 Apr 2005 content changed
+crs#:#crs_details#:#Detalles del curso###07 Apr 2005 content changed
+crs#:#crs_dismiss_member#:#Pertenencia al curso###07 Apr 2005 content changed
 crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado###07 Apr 2005 content changed
 crs#:#crs_edit_archive#:#Editar Archivos###07 Apr 2005 content changed
 crs#:#crs_edit_content#:#Editar items###07 Apr 2005 content changed
@@ -3231,12 +3126,12 @@ crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_change_status#:#Modificar Estado###07 Apr 2005 content changed
 crs#:#crs_mem_send_mail#:#Enviar mail###07 Apr 2005 content changed
 crs#:#crs_member#:#Miembro###07 Apr 2005 content changed
-crs#:#crs_member_blocked#:#Miembro (desbloqueado)###07 Apr 2005 content changed
-crs#:#crs_member_unblocked#:#Miembro (bloqueado)###07 Apr 2005 content changed
+crs#:#crs_member_blocked#:#Miembro (bloqueado)###07 Apr 2005 content changed
+crs#:#crs_member_unblocked#:#Miembro (desbloqueado)###07 Apr 2005 content changed
 crs#:#crs_member_updated#:#El miembro ha sido actualizado###07 Apr 2005 content changed
 crs#:#crs_members_deleted#:#Miembros eliminados###07 Apr 2005 content changed
-crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
-crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
+crs#:#crs_members_footer#:#miembro(s) del curso
+crs#:#crs_members_footer_passed#:#superado
 crs#:#crs_members_print_title#:#Miembros del Curso###07 Apr 2005 content changed
 crs#:#crs_members_title#:#Miembros del Curso###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Mover abajo###07 Apr 2005 content changed
@@ -3372,15 +3267,15 @@ crs#:#crs_sort_activation#:#Ordenar por activación###07 Apr 2005 content change
 crs#:#crs_sort_manual#:#Ordenación manual###07 Apr 2005 content changed
 crs#:#crs_sort_title#:#Ordenar por título###07 Apr 2005 content changed
 crs#:#crs_sortorder#:#Ordenar###07 Apr 2005 content changed
-crs#:#crs_sortorder_abo#:#Tipo de Ordenación###07 Apr 2005 content changed
+crs#:#crs_sortorder_abo#:#Tipo de ordenación###07 Apr 2005 content changed
 crs#:#crs_start#:#Comienzo###07 Apr 2005 content changed
 crs#:#crs_start_objects#:#Objetos iniciales###07 Apr 2005 content changed
 crs#:#crs_starter_deleted#:#Asignación eliminada###07 Apr 2005 content changed
 crs#:#crs_starters_already_assigned#:#Este objeto ya ha sido asignado.###07 Apr 2005 content changed
 crs#:#crs_status#:#Estado###07 Apr 2005 content changed
-crs#:#crs_status_changed#:#Estado del Curso###07 Apr 2005 content changed
+crs#:#crs_status_changed#:#Estado del curso###07 Apr 2005 content changed
 crs#:#crs_status_changed_body#:#El estado del curso ha sido modificado###07 Apr 2005 content changed
-crs#:#crs_structure#:#Estructura del Curso###07 Apr 2005 content changed
+crs#:#crs_structure#:#Estructura del curso###07 Apr 2005 content changed
 crs#:#crs_subscribers#:#Suscripciones###07 Apr 2005 content changed
 crs#:#crs_subscribers_deleted#:#Suscriptores eliminado(s)###07 Apr 2005 content changed
 crs#:#crs_subscription#:#Suscripción###07 Apr 2005 content changed
@@ -3394,7 +3289,7 @@ crs#:#crs_subscription_successful#:#Ha sido suscrito a este curso###07 Apr 2005 
 crs#:#crs_subscription_type#:#Tipo de suscripción###07 Apr 2005 content changed
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:###07 Apr 2005 content changed
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?###07 Apr 2005 content changed
-crs#:#crs_syllabus#:#Guía de Estudio / Temario###07 Apr 2005 content changed
+crs#:#crs_syllabus#:#Objetivos del curso###07 Apr 2005 content changed
 crs#:#crs_table_start_objects#:#Objetos iniciales###07 Apr 2005 content changed
 crs#:#crs_test_status_complete#:#Completado###07 Apr 2005 content changed
 crs#:#crs_test_status_not_complete#:#No completado###07 Apr 2005 content changed
@@ -3421,7 +3316,7 @@ crs#:#crs_visibility_unvisible#:#No visible###21 Apr 2005 content changed
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
 crs#:#edit_content#:#Editar contenido###07 Apr 2005 content changed
 crs#:#learners_view#:#Vista de alumnos###07 Apr 2005 content changed
-crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
+crs#:#subscription_times_not_valid#:#El período de registro no es válido.
 crs_#:#crs_archives#:#Archivos###07 Apr 2005 content changed
 dateplaner#:#DateText#:#Mensaje###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Vista diaria###07 Apr 2005 content changed
@@ -3645,49 +3540,54 @@ dateplaner#:#week#:#semana###07 Apr 2005 content changed
 dateplaner#:#year#:#año###07 Apr 2005 content changed
 forum#:#forums#:#Foros###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###07 Apr 2005 content changed
+forum#:#forums_articles#:#mensajes###07 Apr 2005 content changed
 forum#:#forums_attachments#:#Adjuntos###07 Apr 2005 content changed
 forum#:#forums_attachments_add#:#Añadir adjunto###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Editar adjunto###07 Apr 2005 content changed
 forum#:#forums_available#:#foros disponibles###07 Apr 2005 content changed
 forum#:#forums_censor_comment#:#Comentario del Censor###07 Apr 2005 content changed
 forum#:#forums_count#:#número de foros###07 Apr 2005 content changed
-forum#:#forums_count_art#:#número de artículos###07 Apr 2005 content changed
+forum#:#forums_count_art#:#número de mensajes###07 Apr 2005 content changed
 forum#:#forums_count_thr#:#número de cadenas###07 Apr 2005 content changed
-forum#:#forums_created_by#:#Creado por
-forum#:#forums_delete_file#:#Eliminar adjunto###07 Apr 2005 content changed
+forum#:#forums_created_by#:#creado por
+forum#:#forums_delete_file#:#eliminar adjunto###07 Apr 2005 content changed
 forum#:#forums_download_attachment#:#Descargar fichero###07 Apr 2005 content changed
-forum#:#forums_edit_post#:#editar artículo###07 Apr 2005 content changed
-forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este artículo?###07 Apr 2005 content changed
-forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este artículo?###07 Apr 2005 content changed
-forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este artículo incluyendo las respuestas?###07 Apr 2005 content changed
-forum#:#forums_mark_read#:#Marcar todos como leídos###07 Apr 2005 content changed
+forum#:#forums_edit_post#:#editar mensaje###07 Apr 2005 content changed
+forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?###07 Apr 2005 content changed
+forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?###07 Apr 2005 content changed
+forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?###07 Apr 2005 content changed
+forum#:#forums_last_post#:#último envío###07 Apr 2005 content changed
+forum#:#forums_mark_read#:#marcar todas como leídas###07 Apr 2005 content changed
+forum#:#forums_moderators#:#moderadores###07 Apr 2005 content changed
+forum#:#forums_new_articles#:#nuevos mensajes###07 Apr 2005 content changed
 forum#:#forums_new_entries#:#nuevas entradas en foro###07 Apr 2005 content changed
-forum#:#forums_new_thread#:#nuevo asunto###07 Apr 2005 content changed
+forum#:#forums_new_thread#:#nueva cadena###07 Apr 2005 content changed
 forum#:#forums_not_available#:#foros no disponibles###07 Apr 2005 content changed
 forum#:#forums_overview#:#forums overview###07 Apr 2005 content changed
 forum#:#forums_post_deleted#:#el mensaje ha sido eliminado###07 Apr 2005 content changed
 forum#:#forums_post_modified#:#el mensaje ha sido modificado###07 Apr 2005 content changed
-forum#:#forums_post_new_entry#:#se ha insertado un nuevo mensaje###07 Apr 2005 content changed
+forum#:#forums_post_new_entry#:#se ha añadido un nuevo mensaje###07 Apr 2005 content changed
 forum#:#forums_posts#:#todos los mensajes###07 Apr 2005 content changed
 forum#:#forums_posts_not_available#:#mensajes no disponibles###07 Apr 2005 content changed
 forum#:#forums_print_thread#:#Imprimir cadena de mensajes###07 Apr 2005 content changed
 forum#:#forums_print_view#:#Vista de impresión
 forum#:#forums_quote#:#Cita###07 Apr 2005 content changed
-forum#:#forums_respond#:#responder a un artículo###07 Apr 2005 content changed
+forum#:#forums_respond#:#responder a un mensaje###07 Apr 2005 content changed
 forum#:#forums_subject#:#Asunto###07 Apr 2005 content changed
-forum#:#forums_the_post#:#artículo###07 Apr 2005 content changed
-forum#:#forums_thread#:#asunto###07 Apr 2005 content changed
-forum#:#forums_thread_articles#:#artículos del asunto###07 Apr 2005 content changed
+forum#:#forums_the_post#:#Contenido del mensaje###07 Apr 2005 content changed
+forum#:#forums_thread#:#Asunto###07 Apr 2005 content changed
+forum#:#forums_thread_articles#:#mensajes de la cadena###07 Apr 2005 content changed
 forum#:#forums_thread_create_date#:#Creado en###07 Apr 2005 content changed
 forum#:#forums_thread_create_from#:#Creado por###07 Apr 2005 content changed
-forum#:#forums_thread_marked#:#La hebra ha sido marcada como leída.###07 Apr 2005 content changed
-forum#:#forums_thread_new_entry#:#se ha creado un nuevo asunto###07 Apr 2005 content changed
+forum#:#forums_thread_marked#:#La cadena ha sido marcada como leída###07 Apr 2005 content changed
+forum#:#forums_thread_new_entry#:#se ha creado una nueva cadena###07 Apr 2005 content changed
+forum#:#forums_threads#:#cadenas de mensajes###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#asuntos no disponibles###07 Apr 2005 content changed
 forum#:#forums_topics_overview#:#resumen de asuntos###07 Apr 2005 content changed
 forum#:#forums_your_reply#:#tu respuesta###07 Apr 2005 content changed
-forum#:#frm_default_view#:#Vista por defecto.###07 Apr 2005 content changed
+forum#:#frm_default_view#:#Vista por defecto###07 Apr 2005 content changed
 forum#:#frm_title_required#:#Por favor inserte un título.###07 Apr 2005 content changed
-forum#:#is_read#:#Marcar como leída.###07 Apr 2005 content changed
+forum#:#is_read#:#marcar como leída###07 Apr 2005 content changed
 jscalendar#:#about_calendar#:#Acerca del calendario###07 Apr 2005 content changed
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones «, »  para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.###07 Apr 2005 content changed
 jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida###07 Apr 2005 content changed
@@ -3748,12 +3648,12 @@ jscalendar#:#tt_date_format#:#%a, %b %e###07 Apr 2005 content changed
 jscalendar#:#wk#:#-wk-###07 Apr 2005 content changed
 mail#:#also_as_email#:#También como Email###07 Apr 2005 content changed
 mail#:#bc#:#BC###07 Apr 2005 content changed
-mail#:#forward#:#Reenviar###07 Apr 2005 content changed
+mail#:#forward#:#reenviar###07 Apr 2005 content changed
 mail#:#linebreak#:#Salto de Línea###07 Apr 2005 content changed
 mail#:#mail_add_recipient#:#Por favor introduzca un destinatario###07 Apr 2005 content changed
 mail#:#mail_add_subfolder#:#Añadir subcarpeta###07 Apr 2005 content changed
 mail#:#mail_add_subject#:#Por favor introduzca un asunto###07 Apr 2005 content changed
-mail#:#mail_add_to_addressbook#:#Añadir a la libreta de direcciones###07 Apr 2005 content changed
+mail#:#mail_add_to_addressbook#:#añadir a la agenda###07 Apr 2005 content changed
 mail#:#mail_add_type#:#Por favor especifique el tipo de correo que quiere enviar###07 Apr 2005 content changed
 mail#:#mail_addr_entries#:#Entradas###07 Apr 2005 content changed
 mail#:#mail_attachments#:#Adjuntos###07 Apr 2005 content changed
@@ -3795,7 +3695,7 @@ mail#:#mail_message_send#:#El mensaje se ha enviado###07 Apr 2005 content change
 mail#:#mail_move_error#:#Error moviendo correo(s)###07 Apr 2005 content changed
 mail#:#mail_move_to#:#mover correos a ###07 Apr 2005 content changed
 mail#:#mail_moved#:#Los correo(s) han sido movidos###07 Apr 2005 content changed
-mail#:#mail_moved_to_trash#:#Los Correo(s) han sido movidos a la Papelera###07 Apr 2005 content changed
+mail#:#mail_moved_to_trash#:#Los mensajes han sido movidos a la Papelera###07 Apr 2005 content changed
 mail#:#mail_new_file#:#Adjuntar nuevo fichero:###07 Apr 2005 content changed
 mail#:#mail_no_attach_allowed#:#Los mensajes de Sistema no pueden contener adjuntos###07 Apr 2005 content changed
 mail#:#mail_no_attachments_found#:#No se encontraron adjuntos###07 Apr 2005 content changed
@@ -3803,8 +3703,8 @@ mail#:#mail_no_permissions_write_smtp#:#No tienes permiso para mandar correos fu
 mail#:#mail_options_of#:#Opciones:###07 Apr 2005 content changed
 mail#:#mail_options_saved#:#Opciones guardadas###07 Apr 2005 content changed
 mail#:#mail_recipient_not_valid#:#El destinatario no es válido###07 Apr 2005 content changed
-mail#:#mail_s#:#Correo(s)###07 Apr 2005 content changed
-mail#:#mail_s_unread#:#Correo(s) no leído###07 Apr 2005 content changed
+mail#:#mail_s#:#mensaje(s)###07 Apr 2005 content changed
+mail#:#mail_s_unread#:#mensaje(s) no leído###07 Apr 2005 content changed
 mail#:#mail_saved#:#El mensaje ha sido guardado###07 Apr 2005 content changed
 mail#:#mail_search_addressbook#:#Buscar en la agenda###07 Apr 2005 content changed
 mail#:#mail_search_system#:#buscar en el sistema###07 Apr 2005 content changed
@@ -4147,7 +4047,7 @@ meta#:#meta_l_dz#:#bhutani###07 Apr 2005 content changed
 meta#:#meta_l_el#:#greek###07 Apr 2005 content changed
 meta#:#meta_l_en#:#english###07 Apr 2005 content changed
 meta#:#meta_l_eo#:#esperanto###07 Apr 2005 content changed
-meta#:#meta_l_es#:#Español###07 Apr 2005 content changed
+meta#:#meta_l_es#:#spanish###07 Apr 2005 content changed
 meta#:#meta_l_et#:#estonian###07 Apr 2005 content changed
 meta#:#meta_l_eu#:#basque###07 Apr 2005 content changed
 meta#:#meta_l_fa#:#persian (farsi)###07 Apr 2005 content changed
@@ -4545,10 +4445,8 @@ payment#:#price_a#:#Precio###07 Apr 2005 content changed
 payment#:#prices#:#Precios###07 Apr 2005 content changed
 payment#:#update#:#Actualizar###07 Apr 2005 content changed
 pwassist#:#password_assistance#:#Asistencia para Contraseñas###07 Apr 2005 content changed
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.###07 Apr 2005 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.###07 Apr 2005 content changed
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.###07 Apr 2005 content changed
 pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.###07 Apr 2005 content changed
 pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.###07 Apr 2005 content changed
@@ -4558,7 +4456,6 @@ pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario.
 pwassist#:#pwassist_password_assigned#:#La contraseña ha sido generada con éxito y asignada al usuario "%1$s".###07 Apr 2005 content changed
 pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fué enviado.###07 Apr 2005 content changed
 pwassist#:#pwassist_update_error#:#Por favor contacte con su administrador de sistema.\nLa contraseña pudo no haber sido asignada a la cuenta de usuario debido a un error cuando se actualizaba la base de datos###07 Apr 2005 content changed
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Incluir usuarios activos###07 Apr 2005 content changed
 search#:#search_all_results#:#Todos los resultados###07 Apr 2005 content changed
 search#:#search_and#:#y###07 Apr 2005 content changed
@@ -4625,7 +4522,7 @@ survey#:#before#:#antes###07 Apr 2005 content changed
 survey#:#browse_for_questions#:#Seleccionar preguntas###07 Apr 2005 content changed
 survey#:#cannot_create_survey_codes#:#¡Usted no posee suficientes permisos para crear códigos de acceso de encuestas!###07 Apr 2005 content changed
 survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar la encuesta!###07 Apr 2005 content changed
-survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el repositorio de preguntas!###07 Apr 2005 content changed
+survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el banco de preguntas!###07 Apr 2005 content changed
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!###07 Apr 2005 content changed
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!###07 Apr 2005 content changed
 survey#:#cannot_manage_phrases#:#No tiene derechos de escritura para gestionar los conjuntos!###07 Apr 2005 content changed
@@ -4651,7 +4548,7 @@ survey#:#contains#:#Contiene###07 Apr 2005 content changed
 survey#:#continue#:#Continuar >>###07 Apr 2005 content changed
 survey#:#create_date#:#Creada###07 Apr 2005 content changed
 survey#:#create_new#:#Crear nueva###07 Apr 2005 content changed
-survey#:#create_questionpool_before_add_question#:#Debe crear al menos un repositorio para almacenar sus preguntas!###07 Apr 2005 content changed
+survey#:#create_questionpool_before_add_question#:#Debe crear al menos un banco para almacenar sus preguntas!###07 Apr 2005 content changed
 survey#:#dc_agree#:#de acuerdo###07 Apr 2005 content changed
 survey#:#dc_always#:#siempre###07 Apr 2005 content changed
 survey#:#dc_definitelyfalse#:#absolutamente falso###07 Apr 2005 content changed
@@ -4729,12 +4626,9 @@ survey#:#error_add_heading#:#Por favor añada una cabecera!###07 Apr 2005 conten
 survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el fichero seleccionado!###07 Apr 2005 content changed
 survey#:#error_retrieving_anonymous_survey#:#El sistema no pudo encontrar los datos de su encuesta para la encuesta con código %s. Por favor compruebe el código de encuesta que ha introducido! ###07 Apr 2005 content changed
 survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el significado de los símbolos de la cabecera de cada columna###07 Apr 2005 content changed
-survey#:#evaluation#:#Evaluación###07 Apr 2005 content changed
+survey#:#evaluation#:#evaluación###07 Apr 2005 content changed
 survey#:#evaluation_access#:#Acceso de Evaluación###07 Apr 2005 content changed
 survey#:#exit#:#Salir###07 Apr 2005 content changed
-survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
 survey#:#export_data_as#:#Exportar datos como###07 Apr 2005 content changed
 survey#:#fill_out_all_category_fields#:#Por favor rellene todos los campos de categoría antes de añadir uno nuevo!###07 Apr 2005 content changed
 survey#:#fill_out_all_required_fields_add_category#:#Por favor rellene todos los campos requeridos antes de añadir categorías!###07 Apr 2005 content changed
@@ -4743,9 +4637,9 @@ survey#:#fill_out_all_required_fields_move_category#:#¡Por favor rellene todos 
 survey#:#fill_out_all_required_fields_save_phrase#:#¡Por favor rellene todos los campos requeridos antes de grabar un conjunto!###07 Apr 2005 content changed
 survey#:#filter#:#Filtro###07 Apr 2005 content changed
 survey#:#filter_all_question_types#:#Todos los tipos de pregunta###07 Apr 2005 content changed
-survey#:#filter_all_questionpools#:#Todos los repositorios###07 Apr 2005 content changed
+survey#:#filter_all_questionpools#:#Todos los bancos###07 Apr 2005 content changed
 survey#:#filter_show_question_types#:#Mostrar tipos de pregunta###07 Apr 2005 content changed
-survey#:#filter_show_questionpools#:#Show repositorios de preguntas###07 Apr 2005 content changed
+survey#:#filter_show_questionpools#:#Mostrar banco de preguntas###07 Apr 2005 content changed
 survey#:#finished#:#finalizado###07 Apr 2005 content changed
 survey#:#found_questions#:#Preguntas encontradas###07 Apr 2005 content changed
 survey#:#geometric_mean#:#Media Geométrica###07 Apr 2005 content changed
@@ -4846,14 +4740,14 @@ survey#:#qpl_questions_deleted#:#Pregunta(s) eliminada(s)
 survey#:#qpl_questions_pasted#:#Pregunta(s) pegada(s)
 survey#:#qpl_savephrase_empty#:#Por favor introduzca un título para el conjunto
 survey#:#qpl_savephrase_exists#:#¡El título para ese conjunto ya existe! Por favor seleccione otro título
-survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de preguntas si quiere desdoblar el bloque
+survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de preguntas si quiere deshacer el bloque
 survey#:#qt_metric#:#Pregunta Métrica
 survey#:#qt_nominal#:#Pregunta Nominal
 survey#:#qt_ordinal#:#Pregunta Ordinal
 survey#:#qt_text#:#Pregunta de Texto
 survey#:#question_has_constraints#:#Restricciones
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
-survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el repositorio si no quiere mantenerla.
+survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
 survey#:#question_type#:#Tipo de pregunta
 survey#:#questionblock#:#Bloque de preguntas
 survey#:#questionblock_has_constraints#:#Restricciones
@@ -4883,8 +4777,8 @@ survey#:#search_users#:#Usuarios
 survey#:#select_option#:#--- Por favor seleccione una opción ---
 survey#:#select_phrase_to_add#:#¡Por favor seleccione una conjunto para añadirlo a la pregunta!
 survey#:#select_prior_question#:#Seleccione una pregunta previa
-survey#:#select_questionpool#:#Por favor seleccione un repositorio para almacenar la pregunta creada
-survey#:#select_questionpool_short#:#Repositorio de preguntas para encuesta
+survey#:#select_questionpool#:#Por favor seleccione un banco para almacenar la pregunta creada
+survey#:#select_questionpool_short#:#Banco de preguntas para encuesta
 survey#:#select_relation#:#Seleccione una relación
 survey#:#select_svy_option#:#--- Por favor seleccione una encuesta ---
 survey#:#select_target_position_for_move#:#Por favor seleccione una posición destino para mover las categorías y presione un de los botones
@@ -4931,7 +4825,7 @@ survey#:#svy_missing_title#:#¡No ha introducido un título de encuesta! Por fav
 survey#:#svy_page_error#:#Hubo un error respondiendo una pregunta de la encuesta. Por favor diríjase a la pregunta para ver más información sobre el error.
 survey#:#svy_page_errors#:#Hubo errores contestando las preguntas de la encuesta. Por favor diríjase a las preguntas para ver más información sobre los errores.
 survey#:#svy_select_file_for_import#:#!Debe seleccionar un fichero para importar!
-survey#:#svy_select_questionpools#:#Por favor seleccione un repositorio de preguntas para almacenar las preguntas importadas
+survey#:#svy_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
 survey#:#svy_select_surveys#:#Por favor seleccione una encuesta a duplicar
 survey#:#svy_show_questiontitles#:#Mostrar títulos de las preguntas en la encuesta
 survey#:#svy_size#:#Tamaño
@@ -4943,7 +4837,7 @@ survey#:#text_maximum_chars_allowed#:#Por favor no introduzca más de un máximo
 survey#:#text_question_not_filled_out#:#¡Por favor rellene el campo respuesta!
 survey#:#text_resume_survey#:#Está intentando continuar una encuesta no identificada. Para continuar la encuesta por los valores introducidos anteriormente por favor introduzca los 32 dígitos del código de encuesta que recibió en su carpeta de correo antes de comenzar la encuesta. En lugar de escribir su código, puede copiar desde su bandeja de entrada y pegarlo en el campo de texto inferior
 survey#:#title_resume_survey#:#Continuar la encuesta - Introducir código de encuesta
-survey#:#unfold#:#Unfold###07 Apr 2005 content changed
+survey#:#unfold#:#Deshacer bloque
 survey#:#unlimited_users#:#Ilimitado
 survey#:#uploaded_material#:#Material cargado
 survey#:#upper_limit#:#Límite superior
