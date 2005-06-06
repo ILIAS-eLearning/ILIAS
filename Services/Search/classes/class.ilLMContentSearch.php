@@ -53,17 +53,20 @@ class ilLMContentSearch extends ilAbstractSearch
 		$this->setFields(array('content'));
 
 		$in = $this->__createInStatement();
-		$where = $this->__createAndCondition();
+		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT lm_id,parent_type ".
+		$query = "SELECT parent_id,parent_type ".
 			$locate.
-			"FROM lm_data as ld,page_object as po WHERE ld.obj_id = po.page_id ";
+			"FROM page_object ".
+			$where.
+			$in;
+			
 		
-		$res = $this->db->query($query.$and.$in);
+		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->lm_id,$row->parent_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row));
 		}
 
 		return $this->search_result;
@@ -74,7 +77,20 @@ class ilLMContentSearch extends ilAbstractSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		return " AND parent_type IN('lm','dbk')";
+		if(!$this->getFilter())
+		{
+			return '';
+		}
+		else
+		{
+			$type = "('";
+			$type .= implode("','",$this->getFilter());
+			$type .= "')";
+			
+			$in = " AND parent_type IN ".$type;
+
+			return $in;
+		}
 	}
 
 	function __createAndCondition()

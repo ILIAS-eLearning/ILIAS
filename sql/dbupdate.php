@@ -7287,6 +7287,11 @@ ALTER TABLE `il_meta_description` ADD FULLTEXT `description` (`description`);
 ALTER TABLE `frm_posts` ADD FULLTEXT `message_subject` (`pos_message`,`pos_subject`);
 <#460>
 ALTER TABLE `frm_threads` ADD FULLTEXT `thr_subject` (`thr_subject`);
+<#461>
+ALTER TABLE `glossary_term` ADD FULLTEXT `term` (`term`);
+<#462>
+ALTER TABLE `exc_data` ADD FULLTEXT `instruction` (`instruction`);
+
 
 
 

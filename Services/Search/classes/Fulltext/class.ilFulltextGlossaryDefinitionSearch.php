@@ -22,28 +22,28 @@
 */
 
 /**
-* Class ilFulltextLMContentSearch
+* Class ilFulltextGlossaryDefinitionSearch
 *
-* class for searching meta 
+* class for searching forum entries 
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id
+* @version $Id$
 * 
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilLMContentSearch.php';
+include_once 'Services/Search/classes/class.ilGlossaryDefinitionSearch.php';
 
-class ilFulltextLMContentSearch extends ilLMContentSearch
+class ilFulltextGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilFulltextLMContentSearch(&$qp_obj)
+	function ilFulltextGlossaryDefinitionSearch(&$qp_obj)
 	{
-		parent::ilLMContentSearch($qp_obj);
+		parent::ilGlossaryDefinitionSearch($qp_obj);
 	}
 
 	function __createWhereCondition()
@@ -51,26 +51,26 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$where .= " WHERE MATCH(content) AGAINST('";
+			$query .= " WHERE MATCH(term) AGAINST('";
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $word;
-				$where .= '* ';
+				$query .= $word;
+				$query .= '* ';
 			}
-			$where .= "' IN BOOLEAN MODE) ";
+			$query .= "' IN BOOLEAN MODE) ";
 		}
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$where .= " WHERE MATCH (content) AGAINST(' ";
+			$query .= " WHERE MATCH (term) AGAINST(' ";
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $word;
-				$where .= ' ';
-				}
-			$where .= "') ";
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
 		}
-		return $where;
-	}		
+		return $query;
+	}
 }
 ?>

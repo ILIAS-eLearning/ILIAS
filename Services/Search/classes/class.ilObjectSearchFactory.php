@@ -122,5 +122,31 @@ class ilObjectSearchFactory
 		return new ilFulltextForumSearch($query_parser);
 	}
 		
+	/*
+	 * get reference of ilFulltextGlossaryDefinitionSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextGlossaryDefinitionSearch
+	 */
+	function &_getGlossaryDefinitionSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextGlossaryDefinitionSearch.php';
+		
+		return new ilFulltextGlossaryDefinitionSearch($query_parser);
+	}
+	/*
+	 * get reference of ilFulltextExerciseSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextExerciseSearch
+	 */
+	function &_getExerciseSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextExerciseSearch.php';
+		
+		return new ilFulltextExerciseSearch($query_parser);
+	}
 }
 ?>
