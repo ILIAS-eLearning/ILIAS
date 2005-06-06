@@ -202,7 +202,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
 		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1,true));
 		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1,true));
-		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['for'] ? 1 : 0,'search[details][for]',1,true));
+		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1,true));
 		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1,true));
 
@@ -404,6 +404,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 				case 'lms':
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
 					$result->mergeEntries($content_search->performSearch());
+
+					$result_meta =& $this->__searchMeta($query_parser,'title');
+					$result->mergeEntries($result_meta);
+
+					$result_meta =& $this->__searchMeta($query_parser,'description');
+					$result->mergeEntries($result_meta);
+					
 					break;
 
 				case 'frm':
@@ -476,6 +483,16 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 			case 'contribute':
 				$meta_search->setMode('contribute');
+				break;
+
+			case 'title':
+				$meta_search->setFilter(array('pg','st'));
+				$meta_search->setMode('title');
+				break;
+
+			case 'description':
+				$meta_search->setFilter(array('pg','st'));
+				$meta_search->setMode('description');
 				break;
 		}
 	   return $meta_search->performSearch();

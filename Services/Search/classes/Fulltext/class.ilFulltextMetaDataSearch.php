@@ -99,5 +99,57 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		}
 		return $query;
 	}		
+	function __createTitleWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(title,coverage) AGAINST('";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$query .= " WHERE MATCH (title,coverage) AGAINST(' ";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}		
+	function __createDescriptionWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(description) AGAINST('";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$query .= " WHERE MATCH (description) AGAINST(' ";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}		
 }
 ?>

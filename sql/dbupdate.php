@@ -7279,3 +7279,15 @@ ALTER TABLE `object_data` ADD FULLTEXT `title_desc` (`title` ,`description`	);
 <#456>
 ALTER TABLE `il_meta_keyword` ADD FULLTEXT `keyword` (`keyword`);
 ALTER TABLE `il_meta_entity` ADD FULLTEXT `entity` (`entity`);
+<#457>
+ALTER TABLE `il_meta_general` ADD FULLTEXT `title_coverage` (`title`,`coverage`);
+<#458>
+ALTER TABLE `il_meta_description` ADD FULLTEXT `description` (`description`);
+<#459>
+ALTER TABLE `frm_posts` ADD FULLTEXT `message_subject` (`pos_message`,`pos_subject`);
+<#460>
+ALTER TABLE `frm_threads` ADD FULLTEXT `thr_subject` (`thr_subject`);
+
+
+
+

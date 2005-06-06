@@ -52,10 +52,8 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$where .= " AND MATCH(content) AGAINST('";
-			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $prefix;
 				$where .= $word;
 				$where .= '* ';
 			}
@@ -63,32 +61,14 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		}
 		else
 		{
-			if($this->query_parser->getCombination() == 'or')
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$where .= " AND MATCH (content) AGAINST(' ";
+			foreach($this->query_parser->getWords() as $word)
 			{
-				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-				$where .= " AND MATCH (content) AGAINST(' ";
-				foreach($this->query_parser->getWords() as $word)
-				{
-					$where .= $word;
-					$where .= ' ';
+				$where .= $word;
+				$where .= ' ';
 				}
-				$where .= "') ";
-			}
-			else
-			{
-				$where .= " AND ";
-				$counter = 0;
-				foreach($this->query_parser->getWords() as $word)
-				{
-					if($counter++)
-					{
-						$where .= strtoupper($this->query_parser->getCombination());
-					}
-					$where .= " MATCH (content) AGAINST('";
-					$where .= $word;
-					$where .= "') ";
-				}
-			}
+			$where .= "') ";
 		}
 		return $where;
 	}		
