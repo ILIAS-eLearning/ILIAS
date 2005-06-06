@@ -80,6 +80,12 @@ class ilMetaDataSearch extends ilAbstractSearch
 			case 'contribute':
 				return $this->__searchContribute();
 
+			case 'title':
+				return $this->__searchTitles();
+
+			case 'description':
+				return $this->__searchDescriptions();
+
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
 				return false;
@@ -140,6 +146,48 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$query = "SELECT rbac_id,obj_type ".
 			$locate.
 			"FROM il_meta_keyword ".
+			$where." ".$in.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+		}
+
+		return $this->search_result;
+	}		
+	function __searchTitles()
+	{
+		$this->setFields(array('title'));
+
+		$in = $this->__createInStatement();
+		$where = $this->__createTitleWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_general ".
+			$where." ".$in.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+		}
+
+		return $this->search_result;
+	}		
+	function __searchDescriptions()
+	{
+		$this->setFields(array('description'));
+
+		$in = $this->__createInStatement();
+		$where = $this->__createDescriptionWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_description ".
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);

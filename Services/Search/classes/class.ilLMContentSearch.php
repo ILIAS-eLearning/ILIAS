@@ -50,15 +50,20 @@ class ilLMContentSearch extends ilAbstractSearch
 
 	function &performSearch()
 	{
-		$in = $this->__createInStatement();
-		$and = $this->__createAndCondition();
+		$this->setFields(array('content'));
 
-		$query = "SELECT lm_id,parent_type FROM lm_data as ld,page_object as po WHERE ld.obj_id = po.page_id ";
+		$in = $this->__createInStatement();
+		$where = $this->__createAndCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT lm_id,parent_type ".
+			$locate.
+			"FROM lm_data as ld,page_object as po WHERE ld.obj_id = po.page_id ";
 		
 		$res = $this->db->query($query.$and.$in);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->lm_id,$row->parent_type);
+			$this->search_result->addEntry($row->lm_id,$row->parent_type,$this->__prepareFound($row));
 		}
 
 		return $this->search_result;

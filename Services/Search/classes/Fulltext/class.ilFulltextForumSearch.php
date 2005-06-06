@@ -46,51 +46,59 @@ class ilFulltextForumSearch extends ilForumSearch
 		parent::ilForumSearch($qp_obj);
 	}
 
-	function __createAndCondition()
+	function __createTopicAndCondition()
 	{
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$where .= " AND MATCH(content) AGAINST('";
-			$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
+			$query .= " AND MATCH(thr_subject) AGAINST('";
 			foreach($this->query_parser->getWords() as $word)
 			{
-				$where .= $prefix;
-				$where .= $word;
-				$where .= '* ';
+				$query .= $word;
+				$query .= '* ';
 			}
-			$where .= "' IN BOOLEAN MODE) ";
+			$query .= "' IN BOOLEAN MODE) ";
 		}
 		else
 		{
-			if($this->query_parser->getCombination() == 'or')
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$query .= " WHERE MATCH (thr_subject) AGAINST(' ";
+			foreach($this->query_parser->getWords() as $word)
 			{
-				// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-				$where .= " AND MATCH (content) AGAINST(' ";
-				foreach($this->query_parser->getWords() as $word)
-				{
-					$where .= $word;
-					$where .= ' ';
-				}
-				$where .= "') ";
+				$query .= $word;
+				$query .= ' ';
 			}
-			else
-			{
-				$where .= " AND ";
-				$counter = 0;
-				foreach($this->query_parser->getWords() as $word)
-				{
-					if($counter++)
-					{
-						$where .= strtoupper($this->query_parser->getCombination());
-					}
-					$where .= " MATCH (content) AGAINST('";
-					$where .= $word;
-					$where .= "') ";
-				}
-			}
+			$query .= "') ";
 		}
-		return $where;
-	}		
+		return $query;
+	}
+
+	function __createPostAndCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " AND MATCH(pos_message,pos_subject) AGAINST('";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$query .= " WHERE MATCH (pos_message,pos_subject) AGAINST(' ";
+			foreach($this->query_parser->getWords() as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}
+
 }
 ?>
