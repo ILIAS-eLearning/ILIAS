@@ -198,12 +198,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		
 		$details = $this->getDetails();
-		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1,true));
+		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1));
 		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
 		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1,true));
 		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1,true));
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
-		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1,true));
+		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
 		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1,true));
 
 
@@ -403,6 +403,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			{
 				case 'lms':
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+					$content_search->setFilter(array('lm','dbk'));
 					$result->mergeEntries($content_search->performSearch());
 
 					$result_meta =& $this->__searchMeta($query_parser,'title');
@@ -417,7 +418,22 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$forum_search =& ilObjectSearchFactory::_getForumSearchInstance($query_parser);
 					$result->mergeEntries($forum_search->performSearch());
 					break;
-					
+
+				case 'glo':
+					// Glossary term definition pages
+					$gdf_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+					$gdf_search->setFilter(array('gdf'));
+					$result->mergeEntries($gdf_search->performSearch());
+
+					// Glossary terms
+					$gdf_term_search =& ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
+					$result->mergeEntries($gdf_term_search->performSearch());
+					break;
+
+				case 'exc':
+					$exc_search =& ilObjectSearchFactory::_getExerciseSearchInstance($query_parser);
+					$result->mergeEntries($exc_search->performSearch());
+					break;
 			}
 		}
 		return $result;
@@ -516,7 +532,15 @@ class ilSearchGUI extends ilSearchBaseGUI
 					break;
 
 				case 'frm':
-					;
+					$filter[] = 'frm';
+					break;
+
+				case 'glo':
+					$filter[] = 'glo';
+					break;
+
+				case 'exc':
+					$filter[] = 'exc';
 					break;
 			}
 		}

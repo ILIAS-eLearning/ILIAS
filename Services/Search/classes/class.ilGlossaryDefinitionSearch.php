@@ -22,55 +22,55 @@
 */
 
 /**
-* Class ilFulltextLMContentSearch
+* Class ilLMContentSearch
 *
-* class for searching meta 
+* Abstract class for glossary definitions. Should be inherited by ilFulltextGlossaryDefinitionSearch
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id
+* @version $Id$
 * 
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilLMContentSearch.php';
+include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
-class ilFulltextLMContentSearch extends ilLMContentSearch
+class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilFulltextLMContentSearch(&$qp_obj)
+	function ilGlossaryDefinitionSearch(&$query_parser)
 	{
-		parent::ilLMContentSearch($qp_obj);
+		parent::ilAbstractSearch($query_parser);
 	}
 
-	function __createWhereCondition()
+	function &performSearch()
 	{
-		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		// Search in glossary term
+		
+		$this->setFields(array('term'));
+
+		$where = $this->__createWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT glo_id  ".
+			$locate.
+			"FROM glossary_term ".
+			$where;
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$where .= " WHERE MATCH(content) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
-			{
-				$where .= $word;
-				$where .= '* ';
-			}
-			$where .= "' IN BOOLEAN MODE) ";
+			$this->search_result->addEntry($row->glo_id,'glo',$this->__prepareFound($row));
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$where .= " WHERE MATCH (content) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
-			{
-				$where .= $word;
-				$where .= ' ';
-				}
-			$where .= "') ";
-		}
-		return $where;
-	}		
+		return $this->search_result;
+	}
+
+	function __createAndCondition()
+	{
+		echo "Overwrite me!";
+	}
+
 }
 ?>
