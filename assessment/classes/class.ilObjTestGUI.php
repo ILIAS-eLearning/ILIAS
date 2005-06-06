@@ -3988,6 +3988,7 @@ class ilObjTestGUI extends ilObjectGUI
 //		$this->ctrl->setCmd("evalSelectedUsers");
 		$this->setEvaluationTabs($all_users);
 		$legend = array();
+		$legendquestions = array();
 		$titlerow = array();
 		// build title columns
 		$name_column = $this->lng->txt("name");
@@ -4069,7 +4070,10 @@ class ilObjTestGUI extends ilObjectGUI
 			for ($i = 1; $i <= $this->object->getQuestionCount(); $i++)
 			{
 				array_push($titlerow, $this->lng->txt("question_short") . " " . $i);
-				$legend[$this->lng->txt("question_short") . " " . $i] = $this->object->getQuestionTitle($i);
+//				$legend[$this->lng->txt("question_short") . " " . $i] = $this->object->getQuestionTitle($i);
+				$legendquestions[$i] = $this->object->getQuestionTitle($i);
+				$legend[$this->lng->txt("question_short") . " " . $i] = $i; 
+				
 			}
 		}
 		else
@@ -4116,13 +4120,13 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$qt = $sarray["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($qt, $question_stat))
+					if (!array_key_exists($sarray["qid"], $question_stat))
 					{
-						$question_stat[$qt] = array("max" => 0, "reached" => 0);
+						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
 					}
-					$question_stat[$qt]["single_max"] = $sarray["max"];
-					$question_stat[$qt]["max"] += $sarray["max"];
-					$question_stat[$qt]["reached"] += $sarray["reached"];
+					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
+					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
+					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
 				}
 			}
 //				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
@@ -4162,7 +4166,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$qt = $value1["title"];
 						$qt = preg_replace("/<.*?>/", "", $qt);
-						$arraykey = array_search($qt, $legend);
+/*						$arraykey = array_search($qt, $legend);
 						if (!$arraykey)
 						{
 							array_push($titlerow_user, $this->lng->txt("question_short") . " " . $question_title_counter);
@@ -4171,6 +4175,18 @@ class ilObjTestGUI extends ilObjectGUI
 						}
 						else
 						{
+							array_push($titlerow_user, $arraykey);
+						}*/
+						if (!array_key_exists($value1["qid"], $legendquestions))
+						{
+							array_push($titlerow_user, $this->lng->txt("question_short") . " " . $question_title_counter);
+							$legend[$this->lng->txt("question_short") . " " . $question_title_counter] = $value1["qid"];
+							$legendquestions[$value1["qid"]] = $qt;
+							$question_title_counter++;
+						}
+						else
+						{
+							$arraykey = array_search($value1["qid"], $legend);
 							array_push($titlerow_user, $arraykey);
 						}
 					}
@@ -4323,7 +4339,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$qt = $stat_eval[$i-1]["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					$arrkey = array_search($qt, $legend);
+					$arrkey = array_search($stat_eval[$i-1]["qid"], $legend);
 					if ($arrkey)
 					{
 						$qshort = "<span title=\"" . ilUtil::prepareFormOutput($qt) . "\">" . $arrkey . "</span>: ";
@@ -4390,7 +4406,14 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						foreach ($titlerow as $title)
 						{
-							$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$title], $_POST["export_type"]), $format_title);
+							if (preg_match("/\d+/", $title))
+							{
+								$worksheet->write($row, $col, ilExcelUtils::_convert_text($legendquestions[$legend[$title]], $_POST["export_type"]), $format_title);
+							}
+							else
+							{
+								$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$title], $_POST["export_type"]), $format_title);
+							}
 							$col++;
 						}
 						$row++;
@@ -4408,7 +4431,14 @@ class ilObjTestGUI extends ilObjectGUI
 								}
 								else
 								{
-									$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$value], $_POST["export_type"]), $format_title);
+									if (preg_match("/\d+/", $value))
+									{
+										$worksheet->write($row, $col, ilExcelUtils::_convert_text($legendquestions[$legend[$value]], $_POST["export_type"]), $format_title);
+									}
+									else
+									{
+										$worksheet->write($row, $col, ilExcelUtils::_convert_text($legend[$value], $_POST["export_type"]), $format_title);
+									}
 								}
 								$col++;
 							}
@@ -4477,7 +4507,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("legendrow");
 			$this->tpl->setVariable("TXT_SYMBOL", $short);
-			$this->tpl->setVariable("TXT_MEANING", $long);
+			if (preg_match("/\d+/", $short))
+			{
+				$this->tpl->setVariable("TXT_MEANING", $legendquestions[$long]);
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_MEANING", $long);
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("legend");
@@ -4491,7 +4528,7 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($question_stat as $title => $values)
 		{
 			$this->tpl->setCurrentBlock("meanrow");
-			$this->tpl->setVariable("TXT_QUESTION", ilUtil::prepareFormOutput($title));
+			$this->tpl->setVariable("TXT_QUESTION", ilUtil::prepareFormOutput($values["title"]));
 			$percent = 0;
 			if ($values["max"] > 0)
 			{
@@ -4514,7 +4551,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($noq > 0)
 			{
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . ilUtil::prepareFormOutput($legend[$title]) . "\">" . $title . "</div>");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . ilUtil::prepareFormOutput($legendquestions[$legend[$title]]) . "\">" . $title . "</div>");
 				$this->tpl->parseCurrentBlock();
 				if ($noq == $noqcount)
 				{
@@ -4527,7 +4564,7 @@ class ilObjTestGUI extends ilObjectGUI
 			else
 			{
 				$this->tpl->setCurrentBlock("questions_titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $legend[$title] . "\">" . $title . "</div>");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $legendquestions[$legend[$title]] . "\">" . $title . "</div>");
 				$this->tpl->parseCurrentBlock();
 			}
 		}
