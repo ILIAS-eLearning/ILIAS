@@ -195,16 +195,10 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 			$counter = $this->__appendParentLink(count($items)) ? 0 : 1;
 			foreach($items as $item)
 			{
-				$checked = (is_array($_POST["del_id"]) and in_array($item["obj_id"],$_POST["del_id"])) ? 1 : 0;
-
-				$this->tpl->setVariable("CHECK",ilUtil::formCheckbox($checked,"del_id[]",$item["obj_id"]));
-
-				$this->tpl->setCurrentBlock("TBL_FOLDER_ROW");
-				$this->tpl->setVariable("ROWCOL",$counter % 2 ? "tblrow1" : "tblrow2");
-
 				if($item['type'] == 'seaf')
 				{
 					list($link,$target) = $this->__formatLink($item);
+					$this->tpl->setCurrentBlock("folder");
 					$this->tpl->setVariable("FOLDER_LINK",$link);
 					$this->tpl->setVariable("FOLDER_TARGET",$target);
 					$this->tpl->setVariable("FOLDER_TITLE",$this->__formatTitle($item));
@@ -219,12 +213,19 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 
 					$item_list_gui =& ilSearchObjectListFactory::_getInstance($item_data['type']);
 					$item_list_gui->initItem($target['id'],ilObject::_lookupObjId($item_data['id']));
+					$this->tpl->setCurrentBlock("link");
 					$this->tpl->setVariable("HTML",$item_list_gui->getListItemHTML($item_data['id'],
 																				   $id = ilObject::_lookupObjId($item_data['id']),
 																				   ilObject::_lookupTitle($id),
 																				   ilObject::_lookupDescription($id)));
 																										  
+					$this->tpl->parseCurrentBlock();
 				}
+				$checked = (is_array($_POST["del_id"]) and in_array($item["obj_id"],$_POST["del_id"])) ? 1 : 0;
+				$this->tpl->setCurrentBlock("TBL_FOLDER_ROW");
+				$this->tpl->setVariable("CHECK",ilUtil::formCheckbox($checked,"del_id[]",$item["obj_id"]));
+				$this->tpl->setVariable("ROWCOL",$counter % 2 ? "tblrow1" : "tblrow2");
+				$this->tpl->parseCurrentBlock();
 			}
 			if(count($items))
 			{
@@ -294,6 +295,19 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 
 			return false;
 		}
+		// GET OLD TITLE
+		include_once "Services/Search/classes/class.ilSearchItemFactory.php";
+
+		$tmp_obj = ilSearchItemFactory::getInstance($_POST["del_id"][0]);
+		
+		if($tmp_obj->getType() == 'sea')
+		{
+			sendInfo($this->lng->txt("search_select_folder"));
+			$this->showResults();
+
+			return false;
+		}
+
 		// SHOW SEARCH ADMINISTRATION PAGE
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.search_results.html",'Services/Search');
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
