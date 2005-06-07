@@ -163,5 +163,18 @@ class ilObjectSearchFactory
 		return new ilFulltextTestSearch($query_parser);
 	}
 
+	/*
+	 * get reference of ilFulltextMediapoolSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextMediapoolSearch
+	 */
+	function &_getMediaPoolSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediaPoolSearch.php';
+		
+		return new ilFulltextMediaPoolSearch($query_parser);
+	}
 }
 ?>

@@ -200,7 +200,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$details = $this->getDetails();
 		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1));
 		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
-		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1,true));
+		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1));
 		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1));
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
@@ -439,6 +439,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$tst_search =& ilObjectSearchFactory::_getTestSearchInstance($query_parser);
 					$result->mergeEntries($tst_search->performSearch());
 					break;
+
+				case 'mep':
+					$mep_search =& ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+					$result->mergeEntries($mep_search->performSearch());
+					break;
 			}
 		}
 		return $result;
@@ -554,12 +559,20 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$filter[] = 'qpl';
 					$filter[] = 'spl';
 					break;
+
+				case 'mep':
+					$filter[] = 'mep';
+					break;
 			}
 		}
 		return $filter ? $filter : array();
 	}
 
-
+	/**
+	* Show search in results button. If search was successful
+	* @return void
+	* @access public
+	*/
 	function __showSearchInResults()
 	{
 		$this->tpl->setCurrentBlock("search_results");
