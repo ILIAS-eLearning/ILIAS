@@ -99,7 +99,7 @@ class ilSearchResultPresentationGUI
 
 					if($html)
 					{
-						$item_html[] = $html;
+						$item_html[$item["ref_id"]] = $html;
 					}
 				}
 				// output block for resource type
@@ -117,9 +117,9 @@ class ilSearchResultPresentationGUI
 					$this->resetRowType();
 						
 					// content row
-					foreach($item_html as $html)
+					foreach($item_html as $ref_id => $html)
 					{
-						$this->addStandardRow($tpl, $html);
+						$this->addStandardRow($tpl, $html, $ref_id);
 					}
 				}
 			}
@@ -167,7 +167,7 @@ class ilSearchResultPresentationGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html)
+	function addStandardRow(&$a_tpl, $a_html,$a_ref_id)
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -176,10 +176,13 @@ class ilSearchResultPresentationGUI
 		$a_tpl->touchBlock($this->cur_row_type);
 		$a_tpl->setCurrentBlock("container_standard_row");
 		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
+		
+		// add checkbox for saving results
+		$a_tpl->setVariable("BLOCK_ROW_CHECK",ilUtil::formCheckbox(0,'result[]',$a_ref_id));
+
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
-
 
 	/**
 	* returns a new list block template

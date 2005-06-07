@@ -97,49 +97,13 @@ class ilUserResult
 	{
 		$target = $this->getTarget();
 
-		switch($target["type"])
-		{
-			case "lm":
-				include_once "content/classes/class.ilObjContentObject.php";
-				
-				if($target["subtype"] == "meta")
-				{
-					return list($book["link"],$book["target"]) = ilObjContentObject::_getLinkToObject($target["id"],"meta");
-				}
-				else
-				{
-					return list($book["link"],$book["target"]) = 
-						ilObjContentObject::_getLinkToObject($target["id"],"content",$target["page_id"]);
-				}
-				break;
-				
-			case "dbk":
+		include_once 'Services/Search/classes/class.ilSearchObjectListFactory.php';
+		
+		$item_list_gui =& ilSearchObjectListFactory::_getInstance($target['type']);
+		$item_list_gui->initItem($target['id'],ilObject::_lookupObjId($target['id']));
 
-				include_once "content/classes/class.ilObjDlBook.php";
-				
-				if($target["subtype"] == "meta")
-				{
-					return list($book["link"],$book["target"]) = ilObjDlBook::_getLinkToObject($target["id"],"meta");
-				}
-				else
-				{
-					return list($book["link"],$book["target"]) = 
-						ilObjDlBook::_getLinkToObject($target["id"],"content",$target["page_id"]);
-				}
-				break;
-
-			case "grp":
-				
-				include_once "classes/class.ilObjGroup.php";
-				
-				return list($group["link"],$group["target"]) = ilObjGroup::_getLinkToObject($target["id"]);
-
-			case "usr":
-
-				include_once "classes/class.ilObjUser.php";
-				
-				return list($group["link"],$group["target"]) = ilObjUser::_getLinkToObject($target["id"]);
-		}
+		return array($item_list_gui->getCommandLink('view'),
+					 $item_list_gui->getCommandFrame('view'));
 	}
 
 	function updateTitle($a_title)
