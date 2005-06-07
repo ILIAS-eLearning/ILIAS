@@ -100,6 +100,12 @@ class ilDBx extends PEAR
 
 		// SET 'max_allowed_packet' (only possible for mysql version 4)
 		$this->setMaxAllowedPacket();
+		
+		// set names
+		if ($this->isMysql4_1OrHigher())
+		{
+			$this->query("SET NAMES utf8");
+		}
 
 		return true;
 	} //end constructor
