@@ -52,7 +52,7 @@ class ilFulltextExerciseSearch extends ilExerciseSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(instruction) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -63,7 +63,7 @@ class ilFulltextExerciseSearch extends ilExerciseSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " WHERE MATCH (instruction) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';

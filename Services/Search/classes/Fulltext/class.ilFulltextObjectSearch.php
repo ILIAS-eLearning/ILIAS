@@ -53,7 +53,7 @@ class ilFulltextObjectSearch extends ilObjectSearch
 			$where = " WHERE MATCH (title,description) AGAINST(' ";
 			
 			#$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				#$where .= $prefix;
 				$where .= $word;
@@ -65,10 +65,9 @@ class ilFulltextObjectSearch extends ilObjectSearch
 		}
 		else
 		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$where = " WHERE MATCH (title,description) AGAINST(' ";
 			
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$where .= ($word.' ');
 			}

@@ -91,6 +91,22 @@ class ilQueryParser
 		return $this->words ? $this->words : array();
 	}
 
+	function getQuotedWords($with_quotation = false)
+	{
+		if($with_quotation)
+		{
+			return $this->quoted_words ? $this->quoted_words : array();
+		}
+		else
+		{
+			foreach($this->quoted_words as $word)
+			{
+				$tmp_word[] = str_replace('"','',$word);
+			}
+			return $tmp_word ? $tmp_word : array();
+		}
+	}
+
 	function parse()
 	{
 		$this->words = array();
@@ -100,9 +116,13 @@ class ilQueryParser
 			return false;
 		}
 
-		$words = explode(' ',$this->getQueryString());
+		$words = explode(' ',trim($this->getQueryString()));
 		foreach($words as $word)
 		{
+			if(!strlen(trim($word)))
+			{
+				continue;
+			}
 			if(strlen(trim($word)) < 3)
 			{
 				$this->setMessage($this->lng->txt('search_minimum_three'));
@@ -111,7 +131,36 @@ class ilQueryParser
 			$this->words[] = ilUtil::prepareDBString($word);
 		}
 
+		// Parse strings like && 'A "B C D" E' as 'A' && 'B C D' && 'E'
+		// Can be used in LIKE search or fulltext search > MYSQL 4.0
+		$this->__parseQuotation();
+
 		return true;
+	}
+
+	function __parseQuotation()
+	{
+		if(!strlen($this->getQueryString()))
+		{
+			return false;
+		}
+		$query_str = $this->getQueryString();
+		while(preg_match("/\".*?\"/",$query_str,$matches))
+		{
+			$query_str = str_replace($matches[0],'',$query_str);
+			$this->quoted_words[] = $matches[0];
+		}
+
+		// Parse the rest
+		$words = explode(' ',trim($query_str));
+		foreach($words as $word)
+		{
+			if(!strlen(trim($word)))
+			{
+				continue;
+			}
+			$this->quoted_words[] = ilUtil::prepareDBString($word);
+		}
 	}
 
 	function validate()

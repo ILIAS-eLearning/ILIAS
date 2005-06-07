@@ -53,7 +53,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(keyword) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -64,7 +64,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';
@@ -79,7 +79,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(entity) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -90,7 +90,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " WHERE MATCH (entity) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';
@@ -105,7 +105,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(title,coverage) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -116,7 +116,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " WHERE MATCH (title,coverage) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';
@@ -131,7 +131,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " WHERE MATCH(description) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -142,7 +142,7 @@ class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " WHERE MATCH (description) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';

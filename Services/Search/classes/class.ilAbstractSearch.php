@@ -137,7 +137,7 @@ class ilAbstractSearch
 		}
 
 		$counter = 0;
-		foreach($this->query_parser->getWords() as $word)
+		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			$locate .= (", LOCATE('".$word."',".$complete_str.") ");
 			$locate .= ("as found".$counter++." ");
@@ -153,7 +153,7 @@ class ilAbstractSearch
 			return array();
 		}
 		$counter = 0;
-		foreach($this->query_parser->getWords() as $word)
+		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			$res_found = "found".$counter++;
 			$found[] = $row->$res_found;
