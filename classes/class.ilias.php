@@ -340,6 +340,7 @@ class ILIAS
 
 		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
 		$this->auth->setExpire(0);
+		ini_set("session.cookie_lifetime", "0");
 
 		// Error Handling
 		$this->error_obj =& $ilErr;
