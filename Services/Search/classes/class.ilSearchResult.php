@@ -136,7 +136,7 @@ class ilSearchResult
 			{
 				$this->addEntry($new_entries[$obj_id]['obj_id'],
 								$new_entries[$obj_id]['type'],
-								$new_entries[$obj_id]['rbac_id']);
+								$new_entries[$obj_id]['found']);
 			}
 		}
 	}

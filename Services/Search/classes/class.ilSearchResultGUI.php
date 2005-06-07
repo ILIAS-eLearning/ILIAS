@@ -202,12 +202,29 @@ class ilSearchresultGUI extends ilSearchBaseGUI
 				$this->tpl->setCurrentBlock("TBL_FOLDER_ROW");
 				$this->tpl->setVariable("ROWCOL",$counter % 2 ? "tblrow1" : "tblrow2");
 
-				list($link,$target) = $this->__formatLink($item);
-				$this->tpl->setVariable("FOLDER_LINK",$link);
-				$this->tpl->setVariable("FOLDER_TARGET",$target);
-				$this->tpl->setVariable("FOLDER_TITLE",$this->__formatTitle($item));
-				$this->tpl->parseCurrentBlock();
-				++$counter;
+				if($item['type'] == 'seaf')
+				{
+					list($link,$target) = $this->__formatLink($item);
+					$this->tpl->setVariable("FOLDER_LINK",$link);
+					$this->tpl->setVariable("FOLDER_TARGET",$target);
+					$this->tpl->setVariable("FOLDER_TITLE",$this->__formatTitle($item));
+					$this->tpl->parseCurrentBlock();
+					++$counter;
+				}
+				else
+				{
+					include_once 'Services/Search/classes/class.ilSearchObjectListFactory.php';
+					
+					$item_data = unserialize(stripslashes($item['target']));
+
+					$item_list_gui =& ilSearchObjectListFactory::_getInstance($item_data['type']);
+					$item_list_gui->initItem($target['id'],ilObject::_lookupObjId($item_data['id']));
+					$this->tpl->setVariable("HTML",$item_list_gui->getListItemHTML($item_data['id'],
+																				   $id = ilObject::_lookupObjId($item_data['id']),
+																				   ilObject::_lookupTitle($id),
+																				   ilObject::_lookupDescription($id)));
+																										  
+				}
 			}
 			if(count($items))
 			{
