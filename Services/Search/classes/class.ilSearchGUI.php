@@ -193,7 +193,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("MEP",$this->lng->txt('objs_mep'));
 		$this->tpl->setVariable("TST",$this->lng->txt('search_tst_svy'));
 		$this->tpl->setVariable("FOR",$this->lng->txt('objs_frm'));
-		$this->tpl->setVariable("EXC",$this->lng->txt('obj_exc'));
+		$this->tpl->setVariable("EXC",$this->lng->txt('objs_exc'));
 		$this->tpl->setVariable("FIL",$this->lng->txt('objs_file'));
 
 		
@@ -201,7 +201,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1));
 		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
 		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1,true));
-		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1,true));
+		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1));
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
 		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1,true));
@@ -434,6 +434,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$exc_search =& ilObjectSearchFactory::_getExerciseSearchInstance($query_parser);
 					$result->mergeEntries($exc_search->performSearch());
 					break;
+
+				case 'tst':
+					$tst_search =& ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+					$result->mergeEntries($tst_search->performSearch());
+					break;
 			}
 		}
 		return $result;
@@ -541,6 +546,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'exc':
 					$filter[] = 'exc';
+					break;
+
+				case 'tst':
+					$filter[] = 'tst';
+					$filter[] = 'svy';
+					$filter[] = 'qpl';
+					$filter[] = 'spl';
 					break;
 			}
 		}

@@ -83,6 +83,16 @@ class ilAbstractSearch
 	}
 
 	/**
+	* Get fields to search 
+	* @return array array of search fields. E.g. array(title,description)
+	* @access public
+	*/
+	function getFields()
+	{
+		return $this->fields ? $this->fields : array();
+	}
+
+	/**
 	* set object type to search in
 	* @param array Array of object types (e.g array('lm','st','pg','dbk'))
 	* @access public

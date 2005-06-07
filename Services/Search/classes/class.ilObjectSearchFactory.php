@@ -148,5 +148,20 @@ class ilObjectSearchFactory
 		
 		return new ilFulltextExerciseSearch($query_parser);
 	}
+
+	/*
+	 * get reference of ilFulltextTestSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextTestSearch
+	 */
+	function &_getTestSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextTestSearch.php';
+		
+		return new ilFulltextTestSearch($query_parser);
+	}
+
 }
 ?>
