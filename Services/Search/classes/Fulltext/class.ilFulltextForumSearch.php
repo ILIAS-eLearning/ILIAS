@@ -52,7 +52,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " AND MATCH(thr_subject) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -63,7 +63,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " AND MATCH (thr_subject) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';
@@ -79,7 +79,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$query .= " AND MATCH(pos_message,pos_subject) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= '* ';
@@ -90,7 +90,7 @@ class ilFulltextForumSearch extends ilForumSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$query .= " AND MATCH (pos_message,pos_subject) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
 				$query .= ' ';

@@ -51,11 +51,11 @@ class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 	{
 		$concat = ' keyword ';
 		$where = " WHERE ";
-		foreach($this->query_parser->getWords() as $word)
+		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
-				$where .= strtoupper($this->query_parser->getCombination());
+				$where .= "OR";
 			}
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
@@ -67,16 +67,47 @@ class ilLikeMetaDataSearch extends ilMetaDAtaSearch
 	{
 		$concat = ' entity ';
 		$where = " WHERE ";
-		foreach($this->query_parser->getWords() as $word)
+		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
-				$where .= strtoupper($this->query_parser->getCombination());
+				$where .= "OR";
 			}
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
 		return $where;
 	}		
+	function __createTitleWhereCondition()
+	{
+		$concat = ' CONCAT(title,coverage) ';
+		$where = " WHERE ";
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= "OR";
+			}
+			$where .= $concat;
+			$where .= (" LIKE ('%".$word."%')");
+		}
+		return $where;
+	}
+
+	function __createDescriptionWhereCondition()
+	{
+		$concat = ' description ';
+		$where = " WHERE ";
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= "OR";
+			}
+			$where .= $concat;
+			$where .= (" LIKE ('%".$word."%')");
+		}
+		return $where;
+	}
 }
 ?>

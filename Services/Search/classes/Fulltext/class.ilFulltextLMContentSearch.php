@@ -52,7 +52,7 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		if($this->db->isMysql4_0OrHigher())
 		{
 			$where .= " WHERE MATCH(content) AGAINST('";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$where .= $word;
 				$where .= '* ';
@@ -63,7 +63,7 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
 			$where .= " WHERE MATCH (content) AGAINST(' ";
-			foreach($this->query_parser->getWords() as $word)
+			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$where .= $word;
 				$where .= ' ';
