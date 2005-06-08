@@ -405,7 +405,6 @@ assessment#:#true#:#True
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
-assessment#:#tst_anon_eval#:#Results
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results?
@@ -533,7 +532,6 @@ assessment#:#tst_stat_result_timeofwork#:#Time of work
 assessment#:#tst_stat_result_total_participants#:#Total number of participants
 assessment#:#tst_stat_selected_users#:#Selected participants
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
-assessment#:#tst_statistical_evaluation#:#Statistics
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!
@@ -569,7 +567,6 @@ assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this exam.
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#warning_question_not_complete#:#The question is not complete!
-assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
@@ -809,6 +806,10 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment administration settings
 common#:#assessment_settings_reporting_language#:#Reporting language
+common#:#assessment_warning_test_not_complete#:#The test is not complete!
+common#:#assessment_run#:#Run
+common#:#assessment_tst_anon_eval#:#Results
+common#:#assessment_tst_statistical_evaluation#:#Statistics
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment administration
 common#:#assf_visible#:#Test&Assessment administration is visible

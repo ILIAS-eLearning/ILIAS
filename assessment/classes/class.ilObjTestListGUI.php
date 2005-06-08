@@ -62,10 +62,10 @@ class ilObjTestListGUI extends ilObjectListGUI
 		// general commands array
 		$this->commands = array
 		(
-			array("permission" => "read", "cmd" => "run", "lang_var" => "run"),
+			array("permission" => "read", "cmd" => "run", "lang_var" => "assessment_run"),
 			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "write", "cmd" => "eval_a", "lang_var" => "tst_anon_eval"),
-			array("permission" => "write", "cmd" => "eval_stat", "lang_var" => "tst_statistical_evaluation")
+			array("permission" => "write", "cmd" => "eval_a", "lang_var" => "assessment_tst_anon_eval"),
+			array("permission" => "write", "cmd" => "eval_stat", "lang_var" => "assessment_tst_statistical_evaluation")
 		);
 	}
 
@@ -128,7 +128,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("warning_test_not_complete"));
+				"value" => $lng->txt("assessment_warning_test_not_complete"));
 		}
 
 		return $props;
