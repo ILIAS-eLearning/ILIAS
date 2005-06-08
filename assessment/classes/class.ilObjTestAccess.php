@@ -66,7 +66,7 @@ class ilObjTestAccess extends ilObjectAccess
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
 					(!$rbacsystem->checkAccess('write', $a_ref_id)))
 				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("assessment_warning_test_not_complete"));
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
 					return false;
 				}
 				break;
@@ -77,7 +77,7 @@ class ilObjTestAccess extends ilObjectAccess
 			case "eval_stat":
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id))
 				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("assessment_warning_test_not_complete"));
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
 					return false;
 				}
 				break;
