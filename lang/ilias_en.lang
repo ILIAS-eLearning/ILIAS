@@ -806,10 +806,10 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment administration settings
 common#:#assessment_settings_reporting_language#:#Reporting language
-common#:#assessment_warning_test_not_complete#:#The test is not complete!
-common#:#assessment_run#:#Run
-common#:#assessment_tst_anon_eval#:#Results
-common#:#assessment_tst_statistical_evaluation#:#Statistics
+common#:#tst_warning_test_not_complete#:#The test is not complete!
+common#:#tst_run#:#Run
+common#:#tst_anon_eval#:#Results
+common#:#tst_statistical_evaluation#:#Statistics
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment administration
 common#:#assf_visible#:#Test&Assessment administration is visible
