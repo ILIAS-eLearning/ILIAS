@@ -644,6 +644,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$total)
 		{
 			$data["count_system"] = $_POST["count_system"];
+			$data["mc_scoring"] = $_POST["mcmr_scoring"];
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			if (!strlen($_POST["chb_random"]))
 			{
@@ -659,6 +660,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["sel_test_types"] = $this->object->getTestType();
 			$data["random_test"] = $this->object->random_test;
 			$data["count_system"] = $this->object->getCountSystem();
+			$data["mc_scoring"] = $this->object->getMCScoring();
 		}
 		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
@@ -763,6 +765,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
+		$this->object->setMCScoring($data["mc_scoring"];
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
@@ -940,6 +943,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
 		$data["count_system"] = $this->object->getCountSystem();
+		$data["mc_scoring"] = $this->object->getMCScoring();
 		if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
 		{
 			$proc_time = $this->object->getEstimatedWorkingTime();
@@ -1062,19 +1066,26 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
 		$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
 		$this->tpl->setVariable("REPORT_AFTER_TEST", $this->lng->txt("tst_report_after_test"));
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST || $this->object->getTestType() == TYPE_ONLINE_TEST)) {
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST || $this->object->getTestType() == TYPE_ONLINE_TEST)) 
+		{
 			$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			$this->tpl->setVariable("DISABLE_SCORE_REPORTING", " disabled=\"disabled\"");
-			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) {
+			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
+			{
 				$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
 				$this->tpl->setVariable("DISABLE_SEQUENCE", " disabled=\"disabled\"");
 				$this->tpl->setVariable("DISABLE_NR_OF_TRIES", " disabled=\"disabled\"");
 				$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 			}
-		} else {
-			if ($data["score_reporting"] == 0) {
+		} 
+		else 
+		{
+			if ($data["score_reporting"] == 0) 
+			{
 				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
-			} elseif ($data["score_reporting"] == 1) {
+			} 
+			elseif ($data["score_reporting"] == 1) 
+			{
 				$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
 			}
 		}
@@ -1106,6 +1117,17 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("SELECTED_CORRECT", " selected=\"selected\"");
 		}
+		$this->tpl->setVariable("TEXT_SCORE_MCMR", $this->lng->txt("tst_score_mcmr_questions"));
+		$this->tpl->setVariable("ZERO_POINTS_WHEN_UNANSWERED", $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"));
+		$this->tpl->setVariable("USE_SCORING_SYSTEM", $this->lng->txt("tst_score_mcmr_use_scoring_system"));
+		if ($data["mc_scoring"] == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+		{
+			$this->tpl->setVariable("SELECTED_ANTICHEAT", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_STANDARD", " selected=\"selected\"");
+		}
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -1115,6 +1137,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($total > 0)
 		{
 			$this->tpl->setVariable("DISABLE_COUNT_SYSTEM", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_MCMR_SCORING", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}

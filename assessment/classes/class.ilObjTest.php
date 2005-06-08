@@ -63,6 +63,9 @@ define("INVITATION_ON",1);
 define("COUNT_PARTIAL_SOLUTIONS", 0);
 define("COUNT_CORRECT_SOLUTIONS", 1);
 
+define("SCORE_ZERO_POINTS_WHEN_UNANSWERED", 0);
+define("SCORE_STANDARD_SCORE_SYSTEM", 1);
+
 class ilObjTest extends ilObject
 {
 /**
@@ -297,6 +300,13 @@ class ilObjTest extends ilObject
 * @var integer
 */
 	var $count_system;
+	
+/**
+* Indicates if the points unchecked multiple choice questions are given or not
+*
+* @var integer
+*/
+	var $mc_scoring;
 
 	/**
 	* Constructor
@@ -329,6 +339,7 @@ class ilObjTest extends ilObject
 		$this->random_test = 0;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
+		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED; 
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->create_simple_schema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1004,7 +1015,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
         $db->quote($this->author . ""),
         $db->quote($this->test_type . ""),
@@ -1028,6 +1039,7 @@ class ilObjTest extends ilObject
 				$db->quote(sprintf("%d", $this->random_test) . ""),
 				$random_question_count,
 				$db->quote($this->count_system . ""),
+				$db->quote($this->mc_scoring . ""),
         $db->quote($created)
       );
       
@@ -1054,7 +1066,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
         $db->quote($this->introduction . ""), 
@@ -1076,6 +1088,7 @@ class ilObjTest extends ilObject
 				$db->quote(sprintf("%d", $this->random_test) . ""),
 				$db->quote("$complete"),
 				$db->quote($this->count_system . ""),
+				$db->quote($this->mc_scoring . ""),
         $db->quote($this->test_id)
       );
       $result = $db->query($query);
@@ -1362,6 +1375,7 @@ class ilObjTest extends ilObject
 				$this->mark_schema->flush();
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->count_system = $data->count_system;
+				$this->mc_scoring = $data->mc_scoring;
 				$this->loadQuestions();
 			}
 		}
@@ -1639,6 +1653,20 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Gets the scoring type for multiple choice questions
+* 
+* Gets the scoring type for multiple choice questions
+*
+* @return integer The scoring type for multiple choice questions
+* @access public
+* @see $mc_scoring
+*/
+  function getMCScoring() 
+	{
+    return $this->mc_scoring;
+  }
+
+/**
 * Helper function to detect the correct number of points given for a question
 * 
 * Helper function to detect the correct number of points given for a question.
@@ -1868,6 +1896,20 @@ class ilObjTest extends ilObject
   function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS) 
 	{
     $this->count_system = $a_count_system;
+  }
+  
+/**
+* Sets the multiple choice scoring
+*
+* Sets the multiple choice scoring
+*
+* @param integer $a_mc_scoring The scoring for multiple choice questions
+* @access public
+* @see $mc_scoring
+*/
+  function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED) 
+	{
+    $this->mc_scoring = $a_mc_scoring;
   }
   
 /**
