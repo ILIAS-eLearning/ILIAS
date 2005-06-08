@@ -644,7 +644,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$total)
 		{
 			$data["count_system"] = $_POST["count_system"];
-			$data["mc_scoring"] = $_POST["mcmr_scoring"];
+			$data["mc_scoring"] = $_POST["mc_scoring"];
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 			if (!strlen($_POST["chb_random"]))
 			{
@@ -765,7 +765,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
-		$this->object->setMCScoring($data["mc_scoring"];
+		$this->object->setMCScoring($data["mc_scoring"]);
 		if ($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_ONLINE_TEST )
 		{
 			$this->object->setScoreReporting(REPORT_AFTER_TEST);
@@ -1137,7 +1137,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($total > 0)
 		{
 			$this->tpl->setVariable("DISABLE_COUNT_SYSTEM", " disabled=\"disabled\"");
-			$this->tpl->setVariable("DISABLE_MCMR_SCORING", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_MC_SCORING", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_TEST_TYPES", " disabled=\"disabled\"");
 			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}

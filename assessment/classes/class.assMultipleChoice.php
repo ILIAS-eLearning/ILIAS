@@ -1020,27 +1020,61 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 		}
 		$points = 0;
-		if (count($found_values) > 0)
+		foreach ($this->answers as $key => $answer)
 		{
-			foreach ($this->answers as $key => $answer)
+			if ($answer->isStateChecked())
 			{
-				if ($answer->isStateChecked())
+				if (in_array($key, $found_values))
 				{
-					if (in_array($key, $found_values))
-					{
-						$points += $answer->get_points();
-					}
+					$points += $answer->get_points();
 				}
-				else
+			}
+			else
+			{
+				if (!in_array($key, $found_values))
 				{
-					if (!in_array($key, $found_values))
-					{
-						$points += $answer->get_points();
-					}
+					$points += $answer->get_points();
 				}
 			}
 		}
 		return $points;
+	}
+	
+	/**
+	* Returns if the question was answered by a user or not
+	*
+	* Returns if the question was answered by a user or not
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @return boolean
+	* @access public
+	*/
+	function wasAnsweredByUser($user_id, $test_id)
+	{
+		global $ilDB;
+		$found_values = array();
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$ilDB->quote($user_id),
+			$ilDB->quote($test_id),
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if (strcmp($data->value1, "") != 0)
+			{
+				array_push($found_values, $data->value1);
+			}
+		}
+		if (count($found_values) == 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
 	}
 
 	/**

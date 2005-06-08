@@ -2810,6 +2810,17 @@ class ilObjTest extends ilObject
 				$max_points = $question->getMaximumPoints();
 				$total_max_points += $max_points;
 				$reached_points = $this->getReachedPoints($question->getReachedPoints($user_id, $this->getTestId()), $max_points);
+				if ($question->getQuestionType() == 2)
+				{
+					// multiple choice multiple response
+					if ($this->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+					{
+						if (!$question->wasAnsweredByUser($user_id, $this->getTestId()))
+						{
+							$reached_points = 0;
+						}
+					}
+				}
 				$total_reached_points += $reached_points;
 				if ($max_points > 0)
 				{
