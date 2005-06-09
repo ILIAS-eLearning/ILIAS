@@ -36,8 +36,20 @@ class ilModuleReader extends ilSaxParser
 
 	function ilModuleReader()
 	{
+		$this->executed = false;
 		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/modules.xml");
 	}
+	
+	function getModules()
+	{
+		if (!$this->executed)
+		{
+			$this->clearTables();
+			$this->startParsing();
+			$this->executed = true;
+		}
+	}
+
 	
 	function setHandlers($a_xml_parser)
 	{

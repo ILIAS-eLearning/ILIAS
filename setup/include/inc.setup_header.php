@@ -63,6 +63,8 @@ require_once "./classes/class.ilClientList.php";
 require_once "./classes/class.ilClient.php";
 require_once "../classes/class.ilFile.php";
 require_once "./classes/class.ilCtrlStructureReader.php";
+require_once "../classes/class.ilSaxParser.php";
+require_once "./classes/class.ilModuleReader.php";
 require_once "../include/inc.ilias_version.php";
 
 // include error_handling
@@ -105,5 +107,8 @@ $tpl->loadTemplatefile("tpl.main.html", true, true);
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
+
+// make instance of module reader
+$ilModuleReader = new ilModuleReader();
 
 ?>
