@@ -1782,7 +1782,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("vcard");
 		$this->tpl->setVariable("TXT_VCARD", $this->lng->txt("vcard"));
 		$this->tpl->setVariable("TXT_DOWNLOAD_VCARD", $this->lng->txt("vcard_download"));
-		$this->tpl->setVariable("HREF_VCARD", "profile.php?user=" . $_GET["user"] . "&vcard=1");
+		$this->tpl->setVariable("HREF_VCARD", basename($_SERVER["PHP_SELF"]) . "?user=" . $_GET["user"] . "&vcard=1");
 		$this->tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
 		$this->tpl->parseCurrentBlock();
 		$webspace_dir = ilUtil::getWebspaceDir("output");
