@@ -7325,3 +7325,10 @@ CREATE TABLE `module_class` (
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
+<#471>
+<?php
+
+$ilModuleReader->getModules();
+
+?>
