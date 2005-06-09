@@ -120,8 +120,19 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
 
 		$counter = 0;
-		$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
-		$rooms = $this->object->chat_room->getRoomsOfObject();
+
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$rooms = $this->object->chat_room->getAllRoomsOfObject();
+		}
+		else
+		{
+			$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
+			$rooms = $this->object->chat_room->getRoomsOfObject();
+		}
+
+
+
 		$script = $this->inModule() ? "./chat.php" : "./chat/chat.php";
 
 		// ADD PUBLIC ROOM
@@ -258,6 +269,38 @@ class ilObjChatGUI extends ilObjectGUI
 		}	
 		
 	}
+
+	function deleteRoom()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!$_GET["room_id_delete"])
+		{
+			$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
+		$rooms = array($_GET["room_id_delete"]);
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$delResult = $this->object->chat_room->deleteRooms($rooms, $this->object->chat_room->getOwnerId());
+		}
+		else
+		{
+			$delResult = $this->object->chat_room->deleteRooms($rooms);
+		}
+		if(!$delResult)
+		{
+			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
+		}
+		unset($_GET["room_id_delete"]);
+		sendInfo($this->lng->txt("chat_rooms_deleted"),true);
+		$this->showFrames();
+	}
+
 	function confirmedDeleteRoomObject()
 	{
 		global $rbacsystem;
@@ -280,6 +323,28 @@ class ilObjChatGUI extends ilObjectGUI
 
 		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 		exit;
+	}
+
+	function addRoom()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		$room =& new ilChatRoom($this->ref_id);
+		$room->setTitle(ilUtil::stripSlashes($_POST["room_name"]));
+		$room->setOwnerId($_SESSION["AccountId"]);
+
+		if(!$room->validate())
+		{
+			$this->ilias->raiseError($room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
+		}
+		$room->add();
+
+		sendInfo($this->lng->txt("chat_room_added"), true);
+		$this->showFrames();
 	}
 
 	function addRoomObject()
@@ -362,19 +427,52 @@ class ilObjChatGUI extends ilObjectGUI
 
 		// LOAD FRAMESET
 		$this->tpl = new ilTemplate("tpl.chat_start.html",false,false,true);
-		$this->tpl->setVariable("USER_TARGET","chat.php?cmd=showUserFrame&ref_id=".
-								$this->object->getRefId()."&room_id=".
-								$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
-		$this->tpl->setVariable("TOP_TARGET","chat.php?cmd=showTopFrame&ref_id=".
-								$this->object->getRefId()."&room_id=".
-								$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+		if ($_GET["p_id"])
+		{
+			$this->tpl->setVariable("USER_TARGET","chat.php?cmd=showUserFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+			$this->tpl->setVariable("TOP_TARGET","chat.php?cmd=showTopFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+			$this->tpl->setVariable("INPUT_TARGET","chat.php?cmd=showInputFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+			$this->tpl->setVariable("RIGHT_TARGET","chat.php?cmd=showRightFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+		}
+		else if ($_GET["a_id"])
+		{
+			$this->tpl->setVariable("USER_TARGET","chat.php?cmd=showUserFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&pa_id=".$_GET["a_id"]);
+			$this->tpl->setVariable("TOP_TARGET","chat.php?cmd=showTopFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&a_id=".$_GET["a_id"]);
+			$this->tpl->setVariable("INPUT_TARGET","chat.php?cmd=showInputFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&a_id=".$_GET["a_id"]);
+			$this->tpl->setVariable("RIGHT_TARGET","chat.php?cmd=showRightFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&a_id=".$_GET["a_id"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("USER_TARGET","chat.php?cmd=showUserFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]);
+			$this->tpl->setVariable("TOP_TARGET","chat.php?cmd=showTopFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]);
+			$this->tpl->setVariable("INPUT_TARGET","chat.php?cmd=showInputFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]);
+			$this->tpl->setVariable("RIGHT_TARGET","chat.php?cmd=showRightFrame&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]);
+		}
 		$this->tpl->setVariable("SERVER_TARGET",$this->object->server_comm->getServerFrameSource());
-		$this->tpl->setVariable("INPUT_TARGET","chat.php?cmd=showInputFrame&ref_id=".
-								$this->object->getRefId()."&room_id=".
-								$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
-		$this->tpl->setVariable("RIGHT_TARGET","chat.php?cmd=showRightFrame&ref_id=".
-								$this->object->getRefId()."&room_id=".
-								$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
 	}
 	function showUserFrame()
 	{
@@ -394,6 +492,11 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 
 		$this->__showRooms();
+
+		$this->tpl->setVariable("ADD_FORMACTION","chat.php?cmd=gateway&room_id=".$this->object->chat_room->getRoomId()."&ref_id=".$this->object->getRefId());
+		$this->tpl->setVariable("TXT_ADD_PRIVATE_CHATROOM", $this->lng->txt("chat_add_private_chatroom"));
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+
 		$this->__showActiveUsers();
 		if($this->object->chat_room->isOwner())
 		{
@@ -422,19 +525,41 @@ class ilObjChatGUI extends ilObjectGUI
 			$message .= $this->object->chat_user->getLogin()." -> ".$user_obj->getLogin();
 			sendInfo($message);
 		}
+		else if($_GET["a_id"])
+		{
+			$user_obj =& new ilObjUser((int) $_GET["a_id"]);
+			$message = $this->lng->txt("chat_address_user")." ".$user_obj->getLogin();
+			sendInfo($message);
+		}
 		
-		$this->tpl->setVariable("FORMACTION","chat.php?cmd=gateway&ref_id=".
-								$this->object->getRefId()."&room_id=".
-								$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+		if ($_GET["p_id"])
+		{
+			$this->tpl->setVariable("FORMACTION","chat.php?cmd=gateway&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&p_id=".$_GET["p_id"]);
+		}
+		else if ($_GET["a_id"])
+		{
+			$this->tpl->setVariable("FORMACTION","chat.php?cmd=gateway&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]."&a_id=".$_GET["a_id"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("FORMACTION","chat.php?cmd=gateway&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$_REQUEST["room_id"]);
+		}
 
 		$this->tpl->setVariable("TXT_COLOR",$this->lng->txt("chat_color"));
 		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt("chat_type"));
 		$this->tpl->setVariable("TXT_FACE",$this->lng->txt("chat_face"));
 		$this->tpl->setVariable("TXT_INPUT",$this->lng->txt("chat_input"));
 
-		if($_GET["p_id"])
+		if ($_GET["p_id"] ||
+			$_GET["a_id"])
 		{
-			$this->tpl->setCurrentBlock("whisper");
+			$this->tpl->setCurrentBlock("cancel");
 			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
@@ -446,9 +571,8 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
 		$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
 		$this->tpl->setVariable("CHECK_FACE",$this->__getFontFace());
-
-
 	}
+
 	function showRightFrame()
 	{
 		$this->__loadStylesheet();
@@ -458,6 +582,7 @@ class ilObjChatGUI extends ilObjectGUI
 	function cancel()
 	{
 		unset($_GET["p_id"]);
+		unset($_GET["a_id"]);
 
 		$this->showInputFrame();
 	}
@@ -479,6 +604,10 @@ class ilObjChatGUI extends ilObjectGUI
 			if((int) $_GET["p_id"])
 			{
 				$this->object->server_comm->setType('private');
+			}
+			else if((int) $_GET["a_id"])
+			{
+				$this->object->server_comm->setType('address');
 			}
 			if(!$this->object->server_comm->send())
 			{
@@ -567,7 +696,15 @@ class ilObjChatGUI extends ilObjectGUI
 				}
 
 				$this->tpl->setCurrentBlock("online");
-				$this->tpl->setVariable("ONLINE_FONT_A",$_GET["p_id"] == $user["user_id"] ? "smallred" : "small");
+				if ($_GET["p_id"] == $user["user_id"] ||
+					$_GET["a_id"] == $user["user_id"])
+				{
+					$this->tpl->setVariable("ONLINE_FONT_A","smallred");
+				}
+				else
+				{
+					$this->tpl->setVariable("ONLINE_FONT_A","small");
+				}
 				
 				if($this->object->chat_room->isInvited($user["user_id"]))
 				{
@@ -651,11 +788,35 @@ class ilObjChatGUI extends ilObjectGUI
 				$user_obj->read();
 
 				$this->tpl->setCurrentBlock("active");
-				$this->tpl->setVariable("ACTIVE_FONT_A",$_GET["p_id"] == $user ? "smallred" : "small");
+				if ($_GET["p_id"] == $user ||
+					$_GET["a_id"] == $user)
+				{
+					$this->tpl->setVariable("ACTIVE_FONT_A","smallred");
+				}
+				else
+				{
+					$this->tpl->setVariable("ACTIVE_FONT_A","small");
+				}
+				$this->tpl->setVariable("ACTIVE_ADDRESS_A","chat.php?cmd=showInputFrame&".
+										"ref_id=".$this->ref_id."&room_id=".
+										$_REQUEST["room_id"]."&a_id=".$user);
+				$this->tpl->setVariable("ACTIVE_TXT_ADDRESS_A",$this->lng->txt("chat_address"));
+
 				$this->tpl->setVariable("ACTIVE_LINK_A","chat.php?cmd=showInputFrame&".
 										"ref_id=".$this->ref_id."&room_id=".
 										$_REQUEST["room_id"]."&p_id=".$user);
+				$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
+
 				$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
+
+				$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_obj->getId()."' AND keyword='public_profile' AND value='y'";
+				$r = $this->ilias->db->query($q);
+				if ($r->numRows())
+				{
+						$this->tpl->setVariable("ACTIVE_ROW_TXT_PROFILE",$this->lng->txt("chat_profile"));
+                        $this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
+				}
+
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -735,6 +896,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		$user_obj =& new ilObjUser();
 		foreach($private_rooms as $room)
 		{
 			$this->tpl->setCurrentBlock("room_row");
@@ -743,7 +905,21 @@ class ilObjChatGUI extends ilObjectGUI
 																		 "&room_id=".$room["room_id"]);
 			$this->tpl->setVariable("ROOM_TARGET","_top");
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
-			$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($room["chat_id"],$room["room_id"]));
+			$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($room["chat_id"],$room["room_id"])); 
+
+			if ($room["owner"] != $_SESSION["AccountId"])
+			{
+				$user_obj->setId($room["owner"]);
+				$user_obj->read();
+				$this->tpl->setVariable("TXT_ROOM_INVITATION", $this->lng->txt("chat_invited_by"));
+				$this->tpl->setVariable("ROOM_INVITATION_USER", $user_obj->getLogin());
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_DELETE_ROOM", $this->lng->txt("delete"));
+				$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId()."&room_id_delete=".$room["room_id"]);
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -848,6 +1024,20 @@ class ilObjChatGUI extends ilObjectGUI
 			$user_obj =& new ilObjUser((int) $_GET["p_id"]);
 			$user_obj->read();
 			$tpl->setVariable("PRIVATE_TO",$user_obj->getLogin());
+			$tpl->parseCurrentBlock();
+		}
+		else if($_GET["a_id"])
+		{
+			$tpl->setCurrentBlock("address");
+			$tpl->setVariable("ADDRESS_FROM_COLOR","navy");
+			$user_obj =& new ilObjUser((int) $_SESSION["AccountId"]);
+			$user_obj->read();
+			$tpl->setVariable("ADDRESS_FROM",$user_obj->getLogin());
+
+			$tpl->setVariable("ADDRESS_TO_COLOR","red");
+			$user_obj =& new ilObjUser((int) $_GET["a_id"]);
+			$user_obj->read();
+			$tpl->setVariable("ADDRESS_TO",$user_obj->getLogin());
 			$tpl->parseCurrentBlock();
 		}
 		else

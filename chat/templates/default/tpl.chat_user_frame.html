@@ -11,14 +11,27 @@
 	  <!-- BEGIN room_row -->
 	  <tr class="{ROOM_ROW_CSS}">
 		<td class="option_value">
-		  <a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}">
-			<font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font>
-		  </a>
+			<table width=100% cellspacing=0 cellpadding=0 border=0>
+			<tr>
+				<td><a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}"><font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a></td>
+				<td align="right">
+					<!-- BEGIN room_row_delete -->
+					<a class="il_ContainerItemCommand" href="{LINK_DELETE_ROOM}" target="_top">{TXT_DELETE_ROOM}</a>
+					<!-- END room_row_delete -->
+				</td>
+			</tr>
+			</table>
+			<!-- BEGIN room_row_invitation -->
+			<font class="small">
+			{TXT_ROOM_INVITATION}: {ROOM_INVITATION_USER}
+			</font>
+			<!-- END room_row_invitation -->
 		</td>
 	  </tr>
 	  <!-- END room_row -->
 	</table>
 	<br />
+
 	<table width="100%" class="std">
 	  <th class="tblheader" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
 	  <!-- BEGIN no_active -->
@@ -30,12 +43,33 @@
 	  <!-- BEGIN active_row_start -->
 	  <tr>
 		<!-- END active_row_start -->
-		<td align="left" class="option_value"><a class="navigation" href="{ACTIVE_LINK_A}" target="input"><font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font></a></td>
+		<td align="left" class="option_value">
+			<table width=100% cellspacing=0 cellpadding=0 border=0>
+			<tr>
+				<td><font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font></td>
+				<td align="right">
+					<a class="il_ContainerItemCommand" href="{ACTIVE_ADDRESS_A}" target="input">{ACTIVE_TXT_ADDRESS_A}</a>
+					<a class="il_ContainerItemCommand" href="{ACTIVE_LINK_A}" target="input">{ACTIVE_TXT_WHISPER_A}</a>
+					<!-- BEGIN active_row_profile -->
+					<a class="il_ContainerItemCommand" href="#" onClick="window.open('chat_profile.php?user={ACTIVE_ROW_PROFILE_ID}','Profile','width=400,height=400,scrollbars=yes,menubar=no,toolbar=no,statusbar=no,resizable=no'); return false">{ACTIVE_ROW_TXT_PROFILE}</a>
+					<!-- END active_row_profile -->
+				</td>
+			</tr>
+			</table>
+		</td>
 		<!-- BEGIN active_row_end -->
 	  </tr>
 	  <!-- END active_row_end -->
 	  <!-- END active -->
 	</table>
+	<br />
+
+	<form action="{ADD_FORMACTION}" method="post" target="_top">
+	<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
+	<input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
+	<input class="submit_small" type="submit" name="cmd[addRoom]" value="{TXT_ADD}" /></p>
+	</form>
+
 	<!-- BEGIN show_online -->
 	<br />
 	<table width="100%" class="std">

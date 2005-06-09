@@ -86,9 +86,9 @@ class ilObjChat extends ilObject
 			return false;
 		}
 		$rooms = $this->chat_room->getAllRoomsOfObject();
-		foreach($rooms as $id)
+		foreach($rooms as $room)
 		{
-			$this->chat_room->delete($id);
+			$this->chat_room->delete($room["room_id"]);
 		}
 
 		// FINALLY DELETE MESSAGES IN PUBLIC ROOM
