@@ -1329,9 +1329,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
-		$params = array ('map_item' => $st_item->getId(),'mode' => $mode,
+		$params = array ('map_item' => $st_item->getId(),
+			'mode' => $mode,
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
-			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
+			'ref_id' => $_GET["ref_id"],
+			'pg_frame' => "",
+			'image_map_link' => $this->ctrl->getLinkTarget($this, "showImageMap"),
+ 			'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 //echo "<br>html:".htmlentities($output).":<br>";
 		echo xslt_error($xh);
@@ -1403,6 +1407,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* show image map
+	*/
+	function showImageMapObject()
+	{
+		$item =& new ilMediaItem($_GET["item_id"]);
+		$item->outputMapWorkCopy();
+	}
+
 
 
 	/**
@@ -1760,9 +1774,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$map_edit_mode = "";
 		}
 		$params = array ('map_edit_mode' => $map_edit_mode,
-			'map_item' => $st_item->getId(), 'mode' => $mode,
+			'map_item' => $st_item->getId(),
+			'mode' => $mode,
+			'image_map_link' => $this->ctrl->getLinkTarget($this, "showImageMap"),
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
-			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
+			'ref_id' => $_GET["ref_id"],
+			'pg_frame' => "",
+			'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 //echo "<br>html:".htmlentities($output).":<br>";
 		echo xslt_error($xh);

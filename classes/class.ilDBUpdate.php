@@ -221,6 +221,7 @@ class ilDBUpdate
 		{
 			$this->updateMsg = "no_changes";
 		}
+				
 		return true;
 	}
 

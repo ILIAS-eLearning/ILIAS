@@ -61,7 +61,19 @@ class ilLMEditorGUI
 	*/
 	function ilLMEditorGUI()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
+			$rbacsystem;
+		
+		// init module (could be done in ilctrl)
+		//define("ILIAS_MODULE", "content");
+		$lng->loadLanguageModule("content");
+
+		// check write permission
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
 
 		$this->ctrl =& $ilCtrl;
 
@@ -115,8 +127,7 @@ class ilLMEditorGUI
 		$show_footer = ($cmd == "explorer")
 			? false
 			: true;
-
-
+			
 // if ($this->lm_obj->getType()
 		switch($next_class)
 		{
@@ -167,11 +178,6 @@ class ilLMEditorGUI
 		}
 	}
 
-	function _forwards()
-	{
-		return array("ilObjDlBookGUI", "ilMetaDataGUI", "ilObjLearningModuleGUI");
-	}
-
 	/**
 	* output main frameset of editor
 	* left frame: explorer tree of chapters
@@ -216,16 +222,8 @@ class ilLMEditorGUI
 		}
 		$this->tpl->show();
 	}
-
-	/**
-	* show image map
-	*/
-	function showImageMap()
-	{
-		$item =& new ilMediaItem($_GET["item_id"]);
-		$item->outputMapWorkCopy();
-	}
-
+	
+	
 
 	/**
 	* output main header (title and locator)

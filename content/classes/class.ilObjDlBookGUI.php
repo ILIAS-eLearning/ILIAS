@@ -403,10 +403,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 	function addTranslation()
 	{
+		$this->setTabs();
+		
 		// SEARCH CANCELED
 		if(isset($_POST["cancel"]))
 		{
-			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+			$this->ctrl->redirect($this, "properties");
 			exit;
 		}
 		if(isset($_POST["select"]))
@@ -421,15 +423,15 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 					}
 				}
 				sendInfo($this->lng->txt("cont_translations_assigned"),true);
-				header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+				$this->ctrl->redirect($this, "properties");
 				exit;
 			}
 		}
 		$show_search = true;
 
 		$this->tpl->addBlockfile("ADM_CONTENT","adm_content","tpl.dbk_search_translation.html",true);
-		$this->tpl->setVariable("F_ACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=addTranslation");
+		$this->tpl->setVariable("F_ACTION",
+			$this->ctrl->getLinkTarget($this, "addTranslation"));
 
 		if($_POST["search_str"])
 		{
@@ -470,12 +472,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		if(!$_POST["id"])
 		{
 			sendInfo($this->lng->txt("cont_select_one_translation"));
-			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+			$this->ctrl->redirect($this, "properties");
 			exit;
 		}
 		$this->object->deleteTranslations($_POST["id"]);
 		sendInfo($this->lng->txt("cont_assignments_deleted"));
-		header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=properties");
+		$this->ctrl->redirect($this, "properties");
 		exit;
 	}
 	// PRIVATE METHODS
@@ -531,7 +533,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		else
 		{
 			sendInfo($message,true);
-			header("location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=addTranslation");
+			$this->ctrl->redirect($this, "addTranslation");
 			exit;
 		}
 		return $search->getResultByType('dbk');

@@ -86,12 +86,23 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 		
+		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/content/htmlarea/");
+		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/content/htmlarea/htmlarea.js");
+		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/content/js/handletags.js");
+		$this->ctrl->setParameter($this, "ptype", "footnote");
+		$this->tpl->setVariable("POPUP_TARGET_FOOTNOTE",
+			$this->ctrl->getLinkTarget($this, "popup"));	
+		$this->ctrl->setParameter($this, "ptype", "xtl");
+		$this->tpl->setVariable("POPUP_TARGET_XTL",
+			$this->ctrl->getLinkTarget($this, "popup"));	
 		
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
 			$this->tpl->setVariable("TXT_FORMATERROR",$this->lng->txt("cont_format_error"));
 			
+			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
+				ilUtil::getStyleSheetLocation());			
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
@@ -398,6 +409,18 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 			$this->insert();
 		}
 	}
+	
+	/**
+	* popup window for wysiwyg editor
+	*/
+	function popup()
+	{
+		include_once "./content/classes/Pages/class.ilWysiwygUtil.php";
+		$popup = new ilWysiwygUtil();
+		$popup->show($_GET["ptype"]);
+		exit;
+	}
+
 
 	/**
 	* output tabs

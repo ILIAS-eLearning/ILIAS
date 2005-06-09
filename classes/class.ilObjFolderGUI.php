@@ -35,9 +35,9 @@
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "class.ilContainerGUI.php";
 
-class ilObjFolderGUI extends ilObjectGUI
+class ilObjFolderGUI extends ilContainerGUI
 {
 	var $folder_tree;		// folder tree
 

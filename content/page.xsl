@@ -51,6 +51,7 @@
 <xsl:param name="map_item" />
 <xsl:param name="map_edit_mode" />
 <xsl:param name="javascript" />
+<xsl:param name="image_map_link" />
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
 <xsl:param name="enable_split_new"/>
@@ -1572,7 +1573,7 @@
 						<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test = "$map_item != ''">
-						<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$image_map_link"/>&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -1590,7 +1591,7 @@
 			</xsl:if>
 			<xsl:if test = "$map_edit_mode = 'get_coords'">
 				<input type="image" name="editImagemapForward" value="editImagemapForward">
-					<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="$image_map_link"/>&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				</input>

@@ -378,7 +378,14 @@ class ilObjStyleSheet extends ilObject
 		}
 		else		// todo: work this out
 		{
-			return "../content/content.css";
+			if (defined("ILIAS_MODULE"))
+			{
+				return "../content/content.css";
+			}
+			else
+			{
+				return "./content/content.css";
+			}
 		}
 	}
 
@@ -389,7 +396,14 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getContentPrintStyle()
 	{
-		return "../content/print_content.css";
+		if (defined("ILIAS_MODULE"))
+		{
+			return "../content/print_content.css";
+		}
+		else
+		{
+			return "./content/print_content.css";
+		}
 	}
 
 	/**
@@ -399,7 +413,14 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getSyntaxStylePath()
 	{
-		return "../content/syntaxhighlight.css";
+		if (defined("ILIAS_MODULE"))
+		{
+			return "../content/syntaxhighlight.css";
+		}
+		else
+		{
+			return "./content/syntaxhighlight.css";
+		}
 	}
 
 	function update()

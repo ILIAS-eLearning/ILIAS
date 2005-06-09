@@ -103,10 +103,9 @@ class ilRepositoryGUI
 			{
 				$this->cur_ref_id = $this->tree->getRootId();
 
-				// check wether command has been called with
-				// item that is not in tree
 				if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset")
 				{
+//echo "hhh";
 					$get_str = $post_str = "";
 					foreach($_GET as $key => $value)
 					{
@@ -235,7 +234,7 @@ class ilRepositoryGUI
 		}
 
 		$cmd = $this->ctrl->getCmd();
-
+//echo "-$cmd-".$_GET["cmd"];
 		if ($cmd == "frameset" && $_SESSION["il_rep_mode"] == "tree")
 		{
 			$next_class = "";
@@ -1392,7 +1391,8 @@ class ilRepositoryGUI
 		$cmd = $this->cmd;
 		$tabs_out = true;
 		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete" ||
-			$cmd == "create" || $cmd == "save")
+			$cmd == "create" || $cmd == "save" || $cmd=="importFile" ||
+			$cmd == "cloneAll")
 		{
 			$tabs_out = false;
 		}

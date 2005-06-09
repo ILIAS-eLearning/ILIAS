@@ -44,7 +44,7 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-if ($_GET["cmd"] == "popup") 
+if ($_GET["cmd"] == "popup")
 {
 	include_once "./content/classes/Pages/class.ilWysiwygUtil.php";
 	$popup = new ilWysiwygUtil();

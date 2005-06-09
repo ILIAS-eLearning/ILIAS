@@ -7279,6 +7279,7 @@ ALTER TABLE `object_data` ADD FULLTEXT `title_desc` (`title` ,`description`	);
 <#456>
 ALTER TABLE `il_meta_keyword` ADD FULLTEXT `keyword` (`keyword`);
 ALTER TABLE `il_meta_entity` ADD FULLTEXT `entity` (`entity`);
+
 <#457>
 ALTER TABLE `il_meta_general` ADD FULLTEXT `title_coverage` (`title`,`coverage`);
 <#458>
@@ -7304,4 +7305,23 @@ ALTER  TABLE  `tst_tests`  ADD  `mc_scoring` ENUM(  '0',  '1'  ) DEFAULT  '0' NO
 <#468>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+
+<#469>
+CREATE TABLE `module` (
+	`name` VARCHAR(100) NOT NULL PRIMARY KEY,
+	`dir` VARCHAR(200) NOT NULL
+) COMMENT = 'ILIAS Modules';
+
+CREATE TABLE `module_class` (
+	`class` VARCHAR(100) NOT NULL PRIMARY KEY,
+	`module` VARCHAR(100) NOT NULL,
+	`dir` VARCHAR(200) NOT NULL
+) COMMENT = 'Class information of ILIAS Modules';
+
+<#470>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
 ?>

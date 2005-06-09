@@ -35,11 +35,11 @@
 * @package ilias-core
 */
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilContainerGUI.php";
 require_once "./course/classes/class.ilCourseRegisterGUI.php";
 
 
-class ilObjCourseGUI extends ilObjectGUI
+class ilObjCourseGUI extends ilContainerGUI
 {
 	/**
 	* Constructor

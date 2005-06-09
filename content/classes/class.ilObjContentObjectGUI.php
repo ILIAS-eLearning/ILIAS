@@ -87,7 +87,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			case 'ilmdeditorgui':
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
+				$this->setTabs();
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -197,7 +197,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK",ILIAS_HTTP_PATH."/content/"."lm_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
@@ -463,7 +463,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		require_once ("content/classes/class.ilLMEditorExplorer.php");
-		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->object->getRefId(),
+		$exp = new ilLMEditorExplorer($this->ctrl->getLinkTarget($this, "view"),
 			$this->object, $gui_class);
 
 		$exp->setTargetGet("obj_id");
@@ -1109,7 +1109,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	function saveMeta()
 	{
-		$this->saveMetaObject("lm_edit.php");
+//		$this->saveMetaObject("lm_edit.php");
 	}
 */
 
@@ -1170,15 +1170,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if (!defined("ILIAS_MODULE"))
 		{
+/*
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
+//			$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
 			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
+*/
 		}
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
+
 		if (!defined("ILIAS_MODULE"))
 		{
 			$this->tpl->setVariable("BTN_LINK","content/lm_presentation.php?ref_id=".$this->object->getRefID());
@@ -1253,10 +1256,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}*/
 
 		// check correct file type
-		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed" &&
-			$_FILES["xmldoc"]["type"] != "application/x-zip")
+		$info = pathinfo($_FILES["xmldoc"]["name"]);
+		if (strtolower($info["extension"]) != "zip")
 		{
-			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create and insert object in objecttree
@@ -2514,7 +2517,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id="
+				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showTableOfContents&ref_id="
 									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			}
 			else
@@ -2531,7 +2534,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
-				$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id="
+				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showPrintViewSelection&ref_id="
 									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
 				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
@@ -2542,7 +2545,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// download
 		if ($this->object->isActiveDownloads() && !$a_offline)
 		{
-			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showDownloadList&ref_id="
+			$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showDownloadList&ref_id="
 								   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("download"));
 						$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
@@ -2717,7 +2720,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 			"meta_data", get_class($this));
-
 	}
 
 	function editPublicSection()
@@ -2741,7 +2743,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html");
 
 		require_once ("content/classes/class.ilPublicSectionSelector.php");
-		$exp = new ilPublicSectionSelector("lm_edit.php?cmd=view&ref_id=".$this->object->getRefId(),
+		$exp = new ilPublicSectionSelector($this->ctrl->getLinkTarget($this, "view"),
 			$this->object, $gui_class);
 
 		$exp->setTargetGet("obj_id");
