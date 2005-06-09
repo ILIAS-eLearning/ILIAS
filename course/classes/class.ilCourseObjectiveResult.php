@@ -291,6 +291,28 @@ class ilCourseObjectiveResult
 		return false;
 	}		
 
+	function _updateUserResult($a_usr_id,$a_question_id,$a_points)
+	{
+		global $ilDB;
+
+		// Delete old entry
+		$query = "DELETE FROM crs_objective_results ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND question_id = '".$a_question_id."'";
+
+		$ilDB->query($query);
+		
+		// ... and add it
+		$query = "INSERT INTO crs_objective_results ".
+			"SET usr_id = '".$a_usr_id."', ".
+			"question_id = '".$a_question_id."', ".
+			"points = '".$a_points."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+
 
 
 	function addEntry($a_question_id,$a_points)

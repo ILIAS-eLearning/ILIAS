@@ -68,11 +68,12 @@ class ilCourseRegisterGUI
 	*/
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
-
-		if (!$cmd = $this->ctrl->getCmd())
+		switch($cmd = $this->ctrl->getCmd())
 		{
-			$cmd = "showRegistrationForm";
+			case 'archive':
+			case '':
+				$cmd = "showRegistrationForm";
+				break;
 		}
 		$this->$cmd();
 	}

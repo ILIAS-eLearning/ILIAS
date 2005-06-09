@@ -2289,8 +2289,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
 		}
-		if ($rbacsystem->checkAccess('write',$this->ref_id) or 
-			$this->object->isArchived())
+		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_archives",
 								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));

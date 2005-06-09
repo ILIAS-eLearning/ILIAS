@@ -17,7 +17,7 @@
 	|                                                                             |
 	| You should have received a copy of the GNU General Public License           |
 	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.| 
 	+-----------------------------------------------------------------------------+
 */
 
@@ -29,7 +29,7 @@
 * 
 * @package ilias-search
 *
-* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilSearchResultGUI
+* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI, ilSearchResultGUI
 *
 */
 
@@ -52,6 +52,15 @@ class ilSearchController
 		$this->lng =& $lng;
 	}
 
+	function getLastClass()
+	{
+		return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : 'ilsearchgui';
+	}
+	function setLastClass($a_class)
+	{
+		$_SESSION['search_last_class'] = $a_class;
+	}
+
 	function &executeCommand()
 	{
 		global $rbacsystem;
@@ -63,16 +72,31 @@ class ilSearchController
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		switch($this->ctrl->getNextClass($this))
+		$forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
+		switch($forward_class)
 		{
 			case 'ilsearchresultgui':
+				// Remember last class
+				$this->setLastClass('ilsearchresultgui');
+
 				include_once 'Services/Search/classes/class.ilSearchResultGUI.php';
 
 				$this->ctrl->forwardCommand(new ilSearchResultGUI());
 				break;
 
+			case 'iladvancedsearchgui':
+				// Remember last class
+				$this->setLastClass('iladvancedsearchgui');
+
+				include_once 'Services/Search/classes/class.ilAdvancedSearchGUI.php';
+				
+				$this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
+				break;
+				
 			case 'ilsearchgui':
+				// Remember last class
+				$this->setLastClass('ilsearchgui');
+
 			default:
 				include_once 'Services/Search/classes/class.ilSearchGUI.php';
 

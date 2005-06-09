@@ -7301,3 +7301,7 @@ ALTER TABLE `tst_tests` ADD FULLTEXT `introduction` (`introduction`);
 ALTER TABLE `survey_survey` ADD FULLTEXT `introduction` (`introduction`);
 <#467>
 ALTER  TABLE  `tst_tests`  ADD  `mc_scoring` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `count_system` ;
+<#468>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
