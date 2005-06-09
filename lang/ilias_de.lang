@@ -5000,3 +5000,10 @@ search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
 search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
 search#:#search_select_folder#:#Bitte wählen Sie genau einen Ordner aus, Suchergebnisse können nicht umbanannt werden.
+chat#:#chat_address#:#Anreden
+chat#:#chat_address_user#:#Direkte Anrede von
+chat#:#chat_whisper#:#Flüstern
+chat#:#chat_profile#:#Profil
+chat#:#chat_invited_by#:#Einladung von
+chat#:#chat_add_private_chatroom#:#Privaten Chatraum anlegen
+common#:#close_window#:#Fenster schließen

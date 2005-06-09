@@ -5007,3 +5007,10 @@ search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_added_new_folder#:#Added new folder.
 search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.
+chat#:#chat_address#:#Address
+chat#:#chat_address_user#:#Address
+chat#:#chat_whisper#:#Whisper
+chat#:#chat_profile#:#Profile
+chat#:#chat_invited_by#:#Invited by
+chat#:#chat_add_private_chatroom#:#Add private chatroom
+common#:#close_window#:#Close window
