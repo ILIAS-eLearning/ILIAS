@@ -1802,6 +1802,17 @@ class ilSetupGUI extends ilSetup
 			
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
 			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
+			
+			if ($ilDB->isMySQL4_1OrHigher())
+			{
+				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_1_x_or_higher_mode"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_0_x_or_lower_mode"));
+			}
+			$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));
 		}
 		else
 		{
@@ -1824,6 +1835,17 @@ class ilSetupGUI extends ilSetup
 			$ilDB = new ilDbx($this->client->dsn_host);
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
 			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
+			
+			if ($ilDB->isMySQL4_1OrHigher())
+			{
+				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_1_x_or_higher_mode"));
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_0_x_or_lower_mode"));
+			}
+			$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));
 			
 			// collation selection ( see utf8 collations at
 			// http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html )

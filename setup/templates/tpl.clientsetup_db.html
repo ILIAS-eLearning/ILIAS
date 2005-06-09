@@ -9,8 +9,12 @@
 	<td class="option_value" colspan="2" width="150">MySQL</td>
 </tr>
 <tr>
-	<td class="option">{TXT_DB_VERSION}</td>
+	<td class="option">{TXT_DB_VERSION} <span style="color:#FF0000;">[*]</span></td>
 	<td class="option_value" colspan="2" width="150">{VAL_DB_VERSION}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DB_MODE} <span style="color:#FF0000;">[*]</span></td>
+	<td class="option_value" colspan="2" width="150">{VAL_DB_MODE}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_DB_HOST}</td>
@@ -54,6 +58,8 @@
 <!-- END btn_submit -->
 </table>
 </form>
-{COLLATION_INFO1}
+<div style="background:#FFFFFF;"><span style="color:#FF0000;"><b>[*] {TXT_CHECK_VERSIONS}</b></span>
+<br /><br />{COLLATION_INFO1}
 {COLLATION_EXAMPLE}
 {COLLATION_INFO2}
+</div>
