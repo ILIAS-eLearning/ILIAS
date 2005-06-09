@@ -20,18 +20,29 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+
+
+/**
+* displays a user profile
+*
+* @author	Jens Conze <jc@databay.de>
+* @version	$Id$
+*
+* @package ilias
+*/
+
 chdir("..");
 
+define('ILIAS_MODULE','chat');
+
 require_once "./include/inc.header.php";
-require_once "./chat/classes/class.ilChatController.php";
+require_once "./classes/class.ilObjUserGUI.php";
 
-if(!$ilias->auth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref_id"]))
-{
-	$_GET["cmd"] = "closeFrame";
-}
+$tpl->addBlockFile("CONTENT", "content", "tpl.chat_profile_view.html");
 
-$chat_controller =& new ilChatController((int) $_GET["ref_id"]);
-$chat_controller->execute();
+$user = new ilObjUserGUI("",$_GET["user"], false, false);
+$user->insertPublicProfile("USR_PROFILE","usr_profile");
 
-$tpl->show(false);
+$tpl->setVariable("TXT_CLOSE_WINDOW", $user->lng->txt("close_window"));
+$tpl->show();
 ?>

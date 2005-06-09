@@ -296,12 +296,15 @@ class ilChatRoom
 		return true;
 	}
 
-	function delete($a_id)
+	function delete($a_id, $a_owner = 0)
 	{
 		// DELETE ROOM
 		$query = "DELETE FROM chat_rooms WHERE ".
-			"room_id = '".$a_id."' ".
-			"AND chat_id = '".$this->getRefId()."'";
+			"room_id = '".$a_id."'";
+		if ($a_owner > 0)
+		{
+			" AND owner = '".$a_owner."'";
+		}
 		$res = $this->ilias->db->query($query);
 
 		// DELETE INVITATIONS
@@ -316,8 +319,11 @@ class ilChatRoom
 
 		// DELETE USER_DATA
 		$query = "DELETE FROM chat_user WHERE ".
-			"room_id = '".$a_id."' ".
-			"AND chat_id = '".$this->getRefId()."'";
+			"room_id = '".$a_id."'";
+		if ($a_owner > 0)
+		{
+			" AND owner = '".$a_owner."'";
+		}
 		$res = $this->ilias->db->query($query);
 			
 		return true;
@@ -407,7 +413,10 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$data[] = $row->room_id;
+			$data[$row->room_id]["room_id"] = $row->room_id;
+			$data[$row->room_id]["owner"] = $row->owner;
+			$data[$row->room_id]["title"] = $row->title;
+			$data[$row->room_id]["owner"] = $row->owner;
 		}
 		return $data ? $data : array();
 	}		
