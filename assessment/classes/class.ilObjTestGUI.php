@@ -3979,6 +3979,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("save_text_answer_points")) == 0)
 		{
+
 			$savetextanswers = 1;
 			foreach ($_POST as $key => $value)
 			{

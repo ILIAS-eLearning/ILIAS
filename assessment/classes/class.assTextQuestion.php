@@ -625,6 +625,7 @@ class ASS_TextQuestion extends ASS_Question
 				$this->ilias->db->quote($this->getId() . "")
 			);
 			$result = $this->ilias->db->query($query);
+
 			return true;
 		}
 			else
@@ -635,6 +636,7 @@ class ASS_TextQuestion extends ASS_Question
 
 	/**
 	* Sets the points, a learner has reached answering the question
+	* Additionally objective results are updated
 	*
 	* Sets the points, a learner has reached answering the question
 	*
@@ -657,6 +659,13 @@ class ASS_TextQuestion extends ASS_Question
 				$ilDB->quote($question_id . "")
 			);
 			$result = $this->ilias->db->query($query);
+
+			// finally update objective result
+			include_once 'course/classes/class.ilCourseObjectiveResult.php';
+
+			ilCourseObjectiveResult::_updateUserResult($user_id,$question_id,$points);
+
+
 			return true;
 		}
 			else

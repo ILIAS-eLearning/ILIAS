@@ -531,11 +531,10 @@ class ilMail
 			"m_message = '".addslashes($a_m_message)."'";
 
 		$res = $this->ilias->db->query($query);
-
-		$query = "SELECT LAST_INSERT_ID() FROM $this->table_mail";
+		$query = "SELECT LAST_INSERT_ID() as id FROM $this->table_mail";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_ASSOC);
 
-		return $row["last_insert_id()"];
+		return $row["id"];
 	}
 	/**
 	* send internal message to recipients
