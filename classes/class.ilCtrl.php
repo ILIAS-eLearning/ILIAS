@@ -53,7 +53,53 @@ class ilCtrl
 
 	}
 
+	/**
+	* Calls base class of current request. The base class is
+	* passed via $_GET["baseClass"] and is the first class in
+	* the call sequence of the request. Do not call this method
+	* within other scripts than ilias.php.
+	*
+	* @access	public
+	*
+	*/
+	function callBaseClass()
+	{
+		global $ilDB;
+		
+		$baseClass = $_GET["baseClass"];
+		
+		// get class information
+		$q = "SELECT * FROM module_class WHERE LOWER(class) = ".
+			$ilDB->quote($baseClass);
+		$mc_set = $ilDB->query($q);
+		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$module = $mc_rec["module"];
+		$class = $mc_rec["class"];
+		$class_dir = $mc_rec["dir"];
+		
+		// get module information
+		$q = "SELECT * FROM module WHERE name = ".
+			$ilDB->quote($module);
 
+		$m_set = $ilDB->query($q);
+		$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->module_dir = $m_rec["dir"];
+		
+		// forward processing to base class
+		include_once $this->module_dir."/".$class_dir."/class.".$class.".php";;
+		$this->getCallStructure(strtolower($baseClass));
+		$base_class_gui =& new $class();
+		$this->forwardCommand($base_class_gui);
+	}
+
+	/**
+	* get directory of current module
+	*/
+	function getModuleDir()
+	{
+		return $this->module_dir;
+	}
+	
 	/**
 	* forward flow of control to next gui class
 	* this invokes the executeCommand() method of the
@@ -852,6 +898,7 @@ class ilCtrl
 
 		$params["cmdClass"] = $target_class;
 		$params["cmdNode"] = $nr;
+		$params["baseClass"] = $_GET["baseClass"];
 
 		return $params;
 	}

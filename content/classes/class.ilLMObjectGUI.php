@@ -305,7 +305,7 @@ class ilLMObjectGUI
 		$obj_str = (is_object($this->obj))
 			? "&obj_id=".$this->obj->getId()
 			: "";
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+//		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->content_object->getRefId().$obj_str."&new_type=".$_POST["new_type"].
 			"&target=".$target."&cmd=saveMeta");*/
 	}

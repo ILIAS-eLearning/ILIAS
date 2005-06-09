@@ -157,7 +157,9 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getProperties($a_obj_name)
 	{
-		if (defined("ILIAS_MODULE"))
+		// dirty hack, has to be implemented better, if ilias.php
+		// is established
+		if (defined("ILIAS_MODULE") || $_GET["baseClass"] != "")
 		{
 			$props = array();
 			if (is_array($this->obj_data[$a_obj_name]["properties"]))

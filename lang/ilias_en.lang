@@ -3399,7 +3399,7 @@ crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by activation
-crs#:#crs_sort_manual#:#Sort manuell
+crs#:#crs_sort_manual#:#Sort manually
 crs#:#crs_sort_title#:#Sort by title
 crs#:#crs_sortorder#:#Sort
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription

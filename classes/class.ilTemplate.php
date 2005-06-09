@@ -286,7 +286,7 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	* überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
+	* ï¿½berladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
 	* @access	public
 	* @param	string
 	* @return	???
@@ -324,7 +324,7 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
-	* überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
+	* ï¿½berladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
 	* @access	public
 	* @param	string
 	* @return	string
@@ -521,7 +521,14 @@ class ilTemplate extends ilTemplateX
 	*/
 	function getTemplatePath($a_tplname, $a_in_module = false)
 	{
-		global $ilias;
+		global $ilias, $ilCtrl;
+		
+		// if baseClass functionality is used (ilias.php):
+		// get template directory from ilCtrl
+		if (!empty($_GET["baseClass"]) && $a_in_module === true)
+		{
+			$a_in_module = $ilCtrl->getModuleDir();
+		}
 
 		if (strpos($a_tplname,"/") === false)
 		{

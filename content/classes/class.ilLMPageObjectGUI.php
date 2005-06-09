@@ -127,19 +127,21 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				{
 					$view_frame = "ilContObj".$this->content_object->getID();
 				}
-				$page_gui->setViewPageLink("../goto.php?target=pg_".$this->obj->getId(),
+				$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
 					$view_frame);
 
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);
 				$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
-				$page_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
+				$page_gui->setFileDownloadLink(ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=downloadFile".
 					"&amp;ref_id=".$this->content_object->getRefId());
-				$page_gui->setFullscreenLink("lm_presentation.php?cmd=fullscreen".
+				$page_gui->setFullscreenLink(ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=fullscreen".
 					"&amp;ref_id=".$this->content_object->getRefId());
+				//$page_gui->setImageMapLink($this->ctrl->getLinkTargetByClass("ilpageobjectgui",
+				//	"showImageMap"));
 				$page_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
-				$page_gui->setSourcecodeDownloadScript("lm_presentation.php?ref_id=".$this->content_object->getRefId());
+				$page_gui->setSourcecodeDownloadScript(ILIAS_HTTP_PATH."/content/lm_presentation.php?ref_id=".$this->content_object->getRefId());
 				$page_gui->setPresentationTitle(
 					ilLMPageObject::_getPresentationTitle($this->obj->getId(),
 					$this->content_object->getPageHeader(), $this->content_object->isActiveNumbering()));

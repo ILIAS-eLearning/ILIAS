@@ -123,10 +123,15 @@ class ilWysiwygUtil
 	
 	function showFootnote() 
 	{
+		global $ilCtrl;
+		
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", "../content/content.css" );
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", ILIAS_HTTP_PATH."/content/content.css" );
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
+		$ilCtrl->setParameterByClass("ilpcparagraphgui", "ptype", "footnote");
+		$this->tpl->setVariable("FOOTNOTE_TARGET",
+			$ilCtrl->getLinkTargetByClass("ilpcparagraphgui", "popup"));
 
 		
 		$this->tpl->setVariable("TXT_FOOTNOTES", $this->lng->txt("cont_title_footnotes"));

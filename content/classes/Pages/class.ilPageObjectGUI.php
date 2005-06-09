@@ -282,7 +282,7 @@ class ilPageObjectGUI
 	{
 		return $this->fullscreen_link;
 	}
-	
+
 	function setIntLinkHelpDefault($a_type, $a_id)
 	{
 		$this->int_link_def_type = $a_type;
@@ -398,6 +398,10 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
 				$this->tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
+				$this->tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/content/js/wz_dragdrop.js");
+				$this->tpl->setVariable("IMG_DRAGDROP",
+					ilUtil::getImagePath("ilias_logo.png"));
+				
 				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
 				{
 					$this->tpl->setVariable("TXT_JAVA_SCRIPT_CAPABLE", "<br />".$this->lng->txt("cont_browser_not_js_capable"));
@@ -807,12 +811,12 @@ class ilPageObjectGUI
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
+//			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
 		}
 		else
 		{
 			$this->putInTree();
-			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+//			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}*/

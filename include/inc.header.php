@@ -437,6 +437,10 @@ if (version_compare(PHP_VERSION,'5','>='))
 $ilBrowser = new ilBrowser();
 $GLOBALS['ilBrowser'] =& $ilBrowser;
 
+// utf-8 fix?
+$q = "SET NAMES utf8";
+//$ilDB->query($q);
+
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();
 

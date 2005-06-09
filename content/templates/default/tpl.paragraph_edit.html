@@ -331,11 +331,11 @@ function storeCaret(textEl) {
     example ZIP file will work anywhere, but please NOTE THAT it's better to
     have it an absolute path, such as '/htmlarea/'. -->
 <script type="text/javascript">
-  _editor_url = "../content/htmlarea/";
+  _editor_url = "{EDITOR_URL}";
   _editor_lang = "de";
 </script>
-<script type="text/javascript" src="../content/htmlarea/htmlarea.js"></script>
-<script type="text/javascript" src="./js/handletags.js"></script>
+<script type="text/javascript" src="{JS_HTMLAREA}"></script>
+<script type="text/javascript" src="{JS_HANDLETAGS}"></script>
 
 <script type="text/javascript">
 var editor = null;
@@ -349,7 +349,7 @@ function initSubEditor(TextAreaName)
 
 	subcfg.statusBar = false;
 
-	subcfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
+	subcfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_STYLESHEET_HTMLAREA}\" />";
 	subcfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
 	
@@ -530,8 +530,9 @@ function initEditor(TextAreaName)
 	
 
 	//alert("{XX}");
-	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
-  	cfg.pageStyle = ".footnote { color:0000FF; } ";
+	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_STYLESHEET_HTMLAREA}\" />";
+	cfg.pageStyle = "body{ background:#FFFFFF; } ";
+  	cfg.pageStyle += ".footnote { color:0000FF; } ";
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
@@ -1005,7 +1006,7 @@ function buttonFootnote()
 	} 
 	else 
 	{
-		w = window.open("lm_edit.php?ref_id={REF_ID}&cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes,scrollbars=yes");
+		w = window.open("{POPUP_TARGET_FOOTNOTE}","footnote","width=500,height=450,resizable=yes,scrollbars=yes");
 		setTimeout("w.focus()",500);
 	}
 	// }}}
@@ -1066,7 +1067,7 @@ function addInternalLink(Link,title)
 
 function buttonExternalLink() 
 {
-	w = window.open("lm_edit.php?ref_id={REF_ID}&cmd=popup&ptype=xtl","xtl","width=500,height=450,resizable=yes");
+	w = window.open("{POPUP_TARGET_XTL}","xtl","width=500,height=450,resizable=yes");
 	setTimeout("w.focus()",500);
 }	
 	

@@ -8,11 +8,11 @@
 <body>
 
 <script type="text/javascript">
-  _editor_url = "../content/htmlarea/";
+  _editor_url = "./content/htmlarea/";
   _editor_lang = "de";
 </script>
-<script type="text/javascript" src="../content/htmlarea/htmlarea.js"></script>
-<script type="text/javascript" src="./js/handletags.js"></script>
+<script type="text/javascript" src="./content/htmlarea/htmlarea.js"></script>
+<script type="text/javascript" src="./content/js/handletags.js"></script>
 
 
 <b>{TXT_FOOTNOTES}</b>
@@ -182,7 +182,8 @@ function deleteFootnote(i)
 	opener.editor.updateToolbar();
 	opener.refreshFootnotelist();
 	
-	window.location = "lm_edit.php?ref_id={REF_ID}&cmd=popup&ptype=footnote";
+	window.location = "{FOOTNOTE_TARGET}";
+	//window.location = "lm_edit.php?ref_id={REF_ID}&cmd=popup&ptype=footnote";
 	
 	//window.close();
 }

@@ -865,7 +865,7 @@ class ilLMPresentationGUI
 			{
 				$tpl_menu->setCurrentBlock("lm_menu_btn");
 				$page_id = $this->getCurrentPageId();
-				$tpl_menu->setVariable("BTN_LINK", "./lm_edit.php?ref_id=".$_GET["ref_id"].
+				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
 					"&obj_id=".$page_id."&to_page=1");
 				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("edit"));
 				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
