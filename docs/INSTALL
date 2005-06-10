@@ -29,6 +29,9 @@ Table of Contents
 
 3. Updating ILIAS 3
 
+   3.1. Instructions for updating from ILIAS 3.4.0 or 3.4.1 if MySQL 4.1.x has
+        been used.
+
 4. Migrating from MySQL 4.0.x to MySQL 4.1.x
 
 Appendix A: Note on using Apache 2
@@ -834,6 +837,9 @@ ILIAS 3.4.0.
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
 
+IF YOU UPDATE FROM ILIAS 3.4.0 or 3.4.1 AND ALREADY USED MYSQL 4.1.x PLEASE
+READ AND FOLLOW THE INSTRUCTIONS OF CHAPTER 3.1. FIRST.
+
 We recommend not to update from an any alpha version of ILIAS 3 because this
 may cause ambiguous errors in the future. Please setup any beta, release
 candidate or final version of ILIAS 3 from scratch.
@@ -900,6 +906,36 @@ in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
 
+3.1. Instructions for updating from ILIAS 3.4.0 or 3.4.1 if MySQL 4.1.x has
+     been used.
+
+Due to a problem of the UTF-8 handling in these versions it is necessary to
+dump and reload the entire database. Please make a backup of your database.
+Then do the following steps:
+
+a. Determine your default client character set. Change to your mysql/bin
+   directory. Open the mysql shell and enter the following command:
+   > mysql ilias3
+   mysql> SHOW VARIABLES like '%char%';
+   mysql> exit;
+
+b. Dump the database using this character set (e.g. latin1). The result should
+   be an UTF-8 encoded file. Please note the "--skip-set-charset" attribute
+   which is very important here.
+   > mysqldump ilias3 --default-character-set=latin1 --skip-set-charset > ilias3.dump
+   (replace latin1 with your default client character set).
+
+c. Drop and recreate an empty database using an approriate collation, e.g.:
+   > mysqladmin drop ilias3
+   > mysql ilias3
+   mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
+
+d. Reload the database using UTF-8 as character set:
+   > mysql --default-character-set=utf8 ilias3 < ilias3.dump
+   
+e. Check whether all content has been migrated properly.
+
+
 4. Migrating from MySQL 4.0.x to MySQL 4.1.x
 
     If you want to migrate an existing ILIAS from MySQL 4.0.x to 4.1.x you
@@ -917,7 +953,9 @@ in the language administration of the system settings ("Administration" ->
        /opt/ilias/bin/mysql
        mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
     6. Load the MySQL 4.0 dump file into the newly created database:
-       /opt/ilias/bin/mysql ilias3 < ilias3.dump
+       /opt/ilias/bin/mysql --default-character-set=utf8 ilias3 < ilias3.dump
+    7. Check if all content has been successfully migrated. Especially all
+       special characters.
 
 	   
 A P P E N D I X  A: Note on using Apache 2
