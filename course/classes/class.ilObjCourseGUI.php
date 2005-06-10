@@ -899,7 +899,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			sendInfo($this->object->getMessage());
 		}
-		return $this->editObject();
+		
+		// Redirect to update tabs
+		$this->ctrl->redirect($this,'edit');
 	}
 
 
@@ -2246,18 +2248,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if ($this->object->isActivated(false))
+		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
-			if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
-			{
-				$tabs_gui->addTarget('learners_view',
-									 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
-			}
-			else
-			{
-				$tabs_gui->addTarget('view_content',
-									 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
-			}
+			$tabs_gui->addTarget('learners_view',
+								 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+		}
+		else
+		{
+			$tabs_gui->addTarget('view_content',
+								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
