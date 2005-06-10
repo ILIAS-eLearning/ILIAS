@@ -535,6 +535,13 @@ components:
         /opt/ilias/bin/mysql -u root password <password>
         mysql> grant LOCK TABLES on *.* to dbuser@localhost;
 
+    If you are using MySQL 4.1.x and create the ILIAS database manually (ILIAS
+    setup can do this for you) you have to set utf8 as character set and
+    an appropriate collation for the whole database, e.g.:
+    
+        mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
+
+
 (b) Apache (preparation)
 
         cd /opt/ilias/src/apache_1.3.29
