@@ -1605,32 +1605,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$this->getTemplateFile("settings","usr");
 
-		$profile_fields = array(
-			"gender",
-			"firstname",
-			"lastname",
-			"title",
-			"upload",
-			"password",
-			"institution",
-			"department",
-			"street",
-			"zipcode",
-			"city",
-			"country",
-			"phone_office",
-			"phone_home",
-			"phone_mobile",
-			"fax",
-			"email",
-			"hobby",
-			"referral_comment",
-			"matriculation",
-			"language",
-			"skin_style",
-			"hits_per_page",
-			"show_users_online"
-		);
+		$profile_fields =& $this->object->getProfileFields();
 		// For the following fields, the required state can not be changed.
 		// key = field, value = 1 (field is required), 0 (field is not required)
 		$fixed_required_fields = array(
@@ -1756,32 +1731,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $ilias;
 		
-		$profile_fields = array(
-			"gender",
-			"firstname",
-			"lastname",
-			"title",
-			"upload",
-			"password",
-			"institution",
-			"department",
-			"street",
-			"zipcode",
-			"city",
-			"country",
-			"phone_office",
-			"phone_home",
-			"phone_mobile",
-			"fax",
-			"email",
-			"hobby",
-			"referral_comment",
-			"matriculation",
-			"language",
-			"skin_style",
-			"hits_per_page",
-			"show_users_online"
-		);
+		$profile_fields =& $this->object->getProfileFields();
 		// For the following fields, the required state can not be changed
 		$fixed_required_fields = array(
 			"gender" => 1,
@@ -1861,6 +1811,105 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[0] = $this->lng->txt('usr_inactive_only');
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
+	}
+
+	/**
+	* Download selected export files
+	*
+	* Sends a selected export file for download
+	*
+	*/
+	function downloadExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+	
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->getTemplateFile("confirm_delete_export","usr");		
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFileObject()
+	{
+		session_unregister("ilExportFiles");
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+	}
+
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFileObject()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+		}
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
 	}
 
 	/**
@@ -1957,7 +2006,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
 				$this->tpl->setVariable("TXT_SIZE", $exp_file["filesize"]);
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["filename"]);
 
 				$file_arr = explode("__", $exp_file["filename"]);
 				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));

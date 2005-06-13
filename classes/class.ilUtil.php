@@ -2660,5 +2660,68 @@ class ilUtil
   		return mktime ((int) $std, (int) $min, (int) $sec, (int) $monat, (int) $tag, (int) $jahr);
 	 }
 	
+/**
+* Convertes an array for CSV usage
+* 
+* Processes an array as a CSV row and converts the array values to correct CSV
+* values. The "converted" array is returned
+*
+* @author Helmut Schottmüller <hschottm@gmx.de>
+* @param array $row The array containing the values for a CSV row
+* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
+* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
+* @return array The converted array ready for CSV use
+* @access public
+*/
+	function &processCSVRow(&$row, $quoteAll = FALSE, $separator = ";", $outUTF8 = FALSE, $compatibleWithMSExcel = TRUE)
+	{
+		$resultarray = array();
+		foreach ($row as $rowindex => $entry)
+		{
+			$surround = FALSE;
+			if ($quoteAll)
+			{
+				$surround = TRUE;
+			}
+			if (strpos($entry, "\"") !== FALSE)
+			{
+				$entry = str_replace("\"", "\"\"", $entry);
+				$surround = TRUE;
+			}
+			if (strpos($entry, $separator) !== FALSE)
+			{
+				$surround = TRUE;
+			}
+			if ($compatibleWithMSExcel)
+			{
+				// replace all CR LF with LF (for Excel for Windows compatibility
+				$entry = str_replace(chr(13).chr(10), chr(10), $entry);
+			}
+			if ($surround)
+			{
+				if ($outUTF8)
+				{
+					$resultarray[$rowindex] = "\"" . $entry . "\"";
+				}
+				else
+				{
+					$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+				}
+			}
+			else
+			{
+				if ($outUTF8)
+				{
+					$resultarray[$rowindex] = $entry;
+				}
+				else
+				{
+					$resultarray[$rowindex] = utf8_decode($entry);
+				}
+			}
+		}
+		return $resultarray;
+	}
+
 } // END class.ilUtil
 ?>

@@ -180,15 +180,149 @@ class ilObjUserFolder extends ilObject
 		return $file;
 	}
 
+	function createCSVExport(&$settings, &$data, $filename)
+	{
+		$headerrow = array();
+		foreach ($settings as $value)
+		{
+			array_push($headerrow, $this->lng->txt($value));
+		}
+		$separator = ";";
+		$file = fopen($filename, "w");
+		$formattedrow =& ilUtil::processCSVRow($headerrow, TRUE, $separator);
+		fwrite($file, join ($separator, $formattedrow) ."\n");
+		foreach ($data as $row) 
+		{
+			$csvrow = array();
+			foreach ($settings as $header)
+			{
+				array_push($csvrow, $row[$header]);
+			}
+			$formattedrow =& ilUtil::processCSVRow($csvrow, TRUE, $separator);
+			fwrite($file, join ($separator, $formattedrow) ."\n");
+		}
+		fclose($file);
+	}
+	
+	function createExcelExport(&$settings, &$data, $filename, $a_mode)
+	{
+		include_once './classes/Spreadsheet/Excel/Writer.php';
+		include_once ("./classes/class.ilExcelUtils.php");
+		// Creating a workbook
+		$workbook = new Spreadsheet_Excel_Writer($filename);
+
+		// sending HTTP headers
+//		$workbook->send($filename);
+
+		// Creating a worksheet
+		$format_bold =& $workbook->addFormat();
+		$format_bold->setBold();
+		$format_percent =& $workbook->addFormat();
+		$format_percent->setNumFormat("0.00%");
+		$format_datetime =& $workbook->addFormat();
+		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+		$format_title =& $workbook->addFormat();
+		$format_title->setBold();
+		$format_title->setColor('black');
+		$format_title->setPattern(1);
+		$format_title->setFgColor('silver');
+		$worksheet =& $workbook->addWorksheet();
+		$row = 0;
+		$col = 0;
+		
+		foreach ($settings as $value)
+		{
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($value), $a_mode), $format_title);
+			$col++;
+		}
+
+
+		foreach ($data as $index => $rowdata) 
+		{
+			$row++;
+			$col = 0;
+			foreach ($rowdata as $rowindex => $value)
+			{
+				switch ($settings[$rowindex])
+				{
+					case "last_login":
+					case "last_update":
+					case "create_date":
+					case "approve_date":
+					case "agree_date":
+						if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value, $matches))
+						{
+							$worksheet->write($row, $col, ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6]), $format_datetime);
+						}
+						break;
+					default:
+						$worksheet->write($row, $col, ilExcelUtils::_convert_text($value, $a_mode));
+						break;
+				}
+				$col++;
+			}
+		}
+		$workbook->close();
+	}
+	
+	function getExportSettings()
+	{
+		global $ilDB;
+		
+		$db_settings = array();
+		$profile_fields =& $this->getProfileFields();
+		$query = "SELECT * FROM `settings` WHERE keyword LIKE 'usr_settings_export_%' AND value = '1'";
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting))
+			{
+				array_push($db_settings, $setting[1]);
+			}
+		}
+		$export_settings = array();
+		foreach ($profile_fields as $key => $value)
+		{
+			if (in_array($value, $db_settings))
+			{
+				if (strcmp($value, "password") == 0)
+				{
+					array_push($export_settings, "passwd");
+				}
+				else
+				{
+					array_push($export_settings, $value);
+				}
+			}
+		}
+		array_push($export_settings, "login");
+		array_push($export_settings, "last_login");
+		array_push($export_settings, "last_update");
+		array_push($export_settings, "create_date");
+		array_push($export_settings, "i2passwd");
+		array_push($export_settings, "time_limit_owner");
+		array_push($export_settings, "time_limit_unlimited");
+		array_push($export_settings, "time_limit_from");
+		array_push($export_settings, "time_limit_until");
+		array_push($export_settings, "time_limit_message");
+		array_push($export_settings, "active");
+		array_push($export_settings, "approve_date");
+		array_push($export_settings, "agree_date");
+		array_push($export_settings, "ilinc_id");
+		array_push($export_settings, "client_ip");
+		return $export_settings;
+	}
 	
 	/**
 	* build xml export file
 	*/
 	function buildExportFile($a_mode = "userfolder_export_excel_x86")
 	{
-		return;
 		global $ilBench;
 		global $log;
+		global $ilDB;
+		global $ilias;
+		
 		//get Log File
 		$expDir = $this->getExportDirectory();
 		$expLog = &$log;
@@ -200,17 +334,33 @@ class ilObjUserFolder extends ilObject
 		$this->createExportDirectory();
 		
 		//get data
-		$data = array("abc", "def");
-		//...
-		//...
-		$fullname = $expDir."/".$this->getExportFilename($a_mode);
-		$file = fopen($fullname, "w");
-		foreach ($data as $row) {
-			fwrite($file, join (";",$row)."\n");
+		$settings =& $this->getExportSettings();
+		$data = array();
+		$query = "SELECT * FROM usr_data ORDER BY lastname, firstname";
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$datarow = array();
+			foreach ($settings as $key => $value)
+			{
+				array_push($datarow, $row[$value]);
+			}
+			array_push($data, $datarow);
 		}
-		fclose($file);
-		
-		// end
+
+		$fullname = $expDir."/".$this->getExportFilename($a_mode);
+		switch ($a_mode)
+		{
+			case "userfolder_export_excel_x86":
+				$this->createExcelExport($settings, $data, $fullname, "latin1");
+				break;
+			case "userfolder_export_excel_ppc":
+				$this->createExcelExport($settings, $data, $fullname, "macos");
+				break;
+			case "userfolder_export_csv":
+				$this->createCSVExport($settings, $data, $fullname);
+				break;
+		}
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");
 	
 		return $fullname;	
@@ -242,6 +392,37 @@ class ilObjUserFolder extends ilObject
 				$this->ilias->raiseError("Creation of Userfolder Export Directory failed.",$this->ilias->error_obj->MESSAGE);
 			}
 		}
+	}
+	
+	function &getProfileFields()
+	{
+		$profile_fields = array(
+			"gender",
+			"firstname",
+			"lastname",
+			"title",
+			"upload",
+			"password",
+			"institution",
+			"department",
+			"street",
+			"zipcode",
+			"city",
+			"country",
+			"phone_office",
+			"phone_home",
+			"phone_mobile",
+			"fax",
+			"email",
+			"hobby",
+			"referral_comment",
+			"matriculation",
+			"language",
+			"skin_style",
+			"hits_per_page",
+			"show_users_online"
+		);
+		return $profile_fields;
 	}
 	
 } // END class.ilObjUserFolder
