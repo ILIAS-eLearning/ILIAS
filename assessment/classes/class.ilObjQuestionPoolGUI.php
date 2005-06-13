@@ -314,7 +314,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-*/		
+	*/	
 		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
 		// set type of questionpool object

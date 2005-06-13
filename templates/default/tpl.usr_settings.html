@@ -7,6 +7,7 @@
 	<td class="std">{HEADER_VISIBLE}</td>
 	<td class="std">{HEADER_ENABLED}</td>
 	<td class="std">{HEADER_REQUIRED}</td>
+	<td class="std">{HEADER_EXPORT}</td>
 	<td class="std">{HEADER_DEFAULT_VALUE}</td>
 </tr>
 <!-- BEGIN profile_settings -->
@@ -15,6 +16,7 @@
 	<td class="option_value"><input type="checkbox" name="chb[{PROFILE_OPTION_VISIBLE}]" value="1"{CHECKED_VISIBLE}{DISABLE_VISIBLE}/></td>
 	<td class="option_value"><input type="checkbox" name="chb[{PROFILE_OPTION_ENABLED}]" value="1"{CHECKED_ENABLED}{DISABLE_ENABLED}/></td>
 	<td class="option_value"><input type="checkbox" name="chb[{PROFILE_OPTION_REQUIRED}]" value="1"{CHECKED_REQUIRED}{DISABLE_REQUIRED}/></td>
+	<td class="option_value"><!-- BEGIN show_export_checkbox --><input type="checkbox" name="chb[{PROFILE_OPTION_EXPORT}]" value="1"{CHECKED_EXPORT}{DISABLE_EXPORT}/><!-- END show_export_checkbox --></td>
 	<td class="option_value">
 <!-- BEGIN default_value -->
             <select name="select[{PROFILE_OPTION_DEFAULT_VALUE}]">
@@ -27,7 +29,7 @@
 </tr>
 <!-- END profile_settings -->
 <tr class="tblfooter">
-	<td colspan="5"><div align="right"><input class="submit" type="submit" name="cmd[saveGlobalUserSettings]" value="{TXT_SAVE}" /></div></td>
+	<td colspan="6"><div align="right"><input class="submit" type="submit" name="cmd[saveGlobalUserSettings]" value="{TXT_SAVE}" /></div></td>
 </tr>
 </table>
 </form>
