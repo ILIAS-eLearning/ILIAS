@@ -170,11 +170,12 @@ class ilObjSurveyAccess extends ilObjectAccess
 	*
 	* @param	int		$a_obj_id		survey id
 	*/
-	function _lookupFinished($a_obj_id)
+	function _lookupFinished($a_obj_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 
 		$finished = "";
+		if (!strlen($a_user_id) $a_user_id = $ilUser->id;
 
 		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
 				$ilDB->quote($a_obj_id)
@@ -187,14 +188,14 @@ class ilObjSurveyAccess extends ilObjectAccess
 			{
 				$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
 					$ilDB->quote($row->survey_id),
-					$ilDB->quote(md5($ilUser->id . $row->survey_id) . "")
+					$ilDB->quote(md5($a_user_id . $row->survey_id) . "")
 				);
 			}
 			else
 			{
 				$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
 					$ilDB->quote($row->survey_id),
-					$ilDB->quote($ilUser->id)
+					$ilDB->quote($a_user_id)
 				);
 			}
 			$result = $ilDB->query($q);

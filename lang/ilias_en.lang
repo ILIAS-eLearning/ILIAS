@@ -874,6 +874,13 @@ common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
+common#:#userfolder_export_csv#:#Comma Separated Values
+common#:#create_export_file#:#Create export file
+common#:#userfolder_export_files#:#Files
+common#:#userfolder_export_file#:#File
+common#:#userfolder_export_file_size#:#File size
 common#:#by#:#By
 common#:#bytes#:#Bytes
 common#:#calendar#:#Calendar

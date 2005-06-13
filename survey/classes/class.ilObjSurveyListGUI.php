@@ -130,7 +130,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		}
 		else
 		{
-			$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id);
+			$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
 
 			// finished
 			if ($finished === 1)

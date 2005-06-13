@@ -1645,6 +1645,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"hits_per_page" => 0,
 			"show_users_online" => 0
 		);
+		$no_export_fields = array(
+			"skin_style",
+			"hits_per_page",
+			"show_users_online"
+		);
 		foreach ($profile_fields as $field)
 		{
 			$this->tpl->setCurrentBlock("profile_settings");
@@ -1665,6 +1670,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKED_VISIBLE", " checked=\"checked\"");
 			}
 			// END Show field in Personal Profile
+			if (!in_array($field, $no_export_fields))
+			{
+				$this->tpl->setVariable("PROFILE_OPTION_EXPORT", "export_" . $field);
+				// BEGIN Export field of Personal Profile
+				if ($ilias->getSetting("usr_settings_export_".$field) == "1")
+				{
+					$this->tpl->setVariable("CHECKED_EXPORT", " checked=\"checked\"");
+				}
+				// END Export field of Personal Profile
+			}
 			// BEGIN Require field in Personal Profile
 			$is_fixed = array_key_exists($field, $fixed_required_fields);
 			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && $ilias->getSetting("require_".$field) == "1")
@@ -1732,6 +1747,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));
 		$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("HEADER_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	}
@@ -1800,6 +1816,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ilias->deleteSetting("usr_settings_disable_".$field);
 			}
 
+			if ($_POST["chb"]["export_" . $field])
+			{
+				$ilias->setSetting("usr_settings_export_".$field, "1");
+			}
+			else
+			{
+				$ilias->deleteSetting("usr_settings_export_".$field);
+			}
+
 			$is_fixed = array_key_exists($field, $fixed_required_fields);
 			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && $_POST["chb"]["required_".$field])
 			{
@@ -1836,6 +1861,131 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[0] = $this->lng->txt('usr_inactive_only');
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
+	}
+
+	/**
+	* Global user settings
+	*
+	* Allows to define global settings for user accounts
+	*
+	* Note: The Global user settings form allows to specify default values
+	*       for some user preferences. To avoid redundant implementations, 
+	*       specification of default values can be done elsewhere in ILIAS
+	*       are not supported by this form. 
+	*/
+	function exportObject()
+	{
+		global $ilias;
+		
+		if ($_POST["cmd"]["export"])
+		{
+			$this->object->buildExportFile($_POST["export_type"]);
+			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+			exit;
+		}
+		
+		$this->getTemplateFile("export","usr");
+		
+		$export_types = array(
+			"userfolder_export_excel_x86",
+			"userfolder_export_excel_ppc",
+			"userfolder_export_csv"
+		);
+
+		// create table
+		include_once("./classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("EXPORT_FILES", "export_files", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.usr_export_file_row.html");
+
+		$num = 0;
+
+		$tbl->setTitle($this->lng->txt("userfolder_export_files"));
+
+		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setCheckboxes('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("userfolder_export_file"),
+			$this->lng->txt("userfolder_export_file_size"), $this->lng->txt("date") ));
+
+		$tbl->enabled["sort"] = false;
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+
+		$export_files = $this->object->getExportFiles();
+
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file["filename"]);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", $exp_file["filesize"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file["filename"]);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+		
+		
+		foreach ($export_types as $export_type)
+		{		
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("OPTION_VALUE", $export_type);
+			$this->tpl->setVariable("OPTION_TEXT", $this->lng->txt($export_type));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("EXPORT_BUTTON", $this->lng->txt("create_export_file"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 
 } // END class.ilObjUserFolderGUI
