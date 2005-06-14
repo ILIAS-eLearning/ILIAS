@@ -7332,3 +7332,5 @@ $ilCtrlStructureReader->getStructure();
 $ilModuleReader->getModules();
 
 ?>
+<#472>
+ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
