@@ -788,7 +788,15 @@ common#:#apply#:#Apply
 common#:#apply_filter#:#Apply filter
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
-common#:#approve_date#:#Approved On
+common#:#approve_date#:#Approved on
+common#:#agree_date#:#Agreed on
+common#:#i2passwd#:#ILIAS 2 password
+common#:#ilinc_id#:#iLinc ID
+common#:#time_limit_owner#:#Owner (time limit)
+common#:#time_limit_unlimited#:#Unlimited (time limit)
+common#:#time_limit_from#:#From (time limit)
+common#:#time_limit_until#:#Until (time limit)
+common#:#time_limit_message#:#Message (time limit)
 common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
