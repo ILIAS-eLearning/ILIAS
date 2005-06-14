@@ -20,6 +20,8 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+define('DEFAULT_SEARCH',0);
+define('ADVANCED_SEARCH',1);
 
 /**
 * searchResult stores all result of a search query.
@@ -34,6 +36,7 @@
 class ilSearchResult
 {
 	var $user_id;
+	var $entries = array();
 
 	// OBJECT VARIABLES
 	var $ilias;
@@ -100,6 +103,16 @@ class ilSearchResult
 			}
 		}
 		return true;
+	}
+
+	/**
+	 *
+	 * Check number of entries
+	 * @access	public
+	 */
+	function numEntries()
+	{
+		return count($this->getEntries());
 	}
 
 	/**
@@ -225,12 +238,19 @@ class ilSearchResult
 		return false;
 	}
 
-	function save()
+
+	/**
+	 *
+	 * Save search results
+	 * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
+	 * @access	public
+	 */
+	function save($a_type = DEFAULT_SEARCH)
 	{
 		if ($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "REPLACE INTO usr_search ".
-				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."')";
+				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."','".$a_type."')";
 
 			$res = $this->db->query($query);
 
@@ -239,12 +259,19 @@ class ilSearchResult
 
 		return false;
 	}
-	function read()
+	/**
+	 *
+	 * read search results
+	 * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
+	 * @access	public
+	 */
+	function read($a_type = DEFAULT_SEARCH)
 	{
 		if($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "SELECT search_result FROM usr_search ".
-				"WHERE usr_id = '".$this->getUserId()."'";
+				"WHERE usr_id = '".$this->getUserId()."' ".
+				"AND search_type = '".$a_type."'";
 
 			$res = $this->db->query($query);
 

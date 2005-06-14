@@ -49,7 +49,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 	* Constructor
 	* @access public
 	*/
-	function ilMetaDataSearch(&$qp_obj)
+	function ilAdvancedSearch(&$qp_obj)
 	{
 		parent::ilAbstractSearch($qp_obj);
 	}
@@ -69,22 +69,18 @@ class ilAdvancedSearch extends ilAbstractSearch
 		return $this->mode;
 	}
 
+	function setOptions(&$options)
+	{
+		$this->options =& $options;
+	}
 
 	function &performSearch()
 	{
 		switch($this->getMode())
 		{
-			case 'keyword':
-				return $this->__searchKeywords();
-
-			case 'contribute':
-				return $this->__searchContribute();
-
-			case 'title':
-				return $this->__searchTitles();
-
-			case 'description':
-				return $this->__searchDescriptions();
+			case 'educational':
+				return $this->__searchEducational();
+				break;
 
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
@@ -93,110 +89,52 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 
 
-
-	// Private
-	function __createInStatement()
+	function &__searchEducational()
 	{
-		if(!$this->getFilter())
-		{
-			return '';
-		}
-		else
-		{
-			$type = "('";
-			$type .= implode("','",$this->getFilter());
-			$type .= "')";
-			
-			$in = " AND obj_type IN ".$type;
+		$query = "SELECT rbac_id FROM il_meta_educational ";
 
-			return $in;
+		if(!strlen($where = $this->__createEducationalWhere()))
+		{
+			return $this->search_result;
 		}
+		$query = $query.$where;
+		$res = $this->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
 	}
-	function __searchContribute()
+
+	function __createEducationalWhere()
 	{
-		$this->setFields(array('entity'));
+		$counter = 0;
+		$where = 'WHERE ';
 
-		$in = $this->__createInStatement();
-		$where = $this->__createContributeWhereCondition();
-		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
-			$locate.
-			"FROM il_meta_entity ".
-			$where." ".$in.' ';
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($this->options['int_type'])
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."interactivity_type = '".ilUtil::prepareDBString($this->options['int_type'])."' ");
 		}
-
-		return $this->search_result;
-	}		
-
-
-	function __searchKeywords()
-	{
-		$this->setFields(array('keyword'));
-
-		$in = $this->__createInStatement();
-		$where = $this->__createKeywordWhereCondition();
-		$locate = $this->__createLocateString();
-
-		$query = "SELECT rbac_id,obj_type ".
-			$locate.
-			"FROM il_meta_keyword ".
-			$where." ".$in.' ';
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($this->options['lea_type'])
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."learning_resource_type = '".ilUtil::prepareDBString($this->options['lea_type'])."' ");
 		}
-
-		return $this->search_result;
-	}		
-	function __searchTitles()
-	{
-		$this->setFields(array('title'));
-
-		$in = $this->__createInStatement();
-		$where = $this->__createTitleWhereCondition();
-		$locate = $this->__createLocateString();
-
-		$query = "SELECT rbac_id,obj_type ".
-			$locate.
-			"FROM il_meta_general ".
-			$where." ".$in.' ';
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($this->options['int_role'])
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."intended_end_user_role = '".ilUtil::prepareDBString($this->options['int_role'])."' ");
 		}
-
-		return $this->search_result;
-	}		
-	function __searchDescriptions()
-	{
-		$this->setFields(array('description'));
-
-		$in = $this->__createInStatement();
-		$where = $this->__createDescriptionWhereCondition();
-		$locate = $this->__createLocateString();
-
-		$query = "SELECT rbac_id,obj_type ".
-			$locate.
-			"FROM il_meta_description ".
-			$where." ".$in.' ';
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($this->options['con'])
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."context = '".ilUtil::prepareDBString($this->options['con'])."' ");
 		}
+		return $counter ? $where : '';
+	}
 
-		return $this->search_result;
-	}		
 }
 ?>
