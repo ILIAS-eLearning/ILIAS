@@ -61,9 +61,9 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		// general commands array
 		$this->commands = array
 		(
-			array("permission" => "read", "cmd" => "run", "lang_var" => "run"),
+			array("permission" => "read", "cmd" => "run", "lang_var" => "svy_run"),
 			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "", "cmd" => "evaluation", "lang_var" => "evaluation")
+			array("permission" => "", "cmd" => "evaluation", "lang_var" => "svy_evaluation")
 		);
 	}
 
@@ -126,7 +126,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		{
 			// no completion
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("warning_survey_not_complete"));
+				"value" => $lng->txt("svy_warning_survey_not_complete"));
 		}
 		else
 		{
@@ -135,17 +135,17 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			// finished
 			if ($finished === 1)
 			{
-				$stat = $this->lng->txt("finished");
+				$stat = $this->lng->txt("svy_finished");
 			}
 			// not finished
 			else if ($finished === 0)
 			{
-				$stat = $this->lng->txt("not_finished");
+				$stat = $this->lng->txt("svy_not_finished");
 			}
 			// not started
 			else
 			{
-				$stat = $this->lng->txt("not_started");
+				$stat = $this->lng->txt("svy_not_started");
 			}
 			$props[] = array("alert" => false, "property" => $lng->txt("status"),
 				"value" => $stat);
