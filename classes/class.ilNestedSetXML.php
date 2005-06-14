@@ -645,11 +645,14 @@ class ilNestedSetXML
 			$node = $this->getXpathNodes($this->dom,$xPath);
 			if (is_array($node))
 			{
-				$c = $node[0]->children();
-				//$content = $c[0]->content;		// ## changed
-				if (is_object($c[0]))
+				if (is_object($node[0]))
 				{
-					$content = $c[0]->get_content();		// ## changed
+					$c = $node[0]->children();
+					//$content = $c[0]->content;		// ## changed
+					if (is_object($c[0]))
+					{
+						$content = $c[0]->get_content();		// ## changed
+					}
 				}
 			}
 		}
