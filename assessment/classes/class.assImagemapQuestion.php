@@ -895,7 +895,8 @@ class ASS_ImagemapQuestion extends ASS_Question {
 */
   function set_image_filename($image_filename, $image_tempfilename = "") {
 
-    if (!empty($image_filename)) {
+    if (!empty($image_filename)) 
+		{
       $this->image_filename = $image_filename;
     }
 		if (!empty($image_tempfilename)) {
