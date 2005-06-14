@@ -138,7 +138,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	function updateObject() {
-		$this->object->updateTitleAndDescription();
+		//$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
 		$this->object->saveToDb();
 		if (strcmp($_SESSION["info"], "") != 0)
