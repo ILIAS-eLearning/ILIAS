@@ -426,13 +426,13 @@ class ilObjContentObject extends ilObject
 			case "scorm":
 				$export_dir = $lm_dir."/export_scorm";
 				break;
-				
+
 			default:		// = xml
 				$export_dir = $lm_dir."/export";
 				break;
 		}
 		ilUtil::makeDir($export_dir);
-				
+
 		if(!@is_dir($export_dir))
 		{
 			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);

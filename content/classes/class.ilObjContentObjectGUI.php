@@ -2115,7 +2115,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		require_once("content/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
 		$cont_exp->buildExportFile();
-		$this->exportList();
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/**
@@ -2619,7 +2619,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$cont_exp = new ilContObjectExport($this->object, "html");
 		$cont_exp->buildExportFile();
 //echo $this->tpl->get();
-		$this->exportList();
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/**
@@ -2631,7 +2631,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$cont_exp = new ilContObjectExport($this->object, "scorm");
 		$cont_exp->buildExportFile();
 //echo $this->tpl->get();
-		$this->exportList();
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/**

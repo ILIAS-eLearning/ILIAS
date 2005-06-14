@@ -615,13 +615,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
-		// export button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
-		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
-		$this->tpl->parseCurrentBlock();
-
 		// glossary term list template
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
@@ -961,10 +954,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// create export file button
+		// create export file button (xml)
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
+		$this->tpl->parseCurrentBlock();
+
+		// create export file button (html)
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_html"));
 		$this->tpl->parseCurrentBlock();
 
 		// view last export log button
@@ -1076,8 +1075,21 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		require_once("content/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object);
 		$glo_exp->buildExportFile();
-		$this->exportList();
+		$this->ctrl->redirect($this, "exportList");
 	}
+	
+	/**
+	* create html package
+	*/
+	function exportHTML()
+	{
+		require_once("content/classes/class.ilGlossaryExport.php");
+		$glo_exp = new ilGlossaryExport($this->object, "html");
+		$glo_exp->buildExportFile();
+//echo $this->tpl->get();
+		$this->ctrl->redirect($this, "exportList");
+	}
+
 
 	/**
 	* download export file
@@ -1522,6 +1534,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 			 "meta_data", get_class($this));
+
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTarget($this, "exportList"),
+			 "exportList", get_class($this));
 
 		// permissions
 		$tabs_gui->addTarget("permission_settings",

@@ -44,7 +44,7 @@ class ilGlossaryExport
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryExport(&$a_glo_obj)
+	function ilGlossaryExport(&$a_glo_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias;
 
@@ -53,15 +53,28 @@ class ilGlossaryExport
 		$this->err =& $ilErr;
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
+		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();
 		$this->inst_id = $settings["inst_id"];
 
 		$date = time();
-		$this->export_dir = $this->glo_obj->getExportDirectory();
-		$this->subdir = $date."__".$this->inst_id."__".
-			$this->glo_obj->getType()."_".$this->glo_obj->getId();
-		$this->filename = $this->subdir.".xml";
+		switch($this->mode)
+		{
+			case "xml":
+				$this->export_dir = $this->glo_obj->getExportDirectory();
+				$this->subdir = $date."__".$this->inst_id."__".
+					$this->glo_obj->getType()."_".$this->glo_obj->getId();
+				$this->filename = $this->subdir.".xml";
+				break;
+		
+			case "html":
+				$this->export_dir = $this->glo_obj->getExportDirectory("html");
+				$this->subdir = $this->glo_obj->getType()."_".$this->glo_obj->getId();
+				$this->filename = $this->subdir.".zip";
+				break;
+
+		}
 
 	}
 
@@ -137,9 +150,29 @@ class ilGlossaryExport
 	}
 
 	/**
-	* build export file (complete zip file)
+	*   build export file (complete zip file)
+	*
+	*   @access public
+	*   @return
 	*/
 	function buildExportFile()
+	{
+		switch ($this->mode)
+		{
+			case "html":
+				return $this->buildExportFileHTML();
+				break;
+
+			default:
+				return $this->buildExportFileXML();
+				break;
+		}
+	}
+
+	/**
+	* build export file (complete zip file)
+	*/
+	function buildExportFileXML()
 	{
 		global $ilBench;
 
@@ -205,6 +238,34 @@ class ilGlossaryExport
 		$ilBench->stop("GlossaryExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
+	}
+
+	/**
+	* build html export file
+	*/
+	function buildExportFileHTML()
+	{
+		global $ilBench;
+
+		$ilBench->start("GlossaryExport", "buildHTMLPackage");
+
+		// create directories
+		$this->glo_obj->createExportDirectory("html");
+
+		// get Log File
+		$expDir = $this->glo_obj->getExportDirectory();
+		/*
+		$expLog = new ilLog($expDir, "export.log");
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");*/
+
+		// get xml content
+		$ilBench->start("GlossaryExport", "buildExportFile_getHTML");
+		$this->glo_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog);
+		$ilBench->stop("GlossaryExport", "buildExportFile_getHTML");
+
+		$ilBench->stop("GlossaryExport", "buildHTMLPackage");
 	}
 
 }
