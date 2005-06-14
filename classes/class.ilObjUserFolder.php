@@ -245,6 +245,14 @@ class ilObjUserFolder extends ilObject
 			{
 				switch ($settings[$rowindex])
 				{
+					case "time_limit_from":
+					case "time_limit_until":
+						$date = strftime("%Y-%m-%d %H:%M:%S", $value);
+						if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date, $matches))
+						{
+							$worksheet->write($row, $col, ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6]), $format_datetime);
+						}
+						break;
 					case "last_login":
 					case "last_update":
 					case "create_date":
