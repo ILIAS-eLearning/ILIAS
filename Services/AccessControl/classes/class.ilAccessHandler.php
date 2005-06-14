@@ -148,15 +148,11 @@ class ilAccessHandler
 		{
 			$a_obj_id = ilObject::_lookupObjId($a_ref_id);
 		}
-		$this->obj_id = $a_obj_id;
 		
 		if ($a_type == "")
 		{
 			$a_type = ilObject::_lookupType($a_ref_id, true);
 		}
-		$this->type = $a_type;
-
-
 
 		// get cache result
 		if ($this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
@@ -185,17 +181,17 @@ class ilAccessHandler
 		}
 
 		// condition check (currently only implemented for read permission)
-		if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
+		if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
 		{
 			return false;
 		}
 
 		// object type specific check
-		if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
+		if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
 		{
 			return false;
 		}
-		
+
 		// all checks passed
 		return true;
 	}
@@ -316,7 +312,7 @@ class ilAccessHandler
 	 * condition check (currently only implemented for read permission)
 	 * 
 	 */
-	function doConditionCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
+	function doConditionCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
 		global $lng, $ilBench;
 
@@ -324,9 +320,9 @@ class ilAccessHandler
 		
 		if ($a_permission == "read")
 		{
-			if(!ilConditionHandler::_checkAllConditionsOfTarget($this->obj_id))
+			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
 			{
-				$conditions = ilConditionHandler::_getConditionsOfTarget($this->obj_id, $this->type);
+				$conditions = ilConditionHandler::_getConditionsOfTarget($a_obj_id, $a_type);
 				
 				foreach ($conditions as $condition)
 				{
@@ -351,19 +347,20 @@ class ilAccessHandler
 	 * object type specific check
 	 * 
 	 */
-	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
+	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
 		global $objDefinition, $ilBench;
 
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
 				
-		$class = $objDefinition->getClassName($this->type);
-		$location = $objDefinition->getLocation($this->type);
+		$class = $objDefinition->getClassName($a_type);
+		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
+
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
-			$a_cmd, $a_permission, $a_ref_id, $this->obj_id);
+			$a_cmd, $a_permission, $a_ref_id, $a_obj_id);
 
 		if (!($obj_access === true))
 		{
