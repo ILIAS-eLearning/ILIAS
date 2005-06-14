@@ -153,7 +153,7 @@ class ilImagemapPreview
 				$convert_cmd .= "\" ";
 			}
 		}
-		$convert_cmd = $convert_prefix . $convert_cmd .  escapeshellcmd($this->imagemap_filename) ." " . escapeshellcmd($this->preview_filename);
+		$convert_cmd = $convert_prefix . $convert_cmd .  escapeshellcmd(str_replace(" ", "\ ", $this->imagemap_filename)) ." " . escapeshellcmd($this->preview_filename);
 		system($convert_cmd);
 	}
 
