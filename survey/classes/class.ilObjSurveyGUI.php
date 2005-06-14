@@ -1386,91 +1386,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
-* Creates a confirmation form to insert questions into the survey
-*
-* Creates a confirmation form to insert questions into the survey
-*
-* @access public
-*/
-	function insertQuestionsForm($checked_questions)
-	{
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_insert_questions.html", true);
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		if ($_GET["browsetype"] == 1)
-		{
-			$questions = &$this->object->getQuestions($checked_questions);
-			if (count($questions))
-			{
-				foreach ($questions as $data)
-				{
-					if (in_array($data["question_id"], $checked_questions))
-					{
-						$this->tpl->setCurrentBlock("row");
-						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-						$this->tpl->setVariable("TEXT_TITLE", $data["title"]);
-						$this->tpl->setVariable("TEXT_DESCRIPTION", $data["description"]);
-						$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data["type_tag"]));
-						$this->tpl->parseCurrentBlock();
-						$counter++;
-					}
-				}
-			}
-		}
-		else
-		{
-			$questionblocks = &$this->object->getQuestionblocks($checked_questions);
-			if (count($questionblocks))
-			{
-				foreach ($questionblocks as $questionblock_id => $data)
-				{
-					if (in_array($questionblock_id, $checked_questions))
-					{
-						$this->tpl->setCurrentBlock("row");
-						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-						$this->tpl->setVariable("TEXT_TITLE", $data[key($data)]["title"]);
-						$this->tpl->setVariable("TEXT_TYPE", $data[key($data)]["surveytitle"]);
-						$contains = array();
-						foreach ($data as $key => $value)
-						{
-							array_push($contains, $value["sequence"] . ". " . $value["questiontitle"]);
-						}
-						$this->tpl->setVariable("TEXT_DESCRIPTION", join($contains, ", "));
-						$this->tpl->parseCurrentBlock();
-						$counter++;
-					}
-				}
-			}
-		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		if ($_GET["browsetype"] == 1)
-		{
-			$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("contains"));
-			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("obj_svy"));
-		}
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->ctrl->setParameterByClass(get_class($this), "browsetype", $_GET["browsetype"]);
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
 * Creates a confirmation form to remove questions from the survey
 *
 * Creates a confirmation form to remove questions from the survey
@@ -2460,15 +2375,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
 			$show_questionbrowser = true;
-			if ($_POST["cmd"]["insert"]) {
+			if ($_POST["cmd"]["insert"]) 
+			{
 				// insert selected questions into test
-				$selected_array = array();
-				foreach ($_POST as $key => $value) {
-					if (preg_match("/cb_(\d+)/", $key, $matches)) {
-						array_push($selected_array, $matches[1]);
+				$inserted_objects = 0;
+				foreach ($_POST as $key => $value) 
+				{
+					if (preg_match("/cb_(\d+)/", $key, $matches)) 
+					{
+						if ($_GET["browsetype"] == 1)
+						{
+							$this->object->insertQuestion($matches[1]);
+						}
+						else
+						{
+							$this->object->insertQuestionBlock($matches[1]);
+						}
+						$inserted_objects++;
 					}
 				}
-				if (!count($selected_array)) {
+				if ($inserted_objects)
+				{
+					$this->object->saveCompletionStatus();
+					sendInfo($this->lng->txt("questions_inserted"), true);
+					$this->ctrl->redirect($this, "questions");
+				}
+				else
+				{
 					if ($_GET["browsetype"] == 1)
 					{
 						sendInfo($this->lng->txt("insert_missing_question"));
@@ -2477,23 +2410,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						sendInfo($this->lng->txt("insert_missing_questionblock"));
 					}
-				} else {
-//					$total = $this->object->evalTotalPersons();
-//					if ($total) {
-						// the test was executed previously
-//						sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-//					} else {
-						if ($_GET["browsetype"] == 1)
-						{
-							sendInfo($this->lng->txt("ask_insert_questions"));
-						}
-						else
-						{
-							sendInfo($this->lng->txt("ask_insert_questionblocks"));
-						}
-//					}
-					$this->insertQuestionsForm($selected_array);
-					return;
 				}
 			}
 			if ($_POST["cmd"]["back"]) {
