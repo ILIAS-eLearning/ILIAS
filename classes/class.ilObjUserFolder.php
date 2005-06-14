@@ -351,6 +351,19 @@ class ilObjUserFolder extends ilObject
 			$datarow = array();
 			foreach ($settings as $key => $value)
 			{
+				if (strcmp($value, "language") == 0)
+				{
+					$query = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+						$ilDB->quote($row["usr_id"] . ""),
+						$ilDB->quote($value)
+					);
+					$res = $ilDB->query($query);
+					if ($res->numRows() == 1)
+					{
+						$prefrow = $res->fetchRow(DB_FETCHMODE_ASSOC);
+						$row[$value] = $this->lng->txt("lang_".$prefrow["value"]);
+					}
+				}
 				array_push($datarow, $row[$value]);
 			}
 			array_push($data, $datarow);
