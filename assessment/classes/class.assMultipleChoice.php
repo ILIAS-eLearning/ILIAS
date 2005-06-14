@@ -1021,6 +1021,7 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
+		if ((count($found_values) > 0) || ($this->get_response() == RESPONSE_MULTIPLE))
 		{
 			if ($answer->isStateChecked())
 			{
