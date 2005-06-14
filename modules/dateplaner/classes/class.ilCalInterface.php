@@ -216,6 +216,8 @@ class ilCalInterface
 				$this->sock = FALSE;
 			}
 		}
+		
+		$this->setNames();
     
 		//gain further access to ilias-variables
 		$this->uId					= $ilias->account->getId();
@@ -602,9 +604,25 @@ class ilCalInterface
 				$dlI = false;
 			}
 		}
+		
+		$this->setNames();
 
 		Return $dlI ;
 	}// end func
+
+	/**
+	* check wether current MySQL server is version 4.1.x or higher
+	*/
+	function setNames()
+	{
+		$version = mysql_get_server_info();
+		$version = explode(".", $version);
+		if ((int)$version[0] >= 5 ||
+			((int)$version[0] == 4 && (int)$version[1] >= 1))
+		{
+			mysql_query("SET NAMES utf8");
+		}
+	}
 
 
 } // END class.Interface
