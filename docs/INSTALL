@@ -942,6 +942,9 @@ d. Reload the database using UTF-8 as character set:
    
 e. Check whether all content has been migrated properly.
 
+If you run multiple ILIAS 3.4.0/3.4.1 instances on the same database server you
+have to update them all at the same time.
+
 
 4. Migrating from MySQL 4.0.x to MySQL 4.1.x
 
@@ -964,6 +967,8 @@ e. Check whether all content has been migrated properly.
     7. Check if all content has been successfully migrated. Especially all
        special characters.
 
+If you run multiple ILIAS versions on the same database server you have to
+update them all at the same time.
 	   
 A P P E N D I X  A: Note on using Apache 2
 
