@@ -175,7 +175,8 @@ class ilObjSurveyAccess extends ilObjectAccess
 		global $ilDB, $ilUser;
 
 		$finished = "";
-		if (!strlen($a_user_id) $a_user_id = $ilUser->id;
+		if (!strlen($a_user_id))
+			$a_user_id = $ilUser->id;
 
 		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
 				$ilDB->quote($a_obj_id)
