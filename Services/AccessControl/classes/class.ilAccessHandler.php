@@ -142,6 +142,21 @@ class ilAccessHandler
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "")
 	{
 		$this->current_info->clear();
+		
+		// get object id if not provided
+		if ($a_obj_id == "")
+		{
+			$a_obj_id = ilObject::_lookupObjId($a_ref_id);
+		}
+		$this->obj_id = $a_obj_id;
+		
+		if ($a_type == "")
+		{
+			$a_type = ilObject::_lookupType($a_ref_id, true);
+		}
+		$this->type = $a_type;
+
+
 
 		// get cache result
 		if ($this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
@@ -176,7 +191,7 @@ class ilAccessHandler
 		}
 
 		// object type specific check
-		if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id,$a_type))
+		if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
 		{
 			return false;
 		}
@@ -307,16 +322,11 @@ class ilAccessHandler
 
 		$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
 		
-		if ($a_obj_id == "")
-		{
-			$a_obj_id = ilObject::_lookupObjId($a_ref_id);
-		}
-		
 		if ($a_permission == "read")
 		{
-			if(!ilConditionHandler::_checkAllConditionsOfTarget($obj_id))
+			if(!ilConditionHandler::_checkAllConditionsOfTarget($this->obj_id))
 			{
-				$conditions = ilConditionHandler::_getConditionsOfTarget($obj_id, $a_type);
+				$conditions = ilConditionHandler::_getConditionsOfTarget($this->obj_id, $this->type);
 				
 				foreach ($conditions as $condition)
 				{
@@ -341,24 +351,19 @@ class ilAccessHandler
 	 * object type specific check
 	 * 
 	 */
-	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id,$a_type)
+	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
 	{
 		global $objDefinition, $ilBench;
 
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
-		
-		if ($a_type == "")
-		{
-			$a_type = ilObject::_lookupType($a_ref_id, true);
-		}
-		
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
+				
+		$class = $objDefinition->getClassName($this->type);
+		$location = $objDefinition->getLocation($this->type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
-			$a_cmd, $a_permission, $a_ref_id, $a_obj_id);
+			$a_cmd, $a_permission, $a_ref_id, $this->obj_id);
 
 		if (!($obj_access === true))
 		{
