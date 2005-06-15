@@ -668,6 +668,109 @@ class ASS_Question
 		}
 	}
 
+/**
+* Returns the maximum points, a learner can reach answering the question
+*
+* Returns the maximum points, a learner can reach answering the question
+*
+* @param integer $question_id The database Id of the question
+* @access public
+* @see $points
+*/
+  function _getMaximumPoints($question_id) 
+	{
+		global $ilDB;
+
+		$points = 0;
+		$query = sprintf("SELECT points FROM qpl_questions WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$points = $row["points"];
+		}
+		return $points;
+  }
+
+	/**
+	* Returns question information from the database
+	*
+	* Returns question information from the database
+	*
+	* @param integer $question_id The database Id of the question
+	* @return array The database row containing the question data
+	* @access public static
+	*/
+	function &_getQuestionInfo($question_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		else return array();
+	}
+	
+	/**
+	* Returns the number of suggested solutions associated with a question
+	*
+	* Returns the number of suggested solutions associated with a question
+	*
+	* @param integer $question_id The database Id of the question
+	* @return integer The number of suggested solutions
+	* @access public static
+	*/
+	function _getSuggestedSolutionCount($question_id)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT suggested_solution_id FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
+
+/**
+* Returns a suggested solution for a given subquestion index
+*
+* Returns a suggested solution for a given subquestion index
+*
+* @param integer $question_id The database Id of the question
+* @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
+* @return array A suggested solution array containing the internal link
+* @access public
+*/
+	function &_getSuggestedSolution($question_id, $subquestion_index = 0)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($subquestion_index . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return array(
+				"internal_link" => $row["internal_link"],
+				"import_id" => $row["import_id"]
+			);
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
 	/**
 	* Returns the points, a learner has reached answering the question
 	*
@@ -675,17 +778,33 @@ class ASS_Question
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
+	* @param integer $question_id The database Id of the question
 	* @access public static
 	*/
-	function _getReachedPoints($user_id, $test_id)
+	function _getReachedPoints($user_id, $test_id, $question_id)
 	{
-		return 0;
+		global $ilDB;
+
+		$points = 0;
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$points = $row["points"];
+		}
+		return $points;
 	}
 
 	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
+	* This is the fast way to get the points directly from the database.
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
@@ -693,9 +812,23 @@ class ASS_Question
 	*/
 	function getReachedPoints($user_id, $test_id)
 	{
-		return 0;
-	}
+		global $ilDB;
 
+		$points = 0;
+		$query = sprintf("SELECT * FROM tst_test_result WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$ilDB->quote($user_id),
+			$ilDB->quote($test_id),
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$points = $row["points"];
+		}
+		return $points;
+	}
+	
 	/**
 	* Returns the maximum points, a learner can reach answering the question
 	*
@@ -723,7 +856,7 @@ class ASS_Question
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
-		$reached_points = $this->getReachedPoints($ilUser->id, $test_id);
+		$reached_points = $this->calculateReachedPoints($ilUser->id, $test_id);
 		$query = sprintf("REPLACE INTO tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
 			$db->quote($ilUser->id . ""),
 			$db->quote($test_id . ""),
@@ -1045,9 +1178,8 @@ class ASS_Question
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$question =& ASS_Question::_instanciateQuestion($row->question_fi);
-			$reached = $question->getReachedPoints($row->user_fi, $row->test_fi);
-			$max = $question->getMaximumPoints();
+			$reached = ASS_Question::_getReachedPoints($row->user_fi, $row->test_fi, $row->question_fi);
+			$max = ASS_Question::_getMaximumPoints($row->question_fi);
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -1585,7 +1717,6 @@ class ASS_Question
 	{
 		$this->points = $a_points;
 	}
-
 }
 
 ?>

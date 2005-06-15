@@ -1667,31 +1667,6 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Helper function to detect the correct number of points given for a question
-* 
-* Helper function to detect the correct number of points given for a question.
-* Checks if the count_system setting has to be used or not and returns the
-* resulting points.
-*
-* @param integer $original_reached_points Number of points reached for a question with no count_system settings
-* @param integer $maximum_points Maximum number of points for a question
-* @return integer The points for a question depending of the count_system setting
-* @access private
-* @see $count_system
-*/
-	function getReachedPoints($original_reached_points, $maximum_points)
-	{
-		$reached_points = $original_reached_points;
-		if ($this->getCountSystem() == COUNT_CORRECT_SOLUTIONS)
-		{
-			if ($reached_points != $maximum_points)
-			{
-				$reached_points = 0;
-			}
-		}
-		return $reached_points;
-	}
-/**
 * Gets the test type
 * 
 * Gets the test type
@@ -2801,61 +2776,44 @@ class ilObjTest extends ilObject
 		$result_array = array();
 		foreach ($this->questions as $value)
 		{
-			//$value = $this->questions[$seq];
-//			$ilBench->start("getTestResult","instanciate question"); 
-			$question =& ilObjTest::_instanciateQuestion($value);
-//			$ilBench->stop("getTestResult","instanciate question"); 
-			if (is_object($question))
+			$max_points = ASS_Question::_getMaximumPoints($value);
+			$total_max_points += $max_points;
+			$reached_points = ASS_Question::_getReachedPoints($user_id, $this->getTestId(), $value);
+			$total_reached_points += $reached_points;
+			if ($max_points > 0)
 			{
-				$max_points = $question->getMaximumPoints();
-				$total_max_points += $max_points;
-				$reached_points = $this->getReachedPoints($question->getReachedPoints($user_id, $this->getTestId()), $max_points);
-				if ($question->getQuestionType() == 2)
-				{
-					// multiple choice multiple response
-					if ($this->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
-					{
-						if (!$question->wasAnsweredByUser($user_id, $this->getTestId()))
-						{
-							$reached_points = 0;
-						}
-					}
-				}
-				$total_reached_points += $reached_points;
-				if ($max_points > 0)
-				{
-					$percentvalue = $reached_points / $max_points;
-				}
-				else
-				{
-					$percentvalue = 0;
-				}
-				if (count($question->suggested_solutions) == 1)
-				{
-					$solution_array = $question->getSuggestedSolution(0);
-					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
-				}
-				elseif (count($question->suggested_solutions) > 1)
-				{
-					$href = "see_details_for_further_information";
-				}
-				else
-				{
-					$href = "";
-				}
-				$row = array(
-					"nr" => "$key",
-					"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
-					"max" => sprintf("%d", $max_points),
-					"reached" => sprintf("%d", $reached_points),
-					"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-					"solution" => $href,
-					"type" => $question->getQuestionType(),
-					"qid" => $question->getId()
-				);
-				array_push($result_array, $row);
-				$key++;
+				$percentvalue = $reached_points / $max_points;
 			}
+			else
+			{
+				$percentvalue = 0;
+			}
+			if (ASS_Question::_getSuggestedSolutionCount($value) == 1)
+			{
+				$solution_array =& ASS_Question::_getSuggestedSolution($value, 0);
+				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+			}
+			elseif (ASS_Question::_getSuggestedSolutionCount($value) > 1)
+			{
+				$href = "see_details_for_further_information";
+			}
+			else
+			{
+				$href = "";
+			}
+			$info =& ASS_Question::_getQuestionInfo($value);
+			$row = array(
+				"nr" => "$key",
+				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $value . "\">" . htmlentities($info["title"]) . "</a>",
+				"max" => sprintf("%d", $max_points),
+				"reached" => sprintf("%d", $reached_points),
+				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
+				"solution" => $href,
+				"type" => $info["type_tag"],
+				"qid" => $value
+			);
+			array_push($result_array, $row);
+			$key++;
 		}
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
@@ -5890,7 +5848,7 @@ class ilObjTest extends ilObject
 				if (is_object($question))
 				{
 					$max_points += $question->getMaximumPoints();
-					$reached_points += $this->getReachedPoints($question->getReachedPoints($user_id, $this->getTestId()), $question->getMaximumPoints()); 
+					$reached_points += $question->getReachedPoints($user_id, $this->getTestId()); 
 				}
 			}
 			

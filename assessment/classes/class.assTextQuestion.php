@@ -678,13 +678,18 @@ class ASS_TextQuestion extends ASS_Question
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
+	* The points are calculated from the given answers including checks
+	* for all special scoring options in the test container.
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id)
 	{
+		global $ilDB;
+
+		$points = 0;
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 			$this->ilias->db->quote($user_id),
 			$this->ilias->db->quote($test_id),
@@ -696,26 +701,31 @@ class ASS_TextQuestion extends ASS_Question
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			if ($row["points"])
 			{
-				return $row["points"];
+				$points = $row["points"];
 			}
 		}
-		return 0;
-	}
 
-	/**
-	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
-	* Note: This method should be able to be invoked static - do not
-	* use $this inside this class
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function _getReachedPoints($user_id, $test_id)
-	{
-		return 0;
+		// check for special scoring options in test
+		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["count_system"] == 1)
+			{
+				if ($points != $this->getMaximumPoints())
+				{
+					$points = 0;
+				}
+			}
+		}
+		else
+		{
+			$points = 0;
+		}
+		return $points;
 	}
 
 	/**
