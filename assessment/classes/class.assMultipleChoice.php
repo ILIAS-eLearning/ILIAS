@@ -996,15 +996,17 @@ class ASS_MultipleChoice extends ASS_Question
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
+	* The points are calculated from the given answers including checks
+	* for all special scoring options in the test container.
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function getReachedPoints($user_id, $test_id)
+	function calculateReachedPoints($user_id, $test_id)
 	{
 		global $ilDB;
-
+		
 		$found_values = array();
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 			$ilDB->quote($user_id),
@@ -1021,22 +1023,52 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
-		if ((count($found_values) > 0) || ($this->get_response() == RESPONSE_MULTIPLE))
 		{
-			if ($answer->isStateChecked())
+			if ((count($found_values) > 0) || ($this->get_response() == RESPONSE_MULTIPLE))
 			{
-				if (in_array($key, $found_values))
+				if ($answer->isStateChecked())
 				{
-					$points += $answer->get_points();
+					if (in_array($key, $found_values))
+					{
+						$points += $answer->get_points();
+					}
+				}
+				else
+				{
+					if (!in_array($key, $found_values))
+					{
+						$points += $answer->get_points();
+					}
 				}
 			}
-			else
+		}
+
+		// check for special scoring options in test
+		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["mc_scoring"] == 0)
 			{
-				if (!in_array($key, $found_values))
+				if (!$this->wasAnsweredByUser($user_id, $test_id))
 				{
-					$points += $answer->get_points();
+					$points = 0;
 				}
 			}
+			if ($row["count_system"] == 1)
+			{
+				if ($points != $this->getMaximumPoints())
+				{
+					$points = 0;
+				}
+			}
+		}
+		else
+		{
+			$points = 0;
 		}
 		return $points;
 	}
@@ -1076,22 +1108,6 @@ class ASS_MultipleChoice extends ASS_Question
 		{
 			return TRUE;
 		}
-	}
-
-	/**
-	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
-	* Note: This method should be able to be invoked static - do not
-	* use $this inside this class
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function _getReachedPoints($user_id, $test_id)
-	{
-		return 0;
 	}
 
 	/**
