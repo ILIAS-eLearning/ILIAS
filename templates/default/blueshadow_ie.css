@@ -372,6 +372,17 @@ h2 {
 	background-image: url(blueshadow/images/cellpic5.gif);
 }
 
+span.il_ItemAlertProperty
+{
+	font-size: 13px;
+	color: red;
+}
+
+span.il_ItemProperty,
+{
+	font-size: 13px;
+}
+
 /* ----------------- invisible border ------------- */
 
 div.invisible_border {

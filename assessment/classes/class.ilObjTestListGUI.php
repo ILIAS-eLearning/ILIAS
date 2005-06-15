@@ -60,13 +60,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjtestgui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "run", "lang_var" => "tst_run"),
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "write", "cmd" => "eval_a", "lang_var" => "tst_anon_eval"),
-			array("permission" => "write", "cmd" => "eval_stat", "lang_var" => "tst_statistical_evaluation")
-		);
+		include_once('class.ilObjTestAccess.php');
+		$this->commands = ilObjTestAccess::_getCommands();
 	}
 
 

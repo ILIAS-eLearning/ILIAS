@@ -24,8 +24,9 @@
 define("IL_NO_PERMISSION", "no_permission");
 define("IL_MISSING_PRECONDITION", "missing_precondition");
 define("IL_NO_OBJECT_ACCESS", "no_object_access");
+define("IL_NO_PARENT_ACCESS", "no_parent_access");
 define("IL_DELETED",'object_deleted');
-
+define("IL_STATUS_INFO",'object_status');
 /**
 * class ilAccessInfo
 *
@@ -51,8 +52,11 @@ class ilAccessInfo
 	*/
 	function addInfoItem($a_type, $a_text, $a_data = "")
 	{
-		$this->info_items[] = array("type" => $a_type, "text" => $a_text,
-			"data" => $a_data);
+		$this->info_items[] = array(
+									"type" => $a_type,
+									"text" => $a_text,
+									"data" => $a_data
+									);
 	}
 
 	/**
@@ -61,6 +65,17 @@ class ilAccessInfo
 	function getInfoItems()
 	{
 		return $this->info_items;
+	}
+	
+	function setQueryData($a_result)
+	{
+		$this->query = array(
+							"ref_id" => $a_result[1],
+							"permission" => $a_result[2],
+							"cmd" => $a_result[3],
+							"user_id" => $a_result[4]
+							);
+		$this->result = $a_result[0];
 	}
 }
 ?>

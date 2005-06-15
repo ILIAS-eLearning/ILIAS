@@ -1284,6 +1284,20 @@ class ilObjectGUI
 	function permObject()
 	{
 		global $rbacsystem, $rbacreview;
+		
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "perm"));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("permission_settings"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "info"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("info_status_info"));
+		$this->tpl->parseCurrentBlock();
 
 		static $num = 0;
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
@@ -1448,7 +1462,7 @@ class ilObjectGUI
 			{
 				$rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
 				$parent_node = $this->tree->getParentNodeData($rolf[0]);
-				$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(".$parent_node["obj_id"].")");
+				$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
 				$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
 			}
 				
@@ -2528,6 +2542,7 @@ class ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		// please define your tabs here
+
 	}
 
 	// PROTECTED
@@ -2637,6 +2652,30 @@ class ilObjectGUI
 		$this->tpl->setVariable("RESULT_TABLE",$tbl->tpl->get());
 
 		return true;
+	}
+	
+	function infoObject()
+	{
+		
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "perm"));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("permission_settings"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "info"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("info_status_info"));
+		$this->tpl->parseCurrentBlock();
+
+		include_once('classes/class.ilObjectStatusGUI.php');
+		
+		$ilInfo = new ilObjectStatusGUI($this->object);
+		
+		$this->tpl->setVariable("ADM_CONTENT",$ilInfo->getHTML());
 	}
 } // END class.ilObjectGUI
 ?>

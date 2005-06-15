@@ -57,13 +57,10 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$this->payment_enabled = false;
 		$this->type = "frm";
 		$this->gui_class_name = "ilobjforumgui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "showThreads", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjForumAccess.php');
+		$this->commands = ilObjForumAccess::_getCommands();
 	}
 
 	/**

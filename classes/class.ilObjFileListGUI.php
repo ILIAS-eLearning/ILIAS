@@ -59,12 +59,8 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjfilegui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-			array("permission" => "read", "cmd" => "versions", "lang_var" => "versions")
-		);
+		include_once('class.ilObjFileAccess.php');
+		$this->commands = ilObjFileAccess::_getCommands();
 	}
 
 

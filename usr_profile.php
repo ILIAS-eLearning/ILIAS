@@ -850,7 +850,7 @@ if (userSettingVisible("matriculation"))
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
-$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()));
+$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()." (#".$ilias->account->getId().")"));
 if (userSettingVisible("firstname"))
 {
 	$tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilias->account->getFirstname()));

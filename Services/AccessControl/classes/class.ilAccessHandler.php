@@ -57,7 +57,7 @@ class ilAccessHandler
 	* @param	boolean		$a_access_granted		true if access is granted
 	* @param	int			$a_user_id				user id (if no id passed, current user id)
 	*/
-	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = "")
+	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = "",$a_info = "")
 	{
 		global $ilUser;
 
@@ -65,14 +65,24 @@ class ilAccessHandler
 		{
 			$a_user_id = $ilUser->getId();
 		}
+		
+		if ($a_info == "")
+		{
+			$a_info = $this->current_info;
+		}
 
-		$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] =
-			array("granted" => $a_access_granted, "info" => $this->current_info);
-			
+		//var_dump("<pre>",$a_permission,"</pre>");
+
+		$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
+			array("granted" => $a_access_granted, "info" => $a_info);
+						
+		$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);			
 		$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
+		$this->last_info = $a_info;
 
 		// get new info object
 		$this->current_info = new ilAccessInfo();
+
 	}
 
 
@@ -96,6 +106,11 @@ class ilAccessHandler
 		{
 			$a_user_id = $ilUser->getId();
 		}
+		
+		/*if (is_object($this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]['info']))
+		{
+			$this->current_info = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]['info'];
+		}*/
 
 		return $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
 	}
@@ -173,7 +188,7 @@ class ilAccessHandler
 		{
 			return false;
 		}
-		
+
 		// check read permission for all parents
 		if (!$this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
 		{
@@ -201,7 +216,28 @@ class ilAccessHandler
 	*/
 	function getInfo()
 	{
+		//return $this->last_result;
+		//$this->last_info->setQueryData($this->current_result_element);
+		//var_dump("<pre>",$this->results,"</pre>");
+		return $this->last_info->getInfoItems();
+	}
+	
+	/**
+	* get last info object
+	*/
+	function getResultLast()
+	{
 		return $this->last_result;
+	}
+	
+	function getResultAll($a_ref_id = "")
+	{
+		if ($a_ref_id == "")
+		{
+			return $this->results;
+		}
+		
+		return $this->results[$a_ref_id];
 	}
 	
 	/**
@@ -211,13 +247,15 @@ class ilAccessHandler
 	function doCacheCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
 	{
 		global $ilBench;
+		//echo "cacheCheck<br/>";
 
 		$ilBench->start("AccessControl", "1000_checkAccess_get_cache_result");
 		$stored_access = $this->getStoredAccessResult($a_permission, $a_cmd, $a_ref_id,$a_user_id);
-		
+		//var_dump($stored_access);
 		if (is_array($stored_access))
 		{
-			$this->last_info = $stored_access["info"];
+			$this->current_info = $stored_access["info"];
+			//var_dump("cache-treffer:");
 			$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
 			return $stored_access["granted"];
 		}
@@ -231,12 +269,13 @@ class ilAccessHandler
 	 * check if object is in tree and not deleted
 	 * 
 	 */
-	function doTreeCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
+	function doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)
 	{
 		global $tree, $lng, $ilBench;
+		//echo "treeCheck<br/>";
 
 		$ilBench->start("AccessControl", "2000_checkAccess_in_tree");
-		
+
 		if(!$tree->isInTree($a_ref_id) or $tree->isDeleted($a_ref_id))
 		{
 			$this->current_info->addInfoItem(IL_DELETED, $lng->txt("object_deleted"));
@@ -245,7 +284,8 @@ class ilAccessHandler
 
 			return false;
 		}
-		
+
+		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true,$a_user_id);		
 		$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
 		return true;
 	}
@@ -254,57 +294,78 @@ class ilAccessHandler
 	 * rbac check for current object
 	 * 
 	 */
-	function doRBACCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
+	function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)
 	{
-		global $lng, $ilBench;
-
+		global $lng, $ilBench, $ilErr, $ilLog;
+		//echo "rbacCheck<br/>";
 		$ilBench->start("AccessControl", "2000_checkAccess_rbac_check");
 
-		if ($a_permission != "")
+		if ($a_permission == "")
 		{
-			if (!$this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id))
-			{
-				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false,$a_user_id);
-				$ilBench->stop("AccessControl", "2000_checkAccess_rbac_check");
-				return false;
-			}
+				$message = sprintf('%s::doRBACCheck(): No operation given! $a_ref_id: %s',
+								   get_class($this),
+								   $a_ref_id);
+				$ilLog->write($message,$ilLog->FATAL);
+				$ilErr->raiseError($message,$ilErr->MESSAGE);
 		}
 		
+		$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id);
+
+		if (!$access)
+		{
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+		}
+		
+		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id);
 		$ilBench->stop("AccessControl", "2000_checkAccess_rbac_check");
-		return true;
+
+		return $access;
 	}
 	
 	/**
 	 * check read permission for all parents
 	 * 
 	 */
-	function doPathCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
+	function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
 		global $tree, $lng, $ilBench;
-
+		//echo "pathCheck<br/>";
 		$ilBench->start("AccessControl", "3100_checkAccess_check_parents_get_path");
 		$path = $tree->getPathId($a_ref_id);
 		$ilBench->stop("AccessControl", "3100_checkAccess_check_parents_get_path");
-		
+
+		$tmp_info = $this->current_info;
+		//var_dump($this->tmp_info);
+					
 		foreach ($path as $id)
 		{
 			if ($a_ref_id == $id)
 			{
 				continue;
 			}
+			
+			$access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
 
-			if (!$this->checkAccess("read", "", $id))
+			if ($access == false)
 			{
-				$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
-				$this->current_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"));
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false,$a_user_id);
-				$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
-				return false;
+				
+				//$this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
+				$tmp_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"),$id);
+
+				if ($a_all == false)
+				{
+					$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
+					$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id,$tmp_info);
+					$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
+					return false;
+				}
 			}
 		}
 		
+		$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
+		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id,$tmp_info);
 		$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
+		
 		return true;
 	}
 	
@@ -314,10 +375,11 @@ class ilAccessHandler
 	 */
 	function doConditionCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
+		//echo "conditionCheck<br/>";
 		global $lng, $ilBench;
 
 		$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
-		
+
 		if ($a_permission == "read")
 		{
 			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
@@ -333,12 +395,13 @@ class ilAccessHandler
 						$condition["value"], $condition);
 				}
 				
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false,$a_user_id);
+				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 				$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 				return false;
 			}
 		}
-		
+
+		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 		return true;
 	}
@@ -350,7 +413,7 @@ class ilAccessHandler
 	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
 		global $objDefinition, $ilBench;
-
+		//echo "statusCheck<br/>";
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
 				
 		$class = $objDefinition->getClassName($a_type);
@@ -360,11 +423,11 @@ class ilAccessHandler
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
-			$a_cmd, $a_permission, $a_ref_id, $a_obj_id);
+			$a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
 
 		if (!($obj_access === true))
 		{
-			//$this->last_info->addInfoItem(IL_NO_OBJECT_ACCESS, $obj_acess);
+			//$this->current_info->addInfoItem(IL_NO_OBJECT_ACCESS, $obj_acess);
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 			return false;
@@ -373,9 +436,15 @@ class ilAccessHandler
 		$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 
 		$ilBench->start("AccessControl", "6000_checkAccess_store_access");
-		unset($this->last_info);
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		$ilBench->stop("AccessControl", "6000_checkAccess_store_access");
 		return true;
+	}
+	
+	function clear()
+	{
+		$this->results = array();
+		$this->last_result = "";
+		$this->current_info = new ilAccessInfo();
 	}
 }

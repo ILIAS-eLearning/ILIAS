@@ -43,6 +43,28 @@ administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Kons
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
+common#:#info_access_permissions#:#Zugriffsrechte
+common#:#info_available_roles#:#Verfügbare Rollen
+common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
+common#:#info_status_info#:#Statusinformationen
+common#:#info_permission_source#:#wirksam von*
+common#:#info_permission_origin#:#Absolute Position
+common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
+common#:#info_view_of_user#:#Benutzersicht
+common#:#info_change_user_view#:#Benutzersicht wechseln
+common#:#info_enter_user_id#:#<user_id eingeben>
+common#:#info_err_user_not_exist#:#Einen Benutzer mit dieser user_id existiert nicht
+common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
+common#:#info_assigned#:#zugewiesen
+common#:#info_not_assigned#:#nicht zugewiesen
+common#:#online#:#Online
+common#:#info_is_member#:#Benutzer ist Mitglied
+common#:#info_is_not_member#:#Benutzer ist kein Mitglied
+common#:#glo_mode#:#Modus
+common#:#glo_mode_normal#:#Normal
+common#:#glo_mode_level#:#virtuell (nur diese Ebene)
+common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
+common#:#glo_mode_desc#:#Ein virtuelles Glossar funktiontiert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich von der Position dieses Glossars darunter befinden (ganzer Teilbaum).
 administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
@@ -53,6 +75,7 @@ common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Anmel
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
+common#:#info_short#:#Info
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen

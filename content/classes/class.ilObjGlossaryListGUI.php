@@ -59,13 +59,10 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		$this->payment_enabled = false;
 		$this->type = "glo";
 		$this->gui_class_name = "ilobjglossarygui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjGlossaryAccess.php');
+		$this->commands = ilObjGlossaryAccess::_getCommands();
 	}
 
 	/**

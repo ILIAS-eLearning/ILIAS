@@ -57,12 +57,11 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 		$this->payment_enabled = false;
 		$this->type = "mep";
 		$this->gui_class_name = "ilobjmediapoolgui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit")
-		);
+		include_once('class.ilObjMediaPoolAccess.php');
+		$this->commands = ilObjMediaPoolAccess::_getCommands();
+
 	}
 
 

@@ -59,13 +59,10 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 		$this->payment_enabled = true;
 		$this->type = "htlm";
 		$this->gui_class_name = "ilobjfilebasedlmgui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjFileBasedLMAccess.php');
+		$this->commands = ilObjFileBasedLMAccess::_getCommands();
 	}
 
 	/**

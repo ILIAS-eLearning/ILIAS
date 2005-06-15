@@ -59,13 +59,10 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		$this->payment_enabled = true;
 		$this->type = "sahs";
 		$this->gui_class_name = "ilobjsahslearningmodulegui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjSAHSLearningModuleAccess.php');
+		$this->commands = ilObjSAHSLearningModuleAccess::_getCommands();
 	}
 
 	/**

@@ -61,12 +61,8 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjgroupgui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "join", "cmd" => "join", "lang_var" => "join"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
-		);
+		include_once('class.ilObjGroupAccess.php');
+		$this->commands = ilObjGroupAccess::_getCommands();
 	}
 
 	/**

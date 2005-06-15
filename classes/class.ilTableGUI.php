@@ -53,6 +53,7 @@ class ilTableGUI
 								// any exceeding values are ignored
 	var $max_count;				// max. count of database query
 	var $limit;					// max. count of dataset per page
+	var $max_limit = true;
 	var $offset;				// dataset offset
 	var $order_column;			// order column
 	var $order_direction;		// order direction

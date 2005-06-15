@@ -35,7 +35,29 @@ include_once("content/classes/class.ilObjContentObjectAccess.php");
 class ilObjLearningModuleAccess extends ilObjContentObjectAccess
 {
 
-
+	/**
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
+	{
+		$commands = array
+		(
+			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue"),
+			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+		);
+		
+		return $commands;
+	}
 }
 
 ?>

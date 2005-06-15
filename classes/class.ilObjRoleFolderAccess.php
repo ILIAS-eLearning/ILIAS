@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("content/classes/class.ilObjContentObjectAccess.php");
+include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjDlBookAccess
+* Class ilObjRootFolderAccess
 *
 *
 * @author Alex Killing <alex.killing@gmx.de>
@@ -32,31 +32,10 @@ include_once("content/classes/class.ilObjContentObjectAccess.php");
 *
 * @package AccessControl
 */
-class ilObjDlBookAccess extends ilObjContentObjectAccess
+class ilObjRoleFolderAccess extends ilObjectAccess
 {
 
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
-		
-		return $commands;
-	}
+
 }
 
 ?>

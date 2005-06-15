@@ -100,7 +100,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		if($rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
 			$tabs_gui->addTarget("administrate_users",
-				$this->ctrl->getLinkTarget($this, "listUsers"), "", get_class($this));
+				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
 		}
 
 		// parent tabs (all container: edit_permission, clipboard, trash
