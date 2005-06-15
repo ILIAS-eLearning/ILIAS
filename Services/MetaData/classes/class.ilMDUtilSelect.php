@@ -330,16 +330,16 @@ class ilMDUtilSelect
 	{
 		global $lng;
 
-		$items = array('VeryLow','Low','Medium','High','VeryHigh');
+		$items = array(1 => 'VeryLow',2 => 'Low',3 => 'Medium',4 => 'High',5 => 'VeryHigh');
 		
 		foreach($prepend as $value => $translation)
 		{
 			$options[$value] = $translation;
 		}
 
-		foreach($items as $item)
+		foreach($items as $key => $item)
 		{
-			$options[$item] = $item;
+			$options[$key] = $item;
 		}
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
@@ -357,16 +357,16 @@ class ilMDUtilSelect
 	{
 		global $lng;
 
-		$items = array('VeryLow','Low','Medium','High','VeryHigh');
+		$items = array(1 => 'VeryLow',2 => 'Low',3 => 'Medium',4 => 'High',5 => 'VeryHigh');
 		
 		foreach($prepend as $value => $translation)
 		{
 			$options[$value] = $translation;
 		}
 
-		foreach($items as $item)
+		foreach($items as $key => $item)
 		{
-			$options[$item] = $item;
+			$options[$key] = $item;
 		}
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
@@ -438,16 +438,16 @@ class ilMDUtilSelect
 	{
 		global $lng;
 
-		$items = array('VeryEasy','Easy','Medium','Difficult','VeryDifficult');
+		$items = array(1 => 'VeryEasy',2 => 'Easy',3 => 'Medium',4 => 'Difficult',5 => 'VeryDifficult');
 		
 		foreach($prepend as $value => $translation)
 		{
 			$options[$value] = $translation;
 		}
 
-		foreach($items as $item)
+		foreach($items as $key => $item)
 		{
-			$options[$item] = $item;
+			$options[$key] = $item;
 		}
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}

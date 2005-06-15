@@ -98,7 +98,20 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser;
 
-		$res =& $this->__performEducationalSearch();
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+
+		$res =& new ilSearchResult();
+		
+
+		if($res_edu =& $this->__performEducationalSearch())
+		{
+			$res->mergeEntries($res_edu);
+		}
+		if($res_rig =& $this->__performRightsSearch())
+		{
+			$res->intersectEntries($res_rig);
+		}
+		
 		$res->filter($this->getRootNode(),false);
 
 		if(!count($res->getResults()))
@@ -140,7 +153,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		// Type
 		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt('type'));
-		$this->tpl->setVariable("SEL_TYPE",ilUtil::formSelect(0,'name',array('lm','crs')));
+		$this->tpl->setVariable("SEL_TYPE",$this->__getFilterSelect());
 
 		// General
 		$this->tpl->setVariable("TXT_GEN",$this->lng->txt('meta_general'));
@@ -260,10 +273,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright_and_other_restrictions'));
 		
 		$this->tpl->setVariable("SEL_COSTS",
-								ilMDUtilSelect::_getCostsSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getCostsSelect($this->options['costs'],
+																'search_adv[costs]',array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_COPYRIGHT",
-								ilMDUtilSelect::_getCopyrightAndOtherRestrictionsSelect('',
-																						'md_lan',
+								ilMDUtilSelect::_getCopyrightAndOtherRestrictionsSelect($this->options['copyright'],
+																						'search_adv[copyright]',
 																						array(0 => $this->lng->txt('search_any'))));
 
 		// CLASSIFICATION
@@ -338,7 +352,20 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	function &__performRightsSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('rights');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
 
 	function &__performEducationalSearch()
 	{
@@ -347,6 +374,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 
 		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
 		$meta_search->setMode('educational');
 		$meta_search->setOptions($this->options);
 		$res =& $meta_search->performSearch();
@@ -364,7 +392,66 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			$this->options = $_SESSION['search_adv'];
 		}
+		$this->filter = array();
+
+		switch($this->options['type'])
+		{
+			case 'webr':
+				$this->filter[] = 'webr';
+				break;
+
+			case 'lms':
+				$this->filter[] = 'lm';
+				$this->filter[] = 'dbk';
+				$this->filter[] = 'pg';
+				$this->filter[] = 'st';
+				$this->filter[] = 'sahs';
+				$this->filter[] = 'htlm';
+				break;
+
+			case 'glo':
+				$this->filter[] = 'glo';
+				break;
+
+			case 'tst':
+				$this->filter[] = 'tst';
+				$this->filter[] = 'svy';
+				$this->filter[] = 'qpl';
+				$this->filter[] = 'spl';
+				break;
+
+			case 'mep':
+				$this->filter[] = 'mep';
+				break;
+					
+			case 'crs':
+				$this->filter[] = 'crs';
+				break;
+
+			default:
+				$this->filter[] = 'lm';
+				$this->filter[] = 'dbk';
+				$this->filter[] = 'pg';
+				$this->filter[] = 'st';
+				$this->filter[] = 'sahs';
+				$this->filter[] = 'htlm';
+		}
 		return true;
 	}
+
+	function __getFilterSelect()
+	{
+		$options = array('lms' => $this->lng->txt('learning_resources'),
+						 'crs' => $this->lng->txt('objs_crs'),
+						 'tst' => $this->lng->txt('search_tst_svy'),
+						 'mep' => $this->lng->txt('objs_mep'),
+						 'glo' => $this->lng->txt('objs_glo'),
+						 'webr' => $this->lng->txt('objs_webr'));
+
+
+		return ilUtil::formSelect($this->options['type'],'search_adv[type]',$options,false,true);
+	}
+
+		
 }
 ?>
