@@ -181,8 +181,7 @@ class ilTabsGUI
 		foreach ($this->target as $target)
 		{
 			$i++;
-			if ($target["cmd"] == $cmd &&
-				($target["cmdClass"] == $cmdClass))
+			if ($target["cmd"] == $cmd) // && ($target["cmdClass"] == $cmdClass))
 			{
 				$tabtype = "tabactive";
 			}

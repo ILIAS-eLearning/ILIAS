@@ -852,5 +852,19 @@ class ilRbacReview
 
 		return $roles ? $roles : array();
 	}
+	
+	// get id of a given object type (string)
+	function getTypeId($a_type)
+	{
+		global $ilDB;
+
+		$q = "SELECT obj_id FROM object_data ".
+			 "WHERE title=".$ilDB->quote($a_type)." AND type='typ'";
+		$r = $ilDB->query($q);
+		
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->obj_id;
+	}
+
 } // END class.ilRbacReview
 ?>

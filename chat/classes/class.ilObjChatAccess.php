@@ -35,6 +35,27 @@ include_once("classes/class.ilObjectAccess.php");
 class ilObjChatAccess extends ilObjectAccess
 {
 
+	/**
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
+	{
+		$commands = array
+		(
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+		);
+		
+		return $commands;
+	}
 }
 
 ?>

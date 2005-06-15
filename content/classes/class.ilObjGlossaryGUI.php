@@ -1396,6 +1396,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->setReturnLocation("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
 		$this->permSaveObject();
 	}
+	
+	/**
+	* info permissions
+	*/
+	function info()
+	{
+		$this->infoObject();
+	}
 
 	/**
 	* add a local role

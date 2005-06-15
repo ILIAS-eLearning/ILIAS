@@ -174,6 +174,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				else
 				{
 					$ret =& $this->$cmd();
+
 				}
 				break;
 		}
@@ -1840,6 +1841,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->setReturnLocation("permSave", $this->ctrl->getLinkTarget($this, "perm"));
 		$this->permSaveObject();
+	}
+	
+	/**
+	* info permissions
+	*/
+	function info()
+	{
+		$this->setTabs();
+		$this->infoObject();
 	}
 
 

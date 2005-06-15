@@ -81,6 +81,17 @@ class ilObjContentObjectAccess extends ilObjectAccess
 					return false;
 				}
 				break;
+				
+			case "info":
+				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+				}
+				else
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+				}
+				break;
 
 		}
 

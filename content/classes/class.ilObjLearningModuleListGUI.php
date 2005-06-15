@@ -59,14 +59,10 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$this->payment_enabled = true;
 		$this->type = "lm";
 		$this->gui_class_name = "ilobjlearningmodulegui";
-
+		
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue"),
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjLearningModuleAccess.php');
+		$this->commands = ilObjLearningModuleAccess::_getCommands();
 	}
 	
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")

@@ -714,7 +714,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rolf = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 			$parent_node = $this->tree->getParentNodeData($rolf[0]);
 
-			$desc = $this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") : ".$parent_node['title'];
+			$desc = $this->lng->txt("obj_".$parent_node['type'])." (#".$parent_node['obj_id'].") : ".$parent_node['title'];
 		}
 		
 		$description = "<br/>&nbsp;<span class=\"small\">".$desc."</span>";

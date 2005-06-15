@@ -59,12 +59,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjcoursegui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "view"),
-			array("permission" => "join", "cmd" => "view", "lang_var" => "join"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
-		);
+		include_once('class.ilObjCourseAccess.php');
+		$this->commands = ilObjCourseAccess::_getCommands();
 	}
 
 

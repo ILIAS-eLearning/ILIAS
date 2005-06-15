@@ -48,13 +48,13 @@ class ilObjCourseAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
 
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
 		switch ($a_cmd)
 		{
 			case "view":
@@ -66,6 +66,19 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}					
 				break;
+
+			case "info":
+				include_once 'course/classes/class.ilCourseMembers.php';
+
+				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id,'login'))
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
+				}
+				else
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
+				}			
+				break;
 		}
 
 		switch ($a_permission)
@@ -73,18 +86,48 @@ class ilObjCourseAccess extends ilObjectAccess
 			case "visible":
 				include_once 'course/classes/class.ilObjCourse.php';
 				
-				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+				if(!ilObjCourse::_isActivated($a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-
+				}
+				else
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+				}
+				
+				if (!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+				{
 					return false;
 				}
+				
 				break;
 		}
 		return true;
 	}
 
-
+	/**
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
+	{
+		$commands = array
+		(
+			array("permission" => "read", "cmd" => "view", "lang_var" => "view"),
+			array("permission" => "join", "cmd" => "view", "lang_var" => "join"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+		);
+		
+		return $commands;
+	}
 }
 
 ?>

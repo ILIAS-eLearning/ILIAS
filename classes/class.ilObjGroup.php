@@ -1073,5 +1073,21 @@ class ilObjGroup extends ilObject
 		
 		return true;
 	}
+	
+	function _isMember($a_user_id,$a_ref_id)
+	{
+		global $rbacreview;
+		
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$user_roles = $rbacreview->assignedRoles($a_user_id);
+		
+		if (!array_intersect($local_roles,$user_roles))
+		{
+			return false;
+		}
+		
+		return true;
+	}
 } //END class.ilObjGroup
 ?>

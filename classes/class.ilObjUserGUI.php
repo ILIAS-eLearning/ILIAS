@@ -1720,7 +1720,7 @@ class ilObjUserGUI extends ilObjectGUI
             		
 				$parent_node = $this->tree->getParentNodeData($rolf2);
 				
-				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(".$parent_node["obj_id"].")";
+				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")";
             }
 			
 			$role_ids[$counter] = $role["obj_id"];

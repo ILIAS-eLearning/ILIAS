@@ -215,7 +215,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             		
 				$parent_node = $this->tree->getParentNodeData($rolf2);
 				
-				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(".$parent_node["obj_id"].")";
+				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")";
             }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";

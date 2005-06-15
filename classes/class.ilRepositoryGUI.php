@@ -860,6 +860,9 @@ class ilRepositoryGUI
 			$tabs_gui =& new ilTabsGUI();
 
 			$this->gui_obj->getTabs($tabs_gui);
+			
+			// add info tab to all objects
+			//$tabs_gui->addTarget("info_short",$this->ctrl->getLinkTarget($this->gui_obj, "info"), "info", get_class($this->gui_obj));
 
 			// output tabs
 			$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
