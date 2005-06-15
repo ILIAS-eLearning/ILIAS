@@ -82,6 +82,10 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return $this->__searchEducational();
 				break;
 
+			case 'rights':
+				return $this->__searchRights();
+				break;
+
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
 				return false;
@@ -95,11 +99,30 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 		if(!strlen($where = $this->__createEducationalWhere()))
 		{
-			return $this->search_result;
+			return false;
 		}
-		$query = $query.$where;
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$query = $query.$where.$and;
 		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
+	function &__searchRights()
+	{
+		$query = "SELECT rbac_id FROM il_meta_rights ";
 
+		if(!strlen($where = $this->__createRightsWhere()))
+		{
+			return false;
+		}
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$query = $query.$where.$and;
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
@@ -107,6 +130,25 @@ class ilAdvancedSearch extends ilAbstractSearch
 		return $this->search_result;
 	}
 
+
+	function __createRightsWhere()
+	{
+		$counter = 0;
+		$where = 'WHERE ';
+
+
+		if($this->options['costs'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."costs = '".ilUtil::prepareDBString($this->options['costs'])."' ");
+		}
+		if($this->options['copyright'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."copyright_and_other_restrictions = '".ilUtil::prepareDBString($this->options['copyright'])."' ");
+		}
+		return $counter ? $where : '';
+	}
 	function __createEducationalWhere()
 	{
 		$counter = 0;
@@ -133,7 +175,73 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$and = $counter++ ? 'AND ' : ' ';
 			$where .= ($and."context = '".ilUtil::prepareDBString($this->options['con'])."' ");
 		}
+		if($this->options['int_level_1'] or $this->options['int_level_2'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+
+			$fields = $this->__getDifference($this->options['int_level_1'],$this->options['int_level_2'],
+											   array('VeryLow','Low','Medium','High','VeryHigh'));
+
+			$where .= ($and."interactivity_level ".$this->__getInStatement($fields));
+		}
+		if($this->options['sem_1'] or $this->options['sem_2'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+
+			$fields = $this->__getDifference($this->options['sem_1'],$this->options['sem_2'],
+											   array('VeryLow','Low','Medium','High','VeryHigh'));
+
+			$where .= ($and."semantic_density ".$this->__getInStatement($fields));
+		}
+		if($this->options['dif_1'] or $this->options['dif_2'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+
+			$fields = $this->__getDifference($this->options['dif_1'],$this->options['dif_2'],
+											 array('VeryEasy','Easy','Medium','Difficult','VeryDifficult'));
+
+			$where .= ($and."difficulty ".$this->__getInStatement($fields));
+		}
+
 		return $counter ? $where : '';
+	}
+
+	function __getDifference($a_val1,$a_val2,$options)
+	{
+		$a_val2 = $a_val2 ? $a_val2 : count($options);
+		// Call again if a > b
+		if($a_val1 > $a_val2)
+		{
+			return $this->__getDifference($a_val2,$a_val1,$options);
+		}
+
+		$counter = 0;
+		foreach($options as $option)
+		{
+			if($a_val1 > ++$counter)
+			{
+				continue;
+			}
+			if($a_val2 < $counter)
+			{
+				break;
+			}
+			$fields[] = $option;
+		}
+		return $fields ? $fields : array();
+	}
+
+	function __getInStatement($a_fields)
+	{
+		if(!$a_fields)
+		{
+			return '';
+		}
+		$in = " IN ('";
+		$in .= implode("','",$a_fields);
+		$in .= "') ";
+
+		return $in;
 	}
 
 }

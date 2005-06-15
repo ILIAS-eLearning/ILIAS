@@ -137,7 +137,7 @@ class ilSearchResult
 	 * @param object result_obj
 	 * @access	public
 	 */
-	function diffEntries(&$result_obj)
+	function diffEntriesFromResult(&$result_obj)
 	{
 		$new_entries = $this->getEntries();
 		$this->entries = array();
@@ -153,6 +153,31 @@ class ilSearchResult
 			}
 		}
 	}
+
+	/**
+	 *
+	 * Build intersection of entries (all entries that are present in both result sets)
+	 * @param object result_obj
+	 * @access	public
+	 */
+	function intersectEntries(&$result_obj)
+	{
+		$new_entries = $this->getEntries();
+		$this->entries = array();
+
+		foreach($result_obj->getEntries() as $entry)
+		{
+			$obj_id = $entry['obj_id'];
+			if(isset($new_entries[$obj_id]))
+			{
+				$this->addEntry($new_entries[$obj_id]['obj_id'],
+								$new_entries[$obj_id]['type'],
+								$new_entries[$obj_id]['found']);
+			}
+		}
+	}
+
+
 	/**
 	 *
 	 * add search result

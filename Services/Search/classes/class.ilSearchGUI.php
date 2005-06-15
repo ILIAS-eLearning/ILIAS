@@ -376,7 +376,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$old_result_obj = new ilSearchResult($ilUser->getId());
 			$old_result_obj->read();
 
-			$result->diffEntries($old_result_obj);
+			$result->diffEntriesFromResult($old_result_obj);
 		}
 			
 
