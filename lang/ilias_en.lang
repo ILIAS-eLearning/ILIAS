@@ -2566,7 +2566,7 @@ common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
 common#:#to_client_list#:#To Client selection
-common#:#to_desktop#:#Subscribe
+common#:#to_desktop#:#Add to desktop
 common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
@@ -2610,7 +2610,7 @@ common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
 common#:#unread_lowercase#:#unread
 common#:#unselected#:#Unselected
-common#:#unsubscribe#:#Unsubscribe
+common#:#unsubscribe#:#Remove from desktop
 common#:#unzip#:#Unzip
 common#:#up#:#Up
 common#:#update#:#Edit
