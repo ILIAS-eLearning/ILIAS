@@ -86,6 +86,14 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return $this->__searchRights();
 				break;
 
+			case 'classification':
+				return $this->__searchClassification();
+				break;
+
+			case 'taxon':
+				return $this->__searchTaxon();
+				break;
+
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
 				return false;
@@ -95,7 +103,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchEducational()
 	{
-		$query = "SELECT rbac_id FROM il_meta_educational ";
+		$query = "SELECT rbac_id,obj_type FROM il_meta_educational ";
 
 		if(!strlen($where = $this->__createEducationalWhere()))
 		{
@@ -113,7 +121,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 	function &__searchRights()
 	{
-		$query = "SELECT rbac_id FROM il_meta_rights ";
+		$query = "SELECT rbac_id,obj_type FROM il_meta_rights ";
 
 		if(!strlen($where = $this->__createRightsWhere()))
 		{
@@ -130,7 +138,50 @@ class ilAdvancedSearch extends ilAbstractSearch
 		return $this->search_result;
 	}
 
+	function &__searchClassification()
+	{
+		$query = "SELECT rbac_id,obj_type FROM il_meta_classification ";
 
+		if(!strlen($where = $this->__createClassificationWhere()))
+		{
+			return false;
+		}
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$query = $query.$where.$and;
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
+
+	function &__searchTaxon()
+	{
+		$this->setFields(array('taxon'));
+
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$where = $this->__createTaxonWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_taxon ".
+			$where." ".$and.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$found = $this->__prepareFound($row);
+			if(!in_array(0,$found))
+			{
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+			}
+		}
+
+		return $this->search_result;
+	}
 	function __createRightsWhere()
 	{
 		$counter = 0;
@@ -146,6 +197,19 @@ class ilAdvancedSearch extends ilAbstractSearch
 		{
 			$and = $counter++ ? 'AND ' : ' ';
 			$where .= ($and."copyright_and_other_restrictions = '".ilUtil::prepareDBString($this->options['copyright'])."' ");
+		}
+		return $counter ? $where : '';
+	}
+	function __createClassificationWhere()
+	{
+		$counter = 0;
+		$where = 'WHERE ';
+
+
+		if($this->options['purpose'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."purpose = '".ilUtil::prepareDBString($this->options['purpose'])."' ");
 		}
 		return $counter ? $where : '';
 	}

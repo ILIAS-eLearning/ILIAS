@@ -34,7 +34,7 @@
 */
 include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
-class ilLikeMetaDataSearch extends ilMetaDAtaSearch
+class ilLikeMetaDataSearch extends ilMetaDataSearch
 {
 
 	/**

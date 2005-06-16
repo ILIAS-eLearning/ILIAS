@@ -101,15 +101,22 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
 
 		$res =& new ilSearchResult();
-		
 
 		if($res_edu =& $this->__performEducationalSearch())
 		{
-			$res->mergeEntries($res_edu);
+			$this->__storeEntries($res,$res_edu);
 		}
 		if($res_rig =& $this->__performRightsSearch())
 		{
-			$res->intersectEntries($res_rig);
+			$this->__storeEntries($res,$res_rig);
+		}
+		if($res_cla =& $this->__performClassificationSearch())
+		{
+			$this->__storeEntries($res,$res_cla);
+		}
+		if($res_tax =& $this->__performTaxonSearch())
+		{
+			$this->__storeEntries($res,$res_tax);
 		}
 		
 		$res->filter($this->getRootNode(),false);
@@ -287,7 +294,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_KEYWORD",$this->lng->txt('meta_keyword'));
 		
 		$this->tpl->setVariable("SEL_PURPOSE",
-								ilMDUtilSelect::_getPurposeSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getPurposeSelect($this->options['purpose'],
+																  'search_adv[purpose]',
+																  array(0 => $this->lng->txt('search_any'))));
+
+		if($this->options['taxon_ao'] == 'and')
+		{
+			$this->tpl->setVariable("TAXON_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("TAXON_OR_CHECKED",'checked=checked');
+		}
+		$this->tpl->setVariable("FRM_TAXON",ilUtil::prepareFormOutput($this->options['taxon']));
 
 		$this->tpl->setVariable("BTN_SEARCH",$this->lng->txt('search'));
 		$this->tpl->setVariable("BTN_RESET",$this->lng->txt('reset'));
@@ -352,8 +371,26 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	function &__performEducationalSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('educational');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
 	function &__performRightsSearch()
 	{
+		if(!$this->options['copyright'] and !$this->options['costs'])
+		{
+			return false;
+		}
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
@@ -367,15 +404,43 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return $res;
 	}
 
-	function &__performEducationalSearch()
+	function &__performClassificationSearch()
 	{
+		// Return if 'any'
+		if(!$this->options['purpose'])
+		{
+			return false;
+		}
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
 		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
 		$meta_search->setFilter($this->filter);
-		$meta_search->setMode('educational');
+		$meta_search->setMode('classification');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+
+	function &__performTaxonSearch()
+	{
+		// Return if 'any'
+		if(!$this->options['taxon'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['taxon']));
+		$query_parser->setCombination($this->options['taxon_ao']);
+		$query_parser->parse();
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('taxon');
 		$meta_search->setOptions($this->options);
 		$res =& $meta_search->performSearch();
 
@@ -452,6 +517,23 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return ilUtil::formSelect($this->options['type'],'search_adv[type]',$options,false,true);
 	}
 
+
+	function __storeEntries(&$res,&$new_res)
+	{
+		if($this->stored == false)
+		{
+			$res->mergeEntries($new_res);
+			$this->stored = true;
+
+			return true;
+		}
+		else
+		{
+			$res->intersectEntries($new_res);
+			
+			return true;
+		}
+	}
 		
 }
 ?>

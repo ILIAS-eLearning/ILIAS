@@ -45,6 +45,32 @@ class ilFulltextAdvancedSearch extends ilAdvancedSearch
 	{
 		parent::ilAdvancedSearch($qp_obj);
 	}
+	function __createTaxonWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(taxon) AGAINST('";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
+			$query .= " WHERE MATCH (taxon) AGAINST(' ";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}		
 
 	// Private
 }
