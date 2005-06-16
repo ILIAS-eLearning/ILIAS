@@ -57,10 +57,9 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
-
+//echo "-".$cmd."-";
 		switch($next_class)
 		{
 			default:
@@ -124,15 +123,75 @@ class ilContainerGUI extends ilObjectGUI
 
 		$ilBench->start("ilContainerGUI", "0000__renderObject");
 
+		$tpl = new ilTemplate ("tpl.container_page.html", true, true);
+		
 		// get all sub items
 		$ilBench->start("ilContainerGUI", "0100_getSubItems");
 		$this->getSubItems();
 		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
 		$ilBench->start("ilContainerGUI", "0200_renderItemList");
-		$this->html = $this->renderItemList();
+		$html = $this->renderItemList();
+		$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
 		$ilBench->stop("ilContainerGUI", "0200_renderItemList");
 
+		// this has to be more "generalized" (moved out of this method) if
+		// more list methods are implemented
+		if ($_SESSION["il_cont_admin_panel"] == true)
+		{
+			$tpl->setCurrentBlock("admin_button");
+			$tpl->setVariable("ADMIN_MODE_LINK",
+				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"));
+			$tpl->setVariable("TXT_ADMIN_MODE",
+				$this->lng->txt("admin_panel_disable"));
+			$tpl->parseCurrentBlock();
+			
+			// administration panel
+			$tpl->setCurrentBlock("admin_panel_cmd");
+			$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("delete_selected_items"));
+			$tpl->setVariable("PANEL_CMD", "delete");
+			$tpl->parseCurrentBlock();
+			if (!$_SESSION["clipboard"])
+			{
+				$tpl->setCurrentBlock("admin_panel_cmd");
+				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("move_selected_items"));
+				$tpl->setVariable("PANEL_CMD", "cut");
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("admin_panel_cmd");
+				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("link_selected_items"));
+				$tpl->setVariable("PANEL_CMD", "link");
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$tpl->setCurrentBlock("admin_panel_cmd");
+				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("paste_clipboard_items"));
+				$tpl->setVariable("PANEL_CMD", "paste");
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("admin_panel_cmd");
+				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("clear_clipboard"));
+				$tpl->setVariable("PANEL_CMD", "clear");
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("admin_panel");
+			$tpl->setVariable("TXT_ADMIN_PANEL", $this->lng->txt("admin_panel"));
+			$tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		}
+		else if ($this->adminCommands)
+		{
+			$tpl->setCurrentBlock("admin_button");
+			$tpl->setVariable("ADMIN_MODE_LINK",
+				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"));
+			$tpl->setVariable("TXT_ADMIN_MODE",
+				$this->lng->txt("admin_panel_enable"));
+			$tpl->parseCurrentBlock();
+		}
+
+		$this->html = $tpl->get();
+		
 		$ilBench->stop("ilContainerGUI", "0000__renderObject");
 	}
 
@@ -183,6 +242,8 @@ class ilContainerGUI extends ilObjectGUI
 		global $objDefinition, $ilBench;
 
 		$html = "";
+		$this->adminCommands = false;
+		
 		switch ($a_type)
 		{
 			// render all items list
@@ -231,10 +292,14 @@ class ilContainerGUI extends ilObjectGUI
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);
+							if (!$this->adminCommands)
+							{
+								$this->adminCommands = $item_list_gui->adminCommandsIncluded();
+							}
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
 							if ($html != "")
 							{
-								$item_html[] = $html;
+								$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
 							}
 						}
 
@@ -253,17 +318,15 @@ class ilContainerGUI extends ilObjectGUI
 							$this->resetRowType();
 
 							// content row
-							foreach($item_html as $html)
+							foreach($item_html as $item)
 							{
-								$this->addStandardRow($tpl, $html);
+								$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
 							}
-
-
 						}
 					}
 				}
 				$html = $tpl->get();
-
+				
 				break;
 
 			default:
@@ -320,13 +383,24 @@ class ilContainerGUI extends ilObjectGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html)
+	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
 			: "row_type_1";
 
 		$a_tpl->touchBlock($this->cur_row_type);
+		
+		if ($_SESSION["il_cont_admin_panel"] == true)
+		{
+			$a_tpl->setCurrentBlock("block_row_check");
+			$a_tpl->setVariable("ITEM_ID", $a_item_id);
+			$a_tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
+		}
 		$a_tpl->setCurrentBlock("container_standard_row");
 		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
 		$a_tpl->parseCurrentBlock();
@@ -385,6 +459,24 @@ class ilContainerGUI extends ilObjectGUI
 	//*****************
 
 	/**
+	* enable administration panel
+	*/
+	function enableAdministrationPanelObject()
+	{
+		$_SESSION["il_cont_admin_panel"] = true;
+		$this->ctrl->redirect($this, "render");
+	}
+
+	/**
+	* enable administration panel
+	*/
+	function disableAdministrationPanelObject()
+	{
+		$_SESSION["il_cont_admin_panel"] = false;
+		$this->ctrl->redirect($this, "render");
+	}
+	
+	/**
 	* subscribe item
 	*/
 	function addToDeskObject()
@@ -436,14 +528,13 @@ class ilContainerGUI extends ilObjectGUI
 	/**
 	* cut object(s) out from a container and write the information to clipboard
 	*
-	* Note: This method is deprecated. It has been used in adm_objec.php
-	*       Now cut() is used (within the repository).
 	*
 	* @access	public
 	*/
 	function cutObject()
 	{
 		global $rbacsystem;
+//echo "CUT";
 //echo $_SESSION["referer"];
 		if (!isset($_POST["id"]))
 		{

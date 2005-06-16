@@ -366,7 +366,9 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
     not, ImageMagick could probably not find the previously installed libjpeg
     and libpng and you may experience problems when doing image manipulations
     in ILIAS such as editing a clickable imagemap or when thumbnail pictures
-    are being created.
+    are being created. This can be solved by setting the variables LDFLAGS and
+    CFLAGS to include /opt/ilias/lib and /opt/ilias/include before you execute
+    the 'configure' script.
 
     Note on building ImageMagick under SuSE Linux: The build process might
     fail with an error message claiming that the file 'byteorder.h' cannot be

@@ -302,7 +302,7 @@ class ilAccessHandler
 
 		if ($a_permission == "")
 		{
-				$message = sprintf('%s::doRBACCheck(): No operation given! $a_ref_id: %s',
+				$message = sprintf('%s::doRBACCheck(): No operations given! $a_ref_id: %s',
 								   get_class($this),
 								   $a_ref_id);
 				$ilLog->write($message,$ilLog->FATAL);
