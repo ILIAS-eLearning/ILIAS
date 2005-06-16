@@ -51,13 +51,15 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue"),
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+				"default" => true),
+			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 		);
 		
 		return $commands;
 	}
+	
 }
 
 ?>

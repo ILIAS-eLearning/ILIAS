@@ -377,7 +377,8 @@ class ilObjectListGUI
 				"frame" => $cmd_frame,
 				"lang_var" => $lang_var,
 				"granted" => $access_granted,
-				"access_info" => $info_object
+				"access_info" => $info_object,
+				"default" => $command["default"]
 			);
 		}
 
@@ -394,9 +395,27 @@ class ilObjectListGUI
 	*/
 	function insertTitle()
 	{
-		$this->tpl->setCurrentBlock("item_title");
-		$this->tpl->setVariable("TXT_TITLE", $this->title);
-		$this->tpl->parseCurrentBlock();
+		if (!$this->default_command)
+		{
+			$this->tpl->setCurrentBlock("item_title");
+			$this->tpl->setVariable("TXT_TITLE", $this->title);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			if ($this->default_command["frame"] != "")
+			{
+				$this->tpl->setCurrentBlock("title_linked_frame");
+				$this->tpl->setVariable("TARGET_TITLE_LINKED", $this->default_command["frame"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// the default command is linked with the title
+			$this->tpl->setCurrentBlock("item_title_linked");
+			$this->tpl->setVariable("TXT_TITLE_LINKED", $this->title);
+			$this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 
@@ -718,13 +737,24 @@ class ilObjectListGUI
 
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);
 
+		$this->default_command = false;
+		
 		foreach($commands as $command)
 		{
 			if ($command["granted"] == true )
 			{
-				$cmd_link = $command["link"];
-				$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
-					$command["frame"]);
+				if (!$command["default"] === true)
+				{
+					$cmd_link = $command["link"];
+					$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
+						$command["frame"]);
+				}
+				else
+				{
+					// this is view/show most times and will be linked
+					// with the item title in insertTitle
+					$this->default_command = $command;
+				}
 			}
 		}
 
@@ -832,6 +862,11 @@ class ilObjectListGUI
 		}
 		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 
+		// commands
+		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
+		$this->insertCommands();
+		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
+
 		// insert title and describtion
 		$ilBench->start("ilObjectListGUI", "3000_insert_title_desc");
 		$this->insertTitle();
@@ -840,11 +875,6 @@ class ilObjectListGUI
 			$this->insertDescription();
 		}
 		$ilBench->stop("ilObjectListGUI", "3000_insert_title_desc");
-
-		// commands
-		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
-		$this->insertCommands();
-		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
 
 		// payment
 		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
