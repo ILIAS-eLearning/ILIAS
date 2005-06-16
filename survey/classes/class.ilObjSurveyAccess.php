@@ -99,6 +99,31 @@ class ilObjSurveyAccess extends ilObjectAccess
 
 		return true;
 	}
+	
+	
+	/**
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
+	{
+		$commands = array
+		(
+			array("permission" => "read", "cmd" => "run", "lang_var" => "svy_run"),
+			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
+			array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_evaluation")
+		);
+		
+		return $commands;
+	}
 
 	//
 	// object specific access related methods

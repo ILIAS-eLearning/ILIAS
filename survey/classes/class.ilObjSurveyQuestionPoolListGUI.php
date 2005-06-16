@@ -60,11 +60,8 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjsurveyquestionpoolgui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "read", "cmd" => "questions", "lang_var" => "view")
-		);
+		include_once('class.ilObjSurveyQuestionPoolAccess.php');
+		$this->commands = ilObjSurveyQUestionPoolAccess::_getCommands();
 	}
 
 

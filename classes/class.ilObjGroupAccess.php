@@ -87,7 +87,6 @@ class ilObjGroupAccess extends ilObjectAccess
 	 * $commands = array
 	 *	(
 	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "visible", "cmd" => "info", "lang_var" => "info_short"),
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */

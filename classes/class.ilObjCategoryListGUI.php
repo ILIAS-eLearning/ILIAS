@@ -59,12 +59,8 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjcategorygui";
 
 		// general commands array
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "render", "lang_var" => "show"),
-			array("permission" => "visible", "cmd" => "info", "lang_var" => "info_short"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
+		include_once('class.ilObjCategoryAccess.php');
+		$this->commands = ilObjCategoryAccess::_getCommands();
 	}
 
 	/**
