@@ -34,7 +34,7 @@
 */
 include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
-class ilAdvancedSearch extends ilAbstractSearch
+class ilMetaDataSearch extends ilAbstractSearch
 {
 	var $mode = '';
 
