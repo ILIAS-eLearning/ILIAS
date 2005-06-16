@@ -248,6 +248,9 @@ class ilObjectListGUI
 		$this->obj_id = $a_obj_id;
 		$this->title = $a_title;
 		$this->description = $a_description;
+		
+		// checks, whether any admin commands are included in the output
+		$this->adm_commands_included = false;
 	}
 
 
@@ -607,8 +610,12 @@ class ilObjectListGUI
 	{
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
 		{
-			$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=delete";
+			$this->ctrl->setParameter($this->container_obj, "ref_id",
+				$this->container_obj->object->getRefId());
+			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
 			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
+			$this->adm_commands_included = true;
 		}
 	}
 
@@ -628,6 +635,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
 			$this->insertCommand($cmd_link, $this->lng->txt("link"));
+			$this->adm_commands_included = true;
 		}
 	}
 
@@ -647,6 +655,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
 			$this->insertCommand($cmd_link, $this->lng->txt("move"));
+			$this->adm_commands_included = true;
 		}
 	}
 
@@ -777,6 +786,15 @@ class ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	* returns whether any admin commands (link, delete, cut)
+	* are included in the output
+	*/
+	function adminCommandsIncluded()
+	{
+		return $this->adm_commands_included;
+	}
 
 	/**
 	* Get all item information (title, commands, description) in HTML
@@ -791,6 +809,10 @@ class ilObjectListGUI
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description)
 	{
 		global $ilAccess, $ilBench;
+		
+		// this variable stores wheter any admin commands
+		// are included in the output
+		$this->adm_commands_included = false;
 
 		// only for permformance exploration
 		$type = ilObject::_lookupType($a_obj_id);

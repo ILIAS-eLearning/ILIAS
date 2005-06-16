@@ -755,6 +755,9 @@ common#:#activation#:#Activation
 common#:#active#:#Active
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#admin_panel_enable#:#Show Administration Panel
+common#:#admin_panel_disable#:#Hide Administration Panel
+common#:#admin_panel#:#Administration Panel
 common#:#add_author#:#Add Author
 common#:#add_condition#:#Create new association
 common#:#add_member#:#Add Member
@@ -1151,6 +1154,9 @@ common#:#delete_all#:#Delete All
 common#:#delete_all_rec#:#Delete all records
 common#:#delete_object#:#Delete Object(s)
 common#:#delete_selected#:#Delete Selected
+common#:#delete_selected_items#:#Delete selected items
+common#:#link_selected_items#:#Link selected items
+common#:#move_selected_items#:#Move selected items
 common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
@@ -2482,6 +2488,7 @@ common#:#stop_inheritance#:#Stop inheritance
 common#:#street#:#Street
 common#:#structure#:#Structure
 common#:#sty#:#Style
+common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#style_activation#:#Style Activation
 common#:#stys_edit_permission#:#Change permission settings
 common#:#stys_read#:#Read access to style settings

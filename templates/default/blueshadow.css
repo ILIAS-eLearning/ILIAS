@@ -59,7 +59,7 @@ textarea.fullwidth {
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-	background-color:#F6F6F6;
+	background-color:#F0F0F0;
 	color:#222222;
 	font-size:13px;
 	padding:3px;
@@ -73,7 +73,7 @@ textarea.fullwidth {
 }
 
 .tblrow2light {
-	background-color:#F6F6F6;
+	background-color:#F0F0F0;
 	color:#808080;
 	font-size:13px;
 	padding:3px;
@@ -96,7 +96,7 @@ textarea.fullwidth {
 }
 
 .tblrow2top {
-	background-color:#f6f6f6;
+	background-color:#F0F0F0;
 	color:#222222;
 	font-size:13px;
 	padding:3px;

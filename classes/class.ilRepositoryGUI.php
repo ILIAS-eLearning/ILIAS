@@ -183,7 +183,12 @@ class ilRepositoryGUI
 		//	&& ($this->object->getType() == "cat" || $this->object->getType() == "root" || $this->object->getType() == "grp"))
 		if ($rbacsystem->checkAccess("read", $this->cur_ref_id))
 		{
-			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
+			$type = ilObject::_lookupType($this->cur_ref_id, true);
+			if ($type == "cat" || $type == "grp" || $type == "crs"
+				|| $type == "root")
+			{
+				$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
+			}
 		}
 
 		$this->categories = array();
@@ -1494,18 +1499,24 @@ class ilRepositoryGUI
 		{
 			case "cut":
 				$_POST["cmd"]["cut"] = "cut";
-				$_POST["id"] = array($_GET["item_ref_id"]);
+				$_POST["id"] = ($_GET["item_ref_id"] != "")
+					? array($_GET["item_ref_id"])
+					: $_POST["rep_item_id"];
 				$this->gui_obj->setReturnLocation("cut", "repository.php?ref_id=".$this->cur_ref_id);
 				break;
 
 			case "link":
 				$_POST["cmd"]["link"] = "link";
-				$_POST["id"] = array($_GET["item_ref_id"]);
+				$_POST["id"] = ($_GET["item_ref_id"] != "")
+					? array($_GET["item_ref_id"])
+					: $_POST["rep_item_id"];
 				$this->gui_obj->setReturnLocation("link", "repository.php?ref_id=".$this->cur_ref_id);
 				break;
 
 			case "delete":
-				$_POST["id"] = array($this->cur_ref_id);
+				$_POST["id"] = ($_GET["item_ref_id"] != "")
+					? array($_GET["item_ref_id"])
+					: $_POST["rep_item_id"];
 				$this->gui_obj->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
 				if ($execute)
 				{
@@ -1514,8 +1525,7 @@ class ilRepositoryGUI
 				break;
 
 			case "cancelDelete":
-				$node = $this->tree->getNodeData($this->cur_ref_id);
-				$this->gui_obj->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
+				$this->gui_obj->setReturnLocation("cancelDelete", "repository.php?ref_id=".$this->cur_ref_id);
 				if ($execute)
 				{
 					$this->gui_obj->cancelDeleteObject();

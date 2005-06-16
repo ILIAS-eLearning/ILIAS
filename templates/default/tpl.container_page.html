@@ -1,0 +1,22 @@
+<form action="{FORM_ACTION}" method="post">
+<!-- BEGIN admin_button -->
+<div style="text-align:right"><a class="submit" href="{ADMIN_MODE_LINK}">
+	{TXT_ADMIN_MODE}</a></div><br />
+<!-- END admin_button -->
+{CONTAINER_PAGE_CONTENT}
+<!-- BEGIN admin_panel -->
+<br />
+<table class="fullwidth">
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_ADMIN_PANEL}</td>
+	</tr>
+	<tr>
+		<td class="submit" align="left">
+		<!-- BEGIN admin_panel_cmd -->
+		<input class="submit" type="submit" name="cmd[{PANEL_CMD}]" value="{TXT_PANEL_CMD}" />
+		<!-- END admin_panel_cmd -->
+		</td>
+	</tr>
+</table>
+<!-- END admin_panel -->
+</form>
