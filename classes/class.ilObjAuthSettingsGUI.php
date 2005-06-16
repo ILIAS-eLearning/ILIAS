@@ -605,7 +605,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}
 		
 		// validate port
-		if (!is_readable($_POST["shib"]["data_conv"]) )
+		if (
+			$_POST["shib"]["data_conv"] 
+			and $_POST["shib"]["data_conv"] != '' 
+			and !is_readable($_POST["shib"]["data_conv"]) )
 		{
 			$this->ilias->raiseError($this->lng->txt("shib_data_conv_warning"),$this->ilias->error_obj->MESSAGE);
 		}
