@@ -78,6 +78,10 @@ class ilAdvancedSearch extends ilAbstractSearch
 	{
 		switch($this->getMode())
 		{
+			case 'requirement':
+				return $this->__searchRequirement();
+				break;
+
 			case 'educational':
 				return $this->__searchEducational();
 				break;
@@ -94,12 +98,36 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return $this->__searchTaxon();
 				break;
 
+			case 'keyword':
+				return $this->__searchKeyword();
+				break;
+
+
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
 				return false;
 		}
 	}
 
+
+	function &__searchRequirement()
+	{
+		$query = "SELECT rbac_id,obj_type FROM il_meta_requirement ";
+
+		if(!strlen($where = $this->__createRequirementWhere()))
+		{
+			return false;
+		}
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$query = $query.$where.$and;
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
 
 	function &__searchEducational()
 	{
@@ -182,6 +210,36 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 		return $this->search_result;
 	}
+
+	function &__searchKeyword()
+	{
+		$this->setFields(array('keyword'));
+
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$and .= " AND parent_type = 'meta_classification' ";
+		$where = $this->__createKeywordWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_keyword ".
+			$where." ".$and.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$found = $this->__prepareFound($row);
+			if(!in_array(0,$found))
+			{
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+			}
+		}
+
+		return $this->search_result;
+	}
+
+
+
 	function __createRightsWhere()
 	{
 		$counter = 0;
@@ -267,6 +325,24 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$where .= ($and."difficulty ".$this->__getInStatement($fields));
 		}
 
+		return $counter ? $where : '';
+	}
+	function __createRequirementWhere()
+	{
+		$counter = 0;
+		$where = 'WHERE ';
+
+
+		if($this->options['os'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."operating_system_name = '".ilUtil::prepareDBString($this->options['os'])."' ");
+		}
+		if($this->options['browser'])
+		{
+			$and = $counter++ ? 'AND ' : ' ';
+			$where .= ($and."browser_name = '".ilUtil::prepareDBString($this->options['browser'])."' ");
+		}
 		return $counter ? $where : '';
 	}
 

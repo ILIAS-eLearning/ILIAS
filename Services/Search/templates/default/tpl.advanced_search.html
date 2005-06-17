@@ -129,6 +129,7 @@
 			{SEL_BROWSER}
 		  </td>
 		</tr>
+<!--
 		<tr class="std">
 		  <td class="option">
 			{TXT_DURATION}
@@ -137,6 +138,7 @@
 			{FROM}&nbsp;{SEL_DURATION_1}&nbsp;{TIL}&nbsp;{SEL_DURATION_2}
 		  </td>
 		</tr>
+-->
 <!-- EDUCATIONAL -->
 		<tr class="tblheader">
 		  <td class="std" colspan="4">{TXT_EDUCATIONAL}</td>
@@ -266,13 +268,13 @@
 			{TXT_KEYWORD}
 		  </td>
 		  <td class="option_value" >
-			<input type="TEXT" name="search[string]" value="{FRM_KEYWORD}" size="30"/>
+			<input type="TEXT" name="search_adv[keyword]" value="{FRM_KEYWORD}" size="30"/>
 		  </td>
 		  <td align="center" class="option_value">
-			<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED}>{TXT_OR}</input>
+			<input type="RADIO" name="search_adv[keyword_ao]" value="or" {KEYWORD_OR_CHECKED}>{TXT_OR}</input>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}</input>
+			<input type="RADIO" name="search_adv[keyword_ao]" value="and" {KEYWORD_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="tablefooter">

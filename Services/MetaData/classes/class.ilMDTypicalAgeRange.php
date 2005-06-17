@@ -64,8 +64,28 @@ class ilMDTypicalAgeRange extends ilMDBase
 		return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : false;
 	}
 
+	function setTypicalAgeRangeMinimum($a_min)
+	{
+		$this->typical_age_range_minimum = $a_min;
+	}
+	function getTypicalAgeRangeMinimum()
+	{
+		return $this->typical_age_range_minimum;
+	}
+	function setTypicalAgeRangeMaximum($a_max)
+	{
+		$this->typical_age_range_maximum = $a_max;
+	}
+	function getTypicalAgeRangeMaximum()
+	{
+		return $this->typical_age_range_maximum;
+	}
+
+
 	function save()
 	{
+		$this->__parseTypicalAgeRange();
+
 		if($this->db->autoExecute('il_meta_typical_age_range',
 								  $this->__getFields(),
 								  DB_AUTOQUERY_INSERT))
@@ -79,6 +99,8 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function update()
 	{
+		$this->__parseTypicalAgeRange();
+
 		if($this->getMetaId())
 		{
 			if($this->db->autoExecute('il_meta_typical_age_range',
@@ -115,7 +137,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 					 'parent_type' => $this->getParentType(),
 					 'parent_id' => $this->getParentId(),
 					 'typical_age_range'	=> ilUtil::prepareDBString($this->getTypicalAgeRange()),
-					 'typical_age_range_language' => ilUtil::prepareDBString($this->getTypicalAgeRangeLanguageCode()));
+					 'typical_age_range_language' => ilUtil::prepareDBString($this->getTypicalAgeRangeLanguageCode()),
+					 'typical_age_range_min' => ilUtil::prepareDBString($this->getTypicalAgeRangeMinimum()),
+					 'typical_age_range_max' => ilUtil::prepareDBString($this->getTypicalAgeRangeMaximum()));
 	}
 
 	function read()
@@ -137,6 +161,8 @@ class ilMDTypicalAgeRange extends ilMDBase
 				$this->setParentType($row->parent_type);
 				$this->setTypicalAgeRange(ilUtil::stripSlashes($row->typical_age_range));
 				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->typical_age_range_language));
+				$this->setTypicalAgeRangeMinimum($row->typical_age_range_min);
+				$this->setTypicalAgeRangeMaximum($row->typical_age_range_max);
 			}
 		}
 		return true;
@@ -171,5 +197,39 @@ class ilMDTypicalAgeRange extends ilMDBase
 		}
 		return $ids ? $ids : array();
 	}
+
+	// PRIVATE
+	function __parseTypicalAgeRange()
+	{
+		if(preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/",$this->getTypicalAgeRange(),$matches))
+		{
+			if(!$matches[2] and !$matches[3])
+			{
+				$min = $max = $matches[1];
+			}
+			elseif($matches[2] and !$matches[3])
+			{
+				$min = $matches[1];
+				$max = 99;
+			}
+			else
+			{
+				$min = $matches[1];
+				$max = $matches[3];
+			}
+			$this->setTypicalAgeRangeMaximum($max);
+			$this->setTypicalAgeRangeMinimum($min);
+
+			return true;
+		}
+
+		if(!$this->getTypicalAgeRange())
+		{
+			$this->setTypicalAgeRangeMinimum(-1);
+			$this->setTypicalAgeRangeMaximum(-1);
+		}
+		return true;
+	}
+			
 }
 ?>

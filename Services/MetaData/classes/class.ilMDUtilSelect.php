@@ -221,7 +221,7 @@ class ilMDUtilSelect
 		{
 			if(strlen($row->forma))
 			{
-				$options[$row->forma] = $row->forma;
+				$options[$row->forma] = substr($row->forma,0,24);
 			}
 		}
 		
@@ -469,10 +469,10 @@ class ilMDUtilSelect
 		{
 			$options[$value] = $translation;
 		}
-		
-		$items = array(5 => 5,7 => 7,10 => 10,12 => 12,16 => 16,18 => 18,21 => 21,30 => 30,40 => 40,
-					   50 => 50,60 => 60,80 => 80,100 => 100);
-
+		for($i = 0; $i < 100 ; $i++)
+		{
+			$items[$i] = $i;
+		}
 		foreach($items as $key => $item)
 		{
 			$options[$key] = $item;
