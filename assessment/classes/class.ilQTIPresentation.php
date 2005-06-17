@@ -40,11 +40,13 @@ class ilQTIPresentation
 	
 	var $material;
 	var $response;
+	var $order;
 	
 	function ilQTIPresentation()
 	{
 		$this->response = array();
 		$this->material = array();
+		$this->order = array();
 	}
 	
 	function setLabel($a_label)
@@ -109,12 +111,14 @@ class ilQTIPresentation
 	
 	function addMaterial($a_material)
 	{
-		array_push($this->material, $a_material);
+		$count = array_push($this->material, $a_material);
+		array_push($this->order, array("type" =>"material", "index" => $count-1));
 	}
 	
 	function addResponse($a_response)
 	{
-		array_push($this->response, $a_response);
+		$count = array_push($this->response, $a_response);
+		array_push($this->order, array("type" =>"response", "index" => $count-1));
 	}
 }
 ?>

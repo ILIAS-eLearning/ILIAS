@@ -20,16 +20,6 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-	define ("QT_UNKNOWN", 0);
-	define ("QT_MULTIPLE_CHOICE_SR", 1);
-	define ("QT_MULTIPLE_CHOICE_MR", 2);
-	define ("QT_CLOZE", 3);
-	define ("QT_MATCHING", 4);
-	define ("QT_ORDERING", 5);
-	define ("QT_IMAGEMAP", 6);
-	define ("QT_JAVAAPPLET", 7);
-	define ("QT_TEXT", 8);
-
 	define ("RT_RESPONSE_LID", "1");
 	define ("RT_RESPONSE_XY", "2");
 	define ("RT_RESPONSE_STR", "3");
@@ -213,42 +203,6 @@ class ilQTIResponse
 		{
 			return FALSE;
 		}
-	}
-	
-	function determineQuestionType()
-	{
-		if ($this->render_type != NULL)
-		{
-			switch ($this->response_type)
-			{
-				case RT_RESPONSE_LID:
-					switch ($this->getRCardinality())
-					{
-						case R_CARDINALITY_ORDERED:
-							return QT_ORDERING;
-							break;
-						case R_CARDINALITY_SINGLE:
-							return QT_MULTIPLE_CHOICE_SR;
-							break;
-						case R_CARDINALITY_MULTIPLE:
-							return QT_MULTIPLE_CHOICE_MR;
-							break;
-					}
-					break;
-				case RT_RESPONSE_XY:
-					return QT_IMAGEMAP;
-					break;
-				case RT_RESPONSE_STR:
-					return QT_CLOZE;
-					break;
-				case RT_RESPONSE_GRP:
-					return QT_MATCHING;
-					break;
-				default:
-					break;
-			}
-		}
-		return QT_UNKNOWN;
 	}
 }
 ?>

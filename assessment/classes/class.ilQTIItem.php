@@ -21,7 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once ("./assessment/classes/class.ilQTIResponse.php");
+include_once "./assessment/classes/class.ilQTIResponse.php";
+
+	define ("QT_UNKNOWN", 0);
+	define ("QT_MULTIPLE_CHOICE_SR", 1);
+	define ("QT_MULTIPLE_CHOICE_MR", 2);
+	define ("QT_CLOZE", 3);
+	define ("QT_MATCHING", 4);
+	define ("QT_ORDERING", 5);
+	define ("QT_IMAGEMAP", 6);
+	define ("QT_JAVAAPPLET", 7);
+	define ("QT_TEXT", 8);
 
 /**
 * QTI item class
@@ -195,6 +205,48 @@ class ilQTIItem
 	function addPresentationitem($a_presentationitem)
 	{
 		array_push($this->presentationitem, $a_presentationitem);
+	}
+
+	function determineQuestionType()
+	{
+		if (!$this->presentation) return QT_UNKNOWN;
+		foreach ($this->presentation->order as $entry)
+		{
+			switch ($entry["type"])
+			{
+				case "response":
+					$response = $this->presentation->response[$entry[index]];
+					switch ($response->getResponsetype())
+					{
+						case RT_RESPONSE_LID:
+							switch ($response->getRCardinality())
+							{
+								case R_CARDINALITY_ORDERED:
+									return QT_ORDERING;
+									break;
+								case R_CARDINALITY_SINGLE:
+									return QT_MULTIPLE_CHOICE_SR;
+									break;
+								case R_CARDINALITY_MULTIPLE:
+									return QT_MULTIPLE_CHOICE_MR;
+									break;
+							}
+							break;
+						case RT_RESPONSE_XY:
+							return QT_IMAGEMAP;
+							break;
+						case RT_RESPONSE_STR:
+							return QT_CLOZE;
+							break;
+						case RT_RESPONSE_GRP:
+							return QT_MATCHING;
+							break;
+						default:
+							break;
+					}
+			}
+		}
+		return QT_UNKNOWN;
 	}
 }
 ?>
