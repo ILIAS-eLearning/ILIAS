@@ -290,11 +290,31 @@ class ilContainerGUI extends ilObjectGUI
 							}
 							// render item row
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");
+							if ($_SESSION["il_cont_admin_panel"] != true)
+							{
+								$item_list_gui->enableDelete(false);
+								$item_list_gui->enableLink(false);
+								$item_list_gui->enableCut(false);
+							}
+							
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);
+								
+							// check wheter any admin command is allowed for
+							// the items
 							if (!$this->adminCommands)
 							{
-								$this->adminCommands = $item_list_gui->adminCommandsIncluded();
+								if ($_SESSION["il_cont_admin_panel"] != true)
+								{
+									if ($this->rbacsystem->checkAccess("delete", $item["ref_id"]))
+									{
+										$this->adminCommands = true;
+									}
+								}
+								else
+								{
+									$this->adminCommands = $item_list_gui->adminCommandsIncluded();
+								}
 							}
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
 							if ($html != "")

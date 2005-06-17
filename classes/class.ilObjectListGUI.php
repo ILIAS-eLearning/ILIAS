@@ -647,6 +647,8 @@ class ilObjectListGUI
 	*/
 	function insertLinkCommand()
 	{
+		// if the permission is changed here, it  has
+		// also to be changed in ilContainerGUI, admin command check
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
@@ -667,6 +669,8 @@ class ilObjectListGUI
 	*/
 	function insertCutCommand()
 	{
+		// if the permission is changed here, it  has
+		// also to be changed in ilContainerGUI, admin command check
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
