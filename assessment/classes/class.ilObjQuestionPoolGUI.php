@@ -303,7 +303,129 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			echo "number of items: " . count($qtiParser->items) . "<br />";
 			foreach ($qtiParser->items as $key => $value)
 			{
+				echo "<hr />";
 				echo "item $key<br />";
+				foreach ($value->getPresentation()->response as $responsekey => $response)
+				{
+					switch ($response->determineQuestionType())
+					{
+						case 6: // Imagemap
+							echo "Imagemap question<br />";
+							echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+							echo "title: " . $value->getTitle() . "<br />";
+							$matcount = count($value->getPresentation()->material);
+							echo "material count = " . $matcount . "<br />";
+							foreach ($value->getPresentation()->material as $material)
+							{
+								if (count($material->mattext))
+								{
+									foreach ($material->mattext as $mattext)
+									{
+										echo "question: " . $mattext->getContent() . "<br />";
+									}
+								}
+							}
+							switch (get_class($response->getRenderType()))
+							{
+								case "ilQTIRenderHotspot":
+									foreach ($response->getRenderType()->material as $mat)
+									{
+										foreach ($mat->matimage as $matimage)
+										{
+											echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+										}
+									}
+									foreach ($response->getRenderType()->response_labels as $response_label)
+									{
+										echo "answer " . $response_label->getIdent() . ": ";
+										echo "type " . $response_label->getRarea() . " (" . $response_label->getContent() . "), ";
+										foreach ($response_label->material as $mat)
+										{
+											foreach ($mat->mattext as $matt)
+											{
+												echo $matt->getContent() . "<br />";
+											}
+										}
+									}
+									break;
+							}
+							break;
+							break;
+						case 1: // Multiple Choice Single Response
+						case 2: // Multiple Choice Multiple Response
+						case 5: // Ordering
+							if ($response->determineQuestionType() == 1)
+							{
+								echo "Multiple Choice Single Response<br />";
+							}
+							else if ($response->determineQuestionType() == 2)
+							{
+								echo "Multiple Choice Multiple Response<br />";
+							}
+							else
+							{
+								echo "Ordering Question<br />";
+							}
+							echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+							echo "title: " . $value->getTitle() . "<br />";
+							$matcount = count($value->getPresentation()->material);
+							echo "material count = " . $matcount . "<br />";
+							foreach ($value->getPresentation()->material as $material)
+							{
+								if (count($material->mattext))
+								{
+									foreach ($material->mattext as $mattext)
+									{
+										echo "question: " . $mattext->getContent() . "<br />";
+									}
+								}
+							}
+							switch (get_class($response->getRenderType()))
+							{
+								case "ilQTIRenderChoice":
+									echo "shuffle: " . $response->getRenderType()->getShuffle() . "<br />";
+									foreach ($response->getRenderType()->response_labels as $response_label)
+									{
+										echo "answer " . $response_label->getIdent() . ": ";
+										foreach ($response_label->material as $mat)
+										{
+											foreach ($mat->mattext as $matt)
+											{
+												echo $matt->getContent() . "<br />";
+											}
+											foreach ($mat->matimage as $matimage)
+											{
+												echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+											}
+										}
+									}
+									break;
+							}
+							break;
+					}
+				}
+				foreach ($value->resprocessing as $resprocessing)
+				{
+					echo "resprocessing<br />";
+					foreach ($resprocessing->respcondition as $respcondition)
+					{
+						echo "respcondition, continue = " . $respcondition->getContinue() . "<br />";
+						echo "conditionvar: <br />";
+						$conditionvar = $respcondition->getConditionvar();
+						foreach ($conditionvar->varequal as $varequal)
+						{
+							echo "&nbsp;&nbsp;respident = " . $varequal->getRespident() . " = " . $varequal->getContent() . "<br />";
+						}
+						foreach ($conditionvar->varinside as $varinside)
+						{
+							echo "&nbsp;&nbsp;respident = " . $varinside->getRespident() . ", " . $varinside->getAreatype() . " inside " . $varinside->getContent() . "<br />";
+						}
+						foreach ($respcondition->setvar as $setvar)
+						{
+							echo "setvar: action = " . $setvar->getAction() . ", value = " . $setvar->getContent() . "<br />";
+						}
+					}
+				}
 //				echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value, true))); 
 				//echo $value->getTitle() . "<br />";
 				//echo "rcardinality: " . $value->presentation->response[0]->rcardinality . "<br />";
@@ -314,7 +436,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-	*/	
+*/
 		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
 		// set type of questionpool object

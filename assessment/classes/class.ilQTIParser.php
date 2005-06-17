@@ -43,7 +43,7 @@ class ilQTIParser extends ilSaxParser
 	var $qti_element;
 	var $in_presentation;
 	var $in_response;
-	var $render_choice;
+	var $render_type;
 	var $response_label;
 	var $material;
 	var $matimage;
@@ -61,6 +61,7 @@ class ilQTIParser extends ilSaxParser
 	var $mattext;
 	var $sametag;
 	var $characterbuffer;
+	var $conditionvar;
 	
 	/**
 	* Constructor
@@ -83,7 +84,8 @@ class ilQTIParser extends ilSaxParser
 		$this->qti_element = "";
 		$this->in_presentation = FALSE;
 		$this->in_reponse = FALSE;
-		$this->render_choice = NULL;
+		$this->render_type = NULL;
+		$this->render_hotspot = NULL;
 		$this->response_label = NULL;
 		$this->material = NULL;
 		$this->response = NULL;
@@ -165,6 +167,25 @@ class ilQTIParser extends ilSaxParser
 			case "setvar":
 				include_once ("./assessment/classes/class.ilQTISetvar.php");
 				$this->setvar = new ilQTISetvar();
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "action":
+								$this->setvar->setAction($value);
+								break;
+							case "varname":
+								$this->setvar->setVarname($value);
+								break;
+						}
+					}
+				}
+				break;
+			case "conditionvar":
+				include_once ("./assessment/classes/class.ilQTIConditionvar.php");
+				$this->conditionvar = new ilQTIConditionvar();
 				break;
 			case "varequal":
 				include_once("./assessment/classes/class.ilQTIResponseVar.php");
@@ -396,7 +417,7 @@ class ilQTIParser extends ilSaxParser
 					{
 						switch (strtolower($attribute))
 						{
-							case "imagetype":
+							case "imagtype":
 								$this->matimage->setImagetype($value);
 								break;
 							case "label":
@@ -454,7 +475,7 @@ class ilQTIParser extends ilSaxParser
 				$this->presentation = new ilQTIPresentation();
 				break;
 			case "response_label":
-				if ($this->render_choice != NULL)
+				if ($this->render_type != NULL)
 				{
 				include_once("./assessment/classes/class.ilQTIResponseLabel.php");
 					$this->response_label = new ilQTIResponseLabel();
@@ -491,7 +512,38 @@ class ilQTIParser extends ilSaxParser
 				if ($this->in_response)
 				{
 					include_once("./assessment/classes/class.ilQTIRenderChoice.php");
-					$this->render_choice = new ilQTIRenderChoice();
+					$this->render_type = new ilQTIRenderChoice();
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "shuffle":
+								$this->render_type->setShuffle($value);
+								break;
+						}
+					}
+				}
+				break;
+			case "render_hotspot":
+				if ($this->in_response)
+				{
+					include_once("./assessment/classes/class.ilQTIRenderHotspot.php");
+					$this->render_type = new ilQTIRenderHotspot();
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "showdraw":
+								$this->render_type->setShuffle($value);
+								break;
+							case "minnumber":
+								$this->render_type->setMinnumber($value);
+								break;
+							case "maxnumber":
+								$this->render_type->setMaxnumber($value);
+								break;
+						}
+					}
 				}
 				break;
 			case "response_lid":
@@ -499,10 +551,36 @@ class ilQTIParser extends ilSaxParser
 				// Ordering Terms and Pictures       or
 				// Multiple choice single response   or
 				// Multiple choice multiple response
+			case "response_xy":
+				// Imagemap question
+			case "response_str":
+				// Close question
+			case "response_num":
+			case "response_grp":
+				// Matching terms and definitions
+				// Matching terms and images
+				switch (strtolower($a_name))
+				{
+					case "response_lid":
+						$response_type = RT_RESPONSE_LID;
+						break;
+					case "response_xy":
+						$response_type = RT_RESPONSE_XY;
+						break;
+					case "response_str":
+						$response_type = RT_RESPONSE_STR;
+						break;
+					case "response_num":
+						$response_type = RT_RESPONSE_NUM;
+						break;
+					case "response_grp":
+						$response_type = RT_RESPONSE_GRP;
+						break;
+				}
 				$this->in_response = TRUE;
 				include_once("./assessment/classes/class.ilQTIResponse.php");
-				echo "create new response_lid<br />";
-				$this->response = new ilQTIResponse(RT_RESPONSE_LID);
+				echo "add response with type $response_type<br />";
+				$this->response = new ilQTIResponse($response_type);
 				$this->response->setFlow($this->flow);
 				if (is_array($a_attribs))
 				{
@@ -514,30 +592,17 @@ class ilQTIParser extends ilSaxParser
 								$this->response->setIdent($value);
 								break;
 							case "rtiming":
-								// to be done
+								$this->response->setRTiming($value);
 								break;
 							case "rcardinality":
 								$this->response->setRCardinality($value);
 								break;
+							case "numtype":
+								$this->response->setNumtype($value);
+								break;
 						}
 					}
 				}
-				break;
-			case "response_xy":
-				// Imagemap question
-				$this->in_response = TRUE;
-				break;
-			case "response_str":
-				// Close question
-				$this->in_response = TRUE;
-				break;
-			case "response_num":
-				$this->in_response = TRUE;
-				break;
-			case "response_grp":
-				// Matching terms and definitions
-				// Matching terms and images
-				$this->in_response = TRUE;
 				break;
 			case "item":
 				include_once("./assessment/classes/class.ilQTIItem.php");
@@ -636,6 +701,13 @@ class ilQTIParser extends ilSaxParser
 				}
 				$this->setvar = NULL;
 				break;
+			case "conditionvar":
+				if ($this->respcondition != NULL)
+				{
+					$this->respcondition->setConditionvar($this->conditionvar);
+				}
+				$this->conditionvar = NULL;
+				break;
 			case "varequal":
 			case "varlt":
 			case "varlte":
@@ -687,26 +759,31 @@ class ilQTIParser extends ilSaxParser
 				$this->presentation = NULL;
 				break;
 			case "response_label":
-				if ($this->render_choice != NULL)
+				if ($this->render_type != NULL)
 				{
-					$this->render_choice->addResponseLabel($this->response_label);
+					$this->render_type->addResponseLabel($this->response_label);
 					$this->response_label = NULL;
 				}
 				break;
 			case "render_choice":
+			case "render_hotspot":
 				if ($this->in_response)
 				{
 					if ($this->response != NULL)
 					{
-						if ($this->render_choice != NULL)
+						if ($this->render_type != NULL)
 						{
-							$this->response->setRenderType($this->render_choice);
-							$this->render_choice = NULL;
+							$this->response->setRenderType($this->render_type);
+							$this->render_type = NULL;
 						}
 					}
 				}
 				break;
 			case "response_lid":
+			case "response_xy":
+			case "response_str":
+			case "response_num":
+			case "response_grp":
 				if ($this->presentation != NULL)
 				{
 					if ($this->response != NULL)
@@ -720,18 +797,17 @@ class ilQTIParser extends ilSaxParser
 					}
 				}
 				$this->response = NULL;
-				break;
-			case "response_xy":
-			case "response_str":
-			case "response_num":
-			case "response_grp":
 				$this->in_response = FALSE;
 				break;
 			case "item":
-				// $this->item = NULL;
+				//$this->item = NULL;
 				break;
 			case "material":
-				if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
+				if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
+				{
+					$this->render_type->addMaterial($this->material);
+				}
+				else if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
 				{
 					$this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
 					echo "add material to flow_mat<br />";
@@ -805,6 +881,12 @@ class ilQTIParser extends ilSaxParser
 		$a_data = $this->characterbuffer;
 		switch ($this->qti_element)
 		{
+			case "response_label":
+				if ($this->response_label != NULL)
+				{
+					$this->response_label->setContent($a_data);
+				}
+				break;
 			case "setvar":
 				if ($this->setvar != NULL)
 				{
