@@ -6120,7 +6120,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$counter ++;
 		}
 
-		if ($isForm) {
+		if ($isForm && !$active->submitted) {
 			$tpl->setCurrentBlock("confirm");
 			$tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
 			$tpl->setVariable("BTN_CANCEL", $this->lng->txt("back"));
@@ -6209,7 +6209,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}
 	
 	function answersheetObject () {
-		global $rbacsystem;//, $ilUser;
+		global $rbacsystem, $ilUser;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
@@ -6225,11 +6225,12 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			echo utf8_decode($this->lng->txt("user_not_invited"));
 			exit();
 		}
-		$ilUser = new IlObjUser ($user_id);		
+		$ilUser = new IlObjUser ($user_id);	
+		$user = array_pop ($user);
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
-		$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("FRAME_CLIENTIP",$_SERVER["REMOTE_ADDR"]);		
+		//$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("FRAME_CLIENTIP", $user->clientip); //$_SERVER["REMOTE_ADDR"]);		
 		$this->tpl->setVariable("FRAME_MATRICULATION",$ilUser->getMatriculation());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
 		$this->outShowAnswersDetails(false, $ilUser);			
