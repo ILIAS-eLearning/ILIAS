@@ -86,6 +86,10 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return $this->__searchEducational();
 				break;
 
+			case 'typical_age_range':
+				return $this->__searchTypicalAgeRange();
+				break;
+
 			case 'rights':
 				return $this->__searchRights();
 				break;
@@ -102,6 +106,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return $this->__searchKeyword();
 				break;
 
+			case 'format':
+				return $this->__searchFormat();
+				break;
 
 			default:
 				echo "ilMDSearch::performSearch() no mode given";
@@ -147,6 +154,27 @@ class ilAdvancedSearch extends ilAbstractSearch
 		}
 		return $this->search_result;
 	}
+
+	function &__searchTypicalAgeRange()
+	{
+		if(!$this->options['typ_age_1'] and !$this->options['typ_age_2'])
+		{
+			return false;
+		}
+
+		$query = "SELECT rbac_id,obj_type FROM il_meta_typical_age_range ".
+			"WHERE typical_age_range_min <= '".(int) $this->options['typ_age_1']."' ".
+			"AND typical_age_range_max >= '".(int) $this->options['typ_age_2']."'";
+
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
+
 	function &__searchRights()
 	{
 		$query = "SELECT rbac_id,obj_type FROM il_meta_rights ";
@@ -238,6 +266,25 @@ class ilAdvancedSearch extends ilAbstractSearch
 		return $this->search_result;
 	}
 
+	function &__searchFormat()
+	{
+		if(!$this->options['format'])
+		{
+			return false;
+		}
+
+		$query = "SELECT rbac_id,obj_type FROM il_meta_format ".
+			"WHERE format LIKE('".ilUtil::prepareDBString($this->options['format'])."') ".
+			"AND obj_type ".$this->__getInStatement($this->getFilter());
+		
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
 
 
 	function __createRightsWhere()
