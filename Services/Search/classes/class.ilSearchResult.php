@@ -274,7 +274,12 @@ class ilSearchResult
 	{
 		if ($this->getUserId() and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
-			$query = "REPLACE INTO usr_search ".
+			$query = "DELETE FROM usr_search WHERE usr_id = '".$this->getUserId()."' ".
+				"AND search_type = '".$a_type."'";
+			$this->db->query($query);
+
+
+			$query = "INSERT INTO usr_search ".
 				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."','".$a_type."')";
 
 			$res = $this->db->query($query);
