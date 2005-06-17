@@ -179,7 +179,7 @@ class ilSearchResultPresentationGUI
 		
 		// add checkbox for saving results
 		$a_tpl->setVariable("BLOCK_ROW_CHECK",ilUtil::formCheckbox(0,'result[]',$a_ref_id));
-
+		$a_tpl->setVariable("ITEM_ID",$a_ref_id);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
