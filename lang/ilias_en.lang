@@ -5056,3 +5056,18 @@ chat#:#chat_profile#:#Profile
 chat#:#chat_invited_by#:#Invited by
 chat#:#chat_add_private_chatroom#:#Add private chatroom
 common#:#close_window#:#Close window
+search#:#search_any#:#-- Any --
+meta#:#meta_unknown#:#Unknown
+meta#:#meta_initiator#:#Initiator
+meta#:#meta_editor#:#Editor
+meta#:#meta_terminator#:#Terminator
+meta#:#meta_graphicaldesigner#:#Graphical designer
+meta#:#meta_technicalimplementer#:#Technical implementer
+meta#:#meta_contentprovider#:#Content provider
+meta#:#meta_technicalvalidator#:#Technical validator
+meta#:#meta_educationalvalidator#:#Educational validator
+meta#:#meta_scriptwriter#:#Scriptwriter
+meta#:#meta_instructional_designer#:#instructional designer
+meta#:#meta_subjectmatterexpert#:#Subject matter expert
+meta#:#meta_creator#:#Creator
+meta#:#meta_validator#:#Validator

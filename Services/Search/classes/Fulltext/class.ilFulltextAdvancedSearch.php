@@ -94,8 +94,111 @@ class ilFulltextAdvancedSearch extends ilAdvancedSearch
 			$query .= "') ";
 		}
 		return $query;
+	}
+
+	function __createLifecycleWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(meta_version) AGAINST('";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$query .= " WHERE MATCH (meta_version) AGAINST(' ";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
 	}		
 
+	function __createEntityWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(entity) AGAINST('";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$query .= " WHERE MATCH (entity) AGAINST(' ";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}		
+	function __createCoverageAndCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " AND MATCH(coverage) AGAINST('";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$query .= " AND MATCH (coverage) AGAINST(' ";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}	
+
+	function __createTitleDescriptionWhereCondition()
+	{
+		// IN BOOLEAN MODE
+		if($this->db->isMysql4_0OrHigher())
+		{
+			$query .= " WHERE MATCH(title,description) AGAINST('";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= '* ';
+			}
+			$query .= "' IN BOOLEAN MODE) ";
+		}
+		else
+		{
+			$query .= " WHERE MATCH (title,description) AGAINST(' ";
+			foreach($this->query_parser->getQuotedWords(true) as $word)
+			{
+				$query .= $word;
+				$query .= ' ';
+			}
+			$query .= "') ";
+		}
+		return $query;
+	}		
+	
 	// Private
 }
 ?>
