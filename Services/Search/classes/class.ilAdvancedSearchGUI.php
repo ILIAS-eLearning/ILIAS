@@ -102,6 +102,12 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		$res =& new ilSearchResult();
 
+
+
+		if($res_req =& $this->__performRequirementSearch())
+		{
+			$this->__storeEntries($res,$res_req);
+		}
 		if($res_edu =& $this->__performEducationalSearch())
 		{
 			$this->__storeEntries($res,$res_edu);
@@ -117,6 +123,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		if($res_tax =& $this->__performTaxonSearch())
 		{
 			$this->__storeEntries($res,$res_tax);
+		}
+		if($res_key =& $this->__performKeywordSearch())
+		{
+			$this->__storeEntries($res,$res_key);
 		}
 		
 		$res->filter($this->getRootNode(),false);
@@ -196,9 +206,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_FORMAT",
 								ilMDUtilSelect::_getFormatSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_OS",
-								ilMDUtilSelect::_getOperatingSystemSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getOperatingSystemSelect($this->options['os'],
+																		  'search_adv[os]',
+																		  array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_BROWSER",
-								ilMDUtilSelect::_getBrowserSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getBrowserSelect($this->options['browser'],
+																  'search_adv[browser]',
+																  array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_DURATION_1",
 								ilMDUtilSelect::_getDurationSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_DURATION_2",
@@ -306,7 +320,17 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			$this->tpl->setVariable("TAXON_OR_CHECKED",'checked=checked');
 		}
-		$this->tpl->setVariable("FRM_TAXON",ilUtil::prepareFormOutput($this->options['taxon']));
+		$this->tpl->setVariable("FRM_TAXON",ilUtil::prepareFormOutput($this->options['taxon'],true));
+
+		if($this->options['keyword_ao'] == 'and')
+		{
+			$this->tpl->setVariable("KEYWORD_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("KEYWORD_OR_CHECKED",'checked=checked');
+		}
+		$this->tpl->setVariable("FRM_KEYWORD",ilUtil::prepareFormOutput($this->options['keyword'],true));
 
 		$this->tpl->setVariable("BTN_SEARCH",$this->lng->txt('search'));
 		$this->tpl->setVariable("BTN_RESET",$this->lng->txt('reset'));
@@ -371,6 +395,20 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	function &__performRequirementSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('requirement');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
 	function &__performEducationalSearch()
 	{
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -441,6 +479,29 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
 		$meta_search->setFilter($this->filter);
 		$meta_search->setMode('taxon');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+
+	function &__performKeywordSearch()
+	{
+		// Return if 'any'
+		if(!$this->options['keyword'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['keyword']));
+		$query_parser->setCombination($this->options['keyword_ao']);
+		$query_parser->parse();
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('keyword');
 		$meta_search->setOptions($this->options);
 		$res =& $meta_search->performSearch();
 

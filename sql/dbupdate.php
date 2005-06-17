@@ -7629,4 +7629,38 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 	}
 	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
+<#474>
+ALTER TABLE `il_meta_typical_age_range` ADD `typical_age_range_min` TINYINT( 3 ) DEFAULT '-1' NOT NULL ,
+ADD `typical_age_range_max` TINYINT( 3 ) DEFAULT '-1' NOT NULL ;
+<#475>
+<?php
+$query = "SELECT * FROM il_meta_typical_age_range ";
+$res =& $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if(preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/",$row->typical_age_range,$matches))
+	{
+		if(!$matches[2] and !$matches[3])
+		{
+			$min = $max = $matches[1];
+		}
+		elseif($matches[2] and !$matches[3])
+		{
+			$min = $matches[1];
+			$max = 99;
+		}
+		else
+		{
+			$min = $matches[1];
+			$max = $matches[3];
+		}
 
+		$query = "UPDATE il_meta_typical_age_range ".
+			"SET typical_age_range_min = '".(int) $min."', ".
+			"typical_age_range_max = '".(int) $max."' ".
+			"WHERE meta_typical_age_range_id = '".$row->meta_typical_age_range_id."'";
+
+		$ilDB->query($query);
+	}
+}
+?>
