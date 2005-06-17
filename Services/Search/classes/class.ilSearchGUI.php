@@ -424,11 +424,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search"));
 		$this->tpl->parseCurrentBlock();
 
-		#$this->tpl->setCurrentBlock("tab");
-		#$this->tpl->setVariable("TAB_TYPE","tabinactive");
-		#$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('iladvancedsearchgui'));
-		#$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
-		#$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE","tabinactive");
+		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('iladvancedsearchgui'));
+		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tab");
 		$this->tpl->setVariable("TAB_TYPE","tabinactive");
