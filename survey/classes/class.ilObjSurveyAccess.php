@@ -117,7 +117,8 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "run", "lang_var" => "svy_run"),
+			array("permission" => "read", "cmd" => "run", "lang_var" => "svy_run",
+				"default" => true),
 			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
 			array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_evaluation")
 		);

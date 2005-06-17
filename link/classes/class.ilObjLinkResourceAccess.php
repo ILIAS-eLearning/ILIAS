@@ -51,7 +51,8 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "", "lang_var" => "show"),
+			array("permission" => "read", "cmd" => "", "lang_var" => "show",
+				"default" => true),
 			array("permission" => "write", "cmd" => "editItems", "lang_var" => "edit")
 		);
 		

@@ -94,6 +94,32 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		return $cmd_link;
 	}
 
+		/**
+	* Get command target frame
+	*
+	* @param	string		$a_cmd			command
+	*
+	* @return	string		command target frame
+	*/
+	function getCommandFrame($a_cmd)
+	{
+		global $ilias;
+
+		switch($a_cmd)
+		{
+			case "view":
+			case "edit":
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
+				break;
+
+			default:
+				$frame = "";
+				break;
+		}
+
+		return $frame;
+	}
+
 
 	/**
 	* Get item properties

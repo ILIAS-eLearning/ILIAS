@@ -51,7 +51,8 @@ class ilObjMediaPoolAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "", "lang_var" => "edit",
+				"default" => true)
 		);
 		
 		return $commands;

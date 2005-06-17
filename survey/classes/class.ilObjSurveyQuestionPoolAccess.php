@@ -44,7 +44,8 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 	 * example:	
 	 * $commands = array
 	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+	 *			"default" => true),
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
@@ -52,8 +53,8 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "read", "cmd" => "questions", "lang_var" => "view")
+			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
+				"default" => true),
 		);
 		
 		return $commands;

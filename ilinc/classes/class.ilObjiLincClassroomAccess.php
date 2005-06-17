@@ -51,7 +51,8 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "join", "lang_var" => "show"),
+			array("permission" => "read", "cmd" => "join", "lang_var" => "show",
+				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
 		
