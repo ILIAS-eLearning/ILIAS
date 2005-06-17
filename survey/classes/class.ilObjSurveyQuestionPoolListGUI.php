@@ -91,6 +91,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "":
+			case "questions":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 

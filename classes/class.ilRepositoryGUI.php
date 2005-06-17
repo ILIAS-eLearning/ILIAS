@@ -88,14 +88,15 @@ class ilRepositoryGUI
 			$this->ctrl->setReturn($this,"ShowList");
 
 		// determine current ref id and mode
-		if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
+		//if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
+		if (!empty($_GET["ref_id"]))
 		{
 			$this->cur_ref_id = $_GET["ref_id"];
 		}
 		else
 		{
 //echo "1";
-			if (!empty($_SESSION["il_rep_ref_id"]))
+			if (!empty($_SESSION["il_rep_ref_id"]) && !empty($_GET["getlast"]))
 			{
 				$this->cur_ref_id = $_SESSION["il_rep_ref_id"];
 			}
@@ -118,7 +119,14 @@ class ilRepositoryGUI
 					$ilLog->write("Repository: command called without ref_id.".
 						"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
 				}
-				$_GET = array();
+				//if ($_GET["cmd"] != "frameset")
+				//{
+					$_GET = array();
+				//}
+				//else
+				//{
+				//	$_GET = array("cmd" => "frameset");
+				//}
 				$_POST = array();
 				$this->ctrl->setCmd("frameset");
 			}
