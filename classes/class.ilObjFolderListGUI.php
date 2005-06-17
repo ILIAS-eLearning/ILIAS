@@ -21,44 +21,63 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjFileAccess
+* Class ilObjFolderListGUI
 *
+* @author Alex Killing <alex.killing@gmx.de>
+* $Id$
 *
-* @author 		Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @package Survey
+* @extends ilObjectListGUI
 */
-class ilObjFileAccess extends ilObjectAccess
+
+
+include_once "class.ilObjectListGUI.php";
+
+class ilObjFolderListGUI extends ilObjectListGUI
 {
+	/**
+	* constructor
+	*
+	*/
+	function ilObjFolderListGUI()
+	{
+		$this->ilObjectListGUI();
+	}
 
 	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
+	* initialisation
+	*/
+	function init()
 	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download",
-				"default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-			array("permission" => "read", "cmd" => "versions", "lang_var" => "versions")
-		);
-		
-		return $commands;
-	}
-}
+		$this->delete_enabled = true;
+		$this->cut_enabled = true;
+		$this->subscribe_enabled = true;
+		$this->link_enabled = false;
+		$this->payment_enabled = false;
+		$this->type = "fold";
+		$this->gui_class_name = "ilobjfoldergui";
 
+		// general commands array
+		include_once('class.ilObjFolderAccess.php');
+		$this->commands = ilObjFolderAccess::_getCommands();
+	}
+
+	/**
+	* Get command link url.
+	*
+	* @param	int			$a_ref_id		reference id
+	* @param	string		$a_cmd			command
+	*
+	*/
+	function getCommandLink($a_cmd)
+	{
+		// separate method for this line
+		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+
+		return $cmd_link;
+	}
+
+
+} // END class.ilObjCategoryGUI
 ?>

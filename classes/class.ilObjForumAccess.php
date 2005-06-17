@@ -51,7 +51,8 @@ class ilObjForumAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "showThreads", "lang_var" => "show"),
+			array("permission" => "read", "cmd" => "showThreads", "lang_var" => "show",
+				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 		);
 		

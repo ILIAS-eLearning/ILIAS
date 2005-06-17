@@ -263,7 +263,7 @@ class ilContainerGUI extends ilObjectGUI
 				// the resource type "lres" contains the object types
 				// "lm", "dbk", "sahs" and "htlm")
 				$type_ordering = array(
-					"cat", "crs", "grp", "chat", "frm", "lres",
+					"cat", "fold", "crs", "grp", "chat", "frm", "lres",
 					"glo", "webr", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
