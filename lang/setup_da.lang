@@ -183,7 +183,6 @@ ini_no_db_host#:#Intet udbyder navn
 ini_no_db_name#:#Intet database navn
 ini_no_db_user#:#Intet database brugernavn
 inifile#:#ini-file
-include_local#:#include local
 inifile_can_write#:#ILIAS 3 installationen kan ikke skrive til din ini-fil.
 inifile_cannot_write#:#ILIAS 3 installationen kan ikke skrive til din ini-fil. Tjek venligst dine rettigheder f�rst .
 inifile_content#:#Din ini-fil har f�lgende indhold:
@@ -221,11 +220,7 @@ lang_not_installed_default#:#Dette er det sprog du har installeret som standard
 lang_pl#:#Polsk
 lang_pt#:#Portugesisk
 lang_se#:#Svensk
-lang_uk#:#Ukrainsk
-lang_hu#:#Hungarian
-lang_ro#:#Romanian
-lang_sq#:#Albanian
-lang_sr#:#Serbian
+lang_ua#:#Ukrainsk
 lang_xx#:#bruger valgt
 lang_zh#:#Kinesisk
 langs_not_valid_not_installed#:#F�lgende sprog er ikke installeret pga en fejl i sprog filen
