@@ -755,8 +755,8 @@ common#:#activation#:#Activation
 common#:#active#:#Active
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#admin_panel_enable#:#Show Administration Panel
-common#:#admin_panel_disable#:#Hide Administration Panel
+common#:#admin_panel_enable#:#Switch Administration Commands On 
+common#:#admin_panel_disable#:#Switch Administration Commands Off
 common#:#admin_panel#:#Administration Panel
 common#:#add_author#:#Add Author
 common#:#add_condition#:#Create new association

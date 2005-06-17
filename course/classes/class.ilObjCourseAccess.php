@@ -121,7 +121,8 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "view"),
+			array("permission" => "read", "cmd" => "view", "lang_var" => "view",
+				"default" => true),
 			array("permission" => "join", "cmd" => "view", "lang_var" => "join"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
