@@ -279,7 +279,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_VERSION",$this->lng->txt('meta_version'));
 		$this->tpl->setVariable("FRM_VERSION",ilUtil::prepareFormOutput($this->options['version'],true));
 
-		$this->tpl->setVariable("TXT_CONTRIBUTOR",$this->lng->txt('meta_contributor'));
+		$this->tpl->setVariable("TXT_CONTRIBUTOR",$this->lng->txt('meta_contribute'));
 		$this->tpl->setVariable("SEL_CONTRIBUTOR",
 								ilMDUtilSelect::_getRoleSelect($this->options['role'],
 															   'search_adv[role]',
