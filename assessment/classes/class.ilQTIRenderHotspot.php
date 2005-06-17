@@ -21,50 +21,50 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define ("SHUFFLE_NO", "0");
-define ("SHUFFLE_YES", "1");
+define ("SHOWDRAW_NO", "1");
+define ("SHOWDRAW_YES", "2");
 
 /**
-* QTI render choice class
+* QTI render hotspot class
 *
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 *
 * @package assessment
 */
-class ilQTIRenderChoice
+class ilQTIRenderHotspot
 {
-	var $shuffle;
+	var $showdraw;
 	var $minnumber;
 	var $maxnumber;
 	var $response_labels;
 	var $material;
-	
-	function ilQTIRenderChoice()
+
+	function ilQTIRenderHotspot()
 	{
-		$this->shuffle = SHUFFLE_NO;
+		$this->showdraw = SHOWDRAW_NO;
 		$this->response_labels = array();
 		$this->material = array();
 	}
 	
-	function setShuffle($a_shuffle)
+	function setShowdraw($a_showdraw)
 	{
-		switch (strtolower($a_shuffle))
+		switch (strtolower($a_showdraw))
 		{
-			case "0":
-			case "no":
-				$this->shuffle = SHUFFLE_NO;
-				break;
 			case "1":
+			case "no":
+				$this->showdraw = SHOWDRAW_NO;
+				break;
+			case "2":
 			case "yes":
-				$this->shuffle = SHUFFLE_YES;
+				$this->showdraw = SHOWDRAW_YES;
 				break;
 		}
 	}
 	
-	function getShuffle()
+	function getShowdraw()
 	{
-		return $this->shuffle;
+		return $this->showdraw;
 	}
 	
 	function setMinnumber($a_minnumber)

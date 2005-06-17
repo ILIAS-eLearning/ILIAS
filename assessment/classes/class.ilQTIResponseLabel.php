@@ -50,7 +50,8 @@ class ilQTIResponseLabel
 	var $match_max;
 	var $material;
 	var $flow_mat;
-	
+	var $content;
+
 	function ilQTIResponseLabel()
 	{
 		$this->material = array();
@@ -169,6 +170,16 @@ class ilQTIResponseLabel
 	function addFlow_mat($a_flow_mat)
 	{
 		array_push($this->flow_mat, $a_flow_mat);
+	}
+	
+	function setContent($a_content)
+	{
+		$this->content = $a_content;
+	}
+	
+	function getContent()
+	{
+		return $this->content;
 	}
 }
 ?>

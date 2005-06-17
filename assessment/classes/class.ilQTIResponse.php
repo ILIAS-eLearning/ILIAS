@@ -23,7 +23,7 @@
 	define ("QT_UNKNOWN", 0);
 	define ("QT_MULTIPLE_CHOICE_SR", 1);
 	define ("QT_MULTIPLE_CHOICE_MR", 2);
-	define ("QT_CLOSE", 3);
+	define ("QT_CLOZE", 3);
 	define ("QT_MATCHING", 4);
 	define ("QT_ORDERING", 5);
 	define ("QT_IMAGEMAP", 6);
@@ -41,6 +41,13 @@
 	define ("R_CARDINALITY_MULTIPLE", "2");
 	define ("R_CARDINALITY_ORDERED", "3");
 
+	define ("RTIMING_NO", "1");
+	define ("RTIMING_YES", "2");
+	
+	define ("NUMTYPE_INTEGER", "1");
+	define ("NUMTYPE_DECIMAL", "2");
+	define ("NUMTYPE_SCIENTIFIC", "3");
+	
 /**
 * QTI response class
 *
@@ -58,6 +65,8 @@ class ilQTIResponse
 	var $render_type;
 	var $material1;
 	var $material2;
+	var $rtiming;
+	var $numtype;
 	
 	function ilQTIResponse($a_response_type = 0)
 	{
@@ -108,6 +117,50 @@ class ilQTIResponse
 	function getRCardinality()
 	{
 		return $this->rcardinality;
+	}
+	
+	function setRTiming($a_rtiming)
+	{
+		switch (strtolower($a_rtiming))
+		{
+			case "no":
+			case "1":
+				$this->rtiming = RTIMING_NO;
+				break;
+			case "yes":
+			case "2":
+				$this->rtiming = RTIMING_YES;
+				break;
+		}
+	}
+	
+	function getRTiming()
+	{
+		return $this->rtiming;
+	}
+	
+	function setNumtype($a_numtype)
+	{
+		switch (strtolower($a_numtype))
+		{
+			case "integer":
+			case "1":
+				$this->numtype = NUMTYPE_INTEGER;
+				break;
+			case "decimal":
+			case "2":
+				$this->numtype = NUMTYPE_DECIMAL;
+				break;
+			case "scientific":
+			case "3":
+				$this->numtype = NUMTYPE_SCIENTIFIC;
+				break;
+		}
+	}
+	
+	function getNumtype()
+	{
+		return $this->numtype;
 	}
 	
 	function setRenderType($a_render_type)
@@ -181,6 +234,15 @@ class ilQTIResponse
 							return QT_MULTIPLE_CHOICE_MR;
 							break;
 					}
+					break;
+				case RT_RESPONSE_XY:
+					return QT_IMAGEMAP;
+					break;
+				case RT_RESPONSE_STR:
+					return QT_CLOZE;
+					break;
+				case RT_RESPONSE_GRP:
+					return QT_MATCHING;
 					break;
 				default:
 					break;

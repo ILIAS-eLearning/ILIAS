@@ -31,31 +31,31 @@
 */
 class ilQTIConditionvar
 {	
-	var not;
-	var and;
-	var or;
-	var unanswered;
-	var other;
-	var varequal;
-	var varlt;
-	var varlte;
-	var vargt;
-	var vargte;
-	var varsubset;
-	var varinside;
-	var varsubstring;
-	var durequal;
-	var durlt;
-	var durlte;
-	var durgt;
-	var durgte;
-	var varextension;
+	var $arr_not;
+	var $arr_and;
+	var $arr_or;
+	var $unanswered;
+	var $other;
+	var $varequal;
+	var $varlt;
+	var $varlte;
+	var $vargt;
+	var $vargte;
+	var $varsubset;
+	var $varinside;
+	var $varsubstring;
+	var $durequal;
+	var $durlt;
+	var $durlte;
+	var $durgt;
+	var $durgte;
+	var $varextension;
 	
 	function ilQTIConditionvar()
 	{
-		$this->not = array();
-		$this->and = array();
-		$this->or = array();
+		$this->arr_not = array();
+		$this->arr_and = array();
+		$this->arr_or = array();
 		$this->unanswered = array();
 		$this->other = array();
 		$this->varequal = array();
@@ -76,17 +76,17 @@ class ilQTIConditionvar
 	
 	function addNot($a_not)
 	{
-		array_push($this->not, $a_not);
+		array_push($this->arr_not, $a_not);
 	}
 	
 	function addAnd($a_and)
 	{
-		array_push($this->and, $a_and);
+		array_push($this->arr_and, $a_and);
 	}
 
 	function addOr($a_or)
 	{
-		array_push($this->or, $a_or);
+		array_push($this->arr_or, $a_or);
 	}
 	
 	function addUnanswered($a_unanswered)
