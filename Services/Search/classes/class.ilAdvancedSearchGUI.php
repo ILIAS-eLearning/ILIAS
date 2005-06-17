@@ -102,15 +102,21 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		$res =& new ilSearchResult();
 
-
-
 		if($res_req =& $this->__performRequirementSearch())
 		{
 			$this->__storeEntries($res,$res_req);
 		}
+		if($res_for =& $this->__performFormatSearch())
+		{
+			$this->__storeEntries($res,$res_for);
+		}
 		if($res_edu =& $this->__performEducationalSearch())
 		{
 			$this->__storeEntries($res,$res_edu);
+		}
+		if($res_typ =& $this->__performTypicalAgeRangeSearch())
+		{
+			$this->__storeEntries($res,$res_typ);
 		}
 		if($res_rig =& $this->__performRightsSearch())
 		{
@@ -204,7 +210,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TIL",$this->lng->txt('until'));
 		
 		$this->tpl->setVariable("SEL_FORMAT",
-								ilMDUtilSelect::_getFormatSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getFormatSelect($this->options['format'],
+																 'search_adv[format]',
+																 array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("SEL_OS",
 								ilMDUtilSelect::_getOperatingSystemSelect($this->options['os'],
 																		  'search_adv[os]',
@@ -409,6 +417,20 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		return $res;
 	}
+	function &__performFormatSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('format');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
 	function &__performEducationalSearch()
 	{
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -418,6 +440,20 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
 		$meta_search->setFilter($this->filter);
 		$meta_search->setMode('educational');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+	function &__performTypicalAgeRangeSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('typical_age_range');
 		$meta_search->setOptions($this->options);
 		$res =& $meta_search->performSearch();
 

@@ -211,7 +211,7 @@ class ilMDUtilSelect
 		}
 
 
-		$query = "SELECT DISTINCT(format) as forma from il_meta_format ORDER BY format";
+		$query = "SELECT DISTINCT(format) as forma from il_meta_format ORDER BY format LIMIT 200";
 		$res = $ilDB->query($query);
 		if(!$res->numRows())
 		{
@@ -221,7 +221,7 @@ class ilMDUtilSelect
 		{
 			if(strlen($row->forma))
 			{
-				$options[$row->forma] = substr($row->forma,0,24);
+				$options[$row->forma] = substr($row->forma,0,48);
 			}
 		}
 		
