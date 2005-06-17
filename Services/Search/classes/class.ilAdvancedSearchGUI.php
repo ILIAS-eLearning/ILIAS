@@ -102,6 +102,30 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		$res =& new ilSearchResult();
 
+		if($res_tit =& $this->__performTitleSearch())
+		{
+			$this->__storeEntries($res,$res_tit);
+		}
+		if($res_lan =& $this->__performLanguageSearch())
+		{
+			$this->__storeEntries($res,$res_lan);
+		}
+		if($res_gen =& $this->__performGeneralSearch())
+		{
+			$this->__storeEntries($res,$res_gen);
+		}
+		if($res_lif =& $this->__performLifecycleSearch())
+		{
+			$this->__storeEntries($res,$res_lif);
+		}
+		if($res_con =& $this->__performContributeSearch())
+		{
+			$this->__storeEntries($res,$res_con);
+		}
+		if($res_ent =& $this->__performEntitySearch())
+		{
+			$this->__storeEntries($res,$res_ent);
+		}
 		if($res_req =& $this->__performRequirementSearch())
 		{
 			$this->__storeEntries($res,$res_req);
@@ -170,9 +194,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('search_advanced'));
 
 		// Content
-		$this->tpl->setVariable("TXT_CONTENT",$this->lng->txt('!!!search_content'));
-		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
+		$this->tpl->setVariable("TXT_CONTENT",$this->lng->txt('search_content'));
 		$this->tpl->setVariable("TXT_OR",$this->lng->txt('search_any_word'));
+		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
+
+		if($this->options['content_ao'] == 'and')
+		{
+			$this->tpl->setVariable("CONTENT_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("CONTENT_OR_CHECKED",'checked=checked');
+		}
+		$this->tpl->setVariable("FRM_CONTENT",ilUtil::prepareFormOutput($this->options['content']));
 
 		// Type
 		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt('type'));
@@ -181,24 +215,73 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		// General
 		$this->tpl->setVariable("TXT_GEN",$this->lng->txt('meta_general'));
 		$this->tpl->setVariable("TXT_LAN",$this->lng->txt('language'));
-		$this->tpl->setVariable("SEL_LAN",ilMDUtilSelect::_getLanguageSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+		$this->tpl->setVariable("SEL_LAN",ilMDUtilSelect::_getLanguageSelect($this->options['language'],
+																			 'search_adv[language]'
+																			 ,array(0 => $this->lng->txt('search_any'))));
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('meta_title').'/'.
 								$this->lng->txt('meta_keyword').'/'.
 								$this->lng->txt('meta_description'));
 		$this->tpl->setVariable("TXT_COV",$this->lng->txt('meta_coverage'));
 		$this->tpl->setVariable("TXT_STRUCT",$this->lng->txt('meta_structure'));
-		$this->tpl->setVariable("SEL_STRUCT",ilMDUtilSelect::_getStructureSelect('','md_struct',array(0 => $this->lng->txt('search_any'))));
+		$this->tpl->setVariable("SEL_STRUCT",ilMDUtilSelect::_getStructureSelect($this->options['structure'],
+																				 'search_adv[structure]',
+																				 array(0 => $this->lng->txt('search_any'))));
+		$this->tpl->setVariable("FRM_TITLE",ilUtil::prepareFormOutput($this->options['title'],true));
+		$this->tpl->setVariable("FRM_COVERAGE",ilUtil::prepareFormOutput($this->options['coverage'],true));
+
+		if($this->options['title_ao'] == 'and')
+		{
+			$this->tpl->setVariable("TITLE_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("TITLE_OR_CHECKED",'checked=checked');
+		}
+		if($this->options['coverage_ao'] == 'and')
+		{
+			$this->tpl->setVariable("COVERAGE_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("COVERAGE_OR_CHECKED",'checked=checked');
+		}
+
+		
 
 		// Lifecycle
 		$this->tpl->setVariable("TXT_LIFECYCLE",$this->lng->txt('meta_lifecycle'));
 		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('meta_status'));
 		$this->tpl->setVariable("SEL_STATUS",
-								ilMDUtilSelect::_getStatusSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getStatusSelect($this->options['status'],
+																 'search_adv[status]',
+																 array(0 => $this->lng->txt('search_any'))));
 		$this->tpl->setVariable("TXT_VERSION",$this->lng->txt('meta_version'));
+		$this->tpl->setVariable("FRM_VERSION",ilUtil::prepareFormOutput($this->options['version'],true));
+
 		$this->tpl->setVariable("TXT_CONTRIBUTOR",$this->lng->txt('meta_contributor'));
 		$this->tpl->setVariable("SEL_CONTRIBUTOR",
-								ilMDUtilSelect::_getRoleSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getRoleSelect($this->options['role'],
+															   'search_adv[role]',
+															   array(0 => $this->lng->txt('search_any'))));
+		$this->tpl->setVariable("FRM_ENTITY",ilUtil::prepareFormOutput($this->options['entity'],true));
+
+		if($this->options['entity_ao'] == 'and')
+		{
+			$this->tpl->setVariable("ENTITY_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("ENTITY_OR_CHECKED",'checked=checked');
+		}
+		if($this->options['version_ao'] == 'and')
+		{
+			$this->tpl->setVariable("VERSION_AND_CHECKED",'checked=checked');
+		}
+		else
+		{
+			$this->tpl->setVariable("VERSION_OR_CHECKED",'checked=checked');
+		}
 
 		// Technical
 		$this->tpl->setVariable("TXT_TECHNICAL",$this->lng->txt('meta_technical'));
@@ -402,6 +485,149 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		return true;
 	}
+
+	function &__performTitleSearch()
+	{
+		if(!$this->options['title'])
+		{
+			return false;
+		}
+
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['title']));
+		$query_parser->setCombination($this->options['title_ao']);
+		$query_parser->parse();
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('title_description');
+		$meta_search->setOptions($this->options);
+		$res_tit =& $meta_search->performSearch();
+
+		$meta_search->setMode('keyword_all');
+		$res_key =& $meta_search->performSearch();
+		
+		// merge them
+		$res_tit->mergeEntries($res_key);
+		
+		return $res_tit;
+	}
+
+
+
+	function &__performGeneralSearch()
+	{
+		if(!$this->options['coverage'] and !$this->options['structure'])
+		{
+			return false;
+		}
+
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		if($this->options['coverage'])
+		{
+			$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['coverage']));
+			$query_parser->setCombination($this->options['coverage_ao']);
+			$query_parser->parse();
+		}
+		else
+		{
+			$query_parser = new ilQueryParser('');
+		}
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('general');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+
+	function &__performLifecycleSearch()
+	{
+		// Return if 'any'
+		if(!$this->options['status'] and !$this->options['version'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['version']));
+		$query_parser->setCombination($this->options['version_ao']);
+		$query_parser->parse();
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('lifecycle');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}		
+	function &__performLanguageSearch()
+	{
+		if(!$this->options['language'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('language');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+	function &__performContributeSearch()
+	{
+		if(!strlen($this->options['role']))
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('contribute');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}
+	function &__performEntitySearch()
+	{
+		// Return if 'any'
+		if(!$this->options['entity'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['entity']));
+		$query_parser->setCombination($this->options['entity_ao']);
+		$query_parser->parse();
+
+		$meta_search =& ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+		$meta_search->setFilter($this->filter);
+		$meta_search->setMode('entity');
+		$meta_search->setOptions($this->options);
+		$res =& $meta_search->performSearch();
+
+		return $res;
+	}		
+
 
 	function &__performRequirementSearch()
 	{

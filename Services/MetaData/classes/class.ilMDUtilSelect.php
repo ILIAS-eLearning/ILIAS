@@ -48,14 +48,15 @@ class ilMDUtilSelect
 
 		foreach(ilMDLanguageItem::_getPossibleLanguageCodes() as $code)
 		{
-			$options[$code] = $lng->txt('meta_l_'.$code);
+			$tmp_options[$code] = $lng->txt('meta_l_'.$code);
 		}
-		asort($options,SORT_STRING);
+		asort($tmp_options,SORT_STRING);
 
 		foreach($prepend as $value => $translation)
 		{
 			$options[$value] = $translation;
 		}
+		$options = array_merge($options,$tmp_options);
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 

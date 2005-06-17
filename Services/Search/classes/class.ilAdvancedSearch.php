@@ -103,11 +103,39 @@ class ilAdvancedSearch extends ilAbstractSearch
 				break;
 
 			case 'keyword':
-				return $this->__searchKeyword();
+				return $this->__searchKeyword(true);
 				break;
 
 			case 'format':
 				return $this->__searchFormat();
+				break;
+
+			case 'lifecycle':
+				return $this->__searchLifecycle();
+				break;
+
+			case 'contribute':
+				return $this->__searchContribute();
+				break;
+
+			case 'entity':
+				return $this->__searchEntity();
+				break;
+
+			case 'general':
+				return $this->__searchGeneral();
+				break;
+
+			case 'keyword_all':
+				return $this->__searchKeyword(false);
+				break;
+
+			case 'title_description':
+				return $this->__searchTitleDescription();
+				break;
+
+			case 'language':
+				return $this->__searchLanguage();
 				break;
 
 			default:
@@ -115,6 +143,144 @@ class ilAdvancedSearch extends ilAbstractSearch
 				return false;
 		}
 	}
+
+	function &__searchTitleDescription()
+	{
+		if(!$this->options['title'])
+		{
+			return false;
+		}
+		$this->setFields(array('title','description'));
+
+		$and = ("AND type ".$this->__getInStatement($this->getFilter()));
+		$where = $this->__createTitleDescriptionWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT obj_id,type ".
+			$locate.
+			"FROM object_data ".
+			$where." ".$and.' '.
+			"ORDER BY obj_id DESC";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
+		}
+
+		return $this->search_result;
+	}
+
+	function &__searchGeneral()
+	{
+		if(!$this->options['coverage'] and !$this->options['structure'])
+		{
+			return false;
+		}
+		if($this->options['coverage'])
+		{
+			$this->setFields(array('coverage'));
+			$and = $this->__createCoverageAndCondition();
+			$locate = $this->__createLocateString();
+		}
+		if($this->options['structure'])
+		{
+			$and .= ("AND general_structure = '".ilUtil::prepareDBString($this->options['structure'])."' ");
+		}
+			
+		$query = "SELECT rbac_id,obj_type ".
+			$locate." ".
+			"FROM il_meta_general ".
+			"WHERE obj_type ".$this->__getInStatement($this->getFilter())." ".
+			$and;
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($this->options['coverage'])
+			{
+				$found = $this->__prepareFound($row);
+				if(!in_array(0,$found))
+				{
+					$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+				}
+			}
+			else
+			{
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			}
+		}
+
+		return $this->search_result;
+	}
+
+	function &__searchLanguage()
+	{
+		if(!$this->options['language'])
+		{
+			return false;
+		}
+
+		$query = "SELECT rbac_id,obj_type FROM il_meta_language ".
+			"WHERE language = '".ilUtil::prepareDBString($this->options['language'])."' ".
+			"AND obj_type ".$this->__getInStatement($this->getFilter()).' '.
+			"AND parent_type = 'meta_general'";
+
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
+
+	function &__searchContribute()
+	{
+		if(!$this->options['role'])
+		{
+			return false;
+		}
+
+		$query = "SELECT rbac_id,obj_type FROM il_meta_contribute ".
+			"WHERE role = '".ilUtil::prepareDBString($this->options['role'])."' ".
+			"AND obj_type ".$this->__getInStatement($this->getFilter());
+
+		$res = $this->db->query($query);
+		#var_dump("<pre>",$query,"<pre>");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+		}
+		return $this->search_result;
+	}
+
+	function &__searchEntity()
+	{
+		$this->setFields(array('entity'));
+
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		$where = $this->__createEntityWhereCondition();
+		$locate = $this->__createLocateString();
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_entity ".
+			$where." ".$and.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$found = $this->__prepareFound($row);
+			if(!in_array(0,$found))
+			{
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+			}
+		}
+
+		return $this->search_result;
+	}
+
 
 
 	function &__searchRequirement()
@@ -239,18 +405,58 @@ class ilAdvancedSearch extends ilAbstractSearch
 		return $this->search_result;
 	}
 
-	function &__searchKeyword()
+	function &__searchKeyword($a_in_classification = false)
 	{
 		$this->setFields(array('keyword'));
 
 		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
-		$and .= " AND parent_type = 'meta_classification' ";
+		if($a_in_classification)
+		{
+			$and .= " AND parent_type = 'meta_classification' ";
+		}
 		$where = $this->__createKeywordWhereCondition();
 		$locate = $this->__createLocateString();
 
 		$query = "SELECT rbac_id,obj_type ".
 			$locate.
 			"FROM il_meta_keyword ".
+			$where." ".$and.' ';
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$found = $this->__prepareFound($row);
+			if(!in_array(0,$found) or !$a_in_classification)
+			{
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+			}
+		}
+
+		return $this->search_result;
+	}
+	function &__searchLifecycle()
+	{
+		$this->setFields(array('meta_version'));
+
+		if($this->options['version'])
+		{
+			$where = $this->__createLifecycleWhereCondition();
+			$locate = $this->__createLocateString();
+		}
+		else
+		{
+			$where = "1 ";
+		}
+		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
+		
+		if($this->options['status'])
+		{
+			$and .= (" AND lifecycle_status = '".$this->options['status']."'");
+		}
+
+		$query = "SELECT rbac_id,obj_type ".
+			$locate.
+			"FROM il_meta_lifecycle ".
 			$where." ".$and.' ';
 
 		$res = $this->db->query($query);

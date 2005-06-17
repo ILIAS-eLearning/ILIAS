@@ -10,13 +10,13 @@
 			{TXT_CONTENT}
 		  </td>
 		  <td class="option_value" >
-			<input type="TEXT" name="search[string]" value="{FRM_CONT}" size="30"/>
+			<input type="TEXT" name="search_adv[content]" disabled=disabled value="{FRM_CONT}" size="30"/>
 		  </td>
 		  <td align="center" class="option_value">
-			<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED}>{TXT_OR}</input>
+			<input type="RADIO" name="search_adv[content]" value="or" {CONTENT_OR_CHECKED}>{TXT_OR}</input>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}</input>
+			<input type="RADIO" name="search_adv[content]" value="and" {CONTENT_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="std">
@@ -38,20 +38,33 @@
 			{SEL_LAN}
 		  </td>
 		</tr>
+<!-- GENERAL -->
 		<tr class="std">
 		  <td class="option">
 			{TXT_TITLE}
 		  </td>
-		  <td class="option_value" colspan="3">
-			<input type="TEXT" name="search[string]" value="{FRM_TIT}" size="30"/>
+		  <td class="option_value" colspan="1">
+			<input type="TEXT" name="search_adv[title]" value="{FRM_TITLE}" size="30"/>
+		  </td>
+		  <td align="center" class="option_value">
+			<input type="RADIO" name="search_adv[title_ao]" value="or" {TITLE_OR_CHECKED}>{TXT_OR}</input>
+		  </td>
+		  <td align="center" class="option_value" >
+			<input type="RADIO" name="search_adv[title_ao]" value="and" {TITLE_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="std">
 		  <td class="option">
 			{TXT_COV}
 		  </td>
-		  <td class="option_value" colspan="3">
-			<input type="TEXT" name="search[string]" value="{FRM_COV}" size="30"/>
+		  <td class="option_value" colspan="1">
+			<input type="TEXT" name="search_adv[coverage]" value="{FRM_COVERAGE}" size="30"/>
+		  </td>
+		  <td align="center" class="option_value">
+			<input type="RADIO" name="search_adv[coverage_ao]" value="or" {COVERAGE_OR_CHECKED}>{TXT_OR}</input>
+		  </td>
+		  <td align="center" class="option_value" >
+			<input type="RADIO" name="search_adv[coverage_ao]" value="and" {COVERAGE_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="std">
@@ -62,6 +75,7 @@
 			{SEL_STRUCT}
 		  </td>
 		</tr>
+<!-- LIFECYCLE -->
 		<tr class="tblheader">
 		  <td class="std" colspan="4">{TXT_LIFECYCLE}</td>
 		</tr>
@@ -78,13 +92,13 @@
 			{TXT_VERSION}
 		  </td>
 		  <td class="option_value" >
-			<input type="TEXT" name="search[string]" value="{FRM_VERSION}" size="30"/>
+			<input type="TEXT" name="search_adv[version]" value="{FRM_VERSION}" size="30"/>
 		  </td>
 		  <td align="center" class="option_value">
-			<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED}>{TXT_OR}</input>
+			<input type="RADIO" name="search_adv[version_ao]" value="or" {VERSION_OR_CHECKED}>{TXT_OR}</input>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}</input>
+			<input type="RADIO" name="search_adv[version_ao]" value="and" {VERSION_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 		<tr class="std">
@@ -92,13 +106,13 @@
 			{TXT_CONTRIBUTOR}
 		  </td>
 		  <td class="option_value" >
-			{SEL_CONTRIBUTOR}&nbsp;<input type="TEXT" name="search[string]" value="{FRM_CONTR}" size="30"/>
+			{SEL_CONTRIBUTOR}&nbsp;<input type="TEXT" name="search_adv[entity]" value="{FRM_ENTITY}" size="30"/>
 		  </td>
 		  <td align="center" class="option_value">
-			<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED}>{TXT_OR}</input>
+			<input type="RADIO" name="search_adv[entity_ao]" value="or" {ENTITY_OR_CHECKED}>{TXT_OR}</input>
 		  </td>
 		  <td align="center" class="option_value" >
-			<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}</input>
+			<input type="RADIO" name="search_adv[entity_ao]" value="and" {ENTITY_AND_CHECKED}>{TXT_AND}</input>
 		  </td>
 		</tr>
 <!-- TECHNICAL -->
