@@ -291,8 +291,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
 		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
-		// here we have to work with the new QTI parser
-/*		include_once "./assessment/classes/class.ilQTIParser.php";
+/*		// here we have to work with the new QTI parser
+		include_once "./assessment/classes/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file);
 		$result = $qtiParser->startParsing();
 
@@ -305,104 +305,214 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				echo "<hr />";
 				echo "item $key<br />";
-				foreach ($value->getPresentation()->response as $responsekey => $response)
+//				echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value, true)));
+				$qt = $value->determineQuestionType();
+				switch ($qt)
 				{
-					switch ($response->determineQuestionType())
-					{
-						case 6: // Imagemap
-							echo "Imagemap question<br />";
-							echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
-							echo "title: " . $value->getTitle() . "<br />";
-							$matcount = count($value->getPresentation()->material);
-							echo "material count = " . $matcount . "<br />";
-							foreach ($value->getPresentation()->material as $material)
+					case 4: // matching question
+						echo "Matching question<br />";
+						echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+						echo "title: " . $value->getTitle() . "<br />";
+						foreach ($value->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
 							{
-								if (count($material->mattext))
-								{
-									foreach ($material->mattext as $mattext)
+								case "material":
+									$material = $value->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
 									{
-										echo "question: " . $mattext->getContent() . "<br />";
-									}
-								}
-							}
-							switch (get_class($response->getRenderType()))
-							{
-								case "ilQTIRenderHotspot":
-									foreach ($response->getRenderType()->material as $mat)
-									{
-										foreach ($mat->matimage as $matimage)
+										foreach ($material->mattext as $mattext)
 										{
-											echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
-										}
-									}
-									foreach ($response->getRenderType()->response_labels as $response_label)
-									{
-										echo "answer " . $response_label->getIdent() . ": ";
-										echo "type " . $response_label->getRarea() . " (" . $response_label->getContent() . "), ";
-										foreach ($response_label->material as $mat)
-										{
-											foreach ($mat->mattext as $matt)
-											{
-												echo $matt->getContent() . "<br />";
-											}
+											echo "question: " . $mattext->getContent() . "<br />";
 										}
 									}
 									break;
-							}
-							break;
-							break;
-						case 1: // Multiple Choice Single Response
-						case 2: // Multiple Choice Multiple Response
-						case 5: // Ordering
-							if ($response->determineQuestionType() == 1)
-							{
-								echo "Multiple Choice Single Response<br />";
-							}
-							else if ($response->determineQuestionType() == 2)
-							{
-								echo "Multiple Choice Multiple Response<br />";
-							}
-							else
-							{
-								echo "Ordering Question<br />";
-							}
-							echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
-							echo "title: " . $value->getTitle() . "<br />";
-							$matcount = count($value->getPresentation()->material);
-							echo "material count = " . $matcount . "<br />";
-							foreach ($value->getPresentation()->material as $material)
-							{
-								if (count($material->mattext))
-								{
-									foreach ($material->mattext as $mattext)
+								case "response":
+									$response = $value->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
 									{
-										echo "question: " . $mattext->getContent() . "<br />";
-									}
-								}
-							}
-							switch (get_class($response->getRenderType()))
-							{
-								case "ilQTIRenderChoice":
-									echo "shuffle: " . $response->getRenderType()->getShuffle() . "<br />";
-									foreach ($response->getRenderType()->response_labels as $response_label)
-									{
-										echo "answer " . $response_label->getIdent() . ": ";
-										foreach ($response_label->material as $mat)
-										{
-											foreach ($mat->mattext as $matt)
+										case "ilQTIRenderChoice":
+											echo "shuffle: " . $response->getRenderType()->getShuffle() . "<br />";
+											foreach ($response->getRenderType()->response_labels as $response_label)
 											{
-												echo $matt->getContent() . "<br />";
+												echo "answer " . $response_label->getIdent() . ", match max: " . $response_label->getMatchMax() . ", match group: " . $response_label->getMatchGroup() . ": ";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														echo $matt->getContent() . "<br />";
+													}
+													foreach ($mat->matimage as $matimage)
+													{
+														echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+													}
+												}
 											}
-											foreach ($mat->matimage as $matimage)
-											{
-												echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
-											}
-										}
+											break;
 									}
 									break;
 							}
-							break;
-					}
+						}
+						break;
+					case 3: // cloze question
+						echo "Cloze question<br />";
+						echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+						echo "title: " . $value->getTitle() . "<br />";
+//							echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value->getPresentation(), true)));exit;
+						foreach ($value->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $value->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											echo "question: " . $mattext->getContent() . "<br />";
+										}
+									}
+									break;
+								case "response":
+									$response = $value->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderFib":
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												echo "answer " . $response_label->getIdent() . ": ";
+												echo "type = " . $response->getRenderType()->getFibtype() . ", prompt = " . $response->getRenderType()->getPrompt() . "<br />";
+											}
+											break;
+										case "ilQTIRenderChoice":
+											echo "shuffle: " . $response->getRenderType()->getShuffle() . "<br />";
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												echo "answer " . $response_label->getIdent() . ": ";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														echo $matt->getContent() . "<br />";
+													}
+													foreach ($mat->matimage as $matimage)
+													{
+														echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+													}
+												}
+											}
+											break;
+									}
+									break;
+							}
+						}
+						break;
+					case 6: // Imagemap
+						echo "Imagemap question<br />";
+						echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+						echo "title: " . $value->getTitle() . "<br />";
+//				echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value, true)));
+						foreach ($value->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $value->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											echo "question: " . $mattext->getContent() . "<br />";
+										}
+									}
+									break;
+								case "response":
+									$response = $value->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderHotspot":
+											foreach ($response->getRenderType()->material as $mat)
+											{
+												foreach ($mat->matimage as $matimage)
+												{
+													echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+												}
+											}
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												echo "answer " . $response_label->getIdent() . ": ";
+												echo "type " . $response_label->getRarea() . " (" . $response_label->getContent() . "), ";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														echo $matt->getContent() . "<br />";
+													}
+												}
+											}
+											break;
+									}
+							}
+						}
+						break;
+					case 1: // Multiple Choice Single Response
+					case 2: // Multiple Choice Multiple Response
+					case 5: // Ordering
+						if ($qt == 1)
+						{
+							echo "Multiple Choice Single Response<br />";
+						}
+						else if ($qt == 2)
+						{
+							echo "Multiple Choice Multiple Response<br />";
+						}
+						else
+						{
+							echo "Ordering Question<br />";
+						}
+						echo "duration: " . print_r($value->getDuration(), true) . "<br/>";
+						echo "title: " . $value->getTitle() . "<br />";
+						foreach ($value->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $value->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											echo "question: " . $mattext->getContent() . "<br />";
+										}
+									}
+									break;
+								case "response":
+									$response = $value->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderChoice":
+											echo "shuffle: " . $response->getRenderType()->getShuffle() . "<br />";
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												echo "answer " . $response_label->getIdent() . ": ";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														echo $matt->getContent() . "<br />";
+													}
+													foreach ($mat->matimage as $matimage)
+													{
+														echo "image " . $matimage->getImageType() . "(" . $matimage->getLabel() . ")" . "<br />";
+													}
+												}
+											}
+											break;
+									}
+									break;
+							}
+						}
+						break;
 				}
 				foreach ($value->resprocessing as $resprocessing)
 				{
@@ -420,16 +530,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						{
 							echo "&nbsp;&nbsp;respident = " . $varinside->getRespident() . ", " . $varinside->getAreatype() . " inside " . $varinside->getContent() . "<br />";
 						}
+						foreach ($conditionvar->varsubset as $varsubset)
+						{
+							echo "&nbsp;&nbsp;respident = " . $varsubset->getRespident() . ", " . $varsubset->getContent() . "<br />";
+						}
 						foreach ($respcondition->setvar as $setvar)
 						{
 							echo "setvar: action = " . $setvar->getAction() . ", value = " . $setvar->getContent() . "<br />";
 						}
 					}
 				}
-//				echo str_replace(" ", "&nbsp;", str_replace("\n", "<br />", print_r($value, true))); 
-				//echo $value->getTitle() . "<br />";
-				//echo "rcardinality: " . $value->presentation->response[0]->rcardinality . "<br />";
-				//echo "question type: " . $value->presentation->response[0]->determineQuestionType() . "<br />";
 			}
 			exit;
 			sendInfo($this->lng->txt("import_errors_qti"), TRUE);

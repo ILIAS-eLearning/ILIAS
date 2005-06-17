@@ -546,6 +546,46 @@ class ilQTIParser extends ilSaxParser
 					}
 				}
 				break;
+			case "render_fib":
+				if ($this->in_response)
+				{
+					include_once("./assessment/classes/class.ilQTIRenderFib.php");
+					$this->render_type = new ilQTIRenderFib();
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "encoding":
+								$this->render_type->setEncoding($value);
+								break;
+							case "fibtype":
+								$this->render_type->setFibtype($value);
+								break;
+							case "rows":
+								$this->render_type->setRows($value);
+								break;
+							case "maxchars":
+								$this->render_type->setMaxchars($value);
+								break;
+							case "prompt":
+								$this->render_type->setPrompt($value);
+								break;
+							case "columns":
+								$this->render_type->setColumns($value);
+								break;
+							case "charset":
+								$this->render_type->setCharset($value);
+								break;
+							case "maxnumber":
+								$this->render_type->setMaxnumber($value);
+								break;
+							case "minnumber":
+								$this->render_type->setMinnumber($value);
+								break;
+						}
+					}
+				}
+				break;
 			case "response_lid":
 				// Ordering Terms and Definitions    or
 				// Ordering Terms and Pictures       or
@@ -579,7 +619,6 @@ class ilQTIParser extends ilSaxParser
 				}
 				$this->in_response = TRUE;
 				include_once("./assessment/classes/class.ilQTIResponse.php");
-				echo "add response with type $response_type<br />";
 				$this->response = new ilQTIResponse($response_type);
 				$this->response->setFlow($this->flow);
 				if (is_array($a_attribs))
@@ -752,7 +791,6 @@ class ilQTIParser extends ilSaxParser
 				{
 					if ($this->item != NULL)
 					{
-						echo "set presentation for item<br />";
 						$this->item->setPresentation($this->presentation);
 					}
 				}
@@ -767,6 +805,7 @@ class ilQTIParser extends ilSaxParser
 				break;
 			case "render_choice":
 			case "render_hotspot":
+			case "render_fib":
 				if ($this->in_response)
 				{
 					if ($this->response != NULL)
@@ -788,7 +827,6 @@ class ilQTIParser extends ilSaxParser
 				{
 					if ($this->response != NULL)
 					{
-						echo "add response to presentation<br />";
 						$this->presentation->addResponse($this->response);
 						if ($this->item != NULL)
 						{
@@ -810,17 +848,14 @@ class ilQTIParser extends ilSaxParser
 				else if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
 				{
 					$this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
-					echo "add material to flow_mat<br />";
 				}
 				else if ($this->itemfeedback != NULL)
 				{
 					$this->itemfeedback->addMaterial($this->material);
-					echo "add material to itemfeedback<br />";
 				}
 				else if ($this->response_label != NULL)
 				{
 					$this->response_label->addMaterial($this->material);
-					echo "add material to reponse_label<br />";
 				}
 				else if ($this->response != NULL)
 				{
@@ -832,12 +867,10 @@ class ilQTIParser extends ilSaxParser
 					{
 						$this->response->setMaterial1($this->material);
 					}
-					echo "add material to reponse<br />";
 				}
 				else if ($this->presentation != NULL)
 				{
 					$this->presentation->addMaterial($this->material);
-					echo "add material to presentation<br />";
 					if ($this->item != NULL)
 					{
 						$this->item->addPresentationitem($this->material);
