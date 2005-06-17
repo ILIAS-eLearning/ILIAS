@@ -5503,7 +5503,7 @@ class ilObjTest extends ilObject
 * @return array The user id's of the invited users
 * @access public
 */
-	function &getInvitedUsers($user_id="", $order="lastname, firstname")
+	function &getInvitedUsers($user_id="", $order="login, lastname, firstname")
 	{
 		$result_array = array();
 
@@ -5548,7 +5548,7 @@ class ilObjTest extends ilObject
 			
 		$result_array = array();
 			
-		$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ",			
+		$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
 			join ($ids,",")
 		);
 				
@@ -5859,8 +5859,8 @@ class ilObjTest extends ilObject
 			else
 			{
 				$percentvalue = 0;
-			}
-			$mark_obj = $this->mark_schema->get_matching_mark($percentvalue);
+			}			
+			$mark_obj = $this->mark_schema->get_matching_mark($percentvalue * 100);
 			$passed = "";	
 			if ($mark_obj)
 			{
