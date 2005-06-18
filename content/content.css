@@ -11,6 +11,17 @@ div.ilc_PageTitle
 	border-color: #000000;
 }
 
+div.ilc_BacklinkTitle
+{
+	margin-top: 20px;
+	margin-bottom: 10x;
+	font-size: 14px;
+	font-style: italic;
+	padding-top: 3px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #000000;
+}
 
 span.ilc_Strong
 {

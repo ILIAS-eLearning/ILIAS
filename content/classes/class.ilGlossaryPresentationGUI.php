@@ -382,7 +382,33 @@ class ilGlossaryPresentationGUI
 		}
 		//$this->tpl->setCurrentBlock("def_list");
 		//$this->tpl->parseCurrentBlock();
-
+		
+		// display possible backlinks
+		$sources = ilInternalLink::_getSourcesOfTarget('git',$_GET['term_id'],0);
+		
+		if ($sources)
+		{
+			$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
+			
+			foreach ($sources as $src)
+			{
+				$type = explode(':',$src['type']);
+				
+				if ($type[0] == 'lm')
+				{
+					if ($type[1] == 'pg')
+					{
+						$title = ilLMPageObject::_getPresentationTitle($src['id']);
+						$lm_id = ilLMObject::_lookupContObjID($src['id']);
+						$lm_title = ilObject::_lookupTitle($lm_id);
+						$this->tpl->setCurrentBlock('backlink_item');
+						$this->tpl->setVariable("BACKLINK_LINK",ILIAS_HTTP_PATH."/goto.php?target=".$type[1]."_".$src['id']);
+						$this->tpl->setVariable("BACKLINK_ITEM",$lm_title.": ".$title);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -529,7 +555,7 @@ class ilGlossaryPresentationGUI
 	function downloadFile()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		require_once("classes/class.ilObjFile.php");
+		include_once("classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
@@ -629,7 +655,7 @@ class ilGlossaryPresentationGUI
 	}
 	
 	function download_paragraph () {
-		require_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject("gdf", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 	}
