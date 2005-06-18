@@ -60,6 +60,11 @@ if (file_exists($start_template))
 {
 	$tpl = new ilTemplate("tpl.start.html", true, true);
 
+	if ($_POST['change_lang_to'] != "")
+	{
+		$tpl->setVariable("RELOAD","<script language=\"javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
+	}
+
 	$tpl->setVariable("SCRIPT", $start_script);
 	$tpl->show();
 }

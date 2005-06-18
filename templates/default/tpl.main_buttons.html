@@ -104,17 +104,28 @@ if (document.images)
 		</table>
 	</td>
 	<!-- BEGIN userisanonymous -->
+	<form nowrap="nowrap" name="languageselection" action="{LANG_FORM_ACTION}" method="post">
 	<td align="right" nowrap="nowrap">
 	<div class="ilLogin">
 	<span class="il_menu">{TXT_NOT_LOGGED_IN}!</span>
-	<br/>
 	<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a>
 	<!-- BEGIN registration_link -->
 	<span class="il_menu">&nbsp;|&nbsp;</span>
 	<a href="{LINK_REGISTER}" target="bottom">{TXT_REGISTER}</a>
 	<!-- END registration_link -->
+	<br/>
+	
+	<select name="change_lang_to" onChange="this.form.submit()"> 
+	<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+	<!-- BEGIN languages -->
+	<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+	<!-- END languages -->
+	</select>
+	<input class="submit" type="submit" value="{TXT_OK}"/>
+
 	</div>
 	</td>
+	</form>	
 	<!-- END userisanonymous -->
 	<!-- BEGIN userisloggedin -->
 	<td align="right" nowrap="nowrap">

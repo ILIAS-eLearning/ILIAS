@@ -155,6 +155,21 @@ class ilMainMenuGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			$languages = $lng->getInstalledLanguages();
+			
+			foreach ($languages as $lang_key)
+			{
+				$this->tpl->setCurrentBlock("languages");
+				$this->tpl->setVariable("LANG_KEY", $lang_key);
+				$this->tpl->setVariable("LANG_NAME",
+					ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
+			$this->tpl->setVariable("LANG_FORM_ACTION", "start.php");
+			$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+
 			$this->tpl->setCurrentBlock("userisanonymous");
 			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("login"));

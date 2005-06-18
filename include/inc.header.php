@@ -323,6 +323,11 @@ if (is_null($_SESSION['lang']))
 	$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->getPref("language");
 }
 
+if ($_POST['change_lang_to'] != "")
+{
+	$_GET['lang'] = $_POST['change_lang_to'];
+}
+
 $_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
 
 // prefer personal setting when coming from login screen 
