@@ -2725,6 +2725,7 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#PLZ
+content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export

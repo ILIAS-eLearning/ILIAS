@@ -25,10 +25,10 @@
 /**
 * Class ilObjContentObject
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
 *
-* $Id$
+* @version $Id$
 *
 * @extends ilObject
 * @package ilias-core

@@ -41,6 +41,7 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 common#:#info_access_permissions#:#Access permissions
+content#:#glo_term_used_in#:#The following resources linking to that term
 common#:#info_available_roles#:#Available roles
 common#:#info_access_and_status_info#:#Access- and Statusinformation
 common#:#info_status_info#:#Statusinformation
