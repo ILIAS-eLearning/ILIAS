@@ -421,7 +421,23 @@ class ASS_ClozeTest extends ASS_Question
     }
 		parent::loadFromDb($question_id);
   }
-
+	
+	/**
+	* Adds an answer to the question
+	*
+	* Adds an answer to the question
+	*
+	* @access public
+	*/
+	function addAnswer($gap, $answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id = -1)
+	{
+		if (!is_array($this->gaps[$gap]))
+		{
+			$this->gaps[$gap] = array();
+		}
+		array_push($this->gaps[$gap], new ASS_AnswerCloze($answertext, $points, $answerorder, $correctness, $clozetype, $name, $shuffle, $answer_id));
+	}
+	
 /**
 * Duplicates an ASS_ClozeTest
 *

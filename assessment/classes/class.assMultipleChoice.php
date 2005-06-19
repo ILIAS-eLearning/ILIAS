@@ -740,6 +740,18 @@ class ASS_MultipleChoice extends ASS_Question
 	}
 
 	/**
+	* Adds an answer to the question
+	*
+	* Adds an answer to the question
+	*
+	* @access public
+	*/
+	function addAnswer($answertext, $points, $answerorder, $correctness)
+	{
+		array_push($this->answers, new ASS_AnswerBinaryState($answertext, $points, $answerorder, $correctness));
+	}
+	
+	/**
 	* Duplicates an ASS_MultipleChoiceQuestion
 	*
 	* Duplicates an ASS_MultipleChoiceQuestion

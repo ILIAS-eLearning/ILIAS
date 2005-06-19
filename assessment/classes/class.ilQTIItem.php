@@ -59,6 +59,7 @@ class ilQTIItem
 	var $itemfeedback;
 	var $presentation;
 	var $presentationitem;
+	var $suggested_solutions;
 	
 	function ilQTIItem()
 	{
@@ -67,6 +68,7 @@ class ilQTIItem
 		$this->itemfeedback = array();
 		$this->presentation = NULL;
 		$this->presentationitem = array();
+		$this->suggested_solutions = array();
 	}
 	
 	function setIdent($a_ident)
@@ -94,7 +96,7 @@ class ilQTIItem
 		if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches))
 		{
 			// special comments written by ILIAS
-			switch ($matches)
+			switch ($matches[1])
 			{
 				case "ILIAS Version":
 					$this->ilias_version = $matches[2];
@@ -111,6 +113,11 @@ class ilQTIItem
 			}
 		}
 		$this->comment = $a_comment;
+	}
+	
+	function getComment()
+	{
+		return $this->comment;
 	}
 	
 	function setDuration($a_duration)
@@ -215,7 +222,7 @@ class ilQTIItem
 			switch ($entry["type"])
 			{
 				case "response":
-					$response = $this->presentation->response[$entry[index]];
+					$response = $this->presentation->response[$entry["index"]];
 					switch ($response->getResponsetype())
 					{
 						case RT_RESPONSE_LID:
@@ -247,6 +254,21 @@ class ilQTIItem
 			}
 		}
 		return QT_UNKNOWN;
+	}
+	
+	function setAuthor($a_author)
+	{
+		$this->author = $a_author;
+	}
+	
+	function getAuthor()
+	{
+		return $this->author;
+	}
+	
+	function addSuggestedSolution($a_solution)
+	{
+		array_push($this->suggested_solutions, $a_solution);
 	}
 }
 ?>
