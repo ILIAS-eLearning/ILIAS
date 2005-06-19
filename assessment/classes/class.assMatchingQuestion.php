@@ -775,6 +775,19 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
+	* Adds an answer to the question
+	*
+	* Adds an answer to the question
+	*
+	* @access public
+	*/
+	function addMatchingPair($answertext, $points, $answerorder, $matchingtext, $matchingorder)
+	{
+		array_push($this->matchingpairs, new ASS_AnswerMatching($answertext, $points, $answerorder, $matchingtext, $matchingorder));
+	}
+	
+	
+	/**
 	* Duplicates an ASS_MatchingQuestion
 	*
 	* Duplicates an ASS_MatchingQuestion

@@ -31,6 +31,7 @@
 */
 class ilQTIMaterial
 {
+	var $label;
 	var $flow;
 	var $comment;
 	var $mattext;
@@ -124,6 +125,16 @@ class ilQTIMaterial
 	function getFlow()
 	{
 		return $this->flow;
+	}
+	
+	function setLabel($a_label)
+	{
+		$this->label = $a_label;
+	}
+	
+	function getLabel()
+	{
+		return $this->label;
 	}
 }
 ?>

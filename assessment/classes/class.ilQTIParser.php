@@ -187,6 +187,24 @@ class ilQTIParser extends ilSaxParser
 				include_once ("./assessment/classes/class.ilQTIConditionvar.php");
 				$this->conditionvar = new ilQTIConditionvar();
 				break;
+			case "not":
+				if ($this->conditionvar != NULL)
+				{
+					$this->conditionvar->addNot();
+				}
+				break;
+			case "and":
+				if ($this->conditionvar != NULL)
+				{
+					$this->conditionvar->addAnd();
+				}
+				break;
+			case "or":
+				if ($this->conditionvar != NULL)
+				{
+					$this->conditionvar->addOr();
+				}
+				break;
 			case "varequal":
 				include_once("./assessment/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
@@ -838,10 +856,485 @@ class ilQTIParser extends ilSaxParser
 				$this->in_response = FALSE;
 				break;
 			case "item":
-				//$this->item = NULL;
+				global $ilDB;
+				global $ilUser;
+				// save the item directly to save memory
+				// the database id's of the created items are exported. if the import fails
+				// ILIAS can delete the already imported items
+				
+				// problems: the object id of the parent questionpool is not yet known. must be set later
+				//           the complete flag must be calculated?
+				$qt = $this->item->determineQuestionType();
+				$questionpool_id = 99999;
+				switch ($qt)
+				{
+					case QT_UNKNOWN:
+						// houston we have a problem
+						break;
+					case QT_MULTIPLE_CHOICE_SR:
+					case QT_MULTIPLE_CHOICE_MR:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$shuffle = 0;
+						$now = getdate();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$answers = array();
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderChoice":
+											$shuffle = $response->getRenderType()->getShuffle();
+											$answerorder = 0;
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												$ident = $response_label->getIdent();
+												$answertext = "";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														$answertext .= $matt->getContent();
+													}
+												}
+												$answers[$ident] = array(
+													"answertext" => $answertext,
+													"points" => 0,
+													"answerorder" => $answerorder++,
+													"correctness" => "",
+													"action" => ""
+												);
+											}
+											break;
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$ident = "";
+								$correctness = 1;
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "arr_not":
+											$correctness = 0;
+											break;
+										case "varequal":
+											$ident = $conditionvar->varequal[$order["index"]]->getContent();
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									if (strcmp($ident, "") != 0)
+									{
+										$answers[$ident]["correctness"] = $correctness;
+										$answers[$ident]["action"] = $setvar->getAction();
+										$answers[$ident]["points"] = $setvar->getContent();
+									}
+								}
+							}
+						}
+						include_once ("./assessment/classes/class.assMultipleChoice.php");
+						$type = 1;
+						if ($qt == QT_MULTIPLE_CHOICE_SR)
+						{
+							$type = 0;
+						}
+						$question = new ASS_MultipleChoice(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							join($questiontext, ""),
+							$type
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->setShuffle($shuffle);
+						foreach ($answers as $answer)
+						{
+							$question->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["correctness"]);
+						}
+						$question->saveToDb();
+						break;
+					case QT_CLOZE:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$shuffle = 0;
+						$now = getdate();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$gaps = array();
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									array_push($questiontext, "<<" . $response->getIdent() . ">>");
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderFib":
+											array_push($gaps, array("ident" => $response->getIdent(), "type" => "text", "answers" => array()));
+											break;
+										case "ilQTIRenderChoice":
+											$answers = array();
+											$shuffle = $response->getRenderType()->getShuffle();
+											$answerorder = 0;
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												$ident = $response_label->getIdent();
+												$answertext = "";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														$answertext .= $matt->getContent();
+													}
+												}
+												$answers[$ident] = array(
+													"answertext" => $answertext,
+													"points" => 0,
+													"answerorder" => $answerorder++,
+													"action" => "",
+													"shuffle" => $response->getRenderType()->getShuffle()
+												);
+											}
+											array_push($gaps, array("ident" => $response->getIdent(), "type" => "choice", "shuffle" => $response->getRenderType()->getShuffle(), "answers" => $answers));
+											break;
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$ident = "";
+								$correctness = 1;
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "varequal":
+											$equals = $conditionvar->varequal[$order["index"]]->getContent();
+											$gapident = $conditionvar->varequal[$order["index"]]->getRespident();
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									if (strcmp($gapident, "") != 0)
+									{
+										foreach ($gaps as $gi => $g)
+										{
+											if (strcmp($g["ident"], $gapident) == 0)
+											{
+												if (strcmp($g["type"], "choice") == 0)
+												{
+													foreach ($gaps[$gi]["answers"] as $ai => $answer)
+													{
+														if (strcmp($answer["answertext"], $equals) == 0)
+														{
+															$gaps[$gi]["answers"][$ai]["action"] = $setvar->getAction();
+															$gaps[$gi]["answers"][$ai]["points"] = $setvar->getContent();
+														}
+													}
+												}
+												else if (strcmp($g["type"], "text") == 0)
+												{
+													array_push($gaps[$gi]["answers"], array(
+														"answertext" => $equals,
+														"points" => $setvar->getContent(),
+														"answerorder" => count($gaps[$gi]["answers"]),
+														"action" => $setvar->getAction(),
+														"shuffle" => 1
+													));
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						include_once ("./assessment/classes/class.assClozeTest.php");
+						$question = new ASS_ClozeTest(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$gaptext = array();
+						foreach ($gaps as $gapidx => $gap)
+						{
+							$gapcontent = array();
+							$type = 0;
+							$typetext = "text";
+							$shuffletext = "";
+							if (strcmp($gap["type"], "choice") == 0)
+							{
+								$type = 1;
+								$typetext = "select";
+								if ($gap["shuffle"] == 0)
+								{
+									$shuffletext = "  shuffle=\"no\"";
+								}
+								else
+								{
+									$shuffletext = "  shuffle=\"yes\"";
+								}
+							}
+							foreach ($gap["answers"] as $index => $answer)
+							{
+								$question->addAnswer($gapidx, $answer["answertext"], $answer["points"], $answer["answerorder"], 1, $type, $gap["ident"], $answer["shuffle"]);
+								array_push($gapcontent, $answer["answertext"]);
+							}
+							$gaptext[$gap["ident"]] = "<gap type=\"$typetext\" name=\"" . $gap["ident"] . "\"$shuffletext>" . join(",", $gapcontent). "</gap>";
+						}
+						$clozetext = join("", $questiontext);
+						foreach ($gaptext as $idx => $val)
+						{
+							$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
+						}
+						$question->cloze_text = $clozetext;
+						$question->saveToDb();
+						break;
+					case QT_MATCHING:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$shuffle = 0;
+						$now = getdate();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$terms = array();
+						$matches = array();
+						$foundimage = FALSE;
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderChoice":
+											$shuffle = $response->getRenderType()->getShuffle();
+											$answerorder = 0;
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												$ident = $response_label->getIdent();
+												$answertext = "";
+												$answerimage = array();
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														$answertext .= $matt->getContent();
+													}
+													foreach ($mat->matimage as $matimage)
+													{
+														$foundimage = TRUE;
+														$answerimage = array(
+															"imagetype" => $matimage->getImageType(),
+															"label" => $matimage->getLabel(),
+															"content" => $matimage->getContent()
+														);
+													}
+												}
+												if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup())))
+												{
+													$terms[$ident] = array(
+														"answertext" => $answertext,
+														"answerimage" => $answerimage,
+														"points" => 0,
+														"answerorder" => $ident,
+														"action" => ""
+													);
+												}
+												else
+												{
+													$matches[$ident] = array(
+														"answertext" => $answertext,
+														"answerimage" => $answerimage,
+														"points" => 0,
+														"matchingorder" => $ident,
+														"action" => ""
+													);
+												}
+											}
+											break;
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$subset = array();
+								$correctness = 1;
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "varsubset":
+											$subset = split(",", $conditionvar->varsubset[$order["index"]]->getContent());
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									array_push($responses, array("subset" => $subset, "action" => $setvar->getAction(), "points" => $setvar->getContent())); 
+								}
+							}
+						}
+						include_once ("./assessment/classes/class.assMatchingQuestion.php");
+						$type = 1;
+						if ($foundimage)
+						{
+							$type = 0;
+						}
+						$question = new ASS_MatchingQuestion(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							join($questiontext, ""),
+							$type
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->setShuffle($shuffle);
+						foreach ($responses as $response)
+						{
+							$subset = $response["subset"];
+							$term = array();
+							$match = array();
+							foreach ($subset as $ident)
+							{
+								if (array_key_exists($ident, $terms))
+								{
+									$term = $terms[$ident];
+								}
+								if (array_key_exists($ident, $matches))
+								{
+									$match = $matches[$ident];
+								}
+							}
+							if ($type == 0)
+							{
+								$question->addMatchingPair($term["answerimage"]["label"], $response["points"], $term["answerorder"], $match["answertext"], $match["matchingorder"]);
+							}
+							else
+							{
+								$question->addMatchingPair($term["answertext"], $response["points"], $term["answerorder"], $match["answertext"], $match["matchingorder"]);
+							}
+						}
+						$question->saveToDb();
+						foreach ($responses as $response)
+						{
+							$subset = $response["subset"];
+							$term = array();
+							$match = array();
+							foreach ($subset as $ident)
+							{
+								if (array_key_exists($ident, $terms))
+								{
+									$term = $terms[$ident];
+								}
+								if (array_key_exists($ident, $matches))
+								{
+									$match = $matches[$ident];
+								}
+							}
+							if ($type == 0)
+							{
+								$image =& base64_decode($term["answerimage"]["content"]);
+								$imagepath = $question->getImagePath();
+								if (!file_exists($imagepath))
+								{
+									ilUtil::makeDirParents($imagepath);
+								}
+								$imagepath .=  $term["answerimage"]["label"];
+								$fh = fopen($imagepath, "wb");
+								if ($fh == false)
+								{
+//									global $ilErr;
+//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+//									return;
+								}
+								else
+								{
+									$imagefile = fwrite($fh, $image);
+									fclose($fh);
+								}
+								// create thumbnail file
+								$thumbpath = $imagepath . "." . "thumb.jpg";
+								ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+							}
+						}
+						break;
+					case QT_ORDERING:
+						break;
+					case QT_IMAGEMAP:
+						break;
+					case QT_JAVAAPPLET:
+						break;
+					case QT_TEXT:
+						break;
+				}
 				break;
 			case "material":
-				if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
+				if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
+				{
+					$this->item->addSuggestedSolution($this->material->mattext[0]);
+				}
+				else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
 				{
 					$this->render_type->addMaterial($this->material);
 				}
