@@ -141,7 +141,7 @@ assessment#:#circle#:#Rreth
 assessment#:#circle_click_center#:#Ju lutem klikoni në qendër të zonës së dëshiruar.
 assessment#:#circle_click_circle#:#Ju lutem klikoni në kornizën e zonës së dëshiruar.
 assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar <gap></gap> në tekst sipas zgjedhjes së juaj. Shtyp butonin 'Krijo zbrazëtirë' për të shtuar një form të që mund të editohet për çdo zbrazëtirë
-assessment#:#cloze_text#:#Mbyll tekstin
+assessment#:#cloze_text#:#Mbyll tekstin###20 Jun 2005 content changed
 assessment#:#code#:#Kod
 assessment#:#confirm_delete_all_user_data#:#A jeni të sigurt që doni t'i fshini të gjitha shënimet e shfrytëzuesit nga testi?
 assessment#:#confirm_sync_questions#:#Pyetjen që e ndërruat është kopje e krijuar për përdorim në testin aktiv. A doni ta ndërroni edhe origjinalin e pyetjes?
@@ -301,6 +301,8 @@ assessment#:#postpone#:#Shtyj për më vonë pyetjet
 assessment#:#postponed#:#Shtyj për më vone
 assessment#:#preview#:#Pamja
 assessment#:#previous_question_rows#:#<< Pyetjet %d - %d nga %d
+assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
+assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nuk ka vlerësim të pyetjeve në dispozicion për pyetjen e sapo zgjedhur. Kjo pyetje nuk është përdorur asnjëherë në test.
 assessment#:#qpl_assessment_of_questions#:#Vlerësim i pyetjeve
 assessment#:#qpl_assessment_total_of_answers#:#Numri i përgjithshëm i përgjigjeve
@@ -317,7 +319,7 @@ assessment#:#qpl_export_select_none#:#Ju lutem zgjedheni së paku një pyetje p�
 assessment#:#qpl_question_is_in_use#:#Pyetjen që jeni duke e edituar ekziston në %s test(e). Nëse e ndërroni këtë pyetje, nuk do të ndërroni pyetjen/pyetjet në testin/testet, për shkak se sistemi krijon një kopje të pyetjes kur ajo futet në test!
 assessment#:#qpl_questions_deleted#:#Pyetja/pyetjet janë fshirë
 assessment#:#qpl_select_file_for_import#:#Duhet të përzgjedheni një skedar për importim!
-assessment#:#qt_cloze#:#Mbyll Pyetjen
+assessment#:#qt_cloze#:#Mbyll Pyetjen###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#Pyetje me skemë të imazheve
 assessment#:#qt_javaapplet#:#Pyetje Java Applet
 assessment#:#qt_matching#:#Pyetje krahasore
@@ -381,7 +383,6 @@ assessment#:#too_many_empty_parameters#:#Ju lutem të kompletoni parametrat e zb
 assessment#:#true#:#Saktë
 assessment#:#tst_all_user_data_deleted#:#Të gjitha të dhënat e shfrytëzuesve të këtij testi janë fshirë!
 assessment#:#tst_already_taken#:#Këto teste tashmë janë marrë
-assessment#:#tst_anon_eval#:#Rezultate anonime të akumuluara
 assessment#:#tst_browse_for_questions#:#Shfleto për pyetje
 assessment#:#tst_confirm_delete_results#:#Jeni duke fshirë të gjitha rezultatet e pyetjeve të më pashme të këtij testi. Kjo do ti rikthej të gjitha pyetjet në vlerat e paradefinuara. Ju lutem vëni re, se nuk mund të riktheni numrin e tentimeve qe keni bërë për këtë test. A dëshironi në të vërtetë të i riktheni në vlera të paradefinuara të gjitha rezultatet e mëparshme?
 assessment#:#tst_confirm_delete_results_info#:#Rezultatet e mëparshme të pyetjeve janë fshirë. Keni rikthyer  me sukses këtë test në vlera të paradefinuara 
@@ -450,6 +451,9 @@ assessment#:#tst_result_congratulations#:#Urime! Keni kaluar testin.
 assessment#:#tst_result_sorry#:#Me keqardhje, nuk keni kaluar testin.
 assessment#:#tst_results#:#Rezultatet e testit
 assessment#:#tst_resume_test#:#Rivazhdo testin
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Raportimi i rezultateve
 assessment#:#tst_score_reporting_date#:#Data e raportimit të rezultateve
 assessment#:#tst_score_type#:#Mënyra e raportimit të rezultateve
@@ -465,6 +469,7 @@ assessment#:#tst_sequence_properties#:#Karakteristikat e sekuencës
 assessment#:#tst_session_settings#:#Konfigurimet e sesionit
 assessment#:#tst_show_results#:#Shih rezultatet e testit
 assessment#:#tst_start_test#:#Fillo testin
+assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Koha e fillimit
 assessment#:#tst_stat_all_users#:#Të gjithë shfrytëzuesit
 assessment#:#tst_stat_choose_users#:#(përzgjedh një apo më shumë shfrytëzues nga lista e shfrytëzuesve)
@@ -487,7 +492,6 @@ assessment#:#tst_stat_result_timeofwork#:#Kohëzgjatja e përpunimit
 assessment#:#tst_stat_result_total_participants#:#Numri i total i pjesmarrsëve
 assessment#:#tst_stat_selected_users#:#Pjesmarrsit e zgjedhur
 assessment#:#tst_stat_users_intro#:#Shih statistikat vlerësuese për 
-assessment#:#tst_statistical_evaluation#:#Statistika e vlerësimit
 assessment#:#tst_status_completed#:#të përfunduar
 assessment#:#tst_status_completed_more_tries_possible#:#Të përfunduar
 assessment#:#tst_status_missing#:#Ka elemente të nevojshme që mungojnë në këtë test!
@@ -514,7 +518,6 @@ assessment#:#unlock_question#:#Kjo pyetje është duke u përdorur së paku nga 
 assessment#:#upload_imagemap#:#Ngarko një skemë me imazhe
 assessment#:#uploaded_material#:#Materiali i ngarkuar
 assessment#:#warning_question_not_complete#:#Pyetja nuk është komplete!
-assessment#:#warning_test_not_complete#:#Testi nuk është kompletuar!
 assessment#:#when#:#kur
 assessment#:#width#:#Gjerësia
 assessment#:#with_order#:#me radhitje
@@ -585,6 +588,9 @@ chat#:#chat_add_external_ip#:#Ju lutem shtoni IP-n e jashtme të serverit.
 chat#:#chat_add_internal_ip#:#Ju lutem shtoni IP-n e brendshme të serverit.
 chat#:#chat_add_moderator_password#:#Ju lutem vendos parullën e moderatorit
 chat#:#chat_add_port#:#Ju lutem vendos portin e serverit.
+chat#:#chat_add_private_chatroom#:#Add private chatroom###20 Jun 2005 new variable
+chat#:#chat_address#:#Address###20 Jun 2005 new variable
+chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#zezë
@@ -610,6 +616,7 @@ chat#:#chat_insert_message#:#Ju lutem shënoni një mesazh
 chat#:#chat_invitation_body#:#Ftesë në chat nga:
 chat#:#chat_invitation_subject#:#Chat Ftesa
 chat#:#chat_invite_user#:#Fto shfrytëzues
+chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Italic
 chat#:#chat_level_all#:#Gjithë
 chat#:#chat_level_debug#:#Korrigjim
@@ -630,6 +637,7 @@ chat#:#chat_no_write_perm#:#Nuk keni të drejta për të shkruar
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Shfrytëzues (online)
 chat#:#chat_private_message#:#Mesazh Privat
+chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Chat dhomë publike
 chat#:#chat_purple#:#ngjyrë rozë
 chat#:#chat_red#:#e kuqe
@@ -664,6 +672,7 @@ chat#:#chat_type#:#Fonti i pamjes
 chat#:#chat_underlined#:#Nënvizuar
 chat#:#chat_user_dropped#:#Shfrytëzuesi hedhet jashtë
 chat#:#chat_user_invited#:#Shfrytëzuesi i ftuar në chat.
+chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#e verdhë
 chat#:#chats#:#Chat-et
 chat#:#my_chats#:#Chat-et mia
@@ -697,12 +706,16 @@ common#:#adm_edit_permission#:#Ndërro konfigurimin për të drejtat
 common#:#adm_read#:#Qasje për lexim në konfigurim të Sistemit
 common#:#adm_visible#:#Konfigurimet e Sistemit janë të dukshme
 common#:#adm_write#:#Ndërro konfigurimin Bazë të sistemit
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Administrimi
 common#:#administrate_users#:#Administrimi nga shfrytëzuesi lokal
 common#:#administration#:#Administrim
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopto
 common#:#adopt_perm_from_template#:#Adopto konfigurimin e të drejtave prej Shabllonit të Roleve
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Të gjithë autorët
 common#:#all_global_roles#:#Rolet Globale
 common#:#all_lms#:#Të gjithë modulet mësimore
@@ -736,7 +749,7 @@ common#:#apply#:#Apliko
 common#:#apply_filter#:#Apliko filtër
 common#:#appointment#:#Takim
 common#:#appointment_list#:#Lista e Takimeve
-common#:#approve_date#:#E aprovuar më
+common#:#approve_date#:#E aprovuar më###20 Jun 2005 content changed
 common#:#approve_recipient#:#ID Identifikimi i aprovuesit
 common#:#archive#:#Arkiv
 common#:#are_you_sure#:#A jeni të sigurt?
@@ -764,6 +777,8 @@ common#:#assign_local_role#:#Cakto në rol lokal
 common#:#assign_user_to_role#:#Cakto Shfrytëzuesin në Rol
 common#:#assigned_roles#:#Rolet e caktuara
 common#:#assigned_users#:#Shfrytëzuesit e caktuar
+common#:#associated_user#:#associated User###20 Jun 2005 new variable
+common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#Së paku një model duhet të mbes aktiv
 common#:#at_location#:#në lokacionin
 common#:#attachment#:#Shtesë
@@ -918,6 +933,7 @@ common#:#client_id#:#ID e Klientit
 common#:#client_ip#:#IP e Klientit
 common#:#clipboard#:#Klipbord
 common#:#close#:#Mbyll
+common#:#close_window#:#Close window###20 Jun 2005 new variable
 common#:#comma_separated#:#Ndarë me Presje
 common#:#comment#:#koment
 common#:#compose#:#Përgatit
@@ -944,6 +960,7 @@ common#:#context#:#Kontekst
 common#:#continue_work#:#Vazhdo
 common#:#copied_object#:#Objektet e kopjuar
 common#:#copy#:#Kopjo
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Kopjo
 common#:#copy_of#:#Kopjo nga
 common#:#copy_to#:#në
@@ -953,6 +970,7 @@ common#:#course#:#Kursi
 common#:#courses#:#Kurset
 common#:#create#:#Krijo
 common#:#create_date#:#Krijuar më
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Krijo në
 common#:#create_stylesheet#:#Krijo Stil
 common#:#cron_jobs#:#Procedurat kron
@@ -1041,11 +1059,13 @@ common#:#default_roles#:#Role të Paradefinuara
 common#:#default_skin#:#Gëzof i  Paradefinuar
 common#:#default_skin_style#:#Gëzof / Stil i Paradefinuar
 common#:#default_style#:#Stil i Paradefinuar
+common#:#default_value#:#Default Value###20 Jun 2005 new variable
 common#:#delete#:#Fshij
 common#:#delete_all#:#Fshij të Gjitha
 common#:#delete_all_rec#:#Fshij të gjithë rekordet
 common#:#delete_object#:#Fshij Objekt(e)
 common#:#delete_selected#:#Fshij të Zgjedhurat
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Fshij të dhënat për gjurmim
 common#:#deleted#:#Të fshira
 common#:#deleted_user#:#Shfrytëzuesi është fshirë
@@ -1076,6 +1096,7 @@ common#:#email#:#Email
 common#:#email_footer#:#<br/> mbështetet nga ILIAS
 common#:#email_not_valid#:#Email adresa e dhënë nuk është valide!
 common#:#enable#:#Mundëso
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Mundëso komentet e shfrytëzuesve në histori
 common#:#enable_hist_user_comments_desc#:#Jep mundësin autorëve të shtojnë komente në log historinë e faqeve.
 common#:#enable_js_edit#:#Mundëso Editimin e JavaScrip
@@ -1257,6 +1278,11 @@ common#:#glo_delete#:#Fshij Fjalorthin
 common#:#glo_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#glo_join#:#Abono në Fjalorth
 common#:#glo_leave#:#Çregjistrohu nga Fjalorthi
+common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
+common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
+common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
+common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Fjalorth i Ri
 common#:#glo_read#:#Qasje për lexim në Fjalorth
 common#:#glo_upload_file#:#Skedar
@@ -1414,6 +1440,7 @@ common#:#htlm_write#:#Edito Modulin Mësimor HACP
 common#:#http_not_possible#:#Ky server nuk mundëson kërkesa http.
 common#:#http_path#:#Shtegu http
 common#:#https_not_possible#:#Ky server nuk mundëson koneksione HTTPS
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Klasë
 common#:#icla_add#:#Shto iLinc Klasë
 common#:#icla_delete#:#Fshij iLinc Klasën
@@ -1435,9 +1462,16 @@ common#:#identifier#:#identifikues
 common#:#if_no_title_then_filename#:#Leni të zbrazët që të paraqitet emri i skedarit
 common#:#if_no_title_then_url#:#Leni të zbrazët që të paraqitet URL
 common#:#ignore_on_conflict#:#Injoro gjatë konfliktit
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Member###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#ilias_version#:#Versioni i ILIAS
 common#:#ilinc_classrooms#:#Klasat në iLinc
 common#:#ilinc_courses#:#Kurset në iLinc
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Imazh
 common#:#image_gen_unsucc#:#Gjenerimi i imazhit ishte pa sukses. Kontaktoni administratorin dhe verifikoni shtegun e konvertimi.
 common#:#import#:#Importo
@@ -1467,10 +1501,26 @@ common#:#in_use#:#Gjuha e Shfrytëzuesit
 common#:#inactive#:#Joaktive
 common#:#inbox#:#Inbox
 common#:#info#:#Informacion
+common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
+common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
 common#:#info_assign_sure#:#A jeni të sigurt për t'i caktuar këta shfrytëzues?
+common#:#info_assigned#:#assigned###20 Jun 2005 new variable
+common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
+common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#A jeni të sigurt për t'i fshirë këta shfrytëzues?
 common#:#info_deleted#:#Objektet janë Fshirë
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_is_member#:#User is member###20 Jun 2005 new variable
+common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
+common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
+common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Objektet e Fshira
+common#:#info_view_of_user#:#View of user###20 Jun 2005 new variable
 common#:#inform_user_mail#:#Dërgo email për të informuar shfrytëzuesit për ndërrime
 common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#Të gjithë LE
@@ -1509,6 +1559,7 @@ common#:#internal_system#:#Sistemi Internal
 common#:#ip_address#:#IP Adresa
 common#:#is_already_your#:#tanimë është
 common#:#item#:#Artikull
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KByte
 common#:#keywords#:#Fjalëkyçe
 common#:#lang_cs#:#Çeke
@@ -1533,6 +1584,8 @@ common#:#lang_pl#:#Polonishte
 common#:#lang_pt#:#Portugalishte
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
+common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
 common#:#lang_sv#:#Suedishte
 common#:#lang_timeformat#:#O:m:s
 common#:#lang_uk#:#Ukrainisht
@@ -1582,6 +1635,7 @@ common#:#link_check_message_disabled#:#Mesazhet janë pamundësuar
 common#:#link_check_message_enabled#:#Mesazhet janë mundësuar
 common#:#link_check_subject#:#[ILIAS 3] Verifiko linkun
 common#:#link_checker_refreshed#:#Pamja e Rifreskuar
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#Objekti është linkuar (lidhur)
 common#:#linked_pages#:#Faqet e Linkuara (lidhura)
 common#:#list_of_pages#:#Lista e Faqeve
@@ -1728,6 +1782,7 @@ common#:#month_12_short#:#Dhj
 common#:#move#:#Zhvendos
 common#:#moveChapter#:#Zhvendos
 common#:#movePage#:#Zhvendos
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Zhvendos në
 common#:#move_users_to_style#:#Zhvendos shfrytëzuesit në stilin
 common#:#msg_cancel#:#Veprimi u anulua
@@ -1744,7 +1799,9 @@ common#:#msg_deleted_rolt#:#Shablloni për Rol është fshirë
 common#:#msg_deleted_rolts#:#Shablloni për Rol është fshirë
 common#:#msg_error_copy#:#Gabim gjatë Kopjimit
 common#:#msg_failed#:#Veprimi ka dështuar
+common#:#msg_invalid_filetype#:#Invalid file type###20 Jun 2005 new variable
 common#:#msg_is_last_role#:#Keni larguar rolin global prej shfrytëzuesve në vijim
+common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.###20 Jun 2005 new variable
 common#:#msg_link_clipboard#:#Objektet e përzgjedhura janë ruajtur ne klipbord (link)
 common#:#msg_linked#:#Objektet e përzgjedhura janë linkuar.
 common#:#msg_may_not_contain#:#Ky objekt mund të mos përmbaj objekte të tipit:
@@ -1847,6 +1904,7 @@ common#:#no_limit#:#Pa kufizim
 common#:#no_lo_in_personal_list#:#Nuk ka asnjë objekt mësimor në listën personale.
 common#:#no_local_users#:#Nuk ka asnjë shfrytëzues lokal
 common#:#no_objects#:#Asnjë objekt
+common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
 common#:#no_permission_to_join#:#Nuk lejoheni t'i bashkoheni këtij grupi!
 common#:#no_roles_user_can_be_assigned_to#:#Nuk ka role globale ku mund të caktohet shfrytëzuesi. Prandaj nuk mund të shtoni shfrytëzues.
 common#:#no_title#:#Asnjë Titull
@@ -1986,6 +2044,7 @@ common#:#offline#:#joaktive
 common#:#offline_version#:#Versioni Joaktiv
 common#:#ok#:#OK
 common#:#old#:#I Vjetër
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#Kapitulli Aktiv 
 common#:#online_version#:#Versioni Aktiv 
 common#:#open_views_inside_frameset#:#Hap pamjet përbrenda kornizave
@@ -2013,6 +2072,7 @@ common#:#password_assistance_info#:#Nëse asistenca për parullë është e akti
 common#:#paste#:#Vendos
 common#:#pasteChapter#:#Vendos
 common#:#pastePage#:#Vendos
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Shtegu
 common#:#path_not_set#:#Shtegu nuk është dhënë
 common#:#path_to_babylon#:#Shtegu për Babylon
@@ -2270,7 +2330,7 @@ common#:#show_list#:#Shih Listën
 common#:#show_members#:#Paraqit Anëtarët
 common#:#show_owner#:#Shih Zotëruesin
 common#:#show_structure#:#Aktivizo Pamjen-Strukturore
-common#:#show_users_online#:#Shih shfrytëzuesit online
+common#:#show_users_online#:#Shih shfrytëzuesit online###20 Jun 2005 content changed
 common#:#signature#:#Nënshkrimi
 common#:#size#:#Madhësia
 common#:#skin_style#:#Pamja/Stili i paradefinuar
@@ -2318,13 +2378,19 @@ common#:#svy#:#Kuestioner
 common#:#svy_add#:#Shto Kuestioner
 common#:#svy_delete#:#Fshij Kuestionerin
 common#:#svy_edit_permission#:#Ndërro konfigurimet e të drejtave
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Fto shfrytëzues në Kuestioner
 common#:#svy_new#:#Kuestioner i Ri
 common#:#svy_no_content#:#Nuk ka Kuestioner në dispozicion
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Participo në Kuestioner
 common#:#svy_read#:#Qasje për Lexim në Kuestioner
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Ngarko Skedar
 common#:#svy_visible#:#Kuestioneri është i dukshëm
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Edito Kuestionerin
 common#:#system#:#Sistemi
 common#:#system_check#:#Kontroll e Sistemit
@@ -2360,17 +2426,22 @@ common#:#time_h#:#Ora
 common#:#time_limit#:#Qasje
 common#:#time_limit_add_time_limit_for_selected#:#Ju lutem të shënoni periudhën kohore për shfrytëzuesit e zgjedhur
 common#:#time_limit_applied_users#:#Shfrytëzuesit e Aplikuar
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Ju lutem përzgjedh një shfrytëzues
 common#:#time_limit_not_valid#:#Periudha kohore është jovalide
 common#:#time_limit_not_within_owners#:#Qasja juaj është e kufizuar. Periudha kohore është jashtë kufizimeve tuaja.
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Periudha kohore për qasjen tuaj ka skaduar.
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Të dhënat për shfrytëzues janë aktualizuar
 common#:#time_limits#:#Qasja
 common#:#time_segment#:#Periudha kohore
 common#:#title#:#Titulli
 common#:#to#:#Për
 common#:#to_client_list#:#Për Klientët e zgjedhur
-common#:#to_desktop#:#Abono
+common#:#to_desktop#:#Abono###20 Jun 2005 content changed
 common#:#today#:#Sot
 common#:#toggleGlobalDefault#:#Kalim në Modin e Paradefinuar
 common#:#toggleGlobalFixed#:#Kalim në Modin për Fiksim
@@ -2390,13 +2461,17 @@ common#:#trash#:#Shporta
 common#:#treeview#:#Pamje Strukturore
 common#:#tst#:#Testi
 common#:#tst_add#:#Shto Test
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Fshij Testin
 common#:#tst_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#tst_new#:#Test i Ri
 common#:#tst_no_content#:#Nuk ka test në dispozicion
 common#:#tst_read#:#Qasje për Lexim në Test
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Ngarko Skedar
 common#:#tst_visible#:#Testi është i dukshëm
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Edito Testin
 common#:#txt_add_object_instruction1#:#Kërko për lokacionin ku dëshiron 
 common#:#txt_add_object_instruction2#:#të vendoset.
@@ -2453,10 +2528,19 @@ common#:#user_not_chosen#:#Nuk keni zgjedhur anëtarë-grupi!
 common#:#user_profile_other#:#Informacione Shtesë
 common#:#user_statistics#:#Të Dhënat Statistikore
 common#:#userdata#:#Të Dhënat e Shfrytëzuesit
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Emri Identifikues
 common#:#users#:#Shfrytëzuesit
 common#:#users_not_imported#:#Shfrytëzuesit vijues nuk ekzistojnë, nuk mund të importohen porosit e tyre
-common#:#users_online#:#Shfrytëzuesit Online
+common#:#users_online#:#Shfrytëzuesit Online###20 Jun 2005 content changed
+common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Gjurmimi i Shfrytëzuesit
 common#:#usr#:#Shfrytëzuesi
 common#:#usr_a#:#një Shfrytëzues
@@ -2511,7 +2595,10 @@ common#:#version#:#Versioni
 common#:#versions#:#Versionet
 common#:#view#:#Pamja
 common#:#view_content#:#Shih Përmbajtjen
+common#:#visible#:#Visible###20 Jun 2005 new variable
 common#:#visible_layers#:#Nivelet e Dukshme
+common#:#visitor#:#Visitor###20 Jun 2005 new variable
+common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Vizitat
 common#:#webservices#:#Servise të Web-it
 common#:#week#:#Java
@@ -2582,6 +2669,7 @@ content#:#cont_cant_del_std#:#Fshirja e skedarit me pamje standarde nuk është 
 content#:#cont_caption#:#Shpjegim
 content#:#cont_change_type#:#Ndërro Tipin
 content#:#cont_chap_and_pages#:#Kapitujt dhe Faqet
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#Kapitujt janë zgjedhur për zhvendosje. Zgjedh destinacionin tash.
 content#:#cont_chapters#:#Kapitujt
 content#:#cont_chapters_and_pages#:#Kapitujt dhe Faqet
@@ -2922,6 +3010,7 @@ content#:#cont_wysiwyg#:#Përmbajtja WYZIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Viti
 content#:#copied_to_clipboard#:#Objektet e kopjuara në klipbord.
+content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edito të dhënat e menysë
 content#:#lm_menu_entry_target#:#Destinacioni
 content#:#lm_menu_entry_title#:#Titulli
@@ -3183,7 +3272,7 @@ crs#:#crs_show_link_tst#:#Shih testet
 crs#:#crs_show_objectives_view#:#Pamja objektive
 crs#:#crs_size#:#Madhësia e skedarit
 crs#:#crs_sort_activation#:#Radhit sipas aktivizimeve
-crs#:#crs_sort_manual#:#Radhit në mënyrë manuale
+crs#:#crs_sort_manual#:#Radhit në mënyrë manuale###20 Jun 2005 content changed
 crs#:#crs_sort_title#:#Radhit sipas titujve
 crs#:#crs_sortorder#:#Radhit
 crs#:#crs_sortorder_abo#:#Radhitja alfabetike/Abonimi
@@ -3451,6 +3540,7 @@ dateplaner#:#to#:#deri
 dateplaner#:#today#:#sot
 dateplaner#:#viewlist#:#aktualizo pamjen
 dateplaner#:#week#:#java
+dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#viti
 forum#:#forums#:#Forumet
 forum#:#forums_attachments#:#Shtesat (attachments)
@@ -3876,11 +3966,13 @@ meta#:#meta_choose_section#:#Ju lutëm zgjedhni seksionin
 meta#:#meta_classification#:#Klasifikim
 meta#:#meta_collection#:#Koleksion
 meta#:#meta_competency#:#Kompetencë
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Kontekst
 meta#:#meta_contribute#:#Kontribut
 meta#:#meta_copyright_and_other_restrictions#:#Dë drejtat për kopjim dhe Kufizimet Tjera
 meta#:#meta_cost#:#Kosto
 meta#:#meta_coverage#:#Fusha e Përdorimit
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Datë
 meta#:#meta_delete#:#Fshij
 meta#:#meta_description#:#Përshkrimi
@@ -3890,9 +3982,11 @@ meta#:#meta_dificult#:#Vështirë
 meta#:#meta_draft#:#Draft
 meta#:#meta_duration#:#Kohëzgjatja
 meta#:#meta_easy#:#Lehtë
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Edukim
 meta#:#meta_educational_level#:#Niveli i Edukimit
 meta#:#meta_educational_objective#:#Objektiva e Edukative
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Tërësia
 meta#:#meta_entry#:#Shënim
 meta#:#meta_exam#:#Provim
@@ -3904,6 +3998,7 @@ meta#:#meta_final#:#Final
 meta#:#meta_format#:#Format
 meta#:#meta_general#:#Gjeneral
 meta#:#meta_graph#:#Grafikë
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#…ka Format…
 meta#:#meta_has_part#:#…ka Pjesë nga…
 meta#:#meta_has_version#:#…ka Version…
@@ -3914,7 +4009,9 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Ide
 meta#:#meta_identifier#:#Identifikues
 meta#:#meta_index#:#Indeks
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Komentet e Instalimit
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#Roli i planifikuar për Shfrytëzuesin Final
 meta#:#meta_interactivity_level#:#Niveli i Interaktivitetit
 meta#:#meta_interactivity_type#:#Tipi i Interaktivitetit
@@ -4120,6 +4217,7 @@ meta#:#meta_revised#:#Material i përpunuar
 meta#:#meta_rights#:#Të Drejta autoriale
 meta#:#meta_role#:#Rol
 meta#:#meta_school#:#Shkolla
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Niveli i Sigurisë
 meta#:#meta_self_assessment#:#Vetë-Vlerësim
 meta#:#meta_semantic_density#:#Dendsiteti Semantik
@@ -4130,11 +4228,15 @@ meta#:#meta_slide#:#Prezantim (slajd)
 meta#:#meta_source#:#Burim
 meta#:#meta_status#:#Statusi
 meta#:#meta_structure#:#Struktura
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Tabelë
 meta#:#meta_taxon#:#Taksonomi
 meta#:#meta_taxon_path#:#Shtegu i Taksonimisë
 meta#:#meta_teacher#:#Instruktor
 meta#:#meta_technical#:#Teknike
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Titull
 meta#:#meta_training#:#Trajnim
 meta#:#meta_type#:#Tip
@@ -4142,6 +4244,8 @@ meta#:#meta_typical_age_range#:#Intervali Kohor i Rekomandueshëm
 meta#:#meta_typical_learning_time#:#Intervali Kohor i Rekomandueshëm i Mësimit
 meta#:#meta_unavailable#:#Nuk është në posedim
 meta#:#meta_unix#:#UNIX
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#Vlerë
 meta#:#meta_version#:#Version
 meta#:#meta_very_difficult#:#Shumë Vështirë
@@ -4366,14 +4470,26 @@ pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.\n S
 pwassist#:#pwassist_update_error#:#Ju lutem të kontaktoni administratorin e sistemit.\n Parulla nuk mund të vendoset në llogarinë shfrytëzuese për shkak të ndonjë gabimi gjatë aktualizimit të databazës
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Përfshijë shfrytëzuesit aktiv
+search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
+search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
 search#:#search_all_results#:#Të gjitha rezultatet
+search#:#search_all_words#:#All words###20 Jun 2005 new variable
 search#:#search_and#:#dhe
+search#:#search_any#:#-- Any --###20 Jun 2005 new variable
+search#:#search_any_word#:#Any word###20 Jun 2005 new variable
+search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
+search#:#search_below#:#Beneath:###20 Jun 2005 new variable
+search#:#search_change#:#Change###20 Jun 2005 new variable
 search#:#search_concatenation#:#Kombinimi
 search#:#search_content#:#Përmbajtje e Faqes
 search#:#search_dbk_content#:#Libraria Digjitale (përmbajtja)
 search#:#search_dbk_meta#:#Libraria Digjitale (metadata)
 search#:#search_delete_sure#:#Objekti dhe përmbajtja e tij do të fshihen në mënyrë permanente
+search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_group#:#Grupet
+search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Kërko përbrenda rezultateve
 search#:#search_inactive#:#Përfshijë shfrytëzuesit joaktiv
 search#:#search_lm_content#:#Materiale mësimore (përmbajtje)
@@ -4402,13 +4518,17 @@ search#:#search_search_no_results_saved#:#Nuk është ruajtur ndonjë rezultat
 search#:#search_search_results#:#Rezultatet e kërkimit
 search#:#search_search_term#:#Kërko për termin
 search#:#search_select_exactly_one_object#:#Duhet të zgjedhni saktësisht një objekt.
+search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#Zgjedh një direktorium
 search#:#search_select_one_action#:# -- Zgjedh një veprim -- 
 search#:#search_select_one_folder_select#:# -- Zgjedh një direktorium -- 
 search#:#search_select_one_result#:#Zgjedh së paku një rezultat kërkimi
 search#:#search_select_one_select#:# -- Zgjedh një direktorium -- 
 search#:#search_show_result#:#Shih
+search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
+search#:#search_type#:#Search type###20 Jun 2005 new variable
 search#:#search_user#:#Shfrytëzues
+search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Shto Kategori
 survey#:#add_heading#:#Shto titull
 survey#:#add_limits_for_standard_numbers#:#Ju lutem jepni limitin e poshtëm dhe të epërm të numrave standard që doni t'i shtoni si kategori.
@@ -4552,7 +4672,6 @@ survey#:#filter_all_question_types#:#Të gjitha tipet e pyetjeve
 survey#:#filter_all_questionpools#:#Të gjitha fondet e pyetjeve
 survey#:#filter_show_question_types#:#Shih tipet e pyetjeve
 survey#:#filter_show_questionpools#:#Shih fondet e pyetjeve
-survey#:#finished#:#është kompletuar
 survey#:#found_questions#:#Pyetje të gjetura
 survey#:#geometric_mean#:#Mesatarja gjeometrike
 survey#:#given_answers#:#Përgjigje të dhëna
@@ -4614,8 +4733,6 @@ survey#:#no_user_or_group_selected#:#Ju lutem zgjedhni një opsion për atë se 
 survey#:#no_user_phrases_defined#:#Nuk ka fraza të definuara nga shfrytëzues!
 survey#:#nominal_question_not_checked#:#Ju lutem zgjedh njërën nga pyetjet e ofruara!
 survey#:#non_ratio#:#Pa-Përpjesëtim
-survey#:#not_finished#:#ende të pa përfunduara
-survey#:#not_started#:#ende të pa filluara
 survey#:#not_used#:#të pa përdorura
 survey#:#obligatory#:#obligative
 survey#:#off#:#joaktive
@@ -4758,4 +4875,3 @@ survey#:#view_constraints_introduction#:#Jeni duke parë "detyrimet" e pyetjeve/
 survey#:#view_phrase#:#Shih frazën
 survey#:#warning_question_in_use#:#Kujdes! Pyetjen që po editoni është në përdorim nga kuestionerët vijues. Nëse vazhdoni dhe e ruani pyetjen, të gjitha përgjigjet e kuestionerëve të më poshtëm do të fshihen. Nëse dëshironi ta ndërroni pyetjen dhe ta përdorni atë në kuestioner tjetër, atëherë zgjedhni "Dubliko" në shfletuesin e pyetjes për të krijuar kopje tjetër të kësaj pyetje.
 survey#:#warning_question_not_complete#:#Pyetja nuk është kompletuar!
-survey#:#warning_survey_not_complete#:#Kuestioneri nuk është kompletuar!

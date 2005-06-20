@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#Softver trece strane
 absolute_path#:#Apsolutna putanja
 access#:#Pristup
@@ -51,6 +47,7 @@ change#:#promeni###19 May 2005 content changed
 change_basic_settings#:#promeni osnovna podešavanja
 change_password#:#Promeni lozinku
 change_sort_direction#:#Promeni vrstu upravljanja
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Obrada testiranja nije uspela
 check_failed_htmldoc#:#Testiranje FOP nije uspelo
 check_failed_htmldoc#:#Testiranje HTMLdoc nije uspelo
@@ -152,6 +149,7 @@ htmldoc_path#:#Putanja do HTML.doc
 htmldoc_path_comment#:#zahteva se da generišete PDF dokumete
 http_path#:#HTTP putanja
 id#:#identifikacija
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Pocetna strana ILIAS-a
 ilias_nic#:#Registracija nadimka
 ilias_nic_id#:#nadimak
@@ -246,6 +244,8 @@ login_to_ilias#:#prijava na ILIAS
 logout#:#Odjava
 main_datadir_outside_webspace#:#Glavni direktorijum podataka izvan web prostora
 missing_data#:#Nedostaju podaci
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Ime
 new#:#novo
 next#:#sledece

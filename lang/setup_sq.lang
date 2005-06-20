@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#Softuer Ndihmës (3rd Party)
 absolute_path#:#Shtegu Absolut
 access#:#Qasje
@@ -51,6 +47,7 @@ change#:#ndërro###19 May 2005 content changed
 change_basic_settings#:#Ndërro parametrat bazë
 change_password#:#Ndërro parullën
 change_sort_direction#:#Ndërro direktoriumin e sortimit
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Testimi për konvertim ka dështuar
 check_failed_htmldoc#:#Testimi i HTMLdoc ka dështuar
 check_failed_htmldoc#:#Testimi për FOP ka dështuar
@@ -152,6 +149,7 @@ htmldoc_path#:#Shtegu për ne HTMLdoc
 htmldoc_path_comment#:#kërkohet për të gjeneruar dokumente PDF
 http_path#:#shtegu HTTP
 id#:#ID
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Faqja e parë e ILIAS
 ilias_nic#:#Regjistrimi i NIC (Network Information Center)
 ilias_nic_id#:#NIC-ID (Network Information Center)
@@ -246,6 +244,8 @@ login_to_ilias#:#identifikimi në ILIAS
 logout#:#dil
 main_datadir_outside_webspace#:#Direktoriumi kryesor i të dhënave jashtë hapësirës së web-it
 missing_data#:#Mungojnë të dhënat
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Emri
 new#:#e re
 next#:#Vazhdo

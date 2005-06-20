@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#3rd Party Software
 absolute_path#:#Absolute path
 access#:#Access
@@ -51,6 +47,7 @@ change#:#Change
 change_basic_settings#:#Change basic settings
 change_password#:#Change password
 change_sort_direction#:#Change sort direction
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
 check_failed_convert#:#Testing convert failed
 check_failed_htmldoc#:#Testing FOP failed
 check_failed_htmldoc#:#Testing HTMLdoc failed
@@ -154,6 +151,7 @@ htmldoc_path#:#Path to HTMLdoc
 htmldoc_path_comment#:#required to generate PDF documents
 http_path#:#HTTP path
 id#:#ID
+ilias_db_mode#:#ILIAS database mode
 ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
@@ -251,6 +249,8 @@ login_to_ilias#:#login to ILIAS
 logout#:#logout
 main_datadir_outside_webspace#:#Main data directory outside web space
 missing_data#:#Missing data
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
 name#:#Name
 new#:#new
 next#:#Next

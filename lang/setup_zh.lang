@@ -49,10 +49,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#第三方软件 ###07 Apr 2005 content changed
 absolute_path#:#绝对路径 ###07 Apr 2005 content changed
 access#:#访问 ###07 Apr 2005 content changed
@@ -67,6 +63,7 @@ change#:#更改 ###07 Apr 2005 content changed
 change_basic_settings#:#更改基本设置 ###07 Apr 2005 content changed
 change_password#:#更改口令 ###07 Apr 2005 content changed
 change_sort_direction#:#更改排序方向 ###07 Apr 2005 content changed
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#转换测试失败 ###07 Apr 2005 content changed
 check_failed_htmldoc#:#HTMLdoc测试失败de ###26 May 2004 content changed
 check_failed_java#:#Java测试失败 ###14 Sep 2004 content changed
@@ -169,13 +166,13 @@ htmldoc_path#:#到HTMLdoc的路径 ###07 Apr 2005 content changed
 htmldoc_path_comment#:#用于生成PDF帐单（付账系统） ###07 Aug 2004 content changed
 http_path#:#HTTP路径 ###07 Apr 2005 content changed
 id#:#身份 ###07 Apr 2005 content changed
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#ILIAS主页###07 Apr 2005 content changed
 ilias_nic#:#NIC注册 ###07 Apr 2005 content changed
 ilias_nic_id#:#NIC身份 ###07 Apr 2005 content changed
 ilias_setup#:#ILIAS3安装 ###14 Sep 2004 content changed
 ilias_version#:#ILIAS版本 ###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
-###07 Apr 2005 new variable
 info_text_contact#:#这里您要指明其他客户信息及其系统管理员的联系资料。必须填充带星号的域。全部信息都将存于数据库。在下一屏中，您可以在ILIAS-NIC服务器中注册您的安装，这些资料将传送到此服务器中。###14 Sep 2004 content changed
 info_text_db#:#数据库不存在或空。点击下面按钮安装数据库。如果具有已选名称的数据库尚未存在，请选择”创建数据库“。安装程序将自动创建数据库。如果创建失败（例如由于访问许可的限制），请联系负责数据库服务器的系统管理员，请求他先为您创建一个具有所要求名称的数据库。###05 Jan 2004 new variable 
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -267,6 +264,8 @@ login_to_ilias#:#登录到ILIAS ###07 Apr 2005 content changed
 logout#:#注销 ###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#web空间外的主数据目录 ###14 Sep 2004 content changed
 missing_data#:#缺失数据 ###07 Apr 2005 content changed
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#名称 ###07 Apr 2005 content changed
 new#:#新的 ###07 Apr 2005 content changed
 next#:#下一个###07 Apr 2005 content changed

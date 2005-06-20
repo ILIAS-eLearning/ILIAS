@@ -301,6 +301,8 @@ assessment#:#postpone#:#Udskyd sp&oslash;rgsm&aring;l
 assessment#:#postponed#:#udskydt
 assessment#:#preview#:#Eksempel
 assessment#:#previous_question_rows#:#<< Sp&oslash;rgsm&aring;l %d - %d af %d
+assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
+assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Der er ingen sp&oslash;rgsm&aring;l tilg&aelig;ngelige for det valgte sp&oslash;rgsm&aring;l. Sp&oslash;rgsm&aring;let blev aldrig brugt i en test
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions###21 Apr 2005 new variable
 assessment#:#qpl_assessment_total_of_answers#:#Total antal svar
@@ -381,7 +383,6 @@ assessment#:#too_many_empty_parameters#:#Udfyld venligst du tomme applet paramet
 assessment#:#true#:#Sandt
 assessment#:#tst_all_user_data_deleted#:#Alle bruger data for denne test er blevet slettet!                                                    
 assessment#:#tst_already_taken#:#Test er allerede taget
-assessment#:#tst_anon_eval#:#Annonymt gennemsnits resultat
 assessment#:#tst_browse_for_questions#:#Led efter sp&oslash;rgsm&aring;l
 assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidligere indtastet sp&oslash;rgsm&aring;ls resultater for denne test. Dette vil nulstille alle sp&oslash;rgsm&aring;l til dens standart v&aelig;rdi. Bem&aelig;rk venligst, at du ikke kan nulstille antalet af fors&oslash;g, du allerede har brugt p&aring; denne test. Vil du virkelig nulstille alle tidligere indtastet svar? 
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!
@@ -450,6 +451,9 @@ assessment#:#tst_result_congratulations#:#Tillykke! Du har best&aring;et testen.
 assessment#:#tst_result_sorry#:#Desv&aelig;rre, du bestod ikke testen.
 assessment#:#tst_results#:#Test resultat
 assessment#:#tst_resume_test#:#Genoptag testen
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Resultat report
 assessment#:#tst_score_reporting_date#:#Resultat raporteringsdato
 assessment#:#tst_score_type#:#Resultat rapport type
@@ -465,6 +469,7 @@ assessment#:#tst_sequence_properties#:#Sekvens egenskaber
 assessment#:#tst_session_settings#:#Sessions egenskaber
 assessment#:#tst_show_results#:#Vis test resultat
 assessment#:#tst_start_test#:#Start testen
+assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Start tid
 assessment#:#tst_stat_all_users#:#Alle brugere
 assessment#:#tst_stat_choose_users#:#(V&aelig;lg en eller flere brugere fra brugerlisten)
@@ -487,7 +492,6 @@ assessment#:#tst_stat_result_timeofwork#:#Tid brugt p&aring; arbejde
 assessment#:#tst_stat_result_total_participants#:#Total antal af deltagere
 assessment#:#tst_stat_selected_users#:#Valgte brugere
 assessment#:#tst_stat_users_intro#:#Vis statistisk evaluering for
-assessment#:#tst_statistical_evaluation#:#statistisk evaluering
 assessment#:#tst_status_completed#:#Gennemf&oslash;rt
 assessment#:#tst_status_completed_more_tries_possible#:#Gennemf&oslash;rt
 assessment#:#tst_status_missing#:#Der er n&oslash;dvendige elementer der mangler i denne test!
@@ -514,7 +518,6 @@ assessment#:#unlock_question#:#Dette sp&oslash;rgsm&aring;l er i brug i mindst e
 assessment#:#upload_imagemap#:#Upload en billed mappe
 assessment#:#uploaded_material#:#Uploadet Materialle
 assessment#:#warning_question_not_complete#:#Dette sp&oslash;rgsm&aring;l er ikk ef&aelig;rdigt!
-assessment#:#warning_test_not_complete#:#Denne test er ikke f&aelig;rdig!
 assessment#:#when#:#hvorn&aring;r
 assessment#:#width#:#bredte
 assessment#:#with_order#:#med orden
@@ -585,6 +588,9 @@ chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Apr 2005
 chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Apr 2005 new variable
 chat#:#chat_add_moderator_password#:#Tilf&oslash;j venligst et password.
 chat#:#chat_add_port#:#Tilf&oslash;j venligst en server port.
+chat#:#chat_add_private_chatroom#:#Add private chatroom###20 Jun 2005 new variable
+chat#:#chat_address#:#Address###20 Jun 2005 new variable
+chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua###21 Apr 2005 new variable
 chat#:#chat_arial#:#Arial###21 Apr 2005 new variable
 chat#:#chat_black#:#sort
@@ -610,6 +616,7 @@ chat#:#chat_insert_message#:#Tilf&oslash;j venligst en besked
 chat#:#chat_invitation_body#:#Invitation til en chat fra:
 chat#:#chat_invitation_subject#:#Chat invitation###21 Apr 2005 new variable
 chat#:#chat_invite_user#:#Inviter bruger
+chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Italic###21 Apr 2005 new variable
 chat#:#chat_level_all#:#Alle
 chat#:#chat_level_debug#:#Debug###21 Apr 2005 new variable
@@ -630,6 +637,7 @@ chat#:#chat_no_write_perm#:#Ingen skrive rettighedder
 chat#:#chat_olive#:#olive###21 Apr 2005 new variable
 chat#:#chat_online_users#:#Bruger (online)
 chat#:#chat_private_message#:#Privat besked
+chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Offetligt chat rum
 chat#:#chat_purple#:#purple###21 Apr 2005 new variable
 chat#:#chat_red#:#r&oslash;d
@@ -664,6 +672,7 @@ chat#:#chat_type#:#Skrift type
 chat#:#chat_underlined#:#Understreget
 chat#:#chat_user_dropped#:#Bruger udelukket
 chat#:#chat_user_invited#:#Inviterede bruger til chat.
+chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine Chat
@@ -697,12 +706,16 @@ common#:#adm_edit_permission#:#Rediger rettigheds tilladelser
 common#:#adm_read#:#Skrive rettigheds adgang til system indstillinger
 common#:#adm_visible#:#System indstillinger er synlige
 common#:#adm_write#:#Rediger basis indstilinger
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Administrer
 common#:#administrate_users#:#Lokal bruger administration
 common#:#administration#:#Administration###21 Apr 2005 new variable
 common#:#administrator#:#Administrator###21 Apr 2005 new variable
 common#:#adopt#:#Arv
 common#:#adopt_perm_from_template#:#Arv indstillinger fra rolle template
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Alle forfattere
 common#:#all_global_roles#:#Globale roller
 common#:#all_lms#:#Alle l&aelig;rer moduler
@@ -736,7 +749,7 @@ common#:#apply#:#Godkend
 common#:#apply_filter#:#Godkend filter
 common#:#appointment#:#Aftale
 common#:#appointment_list#:#Aftale Liste
-common#:#approve_date#:#Godkendt den
+common#:#approve_date#:#Godkendt den###20 Jun 2005 content changed
 common#:#approve_recipient#:#Login ID p&aring; administratoren
 common#:#archive#:#Arkiver
 common#:#are_you_sure#:#Er du sikker?
@@ -764,6 +777,8 @@ common#:#assign_local_role#:#Tildel en lokal rolle
 common#:#assign_user_to_role#:#Tildel bruger en rolle
 common#:#assigned_roles#:#Tildelte roller
 common#:#assigned_users#:#Tildelte brugere
+common#:#associated_user#:#associated User###20 Jun 2005 new variable
+common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#At least one style must remain activated.###21 Apr 2005 new variable
 common#:#at_location#:#Sted
 common#:#attachment#:#Vedh&aelig;ft
@@ -922,6 +937,7 @@ common#:#client_id#:#Klient ID
 common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder
 common#:#close#:#Luk
+common#:#close_window#:#Close window###20 Jun 2005 new variable
 common#:#comma_separated#:#Komma Separaret
 common#:#comment#:#Kommentar
 common#:#compose#:#Ny Mail
@@ -948,6 +964,7 @@ common#:#context#:#Kontekst
 common#:#continue_work#:#Forts&aelig;t
 common#:#copied_object#:#Kopieret Objekt
 common#:#copy#:#Kopier
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Kopier
 common#:#copy_of#:#Kopi af
 common#:#copy_to#:#Til
@@ -957,6 +974,7 @@ common#:#course#:#Kursus
 common#:#courses#:#Kurser
 common#:#create#:#Opret
 common#:#create_date#:#Oprettet p&aring;
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Oprettet i
 common#:#create_stylesheet#:#Opret Layout
 common#:#created#:#Create date###11 Mar 2005 new variable
@@ -1048,11 +1066,13 @@ common#:#default_roles#:#Standard Roller
 common#:#default_skin#:#Standard Design
 common#:#default_skin_style#:#Standard Design / Layout
 common#:#default_style#:#Standard Layout
+common#:#default_value#:#Default Value###20 Jun 2005 new variable
 common#:#delete#:#Slet
 common#:#delete_all#:#Slet Alle
 common#:#delete_all_rec#:#Slet alt indhold
 common#:#delete_object#:#Slet Objekter
 common#:#delete_selected#:#Slet er valgt
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Slet Sporingsdata
 common#:#deleted#:#Slettet
 common#:#deleted_user#:#Brugeren er blever slettet
@@ -1086,6 +1106,7 @@ common#:#email#:#E-mail
 common#:#email_footer#:#<br />powered by ILIAS###21 Apr 2005 new variable
 common#:#email_not_valid#:#Den indtastede email adresse er ikke gyldig!
 common#:#enable#:#Aktiver
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Enable user comments in history###21 Apr 2005 new variable
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###21 Apr 2005 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###21 Apr 2005 new variable
@@ -1269,6 +1290,11 @@ common#:#glo_delete#:#Slet Ordbog
 common#:#glo_edit_permission#:#&aelig;ndrer rettigheds indstillinger
 common#:#glo_join#:#skriv til ordbog
 common#:#glo_leave#:#slet fra ordbog
+common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
+common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
+common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
+common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#ny ordbog
 common#:#glo_read#:#skrive rettigheder til ordbog
 common#:#glo_upload_file#:#Fil
@@ -1430,6 +1456,7 @@ common#:#htlm_write#:#Rediger HTML L&aelig;rer Modul
 common#:#http_not_possible#:#Denne server underst&oslash;tter ikke http Foresp&oslash;rgelser.
 common#:#http_path#:#Http Sti
 common#:#https_not_possible#:#Denne server underst&oslash;tter ikke HTTPS forbindelser.
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Classroom###21 Apr 2005 new variable
 common#:#icla_add#:#Add iLinc Classroom###21 Apr 2005 new variable
 common#:#icla_delete#:#Delete iLinc Classroom###21 Apr 2005 new variable
@@ -1451,9 +1478,16 @@ common#:#identifier#:#identifier###21 Apr 2005 new variable
 common#:#if_no_title_then_filename#:#Lad den forblive blank for at f&aring; vist filnavnet
 common#:#if_no_title_then_url#:#Leave blank to display the URL###21 Apr 2005 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Member###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#ilias_version#:#ILIAS version###21 Apr 2005 new variable
 common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###21 Apr 2005 new variable
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#billede
 common#:#image_gen_unsucc#:#billede generation ikke successfuldt udf&oslash;rt. Kontakt din system administrator og f&aring; bekr&aelig;ftet stien.
 common#:#import#:#Importering
@@ -1483,10 +1517,26 @@ common#:#in_use#:#Bruger Sprog
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Indbakke
 common#:#info#:#Information###21 Apr 2005 new variable
+common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
+common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
 common#:#info_assign_sure#:#Er du sikker p&aring; at du vil tildele f&oslash;lgende brugere
+common#:#info_assigned#:#assigned###20 Jun 2005 new variable
+common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
+common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#Er du sikker p&aring; at du vil slette f&oslash;lgende Objekter?
 common#:#info_deleted#:#Objekt(er) slettet
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_is_member#:#User is member###20 Jun 2005 new variable
+common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
+common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
+common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Slettede Objekter
+common#:#info_view_of_user#:#View of user###20 Jun 2005 new variable
 common#:#inform_user_mail#:#Send email for at infomere brugere om &aelig;ndringer
 common#:#information_abbr#:#Info###21 Apr 2005 new variable
 common#:#ingmedia_all_offers#:#Alle LE
@@ -1525,6 +1575,7 @@ common#:#internal_system#:#Internt system
 common#:#ip_address#:#IP Addresse
 common#:#is_already_your#:#er allerede din
 common#:#item#:#Ting
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KByte###21 Apr 2005 new variable
 common#:#keywords#:#N&oslash;gleord
 common#:#lang_cs#:#Czech###21 Apr 2005 new variable
@@ -1550,9 +1601,10 @@ common#:#lang_pt#:#Portugisk
 common#:#lang_ro#:#Romanian###22 Apr 2005 new variable
 common#:#lang_sep_decimal#:#.###21 Apr 2005 new variable
 common#:#lang_sep_thousand#:#,###21 Apr 2005 new variable
+common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
 common#:#lang_sv#:#Svensk
 common#:#lang_timeformat#:#H:i:s###21 Apr 2005 new variable
-common#:#lang_ua#:#Ukrainsk
 common#:#lang_version#:#1###21 Apr 2005 new variable
 common#:#lang_vi#:#Vietnamese###21 Apr 2005 new variable
 common#:#lang_xx#:#brugervalgte
@@ -1599,6 +1651,7 @@ common#:#link_check_message_disabled#:#Messages diabled###21 Apr 2005 new variab
 common#:#link_check_message_enabled#:#Messages enabled###21 Apr 2005 new variable
 common#:#link_check_subject#:#[ILIAS 3] Link check###21 Apr 2005 new variable
 common#:#link_checker_refreshed#:#Refreshed view###21 Apr 2005 new variable
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#Denne objekt er blevet linked
 common#:#linked_pages#:#Linkede Sider
 common#:#list_of_pages#:#Vis Sider
@@ -1746,6 +1799,7 @@ common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Flyt
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Flyt til
 common#:#move_users_to_style#:#Move users to style###21 Apr 2005 new variable
 common#:#msg_cancel#:#Handling annulleret
@@ -1870,6 +1924,7 @@ common#:#no_limit#:#Ingen GR&aelig;nse
 common#:#no_lo_in_personal_list#:#Ingen l&aelig;rer objekter i din personlige liste.
 common#:#no_local_users#:#Der er ingen lokal bruger
 common#:#no_objects#:#Ingen objekter
+common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
 common#:#no_permission_to_join#:#Du har ikke tilladelse til at se denne gruppe!
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###21 Apr 2005 new variable
 common#:#no_title#:#Ingen Titel
@@ -2011,6 +2066,7 @@ common#:#offline#:#offline###21 Apr 2005 new variable
 common#:#offline_version#:#Offline Version###21 Apr 2005 new variable
 common#:#ok#:#OK###21 Apr 2005 new variable
 common#:#old#:#Gammel
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version###21 Apr 2005 new variable
 common#:#open_views_inside_frameset#:#&aring;ben liste indeni frame
@@ -2038,6 +2094,7 @@ common#:#password_assistance_info#:#If password assistance is enabled, a link wi
 common#:#paste#:#Inds&aelig;t
 common#:#pasteChapter#:#Inds&aelig;t
 common#:#pastePage#:#Inds&aelig;t
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Sti
 common#:#path_not_set#:#Sti er ikke angivet
 common#:#path_to_babylon#:#Sti til Babylon
@@ -2295,7 +2352,7 @@ common#:#show_list#:#Vis Liste
 common#:#show_members#:#Vis Medlemmer
 common#:#show_owner#:#Vis Ejer
 common#:#show_structure#:#Aktiver struktureret oversigt
-common#:#show_users_online#:#Vis brugere  online
+common#:#show_users_online#:#Vis brugere  online###20 Jun 2005 content changed
 common#:#signature#:#Signatur
 common#:#size#:#Size###21 Apr 2005 new variable
 common#:#skin_style#:#Default Skin / Style###21 Apr 2005 new variable
@@ -2343,13 +2400,19 @@ common#:#svy#:#Unders&oslash;gelse
 common#:#svy_add#:#Tilf&oslash;j Unders&oslash;gelse
 common#:#svy_delete#:#Slet Unders&oslash;gelse
 common#:#svy_edit_permission#:#&aelig;ndrer rettigheds indstillinger
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Inviter brugere til en unders&oslash;gelse
 common#:#svy_new#:#Ny Unders&oslash;gelse
 common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Deltag I en unders&oslash;gelse
 common#:#svy_read#:#Skriveadgang til unders&oslash;gelsen
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Upload fil
 common#:#svy_visible#:#Unders&oslash;gelsen er synlig
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Rediger Unders&oslash;gelse
 common#:#system#:#System###21 Apr 2005 new variable
 common#:#system_check#:#System Check###21 Apr 2005 new variable
@@ -2386,17 +2449,22 @@ common#:#time_h#:#Time
 common#:#time_limit#:#Adgang
 common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###21 Apr 2005 new variable
 common#:#time_limit_applied_users#:#Godkendte brugere
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#V&aelig;lg venligst en bruger.
 common#:#time_limit_not_valid#:#Perioden er ikke gyldig.
 common#:#time_limit_not_within_owners#:#Din adgang er tids begr&aelig;nset.
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Din adgangsperiode er udl&oslash;bet.
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Brugerdata er opdateret
 common#:#time_limits#:#Adgang
 common#:#time_segment#:#Tidsperiode
 common#:#title#:#Titel
 common#:#to#:#Til
 common#:#to_client_list#:#Til valg af klient
-common#:#to_desktop#:#Tilmeld
+common#:#to_desktop#:#Tilmeld###20 Jun 2005 content changed
 common#:#today#:#Idag
 common#:#toggleGlobalDefault#:#Toggle Global Default###21 Apr 2005 new variable
 common#:#toggleGlobalFixed#:#Toggle Global Fixed###21 Apr 2005 new variable
@@ -2416,13 +2484,17 @@ common#:#trash#:#Slettede ting
 common#:#treeview#:#Tr&aelig; oversigt
 common#:#tst#:#Test###21 Apr 2005 new variable
 common#:#tst_add#:#Tilf&oslash;j tekst
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Slet test
 common#:#tst_edit_permission#:#&aelig;ndre system indstillinger
 common#:#tst_new#:#Ny test
 common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
 common#:#tst_read#:#L&aelig;se adgang til Test
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Upload fil
 common#:#tst_visible#:#Testen er synlig
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Rediger Test
 common#:#txt_add_object_instruction1#:#G&aring; til placeringen hvor du vil tilf&oslash;je
 common#:#txt_add_object_instruction2#:#.###21 Apr 2005 new variable
@@ -2440,7 +2512,7 @@ common#:#unknown#:#Ukendt
 common#:#unread#:#Ul&aelig;ste
 common#:#unread_lowercase#:#unread###21 Apr 2005 new variable
 common#:#unselected#:#Uvalgt
-common#:#unsubscribe#:#Afmeld
+common#:#unsubscribe#:#Afmeld###20 Jun 2005 content changed
 common#:#unzip#:#Unzip###21 Apr 2005 new variable
 common#:#up#:#Op
 common#:#update#:#Edit###21 Apr 2005 new variable
@@ -2480,10 +2552,19 @@ common#:#user_not_chosen#:#Du valgte ikke et gruppemedlem!
 common#:#user_profile_other#:#Other Information###21 Apr 2005 new variable
 common#:#user_statistics#:#Statistiske Data
 common#:#userdata#:#Brugerdata
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Brugernavn
 common#:#users#:#Brugere
 common#:#users_not_imported#:#F&oslash;lgende brugere eksisterer ikke, Deres beskeder kan ikke importeres
-common#:#users_online#:#Brugere Online
+common#:#users_online#:#Brugere Online###20 Jun 2005 content changed
+common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Bruger Sporing
 common#:#usr#:#Bruger
 common#:#usr_a#:#En bruger
@@ -2541,7 +2622,10 @@ common#:#version#:#Version###21 Apr 2005 new variable
 common#:#versions#:#Versions###21 Apr 2005 new variable
 common#:#view#:#Se
 common#:#view_content#:#Se Indhold
+common#:#visible#:#Visible###20 Jun 2005 new variable
 common#:#visible_layers#:#Synlige lag
+common#:#visitor#:#Visitor###20 Jun 2005 new variable
+common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Bes&oslash;g
 common#:#web_resources#:#Web resources###11 Mar 2005 new variable
 common#:#webr#:#Web resource###11 Mar 2005 new variable
@@ -2640,6 +2724,7 @@ content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###21 
 content#:#cont_caption#:#Caption###21 Apr 2005 new variable
 content#:#cont_change_type#:#&aelig;ndre type
 content#:#cont_chap_and_pages#:#Kapitler og sider
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.###21 Apr 2005 new variable
 content#:#cont_chapters#:#Kapitler
 content#:#cont_chapters_and_pages#:#Kapitler og Sider
@@ -2986,6 +3071,7 @@ content#:#cont_wysiwyg#:#Indhold Wysiwyg
 content#:#cont_xml_base#:#xml:base###21 Apr 2005 new variable
 content#:#cont_year#:#&aring;r
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
+content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###21 Apr 2005 new variable
 content#:#lm_menu_entry_target#:#Target###21 Apr 2005 new variable
 content#:#lm_menu_entry_title#:#Title###21 Apr 2005 new variable
@@ -3539,10 +3625,10 @@ dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
 dateplaner#:#viewlist#:#vis
 dateplaner#:#week#:#uge
+dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#&aring;r
 forum#:#forums#:#Forums###21 Apr 2005 new variable
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###21 Apr 2005 new variable
-forum#:#forums_articles#:#Artikler
 forum#:#forums_attachments#:#Vedh&aelig;ftninger
 forum#:#forums_attachments_add#:#Tilf&oslash;j vedh&aelig;ftning
 forum#:#forums_attachments_edit#:#Rediger vedh&aelig;ftning
@@ -3558,10 +3644,7 @@ forum#:#forums_edit_post#:#Rediger Artikel
 forum#:#forums_info_censor2_post#:#Genkald moderator?
 forum#:#forums_info_censor_post#:#Er du sikker p&aring; du vil skjule denne artikel?
 forum#:#forums_info_delete_post#:#Er du sikker p&aring; at du vil slette den artikel inkl. eventuelle svar p&aring; den?
-forum#:#forums_last_post#:#Sidste Armtikel
 forum#:#forums_mark_read#:#Marker alle som l&aelig;st
-forum#:#forums_moderators#:#Moderatore
-forum#:#forums_new_articles#:#Nye artikler
 forum#:#forums_new_entries#:#Ny forum tr&aring;d
 forum#:#forums_new_thread#:#Nyt emne
 forum#:#forums_not_available#:#Forums ikke tilg&aelig;ngelige
@@ -3583,7 +3666,6 @@ forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.
 forum#:#forums_thread_new_entry#:#New topic has been created###21 Apr 2005 new variable
-forum#:#forums_threads#:#Tr&aring;de
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige
 forum#:#forums_topics_overview#:#Emne Oversigt
 forum#:#forums_your_reply#:#Dit Svar
@@ -3972,11 +4054,13 @@ meta#:#meta_choose_section#:#V&aelig;lg en sektion
 meta#:#meta_classification#:#klassifikation
 meta#:#meta_collection#:#Samling
 meta#:#meta_competency#:#Kompetance
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Indhold
 meta#:#meta_contribute#:#Bidrag
 meta#:#meta_copyright_and_other_restrictions#:#Copyright og andre Restriktioner
 meta#:#meta_cost#:#Omkostninger
 meta#:#meta_coverage#:#D&aelig;kning
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Dato
 meta#:#meta_delete#:#Slet
 meta#:#meta_description#:#Beskriveslse
@@ -3986,9 +4070,11 @@ meta#:#meta_dificult#:#Sv&aelig;r
 meta#:#meta_draft#:#Udvalgt
 meta#:#meta_duration#:#Varighed
 meta#:#meta_easy#:#let
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Uddannelse
 meta#:#meta_educational_level#:#Uddannelses level
 meta#:#meta_educational_objective#:#L&aelig;rings objekt
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Objekt
 meta#:#meta_entry#:#Indgang
 meta#:#meta_exam#:#Eksamen
@@ -4000,6 +4086,7 @@ meta#:#meta_final#:#Slut
 meta#:#meta_format#:#Format###21 Apr 2005 new variable
 meta#:#meta_general#:#Generelt
 meta#:#meta_graph#:#Graf
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#Har format
 meta#:#meta_has_part#:#Har del
 meta#:#meta_has_version#:#Har version
@@ -4010,7 +4097,9 @@ meta#:#meta_id#:#Id###21 Apr 2005 new variable
 meta#:#meta_idea#:#Id
 meta#:#meta_identifier#:#Identificering
 meta#:#meta_index#:#Indeks
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Installations bem&aelig;rkning
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#&oslash;nsket slut bruger role
 meta#:#meta_interactivity_level#:#Interaktiv level   
 meta#:#meta_interactivity_type#:#Interaktiv type
@@ -4216,6 +4305,7 @@ meta#:#meta_revised#:#Omvendt
 meta#:#meta_rights#:#Rettigheder
 meta#:#meta_role#:#Role###21 Apr 2005 new variable
 meta#:#meta_school#:#Skole
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Sikkerheds Level
 meta#:#meta_self_assessment#:#Selv opgave
 meta#:#meta_semantic_density#:#Semantic Density###21 Apr 2005 new variable
@@ -4226,11 +4316,15 @@ meta#:#meta_slide#:#Side
 meta#:#meta_source#:#Kilde
 meta#:#meta_status#:#Status###21 Apr 2005 new variable
 meta#:#meta_structure#:#Struktur
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Tabel
 meta#:#meta_taxon#:#Taxon###21 Apr 2005 new variable
 meta#:#meta_taxon_path#:#Taxon sti
 meta#:#meta_teacher#:#L&aelig;rer
 meta#:#meta_technical#:#Teknisk
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Tr&aelig;ning
 meta#:#meta_type#:#Type###21 Apr 2005 new variable
@@ -4238,6 +4332,8 @@ meta#:#meta_typical_age_range#:#Typisk alders fordeling
 meta#:#meta_typical_learning_time#:#Typisk l&aelig;rings tid
 meta#:#meta_unavailable#:#Ikke tilg&aelig;ngelig
 meta#:#meta_unix#:#Unix###21 Apr 2005 new variable
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#V&aelig;rdi
 meta#:#meta_version#:#Version###21 Apr 2005 new variable
 meta#:#meta_very_difficult#:#meget sv&aelig;r
@@ -4459,14 +4555,26 @@ pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til brug
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\nDin passwordassistancesession er udl&oslash;bet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig p&aring; email mere end 1 gang, eller fordi der er g&aring;et for lang tid siden linket blev sendt til dig.
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.
 search#:#search_active#:#Include active users###21 Apr 2005 new variable
+search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
+search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
 search#:#search_all_results#:#Alle resultater
+search#:#search_all_words#:#All words###20 Jun 2005 new variable
 search#:#search_and#:#og
+search#:#search_any#:#-- Any --###20 Jun 2005 new variable
+search#:#search_any_word#:#Any word###20 Jun 2005 new variable
+search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
+search#:#search_below#:#Beneath:###20 Jun 2005 new variable
+search#:#search_change#:#Change###20 Jun 2005 new variable
 search#:#search_concatenation#:#Sammenk&aelig;dning
 search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
 search#:#search_dbk_meta#:#Digitalt bibliotek (meta data)
 search#:#search_delete_sure#:#Objektet og dets indhold vil blive slettet permenent
+search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_group#:#Grupper
+search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#S&oslash;g inden for resultaterne
 search#:#search_inactive#:#Include inactive users###21 Apr 2005 new variable
 search#:#search_lm_content#:# L&aelig;rings materialer (indhold)
@@ -4495,13 +4603,17 @@ search#:#search_search_no_results_saved#:#Der er ikke gemt nogen s&oslash;ge res
 search#:#search_search_results#:#S&oslash;geresultater
 search#:#search_search_term#:#S&oslash;georg
 search#:#search_select_exactly_one_object#:#Du skal v&aelig;lge et objekt.
+search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#V&aelig;lg en folder
 search#:#search_select_one_action#:#--V&aelig;lg en aktion--
 search#:#search_select_one_folder_select#:#--V&aelig;lg en folder--
 search#:#search_select_one_result#:#V&oslash;lg minimum et s&oslash;geresultat
 search#:#search_select_one_select#:#--V&aelig;lg en mappe--
 search#:#search_show_result#:#Vis
+search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
+search#:#search_type#:#Search type###20 Jun 2005 new variable
 search#:#search_user#:#Brugere
+search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Tilf&oslash;j kategori
 survey#:#add_heading#:#Tilf&oslash;j retning
 survey#:#add_limits_for_standard_numbers#:#Indtast venligst en nedre og &oslash;vre gr&aelig;nse for de standart numre du vil tilf&oslash;je tilkatagorier.
@@ -4645,7 +4757,6 @@ survey#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
 survey#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;lsgrupper
 survey#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
 survey#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;lsgrupper
-survey#:#finished#:#Afsluttet
 survey#:#found_questions#:#Fundne sp&oslash;rgsm&aring;l
 survey#:#geometric_mean#:#Geometric mean###21 Apr 2005 new variable
 survey#:#given_answers#:#Givet svar
@@ -4713,8 +4824,6 @@ survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du s&oslas
 survey#:#no_user_phrases_defined#:#Der er ingen brugere tilg&aelig;ngelige!
 survey#:#nominal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#non_ratio#:#Non-Ratio###21 Apr 2005 new variable
-survey#:#not_finished#:#Ikke afsluttet
-survey#:#not_started#:#ikke startet
 survey#:#not_used#:#not used###21 Apr 2005 new variable
 survey#:#obligatory#:#obligatorisk
 survey#:#off#:#off###21 Apr 2005 new variable
@@ -4857,4 +4966,3 @@ survey#:#view_constraints_introduction#:#Du viser begr&aelig;nsinger p&aring; f&
 survey#:#view_phrase#:#Vis s&aelig;tning
 survey#:#warning_question_in_use#:#Advarsel! Sp&oslash;rgsm&aring;let du vil &aelig;ndre er i brug af sp&oslash;rgeskemaet herunder. Hvis du v&aelig;lger at forts&aelig;tte og gemme dette sp&oslash;rgsm&aring;l, vil alle svarende i sp&oslash;rgeskemaet blive slettet. Hvis du vil &aelig;ndre sp&oslash;rgsm&aring;let og bruge det i et andet sp&oslash;rgeskema, v&aelig;lg da kopier i sp&oslash;rgsm&aring;ls browseren for at oprette en kopi af sp&oslash;rgsm&aring;let.
 survey#:#warning_question_not_complete#:#Sp&oslash;rgeskemaet er ikke f&aelig;rdigt!
-survey#:#warning_survey_not_complete#:#Sp&oslash;rgeskemaet er ikke f&aelig;rdigt!

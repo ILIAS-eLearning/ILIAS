@@ -303,6 +303,8 @@ assessment#:#postpone#:#Reporter question à la fin###07 Apr 2005 content change
 assessment#:#postponed#:#reporté###07 Apr 2005 content changed
 assessment#:#preview#:#Prévisualisation###07 Apr 2005 content changed
 assessment#:#previous_question_rows#:#<< Questions %d - %d sur %d###07 Apr 2005 content changed
+assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
+assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Il n'y a pas d'évaluation  pour la question sélectionnée.  La question n'a jamais été utilisée dans un test.###07 Apr 2005 content changed
 assessment#:#qpl_assessment_of_questions#:#Evaluation de questions###07 Apr 2005 content changed
 assessment#:#qpl_assessment_total_of_answers#:#Total des réponses###07 Apr 2005 content changed
@@ -384,7 +386,6 @@ assessment#:#true#:#Vrai###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites###07 Apr 2005 content changed
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#Tests déjà pris###07 Apr 2005 content changed
-assessment#:#tst_anon_eval#:#Résultats anonymes agrégés###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Parcourir les questions###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats précédents des questions de ce test. Cela remettra toutes les questions à leur valeur par défaut. Souvenez-vous que vous ne pouvez pas réinitialiser le nombre de tentatives que vous avez faites pour ce test. Voulez-vous vraiment réinitialiser les résultats saisis ?###07 Apr 2005 content changed
@@ -470,6 +471,9 @@ assessment#:#tst_result_congratulations#:#Félicitations ! vous avez validé le 
 assessment#:#tst_result_sorry#:#Désolé, vous avez échoué au test###07 Apr 2005 content changed
 assessment#:#tst_results#:#Résultats du test###07 Apr 2005 content changed
 assessment#:#tst_resume_test#:#Reprendre le test###07 Apr 2005 content changed
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Communication des scores###07 Apr 2005 content changed
 assessment#:#tst_score_reporting_date#:#Date de communication des scores###07 Apr 2005 content changed
 assessment#:#tst_score_type#:#Type de communication des scores###07 Apr 2005 content changed
@@ -487,6 +491,7 @@ assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Montrer les résultats du test###07 Apr 2005 content changed
 assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Commencer le test###07 Apr 2005 content changed
+assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Date de début###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Tous les utilisateurs###07 Apr 2005 content changed
 assessment#:#tst_stat_choose_users#:#(sélectionnez un ou plusieurs utilisateurs dans la liste)###07 Apr 2005 content changed
@@ -509,7 +514,6 @@ assessment#:#tst_stat_result_timeofwork#:#Temps de travail###07 Apr 2005 content
 assessment#:#tst_stat_result_total_participants#:#Nombre total de participants###07 Apr 2005 content changed
 assessment#:#tst_stat_selected_users#:#Participants sélectionnés###07 Apr 2005 content changed
 assessment#:#tst_stat_users_intro#:#Montrer l'évaluation statistique pour###07 Apr 2005 content changed
-assessment#:#tst_statistical_evaluation#:#Evaluation statistique###07 Apr 2005 content changed
 assessment#:#tst_status_completed#:#terminé###07 Apr 2005 content changed
 assessment#:#tst_status_completed_more_tries_possible#:#(terminé)###07 Apr 2005 content changed
 assessment#:#tst_status_missing#:#Il y a des éléments manquants dans ce test.###07 Apr 2005 content changed
@@ -542,7 +546,6 @@ assessment#:#uploaded_material#:#Matériau téléchargé###07 Apr 2005 content c
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#La question n'est pas terminée.###07 Apr 2005 content changed
-assessment#:#warning_test_not_complete#:#Le test n'est pas terminé###07 Apr 2005 content changed
 assessment#:#when#:#quand###07 Apr 2005 content changed
 assessment#:#width#:#Largeur###07 Apr 2005 content changed
 assessment#:#with_order#:#dans l'ordre###07 Apr 2005 content changed
@@ -613,6 +616,9 @@ chat#:#chat_add_external_ip#:#Veuillez saisir l'adresse IP externe du serveur.##
 chat#:#chat_add_internal_ip#:#Veuillez saisir l'adresse IP interne du serveur.###07 Apr 2005 content changed
 chat#:#chat_add_moderator_password#:#Veuillez saisir un mot de passe de modérateur###07 Apr 2005 content changed
 chat#:#chat_add_port#:#Veuillez saisir le port du serveur.###07 Apr 2005 content changed
+chat#:#chat_add_private_chatroom#:#Add private chatroom###20 Jun 2005 new variable
+chat#:#chat_address#:#Address###20 Jun 2005 new variable
+chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua###07 Apr 2005 content changed
 chat#:#chat_arial#:#Arial###07 Apr 2005 content changed
 chat#:#chat_black#:#noir###07 Apr 2005 content changed
@@ -638,6 +644,7 @@ chat#:#chat_insert_message#:#Veuillez saisir un message###07 Apr 2005 content ch
 chat#:#chat_invitation_body#:#Invitation sur le chat de :###07 Apr 2005 content changed
 chat#:#chat_invitation_subject#:#Invitation chat###07 Apr 2005 content changed
 chat#:#chat_invite_user#:#Inviter utilisateur###07 Apr 2005 content changed
+chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Italique###07 Apr 2005 content changed
 chat#:#chat_level_all#:#Tout###07 Apr 2005 content changed
 chat#:#chat_level_debug#:#Debogage###07 Apr 2005 content changed
@@ -658,6 +665,7 @@ chat#:#chat_no_write_perm#:#Pas de permission d'écriture###07 Apr 2005 content 
 chat#:#chat_olive#:#vert olive###07 Apr 2005 content changed
 chat#:#chat_online_users#:#Utilisateur (en ligne)###07 Apr 2005 content changed
 chat#:#chat_private_message#:#Message privé###07 Apr 2005 content changed
+chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Salon public###07 Apr 2005 content changed
 chat#:#chat_purple#:#violet###07 Apr 2005 content changed
 chat#:#chat_red#:#rouge###07 Apr 2005 content changed
@@ -692,6 +700,7 @@ chat#:#chat_type#:#Type de police###07 Apr 2005 content changed
 chat#:#chat_underlined#:#Souligné###07 Apr 2005 content changed
 chat#:#chat_user_dropped#:#Utilisateur expulsé###07 Apr 2005 content changed
 chat#:#chat_user_invited#:#Utilisateur invité au chat###07 Apr 2005 content changed
+chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#jaune###07 Apr 2005 content changed
 chat#:#chats#:#Chats###07 Apr 2005 content changed
 chat#:#my_chats#:#Mes chats###07 Apr 2005 content changed
@@ -725,12 +734,16 @@ common#:#adm_edit_permission#:#Changer les paramètres de permission###07 Apr 20
 common#:#adm_read#:#Accès en lecture aux paramètres de base du système###07 Apr 2005 content changed
 common#:#adm_visible#:#Les paramètres du système sont visibles###07 Apr 2005 content changed
 common#:#adm_write#:#Modifier les paramètres du système###07 Apr 2005 content changed
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Administrer###07 Apr 2005 content changed
 common#:#administrate_users#:#Administration des utilisateurs locaux###07 Apr 2005 content changed
 common#:#administration#:#Administration###07 Apr 2005 content changed
 common#:#administrator#:#Administrateur###07 Apr 2005 content changed
 common#:#adopt#:#Choisir###07 Apr 2005 content changed
 common#:#adopt_perm_from_template#:#Adopter la permission à partir du modèle de rôle###07 Apr 2005 content changed
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Tous les auteurs###07 Apr 2005 content changed
 common#:#all_global_roles#:#Rôles globaux###07 Apr 2005 content changed
 common#:#all_lms#:#Tous les modules d'apprentissage###07 Apr 2005 content changed
@@ -792,6 +805,8 @@ common#:#assign_local_role#:#Assigner à un rôle local###07 Apr 2005 content ch
 common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle###07 Apr 2005 content changed
 common#:#assigned_roles#:#Rôles assignés###07 Apr 2005 content changed
 common#:#assigned_users#:#Utilisateurs assignés###07 Apr 2005 content changed
+common#:#associated_user#:#associated User###20 Jun 2005 new variable
+common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#Un style au moins doit rester actif###07 Apr 2005 content changed
 common#:#at_location#:#à l'emplacement###07 Apr 2005 content changed
 common#:#attachment#:#Document joint###07 Apr 2005 content changed
@@ -952,6 +967,7 @@ common#:#client_id#:#ID client###07 Apr 2005 content changed
 common#:#client_ip#:#IP client###07 Apr 2005 content changed
 common#:#clipboard#:#Presse-papier###07 Apr 2005 content changed
 common#:#close#:#Fermer###07 Apr 2005 content changed
+common#:#close_window#:#Close window###20 Jun 2005 new variable
 common#:#comma_separated#:#Séparé par des virgules (CSV)###07 Apr 2005 content changed
 common#:#comment#:#commentaire###07 Apr 2005 content changed
 common#:#compose#:#Composer###07 Apr 2005 content changed
@@ -979,6 +995,7 @@ common#:#continue_work#:#Continuer###07 Apr 2005 content changed
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Objet copié###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Copie###07 Apr 2005 content changed
 common#:#copy_of#:#Copie de###07 Apr 2005 content changed
 common#:#copy_to#:#vers###07 Apr 2005 content changed
@@ -988,6 +1005,7 @@ common#:#course#:#Cours###07 Apr 2005 content changed
 common#:#courses#:#Cours###07 Apr 2005 content changed
 common#:#create#:#Créer###07 Apr 2005 content changed
 common#:#create_date#:#Créé le###07 Apr 2005 content changed
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Créer dans###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Créer style###07 Apr 2005 content changed
 common#:#created#:#Créer date###07 Apr 2005 content changed
@@ -1079,11 +1097,13 @@ common#:#default_roles#:#Rôles par défaut###07 Apr 2005 content changed
 common#:#default_skin#:#Apparence par défaut###07 Apr 2005 content changed
 common#:#default_skin_style#:#Thème / Style par défaut###07 Apr 2005 content changed
 common#:#default_style#:#Style par défaut###07 Apr 2005 content changed
+common#:#default_value#:#Default Value###20 Jun 2005 new variable
 common#:#delete#:#Détruire###07 Apr 2005 content changed
 common#:#delete_all#:#Détruire tout###07 Apr 2005 content changed
 common#:#delete_all_rec#:#Détruire tous les enregistrements###07 Apr 2005 content changed
 common#:#delete_object#:#Détruire objet(s)###07 Apr 2005 content changed
 common#:#delete_selected#:#Détruire sélection###07 Apr 2005 content changed
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Détruire données de suivi###07 Apr 2005 content changed
 common#:#deleted#:#Détruit###07 Apr 2005 content changed
 common#:#deleted_user#:#L'utilisateur a été détruit###07 Apr 2005 content changed
@@ -1116,6 +1136,7 @@ common#:#email#:#Email###07 Apr 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS###07 Apr 2005 content changed
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide###07 Apr 2005 content changed
 common#:#enable#:#Activer###07 Apr 2005 content changed
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Activer les commentaires d'utilisateurs dans l'historique###07 Apr 2005 content changed
 common#:#enable_hist_user_comments_desc#:#Donne la possibilité aux auteurs d'ajouter des commentaire à l'historique des pages.###07 Apr 2005 content changed
 common#:#enable_js_edit#:#Activer éditeur javascript###07 Apr 2005 content changed
@@ -1302,6 +1323,11 @@ common#:#glo_delete#:#Détruire glossaire###07 Apr 2005 content changed
 common#:#glo_edit_permission#:#Changer paramètres de permission###07 Apr 2005 content changed
 common#:#glo_join#:#S'abonner au glossaire###07 Apr 2005 content changed
 common#:#glo_leave#:#Se désabonner du glossaire###07 Apr 2005 content changed
+common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
+common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
+common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
+common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Nouveau glossaire###07 Apr 2005 content changed
 common#:#glo_read#:#Accès en lecture au glossaire###07 Apr 2005 content changed
 common#:#glo_upload_file#:#Fichier###07 Apr 2005 content changed
@@ -1463,6 +1489,7 @@ common#:#htlm_write#:#Modifier document HTML importé###07 Apr 2005 content chan
 common#:#http_not_possible#:#Ce serveur ne permet pas les connexions HTTP.###07 Apr 2005 content changed
 common#:#http_path#:#Chemin HTTP###07 Apr 2005 content changed
 common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.###07 Apr 2005 content changed
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#Salle de classe iLinc###07 Apr 2005 content changed
 common#:#icla_add#:#Ajouter salle de classe iLinc###07 Apr 2005 content changed
 common#:#icla_delete#:#Détruire salle de classe iLinc###07 Apr 2005 content changed
@@ -1484,9 +1511,16 @@ common#:#identifier#:#identifiant###07 Apr 2005 content changed
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier###07 Apr 2005 content changed
 common#:#if_no_title_then_url#:#Laisser vide pour afficher l'URL###07 Apr 2005 content changed
 common#:#ignore_on_conflict#:#Ignorer les conflits XXX###07 Apr 2005 content changed
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Member###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#ilias_version#:#Version ILIAS###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#Classes iLinc###07 Apr 2005 content changed
 common#:#ilinc_courses#:#Cours iLinc###07 Apr 2005 content changed
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Image###07 Apr 2005 content changed
 common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander à votre administrateur système de vérifier le chemin vers l'utilitaire convert.###07 Apr 2005 content changed
 common#:#import#:#Importation###07 Apr 2005 content changed
@@ -1517,10 +1551,26 @@ common#:#inactive#:#Inactif###07 Apr 2005 content changed
 common#:#inbox#:#Réception###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Informations###07 Apr 2005 content changed
+common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
+common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
 common#:#info_assign_sure#:#Etes-vous sûr(e) de vouloir inscrire les utilisateurs suivants ?###07 Apr 2005 content changed
+common#:#info_assigned#:#assigned###20 Jun 2005 new variable
+common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
+common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#Etes-vous sûr(e) de vouloir détruire les objets suivants ?###07 Apr 2005 content changed
 common#:#info_deleted#:#Objet(s) détruit(s)###07 Apr 2005 content changed
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_is_member#:#User is member###20 Jun 2005 new variable
+common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
+common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
+common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Objets détruits###07 Apr 2005 content changed
+common#:#info_view_of_user#:#View of user###20 Jun 2005 new variable
 common#:#inform_user_mail#:#Envoyer un email pour informer les utilisateurs des changements###07 Apr 2005 content changed
 common#:#information_abbr#:#Info###07 Apr 2005 content changed
 common#:#ingmedia_all_offers#:#Tous les LE###07 Apr 2005 content changed
@@ -1561,6 +1611,7 @@ common#:#internal_system#:#Système interne###07 Apr 2005 content changed
 common#:#ip_address#:#Adresse IP###07 Apr 2005 content changed
 common#:#is_already_your#:#est déjà votre###07 Apr 2005 content changed
 common#:#item#:#Objet###07 Apr 2005 content changed
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#Ko###07 Apr 2005 content changed
 common#:#keywords#:#Mots-clés###07 Apr 2005 content changed
 common#:#lang_cs#:#Tchèque###07 Apr 2005 content changed
@@ -1586,6 +1637,8 @@ common#:#lang_pt#:#Portugais###07 Apr 2005 content changed
 common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#,###07 Apr 2005 content changed
 common#:#lang_sep_thousand#:#.###07 Apr 2005 content changed
+common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
 common#:#lang_sv#:#Suédois###07 Apr 2005 content changed
 common#:#lang_timeformat#:#H:i:s###07 Apr 2005 content changed
 common#:#lang_uk#:#Ukrainien###07 Apr 2005 content changed
@@ -1635,6 +1688,7 @@ common#:#link_check_message_disabled#:#Messages désactivés###07 Apr 2005 conte
 common#:#link_check_message_enabled#:#Messages activés###07 Apr 2005 content changed
 common#:#link_check_subject#:#[ILIAS 3] Vérification des liens###07 Apr 2005 content changed
 common#:#link_checker_refreshed#:#Vue actualisée###07 Apr 2005 content changed
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#L'objet a été lié###07 Apr 2005 content changed
 common#:#linked_pages#:#Pages liées###07 Apr 2005 content changed
 common#:#list_of_pages#:#Liste des pages###07 Apr 2005 content changed
@@ -1786,6 +1840,7 @@ common#:#monthly#:#mensuel###07 Apr 2005 content changed
 common#:#move#:#Couper###07 Apr 2005 content changed
 common#:#moveChapter#:#Couper###07 Apr 2005 content changed
 common#:#movePage#:#Couper###07 Apr 2005 content changed
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Couper vers###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Déplacer les utilisateurs dans le style XXX###07 Apr 2005 content changed
 common#:#msg_cancel#:#Action annulée###07 Apr 2005 content changed
@@ -1802,7 +1857,9 @@ common#:#msg_deleted_rolt#:#Modèle de rôle supprimé###07 Apr 2005 content cha
 common#:#msg_deleted_rolts#:#Modèles de rôle supprimés###07 Apr 2005 content changed
 common#:#msg_error_copy#:#Erreur de copie###07 Apr 2005 content changed
 common#:#msg_failed#:#Désolé, l'action a échoué###07 Apr 2005 content changed
+common#:#msg_invalid_filetype#:#Invalid file type###20 Jun 2005 new variable
 common#:#msg_is_last_role#:#Vous avez enlevé les utilisateurs suivants de leur dernier rôle global###07 Apr 2005 content changed
+common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.###20 Jun 2005 new variable
 common#:#msg_link_clipboard#:#Objet(s) sélectionné(s) enregistré(s) dans le presse-papier (Action : lier)###07 Apr 2005 content changed
 common#:#msg_linked#:#Objet(s) sélectionné(s) lié(s)###07 Apr 2005 content changed
 common#:#msg_may_not_contain#:#Cet objet ne peut pas contenir d'objets de type : ###07 Apr 2005 content changed
@@ -1908,6 +1965,7 @@ common#:#no_limit#:#Pas de limite###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle###07 Apr 2005 content changed
 common#:#no_local_users#:#Pas d'utilisateur local###07 Apr 2005 content changed
 common#:#no_objects#:#Pas d'objet###07 Apr 2005 content changed
+common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
 common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Vous n'êtes pas autorisé à rejoindre ce groupe.###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#Il n'y a aucun rôle global auquel l'utilisateur peut être assigné. Vous n'êtes donc pas autorisé à ajouter des utilisateurs.###07 Apr 2005 content changed
@@ -2052,6 +2110,7 @@ common#:#offline#:#hors-ligne###07 Apr 2005 content changed
 common#:#offline_version#:#Version hors-ligne###07 Apr 2005 content changed
 common#:#ok#:#OK###07 Apr 2005 content changed
 common#:#old#:#Ancien###07 Apr 2005 content changed
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#Chapitre en ligne###07 Apr 2005 content changed
 common#:#online_version#:#Version en ligne###07 Apr 2005 content changed
 common#:#open_views_inside_frameset#:#Ouvrir les vues dans le jeu de cadres###07 Apr 2005 content changed
@@ -2079,6 +2138,7 @@ common#:#password_assistance_info#:#Si l'assistance pour les mots de passe est a
 common#:#paste#:#Coller###07 Apr 2005 content changed
 common#:#pasteChapter#:#Coller###07 Apr 2005 content changed
 common#:#pastePage#:#Coller###07 Apr 2005 content changed
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Chemin###07 Apr 2005 content changed
 common#:#path_not_set#:#Chemin non défini###07 Apr 2005 content changed
 common#:#path_to_babylon#:#Chemin de Babylon###07 Apr 2005 content changed
@@ -2422,13 +2482,19 @@ common#:#svy#:#Sondage###07 Apr 2005 content changed
 common#:#svy_add#:#Ajouter sondage###07 Apr 2005 content changed
 common#:#svy_delete#:#Détruire sondage###07 Apr 2005 content changed
 common#:#svy_edit_permission#:#Changer paramètres de permission###07 Apr 2005 content changed
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Inviter les utilisateurs à un sondage###07 Apr 2005 content changed
 common#:#svy_new#:#Nouveau sondage###07 Apr 2005 content changed
 common#:#svy_no_content#:#Pas de sondage disponible###07 Apr 2005 content changed
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Participer à un sondage###07 Apr 2005 content changed
 common#:#svy_read#:#Accès en lecture au sondage###07 Apr 2005 content changed
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Téléverser fichier###07 Apr 2005 content changed
 common#:#svy_visible#:#Le sondage est visible###07 Apr 2005 content changed
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Modifier sondage###07 Apr 2005 content changed
 common#:#system#:#Système###07 Apr 2005 content changed
 common#:#system_check#:#Vérification du système###07 Apr 2005 content changed
@@ -2465,10 +2531,15 @@ common#:#time_h#:#Heure###07 Apr 2005 content changed
 common#:#time_limit#:#Accès###07 Apr 2005 content changed
 common#:#time_limit_add_time_limit_for_selected#:#Veuillez saisir une période pour les utilisateurs sélectionnés###07 Apr 2005 content changed
 common#:#time_limit_applied_users#:#Utilisateurs candidats###07 Apr 2005 content changed
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Veuillez sélectionner un utilisateur###07 Apr 2005 content changed
 common#:#time_limit_not_valid#:#La période n'est pas valide###07 Apr 2005 content changed
 common#:#time_limit_not_within_owners#:#Votre accès est limité. La période est hors de vos limites.###07 Apr 2005 content changed
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Votre période d'accès a expiré###07 Apr 2005 content changed
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Données utilisateurs mises à jour###07 Apr 2005 content changed
 common#:#time_limits#:#Accès###07 Apr 2005 content changed
 common#:#time_segment#:#Unité de temps###07 Apr 2005 content changed
@@ -2495,13 +2566,17 @@ common#:#trash#:#Corbeille###07 Apr 2005 content changed
 common#:#treeview#:#Arborescence###07 Apr 2005 content changed
 common#:#tst#:#Test###07 Apr 2005 content changed
 common#:#tst_add#:#Ajouter test###07 Apr 2005 content changed
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Détruire test###07 Apr 2005 content changed
 common#:#tst_edit_permission#:#Changer paramètres de permission###07 Apr 2005 content changed
 common#:#tst_new#:#Nouveau test###07 Apr 2005 content changed
 common#:#tst_no_content#:#Pas de test disponible###07 Apr 2005 content changed
 common#:#tst_read#:#Accès en lecture au test###07 Apr 2005 content changed
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Téléverser fichier###07 Apr 2005 content changed
 common#:#tst_visible#:#Le test est visible###07 Apr 2005 content changed
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Modifier test###07 Apr 2005 content changed
 common#:#txt_add_object_instruction1#:#Parcourez jusqu'à l'endroit où vous voulez ajouter###07 Apr 2005 content changed
 common#:#txt_add_object_instruction2#:#.###07 Apr 2005 content changed
@@ -2557,10 +2632,19 @@ common#:#user_language#:#Langue utilisateur###07 Apr 2005 content changed
 common#:#user_not_chosen#:#Vous n'avez pas choisi un membre du groupe.###07 Apr 2005 content changed
 common#:#user_statistics#:#Données statistiques###07 Apr 2005 content changed
 common#:#userdata#:#Données utilisateur###07 Apr 2005 content changed
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Nom d'utilisateur###07 Apr 2005 content changed
 common#:#users#:#Utilisateurs###07 Apr 2005 content changed
 common#:#users_not_imported#:#Les utilisateurs suivants n'existent pas, leurs messages ne peuvent pas être importés###07 Apr 2005 content changed
 common#:#users_online#:#Utilisateurs en ligne###07 Apr 2005 content changed
+common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Suivi utilisateur###07 Apr 2005 content changed
 common#:#usr#:#Utilisateur###07 Apr 2005 content changed
 common#:#usr_a#:#un utilisateur###07 Apr 2005 content changed
@@ -2620,7 +2704,10 @@ common#:#version#:#Version###07 Apr 2005 content changed
 common#:#versions#:#Versions###07 Apr 2005 content changed
 common#:#view#:#Voir###07 Apr 2005 content changed
 common#:#view_content#:#Voir contenu###07 Apr 2005 content changed
+common#:#visible#:#Visible###20 Jun 2005 new variable
 common#:#visible_layers#:#Couches visibles###07 Apr 2005 content changed
+common#:#visitor#:#Visitor###20 Jun 2005 new variable
+common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Visites###07 Apr 2005 content changed
 common#:#web_resources#:#Ressources web###07 Apr 2005 content changed
 common#:#webr#:#Ressource web###07 Apr 2005 content changed
@@ -2719,6 +2806,7 @@ content#:#cont_cant_del_std#:#Suppression du fichier vue standard impossible###0
 content#:#cont_caption#:#Titre###07 Apr 2005 content changed
 content#:#cont_change_type#:#Changer type###07 Apr 2005 content changed
 content#:#cont_chap_and_pages#:#Chapitres et pages###07 Apr 2005 content changed
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#Chapitre marqué pour déplacement.  Choisissez une cible maintenant.###07 Apr 2005 content changed
 content#:#cont_chapters#:#Chapitres###07 Apr 2005 content changed
 content#:#cont_chapters_and_pages#:#Chapitres et pages###07 Apr 2005 content changed
@@ -3064,6 +3152,7 @@ content#:#cont_wysiwyg#:#Contenu WYSIWYG###07 Apr 2005 content changed
 content#:#cont_xml_base#:#xml:base###07 Apr 2005 content changed
 content#:#cont_year#:#Année###07 Apr 2005 content changed
 content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.###07 Apr 2005 content changed
+content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Modifier entrée de menu###07 Apr 2005 content changed
 content#:#lm_menu_entry_target#:#Cible###07 Apr 2005 content changed
 content#:#lm_menu_entry_title#:#Titre###07 Apr 2005 content changed
@@ -3617,6 +3706,7 @@ dateplaner#:#to#:#à###07 Apr 2005 content changed
 dateplaner#:#today#:#aujourd'hui###07 Apr 2005 content changed
 dateplaner#:#viewlist#:#Voir###07 Apr 2005 content changed
 dateplaner#:#week#:#semaine###07 Apr 2005 content changed
+dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#année###07 Apr 2005 content changed
 forum#:#forums#:#Forums###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#Tous les fils de discussion ont été marqués comme lus###07 Apr 2005 content changed
@@ -4045,11 +4135,13 @@ meta#:#meta_choose_section#:#Veuillez choisir une section###07 Apr 2005 content 
 meta#:#meta_classification#:#Classification###07 Apr 2005 content changed
 meta#:#meta_collection#:#Collection###07 Apr 2005 content changed
 meta#:#meta_competency#:#Compétence###07 Apr 2005 content changed
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Contexte###07 Apr 2005 content changed
 meta#:#meta_contribute#:#Contribuer###07 Apr 2005 content changed
 meta#:#meta_copyright_and_other_restrictions#:#Droits d'auteur et autres restrictions###07 Apr 2005 content changed
 meta#:#meta_cost#:#Payant###07 Apr 2005 content changed
 meta#:#meta_coverage#:#Portée###07 Apr 2005 content changed
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Date###07 Apr 2005 content changed
 meta#:#meta_delete#:#Supprimer###07 Apr 2005 content changed
 meta#:#meta_description#:#Description###07 Apr 2005 content changed
@@ -4059,9 +4151,11 @@ meta#:#meta_dificult#:#Difficile###07 Apr 2005 content changed
 meta#:#meta_draft#:#Brouillon###07 Apr 2005 content changed
 meta#:#meta_duration#:#Durée###07 Apr 2005 content changed
 meta#:#meta_easy#:#Facile###07 Apr 2005 content changed
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Pédagogie###07 Apr 2005 content changed
 meta#:#meta_educational_level#:#Niveau pédagogique###07 Apr 2005 content changed
 meta#:#meta_educational_objective#:#Objectif pédagogique###07 Apr 2005 content changed
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Entité###07 Apr 2005 content changed
 meta#:#meta_entry#:#Entrée###07 Apr 2005 content changed
 meta#:#meta_exam#:#Examen###07 Apr 2005 content changed
@@ -4073,6 +4167,7 @@ meta#:#meta_final#:#Final###07 Apr 2005 content changed
 meta#:#meta_format#:#Format###07 Apr 2005 content changed
 meta#:#meta_general#:#Général###07 Apr 2005 content changed
 meta#:#meta_graph#:#Graphe###07 Apr 2005 content changed
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#A le format###07 Apr 2005 content changed
 meta#:#meta_has_part#:#A la partie###07 Apr 2005 content changed
 meta#:#meta_has_version#:#A la version###07 Apr 2005 content changed
@@ -4083,7 +4178,9 @@ meta#:#meta_id#:#Identifiant###07 Apr 2005 content changed
 meta#:#meta_idea#:#Idée###07 Apr 2005 content changed
 meta#:#meta_identifier#:#Identifiant###07 Apr 2005 content changed
 meta#:#meta_index#:#Index###07 Apr 2005 content changed
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Remarques sur l'installation###07 Apr 2005 content changed
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#Rôle prévu de l'utilisateur final###07 Apr 2005 content changed
 meta#:#meta_interactivity_level#:#Niveau d'interactivité###07 Apr 2005 content changed
 meta#:#meta_interactivity_type#:#Type d'interactivité###07 Apr 2005 content changed
@@ -4289,6 +4386,7 @@ meta#:#meta_revised#:#Révisé###07 Apr 2005 content changed
 meta#:#meta_rights#:#Droits###07 Apr 2005 content changed
 meta#:#meta_role#:#Rôle###07 Apr 2005 content changed
 meta#:#meta_school#:#Ecole###07 Apr 2005 content changed
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Niveau de sécurité###07 Apr 2005 content changed
 meta#:#meta_self_assessment#:#Auto-évaluation###07 Apr 2005 content changed
 meta#:#meta_semantic_density#:#Densité sémantique###07 Apr 2005 content changed
@@ -4299,11 +4397,15 @@ meta#:#meta_slide#:#Diapositive###07 Apr 2005 content changed
 meta#:#meta_source#:#Source###07 Apr 2005 content changed
 meta#:#meta_status#:#Statut###07 Apr 2005 content changed
 meta#:#meta_structure#:#Structure###07 Apr 2005 content changed
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Tableau###07 Apr 2005 content changed
 meta#:#meta_taxon#:#Taxinomie###07 Apr 2005 content changed
 meta#:#meta_taxon_path#:#Chemin de taxinomie###07 Apr 2005 content changed
 meta#:#meta_teacher#:#Enseignant###07 Apr 2005 content changed
 meta#:#meta_technical#:#Technique###07 Apr 2005 content changed
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Titre###07 Apr 2005 content changed
 meta#:#meta_training#:#Formation###07 Apr 2005 content changed
 meta#:#meta_type#:#Type###07 Apr 2005 content changed
@@ -4311,6 +4413,8 @@ meta#:#meta_typical_age_range#:#Classe d'âge typique###07 Apr 2005 content chan
 meta#:#meta_typical_learning_time#:#Temps d'apprentissage typique###07 Apr 2005 content changed
 meta#:#meta_unavailable#:#Indisponible###07 Apr 2005 content changed
 meta#:#meta_unix#:#Unix###07 Apr 2005 content changed
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#Valeur###07 Apr 2005 content changed
 meta#:#meta_version#:#Version###07 Apr 2005 content changed
 meta#:#meta_very_difficult#:#Très difficile###07 Apr 2005 content changed
@@ -4535,14 +4639,26 @@ pwassist#:#pwassist_session_expired#:#Veuillez remplir le formulaire à nouveau.
 pwassist#:#pwassist_update_error#:#Veuillez contacter votre adminsitrateur système.\nLe mot de passe n'a pas pu être assigné à l'utilisateur à cause d'une erreur lors de la modification de la base de données.###07 Apr 2005 content changed
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Inclure utilisateurs actifs###07 Apr 2005 content changed
+search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
+search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
 search#:#search_all_results#:#Tous les résultats###07 Apr 2005 content changed
+search#:#search_all_words#:#All words###20 Jun 2005 new variable
 search#:#search_and#:#et###07 Apr 2005 content changed
+search#:#search_any#:#-- Any --###20 Jun 2005 new variable
+search#:#search_any_word#:#Any word###20 Jun 2005 new variable
+search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
+search#:#search_below#:#Beneath:###20 Jun 2005 new variable
+search#:#search_change#:#Change###20 Jun 2005 new variable
 search#:#search_concatenation#:#Concaténation###07 Apr 2005 content changed
 search#:#search_content#:#Contenu de page###07 Apr 2005 content changed
 search#:#search_dbk_content#:#Bibliothèque digitale (contenu)###07 Apr 2005 content changed
 search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)###07 Apr 2005 content changed
 search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon permanente.###07 Apr 2005 content changed
+search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_group#:#Groupes###07 Apr 2005 content changed
+search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Chercher dans les résultats###07 Apr 2005 content changed
 search#:#search_inactive#:#Inclure utilisateurs inactifs###07 Apr 2005 content changed
 search#:#search_lm_content#:#Matériaux d'apprentissage (contenu)###07 Apr 2005 content changed
@@ -4571,13 +4687,17 @@ search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistr
 search#:#search_search_results#:#Résultats de recherche###07 Apr 2005 content changed
 search#:#search_search_term#:#Terme de recherche###07 Apr 2005 content changed
 search#:#search_select_exactly_one_object#:#Vous devez sélectionner exactement un objet.###07 Apr 2005 content changed
+search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#Selectionner un dossier###07 Apr 2005 content changed
 search#:#search_select_one_action#:#--Selectionner une action--###07 Apr 2005 content changed
 search#:#search_select_one_folder_select#:#--Selectionner un dossier--###07 Apr 2005 content changed
 search#:#search_select_one_result#:#Selectionner au moins un résultat de recherche###07 Apr 2005 content changed
 search#:#search_select_one_select#:#--Selectionner un dossier--###07 Apr 2005 content changed
 search#:#search_show_result#:#Afficher###07 Apr 2005 content changed
+search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
+search#:#search_type#:#Search type###20 Jun 2005 new variable
 search#:#search_user#:#Utilisateurs###07 Apr 2005 content changed
+search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Ajouter catégorie###07 Apr 2005 content changed
 survey#:#add_heading#:#Ajouter titre###07 Apr 2005 content changed
 survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et haute pour les nombres standard que vous voulez ajouter comme catégories###07 Apr 2005 content changed
@@ -4721,7 +4841,6 @@ survey#:#filter_all_question_types#:#Tous les types de questions###07 Apr 2005 c
 survey#:#filter_all_questionpools#:#Tous les jeux de questions###07 Apr 2005 content changed
 survey#:#filter_show_question_types#:#Afficher types de questions###07 Apr 2005 content changed
 survey#:#filter_show_questionpools#:#Afficher jeux de questions###07 Apr 2005 content changed
-survey#:#finished#:#terminé###07 Apr 2005 content changed
 survey#:#found_questions#:#Questions trouvées###07 Apr 2005 content changed
 survey#:#geometric_mean#:#Moyenne géométrique###07 Apr 2005 content changed
 survey#:#given_answers#:#Réponses données###07 Apr 2005 content changed
@@ -4787,8 +4906,6 @@ survey#:#no_user_or_group_selected#:#Veuillez cocher une option pour indiquer ce
 survey#:#no_user_phrases_defined#:#Pas d'expressions personnalisées disponibles.###07 Apr 2005 content changed
 survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses proposées.###07 Apr 2005 content changed
 survey#:#non_ratio#:#Non-Ratio XXX###07 Apr 2005 content changed
-survey#:#not_finished#:#non terminé###07 Apr 2005 content changed
-survey#:#not_started#:#non commencé###07 Apr 2005 content changed
 survey#:#not_used#:#non utilisé###07 Apr 2005 content changed
 survey#:#obligatory#:#obligatoire###07 Apr 2005 content changed
 survey#:#off#:#off XXX###07 Apr 2005 content changed
@@ -4930,4 +5047,3 @@ survey#:#view_constraints_introduction#:#Vous voyez les contraintes de la  quest
 survey#:#view_phrase#:#Voir expression###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Attention ! La question que vous voulez modifier est utilisée dans les sondages listés ci-dessous. Si vous décidez de continuer et d'enregistrer/appliquer la question, toutes les réponses aux sondages listés ci-dessous seront détruites. Si vous voulez changer la question et l'utiliser dans un autre sondage, veuillez choisir 'dupliquer' dans l'explorateur de questions pour créer une nouvelle instance de la question.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#La question n'est pas complète.###07 Apr 2005 content changed
-survey#:#warning_survey_not_complete#:#Le sondage n'est pas complet.

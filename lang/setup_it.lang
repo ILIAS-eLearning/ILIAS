@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#Software di terze parti
 absolute_path#:#Percorso assoluto
 access#:#Accedi
@@ -51,6 +47,7 @@ change#:#Cambia
 change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test Java fallito
@@ -153,6 +150,7 @@ htmldoc_path#:#Percorso della cartella con i doc HTML
 htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (nei sistemi a pagamento)
 http_path#:#percorso HTTP 
 id#:#ID
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Homepage ILIAS 3
 ilias_nic#:#Registrazione del NIC
 ilias_nic_id#:#NIC-ID (Network Information Center)
@@ -250,6 +248,8 @@ login_to_ilias#:#Entra in ILIAS 3
 logout#:#Esci
 main_datadir_outside_webspace#:#Cartella principale dei dati (esterna al webspace)
 missing_data#:#Dati non trovati
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Nome
 new#:#nuovo
 next#:#Prosegui

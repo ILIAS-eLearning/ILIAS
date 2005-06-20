@@ -307,6 +307,8 @@ assessment#:#postpone#:#Későbbre halasztott kérdés###07 Apr 2005 content cha
 assessment#:#postponed#:#Későbbre halasztott kérdés###07 Apr 2005 content changed
 assessment#:#preview#:#Előnézet###07 Apr 2005 content changed
 assessment#:#previous_question_rows#:#<< Kérdések %d - %d a %nak(nek)###07 Apr 2005 content changed
+assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
+assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nincs a kiválasztott kérdéseknek elérhető értékelése. A kérdés nem volt még használva tesztben.###07 Apr 2005 content changed
 assessment#:#qpl_assessment_of_questions#:#Kérdések kiértékelése###07 Apr 2005 content changed
 assessment#:#qpl_assessment_total_of_answers#:#Válaszok összessége###07 Apr 2005 content changed
@@ -392,7 +394,6 @@ assessment#:#true#:#"Igaz"###07 Apr 2005 content changed
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került!###29 Nov 2004 content changed
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###10 Apr 2005 new variable
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak###07 Apr 2005 content changed
-assessment#:#tst_anon_eval#:#Névtelen összesített eredménye###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###08 Apr 2005 new variable
 assessment#:#tst_browse_for_questions#:#Böngészés válaszokért###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###05 Nov 2004 new variable
@@ -478,6 +479,9 @@ assessment#:#tst_result_congratulations#:#Gratulálunk! Sikeresen teljesítette 
 assessment#:#tst_result_sorry#:#Sajnáljuk, nem teljesítette a tesztet.###07 Apr 2005 content changed
 assessment#:#tst_results#:#Teszteredmények###07 Apr 2005 content changed
 assessment#:#tst_resume_test#:#A teszt folytatása###07 Apr 2005 content changed
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről###07 Apr 2005 content changed
 assessment#:#tst_score_reporting_date#:#Jelentés a ponteredmények dátumáról###07 Apr 2005 content changed
 assessment#:#tst_score_type#:#Jelentés a ponteredmények típusáról###07 Apr 2005 content changed
@@ -495,6 +499,7 @@ assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Teszteredmények megjelenítése###07 Apr 2005 content changed
 assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Teszt indítása###07 Apr 2005 content changed
+assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Kezdőidő###07 Apr 2005 content changed
 assessment#:#tst_stat_all_users#:#Minden felhasználó###07 Apr 2005 content changed
 assessment#:#tst_stat_choose_users#:#(egy vagy több felhasználó kiválasztása a felhasználói listáról)###07 Apr 2005 content changed
@@ -517,7 +522,6 @@ assessment#:#tst_stat_result_timeofwork#:#Munkaidő###07 Apr 2005 content change
 assessment#:#tst_stat_result_total_participants#:#Total number of participants###05 Nov 2004 new variable
 assessment#:#tst_stat_selected_users#:#Kiválasztott felhasználók###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Statisztikai kiértékelés megjelenítése###07 Apr 2005 content changed
-assessment#:#tst_statistical_evaluation#:#Statisztikai kiértékelés eszköze###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#befejezett###07 Apr 2005 content changed
 assessment#:#tst_status_completed_more_tries_possible#:#Befejezett###07 Apr 2005 content changed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!###05 Nov 2004 new variable
@@ -553,7 +557,6 @@ assessment#:#uploaded_material#:#Feltöltött anyag###07 Apr 2005 content change
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#The question is not complete!###05 Nov 2004 new variable
-assessment#:#warning_test_not_complete#:#The test is not complete!###05 Nov 2004 new variable
 assessment#:#when#:#when###05 Nov 2004 new variable
 assessment#:#width#:#Szélesség###07 Apr 2005 content changed
 assessment#:#with_order#:#with order###05 Nov 2004 new variable
@@ -624,6 +627,9 @@ chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005
 chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
 chat#:#chat_add_moderator_password#:#Adjon meg a moderátor jelszót.###07 Apr 2005 content changed
 chat#:#chat_add_port#:#Adja meg a szerverportot.###07 Apr 2005 content changed
+chat#:#chat_add_private_chatroom#:#Add private chatroom###20 Jun 2005 new variable
+chat#:#chat_address#:#Address###20 Jun 2005 new variable
+chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#akva###07 Apr 2005 content changed
 chat#:#chat_arial#:#Arial###05 Nov 2004 new variable
 chat#:#chat_black#:#fekete###07 Apr 2005 content changed
@@ -649,6 +655,7 @@ chat#:#chat_insert_message#:#Adjon meg egy üzenetet###07 Apr 2005 content chang
 chat#:#chat_invitation_body#:#Meghívás a chatbe (honnan): ###07 Apr 2005 content changed
 chat#:#chat_invitation_subject#:#Meghívás chatbe###07 Apr 2005 content changed
 chat#:#chat_invite_user#:#Felhasználó meghívása###07 Apr 2005 content changed
+chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Dőlt###07 Apr 2005 content changed
 chat#:#chat_level_all#:#Minden###07 Apr 2005 content changed
 chat#:#chat_level_debug#:#Nyomkövetés###07 Apr 2005 content changed
@@ -669,6 +676,7 @@ chat#:#chat_no_write_perm#:#Nincs írási engedély###07 Apr 2005 content change
 chat#:#chat_olive#:#olajbarna###07 Apr 2005 content changed
 chat#:#chat_online_users#:#Felhasználó (on-line)###07 Apr 2005 content changed
 chat#:#chat_private_message#:#Magánüzenet###07 Apr 2005 content changed
+chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Nyilvános chatszoba###07 Apr 2005 content changed
 chat#:#chat_purple#:#bíbor###07 Apr 2005 content changed
 chat#:#chat_red#:#piros###07 Apr 2005 content changed
@@ -703,6 +711,7 @@ chat#:#chat_type#:#Betűtípus###07 Apr 2005 content changed
 chat#:#chat_underlined#:#Aláhúzott###07 Apr 2005 content changed
 chat#:#chat_user_dropped#:#Felhasználó kizárva###07 Apr 2005 content changed
 chat#:#chat_user_invited#:#A chatbe meghívott felhasználó.###07 Apr 2005 content changed
+chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#sárga###07 Apr 2005 content changed
 chat#:#chats#:#Chatek###07 Apr 2005 content changed
 chat#:#my_chats#:#Chatjeim###07 Apr 2005 content changed
@@ -736,12 +745,16 @@ common#:#adm_edit_permission#:#Jogosultsági beállítások változtatása###07 
 common#:#adm_read#:#Olvasási elérés az rendszerbeállításokhoz###07 Apr 2005 content changed
 common#:#adm_visible#:#A rendszerbeállítások láthatóak###07 Apr 2005 content changed
 common#:#adm_write#:#Alap rendszerbeállítások szerkesztése###07 Apr 2005 content changed
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Adminisztrálás###07 Apr 2005 content changed
 common#:#administrate_users#:#Local user administration###05 Nov 2004 new variable
 common#:#administration#:#Adminisztráció###07 Apr 2005 content changed
 common#:#administrator#:#Adminisztrátor###07 Apr 2005 content changed
 common#:#adopt#:#alkalmaz###07 Apr 2005 content changed
 common#:#adopt_perm_from_template#:#Jogosultsági beállítások alkalmazása a szerepmintából.###07 Apr 2005 content changed
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#All authors###05 Nov 2004 new variable
 common#:#all_global_roles#:#Global roles###05 Nov 2004 new variable
 common#:#all_lms#:#Minden tananyag###07 Apr 2005 content changed
@@ -804,6 +817,8 @@ common#:#assign_local_role#:#Helyi szerephez hozzárendelés###07 Apr 2005 conte
 common#:#assign_user_to_role#:#Felhasználó szerephez hozzárendelése###07 Apr 2005 content changed
 common#:#assigned_roles#:#Assigned roles###05 Nov 2004 new variable
 common#:#assigned_users#:#Assigned users###05 Nov 2004 new variable
+common#:#associated_user#:#associated User###20 Jun 2005 new variable
+common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#helyileg###07 Apr 2005 content changed
 common#:#attachment#:#Csatolás###07 Apr 2005 content changed
@@ -965,6 +980,7 @@ common#:#client_id#:#Kliensazonosító###07 Apr 2005 content changed
 common#:#client_ip#:#Client IP###05 Nov 2004 new variable
 common#:#clipboard#:#Vágólap###07 Apr 2005 content changed
 common#:#close#:#Bezárás###07 Apr 2005 content changed
+common#:#close_window#:#Close window###20 Jun 2005 new variable
 common#:#comma_separated#:#Vesszővel elválasztva###07 Apr 2005 content changed
 common#:#comment#:#megjegyzés###07 Apr 2005 content changed
 common#:#compose#:#Levél írása###07 Apr 2005 content changed
@@ -992,6 +1008,7 @@ common#:#continue_work#:#Folytatás###07 Apr 2005 content changed
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Copied object###05 Nov 2004 new variable
 common#:#copy#:#Másolás###07 Apr 2005 content changed
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Másolás###07 Apr 2005 content changed
 common#:#copy_of#:#Másolandó: ###07 Apr 2005 content changed
 common#:#copy_to#:#to###05 Nov 2004 new variable
@@ -1001,6 +1018,7 @@ common#:#course#:#Kurzus###07 Apr 2005 content changed
 common#:#courses#:#Kurzusok###07 Apr 2005 content changed
 common#:#create#:#Létrehozás###07 Apr 2005 content changed
 common#:#create_date#:#Created On###05 Nov 2004 new variable
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Készítve: ###07 Apr 2005 content changed
 common#:#create_stylesheet#:#Stílus létrehozása###07 Apr 2005 content changed
 common#:#created#:#Create date###11 Mar 2005 new variable
@@ -1092,11 +1110,13 @@ common#:#default_roles#:#Alapértelmezett szerepek###07 Apr 2005 content changed
 common#:#default_skin#:#Alapértelemezett képernyő###07 Apr 2005 content changed
 common#:#default_skin_style#:#Alapértelmezett képernyő / stílus###07 Apr 2005 content changed
 common#:#default_style#:#Alapértelmezett stílus###07 Apr 2005 content changed
+common#:#default_value#:#Default Value###20 Jun 2005 new variable
 common#:#delete#:#Törlés###07 Apr 2005 content changed
 common#:#delete_all#:#Mindet töröl###07 Apr 2005 content changed
 common#:#delete_all_rec#:#Minden rekord törlése###07 Apr 2005 content changed
 common#:#delete_object#:#Objektum(ok) törlése###07 Apr 2005 content changed
 common#:#delete_selected#:#Kijelöltek törlése###07 Apr 2005 content changed
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Nyomkövetési adatok törlése###07 Apr 2005 content changed
 common#:#deleted#:#Törölve###07 Apr 2005 content changed
 common#:#deleted_user#:#The user has been deleted###05 Nov 2004 new variable
@@ -1130,6 +1150,7 @@ common#:#email#:#E-mail###05 Nov 2004 new variable
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#A megadott e-mail cím nem megfelelő!###07 Apr 2005 content changed
 common#:#enable#:#Engedélyezés###07 Apr 2005 content changed
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
@@ -1320,6 +1341,11 @@ common#:#glo_delete#:#Fogalomtár törlése###07 Apr 2005 content changed
 common#:#glo_edit_permission#:#Jogosultsági beállítások változtatása###07 Apr 2005 content changed
 common#:#glo_join#:#Fogalomtár felvétele###07 Apr 2005 content changed
 common#:#glo_leave#:#Fogalomtár leadása###07 Apr 2005 content changed
+common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
+common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
+common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
+common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Új fogalomtár###07 Apr 2005 content changed
 common#:#glo_read#:#Olvasási elérés a fogalomtárhoz###07 Apr 2005 content changed
 common#:#glo_upload_file#:#Fájl###07 Apr 2005 content changed
@@ -1481,6 +1507,7 @@ common#:#htlm_write#:#HTML-tananyag szerkesztése###07 Apr 2005 content changed
 common#:#http_not_possible#:#This server is not supporting http requests.###05 Nov 2004 new variable
 common#:#http_path#:#http-cím###07 Apr 2005 content changed
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###05 Nov 2004 new variable
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
 common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
 common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
@@ -1502,9 +1529,16 @@ common#:#identifier#:#azonosító###07 Apr 2005 content changed
 common#:#if_no_title_then_filename#:#Hagyja el a beviteli helyet, hogy megjelenjen a fájl neve###07 Apr 2005 content changed
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Member###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#ilias_version#:#ILIAS-verzió###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Kép###07 Apr 2005 content changed
 common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.###07 Apr 2005 content changed
 common#:#import#:#Import###05 Nov 2004 new variable
@@ -1535,10 +1569,26 @@ common#:#inactive#:#Inactive###05 Nov 2004 new variable
 common#:#inbox#:#Bejövő posta###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Information###29 Nov 2004 new variable
+common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
+common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
 common#:#info_assign_sure#:#Biztosan hozzá akarja rendelni az alábbi felhasználó(ka)t?###07 Apr 2005 content changed
+common#:#info_assigned#:#assigned###20 Jun 2005 new variable
+common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
+common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#Biztosan törölni akarja az alábbi objektum(ok)at?###07 Apr 2005 content changed
 common#:#info_deleted#:#Objektum(ok) törölve###07 Apr 2005 content changed
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_is_member#:#User is member###20 Jun 2005 new variable
+common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
+common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
+common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Törölt objektumok###07 Apr 2005 content changed
+common#:#info_view_of_user#:#View of user###20 Jun 2005 new variable
 common#:#inform_user_mail#:#E-mail küldése a felhasználónak a változásokról###07 Apr 2005 content changed
 common#:#information_abbr#:#Információ###07 Apr 2005 content changed
 common#:#ingmedia_all_offers#:#Minden tananyagegység###07 Apr 2005 content changed
@@ -1579,6 +1629,7 @@ common#:#internal_system#:#Belső rendszer###07 Apr 2005 content changed
 common#:#ip_address#:#IP-cím###07 Apr 2005 content changed
 common#:#is_already_your#:#már az Ön###07 Apr 2005 content changed
 common#:#item#:#Tétel###07 Apr 2005 content changed
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#kByte###07 Apr 2005 content changed
 common#:#keywords#:#Kulcsszavak###07 Apr 2005 content changed
 common#:#lang_cs#:#Cseh###07 Apr 2005 content changed
@@ -1604,6 +1655,8 @@ common#:#lang_pt#:#Portugál###07 Apr 2005 content changed
 common#:#lang_ro#:#Romanian###12 Apr 2005 new variable
 common#:#lang_sep_decimal#:#.###05 Nov 2004 new variable
 common#:#lang_sep_thousand#:#,###05 Nov 2004 new variable
+common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
 common#:#lang_sv#:#Svéd###07 Apr 2005 content changed
 common#:#lang_timeformat#:#H:i:s###05 Nov 2004 new variable
 common#:#lang_uk#:#Ukrán###07 Apr 2005 content changed
@@ -1653,6 +1706,7 @@ common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variab
 common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
 common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
 common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#The object has been linked###05 Nov 2004 new variable
 common#:#linked_pages#:#Csatolt lapok###07 Apr 2005 content changed
 common#:#list_of_pages#:#Lapok listája###07 Apr 2005 content changed
@@ -1806,6 +1860,7 @@ common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Áthelyez###07 Apr 2005 content changed
 common#:#moveChapter#:#Áthelyez###07 Apr 2005 content changed
 common#:#movePage#:#Áthelyez###07 Apr 2005 content changed
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Áthelyez (hova)###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Tevékenység megszakítva###07 Apr 2005 content changed
@@ -1822,7 +1877,9 @@ common#:#msg_deleted_rolt#:#Szerepminta törölve###07 Apr 2005 content changed
 common#:#msg_deleted_rolts#:#Szerepminta törölve###07 Apr 2005 content changed
 common#:#msg_error_copy#:#Másolási hiba###07 Apr 2005 content changed
 common#:#msg_failed#:#A tevékenység meghiúsult###07 Apr 2005 content changed
+common#:#msg_invalid_filetype#:#Invalid file type###20 Jun 2005 new variable
 common#:#msg_is_last_role#:#Megszüntette az alábbi felhasználók hozzárendelését legutóbbi globális szerepükhöz.###07 Apr 2005 content changed
+common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.###20 Jun 2005 new variable
 common#:#msg_link_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: link)###07 Apr 2005 content changed
 common#:#msg_linked#:#Kiválasztott objektum(ok) belinkelve.###07 Apr 2005 content changed
 common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a következő objektumtípusokat:###07 Apr 2005 content changed
@@ -1928,6 +1985,7 @@ common#:#no_limit#:#Nincs korlát###07 Apr 2005 content changed
 common#:#no_lo_in_personal_list#:#Nincs tananyagobjektum a személyes listában.###07 Apr 2005 content changed
 common#:#no_local_users#:#There are no local user###05 Nov 2004 new variable
 common#:#no_objects#:#Nincsenek objektumok###07 Apr 2005 content changed
+common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
 common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Nem engedélyezett, hogy csatlakozzon ehhez a csoporthoz!###07 Apr 2005 content changed
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###05 Nov 2004 new variable
@@ -2072,6 +2130,7 @@ common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Off-line változat###07 Apr 2005 content changed
 common#:#ok#:#Rendben###07 Apr 2005 content changed
 common#:#old#:#Régi###07 Apr 2005 content changed
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#On-line fejezet###07 Apr 2005 content changed
 common#:#online_version#:#On-line változat###07 Apr 2005 content changed
 common#:#open_views_inside_frameset#:#Open views inside frameset###05 Nov 2004 new variable
@@ -2099,6 +2158,7 @@ common#:#password_assistance_info#:#If password assistance is enabled, a link wi
 common#:#paste#:#Beillesztés###07 Apr 2005 content changed
 common#:#pasteChapter#:#Beillesztés###07 Apr 2005 content changed
 common#:#pastePage#:#Beillesztés###07 Apr 2005 content changed
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Elérési útvonal###07 Apr 2005 content changed
 common#:#path_not_set#:#Az útvonal nincs beállítva###07 Apr 2005 content changed
 common#:#path_to_babylon#:#Útvonal Babylon-hoz###07 Apr 2005 content changed
@@ -2444,13 +2504,19 @@ common#:#svy#:#Felmérés###07 Apr 2005 content changed
 common#:#svy_add#:#Felmérés hozzáadása###07 Apr 2005 content changed
 common#:#svy_delete#:#Felmérés törlése###07 Apr 2005 content changed
 common#:#svy_edit_permission#:#Jogosultsági beállítások változtatása###07 Apr 2005 content changed
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Felhasználók meghívása felmérés készítésére###07 Apr 2005 content changed
 common#:#svy_new#:#Új felmérés###07 Apr 2005 content changed
 common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Részvétel felmérésben###07 Apr 2005 content changed
 common#:#svy_read#:#Olvasási elérés felméréshez###07 Apr 2005 content changed
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Upload file###05 Nov 2004 new variable
 common#:#svy_visible#:#A felmérés látható###07 Apr 2005 content changed
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Felmérés szerkesztése###07 Apr 2005 content changed
 common#:#system#:#Rendszer###07 Apr 2005 content changed
 common#:#system_check#:#Rendszerellenőrzés###07 Apr 2005 content changed
@@ -2487,10 +2553,15 @@ common#:#time_h#:#Óra###07 Apr 2005 content changed
 common#:#time_limit#:#Access###05 Nov 2004 new variable
 common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###05 Nov 2004 new variable
 common#:#time_limit_applied_users#:#Applied users###05 Nov 2004 new variable
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Please select a user.###05 Nov 2004 new variable
 common#:#time_limit_not_valid#:#The period is not valid.###05 Nov 2004 new variable
 common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###05 Nov 2004 new variable
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Your access period is expired.###05 Nov 2004 new variable
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#User data updated###05 Nov 2004 new variable
 common#:#time_limits#:#Access###05 Nov 2004 new variable
 common#:#time_segment#:#Időszak###07 Apr 2005 content changed
@@ -2517,13 +2588,17 @@ common#:#trash#:#Lomtár###07 Apr 2005 content changed
 common#:#treeview#:#Mappa nézet###07 Apr 2005 content changed
 common#:#tst#:#Teszt###07 Apr 2005 content changed
 common#:#tst_add#:#Teszt hozzáadása###07 Apr 2005 content changed
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Teszt törlése###07 Apr 2005 content changed
 common#:#tst_edit_permission#:#Jogosultsági beállítások változtatása###07 Apr 2005 content changed
 common#:#tst_new#:#Új teszt###07 Apr 2005 content changed
 common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
 common#:#tst_read#:#Olvasási elérés teszthez###07 Apr 2005 content changed
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#A teszt látható###07 Apr 2005 content changed
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Teszt szerkesztése###07 Apr 2005 content changed
 common#:#txt_add_object_instruction1#:#Válassza ki, hová akarja hozzáadni###07 Apr 2005 content changed
 common#:#txt_add_object_instruction2#:#.###05 Nov 2004 new variable
@@ -2581,10 +2656,19 @@ common#:#user_not_chosen#:#Nem választott csoporttagot!###07 Apr 2005 content c
 common#:#user_profile_other#:#Other Information###05 Nov 2004 new variable
 common#:#user_statistics#:#Statistical Data###05 Nov 2004 new variable
 common#:#userdata#:#Felhasználói adatok###07 Apr 2005 content changed
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Felhasználói név###07 Apr 2005 content changed
 common#:#users#:#Felhasználók###07 Apr 2005 content changed
 common#:#users_not_imported#:#Az alábbi felhasználók nem léteznek, üzeneteik nem importálhatók###07 Apr 2005 content changed
 common#:#users_online#:#Bejelentkezett felhasználók###07 Apr 2005 content changed
+common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Felhasználói nyomkövetés###07 Apr 2005 content changed
 common#:#usr#:#Felhasználó###07 Apr 2005 content changed
 common#:#usr_a#:#egy felhasználó###07 Apr 2005 content changed
@@ -2644,7 +2728,10 @@ common#:#version#:#Változat###07 Apr 2005 content changed
 common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Nézet###07 Apr 2005 content changed
 common#:#view_content#:#Tartalom nézet###07 Apr 2005 content changed
+common#:#visible#:#Visible###20 Jun 2005 new variable
 common#:#visible_layers#:#Látható rétegek###07 Apr 2005 content changed
+common#:#visitor#:#Visitor###20 Jun 2005 new variable
+common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Látogatók###07 Apr 2005 content changed
 common#:#web_resources#:#Web resources###11 Mar 2005 new variable
 common#:#webr#:#Web resource###11 Mar 2005 new variable
@@ -2743,6 +2830,7 @@ content#:#cont_cant_del_std#:#A szabvány nézetű fájl nem törölhető.###07 
 content#:#cont_caption#:#Fejezet###07 Apr 2005 content changed
 content#:#cont_change_type#:#Típus cseréje###07 Apr 2005 content changed
 content#:#cont_chap_and_pages#:#Fejezetek és lapok###07 Apr 2005 content changed
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#A fejezet áthelyezésre bejelölt. Jelölje ki a célutat most.###07 Apr 2005 content changed
 content#:#cont_chapters#:#Fejezetek###07 Apr 2005 content changed
 content#:#cont_chapters_and_pages#:#Fejezetek és lapok###07 Apr 2005 content changed
@@ -3089,6 +3177,7 @@ content#:#cont_wysiwyg#:#Tartalom előnézete###07 Apr 2005 content changed
 content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
 content#:#cont_year#:#Év###07 Apr 2005 content changed
 content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.###07 Apr 2005 content changed
+content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
 content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
 content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
@@ -3642,6 +3731,7 @@ dateplaner#:#to#:#Meddig###07 Apr 2005 content changed
 dateplaner#:#today#:#ma###07 Apr 2005 content changed
 dateplaner#:#viewlist#:#nézet###07 Apr 2005 content changed
 dateplaner#:#week#:#hét###07 Apr 2005 content changed
+dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#year###05 Nov 2004 new variable
 forum#:#forums#:#Fórumok###07 Apr 2005 content changed
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
@@ -4070,11 +4160,13 @@ meta#:#meta_choose_section#:#Válasszon egy szekciót###07 Apr 2005 content chan
 meta#:#meta_classification#:#Osztályozás###07 Apr 2005 content changed
 meta#:#meta_collection#:#Gyűjtemény###07 Apr 2005 content changed
 meta#:#meta_competency#:#Kompetencia###07 Apr 2005 content changed
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Tartalom###07 Apr 2005 content changed
 meta#:#meta_contribute#:#Közreműködő###07 Apr 2005 content changed
 meta#:#meta_copyright_and_other_restrictions#:#Szerzői jog és más megszorítások###07 Apr 2005 content changed
 meta#:#meta_cost#:#Ár###07 Apr 2005 content changed
 meta#:#meta_coverage#:#Terjedelem###07 Apr 2005 content changed
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Dátum###07 Apr 2005 content changed
 meta#:#meta_delete#:#Törlés###07 Apr 2005 content changed
 meta#:#meta_description#:#Leírás###07 Apr 2005 content changed
@@ -4084,9 +4176,11 @@ meta#:#meta_dificult#:#Nehéz###07 Apr 2005 content changed
 meta#:#meta_draft#:#Tervezet###07 Apr 2005 content changed
 meta#:#meta_duration#:#Tartósság###07 Apr 2005 content changed
 meta#:#meta_easy#:#Könnyű###07 Apr 2005 content changed
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Képzés###07 Apr 2005 content changed
 meta#:#meta_educational_level#:#Képzési szint###07 Apr 2005 content changed
 meta#:#meta_educational_objective#:#Képzési cél###07 Apr 2005 content changed
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Entitás###07 Apr 2005 content changed
 meta#:#meta_entry#:#Bejegyzés###07 Apr 2005 content changed
 meta#:#meta_exam#:#Vizsga###07 Apr 2005 content changed
@@ -4098,6 +4192,7 @@ meta#:#meta_final#:#Publikált###07 Apr 2005 content changed
 meta#:#meta_format#:#Formátum###07 Apr 2005 content changed
 meta#:#meta_general#:#Általános###07 Apr 2005 content changed
 meta#:#meta_graph#:#Gráf###07 Apr 2005 content changed
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#Has Format###05 Nov 2004 new variable
 meta#:#meta_has_part#:#Has Part###05 Nov 2004 new variable
 meta#:#meta_has_version#:#Has Version###05 Nov 2004 new variable
@@ -4108,7 +4203,9 @@ meta#:#meta_id#:#Azonosító###07 Apr 2005 content changed
 meta#:#meta_idea#:#Ötlet###07 Apr 2005 content changed
 meta#:#meta_identifier#:#Azonosító###07 Apr 2005 content changed
 meta#:#meta_index#:#Index###05 Nov 2004 new variable
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Telepítéshez megjegyzések###07 Apr 2005 content changed
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#Megcélzott végfelhasználói szerep###07 Apr 2005 content changed
 meta#:#meta_interactivity_level#:#Interaktivitás szintje###07 Apr 2005 content changed
 meta#:#meta_interactivity_type#:#Interaktivitás típusa###07 Apr 2005 content changed
@@ -4314,6 +4411,7 @@ meta#:#meta_revised#:#Javított###07 Apr 2005 content changed
 meta#:#meta_rights#:#Jogok###07 Apr 2005 content changed
 meta#:#meta_role#:#Szerep###07 Apr 2005 content changed
 meta#:#meta_school#:#Iskola###07 Apr 2005 content changed
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Biztonsági szint###07 Apr 2005 content changed
 meta#:#meta_self_assessment#:#Önértékelés###07 Apr 2005 content changed
 meta#:#meta_semantic_density#:#Tartalmi mélység###07 Apr 2005 content changed
@@ -4324,11 +4422,15 @@ meta#:#meta_slide#:#Dia###07 Apr 2005 content changed
 meta#:#meta_source#:#Forrás###07 Apr 2005 content changed
 meta#:#meta_status#:#Állapot###07 Apr 2005 content changed
 meta#:#meta_structure#:#Struktúra###07 Apr 2005 content changed
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Táblázat###07 Apr 2005 content changed
 meta#:#meta_taxon#:#Rendszertan###07 Apr 2005 content changed
 meta#:#meta_taxon_path#:#Rendszertani ágazat###07 Apr 2005 content changed
 meta#:#meta_teacher#:#Tanár###07 Apr 2005 content changed
 meta#:#meta_technical#:#Technikai###07 Apr 2005 content changed
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Cím###07 Apr 2005 content changed
 meta#:#meta_training#:#Tréning###07 Apr 2005 content changed
 meta#:#meta_type#:#Típus###07 Apr 2005 content changed
@@ -4336,6 +4438,8 @@ meta#:#meta_typical_age_range#:#Jellemző  életkor###07 Apr 2005 content change
 meta#:#meta_typical_learning_time#:#Jellemző tanulási idő###07 Apr 2005 content changed
 meta#:#meta_unavailable#:#Elérhetetlen###07 Apr 2005 content changed
 meta#:#meta_unix#:#Unix###05 Nov 2004 new variable
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#Érték###07 Apr 2005 content changed
 meta#:#meta_version#:#Verzió###07 Apr 2005 content changed
 meta#:#meta_very_difficult#:#Nagyon nehéz###07 Apr 2005 content changed
@@ -4560,14 +4664,26 @@ pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour pass
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###12 Nov 2004 new variable
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Include active users###05 Nov 2004 new variable
+search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
+search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
 search#:#search_all_results#:#Minden eredmény###07 Apr 2005 content changed
+search#:#search_all_words#:#All words###20 Jun 2005 new variable
 search#:#search_and#:#and###05 Nov 2004 new variable
+search#:#search_any#:#-- Any --###20 Jun 2005 new variable
+search#:#search_any_word#:#Any word###20 Jun 2005 new variable
+search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
+search#:#search_below#:#Beneath:###20 Jun 2005 new variable
+search#:#search_change#:#Change###20 Jun 2005 new variable
 search#:#search_concatenation#:#Logikai kapcsolat###07 Apr 2005 content changed
 search#:#search_content#:#Laptartalom###07 Apr 2005 content changed
 search#:#search_dbk_content#:#Digitális könyvtár (kontextus)###07 Apr 2005 content changed
 search#:#search_dbk_meta#:#Digitális könyvtár (metaadat)###07 Apr 2005 content changed
 search#:#search_delete_sure#:#Az objektum és kontextusa véglegesen törölésre került###07 Apr 2005 content changed
+search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_group#:#Csoportok###07 Apr 2005 content changed
+search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Keresés az eredmények között###07 Apr 2005 content changed
 search#:#search_inactive#:#Include inactive users###05 Nov 2004 new variable
 search#:#search_lm_content#:#Tananyagok (tartalom)###07 Apr 2005 content changed
@@ -4596,13 +4712,17 @@ search#:#search_search_no_results_saved#:#Nincs elmentett kereséséi eredmény#
 search#:#search_search_results#:#Keresési eredmények###07 Apr 2005 content changed
 search#:#search_search_term#:#Keresett kifejezés###07 Apr 2005 content changed
 search#:#search_select_exactly_one_object#:#Pontosan egy objektumot kell kiválasztania.###07 Apr 2005 content changed
+search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#Egy mappa kiválasztása###07 Apr 2005 content changed
 search#:#search_select_one_action#:#--Egy tevékenység kiválasztása--'###07 Apr 2005 content changed
 search#:#search_select_one_folder_select#:#--Egy mappa kiválasztása--'###07 Apr 2005 content changed
 search#:#search_select_one_result#:#Legalább egy keresési eredmény kiválasztása###07 Apr 2005 content changed
 search#:#search_select_one_select#:#--Egy mappa kiválasztása--'###07 Apr 2005 content changed
 search#:#search_show_result#:#Megjelenítés###07 Apr 2005 content changed
+search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
+search#:#search_type#:#Search type###20 Jun 2005 new variable
 search#:#search_user#:#Users###05 Nov 2004 new variable
+search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Kategória felvétele###07 Apr 2005 content changed
 survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasabb korlátot, hogy hány kategóriát akar felvenni.###07 Apr 2005 content changed
@@ -4746,7 +4866,6 @@ survey#:#filter_all_question_types#:#All question types###05 Nov 2004 new variab
 survey#:#filter_all_questionpools#:#All questionpools###05 Nov 2004 new variable
 survey#:#filter_show_question_types#:#Show question types###05 Nov 2004 new variable
 survey#:#filter_show_questionpools#:#Show questionpools###05 Nov 2004 new variable
-survey#:#finished#:#befejezve###07 Apr 2005 content changed
 survey#:#found_questions#:#Talált kérdések###07 Apr 2005 content changed
 survey#:#geometric_mean#:#Geometriai jelentés###07 Apr 2005 content changed
 survey#:#given_answers#:#Adott válaszok###07 Apr 2005 content changed
@@ -4814,8 +4933,6 @@ survey#:#no_user_or_group_selected#:#Ellenőrizzen egy beállítást, amelyet ke
 survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.###07 Apr 2005 content changed
 survey#:#nominal_question_not_checked#:#Ellenőrizzen egyet a felajánlott válaszok közül###07 Apr 2005 content changed
 survey#:#non_ratio#:#Intervallum-skála###07 Apr 2005 content changed
-survey#:#not_finished#:#nem fejeződött be###07 Apr 2005 content changed
-survey#:#not_started#:#nem indult el###07 Apr 2005 content changed
 survey#:#not_used#:#not used###20 Dec 2004 new variable
 survey#:#obligatory#:#kötelező###07 Apr 2005 content changed
 survey#:#off#:#kikapcsolás###07 Apr 2005 content changed
@@ -4958,4 +5075,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#Mondat nézete###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Figyelmeztetés! A kérdést, amit szerkeszteni akar, használják az alább listázott felmérések. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, a felmérés minden alább listázott válasza törlődik. Ha meg akarja változtatni a kérdést és másik felmérésben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, hogy a kérdés új példányát létrehozza.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#The question is not complete!###05 Nov 2004 new variable
-survey#:#warning_survey_not_complete#:#The survey is not complete!###05 Nov 2004 new variable
