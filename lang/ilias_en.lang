@@ -2738,6 +2738,7 @@ common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_join#:#Subscribe Web Resource
 common#:#join#:#Join
+common#:#enable_calendar#:#Enable Calendar
 common#:#webr_last_check#:#Last check
 common#:#webr_last_check_table#:#Last check:
 common#:#webr_leave#:#Unsubscribe Web Resource

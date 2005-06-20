@@ -532,12 +532,15 @@ class ilObjGlossary extends ilObject
 		$syn_stylesheet = "content/syntaxhighlight.css";
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
-		// get learning module presentation gui class
+		// get glossary presentation gui class
 		include_once("content/classes/class.ilGlossaryPresentationGUI.php");
 		$_GET["cmd"] = "nop";
 		$glo_gui =& new ilGlossaryPresentationGUI();
 		$glo_gui->setOfflineMode(true);
-		$glo_gui->setExportFormat($a_export_format);
+		
+		// could be implemented in the future if other export
+		// formats are supported (e.g. scorm)
+		//$glo_gui->setExportFormat($a_export_format);
 
 		// export terms
 		$this->exportHTMLGlossaryTerms($glo_gui, $a_target_dir);
@@ -545,7 +548,7 @@ class ilObjGlossary extends ilObject
 		// export all media objects
 		foreach ($this->offline_mobs as $mob)
 		{
-			$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
+			$this->exportHTMLMOB($a_target_dir, $glo_gui, $mob, "_new");
 		}
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["obj_id"]  = $a_mob_id;
@@ -620,25 +623,52 @@ class ilObjGlossary extends ilObject
 	/**
 	* export glossary terms
 	*/
-	function exportHTMLGlossaryTerms(&$a_lm_gui, $a_target_dir)
+	function exportHTMLGlossaryTerms(&$a_glo_gui, $a_target_dir)
 	{
+		global $ilUser;
+		
+		// index.html file
+		$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
+		$style_name = $ilUser->prefs["style"].".css";;
+		$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+
+		$content =& $a_glo_gui->listTerms();
+		$file = $a_target_dir."/index.html";
+						
+		// open file
+		if (!($fp = @fopen($file,"w+")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}
+		chmod($file, 0770);
+		fwrite($fp, $content);
+		fclose($fp);
+		
 		$terms = $this->getTermList();
+		
+		$this->offline_mobs = array();
+		$this->offline_files = array();
 		
 		foreach($terms as $term)
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
+			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			
+			// set style
+			$style_name = $ilUser->prefs["style"].".css";;
+			$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 
-			$_GET["obj_id"] = $int_link["id"];
+			$_GET["term_id"] = $term["id"];
 			$_GET["frame"] = "_new";
-			$content =& $a_lm_gui->glossary();
-			$file = $a_target_dir."/term_".$int_link["id"].".html";
-				
+			$content =& $a_glo_gui->listDefinitions();
+			$file = $a_target_dir."/term_".$term["id"].".html";
+							
 			// open file
 			if (!($fp = @fopen($file,"w+")))
 			{
 				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-						" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
 			}
 			chmod($file, 0770);
 			fwrite($fp, $content);
@@ -646,7 +676,7 @@ class ilObjGlossary extends ilObject
 
 			// store linked/embedded media objects of glosssary term
 			include_once("content/classes/class.ilGlossaryDefinition.php");
-			$defs = ilGlossaryDefinition::getDefinitionList($int_link["id"]);
+			$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 			foreach($defs as $def)
 			{
 				$def_mobs = ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
@@ -656,12 +686,72 @@ class ilObjGlossary extends ilObject
 				}
 				
 				// get all files of page
-				$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $page["obj_id"]);
+				include_once("classes/class.ilObjFile.php");
+				$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $def["id"]);
 				$this->offline_files = array_merge($this->offline_files, $def_files);
 
 			}
 		}
 	}
+	
+	/**
+	* export media object to html
+	*/
+	function exportHTMLMOB($a_target_dir, &$a_glo_gui, $a_mob_id)
+	{
+		global $tpl;
+
+		$mob_dir = $a_target_dir."/mobs";
+
+		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+		if (@is_dir($source_dir))
+		{
+			ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
+			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+		}
+		
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$_GET["obj_type"]  = "MediaObject";
+		$_GET["mob_id"]  = $a_mob_id;
+		$_GET["cmd"] = "";
+		$content =& $a_glo_gui->media();
+		$file = $a_target_dir."/media_".$a_mob_id.".html";
+
+		// open file
+		if (!($fp = @fopen($file,"w+")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}
+		chmod($file, 0770);
+		fwrite($fp, $content);
+		fclose($fp);
+		
+		// fullscreen
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		$mob_obj = new ilObjMediaObject($a_mob_id);
+		if ($mob_obj->hasFullscreenItem())
+		{
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$_GET["mob_id"]  = $a_mob_id;
+			$_GET["cmd"] = "fullscreen";
+			$content =& $a_glo_gui->fullscreen();
+			$file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
+	
+			// open file
+			if (!($fp = @fopen($file,"w+")))
+			{
+				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+			}
+			chmod($file, 0770);
+			fwrite($fp, $content);
+			fclose($fp);
+		}
+	}
+
 
 
 	/**

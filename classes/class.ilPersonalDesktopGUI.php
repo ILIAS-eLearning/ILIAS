@@ -42,66 +42,66 @@ class ilPersonalDesktopGUI
     }
 
 
-    /**
+	/**
 	 * display selected items
 	 */
-    function displaySelectedItems()
-    {
-        $types = array(
-            array("title" => $this->lng->txt("objs_cat"),
+	function displaySelectedItems()
+	{
+		$types = array(
+			array("title" => $this->lng->txt("objs_cat"),
 				  "types" => "cat"),
-            array("title" => $this->lng->txt("objs_fold"),
+			array("title" => $this->lng->txt("objs_fold"),
 				  "types" => "fold"),
-            array("title" => $this->lng->txt("objs_crs"),
+			array("title" => $this->lng->txt("objs_crs"),
 				  "types" => "crs"),
-            array("title" => $this->lng->txt("objs_grp"),
+			array("title" => $this->lng->txt("objs_grp"),
 				  "types" => "grp"),
-            array("title" => $this->lng->txt("objs_chat"),
+			array("title" => $this->lng->txt("objs_chat"),
 				  "types" => "chat"),
-            array("title" => $this->lng->txt("objs_frm"),
+			array("title" => $this->lng->txt("objs_frm"),
 				  "types" => "frm"),
-            array("title" => $this->lng->txt("learning_objects"),
+			array("title" => $this->lng->txt("learning_resources"),
 				  "types" => array("lm", "htlm", "sahs", "dbk")),
-            array("title" => $this->lng->txt("objs_glo"),
+			array("title" => $this->lng->txt("objs_glo"),
 				  "types" => "glo"),
-            array("title" => $this->lng->txt("objs_file"),
+			array("title" => $this->lng->txt("objs_file"),
 				  "types" => "file"),
-            array("title" => $this->lng->txt("objs_webr"),
+			array("title" => $this->lng->txt("objs_webr"),
 				  "types" => "webr"),
-            array("title" => $this->lng->txt("objs_exc"),
+			array("title" => $this->lng->txt("objs_exc"),
 				  "types" => "exc"),
-            array("title" => $this->lng->txt("objs_tst"),
+			array("title" => $this->lng->txt("objs_tst"),
 				  "types" => "tst"),
-            array("title" => $this->lng->txt("objs_svy"),
+			array("title" => $this->lng->txt("objs_svy"),
 				  "types" => "svy"),
-            array("title" => $this->lng->txt("objs_mep"),
+			array("title" => $this->lng->txt("objs_mep"),
 				  "types" => "mep"),
-            array("title" => $this->lng->txt("objs_qpl"),
+			array("title" => $this->lng->txt("objs_qpl"),
 				  "types" => "qpl"),
-            array("title" => $this->lng->txt("objs_spl"),
+			array("title" => $this->lng->txt("objs_spl"),
 				  "types" => "spl"),
 				  
-           array("title" => $this->lng->txt("objs_icrs"),
+		   array("title" => $this->lng->txt("objs_icrs"),
 
 				  "types" => "icrs"),
 				  
-           array("title" => $this->lng->txt("objs_icla"),
+		   array("title" => $this->lng->txt("objs_icla"),
 
 				  "types" => "icla")
-            );
-        $html = "";
-        foreach($types as $type)
-        {
-            $html.= $this->getSelectedItemBlockHTML($type["title"], $type["types"]);
-        }
-        if ($html != "")
-        {
-            $this->tpl->setCurrentBlock("selected_items");
-            $this->tpl->setVariable("TXT_SELECTED_ITEMS", $this->lng->txt("selected_items"));
-            $this->tpl->setVariable("SELECTED_ITEMS", $html);
-            $this->tpl->parseCurrentBlock();
-        }
-    }
+			);
+		$html = "";
+		foreach($types as $type)
+		{
+			$html.= $this->getSelectedItemBlockHTML($type["title"], $type["types"]);
+		}
+		if ($html != "")
+		{
+			$this->tpl->setCurrentBlock("selected_items");
+			$this->tpl->setVariable("TXT_SELECTED_ITEMS", $this->lng->txt("selected_items"));
+			$this->tpl->setVariable("SELECTED_ITEMS", $html);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 
 
 	/**
