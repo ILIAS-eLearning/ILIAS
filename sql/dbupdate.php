@@ -7667,3 +7667,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <#476>
 ALTER TABLE `usr_search` DROP PRIMARY KEY ,
 ADD PRIMARY KEY ( `usr_id` , `search_type` );
+
+<#477>
+REPLACE INTO settings (keyword, value) VALUES ('enable_calendar', '1');
+

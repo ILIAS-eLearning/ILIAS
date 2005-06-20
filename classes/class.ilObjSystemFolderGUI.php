@@ -362,6 +362,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
+				$settings["enable_calendar"] = $_POST["enable_calendar"];
 				$settings["default_repository_view"] = $_POST["default_rep_view"];
 				$settings["password_assistance"] = $_POST["password_assistance"];
 				$settings["js_edit"] = $_POST["js_edit"];
@@ -432,6 +433,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
+				$this->ilias->setSetting("enable_calendar",$_POST["enable_calendar"]);
 				$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
 				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
 				$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
@@ -520,6 +522,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
+		$this->tpl->setVariable("TXT_ENABLE_CALENDAR", $this->lng->txt("enable_calendar"));
 		$this->tpl->setVariable("TXT_DEFAULT_REPOSITORY_VIEW", $this->lng->txt("def_repository_view"));
 		$this->tpl->setVariable("TXT_FLAT", $this->lng->txt("flatview"));
 		$this->tpl->setVariable("TXT_TREE", $this->lng->txt("treeview"));
@@ -669,6 +672,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($settings["pub_section"])
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
+		}
+
+		if ($settings["enable_calendar"])
+		{
+			$this->tpl->setVariable("ENABLE_CALENDAR","checked=\"checked\"");
 		}
 		
 		if ($settings["default_repository_view"] == "tree")

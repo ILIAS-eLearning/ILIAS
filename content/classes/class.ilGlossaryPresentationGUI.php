@@ -58,11 +58,31 @@ class ilGlossaryPresentationGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
+		$this->offline = false;
 
 		// Todo: check lm id
 		$this->glossary =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
 	}
+	
+	
+	/**
+	* set offline mode (content is generated for offline package)
+	*/
+	function setOfflineMode($a_offline = true)
+	{
+		$this->offline = $a_offline;
+	}
+	
+	
+	/**
+	* checks wether offline content generation is activated 
+	*/
+	function offlineMode()
+	{
+		return $this->offline;
+	}
+
 
 
 	/**
@@ -137,11 +157,16 @@ class ilGlossaryPresentationGUI
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_search_term.html", true);
-		$this->tpl->setVariable("FORMACTION1", "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=searchTerms&offset=0&oldoffset=$oldoffset");
-		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
-		$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));
-		$this->tpl->setVariable("TERM", $filter);
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setCurrentBlock("search_form");
+			$this->tpl->setVariable("FORMACTION1", "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=searchTerms&offset=0&oldoffset=$oldoffset");
+			$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
+			$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
+			$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));
+			$this->tpl->setVariable("TERM", $filter);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// load template for table
 		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
@@ -150,8 +175,8 @@ class ilGlossaryPresentationGUI
 
 		$num = 2;
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post&offset=".$_GET["offset"]);
+		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		//$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post&offset=".$_GET["offset"]);
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -281,22 +306,49 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions()
 	{
+		global $ilUser;
+		
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->setLocator();
+		//$this->setLocator();
 		$this->setTabs();
+		
+		if ($this->offlineMode())
+		{
+			$style_name = $ilUser->prefs["style"].".css";;
+			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+		}
+		else
+		{
+			$this->setLocator();
+		}
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				"syntaxhighlight.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		$term =& new ilGlossaryTerm($_GET["term_id"]);
@@ -318,6 +370,7 @@ class ilGlossaryPresentationGUI
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
 		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
+		$this->mobs = array();
 
 		for($j=0; $j<count($defs); $j++)
 		{
@@ -345,11 +398,11 @@ class ilGlossaryPresentationGUI
 			if (count($defs) > 1)
 			{
 				$this->tpl->setCurrentBlock("definition_header");
-						$this->tpl->setVariable("TXT_DEFINITION",
-				$this->lng->txt("cont_definition")." ".($j+1));
+				$this->tpl->setVariable("TXT_DEFINITION",
+					$this->lng->txt("cont_definition")." ".($j+1));
 				$this->tpl->parseCurrentBlock();
 			}
-
+			
 			/*
 			if ($j > 0)
 			{
@@ -409,23 +462,26 @@ class ilGlossaryPresentationGUI
 				}
 			}
 		}
+		if ($this->offlineMode())
+		{
+//echo "<br>glo_pres_return";
+			return $this->tpl->get();
+		}
 	}
+	
 
 	/**
 	* show fullscreen view
 	*/
 	function fullscreen()
 	{
-		$page =& new ilPageObject("gdf", $_GET["def_id"]);
-		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->showMediaFullscreen();
-
+		$this->media("fullscreen");
 	}
 
 	/**
 	* show media object
 	*/
-	function media()
+	function media($a_mode = "media")
 	{
 		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "content");
 		include_once("classes/class.ilObjStyleSheet.php");
@@ -458,7 +514,7 @@ class ilGlossaryPresentationGUI
 
 		$wb_path = ilUtil::getWebspaceDir("output");
 
-		$mode = "media";
+		$mode = $a_mode;
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
 		$fullscreen_link = "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&obj_type=MediaObject&cmd=fullscreen"
 			;
@@ -473,7 +529,14 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		if (!$this->offlineMode())
+		{
+			$this->tpl->show();
+		}
+		else
+		{
+			return $this->tpl->get();
+		}
 
 	}
 
@@ -647,11 +710,19 @@ class ilGlossaryPresentationGUI
 		if (!empty ($_REQUEST["term"])) {
 			$append = "&cmd=searchTerms&term=".$_REQUEST["term"]."&oldoffset=".$_GET["oldoffset"];
 		}		
-				
-		$tabs_gui->addTarget("cont_back",
-			"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&offset=".$_GET["offset"].$append, "",
-			"");
-
+		
+		if (!$this->offlineMode())
+		{
+			$tabs_gui->addTarget("cont_back",
+				"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&offset=".$_GET["offset"].$append, "",
+				"");
+		}
+		else
+		{
+			$tabs_gui->addTarget("cont_back",
+				"index.php", "",
+				"");
+		}
 	}
 	
 	function download_paragraph () {

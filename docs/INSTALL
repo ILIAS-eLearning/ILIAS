@@ -220,7 +220,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.4.0.tar.gz
+    ilias-3.5.0_alpha1.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -729,7 +729,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_alpha1.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -840,6 +840,11 @@ components:
 
 3. Updating ILIAS 3
 
+PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS ALPHA VERSION. THIS
+VERSION IS FOR TEST PURPOSES ONLY.
+
+---
+
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
 ILIAS 3.4.0.
 
@@ -877,6 +882,7 @@ these files.
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
     rm -r survey syntax_highlight course payment webservice ilinc link
+	rm -r cron Services
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
@@ -887,7 +893,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_alpha1.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -900,6 +906,7 @@ copy various files and directories to your ILIAS web directory:
     cp -rp modules payment setup sql survey /opt/ilias/www/htdocs/ilias/
     cp -rp syntax_highlight templates tracking xml /opt/ilias/www/htdocs/ilias/
     cp -rp webservice ilinc link /opt/ilias/www/htdocs/ilias/
+	cp -rp cron Services /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.

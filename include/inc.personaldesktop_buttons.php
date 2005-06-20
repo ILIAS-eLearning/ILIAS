@@ -53,10 +53,13 @@ $inhalt1[] = array($inc_type ,"usr_profile.php",$lng->txt("personal_profile"),"b
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
 	// user calendar
-	$inc_type = ($script_name == "dateplaner.php")
-		? "tabactive"
-		: "tabinactive";
-	$inhalt1[] = array($inc_type,"dateplaner.php",$lng->txt("calendar"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	if ($ilias->getSetting("enable_calendar"))
+	{
+		$inc_type = ($script_name == "dateplaner.php")
+			? "tabactive"
+			: "tabinactive";
+		$inhalt1[] = array($inc_type,"dateplaner.php",$lng->txt("calendar"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	}
 
 /*	// user agreement
 	$inc_type = $script_name == "usr_agreement.php" ? "tabactive" : "tabinactive";
