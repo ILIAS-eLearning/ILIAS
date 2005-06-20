@@ -22,8 +22,8 @@ ILIAS Configuration with Dual login
    To restrict access to ILIAS, replace the access rule 'require valid-user' 
    with something that fits your needs, e.g. 'require affiliation student'.
    
-   shib_login.php acutally authenticates the user if the Shibboleth attributes are
-   available.
+   shib_login.php acutally authenticates the user if the Shibboleth attributes 
+   are available.
 
 2. As ILIAS admin, go to the 'Administration >> Authentication' Options and 
    select the 'Shibboleth' authentication method from the list. Don't click on 
@@ -38,14 +38,15 @@ ILIAS Configuration with Dual login
    due to the ILIAS database.
    Read below what you can use the data manipulation API for.
    
-5. Fill in the fields of the form. The fields  for'loginname', 'firstname', 
-   'surname', etc should contain the name of the environment variables of the 
-   Shibboleth attributes that you want to map onto the corresponding ILIAS 
-   variable (e.g. 'HTTP_SHIB_PERSON_SURNAME' for the person's last name, refer to 
+5. Fill in the fields of the form for the attribute mapping. You need to provide
+   the names of the environment variables that contain the Shibboleth attributes
+   for the unique ID, firstname, surname, etc. This e.g. could be 
+   'HTTP_SHIB_PERSON_SURNAME' for the person's last name. Refer to 
    the Shibboleth documentation or the documentation of your Shibboleth
-   federation for information on which attributes are available).
-   Especially the 'loginname' field is of great importance because 
-   this attribute is used for the ILIAS authentication of Shibboleth users.
+   federation for information on which attributes are available.
+   Especially the field for the 'unique Shibboleth attribute' is of great 
+   importance because this attribute is used for the user mapping between ILIAS
+   and Shibboleth users.
    
    #############################################################################
    Shibboleth Attributes needed by ILIAS:
@@ -54,10 +55,23 @@ ILIAS Configuration with Dual login
    Furthermore, you have to provide an attribute that contains a unique
    value for each use. This could e.g. also be the users emailaddress.
    This unique attribute is needed to map the ILIAS user name to a certain
-   Shibboleth user
+   Shibboleth user.
+   If a user profile is incomplete after login and the user wants to edit his
+   user profile, the required value can and must be provided by the user 
+   himself. 
    #############################################################################
 
 6. Save the changes for the Shibboleth authentication method.
+
+7. (optional) Go to Administration -> User Accounts -> Global settings and 
+   disable fields that you don't really need. For example, it is recommended to
+   make the password field invisible and disable it, if you have only Shibboleth
+   users. Shibboleth users don't need a password. In fact the password field is 
+   used for the ILIAS-Shibboleth user mapping because the unique ID is stored in
+   the password field. Users can't change the password because the unique ID is
+   stored not as the hash of a password but as plain text, which makes it 
+   impossible to change the password or to log in with another authentication 
+   method than Shibboleth.
 
 ILIAS Configuration with Shibboleth only login
 -------------------------------------------------------------------------------
@@ -128,7 +142,8 @@ Example file:
 	// Set the zip code and the adress
 	if ($_SERVER[$ilias->getSetting('shib_street')] != '')
 	{
-		// $address contains something like 'SWITCH$Limmatquai 138$CH-8021 Zurich'
+		// $address contains something like 
+		// 'SWITCH$Limmatquai 138$CH-8021 Zurich'
 		// We want to split this up to get: 
 		// institution, street, zipcode, city and country
 		$address = $_SERVER[$ilias->getSetting('shib_street')];
