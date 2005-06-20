@@ -39,6 +39,9 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
+ALPHA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE ALHPA RELEASES WITHIN
+A PRODUCTIVE ENVIRONMENT. DATA MAY BE CORRUPTED OR LOST.
+
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
