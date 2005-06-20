@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#Drittanbieter-Programme###07 Apr 2005 content changed
 absolute_path#:#Absoluter Pfad###07 Apr 2005 content changed
 access#:#Zugang###07 Apr 2005 content changed
@@ -51,6 +47,7 @@ change#:#ändern###07 Apr 2005 content changed
 change_basic_settings#:#Grundeinstellungen ändern###07 Apr 2005 content changed
 change_password#:#Passwort ändern###07 Apr 2005 content changed
 change_sort_direction#:#Sortierrichtung ändern###07 Apr 2005 content changed
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Convert-Test fehlgeschlagen###07 Apr 2005 content changed
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen###07 Apr 2005 content changed
 check_failed_java#:#Java-Test fehlgeschlagen###07 Apr 2005 content changed
@@ -153,6 +150,7 @@ htmldoc_path#:#HTMLdoc-Befehlszeile###07 Apr 2005 content changed
 htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen (Digilib-Objekt)###07 Apr 2005 content changed
 http_path#:#HTTP-Pfad###07 Apr 2005 content changed
 id#:#ID###07 Apr 2005 content changed
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#ILIAS Homepage###07 Apr 2005 content changed
 ilias_nic#:#NIC Registrierung###07 Apr 2005 content changed
 ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
@@ -250,6 +248,8 @@ login_to_ilias#:#bei ILIAS anmelden###07 Apr 2005 content changed
 logout#:#ausloggen###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#Basisverzeichnis für Daten ausserhalb des Webspaces###07 Apr 2005 content changed
 missing_data#:#Daten unvollständig###07 Apr 2005 content changed
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Name###07 Apr 2005 content changed
 new#:#neu###07 Apr 2005 content changed
 next#:#Weiter###07 Apr 2005 content changed

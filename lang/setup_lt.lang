@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
@@ -51,6 +47,7 @@ change#:#keisti###07 Apr 2005 content changed
 change_basic_settings#:#Change basic settings###21 Nov 2003 new variable
 change_password#:#Keisti slaptažodį###07 Apr 2005 content changed
 change_sort_direction#:#Change sort direction###05 Jan 2003 new variable
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Testing convert failed###05 Jan 2003 new variable
 check_failed_htmldoc#:#Testing HTMLdoc failed###05 Jan 2003 new variable
 check_failed_java#:#Testing java failed###05 Jan 2003 new variable
@@ -153,6 +150,7 @@ htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
 htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)###05 Jan 2003 new variable
 http_path#:#HTTP path###21 Nov 2003 new variable
 id#:#ID###21 Nov 2003 new variabl
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#ILIAS Homepage###05 Jan 2003 new variable
 ilias_nic#:#NIC Registration###21 Nov 2003 new variable
 ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
@@ -250,6 +248,8 @@ login_to_ilias#:#prisijungti prie ILIAS###07 Apr 2005 content changed
 logout#:#užbaigti autentifikuotą sesiją###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#Main data directory outside webspace###05 Jan 2003 new variable
 missing_data#:#Missing data###05 Jan 2003 new variable
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Name###21 Nov 2003 new variable
 new#:#new###28 Nov 2003 new variable
 next#:#Next###21 Nov 2003 new variable

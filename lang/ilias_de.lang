@@ -43,39 +43,15 @@ administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Kons
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
-common#:#info_access_permissions#:#Zugriffsrechte
-common#:#info_available_roles#:#Verfügbare Rollen
-common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
-common#:#info_status_info#:#Statusinformationen
-common#:#info_permission_source#:#wirksam von*
-common#:#info_permission_origin#:#Absolute Position
-common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
-common#:#info_view_of_user#:#Benutzersicht
-common#:#info_change_user_view#:#Benutzersicht wechseln
-common#:#info_enter_user_id#:#<user_id eingeben>
-common#:#info_err_user_not_exist#:#Einen Benutzer mit dieser user_id existiert nicht
-common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
-common#:#info_assigned#:#zugewiesen
-common#:#info_not_assigned#:#nicht zugewiesen
-common#:#online#:#Online
-common#:#info_is_member#:#Benutzer ist Mitglied
-common#:#info_is_not_member#:#Benutzer ist kein Mitglied
-common#:#glo_mode#:#Modus
-common#:#glo_mode_normal#:#Normal
-common#:#glo_mode_level#:#virtuell (nur diese Ebene)
-common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
-common#:#glo_mode_desc#:#Ein virtuelles Glossar funktiontiert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich von der Position dieses Glossars darunter befinden (ganzer Teilbaum).
 administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
-common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Anmeldeformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
-common#:#info_short#:#Info
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
@@ -117,12 +93,6 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
-common#:#il_crs_admin#:#Administrator
-common#:#il_crs_tutor#:#Tutor
-common#:#il_crs_member#:#Mitglied
-common#:#il_grp_admin#:#Administrator
-common#:#il_grp_member#:#Mitglied
-common#:#il_frm_moderator#:#Moderator
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
@@ -172,7 +142,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
-assessment#:#cloze_text#:#Lückentext-Frage
+assessment#:#cloze_text#:#Lückentext-Frage###20 Jun 2005 content changed
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
@@ -336,6 +306,8 @@ assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
+assessment#:#print_answers#:#Antworten drucken
+assessment#:#print_results#:#Ergebnisse drucken
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
@@ -352,7 +324,7 @@ assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage f�
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qt_cloze#:#Lückentext-Frage
+assessment#:#qt_cloze#:#Lückentext-Frage###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
 assessment#:#qt_matching#:#Zuordnungsfrage
@@ -421,7 +393,6 @@ assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_submitted#:#Test wurde bereits beendet und die Anworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_anon_eval#:#Ergebnisse###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
@@ -507,6 +478,9 @@ assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test besta
 assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_resume_test#:#Test fortsetzen
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
@@ -524,6 +498,7 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
+assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle Nutzerinnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
@@ -546,7 +521,6 @@ assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmerinnen
 assessment#:#tst_stat_selected_users#:#Ausgewählte Nutzerinnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
-assessment#:#tst_statistical_evaluation#:#Statistik###13 May 2005 content changed
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!
@@ -582,7 +556,6 @@ assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
 assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
@@ -653,6 +626,9 @@ chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
 chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
+chat#:#chat_add_private_chatroom#:#Privaten Chatraum anlegen
+chat#:#chat_address#:#Anreden
+chat#:#chat_address_user#:#Direkte Anrede von
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#schwarz
@@ -678,6 +654,7 @@ chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.
 chat#:#chat_invitation_body#:#Einladung zum Chat von:
 chat#:#chat_invitation_subject#:#Einladung zum Chat
 chat#:#chat_invite_user#:#Benutzer einladen
+chat#:#chat_invited_by#:#Einladung von
 chat#:#chat_italic#:#Kursiv
 chat#:#chat_level_all#:#Alles
 chat#:#chat_level_debug#:#Korrektur
@@ -698,6 +675,7 @@ chat#:#chat_no_write_perm#:#Keine Schreibrechte
 chat#:#chat_olive#:#oliv
 chat#:#chat_online_users#:#Benutzer (online)
 chat#:#chat_private_message#:#Private Nachricht
+chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Öffentlicher Chatraum
 chat#:#chat_purple#:#purpur
 chat#:#chat_red#:#rot
@@ -732,6 +710,7 @@ chat#:#chat_type#:#Schriftart
 chat#:#chat_underlined#:#Unterstrichen
 chat#:#chat_user_dropped#:#Der Benutzer wurde rausgeschmissen
 chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
+chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Meine Chats
@@ -765,12 +744,16 @@ common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Alle Autoren
 common#:#all_global_roles#:#Globale Rollen
 common#:#all_lms#:#Alle Lernmodule
@@ -804,7 +787,7 @@ common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
-common#:#approve_date#:#Freigegeben am
+common#:#approve_date#:#Freigegeben am###20 Jun 2005 content changed
 common#:#approve_recipient#:#Freigegeben durch (Login ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
@@ -996,6 +979,7 @@ common#:#client_id#:#Mandanten ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
+common#:#close_window#:#Fenster schließen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
@@ -1023,6 +1007,7 @@ common#:#continue_work#:#Fortsetzen
 common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy#:#Kopieren
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
 common#:#copy_to#:#nach
@@ -1032,6 +1017,7 @@ common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#Erstellen
 common#:#create_date#:#Erstellt am
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
@@ -1129,6 +1115,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
@@ -1162,6 +1149,7 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
@@ -1352,6 +1340,11 @@ common#:#glo_delete#:#Glossar löschen
 common#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben
+common#:#glo_mode#:#Modus
+common#:#glo_mode_desc#:#Ein virtuelles Glossar funktiontiert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich von der Position dieses Glossars darunter befinden (ganzer Teilbaum).
+common#:#glo_mode_level#:#virtuell (nur diese Ebene)
+common#:#glo_mode_normal#:#Normal
+common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
 common#:#glo_new#:#Neues Glossar
 common#:#glo_read#:#Glossar lesen
 common#:#glo_upload_file#:#Datei
@@ -1513,6 +1506,7 @@ common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Seminaraum
 common#:#icla_add#:#iLinc Seminarraum anlegen
 common#:#icla_delete#:#iLinc Seminarraum löschen
@@ -1534,9 +1528,16 @@ common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Mitglied
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Mitglied
 common#:#ilias_version#:#ILIAS Version
 common#:#ilinc_classrooms#:#iLinc Seminarräume
 common#:#ilinc_courses#:#iLinc Seminare
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
@@ -1567,10 +1568,26 @@ common#:#inactive#:#Inaktiv
 common#:#inbox#:#Posteingang
 common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Information
+common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
+common#:#info_access_permissions#:#Zugriffsrechte
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
+common#:#info_assigned#:#zugewiesen
+common#:#info_available_roles#:#Verfügbare Rollen
+common#:#info_change_user_view#:#Benutzersicht wechseln
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#info_enter_user_id#:#<user_id eingeben>
+common#:#info_err_user_not_exist#:#Einen Benutzer mit dieser user_id existiert nicht
+common#:#info_is_member#:#Benutzer ist Mitglied
+common#:#info_is_not_member#:#Benutzer ist kein Mitglied
+common#:#info_not_assigned#:#nicht zugewiesen
+common#:#info_permission_origin#:#Absolute Position
+common#:#info_permission_source#:#wirksam von*
+common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformationen
 common#:#info_trash#:#Gelöschte Objekte
+common#:#info_view_of_user#:#Benutzersicht
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
@@ -1611,6 +1628,7 @@ common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_cs#:#Tschechisch
@@ -1687,6 +1705,7 @@ common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktivie
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. 
 common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
@@ -1840,6 +1859,7 @@ common#:#monthly#:#monatlich
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Ablegen in
 common#:#move_users_to_style#:#Benutzer Style zuordnen
 common#:#msg_cancel#:#Aktion abgebrochen
@@ -1858,6 +1878,7 @@ common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
+common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Anmeldeformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
@@ -1963,6 +1984,7 @@ common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
 common#:#no_objects#:#Keine Objekte
+common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
 common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_roles_user_can_be_assigned_to#:#Sie haben keinen Zugriff auf globale Rollen, deswegen können Sie keine lokalen Benutzer anlegen.
@@ -2107,6 +2129,7 @@ common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#old#:#Alt
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
@@ -2134,6 +2157,7 @@ common#:#password_assistance_info#:#Wenn Password Unterstützung aktiviert ist, 
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Pfad
 common#:#path_not_set#:#Pfad nicht gesetzt
 common#:#path_to_babylon#:#BABYLON Befehlszeile
@@ -2431,7 +2455,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
-common#:#show_users_online#:#Aktive Benutzer anzeigen
+common#:#show_users_online#:#Aktive Benutzer anzeigen###20 Jun 2005 content changed
 common#:#signature#:#Signatur
 common#:#size#:#Größe
 common#:#skin_style#:#Standard-Skin / -Style
@@ -2479,13 +2503,19 @@ common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
@@ -2522,17 +2552,22 @@ common#:#time_h#:#Stunde
 common#:#time_limit#:#Zugang
 common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.
 common#:#time_limit_applied_users#:#Angelegte Benutzer
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
 common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
 common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
 common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
-common#:#to_desktop#:#Abo
+common#:#to_desktop#:#Abo###20 Jun 2005 content changed
 common#:#today#:#Heute
 common#:#toggleGlobalDefault#:#Standard-Style umschalten
 common#:#toggleGlobalFixed#:#Einheits-Style umschalten
@@ -2552,13 +2587,17 @@ common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_read#:#Lesezugriff auf Test
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_visible#:#Test ist sichtbar
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
@@ -2613,16 +2652,22 @@ common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
-common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
-common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
-common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#user_profile_other#:#Weitere Informationen
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
-common#:#users_online#:#Aktive Benutzer
+common#:#users_online#:#Aktive Benutzer###20 Jun 2005 content changed
+common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
+common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
+common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
@@ -2671,9 +2716,6 @@ common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Akt
 common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert
-common#:#visible#:#Sichtbar
-common#:#visitor#:#Besucher
-common#:#visitors#:#Besucher
 common#:#vcard#:#Visitenkarte
 common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
@@ -2685,7 +2727,10 @@ common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
+common#:#visible#:#Sichtbar
 common#:#visible_layers#:#Sichtbare Ebenen
+common#:#visitor#:#Besucher
+common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Web Ressourcen
 common#:#webr#:#Web Ressource
@@ -2725,7 +2770,6 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#PLZ
-content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
@@ -2785,6 +2829,7 @@ content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht m�
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll.
 content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
@@ -3131,6 +3176,7 @@ content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
+content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
@@ -3411,7 +3457,7 @@ crs#:#crs_show_link_tst#:#Tests anzeigen
 crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Aktivierung
-crs#:#crs_sort_manual#:#Manuelle Sortierung
+crs#:#crs_sort_manual#:#Manuelle Sortierung###20 Jun 2005 content changed
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung/Abo
@@ -3688,7 +3734,6 @@ dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
-forum#:#forums_articles#:#Beiträge
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
@@ -3704,10 +3749,7 @@ forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll.
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
-forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
-forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_articles#:#Neue Beiträge
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
@@ -3729,7 +3771,6 @@ forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
-forum#:#forums_threads#:#Themen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
@@ -4118,11 +4159,13 @@ meta#:#meta_choose_section#:#Bitte wählen Sie einen Bereich
 meta#:#meta_classification#:#Klassifizierung
 meta#:#meta_collection#:#Sammlung
 meta#:#meta_competency#:#Kompetenz
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
@@ -4132,9 +4175,11 @@ meta#:#meta_dificult#:#Schwierig
 meta#:#meta_draft#:#Entwurf
 meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
@@ -4146,6 +4191,7 @@ meta#:#meta_final#:#Endfassung
 meta#:#meta_format#:#Format
 meta#:#meta_general#:#Allgemein
 meta#:#meta_graph#:#Graph
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#...hat Format...
 meta#:#meta_has_part#:#..hat Teil von...
 meta#:#meta_has_version#:#..hat Version...
@@ -4156,7 +4202,9 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_index#:#Index
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
 meta#:#meta_interactivity_type#:#Art der Interaktivität
@@ -4362,6 +4410,7 @@ meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
 meta#:#meta_school#:#Schule
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
@@ -4372,11 +4421,15 @@ meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
 meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxonomie
 meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
@@ -4384,6 +4437,8 @@ meta#:#meta_typical_age_range#:#Typische Altersspanne
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
 meta#:#meta_unavailable#:#Nicht verfügbar
 meta#:#meta_unix#:#Unix
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#Eintrag
 meta#:#meta_version#:#Version
 meta#:#meta_very_difficult#:#Sehr schwierig
@@ -4608,14 +4663,26 @@ pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
 pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die EMailadresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
 search#:#search_active#:#Aktive Benutzer
+search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
+search#:#search_advanced#:#Erweiterte Suche
 search#:#search_all_results#:#Alle Resultate
+search#:#search_all_words#:#Alle Begriffe
 search#:#search_and#:#und
+search#:#search_any#:#-- Beliebig --
+search#:#search_any_word#:#Einen der Begriffe
+search#:#search_area#:#Suchbereich
+search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
+search#:#search_below#:#Unterhalb von:
+search#:#search_change#:#Ändern
 search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
 search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
 search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
+search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
+search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
 search#:#search_group#:#Gruppen
+search#:#search_in_magazin#:#Im Magazin
 search#:#search_in_result#:#In den Resultaten suchen
 search#:#search_inactive#:#Inaktive Benutzer
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
@@ -4644,13 +4711,17 @@ search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse ge
 search#:#search_search_results#:#Suchergebnisse
 search#:#search_search_term#:#Suchbegriff
 search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
+search#:#search_select_folder#:#Bitte wählen Sie genau einen Ordner aus, Suchergebnisse können nicht umbanannt werden.
 search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
 search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
 search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
+search#:#search_tst_svy#:#Tests/Umfragen
+search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
+search#:#until#:#bis
 survey#:#add_category#:#Kategorie hinzufügen
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Kategorien hinzufügen wollen.
@@ -4794,7 +4865,6 @@ survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
 survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools
-survey#:#finished#:#beendet
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
@@ -4862,8 +4932,6 @@ survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in d
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
-survey#:#not_finished#:#noch nicht abgeschlossen
-survey#:#not_started#:#noch nicht gestartet
 survey#:#not_used#:#nicht verwendet
 survey#:#obligatory#:#verpflichtend
 survey#:#off#:#aus
@@ -5006,44 +5074,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-assessment#:#tst_started#:#Test gestartet
-assessment#:#print_answers#:#Antworten drucken
-assessment#:#print_results#:#Ergebnisse drucken
-search#:#search_area#:#Suchbereich
-search#:#search_type#:#Suchart
-search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
-search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
-search#:#search_in_magazin#:#Im Magazin
-search#:#search_below#:#Unterhalb von:
-search#:#search_change#:#Ändern
-search#:#search_any_word#:#Einen der Begriffe
-search#:#search_all_words#:#Alle Begriffe
-search#:#search_advanced#:#Erweiterte Suche
-search#:#search_tst_svy#:#Tests/Umfragen
-search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
-search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
-search#:#search_select_folder#:#Bitte wählen Sie genau einen Ordner aus, Suchergebnisse können nicht umbanannt werden.
-chat#:#chat_address#:#Anreden
-chat#:#chat_address_user#:#Direkte Anrede von
-chat#:#chat_whisper#:#Flüstern
-chat#:#chat_profile#:#Profil
-chat#:#chat_invited_by#:#Einladung von
-chat#:#chat_add_private_chatroom#:#Privaten Chatraum anlegen
-common#:#close_window#:#Fenster schließen
-search#:#search_any#:#-- Beliebig --
-meta#:#meta_unknown#:#Unknown
-meta#:#meta_initiator#:#Initiator
-meta#:#meta_editor#:#Editor
-meta#:#meta_terminator#:#Terminator
-meta#:#meta_graphicaldesigner#:#Graphical designer
-meta#:#meta_technicalimplementer#:#Technical implementer
-meta#:#meta_contentprovider#:#Content provider
-meta#:#meta_technicalvalidator#:#Technical validator
-meta#:#meta_educationalvalidator#:#Educational validator
-meta#:#meta_scriptwriter#:#Scriptwriter
-meta#:#meta_instructional_designer#:#instructional designer
-meta#:#meta_subjectmatterexpert#:#Subject matter expert
-meta#:#meta_creator#:#Creator
-meta#:#meta_validator#:#Validator
-search#:#until#:#bis

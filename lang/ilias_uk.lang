@@ -143,7 +143,7 @@ assessment#:#circle_click_center#:#Будь ласка клікнітьо на �
 assessment#:#circle_click_circle#:#Будь ласка клікніть на точку кола бажаної області.
 assessment#:#clientip#:#Клієнтt IP
 assessment#:#close_text_hint#:#Ви маєте визначити проміжок для введення <gap></gap> в позицію в тексті що ви вибрали. Натисніть кнопку 'Створити проміжки' для додавання форми що редагується для кожного проміжку.
-assessment#:#cloze_text#:#Закрити текст
+assessment#:#cloze_text#:#Закрити текст###20 Jun 2005 content changed
 assessment#:#code#:#Код
 assessment#:#concatenation#:#Об'єднання
 assessment#:#confirm_delete_all_user_data#:#Ви впервені що ви бажаєте видалити усі дані користувача по цьому тесту?
@@ -306,6 +306,8 @@ assessment#:#postpone#:#Відкласти питання
 assessment#:#postponed#:#відкладене
 assessment#:#preview#:#Попередній огляд
 assessment#:#previous_question_rows#:#<< Питання %d - %d з %d
+assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
+assessment#:#print_results#:#Print Results###20 Jun 2005 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Немає доступних оцінок по питанням для вибраного питання. Питання ніколи не використовувалось в тесті.
 assessment#:#qpl_assessment_of_questions#:#Оцінка по питанням
 assessment#:#qpl_assessment_total_of_answers#:#Загальна кількість відповідей
@@ -322,7 +324,7 @@ assessment#:#qpl_export_select_none#:#Будь ласка виберіть пр�
 assessment#:#qpl_question_is_in_use#:#Питання що ви збираєтесь редагувати існує в %s тесті(ах). Якщо ви зміните це питання, ви НЕ зміните питання в тесті(ах), тому що система створює копію питання коли воно вставляється в тест!
 assessment#:#qpl_questions_deleted#:#Питання виделено(і).
 assessment#:#qpl_select_file_for_import#:#Ви повинні вибрати файл для імпорту!
-assessment#:#qt_cloze#:#Закрити питання
+assessment#:#qt_cloze#:#Закрити питання###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#Питання з картою зображення
 assessment#:#qt_javaapplet#:#Питання з Ява Аплетом
 assessment#:#qt_matching#:#Співпадаючі питання
@@ -390,7 +392,6 @@ assessment#:#too_many_empty_parameters#:#Будь ласка заповніть 
 assessment#:#true#:#Правда
 assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
 assessment#:#tst_already_taken#:#Тест вже вибраний
-assessment#:#tst_anon_eval#:#Анонімно зібрані результати###13 May 2005 content changed
 assessment#:#tst_answer_sheet#:#Лист з Тестовою Відповіддю
 assessment#:#tst_browse_for_questions#:#Огляд для питань
 assessment#:#tst_confirm_delete_results#:#Ви видаляєте усі ваші попередньо введені результати цього тесту. Це обнулить усі питання на їх початкове значення. Будь ласка зауважте, що ви не можете обнулити кількість спроб, вони ще потрібні для цього тесту. Ви дійсно бажаєте обнулити усі попередньо введені результати ?
@@ -476,6 +477,9 @@ assessment#:#tst_result_congratulations#:#Поздоровляємо! Ви сд�
 assessment#:#tst_result_sorry#:#Пробачте, але ви не сдали цей тест.
 assessment#:#tst_results#:#Результати тесту
 assessment#:#tst_resume_test#:#Відновити тест
+assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_reporting#:#Звіт про результат
 assessment#:#tst_score_reporting_date#:#Дата звіту про результат
 assessment#:#tst_score_type#:#Тип звіту про результат
@@ -493,6 +497,7 @@ assessment#:#tst_show_answer_sheet#:#show answers###20 Apr 2005 new variable
 assessment#:#tst_show_results#:#Показати результати тесту
 assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Почати тест
+assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Початковий час
 assessment#:#tst_stat_all_users#:#Усі користувачі
 assessment#:#tst_stat_choose_users#:#(виберіть одного або більше користувачів зі списку)
@@ -515,7 +520,6 @@ assessment#:#tst_stat_result_timeofwork#:#Час роботи
 assessment#:#tst_stat_result_total_participants#:#Загальна кількість учасників
 assessment#:#tst_stat_selected_users#:#Вибрані користувачі
 assessment#:#tst_stat_users_intro#:#Показати статистичні оцінки для
-assessment#:#tst_statistical_evaluation#:#Засіб статистичного аналізу###13 May 2005 content changed
 assessment#:#tst_status_completed#:#завершено
 assessment#:#tst_status_completed_more_tries_possible#:#(завершено)
 assessment#:#tst_status_missing#:#Існуєть потрібні елементи, що відсутні в цьому тесті!
@@ -551,7 +555,6 @@ assessment#:#uploaded_material#:#Завантажений матеріал
 assessment#:#user_not_invited#:#Ви не допущені до цього екзамену.
 assessment#:#user_wrong_clientip#:#Ви не маєте потрібного ip щоб пройти цей тест.
 assessment#:#warning_question_not_complete#:#Питання не завершене!
-assessment#:#warning_test_not_complete#:#Тест не завершений!
 assessment#:#when#:#коли
 assessment#:#width#:#Ширина
 assessment#:#with_order#:#в порядку
@@ -622,6 +625,9 @@ chat#:#chat_add_external_ip#:#Будь ласка вкажіть зовнішн�
 chat#:#chat_add_internal_ip#:#Будь ласка вкажіть внутрішній IP сервера.
 chat#:#chat_add_moderator_password#:#Будь ласка вкажіть пароль модератора.
 chat#:#chat_add_port#:#Будь ласка вкажіть порт сервера.
+chat#:#chat_add_private_chatroom#:#Add private chatroom###20 Jun 2005 new variable
+chat#:#chat_address#:#Address###20 Jun 2005 new variable
+chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#аква
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#чорний
@@ -647,6 +653,7 @@ chat#:#chat_insert_message#:#Будь ласка введіть повідомл
 chat#:#chat_invitation_body#:#Запрошення до чату від:
 chat#:#chat_invitation_subject#:#Запрошення до чату
 chat#:#chat_invite_user#:#Запросити користувача
+chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Курсив
 chat#:#chat_level_all#:#Усе
 chat#:#chat_level_debug#:#Налагодження
@@ -667,6 +674,7 @@ chat#:#chat_no_write_perm#:#Немає прав на запис
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Користувач (онлайн)
 chat#:#chat_private_message#:#Приватне Повідомлення
+chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Загальна кімната
 chat#:#chat_purple#:#пурпурний
 chat#:#chat_red#:#червоний
@@ -701,6 +709,7 @@ chat#:#chat_type#:#Font face
 chat#:#chat_underlined#:#Підкреслений
 chat#:#chat_user_dropped#:#Користувач викинутий
 chat#:#chat_user_invited#:#Користувач запрошений в чат.
+chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#жовтий
 chat#:#chats#:#Чати
 chat#:#my_chats#:#Мої Чати
@@ -734,12 +743,16 @@ common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
 common#:#adm_visible#:#Системні настройки є видимі
 common#:#adm_write#:#Редагувати Базові системні настройки
+common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
+common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
+common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
 common#:#administrate#:#Адмініструвати
 common#:#administrate_users#:#Адміністрування локальних користувачів
 common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
 common#:#adopt#:#прийняти
 common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
+common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Усі автори
 common#:#all_global_roles#:#Глобальні ролі
 common#:#all_lms#:#Усі учбові модулі
@@ -773,7 +786,7 @@ common#:#apply#:#Застосувати
 common#:#apply_filter#:#Застосувати фільтр
 common#:#appointment#:#Призначення
 common#:#appointment_list#:#Список Призначення
-common#:#approve_date#:#Схвалено
+common#:#approve_date#:#Схвалено###20 Jun 2005 content changed
 common#:#approve_recipient#:#ID логіну, що схвалив
 common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
@@ -802,6 +815,8 @@ common#:#assign_local_role#:#Призначити локальну роль
 common#:#assign_user_to_role#:#Призначити Користувачу Роль
 common#:#assigned_roles#:#Призначити ролі
 common#:#assigned_users#:#Призначені користувачі
+common#:#associated_user#:#associated User###20 Jun 2005 new variable
+common#:#associated_users#:#associated Users###20 Jun 2005 new variable
 common#:#at_least_one_style#:#Принаймні один стиль повинен залишитись активованим.
 common#:#at_location#:#знаходиться
 common#:#attachment#:#Прикріплення
@@ -963,6 +978,7 @@ common#:#client_id#:#ID Клієнта
 common#:#client_ip#:#Ip Клієнта
 common#:#clipboard#:#Буфер обміну
 common#:#close#:#Закрити
+common#:#close_window#:#Close window###20 Jun 2005 new variable
 common#:#comma_separated#:#Розділений Комами
 common#:#comment#:#коментар
 common#:#compose#:#Створити
@@ -990,6 +1006,7 @@ common#:#continue_work#:#Продовжити
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Скопійовані об'єкти
 common#:#copy#:#Копіювати
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Копіювати
 common#:#copy_of#:#Копія
 common#:#copy_to#:#для
@@ -999,6 +1016,7 @@ common#:#course#:#Курс
 common#:#courses#:#Курси
 common#:#create#:#Створити
 common#:#create_date#:#Створено
+common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Створити в
 common#:#create_stylesheet#:#Створити Стиль
 common#:#created#:#Створити лату
@@ -1090,11 +1108,13 @@ common#:#default_roles#:#Ролі по Замовчанню
 common#:#default_skin#:#Вигляд по Замовчанню
 common#:#default_skin_style#:#Вигляд / Стиль по Замовчанню
 common#:#default_style#:#Стиль по Замовчанню
+common#:#default_value#:#Default Value###20 Jun 2005 new variable
 common#:#delete#:#Видалити
 common#:#delete_all#:#Видалити Усе
 common#:#delete_all_rec#:#Видалити усі записи
 common#:#delete_object#:#Видалити Об'єкт(и)
 common#:#delete_selected#:#Видалити Відмічене
+common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
 common#:#delete_tr_data#:#Видалити дані, що відслідковувались
 common#:#deleted#:#Видалено
 common#:#deleted_user#:#Користувач був видалений
@@ -1128,6 +1148,7 @@ common#:#email#:#E-mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Введена вами email адресa не є коректною!
 common#:#enable#:#Дозволити
+common#:#enable_calendar#:#Enable Calendar###20 Jun 2005 new variable
 common#:#enable_hist_user_comments#:#Дозволити коментарії користувачів в історії
 common#:#enable_hist_user_comments_desc#:#Дати авторам можливість додавати коментарі до сторінок з історією логів.
 common#:#enable_js_edit#:#Дозволити Редагування JavaScript
@@ -1316,6 +1337,11 @@ common#:#glo_delete#:#Видалити Глосарій
 common#:#glo_edit_permission#:#Змінити настройки прав
 common#:#glo_join#:#Підписатить на Глосарій
 common#:#glo_leave#:#Відписатись від Глосарію
+common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
+common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
+common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
+common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Новий Глосарій
 common#:#glo_read#:#Доступ на читання до Глосарію
 common#:#glo_upload_file#:#Файл
@@ -1477,6 +1503,7 @@ common#:#htlm_write#:#Редагувати HTML Учбовий Модуль
 common#:#http_not_possible#:#Цей сервер не підтримує http запити.
 common#:#http_path#:#Http Шлях
 common#:#https_not_possible#:#Цей сервер не підтримує HTTPS з'єднання.
+common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc клас
 common#:#icla_add#:#Додати iLinc Клас
 common#:#icla_delete#:#Видалити iLinc Клас
@@ -1498,9 +1525,16 @@ common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
 common#:#if_no_title_then_url#:#Залиште порожнім для відображення URL
 common#:#ignore_on_conflict#:#Ігнорувати при конфлікті
+common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_member#:#Member###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
+common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
+common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#ilias_version#:#ILIAS версія
 common#:#ilinc_classrooms#:#iLinc Клас
 common#:#ilinc_courses#:#iLinc Курси
+common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Зображення
 common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях до програми конвертації.
 common#:#import#:#Імпорт
@@ -1531,10 +1565,26 @@ common#:#inactive#:#Пасивний
 common#:#inbox#:#Вхідні
 common#:#include_local#:#включити локальні файли з мовами при оновленні мов
 common#:#info#:#Інформація
+common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
+common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
 common#:#info_assign_sure#:#Ви впевнені що бажаєте призначити наступного користувача(користувачів)?
+common#:#info_assigned#:#assigned###20 Jun 2005 new variable
+common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
+common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#Ви впевнені що бажаєете видалити наступний об'єкт(об'єкти)?
 common#:#info_deleted#:#Об'єкт(и) Видалений(і)
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_is_member#:#User is member###20 Jun 2005 new variable
+common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
+common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
+common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable
+common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Видалені Об'єкти
+common#:#info_view_of_user#:#View of user###20 Jun 2005 new variable
 common#:#inform_user_mail#:#Відіслати email щоб проінформувати користувачів про зміни
 common#:#information_abbr#:#Інформація
 common#:#ingmedia_all_offers#:#Усі LE
@@ -1573,6 +1623,7 @@ common#:#internal_system#:#Внутрішня система
 common#:#ip_address#:#IP Адреса
 common#:#is_already_your#:#вже ваша
 common#:#item#:#Елемент
+common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#КілоБайт
 common#:#keywords#:#Ключові слова
 common#:#lang_cs#:#Чеська
@@ -1597,6 +1648,8 @@ common#:#lang_pl#:#Польська
 common#:#lang_pt#:#Португальська
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
+common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
+common#:#lang_sr#:#Serbian###20 Jun 2005 new variable
 common#:#lang_sv#:#Шведська
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_uk#:#Українська
@@ -1646,6 +1699,7 @@ common#:#link_check_message_disabled#:#Повідомлення відключе
 common#:#link_check_message_enabled#:#Повідомлення включені
 common#:#link_check_subject#:#[ILIAS 3] Перевірка посилання
 common#:#link_checker_refreshed#:#Оновлений вид
+common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
 common#:#linked_object#:#Об'єкт був зв'язаний
 common#:#linked_pages#:#Зв'язані Сторінки
 common#:#list_of_pages#:#Список Сторінок
@@ -1796,6 +1850,7 @@ common#:#monthly#:#щомісяця
 common#:#move#:#Перемістити
 common#:#moveChapter#:#Перемістити
 common#:#movePage#:#Перемістити
+common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Перемістити в
 common#:#move_users_to_style#:#Перемістити користувачів до стилю
 common#:#msg_cancel#:#Дія відмінена
@@ -1812,7 +1867,9 @@ common#:#msg_deleted_rolt#:#Шаблон Ролі видалений
 common#:#msg_deleted_rolts#:#Шаблон Ролі видалений
 common#:#msg_error_copy#:#Помилка Копіювання
 common#:#msg_failed#:#Вибачте, дія невдалась
+common#:#msg_invalid_filetype#:#Invalid file type###20 Jun 2005 new variable
 common#:#msg_is_last_role#:#Ви видалили останню глобальну роль для наступних користувачів
+common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.###20 Jun 2005 new variable
 common#:#msg_link_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: зв'язати)
 common#:#msg_linked#:#Вибраний об'єкт(и) зв'язаний.
 common#:#msg_may_not_contain#:#Цей об'єкт може не містити об'єктів типу:
@@ -1918,6 +1975,7 @@ common#:#no_limit#:#Немає обмеження
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
 common#:#no_local_users#:#Немає локальних користувачів
 common#:#no_objects#:#Немає об'єктів
+common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
 common#:#no_permission#:#You do not have the necessary permission.###13 May 2005 new variable
 common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
 common#:#no_roles_user_can_be_assigned_to#:#Немає глобальної ролі до якої може бути призначений користувач. Тому вам не дозволено додавати користувачів.
@@ -2062,6 +2120,7 @@ common#:#offline#:#оффлайн
 common#:#offline_version#:#Оффлайн Версія
 common#:#ok#:#Так
 common#:#old#:#Старий
+common#:#online#:#Online###20 Jun 2005 new variable
 common#:#online_chapter#:#Онлайн Глава
 common#:#online_version#:#Онлайн Версія
 common#:#open_views_inside_frameset#:#Відкрити перегляд всередині фреймсету
@@ -2089,6 +2148,7 @@ common#:#password_assistance_info#:#Якщо відновлення паролю
 common#:#paste#:#Вставити
 common#:#pasteChapter#:#Вставити
 common#:#pastePage#:#Вставити
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Шлях
 common#:#path_not_set#:#Шлях не встановлений
 common#:#path_to_babylon#:#Шлях до Babylon
@@ -2385,7 +2445,7 @@ common#:#show_list#:#Показати Список
 common#:#show_members#:#Показати Членів
 common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
-common#:#show_users_online#:#Показати користувачів online
+common#:#show_users_online#:#Показати користувачів online###20 Jun 2005 content changed
 common#:#signature#:#Сігнатура
 common#:#size#:#Розмір
 common#:#skin_style#:#Скін / Стиль по Замовчанню
@@ -2433,13 +2493,19 @@ common#:#svy#:#Опитування
 common#:#svy_add#:#Додати опитування
 common#:#svy_delete#:#Видалити опитування
 common#:#svy_edit_permission#:#Змінити настройки прав
+common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Запросити користувачів до опитування
 common#:#svy_new#:#Нове опитування
 common#:#svy_no_content#:#Немає доступних опитувань
+common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
+common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Брати участь в опитуванні
 common#:#svy_read#:#Доступ на читання до опитування
+common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Завантажити файл
 common#:#svy_visible#:#Опитування є видимим
+common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
 common#:#svy_write#:#Редагувати опитування
 common#:#system#:#Система
 common#:#system_check#:#Перевірка Системи
@@ -2476,17 +2542,22 @@ common#:#time_h#:#Час
 common#:#time_limit#:#Доступ
 common#:#time_limit_add_time_limit_for_selected#:#Будь ласка введіть період часу для відмічених користувачів.
 common#:#time_limit_applied_users#:#Applied користувачі
+common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
+common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Будь ласка виберіть користувача.
 common#:#time_limit_not_valid#:#Період не є корректним.
 common#:#time_limit_not_within_owners#:#Ваш доступ обмежено. Період за межами вашого ліміту.
+common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Термін дії вашого доступу скінчився.
+common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Дані користувача оновлені
 common#:#time_limits#:#Доступ
 common#:#time_segment#:#Часовий Сегмент
 common#:#title#:#Назва
 common#:#to#:#
 common#:#to_client_list#:#До Клієнтського вибору
-common#:#to_desktop#:#Підписатися
+common#:#to_desktop#:#Підписатися###20 Jun 2005 content changed
 common#:#today#:#Сьогодні
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
@@ -2506,13 +2577,17 @@ common#:#trash#:#Смітник
 common#:#treeview#:#Огляд у вигляді дерева
 common#:#tst#:#Тест
 common#:#tst_add#:#Додати тест
+common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
 common#:#tst_delete#:#Видалити Тест
 common#:#tst_edit_permission#:#Змінити настройки прав
 common#:#tst_new#:#Новий тест
 common#:#tst_no_content#:#Немає доступних тестів
 common#:#tst_read#:#Доступ на читання до Тесту
+common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Завантажити файл
 common#:#tst_visible#:#Тест є видимим
+common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
 common#:#txt_add_object_instruction2#:#.
@@ -2570,10 +2645,19 @@ common#:#user_not_chosen#:#Ви не вибрали члена групи!
 common#:#user_profile_other#:#Інша Інформація
 common#:#user_statistics#:#Статистичні Дані
 common#:#userdata#:#Дані користувача
+common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
+common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
+common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
+common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
 common#:#username#:#Ім'я користувача
 common#:#users#:#Користувачі
 common#:#users_not_imported#:#Наступні користувачі не існують, їх повідомлення не можуть бути імпортовані
-common#:#users_online#:#Користувачі онлайн
+common#:#users_online#:#Користувачі онлайн###20 Jun 2005 content changed
+common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
+common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable
+common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Спостереження за Користувачем
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач
@@ -2633,7 +2717,10 @@ common#:#version#:#Версія
 common#:#versions#:#Версії
 common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
+common#:#visible#:#Visible###20 Jun 2005 new variable
 common#:#visible_layers#:#Видимі Рівні
+common#:#visitor#:#Visitor###20 Jun 2005 new variable
+common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Візити
 common#:#web_resources#:#Веб Ресурси
 common#:#webr#:#Веб Ресурс
@@ -2731,6 +2818,7 @@ content#:#cont_cant_del_std#:#Видалення стандартного фай
 content#:#cont_caption#:#Заголовок
 content#:#cont_change_type#:#Змінити Тип
 content#:#cont_chap_and_pages#:#Глави та Сторінки
+content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
 content#:#cont_chap_select_target_now#:#Глави відмічені для переміщення. Виберіть зараз ціль.
 content#:#cont_chapters#:#Глави
 content#:#cont_chapters_and_pages#:#Глави та Сторінки
@@ -3077,6 +3165,7 @@ content#:#cont_wysiwyg#:#Вміст Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
 content#:#copied_to_clipboard#:#Об'єкти, скопійовані в буфер обміну.
+content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Редагувати пункт меню
 content#:#lm_menu_entry_target#:#Ціль
 content#:#lm_menu_entry_title#:#Назва
@@ -3355,7 +3444,7 @@ crs#:#crs_show_link_tst#:#Показати тести
 crs#:#crs_show_objectives_view#:#Огляд цілі
 crs#:#crs_size#:#Розмір файла
 crs#:#crs_sort_activation#:#Сортувати по активації
-crs#:#crs_sort_manual#:#Сортувати вручну
+crs#:#crs_sort_manual#:#Сортувати вручну###20 Jun 2005 content changed
 crs#:#crs_sort_title#:#Сортувати по назві
 crs#:#crs_sortorder#:#Сортувати
 crs#:#crs_sortorder_abo#:#Порядок Сортування/Підписки
@@ -3624,6 +3713,7 @@ dateplaner#:#to#:#для
 dateplaner#:#today#:#сьогодні
 dateplaner#:#viewlist#:#огляд
 dateplaner#:#week#:#тиждень
+dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#рік
 forum#:#forums#:#Форуми
 forum#:#forums_all_threads_marked_read#:#Усі теми помічені як прочитані
@@ -4052,11 +4142,13 @@ meta#:#meta_choose_section#:#Будь ласка виберіть секцію
 meta#:#meta_classification#:#Класифікація
 meta#:#meta_collection#:#Коллекція
 meta#:#meta_competency#:#Компетенція
+meta#:#meta_contentprovider#:#Content provider###20 Jun 2005 new variable
 meta#:#meta_context#:#Контекст
 meta#:#meta_contribute#:#Сприяти
 meta#:#meta_copyright_and_other_restrictions#:#Авторські Права та Інші Обмеження
 meta#:#meta_cost#:#Ціна
 meta#:#meta_coverage#:#Покриття
+meta#:#meta_creator#:#Creator###20 Jun 2005 new variable
 meta#:#meta_date#:#Дата
 meta#:#meta_delete#:#Видалити
 meta#:#meta_description#:#Опис
@@ -4066,9 +4158,11 @@ meta#:#meta_dificult#:#Складний
 meta#:#meta_draft#:#Чернетка
 meta#:#meta_duration#:#Тривалість
 meta#:#meta_easy#:#Легкий
+meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Навчання
 meta#:#meta_educational_level#:#Рівень Освіти
 meta#:#meta_educational_objective#:#Освітня Ціль
+meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
 meta#:#meta_entity#:#Об'єкт
 meta#:#meta_entry#:#Ввод
 meta#:#meta_exam#:#Екзамен
@@ -4080,6 +4174,7 @@ meta#:#meta_final#:#Фінал
 meta#:#meta_format#:#Формат
 meta#:#meta_general#:#Загальний
 meta#:#meta_graph#:#Графік
+meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#Має формат
 meta#:#meta_has_part#:#Має Частину
 meta#:#meta_has_version#:#Має Версію
@@ -4090,7 +4185,9 @@ meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Ідея
 meta#:#meta_identifier#:#Ідентифікатор
 meta#:#meta_index#:#Індекс
+meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Інсталяційні Зауваження
+meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
 meta#:#meta_intended_end_user_role#:#Планована Кінцева Роль Користувача
 meta#:#meta_interactivity_level#:#Рівень Інтерактивності
 meta#:#meta_interactivity_type#:#Тип Інтерактивності
@@ -4296,6 +4393,7 @@ meta#:#meta_revised#:#Виправлений
 meta#:#meta_rights#:#Права
 meta#:#meta_role#:#Роль
 meta#:#meta_school#:#Школа
+meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
 meta#:#meta_security_level#:#Рівень Безпеки
 meta#:#meta_self_assessment#:#Особиста Оцінка
 meta#:#meta_semantic_density#:#Сематнична Інтенсивність
@@ -4306,11 +4404,15 @@ meta#:#meta_slide#:#Повзунок
 meta#:#meta_source#:#Джерело
 meta#:#meta_status#:#Статус
 meta#:#meta_structure#:#Структура
+meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variable
 meta#:#meta_table#:#Таблиця
 meta#:#meta_taxon#:#Таксон
 meta#:#meta_taxon_path#:#Шлях до Таксона
 meta#:#meta_teacher#:#Вчитель
 meta#:#meta_technical#:#Технічний
+meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
+meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
+meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Назва
 meta#:#meta_training#:#Тренування
 meta#:#meta_type#:#Тип
@@ -4318,6 +4420,8 @@ meta#:#meta_typical_age_range#:#Типовий Діапазон Віку
 meta#:#meta_typical_learning_time#:#Типовий Час Навчання
 meta#:#meta_unavailable#:#Недоступний
 meta#:#meta_unix#:#Unix
+meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
 meta#:#meta_value#:#Значення
 meta#:#meta_version#:#Версія
 meta#:#meta_very_difficult#:#Дуже Складний
@@ -4541,14 +4645,26 @@ pwassist#:#pwassist_session_expired#:#Будь ласка заповніть ц�
 pwassist#:#pwassist_update_error#:#Будь ласка зв'яжіться з вашим системним ідміністратором.\nПароль не може бути призначений до акаунту користувача через помилку при оновленні бази даних.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable
 search#:#search_active#:#Включаючи активних користувачів
+search#:#search_added_new_folder#:#Added new folder.###20 Jun 2005 new variable
+search#:#search_advanced#:#Advanced search###20 Jun 2005 new variable
 search#:#search_all_results#:#Усі результати
+search#:#search_all_words#:#All words###20 Jun 2005 new variable
 search#:#search_and#:#та
+search#:#search_any#:#-- Any --###20 Jun 2005 new variable
+search#:#search_any_word#:#Any word###20 Jun 2005 new variable
+search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
+search#:#search_below#:#Beneath:###20 Jun 2005 new variable
+search#:#search_change#:#Change###20 Jun 2005 new variable
 search#:#search_concatenation#:#Об'єднання
 search#:#search_content#:#Вміст Сторінки
 search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
 search#:#search_dbk_meta#:#Цифрова Бібліотека (метадані)
 search#:#search_delete_sure#:#Об'єкт та його вміст будуть остаточно знищені
+search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
 search#:#search_group#:#Групи
+search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Пошук всередині результатів
 search#:#search_inactive#:#Включаючи неактивних користувачів
 search#:#search_lm_content#:#Учбові матеріали (вміст)
@@ -4577,13 +4693,17 @@ search#:#search_search_no_results_saved#:#Немає збережених рез
 search#:#search_search_results#:#Результати пошуку
 search#:#search_search_term#:#Пошуковий термін
 search#:#search_select_exactly_one_object#:#Ви маєте вибрати рівно один об'єкт.
+search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.###20 Jun 2005 new variable
 search#:#search_select_one#:#Виберіть одну папку
 search#:#search_select_one_action#:#--Виберіть одну дію--
 search#:#search_select_one_folder_select#:#--Виберіть одну папку--
 search#:#search_select_one_result#:#Виберіть принаймні один результат пошуку
 search#:#search_select_one_select#:#--Виберіть одну папку--
 search#:#search_show_result#:#Показати
+search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
+search#:#search_type#:#Search type###20 Jun 2005 new variable
 search#:#search_user#:#Користувачі
+search#:#until#:#up to###20 Jun 2005 new variable
 survey#:#add_category#:#Додати категорію
 survey#:#add_heading#:#Додати заголовок
 survey#:#add_limits_for_standard_numbers#:#Будь ласка введіть нижній та верхній ліміти для стандартних номерів, що ви бажаєте додати як категорії.
@@ -4727,7 +4847,6 @@ survey#:#filter_all_question_types#:#Усі типи питання
 survey#:#filter_all_questionpools#:#Усі банки питань
 survey#:#filter_show_question_types#:#Показати типи питанння
 survey#:#filter_show_questionpools#:#Показати банки питання
-survey#:#finished#:#закінчений
 survey#:#found_questions#:#Знайдені питання
 survey#:#geometric_mean#:#Геометричний означає
 survey#:#given_answers#:#Дані відповіді
@@ -4795,8 +4914,6 @@ survey#:#no_user_or_group_selected#:#Будь ласка перевірте оп
 survey#:#no_user_phrases_defined#:#Немає досутпних визначених користувачем фраз!
 survey#:#nominal_question_not_checked#:#Будь ласка перевірте одну с запропонованих відповідей!
 survey#:#non_ratio#:#Не-Відношення
-survey#:#not_finished#:#не закінчений
-survey#:#not_started#:#не початий
 survey#:#not_used#:#не використаний
 survey#:#obligatory#:#обов'язковий
 survey#:#off#:#вимкнений
@@ -4939,4 +5056,3 @@ survey#:#view_constraints_introduction#:#Ви переглядаєте обме�
 survey#:#view_phrase#:#Дивитись фразу
 survey#:#warning_question_in_use#:#Попередження! Питання що ви бажаєте відредагувати використовується в опитуваннях перелічених нижче. Якщо ви вирішите продовжити та збережети/застосуєте це питання, усі відповіді в опитуваннях перелічених нижче будуть видалені. Якщо ви бажаєте змінити питання та використовувати його в іншому опитуванні, будь ласка виберіть дублювати в браузері питань щоб створити новий екземпляр цього питання.
 survey#:#warning_question_not_complete#:#Питання не закінчене!
-survey#:#warning_survey_not_complete#:#Опитування не закінчене!

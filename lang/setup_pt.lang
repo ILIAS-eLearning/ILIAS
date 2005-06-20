@@ -33,10 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
-ilias_db_mode#:#ILIAS database mode
 3rd_party_software#:#Software 3rd Party###07 Apr 2005 content changed
 absolute_path#:#Caminho absoluto###07 Apr 2005 content changed
 access#:#Acesso###07 Apr 2005 content changed
@@ -51,6 +47,7 @@ change#:#mudar###07 Apr 2005 content changed
 change_basic_settings#:#Mudar definições básicas###07 Apr 2005 content changed
 change_password#:#Mudar palavra-passe###07 Apr 2005 content changed
 change_sort_direction#:#Mudar direcção de ordenação###07 Apr 2005 content changed
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Teste do convert falhou###07 Apr 2005 content changed
 check_failed_htmldoc#:#Teste do HTMLdoc falhou###26 May 2004 content changed
 check_failed_java#:#Teste do java falhou###14 Sep 2004 content changed
@@ -153,6 +150,7 @@ htmldoc_path#:#Caminho para o HTMLdoc###07 Apr 2005 content changed
 htmldoc_path_comment#:#necessário para gerar facturação em PDF (Sistema de pagamento)###07 Aug 2004 content changed
 http_path#:#Caminho HTTP###07 Apr 2005 content changed
 id#:#ID###07 Apr 2005 content changed
+ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Página inicial do ILIAS###07 Apr 2005 content changed
 ilias_nic#:#Registo NIC###07 Apr 2005 content changed
 ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
@@ -250,6 +248,8 @@ login_to_ilias#:#entar no ILIAS###07 Apr 2005 content changed
 logout#:#sair###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#Directoria de dados principal fora do webspace###14 Sep 2004 content changed
 missing_data#:#Faltam dados###07 Apr 2005 content changed
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
 name#:#Nome###07 Apr 2005 content changed
 new#:#novo###07 Apr 2005 content changed
 next#:#Próximo###07 Apr 2005 content changed
