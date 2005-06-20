@@ -263,6 +263,29 @@ class ilSearchResult
 		return false;
 	}
 
+	
+	/**
+	 *
+	 * Filter search area of result set
+	 * @access	public
+	 */
+	function filterResults($a_root_node)
+	{
+		global $tree;
+
+		$tmp_results = $this->getResults();
+		$this->results = array();
+		foreach($tmp_results as $result)
+		{
+			if($tree->isGrandChild($a_root_node,$result['ref_id']) and $tree->isInTree($result['ref_id']))
+			{
+				$this->addResult($result['ref_id'],$result['obj_id'],$result['type']);
+			}
+		}
+
+		return true;
+	}
+
 
 	/**
 	 *

@@ -306,6 +306,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	
 		$result_obj = new ilSearchResult($ilUser->getId());
 		$result_obj->read();
+		$result_obj->filterResults($this->getRootNode());
 
 		$this->showSearch();
 
