@@ -47,7 +47,7 @@ change#:#Cambia
 change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
+check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coincide con la versione installata (di solito &#232; corretta). In caso negativo, la versione del database non &#232; supportata.<br> Esempio 1: se la versione &#232; 'MySQL 4.1.x o superiore' e la versione del tuo database &#232; '4.0.12' allora non &#232; supportata. In questo caso contatta il team di ILIAS.<br />Esempio 2: se la versione è 'MySQL 4.1.x o superiore' e il database &#232; '4.1.14' allora &#232; tutto a posto.
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test Java fallito
@@ -119,7 +119,7 @@ disabled#:#Disabilitato
 display_clientlist#:#Lista dei client visibile
 email#:#Email
 email_not_valid#:#Email non valida
-en_by_default#:#(la lingua i###07 Apr 2005 content changed Inglese &#232; installata come predefinita e non pu&#242; essere cancellata).
+en_by_default#:#(la lingua Inglese viene installata come predefinita e non pu&#242; essere cancellata).
 enable#:#Mostra la lista
 enabled#:#abilitato
 enter_dir_and_filename#:#Per favore, specifica il percorso completo (assoluto) ed il nome del file ! 
@@ -248,8 +248,8 @@ login_to_ilias#:#Entra in ILIAS 3
 logout#:#Esci
 main_datadir_outside_webspace#:#Cartella principale dei dati (esterna al webspace)
 missing_data#:#Dati non trovati
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x o inferiori
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x o superiori
 name#:#Nome
 new#:#nuovo
 next#:#Prosegui
