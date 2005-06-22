@@ -1320,6 +1320,157 @@ class ilQTIParser extends ilSaxParser
 						}
 						break;
 					case QT_ORDERING:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$shuffle = 0;
+						$now = getdate();
+						$foundimage = FALSE;
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$answers = array();
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderChoice":
+											$shuffle = $response->getRenderType()->getShuffle();
+											$answerorder = 0;
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												$ident = $response_label->getIdent();
+												$answertext = "";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														$answertext .= $matt->getContent();
+													}
+													foreach ($mat->matimage as $matimage)
+													{
+														$foundimage = TRUE;
+														$answerimage = array(
+															"imagetype" => $matimage->getImageType(),
+															"label" => $matimage->getLabel(),
+															"content" => $matimage->getContent()
+														);
+													}
+												}
+												$answers[$ident] = array(
+													"answertext" => $answertext,
+													"answerimage" => $answerimage,
+													"points" => 0,
+													"answerorder" => $answerorder++,
+													"correctness" => "",
+													"action" => ""
+												);
+											}
+											break;
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$ident = "";
+								$correctness = 1;
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "arr_not":
+											$correctness = 0;
+											break;
+										case "varequal":
+											$ident = $conditionvar->varequal[$order["index"]]->getContent();
+											$orderindex = $conditionvar->varequal[$order["index"]]->getIndex();
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									if (strcmp($ident, "") != 0)
+									{
+										$answers[$ident]["solutionorder"] = $orderindex;
+										$answers[$ident]["action"] = $setvar->getAction();
+										$answers[$ident]["points"] = $setvar->getContent();
+									}
+								}
+							}
+						}
+						include_once ("./assessment/classes/class.assOrderingQuestion.php");
+						$type = 1; // terms
+						if ($foundimage)
+						{
+							$type = 0; // pictures
+						}
+						$question = new ASS_OrderingQuestion(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							join($questiontext, ""),
+							$type
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->setShuffle($shuffle);
+						foreach ($answers as $answer)
+						{
+							if ($type == 1)
+							{
+								$question->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+							}
+							else
+							{
+								$question->addAnswer($answer["answerimage"]["label"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+							}
+						}
+						$question->saveToDb();
+						foreach ($answers as $answer)
+						{
+							if ($type == 0)
+							{
+								$image =& base64_decode($answer["answerimage"]["content"]);
+								$imagepath = $question->getImagePath();
+								if (!file_exists($imagepath))
+								{
+									ilUtil::makeDirParents($imagepath);
+								}
+								$imagepath .=  $answer["answerimage"]["label"];
+								$fh = fopen($imagepath, "wb");
+								if ($fh == false)
+								{
+//									global $ilErr;
+//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+//									return;
+								}
+								else
+								{
+									$imagefile = fwrite($fh, $image);
+									fclose($fh);
+								}
+								// create thumbnail file
+								$thumbpath = $imagepath . "." . "thumb.jpg";
+								ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+							}
+						}
 						break;
 					case QT_IMAGEMAP:
 						break;

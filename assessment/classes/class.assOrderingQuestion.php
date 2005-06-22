@@ -729,6 +729,18 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
+	* Adds an answer to the question
+	*
+	* Adds an answer to the question
+	*
+	* @access public
+	*/
+	function addAnswer($answertext, $points, $answerorder, $solutionorder)
+	{
+		array_push($this->answers, new ASS_AnswerOrdering($answertext, $points, $answerorder, $solutionorder));
+	}
+	
+	/**
 	* Duplicates an ASS_OrderingQuestion
 	*
 	* Duplicates an ASS_OrderingQuestion
