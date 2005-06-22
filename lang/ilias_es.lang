@@ -33,7 +33,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-﻿administration#:#analyze_data#:#Analizar integridad de datos
 administration#:#analyze_desc#:#Buscar en el sistema objetos corruptos/inválidos/inexistentes/sobredimensionados
 administration#:#analyzing#:#Analizando...
 administration#:#analyzing_tree_structure#:#Analizando estructura de árbol
