@@ -1987,12 +1987,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
+		$export_files = $this->object->getExportFiles();
+
 		$tbl->setMaxCount(count($export_files));
 		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
-
-		$export_files = $this->object->getExportFiles();
 
 		if(count($export_files) > 0)
 		{
