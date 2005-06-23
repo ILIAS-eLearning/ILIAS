@@ -427,20 +427,19 @@ class ilObjCourse extends ilObject
 	{
 		parent::create($a_upload);
 		$this->createMetaData();
-/*
+
 		if (!$a_upload)
 		{
-			$this->__initMetaObject();
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
+			#$this->__initMetaObject();
+			#$this->meta_data->setId($this->getId());
+			#$this->meta_data->setType($this->getType());
+			#$this->meta_data->setTitle($this->getTitle());
+			#$this->meta_data->setDescription($this->getDescription());
+			#$this->meta_data->setObject($this);
+			#$this->meta_data->create();
 
 			$this->__createDefaultSettings();
 		}
-*/
 	}
 
 	function validate()
