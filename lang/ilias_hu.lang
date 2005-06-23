@@ -192,7 +192,6 @@ assessment#:#edit_properties#:#Tulajdonságok szerkesztése
 assessment#:#end_tag#:#Zárócímke
 assessment#:#ending_time_reached#:#Elérte a befejezési időt
 assessment#:#error_image_upload_copy_file#:#Probléma lépett fel a feltöltött képfájl célmappába tételekor!
-assessment#:#enhanced#:#Fokozott  mód
 assessment#:#error_image_upload_wrong_format#:#Érvényes képfájlt töltsön fel! A támogatott képformátumok: gif, jpeg és png.
 assessment#:#error_importing_question#:#Hiba lépett fel a kiválasztott fájlból való kérdés(ek) importálásakor!
 assessment#:#error_open_image_file#:#Hiba történt egy képfájl megnyitásakor!
@@ -380,7 +379,6 @@ assessment#:#too_many_empty_parameters#:#Töltse ki az üres applet-paraméterek
 assessment#:#true#:#"Igaz"
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került!
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak
-assessment#:#tst_anon_eval#:#Névtelen összesített eredménye
 assessment#:#tst_browse_for_questions#:#Kérdések tallózása
 assessment#:#tst_confirm_delete_results#:#Ön ebben a tesztben levő minden eddigi teszteredményét törölni szándékozik. Ez vissza fogja állítani az összes kérdést alapértelmezett értékére. Ne feledje, hogy nem fogja tudni visszaállítani a teszt végzése során eddig igénybe vett próbálkozásait. Tényleg törölni kívánja eddigi megoldásait?
 assessment#:#tst_confirm_delete_results_info#:#Korábban bevitt válaszeredményei törlésre kerültek. Sikeresen alapállapotba állította a tesztet!
@@ -486,7 +484,6 @@ assessment#:#tst_stat_result_timeofwork#:#Munkaidő
 assessment#:#tst_stat_result_total_participants#:#Résztvevők teljes száma
 assessment#:#tst_stat_selected_users#:#Kiválasztott felhasználók
 assessment#:#tst_stat_users_intro#:#Statisztikai kiértékelés megjelenítése
-assessment#:#tst_statistical_evaluation#:#Statisztikai kiértékelés eszköze
 assessment#:#tst_status_completed#:#befejezett
 assessment#:#tst_status_completed_more_tries_possible#:#Befejezett
 assessment#:#tst_status_missing#:#Szükséges elemek hiányoznak ebből a tesztből!
@@ -513,7 +510,6 @@ assessment#:#unlock_question#:#Ez a kérdés legalább egy tesztben használva v
 assessment#:#upload_imagemap#:#Image Map feltöltése
 assessment#:#uploaded_material#:#Feltöltött anyag
 assessment#:#warning_question_not_complete#:#A kérdés nem teljes!
-assessment#:#warning_test_not_complete#:#A teszt nem teljes!
 assessment#:#when#:#amikor
 assessment#:#width#:#Szélesség
 assessment#:#with_order#:#with order
@@ -581,7 +577,6 @@ chat#:#chat_active#:#Aktív
 chat#:#chat_active_users#:#Felhasználó (aktív)
 chat#:#chat_add_allowed_hosts#:#Adja meg a chatszerverként elérhető host címét.
 chat#:#chat_add_external_ip#:#Adja meg a szerver külső IP-címét.
-chat#:#chat_add_ip#:#Adja meg a szerver IP-jét.
 chat#:#chat_add_moderator_password#:#Adjon meg a moderátor jelszót.
 chat#:#chat_add_port#:#Adja meg a szerverportot.
 chat#:#chat_aqua#:#akva
@@ -642,7 +637,6 @@ chat#:#chat_rooms_deleted#:#Chatszobá(k) törölve.
 chat#:#chat_select_one_room#:#Válasszon ki egy chatszobát
 chat#:#chat_server_allowed#:#Engedélyezett host-ok
 chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Szerver-IP
 chat#:#chat_server_external_ip#:#Szerver belső IP-címe
 chat#:#chat_server_internal_ip#:#Szerver külső IP-címe
 chat#:#chat_server_logfile#:#Eseménynapló elérési útja
@@ -713,7 +707,6 @@ common#:#all_tsts#:#Minden teszt
 common#:#all_users#:#Minden felhasználó
 common#:#allow_assign_users#:#Felhasználói hozzárendelés engedélyezése a helyi adminisztrátorokhoz.
 common#:#allow_register#:#Elérhető a regisztrációs űrlapon az új felhasználók számára.
-common#:#already_delivered_files#:#Kézbesített fájlok
 common#:#alm#:#AICC-tananyag
 common#:#alm_added#:#AICC-tananyag hozzáadva
 common#:#alm_create#:#AICC-tananyag létrehozása
@@ -724,6 +717,7 @@ common#:#alm_leave#:#Leiratkozás AICC-tananyagról
 common#:#alm_read#:#Olvasási elérés AICC-tananyaghoz
 common#:#alm_visible#:#AICC-tananyag látható
 common#:#alm_write#:#AICC-tananyag szerkesztése
+common#:#already_delivered_files#:#Kézbesített fájlok
 common#:#and#:#és
 common#:#announce#:#Hirdetmény
 common#:#announce_changes#:#Hirdetmény változásai
@@ -1548,7 +1542,6 @@ common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Svéd
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrán
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnámi
 common#:#lang_xx#:#Szokásos
@@ -3503,7 +3496,6 @@ dateplaner#:#viewlist#:#Nézet
 dateplaner#:#week#:#hét
 dateplaner#:#year#:#év
 forum#:#forums#:#Fórumok
-forum#:#forums_articles#:#Hozzászólások
 forum#:#forums_attachments#:#Csatolások
 forum#:#forums_attachments_add#:#Csatolás hozzáadása
 forum#:#forums_attachments_edit#:#Csatolás szerkesztése
@@ -3518,10 +3510,7 @@ forum#:#forums_edit_post#:#Hozzászólás szerkesztése
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
 forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?
-forum#:#forums_last_post#:#Utolsó hozzászólás
 forum#:#forums_mark_read#:#Mind bejelölése olvasottnak
-forum#:#forums_moderators#:#Moderátorok
-forum#:#forums_new_articles#:#Új hozzászólások
 forum#:#forums_new_entries#:#Új fórumbejegyzések
 forum#:#forums_new_thread#:#Új téma
 forum#:#forums_not_available#:#A fórumok nem érhetők el
@@ -3542,7 +3531,6 @@ forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#L&#233;trehozta:
 forum#:#forums_thread_marked#:#A hozzászólás olvasottnak van megjelölve.
 forum#:#forums_thread_new_entry#:#Új téma került beírásra
-forum#:#forums_threads#:#Témák
 forum#:#forums_threads_not_available#:#A témák nem elérhetők
 forum#:#forums_topics_overview#:#Témák áttekintése
 forum#:#forums_your_reply#:#Az Ön válasza
@@ -4510,7 +4498,6 @@ survey#:#continue#:#Folytatás >>
 survey#:#create_date#:#Létrehozva
 survey#:#create_new#:#új létrehozása
 survey#:#create_questionpool_before_add_question#:#Legalább egy kérdésgyűjteményt létre kell hoznia a kérdések eltárolására!
-survey#:#csv#:#Vesszővel elválasztott érték
 survey#:#dc_agree#:#egyetértek
 survey#:#dc_always#:#mindig
 survey#:#dc_definitelyfalse#:#definíció szerűen hamis
@@ -4590,7 +4577,6 @@ survey#:#error_retrieving_anonymous_survey#:#Nem találja a rendszer a %s kódú
 survey#:#eval_legend_link#:#Utaljon a feliratban az oszlopcím jelentésére.
 survey#:#evaluation#:#Kiértékelés
 survey#:#evaluation_access#:#Kiértékelési elérés
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Kilépés
 survey#:#export_data_as#:#Adatok exportálása, mint
 survey#:#fill_out_all_category_fields#:#Töltsön ki minden kategóriamezőt, mielőtt újat vesz fel!
@@ -4603,7 +4589,6 @@ survey#:#filter_all_question_types#:#Minden kérdéstípus
 survey#:#filter_all_questionpools#:#Minden kérdésgyűjtemény
 survey#:#filter_show_question_types#:#Kérdéstípusok megjelenítése
 survey#:#filter_show_questionpools#:#Kérdésgyűjtemények megjelenítése
-survey#:#finished#:#befejezve
 survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok
@@ -4665,8 +4650,6 @@ survey#:#no_user_or_group_selected#:#Ellenőrizzen egy beállítást, amelyet ke
 survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.
 survey#:#nominal_question_not_checked#:#Ellenőrizzen egyet a felajánlott válaszok közül
 survey#:#non_ratio#:#Intervallum-skála
-survey#:#not_finished#:#nem fejeződött be
-survey#:#not_started#:#nem indult el
 survey#:#not_used#:#nem használt
 survey#:#obligatory#:#kötelező
 survey#:#off#:#kikapcsolás
@@ -4731,7 +4714,6 @@ survey#:#search_questions#:#Kérdések keresése
 survey#:#search_term#:#Fogalom keresése
 survey#:#search_type_all#:#Keresés minden kérdéstípusban
 survey#:#search_users#:#Felhasználók
-survey#:#select_max_one_item#:#Csak égy tételt válasszon ki
 survey#:#select_option#:#--- Válasszon ki egy beállítást ---
 survey#:#select_phrase_to_add#:#Válasszon ki egy mondatot a kérdéshez való hozzáadáshoz!
 survey#:#select_prior_question#:#Előzetes kérdés kiválasztása
@@ -4810,4 +4792,3 @@ survey#:#view_constraints_introduction#:#Az alábbi kérdés/kérdséblokk megsz
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés! A kérdést, amit szerkeszteni akar, használják az alább listázott kérdőívek. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, a kérdőív minden alább listázott válasza törlődik. Ha meg akarja változtatni a kérdést és másik kérdőívben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, hogy a kérdés új példányát létrehozza.
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés!
-survey#:#warning_survey_not_complete#:#Nem teljes a kérdőív!
