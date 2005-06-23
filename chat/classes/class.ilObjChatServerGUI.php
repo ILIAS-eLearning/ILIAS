@@ -135,6 +135,13 @@ class ilObjChatServerGUI extends ilObjectGUI
 
 	function updateObject()
 	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
         $this->object->server_conf->setInternalIp($_POST["chat_internal_ip"]);
         $this->object->server_conf->setExternalIp($_POST["chat_external_ip"]);
 		$this->object->server_conf->setPort($_POST["chat_port"]);
