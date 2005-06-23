@@ -72,7 +72,7 @@ class ilSearch
 		$this->read_db_result = $a_read;
 
 		// READ OLD SEARCH RESULTS FROM DATABASE
-		$this->__readDBResult();
+		#$this->__readDBResult();
 	}
 
 	// SET METHODS
@@ -463,7 +463,7 @@ class ilSearch
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "REPLACE INTO usr_search ".
-				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."')";
+				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."','0')";
 
 			$res = $this->ilias->db->query($query);
 
