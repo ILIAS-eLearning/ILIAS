@@ -85,8 +85,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			case "visible":
 				include_once 'course/classes/class.ilObjCourse.php';
-				
-				if(!ilObjCourse::_isActivated($a_obj_id))
+
+				if(!($activated = ilObjCourse::_isActivated($a_obj_id)))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
@@ -94,8 +94,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
 				}
-				
-				if (!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+				if(!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id) and !$activated)
 				{
 					return false;
 				}
