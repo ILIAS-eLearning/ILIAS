@@ -893,15 +893,20 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->validate())
 		{
 			$this->object->update();
-			sendInfo($this->lng->txt("crs_settings_saved"));
+			sendInfo($this->lng->txt("crs_settings_saved"),true);
 		}
 		else
 		{
 			sendInfo($this->object->getMessage());
+			$this->editObject();
+			
+			return false;
 		}
 		
 		// Redirect to update tabs
 		$this->ctrl->redirect($this,'edit');
+		
+		return true;
 	}
 
 
