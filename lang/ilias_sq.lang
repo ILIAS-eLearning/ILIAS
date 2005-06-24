@@ -3031,6 +3031,7 @@ content#:#set_public_mode#:#Vendos modin për qasje publike
 content#:#st#:#Kapitull
 content#:#start export#:#Fillo Eksportimin
 crs#:#assigned#:#Të Caktuar
+crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
 crs#:#crs_accept_subscriber#:#Abonimi në Kurs
 crs#:#crs_accept_subscriber_body#:#Jeni caktuar në këtë kurs.
 crs#:#crs_access_password#:#Parulla

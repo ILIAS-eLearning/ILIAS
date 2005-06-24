@@ -3095,6 +3095,7 @@ content#:#st#:#Kapitel
 content#:#start export#:#Start Exportering
 crs#:#activation_times_not_valid#:#The availability period is not valid.###21 Apr 2005 new variable
 crs#:#assigned#:#Assigned###21 Apr 2005 new variable
+crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
 crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse
 crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.
 crs#:#crs_access_password#:#Password###21 Apr 2005 new variable

@@ -3199,6 +3199,7 @@ content#:#st#:#Capítulo
 content#:#start export#:#Exportar
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
 crs#:#assigned#:#Asignado
+crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
 crs#:#crs_accept_subscriber#:#Suscripción de Curso
 crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso
 crs#:#crs_access_password#:#Contraseña
