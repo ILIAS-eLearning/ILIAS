@@ -205,8 +205,14 @@ class ilQTIItem
 		}
 	}
 	
+	function setQuestiontype($a_questiontype)
+	{
+		$this->questiontype = $a_questiontype;
+	}
+	
 	function getQuestiontype()
 	{
+		return $this->questiontype;
 	}
 	
 	function addPresentationitem($a_presentationitem)
@@ -216,6 +222,23 @@ class ilQTIItem
 
 	function determineQuestionType()
 	{
+		switch ($this->questiontype)
+		{
+			case "ORDERING QUESTION":
+				return QT_ORDERING;
+			case "MULTIPLE CHOICE QUESTION":
+				break;
+			case "MATCHING QUESTION":
+				return QT_MATCHING;
+			case "CLOZE QUESTION":
+				return QT_CLOZE;
+			case "IMAGE MAP QUESTION":
+				return QT_IMAGEMAP;
+			case "JAVA APPLET QUESTION":
+				return QT_JAVAAPPLET;
+			case "TEXT QUESTION":
+				return QT_TEXT;
+		}
 		if (!$this->presentation) return QT_UNKNOWN;
 		foreach ($this->presentation->order as $entry)
 		{

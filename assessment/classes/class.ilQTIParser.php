@@ -103,6 +103,7 @@ class ilQTIParser extends ilSaxParser
 		$this->mattext = NULL;
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
+		$this->metadata = array("label" => "", "entry" => "");
 	}
 
 	/**
@@ -148,6 +149,9 @@ class ilQTIParser extends ilSaxParser
 		
 		switch (strtolower($a_name))
 		{
+			case "qtimetadatafield":
+				$this->metadata = array("label" => "", "entry" => "");
+				break;
 			case "flow":
 				include_once ("./assessment/classes/class.ilQTIFlow.php");
 				$this->flow++;
@@ -707,6 +711,27 @@ class ilQTIParser extends ilSaxParser
 	{
 		switch (strtolower($a_name))
 		{
+			case "qtimetadatafield":
+				// handle only specific ILIAS metadata
+				switch ($this->metadata["label"])
+				{
+					case "ILIAS_VERSION":
+						break;
+					case "QUESTIONTYPE":
+						if ($this->item != NULL)
+						{
+							$this->item->setQuestiontype($this->metadata["entry"]);
+						}
+						break;
+					case "AUTHOR":
+						if ($this->item != NULL)
+						{
+							$this->item->setAuthor($this->metadata["entry"]);
+						}
+						break;
+				}
+				$this->metadata = array("label" => "", "entry" => "");
+				break;
 			case "flow":
 				$this->flow--;
 				break;
@@ -1686,6 +1711,12 @@ class ilQTIParser extends ilSaxParser
 		$a_data = $this->characterbuffer;
 		switch ($this->qti_element)
 		{
+			case "fieldlabel":
+				$this->metadata["label"] = $a_data;
+				break;
+			case "fieldentry":
+				$this->metadata["entry"] = $a_data;
+				break;
 			case "response_label":
 				if ($this->response_label != NULL)
 				{
