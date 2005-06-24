@@ -285,9 +285,14 @@ class ASS_OrderingQuestion extends ASS_Question
 						}
 						$imagefile = fwrite($fh, $image);
 						fclose($fh);
+						$extension = "jpg";
+						if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $imagepath, $matches))
+						{
+							$extension = $matches[1];
+						}
 						// create thumbnail file
-						$thumbpath = $imagepath . "." . "thumb.jpg";
-						ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+						$thumbpath = $imagepath . "." . "thumb.$extension";
+						ilUtil::convertImage($imagepath, $thumbpath, strtoupper($extension), 100);
 					}
 				}
 			}
@@ -319,6 +324,11 @@ class ASS_OrderingQuestion extends ASS_Question
 		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
 		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
+		// add question description
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
 		// add estimated working time
 		$qtiDuration = $this->domxml->create_element("duration");
 		$workingtime = $this->getEstimatedWorkingTime();
@@ -326,7 +336,6 @@ class ASS_OrderingQuestion extends ASS_Question
 		$qtiDuration->append_child($qtiDurationText);
 		$qtiIdent->append_child($qtiDuration);
 		// add ILIAS specific metadata
-		$qtiIdent->append_child($qtiDuration);
 		$qtiItemmetadata = $this->domxml->create_element("itemmetadata");
 		$qtiMetadata = $this->domxml->create_element("qtimetadata");
 		
@@ -358,17 +367,6 @@ class ASS_OrderingQuestion extends ASS_Question
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $this->domxml->create_element("fieldentry");
 		$qtiFieldentryText = $this->domxml->create_text_node($this->getAuthor());
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("DESCRIPTION");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->getComment());
 		$qtiFieldentry->append_child($qtiFieldentryText);
 		$qtiMetadatafield->append_child($qtiFieldlabel);
 		$qtiMetadatafield->append_child($qtiFieldentry);
@@ -457,7 +455,12 @@ class ASS_OrderingQuestion extends ASS_Question
 			if ($this->get_ordering_type() == OQ_PICTURES)
 			{
 				$qtiMatImage = $this->domxml->create_element("matimage");
-				$qtiMatImage->set_attribute("imagtype", "image/jpeg");
+				$imagetype = "image/jpeg";
+				if (preg_match("/.*\.(png|gif)$/", $answer->get_answertext(), $matches))
+				{
+					$imagetype = "image/".$matches[1];
+				}
+				$qtiMatImage->set_attribute("imagtype", $imagetype);
 				$qtiMatImage->set_attribute("label", $answer->get_answertext());
 				$qtiMatImage->set_attribute("embedded", "base64");
 				$imagepath = $this->getImagePath() . $answer->get_answertext();
@@ -806,7 +809,12 @@ class ASS_OrderingQuestion extends ASS_Question
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 					print "image could not be duplicated!!!! ";
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
+				$extension = "jpg";
+				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $filename, $matches))
+				{
+					$extension = $matches[1];
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.$extension", $imagepath . $filename . ".thumb.$extension")) {
 					print "image thumbnail could not be duplicated!!!! ";
 				}
 			}
@@ -1189,8 +1197,13 @@ class ASS_OrderingQuestion extends ASS_Question
 				else
 				{
 					// create thumbnail file
-					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
+					$extension = "jpg";
+					if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $image_filename, $matches))
+					{
+						$extension = $matches[1];
+					}
+					$thumbpath = $imagepath . $image_filename . "." . "thumb.$extension";
+					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, strtoupper($extension), 100);
 				}
 			}
 		}

@@ -1473,6 +1473,134 @@ class ilQTIParser extends ilSaxParser
 						}
 						break;
 					case QT_IMAGEMAP:
+						$duration = $this->item->getDuration();
+						$questiontext = array();
+						$now = getdate();
+						$questionimage = array();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$answers = array();
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											array_push($questiontext, $mattext->getContent());
+										}
+									}
+									break;
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderHotspot":
+											foreach ($response->getRenderType()->material as $mat)
+											{
+												foreach ($mat->matimage as $matimage)
+												{
+													$questionimage = array(
+														"imagetype" => $matimage->getImageType(),
+														"label" => $matimage->getLabel(),
+														"content" => $matimage->getContent()
+													);
+												}
+											}
+											foreach ($response->getRenderType()->response_labels as $response_label)
+											{
+												$ident = $response_label->getIdent();
+												$answerhint = "";
+												foreach ($response_label->material as $mat)
+												{
+													foreach ($mat->mattext as $matt)
+													{
+														$answerhint .= $matt->getContent();
+													}
+												}
+												$answers[$ident] = array(
+													"answerhint" => $answerhint,
+													"areatype" => $response_label->getRarea(),
+													"coordinates" => $response_label->getContent(),
+													"points" => 0,
+													"answerorder" => $response_label->getIdent(),
+													"correctness" => "1",
+													"action" => ""
+												);
+											}
+											break;
+									}
+									break;
+							}
+						}
+						$responses = array();
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							foreach ($resprocessing->respcondition as $respcondition)
+							{
+								$coordinates = "";
+								$conditionvar = $respcondition->getConditionvar();
+								foreach ($conditionvar->order as $order)
+								{
+									switch ($order["field"])
+									{
+										case "varinside":
+											$coordinates = $conditionvar->varinside[$order["index"]]->getContent();
+											break;
+									}
+								}
+								foreach ($respcondition->setvar as $setvar)
+								{
+									foreach ($answers as $ident => $answer)
+									{
+										if (strcmp($answer["coordinates"], $coordinates) == 0)
+										{
+											$answers[$ident]["action"] = $setvar->getAction();
+											$answers[$ident]["points"] = $setvar->getContent();
+										}
+									}
+								}
+							}
+						}
+
+						include_once ("./assessment/classes/class.assImagemapQuestion.php");
+						$question = new ASS_ImagemapQuestion(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							join($questiontext, "")
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$areas = array("2" => "rect", "1" => "circle", "3" => "poly");
+						$question->image_filename = $questionimage["label"];
+						foreach ($answers as $answer)
+						{
+							$question->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["correctness"], $answer["coordinates"], $areas[$answer["areatype"]]);
+						}
+						$question->saveToDb();
+						$image =& base64_decode($questionimage["content"]);
+						$imagepath = $question->getImagePath();
+						if (!file_exists($imagepath))
+						{
+							ilUtil::makeDirParents($imagepath);
+						}
+						$imagepath .=  $questionimage["label"];
+						$fh = fopen($imagepath, "wb");
+						if ($fh == false)
+						{
+	//									global $ilErr;
+	//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+	//									return;
+						}
+						else
+						{
+							$imagefile = fwrite($fh, $image);
+							fclose($fh);
+						}
 						break;
 					case QT_JAVAAPPLET:
 						break;
