@@ -2985,6 +2985,7 @@ content#:#set_public_mode#:#Nyilvános elérési mód beállítása
 content#:#st#:#Fejezet
 content#:#start export#:#Exportálás elindítása
 crs#:#assigned#:#Engedélyezve
+crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
 crs#:#crs_accept_subscriber#:#Feliratkozás kurzusra
 crs#:#crs_accept_subscriber_body#:#Ön  már hozzá van rendelve ehhez a kurzushoz.
 crs#:#crs_access_password#:#Jelszó
