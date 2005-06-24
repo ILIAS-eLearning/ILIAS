@@ -366,6 +366,18 @@ class ASS_ImagemapQuestion extends ASS_Question {
   }
 
 	/**
+	* Adds an answer to the question
+	*
+	* Adds an answer to the question
+	*
+	* @access public
+	*/
+	function addAnswer($answertext, $points, $answerorder, $correctness, $coords, $area)
+	{
+		array_push($this->answers, new ASS_AnswerImagemap($answertext, $points, $answerorder, $correctness, $coords, $area));
+	}
+	
+	/**
 	* Imports a question from XML
 	*
 	* Sets the attributes of the question from the XML text passed
@@ -584,6 +596,11 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
 		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
+	// add question description
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
 	// add estimated working time
 		$qtiDuration = $this->domxml->create_element("duration");
 		$workingtime = $this->getEstimatedWorkingTime();
@@ -591,7 +608,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiDuration->append_child($qtiDurationText);
 		$qtiIdent->append_child($qtiDuration);
 		// add ILIAS specific metadata
-		$qtiIdent->append_child($qtiDuration);
 		$qtiItemmetadata = $this->domxml->create_element("itemmetadata");
 		$qtiMetadata = $this->domxml->create_element("qtimetadata");
 		
@@ -623,17 +639,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $this->domxml->create_element("fieldentry");
 		$qtiFieldentryText = $this->domxml->create_text_node($this->getAuthor());
-		$qtiFieldentry->append_child($qtiFieldentryText);
-		$qtiMetadatafield->append_child($qtiFieldlabel);
-		$qtiMetadatafield->append_child($qtiFieldentry);
-		$qtiMetadata->append_child($qtiMetadatafield);
-		
-		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
-		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
-		$qtiFieldlabelText = $this->domxml->create_text_node("DESCRIPTION");
-		$qtiFieldlabel->append_child($qtiFieldlabelText);
-		$qtiFieldentry = $this->domxml->create_element("fieldentry");
-		$qtiFieldentryText = $this->domxml->create_text_node($this->getComment());
 		$qtiFieldentry->append_child($qtiFieldentryText);
 		$qtiMetadatafield->append_child($qtiFieldlabel);
 		$qtiMetadatafield->append_child($qtiFieldentry);
@@ -680,7 +685,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiRenderHotspot = $this->domxml->create_element("render_hotspot");
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatImage = $this->domxml->create_element("matimage");
-		$qtiMatImage->set_attribute("imagtype", "image/jpeg");
+		$imagetype = "image/jpeg";
+		if (preg_match("/.*\.(png|gif)$/", $this->get_image_filename(), $matches))
+		{
+			$imagetype = "images/" . $matches[1];
+		}
+		$qtiMatImage->set_attribute("imagtype", $imagetype);
 		$qtiMatImage->set_attribute("label", $this->get_image_filename());
 		if ($a_include_binary)
 		{
@@ -941,16 +951,9 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				ilUtil::makeDirParents($imagepath);
 			}
 			
-			//if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
 			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
 			{
-				print "image not uploaded!!!! ";
-			} else {
-				// create thumbnail file
-				$size = 100;
-				$thumbpath = escapeshellcmd($imagepath . $image_filename . "." . "thumb.jpg");
-				$convert_cmd = ilUtil::getConvertCmd() . " " . escapeshellcmd($imagepath.$image_filename) . " -resize $sizex$size $thumbpath";
-				system($convert_cmd);
+				$this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
 			}
 		}
   }

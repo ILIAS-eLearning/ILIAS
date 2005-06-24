@@ -59,7 +59,12 @@ class ilImagemapPreview
 		$this->preview_filename = $preview_filename;
 		if (!@is_file($this->preview_filename))
 		{
-			$this->preview_filename = ilUtil::ilTempnam() . ".jpg";
+			$extension = ".jpg";
+			if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $this->imagemap_filename, $matches))
+			{
+				$extension = "." . $matches[1];
+			}
+			$this->preview_filename = ilUtil::ilTempnam() . $extension;
 		}
 		$this->areas = array();
 		$this->linewidth_outer = 4;

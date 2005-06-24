@@ -116,10 +116,15 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 
 				$filename = $thisanswer->get_answertext();
+				$extension = "jpg";
+				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $filename, $matches))
+				{
+					$extension = $matches[1];
+				}
 				if ($filename)
 				{
 					$imagepath = $this->object->getImagePathWeb() . $thisanswer->get_answertext();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.$extension\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
 					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->get_answertext()));
 					$this->tpl->setVariable("VALUE_ANSWER", "");
 					//$thisanswer->get_answertext()
@@ -399,11 +404,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 							$saved = true;
 							$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 						}
-						$upload_result = $this->object->set_image_file($_FILES[$key]['name'], $_FILES[$key]['tmp_name']);
+						$image_file = $_FILES[$key]["name"];
+						$image_file = str_replace(" ", "_", $image_file);
+						$upload_result = $this->object->set_image_file($image_file, $_FILES[$key]['tmp_name']);
 						switch ($upload_result)
 						{
 							case 0:
-								$_POST[$key] = $_FILES[$key]['name'];
+								$_POST[$key] = $image_file;
 								break;
 							case 1:
 								$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
@@ -533,7 +540,12 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				foreach ($this->object->answers as $key => $answer)
 				{
-					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.jpg");
+					$extension = "jpg";
+					if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $answer->get_answertext(), $matches))
+					{
+						$extension = $matches[1];
+					}
+					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.$extension");
 					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->get_answertext());
 					if ($sizethumb[0] >= $sizeorig[0])
 					{
@@ -612,7 +624,12 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			}
 			if ($this->object->get_ordering_type() == OQ_PICTURES)
 			{
-				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.jpg\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
+				$extension = "jpg";
+				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $answer->get_answertext(), $matches))
+				{
+					$extension = $matches[1];
+				}
+				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.$extension\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
 			}
 			else
 			{
