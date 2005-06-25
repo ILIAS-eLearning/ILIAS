@@ -351,6 +351,7 @@ assessment#:#save_introduction#:#Mentés majd bevezetés
 assessment#:#save_next#:#Mentés majd következő
 assessment#:#save_previous#:#Mentés majd előző
 assessment#:#save_text_answer_points#:#Szöveges kérdés pontok
+###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Talált csoportok
 assessment#:#search_found_users#:#Talált felhasználók
 assessment#:#see_details_for_further_information#:#Nézze meg az iránymutatást a javasolt megoldásokhoz
@@ -372,6 +373,7 @@ assessment#:#suggested_solution_added_successfully#:#Sikeresen beállított egy 
 assessment#:#symbol#:#Szimbólum
 assessment#:#test_cancelled#:#A teszt törlésre került
 assessment#:#text_answers_saved#:#Szöveges kérdés pontok módosítva!
+###25 Jun 2005 content changed
 assessment#:#text_gap#:#Szöveg helye
 assessment#:#text_maximum_chars_allowed#:#Ne adjon meg több karaktert, mint %s. Az e fölötti karakterek elvesznek.
 assessment#:#time_format#:#ÓÓ PP MM
@@ -4686,6 +4688,7 @@ survey#:#qt_metric#:#Metrikus kérdés
 survey#:#qt_nominal#:#Névleges kérdés
 survey#:#qt_ordinal#:#Sorrendbe rakó kérdés
 survey#:#qt_text#:#Szöveges kérdés
+###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Megszorítások
 survey#:#question_obligatory#:#A kérdés kötelező!
 survey#:#question_saved_for_upload#:#A kérdés automatikusan elmentésre került, hogy lefoglalja a merevlemezen a feltöltött fájl számára szükséges helyet. Ha most kikapcsolja ezt az űrlapot, készüljön fel, hogy törölnie kell a kérdést a kérdésgyűjteményből,  ha nem akarja megtartani!

@@ -359,7 +359,7 @@ assessment#:#save_finish#:#Test fertigstellen
 assessment#:#save_introduction#:#Zur Einführung
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
-assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
+assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Gefundene Gruppen
 assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#search_groups#:#nach Gruppen
@@ -384,7 +384,7 @@ assessment#:#statistical_data#:#Statistische Daten
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
-assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
+assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#time_format#:#HH MM SS
@@ -4967,7 +4967,7 @@ survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock
 survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
-survey#:#qt_text#:#Textfrage
+survey#:#qt_text#:#Textfrage###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Beschränkungen
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.

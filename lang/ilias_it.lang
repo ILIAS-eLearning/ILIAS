@@ -360,7 +360,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e torna all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
-assessment#:#save_text_answer_points#:#Salva i punti della domanda
+assessment#:#save_text_answer_points#:#Salva i punti della domanda###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Gruppi trovati
 assessment#:#search_found_users#:#Utenti trovati
 assessment#:#search_groups#:#Ricerca gruppi
@@ -385,7 +385,7 @@ assessment#:#statistical_data#:#Dati statistici
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
-assessment#:#text_answers_saved#:#Punti della domanda con testo modificati!
+assessment#:#text_answers_saved#:#Punti della domanda con testo modificati!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#text_maximum_chars_allowed#:#Il numero massimo di caratteri consentiti &#232; %s. Ogni carattere in pi&#249; verr&#224; tolto.
 assessment#:#time_format#:#HH MM SS
@@ -4963,7 +4963,7 @@ survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di doman
 survey#:#qt_metric#:#con risposta numerica
 survey#:#qt_nominal#:#con risposte predefinite
 survey#:#qt_ordinal#:#con risposte da ordinare
-survey#:#qt_text#:#con risposta libera
+survey#:#qt_text#:#con risposta libera###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Vincoli
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
 survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!

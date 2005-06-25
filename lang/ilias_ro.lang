@@ -353,7 +353,7 @@ assessment#:#save_finish#:#Terminati testul
 assessment#:#save_introduction#:#Intoarcere la introducere
 assessment#:#save_next#:#Urmatorul
 assessment#:#save_previous#:#Anteriorul
-assessment#:#save_text_answer_points#:#Salvati punctele obtinute la intrebarile din test
+assessment#:#save_text_answer_points#:#Salvati punctele obtinute la intrebarile din test###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Grupuri gasite
 assessment#:#search_found_users#:#Utilizatori gasiti
 assessment#:#search_groups#:#Search Groups###08 Apr 2005 new variable
@@ -378,7 +378,7 @@ assessment#:#statistical_data#:#Date statistice
 assessment#:#suggested_solution_added_successfully#:#Ati setat cu succes o solutie sugerata!
 assessment#:#symbol#:#Simbol
 assessment#:#test_cancelled#:#Testul a fost anulat
-assessment#:#text_answers_saved#:#Punctele obtinute ca rezultat la intrebarile din test au fost modificate!
+assessment#:#text_answers_saved#:#Punctele obtinute ca rezultat la intrebarile din test au fost modificate!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Text cu spatii de completat
 assessment#:#text_maximum_chars_allowed#:#Va rugam nu completati cu mai mult de %s caractere. Orice caractere in plus vor fi sterse.
 assessment#:#time_format#:#HH MM SS
@@ -4639,7 +4639,7 @@ survey#:#qpl_unfold_select_none#:#Va rugam selectati cel putin un baraj de intre
 survey#:#qt_metric#:#Intrebare metrica
 survey#:#qt_nominal#:#Intrebare nominala
 survey#:#qt_ordinal#:#Intrebare ordinala
-survey#:#qt_text#:#Intrebare text
+survey#:#qt_text#:#Intrebare text###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Restrictionari
 survey#:#question_obligatory#:#Intrebarea este obligatorie!
 survey#:#question_saved_for_upload#:#Intrebarea a fost salvata automat pentru a rezerva spatiu pe hard pentru fisierul incarcat. Daca anulati acum trebuie sa stergeti intrebarea din baza de intrebari daca nu doriti sa o pastrati!

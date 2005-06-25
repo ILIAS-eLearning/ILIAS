@@ -358,7 +358,7 @@ assessment#:#save_finish#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
-assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
+assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Grupos encontrados 
 assessment#:#search_found_users#:#Usuarios encontrados
 assessment#:#search_groups#:#Buscar Grupos
@@ -383,7 +383,7 @@ assessment#:#statistical_data#:#Datos estadísticos
 assessment#:#suggested_solution_added_successfully#:#¡Configuró satisfactoriamente una solución recomendada!
 assessment#:#symbol#:#Símbolo
 assessment#:#test_cancelled#:#El test fue cancelado
-assessment#:#text_answers_saved#:#¡Puntuación de la pregunta de texto modificados!
+assessment#:#text_answers_saved#:#¡Puntuación de la pregunta de texto modificados!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Hueco de texto
 assessment#:#text_maximum_chars_allowed#:#Por favor no introduzca más de %s caracteres. Cualquier caracter extra será truncado.
 assessment#:#time_format#:#HH MM SS
@@ -4966,7 +4966,7 @@ survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de pre
 survey#:#qt_metric#:#Pregunta Métrica
 survey#:#qt_nominal#:#Pregunta Nominal
 survey#:#qt_ordinal#:#Pregunta Ordinal
-survey#:#qt_text#:#Pregunta de Texto
+survey#:#qt_text#:#Pregunta de Texto###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Restricciones
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
 survey#:#question_saved_for_upload#:#La pregunta fue grabada automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela, sea consciente de que tendrá que eliminar la pregunta en el banco si no quiere mantenerla.
