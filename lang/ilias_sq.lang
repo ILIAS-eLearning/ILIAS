@@ -354,7 +354,7 @@ assessment#:#save_finish#:#Përfundo testin
 assessment#:#save_introduction#:#Shko te parathënia
 assessment#:#save_next#:#Vazhdo
 assessment#:#save_previous#:#Mbrapa
-assessment#:#save_text_answer_points#:#Ruaj pikët e pyetjes tekstuale
+assessment#:#save_text_answer_points#:#Ruaj pikët e pyetjes tekstuale###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Grupe të gjetura
 assessment#:#search_found_users#:#Shfrytëzues të gjetur
 assessment#:#see_details_for_further_information#:#Shih detalet për zgjidhje të sugjeruar
@@ -375,7 +375,7 @@ assessment#:#statistical_data#:#Të dhënat statistikore
 assessment#:#suggested_solution_added_successfully#:#Keni vendosur me sukses zgjidhjen e sugjeruar!
 assessment#:#symbol#:#Simbol
 assessment#:#test_cancelled#:#Testi është anuluar
-assessment#:#text_answers_saved#:#Janë modifikuar pikët e pyetjes tekstuale!
+assessment#:#text_answers_saved#:#Janë modifikuar pikët e pyetjes tekstuale!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Zbrazëtirë teksti
 assessment#:#text_maximum_chars_allowed#:#Ju lutem të mos shënoni më shumë se maksimumi %s karaktere. Çdo karakter më shumë do të largohet.
 assessment#:#time_format#:#OO MM SS
@@ -4768,7 +4768,7 @@ survey#:#qpl_unfold_select_none#:#Ju lutem zgjedhni së paku një grup pyetjesh 
 survey#:#qt_metric#:#Pyetje Metrike
 survey#:#qt_nominal#:#Pyetje Nominale
 survey#:#qt_ordinal#:#Pyetje Ordinare
-survey#:#qt_text#:#Pyetje Tekst
+survey#:#qt_text#:#Pyetje Tekst###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Detyrimet
 survey#:#question_obligatory#:#Pyetja është obligative
 survey#:#question_saved_for_upload#:#Pyetja është ruajtur automatikisht në mënyrë që të rezervoj hapësirë të diskut për të ruajtur skedarin e ngarkuar. Nëse anuloni këtë formë tani, keni kujdes se duhet ta fshini pyetjen në fondin e pyetjeve nëse nuk dëshironi ta mbani më!

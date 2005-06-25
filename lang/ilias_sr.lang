@@ -354,7 +354,7 @@ assessment#:#save_finish#:#Završi test
 assessment#:#save_introduction#:#Idi na uvod
 assessment#:#save_next#:#Sledece
 assessment#:#save_previous#:#Prethodno
-assessment#:#save_text_answer_points#:#Sacuvaj smisao teksta pitanja
+assessment#:#save_text_answer_points#:#Sacuvaj smisao teksta pitanja###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Pronadi grupe
 assessment#:#search_found_users#:#Pronadi korisnike
 assessment#:#see_details_for_further_information#:#Pogledaj detalje za predložena rešenja
@@ -375,7 +375,7 @@ assessment#:#statistical_data#:#Statisticki podatak
 assessment#:#suggested_solution_added_successfully#:#Uspešno ste postavili predloženo rešenje!
 assessment#:#symbol#:#Simbol
 assessment#:#test_cancelled#:#Test je opozvan
-assessment#:#text_answers_saved#:#Smisao teksta pitanja je izmenjen!
+assessment#:#text_answers_saved#:#Smisao teksta pitanja je izmenjen!###25 Jun 2005 content changed
 assessment#:#text_gap#:#Tekstualna praznina
 assessment#:#text_maximum_chars_allowed#:#Molimo nemojte unositi više od maksimalnog %s karaktera. Svaki višak karaktera bice odsecen.
 assessment#:#time_format#:#CC MM SS
@@ -4768,7 +4768,7 @@ survey#:#qpl_unfold_select_none#:#Molimo odaberite najmanje jedan blok pitanja u
 survey#:#qt_metric#:#Metricko pitanje
 survey#:#qt_nominal#:#Nominalno pitanje
 survey#:#qt_ordinal#:#Redno pitanje
-survey#:#qt_text#:#Tekstualno pitanje
+survey#:#qt_text#:#Tekstualno pitanje###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Ogranicenja
 survey#:#question_obligatory#:#Ovo pitanje je obavezujuce!
 survey#:#question_saved_for_upload#:#Pitanje je automatski sacuvano u nameri da obezbedi prostor na hard disku za slanje datoteke. Ukoliko otkažete ovu formu sda, budite svesni da morate obrisati pitanje iz baze pitanja ako želite da ga sacuvate.
