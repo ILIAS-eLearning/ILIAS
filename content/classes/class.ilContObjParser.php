@@ -971,6 +971,8 @@ echo "<b>END TAG: $a_name <br></b>"; flush();
 				$this->in_media_object = false;
 echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
 				// create media object on first occurence of an Id
+				
+				
 				if(empty($this->mob_mapping[$this->media_object->getImportId()]))
 				{
 echo "No mapping found.<br>";
@@ -994,7 +996,11 @@ echo "No mapping found.<br>";
 					// create media object
 echo "--creating media object:title:".$this->media_object->getTitle().":<br>";
 //	$this->meta_data->getTitle().":<br>";
-					$this->media_object->create(true);
+
+					// media items are saves for mobs outside of
+					// pages only
+					$this->media_object->create(true, false);
+					
 //echo $this->media_object->getId().":".$this->media_object->getTitle().":".
 //	$this->media_object->meta_data->getTitle().":";
 					// collect mobs with internal links
@@ -1039,7 +1045,6 @@ echo "Mapping found<br>";
 						*/
 						
 						// we need that to save media items
-echo "try to update";
 						$this->media_object->update();
 						
 echo "<br>update media object :".$this->media_object->getId().":";
@@ -1068,10 +1073,7 @@ echo "<br>update media object :".$this->media_object->getId().":";
 			case "MediaItem":
 			case "MediaAliasItem":
 				$this->in_media_item = false;
-				if ($a_name == "MediaItem")
-				{
-					$this->media_object->addMediaItem($this->media_item);
-				}
+				$this->media_object->addMediaItem($this->media_item);
 echo "adding media item -".$this->media_item->getId()."-".$this->media_item->getLocation()."- to object -".
 	$this->media_object->getId()."-";
 				break;

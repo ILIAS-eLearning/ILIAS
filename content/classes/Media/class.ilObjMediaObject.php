@@ -326,6 +326,14 @@ class ilObjMediaObject extends ilObject
 			}
 		}
 	}
+	
+	/**
+	* remove all media items
+	*/
+	function removeAllMediaItems()
+	{
+		$this->media_items = array();
+	}
 
 
 	function getMediaItemNr($a_purpose)
@@ -426,7 +434,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* create media object in db
 	*/
-	function create($a_upload = false)
+	function create($a_upload = false, $a_save_media_items = true)
 	{
 		parent::create();
 
@@ -442,13 +450,16 @@ class ilObjMediaObject extends ilObject
 		$this->meta_data->create();
 		$this->meta_data->getDom();
 */
-		$media_items =& $this->getMediaItems();
-		for($i=0; $i<count($media_items); $i++)
+		if ($a_save_media_items)
 		{
-			$item =& $media_items[$i];
-			$item->setMobId($this->getId());
-			$item->setNr($i+1);
-			$item->create();
+			$media_items =& $this->getMediaItems();
+			for($i=0; $i<count($media_items); $i++)
+			{
+				$item =& $media_items[$i];
+				$item->setMobId($this->getId());
+				$item->setNr($i+1);
+				$item->create();
+			}
 		}
 
 	}
