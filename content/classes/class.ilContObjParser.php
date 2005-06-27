@@ -969,10 +969,11 @@ echo "<b>END TAG: $a_name <br></b>"; flush();
 
 			case "MediaObject":
 				$this->in_media_object = false;
-//echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
+echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
 				// create media object on first occurence of an Id
 				if(empty($this->mob_mapping[$this->media_object->getImportId()]))
 				{
+echo "No mapping found.<br>";
 					if ($this->media_object->isAlias())
 					{
 						// this data will be overwritten by the "real" mob
@@ -1009,6 +1010,7 @@ echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_ma
 				}
 				else
 				{
+echo "Mapping found<br>";
 					// get the id from mapping
 					$this->media_object->setId($this->mob_mapping[$this->media_object->getImportId()]);
 
@@ -1036,7 +1038,12 @@ echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_ma
 						$this->media_object->update();
 						*/
 						
-//echo "<br>update media object :".$this->media_object->getId().":".
+						// we need that to save media items
+echo "try to update";
+						$this->media_object->update();
+						
+echo "<br>update media object :".$this->media_object->getId().":";
+
 //						$this->media_object->getTitle().":".
 //						$this->meta_data->getTitle();
 
@@ -1061,8 +1068,12 @@ echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_ma
 			case "MediaItem":
 			case "MediaAliasItem":
 				$this->in_media_item = false;
-				$this->media_object->addMediaItem($this->media_item);
-//echo "adding media item";
+				if ($a_name == "MediaItem")
+				{
+					$this->media_object->addMediaItem($this->media_item);
+				}
+echo "adding media item -".$this->media_item->getId()."-".$this->media_item->getLocation()."- to object -".
+	$this->media_object->getId()."-";
 				break;
 
 			case "MapArea":

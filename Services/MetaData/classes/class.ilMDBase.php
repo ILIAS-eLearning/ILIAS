@@ -33,7 +33,9 @@
 class ilMDBase
 {
 	/*
-	 * rbac_id ref_id of rbac object (e.g for page objects the obj_id of the content object)
+	 * object id (NOT ref_id!) of rbac object (e.g for page objects the obj_id
+	 * of the content object; for media objects this is set to 0, because their
+	 * object id are not assigned to ref ids)
 	 */
 	var $rbac_id;
 

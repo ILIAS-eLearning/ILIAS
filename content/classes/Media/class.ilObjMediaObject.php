@@ -182,27 +182,101 @@ class ilObjMediaObject extends ilObject
 //		$this->meta_data->setDescription($a_description);
 	}
 
+	/**
+	* Meta data update listener
+	*
+	* Important note: Do never call create() or update()
+	* method of ilObject here. It would result in an
+	* endless loop: update object -> update meta -> update
+	* object -> ...
+	* Use static _writeTitle() ... methods instead.
+	*
+	* @param	string		$a_element
+	*/
+	function MDUpdateListener($a_element)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{
+			case 'General':
+
+				// Update Title and description
+				$md = new ilMD(0, $this->getId(), $this->getType());
+				$md_gen = $md->getGeneral();
+
+				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+
+				foreach($md_gen->getDescriptionIds() as $id)
+				{
+					$md_des = $md_gen->getDescription($id);
+					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					break;
+				}
+
+				break;
+
+			default:
+		}
+		return true;
+	}
 
 	/**
-	* assign meta data object
+	* create meta data entry
 	*/
-/*
-	function assignMetaData(&$a_meta_data)
+	function createMetaData()
 	{
-		$this->meta_data =& $a_meta_data;
-		$a_meta_data->setObject($this);
+		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
+
+		global $ilUser;
+
+		$md_creator = new ilMDCreator(0, $this->getId(), $this->getType());
+		$md_creator->setTitle($this->getTitle());
+		$md_creator->setTitleLanguage($ilUser->getPref('language'));
+		$md_creator->setDescription($this->getDescription());
+		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
+		$md_creator->setLanguage($ilUser->getPref('language'));
+		$md_creator->create();
+
+		return true;
 	}
-*/
 
 	/**
-	* get meta data object
+	* update meta data entry
 	*/
-/*
-	function &getMetaData()
+	function updateMetaData()
 	{
-		return $this->meta_data;
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
+		include_once("Services/MetaData/classes/class.ilMDDescription.php");
+
+		$md =& new ilMD(0, $this->getId(), $this->getType());
+		$md_gen =& $md->getGeneral();
+		$md_gen->setTitle($this->getTitle());
+
+		// sets first description (maybe not appropriate)
+		$md_des_ids =& $md_gen->getDescriptionIds();
+		if (count($md_des_ids) > 0)
+		{
+			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des->setDescription($this->getDescription());
+			$md_des->update();
+		}
+		$md_gen->update();
+
 	}
-*/
+
+	/**
+	* delete meta data entry
+	*/
+	function deleteMetaData()
+	{
+		// Delete meta data
+		include_once('Services/MetaData/classes/class.ilMD.php');
+		$md = new ilMD(0, $this->getId(), $this->getType());
+		$md->deleteAll();
+	}
 
 
 	/**
@@ -959,7 +1033,9 @@ echo "ObjMediaObject::getXML(): meta data export temporary not available";
 			$mime = @mime_content_type($a_file);
 		}
 
-		if (empty($mime))
+		// some php installations return always
+		// text/plain, so we make our own detection in this case, too
+		if (empty($mime) || $mime == "text/plain")
 		{
 			$path = pathinfo($a_file);
 			$ext = ".".strtolower($path["extension"]);
