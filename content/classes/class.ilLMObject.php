@@ -300,11 +300,13 @@ class ilLMObject
 
 	function getImportId()
 	{
+		return $this->import_id;
 //		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
+		$this->import_id = $a_id;
 //		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
@@ -323,7 +325,10 @@ class ilLMObject
 		ilHistory::_createEntry($this->getId(), "create", "",
 			$this->content_object->getType().":pg");
 
-		$this->createMetaData();
+		if (!$a_upload)
+		{
+			$this->createMetaData();
+		}
 
 /*
 		if (!$a_upload)

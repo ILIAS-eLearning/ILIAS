@@ -85,6 +85,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			case 'ilmdeditorgui':
 
+				$this->setTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->content_object->getID(),

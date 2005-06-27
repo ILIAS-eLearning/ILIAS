@@ -38,6 +38,9 @@ require_once("content/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/Pages/class.ilInternalLink.php");
 require_once("classes/class.ilObjFile.php");
 
+include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
+include_once("Services/MetaData/classes/class.ilMD.php");
+
 /**
 * Content Object Parser
 *
@@ -47,7 +50,7 @@ require_once("classes/class.ilObjFile.php");
 * @extends ilSaxParser
 * @package content
 */
-class ilContObjParser extends ilSaxParser
+class ilContObjParser extends ilMDSaxParser
 {
 	var $lng;
 	var $tree;
@@ -100,7 +103,7 @@ class ilContObjParser extends ilSaxParser
 	{
 		global $lng, $tree;
 
-		parent::ilSaxParser($a_xml_file);
+		parent::ilMDSaxParser($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
@@ -145,15 +148,15 @@ class ilContObjParser extends ilSaxParser
 
 	function startParsing()
 	{
-//echo "<b>start parsing</b><br>";
+echo "<b>start parsing</b><br>";
 		parent::startParsing();
-//echo "<b>storeTree</b><br>";
+echo "<b>storeTree</b><br>";
 		$this->storeTree();
-//echo "<b>processIntLinks</b><br>";
+echo "<b>processPagesToParse</b><br>";
 		$this->processPagesToParse();
-//echo "<b>copyMobFiles</b><br>";
+echo "<b>copyMobFiles</b><br>";
 		$this->copyMobFiles();
-//echo "<b>copyFileItems</b><br>";
+echo "<b>copyFileItems</b><br>";
 		$this->copyFileItems();
 	}
 
@@ -212,12 +215,12 @@ class ilContObjParser extends ilSaxParser
 		{
 			$pg_mapping[$key] = "il__pg_".$value;
 		}*/
-//echo "<br><b>processIntLinks</b>"; flush();
+echo "<br><b>processIntLinks</b>"; flush();
 		// outgoin internal links
 		foreach($this->pages_to_parse as $page_id)
 		{
 			$page_arr = explode(":", $page_id);
-//echo "<br>resolve:".$this->content_object->getType().":".$page_id; flush();
+echo "<br>resolve:".$this->content_object->getType().":".$page_id; flush();
 			switch($page_arr[0])
 			{
 				case "lm":
@@ -241,19 +244,19 @@ class ilContObjParser extends ilSaxParser
 			unset($page_obj);
 		}
 
-//echo "<br><b>map area internal links</b>"; flush();
+echo "<br><b>map area internal links</b>"; flush();
 		// outgoins map area (mob) internal links
 		foreach($this->mobs_with_int_links as $mob_id)
 		{
 			ilMediaItem::_resolveMapAreaLinks($mob_id);
 		}
 
-//echo "<br><b>incoming interna links</b>"; flush();
+echo "<br><b>incoming interna links</b>"; flush();
 		// incoming internal links
 		$done = array();
 		foreach ($this->link_targets as $link_target)
 		{
-//echo "doin link target:".$link_target.":<br>";
+echo "doin link target:".$link_target.":<br>";
 			$link_arr = explode("_", $link_target);
 			$target_inst = $link_arr[1];
 			$target_type = $link_arr[2];
@@ -261,7 +264,7 @@ class ilContObjParser extends ilSaxParser
 			$sources = ilInternalLink::_getSourcesOfTarget($target_type, $target_id, $target_inst);
 			foreach($sources as $key => $source)
 			{
-//echo "got source:".$key.":<br>";
+echo "got source:".$key.":<br>";
 				if(in_array($key, $done))
 				{
 					continue;
@@ -461,7 +464,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
+echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -479,6 +482,10 @@ class ilContObjParser extends ilSaxParser
 					=& new ilStructureObject($this->content_object);
 				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
 				$this->current_object->setLMId($this->content_object->getId());
+				// new meta data handling: we create the structure
+				// object already here, this should also create a
+				// md entry
+				$this->current_object->create(true);
 				break;
 
 			case "PageObject":
@@ -490,7 +497,14 @@ class ilContObjParser extends ilSaxParser
 					$this->page_object =& new ilPageObject($this->content_object->getType());
 					$this->lm_page_object->setLMId($this->content_object->getId());
 					$this->lm_page_object->assignPageObject($this->page_object);
+					
+					// new meta data handling: we create the lm page
+					// object already here, this should also create a
+					// md entry
+					//$this->lm_page_object->create(true);
+					
 					$this->current_object =& $this->lm_page_object;
+					
 				}
 				else
 				{
@@ -508,13 +522,15 @@ class ilContObjParser extends ilSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = true;
+				$this->media_meta_start = true;
+				$this->media_meta_cache = array();
 				$this->media_object =& new ilObjMediaObject();
 				break;
 
 			case "MediaAlias":
 //echo "<br>---NEW MEDIAALIAS---<br>";
 				$this->media_object->setAlias(true);
-				$this->media_object->setOriginID($a_attribs["OriginId"]);
+				$this->media_object->setImportId($a_attribs["OriginId"]);
 				if (is_object($this->page_object))
 				{
 					$this->page_object->needsImportParsing(true);
@@ -583,6 +599,11 @@ class ilContObjParser extends ilSaxParser
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
 				$this->glossary_definition->assignPageObject($this->page_object);
 				$this->current_object =& $this->glossary_definition;
+				
+				// new meta data handling: we create the lm page
+				// object already here, this should also create a
+				// md entry
+				$this->glossary_definition->create();
 				break;
 
 			case "FileItem":
@@ -608,24 +629,60 @@ class ilContObjParser extends ilSaxParser
 			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
-//echo "<br>---NEW METADATA---<br>";
-				$this->meta_data =& new ilMetaData();
+
+				//$this->meta_data =& new ilMetaData();
 				if(!$this->in_media_object)
 				{
-//echo "<br><b>assign to current object</b>";
 					if (($this->coType != "tst") and ($this->coType != "qpl"))
 					{
+						// type pg/st
+						if ($this->current_object->getType() == "st" ||
+							$this->current_object->getType() == "pg")
+						{
+							// late creation of page object
+							if ($this->current_object->getType() == "pg")
+							{
+								$this->lm_page_object->create(true);
+							}
+							$this->md =& new ilMD($this->content_object->getId() ,
+								$this->current_object->getId(),
+								$this->current_object->getType());
+						}
+						// type gdf
+						else if ($this->current_object->getType() == "gdf")
+						{
+							$this->md =& new ilMD($this->glossary_object->getId() ,
+								$this->current_object->getId(),
+								$this->current_object->getType());
+						}
+						// type lm, dbk, glo
+						else
+						{
+							$this->md =& new ilMD($this->current_object->getId() ,
+								0,
+								$this->current_object->getType());
+						}
+						/*
 						$this->current_object->assignMetaData($this->meta_data);
 						if (strtolower(get_class($this->current_object)) == "ilobjlearningmodule")
 						{
 							$this->meta_data->setId($this->content_object->getId());
 							$this->meta_data->setType("lm");
-						}
+						}*/
 					}
 				}
 				else
 				{
-					$this->media_object->assignMetaData($this->meta_data);
+					//$this->media_object->assignMetaData($this->meta_data);
+					// to do: check this out
+
+					// this doesn't work, we get the media object
+					// when the identifier tag is read
+					/*
+					$this->md =& new ilMD(0 ,
+						$this->media_object->getId(),
+						"mob");
+					*/
 				}
 				break;
 
@@ -633,7 +690,8 @@ class ilContObjParser extends ilSaxParser
 			case "Identifier":
 				if ($this->in_meta_data)
 				{
-					$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
+					$this->current_object->setImportId($a_attribs["Entry"]);
+					//$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
 					$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
 				}
 				if ($this->in_file_item)
@@ -645,12 +703,24 @@ class ilContObjParser extends ilSaxParser
 						$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
 					}
 				}
-				break;
-
-			// GENERAL: Keyword
-			case "Keyword":
-//echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
-				$this->keyword_language = $a_attribs["Language"];
+				if ($this->in_meta_data && $this->in_media_object)
+				{
+echo "looking for -".$a_attribs["Entry"]."-<br>";
+					$mob_id = $this->mob_mapping[$a_attribs["Entry"]];
+					if ($mob_id > 0)
+					{
+						$this->media_object = new ilObjMediaObject($mob_id);
+						$this->media_object->setImportId($a_attribs["Entry"]);
+						$this->md =& new ilMD(0 ,
+							$this->media_object->getId(),
+							"mob");
+						$this->emptyMediaMetaCache($a_xml_parser);
+					}
+					else
+					{
+						echo "no media object mapping id";
+					}
+				}
 				break;
 
 			// Internal Link
@@ -689,61 +759,8 @@ class ilContObjParser extends ilSaxParser
 				$this->cur_qid = $a_attribs["QRef"];
 				break;
 
-			// TECHNICAL
-			case "Technical":
-				$this->meta_technical =& new ilMetaTechnical($this->meta_data);
-				$this->meta_data->addTechnicalSection($this->meta_technical);
-//echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
-				break;
-
-			// TECHNICAL: Size
-			case "Size":
-				$this->meta_technical->setSize($a_attribs["Size"]);
-				break;
-
 			case "Location":
 				$this->loc_type = $a_attribs["Type"];
-				break;
-
-			// TECHNICAL: Requirement
-			case "Requirement":
-				if (!is_object($this->requirement_set))
-				{
-					$this->requirement_set =& new ilMetaTechnicalRequirementSet();
-				}
-				$this->requirement =& new ilMetaTechnicalRequirement();
-				break;
-
-			// TECHNICAL: OperatingSystem
-			case "OperatingSystem":
-				$this->requirement->setType("OperatingSystem");
-				$this->requirement->setName($a_attribs["Name"]);
-				$this->requirement->setMinVersion($a_attribs["MinimumVersion"]);
-				$this->requirement->setMaxVersion($a_attribs["MaximumVersion"]);
-				break;
-
-			// TECHNICAL: Browser
-			case "Browser":
-				$this->requirement->setType("Browser");
-				$this->requirement->setName($a_attribs["Name"]);
-				$this->requirement->setMinVersion($a_attribs["MinimumVersion"]);
-				$this->requirement->setMaxVersion($a_attribs["MaximumVersion"]);
-				break;
-
-			// TECHNICAL: OrComposite
-			case "OrComposite":
-				$this->meta_technical->addRequirementSet($this->requirement_set);
-				unset($this->requirement_set);
-				break;
-
-			// TECHNICAL: InstallationRemarks
-			case "InstallationRemarks":
-				$this->meta_technical->setInstallationRemarksLanguage($a_attribs["Language"]);
-				break;
-
-			// TECHNICAL: InstallationRemarks
-			case "OtherPlatformRequirements":
-				$this->meta_technical->setOtherRequirementsLanguage($a_attribs["Language"]);
 				break;
 
 			case "Bibliography":
@@ -782,14 +799,32 @@ class ilContObjParser extends ilSaxParser
 //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
 		}
 		// append content to meta data xml content
+		/*
 		if ($this->in_meta_data )   // && !$this->in_page_object && !$this->in_media_object
 		{
 			$this->meta_data->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
-		}
+		}*/
 		// append content to bibitem xml content
 		if ($this->in_bib_item)   // && !$this->in_page_object && !$this->in_media_object
 		{
 			$this->bib_item->appendXMLContent("\n".$this->buildTag("start", $a_name, $a_attribs));
+		}
+		
+		// call meta data handler
+		if ($this->in_meta_data)
+		{
+			// cache beginning of meta data within media object tags
+			// (we need to know the id, after that we send the cached data
+			// to the meta xml handler)
+			if ($this->in_media_object && $this->media_meta_start)
+			{
+				$this->media_meta_cache[] =
+					array("type" => "handlerBeginTag", "par1" => $a_name, "par2" => $a_attribs);
+			}
+			else
+			{
+				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
+			}
 		}
 	}
 
@@ -799,7 +834,24 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-//echo "<b>END TAG: $a_name <br></b>"; flush();
+		// call meta data handler
+		if ($this->in_meta_data)
+		{
+			// cache beginning of meta data within media object tags
+			// (we need to know the id, after that we send the cached data
+			// to the meta xml handler)
+			if ($this->in_media_object && $this->media_meta_start)
+			{
+				$this->media_meta_cache[] =
+					array("type" => "handlerEndTag", "par1" => $a_name);
+			}
+			else
+			{
+				parent::handlerEndTag($a_xml_parser,$a_name);
+			}
+		}
+
+echo "<b>END TAG: $a_name <br></b>"; flush();
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)
@@ -810,9 +862,10 @@ class ilContObjParser extends ilSaxParser
 			$this->page_object->appendXMLContent($this->buildTag("end", $app_name));
 		}
 
-		if ($this->in_meta_data)	//  && !$this->in_page_object && !$this->in_media_object
+		//if ($this->in_meta_data)	//  && !$this->in_page_object && !$this->in_media_object
 
 		// append content to metadataxml content
+		/*
 		if($a_name == "MetaData")
 		{
 			$this->meta_data->appendXMLContent("\n".$this->buildTag("end", $a_name));
@@ -820,7 +873,7 @@ class ilContObjParser extends ilSaxParser
 		else
 		{
 			$this->meta_data->appendXMLContent($this->buildTag("end", $a_name));
-		}
+		}*/
 
 		// append content to bibitemxml content
 		if ($this->in_bib_item)	// && !$this->in_page_object && !$this->in_media_object
@@ -839,7 +892,7 @@ class ilContObjParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "StructureObject":
-				unset($this->meta_data);
+				//unset($this->meta_data);
 				unset($this->structure_objects[count($this->structure_objects) - 1]);
 				break;
 
@@ -908,7 +961,7 @@ class ilContObjParser extends ilSaxParser
 				}
 
 				// if we are within a structure object: put page in tree
-				unset($this->meta_data);	//!?!
+				//unset($this->meta_data);	//!?!
 				unset($this->page_object);
 				unset($this->lm_page_object);
 				unset ($this->container[count($this->container) - 1]);
@@ -924,21 +977,23 @@ class ilContObjParser extends ilSaxParser
 					{
 						// this data will be overwritten by the "real" mob
 						// see else section below
-						$dummy_meta =& new ilMetaData();
-						$this->media_object->assignMetaData($dummy_meta);
-						$this->media_object->setTitle("dummy");
+						//$dummy_meta =& new ilMetaData();
+						//$this->media_object->assignMetaData($dummy_meta);
+						//$this->media_object->setTitle("dummy");
 //echo "<br>mob create (alias):";
 					}
 					else
 					{
 //echo "<br>mob create (real):";
-						$this->media_object->setTitle($this->meta_data->getTitle());
+						//$this->media_object->setTitle($this->meta_data->getTitle());
+						
+						// todo: get title from md
 					}
 
 					// create media object
-//echo "creating media object:title:".$this->media_object->getTitle().":".
+echo "--creating media object:title:".$this->media_object->getTitle().":<br>";
 //	$this->meta_data->getTitle().":<br>";
-					$this->media_object->create();
+					$this->media_object->create(true);
 //echo $this->media_object->getId().":".$this->media_object->getTitle().":".
 //	$this->media_object->meta_data->getTitle().":";
 					// collect mobs with internal links
@@ -950,7 +1005,7 @@ class ilContObjParser extends ilSaxParser
 
 					$this->mob_mapping[$this->media_object->getImportId()]
 							= $this->media_object->getId();
-//echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
+echo "create:import_id:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
 				}
 				else
 				{
@@ -970,13 +1025,17 @@ class ilContObjParser extends ilSaxParser
 
 						// update media object
 
-						$this->meta_data->setId($this->media_object->getId());
-						$this->meta_data->setType("mob");
-						$this->media_object->assignMetaData($this->meta_data);
+						//$this->meta_data->setId($this->media_object->getId());
+						//$this->meta_data->setType("mob");
+						//$this->media_object->assignMetaData($this->meta_data);
+						
+						/* das folgende sollte nun alles
+						  über den update listener geschehen
 						$this->media_object->setTitle($this->meta_data->getTitle());
 						$this->media_object->setDescription($this->meta_data->getDescription());
-
 						$this->media_object->update();
+						*/
+						
 //echo "<br>update media object :".$this->media_object->getId().":".
 //						$this->media_object->getTitle().":".
 //						$this->meta_data->getTitle();
@@ -1019,13 +1078,15 @@ class ilContObjParser extends ilSaxParser
 					// Metadaten eines PageObjects sichern in NestedSet
 					if (is_object($this->lm_page_object))
 					{
-						$this->lm_page_object->create(true);
-						//$this->page_object->createFromXML();
+						
+						// new md handling: creation now with the begin
+						// tag
+						//$this->lm_page_object->create(true);
 
+						/*
 						include_once("./classes/class.ilNestedSetXML.php");
 						$nested = new ilNestedSetXML();
 						$xml = $this->meta_data->getXMLContent();
-//echo "<br><br>".htmlentities($xml);
 						$nested->dom = domxml_open_mem($xml);
 						$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
 						if (is_array($nodes))
@@ -1034,20 +1095,24 @@ class ilContObjParser extends ilSaxParser
 							$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 						}
 						$xml = $nested->dom->dump_mem(0);
-//$xml = str_replace("&quot;", "\"", $xml);
-//echo "<br><br>".htmlentities($xml);
 						$nested->import($xml,$this->lm_page_object->getId(),"pg");
+						*/
+						
+						// todo: saving of md? getting title/descr and
+						// set it for lm page
+						$this->current_object->MDUpdateListener('General');
+						
 					}
-        }
+				}
 				else if((strtolower(get_class($this->current_object)) == "ilobjquestionpool" ||
 					strtolower(get_class($this->current_object)) == "ilobjtest") &&
 					!$this->in_media_object && !$this->in_page_object)
 				{
 					// Metadaten eines Questionpool-Objekts sichern in NestedSet
+					/*
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
 					$xml = $this->meta_data->getXMLContent();
-//echo "<br><br>".htmlentities($xml);
 					$nested->dom = domxml_open_mem($xml);
 					$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
 					if (is_array($nodes))
@@ -1056,9 +1121,12 @@ class ilContObjParser extends ilSaxParser
 						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 					}
 					$xml = $nested->dom->dump_mem(0);
-//$xml = str_replace("&quot;", "\"", $xml);
-//echo "<br><br>".htmlentities($xml);
 					$nested->import($xml, $this->current_object->getId(), $this->current_object->getType());
+					*/
+					
+					// todo: saving of md? getting title/descr and
+					// set it for current object
+
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
@@ -1074,11 +1142,12 @@ class ilContObjParser extends ilSaxParser
 					}
 
 					// create structure object and put it in tree
-					$this->current_object->create(true);
+					//$this->current_object->create(true); // now on top
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
 
 					// Metadaten eines StructureObjects sichern in NestedSet
+					/*
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
 					$xml = $this->meta_data->getXMLContent();
@@ -1091,12 +1160,19 @@ class ilContObjParser extends ilSaxParser
 					}
 					$xml = $nested->dom->dump_mem(0);
 					$nested->import($xml,$this->current_object->getId(),"st");
+					*/
+					
+					// todo: saving of md? getting title/descr and
+					// set it for current object
+					$this->current_object->MDUpdateListener('General');
+
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilobjdlbook" || strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
 					strtolower(get_class($this->current_object)) == "ilobjcontentobject" ||
 					(strtolower(get_class($this->current_object)) == "ilobjglossary" && $this->in_glossary))
 				{
 					// Metadaten eines ContentObjects sichern in NestedSet
+					/*
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
 					$xml = $this->meta_data->getXMLContent();
@@ -1108,20 +1184,23 @@ class ilContObjParser extends ilSaxParser
 						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 					}
 					$xml = $nested->dom->dump_mem(0);
-//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($xml).":<br>";
-//echo "<br>ID:".$this->current_object->getId().":Type:".$this->current_object->getType();
-//echo $this->in_glossary;
 					$nested->import($xml,$this->current_object->getId(),$this->current_object->getType());
+					*/
+					
+					// todo: saving of md? getting title/descr and
+					// set it for current object
+
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilglossarydefinition" && !$this->in_media_object)
 				{
-//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($this->meta_data->getXMLContent()).":<br>";
-					$this->glossary_definition->create();
-//echo "<br>ID:".$this->current_object->getId().":Type:".$this->current_object->getType();
+					// now on top
+					//$this->glossary_definition->create();
+
 					$this->page_object->setId($this->glossary_definition->getId());
 					$this->page_object->updateFromXML();
-//echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
+
 					// save glossary term definition to nested set
+					/*
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
 					$xml = $this->meta_data->getXMLContent();
@@ -1133,9 +1212,11 @@ class ilContObjParser extends ilSaxParser
 						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 					}
 					$xml = $nested->dom->dump_mem(0);
-//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($xml).":<br>";
-//echo "<br>ID:".$this->glossary_definition->getId().":Type:gdf";
 					$nested->import($xml,$this->glossary_definition->getId(),"gdf");
+					*/
+					
+					// todo: saving of md? getting title/descr and
+					// set it for current object
 				}
 
 
@@ -1153,8 +1234,6 @@ class ilContObjParser extends ilSaxParser
 					$this->current_object->update();
 				}
 
-#				echo "Type: " . $this->current_object->getType() . "<br>\n";
-#				echo "Obj.-ID: " . $this->current_object->getId() . "<br>\n";
 				break;
 
 			case "FileItem":
@@ -1225,28 +1304,30 @@ class ilContObjParser extends ilSaxParser
 				if (!$this->in_media_object)
 				{
 					$this->current_object->setTitle(trim($this->chr_data));
-					$this->meta_data->setTitle(trim($this->chr_data));
+					//$this->meta_data->setTitle(trim($this->chr_data));
 				}
 				else
 				{
 					$this->media_object->setTitle(trim($this->chr_data));
-					$this->meta_data->setTitle(trim($this->chr_data));
+					//$this->meta_data->setTitle(trim($this->chr_data));
 				}
 				break;
 
 			case "Language":
+				/*
 				if (is_object($this->meta_data))
 				{
 					$this->meta_data->setLanguage(trim($this->chr_data));
-				}
-				else if (is_object($this->bib_item))
+				}*/
+				
+				if (is_object($this->bib_item))
 				{
 					$this->bib_item->setLanguage(trim($this->chr_data));
 				}
 				break;
 
 			case "Description":
-				$this->meta_data->setDescription(trim($this->chr_data));
+				//$this->meta_data->setDescription(trim($this->chr_data));
 				break;
 
 			case "Caption":
@@ -1302,16 +1383,6 @@ class ilContObjParser extends ilSaxParser
 				}
 				break;
 
-			//////////////////////////////////
-			/// MetaData Section
-			//////////////////////////////////
-			// TECHNICAL: Requirement
-			/*
-			case "Requirement":
-				$this->requirement_set->addRequirement($this->requirement);
-				break;*/
-
-
 		}
 		$this->endElement($a_name);
 		$this->chr_data = "";
@@ -1322,8 +1393,24 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		// i don't know why this is necessary, but
-		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
+		// call meta data handler
+		if ($this->in_meta_data)
+		{
+			// cache beginning of meta data within media object tags
+			// (we need to know the id, after that we send the cached data
+			// to the meta xml handler)
+			if ($this->in_media_object && $this->media_meta_start)
+			{
+				$this->media_meta_cache[] =
+					array("type" => "handlerCharacterData", "par1" => $a_data);
+			}
+			else
+			{
+				parent::handlerCharacterData($a_xml_parser,$a_data);
+			}
+		}
+
+		// the parser converts "&gt;" to ">" and "&lt;" to "<"
 		// in character data, but we don't want that, because it's the
 		// way we mask user html in our content, so we convert back...
 
@@ -1355,9 +1442,9 @@ class ilContObjParser extends ilSaxParser
 				$this->page_object->appendXMLContent($a_data);
 			}
 
-			if ($this->in_meta_data  )
+			if ($this->in_meta_data)
 			{
-				$this->meta_data->appendXMLContent($a_data);
+				//$this->meta_data->appendXMLContent($a_data);
 //echo "<br>".$a_data;
 			}
 
@@ -1381,6 +1468,38 @@ class ilContObjParser extends ilSaxParser
 		}
 
 	}
+	
+	
+	/**
+	* send all cached tags to the meta data parser
+	*/
+	function emptyMediaMetaCache(&$a_xml_parser)
+	{
+		foreach ($this->media_meta_cache as $cache_entry)
+		{
+			switch($cache_entry["type"])
+			{
+				case "handlerBeginTag":
+					parent::handlerBeginTag($a_xml_parser, 
+						$cache_entry["par1"], $cache_entry["par2"]);
+					break;
+					
+				case "handlerEndTag":
+					parent::handlerEndTag($a_xml_parser, 
+						$cache_entry["par1"]);
+					break;
+					
+				case "handlerCharacterData":
+					parent::handlerCharacterData($a_xml_parser,
+						$cache_entry["par1"]);
+					break;
+			}
+		}
+
+		$this->media_meta_start = false;
+		$this->media_meta_cache[] = array();
+	}
+	
 
 }
 ?>

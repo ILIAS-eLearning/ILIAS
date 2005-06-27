@@ -341,37 +341,25 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getImportId()
 	{
-		if($this->isAlias())
-		{
-//echo "getting import id for mob alias:".$this->getOriginId().":<br>";
-			return $this->getOriginId();
-		}
-		else
-		{
-//echo "getting import id for mob:".$this->meta_data->getImportIdentifierEntryID().":<br>";
-//			return $this->meta_data->getImportIdentifierEntryID();
-		}
+		return $this->import_id;
 	}
 
 	function setImportId($a_id)
 	{
-		if($this->isAlias())
-		{
-			$this->meta_data->setOriginID($a_id);
-		}
-		else
-		{
-			$this->meta_data->setImportIdentifierEntryID($a_id);
-		}
+		$this->import_id = $a_id;
 	}
 
 	/**
 	* create media object in db
 	*/
-	function create()
+	function create($a_upload = false)
 	{
 		parent::create();
-		$this->createMetaData();
+
+		if (!$a_upload)
+		{
+			$this->createMetaData();
+		}
 
 		// create meta data
 /*
