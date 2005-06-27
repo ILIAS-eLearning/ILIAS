@@ -7671,3 +7671,33 @@ ADD PRIMARY KEY ( `usr_id` , `search_type` );
 <#477>
 REPLACE INTO settings (keyword, value) VALUES ('enable_calendar', '1');
 
+<#478>
+<?php
+$tables = array('il_meta_annotation',
+				'il_meta_classification',
+				'il_meta_contribute',
+				'il_meta_description',
+				'il_meta_educational',
+				'il_meta_entity',
+				'il_meta_format',
+				'il_meta_general',
+				'il_meta_identifier',
+				'il_meta_identifier_',
+				'il_meta_keyword',
+				'il_meta_language',
+				'il_meta_lifecycle',
+				'il_meta_location',
+				'il_meta_meta_data',
+				'il_meta_relation',
+				'il_meta_requirement',
+				'il_meta_rights',
+				'il_meta_taxon',
+				'il_meta_taxon_path',
+				'il_meta_technical',
+				'il_meta_typical_age_range');
+
+foreach($tables as $table)
+{
+	$ilDB->query("UPDATE ".$table." SET rbac_id = 0 WHERE obj_type = 'mob'");
+}
+?>
