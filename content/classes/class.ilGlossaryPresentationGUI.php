@@ -140,7 +140,8 @@ class ilGlossaryPresentationGUI
 	function listTerms()
 	{
 		$term_list = $this->glossary->getTermList();		
-		$this->listTermByGiven($term_list);
+		
+		return $this->listTermByGiven($term_list);
 	}
 
 	/**
@@ -282,8 +283,15 @@ class ilGlossaryPresentationGUI
 				if (!empty ($filter)) {
 					$append = "&term=$filter&oldoffset=".$_GET["oldoffset"];
 				}
-				$this->tpl->setVariable("LINK_VIEW_TERM", "glossary_presentation.php?ref_id=".
-					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]."&offset=".$_GET["offset"].$append);
+				if (!$this->offlineMode())
+				{
+					$this->tpl->setVariable("LINK_VIEW_TERM", "glossary_presentation.php?ref_id=".
+						$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]."&offset=".$_GET["offset"].$append);
+				}
+				else
+				{
+					$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
+				}
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -298,6 +306,11 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($this->offlineMode())
+		{
+			return $this->tpl->get();
 		}
 	}
 
@@ -720,7 +733,7 @@ class ilGlossaryPresentationGUI
 		else
 		{
 			$tabs_gui->addTarget("cont_back",
-				"index.php", "",
+				"index.html", "",
 				"");
 		}
 	}

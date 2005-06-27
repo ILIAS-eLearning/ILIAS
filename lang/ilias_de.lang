@@ -3071,7 +3071,7 @@ content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
 content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
-content#:#cont_resize_explanation#:#Wenn diese Optiona aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
+content#:#cont_resize_explanation#:#Wenn diese Option aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
 content#:#cont_resize_explanation2#:#Diese Funktion skaliert lokale Bilddateien auf die angegebene Größe.
 content#:#cont_resize_image#:#Bilder skalieren
 content#:#cont_resource#:#Ressource

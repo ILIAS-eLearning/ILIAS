@@ -97,7 +97,13 @@ class ilObjContentObject extends ilObject
 		global $ilUser;
 
 		parent::create();
-		$this->createMetaData();
+		
+		// meta data will be created by
+		// import parser
+		if (!$a_upload)
+		{
+			$this->createMetaData();
+		}
 
 		$this->createProperties();
 		if (!$a_upload)
@@ -261,12 +267,14 @@ class ilObjContentObject extends ilObject
 
 	function getImportId()
 	{
+		return $this->import_id;
 //		$this->initMeta();
 //		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
+		$this->import_id = $a_id;
 //		$this->initMeta();
 //		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}

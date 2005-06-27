@@ -813,10 +813,10 @@ class ilRepositoryGUI
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
-			//if($this->mode != "tree")
-			//{
+			if ($a_tabs_out)
+			{
 				$this->showPossibleSubObjects("root");
-			//}
+			}
 		}
 		else
 		{
@@ -826,7 +826,7 @@ class ilRepositoryGUI
 				? $this->gui_obj->object->getDescription()
 				: "";
 			$this->tpl->setVariable("H_DESCRIPTION",  $desc);
-			//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
+			if ($a_tabs_out)
 			{
 				$this->showPossibleSubObjects($this->gui_obj->object->getType());
 			}
@@ -835,7 +835,7 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
 			"&cmd=post");
 
-		if ($this->cur_ref_id != $this->tree->getRootId())
+		if ($this->cur_ref_id != $this->tree->getRootId() && $a_tabs_out)
 		{
 			$par_id = $this->tree->getParentId($this->cur_ref_id);
 			$this->tpl->setCurrentBlock("top");
@@ -847,19 +847,15 @@ class ilRepositoryGUI
 		if ($a_tabs_out)
 		{
 			$this->setAdminTabs();
+			
+			$s_mode = ($_SESSION["il_rep_mode"] == "flat")
+				? "tree"
+				: "flat";
+			$this->tpl->setCurrentBlock("tree_mode");
+			$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
+			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
+			$this->tpl->parseCurrentBlock();
 		}
-
-		//$this->tpl->setCurrentBlock("content");
-
-		/*
-			$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
-			$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
-		*/
-		$s_mode = ($_SESSION["il_rep_mode"] == "flat")
-			? "tree"
-			: "flat";
-		$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
-		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
 	}
 
 
