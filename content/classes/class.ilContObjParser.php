@@ -478,7 +478,7 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
+//echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -806,6 +806,11 @@ echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
 			}
 			else
 			{
+				if ($a_name == "Identifier")
+				{
+					$a_attribs["Entry"] = "il__".$this->current_object->getType().
+						"_".$this->current_object->getId();
+				}
 				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 			}
 		}
@@ -837,7 +842,7 @@ echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
 			}
 		}
 
-echo "<b>END TAG: $a_name <br></b>"; flush();
+//echo "<b>END TAG: $a_name <br></b>"; flush();
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)

@@ -845,6 +845,26 @@ class ilObject
 	}
 
 	/**
+	* write import id to db (static)
+	*
+	* @param	int		$a_obj_id			object id
+	* @param	string	$a_import_id		import id
+	* @access	public
+	*/
+	function _writeImportId($a_obj_id, $a_import_id)
+	{
+		global $ilDB;
+
+		$q = "UPDATE object_data ".
+			"SET ".
+			"import_id = ".$ilDB->quote($a_import_id).",".
+			"last_update = now() ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+
+		$ilDB->query($q);
+	}
+
+	/**
 	* lookup object type
 	*
 	* @param	int		$a_id		object id

@@ -1540,7 +1540,7 @@ common#:#ilinc_courses#:#iLinc Seminare
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
-common#:#import#:#importieren
+common#:#import#:#Importieren
 common#:#import_alm#:#Import AICC Modul
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
@@ -1628,7 +1628,7 @@ common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
-common#:#join#:#Join###20 Jun 2005 new variable
+common#:#join#:#Beitreten
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_cs#:#Tschechisch
@@ -2567,7 +2567,7 @@ common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
-common#:#to_desktop#:#Abo###20 Jun 2005 content changed
+common#:#to_desktop#:#Auf den Schreibtisch
 common#:#today#:#Heute
 common#:#toggleGlobalDefault#:#Standard-Style umschalten
 common#:#toggleGlobalFixed#:#Einheits-Style umschalten
@@ -2587,14 +2587,14 @@ common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
-common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
+common#:#tst_anon_eval#:#Resultate
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_run#:#Run###20 Jun 2005 new variable
-common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
+common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
@@ -2615,7 +2615,7 @@ common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
 common#:#unread_lowercase#:#ungelesen
 common#:#unselected#:#Auswahl aufheben
-common#:#unsubscribe#:#Abo Beenden###14 May 2005 content changed
+common#:#unsubscribe#:#Vom Schreibtisch nehmen
 common#:#unzip#:#Entzippen
 common#:#up#:#Hoch
 common#:#update#:#Übernehmen
