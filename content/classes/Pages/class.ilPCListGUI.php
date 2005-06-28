@@ -107,6 +107,8 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "create_list");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -166,6 +168,8 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -209,9 +213,11 @@ class ilPCListGUI extends ilPageContentGUI
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
+/*
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
 			"");
+*/
 	}
 
 }

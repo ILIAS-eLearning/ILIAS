@@ -2789,6 +2789,14 @@ content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
+content#:#cont_text_str#:#Strong Text:
+content#:#cont_text_emp#:#Emphatic Text:
+content#:#cont_text_com#:#Comment:
+content#:#cont_text_fn#:#Footnote:
+content#:#cont_text_quot#:#Quotation:
+content#:#cont_text_code#:#Code:
+content#:#cont_text_iln#:#Internal Link, e.g.:
+content#:#cont_text_xln#:#External Link:
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic

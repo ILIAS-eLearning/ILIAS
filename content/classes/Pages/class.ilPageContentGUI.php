@@ -280,6 +280,22 @@ class ilPageContentGUI
 			$this->tpl->setVariable("MESSAGE", $error_str);
 		}
 	}
+	
+	/**
+	* cancel creating page content
+	*/
+	function cancelCreate()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* cancel update
+	*/
+	function cancelUpdate()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 
 
 }
