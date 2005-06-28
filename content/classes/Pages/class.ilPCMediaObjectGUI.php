@@ -98,6 +98,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -697,9 +699,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if ($a_create)
 		{
+/*
 			$tab_gui->addTarget("cont_back",
 				$ilCtrl->getParentReturn($this), "",
 				"");
+*/
 		}
 		else
 		{

@@ -918,22 +918,40 @@ input[type=checkbox], input[type=radio]
 	background-color:none;
 }
 
-a.ilEditSubmit, input.ilEditSubmit {
+a.ilEditSubmit {
 	background-color:#ffffff;
 	color:#2255a0;
 	border-width:1px;
 	border-color:#bbbbbb;
 	border-style:outset;
-	padding:1px;
+	padding: 2px;
+	margin: 0px;
 	background-image: none;
-	text-decoration:none;
-	font-size:10px;
+	text-decoration: none;
+	font-size: 10px;
+	line-height: 14px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+input.ilEditSubmit {
+	background-color:#ffffff;
+	color:#2255a0;
+	border-width:1px;
+	border-color:#bbbbbb;
+	border-style:outset;
+	padding: 1px;
+	margin: 0px;
+	background-image: none;
+	text-decoration: none;
+	font-size: 10px;
+	line-height: 14px;
 	font-weight:bold;
 	cursor:pointer;
 }
 
 input.ilEditHelpline {
-	background-color:#eeeeee;
+	background-color:#f7f7f7;
 	border-style:none;
 	padding:3px;
 	background-image: none;

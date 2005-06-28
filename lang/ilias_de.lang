@@ -2788,6 +2788,14 @@ content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
 content#:#cont_Headline3#:#Überschrift 3
+content#:#cont_text_str#:#Stark betonter Text:
+content#:#cont_text_emp#:#Betonter Text:
+content#:#cont_text_com#:#Kommentar:
+content#:#cont_text_fn#:#Fußnote:
+content#:#cont_text_quot#:#Zitat:
+content#:#cont_text_code#:#Programmcode:
+content#:#cont_text_iln#:#Interner Link, z.B.:
+content#:#cont_text_xln#:#Externer Link:
 content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz

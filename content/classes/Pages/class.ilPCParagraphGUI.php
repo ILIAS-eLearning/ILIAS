@@ -94,8 +94,17 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->ctrl->getLinkTarget($this, "popup"));	
 		$this->ctrl->setParameter($this, "ptype", "xtl");
 		$this->tpl->setVariable("POPUP_TARGET_XTL",
-			$this->ctrl->getLinkTarget($this, "popup"));	
-		
+			$this->ctrl->getLinkTarget($this, "popup"));
+			
+		$this->tpl->setVariable("TXT_STR", $this->lng->txt("cont_text_str"));
+		$this->tpl->setVariable("TXT_EMP", $this->lng->txt("cont_text_emp"));
+		$this->tpl->setVariable("TXT_COM", $this->lng->txt("cont_text_com"));
+		$this->tpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
+		$this->tpl->setVariable("TXT_QUOT", $this->lng->txt("cont_text_quot"));
+		$this->tpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
+		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+				
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
@@ -110,13 +119,23 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
 
-			$this->tpl->setVariable("LINK_ILINK",
-				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+			if (!ilPageEditorGUI::_doJSEditing())
+			{
+				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("BB_LINK_ILINK",
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_ILINK",
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+			}
 			
 			$this->tpl->setVariable("REMOVELINK",$this->lng->txt("cont_removeiln"));
-			
-			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
-			
+						
 			$this->tpl->touchBlock("internal_link_active1");
 			$this->tpl->touchBlock("internal_link_active2");
 		}
@@ -192,8 +211,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "update");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-
 
 	}
 
@@ -214,6 +234,25 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 
+		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/content/htmlarea/");
+		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/content/htmlarea/htmlarea.js");
+		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/content/js/handletags.js");
+		$this->ctrl->setParameter($this, "ptype", "footnote");
+		$this->tpl->setVariable("POPUP_TARGET_FOOTNOTE",
+			$this->ctrl->getLinkTarget($this, "popup"));	
+		$this->ctrl->setParameter($this, "ptype", "xtl");
+		$this->tpl->setVariable("POPUP_TARGET_XTL",
+			$this->ctrl->getLinkTarget($this, "popup"));	
+
+		$this->tpl->setVariable("TXT_STR", $this->lng->txt("cont_text_str"));
+		$this->tpl->setVariable("TXT_EMP", $this->lng->txt("cont_text_emp"));
+		$this->tpl->setVariable("TXT_COM", $this->lng->txt("cont_text_com"));
+		$this->tpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
+		$this->tpl->setVariable("TXT_QUOT", $this->lng->txt("cont_text_quot"));
+		$this->tpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
+		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
@@ -225,10 +264,24 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
+				ilUtil::getStyleSheetLocation());			
 
-			$this->tpl->setVariable("LINK_ILINK",
-				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
-			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+			if (!ilPageEditorGUI::_doJSEditing())
+			{
+				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setVariable("BB_LINK_ILINK",
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_ILINK",
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+			}
+			
 			$this->tpl->touchBlock("internal_link_active1");
 			$this->tpl->touchBlock("internal_link_active2");
 		}
@@ -328,6 +381,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "create_par");	//--
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -376,6 +431,7 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 			$this->edit();
 		}
 	}
+	
 
 	/**
 	* create new paragraph in dom and update page in db
@@ -442,9 +498,11 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
+		/*
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
 			"");
+		*/
 	}
 
 

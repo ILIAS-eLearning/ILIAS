@@ -144,6 +144,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_NAME", "update");
 		$this->tpl->setVariable("UPLOAD_BTN_NAME", "upload");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -257,6 +259,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_NAME", "create_src");	//--		
 		$this->tpl->setVariable("UPLOAD_BTN_NAME", "create_src");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -310,6 +314,14 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
+	
+	/**
+	* cancel update
+	*/
+	function cancelUpdate()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 
 	/**
 	* create new paragraph in dom and update page in db
@@ -355,6 +367,15 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			$this->insert ();
 		}
 	}
+	
+	/**
+	* cancel creating paragraph
+	*/
+	function cancelCreate()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
 
 	/**
 	* output tabs
@@ -376,9 +397,11 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
+		/*
 		$tabs_gui->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
 			"");
+		*/
 	}
 
 	function upload () {

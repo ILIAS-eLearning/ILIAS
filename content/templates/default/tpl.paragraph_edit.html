@@ -27,14 +27,14 @@ var is_win = ((clientPC.indexOf("win")!=-1) || (clientPC.indexOf("16bit") != -1)
 var is_mac = (clientPC.indexOf("mac")!=-1);
 
 // Helpline messages
-b_help = "Strong text: [str]text[/str]  (alt+s)";
-e_help = "Emph text: [emp]text[/emp]  (alt+e)";
-u_help = "Comment: [com]text[/com]  (alt+c)";
-f_help = "Footnote: [fn]text[/fn]  (alt+f)";
-q_help = "Quotation: [quot]text[/quot]  (alt+q)";
-c_help = "Code display: [code]code[/code]  (alt+c)";
-l_help = "Internal Link: [iln page=\"page_id\"]text[/iln] (alt+l)";
-x_help = "External Link: [xln url=\"http://url\"]text[/xln]  (alt+x)";
+b_help = "{TXT_STR} [str]text[/str]  (alt+s)";
+e_help = "{TXT_EMP} [emp]text[/emp]  (alt+e)";
+u_help = "{TXT_COM} [com]text[/com]  (alt+c)";
+f_help = "{TXT_FN} [fn]text[/fn]  (alt+f)";
+q_help = "{TXT_QUOT} [quot]text[/quot]  (alt+q)";
+c_help = "{TXT_CODE} [code]code[/code]  (alt+c)";
+i_help = "{TXT_ILN} [iln page=\"page_id\"]text[/iln]";
+x_help = "{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)";
 
 // old helpline messages of phpbb
 z_help = "List: [list]text[/list] (alt+l)";
@@ -265,40 +265,35 @@ function storeCaret(textEl) {
 	</td>
 </tr>
 
+<!-- BEGIN bb_buttons -->
 <tr class="std">
-	<td class="std" colspan="4">
+	<td class="option_value" colspan="4">
     <div id="bbcodebuttons" style="position:relative;visibility:visible;">
 	<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="Tip: Styles can be applied quickly to selected text." />
 	<br />
-	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " style="font-weight:bold; width: 40px" onClick="bbstyle(0)" onMouseOver="helpline('b')" />
-	<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " style="font-style:italic; width: 40px" onClick="bbstyle(2)" onMouseOver="helpline('e')" />
-	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " style="text-decoration: underline; width: 40px" onClick="bbstyle(4)" onMouseOver="helpline('u')" />
-	<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " style="width: 40px" onClick="bbstyle(6)" onMouseOver="helpline('q')" />
-	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode8" value=" code " style="width: 40px" onClick="bbstyle(8)" onMouseOver="helpline('c')" />
-	<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " style="width: 40px" onClick="bbstyle(10)" onMouseOver="helpline('f')" />
-	<!-- <input type="button" class="ilEditSubmit" accesskey="l" name="addbbcode12" value=" iln " style="width: 40px" onClick="bbstyle(12)" onMouseOver="helpline('l')" /> -->
-	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode14" value=" xln " style="width: 40px" onClick="bbstyle(14)" onMouseOver="helpline('x')" />
-	<a href="{LINK_ILINK}" target="tree">{TXT_ILINK}</a>
-<!--
-	<input type="button" class="button" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onClick="bbstyle(6)" onMouseOver="helpline('q')" />
-	<input type="button" class="button" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onClick="bbstyle(8)" onMouseOver="helpline('c')" />
-	<input type="button" class="button" accesskey="l" name="addbbcode10" value="List" style="width: 40px" onClick="bbstyle(10)" onMouseOver="helpline('l')" />
-	<input type="button" class="button" accesskey="o" name="addbbcode12" value="List=" style="width: 40px" onClick="bbstyle(12)" onMouseOver="helpline('o')" />
-	<input type="button" class="button" accesskey="p" name="addbbcode14" value="Img" style="width: 40px"  onClick="bbstyle(14)" onMouseOver="helpline('p')" />
-	<input type="button" class="button" accesskey="w" name="addbbcode16" value="URL" style="text-decoration: underline; width: 40px" onClick="bbstyle(16)" onMouseOver="helpline('w')" />
--->
+	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0)" onMouseOver="helpline('b')" />
+	<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " onClick="bbstyle(2)" onMouseOver="helpline('e')" />
+	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " onClick="bbstyle(4)" onMouseOver="helpline('u')" />
+	<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " onClick="bbstyle(6)" onMouseOver="helpline('q')" />
+	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode8" value=" code " onClick="bbstyle(8)" onMouseOver="helpline('c')" />
+	<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " onClick="bbstyle(10)" onMouseOver="helpline('f')" />
+	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode14" value=" xln " onClick="bbstyle(14)" onMouseOver="helpline('x')" />
+	<a class="ilEditSubmit" href="{BB_LINK_ILINK}" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
     </div>
 	</td>
 </tr>
+<!-- END bb_buttons -->
+
 <tr class="std">
 <td class="std" colspan="4">
-<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <!-- BEGIN commands -->
 <tr>
 	<td class="submit"  colspan="4">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
 	</td>
 </tr>
 <!-- END commands -->
