@@ -1537,8 +1537,8 @@ class ilRepositoryGUI
 				break;
 
 			case "confirmedDelete":
-				$node = $this->tree->getNodeData($this->cur_ref_id);
-				$this->gui_obj->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
+				//$node = $this->tree->getNodeData($this->cur_ref_id);
+				$this->gui_obj->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$this->cur_ref_id);
 				if ($execute)
 				{
 					$this->gui_obj->confirmedDeleteObject();

@@ -1301,6 +1301,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
+		ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
 		$newObj->MDUpdateListener('General');
 
 		// import style
@@ -1312,21 +1313,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$style->createFromXMLFile($style_file);
 			$newObj->writeStyleSheetId($style->getId());
 		}
-
-		/* update title and description in object data */
-// to do (update should be called somewhere in import parser
-/*
-		if (is_object($newObj->meta_data))
-		{
-			$newObj->meta_data->read();
-			$newObj->setTitle($newObj->meta_data->getTitle());
-			$newObj->setDescription($newObj->meta_data->getDescription());
-			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
-			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
-			//$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
-			//$this->ilias->db->query($q);
-		}
-*/
 
 		sendInfo($this->lng->txt($this->type."_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
