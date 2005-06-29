@@ -2951,6 +2951,14 @@ content#:#cont_table_width#:#Latimea Tabelului
 content#:#cont_target_within_source#:#Tinta trebuie sa fie in interiorul obiectului sursa.
 content#:#cont_term#:#Termen
 content#:#cont_terms#:#Termeni
+content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
+content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
+content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
+content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
+content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
+content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Timp
 content#:#cont_time_limit_action#:#adlcp:actiuneculimitadetimp
 content#:#cont_title#:#titlu

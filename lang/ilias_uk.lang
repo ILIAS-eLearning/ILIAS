@@ -3137,6 +3137,14 @@ content#:#cont_table_width#:#Ширина Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
 content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
+content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
+content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
+content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
+content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
+content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
+content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Час
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#назва

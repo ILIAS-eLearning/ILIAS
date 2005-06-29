@@ -3124,6 +3124,14 @@ content#:#cont_table_width#:#Largeur du tableau###07 Apr 2005 content changed
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.###07 Apr 2005 content changed
 content#:#cont_term#:#Terme###07 Apr 2005 content changed
 content#:#cont_terms#:#Termes###07 Apr 2005 content changed
+content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
+content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
+content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
+content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
+content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
+content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Temps###07 Apr 2005 content changed
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###07 Apr 2005 content changed
 content#:#cont_title#:#titre###07 Apr 2005 content changed

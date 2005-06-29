@@ -3144,6 +3144,14 @@ content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Voce
 content#:#cont_terms#:#Gestione voci
+content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
+content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
+content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
+content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
+content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
+content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_title#:#titolo
