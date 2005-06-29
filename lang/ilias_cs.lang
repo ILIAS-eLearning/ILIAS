@@ -3149,6 +3149,14 @@ content#:#cont_table_width#:#Šířka tabulky###07 Apr 2005 content changed
 content#:#cont_target_within_source#:#Cíl nesmí být obsažen ve zdrojovém objektu.###07 Apr 2005 content changed
 content#:#cont_term#:#Pojem###07 Apr 2005 content changed
 content#:#cont_terms#:#Pojmy###07 Apr 2005 content changed
+content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
+content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
+content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
+content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
+content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
+content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction### identical translation
 content#:#cont_title#:#title###29 Nov 2004 new variable
