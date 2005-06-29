@@ -4758,8 +4758,8 @@ survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte,
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Bereichtigung, um auf den Fragenpool zugreifen zu können!
-survey#:#cannot_read_survey#:#Sie haben keine ausreichende Bereichtigung, um auf die Umfragedaten zugreifen zu können!
+survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!
+survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
