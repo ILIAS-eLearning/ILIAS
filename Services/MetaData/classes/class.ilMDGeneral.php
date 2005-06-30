@@ -370,6 +370,7 @@ class ilMDGeneral extends ilMDBase
 		foreach($this->getIdentifierIds() as $id)
 		{
 			$ide =& $this->getIdentifier($id);
+			$ide->setExportMode($this->getExportMode());
 			$ide->toXML($writer);
 		}
 		

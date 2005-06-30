@@ -283,6 +283,7 @@ class ilMD extends ilMDBase
 		// General
 		if(is_object($gen =& $this->getGeneral()))
 		{
+			$gen->setExportMode($this->getExportMode());
 			$gen->toXML($writer);
 		}
 

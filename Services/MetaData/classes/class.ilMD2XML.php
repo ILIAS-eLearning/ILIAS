@@ -29,10 +29,12 @@
 * @version $Id$
 */
 include_once 'classes/class.ilXmlWriter.php';
+include_once 'Services/MetaData/classes/class.ilMD.php';
 
 class ilMD2XML extends ilXmlWriter
 {
 	var $md_obj = null;
+	var $export_mode = false;
 
 	function ilMD2XML($a_rbac_id,$a_obj_id,$a_type)
 	{
@@ -40,11 +42,21 @@ class ilMD2XML extends ilXmlWriter
 
 		parent::ilXmlWriter();
 	}
-
+	
+	function setExportMode($a_export_mode = true)
+	{
+		$this->export_mode = $a_export_mode;
+	}
+	
+	function getExportMode()
+	{
+		return $this->export_mode;
+	}
 
 	function startExport()
 	{
 		// Starts the xml export and calls all element classes
+		$this->md_obj->setExportMode($this->getExportMode());
 		$this->md_obj->toXML($this);
 	}
 
