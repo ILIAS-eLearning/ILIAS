@@ -897,6 +897,7 @@ class ilContObjParser extends ilMDSaxParser
 							//echo "<br>Page needs import parsing:".$this->page_object->getId();
 							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 						}
+						
 					}
 				}
 				else
@@ -1029,7 +1030,8 @@ class ilContObjParser extends ilMDSaxParser
 					{
 						// update title/description of page object
 						$this->current_object->MDUpdateListener('General');
-						
+						ilLMObject::_writeImportId($this->current_object->getId(),
+							$this->current_object->getImportId());
 					}
 				}
 				else if((strtolower(get_class($this->current_object)) == "ilobjquestionpool" ||
@@ -1059,7 +1061,8 @@ class ilContObjParser extends ilMDSaxParser
 
 					// update title/description of structure object
 					$this->current_object->MDUpdateListener('General');
-
+					ilLMObject::_writeImportId($this->current_object->getId(),
+							$this->current_object->getImportId());
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilobjdlbook" || strtolower(get_class($this->current_object)) == "ilobjlearningmodule" ||
 					strtolower(get_class($this->current_object)) == "ilobjcontentobject" ||

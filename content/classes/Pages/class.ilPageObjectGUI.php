@@ -793,35 +793,6 @@ class ilPageObjectGUI
 	}
 
 	/**
-	* save page
-	*/
-	/*
-	function save()
-	{
-		// create new object
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_data =& $meta_gui->create();
-		$this->obj =& new ilPageObject();
-		$this->obj->assignMetaData($meta_data);
-		$this->obj->setType($_GET["new_type"]);
-		$this->obj->setLMId($this->lm_obj->getId());
-		$this->obj->create();
-
-		// obj_id is empty, if page is created from "all pages" screen
-		// -> a free page is created (not in the tree)
-		if (empty($_GET["obj_id"]))
-		{
-//			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
-		}
-		else
-		{
-			$this->putInTree();
-//			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$_GET["obj_id"]);
-		}
-	}*/
-
-	/**
 	* display validation error
 	*
 	* @param	string		$a_error		error string
