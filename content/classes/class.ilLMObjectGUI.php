@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php");
-require_once("classes/class.ilMetaDataGUI.php");
 
 /**
 * Class ilLMObject
@@ -88,100 +86,6 @@ class ilLMObjectGUI
 
 
 	/**
-	* add meta data
-	*/
-/*
-	function addMeta()
-	{
-		$this->setTabs();
-
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"));
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
-			$meta_section);
-	}
-*/
-
-	/**
-	* delete meta data
-	*/
-/*
-	function deleteMeta()
-	{
-		$this->setTabs();
-
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
-			$_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* choose meta data section
-	*/
-/*
-	function chooseMetaSection()
-	{
-		$this->setTabs();
-
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
-			$_REQUEST["meta_section"]);
-	}
-*/
-
-	/**
-	* edit meta data
-	*/
-/*
-	function editMeta()
-	{
-		$this->setTabs();
-
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
-			$_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* save meta data
-	*/
-/*
-	function saveMeta()
-	{
-//echo "lmobjectgui_Savemeta1<br>";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObjectGUI::saveMeta(), start\n"); fclose($f);
-		$meta_gui->save($_POST["meta_section"]);
-//echo "lmobjectgui_Savemeta3<br>";
-//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObjectGUI::saveMeta(), end\n"); fclose($f);
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "editMeta");
-	}
-*/
-
-	/**
 	* get target frame for command (command is method name without "Object", e.g. "perm")
 	* @param	string		$a_cmd			command
 	* @param	string		$a_target_frame	default target frame (is returned, if no special
@@ -203,30 +107,6 @@ class ilLMObjectGUI
 			return;
 		}
 	}
-
-
-	/**
-	* get form action for command (command is method name without "Object", e.g. "perm")
-	*
-	* @param	string		$a_cmd			command
-	* @param	string		$a_formaction	default formaction (is returned, if no special
-	*										formaction was set)
-	* @access	public
-	* @return	string
-	*/
-	/*
-	function getFormAction($a_cmd, $a_formaction ="")
-	{
-		if ($this->formaction[$a_cmd] != "")
-		{
-			return $this->formaction[$a_cmd];
-		}
-		else
-		{
-			return $a_formaction;
-		}
-	}*/
-
 
 	/**
 	* get a template blockfile
@@ -293,21 +173,6 @@ class ilLMObjectGUI
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
-/*		if(count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_max_one_pos"),$this->ilias->error_obj->MESSAGE);
-		}
-		$target = (count($_POST["id"]) == 1)
-			? $_POST["id"][0]
-			: "";
-
-		$meta_gui =& new ilMetaDataGUI();
-		$obj_str = (is_object($this->obj))
-			? "&obj_id=".$this->obj->getId()
-			: "";
-//		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId().$obj_str."&new_type=".$_POST["new_type"].
-			"&target=".$target."&cmd=saveMeta");*/
 	}
 
 
@@ -445,14 +310,6 @@ class ilLMObjectGUI
 		$operations = array();
 
 		$operations = $this->actions;
-		/*
-		foreach ($d as $row)
-		{
-			if (!in_array($row["name"], $notoperations))
-			{
-				$operations[] = $row;
-			}
-		}*/
 
 		if (count($operations) > 0)
 		{

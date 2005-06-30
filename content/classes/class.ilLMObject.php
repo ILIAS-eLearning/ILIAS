@@ -301,15 +301,32 @@ class ilLMObject
 	function getImportId()
 	{
 		return $this->import_id;
-//		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
 		$this->import_id = $a_id;
-//		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
+	/**
+	* write import id to db (static)
+	*
+	* @param	int		$a_id				lm object id
+	* @param	string	$a_import_id		import id
+	* @access	public
+	*/
+	function _writeImportId($a_id, $a_import_id)
+	{
+		global $ilDB;
+
+		$q = "UPDATE lm_data ".
+			"SET ".
+			"import_id = ".$ilDB->quote($a_import_id).",".
+			"last_update = now() ".
+			"WHERE obj_id = ".$ilDB->quote($a_id);
+
+		$ilDB->query($q);
+	}
 
 	function create($a_upload = false)
 	{
@@ -330,65 +347,7 @@ class ilLMObject
 			$this->createMetaData();
 		}
 
-/*
-		if (!$a_upload)
-		{
-			// create meta data
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
-		}
-*/
 	}
-
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
-
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* update meta data of object and lm_data table
-	*/
-/*
-	function updateMetaData()
-	{
-		global $ilDB;
-
-//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObject::updateMetaData(), start\n"); fclose($f);
-
-		//$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->title = $meta[0]["Value"];
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->description = $meta[0]["Value"];
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		$query = "UPDATE lm_data SET ".
-			" title = ".$ilDB->quote($this->getTitle()).
-			", last_update = now() WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$this->ilias->db->query($query);
-		$this->meta_data->update();
-//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObject::updateMetaData(), end\n"); fclose($f);
-	}
-*/
 
 	/**
 	* update complete object
@@ -514,16 +473,6 @@ class ilLMObject
 	*/
 	function delete($a_delete_meta_data = true)
 	{
-/*
-		if ($a_delete_meta_data)
-		{
-			// Delete meta data in nested set table for given object and type
-			$nested = new ilNestedSetXML();
-			$nested->init($this->getId(), $this->getType());
-			$nested->deleteAllDBData();
-		}
-*/
-
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
 
@@ -623,8 +572,6 @@ class ilLMObject
 	{
 		include_once './classes/class.ilNestedSetXML.php';
 
-//		$page_ids = ilNestedSetXML::_getAllChildIds($a_cobj->getId());
-
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= '".$a_cobj->getId()."'";
 		$obj_set = $this->ilias->db->query($query);
@@ -636,11 +583,9 @@ class ilLMObject
 
 			if (is_object($lm_obj))
 			{
-//				$lm_obj->delete(false);
 				$lm_obj->delete(true);
 			}
 		}
-//		ilNestedSetXML::_deleteAllChildMetaData($page_ids);
 
 		return true;
 	}

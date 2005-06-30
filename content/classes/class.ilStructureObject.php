@@ -210,10 +210,11 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "modifyExportIdentifier");
-		$a_xml_writer->appendXML($nested->export($this->getId(),
-			$this->getType()));
+		include_once("Services/MetaData/classes/class.ilMD2XML.php");
+		$md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
+		$md2xml->setExportMode(true);
+		$md2xml->startExport();
+		$a_xml_writer->appendXML($md2xml->getXML());
 	}
 
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)

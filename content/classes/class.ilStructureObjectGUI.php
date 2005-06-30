@@ -348,10 +348,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function save()
 	{
-//		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
 
 		$this->obj =& new ilStructureObject($this->content_object);
-//		$this->obj->assignMetaData($meta_data);
+
 		$this->obj->setType("st");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -369,23 +368,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 
 	}
-
-	/**
-	* save meta data
-	*/
-/*
-	function saveMeta()
-	{
-//echo "lmobjectgui_Savemeta1<br>";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->obj);
-//echo "lmobjectgui_Savemeta2<br>"; exit;
-//echo "title_value:".htmlentities($_POST["meta"]["Title"]["Value"]); exit;
-		$meta_gui->save($_POST["meta_section"]);
-//echo "lmobjectgui_Savemeta3<br>";
-		$this->ctrl->redirect($this, "view");
-	}
-*/
 
 	/**
 	* put chapter into tree
@@ -426,12 +408,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cutPage()
 	{
-//echo "1";
-//unset($_SESSION["message"]);
-//echo $_SESSION["referer"];
 		if(!isset($_POST["id"]))
 		{
-//echo "2:".$_SESSION["message"].":";
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 
 		}

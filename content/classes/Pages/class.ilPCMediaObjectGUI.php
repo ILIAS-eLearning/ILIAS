@@ -121,9 +121,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		// create dummy object in db (we need an id)
 		$this->content_obj = new ilObjMediaObject();
-//		$dummy_meta =& new ilMetaData();
-//		$dummy_meta->setObject($this->content_obj);
-//		$this->content_obj->assignMetaData($dummy_meta);
 		$this->content_obj->setTitle($title);
 		$this->content_obj->setDescription("");
 		$this->content_obj->create();
@@ -136,8 +133,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$media_item =& new ilMediaItem();
 		$this->content_obj->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
-//		$meta =& $this->content_obj->getMetaData();
-//		$meta_technical =& new ilMetaTechnical($meta);
 
 		if ($_POST["standard_type"] == "File")
 		{
@@ -168,9 +163,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($location);
 			$media_item->setLocationType("LocalFile");
-//			$meta_technical->addFormat($format);
-//			$meta_technical->setSize($_FILES['standard_file']['size']);
-//			$meta_technical->addLocation("LocalFile", $location);
 			$this->content_obj->setTitle($_FILES['standard_file']['name']);
 		}
 		else	// standard type: reference
@@ -179,12 +171,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$media_item->setFormat($format);
 			$media_item->setLocation($_POST["standard_reference"]);
 			$media_item->setLocationType("Reference");
-//			$meta_technical->addFormat($format);
-//			$meta_technical->setSize(0);
-//			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
 			$this->content_obj->setTitle($_POST["standard_reference"]);
 		}
-//		$meta->addTechnicalSection($meta_technical);
+
 		$this->content_obj->setDescription($format);
 
 		// determine width and height of known image types
@@ -261,12 +250,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$media_item->setFormat($format);
 				$media_item->setLocation($location);
 				$media_item->setLocationType("LocalFile");
-/*
-				$meta_technical->addFormat($format);
-				$meta_technical->setSize($meta_technical->getSize()
-				+ $_FILES['full_file']['size']);
-				$meta_technical->addLocation("LocalFile", $location);
-*/
+
 			}
 			else	// reference
 			{
@@ -276,10 +260,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$media_item->setFormat($format);
 					$media_item->setLocation($_POST["full_reference"]);
 					$media_item->setLocationType("Reference");
-/*
-					$meta_technical->addFormat($format);
-					$meta_technical->addLocation("Reference", $_POST["full_reference"]);
-*/
 				}
 			}
 
