@@ -7724,3 +7724,52 @@ $obj_id = $row->obj_id;
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
 $this->db->query($query);
 ?>
+<#480>
+<?php
+ // Get all global roles
+$query = "SELECT rol_id FROM rbac_fa ".
+	"WHERE parent = '".ROLE_FOLDER_ID."'";
+
+$res = $this->db->query($query);
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$rol_ids[] = $row->rol_id;
+}
+// Get searchSettings ref_id
+$query = "SELECT ref_id from object_data od ,object_reference as orf where od.obj_id = orf.obj_id and type = 'seas'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+}
+// Get serach operation id
+$query = "SELECT * FROM rbac_operations where operation = 'search'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$search_ops = $row->ops_id;
+}
+
+foreach($rol_ids as $role_id)
+{
+	$query = "SELECT ops_id FROM rbac_pa where rol_id = '".$role_id."' and ref_id = '".$ref_id."'";
+	$res = $this->db->query($query);
+	$ops = array();
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$ops = unserialize(stripslashes($row->ops_id));
+	}
+	if(!in_array($search_ops,$ops))
+	{
+		$query = "DELETE FROM rbac_pa WHERE rol_id = '".$role_id."' and ref_id = '".$ref_id."'";
+		$this->db->query($query);
+		
+		$ops[] = $search_ops;
+		$query = "INSERT INTO rbac_pa SET rol_id = '".$role_id."', ".
+			"ops_id = '".addslashes(serialize($ops))."', ".
+			"ref_id = '".$ref_id."'";
+		$this->db->query($query);
+	}
+}
+?>
+
