@@ -48,6 +48,12 @@ class ilMDBase
 	 * type of the object (e.g st,pg,crs ...)
 	 */
 	var $obj_type;
+	
+	/*
+	 * export mode, if true, first Identifier will be
+	 * set to ILIAS/il_<INSTALL_ID>_<TYPE>_<ID>
+	 */
+	var $export_mode = false;
 
 
 	function ilMDBase($a_rbac_id = 0,
@@ -123,6 +129,17 @@ class ilMDBase
 	{
 		return $this->parent_id;
 	}
+	
+	function setExportMode($a_export_mode = true)
+	{
+		$this->export_mode = $a_export_mode;
+	}
+	
+	function getExportMode()
+	{
+		return $this->export_mode;
+	}
+
 
 	/*
 	 * Should be overwritten in all inherited classes

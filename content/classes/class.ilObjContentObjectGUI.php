@@ -2712,11 +2712,58 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
-		$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
+		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 
+		// properties
+		$tabs_gui->addTarget("properties",
+			$this->ctrl->getLinkTarget($this,'properties'),
+			"properties", get_class($this));
+
+		// meta data
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"meta_data", get_class($this));
+			"meta_data", "ilmdeditorgui");
+
+		// chapters
+		$tabs_gui->addTarget("cont_chapters",
+			$this->ctrl->getLinkTarget($this, "chapters"),
+			"chapters", get_class($this));
+
+		// pages
+		$tabs_gui->addTarget("cont_all_pages",
+			$this->ctrl->getLinkTarget($this, "pages"),
+			"pages", get_class($this));
+
+		if ($this->object->getType() == "lm")
+		{
+			// export
+			$tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTarget($this, "exportList"),
+				"exportList", get_class($this));
+	
+			// link checker
+			$tabs_gui->addTarget("link_check",
+				$this->ctrl->getLinkTarget($this, "linkChecker"),
+				"linkChecker", get_class($this));
+		}
+		else
+		{
+			// bibliographical data
+			$tabs_gui->addTarget("bib_data",
+				$this->ctrl->getLinkTarget($this, "editBibItem"),
+				"editBibItem", get_class($this));
+		}
+
+		// permissions
+		$tabs_gui->addTarget("perm_settings",
+			$this->ctrl->getLinkTarget($this, "perm"),
+			"perm", get_class($this));
+
+		// owner
+		$tabs_gui->addTarget("show_owner",
+			$this->ctrl->getLinkTarget($this, "owner"),
+			"owner", get_class($this));
+
 	}
 
 	function editPublicSection()

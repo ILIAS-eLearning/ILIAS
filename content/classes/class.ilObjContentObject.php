@@ -1355,23 +1355,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-echo "<br>ilObjContentObject::exportXMLMetaData temporary not available";
-/*
-		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "modifyExportIdentifier");
-		$a_xml_writer->appendXML($nested->export($this->getId(),
-			$this->getType()));
-*/
-	}
-
-	function modifyExportIdentifier($a_tag, $a_param, $a_value)
-	{
-		if ($a_tag == "Identifier" && $a_param == "Entry")
-		{
-			$a_value = ilUtil::insertInstIntoID($a_value);
-		}
-
-		return $a_value;
+		include_once("Services/MetaData/classes/class.ilMD2XML.php");
+		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+		$md2xml->setExportMode(true);
+		$md2xml->startExport();
+		$a_xml_writer->appendXML($md2xml->getXML());
 	}
 
 	/**
