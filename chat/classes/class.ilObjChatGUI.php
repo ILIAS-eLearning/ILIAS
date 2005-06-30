@@ -74,7 +74,18 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function saveObject()
 	{
+		global $ilUser,$rbacadmin;
+
 		$new_obj =& parent::saveObject();
+		
+		// Add new moderator role
+		$roles = $new_obj->initDefaultRoles();
+
+		// Assign current user.
+		$rbacadmin->assignUser($roles[0],$ilUser->getId());
+		
+		// Update active roles
+		ilObjUser::updateActiveRoles($ilUser->getId());
 
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$new_obj->getRefId()));
 	}
