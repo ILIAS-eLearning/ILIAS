@@ -73,6 +73,32 @@ class ilObjChat extends ilObject
 		$this->chat_room =& new ilChatRoom($this->getRefId());
 	}
 
+	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles()
+	{
+		global $rbacadmin;
+		
+		// create a local role folder
+		$rolf_obj =& $this->createRoleFolder();
+
+		// create moderator role and assign role to rolefolder...
+		$role_obj = $rolf_obj->createRole("il_chat_moderator_".$this->getRefId(),"Moderator of chat obj_no.".$this->getId());
+
+		// grant permissions: visible,read,write,chat_moderate
+		$permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
+		$rbacadmin->grantPermission($role_obj->getId(),
+									$permissions,
+									$this->getRefId());
+
+		unset($rolf_obj);
+
+		return array($role_obj->getId());
+	}
+
 	function ilClone($a_parent_ref)
 	{
 		$tmp_obj =& ilObjectFactory::getInstanceByRefId(parent::ilClone($a_parent_ref));

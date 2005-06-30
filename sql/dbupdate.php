@@ -919,7 +919,7 @@ CREATE TABLE dp_changed_dates (
   status int(15) NOT NULL default '0',
   timestamp int(10) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für Anzeige von Geänderten Termindaten';
+) TYPE=MyISAM COMMENT='Tabelle f�r Anzeige von Geänderten Termindaten';
 # --------------------------------------------------------
 
 <#72>
@@ -7700,4 +7700,27 @@ foreach($tables as $table)
 {
 	$ilDB->query("UPDATE ".$table." SET rbac_id = 0 WHERE obj_type = 'mob'");
 }
+?>
+<#479>
+<?php
+
+$query = "INSERT INTO rbac_operations SET operation = 'moderate', description = 'Moderate objects'";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as ops_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$ops_id = $row->ops_id;
+
+  // Add permission tu use search
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'chat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$obj_id = $row->obj_id;
+
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
+$this->db->query($query);
 ?>
