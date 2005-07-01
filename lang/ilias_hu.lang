@@ -884,6 +884,7 @@ common#:#chat#:#Chat
 common#:#chat_add#:#Chat hozzáadása
 common#:#chat_delete#:#Chat törlése
 common#:#chat_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Új chat
 common#:#chat_read#:#Olvasási/írási jog a chathez
 common#:#chat_visible#:#Chat látható
@@ -1442,6 +1443,7 @@ common#:#identifier#:#azonosító
 common#:#if_no_title_then_filename#:#Hagyja el a beviteli helyet, hogy megjelenjen a fájl neve
 common#:#if_no_title_then_url#:#Bevitel elhagyása URL megjelenítéséhez
 common#:#ignore_on_conflict#:#Ellentmondás figyelmen kívül hagyása
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS-verzió
 common#:#ilinc_classrooms#:#iLinc osztálytermek
 common#:#ilinc_courses#:#iLinc kurzusok
@@ -4694,7 +4696,6 @@ survey#:#qt_metric#:#Metrikus kérdés
 survey#:#qt_nominal#:#Névleges kérdés
 survey#:#qt_ordinal#:#Sorrendbe rakó kérdés
 survey#:#qt_text#:#Szöveges kérdés
-###25 Jun 2005 content changed
 survey#:#question_has_constraints#:#Megszorítások
 survey#:#question_obligatory#:#A kérdés kötelező!
 survey#:#question_saved_for_upload#:#A kérdés automatikusan elmentésre került, hogy lefoglalja a merevlemezen a feltöltött fájl számára szükséges helyet. Ha most kikapcsolja ezt az űrlapot, készüljön fel, hogy törölnie kell a kérdést a kérdésgyűjteményből,  ha nem akarja megtartani!

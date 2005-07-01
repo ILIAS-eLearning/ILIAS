@@ -935,6 +935,7 @@ common#:#chat#:#Chat###07 Apr 2005 content changed
 common#:#chat_add#:#Ajouter chat###07 Apr 2005 content changed
 common#:#chat_delete#:#Détruire chat###07 Apr 2005 content changed
 common#:#chat_edit_permission#:#Modifier les paramètres de permission###07 Apr 2005 content changed
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Nouveau chat###07 Apr 2005 content changed
 common#:#chat_read#:#Accès en lecture/écriture au chat###07 Apr 2005 content changed
 common#:#chat_visible#:#Le chat est visible###07 Apr 2005 content changed
@@ -1511,6 +1512,7 @@ common#:#identifier#:#identifiant###07 Apr 2005 content changed
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier###07 Apr 2005 content changed
 common#:#if_no_title_then_url#:#Laisser vide pour afficher l'URL###07 Apr 2005 content changed
 common#:#ignore_on_conflict#:#Ignorer les conflits XXX###07 Apr 2005 content changed
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

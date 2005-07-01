@@ -966,6 +966,7 @@ common#:#chat#:#聊天室###07 Apr 2005 content changed
 common#:#chat_add#:#添加聊天室###07 Apr 2005 content changed
 common#:#chat_delete#:#删除聊天室###07 Apr 2005 content changed
 common#:#chat_edit_permission#:#更改权限设置###07 Apr 2005 content changed
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#新聊天室###07 Apr 2005 content changed
 common#:#chat_read#:#聊天室可“读/写”权限###07 Apr 2005 content changed
 common#:#chat_visible#:#聊天室可显示###07 Apr 2005 content changed
@@ -1547,6 +1548,7 @@ common#:#identifier#:# 标识符###07 Apr 2005 content changed
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

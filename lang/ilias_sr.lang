@@ -903,6 +903,7 @@ common#:#chat#:#Caskanje
 common#:#chat_add#:#Dodajte caskanje
 common#:#chat_delete#:#Obrišite caskanje
 common#:#chat_edit_permission#:#Promenite okvir za dozvolu
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Novo caskanje
 common#:#chat_read#:#Procitaj/napiši pristup caskanju
 common#:#chat_visible#:#Caskanje je vidljivo
@@ -1462,6 +1463,7 @@ common#:#identifier#:#pokazatelj
 common#:#if_no_title_then_filename#:#Ostavite prazno kako bi naziv fajla bio prikazan
 common#:#if_no_title_then_url#:#Ostavite prazno kako bi URL bio prikazan
 common#:#ignore_on_conflict#:#Ignoriši konflikt
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

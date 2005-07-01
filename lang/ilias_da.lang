@@ -905,6 +905,7 @@ common#:#chat#:#Chat###21 Apr 2005 new variable
 common#:#chat_add#:#Tilf&oslash;j Chat
 common#:#chat_delete#:#Slet chat
 common#:#chat_edit_permission#:#Rediger rettigheds indstillinger
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Ny Chat
 common#:#chat_read#:#L&aelig;se/Skrive adgang til chat
 common#:#chat_visible#:#Chat er synlig
@@ -1478,6 +1479,7 @@ common#:#identifier#:#identifier###21 Apr 2005 new variable
 common#:#if_no_title_then_filename#:#Lad den forblive blank for at f&aring; vist filnavnet
 common#:#if_no_title_then_url#:#Leave blank to display the URL###21 Apr 2005 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

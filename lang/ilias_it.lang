@@ -946,6 +946,7 @@ common#:#chat#:#Chat
 common#:#chat_add#:#Aggiungere una chat
 common#:#chat_delete#:#Eliminare una chat
 common#:#chat_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Nuova chat
 common#:#chat_read#:#Accedere in lettura/scrittura ad una chat
 common#:#chat_visible#:#Vedere una chat
@@ -1527,6 +1528,7 @@ common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#if_no_title_then_url#:#Lascia vuoto se vuoi far vedere l'URL
 common#:#ignore_on_conflict#:#Ignora i conflitti
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Amministratore
 common#:#il_crs_member#:#Membro
 common#:#il_crs_tutor#:#Tutor
