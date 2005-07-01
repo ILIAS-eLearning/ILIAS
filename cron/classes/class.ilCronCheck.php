@@ -71,7 +71,14 @@ class ilCronCheck
 			$check_lnk =& new ilCronWebResourceCheck();
 			$check_lnk->check();
 		}
-			
+		// Start lucene indexer
+		if(1)
+		{
+			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
+
+			$lucene_ind =& new ilLuceneIndexer();
+			$lucene_ind->index();
+		}
 
 
 	}

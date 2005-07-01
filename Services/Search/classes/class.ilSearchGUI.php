@@ -173,7 +173,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		foreach($_POST['result'] as $ref_id)
 		{
-
 			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 			$target = addslashes(serialize(array('type' => ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
 												 'id'	=> $ref_id)));
@@ -248,7 +247,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1));
 		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
-		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1,true));
+		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1));
 
 
 
@@ -456,6 +455,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 					$result_meta =& $this->__searchMeta($query_parser,'description');
 					$result->mergeEntries($result_meta);
+
+					if($this->settings->enabledLucene())
+					{
+						$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
+						$result->mergeEntries($htlm_search->performSearch());
+					}
 					
 					break;
 
@@ -489,6 +494,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$mep_search =& ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
 					$result->mergeEntries($mep_search->performSearch());
 					break;
+
+				case 'fil':
+					if($this->settings->enabledLucene())
+					{
+						$file_search =& ilObjectSearchFactory::_getFileSearchInstance($query_parser);
+						$result->mergeEntries($file_search->performSearch());
+					}
 			}
 		}
 		return $result;

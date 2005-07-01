@@ -80,6 +80,14 @@ class ilSearchSettings
 	{
 		$this->index = $a_status;
 	}
+	function enabledLucene()
+	{
+		return $this->lucene ? true : false;
+	}
+	function enableLucene($a_status)
+	{
+		$this->lucene = $a_status ? true : false;
+	}
 
 	function getMaxHits()
 	{
@@ -96,6 +104,7 @@ class ilSearchSettings
 		// setSetting writes to db
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
 		$this->ilias->setSetting('search_index',$this->enabledIndex());
+		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
 
 		return true;
 	}
@@ -105,6 +114,7 @@ class ilSearchSettings
 	{
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
+		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
 	}
 }
 ?>
