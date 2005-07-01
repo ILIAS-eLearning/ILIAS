@@ -107,6 +107,19 @@ class ilQueryParser
 		}
 	}
 
+	function getLuceneQueryString()
+	{
+		$counter = 0;
+		$tmp_str = "";
+		foreach($this->getQuotedWords(true) as $word) {
+			if($counter++)
+			{
+				$tmp_str .= (" ".strtoupper($this->getCombination())." ");
+			}
+			$tmp_str .= $word;
+		}
+		return $tmp_str;
+	}
 	function parse()
 	{
 		$this->words = array();

@@ -68,7 +68,6 @@ class ilRPCServerAdapter
 	function &send()
 	{
 		include_once 'XML/RPC.php';
-		
 		if(!$response =& $this->rpc_client->send($this->rpc_message))
 		{
 			$this->log->write("ilRPCServerAdapter: Communication error");

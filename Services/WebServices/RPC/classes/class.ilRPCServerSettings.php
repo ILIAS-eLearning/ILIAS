@@ -32,6 +32,7 @@
 */
 
 define("RPC_SERVER_PATH","/RPC2");
+define("RPC_SERVER_ALIVE",true);
 
 class ilRPCServerSettings
 {
@@ -58,7 +59,6 @@ class ilRPCServerSettings
 
 	function getHost()
 	{
-		return "127.0.0.1";
 		if(strlen($this->rpc_host))
 		{
 			return $this->rpc_host;
@@ -71,7 +71,6 @@ class ilRPCServerSettings
 	}
 	function getPort()
 	{
-		return 11111;
 		if(strlen($this->rpc_port))
 		{
 			return $this->rpc_port;
@@ -93,6 +92,21 @@ class ilRPCServerSettings
 		$this->ilias->setSetting('rpc_server_port',$this->getPort());
 		
 		return true;
+	}
+
+	function pingServer()
+	{
+		include_once 'Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
+
+		$rpc_adapter =& new ilLuceneRPCAdapter();
+		$rpc_adapter->setMode('ping');
+		$res = $rpc_adapter->send();
+
+		if($res == RPC_SERVER_ALIVE)
+		{
+			return true;
+		}
+		return false;
 	}
 }
 ?>

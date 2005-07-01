@@ -9,7 +9,7 @@ $cron_auth =& new ilCronAuthentication();
 
 if($_SERVER['argc'] != 4)
 {
-	die("Usage: cron_auth.php username password client\n");
+	die("Usage: cron.php username password client\n");
 }
 $cron_auth->setUsername($_SERVER['argv'][1]);
 $cron_auth->setPassword($_SERVER['argv'][2]);

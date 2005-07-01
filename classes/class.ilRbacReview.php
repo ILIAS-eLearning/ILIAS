@@ -866,5 +866,35 @@ class ilRbacReview
 		return $row->obj_id;
 	}
 
+	/**
+	* get ops_id's by name.
+	*
+	* Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName('visible','read'),$ref_id);
+	*
+	* @access	public
+	* @param	array	string name of operation. see rbac_operations
+	* @return	array   integer ops_id's
+	*/
+	function _getOperationIdsByName($operations)
+	{
+		global $ilDB;
+
+		if(!count($operations))
+		{
+			return array();
+		}
+		$where = "WHERE operation IN ('";
+		$where .= implode("','",$operations);
+		$where .= "')";
+
+		$query = "SELECT ops_id FROM rbac_operations ".$where;
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops_ids[] = $row->ops_id;
+		}
+		return $ops_ids ? $ops_ids : array();
+	}
+
 } // END class.ilRbacReview
 ?>

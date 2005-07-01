@@ -189,5 +189,29 @@ class ilObjectSearchFactory
 		
 		return new ilFulltextAdvancedSearch($query_parser);
 	}
+	/*
+	 * get reference of ilLuceneFileSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextAdvancedSearch
+	 */
+	function &_getFileSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/Lucene/class.ilLuceneFileSearch.php';
+		
+		return new ilLuceneFileSearch($query_parser);
+	}
+	/*
+	 * get reference of ilLuceneHTLMSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextAdvancedSearch
+	 */
+	function &_getHTLMSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/Lucene/class.ilLuceneHTLMSearch.php';
+		
+		return new ilLuceneHTLMSearch($query_parser);
+	}
 }
 ?>

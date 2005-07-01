@@ -83,6 +83,10 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 		$this->__initClient();
 		switch($this->getMode())
 		{
+			case 'ping':
+				$this->__preparePingParams();
+				break;
+
 			case 'file':
 				$this->__prepareIndexFileParams();
 				break;
@@ -111,6 +115,13 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	{
 		$this->__initMessage('Searcher.ilSearch',array(new XML_RPC_Value(CLIENT_ID,"string"),
 													   new XML_RPC_Value($this->getQueryString(),"string")));
+
+		return true;
+	}
+
+	function __preparePingParams()
+	{
+		$this->__initMessage('Searcher.ilPing',array(new XML_RPC_Value(CLIENT_ID,"string")));
 
 		return true;
 	}

@@ -32,9 +32,12 @@
 * @package ilias-search
 *
 */
+include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 class ilSearchBaseGUI
 {
+	var $settings = null;
+
 	var $ctrl = null;
 	var $ilias = null;
 	var $lng = null;
@@ -53,6 +56,8 @@ class ilSearchBaseGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('search');
+
+		$this->settings =& new ilSearchSettings();
 	}
 
 	function prepareOutput()
