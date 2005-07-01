@@ -69,11 +69,16 @@ class ilLuceneIndexer
 			++$counter;
 			$bname = ilUtil::getDataDir();
 			$bname .= ("/files/file_".$row->file_id);
-			if($row->version)
+			$vname = (sprintf("%03d", $row->version));
+
+			if(is_file($bname.'/'.$vname.'/'.$row->file_name))
 			{
-				$bname .= ("/".sprintf("%03d", $row->version));
+				$files[$row->file_id] = $bname.'/'.$vname.'/'.$row->file_name;
 			}
-			$files[$row->file_id] = $bname."/".$row->file_name;
+			else
+			{
+				$files[$row->file_id] = $bname.'/'.$row->file_name;
+			}
 		}
 		$this->log->write('Lucene indexer: Found '.$counter.' files for indexing');
 
