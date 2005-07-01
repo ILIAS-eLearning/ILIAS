@@ -903,6 +903,7 @@ common#:#chat#:#Chat
 common#:#chat_add#:#Shto Chat
 common#:#chat_delete#:#Fshij Chat
 common#:#chat_edit_permission#:#Ndërro konfigurimet e të drejtave
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Chat i Ri
 common#:#chat_read#:#Qasje në Lexim/Shkrim në chat
 common#:#chat_visible#:#Chat është i dukshëm
@@ -1462,6 +1463,7 @@ common#:#identifier#:#identifikues
 common#:#if_no_title_then_filename#:#Leni të zbrazët që të paraqitet emri i skedarit
 common#:#if_no_title_then_url#:#Leni të zbrazët që të paraqitet URL
 common#:#ignore_on_conflict#:#Injoro gjatë konfliktit
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

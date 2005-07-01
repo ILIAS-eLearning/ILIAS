@@ -948,6 +948,7 @@ common#:#chat#:#Chat###16 Mar 2004 new variable
 common#:#chat_add#:#Add Chat###16 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###16 Mar 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###16 Mar 2004 new variable
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#New Chat###16 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###16 Mar 2004 new variable
 common#:#chat_visible#:#Chat is visible###16 Mar 2004 new variable
@@ -1529,6 +1530,7 @@ common#:#identifier#:#identifikátor###07 Apr 2005 content changed
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

@@ -946,6 +946,7 @@ common#:#chat#:#Чат
 common#:#chat_add#:#Додати Чат
 common#:#chat_delete#:#Видалити чат
 common#:#chat_edit_permission#:#Змінити настройки прав
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Новий Чат
 common#:#chat_read#:#Доступ на Читання/Запис до чату
 common#:#chat_visible#:#Чат є видимим
@@ -1525,6 +1526,7 @@ common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
 common#:#if_no_title_then_url#:#Залиште порожнім для відображення URL
 common#:#ignore_on_conflict#:#Ігнорувати при конфлікті
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable

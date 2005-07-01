@@ -948,6 +948,7 @@ common#:#chat#:#Chat
 common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
+common#:#chat_moderate#:#Moderate chat
 common#:#chat_new#:#New Chat
 common#:#chat_read#:#Read/Write access to chat
 common#:#chat_visible#:#Chat is visible
@@ -1529,6 +1530,7 @@ common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
 common#:#if_no_title_then_url#:#Leave blank to display the URL
 common#:#ignore_on_conflict#:#Ignore on conflict
+common#:#il_chat_moderator#:#Chat moderator
 common#:#il_crs_admin#:#Administrator
 common#:#il_crs_member#:#Member
 common#:#il_crs_tutor#:#Tutor
@@ -5084,5 +5086,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-common#:#chat_moderate#:#Moderate chat
-common#:#il_chat_moderator#:#Chat moderator

@@ -948,6 +948,7 @@ common#:#chat#:#Chat###05 Nov 2004 new variable
 common#:#chat_add#:#Voeg chat toe###07 Apr 2005 content changed
 common#:#chat_delete#:#Verwijder Chat###07 Apr 2005 content changed
 common#:#chat_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
+common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
 common#:#chat_new#:#Nieuwe Chat###07 Apr 2005 content changed
 common#:#chat_read#:#Lees/schrijf-rechten op Chat###07 Apr 2005 content changed
 common#:#chat_visible#:#Chat is zichtbaar###07 Apr 2005 content changed
@@ -1529,6 +1530,7 @@ common#:#identifier#:#identifier###05 Nov 2004 new variable
 common#:#if_no_title_then_filename#:#Laat leeg om de bestands-naam te tonen###07 Apr 2005 content changed
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_crs_member#:#Member###20 Jun 2005 new variable
 common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
