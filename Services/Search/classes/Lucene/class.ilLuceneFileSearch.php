@@ -56,6 +56,7 @@ class ilLuceneFileSearch
 
 		$rpc_adapter =& new ilLuceneRPCAdapter();
 		$rpc_adapter->setMode('query');
+		$rpc_adapter->setSearchFilter(array('file'));
 		$rpc_adapter->setQueryString($this->query_parser->getLuceneQueryString());
 
 		if(($res = $rpc_adapter->send()) === false)

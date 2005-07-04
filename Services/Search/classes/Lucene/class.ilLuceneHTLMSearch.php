@@ -56,6 +56,7 @@ class ilLuceneHTLMSearch
 
 		$rpc_adapter =& new ilLuceneRPCAdapter();
 		$rpc_adapter->setMode('query');
+		$rpc_adapter->setSearchFilter(array('htlm'));
 		$rpc_adapter->setQueryString($this->query_parser->getLuceneQueryString());
 
 		if(($res = $rpc_adapter->send()) === false)

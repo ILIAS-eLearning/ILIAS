@@ -105,6 +105,7 @@ class ilRPCServerAdapter
 		$this->rpc_client =& new XML_RPC_Client($this->settings_obj->getPath(),
 												$this->settings_obj->getHost(),
 												$this->settings_obj->getPort());
+		#$this->rpc_client->setDebug(1);
 
 		return true;
 	}
