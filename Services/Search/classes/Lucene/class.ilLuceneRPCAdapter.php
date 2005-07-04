@@ -37,6 +37,8 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	var $mode = '';
 	var $files = array();
 	var $query_str = '';
+	var $filter = '';
+
 
 	function ilLuceneRPCAdapter()
 	{
@@ -76,6 +78,29 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	{
 		return $this->query_str;
 	}
+	
+	function setSearchFilter($a_filter)
+	{
+		$this->filter = $a_filter;
+	}
+	function getSearchFilter()
+	{
+		return $this->filter ? $this->filter : array();
+	}
+
+	/**
+	 * Create a unique client id. Since the lucene index can be used from multiple ILIAS-Installations it must be unique over installations
+	 *
+	 * @return string client_identifier
+	 */
+	function __getClientId()
+	{
+		global $ilias;
+
+		// TODO: handle problem if nic_key isn't set
+		return $ilias->getSetting('nic_key').'_'.CLIENT_ID;
+	}
+
 
 
 	function send()
@@ -113,15 +138,21 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	// PRIVATE
 	function __prepareQueryParams()
 	{
-		$this->__initMessage('Searcher.ilSearch',array(new XML_RPC_Value(CLIENT_ID,"string"),
-													   new XML_RPC_Value($this->getQueryString(),"string")));
+		$filter = array();
+		foreach($this->getSearchFilter() as $obj_type)
+		{
+			$filter[] = new XML_RPC_Value($obj_type,'string');
+		}
+		$this->__initMessage('Searcher.ilSearch',array(new XML_RPC_Value($this->__getClientId(),"string"),
+													   new XML_RPC_Value($this->getQueryString(),"string"),
+													   new XML_RPC_Value($filter,'array')));
 
 		return true;
 	}
 
 	function __preparePingParams()
 	{
-		$this->__initMessage('Searcher.ilPing',array(new XML_RPC_Value(CLIENT_ID,"string")));
+		$this->__initMessage('Searcher.ilPing',array(new XML_RPC_Value($this->__getClientId(),"string")));
 
 		return true;
 	}
@@ -132,7 +163,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 		{
 			$struct[$obj_id] = new XML_RPC_Value($fname,"string");
 		}
-		$params = array(new XML_RPC_Value(CLIENT_ID,"string"),
+		$params = array(new XML_RPC_Value($this->__getClientId(),"string"),
 						new XML_RPC_Value($struct,"struct"));
 
 		$this->__initMessage('Indexer.ilFileIndexer',$params);
@@ -147,7 +178,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			$struct[$obj_id] = new XML_RPC_Value($fname,"string");
 		}
 
-		$this->__initMessage('Indexer.ilHTLMIndexer',array(new XML_RPC_Value(CLIENT_ID,"string"),
+		$this->__initMessage('Indexer.ilHTLMIndexer',array(new XML_RPC_Value($this->__getClientId(),"string"),
 														   new XML_RPC_Value($struct,"struct")));
 
 		return true;
@@ -155,7 +186,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	function __prepareFlushIndex()
 	{
 
-		$this->__initMessage('Indexer.ilClearIndex',array(new XML_RPC_Value(CLIENT_ID,"string")));
+		$this->__initMessage('Indexer.ilClearIndex',array(new XML_RPC_Value($this->__getClientId(),"string")));
 
 		return true;
 	}
