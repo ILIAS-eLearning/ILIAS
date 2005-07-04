@@ -70,6 +70,10 @@ class ilMDSaxParser extends ilSaxParser
 	{
 		$this->md =& $md;
 	}
+	function &getMDObject()
+	{
+		return is_object($this->md) ? $this->md : false;
+	}
 
 	function inMetaData()
 	{
@@ -633,7 +637,7 @@ class ilMDSaxParser extends ilSaxParser
 	{
 		$class = array_pop($this->md_parent);
 		unset($class);
-		#echo '<br />Popped '.get_class($class);
+		#echo '<br />DELETE '.get_class($class);
 	}
 	function &__getParent()
 	{

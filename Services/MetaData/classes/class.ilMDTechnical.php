@@ -65,7 +65,7 @@ class ilMDTechnical extends ilMDBase
 
 		$for =& new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$for->setParentId($this->getMetaId());
-		$for->setParentType('meta_format');
+		$for->setParentType('meta_technical');
 
 		return $for;
 	}
