@@ -341,6 +341,37 @@ class ilMD extends ilMDBase
 		$writer->xmlEndTag('MetaData');
 	}
 
+	/*
+	 * Clone all meta data of an object
+	 * @param int rbac_id obj_id of rbac object
+	 * @param int obj_id obj_id of meta object
+	 * @param string type of meta object
+	 * @return object new cloned md object
+	 * 
+	 */
+	function &cloneMD($a_rbac_id,$a_obj_id,$a_obj_type)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
+
+		// this method makes an xml export of the original meta data set
+		// and uses this xml string to clone the object
+		$md2xml = new ilMD2XML($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$md2xml->startExport();
+		
+		// Create copier instance. For pg objects one could instantiate a ilMDXMLPageCopier class
+		switch($a_obj_type)
+		{
+			default:
+				include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+				
+				$mdxmlcopier =& new ilMDXMLCopier($md2xml->getXML(),$a_rbac_id,$a_obj_id,$a_obj_type);
+				break;
+		}
+		$mdxmlcopier->startParsing();
+
+		return $mdxmlcopier->getMDObject();
+	}		
+
 	function deleteAll()
 	{
 		$tables = array('il_meta_annotation',

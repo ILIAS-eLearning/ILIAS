@@ -501,6 +501,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 						$file_search =& ilObjectSearchFactory::_getFileSearchInstance($query_parser);
 						$result->mergeEntries($file_search->performSearch());
 					}
+					break;
 			}
 		}
 		return $result;
@@ -619,6 +620,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'mep':
 					$filter[] = 'mep';
+					break;
+
+				case 'fil':
+					$filter[] = 'file';
 					break;
 			}
 		}
