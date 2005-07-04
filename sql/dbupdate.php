@@ -7772,4 +7772,10 @@ foreach($rol_ids as $role_id)
 	}
 }
 ?>
+<#481>
+<?php
+$query = "UPDATE il_meta_format SET parent_type = 'meta_technical'";
+$this->db->query($query);
+?>
+
 
