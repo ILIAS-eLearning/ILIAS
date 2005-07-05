@@ -767,6 +767,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// gender selection
 			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
+			
 
 			if (!empty($gender))
 			{
@@ -849,6 +850,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
+		
+		$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").": ".$_SERVER["REMOTE_ADDR"]);
 
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
