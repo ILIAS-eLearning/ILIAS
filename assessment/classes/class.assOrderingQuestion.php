@@ -166,6 +166,55 @@ class ASS_OrderingQuestion extends ASS_Question
 							$this->setComment($comment);
 						}
 						break;
+					case "itemmetadata":
+						$md_array = array();
+						$metanodes = $node->child_nodes();
+						foreach ($metanodes as $metanode)
+						{
+							switch ($metanode->node_name())
+							{
+								case "qtimetadata":
+									$metafields = $metanode->child_nodes();
+									foreach ($metafields as $metafield)
+									{
+										switch ($metafield->node_name())
+										{
+											case "qtimetadatafield":
+												$metafieldlist = $metafield->child_nodes();
+												$md = array("label" => "", "entry" => "");
+												foreach ($metafieldlist as $attr)
+												{
+													switch ($attr->node_name())
+													{
+														case "fieldlabel":
+															$md["label"] = $attr->get_content();
+															break;
+														case "fieldentry":
+															$md["entry"] = $attr->get_content();
+															break;
+													}
+												}
+												array_push($md_array, $md);
+												break;
+										}
+									}
+									break;
+							}
+						}
+						foreach ($md_array as $md)
+						{
+							switch ($md["label"])
+							{
+								case "ILIAS_VERSION":
+									break;
+								case "QUESTIONTYPE":
+									break;
+								case "AUTHOR":
+									$this->setAuthor($md["entry"]);
+									break;
+							}
+						}
+						break;
 					case "duration":
 						$iso8601period = $node->get_content();
 						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))

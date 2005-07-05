@@ -1313,9 +1313,18 @@ class ilObjQuestionPool extends ilObject
 						}
 					}
 					$question = "";
+					$qt = "";
+					if (preg_match("/<fieldlabel>QUESTIONTYPE<\/fieldlabel>\s*<fieldentry>(.*?)<\/fieldentry>/is", $item, $questiontype))
+					{
+						$qt = $questiontype[1];
+					}
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						switch ($questiontype[1])
+						$qt = $questiontype[1];
+					}
+					if (strlen($qt))
+					{
+						switch ($qt)
 						{
 							case CLOZE_TEST_IDENTIFIER:
 								$question = new ASS_ClozeTest();
