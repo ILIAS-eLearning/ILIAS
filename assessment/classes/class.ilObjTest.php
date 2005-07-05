@@ -4152,14 +4152,7 @@ class ilObjTest extends ilObject
 		$qtiCommentText = $domxml->create_text_node($this->getDescription());
 		$qtiComment->append_child($qtiCommentText);
 		$qtiAssessment->append_child($qtiComment);
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$qtiComment->append_child($qtiCommentText);
-		$qtiAssessment->append_child($qtiComment);
-		$qtiComment = $domxml->create_element("qticomment");
-		$qtiCommentText = $domxml->create_text_node("Author=".$this->getAuthor());
-		$qtiComment->append_child($qtiCommentText);
-		$qtiAssessment->append_child($qtiComment);
+
 		// add qti duration
 		if ($this->enable_processing_time)
 		{
@@ -4169,22 +4162,20 @@ class ilObjTest extends ilObject
 			$qtiDuration->append_child($qtiDurationText);
 			$qtiAssessment->append_child($qtiDuration);
 		}
-		// add qti assessmentcontrol
-		$qtiAssessmentcontrol = $domxml->create_element("assessmentcontrol");
-		$qtiAssessmentcontrol->set_attribute("solutionswitch", sprintf("%d", $this->getScoreReporting()));
-		$qtiAssessment->append_child($qtiAssessmentcontrol);
-		// add qti objectives
-		$qtiObjectives = $domxml->create_element("objectives");
-		$qtiMaterial = $domxml->create_element("material");
-		$qtiMaterial->set_attribute("label", "introduction");
-		$qtiMatText = $domxml->create_element("mattext");
-		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
-		$qtiMatText->append_child($qtiMatTextText);
-		$qtiMaterial->append_child($qtiMatText);
-		$qtiObjectives->append_child($qtiMaterial);
-		$qtiAssessment->append_child($qtiObjectives);
+
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
 		$qtiMetadata = $domxml->create_element("qtimetadata");
+		// ILIAS version
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("ILIAS_VERSION");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->ilias->getSetting("ilias_version"));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// test type
 		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
 		$qtiFieldLabel = $domxml->create_element("fieldlabel");
@@ -4311,6 +4302,34 @@ class ilObjTest extends ilObject
 			$qtiMetadata->append_child($qtiMetadatafield);
 		}
 		$qtiAssessment->append_child($qtiMetadata);
+		
+		// add qti objectives
+		$qtiObjectives = $domxml->create_element("objectives");
+		$qtiMaterial = $domxml->create_element("material");
+		$qtiMaterial->set_attribute("label", "introduction");
+		$qtiMatText = $domxml->create_element("mattext");
+		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiObjectives->append_child($qtiMaterial);
+		$qtiAssessment->append_child($qtiObjectives);
+
+		// add qti assessmentcontrol
+		$qtiAssessmentcontrol = $domxml->create_element("assessmentcontrol");
+		$score_reporting = "No";
+		switch ($this->getScoreReporting())
+		{
+			case "1":
+				$score_reporting = "Yes";
+				break;
+		}
+		$qtiAssessmentcontrol->set_attribute("solutionswitch", $score_reporting);
+		$qtiAssessment->append_child($qtiAssessmentcontrol);
+		
+		$qtiSection = $domxml->create_element("section");
+		$qtiSection->set_attribute("ident", "1");
+		$qtiAssessment->append_child($qtiSection);
+		
 		$root->append_child($qtiAssessment);
 		$xml = $domxml->dump_mem(true);
 		$domxml->free();
@@ -4319,7 +4338,14 @@ class ilObjTest extends ilObject
 			$qti_question = $question->to_xml(false);
 			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
 			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
-			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
+			if (strpos($xml, "</section>") !== false)
+			{
+				$xml = str_replace("</section>", "$qti_question</section>", $xml);
+			}
+			else
+			{
+				$xml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qti_question</section>", $xml);
+			}
 		}
 		return $xml;
 	}
@@ -4551,7 +4577,18 @@ class ilObjTest extends ilObject
 						}
 						break;
 					case "assessmentcontrol":
-						$this->setScoreReporting($node->get_attribute("solutionswitch"));
+						$score_reporting = $node->get_attribute("solutionswitch");
+						switch (strtolower($score_reporting))
+						{
+							case "1":
+							case "yes":
+								$score_reporting = 1;
+								break;
+							default:
+								$score_reporting = 0;
+								break;
+						}
+						$this->setScoreReporting();
 						break;
 					case "objectives":
 						$material = $node->first_child();
@@ -4734,9 +4771,18 @@ class ilObjTest extends ilObject
 					}
 					
 					$question = "";
+					$qt = "";
+					if (preg_match("/<fieldlabel>QUESTIONTYPE<\/fieldlabel>\s*<fieldentry>(.*?)<\/fieldentry>/is", $item, $questiontype))
+					{
+						$qt = $questiontype[1];
+					}
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						switch ($questiontype[1])
+						$qt = $questiontype[1];
+					}
+					if (strlen($qt))
+					{
+						switch ($qt)
 						{
 							case CLOZE_TEST_IDENTIFIER:
 								$question = new ASS_ClozeTest();
