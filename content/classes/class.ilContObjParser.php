@@ -808,9 +808,18 @@ class ilContObjParser extends ilMDSaxParser
 			{
 				if ($a_name == "Identifier")
 				{
-					$a_attribs["Entry"] = "il__".$this->current_object->getType().
-						"_".$this->current_object->getId();
+					if (!$this->in_media_object)
+					{
+						$a_attribs["Entry"] = "il__".$this->current_object->getType().
+							"_".$this->current_object->getId();
+					}
+					else
+					{
+						$a_attribs["Entry"] = "il__mob".
+							"_".$this->media_object->getId();
+					}
 				}
+
 				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 			}
 		}
@@ -1347,7 +1356,7 @@ class ilContObjParser extends ilMDSaxParser
 		{
 			switch($cache_entry["type"])
 			{
-				case "handlerBeginTag":
+				case "handlerBeginTag":	
 					parent::handlerBeginTag($a_xml_parser, 
 						$cache_entry["par1"], $cache_entry["par2"]);
 					break;

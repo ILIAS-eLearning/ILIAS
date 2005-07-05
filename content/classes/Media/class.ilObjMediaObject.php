@@ -97,18 +97,11 @@ class ilObjMediaObject extends ilObject
 	function setTitle($a_title)
 	{
 		parent::setTitle($a_title);
-//		$this->meta_data->setTitle($a_title);
 	}
 
 	function getTitle()
 	{
 		return parent::getTitle();
-/*
-		if (is_object($this->meta_data))
-		{
-			return $this->meta_data->getTitle();
-		}
-*/
 	}
 
 	/**
@@ -147,11 +140,6 @@ class ilObjMediaObject extends ilObject
 			ilUtil::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
 
 			// delete meta data of mob
-/*
-			$nested = new ilNestedSetXML();
-			$nested->init($this->getId(), $this->getType());
-			$nested->deleteAllDBData();
-*/
 			$this->deleteMetaData();
 
 			// delete media items
@@ -170,7 +158,6 @@ class ilObjMediaObject extends ilObject
 	function getDescription()
 	{
 		return parent::getDescription();
-//		return $this->meta_data->getDescription();
 	}
 
 	/**
@@ -179,7 +166,6 @@ class ilObjMediaObject extends ilObject
 	function setDescription($a_description)
 	{
 		parent::setDescription($a_description);
-//		$this->meta_data->setDescription($a_description);
 	}
 
 	/**
@@ -443,13 +429,6 @@ class ilObjMediaObject extends ilObject
 			$this->createMetaData();
 		}
 
-		// create meta data
-/*
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->create();
-		$this->meta_data->getDom();
-*/
 		if ($a_save_media_items)
 		{
 			$media_items =& $this->getMediaItems();
@@ -681,12 +660,11 @@ class ilObjMediaObject extends ilObject
 				$xml = "<MediaObject>";
 
 				// meta data
-/*
-				$nested = new ilNestedSetXML();
-				$nested->setParameterModifier($this, "modifyExportIdentifier");
-				$xml.= $nested->export($this->getId(), $this->getType());
-*/
-echo "ObjMediaObject::getXML(): meta data export temporary not available";
+				include_once("Services/MetaData/classes/class.ilMD2XML.php");
+				$md2xml = new ilMD2XML(0, $this->getId(), $this->getType());
+				$md2xml->setExportMode(true);
+				$md2xml->startExport();
+				$xml.= $md2xml->getXML();
 
 				$media_items =& $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)

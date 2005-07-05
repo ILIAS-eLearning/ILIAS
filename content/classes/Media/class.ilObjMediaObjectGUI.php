@@ -91,7 +91,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui =& new ilMDEditorGUI(0, $this->object->getId(), $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
@@ -173,10 +173,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		// create dummy object in db (we need an id)
 		$this->object = new ilObjMediaObject();
-//		$dummy_meta =& new ilMetaData();
-//		$dummy_meta->setObject($this->object);
 
-//		$this->object->assignMetaData($dummy_meta);
 		$this->object->setTitle($title);
 		$this->object->setDescription("");
 		$this->object->create();
@@ -2191,95 +2188,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* edit meta data
-	*/
-/*
-	function editMetaObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* choose meta section
-	*/
-/*
-	function chooseMetaSectionObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->ctrl->getLinkTarget($this), $_REQUEST["meta_section"]);
-	}
-*/
-
-	/**
-	* delete a meta object
-	*/
-/*
-	function deleteMetaObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* save meta data
-	*/
-/*
-	function saveMetaObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "editMeta");
-
-	}
-*/
-
-	/**
-	* add meta object
-	*/
-/*
-	function addMetaObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->ctrl->getLinkTarget($this), $meta_section);
-	}
-*/
-
-	/**
 	* get media info as html
 	*/
 	function _getMediaInfoHTML(&$a_mob)
@@ -2405,21 +2313,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 			}
 
-			// meta data
-/*
-			$tabs_gui->addTarget("meta_data",
-				$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-				get_class($this));
-*/
-
-
 			$tabs_gui->addTarget("meta_data",
 				$this->ctrl->getLinkTargetByClass(
 					array("ilobjmediaobjectgui", "ilmdeditorgui"),''),
 				"meta_data", get_class($this));
 
-
-			//$tabs[] = array("meta_data", "editMeta");
 		}
 
 		// back to upper context
