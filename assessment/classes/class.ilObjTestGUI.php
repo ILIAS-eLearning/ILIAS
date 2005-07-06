@@ -1182,28 +1182,27 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function filterObject()
 	{
-		$filter_type = $_GET["sel_filter_type"];
+		$filter_type = $_POST["sel_filter_type"];
 		if (!$filter_type)
 		{
-			$filter_type = $_POST["sel_filter_type"];
+			$filter_type = $_GET["sel_filter_type"];
 		}
-		$filter_question_type = $_GET["sel_question_type"];
+		$filter_question_type = $_POST["sel_question_type"];
 		if (!$filter_question_type)
 		{
-			$filter_question_type = $_POST["sel_question_type"];
+			$filter_question_type = $_GET["sel_question_type"];
 		}
-		$filter_questionpool = $_GET["sel_questionpool"];
+		$filter_questionpool = $_POST["sel_questionpool"];
 		if (!$filter_questionpool)
 		{
-			$filter_questionpool = $_POST["sel_questionpool"];
+			$filter_questionpool = $_GET["sel_questionpool"];
 		}
-		$filter_text = $_GET["filter_text"];
+		$filter_text = $_POST["filter_text"];
 		if (!$filter_text)
 		{
-			$filter_text = $_POST["filter_text"];
+			$filter_text = $_GET["filter_text"];
 		}
-
-		$this->questionBrowser($filter_type, $filter_question_type, $filter_questionpool);
+		$this->questionBrowser($filter_type, $filter_question_type, $filter_questionpool, $filter_text);
 	}
 
 	/**
@@ -1283,7 +1282,6 @@ class ilObjTestGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
-
 		if (!$filter_type)
 		{
 			$filter_type = $_GET["sel_filter_type"];
