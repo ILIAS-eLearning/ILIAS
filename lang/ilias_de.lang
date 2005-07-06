@@ -321,7 +321,7 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
-assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
+assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
 assessment#:#qt_cloze#:#Lückentext-Frage###20 Jun 2005 content changed
