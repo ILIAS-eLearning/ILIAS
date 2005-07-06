@@ -38,7 +38,7 @@ require_once "DB.php";
 // wrapper for php 4.3.2 & higher
 @include_once "HTML/ITX.php";
 
-if (!class_exists(IntegratedTemplateExtension))
+if (!class_exists("IntegratedTemplateExtension"))
 {
 	include_once "HTML/Template/ITX.php";
 	include_once "../classes/class.ilTemplateHTMLITX.php";
@@ -91,7 +91,8 @@ define ("TPLPATH","./templates/blueshadow");
 // init session
 $sess = new Session();
 
-$lang = ($_GET["lang"]) ? $_GET["lang"] : $_SESSION["lang"];
+$lang = (isset($_GET["lang"])) ? $_GET["lang"] : $_SESSION["lang"];
+
 $_SESSION["lang"] = $lang;
 
 // init languages
