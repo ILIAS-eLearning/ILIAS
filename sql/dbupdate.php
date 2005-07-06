@@ -7777,5 +7777,10 @@ foreach($rol_ids as $role_id)
 $query = "UPDATE il_meta_format SET parent_type = 'meta_technical'";
 $this->db->query($query);
 ?>
-
-
+<#482>
+CREATE TABLE `crs_wating_list` (
+`obj_id` INT( 11 ) NOT NULL ,
+`usr_id` INT( 11 ) NOT NULL ,
+`sub_time` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `obj_id` , `usr_id` )
+) TYPE = MYISAM ;
