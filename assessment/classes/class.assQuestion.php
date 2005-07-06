@@ -957,49 +957,41 @@ class ASS_Question
 	* @return boolean The number of datasets which are affected by the use of the query.
 	* @access public
 	*/
-	function isInUse()
+	function isInUse($question_id = "")
 	{
+		if ($question_id < 1) $question_id = $this->id;
 		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE original_id = %s",
-			$this->ilias->db->quote("$this->id")
-			);
+			$this->ilias->db->quote($question_id . "")
+		);
 		$result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->question_count;
 	}
 
 	/**
-	* Removes all references to the question in executed tests in case the question has been changed
+	* Checks whether the question is a clone of another question or not
 	*
-	* Removes all references to the question in executed tests in case the question has been changed.
-	* If a question was changed it cannot be guaranteed that the content and the meaning of the question
-	* is the same as before. So we have to delete all already started or completed tests using that question.
-	* Therefore we have to delete all references to that question in tst_solutions and the tst_active
-	* entries which were created for the user and test in the tst_solutions entry.
+	* Checks whether the question is a clone of another question or not
 	*
+	* @return boolean TRUE if the question is a clone, otherwise FALSE
 	* @access public
 	*/
-	function removeAllQuestionReferences($question_id = "")
+	function isClone($question_id = "")
 	{
-	/*
-		if (!$question_id)
-		{
-			$question_id = $this->getId();
-		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$question_id"));
+		if ($question_id < 1) $question_id = $this->id;
+		$query = sprintf("SELECT original_id FROM qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($question_id . "")
+		);
 		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		if ($row->original_id > 0)
 		{
-			// Mark all tests containing this question as "not started"
-			$querychange = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$this->ilias->db->quote("$result->user_fi"),
-				$this->ilias->db->quote("$result->test_fi")
-				);
-			$changeresult = $this->ilias->db->query($querychange);
+			return TRUE;
 		}
-		// delete all resultsets for this question
-		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$question_id"));
-		$deleteresult = $this->ilias->db->query($querydelete);
-		*/
+		else
+		{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -1076,6 +1068,13 @@ class ASS_Question
 			return;
 		}
 
+		if ((!$this->isInUse($question_id)) && (!$this->isClone($question_id)))
+		{
+			// delete page object only when where is no other question using this object (this happens as long as page objects are not copied completely when a question is duplicated)
+			$page = new ilPageObject("qpl", $question_id);
+			$page->delete();
+		}
+		
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)
 			);
@@ -1084,12 +1083,6 @@ class ASS_Question
 			$this->ilias->db->quote($question_id)
 			);
 		$result = $this->ilias->db->query($query);
-
-		$this->removeAllQuestionReferences($question_id);
-
-		// delete page object
-		$page = new ilPageObject("qpl", $question_id);
-		$page->delete();
 
 		// delete the question in the tst_test_question table (list of test questions)
 		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
@@ -1207,7 +1200,6 @@ class ASS_Question
 
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
 				$page->getXMLContent());
-
 			$this->page->setXMLContent($xml);
 			$this->page->updateFromXML();
 		}
