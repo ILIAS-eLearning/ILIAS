@@ -915,21 +915,28 @@ class ilContObjParser extends ilMDSaxParser
 					if ($this->cur_qid != "")
 					{
 						$ids = $this->qst_mapping[$this->cur_qid];
-						
-						// question pool question
-						$page = new ilPageObject("qpl", $ids["pool"]);
-						$page->setXMLContent(str_replace($this->cur_qid, 
-							"il__qst_".$ids["pool"], $xml));
-						$page->updateFromXML();
-						unset($page);
-						
-						// test question
-						$page = new ilPageObject("qpl", $ids["test"]);
-						$page->setXMLContent(str_replace($this->cur_qid, 
-							"il__qst_".$ids["test"], $xml));
-						$page->updateFromXML();
-						unset($page);
-						
+						if ($ids["pool"] > 0)
+						{
+							// question pool question
+							$page = new ilPageObject("qpl", $ids["pool"]);
+							$xmlcontent = str_replace($this->cur_qid, 
+								"il__qst_".$ids["pool"], $xml);
+							$page->setXMLContent($xmlcontent);
+							$page->saveMobUsage($xmlcontent);
+							$page->updateFromXML();
+							unset($page);
+						}
+						if ($ids["test"] > 0)
+						{
+							// test question
+							$page = new ilPageObject("qpl", $ids["test"]);
+							$xmlcontent = str_replace($this->cur_qid, 
+								"il__qst_".$ids["test"], $xml);
+							$page->setXMLContent($xmlcontent);
+							$page->saveMobUsage($xmlcontent);
+							$page->updateFromXML();
+							unset($page);
+						}
 					}
 				}
 

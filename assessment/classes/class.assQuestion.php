@@ -1068,12 +1068,12 @@ class ASS_Question
 			return;
 		}
 
-		if ((!$this->isInUse($question_id)) && (!$this->isClone($question_id)))
-		{
+		//if ((!$this->isInUse($question_id)) && (!$this->isClone($question_id)))
+		//{
 			// delete page object only when where is no other question using this object (this happens as long as page objects are not copied completely when a question is duplicated)
 			$page = new ilPageObject("qpl", $question_id);
 			$page->delete();
-		}
+		//}
 		
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)
@@ -1201,6 +1201,7 @@ class ASS_Question
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
 				$page->getXMLContent());
 			$this->page->setXMLContent($xml);
+			$this->page->saveMobUsage($xml);
 			$this->page->updateFromXML();
 		}
 	}
