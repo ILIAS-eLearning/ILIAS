@@ -37,7 +37,7 @@ include_once("Auth/Auth.php");
 @include_once "HTML/ITX.php";
 $tpl_class_name = "IntegratedTemplate";
 
-if (!class_exists(IntegratedTemplateExtension))
+if (!class_exists("IntegratedTemplateExtension"))
 {
 	include_once "HTML/Template/ITX.php";
 	$tpl_class_name = "HTML_Template_ITX";
