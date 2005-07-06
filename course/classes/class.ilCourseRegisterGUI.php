@@ -71,6 +71,7 @@ class ilCourseRegisterGUI
 		switch($cmd = $this->ctrl->getCmd())
 		{
 			case 'archive':
+			case 'view':
 			case '':
 				$cmd = "showRegistrationForm";
 				break;
