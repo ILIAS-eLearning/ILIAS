@@ -832,18 +832,31 @@ common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
 common#:#auth_mode#:#Authentication mode
-common#:#auth_mode_changed_to#:#Authentication mode changed to
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_mode_not_changed#:#(Nothing changed)
+common#:#auth_radius_settings_saved#:#RADIUS settings saved
+common#:#auth_ldap_settings_saved#:#LDAP settings saved
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication
+common#:#auth_radius_server#:#Server
+common#:#auth_radius_shared_secret#:#Shared secret
+common#:#auth_radius_port#:#Port
+common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_default#:#Default setting
+common#:#auth_active_roles#:#Global roles activated for registration
+common#:#auth_role_auth_mode#:#Authentication mode
+common#:#auth_ldap_enable#:#Enable LDAP support
+common#:#auth_radius_enable#:#Enable RADIUS support
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server
 common#:#auth_read#:#Access authentication settings
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than default mode, user logins and passwords cannot be changed anymore and the option to register new users is disabled.
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
 common#:#auth_select#:#Select authentication mode
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
 common#:#author#:#Author

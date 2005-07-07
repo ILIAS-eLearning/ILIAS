@@ -150,13 +150,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
 		$this->tpl->parseCurrentBlock();
 
-		if (AUTH_CURRENT == AUTH_LOCAL)
-		{
+		//if (AUTH_DEFAULT == AUTH_LOCAL)
+		//{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
 			$this->tpl->parseCurrentBlock();
-		}
+		//}
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
 		
@@ -282,11 +282,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			} //for
 		}
 		
-		if (AUTH_CURRENT != AUTH_LOCAL)
+/*		if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			$this->showActions(false);
 		}
-		else
+		else*/
 		{
 			$this->showActions(true);
 		}

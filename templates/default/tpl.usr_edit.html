@@ -12,17 +12,27 @@
     <tr class="tblheader">
         <td class="std" colspan="2">{TXT_LOGIN_DATA}</td>
     </tr>
+	<tr>
+		<td class="option">{TXT_AUTH_MODE}</td>
+		<td class="option_value">
+		<select name="Fobject[auth_mode]">
+	<!-- BEGIN auth_mode_selection -->
+			<option {SELECTED_AUTH_MODE} value="{AUTH_MODE}">{AUTH_MODE_NAME}</option>
+	<!-- END auth_mode_selection -->
+		</select>
+		</td>
+	</tr>
     <tr>
         <td class="option">{TXT_LOGIN}</td>
-        <td class="option_value"><input type="text" name="Fobject[login]"  value="{LOGIN}" size="40" maxlength="80" /></td>
+        <td class="option_value"><input type="text" name="Fobject[login]"  value="{LOGIN}" size="40" maxlength="80" {OPTION_DISABLED}/></td>
     </tr>
     <tr>
         <td class="option">{TXT_PASSWD}</td>
-        <td class="option_value"><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="40" maxlength="32" /></td>
+        <td class="option_value"><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="40" maxlength="32" {OPTION_DISABLED}/></td>
     </tr>
     <tr>
         <td class="option">{TXT_PASSWD2}</td>
-        <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
+        <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" {OPTION_DISABLED}/></td>
     </tr>
     <tr class="tblheader">
         <td class="std" colspan="2">{TXT_SYSTEM_INFO}</td>

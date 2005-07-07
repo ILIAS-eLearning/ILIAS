@@ -45,7 +45,7 @@ require_once "include/inc.header.php";
 
 
 // catch hack attempts
-if (! $ilias->getSetting("password_assistance") || AUTH_CURRENT != AUTH_LOCAL)
+if (! $ilias->getSetting("password_assistance") || AUTH_DEFAULT != AUTH_LOCAL)
 {
     if (empty($_SESSION["AccountId"]) and $_SESSION["AccountId"] !== false)
     {

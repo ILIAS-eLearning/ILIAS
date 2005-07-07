@@ -317,6 +317,9 @@ class ilObjUser extends ilObject
 
 		//iLinc
 		$this->setiLincID($a_data['ilinc_id']);
+		
+		//authentication
+		$this->setAuthMode($a_data['auth_mode']);
 	}
 
 	/**
@@ -357,7 +360,7 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
@@ -369,8 +372,8 @@ class ilObjUser extends ilObject
                 . "'".ilUtil::addSlashes($this->phone_office)."','".ilUtil::addSlashes($this->phone_home)."', "
                 . "'".ilUtil::addSlashes($this->phone_mobile)."','".ilUtil::addSlashes($this->fax)."', 0, now(), now(), "
                 . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '". ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
-                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."'"
-                . ")";
+                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."', "
+                . "'".$this->getAuthMode()."')";
 		}
 		else
 		{
@@ -470,6 +473,7 @@ class ilObjUser extends ilObject
             "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
             "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
+            "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			$pw_update.", ".
             "last_update=now(), ".
             "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."' ".
@@ -2853,5 +2857,28 @@ class ilObjUser extends ilObject
 		return $this->ilinc_id;
 	}
 
+	/**
+    * set auth mode
+	* @access	public
+	*/
+	function setAuthMode($a_str)
+	{
+		$this->auth_mode = $a_str;
+	}
+	
+	/**
+    * get auth mode
+	* @access	public
+	*/
+	function getAuthMode($a_auth_key = false)
+	{
+		if (!$a_auth_key)
+		{
+			return $this->auth_mode;
+		}
+		
+		include_once('classes/class.ilAuthUtils.php');
+		return ilAuthUtils::_getAuthMode($this->auth_mode);
+	}
 } // END class ilObjUser
 ?>

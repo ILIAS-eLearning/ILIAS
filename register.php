@@ -35,7 +35,7 @@ require_once "include/inc.header.php";
 require_once "classes/class.ilUserAgreement.php";
 
 // catch hack attempts
-if (!$ilias->getSetting("enable_registration") or AUTH_CURRENT != AUTH_LOCAL)
+if (!$ilias->getSetting("enable_registration"))
 {
     if (empty($_SESSION["AccountId"]) and $_SESSION["AccountId"] !== false)
     {
@@ -178,6 +178,9 @@ function saveForm()
 			", IP: ".$_SERVER["REMOTE_ADDR"],$ilias->error_obj->FATAL);
 	}
 	
+	// get auth mode of role
+	$auth_mode = ilObjRole::_getAuthMode($_POST["Fobject"]["default_role"]);
+	$_POST["Fobject"]['auth_mode'] = $auth_mode;
 
 	// TODO: check if login or passwd already exists
 	// TODO: check length of login and passwd

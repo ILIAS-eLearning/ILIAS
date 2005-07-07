@@ -62,9 +62,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->getTemplateFile("general");
 		
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
-		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
-		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+
+		$this->tpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
+		$this->tpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
+		$this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active")."?");
+		$this->tpl->setVariable("TXT_AUTH_DESC", $this->lng->txt("description"));
+
 		$this->tpl->setVariable("TXT_LOCAL", $this->lng->txt("auth_local"));
 		$this->tpl->setVariable("TXT_LOCAL_DESC", $this->lng->txt("auth_local_desc"));
 		$this->tpl->setVariable("TXT_LDAP", $this->lng->txt("auth_ldap"));
@@ -88,87 +92,120 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$disabled = "disabled=\"disabled\"";
 		$style_disabled = "_disabled";
 		
+		// icon handlers
+		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>";
+		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
+
+		$this->tpl->setVariable("AUTH_LOCAL_ACTIVE", $icon_ok);
+		$this->tpl->setVariable("AUTH_LDAP_ACTIVE", $this->ilias->getSetting('ldap_active') ? $icon_ok : $icon_not_ok);
+		$this->tpl->setVariable("AUTH_RADIUS_ACTIVE", $this->ilias->getSetting('radius_active') ? $icon_ok : $icon_not_ok);
+		$this->tpl->setVariable("AUTH_SHIB_ACTIVE", $this->ilias->getSetting('shib_active') ? $icon_ok : $icon_not_ok);
+		$this->tpl->setVariable("AUTH_SCRIPT_ACTIVE", $this->ilias->getSetting('script_active') ? $icon_ok : $icon_not_ok);
+		
 		// alter style and disable buttons depending on current selection
-		switch (AUTH_CURRENT)
+		switch ($this->ilias->getSetting('auth_mode'))
 		{
 			case AUTH_LOCAL: // default
 				$this->tpl->setVariable("CHK_LOCAL", $checked);
-				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				$this->tpl->setVariable("BTN_LDAP", $disabled);
+				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
+				//$this->tpl->setVariable("BTN_LDAP", $disabled);
 				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
 				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
-				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				$this->tpl->setVariable("BTN_SCRIPT", $disabled);				
+				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
+				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
+				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
+				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);				
 				break;
 				
 			case AUTH_LDAP: // LDAP
 				$this->tpl->setVariable("CHK_LDAP", $checked);
 				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
 				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
-				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
+				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
+				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
+				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
+				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 				
 			case AUTH_SHIBBOLETH: // SHIB
-				$this->tpl->setVariable("BTN_LDAP", $disabled);
-				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
+				//$this->tpl->setVariable("BTN_LDAP", $disabled);
+				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
+				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
 				$this->tpl->setVariable("CHK_SHIB", $checked);
-				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
+				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
+				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
+				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
+				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 				
 			case AUTH_RADIUS: // RADIUS
 				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
 				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_RADIUS", $checked);
-				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				$this->tpl->setVariable("BTN_LDAP", $disabled);
-				$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
+				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
+				//$this->tpl->setVariable("BTN_LDAP", $disabled);
+				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
+				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 			
 			case AUTH_SCRIPT: // script
 				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
 				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_SCRIPT", $checked);
-				$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				$this->tpl->setVariable("BTN_LDAP", $disabled);
-				$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				$this->tpl->setVariable("BTN_RADIUS", $disabled);
+				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
+				//$this->tpl->setVariable("BTN_LDAP", $disabled);
+				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
+				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
 				break;
 		}
-	}
-	
-	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-			
-		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		// roles table
+		
+		$this->tpl->setVariable("FORMACTION_ROLES", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
+		$this->tpl->setVariable("TXT_ROLE", $this->lng->txt("obj_role"));
+		$this->tpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
+		$this->tpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
+		
+		include_once("classes/class.ilObjRole.php");
+		$reg_roles = ilObjRole::_lookupRegisterAllowed();
+		
+		// auth mode selection
+		include_once('classes/class.ilAuthUtils.php');
+		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
+
+		foreach ($reg_roles as $role)
+		{
+			foreach ($active_auth_modes as $auth_name => $auth_key)
+			{
+				$this->tpl->setCurrentBlock("auth_mode_selection");
+	
+				if ($auth_name == 'default')
+				{
+					$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
+				}
+				else
+				{
+					$name = $this->lng->txt('auth_'.$auth_name);
+				}
+				
+				$this->tpl->setVariable("AUTH_MODE_NAME", $name);
+	
+				$this->tpl->setVariable("AUTH_MODE", $auth_name);
+	
+				if ($role['auth_mode'] == $auth_name)
+				{
+					$this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
+				}
+	
+				$this->tpl->parseCurrentBlock();
+			} // END auth_mode selection
+			
+			$this->tpl->setCurrentBlock("roles");
+			$this->tpl->setVariable("ROLE", $role['title']);
+			$this->tpl->setVariable("ROLE_ID", $role['id']);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/**
@@ -195,8 +232,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		if ($_POST["auth_mode"] == AUTH_CURRENT)
+
+		if ($_POST["auth_mode"] == AUTH_DEFAULT)
 		{
 			sendInfo($this->lng->txt("auth_mode").": ".$this->getAuthModeTitle()." ".$this->lng->txt("auth_mode_not_changed"),true);
 			ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
@@ -239,7 +276,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$this->ilias->setSetting("auth_mode",$_POST["auth_mode"]);
 		
-		sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
+		sendInfo($this->lng->txt("auth_default_mode_changed_to")." ".$this->getAuthModeTitle(),true);
 		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
 	}
 	
@@ -259,6 +296,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		if ($_SESSION["error_post_vars"])
 		{
+			if ($_SESSION["error_post_vars"]["ldap"]["active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_LDAP_ACTIVE", "checked=\"checked\"");
+			}
+			
 			if ($_SESSION["error_post_vars"]["ldap"]["tls"] == "1")
 			{
 				$this->tpl->setVariable("LDAP_TLS_CHK", "checked=\"checked\"");
@@ -284,6 +326,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			// set already saved data or default value for port
 			$settings = $this->ilias->getAllSettings();
+			
+			if ($settings["ldap_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_LDAP_ACTIVE", "checked=\"checked\"");
+			}
 
 			if ($settings["ldap_tls"] == "1")
 			{
@@ -337,6 +384,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_LDAP_TITLE", $this->lng->txt("ldap_configure"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$this->tpl->setVariable("TXT_LDAP_ACTIVE", $this->lng->txt("auth_ldap_enable"));
 		$this->tpl->setVariable("TXT_LDAP_TLS", $this->lng->txt("ldap_tls"));
 		$this->tpl->setVariable("TXT_LDAP_SERVER", $this->lng->txt("ldap_server"));
 		$this->tpl->setVariable("TXT_LDAP_BASEDN", $this->lng->txt("ldap_basedn"));
@@ -458,7 +506,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// close connection
 		@ldap_unbind($ldap_conn);
 
-		// all ok. save settings and activate LDAP
+		// all ok. save settings
 		$this->ilias->setSetting("ldap_tls", $_POST["ldap"]["tls"]);
 		$this->ilias->setSetting("ldap_server", $_POST["ldap"]["server"]);
 		$this->ilias->setSetting("ldap_basedn", $_POST["ldap"]["basedn"]);
@@ -467,9 +515,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ldap_version", $_POST["ldap"]["version"]);
 		$this->ilias->setSetting("ldap_login_key", $_POST["ldap"]["login_key"]);
 		$this->ilias->setSetting("ldap_objectclass", $_POST["ldap"]["objectclass"]);
-		$this->ilias->setSetting("auth_mode", AUTH_LDAP);
+		$this->ilias->setSetting("ldap_active", $_POST["ldap"]["active"]);
 
-		sendInfo($this->lng->txt("auth_mode_changed_to")." ".$this->getAuthModeTitle(),true);
+		sendInfo($this->lng->txt("auth_ldap_settings_saved"),true);
 		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
 	}
 
@@ -731,6 +779,102 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Configure RADIUS settings
+	* 
+	* @access	public
+	*/
+	function editRADIUSObject()
+	{
+		global $rbacsystem, $rbacreview;
+		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if ($_SESSION["error_post_vars"])
+		{
+			if ($_SESSION["error_post_vars"]["radius"]["active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_RADIUS_ACTIVE", "checked=\"checked\"");
+			}
+			
+			$this->tpl->setVariable("RADIUS_SERVER", $_SESSION["error_post_vars"]["radius"]["server"]);
+			$this->tpl->setVariable("RADIUS_SHARED_SECRET", $_SESSION["error_post_vars"]["radius"]["shared_secret"]);
+		}
+		else
+		{
+			// set already saved data or default value for port
+			$settings = $this->ilias->getAllSettings();
+
+			if ($settings["radius_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_RADIUS_ACTIVE", "checked=\"checked\"");
+			}
+
+			$this->tpl->setVariable("RADIUS_SERVER", $settings["radius_server"]);
+			$this->tpl->setVariable("RADIUS_SHARED_SECRET", $settings["radius_shared_secret"]);
+			
+			if (empty($settings["radius_port"]))
+			{
+				$this->tpl->setVariable("RADIUS_PORT", "1645");
+			}
+			else
+			{
+				$this->tpl->setVariable("RADIUS_PORT", $settings["radius_port"]);			
+			}
+		}
+
+		$this->getTemplateFile("radius");
+		
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("COLSPAN", 2);
+		$this->tpl->setVariable("TXT_RADIUS_TITLE", $this->lng->txt("auth_radius_configure"));
+		$this->tpl->setVariable("TXT_RADIUS_ACTIVE", $this->lng->txt("auth_radius_enable"));
+		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$this->tpl->setVariable("TXT_RADIUS_SERVER", $this->lng->txt("auth_radius_server"));
+		$this->tpl->setVariable("TXT_RADIUS_SHARED_SECRET", $this->lng->txt("auth_radius_shared_secret"));
+		$this->tpl->setVariable("TXT_RADIUS_PORT", $this->lng->txt("auth_radius_port"));
+
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveRADIUS");
+	}
+
+	/**
+	* validates all input data, save them to database if correct and active chosen auth mode
+	* 
+	* @access	public
+	*/
+	function saveRADIUSObject()
+	{
+         global $ilUser;
+
+        // validate required data 
+		if (!$_POST["radius"]["server"] or !$_POST["radius"]["shared_secret"] or !$_POST["radius"]["port"])
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// validate port
+		if ((preg_match("/^[0-9]{0,5}$/",$_POST["radius"]["port"])) == false)
+		{
+			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		// all ok. save settings and activate RADIUS
+		$this->ilias->setSetting("radius_server", $_POST["radius"]["server"]);
+		$this->ilias->setSetting("radius_shared_secret", $_POST["radius"]["shared_secret"]);
+		$this->ilias->setSetting("radius_port", $_POST["radius"]["port"]);
+		$this->ilias->setSetting("radius_active", $_POST["radius"]["active"]);
+
+		sendInfo($this->lng->txt("auth_radius_settings_saved"),true);
+		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
+	}
+	
+	/**
 	* get the title of auth mode
 	* 
 	* @access	public
@@ -764,6 +908,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				return $this->lng->txt("unknown");
 				break;
 		}
+	}
+	
+	function updateAuthRolesObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		include_once('classes/class.ilObjRole.php');
+		ilObjRole::_updateAuthMode($_POST['Fobject']);
+		
+		sendInfo($this->lng->txt("auth_mode_roles_changed"),true);
+		ilUtil::redirect($this->getReturnLocation("view",$this->ctrl->getLinkTarget($this,"")));
 	}
 } // END class.ilObjAuthSettingsGUI
 ?>

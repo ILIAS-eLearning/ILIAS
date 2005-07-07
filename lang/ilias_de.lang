@@ -828,21 +828,34 @@ common#:#auth_edit_permission#:#Rechteeinstellungen ändern
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
+common#:#auth_radius_not_configured#:#RADIUS ist nocht nicht eingerichtet
 common#:#auth_local#:#ILIAS Datenbank
 common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_mode#:#Authentifizierungsmodus
-common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
-common#:#auth_mode_not_changed#:#(Keine änderung)
+common#:#auth_default_mode_changed_to#:#Standard-Authentifizierungsmodus gewechselt nach
+common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
+common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
+common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_server#:#Server
+common#:#auth_radius_shared_secret#:#Shared secret
+common#:#auth_radius_port#:#Port
+common#:#auth_default#:#Standardeinstellung
+common#:#auth_active_roles#:#Verfügbare globale Rollen in der Neuanmeldung
+common#:#auth_role_auth_mode#:#Authentifizierungsmethode
+common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_ldap_enable#:#LDAP-Unterstützung aktivieren
+common#:#auth_radius_enable#:#RADIUS-Unterstützung aktivieren
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
 common#:#auth_read#:#Lesezugrif auf Authentifizierung
-common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausser Standard sind Benutzerlogin und -passwort nicht mehr änderbar und die Option zur Neuanmeldung ist deaktiviert.
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausser über die ILIAS Datenbank sind Benutzerlogin und -passwort nicht mehr änderbar.
 common#:#auth_script#:#Benutzerdefiniert
+common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
 common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth ist nocht nicht eingerichtet
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
@@ -1680,7 +1693,7 @@ common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
-common#:#ldap_configure#:#LDAP Authentifizierung konfigurieren
+common#:#ldap_configure#:#LDAP-Authentifizierung konfigurieren
 common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten

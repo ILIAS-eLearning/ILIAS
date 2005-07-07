@@ -450,4 +450,5 @@ $q = "SET NAMES utf8";
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();
 
+//var_dump($_SESSION);
 ?>
