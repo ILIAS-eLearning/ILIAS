@@ -837,7 +837,8 @@ common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
 common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
 common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_radius#:#RADIUS
-common#:#auth_radius_server#:#Server
+common#:#auth_radius_server#:#Servers
+common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_radius_port#:#Port
 common#:#auth_default#:#Standardeinstellung

@@ -445,7 +445,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}	
 		
 		// check connection to ldap server
-		
+		include_once('classes/class.ilLDAPAuthentication.php');
 		
 		$ldap_host	= $_POST["ldap"]["server"];
 		$ldap_port	= $_POST["ldap"]["port"];
@@ -814,8 +814,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_RADIUS_ACTIVE", "checked=\"checked\"");
 			}
+			
+			include_once('classes/class.ilRADIUSauthentication.php');
+			$servers =ilRADIUSauthentication::_getServers();
 
-			$this->tpl->setVariable("RADIUS_SERVER", $settings["radius_server"]);
+			$this->tpl->setVariable("RADIUS_SERVER", implode(",",$servers));
 			$this->tpl->setVariable("RADIUS_SHARED_SECRET", $settings["radius_shared_secret"]);
 			
 			if (empty($settings["radius_port"]))
@@ -840,6 +843,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_RADIUS_PORT", $this->lng->txt("auth_radius_port"));
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_RADIUS_SERVER_DESC", $this->lng->txt("auth_radius_server_desc"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "saveRADIUS");
@@ -865,10 +869,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
+		include_once('classes/class.ilRADIUSauthentication.php');
+		if (!ilRADIUSauthentication::_validateServers($_POST["radius"]["server"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("err_invalid_server"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		// all ok. save settings and activate RADIUS
-		$this->ilias->setSetting("radius_server", $_POST["radius"]["server"]);
+		ilRADIUSauthentication::_saveServers($_POST["radius"]["server"]);
 		$this->ilias->setSetting("radius_shared_secret", $_POST["radius"]["shared_secret"]);
 		$this->ilias->setSetting("radius_port", $_POST["radius"]["port"]);
 		$this->ilias->setSetting("radius_active", $_POST["radius"]["active"]);
