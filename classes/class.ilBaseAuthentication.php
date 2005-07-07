@@ -23,7 +23,7 @@
 
 
 /**
-* soap server
+* base authentication class
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -193,13 +193,7 @@ class ilBaseAuthentication
 		{
 			return false;
 		}
-		if(!$this->__checkSOAPEnabled())
-		{
-			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
-			$this->__setMessageCode('Server');
 
-			return false;
-		}
 		$this->auth->start();
 		if(!$this->auth->getAuth())
 		{
