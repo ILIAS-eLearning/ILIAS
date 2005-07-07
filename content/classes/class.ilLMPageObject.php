@@ -131,15 +131,30 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function &copy()
 	{
-echo "copy temporary not available";
-//		$meta =& new ilMetaData();
+
+		// copy page 
 		$lm_page =& new ilLMPageObject($this->getContentObject());
-//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($this->getLMId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
-		$lm_page->create();
+		$lm_page->create(true);		// this "upload" flag prevents creating of meta data
+
+		// copy meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+echo "<br>from-".$this->getLMId()."-".$this->getId()."-".$this->getType();
+		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$new_md =& $md->cloneMD($this->getLMId(), $lm_page->getId(), $this->getType());
+echo "<br>to-".$this->getLMId()."-".$lm_page->getId()."-".$this->getType();
+		
+$md_gen = $new_md->getGeneral();
+
+foreach($md_gen->getDescriptionIds() as $id)
+{
+	$md_des = $md_gen->getDescription($id);
+echo "<br>new description:".$md_gen->getTitle().":".$md_des->getDescription().":";
+	break;
+}
 
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());

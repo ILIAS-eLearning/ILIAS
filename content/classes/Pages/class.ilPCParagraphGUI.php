@@ -401,10 +401,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
-/*
-echo "PARupdate:".$_POST["par_content"].":<br><br>";
-echo "PARupdate:".htmlentities($_POST["par_content"]).":<br><br>";
-echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":<br>";*/
+//echo "<br>PARupdate1:".$_POST["par_content"].":";
+//echo "<br>PARupdate2:".htmlentities($_POST["par_content"]).":";
+//echo "<br>PARupdate3:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":";
+//echo "<br>PARupdate4:".$this->content_obj->input2xml($_POST["par_content"]).":";
 
 		$this->updated = $this->content_obj->setText(
 			$this->content_obj->input2xml(stripslashes($_POST["par_content"]),
@@ -419,6 +419,7 @@ echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content
 		}
 
 		$this->updated = $this->pg_obj->update();
+//echo "<br>PARupdate_after:".htmlentities($this->pg_obj->dom->dump_mem(0, "UTF-8")).":";
 
 		$ilBench->stop("Editor","Paragraph_update");
 
