@@ -2723,5 +2723,17 @@ class ilUtil
 		return $resultarray;
 	}
 
+	// validates a domain name (example: www.ilias.de)
+	function isDN($a_str)
+	{
+		return(preg_match("/^[a-z]+([a-z0-9-]*[a-z0-9]+)?(\.([a-z]+([a-z0-9-]*[a-z0-9]+)?)+)*$/",$a_str));
+	}
+	
+	// validates an IP address (example: 192.168.1.1)
+	function isIPv4($a_str)
+	{
+		return(preg_match("/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/",$a_str));
+	}
+
 } // END class.ilUtil
 ?>
