@@ -199,6 +199,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
 		
 		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
+		
 		$data = array();
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
@@ -227,6 +228,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["approve_date"] = "";
 		$data["fields"]["active"] = " checked=\"checked\"";
 		$data["fields"]["default_role"] = $roles;
+		$data["fields"]["auth_mode"] = "";
 		
 		$this->getTemplateFile("edit","usr");
 		
@@ -317,6 +319,38 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
 			}
 		}
+		
+		// auth mode selection
+		include_once('classes/class.ilAuthUtils.php');
+		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
+
+		// preselect previous chosen auth mode otherwise default auth mode
+		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? $_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : 'default';
+
+		foreach ($active_auth_modes as $auth_name => $auth_key)
+		{
+			$this->tpl->setCurrentBlock("auth_mode_selection");
+
+			if ($auth_name == 'default')
+			{
+				$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
+			}
+			else
+			{
+				$name = $this->lng->txt('auth_'.$auth_name);
+			}
+			
+			$this->tpl->setVariable("AUTH_MODE_NAME", $name);
+
+			$this->tpl->setVariable("AUTH_MODE", $auth_name);
+
+			if ($selected_auth_mode == $auth_name)
+			{
+				$this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
+			}
+
+			$this->tpl->parseCurrentBlock();
+		} // END auth_mode selection
 		
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
@@ -662,6 +696,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["create_date"] = $this->object->getCreateDate();
 		$data["fields"]["approve_date"] = $this->object->getApproveDate();
 		$data["fields"]["active"] = $this->object->getActive();
+		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
 
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 		{
@@ -821,8 +856,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
 			}
 		}
-		
-		if (AUTH_CURRENT != AUTH_LOCAL)
+
+		if ($this->object->getAuthMode(true) != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
@@ -850,9 +885,41 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
-		
 		$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").": ".$_SERVER["REMOTE_ADDR"]);
+		
+		// auth mode selection
+		include_once('classes/class.ilAuthUtils.php');
+		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
+		// preselect previous chosen auth mode otherwise default auth mode
+		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? $_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : $this->object->getAuthMode();
+
+		foreach ($active_auth_modes as $auth_name => $auth_key)
+		{
+			$this->tpl->setCurrentBlock("auth_mode_selection");
+
+			if ($auth_name == 'default')
+			{
+				$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
+			}
+			else
+			{
+				$name = $this->lng->txt('auth_'.$auth_name);
+			}
+			
+			$this->tpl->setVariable("AUTH_MODE_NAME", $name);
+
+			$this->tpl->setVariable("AUTH_MODE", $auth_name);
+
+			if ($selected_auth_mode == $auth_name)
+			{
+				$this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
+			}
+
+			$this->tpl->parseCurrentBlock();
+		} // END auth_mode selection
+		
+		
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
 
@@ -1252,9 +1319,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
 		}
 
-        // XXX not sure what the purpose of this conditional is
-        // XXX for now, both conditions have the same effect
-		if (AUTH_CURRENT == AUTH_LOCAL)
+		// do not validate required fields, login & passwd if auth mode ist not 'local'
+		if ($this->object->getAuthMode(true) == AUTH_LOCAL)
 		{
             // check dynamically required fields
             foreach ($settings as $key => $val)
@@ -1280,37 +1346,7 @@ class ilObjUserGUI extends ilObjectGUI
                     }
                 }
             }
-		}
-		else
-		{
-            // check dynamically required fields
-            foreach ($settings as $key => $val)
-            {
-                if (substr($key,0,8) == "require_")
-                {
-                    $require_keys[] = substr($key,8);
-                }
-            }
-
-            foreach ($require_keys as $key => $val)
-            {
-                // exclude required system and registration-only fields
-                $system_fields = array("default_role");
-                if (!in_array($val, $system_fields))
-                {
-                    if (isset($settings["require_" . $val]) && $settings["require_" . $val])
-                    {
-                        if (empty($_POST["Fobject"][$val]))
-                        {
-                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
-                        }
-                    }
-                }
-            }
-		}
-
-		if (AUTH_CURRENT == AUTH_LOCAL)
-		{
+            
 			// validate login
 			if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
 			{
@@ -1342,7 +1378,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		// The password type is not passed with the post data.  Therefore we
 		// append it here manually.
-		require_once "class.ilObjUser.php";
+		include_once ('classes/class.ilObjUser.php');
 	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
@@ -1395,8 +1431,17 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$_POST['Fobject']['time_limit_message'] = $this->object->getTimeLimitMessage();
 		}
+
+		// don't save login & passwd if auth mode is not 'local'
+		if ($this->object->getAuthMode(true) != AUTH_LOCAL)
+		{
+			$_POST['Fobject']['login'] = $this->object->getLogin();
+			$_POST['Fobject']['passwd'] = "********";
+		}
+		
 		$this->object->assignData($_POST["Fobject"]);
-		if (AUTH_CURRENT == AUTH_LOCAL)
+		
+		if ($this->object->getAuthMode(true) == AUTH_LOCAL)
 		{
 			$this->object->updateLogin($_POST["Fobject"]["login"]);
 		}

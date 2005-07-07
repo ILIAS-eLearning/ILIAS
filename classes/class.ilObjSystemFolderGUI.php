@@ -528,11 +528,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TREE", $this->lng->txt("treeview"));
 		
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
-		if (AUTH_CURRENT != AUTH_LOCAL)
+
+		if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("DISABLE_PASSWORD_ASSISTANCE", 'disabled=\"disabled\"');
 			$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_DISABLED", $this->lng->txt("password_assistance_disabled"));
 		}
+
 		$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_INFO", $this->lng->txt("password_assistance_info"));
 
 		// Javascript Editing
@@ -544,11 +546,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
 		$this->tpl->setVariable("TXT_PASSWD_AUTO_GENERATE", $this->lng->txt("passwd_auto_generate"));
 		
-		if (AUTH_CURRENT != AUTH_LOCAL)
+		/*if (AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			$this->tpl->setVariable("TXT_REGISTRATION_DISABLED", "(".$this->lng->txt("registration_disabled").")");
 			$this->tpl->setVariable("DISABLE_REGISTRATION", "\"disabled=disabled\"");
-		}
+		}*/
 
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));

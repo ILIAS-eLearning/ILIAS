@@ -170,8 +170,8 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
-// allow new registrations? Surpress option if Authmode is not local database
-if ($ilias->getSetting("enable_registration") and AUTH_CURRENT == AUTH_LOCAL)
+// allow new registrations? 
+if ($ilias->getSetting("enable_registration"))
 {
 	$tpl->setCurrentBlock("new_registration");
 	$tpl->setVariable("REGISTER", $lng->txt("registration"));
@@ -179,7 +179,7 @@ if ($ilias->getSetting("enable_registration") and AUTH_CURRENT == AUTH_LOCAL)
 	$tpl->parseCurrentBlock();
 }
 // allow password assistance? Surpress option if Authmode is not local database
-if ($ilias->getSetting("password_assistance") and AUTH_CURRENT == AUTH_LOCAL)
+if ($ilias->getSetting("password_assistance") and AUTH_DEFAULT == AUTH_LOCAL)
 {
 	$tpl->setCurrentBlock("password_assistance");
 	$tpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));

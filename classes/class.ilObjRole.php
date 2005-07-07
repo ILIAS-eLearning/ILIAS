@@ -207,7 +207,8 @@ class ilObjRole extends ilObject
 		while ($role = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$roles[] = array("id" => $role["obj_id"],
-				"title" => $role["title"]);
+							 "title" => $role["title"],
+							 "auth_mode" => $role['auth_mode']);
 		}
 		
 		return $roles;
@@ -464,5 +465,30 @@ class ilObjRole extends ilObject
 		
 		return $a_role_title;
 	}
+	
+	function _updateAuthMode($a_roles)
+	{
+		global $ilDB;
+
+		foreach ($a_roles as $role_id => $auth_mode)
+		{
+			$q = "UPDATE role_data SET ".
+				 "auth_mode='".$auth_mode."' ".
+				 "WHERE role_id='".$role_id."'";
+			$ilDB->query($q);
+		}
+	}
+
+	function _getAuthMode($a_role_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT auth_mode FROM role_data ".
+			 "WHERE role_id='".$a_role_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow();
+		
+		return $row[0];
+	} 
 } // END class.ilObjRole
 ?>

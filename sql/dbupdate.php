@@ -7784,3 +7784,7 @@ CREATE TABLE `crs_wating_list` (
 `sub_time` INT( 11 ) NOT NULL ,
 PRIMARY KEY ( `obj_id` , `usr_id` )
 ) TYPE = MYISAM ;
+
+<#483>
+ALTER TABLE `usr_data` ADD `auth_mode` ENUM( 'default','local', 'ldap', 'radius', 'shibboleth','script' ) DEFAULT 'default' NOT NULL;
+ALTER TABLE `role_data` ADD `auth_mode` ENUM( 'default', 'local', 'ldap', 'radius', 'shibboleth', 'script' ) DEFAULT 'default' NOT NULL;

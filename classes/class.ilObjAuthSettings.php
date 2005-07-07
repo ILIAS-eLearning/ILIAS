@@ -56,6 +56,8 @@ class ilObjAuthSettings extends ilObject
 			return false;
 		}
 		
+		$this->ilias->setSetting('ldap_active',true);
+		
 		return true;
 	}
 	
@@ -68,7 +70,9 @@ class ilObjAuthSettings extends ilObject
 		{
 			return false;
 		}
-		
+
+		$this->ilias->setSetting('shibboleth_active',true);
+
 		return true;
 	}
 	
@@ -76,12 +80,12 @@ class ilObjAuthSettings extends ilObject
 	{
 		$settings = $this->ilias->getAllSettings();
 		
-		return true;
-
-		if (!$settings["ldap_server"] or !$settings["ldap_basedn"] or !$settings["ldap_port"])
+		if (!$settings["radius_server"] or !$settings["radius_shared_secret"] or !$settings["radius_port"])
 		{
 			return false;
 		}
+		
+		$this->ilias->setSetting('radius_active',true);
 		
 		return true;
 	}
@@ -95,6 +99,8 @@ class ilObjAuthSettings extends ilObject
 			return false;
 		}
 		
+		$this->ilias->setSetting('script_active',true);
+
 		return true;
 	}
 

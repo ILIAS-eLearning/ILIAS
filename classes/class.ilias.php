@@ -243,20 +243,36 @@ class ILIAS
 		// installation id
 		define ("IL_INST_ID", $this->getSetting("inst_id"));
 		
-		// auth modes
+		// define auth modes
 		define ("AUTH_LOCAL",1);
 		define ("AUTH_LDAP",2);
 		define ("AUTH_RADIUS",3);
 		define ("AUTH_SCRIPT",4);
 		define ("AUTH_SHIBBOLETH",5);
-
-		$auth_mode = $this->getSetting("auth_mode");
+		
+		// get default auth mode 
+		//$default_auth_mode = $this->getSetting("auth_mode");
+		define ("AUTH_DEFAULT", $this->getSetting("auth_mode") ? $this->getSetting("auth_mode") : AUTH_LOCAL);
 		
 		// set local auth mode (1) in case database wasn't updated
-		if ($auth_mode === false)
+		/*if ($default_auth_mode === false)
 		{
-			$auth_mode = AUTH_LOCAL;
-		}
+			$default_auth_mode = AUTH_LOCAL;
+		}*/
+		
+		// determine authentication method if no session is found and username & password is posted
+        if (empty($_SESSION) ||
+            (!isset($_SESSION['_authsession']['registered']) ||
+             $_SESSION['_authsession']['registered'] !== true))
+        {
+			// no sesssion found
+			if ($_POST['username'] != '' and $_POST['password'] != '')
+			{
+				
+				include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
+				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'],$_POST['password'],$this->db);
+			}
+        }
 		
 		// If Shibboleth is active and the user is authenticated
 		// we set auth_mode to Shibboleth
@@ -269,7 +285,7 @@ class ILIAS
 		}
 		else
 		{
-			define ("AUTH_CURRENT",$auth_mode);
+			define ("AUTH_CURRENT",$user_auth_mode);
 		}
 		
 		// set session.save_handler to "user" & set expiry time
@@ -277,7 +293,7 @@ class ILIAS
 		{
 			ini_set("session.save_handler", "user");
 		}
-		
+
 		switch (AUTH_CURRENT)
 		{
 			case AUTH_LOCAL:
@@ -305,16 +321,24 @@ class ILIAS
 											'userattr'	=> $settings["ldap_login_key"]
 											);
 				$this->auth = new Auth("LDAP", $this->auth_params,"",false);
-
 				break;
 				
-				case AUTH_SHIBBOLETH:
+			case AUTH_RADIUS:
+				$settings = $this->getAllSettings();
+
+				// build option string for PEAR::Auth
+				$this->auth_params = array(
+											'servers'	=> array(array($settings["radius_server"],$settings["radius_port"],$settings["radius_shared_secret"]))
+											);
+				$this->auth = new Auth("RADIUS", $this->auth_params,"",false);
+				break;
+				
+			case AUTH_SHIBBOLETH:
 				$settings = $this->getAllSettings();
 
 				// build option string for SHIB::Auth
 				$this->auth_params = array();
 				$this->auth = new ShibAuth($this->auth_params,true);
-
 				break;
 				
 			default:
@@ -330,13 +354,6 @@ class ILIAS
 				break;
 
 		}
-		
-		/*
-		ini_set("session.gc_maxlifetime",$this->ini->readVariable("session","expire"));
-		ini_set("session.cookie_lifetime",$this->ini->readVariable("session","expire"));
-		*/
-		//ini_set("session.gc_maxlifetime", 10);
-		//ini_set("session.cookie_lifetime", 10);
 
 		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
 		$this->auth->setExpire(0);

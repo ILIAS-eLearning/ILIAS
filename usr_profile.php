@@ -208,7 +208,7 @@ function change_password()
 	global $ilias, $lng, $tpl, $password_error;
 	
 	// do nothing if auth mode is not local database
-	if (AUTH_CURRENT != AUTH_LOCAL)
+	if ($ilias->account->getAuthMode(true) != AUTH_LOCAL)
 	{
 		return;
 	}
@@ -677,7 +677,7 @@ if (userSettingVisible("show_users_online"))
 }
 
 
-if (AUTH_CURRENT == AUTH_LOCAL and userSettingVisible('password'))
+if ($ilias->account->getAuthMode(true) == AUTH_LOCAL and userSettingVisible('password'))
 {
 	if($ilias->getSetting('usr_settings_disable_password'))
 	{
