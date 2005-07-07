@@ -59,34 +59,8 @@ class ilObjContentObject extends ilObject
 		// this also calls read() method! (if $a_id is set)
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		if ($a_id == 0)
-		{
-			$this->initMeta();
-		}
-
 		$this->mob_ids = array();
 		$this->file_ids = array();
-	}
-
-	/**
-	* init meta data object if needed
-	*/
-	function initMeta()
-	{
-/*
-		if (!is_object($this->meta_data))
-		{
-			if ($this->getId())
-			{
-				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}
-			else
-			{
-				$new_meta =& new ilMetaData();
-			}
-			$this->assignMetaData($new_meta);
-		}
-*/
 	}
 
 	/**
@@ -112,15 +86,6 @@ class ilObjContentObject extends ilObject
 			{
 				//$this->meta_data->setLanguage($ilUser->getLanguage());
 			}
-/* moved to gui::saveObject
-			$this->initMeta();
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
-*/
 		}
 	}
 
@@ -215,68 +180,15 @@ class ilObjContentObject extends ilObject
 //		$this->meta_data->setDescription($a_description);
 	}
 
-	/**
-	* assign a meta data object to content object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of content object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		$this->initMeta();
-		return $this->meta_data;
-	}
-*/
-
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->initMeta();
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 	function getImportId()
 	{
 		return $this->import_id;
-//		$this->initMeta();
-//		return $this->meta_data->getImportIdentifierEntryID();
 	}
 
 	function setImportId($a_id)
 	{
 		$this->import_id = $a_id;
-//		$this->initMeta();
-//		$this->meta_data->setImportIdentifierEntryID($a_id);
 	}
 
 	function &getTree()

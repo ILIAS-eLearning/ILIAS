@@ -600,11 +600,13 @@ class ilObject
 				$md_gen = $md->getGeneral();
 
 				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+				$this->setTitle($md_gen->getTitle());
 
 				foreach($md_gen->getDescriptionIds() as $id)
 				{
 					$md_des = $md_gen->getDescription($id);
 					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					$this->setDescription($md_des->getDescription());
 					break;
 				}
 

@@ -581,7 +581,7 @@ class ilContObjParser extends ilMDSaxParser
 					$this->glossary_object =& new ilObjGlossary();
 					$this->glossary_object->setTitle("");
 					$this->glossary_object->setDescription("");
-					$this->glossary_object->create();
+					$this->glossary_object->create(true);
 					$this->glossary_object->createReference();
 					$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
 					$this->glossary_object->putInTree($parent["child"]);
@@ -606,11 +606,7 @@ class ilContObjParser extends ilMDSaxParser
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
 				$this->glossary_definition->assignPageObject($this->page_object);
 				$this->current_object =& $this->glossary_definition;
-				
-				// new meta data handling: we create the lm page
-				// object already here, this should also create a
-				// md entry
-				$this->glossary_definition->create();
+				$this->glossary_definition->create(true);
 				break;
 
 			case "FileItem":
@@ -667,9 +663,12 @@ class ilContObjParser extends ilMDSaxParser
 						// type lm, dbk, glo
 						else
 						{
-							$this->md =& new ilMD($this->current_object->getId() ,
-								0,
-								$this->current_object->getType());
+							if ($this->processMeta())
+							{
+								$this->md =& new ilMD($this->current_object->getId() ,
+									0,
+									$this->current_object->getType());
+							}
 						}
 					}
 				}
@@ -677,9 +676,12 @@ class ilContObjParser extends ilMDSaxParser
 
 			// Identifier
 			case "Identifier":
-				if ($this->in_meta_data)
+				if ($this->in_meta_data && !$this->in_glossary_definition)
 				{
-					$this->current_object->setImportId($a_attribs["Entry"]);
+					if (!$this->in_media_object)
+					{
+						$this->current_object->setImportId($a_attribs["Entry"]);
+					}
 					$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
 				}
 				if ($this->in_file_item)
@@ -695,19 +697,28 @@ class ilContObjParser extends ilMDSaxParser
 				{
 //echo "looking for -".$a_attribs["Entry"]."-<br>";
 					$mob_id = $this->mob_mapping[$a_attribs["Entry"]];
+					
+					// within learning module import, usually a media object
+					// has already been created with a media alias tag
 					if ($mob_id > 0)
 					{
 						$this->media_object = new ilObjMediaObject($mob_id);
-						$this->media_object->setImportId($a_attribs["Entry"]);
-						$this->md =& new ilMD(0 ,
-							$this->media_object->getId(),
-							"mob");
-						$this->emptyMediaMetaCache($a_xml_parser);
 					}
-					else
-					{
-						echo "no media object mapping id";
+					else	// in glossaries the media objects precede the definitions
+							// so we don't have an object already
+					{		
+						$this->media_object = new ilObjMediaObject();
+						$this->media_object->create(true, false);
+						$this->mob_mapping[$a_attribs["Entry"]]
+							= $this->media_object->getId();
+
+//echo "<br>--creating media object";
 					}
+					$this->media_object->setImportId($a_attribs["Entry"]);
+					$this->md =& new ilMD(0 ,
+						$this->media_object->getId(),
+						"mob");
+					$this->emptyMediaMetaCache($a_xml_parser);
 				}
 				break;
 
@@ -793,7 +804,7 @@ class ilContObjParser extends ilMDSaxParser
 		}
 		
 		// call meta data handler
-		if ($this->in_meta_data)
+		if ($this->in_meta_data && $this->processMeta())
 		{
 			// cache beginning of meta data within media object tags
 			// (we need to know the id at the begin of meta elements within
@@ -825,6 +836,23 @@ class ilContObjParser extends ilMDSaxParser
 		}
 	}
 
+	/**
+	* check whether meta data should be processed
+	*/
+	function processMeta()
+	{
+		// do not process second meta block in (ilias3) glossaries
+		// which comes right after the "Glossary" tag
+		if ($this->content_object->getType() == "glo" &&
+			$this->in_glossary && !$this->in_media_object
+			&& !$this->in_glossary_definition)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
 
 	/**
 	* handler for end of element
@@ -835,7 +863,7 @@ class ilContObjParser extends ilMDSaxParser
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 		// call meta data handler
-		if ($this->in_meta_data)
+		if ($this->in_meta_data && $this->processMeta())
 		{
 			// cache beginning of meta data within media object tags
 			// (we need to know the id, after that we send the cached data
@@ -975,7 +1003,7 @@ class ilContObjParser extends ilMDSaxParser
 					// pages only
 					$this->media_object->create(true, false);
 					
-//echo $this->media_object->getId().":".$this->media_object->getTitle().":";
+//echo "<br>creating mob ".$this->media_object->getId().":".$this->media_object->getTitle().":";
 
 					// collect mobs with internal links
 					if ($this->media_object->containsIntLink())
@@ -1111,7 +1139,25 @@ class ilContObjParser extends ilMDSaxParser
 						$this->current_object->setTitle($this->content_object->getTitle()." - ".
 							$this->lng->txt("glossary"));
 					}
-					$this->current_object->update();
+
+					$this->current_object->MDUpdateListener('General');
+					/*
+					if (!$this->in_media_object && $this->processMeta())
+					{
+						$this->current_object->update();
+					}
+					*/
+				}
+				
+				if ($this->in_media_object)
+				{
+//echo "<br>call media object update listener";
+					$this->media_object->MDUpdateListener('General');
+				}
+				
+				if ($this->in_glossary_definition)
+				{
+					$this->glossary_definition->MDUpdateListener('General');
 				}
 
 				break;
@@ -1277,7 +1323,7 @@ class ilContObjParser extends ilMDSaxParser
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
 		// call meta data handler
-		if ($this->in_meta_data)
+		if ($this->in_meta_data && $this->processMeta())
 		{
 			// cache beginning of meta data within media object tags
 			// (we need to know the id, after that we send the cached data
