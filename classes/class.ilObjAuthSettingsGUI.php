@@ -43,6 +43,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	{
 		$this->type = "auth";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		define('LDAP_DEFAULT_PORT',389);
+		define('RADIUS_DEFAULT_PORT',1812);
 	}
 	
 	/**
@@ -343,7 +346,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			if (empty($settings["ldap_port"]))
 			{
-				$this->tpl->setVariable("LDAP_PORT", "389");
+				$this->tpl->setVariable("LDAP_PORT", LDAP_DEFAULT_PORT);
 			}
 			else
 			{
@@ -817,7 +820,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			if (empty($settings["radius_port"]))
 			{
-				$this->tpl->setVariable("RADIUS_PORT", "1645");
+				$this->tpl->setVariable("RADIUS_PORT", RADIUS_DEFAULT_PORT);
 			}
 			else
 			{
