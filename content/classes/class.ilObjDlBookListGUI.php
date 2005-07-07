@@ -151,7 +151,7 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 
 		include_once("content/classes/class.ilObjDlBookAccess.php");
 
-		if (!ilObjLearningModuleAccess::_lookupOnline($this->obj_id))
+		if (!ilObjDlBookAccess::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));

@@ -40,7 +40,6 @@ class ilGlossaryDefinition
 	var $id;
 	var $term_id;
 	var $glo_id;
-//	var $meta_data;
 	var $page_object;
 	var $short_text;
 	var $nr;
@@ -58,14 +57,7 @@ class ilGlossaryDefinition
 		$this->tpl =& $tpl;
 
 		$this->id = $a_id;
-		if ($a_id == 0)
-		{
-/*
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-*/
-		}
-		else
+		if ($a_id != 0)
 		{
 			$this->read();
 		}
@@ -85,7 +77,6 @@ class ilGlossaryDefinition
 		$this->setNr($def_rec["nr"]);
 
 		$this->page_object =& new ilPageObject("gdf", $this->id);
-//		$this->meta_data =& new ilMetaData("gdf", $this->id);
 	}
 
 	function setId($a_id)
@@ -97,18 +88,6 @@ class ilGlossaryDefinition
 	{
 		return $this->id;
 	}
-
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
 
 	function getType()
 	{
@@ -162,8 +141,6 @@ class ilGlossaryDefinition
 	*/
 	function getTitle()
 	{
-//		return parent::getTitle();
-//		return $this->meta_data->getTitle();
 		return $this->title;
 	}
 
@@ -172,9 +149,7 @@ class ilGlossaryDefinition
 	*/
 	function setTitle($a_title)
 	{
-//		parent::setTitle($a_title);
 		$this->title = $a_title;
-//		$this->meta_data->setTitle($a_title);
 	}
 
 	/**
@@ -184,8 +159,6 @@ class ilGlossaryDefinition
 	*/
 	function getDescription()
 	{
-//		return parent::getDescription();
-//		return $this->meta_data->getDescription();
 		return $this->description;
 	}
 
@@ -194,12 +167,10 @@ class ilGlossaryDefinition
 	*/
 	function setDescription($a_description)
 	{
-//		parent::setTitle($a_title);
-		//$this->meta_data->setDescription($a_description);
 		$this->description = $a_description;
 	}
 
-	function create()
+	function create($a_upload = false)
 	{
 		$term =& new ilGlossaryTerm($this->getTermId());
 
@@ -230,20 +201,13 @@ class ilGlossaryDefinition
 		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
 		
-		$this->createMetaData();
+		// meta data will be created by
+		// import parser
+		if (!$a_upload)
+		{
+			$this->createMetaData();
+		}
 
-/*
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->setTitle($this->getTitle());
-		$this->meta_data->setDescription($this->getDescription());
-		$this->meta_data->setObject($this);
-		$this->meta_data->create();
-*/
-
-		//$this->meta_data->setId($this->getId());
-		//$this->meta_data->setType($this->getType());
-		//$this->meta_data->create();
 		$this->page_object =& new ilPageObject("gdf");
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($term->getGlossaryId());
@@ -388,15 +352,6 @@ class ilGlossaryDefinition
 		$this->ilias->db->query($q);
 	}
 
-/*
-	function updateMetaData()
-	{
-		$this->meta_data->update();
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
-	}
-*/
-
 	function updateShortText()
 	{
 		$this->page_object->buildDom();
@@ -449,15 +404,13 @@ class ilGlossaryDefinition
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-// to do: export
-/*
-		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "modifyExportIdentifier");
-		$a_xml_writer->appendXML($nested->export($this->getId(),
-			$this->getType()));
-*/
+		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
+		include_once("Services/MetaData/classes/class.ilMD2XML.php");
+		$md2xml = new ilMD2XML($glo_id, $this->getId(), $this->getType());
+		$md2xml->setExportMode(true);
+		$md2xml->startExport();
+		$a_xml_writer->appendXML($md2xml->getXML());
 	}
-
 
 	/**
 	*
@@ -562,9 +515,11 @@ class ilGlossaryDefinition
 	* object -> ...
 	* Use static _writeTitle() ... methods instead.
 	*
+	* Even if this is not stored to db, it should be stored to the object
+	* e.g. for during import parsing
+	*
 	* @param	string		$a_element
 	*/
-/* not needed
 	function MDUpdateListener($a_element)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -574,15 +529,18 @@ class ilGlossaryDefinition
 			case 'General':
 
 				// Update Title and description
-				$md = new ilMD($this->getId(), 0, $this->getType());
+				$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
+				$md =& new ilMD($glo_id, $this->getId(), $this->getType());
 				$md_gen = $md->getGeneral();
 
-				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+				//ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+				$this->setTitle($md_gen->getTitle());
 
 				foreach($md_gen->getDescriptionIds() as $id)
 				{
 					$md_des = $md_gen->getDescription($id);
-					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					//ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+					$this->setDescription($md_des->getDescription());
 					break;
 				}
 
@@ -592,7 +550,7 @@ class ilGlossaryDefinition
 		}
 		return true;
 	}
-*/
+
 
 } // END class ilGlossaryDefinition
 
