@@ -37,7 +37,7 @@ class ilMDXMLCopier extends ilMDSaxParser
 {
 	var $filter = array();
 
-	function ilMDXMLCopier($content,$a_rbac_id,$obj_id,$a_obj_type)
+	function ilMDXMLCopier($content,$a_rbac_id,$a_obj_id,$a_obj_type)
 	{
 
 		$this->setMDObject(new ilMD($a_rbac_id,$a_obj_id,$a_obj_type));
