@@ -838,7 +838,8 @@ common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_ldap_settings_saved#:#LDAP settings saved
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication
-common#:#auth_radius_server#:#Server
+common#:#auth_radius_server#:#Servers
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_radius_port#:#Port
 common#:#auth_shibboleth#:#Shibboleth

@@ -324,12 +324,18 @@ class ILIAS
 				break;
 				
 			case AUTH_RADIUS:
-				$settings = $this->getAllSettings();
+				include_once('classes/class.ilRADIUSauthentication.php');
+				$radius_servers = ilRADIUSauthentication::_getServers($this->db);
 
+				$settings = $this->getAllSettings();
+				
+				foreach ($radius_servers as $radius_server)
+				{
+					$rad_params['servers'][] = array($radius_server,$settings["radius_port"],$settings["radius_shared_secret"]);
+				}
+				
 				// build option string for PEAR::Auth
-				$this->auth_params = array(
-											'servers'	=> array(array($settings["radius_server"],$settings["radius_port"],$settings["radius_shared_secret"]))
-											);
+				$this->auth_params = array($rad_params);
 				$this->auth = new Auth("RADIUS", $this->auth_params,"",false);
 				break;
 				
