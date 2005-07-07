@@ -66,12 +66,13 @@ class ilSetupGUI extends ilSetup
 		$this->lng =& $lng;
 
 		// CVS - REVISION - DO NOT MODIFY
-		$this->revision = "$Revision$";
+		$this->revision = '$Revision$';
 		$this->version = "2.".substr(substr($this->revision,2),0,-2);
 		$this->lang = $this->lng->lang_key;
 
 		// init setup
-		$this->ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
+		$this->ilSetup(isset($_SESSION["auth"]) ? $_SESSION['auth'] : '',
+					   isset($_SESSION["access_mode"]) ? $_SESSION['access_mode'] : '');
 
 		// init client object if exists
 		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
