@@ -384,7 +384,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		if ($a_type != "lres")
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_type."_b.gif");
+			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
 			$title = $this->lng->txt("objs_".$a_type);
 		}
 		else

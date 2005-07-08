@@ -47,57 +47,14 @@ class ilPersonalDesktopGUI
 	 */
 	function displaySelectedItems()
 	{
-		$types = array(
-			array("title" => $this->lng->txt("objs_cat"),
-				  "types" => "cat"),
-			array("title" => $this->lng->txt("objs_fold"),
-				  "types" => "fold"),
-			array("title" => $this->lng->txt("objs_crs"),
-				  "types" => "crs"),
-			array("title" => $this->lng->txt("objs_grp"),
-				  "types" => "grp"),
-			array("title" => $this->lng->txt("objs_chat"),
-				  "types" => "chat"),
-			array("title" => $this->lng->txt("objs_frm"),
-				  "types" => "frm"),
-			array("title" => $this->lng->txt("learning_resources"),
-				  "types" => array("lm", "htlm", "sahs", "dbk")),
-			array("title" => $this->lng->txt("objs_glo"),
-				  "types" => "glo"),
-			array("title" => $this->lng->txt("objs_file"),
-				  "types" => "file"),
-			array("title" => $this->lng->txt("objs_webr"),
-				  "types" => "webr"),
-			array("title" => $this->lng->txt("objs_exc"),
-				  "types" => "exc"),
-			array("title" => $this->lng->txt("objs_tst"),
-				  "types" => "tst"),
-			array("title" => $this->lng->txt("objs_svy"),
-				  "types" => "svy"),
-			array("title" => $this->lng->txt("objs_mep"),
-				  "types" => "mep"),
-			array("title" => $this->lng->txt("objs_qpl"),
-				  "types" => "qpl"),
-			array("title" => $this->lng->txt("objs_spl"),
-				  "types" => "spl"),
-				  
-		   array("title" => $this->lng->txt("objs_icrs"),
-
-				  "types" => "icrs"),
-				  
-		   array("title" => $this->lng->txt("objs_icla"),
-
-				  "types" => "icla")
-			);
+			
 		$html = "";
-		foreach($types as $type)
-		{
-			$html.= $this->getSelectedItemBlockHTML($type["title"], $type["types"]);
-		}
+		
+		$html.= $this->getSelectedItemsBlockHTML();
+		
 		if ($html != "")
 		{
 			$this->tpl->setCurrentBlock("selected_items");
-			$this->tpl->setVariable("TXT_SELECTED_ITEMS", $this->lng->txt("selected_items"));
 			$this->tpl->setVariable("SELECTED_ITEMS", $html);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -107,103 +64,235 @@ class ilPersonalDesktopGUI
 	/**
 	 * get selected item block
 	 */
-	function getSelectedItemBlockHTML($a_title, $a_type)
+	function getSelectedItemsBlockHTML()
 	{
 		include_once './classes/class.ilRepositoryExplorer.php';
 
 		global $rbacsystem, $objDefinition, $ilBench;
 		
-		$items = $this->ilias->account->getDesktopItems($a_type);
+		$output = false;
+		$types = array(
+			array("title" => $this->lng->txt("objs_cat"), "types" => "cat"),
+			array("title" => $this->lng->txt("objs_fold"), "types" => "fold"),
+			array("title" => $this->lng->txt("objs_crs"), "types" => "crs"),
+			array("title" => $this->lng->txt("objs_grp"), "types" => "grp"),
+			array("title" => $this->lng->txt("objs_chat"), "types" => "chat"),
+			array("title" => $this->lng->txt("objs_frm"), "types" => "frm"),
+			array("title" => $this->lng->txt("learning_resources"),"types" => array("lm", "htlm", "sahs", "dbk")),
+			array("title" => $this->lng->txt("objs_glo"), "types" => "glo"),
+			array("title" => $this->lng->txt("objs_file"), "types" => "file"),
+			array("title" => $this->lng->txt("objs_webr"), "types" => "webr"),
+			array("title" => $this->lng->txt("objs_exc"), "types" => "exc"),
+			array("title" => $this->lng->txt("objs_tst"), "types" => "tst"),
+			array("title" => $this->lng->txt("objs_svy"), "types" => "svy"),
+			array("title" => $this->lng->txt("objs_mep"), "types" => "mep"),
+			array("title" => $this->lng->txt("objs_qpl"), "types" => "qpl"),
+			array("title" => $this->lng->txt("objs_spl"), "types" => "spl"),
+			array("title" => $this->lng->txt("objs_icrs"), "types" => "icrs"),
+			array("title" => $this->lng->txt("objs_icla"), "types" => "icla")
+		);
+		
+		//$html = "";
+		
+		$tpl =& $this->newBlockTemplate();
+		
+		foreach ($types as $type)
+		{
+			$type = $type["types"];
+			$title = $type["title"];
+			
+			$items = $this->ilias->account->getDesktopItems($type);
+			$item_html = array();
 
-        // Determine whether the view of a learning resource should
-        // be shown in the frameset of ilias, or in a separate window.
-        $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-
-        if (count($items) > 0)
-        {
-            $tstCount = 0;
-            $unsetCount = 0;
-            $progressCount = 0;
-            $unsetFlag = 0;
-            $progressFlag = 0;
-            $completedFlag = 0;
-            if (strcmp($a_type, "tst") == 0) {
-                $items = $this->multiarray_sort($items, "used_tries; title");
-                foreach ($items as $tst_item) {
-                    if (!isset($tst_item["used_tries"])) {
-                        $unsetCount++;
-                    }
-                    elseif ($tst_item["used_tries"] == 0) {
-                        $progressCount++;
-                    }
-                }
-            }
-
-            $tpl = new ilTemplate("tpl.usr_pd_selected_item_block.html", true, true);
-            $tpl->setVariable("TXT_BLOCK_HEADER", $a_title);
-            $img_type  = (is_array($a_type))
-                ? $a_type[0]
-                : $a_type;
-
-            $tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
-            $this->lng->loadLanguageModule("assessment");
-            $this->lng->loadLanguageModule("survey");
-            $this->lng->loadLanguageModule("crs");
-            foreach($items as $item)
-            {
-                if (strcmp($a_type, "tst")==0) {
-                    $tpl->setCurrentBlock("tbl_tstheader");
-                    if (($tstCount < $unsetCount)&&($unsetFlag==0)) {
-                        $tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_not_entered"));
-                        $unsetFlag++;
-                    }
-                    elseif (($tstCount < ($unsetCount+$progressCount))&&($progressFlag==0)) {
-                        $tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_progress"));
-                        $progressFlag++;
-                    }
-                    elseif (($tstCount >= ($unsetCount+$progressCount))&&($completedFlag==0)) {
-                        $tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_completed_more_tries_possible"));
-                        $completedFlag++;
-                    }
-                    $tstCount++;
-                    $tpl->parseCurrentBlock();
-                }
+			if (count($items) > 0)
+			{
+				$tstCount = 0;
+				$unsetCount = 0;
+				$progressCount = 0;
+				$unsetFlag = 0;
+				$progressFlag = 0;
+				$completedFlag = 0;
+				if (strcmp($a_type, "tst") == 0) {
+					$items = $this->multiarray_sort($items, "used_tries; title");
+					foreach ($items as $tst_item) {
+						if (!isset($tst_item["used_tries"])) {
+							$unsetCount++;
+						}
+						elseif ($tst_item["used_tries"] == 0) {
+							$progressCount++;
+						}
+					}
+				}
+			
+				/*
+				$tpl = new ilTemplate("tpl.usr_pd_selected_item_block.html", true, true);
+				$tpl->setVariable("TXT_BLOCK_HEADER", $a_title);
+				$img_type  = (is_array($a_type))
+					? $a_type[0]
+					: $a_type;*/
+	
+				//$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
 				
-				// get list gui class for each object type
-				if ($cur_obj_type != $item["type"])
+				//$this->lng->loadLanguageModule("assessment");
+				//$this->lng->loadLanguageModule("survey");
+				//$this->lng->loadLanguageModule("crs");
+				foreach($items as $item)
 				{
-					$class = $objDefinition->getClassName($item["type"]);
-					$location = $objDefinition->getLocation($item["type"]);
-					$full_class = "ilObj".$class."ListGUI";
-					include_once($location."/class.".$full_class.".php");
-					$item_list_gui = new $full_class();
-					$item_list_gui->enableDelete(false);
-					$item_list_gui->enableCut(false);
-					$item_list_gui->enablePayment(false);
-					$item_list_gui->enableLink(false);
-// to do: make unsubscribe work
-					//$item_list_gui->enableSubscribe(false);
-					//$item_list_gui->setContainerObject($this);
-				}
-				// render item row
-				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+					// special test handling
+					/*
+					if (strcmp($a_type, "tst")==0) {
+						
+						$tpl->setCurrentBlock("tbl_tstheader");
+						if (($tstCount < $unsetCount)&&($unsetFlag==0)) {
+							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_not_entered"));
+							$unsetFlag++;
+						}
+						elseif (($tstCount < ($unsetCount+$progressCount))&&($progressFlag==0)) {
+							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_progress"));
+							$progressFlag++;
+						}
+						elseif (($tstCount >= ($unsetCount+$progressCount))&&($completedFlag==0)) {
+							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_completed_more_tries_possible"));
+							$completedFlag++;
+						}
+						$tstCount++;
+						$tpl->parseCurrentBlock();
+					}*/
+					
+					// get list gui class for each object type
+					if ($cur_obj_type != $item["type"])
+					{
+						$class = $objDefinition->getClassName($item["type"]);
+						$location = $objDefinition->getLocation($item["type"]);
+						$full_class = "ilObj".$class."ListGUI";
+						include_once($location."/class.".$full_class.".php");
+						$item_list_gui = new $full_class();
+						$item_list_gui->enableDelete(false);
+						$item_list_gui->enableCut(false);
+						$item_list_gui->enablePayment(false);
+						$item_list_gui->enableLink(false);
+					}
+					// render item row
+					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+	
+					$html = $item_list_gui->getListItemHTML($item["ref_id"],
+						$item["obj_id"], $item["title"], $item["description"]);
+					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
+					if ($html != "")
+					{
+						$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
 
-				$html = $item_list_gui->getListItemHTML($item["ref_id"],
-					$item["obj_id"], $item["title"], $item["description"]);
-				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
-				if ($html != "")
+						/*
+						$tpl->setVariable("ITEM_HTML", $html);
+						$tpl->setCurrentBlock("block_row");
+						$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
+						$tpl->parseCurrentBlock();
+						*/
+					}
+				}
+
+				// output block for resource type
+				if (count($item_html) > 0)
 				{
-					$tpl->setVariable("ITEM_HTML", $html);
-					$tpl->setCurrentBlock("block_row");
-					$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
-					$tpl->parseCurrentBlock();
-				}
-            }
-            return $tpl->get();
-        }
+					// add a header for each resource type
+					$this->addHeaderRow($tpl, $type);
+					$this->resetRowType();
 
-        return "";
+					// content row
+					foreach($item_html as $item)
+					{
+						$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+						$output = true;
+					}
+				}
+			}
+		}
+		
+		if ($output)
+		{
+			$tpl->setCurrentBlock("pd_header_row");
+			$tpl->setVariable("PD_BLOCK_HEADER_CONTENT", $this->lng->txt("selected_items"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
     }
+	
+	/**
+	* adds a header row to a block template
+	*
+	* @param	object		$a_tpl		block template
+	* @param	string		$a_type		object type
+	* @access	private
+	*/
+	function addHeaderRow(&$a_tpl, $a_type)
+	{
+		if (!is_array($a_type))
+		{
+			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+			$title = $this->lng->txt("objs_".$a_type);
+		}
+		else
+		{
+			$icon = ilUtil::getImagePath("icon_lm_b.gif");
+			$title = $this->lng->txt("learning_resources");
+		}
+		$a_tpl->setCurrentBlock("container_header_row");
+		$a_tpl->setVariable("HEADER_IMG", $icon);
+		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->touchBlock("container_row");
+	}
+
+	/**
+	* adds a standard row to a block template
+	*
+	* @param	object		$a_tpl		block template
+	* @param	string		$a_html		html code
+	* @access	private
+	*/
+	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "")
+	{
+		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
+			? "row_type_2"
+			: "row_type_1";
+
+		$a_tpl->touchBlock($this->cur_row_type);
+		
+		if ($_SESSION["il_cont_admin_panel"] == true)
+		{
+			$a_tpl->setCurrentBlock("block_row_check");
+			$a_tpl->setVariable("ITEM_ID", $a_item_id);
+			$a_tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
+		}
+		$a_tpl->setCurrentBlock("container_standard_row");
+		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->touchBlock("container_row");
+	}
+
+	function resetRowType()
+	{
+		$this->cur_row_type = "";
+	}
+	
+	/**
+	* returns a new list block template
+	*
+	* @access	private
+	* @return	object		block template
+	*/
+	function &newBlockTemplate()
+	{
+		$tpl = new ilTemplate ("tpl.repository_list_block.html", true, true);
+		$this->cur_row_type = "row_type_1";
+		return $tpl;
+	}
+
 
     function displaySystemMessages()
     {

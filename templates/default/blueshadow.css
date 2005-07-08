@@ -421,6 +421,32 @@ div.il_PDTitle
 	word-spacing: -0.1em;
 }
 
+table.il_PDBlock
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#a0a0a0;
+	margin-top:25px;
+}
+
+td.il_PDBlockHeader
+{
+	background-image: url(images/cellpic5.gif);
+	font-weight: bold;
+	padding: 3px;
+	font-size:14px;
+	background-color: #CCCCCC;
+	
+	border-bottom-width:1px;
+	border-bottom-color:#909090;
+	border-bottom-style:solid;
+}
+
 
 /* Repository Header */
 table.ilc_RepHeader {
