@@ -6,6 +6,10 @@ body {
 	margin:10px;
 }
 
+table {
+	border-collapse:collapse;
+}
+
 td {
 	font-size:13px;
 }

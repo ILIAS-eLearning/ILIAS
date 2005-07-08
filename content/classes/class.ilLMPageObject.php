@@ -138,13 +138,14 @@ class ilLMPageObject extends ilLMObject
 		$lm_page->setLMId($this->getLMId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
-		$lm_page->create(true);		// this "upload" flag prevents creating of meta data
+		$lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md =& $md->cloneMD($this->getLMId(), $lm_page->getId(), $this->getType());
 
+		// copy page content
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
 		$page->buildDom();
@@ -158,18 +159,20 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function &copyToOtherContObject(&$a_cont_obj)
 	{
-echo "copy temporary not available";
-//echo "<br>from page lm:".$this->getLMId().", pg: ".$this->getId();
-//		$meta =& new ilMetaData();
+		// copy page
 		$lm_page =& new ilLMPageObject($a_cont_obj);
-//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
-		$lm_page->create();
-//echo "<br>to page lm:".$lm_page->getLMId().", pg: ".$lm_page->getId();
+		$lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
+		// copy meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$new_md =& $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
+
+		// copy page content
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
 		$page->buildDom();
