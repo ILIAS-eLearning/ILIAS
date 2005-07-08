@@ -798,25 +798,39 @@ common#:#at_location#:#la locatie
 common#:#attachment#:#Fisier atasat
 common#:#attachments#:#Fisiere atasate
 common#:#attend#:#Participati...
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Schimbati setarile de permisiune
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autentificati utilizatorii prin server LDAP
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP nu este inca configurat
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#baza de date ILIAS
 common#:#auth_local_desc#:#Autentificati utilizatori prin baza de date locala ILIAS (implicit)
 common#:#auth_mode#:#Mod de Autentificare
-common#:#auth_mode_changed_to#:#Mod de Autentificare schimbat in
 common#:#auth_mode_not_changed#:#(Nimic schimbat)
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Autentificare prin server RADIUS
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Acces la setarile de autentificare
-common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare decat cel implicit, login-urile si parolele nu mai pot fi schimbate iar optiunea de a inregistra alti utilizatori este dezafectata.
+common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare decat cel implicit, login-urile si parolele nu mai pot fi schimbate iar optiunea de a inregistra alti utilizatori este dezafectata.###08 Jul 2005 content changed
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Normal
 common#:#auth_script_desc#:#Autentificare utilizatori prin script extern
 common#:#auth_select#:#Selectati modul de autentificare
 common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Setarile de Autentificare sunt vizibile
 common#:#auth_write#:#Editati setarile de autentificare
 common#:#author#:#Autor

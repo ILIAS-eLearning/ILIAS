@@ -784,23 +784,37 @@ common#:#at_location#:#Sted
 common#:#attachment#:#Vedh&aelig;ft
 common#:#attachments#:#Vedh&aelig;ftede
 common#:#attend#:# Vedh&aelig;ft
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
 common#:#auth_configure#:#Konfigurer...
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Rediger rettigheds indstillinger
 common#:#auth_ldap#:#LDAP###21 Apr 2005 new variable
 common#:#auth_ldap_desc#:#Vertificer brugere via LDAP serveren
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP is not configured yet###21 Apr 2005 new variable
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#ILIAS database###21 Apr 2005 new variable
 common#:#auth_local_desc#:#Vertificer brugere via local ILIAS databasen (standard)
 common#:#auth_mode#:#Vertifikation mode
-common#:#auth_mode_changed_to#:#Vertifikation mode &aelig;ndret til
 common#:#auth_mode_not_changed#:#(intet er &aelig;ndret)
 common#:#auth_radius#:#RADIUS###21 Apr 2005 new variable
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Vertificer brugere via RADIUS serveren
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#adgang til vertifikations indstllinger
-common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertifikations mode end standarden bliver bruger login og passwords sl&aring;et fra. Og der kan ikke oprettes nye brugere
+common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertifikations mode end standarden bliver bruger login og passwords sl&aring;et fra. Og der kan ikke oprettes nye brugere###08 Jul 2005 content changed
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#brugervalgte
 common#:#auth_script_desc#:#Vertificer brugeren via external script
 common#:#auth_select#:#V&aelig;lg vertifikations mode
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Vertifikations indstllinger er synlige
 common#:#auth_write#:#Rediger Vertifikations adgang
 common#:#author#:#Forfatter

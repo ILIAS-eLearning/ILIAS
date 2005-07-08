@@ -842,26 +842,40 @@ common#:#at_location#:#地点为###07 Apr 2005 content changed
 common#:#attachment#:#附件###07 Apr 2005 content changed
 common#:#attachments#:#附件###07 Apr 2005 content changed
 common#:#attend#:#Attend###03 Apr 2004 new variable
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
 common#:#auth_configure#:#configure...###24 Jul 2004 new variable
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
 common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
-common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
 common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
 common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.###24 Jul 2004 new variable
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Custom###24 Jul 2004 new variable
 common#:#auth_script_desc#:#Authenticate users via external script###24 Jul 2004 new variable
 common#:#auth_select#:#Select authentication mode###24 Jul 2004 new variable
 common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new variable
 common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#作者###07 Apr 2005 content changed
