@@ -48,7 +48,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "fold";
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 

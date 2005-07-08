@@ -74,6 +74,8 @@ class ilContainerGUI extends ilObjectGUI
 	/**
 	* display tree view
 	*/
+/*	This is currently implemented in ilRepositoryGUI for all containers
+	and a conceptional issue whether it should be moved to this class.
 	function showTreeObject()
 	{
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
@@ -84,7 +86,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		include_once ("classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
-		$exp->setExpandTarget("repository.php?cmd=showTree");
+		$exp->setExpandTarget("repository.php?cmd=showTree&ref_id=".$this->object->getRefId());
 		$exp->setTargetGet("ref_id");
 
 		if ($_GET["repexpand"] == "")
@@ -111,6 +113,7 @@ class ilContainerGUI extends ilObjectGUI
 		$this->tpl->show(false);
 		exit;
 	}
+*/
 
 	/**
 	* render container object

@@ -89,8 +89,10 @@ class ilRepositoryGUI
 
 		// determine current ref id and mode
 		//if (!empty($_GET["ref_id"]) && empty($_GET["getlast"]))
-		if (!empty($_GET["ref_id"]))
+//echo "-".$this->ctrl->getCmd()."-".$_GET["cmd"]."-";
+		if (!empty($_GET["ref_id"]) || $this->ctrl->getCmd() == "showTree")
 		{
+//echo "5";
 			$this->cur_ref_id = $_GET["ref_id"];
 		}
 		else
@@ -161,7 +163,7 @@ class ilRepositoryGUI
 			? $_SESSION["il_rep_mode"]
 			: "flat";
 
-		if (!$tree->isInTree($this->cur_ref_id))
+		if (!$tree->isInTree($this->cur_ref_id) && $this->ctrl->getCmd() != "showTree")
 		{
 //echo "-".$this->cur_ref_id."-";
 			$this->cur_ref_id = $this->tree->getRootId();
@@ -189,7 +191,8 @@ class ilRepositoryGUI
 
 		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
 		//	&& ($this->object->getType() == "cat" || $this->object->getType() == "root" || $this->object->getType() == "grp"))
-		if ($rbacsystem->checkAccess("read", $this->cur_ref_id))
+		if ($this->ctrl->getCmd() != "showTree" &&
+			$rbacsystem->checkAccess("read", $this->cur_ref_id))
 		{
 			$type = ilObject::_lookupType($this->cur_ref_id, true);
 			if ($type == "cat" || $type == "grp" || $type == "crs"
@@ -257,7 +260,12 @@ class ilRepositoryGUI
 			$this->ctrl->setCmd("");
 			$cmd = "";
 		}
-
+		
+		if ($cmd == "showTree")
+		{
+			$next_class = "";
+		}
+		
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
@@ -291,7 +299,7 @@ class ilRepositoryGUI
 			case "ilobjfoldergui":
 			case "ilobjilincclassroomgui":
 			//case "ilobjmediapoolgui":					// doesnt work, why?
-
+//echo "H-$next_class-H";
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
 				// get gui class instance
@@ -343,7 +351,13 @@ class ilRepositoryGUI
 					$cmd = "";
 					$this->ctrl->setCmd("");
 				}
-
+				
+				if ($cmd == "showTree")
+				{
+					$this->showTree();
+					return;
+				}
+				
 				if (!isset($obj_type))
 				{
 					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
@@ -483,7 +497,7 @@ class ilRepositoryGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
+		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER", $output);
 		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
