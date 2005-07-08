@@ -817,6 +817,19 @@ class ilObjCourse extends ilObject
 		return true;
 	}
 
+	function initWaitingList()
+	{
+		include_once "./course/classes/class.ilCourseWaitingList.php";
+
+		if(!is_object($this->waiting_list_obj))
+		{
+			$this->waiting_list_obj =& new ilCourseWaitingList($this->getId());
+		}
+		return true;
+	}
+		
+		
+
 	function initCourseMemberObject()
 	{
 		include_once "./course/classes/class.ilCourseMembers.php";

@@ -83,7 +83,7 @@ class ilCourseWaitingList
 	}
 
 	function isOnList($a_usr_id)
-	{
+	{	
 		return isset($this->users[$a_usr_id]) ? true : false;
 	}
 
@@ -101,12 +101,19 @@ class ilCourseWaitingList
 	{
 		return $this->users ? $this->users : array();
 	}
+	
+	function getUser($a_usr_id)
+	{
+		return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id] : false;
+	}
 
 
 	// PRIVATE
 	function __read()
 	{
-		$query = "SELECT usr_id FROM crs_waiting_list ".
+		$this->users = array();
+
+		$query = "SELECT * FROM crs_waiting_list ".
 			"WHERE obj_id = '".$this->getCourseId()."'";
 
 		$res = $this->db->query($query);

@@ -1,44 +1,57 @@
 	<form action="{FORMACTION}" {TARGET} method="post">
 	  <table class="std">
-		  <tr class="tbltitle">
-			<td colspan="3">
-			  <table class="fullwidth_invisible" cellspacing="0">
-				  <tr class="tbltitle">
-					<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
-					<td class="tbltitle" align="left">&nbsp;{TITLE}</td>
-				  </tr>
-			  </table>
-			</td>
-		  </tr>
-		  <tr>
-			<td class="option" align="top">{TXT_SYLLABUS}</td>
-			<td class="option_value">{SYLLABUS}</td>
-		  </tr>
-		  <tr>
-			<td class="option" align="top">{TXT_INFO_REG}</td>
-			<td class="option_value">{INFO_REG_PRE} {INFO_REG}</td>
-		  </tr>
-	  <!-- BEGIN reg_until -->
-		  <tr>
-			<td class="option" align="top">{TXT_REG_UNTIL}</td>
-			<td class="option_value">{FROM} {REG_UNTIL}</td>
-		  </tr>
-	  <!-- END reg_until -->
-		  <!-- BEGIN pass -->
-		  <tr>
-			<td class="option" align="top">{TXT_PASSWORD}</td>
-			<td class="option_value"><input type="password" name="password" size="12" maxlength="12" /></td>
-		  </tr>
-		  <!-- END pass -->
-		  <tr>
-			<td class="submit" colspan="3">
-			  <div align="right">
-				<!-- BEGIN go -->
-				<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
-				<!-- END go -->
-				<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-			  </div>
-			</td>
-		  </tr>
+		<tr class="tbltitle">
+		  <td colspan="3">
+			<table class="fullwidth_invisible" cellspacing="0">
+			  <tr class="tbltitle">
+				<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+				<td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			  </tr>
+			</table>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" align="top">{TXT_SYLLABUS}</td>
+		  <td class="option_value">{SYLLABUS}</td>
+		</tr>
+		<tr>
+		  <td class="option" align="top">{TXT_INFO_REG}</td>
+		  <td class="option_value">{INFO_REG_PRE} {INFO_REG}</td>
+		</tr>
+		<!-- BEGIN reg_until -->
+		<tr>
+		  <td class="option" align="top">{TXT_REG_UNTIL}</td>
+		  <td class="option_value">{FROM} {REG_UNTIL}</td>
+		</tr>
+		<!-- END reg_until -->
+		<!-- BEGIN waiting_list -->
+		<tr>
+		  <td class="option" align="top">{TXT_WAITING_LIST}</td>
+		  <td class="option_value">{FREE_PLACES}</td>
+		</tr>
+		<!-- END waiting_list -->
+		<!-- BEGIN waiting_list_info -->
+		<tr>
+		  <td class="option" align="top">{TXT_WAITING_LIST_INFO}</td>
+		  <td class="option_value">{POSITION}</td>
+		</tr>
+		<!-- END waiting_list_info -->
+
+		<!-- BEGIN pass -->
+		<tr>
+		  <td class="option" align="top">{TXT_PASSWORD}</td>
+		  <td class="option_value"><input type="password" name="password" size="12" maxlength="12" /></td>
+		</tr>
+		<!-- END pass -->
+		<tr>
+		  <td class="submit" colspan="3">
+			<div align="right">
+			  <!-- BEGIN go -->
+			  <input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+			  <!-- END go -->
+			  <input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+			</div>
+		  </td>
+		</tr>
 	  </table>
 	</form>

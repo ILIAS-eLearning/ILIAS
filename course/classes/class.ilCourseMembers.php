@@ -100,8 +100,6 @@ class ilCourseMembers
 		return true;
 	}
 
-
-
 	function add(&$user_obj,$a_role,$a_status = 0,$a_passed = 0)
 	{
 		global $rbacadmin;
@@ -490,6 +488,8 @@ class ilCourseMembers
 	{
 		return $this->__readSubscriberData($a_usr_id);
 	}
+	
+
 
 	function assignSubscribers($a_usr_ids)
 	{
