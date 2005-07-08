@@ -75,7 +75,8 @@ class ilSetupGUI extends ilSetup
 					   isset($_SESSION["access_mode"]) ? $_SESSION['access_mode'] : '');
 
 		// init client object if exists
-		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
+		$client_id = isset($_GET["client_id"]) ? $_GET["client_id"] : 
+			(isset($_SESSION["ClientId"]) ? $_SESSION["ClientId"] : "");
 
 		// for security
 		if (!$this->isAdmin() and $client_id != $_SESSION["ClientId"])
