@@ -784,23 +784,37 @@ common#:#at_location#:#në lokacionin
 common#:#attachment#:#Shtesë
 common#:#attachments#:#Shtesat
 common#:#attend#:#Frekuenca e vizitave
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
 common#:#auth_configure#:#konfiguro…
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Ndërro konfigurimin për të drejtat
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Verifiko shfrytëzuesit përmes LDAP serverit
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP nuk është i konfiguruar ende
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#databaza ILIAS
 common#:#auth_local_desc#:#Verifiko shfrytëzuesit përmes databazës lokale ILIAS (e paradefinuar)
 common#:#auth_mode#:#Modi i verifikimit
-common#:#auth_mode_changed_to#:#Modi i verifikimit ndërrohet në
 common#:#auth_mode_not_changed#:#(Asgjë nuk është ndërruar)
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Verifiko shfrytëzuesit përmes RADIUS serverit
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Qasje në konfigurimet e verifikimit
-common#:#auth_remark_non_local_auth#:#Kur zgjedh mod tjetër të verifikimit nga ai i paradefinuar, identifikimi i shfrytëzuesve dhe parullat nuk mund të ndërrohen më dhe opsioni për të regjistruar shfrytëzues të ri është i pamundësuar.
+common#:#auth_remark_non_local_auth#:#Kur zgjedh mod tjetër të verifikimit nga ai i paradefinuar, identifikimi i shfrytëzuesve dhe parullat nuk mund të ndërrohen më dhe opsioni për të regjistruar shfrytëzues të ri është i pamundësuar.###08 Jul 2005 content changed
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Zgjedhje personale
 common#:#auth_script_desc#:#Verifiko shfrytëzuesit përmes skriptës së jashtme
 common#:#auth_select#:#Zgjedh modin e verifikimit
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Konfigurimet e verifikimit janë të dukshme
 common#:#auth_write#:#Edito konfigurimet për verifikim
 common#:#author#:#Autor

@@ -822,26 +822,40 @@ common#:#at_location#:#знаходиться
 common#:#attachment#:#Прикріплення
 common#:#attachments#:#Прикріплення
 common#:#attend#:#Супроводжувати
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
 common#:#auth_configure#:#конфігурувати...
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Змінити настройки прав
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Аутентифікувати користувачів через LDAP сервер
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP ще не сконфігурований
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#База даних ILIAS
 common#:#auth_local_desc#:#Аутентифікувати користувачів через локальну базу даних ILIAS (по замовчанню)
 common#:#auth_mode#:#Режим аутентифікації
-common#:#auth_mode_changed_to#:#Режим аутентифікації змінений на
 common#:#auth_mode_not_changed#:#(Нічого не змінено)
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Аутентифікувати користувачів через RADIUS сервер
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Настройки аутентифікації
-common#:#auth_remark_non_local_auth#:#Коли вибирається інший режим аутентифікації крім режима по замовчанню, логіни та паролі користувачів більше не можуть бути змінені та опція нової реєстрації заблокована.
+common#:#auth_remark_non_local_auth#:#Коли вибирається інший режим аутентифікації крім режима по замовчанню, логіни та паролі користувачів більше не можуть бути змінені та опція нової реєстрації заблокована.###08 Jul 2005 content changed
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Заказ
 common#:#auth_script_desc#:#Аутентифікація користувачів через зовнішній скрипт
 common#:#auth_select#:#Вибір методу аутентифікації
 common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Настройки аутентифікації є видимі
 common#:#auth_write#:#Редагувати настройки аутентифікації
 common#:#author#:#Автор

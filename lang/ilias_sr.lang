@@ -784,23 +784,37 @@ common#:#at_location#:#na lokaciji
 common#:#attachment#:#Dodatak
 common#:#attachments#:#Dodaci
 common#:#attend#:#Obrati pažnju
+common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
 common#:#auth_configure#:#uoblici...
+common#:#auth_default#:#Default setting###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Promenite okvir za dozvolu
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Potvrdite korisnike preko LDAP servera
+common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
 common#:#auth_ldap_not_configured#:#LDAP još nije konfigurisan
+common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#ILIAS baza podataka
 common#:#auth_local_desc#:#Potvrdite korisnike uz pomoc ILIAS baze podataka (standardna)
 common#:#auth_mode#:#Autenticni metod
-common#:#auth_mode_changed_to#:#Autenticni metod promenjen u
 common#:#auth_mode_not_changed#:#(Ništa nije promenjeno)
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Autorizujte korisnike preko RADIUS servera
+common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
+common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
+common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
+common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Pristupi podešavanjima autenticnosti
-common#:#auth_remark_non_local_auth#:#Kada odaberete drugaciji autenticni metod od standardnog, registracije i šifre korisnika više se ne mogu menjati i opcija za registraciju novih korisnika je onemogucena.
+common#:#auth_remark_non_local_auth#:#Kada odaberete drugaciji autenticni metod od standardnog, registracije i šifre korisnika više se ne mogu menjati i opcija za registraciju novih korisnika je onemogucena.###08 Jul 2005 content changed
+common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Prilagodi
 common#:#auth_script_desc#:#Potvrdite korisnike uz pomoc spoljne skripte
 common#:#auth_select#:#Odaberite autenticni metod
+common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_visible#:#Autenticna podešavanja su vidljiva
 common#:#auth_write#:#Uredite autenticna podešavanja
 common#:#author#:#Autor
