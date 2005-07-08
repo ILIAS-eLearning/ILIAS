@@ -2939,7 +2939,7 @@ content#:#cont_ed_paste_clip#:#Aus Ablage einf.
 content#:#cont_ed_row_down#:#Spalte nach unten verschieben
 content#:#cont_ed_row_up#:#Spalte nach oben verschieben
 content#:#cont_ed_split_page#:#Seite aufteilen
-content#:#cont_ed_split_page_next#:#Auf nächste Seite aufteilen
+content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
