@@ -209,14 +209,17 @@ class ilLMPageObject extends ilLMObject
 		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
 
 		// create new page
-//		$meta =& new ilMetaData();
 		$lm_page =& new ilLMPageObject($cont_obj);
-//		$lm_page->assignMetaData($meta);
 		$lm_page->setTitle($source_lm_page->getTitle());
 		$lm_page->setLMId($source_lm_page->getLMId());
 		$lm_page->setType($source_lm_page->getType());
 		$lm_page->setDescription($source_lm_page->getDescription());
-		$lm_page->create();
+		$lm_page->create(true);
+		
+		// copy meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($source_lm_page->getLMId(), $a_page_id, $source_lm_page->getType());
+		$new_md =& $md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
 
 		// copy complete content of source page to new page
 		$source_page =& $source_lm_page->getPageObject();

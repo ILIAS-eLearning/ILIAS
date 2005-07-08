@@ -102,17 +102,21 @@ class ilStructureObject extends ilLMObject
 		$source_tree->setTableNames('lm_tree','lm_data');
 		$source_tree->setTreeTablePK("lm_id");
 
-//		$meta =& new ilMetaData();
+		// copy chapter
 		$target_lm_id = $a_target_tree->getTreeId();
 		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
 		$chap =& new ilStructureObject($target_lm);
-//		$chap->assignMetaData($meta);
 		$chap->setTitle($this->getTitle());
 		$chap->setLMId($target_lm_id);
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
-		$chap->create();
-
+		$chap->create(true);
+		
+		// copy meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$new_md =& $md->cloneMD($target_lm_id, $chap->getId(), $this->getType());
+		
 		// insert chapter in tree
 		$a_target_tree->insertNode($chap->getId(), $a_parent, $a_pos);
 
