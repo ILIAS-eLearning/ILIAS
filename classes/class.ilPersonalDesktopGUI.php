@@ -261,9 +261,10 @@ class ilPersonalDesktopGUI
 		
 		if ($_SESSION["il_cont_admin_panel"] == true)
 		{
+			/*
 			$a_tpl->setCurrentBlock("block_row_check");
 			$a_tpl->setVariable("ITEM_ID", $a_item_id);
-			$a_tpl->parseCurrentBlock();
+			$a_tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -288,7 +289,7 @@ class ilPersonalDesktopGUI
 	*/
 	function &newBlockTemplate()
 	{
-		$tpl = new ilTemplate ("tpl.repository_list_block.html", true, true);
+		$tpl = new ilTemplate ("tpl.pd_list_block.html", true, true);
 		$this->cur_row_type = "row_type_1";
 		return $tpl;
 	}
