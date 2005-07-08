@@ -79,6 +79,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->addSubscribers();
 				break;
 
+			case "addFromWaitingList":
+				$this->addFromWaitingList();
+				break;
+
+			case "removeFromWaitingList":
+				$this->removeFromWaitingList();
+				break;
+
 			default:
 				$this->viewObject();
 				break;
@@ -1270,6 +1278,33 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 
+		// Waiting list
+		$this->object->initWaitingList();
+		if($this->object->waiting_list_obj->getCountUsers())
+		{
+			$counter = 0;
+			$f_result = array();
+			foreach($this->object->waiting_list_obj->getAllUsers() as $waiting_data)
+			{
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($waiting_data['usr_id'],false))
+				{
+					$waiting_list_ids[] = $waiting_data['usr_id'];
+					
+					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
+					$f_result[$counter][]	= $tmp_obj->getLogin();
+					$f_result[$counter][]	= $tmp_obj->getFirstname();
+					$f_result[$counter][]	= $tmp_obj->getLastname();
+					$f_result[$counter][]   = strftime("%Y-%m-%d %R",$waiting_data["time"]);
+
+					unset($tmp_obj);
+					++$counter;
+				}
+			}
+			$this->__showWaitingListTable($f_result,$waiting_list_ids);
+
+		} // END waiting list
+
 		// SUBSCRIBERS
 		if(count($this->object->members_obj->getSubscribers()))
 		{
@@ -1622,7 +1657,90 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		return false;
-	}		
+	}
+
+	function addFromWaitingList()
+	{
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!is_array($_POST["waiting_list"]))
+		{
+			sendInfo($this->lng->txt("crs_no_users_selected"));
+			$this->membersObject();
+
+			return false;
+		}
+		$this->object->initCourseMemberObject();
+		$this->object->initWaitingList();
+
+		$added_users = 0;
+		foreach($_POST["waiting_list"] as $user_id)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id))
+			{
+				continue;
+			}
+			if($this->object->members_obj->isAssigned($user_id))
+			{
+				continue;
+			}
+			$this->object->members_obj->add($tmp_obj,$this->object->members_obj->ROLE_MEMBER);
+			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$this->object->waiting_list_obj->removeFromList($user_id);
+
+			++$added_users;
+		}
+		if($added_users)
+		{
+			sendInfo($this->lng->txt("crs_users_added"));
+			$this->membersObject();
+
+			return true;
+		}
+		else
+		{
+			sendInfo($this->lng->txt("crs_users_already_assigned"));
+			$this->searchObject();
+
+			return false;
+		}
+		return false;
+	}
+
+	function performRemoveFromWaitingListObject()
+	{
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!is_array($_SESSION["crs_delete_waiting_list_ids"]))
+		{
+			sendInfo($this->lng->txt("crs_no_users_selected"));
+			$this->membersObject();
+
+			return false;
+		}
+
+		$this->object->initWaitingList();
+		foreach($_SESSION['crs_delete_waiting_list_ids'] as $usr_id)
+		{
+			$this->object->waiting_list_obj->removeFromList($usr_id);
+		}
+		sendInfo($this->lng->txt('crs_users_removed_from_list'));
+		$this->membersObject();
+
+		return true;
+	}
+
 		
 	function addSubscribers()
 	{
@@ -1744,7 +1862,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
-				$f_result[$counter][]   = $member_data["time"];
+				$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
 
 				unset($tmp_obj);
 				++$counter;
@@ -1753,6 +1871,52 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $this->__showDeleteSubscriberTable($f_result);
 	}
 		
+	function removeFromWaitingList()
+	{
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!is_array($_POST["waiting_list"]) or !count($_POST["waiting_list"]))
+		{
+			sendInfo($this->lng->txt("crs_no_users_selected"));
+			$this->membersObject();
+
+			return false;
+		}
+		sendInfo($this->lng->txt("crs_delete_from_list_sure"));
+
+		// SHOW DELETE SCREEN
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
+		$this->object->initCourseMemberObject();
+		$this->object->initWaitingList();
+
+		// SAVE IDS IN SESSION
+		$_SESSION["crs_delete_waiting_list_ids"] = $_POST["waiting_list"];
+
+		$counter = 0;
+		$f_result = array();
+
+		foreach($_POST["waiting_list"] as $wait_id)
+		{
+			$user_data =& $this->object->waiting_list_obj->getUser($wait_id);
+			// GET USER OBJ
+			if($tmp_obj = ilObjectFactory::getInstanceByObjId($wait_id,false))
+			{
+				$f_result[$counter][]	= $tmp_obj->getLogin();
+				$f_result[$counter][]	= $tmp_obj->getFirstname();
+				$f_result[$counter][]	= $tmp_obj->getLastname();
+				$f_result[$counter][]   = strftime("%Y-%m-%d %R",$user_data["time"]);
+
+				unset($tmp_obj);
+				++$counter;
+			}
+		}
+		return $this->__showRemoveFromWaitingListTable($f_result);
+	}
 	
 	function unsubscribeObject()
 	{
@@ -1789,8 +1953,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
 		
 		sendInfo($this->lng->txt('crs_unsubscribed_from_crs'),true);
-		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->ref_id));
-		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+
+		ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
 	}
 
 	function deleteMembers()
@@ -2620,89 +2784,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	
-	// META DATA METHODS
-/*
-	function editMetaObject()
-	{
-		$this->__initMetaDataGUI();
-
-		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
-
-		return true;
-	}
-	function editMeta()
-	{
-		return $this->editMetaObject();
-	}
-	function saveMetaObject()
-	{
-		$this->__initMetaDataGUI();
-
-		$this->meta_gui->save($_POST["meta_section"]);
-
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
-
-		$this->ctrl->setParameter($this,'meta_section',$_POST["meta_section"]);
-		$this->ctrl->redirect($this,'editMeta');
-	}
-	function saveMeta()
-	{
-		return $this->saveMetaObject();
-	}
-	function chooseMetaSectionObject()
-	{
-		$this->__initMetaDataGUI();
-
-		$this->meta_gui->edit("ADM_CONTENT", "adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
-	}
-	function chooseMetaSection()
-	{
-		$this->chooseMetaSectionObject();
-	}
-	function addMetaObject()
-	{
-		$this->__initMetaDataGUI();
-
-		if($_REQUEST["meta_name"])
-		{
-			$_REQUEST["meta_index"] = $_REQUEST["meta_index"] ? $_REQUEST["meta_index"] : 0;
-
-			$this->meta_gui->meta_obj->add($_REQUEST["meta_name"],$_REQUEST["meta_path"], $_REQUEST["meta_index"]);
-
-			sendInfo($this->lng->txt("added_item"));
-
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST['meta_section']);
-
-		return true;
-	}
-	function addMeta()
-	{
-		$this->addMetaObject();
-	}
-	function deleteMetaObject()
-	{
-		$this->__initMetaDataGUI();
-		$this->meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_REQUEST["meta_index"]);
-
-		$this->editMetaObject("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
-
-		sendInfo($this->lng->txt("deleted_item"));
-
-		return true;
-	}
-	function deleteMeta()
-	{
-		$this->deleteMetaObject();
-	}
-*/
-	// END META DATA METHODS
-
 
 	function &__initTableGUI()
 	{
@@ -3049,6 +3130,52 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
+	function __showRemoveFromWaitingListTable($a_result_set)
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+		
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","cancelMember");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","performRemoveFromWaitingList");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",4);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("crs_header_remove_from_waiting_list"),"icon_usr_b.gif",
+					   $this->lng->txt("crs_header_remove_from_waiting_list"));
+		$tbl->setHeaderNames(array($this->lng->txt("username"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt("crs_time")));
+		$tbl->setHeaderVars(array("login",
+								  "firstname",
+								  "lastname",
+								  "sub_time"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "members",
+								  "cmdClass" => "ilobjcoursegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+
+		$tbl->setColumnWidth(array("25%","25%","25%","25%"));
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+
+		$this->tpl->setVariable("EDIT_MEMBER_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
 	function __showDeleteSubscriberTable($a_result_set)
 	{
 		$tbl =& $this->__initTableGUI();
@@ -3376,7 +3503,75 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->parseCurrentBlock();
 
 
-		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_subscribers"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setHeaderNames(array('',
+								   $this->lng->txt("username"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt("crs_time")));
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname",
+								  "sub_time"),
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "members",
+								  "update_subscribers" => 1,
+								  "cmdClass" => "ilobjcoursegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+		$tbl->setColumnWidth(array("4%","24%","24%","24%","24%"));
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set,"subscribers");
+		$tbl->render();
+
+		$this->tpl->setVariable("SUBSCRIBER_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+	function __showWaitingListTable($a_result_set,$a_waiting_list_ids = NULL)
+	{
+		$actions = array("addFromWaitingList"		=> $this->lng->txt("crs_add_subscribers"),
+						 "removeFromWaitingList"	=> $this->lng->txt("crs_delete_from_waiting_list"));
+
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		// SET FOOTER BUTTONS
+		$tpl->setCurrentBlock("tbl_action_row");
+
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+		$tpl->setCurrentBlock("tbl_action_select");
+		$tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
+		$tpl->setVariable("BTN_NAME","gateway");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
+		$tpl->parseCurrentBlock();
+
+		if (!empty($a_waiting_list_ids))
+		{
+			// set checkbox toggles
+			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$tpl->setVariable("JS_VARNAME","waiting_list");			
+			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_waiting_list_ids));
+			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$tpl->parseCurrentBlock();
+
+
+		$tbl->setTitle($this->lng->txt("crs_waiting_list"),"icon_usr_b.gif",$this->lng->txt("crs_waiting_list"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -3427,18 +3622,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $search->getResultByType($a_search_for);
 	}		
 
-/*
-	function __initMetaDataGUI()
-	{
-		include_once "./classes/class.ilMetaDataGUI.php";
-
-		if(!is_object($this->meta_gui))
-		{
-			$this->meta_gui =& new ilMetaDataGUI();
-			$this->meta_gui->setObject($this->object);
-		}
-	}
-*/
 
 	function __getDateSelect($a_type,$a_varname,$a_selected)
 	{

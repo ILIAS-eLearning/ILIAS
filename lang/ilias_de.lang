@@ -3494,7 +3494,6 @@ crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Kursstatus
 crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert
 crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_subscribers#:#Anmeldungen
 crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht
 crs#:#crs_subscription#:#Anmeldung
 crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
@@ -5099,3 +5098,14 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+crs#:#crs_already_assigned_to_list#:#Sie wurden bereits in die Warteliste aufgenommen.
+crs#:#crs_set_on_waiting_list#:#Melden Sie sich an, um in die Warteliste aufgenommen zu werden. Sie erhalten dann eine Nachricht, sobald ein Platz freigeworden ist.
+crs#:#crs_free_places#:#Freie Plätze
+crs#:#crs_added_to_list#:#Sie wurden in die Warteliste aufgenommen.<br />Sie haben Platz %s auf der Warteliste.
+crs#:#crs_waiting_list#:#Warteliste
+crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
+crs#:#crs_header_remove_from_waiting_list#:#Warteliste: Benutzer austragen
+crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, daß die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
+crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
+crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
+crs#:#crs_youre_position#:#Ihre Position auf der Warteliste

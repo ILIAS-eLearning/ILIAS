@@ -7789,5 +7789,9 @@ PRIMARY KEY ( `obj_id` , `usr_id` )
 ALTER TABLE `usr_data` ADD `auth_mode` ENUM( 'default','local', 'ldap', 'radius', 'shibboleth','script' ) DEFAULT 'default' NOT NULL;
 ALTER TABLE `role_data` ADD `auth_mode` ENUM( 'default', 'local', 'ldap', 'radius', 'shibboleth', 'script' ) DEFAULT 'default' NOT NULL;
 
+
 <#484>
 UPDATE `usr_data` SET `auth_mode` = 'local' WHERE `usr_id` =13 LIMIT 1;
+
+<#485>
+ALTER TABLE `crs_wating_list` RENAME `crs_waiting_list`;

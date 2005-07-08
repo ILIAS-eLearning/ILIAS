@@ -61,6 +61,7 @@ class ilCourseRegisterGUI
 
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
+		$this->__initWaitingList();
 	}
 
 	/**
@@ -83,13 +84,30 @@ class ilCourseRegisterGUI
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
-		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
-		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
-		
+		ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 	}
 
 	function subscribe()
 	{
+		if($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
+		{
+			include_once 'course/classes/class.ilCourseWaitingList.php';
+
+			if(!$this->waiting_list->isOnList($this->user_id))
+			{
+				$this->waiting_list->addToList($this->user_id);
+				
+				$info = sprintf($this->lng->txt('crs_added_to_list'),$this->waiting_list->getPosition($this->user_id));
+				sendInfo($info,true);
+
+				ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
+			}
+			else
+			{
+				sendInfo($this->lng->txt('crs_already_assigned_to_list'),true);
+				ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
+			}				
+		}				
 		switch($this->course_obj->getSubscriptionType())
 		{
 			case $this->course_obj->SUBSCRIPTION_DEACTIVATED:
@@ -105,7 +123,8 @@ class ilCourseRegisterGUI
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
 					sendInfo($this->lng->txt("crs_subscription_successful"),true);
-					$this->ctrl->returnToParent($this);
+					
+					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
@@ -121,7 +140,8 @@ class ilCourseRegisterGUI
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					sendInfo($this->lng->txt("crs_subscription_successful"),true);
 					$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
-					$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+
+					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
@@ -144,7 +164,8 @@ class ilCourseRegisterGUI
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
 					sendInfo($this->lng->txt("crs_subscription_successful"),true);
-					$this->ctrl->returnToParent($this);
+
+					ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 				}
 				else
 				{
@@ -175,6 +196,33 @@ class ilCourseRegisterGUI
 		$this->tpl->setVariable("SYLLABUS",nl2br($this->course_obj->getSyllabus()));
 
 		$this->tpl->setVariable("TXT_INFO_REG",$this->lng->txt("crs_info_reg"));
+
+
+		// Waiting list
+		if($this->course_obj->getSubscriptionMaxMembers())
+		{
+			$this->tpl->setCurrentBlock("waiting_list");
+			$this->tpl->setVariable("TXT_WAITING_LIST",$this->lng->txt('crs_free_places'));
+			$free_places = $this->course_obj->getSubscriptionMaxMembers() - $this->course_obj->members_obj->getCountMembers();
+			$this->tpl->setVariable("FREE_PLACES",$free_places);
+			$this->tpl->parseCurrentBlock();
+
+			if($this->waiting_list->isOnList($this->user_id))
+			{
+				$this->tpl->setCurrentBlock("waiting_list_info");
+				$this->tpl->setVariable("TXT_WAITING_LIST_INFO",$this->lng->txt('crs_youre_position'));
+				$this->tpl->setVariable("POSITION",$this->waiting_list->getPosition($this->user_id));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("waiting_list_info");
+				$this->tpl->setVariable("TXT_WAITING_LIST_INFO",$this->lng->txt('crs_persons_on_waiting_list'));
+				$this->tpl->setVariable("POSITION",$this->waiting_list->getCountUsers());
+				$this->tpl->parseCurrentBlock();
+			}
+
+		}
 
 		if($courses = $this->__getGroupingCourses())
 		{
@@ -255,44 +303,72 @@ class ilCourseRegisterGUI
 		return true;
 	}
 
+	function __initWaitingList()
+	{
+		include_once 'course/classes/class.ilCourseWaitingList.php';
+
+		$this->waiting_list =& new ilCourseWaitingList($this->course_obj->getId());
+
+		return true;
+	}
+
 	function __validateStatus()
 	{
+		$allow_subscription = true;
+
 		$this->course_obj->setMessage('');
 
 		if($this->course_obj->members_obj->isAssigned($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_assigned"));
+			$allow_subscription = false;
 		}
 		if($this->course_obj->members_obj->isBlocked($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_blocked"));
+			$allow_subscription = false;
 		}
 		if($this->course_obj->members_obj->isSubscriber($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_subscribed"));
+			$allow_subscription = false;
 		}
 		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_DEACTIVATED)
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_deactivated"));
+			$allow_subscription = false;
+
+			return false;
 		}
 		if(!$this->course_obj->getSubscriptionUnlimitedStatus() and
 		   ( time() < $this->course_obj->getSubscriptionStart()))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_start_later"));
+			$allow_subscription = false;
 		}
 		if(!$this->course_obj->getSubscriptionUnlimitedStatus() and
 		   ( time() > $this->course_obj->getSubscriptionEnd()))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_end_earlier"));
+			$allow_subscription = false;
 		}
-		if($this->course_obj->getSubscriptionMaxMembers() and 
+		if($this->waiting_list->isOnList($this->user_id))
+		{
+			$this->course_obj->appendMessage($this->lng->txt('crs_already_assigned_to_list'));
+			$allow_subscription = false;
+		}
+		elseif($this->course_obj->getSubscriptionMaxMembers() and 
 		   ($this->course_obj->members_obj->getCountMembers() >= $this->course_obj->getSubscriptionMaxMembers()))
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
+			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
-		$this->__checkGroupingDependencies();
+		if(!$this->__checkGroupingDependencies())
+		{
+			$allow_subscription = false;
+		}
 
-		return $this->course_obj->getMessage() ? false : true;
+		return $allow_subscription;
 	}
 	function __checkGroupingDependencies()
 	{
@@ -312,7 +388,7 @@ class ilCourseRegisterGUI
 		}
 		if(!count($trigger_ids))
 		{
-			return false;
+			return true;
 		}
 
 		foreach($trigger_ids as $trigger_id)
@@ -345,12 +421,14 @@ class ilCourseRegisterGUI
 		if($matriculation_message)
 		{
 			$this->course_obj->appendMessage($matriculation_message);
+			return false;
 		}
 		elseif($assigned_message)
 		{
 			$this->course_obj->appendMessage($assigned_message);
+			return false;
 		}
-		return false;
+		return true;
 	}
 	function __getGroupingCourses()
 	{
