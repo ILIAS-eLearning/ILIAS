@@ -3220,10 +3220,12 @@ crs#:#crs_added_member_body#:#Vous avez été accepté(e) pour ce cours.###07 Ap
 crs#:#crs_added_new_archive#:#Une nouvelle archive a été ajoutée###07 Apr 2005 content changed
 crs#:#crs_added_objective#:#Un nouvel objectif pédagogique a été créé###07 Apr 2005 content changed
 crs#:#crs_added_starters#:#Objet(s) de départ assigné(s)###07 Apr 2005 content changed
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrateur###07 Apr 2005 content changed
 crs#:#crs_admin_no_notify#:#Administrateur (sans notification)###07 Apr 2005 content changed
 crs#:#crs_admin_notify#:#Administrateur (notification)###07 Apr 2005 content changed
 crs#:#crs_allow_abo#:#Permettre l'abonnement aux objets du cours###07 Apr 2005 content changed
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Archives###07 Apr 2005 content changed
 crs#:#crs_archive_disabled#:#Inactif###07 Apr 2005 content changed
 crs#:#crs_archive_download#:#Télécharger###07 Apr 2005 content changed
@@ -3258,6 +3260,8 @@ crs#:#crs_create_date#:#Date de création###07 Apr 2005 content changed
 crs#:#crs_crs_structure#:#Structure de cours###07 Apr 2005 content changed
 crs#:#crs_dates#:#Dates###07 Apr 2005 content changed
 crs#:#crs_deassign_lm_sure#:#Etes-vous sûr(e) de vouloir supprimer cette assignation ?###07 Apr 2005 content changed
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Détruire membres###07 Apr 2005 content changed
 crs#:#crs_delete_members_sure#:#Voulez-vous supprimer de ce cours les membres suivants###07 Apr 2005 content changed
 crs#:#crs_delete_objectve_sure#:#Etes-vous sûr(e) de vouloir supprimer les objectifs sélectionnés ?###07 Apr 2005 content changed
@@ -3271,6 +3275,7 @@ crs#:#crs_edit_content#:#Modfier objets###07 Apr 2005 content changed
 crs#:#crs_end#:#Fin###07 Apr 2005 content changed
 crs#:#crs_export#:#Exportation de cours###07 Apr 2005 content changed
 crs#:#crs_file_name#:#Nom de fichier###07 Apr 2005 content changed
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#De :###07 Apr 2005 content changed
 crs#:#crs_grouping#:#Groupement de cours###07 Apr 2005 content changed
 crs#:#crs_grouping_assign#:#Modifier assignation###07 Apr 2005 content changed
@@ -3298,6 +3303,7 @@ crs#:#crs_header_archives#:#Archives de cours###07 Apr 2005 content changed
 crs#:#crs_header_delete_members#:#Détruire membres###07 Apr 2005 content changed
 crs#:#crs_header_edit_members#:#Modifier membres###07 Apr 2005 content changed
 crs#:#crs_header_members#:#Membres du cours###07 Apr 2005 content changed
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Cacher les matériaux d'apprentissage###07 Apr 2005 content changed
 crs#:#crs_hide_link_objectives#:#Cacher les objectifs###07 Apr 2005 content changed
 crs#:#crs_hide_link_or#:#Cacher les autres ressources###07 Apr 2005 content changed
@@ -3411,6 +3417,7 @@ crs#:#crs_other_resources#:#Autres ressources###07 Apr 2005 content changed
 crs#:#crs_passed#:#Validé###07 Apr 2005 content changed
 crs#:#crs_password_not_valid#:#Votre mot de passe n'est pas valide###07 Apr 2005 content changed
 crs#:#crs_pdf#:#PDF###07 Apr 2005 content changed
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Imprimer liste###07 Apr 2005 content changed
 crs#:#crs_question_assignment#:#Assignation de question###07 Apr 2005 content changed
 crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
@@ -3449,6 +3456,7 @@ crs#:#crs_select_one_archive#:#Veuillez sélectionner une archive###07 Apr 2005 
 crs#:#crs_select_one_object#:#Veuillez sélectionner un objet du cours.###07 Apr 2005 content changed
 crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Sélectionner objet de départ###07 Apr 2005 content changed
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Paramètres de cours###07 Apr 2005 content changed
 crs#:#crs_settings_saved#:#Paramètres enregistrés###07 Apr 2005 content changed
 crs#:#crs_show_link_lms#:#Afficher matériaux d'apprentissage###07 Apr 2005 content changed
@@ -3503,11 +3511,14 @@ crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours###07 Apr 2
 crs#:#crs_update_objective#:#Modifier objectifs pédagogiques###07 Apr 2005 content changed
 crs#:#crs_users_added#:#Utilisateur ajouté au cours###07 Apr 2005 content changed
 crs#:#crs_users_already_assigned#:#L'utilisateur est déjà assigné au cours.###07 Apr 2005 content changed
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
 crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML###07 Apr 2005 content changed
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Modifier contenu###07 Apr 2005 content changed
 crs#:#learners_view#:#Affichage élève###07 Apr 2005 content changed
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable

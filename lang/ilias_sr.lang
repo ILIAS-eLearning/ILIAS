@@ -3075,10 +3075,12 @@ crs#:#crs_added_member_body#:#Primljeni ste na ovaj kurs.
 crs#:#crs_added_new_archive#:#Nova arhiva je dodata
 crs#:#crs_added_objective#:#Novi ciljevi ucenja su kreirani.
 crs#:#crs_added_starters#:#Prijavljeni startni objekti.
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (obaveštenje)
 crs#:#crs_admin_notify#:#Administrator (nema obaveštenja)
 crs#:#crs_allow_abo#:#Dozvolite prijavu predmeta kursa
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arhive
 crs#:#crs_archive_disabled#:#Onemoguceno
 crs#:#crs_archive_download#:#Skini
@@ -3110,6 +3112,8 @@ crs#:#crs_create_date#:#Kreiraj datum
 crs#:#crs_crs_structure#:#Struktura kursa
 crs#:#crs_dates#:#Datumi
 crs#:#crs_deassign_lm_sure#:#Da li ste sigurni da želite da obrišete ovu raspodelu?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Odjavljen(i) clan(ovi)
 crs#:#crs_delete_members_sure#:#Da li želite da obrišete sledece clanove sa kursa
 crs#:#crs_delete_objectve_sure#:#Da li ste sigurni da želite da obrišete odabrane ciljeve?
@@ -3123,6 +3127,7 @@ crs#:#crs_edit_content#:#Uredi predmete
 crs#:#crs_end#:#Kraj
 crs#:#crs_export#:#Izvoz kursa
 crs#:#crs_file_name#:#Naziv datoteke
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Od:
 crs#:#crs_grouping#:#Kursno grupisanje
 crs#:#crs_grouping_assign#:#Promeni raspodelu
@@ -3150,6 +3155,7 @@ crs#:#crs_header_archives#:#Arhiva kursa
 crs#:#crs_header_delete_members#:#Obriši clanove
 crs#:#crs_header_edit_members#:#Uredi clanove
 crs#:#crs_header_members#:#Clanovi kursa
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Sakri materije ucenja
 crs#:#crs_hide_link_objectives#:#Sakri ciljeve
 crs#:#crs_hide_link_or#:#Sakri druga sredstva
@@ -3261,6 +3267,7 @@ crs#:#crs_other_resources#:#Drugi resursi
 crs#:#crs_passed#:#Prošlo
 crs#:#crs_password_not_valid#:#Vaša lozinka nije validna
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Odštampaj spisak
 crs#:#crs_question_assignment#:#Raspodela pitanja
 crs#:#crs_reg_subscription_deactivated#:#Registracija je onemogucena
@@ -3288,6 +3295,7 @@ crs#:#crs_select_native_lm#:#Samostalna poglavlja mogu jedino biti dodeljena izv
 crs#:#crs_select_one_archive#:#Molimo odaberite jednu arhivu.
 crs#:#crs_select_one_object#:#Molimo odaberite jedan predmet kursa.
 crs#:#crs_select_starter#:#Odaberite pocetni predmet.
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Podešavanja kursa
 crs#:#crs_settings_saved#:#Podešavanja sacuvana
 crs#:#crs_show_link_lms#:#Prikazi materijale za ucenje
@@ -3342,7 +3350,10 @@ crs#:#crs_unsubscribed_from_crs#:#Pretplatili ste se na kurs
 crs#:#crs_update_objective#:#Uredi predmete ucenja
 crs#:#crs_users_added#:#dodat korisnik kursa
 crs#:#crs_users_already_assigned#:#Korisnik je vec rasporeden na kurs
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Uredi sadržaj
 crs#:#learners_view#:#Pregled ucenika
 crs_#:#crs_archives#:#Arhive

@@ -3244,10 +3244,12 @@ crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
+crs#:#crs_added_to_list#:#Sie wurden in die Warteliste aufgenommen.<br />Sie haben Platz %s auf der Warteliste.
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
 crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
+crs#:#crs_already_assigned_to_list#:#Sie wurden bereits in die Warteliste aufgenommen.
 crs#:#crs_archive#:#Archivierung
 crs#:#crs_archive_disabled#:#Deaktiviert
 crs#:#crs_archive_download#:#Herunterladen
@@ -3282,6 +3284,8 @@ crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_dates#:#Termine
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
+crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, daß die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
+crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
 crs#:#crs_delete_member#:#Mitglied(er) austragen
 crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
@@ -3295,6 +3299,7 @@ crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
 crs#:#crs_file_name#:#Dateiname
+crs#:#crs_free_places#:#Freie Plätze
 crs#:#crs_from#:#Von:
 crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_grouping_assign#:#Zuordnung ändern
@@ -3322,6 +3327,7 @@ crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Mitglieder löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
+crs#:#crs_header_remove_from_waiting_list#:#Warteliste: Benutzer austragen
 crs#:#crs_hide_link_lms#:#Lernmaterialien verbergen
 crs#:#crs_hide_link_objectives#:#Lernziele verbergen
 crs#:#crs_hide_link_or#:#Andere Objekte verbergen
@@ -3435,6 +3441,7 @@ crs#:#crs_other_resources#:#Andere Objekte
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Registrierung
@@ -3473,6 +3480,7 @@ crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
 crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 crs#:#crs_select_registration_type#:#Bitte wählen Sie eine Registrierungsart aus.
 crs#:#crs_select_starter#:#Startobjekt auswählen
+crs#:#crs_set_on_waiting_list#:#Melden Sie sich an, um in die Warteliste aufgenommen zu werden. Sie erhalten dann eine Nachricht, sobald ein Platz freigeworden ist.
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
@@ -3526,11 +3534,14 @@ crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
+crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 crs#:#crs_visibility#:#Verfügbarkeit
 crs#:#crs_visibility_limitless#:#Unbegrenzt
 crs#:#crs_visibility_until#:#Zeitlich begrenzt
 crs#:#crs_visibility_unvisible#:#Nicht verfügbar
+crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
@@ -5098,14 +5109,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-crs#:#crs_already_assigned_to_list#:#Sie wurden bereits in die Warteliste aufgenommen.
-crs#:#crs_set_on_waiting_list#:#Melden Sie sich an, um in die Warteliste aufgenommen zu werden. Sie erhalten dann eine Nachricht, sobald ein Platz freigeworden ist.
-crs#:#crs_free_places#:#Freie Plätze
-crs#:#crs_added_to_list#:#Sie wurden in die Warteliste aufgenommen.<br />Sie haben Platz %s auf der Warteliste.
-crs#:#crs_waiting_list#:#Warteliste
-crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
-crs#:#crs_header_remove_from_waiting_list#:#Warteliste: Benutzer austragen
-crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, daß die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
-crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
-crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
-crs#:#crs_youre_position#:#Ihre Position auf der Warteliste

@@ -3139,10 +3139,12 @@ crs#:#crs_added_member_body#:#Du er blevet accepteret til dette kursus.
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilf&oslash;jet.
 crs#:#crs_added_objective#:#A new learning objective has been created.###21 Apr 2005 new variable
 crs#:#crs_added_starters#:#Assigned start object(s).###21 Apr 2005 new variable
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrator###21 Apr 2005 new variable
 crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
 crs#:#crs_admin_notify#:#Administrator (underettelse)
 crs#:#crs_allow_abo#:#Allow subscription of course items###21 Apr 2005 new variable
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arkiver
 crs#:#crs_archive_disabled#:#Deaktiveret
 crs#:#crs_archive_download#:#Download###21 Apr 2005 new variable
@@ -3177,6 +3179,8 @@ crs#:#crs_create_date#:#Oprettelsesdato
 crs#:#crs_crs_structure#:#Course structure###21 Apr 2005 new variable
 crs#:#crs_dates#:#Datoer
 crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###21 Apr 2005 new variable
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Afmeld medlem/medlemmer
 crs#:#crs_delete_members_sure#:#Vil du slette de f&oslash;lgende medlemmer fra dette kursus
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###21 Apr 2005 new variable
@@ -3190,6 +3194,7 @@ crs#:#crs_edit_content#:#Edit items###21 Apr 2005 new variable
 crs#:#crs_end#:#Slut
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file_name#:#Filnavn
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Fra:
 crs#:#crs_grouping#:#Course grouping###21 Apr 2005 new variable
 crs#:#crs_grouping_assign#:#Rediger Opgave
@@ -3217,6 +3222,7 @@ crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
 crs#:#crs_header_edit_members#:#Rediger medlem
 crs#:#crs_header_members#:#Kursus medlemmer
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Hide learning materials###21 Apr 2005 new variable
 crs#:#crs_hide_link_objectives#:#Hide objectives###21 Apr 2005 new variable
 crs#:#crs_hide_link_or#:#Hide other resources###21 Apr 2005 new variable
@@ -3330,6 +3336,7 @@ crs#:#crs_other_resources#:#Other resources###21 Apr 2005 new variable
 crs#:#crs_passed#:#Passed###21 Apr 2005 new variable
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_pdf#:#PDF###21 Apr 2005 new variable
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Udprint Liste
 crs#:#crs_question_assignment#:#Question assignment###21 Apr 2005 new variable
 crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
@@ -3368,6 +3375,7 @@ crs#:#crs_select_one_archive#:#V&aelig;lg venligst et arkiv
 crs#:#crs_select_one_object#:#Please select one course item.###21 Apr 2005 new variable
 crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Select start object###21 Apr 2005 new variable
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kursus indstillinger
 crs#:#crs_settings_saved#:#Indstillinger gemt
 crs#:#crs_show_link_lms#:#Show learning materials###21 Apr 2005 new variable
@@ -3422,11 +3430,14 @@ crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus
 crs#:#crs_update_objective#:#Edit learning objective###21 Apr 2005 new variable
 crs#:#crs_users_added#:#Tilf&oslash;jet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
 crs#:#crs_visibility#:#Availability###21 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Unlimited###21 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Temporarily available###21 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not available###21 Apr 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML###21 Apr 2005 new variable
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Edit content###21 Apr 2005 new variable
 crs#:#learners_view#:#Learners view###21 Apr 2005 new variable
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###21 Apr 2005 new variable

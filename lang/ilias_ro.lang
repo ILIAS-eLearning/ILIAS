@@ -3040,9 +3040,11 @@ crs#:#crs_added#:#Curs nou adaugat
 crs#:#crs_added_member#:#Calitatea de membru al cursului
 crs#:#crs_added_member_body#:#Ati fost acceptat la acest curs.
 crs#:#crs_added_new_archive#:#O noua arhiva a fost adaugata
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (fara notificare)
 crs#:#crs_admin_notify#:#Administrator (notificare)
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arhive
 crs#:#crs_archive_disabled#:#Dezactivat
 crs#:#crs_archive_download#:#Download
@@ -3072,6 +3074,8 @@ crs#:#crs_copy_cat_not_allowed#:#Categoriile nu pot fi copiate
 crs#:#crs_count_members#:#Numar de membrii
 crs#:#crs_create_date#:#Stabiliti intalnire
 crs#:#crs_dates#:#Date
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Retrageti membrii
 crs#:#crs_delete_members_sure#:#Doriti sa-i stergeti pe urmatorii membrii ai acestui curs
 crs#:#crs_delete_subscribers#:#Stergeti inscris
@@ -3083,11 +3087,13 @@ crs#:#crs_edit_archive#:#Editati Arhivele
 crs#:#crs_end#:#Sfarsit
 crs#:#crs_export#:#exportare curs
 crs#:#crs_file_name#:#Nume fisier
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#De la:
 crs#:#crs_header_archives#:#Arhive curs
 crs#:#crs_header_delete_members#:#Stergeti membrii
 crs#:#crs_header_edit_members#:#Editati membrii
 crs#:#crs_header_members#:#Membrii cursului
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Informatii despre inregistrare
 crs#:#crs_info_reg_confirmation#:#Acest curs necesita confirmarea unui administrator de curs. Veti primi un mesaj daca ati fost acceptat la curs.
@@ -3136,6 +3142,7 @@ crs#:#crs_options#:#Optiuni
 crs#:#crs_passed#:#Trecut
 crs#:#crs_password_not_valid#:#Parola dumneavoastra nu este valabila
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Tipariti lista
 crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
 crs#:#crs_reg_deactivated#:#Disabled###21 Apr 2005 new variable
@@ -3167,6 +3174,7 @@ crs#:#crs_search_str#:#Termen de cautare
 crs#:#crs_select_archive_language#:#Va rugam selectati o limba pentru arhiva
 crs#:#crs_select_one_archive#:#Va rugam selectati o arhiva
 crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Setari de curs
 crs#:#crs_settings_saved#:#Setari salvate
 crs#:#crs_size#:#Marimea fisierului
@@ -3206,11 +3214,14 @@ crs#:#crs_unsubscribe_sure#:#Doriti sa va retrageti de la acest curs
 crs#:#crs_unsubscribed_from_crs#:#V-ati inscris la acest curs
 crs#:#crs_users_added#:#Utilizator adaugat la curs
 crs#:#crs_users_already_assigned#:#Utilizatorul a fost deja inscris la acest curs
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
 crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Mesaj
