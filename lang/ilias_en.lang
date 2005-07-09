@@ -3245,10 +3245,12 @@ crs#:#crs_added_member_body#:#You have been accepted to this course.
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (no notification)
 crs#:#crs_admin_notify#:#Administrator (notification)
 crs#:#crs_allow_abo#:#Allow subscription of course items
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
 crs#:#crs_archive#:#Archives
 crs#:#crs_archive_disabled#:#Disabled
 crs#:#crs_archive_download#:#Download
@@ -3283,6 +3285,8 @@ crs#:#crs_create_date#:#Create date
 crs#:#crs_crs_structure#:#Course structure
 crs#:#crs_dates#:#Dates
 crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list
 crs#:#crs_delete_member#:#Deassign member(s)
 crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
@@ -3296,6 +3300,7 @@ crs#:#crs_edit_content#:#Edit items
 crs#:#crs_end#:#End
 crs#:#crs_export#:#Course export
 crs#:#crs_file_name#:#File name
+crs#:#crs_free_places#:#Available places
 crs#:#crs_from#:#From:
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
@@ -3323,6 +3328,7 @@ crs#:#crs_header_archives#:#Course archives
 crs#:#crs_header_delete_members#:#Delete members
 crs#:#crs_header_edit_members#:#Edit members
 crs#:#crs_header_members#:#Course members
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users
 crs#:#crs_hide_link_lms#:#Hide learning materials
 crs#:#crs_hide_link_objectives#:#Hide objectives
 crs#:#crs_hide_link_or#:#Hide other resources
@@ -3436,6 +3442,7 @@ crs#:#crs_other_resources#:#Other resources
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list
 crs#:#crs_print_list#:#Print list
 crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg#:#Registration
@@ -3474,6 +3481,7 @@ crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_one_object#:#Please select one course item.
 crs#:#crs_select_registration_type#:#Please select one registration type.
 crs#:#crs_select_starter#:#Select start object
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.
 crs#:#crs_settings#:#Course settings
 crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_show_link_lms#:#Show learning materials
@@ -3528,11 +3536,14 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course
 crs#:#crs_update_objective#:#Edit learning objective
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
 crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily available
 crs#:#crs_visibility_unvisible#:#Not available
+crs#:#crs_waiting_list#:#Waiting list
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list
 crs#:#edit_content#:#Edit content
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -5100,14 +5111,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
-crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.
-crs#:#crs_free_places#:#Available places
-crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
-crs#:#crs_waiting_list#:#Waiting list
-crs#:#crs_delete_from_waiting_list#:#Remove from waiting list
-crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users
-crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?
-crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
-crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list
-crs#:#crs_youre_position#:#Youre position on the waiting list

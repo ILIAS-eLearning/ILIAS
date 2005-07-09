@@ -3263,10 +3263,12 @@ crs#:#crs_added_member_body#:#You have been accepted to this course.###07 Aug 20
 crs#:#crs_added_new_archive#:#A new archive has been added###07 Aug 2004 new variable
 crs#:#crs_added_objective#:#A new learning objective has been created.###01 Mar 2005 new variable
 crs#:#crs_added_starters#:#Assigned start object(s).###01 Mar 2005 new variable
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
 crs#:#crs_admin_no_notify#:#Administrator (no notification)###07 Aug 2004 new variable
 crs#:#crs_admin_notify#:#Administrator (notification)###07 Aug 2004 new variable
 crs#:#crs_allow_abo#:#Allow subscription of course items###01 Mar 2005 new variable
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Archives###07 Aug 2004 new variable
 crs#:#crs_archive_disabled#:#Disabled###07 Aug 2004 new variable
 crs#:#crs_archive_download#:#Download###07 Aug 2004 new variable
@@ -3301,6 +3303,8 @@ crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
 crs#:#crs_crs_structure#:#Course structure###01 Mar 2005 new variable
 crs#:#crs_dates#:#Dates###07 Aug 2004 new variable
 crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###01 Mar 2005 new variable
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Delete members###07 Aug 2004 new variable
 crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course###07 Aug 2004 new variable
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###01 Mar 2005 new variable
@@ -3314,6 +3318,7 @@ crs#:#crs_edit_content#:#Edit items###01 Mar 2005 new variable
 crs#:#crs_end#:#End###07 Aug 2004 new variable
 crs#:#crs_export#:#Course export###07 Aug 2004 new variable
 crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#From:###07 Aug 2004 new variable
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
 crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
@@ -3341,6 +3346,7 @@ crs#:#crs_header_archives#:#Course archives###07 Aug 2004 new variable
 crs#:#crs_header_delete_members#:#Delete members###07 Aug 2004 new variable
 crs#:#crs_header_edit_members#:#Edit members###07 Aug 2004 new variable
 crs#:#crs_header_members#:#Course members###07 Aug 2004 new variable
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Hide learning materials###01 Mar 2005 new variable
 crs#:#crs_hide_link_objectives#:#Hide objectives###01 Mar 2005 new variable
 crs#:#crs_hide_link_or#:#Hide other resources###01 Mar 2005 new variable
@@ -3454,6 +3460,7 @@ crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
 crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
 crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
 crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable
 crs#:#crs_question_assignment#:#Question assignment###01 Mar 2005 new variable
 crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
@@ -3492,6 +3499,7 @@ crs#:#crs_select_one_archive#:#Please select one archive###07 Aug 2004 new varia
 crs#:#crs_select_one_object#:#Please select one course item.###01 Mar 2005 new variable
 crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Select start object###01 Mar 2005 new variable
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Course settings###07 Aug 2004 new variable
 crs#:#crs_settings_saved#:#Settings saved###07 Aug 2004 new variable
 crs#:#crs_show_link_lms#:#Show learning materials###01 Mar 2005 new variable
@@ -3546,11 +3554,14 @@ crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###07 Aug 2004 ne
 crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
 crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable
 crs#:#crs_visibility_unvisible#:#Not visible###13 Apr 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML###07 Aug 2004 new variable
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Edit content###01 Mar 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable

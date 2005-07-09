@@ -3243,10 +3243,12 @@ crs#:#crs_added_member_body#:#Ha sido aceptado en este curso.
 crs#:#crs_added_new_archive#:#Un nuevo archivo ha sido añadido
 crs#:#crs_added_objective#:#Se ha creado un nuevo objetivo de aprendizaje.
 crs#:#crs_added_starters#:#objeto(s) inicial(es) asignado(s)
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrador
 crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificacion)
 crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Archivos
 crs#:#crs_archive_disabled#:#Deshabilitado
 crs#:#crs_archive_download#:#Descargar
@@ -3281,6 +3283,8 @@ crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_crs_structure#:#Estructura de Curso
 crs#:#crs_dates#:#Fechas
 crs#:#crs_deassign_lm_sure#:#¿Está seguro de que quiere eliminar esta asignación?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Eliminar miembros
 crs#:#crs_delete_members_sure#:#¿Quiere eliminar los siguientes miembros de este curso?
 crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?
@@ -3294,6 +3298,7 @@ crs#:#crs_edit_content#:#Editar items
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportar Curso
 crs#:#crs_file_name#:#Nombre de Fichero
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Desde:
 crs#:#crs_grouping#:#Agrupar Curso
 crs#:#crs_grouping_assign#:#Modificar asignación
@@ -3321,6 +3326,7 @@ crs#:#crs_header_archives#:#Archivos del Curso
 crs#:#crs_header_delete_members#:#Eliminar miembros
 crs#:#crs_header_edit_members#:#Editar miembros
 crs#:#crs_header_members#:#Miembros del Curso
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Ocultar materiales de aprendizaje
 crs#:#crs_hide_link_objectives#:#Ocultar objetivos
 crs#:#crs_hide_link_or#:#Ocultar otros recursos
@@ -3434,6 +3440,7 @@ crs#:#crs_other_resources#:#Otros recursos
 crs#:#crs_passed#:#Superado
 crs#:#crs_password_not_valid#:#Su contraseña no es válida
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Imprimir lista
 crs#:#crs_question_assignment#:#Asignación de preguntas
 crs#:#crs_reg#:#Registro
@@ -3472,6 +3479,7 @@ crs#:#crs_select_one_archive#:#Por favor seleccione un archivo
 crs#:#crs_select_one_object#:#Por favor seleccione un item del curso.
 crs#:#crs_select_registration_type#:#Por favor seleccione un modo de registro
 crs#:#crs_select_starter#:#Seleccione un objeto inicial
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Configuración del Curso
 crs#:#crs_settings_saved#:#Configuración guardada
 crs#:#crs_show_link_lms#:#Mostrar materiales de aprendizaje
@@ -3526,11 +3534,14 @@ crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
 crs#:#crs_update_objective#:#Editar objetivo de aprendizaje
 crs#:#crs_users_added#:#Usuario añadido al curso
 crs#:#crs_users_already_assigned#:#El usuario ya está asignado a este curso
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
 crs#:#crs_visibility#:#Visibilidad
 crs#:#crs_visibility_limitless#:#Visible (ilimitado)
 crs#:#crs_visibility_until#:#Visible (desde ... hasta)
 crs#:#crs_visibility_unvisible#:#No visible
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Editar contenido
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de registro no es válido.

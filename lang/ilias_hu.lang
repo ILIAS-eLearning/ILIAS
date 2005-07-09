@@ -3030,10 +3030,12 @@ crs#:#crs_added_member_body#:#Fel lett véve ebbe akurzusba.
 crs#:#crs_added_new_archive#:#Új archív lett felvéve
 crs#:#crs_added_objective#:#Új tananyag-célkitűzés lett létrehozva.
 crs#:#crs_added_starters#:#Engedélyezett kezdő objektum(ok).
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Adminisztrátor
 crs#:#crs_admin_no_notify#:#Adminisztrátor (nincs megjegyzés)
 crs#:#crs_admin_notify#:#Adminisztrátor (megjegyzés)
 crs#:#crs_allow_abo#:#Kurzuselemek felvételének engedélyezése
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Archívok
 crs#:#crs_archive_disabled#:#Letiltva
 crs#:#crs_archive_download#:#Letöltés
@@ -3065,6 +3067,8 @@ crs#:#crs_create_date#:#Dátum létrehozása
 crs#:#crs_crs_structure#:#Kurzusszerkezet
 crs#:#crs_dates#:#Dátumok
 crs#:#crs_deassign_lm_sure#:#Biztosan törölni akarja ezt a hozzárendelést?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Jogosultsággal nem rendelkező tag(ok)
 crs#:#crs_delete_members_sure#:#Törölni akarja az alábbi tagokat ebből a kurzusból?
 crs#:#crs_delete_objectve_sure#:#Biztosan törölni akarja a kiválasztott célkitűzéseket?
@@ -3078,6 +3082,7 @@ crs#:#crs_edit_content#:#Elemek szerkesztése
 crs#:#crs_end#:#Vége
 crs#:#crs_export#:#Kurzusexport
 crs#:#crs_file_name#:#Fájlnév
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Mikortól:
 crs#:#crs_grouping#:#Kurzuscsoportosítás
 crs#:#crs_grouping_assign#:#Hozzárendelés változtatása
@@ -3105,6 +3110,7 @@ crs#:#crs_header_archives#:#Kurzusarchívok
 crs#:#crs_header_delete_members#:#Tagok törlése
 crs#:#crs_header_edit_members#:#Tagok szerkesztése
 crs#:#crs_header_members#:#Kurzustagok
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Tananyagok elrejtése
 crs#:#crs_hide_link_objectives#:#Célkitűzések elrejtése
 crs#:#crs_hide_link_or#:#További források elrejtése
@@ -3216,6 +3222,7 @@ crs#:#crs_other_resources#:#Torábbi források
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Érvénytelen a jelszava
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Nyomtatási lista
 crs#:#crs_question_assignment#:#Kérdéshozzárendelés
 crs#:#crs_reg_subscription_deactivated#:#A regisztráció le van tiltva
@@ -3243,6 +3250,7 @@ crs#:#crs_select_native_lm#:#Az egyszerű fejezetek csak natív ILIAS tananyagok
 crs#:#crs_select_one_archive#:#Egy archívot válasszon ki
 crs#:#crs_select_one_object#:#Egy kurzuselemet válasszon ki.
 crs#:#crs_select_starter#:#Kezdőobjektum kiválasztása
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kurzusbeállítások
 crs#:#crs_settings_saved#:#Beállítások elmentve
 crs#:#crs_show_link_lms#:#Tananyagok megjelenítése
@@ -3297,7 +3305,10 @@ crs#:#crs_unsubscribed_from_crs#:#Feliratkozott erre a kurzusra
 crs#:#crs_update_objective#:#Tanulási célkitűzés szerkesztése
 crs#:#crs_users_added#:#Kurzushoz felvett felhasználók
 crs#:#crs_users_already_assigned#:#A felhasználó már hozzá lett rendelve ehhez a kurzushoz
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Tartalom szerkesztése
 crs#:#learners_view#:#Hallgatói nézet
 crs_#:#crs_archives#:#Archívok

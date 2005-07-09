@@ -3075,10 +3075,12 @@ crs#:#crs_added_member_body#:#Jeni pranuar në këtë kurs.
 crs#:#crs_added_new_archive#:#Një arkiv i ri është krijuar
 crs#:#crs_added_objective#:#Një objektiv i ri mësimi është krijuar
 crs#:#crs_added_starters#:#Objektet e fillimit të caktuara.
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator ( pa njoftim)
 crs#:#crs_admin_notify#:#Administrator (me njoftim)
 crs#:#crs_allow_abo#:#Lejo abonim në artikujt e kursit
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arkivat
 crs#:#crs_archive_disabled#:#Pamundësohet
 crs#:#crs_archive_download#:#Shkarko
@@ -3110,6 +3112,8 @@ crs#:#crs_create_date#:#Data e Skadimit
 crs#:#crs_crs_structure#:#Krijo Strukturë
 crs#:#crs_dates#:#Skadimet
 crs#:#crs_deassign_lm_sure#:#A jeni të sigurt për ti fshirë këto caktime?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Largo anëtarët
 crs#:#crs_delete_members_sure#:#A dëshironi t'i fshini anëtarët vijues nga ky kurs?
 crs#:#crs_delete_objectve_sure#:#A jeni të sigurt për ti fshirë objektivat e zgjedhura?
@@ -3123,6 +3127,7 @@ crs#:#crs_edit_content#:#Edito artikujt
 crs#:#crs_end#:#Periudha përfundimtare
 crs#:#crs_export#:#Eksporto Kursin
 crs#:#crs_file_name#:#Emri i Skedarit
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Nga:
 crs#:#crs_grouping#:#Grupimi i Kursit
 crs#:#crs_grouping_assign#:#Edito Caktimet
@@ -3150,6 +3155,7 @@ crs#:#crs_header_archives#:#Arkivat e Kurseve
 crs#:#crs_header_delete_members#:#Fshij Anëtarët
 crs#:#crs_header_edit_members#:#Edito Anëtarët
 crs#:#crs_header_members#:#Anëtarët e Kursit
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Fsheh materialet mësimore
 crs#:#crs_hide_link_objectives#:#Fsheh objektivat
 crs#:#crs_hide_link_or#:#Fsheh burimet tjera
@@ -3261,6 +3267,7 @@ crs#:#crs_other_resources#:#Burime të tjera
 crs#:#crs_passed#:#Kalon
 crs#:#crs_password_not_valid#:#Parulla e dhënë nuk është valide
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Shtyp Listën
 crs#:#crs_question_assignment#:#Caktimi i pyetjeve
 crs#:#crs_reg_subscription_deactivated#:#Regjistrimi nuk është i aktivizuar
@@ -3288,6 +3295,7 @@ crs#:#crs_select_native_lm#:#Kapitujt individual mund të caktohen vetëm për m
 crs#:#crs_select_one_archive#:#Ju lutem zgjedhni një arkiv
 crs#:#crs_select_one_object#:#Ju lutem zgjedhni një element kursi.
 crs#:#crs_select_starter#:#Zgjedh objektin fillimor
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Konfigurimet e kursit
 crs#:#crs_settings_saved#:#Konfigurimet janë ruajtur
 crs#:#crs_show_link_lms#:#Shih materialet mësimore
@@ -3342,7 +3350,10 @@ crs#:#crs_unsubscribed_from_crs#:#Keni abonuar për këtë kurs
 crs#:#crs_update_objective#:#Edito objektivet mësimore
 crs#:#crs_users_added#:#Shfrytëzuesi është shtuar në kurs
 crs#:#crs_users_already_assigned#:#Shfrytëzuesi tanimë është caktuar në këtë kurs
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Edito përmbajtjen
 crs#:#learners_view#:#Pamja e studentëve
 crs_#:#crs_archives#:#Arkivat

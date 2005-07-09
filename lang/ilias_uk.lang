@@ -3231,10 +3231,12 @@ crs#:#crs_added_member_body#:#Ви були прийняті в цей курс.
 crs#:#crs_added_new_archive#:#Новий архів доданий
 crs#:#crs_added_objective#:#Новий учбовий об'єкт створений.
 crs#:#crs_added_starters#:#Призначені почтакові об'єкти.
+crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
 crs#:#crs_admin#:#Адміністратор
 crs#:#crs_admin_no_notify#:#Адміністратор (без попередження)
 crs#:#crs_admin_notify#:#Адміністратор (попередження)
 crs#:#crs_allow_abo#:#Дозволити підписку на об'єкти курсу
+crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Архіви
 crs#:#crs_archive_disabled#:#Заборонений
 crs#:#crs_archive_download#:#Завантажити
@@ -3269,6 +3271,8 @@ crs#:#crs_create_date#:#Створити дату
 crs#:#crs_crs_structure#:#Структура курсу
 crs#:#crs_dates#:#Дати
 crs#:#crs_deassign_lm_sure#:#Ви впевнені що бажаєте видалені це призначення?
+crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
 crs#:#crs_delete_member#:#Видалити членів
 crs#:#crs_delete_members_sure#:#Ви бажаєте видалити наступних членів з цього курсу
 crs#:#crs_delete_objectve_sure#:#Ви впевнені що бажаєте видалити вибрані цілі?
@@ -3282,6 +3286,7 @@ crs#:#crs_edit_content#:#Редагувати об'єкти
 crs#:#crs_end#:#Кінець
 crs#:#crs_export#:#Експорт курсу
 crs#:#crs_file_name#:#Ім'я файлу
+crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#Від:
 crs#:#crs_grouping#:#Групування курсу
 crs#:#crs_grouping_assign#:#Змінити призначення
@@ -3309,6 +3314,7 @@ crs#:#crs_header_archives#:#Архіви курсу
 crs#:#crs_header_delete_members#:#Видалити членів
 crs#:#crs_header_edit_members#:#Редагувати членів
 crs#:#crs_header_members#:#Члени курсу
+crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
 crs#:#crs_hide_link_lms#:#Сховати учбові матеріали
 crs#:#crs_hide_link_objectives#:#Сховати цілі
 crs#:#crs_hide_link_or#:#Сховати інші ресурси
@@ -3422,6 +3428,7 @@ crs#:#crs_other_resources#:#Інші ресурси
 crs#:#crs_passed#:#Пройдений
 crs#:#crs_password_not_valid#:#Ваш пароль невірний
 crs#:#crs_pdf#:#PDF
+crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Список друку
 crs#:#crs_question_assignment#:#Призначення питання
 crs#:#crs_reg#:#Registration###21 Apr 2005 new variable
@@ -3460,6 +3467,7 @@ crs#:#crs_select_one_archive#:#Будь ласка виберіть один а�
 crs#:#crs_select_one_object#:#Будь ласка виберіть один елемент курсу.
 crs#:#crs_select_registration_type#:#Please select one registration type.###21 Apr 2005 new variable
 crs#:#crs_select_starter#:#Виберіть початковий об'єкт
+crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Настройки курсу
 crs#:#crs_settings_saved#:#Настроки збережені
 crs#:#crs_show_link_lms#:#Показати навчальні матеріали
@@ -3514,7 +3522,10 @@ crs#:#crs_unsubscribed_from_crs#:#Ви підписані на цей курс
 crs#:#crs_update_objective#:#Редагувати навчальні цілі
 crs#:#crs_users_added#:#Доданий в курс користувач
 crs#:#crs_users_already_assigned#:#Користувач вже призначений до цього курсу
+crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Редагувати вміст
 crs#:#learners_view#:#Учнівський вид
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
