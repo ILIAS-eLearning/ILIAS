@@ -75,6 +75,13 @@ class ilMDFactory
 				$lan->setMetaId($a_index);
 
 				return $lan;
+				
+			case 'meta_rights':
+				include_once 'Services/MetaData/classes/class.ilMDRights.php';
+
+				$rights =& new ilMDRights();
+				$rights->setMetaId($a_index);
+				return $rights;
 
 			default:
 				echo $a_type . " not known";

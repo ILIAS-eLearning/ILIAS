@@ -389,7 +389,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_lm_b.gif");
+			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
 		}
 		$a_tpl->setCurrentBlock("container_header_row");
