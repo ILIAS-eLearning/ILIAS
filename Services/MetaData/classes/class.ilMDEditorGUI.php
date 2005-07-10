@@ -97,6 +97,9 @@ class ilMDEditorGUI
 		return true;
 	}
 
+	/*
+	 * list general sections
+	 */
 	function listGeneral()
 	{
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
@@ -323,6 +326,80 @@ class ilMDEditorGUI
 		$this->ctrl->redirect($this,'listSection');
 	}
 
+	/*
+	 * list rights sections
+	 */
+	function listRights()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_rights');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_rights.html','Services/MetaData');
+
+		if(!is_object($this->md_section = $this->md_obj->getRights()))
+		{
+			$this->tpl->setCurrentBlock("no_rights");
+			$this->tpl->setVariable("TXT_NO_RIGHTS", $this->lng->txt("meta_no_rights"));
+			$this->tpl->setVariable("TXT_ADD_RIGHTS", $this->lng->txt("meta_add"));
+			$this->ctrl->setParameter($this, "section", "meta_rights");
+			$this->tpl->setVariable("ACTION_ADD_RIGHTS",
+				$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+	
+			$this->ctrl->setReturn($this,'listRights');
+			$this->ctrl->setParameter($this,'section','meta_rights');
+			$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+
+			$this->tpl->setVariable("TXT_RIGHTS", $this->lng->txt("meta_rights"));
+			$this->tpl->setVariable("TXT_COST", $this->lng->txt("meta_cost"));
+			$this->tpl->setVariable("TXT_COPYRIGHTANDOTHERRESTRICTIONS", $this->lng->txt("meta_copyright_and_other_restrictions"));
+			$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+			$this->tpl->setVariable("TXT_YES", $this->lng->txt("meta_yes"));
+			$this->tpl->setVariable("TXT_NO", $this->lng->txt("meta_no"));
+
+			$this->ctrl->setParameter($this, "section", "meta_rights");
+			$this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
+			$this->tpl->setVariable("ACTION_DELETE",
+				$this->ctrl->getLinkTarget($this, "deleteSection"));
+
+			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+
+			$this->tpl->setVariable("VAL_COST_".strtoupper($this->md_section->getCosts()), " selected");
+			$this->tpl->setVariable("VAL_COPYRIGHTANDOTHERRESTRICTIONS_".
+				strtoupper($this->md_section->getCopyrightAndOtherRestrictions()), " selected");
+
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE",
+			$this->__showLanguageSelect('rights[DescriptionLanguage]',
+				$this->md_section->getDescriptionLanguageCode()));
+
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+	
+			$this->tpl->setCurrentBlock("rights");
+			$this->tpl->parseCurrentBlock();
+			
+		}
+	}
+
+	function updateRights()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// update rights section
+		$this->md_section = $this->md_obj->getRights();
+		$this->md_section->setCosts($_POST['rights']['Cost']);
+		$this->md_section->setCopyrightAndOtherRestrictions($_POST['rights']['CopyrightAndOtherRestrictions']);
+		$this->md_section->setDescriptionLanguage(new ilMDLanguageItem($_POST['rights']['DescriptionLanguage']));
+		$this->md_section->setDescription(ilUtil::stripSlashes($_POST['rights']['Description']));
+		$this->md_section->update();
+
+		$this->listSection();
+	}
 
 	function deleteElement()
 	{
@@ -333,6 +410,33 @@ class ilMDEditorGUI
 		
 		$this->listSection();
 
+		return true;
+	}
+	
+	function deleteSection()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDFactory.php';
+
+		$md_element = ilMDFactory::_getInstance($_GET['section'],$_GET['meta_index']);
+		$md_element->delete();
+		
+		$this->listSection();
+
+		return true;
+	}
+	
+	function addSection()
+	{
+		// Switch section
+		switch($_GET['section'])
+		{
+			case 'meta_rights':
+				$this->md_section = $this->md_obj->addRights();
+				$this->md_section->save();
+				break;
+		}
+		
+		$this->listSection();
 		return true;
 	}
 
@@ -382,6 +486,9 @@ class ilMDEditorGUI
 
 			case 'debug':
 				return $this->debug();
+				
+			case 'meta_rights':
+				return $this->listRights();
 
 			default:
 				return $this->listGeneral();
@@ -389,7 +496,7 @@ class ilMDEditorGUI
 	}		
 
 
-	// PREIVATE
+	// PRIVATE
 	function __fillSubelements()
 	{
 		if(count($subs = $this->md_section->getPossibleSubelements()))

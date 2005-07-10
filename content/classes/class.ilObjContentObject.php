@@ -416,27 +416,17 @@ class ilObjContentObject extends ilObject
 
 		global $ilBench;
 
-		#$ilBench->start('NestedSet','lm_delete');
-
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 
-		#$ilBench->start('NestedSet','delete_all_object_data');
 		// delete lm object data
 		include_once("content/classes/class.ilLMObject.php");
 		ilLMObject::_deleteAllObjectData($this);
-		#$ilBench->stop('NestedSet','delete_all_object_data');
-
 
 		// delete meta data of content object
-/*
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), $this->getType());
-		$nested->deleteAllDBData();
-*/
 		$this->deleteMetaData();
 
 		// delete bibitem data
@@ -459,11 +449,9 @@ class ilObjContentObject extends ilObject
 		$q = "DELETE FROM lm_menu WHERE lm_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
-		#$ilBench->stop('NestedSet','lm_delete');
-		#$ilBench->save();
-
 		return true;
 	}
+
 
 	/**
 	* get default page layout of content object (see directory layouts/)
