@@ -13,16 +13,16 @@
 <tr>
 	<td class="option" colspan="2">{TXT_NEW_ELEMENT}</td>
 	<td class="option_value">
-		<select name="meta_name" size="1">
+		<select name="section_element" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
-			<option value="TypicalAgeRange"{META_NAME_VAL_TYPICALAGERANGE}>{TXT_TYPICALAGERANGE} (Typical Age Range)</option>
-			<option value="Description"{META_NAME_VAL_DESCRIPTION}>{TXT_DESCRIPTION} (Description)</option>
-			<option value="Language"{META_NAME_VAL_LANGUAGE}>{TXT_LANGUAGE} (Language)</option>
+			<option value="educational_typical_age_range"{META_NAME_VAL_TYPICALAGERANGE}>{TXT_TYPICALAGERANGE} (Typical Age Range)</option>
+			<option value="meta_description"{META_NAME_VAL_DESCRIPTION}>{TXT_DESCRIPTION} (Description)</option>
+			<option value="meta_language"{META_NAME_VAL_LANGUAGE}>{TXT_LANGUAGE} (Language)</option>
 		</select>
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[addMeta]" value="{TXT_ADD}"/></div></td>
+	<td class="submit" colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/></div></td>
 </tr>
 <tr>
 	<td class="option" colspan="2">{TXT_INTERACTIVITYTYPE} (Interactivity Type)</td>
@@ -131,7 +131,7 @@
 <!-- END typicalagerange_delete -->
 		[ <a href="{TYPICALAGERANGE_LOOP_ACTION_ADD}">{TYPICALAGERANGE_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[TypicalAgeRange][{TYPICALAGERANGE_LOOP_NO}][Value]" value="{TYPICALAGERANGE_LOOP_VAL}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="educational[TypicalAgeRange][{TYPICALAGERANGE_LOOP_NO}][Value]" value="{TYPICALAGERANGE_LOOP_VAL}"></td>
 </tr>
 <tr>
 	<td class="option" width="10">&nbsp;</td>
@@ -142,7 +142,7 @@
 
 <tr>
 	<td class="option" colspan="2">{TXT_TYPICALLEARNINGTIME} (Typical Learning Time)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[TypicalLearningTime]" value="{VAL_TYPICALLEARNINGTIME}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="educational[TypicalLearningTime]" value="{VAL_TYPICALLEARNINGTIME}"></td>
 </tr>
 
 <!-- BEGIN description_loop -->
@@ -152,7 +152,7 @@
 		[ <a href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{DESCRIPTION_LOOP_ACTION_ADD}">{DESCRIPTION_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-	<td class="option_value"><textarea name="meta[Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea></td>
+	<td class="option_value"><textarea name="educational[Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea></td>
 </tr>
 <tr>
 	<td class="option"width="10">&nbsp;</td>

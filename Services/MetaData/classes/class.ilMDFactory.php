@@ -52,6 +52,7 @@ class ilMDFactory
 				
 				return $ide;
 			
+			case 'educational_description':
 			case 'meta_description':
 				include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -68,6 +69,7 @@ class ilMDFactory
 				
 				return $key;
 
+			case 'educational_language':
 			case 'meta_language':
 				include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
@@ -87,6 +89,13 @@ class ilMDFactory
 				include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
 				$rights =& new ilMDEducational();
+				$rights->setMetaId($a_index);
+				return $rights;
+
+			case 'educational_typical_age_range':
+				include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+
+				$rights =& new ilMDTypicalAgeRange();
 				$rights->setMetaId($a_index);
 				return $rights;
 

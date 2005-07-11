@@ -327,7 +327,7 @@ class ilMDEditorGUI
 	}
 
 	/*
-	 * list rights sections
+	 * list rights section
 	 */
 	function listRights()
 	{
@@ -402,7 +402,7 @@ class ilMDEditorGUI
 	}
 
 	/*
-	 * list rights sections
+	 * list educational section
 	 */
 	function listEducational()
 	{
@@ -454,7 +454,8 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("VAL_INTENDEDENDUSERROLE_" . strtoupper($this->md_section->getIntendedEndUserRole()), " selected");
 			$this->tpl->setVariable("VAL_CONTEXT_" . strtoupper($this->md_section->getContext()), " selected");
 			$this->tpl->setVariable("VAL_DIFFICULTY_" . strtoupper($this->md_section->getDifficulty()), " selected");
-
+			$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+			
 			$this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("meta_active"));
 			$this->tpl->setVariable("TXT_EXPOSITIVE", $this->lng->txt("meta_expositive"));
 			$this->tpl->setVariable("TXT_MIXED", $this->lng->txt("meta_mixed"));
@@ -490,125 +491,96 @@ class ilMDEditorGUI
 			$this->tpl->setVariable("TXT_EASY", $this->lng->txt("meta_easy"));
 			$this->tpl->setVariable("TXT_DIFFICULT", $this->lng->txt("meta_difficult"));
 			$this->tpl->setVariable("TXT_VERYDIFFICULT", $this->lng->txt("meta_very_difficult"));
+			$this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
 
 			/* TypicalAgeRange */
-/*
-			if (is_array($typicalAgeRange = $this->meta_obj->getElement("TypicalAgeRange", "Educational")))
+			foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)
 			{
-				for ($i = 0; $i < count($typicalAgeRange); $i++)
-				{
-					if (count($typicalAgeRange) > 1)
-					{
-						$this->tpl->setCurrentBlock("typicalagerange_delete");
-						$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Educational&meta_name=TypicalAgeRange&meta_index=" . $i);
-						$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-						$this->tpl->parseCurrentBlock();
-					}
+				$md_age = $this->md_section->getTypicalAgeRange($id);
+				
+				$this->ctrl->setParameter($this, 'meta_index', $id);
+				$this->ctrl->setParameter($this, 'meta_path', 'educational_typical_age_range');
+	
+				$this->tpl->setCurrentBlock("typicalagerange_delete");
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteElement"));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->parseCurrentBlock();
 
-					$this->tpl->setCurrentBlock("typicalagerange_loop");
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($typicalAgeRange[$i]["value"]));
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[TypicalAgeRange][" . $i . "][Language]", $typicalAgeRange[$i]["Language"]));
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=TypicalAgeRange&meta_language=" . $a_language . "&meta_path=Educational&meta_section=" . $a_section);
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-					$this->tpl->parseCurrentBlock();
-				}
+				$this->tpl->setCurrentBlock("typicalagerange_loop");
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL_LANGUAGE",
+					$this->__showLanguageSelect('educational[TypicalAgeRange]['.$id.'][Language]',
+					$md_age->getTypicalAgeRangeLanguageCode()));
+				$this->ctrl->setParameter($this, "section_element", "educational_typical_age_range");
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSectionElement"));
+				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+				$this->tpl->parseCurrentBlock();
 			}
-*/
-			/* TypicalLearningTime */
-/*
-			if (is_array($typicalLearningTime = $this->meta_obj->getElement("TypicalLearningTime", "Educational")))
-			{
-				$this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
-				$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($typicalLearningTime[0]["value"]));
-			}
-*/
 
 			/* Description */
-/*
-			if (is_array($description = $this->meta_obj->getElement("Description", "Educational")))
+			foreach($ids = $this->md_section->getDescriptionIds() as $id)
 			{
-				for ($i = 0; $i < count($description); $i++)
-				{
-					$this->tpl->setCurrentBlock("description_loop");
-					$this->tpl->setVariable("DESCRIPTION_LOOP_NO", $i);
-					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Description][" . $i . "][Language]", $description[$i]["Language"]));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Educational&meta_name=Description&meta_index=" . $i);
-					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-					$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Description&meta_language=" . $a_language . "&meta_path=Educational&meta_section=" . $a_section);
-					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-					$this->tpl->parseCurrentBlock();
-				}
+				$md_des = $this->md_section->getDescription($id);
+				
+				$this->ctrl->setParameter($this, 'meta_index', $id);
+				$this->ctrl->setParameter($this, 'meta_path', 'educational_description');
+				
+				$this->tpl->setCurrentBlock("description_loop");
+				$this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($md_des->getDescription()));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE",
+					$this->__showLanguageSelect('educational[Description]['.$id.'][Language]',
+						$md_des->getDescriptionLanguageCode()));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteElement"));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->ctrl->setParameter($this, "section_element", "educational_description");
+				$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSectionElement"));
+				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+				$this->tpl->parseCurrentBlock();
 			}
-*/
+
 
 			/* Language */
-/*
-			if (is_array($language = $this->meta_obj->getElement("Language", "Educational")))
+			foreach($ids = $this->md_section->getLanguageIds() as $id)
 			{
-				for ($i = 0; $i < count($language); $i++)
-				{
-					$this->tpl->setCurrentBlock("language_loop");
-					$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-					$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-					$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Language][" . $i . "][Language]", $language[$i]["Language"]));
-	
-					$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Educational&meta_name=Language&meta_index=" . $i);
-					$this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-					$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Language&meta_language=" . $a_language . "&meta_path=Educational&meta_section=" . $a_section);
-					$this->tpl->setVariable("LANGUAGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-					$this->tpl->parseCurrentBlock();
-				}
+				$md_lang = $this->md_section->getLanguage($id);
+				
+				$this->ctrl->setParameter($this, 'meta_index', $id);
+				$this->ctrl->setParameter($this, 'meta_path', 'educational_language');
+
+				$this->tpl->setCurrentBlock("language_loop");
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE",
+					$this->__showLanguageSelect('educational[Language]['.$id.']',
+						$md_lang->getLanguageCode()));
+
+				$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteElement"));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->ctrl->setParameter($this, "section_element", "educational_language");
+				$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSectionElement"));
+				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+				$this->tpl->parseCurrentBlock();
+
 			}
-*/
-			//$this->tpl->setVariable("EDIT_ACTION", $a_formaction . "&cmd=post");
-			//$this->tpl->setVariable("VAL_SECTION", $a_section);
-			//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 			$this->tpl->setCurrentBlock("educational");
 			$this->tpl->parseCurrentBlock();
-			return;
-
-			
-// rights stuff
-			$this->tpl->setVariable("TXT_RIGHTS", $this->lng->txt("meta_rights"));
-			$this->tpl->setVariable("TXT_COST", $this->lng->txt("meta_cost"));
-			$this->tpl->setVariable("TXT_COPYRIGHTANDOTHERRESTRICTIONS", $this->lng->txt("meta_copyright_and_other_restrictions"));
-			$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-			$this->tpl->setVariable("TXT_YES", $this->lng->txt("meta_yes"));
-			$this->tpl->setVariable("TXT_NO", $this->lng->txt("meta_no"));
-
-			$this->ctrl->setParameter($this, "section", "meta_rights");
-			$this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
-			$this->tpl->setVariable("ACTION_DELETE",
-				$this->ctrl->getLinkTarget($this, "deleteSection"));
-
-			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
-
-			$this->tpl->setVariable("VAL_COST_".strtoupper($this->md_section->getCosts()), " selected");
-			$this->tpl->setVariable("VAL_COPYRIGHTANDOTHERRESTRICTIONS_".
-				strtoupper($this->md_section->getCopyrightAndOtherRestrictions()), " selected");
-
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE",
-			$this->__showLanguageSelect('rights[DescriptionLanguage]',
-				$this->md_section->getDescriptionLanguageCode()));
-
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-	
-			$this->tpl->setCurrentBlock("rights");
-			$this->tpl->parseCurrentBlock();
-			
 		}
 	}
 
@@ -625,12 +597,37 @@ class ilMDEditorGUI
 		$this->md_section->setIntendedEndUserRole($_POST['educational']['IntendedEndUserRole']);
 		$this->md_section->setContext($_POST['educational']['Context']);
 		$this->md_section->setDifficulty($_POST['educational']['Difficulty']);
+		$this->md_section->setTypicalLearningTime(ilUtil::stripSlashes($_POST['educational']['TypicalLearningTime']));
+
+		/* TypicalAgeRange */
+		foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)
+		{
+			$md_age = $this->md_section->getTypicalAgeRange($id);
+			$md_age->setTypicalAgeRange(ilUtil::stripSlashes($_POST['educational']['TypicalAgeRange'][$id][Value]));
+			$md_age->setTypicalAgeRangeLanguage(
+				new ilMDLanguageItem($_POST['educational']['TypicalAgeRange'][$id]['Language']));
+			$md_age->update();
+		}
+
+		/* Description */
+		foreach($ids = $this->md_section->getDescriptionIds() as $id)
+		{
+			$md_des = $this->md_section->getDescription($id);
+			$md_des->setDescription(ilUtil::stripSlashes($_POST['educational']['Description'][$id][Value]));
+			$md_des->setDescriptionLanguage(
+				new ilMDLanguageItem($_POST['educational']['Description'][$id]['Language']));
+			$md_des->update();
+		}
+
+		/* Language */
+		foreach($ids = $this->md_section->getLanguageIds() as $id)
+		{
+			$md_lang = $this->md_section->getLanguage($id);
+			$md_lang->setLanguage(
+				new ilMDLanguageItem($_POST['educational']['Language'][$id]));
+			$md_lang->update();
+		}
 		
-/*
-		$this->md_section->setCopyrightAndOtherRestrictions($_POST['rights']['CopyrightAndOtherRestrictions']);
-		$this->md_section->setDescriptionLanguage(new ilMDLanguageItem($_POST['rights']['DescriptionLanguage']));
-		$this->md_section->setDescription(ilUtil::stripSlashes($_POST['rights']['Description']));
-*/
 		$this->md_section->update();
 
 		$this->listSection();
@@ -689,25 +686,40 @@ class ilMDEditorGUI
 			case 'meta_general':
 				$this->md_section = $this->md_obj->getGeneral();
 				break;
+				
+			case 'meta_educational':
+				$this->md_section = $this->md_obj->getEducational();
+				break;
+
 		}
 
 		// Switch new element
-		switch($_POST['section_element'])
+		$section_element = (empty($_POST['section_element']))
+			? $_GET['section_element']
+			: $_POST['section_element'];
+			
+		switch($section_element)
 		{
 			case 'meta_identifier':
 				$md_new = $this->md_section->addIdentifier();
 				break;
 
+			case 'educational_language':
 			case 'meta_language':
 				$md_new = $this->md_section->addLanguage();
 				break;
 
+			case 'educational_description':
 			case 'meta_description':
 				$md_new = $this->md_section->addDescription();
 				break;
-				
+
 			case 'meta_keyword':
 				$md_new = $this->md_section->addKeyword();
+				break;
+
+			case 'educational_typical_age_range':
+				$md_new = $this->md_section->addTypicalAgeRange();
 				break;
 		}
 
