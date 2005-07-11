@@ -83,6 +83,13 @@ class ilMDFactory
 				$rights->setMetaId($a_index);
 				return $rights;
 
+			case 'meta_educational':
+				include_once 'Services/MetaData/classes/class.ilMDEducational.php';
+
+				$rights =& new ilMDEducational();
+				$rights->setMetaId($a_index);
+				return $rights;
+
 			default:
 				echo $a_type . " not known";
 				

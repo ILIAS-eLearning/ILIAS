@@ -4462,6 +4462,7 @@ meta#:#meta_taxon#:#Taxonomie
 meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
+meta#:#meta_educational#:#Pädagogik
 meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
 meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
 meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
