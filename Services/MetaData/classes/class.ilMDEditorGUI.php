@@ -808,6 +808,89 @@ class ilMDEditorGUI
 		$this->listSection();
 	}
 
+	/*
+	 * list annotation section
+	 */
+	function listAnnotation()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_annotation');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_annotation.html','Services/MetaData');
+
+		$anno_ids = $this->md_obj->getAnnotationIds();
+		if (!is_array($anno_ids) || count($anno_ids) == 0)
+		{
+			$this->tpl->setCurrentBlock("no_annotation");
+			$this->tpl->setVariable("TXT_NO_ANNOTATION", $this->lng->txt("meta_no_annotation"));
+			$this->tpl->setVariable("TXT_ADD_ANNOTATION", $this->lng->txt("meta_add"));
+			$this->ctrl->setParameter($this, "section", "meta_annotation");
+			$this->tpl->setVariable("ACTION_ADD_ANNOTATION",
+				$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($anno_ids as $anno_id)
+			{
+				$this->md_section = $this->md_obj->getAnnotation($anno_id);
+								
+				$this->tpl->setCurrentBlock("annotation_loop");
+				$this->tpl->setVariable("ANNOTATION_ID", $anno_id);
+				$this->tpl->setVariable("TXT_ANNOTATION", $this->lng->txt("meta_annotation"));				
+				$this->ctrl->setParameter($this, "meta_index", $anno_id);
+				$this->tpl->setVariable("ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteSection"));
+				$this->ctrl->setParameter($this, "section", "meta_annotation");
+				$this->tpl->setVariable("ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSection"));
+				$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+				
+				$this->tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
+				$this->tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($this->md_section->getEntity()));
+				$this->tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
+				$this->tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($this->md_section->getDate()));
+	
+				/* Description */
+				$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+				$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
+				$this->tpl->setVariable("VAL_DESCRIPTION", ilUtil::stripSlashes($this->md_section->getDescription()));
+				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("VAL_DESCRIPTION_LANGUAGE",
+					$this->__showLanguageSelect('annotation['.$anno_id.'][Language]',
+					$this->md_section->getDescriptionLanguageCode()));
+				
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("annotation");
+			$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}		
+
+	function updateAnnotation()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// relation
+		foreach($ids = $this->md_obj->getAnnotationIds() as $id)
+		{
+			// entity
+			$annotation = $this->md_obj->getAnnotation($id);
+			$annotation->setEntity(ilUtil::stripSlashes($_POST['annotation'][$id]['Entity']));
+			$annotation->setDate(ilUtil::stripSlashes($_POST['annotation'][$id]['Date']));
+			$annotation->setDescription(ilUtil::stripSlashes($_POST['annotation'][$id]['Description']));
+			$annotation->setDescriptionLanguage(
+				new ilMDLanguageItem($_POST['annotation'][$id]['Language']));
+
+			$annotation->update();
+		}
+		
+		$this->listSection();
+	}
+
 	function deleteElement()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDFactory.php';
@@ -854,6 +937,11 @@ class ilMDEditorGUI
 				$ident->save();
 				$des = $this->md_section->addDescription();
 				$des->save();
+				break;
+				
+			case 'meta_annotation':
+				$this->md_section = $this->md_obj->addAnnotation();
+				$this->md_section->save();
 				break;
 
 		}
@@ -942,6 +1030,9 @@ class ilMDEditorGUI
 
 			case 'meta_relation':
 				return $this->listRelation();
+
+			case 'meta_annotation':
+				return $this->listAnnotation();
 
 			default:
 				return $this->listGeneral();

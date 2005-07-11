@@ -122,6 +122,13 @@ class ilMDFactory
 				
 				return $des;
 
+			case 'meta_annotation':
+				include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
+
+				$anno =& new ilMDAnnotation();
+				$anno->setMetaId($a_index);
+				return $anno;
+
 			default:
 				echo $a_type . " not known";
 				
