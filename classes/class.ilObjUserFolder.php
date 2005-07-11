@@ -113,6 +113,9 @@ class ilObjUserFolder extends ilObject
 			case "userfolder_export_csv":				
 				$filename = $date."__".$inst_id."__csv_usrf.csv";
 				break;
+			case "userfolder_export_xml":
+				$filename = $date."__".$inst_id."__xml_usrf.xml";
+				break;
 		}
 		return $filename;
 	}
@@ -179,7 +182,229 @@ class ilObjUserFolder extends ilObject
 
 		return $file;
 	}
+	
+	function escapeXML($value)
+	{
+		$value = str_replace("&", "&amp;", $value);
+		$value = str_replace("<", "&lt;", $value);
+		$value = str_replace(">", "&gt;", $value);
+		return $value;
+	}
 
+	function createXMLExport(&$settings, &$data, $filename)
+	{
+		global $rbacreview;
+		global $ilDB;
+		
+		$file = fopen($filename, "w");
+		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		fwrite($file, "<!DOCTYPE Users SYSTEM \"ilias_user_0_2.dtd\">\n");
+		fwrite($file, "<Users>\n");
+		foreach ($data as $row) 
+		{
+			foreach ($row as $key => $value)
+			{
+				$row[$key] = $this->escapeXML($value);
+			}
+			$userline = "";
+			// TODO: Define combobox for "Action" ???
+			if (strlen($row["language"]) == 0) $row["language"] = "en";
+			$userline .= "<User Id=\"".$row["usr_id"]."\" Language=\"".$row["language"]."\" Action=\"Insert\">\n";
+			if (array_search("login", $settings) !== FALSE)
+			{
+				$userline .= "<Login>".$row["login"]."</Login>\n";
+			}
+			$roles = $rbacreview->getRolesByFilter(1, $row["usr_id"]);
+			$ass_roles = $rbacreview->assignedRoles($row["usr_id"]);
+			foreach ($roles as $role)
+			{
+				if (array_search($role["obj_id"], $ass_roles) !== FALSE)
+				{
+					$type = "";
+					switch ($role["role_type"])
+					{
+						case "global":
+							$type = "Global";
+							break;
+						case "local":
+							$type = "Local";
+							break;
+					}
+					if (strlen($type))
+					{
+						$userline .= "<Role Id=\"".$role["obj_id"]."\" Type=\"".$type."\">".$role["title"]."</Role>\n";
+					}
+				}
+			}
+			$i2passwd = FALSE;
+			if (array_search("i2passwd", $settings !== FALSE))
+			{
+				if (strlen($row["i2passwd"])) $i2passwd = TRUE;
+				if ($i2passwd) $userline .= "<Password Type=\"ILIAS2\">".$row["i2passwd"]."</Password>\n";
+			}
+			if ((!$i2passwd) && (array_search("passwd", $settings) !== FALSE))
+			{
+				if (strlen($row["passwd"])) $userline .= "<Password Type=\"ILIAS3\">".$row["passwd"]."</Password>\n";
+			}
+			if (array_search("firstname", $settings) !== FALSE)
+			{
+				if (strlen($row["firstname"])) $userline .= "<Firstname>".$row["firstname"]."</Firstname>\n";
+			}
+			if (array_search("lastname", $settings) !== FALSE)
+			{
+				if (strlen($row["lastname"])) $userline .= "<Lastname>".$row["lastname"]."</Lastname>\n";
+			}
+			if (array_search("title", $settings) !== FALSE)
+			{
+				if (strlen($row["title"])) $userline .= "<Title>".$row["title"]."</Title>\n";
+			}
+			if (array_search("upload", $settings) !== FALSE)
+			{
+				// personal picture
+				$q = sprintf("SELECT value FROM usr_pref WHERE usr_id=%s AND keyword='profile_image'", $ilDB->quote($row["usr_id"] . ""));
+				$r = $ilDB->query($q);
+				if ($r->numRows() == 1)
+				{
+					$personal_picture_data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+					$personal_picture = $personal_picture_data["value"];
+					$webspace_dir = ilUtil::getWebspaceDir();
+					$image_file = $webspace_dir."/usr_images/".$personal_picture;
+					if (@is_file($image_file))
+					{
+						$fh = fopen($image_file, "rb");
+						if ($fh)
+						{
+							$image_data = fread($fh, filesize($image_file));
+							fclose($fh);
+							$base64 = base64_encode($image_data);
+							$imagetype = "image/jpeg";
+							if (preg_match("/.*\.(png|gif)$/", $personal_picture, $matches))
+							{
+								$imagetype = "image/".$matches[1];
+							}
+							$userline .= "<PersonalPicture imagetype=\"$imagetype\" encoding=\"Base64\">$base64</PersonalPicture>\n";
+						}
+					}					
+				}
+			}
+			if (array_search("gender", $settings) !== FALSE)
+			{
+				if (strlen($row["gender"])) $userline .= "<Gender>".$row["gender"]."</Gender>\n";
+			}
+			if (array_search("email", $settings) !== FALSE)
+			{
+				if (strlen($row["email"])) $userline .= "<Email>".$row["email"]."</Email>\n";
+			}
+			if (array_search("institution", $settings) !== FALSE)
+			{
+				if (strlen($row["institution"])) $userline .= "<Institution>".$row["institution"]."</Institution>\n";
+			}
+			if (array_search("street", $settings) !== FALSE)
+			{
+				if (strlen($row["street"])) $userline .= "<Street>".$row["street"]."</Street>\n";
+			}
+			if (array_search("city", $settings) !== FALSE)
+			{
+				if (strlen($row["city"])) $userline .= "<City>".$row["city"]."</City>\n";
+			}
+			if (array_search("zipcode", $settings) !== FALSE)
+			{
+				if (strlen($row["zipcode"])) $userline .= "<PostalCode>".$row["zipcode"]."</PostalCode>\n";
+			}
+			if (array_search("country", $settings) !== FALSE)
+			{
+				if (strlen($row["country"])) $userline .= "<Country>".$row["country"]."</Country>\n";
+			}
+			if (array_search("phone_office", $settings) !== FALSE)
+			{
+				if (strlen($row["phone_office"])) $userline .= "<PhoneOffice>".$row["phone_office"]."</PhoneOffice>\n";
+			}
+			if (array_search("phone_home", $settings) !== FALSE)
+			{
+				if (strlen($row["phone_home"])) $userline .= "<PhoneHome>".$row["phone_home"]."</PhoneHome>\n";
+			}
+			if (array_search("phone_mobile", $settings) !== FALSE)
+			{
+				if (strlen($row["phone_mobile"])) $userline .= "<PhoneMobile>".$row["phone_mobile"]."</PhoneMobile>\n";
+			}
+			if (array_search("fax", $settings) !== FALSE)
+			{
+				if (strlen($row["fax"])) $userline .= "<Fax>".$row["fax"]."</Fax>\n";
+			}
+			if (strlen($row["hobby"])) if (array_search("hobby", $settings) !== FALSE)
+			{
+				$userline .= "<Hobby>".$row["hobby"]."</Hobby>\n";
+			}
+			if (array_search("department", $settings) !== FALSE)
+			{
+				if (strlen($row["department"])) $userline .= "<Department>".$row["department"]."</Department>\n";
+			}
+			if (array_search("referral_comment", $settings) !== FALSE)
+			{
+				if (strlen($row["referral_comment"])) $userline .= "<Comment>".$row["referral_comment"]."</Comment>\n";
+			}
+			if (array_search("matriculation", $settings) !== FALSE)
+			{
+				if (strlen($row["matriculation"])) $userline .= "<Matriculation>".$row["matriculation"]."</Matriculation>\n";
+			}
+			if (array_search("active", $settings) !== FALSE)
+			{
+				if ($row["active"])
+				{
+					$userline .= "<Active>true</Active>\n";
+				}
+				else
+				{
+					$userline .= "<Active>false</Active>\n";
+				}
+			}
+			if (array_search("client_ip", $settings) !== FALSE)
+			{
+				if (strlen($row["client_ip"])) $userline .= "<ClientIP>".$row["client_ip"]."</ClientIP>\n";
+			}
+			if (array_search("time_limit_owner", $settings) !== FALSE)
+			{
+				if (strlen($row["time_limit_owner"])) $userline .= "<TimeLimitOwner>".$row["time_limit_owner"]."</TimeLimitOwner>\n";
+			}
+			if (array_search("time_limit_unlimited", $settings) !== FALSE)
+			{
+				if (strlen($row["time_limit_unlimited"])) $userline .= "<TimeLimitUnlimited>".$row["time_limit_unlimited"]."</TimeLimitUnlimited>\n";
+			}
+			if (array_search("time_limit_from", $settings) !== FALSE)
+			{
+				if (strlen($row["time_limit_from"])) $userline .= "<TimeLimitFrom>".$row["time_limit_from"]."</TimeLimitFrom>\n";
+			}
+			if (array_search("time_limit_until", $settings) !== FALSE)
+			{
+				if (strlen($row["time_limit_until"])) $userline .= "<TimeLimitUntil>".$row["time_limit_until"]."</TimeLimitUntil>\n";
+			}
+			if (array_search("time_limit_message", $settings) !== FALSE)
+			{
+				if (strlen($row["time_limit_message"])) $userline .= "<TimeLimitMessage>".$row["time_limit_message"]."</TimeLimitMessage>\n";
+			}
+			if (array_search("approve_date", $settings) !== FALSE)
+			{
+				if (strlen($row["approve_date"])) $userline .= "<ApproveDate>".$row["approve_date"]."</ApproveDate>\n";
+			}
+			if (array_search("agree_date", $settings) !== FALSE)
+			{
+				if (strlen($row["agree_date"])) $userline .= "<AgreeDate>".$row["agree_date"]."</AgreeDate>\n";
+			}
+			if (array_search("ilinc_id", $settings) !== FALSE)
+			{
+				if (strlen($row["ilinc_id"])) $userline .= "<iLincID>".$row["ilinc_id"]."</iLincID>\n";
+			}
+			if (array_search("auth_mode", $settings) !== FALSE)
+			{
+				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>\n";
+			}
+			$userline .= "</User>\n";
+			fwrite($file, $userline);
+		}
+		fwrite($file, "</Users>\n");
+		fclose($file);
+	}
+	
 	function createCSVExport(&$settings, &$data, $filename)
 	{
 		$headerrow = array();
@@ -241,10 +466,16 @@ class ilObjUserFolder extends ilObject
 		{
 			$row++;
 			$col = 0;
-			foreach ($rowdata as $rowindex => $value)
+			foreach ($settings as $fieldname)
 			{
-				switch ($settings[$rowindex])
+//			foreach ($rowdata as $rowindex => $value)
+//			{
+				$value = $rowdata[$fieldname];
+				switch ($fieldname)
 				{
+					case "language":
+						$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("lang_".$value), $a_mode));
+						break;
 					case "time_limit_from":
 					case "time_limit_until":
 						$date = strftime("%Y-%m-%d %H:%M:%S", $value);
@@ -318,6 +549,7 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "agree_date");
 		array_push($export_settings, "ilinc_id");
 		array_push($export_settings, "client_ip");
+		array_push($export_settings, "auth_mode");
 		return $export_settings;
 	}
 	
@@ -348,25 +580,22 @@ class ilObjUserFolder extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$datarow = array();
+//			$datarow = array();
 			foreach ($settings as $key => $value)
 			{
-				if (strcmp($value, "language") == 0)
+				$query = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+					$ilDB->quote($row["usr_id"] . ""),
+					$ilDB->quote($value)
+				);
+				$res = $ilDB->query($query);
+				if ($res->numRows() == 1)
 				{
-					$query = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-						$ilDB->quote($row["usr_id"] . ""),
-						$ilDB->quote($value)
-					);
-					$res = $ilDB->query($query);
-					if ($res->numRows() == 1)
-					{
-						$prefrow = $res->fetchRow(DB_FETCHMODE_ASSOC);
-						$row[$value] = $this->lng->txt("lang_".$prefrow["value"]);
-					}
+					$prefrow = $res->fetchRow(DB_FETCHMODE_ASSOC);
+					$row["language"] = $prefrow["value"];
 				}
-				array_push($datarow, $row[$value]);
 			}
-			array_push($data, $datarow);
+			array_push($data, $row);
+//			array_push($data, $datarow);
 		}
 
 		$fullname = $expDir."/".$this->getExportFilename($a_mode);
@@ -380,6 +609,9 @@ class ilObjUserFolder extends ilObject
 				break;
 			case "userfolder_export_csv":
 				$this->createCSVExport($settings, $data, $fullname);
+				break;
+			case "userfolder_export_xml":
+				$this->createXMLExport($settings, $data, $fullname);
 				break;
 		}
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");

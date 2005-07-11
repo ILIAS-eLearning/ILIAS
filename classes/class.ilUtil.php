@@ -1433,7 +1433,7 @@ class ilUtil
 	/**
 	*   deliver data for download via browser.
 	*/
-	function deliverData($a_data, $a_filename, $mime = "application/octet-stream")
+	function deliverData($a_data, $a_filename, $mime = "application/octet-stream", $charset = "")
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
 		//		$mime = "application/octet-stream"; // or whatever the mime type is
@@ -1461,7 +1461,11 @@ class ilUtil
 
 		$ascii_filename = ilUtil::getASCIIFilename($a_filename);
 
-		header("Content-Type: $mime");
+		if (strlen($charset))
+		{
+			$charset = "; charset=$charset";
+		}
+		header("Content-Type: $mime$charset");
 		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(strlen($a_data)));

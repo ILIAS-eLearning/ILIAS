@@ -85,11 +85,12 @@ class ilObjUser extends ilObject
 	var $email;
 	var $hobby;
 	var $matriculation;
-    var $referral_comment;
-    var $approve_date;
-    var $active;
-    var $ilinc_id; // unique Id for netucate ilinc service
-    var $client_ip; // client ip to check before login
+	var $referral_comment;
+	var $approve_date;
+	var $active;
+	var $ilinc_id; // unique Id for netucate ilinc service
+	var $client_ip; // client ip to check before login
+	var $auth_mode; // authentication mode
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -135,6 +136,7 @@ class ilObjUser extends ilObject
 
 		$this->type = "usr";
 		$this->ilObject($a_user_id, $a_call_by_reference);
+		$this->auth_mode = "default";
 		$this->passwd_type = IL_PASSWD_PLAIN;
 
 		// for gender selection. don't change this
@@ -2879,6 +2881,40 @@ class ilObjUser extends ilObject
 		
 		include_once('classes/class.ilAuthUtils.php');
 		return ilAuthUtils::_getAuthMode($this->auth_mode);
+	}
+
+	/**
+	* Create a personal picture image file from a temporary image file
+	*
+	* @param	string $tmp_file Complete path to the temporary image file
+	* @param	int	$obj_id The object id of the related user account
+	* @return returns TRUE on success, otherwise FALSE
+	*/
+	function _uploadPersonalPicture($tmp_file, $obj_id)
+	{
+		$webspace_dir = ilUtil::getWebspaceDir();
+		$image_dir = $webspace_dir."/usr_images";
+		$store_file = "usr_".$obj_id."."."jpg";
+		$target_file = $image_dir."/$store_file";
+	
+		chmod($tmp_file, 0770);
+	
+		// take quality 100 to avoid jpeg artefacts when uploading jpeg files
+		// taking only frame [0] to avoid problems with animated gifs
+		$show_file  = "$image_dir/usr_".$obj_id.".jpg"; 
+		$thumb_file = "$image_dir/usr_".$obj_id."_small.jpg";
+		$xthumb_file = "$image_dir/usr_".$obj_id."_xsmall.jpg"; 
+		$xxthumb_file = "$image_dir/usr_".$obj_id."_xxsmall.jpg";
+	
+		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
+		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
+		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
+		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
+
+		// store filename
+		ilObjUser::_writePref($obj_id, "profile_image", $store_file);
+
+		return TRUE;
 	}
 } // END class ilObjUser
 ?>

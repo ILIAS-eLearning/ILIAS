@@ -904,6 +904,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiRenderFib = $this->domxml->create_element("render_fib");
 					$qtiRenderFib->set_attribute("fibtype", "String");
 					$qtiRenderFib->set_attribute("prompt", "Box");
+					$qtiRenderFib->set_attribute("columns", $this->getColumnSize($gap));
 					$qtiResponseLabel = $this->domxml->create_element("response_label");
 					$qtiResponseLabel->set_attribute("ident", $i);
 					$qtiRenderFib->append_child($qtiResponseLabel);
@@ -1853,6 +1854,25 @@ class ASS_ClozeTest extends ASS_Question
 	function getQuestionType()
 	{
 		return 3;
+	}
+	
+	/**
+	* Returns the maximum number of text columns within which a user can type their answer
+	*
+	* Returns the maximum number of text columns within which a user can type their answer
+	*
+	* @return integer The column size of the gap
+	* @access public
+	*/
+	function getColumnSize($gap)
+	{
+		$size = 0;
+		foreach ($gap as $answer)
+		{
+			$answertextsize = strlen($answer->get_answertext());
+			if ($answertextsize > $size) $size = $answertextsize;
+		}
+		return $size;
 	}
 }
 

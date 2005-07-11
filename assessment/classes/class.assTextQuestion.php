@@ -415,6 +415,16 @@ class ASS_TextQuestion extends ASS_Question
 		$qtiDecvar->set_attribute("maxvalue", $this->getPoints());
 		$qtiOutcomes->append_child($qtiDecvar);
 		$qtiResprocessing->append_child($qtiOutcomes);
+
+		$qtiOther = $this->domxml->create_element("other");
+		$qtiOtherText = $this->domxml->create_text_node("tutor rated");
+		$qtiOther->append_child($qtiOtherText);
+		$qtiConditionVar = $this->domxml->create_element("conditionvar");
+		$qtiConditionVar->append_child($qtiOther);
+		$qtiRespCondition = $this->domxml->create_element("respcondition");
+		$qtiRespCondition->append_child($qtiConditionVar);
+		$qtiResprocessing->append_child($qtiRespCondition);
+
 		$qtiIdent->append_child($qtiResprocessing);
 
 		$xml = $this->domxml->dump_mem(true);

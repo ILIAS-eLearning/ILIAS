@@ -929,7 +929,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// ---------------
 		$importParser = new ilUserImportParser($xml_file, IL_VERIFY);
 		$importParser->startParsing();
-
 		switch ($importParser->getErrorLevel())
 		{
 			case IL_IMPORT_SUCCESS :
@@ -1938,7 +1937,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$export_types = array(
 			"userfolder_export_excel_x86",
 			"userfolder_export_excel_ppc",
-			"userfolder_export_csv"
+			"userfolder_export_csv",
+			"userfolder_export_xml"
 		);
 
 		// create table
