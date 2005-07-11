@@ -7795,3 +7795,25 @@ UPDATE `usr_data` SET `auth_mode` = 'local' WHERE `usr_id` =13 LIMIT 1;
 
 <#485>
 ALTER TABLE `crs_wating_list` RENAME `crs_waiting_list`;
+
+<#486>
+DROP TABLE IF EXISTS `chat_record_data`;
+CREATE TABLE `chat_record_data` (
+  `record_data_id` int(11) NOT NULL auto_increment,
+  `record_id` int(11) NOT NULL default '0',
+  `message` mediumtext NOT NULL,
+  `msg_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`record_data_id`)
+	) TYPE = MyISAM;
+
+
+DROP TABLE IF EXISTS `chat_records`;
+CREATE TABLE `chat_records` (
+  `record_id` int(11) NOT NULL auto_increment,
+  `moderator_id` int(11) NOT NULL default '0',
+  `chat_id` int(11) NOT NULL default '0',
+  `room_id` int(11) NOT NULL default '0',
+  `start_time` int(11) NOT NULL default '0',
+  `end_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`record_id`)
+	) TYPE=MyISAM;
