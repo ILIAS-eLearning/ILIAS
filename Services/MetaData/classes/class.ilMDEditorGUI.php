@@ -633,6 +633,181 @@ class ilMDEditorGUI
 		$this->listSection();
 	}
 
+	/*
+	 * list relation section
+	 */
+	function listRelation()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_relation');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_relation.html','Services/MetaData');
+
+		$rel_ids = $this->md_obj->getRelationIds();
+		if (!is_array($rel_ids) || count($rel_ids) == 0)
+		{
+			$this->tpl->setCurrentBlock("no_relation");
+			$this->tpl->setVariable("TXT_NO_RELATION", $this->lng->txt("meta_no_relation"));
+			$this->tpl->setVariable("TXT_ADD_RELATION", $this->lng->txt("meta_add"));
+			$this->ctrl->setParameter($this, "section", "meta_relation");
+			$this->tpl->setVariable("ACTION_ADD_RELATION",
+				$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($rel_ids as $rel_id)
+			{
+				$this->md_section = $this->md_obj->getRelation($rel_id);
+				
+				$this->ctrl->setParameter($this, 'meta_index', $rel_id);
+				$this->ctrl->setParameter($this, "section", "meta_relation");
+				
+				/* Identifier_ */
+				$res_ids = $this->md_section->getIdentifier_Ids();
+				foreach ($res_ids as $res_id)
+				{
+					$ident = $this->md_section->getIdentifier_($res_id);
+					$this->ctrl->setParameter($this, "meta_index", $res_id);
+
+					if (count($res_ids) > 1)
+					{
+						$this->tpl->setCurrentBlock("identifier_delete");
+						$this->ctrl->setParameter($this, "meta_path", "relation_resource_identifier");
+						$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE",
+							$this->ctrl->getLinkTarget($this, "deleteElement"));
+						$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					$this->tpl->setCurrentBlock("identifier_loop");
+
+					$this->tpl->setVariable("IDENTIFIER_LOOP_NO", $res_id);
+					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+					$this->ctrl->setParameter($this, 'meta_index', $rel_id);
+					$this->ctrl->setParameter($this, "section_element", "relation_resource_identifier");
+					$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_ADD",
+						$this->ctrl->getLinkTarget($this, "addSectionElement"));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_VAL_CATALOG",
+						ilUtil::prepareFormOutput($ident->getCatalog()));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_VAL_ENTRY",
+						ilUtil::prepareFormOutput($ident->getEntry()));
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				/* Description */
+				$res_dess = $this->md_section->getDescriptionIds();
+				foreach ($res_dess as $res_des)
+				{
+					$des = $this->md_section->getDescription($res_des);
+					$this->ctrl->setParameter($this, "meta_index", $res_des);
+
+					if (count($res_dess) > 1)
+					{
+						$this->tpl->setCurrentBlock("description_delete");
+						$this->ctrl->setParameter($this, "meta_path", "relation_resource_description");
+						$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE",
+							$this->ctrl->getLinkTarget($this, "deleteElement"));
+						$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+						$this->tpl->parseCurrentBlock();
+					}
+	
+					$this->tpl->setCurrentBlock("description_loop");
+					$this->tpl->setVariable("DESCRIPTION_LOOP_NO", $res_des);
+					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+					$this->ctrl->setParameter($this, 'meta_index', $rel_id);
+					$this->ctrl->setParameter($this, "section_element", "relation_resource_description");
+					$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_ADD",
+						$this->ctrl->getLinkTarget($this, "addSectionElement"));
+					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+					$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+					$this->tpl->setVariable("DESCRIPTION_LOOP_VAL",
+						ilUtil::prepareFormOutput($des->getDescription()));
+					$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE",
+						$this->__showLanguageSelect('relation[Resource][Description]['.$res_des.'][Language]',
+						$des->getDescriptionLanguageCode()));
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("relation_loop");
+				$this->tpl->setVariable("REL_ID", $rel_id);
+				$this->tpl->setVariable("TXT_RELATION", $this->lng->txt("meta_relation"));				
+				$this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
+				$this->tpl->setVariable("ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteSection"));
+				$this->ctrl->setParameter($this, "section", "meta_relation");
+				$this->tpl->setVariable("ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSection"));
+				$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+				$this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+				$this->tpl->setVariable("TXT_KIND", $this->lng->txt("meta_kind"));
+				$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+				$this->tpl->setVariable("TXT_ISPARTOF", $this->lng->txt("meta_is_part_of"));
+				$this->tpl->setVariable("TXT_HASPART", $this->lng->txt("meta_has_part"));
+				$this->tpl->setVariable("TXT_ISVERSIONOF", $this->lng->txt("meta_is_version_of"));
+				$this->tpl->setVariable("TXT_HASVERSION", $this->lng->txt("meta_has_version"));
+				$this->tpl->setVariable("TXT_ISFORMATOF", $this->lng->txt("meta_is_format_of"));
+				$this->tpl->setVariable("TXT_HASFORMAT", $this->lng->txt("meta_has_format"));
+				$this->tpl->setVariable("TXT_REFERENCES", $this->lng->txt("meta_references"));
+				$this->tpl->setVariable("TXT_ISREFERENCEDBY", $this->lng->txt("meta_is_referenced_by"));
+				$this->tpl->setVariable("TXT_ISBASEDON", $this->lng->txt("meta_is_based_on"));
+				$this->tpl->setVariable("TXT_ISBASISFOR", $this->lng->txt("meta_is_basis_for"));
+				$this->tpl->setVariable("TXT_REQUIRES", $this->lng->txt("meta_requires"));
+				$this->tpl->setVariable("TXT_ISREQUIREDBY", $this->lng->txt("meta_is_required_by"));
+				$this->tpl->setVariable("TXT_RESOURCE", $this->lng->txt("meta_resource"));
+				$this->tpl->setVariable("VAL_KIND_" . strtoupper($this->md_section->getKind()), " selected");
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("relation");
+			$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}		
+
+	function updateRelation()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// relation
+		foreach($ids = $this->md_obj->getRelationIds() as $id)
+		{
+			// kind
+			$relation = $this->md_obj->getRelation($id);
+			$relation->setKind($_POST['relation'][$id]['Kind']);
+			
+			$relation->update();
+			
+			// identifiers
+			$res_idents = $relation->getIdentifier_Ids();
+			foreach ($res_idents as $res_id)
+			{
+				$ident = $relation->getIdentifier_($res_id);
+				$ident->setCatalog(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id][Catalog]));
+				$ident->setEntry(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id][Entry]));
+				$ident->update();
+			}
+			
+			// descriptions
+			$res_dess = $relation->getDescriptionIds();
+			foreach ($res_dess as $res_des)
+			{
+				$des = $relation->getDescription($res_des);
+				$des->setDescription(ilUtil::stripSlashes($_POST['relation']['Resource']['Description'][$res_des][Value]));
+				$des->setDescriptionLanguage(
+					new ilMDLanguageItem($_POST['relation']['Resource']['Description'][$res_des]['Language']));
+				$des->update();
+			}
+		}
+		
+		$this->listSection();
+	}
+
 	function deleteElement()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDFactory.php';
@@ -671,6 +846,15 @@ class ilMDEditorGUI
 				$this->md_section = $this->md_obj->addEducational();
 				$this->md_section->save();
 				break;
+				
+			case 'meta_relation':
+				$this->md_section = $this->md_obj->addRelation();
+				$this->md_section->save();
+				$ident = $this->md_section->addIdentifier_();
+				$ident->save();
+				$des = $this->md_section->addDescription();
+				$des->save();
+				break;
 
 		}
 		
@@ -690,7 +874,7 @@ class ilMDEditorGUI
 			case 'meta_educational':
 				$this->md_section = $this->md_obj->getEducational();
 				break;
-
+				
 		}
 
 		// Switch new element
@@ -721,6 +905,16 @@ class ilMDEditorGUI
 			case 'educational_typical_age_range':
 				$md_new = $this->md_section->addTypicalAgeRange();
 				break;
+				
+			case 'relation_resource_identifier':
+				$rel = $this->md_obj->getRelation($_GET['meta_index']);
+				$md_new = $rel->addIdentifier_();
+				break;
+				
+			case 'relation_resource_description':
+				$rel = $this->md_obj->getRelation($_GET['meta_index']);
+				$md_new = $rel->addDescription();
+				break;
 		}
 
 		$md_new->save();
@@ -745,6 +939,9 @@ class ilMDEditorGUI
 				
 			case 'meta_educational':
 				return $this->listEducational();
+
+			case 'meta_relation':
+				return $this->listRelation();
 
 			default:
 				return $this->listGeneral();

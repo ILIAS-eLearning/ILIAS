@@ -88,16 +88,39 @@ class ilMDFactory
 			case 'meta_educational':
 				include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
-				$rights =& new ilMDEducational();
-				$rights->setMetaId($a_index);
-				return $rights;
+				$edu =& new ilMDEducational();
+				$edu->setMetaId($a_index);
+				return $edu;
 
 			case 'educational_typical_age_range':
 				include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
-				$rights =& new ilMDTypicalAgeRange();
-				$rights->setMetaId($a_index);
-				return $rights;
+				$age =& new ilMDTypicalAgeRange();
+				$age->setMetaId($a_index);
+				return $age;
+
+			case 'meta_relation':
+				include_once 'Services/MetaData/classes/class.ilMDRelation.php';
+
+				$relation =& new ilMDRelation();
+				$relation->setMetaId($a_index);
+				return $relation;
+				
+			case 'relation_resource_identifier':
+				include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+
+				$ide =& new ilMDIdentifier_();
+				$ide->setMetaId($a_index);
+				
+				return $ide;
+				
+			case 'relation_resource_description':
+				include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+
+				$des =& new ilMDDescription();
+				$des->setMetaId($a_index);
+				
+				return $des;
 
 			default:
 				echo $a_type . " not known";
