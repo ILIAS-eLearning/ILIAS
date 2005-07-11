@@ -1479,45 +1479,45 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// mail body
 			$body = $this->lng->txt("login").": ".$this->object->getLogin()."\n\r".
-                    $this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
-                    $this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
-                    $this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
-                    $this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
-                    $this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
-                    $this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
-                    $this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
-                    $this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
-                    $this->lng->txt("city").": ".$this->object->getCity()."\n\r".
-                    $this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
-                    $this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
-                    $this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
-                    $this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
-                    $this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
-                    $this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
-                    $this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
-                    $this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
-					$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
-					$this->lng->txt("client_ip").": ".$this->object->getClientIP()."\n\r".
-                    $this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
-                    $this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
-                    $this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+			$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
+			$this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
+			$this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
+			$this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
+			$this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
+			$this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
+			$this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
+			$this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
+			$this->lng->txt("city").": ".$this->object->getCity()."\n\r".
+			$this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
+			$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
+			$this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
+			$this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
+			$this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
+			$this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
+			$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
+			$this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
+			$this->lng->txt("matriculation").": ".$this->object->getMatriculation()."\n\r".
+			$this->lng->txt("client_ip").": ".$this->object->getClientIP()."\n\r".
+			$this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
+			$this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
+			$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
-            if($this->object->getTimeLimitUnlimited())
-            {
-                $body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_unlimited')."\n\r";
-            }
-            else
-            {
-                $body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_from')." ".
-                    strftime('%Y-%m-%d %R',$this->object->getTimeLimitFrom())." ".
-                    $this->lng->txt('crs_to')." ".
-                    strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
-            }
-
-            $body .= $this->lng->txt('email_footer') . "\n\r";
+			if($this->object->getTimeLimitUnlimited())
+			{
+				$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_unlimited')."\n\r";
+			}
+			else
+			{
+				$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_from')." ".
+					strftime('%Y-%m-%d %R',$this->object->getTimeLimitFrom())." ".
+					$this->lng->txt('crs_to')." ".
+					strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
+			}
+			
+			$body .= $this->lng->txt('email_footer') . "\n\r";
 
 			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",
-												  $this->lng->txt("profile_changed"),$body,array(),array("normal")))
+				$this->lng->txt("profile_changed"),$body,array(),array("normal")))
 			{
 				$msg = $this->lng->txt("saved_successfully")."<br/>".$error_message;
 			}
@@ -1943,7 +1943,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if ($_GET["vcard"] == 1)
 		{
-			ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype());
+			ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype(), "utf-8");
 			exit;
 		}
 	}
@@ -2084,7 +2084,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function __unsetSessionVariables()
 	{
-        unset($_SESSION["filtered_roles"]);
+		unset($_SESSION["filtered_roles"]);
 	}
 
 	function __buildFilterSelect()
@@ -2101,8 +2101,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function hitsperpageObject()
 	{
-        parent::hitsperpageObject();
-        $this->roleassignmentObject();
+		parent::hitsperpageObject();
+		$this->roleassignmentObject();
 	}
 	
 } // END class.ilObjUserGUI

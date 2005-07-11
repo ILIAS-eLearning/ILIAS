@@ -31,7 +31,6 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-
 // catch hack attempts
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
@@ -47,7 +46,7 @@ if (!empty($_POST))
 
 foreach($_POST as $key => $val)
 {
-	$_POST[$key] = ilUtil::prepareFormOutput($val,$strip);
+//	$_POST[$key] = ilUtil::prepareFormOutput($val,$strip);
 }
 
 $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
@@ -897,7 +896,7 @@ if (userSettingVisible("street"))
 }
 if (userSettingVisible("zipcode"))
 {
-	$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
+	$tpl->setVariable("ZIPCODE", ilUtil::prepareFormOutput($ilias->account->getZipcode()));
 }
 if (userSettingVisible("city"))
 {
@@ -909,23 +908,23 @@ if (userSettingVisible("country"))
 }
 if (userSettingVisible("phone_office"))
 {
-	$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
+	$tpl->setVariable("PHONE_OFFICE", ilUtil::prepareFormOutput($ilias->account->getPhoneOffice()));
 }
 if (userSettingVisible("phone_home"))
 {
-	$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
+	$tpl->setVariable("PHONE_HOME", ilUtil::prepareFormOutput($ilias->account->getPhoneHome()));
 }
 if (userSettingVisible("phone_mobile"))
 {
-	$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
+	$tpl->setVariable("PHONE_MOBILE", ilUtil::prepareFormOutput($ilias->account->getPhoneMobile()));
 }
 if (userSettingVisible("fax"))
 {
-	$tpl->setVariable("FAX", $ilias->account->getFax());
+	$tpl->setVariable("FAX", ilUtil::prepareFormOutput($ilias->account->getFax()));
 }
 if (userSettingVisible("email"))
 {
-	$tpl->setVariable("EMAIL", $ilias->account->getEmail());
+	$tpl->setVariable("EMAIL", ilUtil::prepareFormOutput($ilias->account->getEmail()));
 }
 if (userSettingVisible("hobby"))
 {
@@ -937,7 +936,7 @@ if (userSettingVisible("referral_comment"))
 }
 if (userSettingVisible("matriculation"))
 {
-	$tpl->setVariable("MATRICULATION", $ilias->account->getMatriculation());
+	$tpl->setVariable("MATRICULATION", ilUtil::prepareFormOutput($ilias->account->getMatriculation()));
 }
 
 // get assigned global roles (default roles)

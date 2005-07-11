@@ -14,11 +14,11 @@
 <!ELEMENT Users (User*)>
 
 <!-- User -->
-<!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender?, Email?,
+<!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, PersonalPicture?, Gender?, Email?,
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?, 
-	TimelimitOwner?, TimelimitUnlimited?, TimelimitFrom?, TimelimitUntil?, TimelimitMessage?,
-	ApproveDate?, AgreeDate?, iLincID?)>
+	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
+	ApproveDate?, AgreeDate?, iLincID?, AuthMode?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
@@ -32,6 +32,19 @@
 	Type (Global | Local) #REQUIRED
 	Action (%relationshipAction;) "Assign"
 >
+
+<!-- personal picture -->
+<!ENTITY % I_Encoding " encoding  (Base64 | UUEncode )  'Base64'">
+
+<!ELEMENT PersonalPicture (#PCDATA)>
+
+<!ATTLIST PersonalPicture imagetype CDATA  'image/jpeg'
+                     %I_Encoding; >
+
+<!-- AuthMode -->
+<!ENTITY % A_Mode " type  (default | local | ldap | radius | shibboleth | script )  'default'">
+<!ELEMENT AuthMode (#PCDATA)>
+<!ATTLIST AuthMode %A_Mode;>
 
 <!-- Other Elements -->
 <!ELEMENT Login (#PCDATA)>
@@ -59,11 +72,11 @@
 <!ELEMENT Matriculation (#PCDATA)>
 <!ELEMENT Active (#PCDATA)> <!-- content must be "true" or "false" -->
 <!ELEMENT ClientIP (#PCDATA)><!-- content must be a valid IP address xxx.xxx.xxx.xxx -->
-<!ELEMENT TimelimitOwner (#PCDATA)> <!-- content must be an integer value -->
-<!ELEMENT TimelimitUnlimited (#PCDATA)> <!-- content must be 0 or 1 -->
-<!ELEMENT TimelimitFrom (#PCDATA)> <!-- content must be a unix timestamp -->
-<!ELEMENT TimelimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
-<!ELEMENT TimelimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
-<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime -->
-<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime -->
+<!ELEMENT TimeLimitOwner (#PCDATA)> <!-- content must be an integer value -->
+<!ELEMENT TimeLimitUnlimited (#PCDATA)> <!-- content must be 0 or 1 -->
+<!ELEMENT TimeLimitFrom (#PCDATA)> <!-- content must be a unix timestamp -->
+<!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
+<!ELEMENT TimeLimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
+<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime *** wenn aggreedate nicht funktioniert, soll dann approvedate importiert werden? -->
+<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode dafür in ilObjUser. Implementieren? -->
 <!ELEMENT iLincID (#PCDATA)>

@@ -167,9 +167,15 @@ class ilUserImportParser extends ilSaxParser
 	 * This is used to speed up access to local roles.
 	 * This is an associative array.  
 	 * The key is either a role_id  or  a role_id with the string "_parent" appended.
-	 * TThe value is a role object or  the object for which the role is defined
+	 * The value is a role object or  the object for which the role is defined
 	 */
 	var $localRoleCache;
+	
+	/**
+	 * Cached personal picture of the actual user
+	 * This is used because the ilObjUser object has no field for the personal picture
+	 */
+	var $personalPicture;
 	
 	/**
 	* Constructor
@@ -312,8 +318,17 @@ class ilUserImportParser extends ilSaxParser
 				$this->current_role_type = $a_attribs["Type"];
 				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
 				break;
+				
+			case "PersonalPicture":
+				$this->personalPicture = array(
+					"encoding" => $a_attribs["encoding"],
+					"imagetype" => $a_attribs["imagetype"],
+					"content" => ""
+				);
+				break;
 
 			case "User":
+				$this->personalPicture = null;
 				$this->userCount++;
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
@@ -326,6 +341,29 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Password":
 				$this->currPasswordType = $a_attribs["Type"];
+				break;
+			case "AuthMode":
+				if (array_key_exists("type", $a_attribs))
+				{
+					switch ($a_attribs["type"])
+					{
+						case "default":
+						case "local":
+						case "ldap":
+						case "radius":
+						case "shibboleth":
+						case "script":
+							$this->userObj->setAuthMode($a_attribs["type"]);
+							break;
+						default:
+							$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
+							break;
+					}
+				}
+				else
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
+				}
 				break;
 		}
 	}
@@ -386,6 +424,28 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Password":
 				$this->currPasswordType = $a_attribs["Type"];
+				break;
+			case "AuthMode":
+				if (array_key_exists("type", $a_attribs))
+				{
+					switch ($a_attribs["type"])
+					{
+						case "default":
+						case "local":
+						case "ldap":
+						case "radius":
+						case "shibboleth":
+						case "script":
+							break;
+						default:
+							$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
+							break;
+					}
+				}
+				else
+				{
+					$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",""));
+				}
 				break;
 		}
 	}
@@ -575,6 +635,22 @@ class ilUserImportParser extends ilSaxParser
 				$this->roles[$this->current_role_id]["type"] = $this->current_role_type;
 				$this->roles[$this->current_role_id]["action"] = $this->current_role_action;
 				break;
+				
+			case "PersonalPicture":
+				switch ($this->personalPicture["encoding"])
+				{
+					case "Base64":
+						$this->personalPicture["content"] = base64_decode($this->cdata);
+						break;
+					case "UUEncode":
+						// this only works with PHP >= 5
+						if (version_compare(PHP_VERSION,'5','>='))
+						{
+							$this->personalPicture["content"] = convert_uudecode($this->cdata);
+						}
+						break;
+				}
+				break;
 
 			case "User":
 				// Fetch the user_id from the database
@@ -670,6 +746,9 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setTimeLimitUnlimited($ilias->account->getTimeLimitUnlimited());
 							$this->userObj->setTimeLimitFrom($ilias->account->getTimeLimitFrom());
 							$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
+							$this->userObj->setTimeLimitMessage($ilias->account->getTimeLimitMessage());
+							$this->userObj->setApproveDate($ilias->account->getApproveDate());
+							$this->userObj->setiLincID($ilias->account->getiLincID());
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
 							$this->userObj->create();
@@ -683,6 +762,24 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setPref("style",
 								$ilias->ini->readVariable("layout","style"));
 							$this->userObj->writePrefs();
+							
+							if (is_array($this->personalPicture))
+							{
+								if (strlen($this->personalPicture["content"]))
+								{
+									$extension = "jpg";
+									if (preg_match("/.*(png|jpg|gif|jpeg)$/", $this->personalPicture["imagetype"], $matches))
+									{
+										$extension = $matches[1];
+									}
+									$tmp_name = $this->saveTempImage($this->personalPicture["content"], ".$extension");
+									if (strlen($tmp_name))
+									{
+										ilObjUser::_uploadPersonalPicture($tmp_name, $this->userObj->getId());
+										unlink($tmp_name);
+									}
+								}
+							}
 
 							//set role entries
 							foreach($this->roles as $role_id => $role)
@@ -738,9 +835,35 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
 							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", $ilUser->getId());
 							if (! is_null($this->userObj->getClientIP())) $updateUser->setClientIP($this->userObj->getClientIP());
+							if (! is_null($this->userObj->getTimeLimitOwner())) $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
+							if (! is_null($this->userObj->getTimeLimitUnlimited())) $updateUser->setTimeLimitUnlimited($this->userObj->getTimeLimitUnlimited());
+							if (! is_null($this->userObj->getTimeLimitFrom())) $updateUser->setTimeLimitFrom($this->userObj->getTimeLimitFrom());
+							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
+							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
+							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
+							if (! is_null($this->userObj->getiLincID())) $updateUser->setiLincID($this->userObj->getiLincID());
 
 							$updateUser->update();
 
+							if (is_array($this->personalPicture))
+							{
+								if (strlen($this->personalPicture["content"]))
+								{
+									$extension = "jpg";
+									if (preg_match("/.*(png|jpg|gif|jpeg)$/", $this->personalPicture["imagetype"], $matches))
+									{
+										$extension = $matches[1];
+									}
+									$tmp_name = $this->saveTempImage($this->personalPicture["content"], ".$extension");
+									if (strlen($tmp_name))
+									{
+										ilObjUser::_uploadPersonalPicture($tmp_name, $this->userObj->getId());
+										unlink($tmp_name);
+									}
+								}
+							}
+
+							
 							//update role entries
 							//-------------------
 							foreach ($this->roles as $role_id => $role)
@@ -865,9 +988,54 @@ class ilUserImportParser extends ilSaxParser
 			case "ClientIP":
 				$this->userObj->setClientIP($this->cdata);
 				break;
+				
+			case "TimeLimitOwner":
+				$this->userObj->setTimeLimitOwner($this->cdata);
+				break;
+
+			case "TimeLimitUnlimited":
+				$this->userObj->setTimeLimitUnlimited($this->cdata);
+				break;
+
+			case "TimeLimitFrom":
+				$this->userObj->setTimeLimitFrom($this->cdata);
+				break;
+
+			case "TimeLimitUntil":
+				$this->userObj->setTimeLimitUntil($this->cdata);
+				break;
+
+			case "TimeLimitMessage":
+				$this->userObj->setTimeLimitMessage($this->cdata);
+				break;
+
+			case "ApproveDate":
+				$this->userObj->setApproveDate($this->cdata);
+				break;
+
+			case "iLincID":
+				$this->userObj->setiLincID($this->cdata);
+				break;
 		}
 	}
 
+	/**
+	* Saves binary image data to a temporary image file and returns
+	* the name of the image file on success.
+	*/
+	function saveTempImage($image_data, $filename)
+	{
+		$tempname = ilUtil::ilTempnam() . $filename;
+		$fh = fopen($tempname, "wb");
+		if ($fh == false)
+		{
+			return "";
+		}
+		$imagefile = fwrite($fh, $image_data);
+		fclose($fh);
+		return $tempname;
+	}
+	
 	/**
 	* handler for end of element when in verify mode.
 	*/
@@ -1060,9 +1228,74 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")
 				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"Active",$this->cdata));
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"Active",$this->cdata));
 				}
 				$this->currActive = $this->cdata;
+				break;
+			case "TimeLimitOwner":
+				if (!preg_match("/\d+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitOwner",$this->cdata));
+				}
+				$this->userObj->setTimeLimitOwner($this->cdata);
+				break;
+			case "TimeLimitUnlimited":
+				switch (strtolower($this->cdata))
+				{
+					case "true":
+					case "1":
+						$this->userObj->setTimeLimitUnlimited(1);
+						break;
+					case "false":
+					case "0":
+						$this->userObj->setTimeLimitUnlimited(0);
+						break;
+					default:
+						$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitUnlimited",$this->cdata));
+						break;
+				}
+				break;
+			case "TimeLimitFrom":
+				if (!preg_match("/\d+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitFrom",$this->cdata));
+				}
+				$this->userObj->setTimeLimitFrom($this->cdata);
+				break;
+			case "TimeLimitUntil":
+				if (!preg_match("/\d+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitUntil",$this->cdata));
+				}
+				$this->userObj->setTimeLimitUntil($this->cdata);
+				break;
+			case "TimeLimitMessage":
+				switch (strtolower($this->cdata))
+				{
+					case "1":
+						$this->userObj->setTimeLimitMessage(1);
+						break;
+					case "0":
+						$this->userObj->setTimeLimitMessage(0);
+						break;
+					default:
+						$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitMessage",$this->cdata));
+						break;
+				}
+				break;
+			case "ApproveDate":
+				if (!preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"ApproveDate",$this->cdata));
+				}
+				$this->userObj->setTimeLimitUntil($this->cdata);
+				break;
+			case "iLincID":
+				if (!preg_match("/\d+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincID",$this->cdata));
+				}
+				$this->userObj->setiLincID($this->cdata);
 				break;
 		}
 	}
@@ -1072,17 +1305,12 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser, $a_data)
 	{
-		// i don't know why this is necessary, but
-		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
-		// in character data, but we don't want that, because it's the
-		// way we mask user html in our content, so we convert back...
-		$a_data = str_replace("<","&lt;",$a_data);
-		$a_data = str_replace(">","&gt;",$a_data);
-
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-		$a_data = preg_replace("/\n/","",$a_data);
-		$a_data = preg_replace("/\t+/","",$a_data);
-		if(!empty($a_data))
+		// TODO: Mit Alex klären, ob das noch benötigt wird $a_data = preg_replace("/\n/","",$a_data);
+		// TODO: Mit Alex klären, ob das noch benötigt wird $a_data = preg_replace("/\t+/","",$a_data);
+		if($a_data != "\n") $a_data = preg_replace("/\t+/"," ",$a_data);
+
+		if(strlen($a_data) > 0)
 		{
 			$this->cdata .= $a_data;
 		}

@@ -177,7 +177,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						));*/
 				$page_gui->setPresentationTitle($question->getTitle());
 				//$page_gui->executeCommand();
-
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 
 				break;

@@ -586,7 +586,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			global $ilUser;
 		}
 		
-		
 		$output = $this->outQuestionPage(($show_solution_only)?"":"CLOZE_TEST", $is_postponed,"", !$show_question_page);
 		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);

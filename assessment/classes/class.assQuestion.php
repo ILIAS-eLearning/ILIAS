@@ -1068,12 +1068,8 @@ class ASS_Question
 			return;
 		}
 
-		//if ((!$this->isInUse($question_id)) && (!$this->isClone($question_id)))
-		//{
-			// delete page object only when where is no other question using this object (this happens as long as page objects are not copied completely when a question is duplicated)
-			$page = new ilPageObject("qpl", $question_id);
-			$page->delete();
-		//}
+		$page = new ilPageObject("qpl", $question_id);
+		$page->delete();
 		
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)

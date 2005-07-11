@@ -2287,7 +2287,8 @@
 			<xsl:choose>
 				<!-- text gap -->
 				<xsl:when test = "./render_fib">
-					<input type="text" size="20">
+					<input type="text">
+						<xsl:attribute name="size"><xsl:value-of select="./render_fib/@columns"/></xsl:attribute>
 						<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
 						<xsl:attribute name="dummy">t<xsl:value-of select="@ident"/></xsl:attribute>
 					</input>

@@ -266,7 +266,15 @@ class ilQTIItem
 							return QT_IMAGEMAP;
 							break;
 						case RT_RESPONSE_STR:
-							return QT_CLOZE;
+							switch ($response->getRCardinality())
+							{
+								case R_CARDINALITY_ORDERED:
+									return QT_TEXT;
+									break;
+								case R_CARDINALITY_SINGLE:
+									return QT_CLOZE;
+									break;
+							}
 							break;
 						case RT_RESPONSE_GRP:
 							return QT_MATCHING;
@@ -274,6 +282,11 @@ class ilQTIItem
 						default:
 							break;
 					}
+					break;
+				case "material":
+					$material = $this->presentation->material[$entry["index"]];
+					if (size($this->matapplet) > 0) return QT_JAVAAPPLET;
+					break;
 			}
 		}
 		return QT_UNKNOWN;
