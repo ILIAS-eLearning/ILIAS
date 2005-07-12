@@ -218,7 +218,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('search_advanced'));
 
 		// Content
-		$this->tpl->setVariable("TXT_CONTENT",$this->lng->txt('search_content'));
+		$this->tpl->setVariable("TXT_CONTENT",$this->lng->txt('content'));
 		$this->tpl->setVariable("TXT_OR",$this->lng->txt('search_any_word'));
 		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
 
@@ -576,10 +576,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$res_cont =& $lm_search->performSearch();
 			$res->mergeEntries($res_cont);
 			
-			// HTLM content search
-			$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
-			$res_htlm =& $htlm_search->performSearch();
-			$res->mergeEntries($res_htlm);
+			if($this->settings->enabledLucene())
+			{
+
+				// HTLM content search
+				$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
+				$res_htlm =& $htlm_search->performSearch();
+				$res->mergeEntries($res_htlm);
+			}
 		}
 		if($this->options['type'] == 'all' or $this->options['type'] == 'tst')
 		{
@@ -605,9 +609,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$res_web =& $web_search->performSearch();
 			$res->mergeEntries($res_web);
 		}
-
-		
-		
 
 		return $res;
 	}
