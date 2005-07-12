@@ -71,12 +71,10 @@ class ilSetupGUI extends ilSetup
 		$this->lang = $this->lng->lang_key;
 
 		// init setup
-		$this->ilSetup(isset($_SESSION["auth"]) ? $_SESSION['auth'] : '',
-					   isset($_SESSION["access_mode"]) ? $_SESSION['access_mode'] : '');
+		$this->ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
 
 		// init client object if exists
-		$client_id = isset($_GET["client_id"]) ? $_GET["client_id"] : 
-			(isset($_SESSION["ClientId"]) ? $_SESSION["ClientId"] : "");
+		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
 
 		// for security
 		if (!$this->isAdmin() and $client_id != $_SESSION["ClientId"])
