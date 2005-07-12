@@ -33,6 +33,7 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
+require_once "chat/classes/class.ilChatRecord.php";
 
 class ilObjChatGUI extends ilObjectGUI
 {
@@ -427,6 +428,51 @@ class ilObjChatGUI extends ilObjectGUI
 
 	}	
 
+	function startRecording()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+		if($_GET["room_id"])
+		{
+			$this->object->chat_record->setRoomId($_GET["room_id"]);
+		}
+		if (!$this->object->chat_record->isRecording())
+		{
+			$this->object->chat_record->setModeratorId($_SESSION["AccountId"]);
+			$this->object->chat_record->startRecording($_POST["title"]);
+		}
+		sendInfo($this->lng->txt("chat_recording_started"),true);
+		$this->showFrames();
+	}
+
+	function stopRecording()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+		if($_GET["room_id"])
+		{
+			$this->object->chat_record->setRoomId($_GET["room_id"]);
+		}
+		if ($this->object->chat_record->isRecording())
+		{
+			$this->object->chat_record->stopRecording($_SESSION["AccountId"]);
+		}
+		sendInfo($this->lng->txt("chat_recording_stopped"),true);
+		$this->showFrames();
+	}
+
 	function showFrames()
 	{
 		global $rbacsystem;
@@ -522,6 +568,8 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 	function showInputFrame()
 	{
+		global $rbacsystem;
+
 		$this->__loadStylesheet();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat_input_frame.html",true);
 
@@ -582,6 +630,38 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
 		$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
 		$this->tpl->setVariable("CHECK_FACE",$this->__getFontFace());
+
+		if ($rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+			$this->tpl->setCurrentBlock("moderator");
+			$this->object->chat_record->setRoomId($this->object->chat_room->getRoomId());
+			if ($this->object->chat_record->isRecording())
+			{
+				if ($this->object->chat_record->getTitle() != "")
+				{
+					$this->tpl->setVariable("TXT_TITLE_STOP_RECORDING", $this->lng->txt("chat_recording_title"));
+					$this->tpl->setVariable("VAL_TITLE_STOP_RECORDING", $this->object->chat_record->getTitle());
+				}
+				if ($this->object->chat_record->getDescription() != "")
+				{
+					$this->tpl->setVariable("TXT_DESCRIPTION_STOP_RECORDING", $this->lng->txt("chat_recording_description"));
+					$this->tpl->setVariable("VAL_DESCRIPTION_STOP_RECORDING", $this->object->chat_record->getDescription());
+				}
+				$this->tpl->setVariable("TXT_SUBMIT_STOP_RECORDING", $this->lng->txt("chat_stop_recording"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_TITLE_START_RECORDING", $this->lng->txt("chat_recording_title"));
+				$this->tpl->setVariable("TXT_DESCRIPTION_START_RECORDING", $this->lng->txt("chat_recording_description"));
+				$this->tpl->setVariable("TXT_SUBMIT_START_RECORDING", $this->lng->txt("chat_start_recording"));
+			}
+			$this->tpl->setVariable("MODERATOR_FORMACTION","chat.php?cmd=gateway&ref_id=".
+									$this->object->getRefId()."&room_id=".
+									$this->object->chat_room->getRoomId());
+			$this->tpl->setVariable("MODERATOR_TARGET","_top");
+			$this->tpl->parseCurrentBlock("moderator");
+		}
 	}
 
 	function showRightFrame()
@@ -895,6 +975,8 @@ class ilObjChatGUI extends ilObjectGUI
 			return true;
 		}
 
+		$this->object->chat_record = new ilChatRecord();
+
 		$counter = 0;
 		foreach($public_rooms as $room)
 		{
@@ -904,6 +986,11 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROOM_TARGET","_top");
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
 			$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($room["child"],0));
+			$this->object->chat_record->setRefId($room["child"]);
+			if ($this->object->chat_record->isRecording())
+			{
+				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording"));
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -929,6 +1016,13 @@ class ilObjChatGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_DELETE_ROOM", $this->lng->txt("delete"));
 				$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId()."&room_id_delete=".$room["room_id"]);
+			}
+
+			$this->object->chat_record->setRefId($room["chat_id"]);
+			$this->object->chat_record->setRoomId($room["room_id"]);
+			if ($this->object->chat_record->isRecording())
+			{
+				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
 			}
 
 			$this->tpl->parseCurrentBlock();

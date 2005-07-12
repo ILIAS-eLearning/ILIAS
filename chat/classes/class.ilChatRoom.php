@@ -487,6 +487,19 @@ class ilChatRoom
 		
 		$res = $this->ilias->db->query($query);
 
+		$this->chat_record = new ilChatRecord($this->getRefId());
+		$this->chat_record->setRoomId($this->getRoomId());
+		if ($this->chat_record->isRecording())
+		{
+			$query = "INSERT INTO chat_record_data VALUES (
+						'0', 
+						'" . $this->chat_record->getRecordId() . "', 
+						'" . addslashes($message) . "', 
+						'" . time() . "')";
+
+			$res = $this->ilias->db->query($query);
+		}
+
 		return true;
 	}
 
