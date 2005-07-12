@@ -2676,6 +2676,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
 common#:#userfolder_export_file#:#Fichero
 common#:#userfolder_export_file_size#:#Tamaño de fichero
 common#:#userfolder_export_files#:#Ficheros
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#Usuario
 common#:#users#:#usuarios
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados
@@ -4212,6 +4213,7 @@ meta#:#meta_duration#:#Duración
 meta#:#meta_easy#:#Fácil
 meta#:#meta_editor#:#Editor
 meta#:#meta_education#:#Educación
+meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
 meta#:#meta_educational_level#:#Nivel Educacional
 meta#:#meta_educational_objective#:#Objetivo Educacional
 meta#:#meta_educationalvalidator#:#Validador educacional

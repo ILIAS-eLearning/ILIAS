@@ -2677,6 +2677,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005
 common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
 common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
 common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
@@ -4212,6 +4213,7 @@ meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
 meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Ausbildung
+meta#:#meta_educational#:#Pädagogik
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
 meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
@@ -4462,7 +4464,6 @@ meta#:#meta_taxon#:#Taxonomie
 meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
-meta#:#meta_educational#:#Pädagogik
 meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
 meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable
 meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
