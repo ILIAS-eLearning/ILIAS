@@ -7817,3 +7817,8 @@ CREATE TABLE `chat_records` (
   `end_time` int(11) NOT NULL default '0',
   PRIMARY KEY  (`record_id`)
 	) TYPE=MyISAM;
+
+<#487>
+ALTER TABLE `chat_records` ADD `title` VARCHAR( 255 ) NOT NULL AFTER `room_id`,
+ADD `description` TEXT NOT NULL AFTER `title` ;
+
