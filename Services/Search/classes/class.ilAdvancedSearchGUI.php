@@ -183,7 +183,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		}
 
 		
-		$res->filter($this->getRootNode(),false);
+		$res->filter($this->getRootNode(),true);
 
 		if(!count($res->getResults()))
 		{
@@ -947,7 +947,16 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 				$this->filter[] = 'crs';
 				break;
 
+			case 'all':
 			default:
+				$this->filter[] = 'webr';
+				$this->filter[] = 'crs';
+				$this->filter[] = 'mep';
+				$this->filter[] = 'tst';
+				$this->filter[] = 'svy';
+				$this->filter[] = 'qpl';
+				$this->filter[] = 'spl';
+				$this->filter[] = 'glo';
 				$this->filter[] = 'lm';
 				$this->filter[] = 'dbk';
 				$this->filter[] = 'pg';
@@ -975,8 +984,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function __storeEntries(&$res,&$new_res)
 	{
+
 		if($this->stored == false)
 		{
+			
+
 			$res->mergeEntries($new_res);
 			$this->stored = true;
 
