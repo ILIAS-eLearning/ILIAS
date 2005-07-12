@@ -62,6 +62,7 @@ class ilMDFactory
 				return $des;
 
 			case 'meta_keyword':
+			case 'classification_keyword':
 				include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
 				$key =& new ilMDKeyword();
@@ -128,6 +129,13 @@ class ilMDFactory
 				$anno =& new ilMDAnnotation();
 				$anno->setMetaId($a_index);
 				return $anno;
+
+			case 'meta_classification':
+				include_once 'Services/MetaData/classes/class.ilMDClassification.php';
+
+				$class =& new ilMDClassification();
+				$class->setMetaId($a_index);
+				return $class;
 
 			default:
 				echo $a_type . " not known";

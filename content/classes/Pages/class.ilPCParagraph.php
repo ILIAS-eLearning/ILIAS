@@ -83,9 +83,8 @@ class ilPCParagraph extends ilPageContent
 	function setText($a_text)
 	{
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
-		$temp_dom = @domxml_open_mem("<Paragraph>".$a_text."</Paragraph>",
+		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$a_text.'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
-
 		//$this->text = $a_text;
 		// remove all childs
 		if(empty($error))
@@ -112,7 +111,6 @@ class ilPCParagraph extends ilPageContent
 					$this->par_node->append_child($cloned_child);
 				}
 			}
-//echo "<br>thedump:".htmlentities($this->dom->dump_node($this->par_node)).":";
 			return true;
 		}
 		else

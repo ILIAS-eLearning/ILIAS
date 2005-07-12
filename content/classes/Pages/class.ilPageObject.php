@@ -82,7 +82,7 @@ class ilPageObject
 		$this->dom_builded = false;
 		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
-
+$this->encoding = "UTF-8";
 		if($a_id != 0)
 		{
 			$this->read();
@@ -134,7 +134,7 @@ class ilPageObject
 			return;
 		}
 
-//echo "<br><br>".$this->getId().":xml:".htmlentities($this->getXMLContent(true)).":<br>";
+//echo "\n<br>buildDomWith:".$this->getId().":xml:".$this->getXMLContent(true).":<br>";
 
 		$ilBench->start("ContentPresentation", "ilPageObject_buildDom");
 		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
@@ -392,10 +392,11 @@ class ilPageObject
 		// Under windows a relative path doesn't work :-(
 		if($a_incl_head)
 		{
+//echo "+".$this->encoding."+";
 			$enc_str = (!empty($this->encoding))
 				? "encoding=\"".$this->encoding."\""
 				: "";
-			return "<?xml version=\"1.0\" $ecn_str ?>".
+			return "<?xml version=\"1.0\" $enc_str ?>".
                 "<!DOCTYPE PageObject SYSTEM \"".ILIAS_ABSOLUTE_PATH."/xml/".$this->cur_dtd."\">".
 				$this->xml;
 		}
@@ -414,6 +415,7 @@ class ilPageObject
 	{
 		if ($a_incl_head)
 		{
+//echo "\n<br>#".$this->encoding."#";
 			return $this->dom->dump_mem(0, $this->encoding);
 		}
 		else
@@ -450,7 +452,14 @@ class ilPageObject
 					}
 					else
 					{
-						return $this->dom->dump_node($this->node);
+						$xml = $this->dom->dump_mem(0, $this->encoding);
+						$xml = eregi_replace("<\?xml[^>]*>","",$xml);
+						$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
+
+						return $xml;
+						
+						// don't use dump_node. This gives always entities. 
+						//return $this->dom->dump_node($this->node);
 					}
 				}
 				else
@@ -1077,8 +1086,8 @@ class ilPageObject
 	{
 		global $lng;
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
-
-//echo "<br>PageObject::update:".$this->getXMLFromDom().":";
+//echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
+//echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		// test validating
 		if($a_validate)
@@ -1087,8 +1096,10 @@ class ilPageObject
 		}
 		if(empty($errors))
 		{
+			$content = ilUtil::prepareDBString(($this->getXMLFromDom()));
+//echo "-$content-"; exit;
 			$query = "UPDATE page_object ".
-				"SET content = '".ilUtil::prepareDBString(($this->getXMLFromDom()))."' ".
+				"SET content = '".$content."' ".
 				", parent_id='".$this->getParentId()."' ".
 				" WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
