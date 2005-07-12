@@ -213,5 +213,19 @@ class ilObjectSearchFactory
 		
 		return new ilLuceneHTLMSearch($query_parser);
 	}
+	/*
+	 * get reference of ilFulltextWebresourceSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilWebresourceAdvancedSearch
+	 */
+	function &_getWebresourceSearchInstance(&$query_parser)
+	{
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextWebresourceSearch.php';
+		
+		return new ilFulltextWebresourceSearch($query_parser);
+	}
+
+
 }
 ?>

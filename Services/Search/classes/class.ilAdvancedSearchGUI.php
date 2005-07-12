@@ -111,6 +111,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		$res =& new ilSearchResult();
 
+		if($res_con =& $this->__performContentSearch())
+		{
+			$this->__storeEntries($res,$res_con);
+		}
 		if($res_tit =& $this->__performTitleSearch())
 		{
 			$this->__storeEntries($res,$res_tit);
@@ -548,6 +552,67 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	function &__performContentSearch()
+	{
+		if(!$this->options['content'])
+		{
+			return false;
+		}
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+
+		$res =& new ilSearchResult();
+
+
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['content']));
+		$query_parser->setCombination($this->options['content_ao']);
+		$query_parser->parse();
+
+		if($this->options['type'] == 'all' or $this->options['type'] == 'lms')
+		{
+			// LM content search
+			$lm_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+			$res_cont =& $lm_search->performSearch();
+			$res->mergeEntries($res_cont);
+			
+			// HTLM content search
+			$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
+			$res_htlm =& $htlm_search->performSearch();
+			$res->mergeEntries($res_htlm);
+		}
+		if($this->options['type'] == 'all' or $this->options['type'] == 'tst')
+		{
+			$tst_search =& ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+			$res_tes =& $tst_search->performSearch();
+			$res->mergeEntries($res_tes);
+		}
+		if($this->options['type'] == 'all' or $this->options['type'] == 'mep')
+		{
+			$med_search =& ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+			$res_med =& $med_search->performSearch();
+			$res->mergeEntries($res_med);
+		}
+		if($this->options['type'] == 'all' or $this->options['type'] == 'glo')
+		{
+			$glo_search =& ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
+			$res_glo =& $glo_search->performSearch();
+			$res->mergeEntries($res_glo);
+		}
+		if($this->options['type'] == 'all' or $this->options['type'] == 'webr')
+		{
+			$web_search =& ilObjectSearchFactory::_getWebresourceSearchInstance($query_parser);
+			$res_web =& $web_search->performSearch();
+			$res->mergeEntries($res_web);
+		}
+
+		
+		
+
+		return $res;
+	}
+
+
 	function &__performTitleSearch()
 	{
 		if(!$this->options['title'])
@@ -894,7 +959,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function __getFilterSelect()
 	{
-		$options = array('lms' => $this->lng->txt('learning_resources'),
+		$options = array('all' => $this->lng->txt('search_any'),
+						 'lms' => $this->lng->txt('learning_resources'),
 						 'crs' => $this->lng->txt('objs_crs'),
 						 'tst' => $this->lng->txt('search_tst_svy'),
 						 'mep' => $this->lng->txt('objs_mep'),
