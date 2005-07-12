@@ -67,7 +67,7 @@ class ilSetupGUI extends ilSetup
 
 		// CVS - REVISION - DO NOT MODIFY
 		$this->revision = '$Revision$';
-		$this->version = "2.".substr(substr($this->revision,2),0,-2);
+		$this->version = "2 ".substr(substr($this->revision,1),0,-2);
 		$this->lang = $this->lng->lang_key;
 
 		// init setup
