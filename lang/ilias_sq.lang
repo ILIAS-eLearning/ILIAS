@@ -2550,6 +2550,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005
 common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
 common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
 common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#Emri Identifikues
 common#:#users#:#Shfrytëzuesit
 common#:#users_not_imported#:#Shfrytëzuesit vijues nuk ekzistojnë, nuk mund të importohen porosit e tyre
@@ -4020,6 +4021,7 @@ meta#:#meta_duration#:#Kohëzgjatja
 meta#:#meta_easy#:#Lehtë
 meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Edukim
+meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
 meta#:#meta_educational_level#:#Niveli i Edukimit
 meta#:#meta_educational_objective#:#Objektiva e Edukative
 meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable

@@ -2654,6 +2654,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005
 common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
 common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
 common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#Nom d'utilisateur###07 Apr 2005 content changed
 common#:#users#:#Utilisateurs###07 Apr 2005 content changed
 common#:#users_not_imported#:#Les utilisateurs suivants n'existent pas, leurs messages ne peuvent pas être importés###07 Apr 2005 content changed
@@ -4189,6 +4190,7 @@ meta#:#meta_duration#:#Durée###07 Apr 2005 content changed
 meta#:#meta_easy#:#Facile###07 Apr 2005 content changed
 meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Pédagogie###07 Apr 2005 content changed
+meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
 meta#:#meta_educational_level#:#Niveau pédagogique###07 Apr 2005 content changed
 meta#:#meta_educational_objective#:#Objectif pédagogique###07 Apr 2005 content changed
 meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable

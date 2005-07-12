@@ -2696,6 +2696,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005
 common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
 common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
 common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#用户名###07 Apr 2005 content changed
 common#:#users#:#用户###07 Apr 2005 content changed
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
@@ -4232,6 +4233,7 @@ meta#:#meta_duration#:#持续时间###07 Apr 2005 content changed
 meta#:#meta_easy#:#容易的###07 Apr 2005 content changed
 meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#教育###07 Apr 2005 content changed
+meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
 meta#:#meta_educational_level#:#教育水平###07 Apr 2005 content changed
 meta#:#meta_educational_objective#:#教育目标###07 Apr 2005 content changed
 meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable

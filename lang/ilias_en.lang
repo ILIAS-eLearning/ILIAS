@@ -2673,12 +2673,12 @@ common#:#user_profile_other#:#Other Information
 common#:#user_statistics#:#Statistical Data
 common#:#userdata#:#User data
 common#:#userfolder_export_csv#:#Comma Separated Values
-common#:#userfolder_export_xml#:#XML
 common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_files#:#Files
+common#:#userfolder_export_xml#:#XML
 common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
@@ -4215,6 +4215,7 @@ meta#:#meta_duration#:#Duration
 meta#:#meta_easy#:#Easy
 meta#:#meta_editor#:#Editor
 meta#:#meta_education#:#Education
+meta#:#meta_educational#:#Educational
 meta#:#meta_educational_level#:#Educational Level
 meta#:#meta_educational_objective#:#Educational Objective
 meta#:#meta_educationalvalidator#:#Educational validator
@@ -4465,7 +4466,6 @@ meta#:#meta_taxon#:#Taxon
 meta#:#meta_taxon_path#:#Taxon Path
 meta#:#meta_teacher#:#Teacher
 meta#:#meta_technical#:#Technical
-meta#:#meta_educational#:#Educational
 meta#:#meta_technicalimplementer#:#Technical implementer
 meta#:#meta_technicalvalidator#:#Technical validator
 meta#:#meta_terminator#:#Terminator

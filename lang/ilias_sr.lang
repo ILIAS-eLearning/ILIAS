@@ -2550,6 +2550,7 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005
 common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
 common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
 common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
+common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
 common#:#username#:#Ime korisnika
 common#:#users#:#Korisnici
 common#:#users_not_imported#:#Sledeci korisnici ne postoje, njihove poruke ne mogu biti unete
@@ -4020,6 +4021,7 @@ meta#:#meta_duration#:#Trajanje
 meta#:#meta_easy#:#Lako
 meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
 meta#:#meta_education#:#Obrazovanje
+meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
 meta#:#meta_educational_level#:#Obrazovni nivo
 meta#:#meta_educational_objective#:#Obrazovni cilj
 meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new variable
