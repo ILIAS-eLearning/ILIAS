@@ -133,3 +133,4 @@ class ilFileDataChat extends ilFileData
 		}
 	}
 }
+?>
