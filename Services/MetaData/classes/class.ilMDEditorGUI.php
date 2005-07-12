@@ -890,6 +890,209 @@ class ilMDEditorGUI
 		
 		$this->listSection();
 	}
+	
+	/*
+	 * list classification section
+	 */
+	function listClassification()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_classification');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_classification.html','Services/MetaData');
+
+		$class_ids = $this->md_obj->getClassificationIds();
+		if (!is_array($class_ids) || count($class_ids) == 0)
+		{
+			$this->tpl->setCurrentBlock("no_classification");
+			$this->tpl->setVariable("TXT_NO_CLASSIFICATION", $this->lng->txt("meta_no_classification"));
+			$this->tpl->setVariable("TXT_ADD_CLASSIFICATION", $this->lng->txt("meta_add"));
+			$this->ctrl->setParameter($this, "section", "meta_classification");
+			$this->tpl->setVariable("ACTION_ADD_CLASSIFICATION",
+				$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($class_ids as $class_id)
+			{
+				$this->md_section = $this->md_obj->getClassification($class_id);
+				$this->ctrl->setParameter($this, "section", "meta_classification");
+				
+			/* TaxonPath */
+/*
+			if (is_array($taxonPath = $this->meta_obj->getElement("TaxonPath", "Classification")))
+			{
+				for ($i = 0; $i < count($taxonPath); $i++)
+				{
+					if (is_array($taxon = $this->meta_obj->getElement("Taxon", "Classification/TaxonPath", $i)))
+					{
+						$taxons = count($taxon);
+						for ($j = 0; $j < count($taxon); $j++)
+						{
+							if (count($taxon) > 1)
+							{
+								$tpl->setCurrentBlock("taxon_delete");
+								$tpl->setVariable("TAXONPATH_TAXON_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Classification/TaxonPath&meta_name=Taxon&meta_index=" . $i . "," . $j);
+								$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+								$tpl->parseCurrentBlock();
+							}
+
+							$tpl->setCurrentBlock("taxonpath_taxon_loop");
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_NO", $j);
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TAXONPATH_NO", $i);
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_TAXON", $this->lng->txt("meta_taxon"));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", ilUtil::prepareFormOutput($taxon[$j]["value"]));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ID", $this->lng->txt("meta_id"));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", ilUtil::prepareFormOutput($taxon[$j]["Id"]));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON_LANGUAGE", $this->showLangSel("meta[TaxonPath][" . $i . "][Taxon][" . $j . "][Language]", $taxon[$j]["Language"]));
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Taxon&meta_language=" . $a_language . "&meta_path=Classification/TaxonPath&meta_section=" . $a_section . "&meta_index=" . $i);
+							$tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+							$tpl->parseCurrentBlock();
+						}
+					}
+
+					if (count($taxonPath) > 1)
+					{
+						$tpl->setCurrentBlock("taxonpath_delete");
+						$tpl->setVariable("TAXONPATH_LOOP_ACTION_DELETE", $a_formaction . "&cmd=deleteMeta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=Classification&meta_name=TaxonPath&meta_index=" . $i);
+						$tpl->setVariable("TAXONPATH_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+						$tpl->parseCurrentBlock();
+					}
+
+					$tpl->setCurrentBlock("taxonpath_loop");
+					$tpl->setVariable("TAXONPATH_LOOP_NO", $i);
+					$tpl->setVariable("TAXONPATH_LOOP_ROWSPAN", (3 * $taxons) + 2);
+					$tpl->setVariable("TAXONPATH_LOOP_TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
+					$tpl->setVariable("TAXONPATH_LOOP_TXT_SOURCE", $this->lng->txt("meta_source"));
+					$tpl->setVariable("TAXONPATH_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+					$tpl->setVariable("TAXONPATH_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+					if (is_array($source = $this->meta_obj->getElement("Source", "Classification/TaxonPath", $i)))
+					{
+						$tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", ilUtil::prepareFormOutput($source[0]["value"]));
+						$tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE_LANGUAGE", $this->showLangSel("meta[TaxonPath][" . $i . "][Source][Language]", $source[0]["Language"]));
+					}
+					$tpl->setVariable("TAXONPATH_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=TaxonPath&meta_language=" . $a_language . "&meta_path=Classification&meta_section=" . $a_section);
+					$tpl->setVariable("TAXONPATH_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+					$tpl->parseCurrentBlock();
+				}
+			}
+*/
+				/* Description */
+				$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+				$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
+				$this->tpl->setVariable("VAL_DESCRIPTION",
+					ilUtil::prepareFormOutput($this->md_section->getDescription()));
+				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+				$this->tpl->setVariable("VAL_DESCRIPTION_LANGUAGE",
+					$this->__showLanguageSelect('classification['.$class_id.'][Language]',
+					$this->md_section->getDescriptionLanguageCode()));
+
+				/* Keyword */
+				$key_ids = $this->md_section->getKeywordIds();
+				foreach ($key_ids as $key_id)
+				{
+					if (count($key_ids) > 1)
+					{
+						$this->ctrl->setParameter($this, "meta_index", $key_id);
+						$this->ctrl->setParameter($this, "meta_path", "classification_keyword");
+						$this->tpl->setCurrentBlock("keyword_delete");
+						$this->tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE",
+							$this->ctrl->getLinkTarget($this, "deleteElement"));
+						$this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+						$this->tpl->parseCurrentBlock();
+					}
+					
+					$keyword = $this->md_section->getKeyword($key_id);
+					$this->tpl->setCurrentBlock("keyword_loop");
+					$this->tpl->setVariable("KEYWORD_LOOP_NO", $key_id);
+					$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+					$this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+					$this->tpl->setVariable("KEYWORD_LOOP_VAL",
+						ilUtil::prepareFormOutput($keyword->getKeyword()));
+					$this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+					$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE",
+						$this->__showLanguageSelect('classification[Keyword]['.$key_id.'][Language]',
+						$keyword->getKeywordLanguageCode()));
+					$this->ctrl->setParameter($this, "meta_index", $class_id);
+					$this->ctrl->setParameter($this, "section_element", "Keyword_".$class_id);
+					$this->tpl->setVariable("KEYWORD_LOOP_ACTION_ADD",
+						$this->ctrl->getLinkTarget($this, "addSectionElement"));
+					$this->tpl->setVariable("KEYWORD_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("classification_loop");
+				$this->tpl->setVariable("TXT_CLASSIFICATION", $this->lng->txt("meta_classification"));
+				$this->ctrl->setParameter($this, "meta_index", $class_id);
+				$this->tpl->setVariable("ACTION_DELETE",
+					$this->ctrl->getLinkTarget($this, "deleteSection"));
+				$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+				$this->tpl->setVariable("ACTION_ADD",
+					$this->ctrl->getLinkTarget($this, "addSection"));
+				$this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+	
+				$this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+				$this->tpl->setVariable("TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
+				$this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+				$this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+				
+				$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+				$this->tpl->setVariable("CLASS_ID", $class_id);
+				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("meta_purpose"));
+				$this->tpl->setVariable("TXT_DESCIPLINE", $this->lng->txt("meta_learning_resource_type"));
+				$this->tpl->setVariable("TXT_IDEA", $this->lng->txt("meta_idea"));
+				$this->tpl->setVariable("TXT_PREREQUISITE", $this->lng->txt("meta_prerequisite"));
+				$this->tpl->setVariable("TXT_EDUCATIONALOBJECTIVE", $this->lng->txt("meta_educational_objective"));
+				$this->tpl->setVariable("TXT_ACCESSIBILITYRESTRICTIONS", $this->lng->txt("meta_accessibility_restrictions"));
+				$this->tpl->setVariable("TXT_EDUCATIONALLEVEL", $this->lng->txt("meta_educational_level"));
+				$this->tpl->setVariable("TXT_SKILLLEVEL", $this->lng->txt("meta_skill_level"));
+				$this->tpl->setVariable("TXT_SECURITYLEVEL", $this->lng->txt("meta_security_level"));
+				$this->tpl->setVariable("TXT_COMPETENCY", $this->lng->txt("meta_competency"));
+				$this->tpl->setVariable("VAL_PURPOSE_" . strtoupper($this->md_section->getPurpose()), " selected");
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("classification");
+			$this->tpl->setVariable("EDIT_ACTION",
+				$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function updateClassification()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// relation
+		foreach($ids = $this->md_obj->getClassificationIds() as $id)
+		{
+			// entity
+			$classification = $this->md_obj->getClassification($id);
+			$classification->setPurpose($_POST['classification'][$id]['Purpose']);
+			
+			$classification->setDescription(ilUtil::stripSlashes($_POST['classification'][$id]['Description']));
+			$classification->setDescriptionLanguage(
+				new ilMDLanguageItem($_POST['classification'][$id]['Language']));
+
+			$classification->update();
+			
+			$key_ids = $classification->getKeywordIds();
+			foreach ($key_ids as $key_id)
+			{
+				$keyword = $classification->getKeyword($key_id);
+				$keyword->setKeyword($_POST['classification']['Keyword'][$key_id]['Value']);
+				$keyword->setKeywordLanguage(
+					new ilMDLanguageItem($_POST['classification']['Keyword'][$key_id]['Language']));
+				$keyword->update();
+			}
+
+		}
+		
+		$this->listSection();
+	}
 
 	function deleteElement()
 	{
@@ -944,6 +1147,11 @@ class ilMDEditorGUI
 				$this->md_section->save();
 				break;
 
+			case 'meta_classification':
+				$this->md_section = $this->md_obj->addClassification();
+				$this->md_section->save();
+				break;
+
 		}
 		
 		$this->listSection();
@@ -952,6 +1160,11 @@ class ilMDEditorGUI
 
 	function addSectionElement()
 	{
+		$section_element = (empty($_POST['section_element']))
+			? $_GET['section_element']
+			: $_POST['section_element'];
+			
+
 		// Switch section
 		switch($_GET['section'])
 		{
@@ -962,14 +1175,16 @@ class ilMDEditorGUI
 			case 'meta_educational':
 				$this->md_section = $this->md_obj->getEducational();
 				break;
+
+			case 'meta_classification':
+				$arr = explode("_", $section_element);
+				$section_element = $arr[0];
+				$this->md_section = $this->md_obj->getClassification($arr[1]);
+				break;
 				
 		}
 
 		// Switch new element
-		$section_element = (empty($_POST['section_element']))
-			? $_GET['section_element']
-			: $_POST['section_element'];
-			
 		switch($section_element)
 		{
 			case 'meta_identifier':
@@ -986,6 +1201,7 @@ class ilMDEditorGUI
 				$md_new = $this->md_section->addDescription();
 				break;
 
+			case 'Keyword':
 			case 'meta_keyword':
 				$md_new = $this->md_section->addKeyword();
 				break;
@@ -1002,6 +1218,10 @@ class ilMDEditorGUI
 			case 'relation_resource_description':
 				$rel = $this->md_obj->getRelation($_GET['meta_index']);
 				$md_new = $rel->addDescription();
+				break;
+				
+			case 'TaxonPath':
+				$md_new = $this->md_section->addTaxonPath();
 				break;
 		}
 
@@ -1033,6 +1253,9 @@ class ilMDEditorGUI
 
 			case 'meta_annotation':
 				return $this->listAnnotation();
+
+			case 'meta_classification':
+				return $this->listClassification();
 
 			default:
 				return $this->listGeneral();
