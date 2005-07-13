@@ -346,7 +346,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// compute additional information in title
 		if (substr($this->object->getTitle(),0,3) == "il_")
 		{
-			$desc = "predefined template";//$this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") : ".$parent_node['title'];
+			$desc = $this->lng->txt("predefined_template");//$this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") : ".$parent_node['title'];
 		}
 		
 		$description = "<br/>&nbsp;<span class=\"small\">".$desc."</span>";
