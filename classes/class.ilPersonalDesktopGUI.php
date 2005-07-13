@@ -284,7 +284,6 @@ class ilPersonalDesktopGUI
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
 			: "row_type_1";
-
 		$a_tpl->touchBlock($this->cur_row_type);
 		
 		if ($a_image_type != "")
@@ -328,7 +327,7 @@ class ilPersonalDesktopGUI
 	function &newBlockTemplate()
 	{
 		$tpl = new ilTemplate ("tpl.pd_list_block.html", true, true);
-		$this->cur_row_type = "row_type_1";
+		$this->cur_row_type = "";
 		return $tpl;
 	}
 
