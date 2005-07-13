@@ -437,6 +437,7 @@ table.il_PDBlock
 td.il_PDBlockHeader
 {
 	background-image: url(images/cellpic5.gif);
+	background-repeat: repeat-x;
 	font-weight: bold;
 	padding: 3px;
 	font-size:14px;

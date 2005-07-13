@@ -44,6 +44,9 @@ define ("IL_LIST_FULL", "full");
 class ilObjectListGUI
 {
 	var $ctrl;
+	var $description_enabled = true;
+	var $preconditions_enabled = true;
+	var $properties_enabled = true;
 
 
 	/**
@@ -106,6 +109,72 @@ class ilObjectListGUI
 	}
 
 	// Single get set methods
+	/**
+	* En/disable properties
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableProperties($a_status)
+	{
+		$this->properties_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getPropertiesStatus()
+	{
+		return $this->properties_enabled;
+	}
+	/**
+	* En/disable preconditions
+	*
+	* @param bool
+	* @return void
+	*/
+	function enablePreconditions($a_status)
+	{
+		$this->preconditions_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getPreconditionsStatus()
+	{
+		return $this->preconditions_enabled;
+	}
+	/**
+	* En/disable description
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableDescription($a_status)
+	{
+		$this->description_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getDescriptionStatus()
+	{
+		return $this->description_enabled;
+	}
 	/**
 	* En/disable delete
 	*
@@ -876,7 +945,10 @@ class ilObjectListGUI
 		$this->insertTitle();
 		if (!$this->isMode(IL_LIST_AS_TRIGGER))
 		{
-			$this->insertDescription();
+			if ($this->getDescriptionStatus())
+			{
+				$this->insertDescription();
+			}
 		}
 		$ilBench->stop("ilObjectListGUI", "3000_insert_title_desc");
 
@@ -887,12 +959,18 @@ class ilObjectListGUI
 
 		// properties
 		$ilBench->start("ilObjectListGUI", "6000_insert_properties$type");
-		$this->insertProperties();
+		if ($this->getPropertiesStatus())
+		{
+			$this->insertProperties();
+		}
 		$ilBench->stop("ilObjectListGUI", "6000_insert_properties$type");
 
 		// preconditions
 		$ilBench->start("ilObjectListGUI", "7000_insert_preconditions");
-		$this->insertPreconditions();
+		if ($this->getPreconditionsStatus())
+		{
+			$this->insertPreconditions();
+		}
 		$ilBench->stop("ilObjectListGUI", "7000_insert_preconditions");
 
 		// path

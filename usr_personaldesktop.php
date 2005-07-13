@@ -58,6 +58,14 @@ switch($_GET["cmd"])
         if (strlen($err_msg) > 0)
             $ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
         break;
+		
+	case "showSelectedItemsDetails":
+		$ilUser->setPref("pd_selected_items_details", "y");
+		break;
+
+	case "hideSelectedItemsDetails":
+		$ilUser->setPref("pd_selected_items_details", "n");
+		break;
 
 }
 /*if ($_GET["action"] == "removeMember")

@@ -66,6 +66,8 @@ class ilPersonalDesktopGUI
 	 */
 	function getSelectedItemsBlockHTML()
 	{
+		global $ilUser;
+		
 		include_once './classes/class.ilRepositoryExplorer.php';
 
 		global $rbacsystem, $objDefinition, $ilBench;
@@ -171,6 +173,12 @@ class ilPersonalDesktopGUI
 						$item_list_gui->enableCut(false);
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
+						if ($ilUser->getPref("pd_selected_items_details") != "y")
+						{
+							$item_list_gui->enableDescription(false);
+							$item_list_gui->enableProperties(false);
+							$item_list_gui->enablePreconditions(false);
+						}
 					}
 					// render item row
 					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
@@ -195,13 +203,23 @@ class ilPersonalDesktopGUI
 				if (count($item_html) > 0)
 				{
 					// add a header for each resource type
-					$this->addHeaderRow($tpl, $type);
-					$this->resetRowType();
+					if ($ilUser->getPref("pd_selected_items_details") == "y")
+					{
+						$this->addHeaderRow($tpl, $type);
+						$this->resetRowType();
+					}
 
 					// content row
 					foreach($item_html as $item)
 					{
-						$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+						if ($ilUser->getPref("pd_selected_items_details") != "y")
+						{
+							$this->addStandardRow($tpl, $item["html"], $item["item_id"], $type);
+						}
+						else
+						{
+							$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+						}
 						$output = true;
 					}
 				}
@@ -212,6 +230,16 @@ class ilPersonalDesktopGUI
 		{
 			$tpl->setCurrentBlock("pd_header_row");
 			$tpl->setVariable("PD_BLOCK_HEADER_CONTENT", $this->lng->txt("selected_items"));
+			if ($ilUser->getPref("pd_selected_items_details") == "y")
+			{
+				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("hide_details"));
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", "usr_personaldesktop.php?cmd=hideSelectedItemsDetails");
+			}
+			else
+			{
+				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("show_details"));
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", "usr_personaldesktop.php?cmd=showSelectedItemsDetails");
+			}
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -251,7 +279,7 @@ class ilPersonalDesktopGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "")
+	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "", $a_image_type = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -259,12 +287,22 @@ class ilPersonalDesktopGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
-		if ($_SESSION["il_cont_admin_panel"] == true)
+		if ($a_image_type != "")
 		{
-			/*
-			$a_tpl->setCurrentBlock("block_row_check");
-			$a_tpl->setVariable("ITEM_ID", $a_item_id);
-			$a_tpl->parseCurrentBlock();*/
+			if (!is_array($a_image_type))
+			{
+				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+				$title = $this->lng->txt("objs_".$a_image_type);
+			}
+			else
+			{
+				$icon = ilUtil::getImagePath("icon_lm.gif");
+				$title = $this->lng->txt("learning_resources");
+			}
+
+			$a_tpl->setCurrentBlock("block_row_image");
+			$a_tpl->setVariable("ROW_IMG", $icon);
+			$a_tpl->parseCurrentBlock();
 		}
 		else
 		{
