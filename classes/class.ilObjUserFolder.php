@@ -195,6 +195,7 @@ class ilObjUserFolder extends ilObject
 	{
 		global $rbacreview;
 		global $ilDB;
+		global $ilBench;
 		
 		$file = fopen($filename, "w");
 		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -214,6 +215,7 @@ class ilObjUserFolder extends ilObject
 			{
 				$userline .= "<Login>".$row["login"]."</Login>\n";
 			}
+			$ilBench->start("Export user XML", "get all roles");
 			$roles = $rbacreview->getRolesByFilter(1, $row["usr_id"]);
 			$ass_roles = $rbacreview->assignedRoles($row["usr_id"]);
 			foreach ($roles as $role)
@@ -236,6 +238,7 @@ class ilObjUserFolder extends ilObject
 					}
 				}
 			}
+			$ilBench->stop("Export user XML", "get all roles");
 			$i2passwd = FALSE;
 			if (array_search("i2passwd", $settings) !== FALSE)
 			{
