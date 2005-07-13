@@ -33,7 +33,7 @@
 
 class ilAuthUtils
 {
-	function _getAuthModeOfUser($a_username,$a_password,&$a_db_handler)
+	function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
 		global $ilDB;
 		
@@ -54,7 +54,7 @@ class ilAuthUtils
 		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
 	}
 	
-	function _getAuthMode($a_auth_mode,&$a_db_handler)
+	function _getAuthMode($a_auth_mode,$a_db_handler = '')
 	{
 		global $ilDB;
 		
