@@ -237,7 +237,7 @@ class ilObjUserFolder extends ilObject
 				}
 			}
 			$i2passwd = FALSE;
-			if (array_search("i2passwd", $settings !== FALSE))
+			if (array_search("i2passwd", $settings) !== FALSE)
 			{
 				if (strlen($row["i2passwd"])) $i2passwd = TRUE;
 				if ($i2passwd) $userline .= "<Password Type=\"ILIAS2\">".$row["i2passwd"]."</Password>\n";
