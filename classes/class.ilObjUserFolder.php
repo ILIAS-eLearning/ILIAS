@@ -216,6 +216,30 @@ class ilObjUserFolder extends ilObject
 			{
 				$userline .= "<Login>".$row["login"]."</Login>\n";
 			}
+			// Alternative way to get the roles of a user?
+			$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
+				$ilDB->quote($row["usr_id"])
+			);
+			$rbacresult = $ilDB->query($query);
+			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$type = "";
+				if ($rbacrow["assign"] == "y")
+				{
+					if ($rbacrow["parent"] == ROLE_FOLDER_ID)
+					{
+						$type = "Global";
+					}
+					else
+					{
+						$type = "Local";
+					}
+					if (strlen($type))
+					{
+						$userline .= "<Role Id=\"".$rbacrow["rol_id"]."\" Type=\"".$type."\">".$rbacrow["title"]."</Role>\n";
+					}
+				}
+			}
 			//$log->write(date("[y-m-d H:i:s] ")."User data export: get all roles");
 			/* the export of roles is to expensive. on a system with 6000 users the following
 			   section needs 37 seconds
