@@ -551,14 +551,14 @@ class ilPersonalDesktopGUI
 				$cmd = "whoisdetail";
 			}
 
-			$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
+			//$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
 
 			if (!empty($visitor_text))
 			{
 				$user_list .= " ".$this->lng->txt("and")." ".$visitor_text;
 			}
 
-			$user_list .= $user_details_link;
+			//$user_list .= $user_details_link;
 		}
 		else
 		{
@@ -566,6 +566,8 @@ class ilPersonalDesktopGUI
 		}
 
 		$this->tpl->setVariable("USER_LIST",$user_list);
+		$this->tpl->setVariable("LINK_USER_DETAILS", "usr_personaldesktop.php?cmd=".$cmd);
+		$this->tpl->setVariable("TXT_USER_DETAILS", $text);
 
         // display details of users online
         if ($showdetails)
@@ -576,15 +578,15 @@ class ilPersonalDesktopGUI
             {
                 if ($user_id != ANONYMOUS_USER_ID)
                 {
-                    $rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
+                    $rowCol = ilUtil::switchColor($z,"tblrow1","tblrow2");
                     $login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
 
                     // hide mail-to icon for anonymous users
                     if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
                     {
                         $this->tpl->setCurrentBlock("mailto_link");
-                        $this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
-                        $this->tpl->setVariable("ALT_TXT_MAIL",$this->lng->txt("mail"));
+                        //$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
+                        $this->tpl->setVariable("TXT_MAIL",$this->lng->txt("mail"));
                         $this->tpl->setVariable("USR_LOGIN",$user["login"]);
                         $this->tpl->parseCurrentBlock();
                     }
@@ -598,8 +600,8 @@ class ilPersonalDesktopGUI
                     if ($r->numRows())
                     {
                         $this->tpl->setCurrentBlock("profile_link");
-                        $this->tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
-                        $this->tpl->setVariable("ALT_TXT_VIEW",$this->lng->txt("view"));
+                        //$this->tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
+                        $this->tpl->setVariable("TXT_VIEW",$this->lng->txt("profile"));
                         $this->tpl->setVariable("USR_ID",$user_id);
                         $this->tpl->parseCurrentBlock();
                     }
@@ -618,7 +620,9 @@ class ilPersonalDesktopGUI
                     }
                     else
                     {
-                        $this->tpl->setVariable("NO_IMAGE", "&nbsp;");
+                        $this->tpl->setCurrentBlock("usr_image");
+                        $this->tpl->setVariable("USR_IMAGE", ilUtil::getImagePath("no_photo_xxsmall.jpg"));
+                        $this->tpl->parseCurrentBlock();
                     }
 
                     $this->tpl->setCurrentBlock("tbl_users_row");
