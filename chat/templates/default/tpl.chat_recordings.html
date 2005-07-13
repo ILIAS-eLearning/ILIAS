@@ -1,0 +1,46 @@
+	<form action="{FORMACTION}" name="ObjectItems" method="post">
+	  <table class="std" width="60%">
+		  <tr class="tbltitle">
+			<td colspan="4" class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
+		  </tr>
+		  <tr class="tblheader">
+			<td class="std" nowrap="nowrap" width="1%">&nbsp;</td>
+			<td class="std" nowrap="nowrap" width="49%">{HEADER_DESC}</td>
+			<td class="std" nowrap="nowrap" width="25%">{HEADER_MOD}</td>
+			<td class="std" nowrap="nowrap" width="25%">{HEADER_TIME}</td>
+		  </tr>
+		  <!-- BEGIN recording_row -->
+		  <tr>
+			<td class="{ROW_CLASS}">
+			  {CHECKBOX}
+			</td>
+			<td class="{ROW_CLASS}">
+			  {RECORDING_TITLE}
+			  <!-- BEGIN description -->
+			  <div class="il_Description_no_margin">{RECORDING_DESCRIPTION}</div>
+			  <!-- END description -->
+			</td>
+			<td class="{ROW_CLASS}">
+			  {MODERATOR}
+			</td>
+			<td class="{ROW_CLASS}">
+			  {START_TIME}<!-- BEGIN end_time --> -<br />{END_TIME}<!-- END end_time -->
+			</td>
+		  </tr>
+		  <!-- END recording_row -->
+		  <tr>
+			<td class="submit" colspan="4" align="left" nowrap="nowrap">
+			  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+				  <tr>
+					<td align="left" width="10">
+					  <img src="{IMG_ARROW}" border="0" />
+					</td>
+					<td align="left">&nbsp;
+					  <input class="submit" type="submit" name="cmd[askDeleteRecordings]" value="{BTN_DELETE}" />
+					</td>
+				  </tr>
+			  </table>
+			</td>
+		  </tr>
+	  </table>
+	</form>

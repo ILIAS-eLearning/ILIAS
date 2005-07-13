@@ -33,7 +33,7 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
-require_once "chat/classes/class.ilChatRecord.php";
+require_once "chat/classes/class.ilChatRecording.php";
 
 class ilObjChatGUI extends ilObjectGUI
 {
@@ -428,6 +428,145 @@ class ilObjChatGUI extends ilObjectGUI
 
 	}	
 
+	function recordingsObject()
+	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.chat_recordings.html","chat");
+
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
+		if (!is_array($data = $this->object->chat_record->getRecordings()))
+		{
+			sendInfo($this->lng->txt('chat_no_recordings_available'));
+			return true;
+		}
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('chat_recordings'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('chat_recording_description'));
+		$this->tpl->setVariable("HEADER_MOD",$this->lng->txt('chat_recording_moderator'));
+		$this->tpl->setVariable("HEADER_TIME",$this->lng->txt('chat_recording_time_frame'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+
+		$counter = 0;
+		for ($i = 0; $i < count($data); $i++)
+		{
+			if($data[$i]["description"] != "")
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("RECORDING_DESCRIPTION", $data[$i]["description"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("recording_row");
+			$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckbox(0,'recordings[]',$data[$i]["record_id"]));
+			$this->tpl->setVariable("RECORDING_TITLE", $data[$i]["title"]);
+			if (is_array($moderator = $this->object->chat_record->getModerator($data[$i]["moderator_id"])))
+			{
+				$this->tpl->setVariable("MODERATOR", $moderator["login"]);
+			}
+			$this->tpl->setVariable("START_TIME", date("Y-m-d H:i:s", $data[$i]["start_time"]));
+			if ($data[$i]["end_time"] > 0)
+			{
+				$this->tpl->setVariable("END_TIME", date("Y-m-d H:i:s", $data[$i]["end_time"]));
+			}
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function askDeleteRecordingsObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!is_array($_POST['recordings']))
+		{
+			sendInfo($this->lng->txt('chat_recordings_select_one'));
+			$this->recordingsObject();
+			
+			return false;
+		}
+
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
+
+		sendInfo($this->lng->txt('chat_recordings_delete_sure'));
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.chat_ask_delete_recordings.html","chat");
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('chat_recordings'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('chat_recording_description'));
+		$this->tpl->setVariable("HEADER_MOD",$this->lng->txt('chat_recording_moderator'));
+		$this->tpl->setVariable("HEADER_TIME",$this->lng->txt('chat_recording_time_frame'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+
+		$counter = 0;
+		for ($i = 0; $i < count($_POST["recordings"]); $i++)
+		{
+			$this->object->chat_record->getRecord($_POST["recordings"][$i]);
+			if($this->object->chat_record->getDescription() != "")
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("RECORDING_DESCRIPTION", $this->object->chat_record->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("recordings_row");
+			$this->tpl->setVariable("RECORDING_TITLE", $this->object->chat_record->getTitle());
+			if (is_array($moderator = $this->object->chat_record->getModerator()))
+			{
+				$this->tpl->setVariable("MODERATOR", $moderator["login"]);
+			}
+			$this->tpl->setVariable("START_TIME", date("Y-m-d H:i:s", $this->object->chat_record->getStartTime()));
+			if ($this->object->chat_record->getEndTime() > 0)
+			{
+				$this->tpl->setVariable("END_TIME", date("Y-m-d H:i:s", $this->object->chat_record->getEndTime()));
+			}
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->parseCurrentBlock();
+		}
+		$_SESSION['chat_recordings_del'] = $_POST['recordings'];
+	}
+
+	function deleteRecordingsObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!is_array($_SESSION['chat_recordings_del']))
+		{
+			sendInfo($this->lng->txt('chat_recordings_none_selected'));
+			$this->recordingsObject();
+
+			return false;
+		}
+
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
+
+		foreach($_SESSION['chat_recordings_del'] as $record_id)
+		{
+			$this->object->chat_record->delete($record_id);
+		}
+		sendInfo($this->lng->txt('chat_recordings_deleted'));
+		$this->recordingsObject();
+		
+		unset($_SESSION['chat_recordings_del']);
+		return true;
+	}
+
 	function startRecording()
 	{
 		global $rbacsystem;
@@ -437,7 +576,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
 		if($_GET["room_id"])
 		{
 			$this->object->chat_record->setRoomId($_GET["room_id"]);
@@ -460,7 +599,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
 		if($_GET["room_id"])
 		{
 			$this->object->chat_record->setRoomId($_GET["room_id"]);
@@ -633,7 +772,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("moderate", $this->object->getRefId()))
 		{
-			$this->object->chat_record = new ilChatRecord($this->object->getRefId());
+			$this->object->chat_record = new ilChatRecording($this->object->getRefId());
 			$this->tpl->setCurrentBlock("moderator");
 			$this->object->chat_record->setRoomId($this->object->chat_room->getRoomId());
 			if ($this->object->chat_record->isRecording())
@@ -975,7 +1114,7 @@ class ilObjChatGUI extends ilObjectGUI
 			return true;
 		}
 
-		$this->object->chat_record = new ilChatRecord();
+		$this->object->chat_record = new ilChatRecording();
 
 		$counter = 0;
 		foreach($public_rooms as $room)
@@ -989,7 +1128,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->object->chat_record->setRefId($room["child"]);
 			if ($this->object->chat_record->isRecording())
 			{
-				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording"));
+				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
 			}
 			$this->tpl->parseCurrentBlock();
 		}
