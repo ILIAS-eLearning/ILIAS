@@ -43,14 +43,7 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 }
 
 // determine post or get command
-/*
-echo "POST: ";
-var_dump($_POST);
-echo "<br>GET, cmd: ";
-echo $_GET["cmd"];
-echo "<br>";
-echo $_GET["type"];
-*/
+
 if ($_GET["cmd"] == "post")
 {
 	if (!empty($_POST["cmd"]))
@@ -72,6 +65,7 @@ if(!empty($type) && ($cmd != "delete"))
 {
 	$cmd.= $objDefinition->getClassName($type);
 }
+
 
 // call method of BookmarkAdministrationGUI class
 require_once "./classes/class.ilBookmarkAdministrationGUI.php";

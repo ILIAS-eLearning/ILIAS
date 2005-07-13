@@ -671,11 +671,12 @@ class ilPersonalDesktopGUI
         {
             $i++;
             $this->tpl->setCurrentBlock("tbl_bm_row");
-            $this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-            $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-									ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;"."..");
+			$rowcol = ($rowcol == "tblrow1") ? "tblrow2" : "tblrow1";
+            $this->tpl->setVariable("ROWCOL", $rowcol);
+			$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+			$this->tpl->setVariable("BM_TITLE", "..");
             $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".
-									ilBookmarkFolder::getRootFolder());
+				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
             $this->tpl->setVariable("BM_TARGET", "");
             $this->tpl->parseCurrentBlock();
         }
@@ -685,21 +686,21 @@ class ilPersonalDesktopGUI
             $i++;
 
 			$this->tpl->setCurrentBlock("tbl_bm_row");
-            $this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-            $this->tpl->setVariable("BM_LINK", "target URL");
+			$rowcol = ($rowcol == "tblrow1") ? "tblrow2" : "tblrow1";
+            $this->tpl->setVariable("ROWCOL", $rowcol);
 
             switch ($bm_item["type"])
             {
                 case "bmf":
-                    $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-											ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;".$bm_item["title"]);
+					$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+					$this->tpl->setVariable("BM_TITLE", $bm_item["title"]);
                     $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".$bm_item["obj_id"]);
                     $this->tpl->setVariable("BM_TARGET", "");
                     break;
 
                 case "bm":
-                    $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-											ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
+					$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_bm.gif"));
+					$this->tpl->setVariable("BM_TITLE", $bm_item["title"]);
                     $this->tpl->setVariable("BM_LINK", $bm_item["target"]);
                     $this->tpl->setVariable("BM_TARGET", "_blank");
                     break;
@@ -718,7 +719,6 @@ class ilPersonalDesktopGUI
 
         $this->tpl->setCurrentBlock("tbl_bm");
         $this->tpl->setVariable("TXT_BM_HEADER",$this->lng->txt("my_bms"));
-        $this->tpl->setVariable("TXT_BM_TITLE",$this->lng->txt("title"));
         $this->tpl->parseCurrentBlock();
     }
 
