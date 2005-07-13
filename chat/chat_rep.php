@@ -25,7 +25,22 @@ chdir("..");
 
 require_once "./include/inc.header.php";
 require_once "./chat/classes/class.ilObjChatGUIAdapter.php";
+
 $ilCtrl->getCallStructure(strtolower("ilObjChatGUI"));
+$ilCtrl->setTargetScript('chat_rep.php');
+
+if ($_POST["cmd"]["askDeleteRecordings"] != "")
+{
+	$_GET["cmd"] = "askDeleteRecordings";
+}
+else if ($_POST["cmd"]["deleteRecordings"] != "")
+{
+	$_GET["cmd"] = "deleteRecordings";
+}
+else if ($_POST["cmd"]["recordings"] != "")
+{
+	$_GET["cmd"] = "recordings";
+}
 $chat_adapter =& new ilObjChatGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
 
 $tpl->show();

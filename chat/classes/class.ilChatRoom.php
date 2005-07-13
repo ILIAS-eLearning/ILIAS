@@ -326,6 +326,24 @@ class ilChatRoom
 		}
 		$res = $this->ilias->db->query($query);
 			
+		// AND ALL RECORDINGS
+		$query = "SELECT record_id FROM chat_records WHERE 
+					room_id = '".$a_id."'";
+		$res = $this->ilias->db->query($query);
+		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+		if (($num = $res->numRows()) > 0)
+		{
+			for ($i = 0; $i < $num; $i++)
+			{
+				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$this->ilias->db->query("DELETE FROM chat_record_data WHERE record_id = '" . $data["record_id"] . "'");
+			}
+			
+		}
+		$query = "DELETE FROM chat_records WHERE 
+					room_id = '".$a_id."'";
+		$res = $this->ilias->db->query($query);
+
 		return true;
 	}
 
@@ -487,7 +505,7 @@ class ilChatRoom
 		
 		$res = $this->ilias->db->query($query);
 
-		$this->chat_record = new ilChatRecord($this->getRefId());
+		$this->chat_record = new ilChatRecording($this->getRefId());
 		$this->chat_record->setRoomId($this->getRoomId());
 		if ($this->chat_record->isRecording())
 		{
