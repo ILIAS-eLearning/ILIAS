@@ -59,19 +59,15 @@ body { margin:0px; }
     </table>
 <!-- END tbl_mails -->
 <!-- BEGIN tbl_users -->
-<h2>{TXT_USERS_ONLINE}</h2>
-    <table class="fullwidth">
+<table class="il_PDBlock">
+	<tr>
+		<td class="il_PDBlockHeader" colspan="3"><div style="float:left;">{TXT_USERS_ONLINE}</div>
+		<div class="il_ContainerItemCommands" style="float:right;"><a class="il_ContainerItemCommand" href="{LINK_USER_DETAILS}">{TXT_USER_DETAILS}</a></div>
+		</td>
+	</tr>
     <tr class="tblheader">
-      <td class="std" valign="top" colspan="5">{USER_LIST}</td>
+      <td class="std" valign="top" colspan="3">{USER_LIST}</td>
     </tr>
-<!-- BEGIN tbl_users_header -->
-    <tr class="tblheader">
-        <td class="std" valign="middle" align="center" width="1%">&nbsp;</td>
-        <td class="std" valign="top" width="30%"><b>{TXT_USR}</b></td>
-        <td class="std" valign="top" width="20%"><b>{TXT_USR_LOGIN_TIME}</b></td>
-        <td class="std" valign="top" width="1%">&nbsp;</td>
-    </tr>
-<!-- END tbl_users_header -->
 <!-- BEGIN tbl_users_row -->
     <tr class="{ROWCOL}">
         <td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
@@ -80,14 +76,15 @@ body { margin:0px; }
         <!-- END usr_image -->
         </td>
         <td class="std" valign="top"><span class='navigation'>{USR_FULLNAME}</span><br>{USR_LOGIN}</td>
-        <td class="std" valign="top">{USR_LOGIN_TIME}</td>
-        <td class="std" valign="top" nowrap="1">
+        <td class="std" valign="top" nowrap="1" align="right">
+		<div class="il_ContainerItemCommand">
 <!-- BEGIN profile_link -->
-        <a href="profile.php?user={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
+        <a class="il_ContainerItemCommand" href="profile.php?user={USR_ID}">{TXT_VIEW}</a>
 <!-- END profile_link -->
 <!-- BEGIN mailto_link -->
-        <a href="mail_new.php?type=new&rcp_to={USR_LOGIN}"><img src="{IMG_MAIL}" alt="{ALT_TXT_MAIL}" title="{ALT_TXT_MAIL}" border="0"/></a>
+        <a class="il_ContainerItemCommand" href="mail_new.php?type=new&rcp_to={USR_LOGIN}">{TXT_MAIL}</a>
 <!-- END mailto_link -->
+		</div>
       </td>
     </tr>
 <!-- END tbl_users_row -->

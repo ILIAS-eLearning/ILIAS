@@ -2733,6 +2733,7 @@ common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  
 common#:#usr_settings_header_profile#:#User profile settings
+common#:#profile#:#Profile
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style

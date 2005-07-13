@@ -60,11 +60,11 @@ switch($_GET["cmd"])
         break;
 		
 	case "showSelectedItemsDetails":
-		$ilUser->setPref("pd_selected_items_details", "y");
+		$ilUser->writePref("pd_selected_items_details", "y");
 		break;
 
 	case "hideSelectedItemsDetails":
-		$ilUser->setPref("pd_selected_items_details", "n");
+		$ilUser->writePref("pd_selected_items_details", "n");
 		break;
 
 }
