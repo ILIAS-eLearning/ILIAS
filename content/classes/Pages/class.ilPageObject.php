@@ -82,7 +82,7 @@ class ilPageObject
 		$this->dom_builded = false;
 		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
-$this->encoding = "UTF-8";
+		$this->encoding = "UTF-8";
 		if($a_id != 0)
 		{
 			$this->read();
@@ -457,8 +457,8 @@ $this->encoding = "UTF-8";
 						$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
 
 						return $xml;
-						
-						// don't use dump_node. This gives always entities. 
+
+						// don't use dump_node. This gives always entities.
 						//return $this->dom->dump_node($this->node);
 					}
 				}
