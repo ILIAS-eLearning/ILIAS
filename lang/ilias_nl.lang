@@ -679,6 +679,11 @@ chat#:#chat_private_message#:#Privé bericht###07 Apr 2005 content changed
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Publieke chat-ruimte###07 Apr 2005 content changed
 chat#:#chat_purple#:#paars###07 Apr 2005 content changed
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#rood###07 Apr 2005 content changed
 chat#:#chat_refresh#:#Verversen###07 Apr 2005 content changed
 chat#:#chat_room_added#:#Nieuwe chat-ruimte toegevoegd###07 Apr 2005 content changed
@@ -700,8 +705,10 @@ chat#:#chat_server_settings#:#Instellingen Chat-server###07 Apr 2005 content cha
 chat#:#chat_settings_saved#:#Instellingen opgeslagen###07 Apr 2005 content changed
 chat#:#chat_show_details#:#Laat details zien###07 Apr 2005 content changed
 chat#:#chat_silver#:#zilver###07 Apr 2005 content changed
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Status###05 Nov 2004 new variable
 chat#:#chat_status_saved#:#De status is gewijzigd###07 Apr 2005 content changed
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma###05 Nov 2004 new variable
 chat#:#chat_teal#:#teal###05 Nov 2004 new variable
 chat#:#chat_times#:#Tijden###07 Apr 2005 content changed
@@ -1017,6 +1024,7 @@ common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
 common#:#cont_object#:#Object###05 Nov 2004 new variable
 common#:#contact_data#:#Contact-informatie###07 Apr 2005 content changed
 common#:#container#:#Container###05 Nov 2004 new variable
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Context###05 Nov 2004 new variable
 common#:#continue_work#:#Doorlopend###07 Apr 2005 content changed

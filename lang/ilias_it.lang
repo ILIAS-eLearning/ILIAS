@@ -677,6 +677,11 @@ chat#:#chat_private_message#:#Messaggio privato
 chat#:#chat_profile#:#Profilo
 chat#:#chat_public_room#:#Chatroom pubblica
 chat#:#chat_purple#:#porpora
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#rosso
 chat#:#chat_refresh#:#Aggiorna
 chat#:#chat_room_added#:#Aggiunte nuove chatroom
@@ -698,8 +703,10 @@ chat#:#chat_server_settings#:#Impostazioni del server di chat
 chat#:#chat_settings_saved#:#Impostazioni salvate
 chat#:#chat_show_details#:#Mostra dettagli
 chat#:#chat_silver#:#argento
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Stato
 chat#:#chat_status_saved#:#Lo stato &#232; stato cambiato
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Tempi
@@ -1015,6 +1022,7 @@ common#:#conflict_handling#:#Gestione conflitto
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Stili presenti
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua

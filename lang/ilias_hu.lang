@@ -626,6 +626,11 @@ chat#:#chat_online_users#:#Felhasználó (on-line)
 chat#:#chat_private_message#:#Magánüzenet
 chat#:#chat_public_room#:#Nyilvános chatszoba
 chat#:#chat_purple#:#bíbor
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#piros
 chat#:#chat_refresh#:#Frissítés
 chat#:#chat_room_added#:#Új chatszoba felvéve
@@ -647,8 +652,10 @@ chat#:#chat_server_settings#:#Chatszerver beállításai
 chat#:#chat_settings_saved#:#Beállítások mentve
 chat#:#chat_show_details#:#Részletek mutatása
 chat#:#chat_silver#:#ezüst
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Státusz
 chat#:#chat_status_saved#:#A státusz cserélve
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -953,6 +960,7 @@ common#:#conflict_handling#:#Konfliktuskezelés
 common#:#cont_object#:#Objektum
 common#:#contact_data#:#Bejelentkező elérhetőségi adatai
 common#:#container#:#Konténer
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Tartalomstílusok
 common#:#context#:#Tartalom
 common#:#continue_work#:#Folytatás

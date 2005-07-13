@@ -666,6 +666,11 @@ chat#:#chat_private_message#:#Mesaj particular
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Chat room public
 chat#:#chat_purple#:#mov
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#rosu
 chat#:#chat_refresh#:#Reafisare
 chat#:#chat_room_added#:#Chat-room nou adaugat
@@ -685,8 +690,10 @@ chat#:#chat_server_settings#:#Setarile server-ului de chat
 chat#:#chat_settings_saved#:#Setari salvate
 chat#:#chat_show_details#:#Aratati detalii
 chat#:#chat_silver#:#argintiu
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Statut
 chat#:#chat_status_saved#:#Statutul a fost schimbat
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#bleu
 chat#:#chat_times#:#Times
@@ -981,6 +988,7 @@ common#:#confirmation#:#Confirmare
 common#:#cont_object#:#Obiect
 common#:#contact_data#:#Informatii despre Contact
 common#:#container#:#Container
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#context#:#Context
 common#:#continue_work#:#Continuati
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
