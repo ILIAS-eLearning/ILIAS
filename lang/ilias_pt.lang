@@ -679,6 +679,11 @@ chat#:#chat_private_message#:#Mensagem Privada###07 Apr 2005 content changed
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Sala de chat pública###14 Sep 2004 content changed
 chat#:#chat_purple#:#púrpura###07 Apr 2005 content changed
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#vermelho###07 Apr 2005 content changed
 chat#:#chat_refresh#:#Actualizar###07 Apr 2005 content changed
 chat#:#chat_room_added#:#Adicionada nova Sala de chat###14 Sep 2004 content changed
@@ -700,8 +705,10 @@ chat#:#chat_server_settings#:#Definições do Servidor de chat###14 Sep 2004 con
 chat#:#chat_settings_saved#:#Definições guardadas###07 Apr 2005 content changed
 chat#:#chat_show_details#:#Mostrar detalhes###07 Apr 2005 content changed
 chat#:#chat_silver#:#prata###07 Apr 2005 content changed
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Estado###07 Apr 2005 content changed
 chat#:#chat_status_saved#:#O estado mudou###07 Apr 2005 content changed
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma###05 Nov 2004 new variable
 chat#:#chat_teal#:#teal###05 Nov 2004 new variable
 chat#:#chat_times#:#Tempos###07 Apr 2005 content changed
@@ -1017,6 +1024,7 @@ common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
 common#:#cont_object#:#Objecto###07 Apr 2005 content changed
 common#:#contact_data#:#Informação de Contacto###07 Apr 2005 content changed
 common#:#container#:#Container###11 Apr 2004 new variable
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Contexto###07 Apr 2005 content changed
 common#:#continue_work#:#Continue###16 Jun 2004 new variable

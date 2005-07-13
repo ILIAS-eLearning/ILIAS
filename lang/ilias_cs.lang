@@ -679,6 +679,11 @@ chat#:#chat_private_message#:#Private Message###16 Mar 2004 new variable
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Public chatroom###16 Mar 2004 new variable
 chat#:#chat_purple#:#purple###16 Mar 2004 new variable
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#red###16 Mar 2004 new variable
 chat#:#chat_refresh#:#Refresh###16 Mar 2004 new variable
 chat#:#chat_room_added#:#Added new chatroom###16 Mar 2004 new variable
@@ -700,8 +705,10 @@ chat#:#chat_server_settings#:#Chatserver settings###16 Mar 2004 new variable
 chat#:#chat_settings_saved#:#Settings saved###16 Mar 2004 new variable
 chat#:#chat_show_details#:#Show details###16 Mar 2004 new variable
 chat#:#chat_silver#:#silver###16 Mar 2004 new variable
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Status###16 Mar 2004 new variable
 chat#:#chat_status_saved#:#The status has been changed###16 Mar 2004 new variable
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma###16 Mar 2004 new variable
 chat#:#chat_teal#:#teal###16 Mar 2004 new variable
 chat#:#chat_times#:#Times###16 Mar 2004 new variable
@@ -1017,6 +1024,7 @@ common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
 common#:#cont_object#:#Objekt###07 Apr 2005 content changed
 common#:#contact_data#:#Kontaktní informace###07 Apr 2005 content changed
 common#:#container#:#Container###11 Apr 2004 new variable
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Kontext###07 Apr 2005 content changed
 common#:#continue_work#:#Continue###16 Jun 2004 new variable

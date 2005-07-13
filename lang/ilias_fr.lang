@@ -668,6 +668,11 @@ chat#:#chat_private_message#:#Message privé###07 Apr 2005 content changed
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Salon public###07 Apr 2005 content changed
 chat#:#chat_purple#:#violet###07 Apr 2005 content changed
+chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
+chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
+chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
 chat#:#chat_red#:#rouge###07 Apr 2005 content changed
 chat#:#chat_refresh#:#Actualiser###07 Apr 2005 content changed
 chat#:#chat_room_added#:#Nouveau salon ajouté###07 Apr 2005 content changed
@@ -689,8 +694,10 @@ chat#:#chat_server_settings#:#Paramètres du serveur de chat###07 Apr 2005 conte
 chat#:#chat_settings_saved#:#Paramètres enregistrés###07 Apr 2005 content changed
 chat#:#chat_show_details#:#Montrer détails###07 Apr 2005 content changed
 chat#:#chat_silver#:#argent###07 Apr 2005 content changed
+chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
 chat#:#chat_status#:#Statut###07 Apr 2005 content changed
 chat#:#chat_status_saved#:#Le statut a été changé###07 Apr 2005 content changed
+chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
 chat#:#chat_tahoma#:#Tahoma###07 Apr 2005 content changed
 chat#:#chat_teal#:#teal###07 Apr 2005 content changed
 chat#:#chat_times#:#Times###07 Apr 2005 content changed
@@ -1004,6 +1011,7 @@ common#:#conflict_handling#:#Gestion des conflits###07 Apr 2005 content changed
 common#:#cont_object#:#Objet###07 Apr 2005 content changed
 common#:#contact_data#:#Informations de contact###07 Apr 2005 content changed
 common#:#container#:#Conteneur###07 Apr 2005 content changed
+common#:#content#:#Content###13 Jul 2005 new variable
 common#:#content_styles#:#Styles de contenu###07 Apr 2005 content changed
 common#:#context#:#Contexte###07 Apr 2005 content changed
 common#:#continue_work#:#Continuer###07 Apr 2005 content changed

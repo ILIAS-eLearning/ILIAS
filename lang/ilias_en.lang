@@ -679,6 +679,11 @@ chat#:#chat_private_message#:#Private Message
 chat#:#chat_profile#:#Profile
 chat#:#chat_public_room#:#Public chat room
 chat#:#chat_purple#:#purple
+chat#:#chat_recording_description#:#Description
+chat#:#chat_recording_running#:#Recording running
+chat#:#chat_recording_started#:#Recording started
+chat#:#chat_recording_stopped#:#Recording stopped
+chat#:#chat_recording_title#:#Title of recording
 chat#:#chat_red#:#red
 chat#:#chat_refresh#:#Refresh
 chat#:#chat_room_added#:#Added new chat room
@@ -700,8 +705,10 @@ chat#:#chat_server_settings#:#Chat server settings
 chat#:#chat_settings_saved#:#Settings saved
 chat#:#chat_show_details#:#Show details
 chat#:#chat_silver#:#silver
+chat#:#chat_start_recording#:#Start recording
 chat#:#chat_status#:#Status
 chat#:#chat_status_saved#:#The status has been changed
+chat#:#chat_stop_recording#:#Stop recording
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -1017,6 +1024,7 @@ common#:#conflict_handling#:#Conflict handling
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
 common#:#container#:#Container
+common#:#content#:#Content
 common#:#content_styles#:#Content Styles
 common#:#context#:#Context
 common#:#continue_work#:#Continue
@@ -5113,11 +5121,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-chat#:#chat_recording_title#:#Title of recording
-chat#:#chat_recording_description#:#Description
-chat#:#chat_start_recording#:#Start recording
-chat#:#chat_stop_recording#:#Stop recording
-chat#:#chat_recording_started#:#Recording started
-chat#:#chat_recording_stopped#:#Recording stopped
-chat#:#chat_recording_running#:#Recording running
-common#:#content#:#Content

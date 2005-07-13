@@ -678,6 +678,11 @@ chat#:#chat_private_message#:#Private Nachricht
 chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Öffentlicher Chatraum
 chat#:#chat_purple#:#purpur
+chat#:#chat_recording_description#:#Beschreibung
+chat#:#chat_recording_running#:#Aufnahme läuft
+chat#:#chat_recording_started#:#Aufnahme gestartet
+chat#:#chat_recording_stopped#:#Aufnahme gestoppt
+chat#:#chat_recording_title#:#Titel der Aufnahme
 chat#:#chat_red#:#rot
 chat#:#chat_refresh#:#Zurücksetzen
 chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
@@ -699,8 +704,10 @@ chat#:#chat_server_settings#:#Chatserver Einstellungen
 chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
 chat#:#chat_silver#:#silber
+chat#:#chat_start_recording#:#Aufnahme starten
 chat#:#chat_status#:#Status
 chat#:#chat_status_saved#:#Der Status wurde geändert
+chat#:#chat_stop_recording#:#Aufnahme stoppen
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -1016,6 +1023,7 @@ common#:#conflict_handling#:#Konfliktbehandlung
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
+common#:#content#:#Inhalt
 common#:#content_styles#:#Content Styles
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
@@ -5111,11 +5119,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-chat#:#chat_recording_title#:#Titel der Aufnahme
-chat#:#chat_recording_description#:#Beschreibung
-chat#:#chat_start_recording#:#Aufnahme starten
-chat#:#chat_stop_recording#:#Aufnahme stoppen
-chat#:#chat_recording_started#:#Aufnahme gestartet
-chat#:#chat_recording_stopped#:#Aufnahme gestoppt
-chat#:#chat_recording_running#:#Aufnahme läuft
-common#:#content#:#Inhalt
