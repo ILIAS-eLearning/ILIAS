@@ -576,24 +576,11 @@ class ilObjUserFolder extends ilObject
 		//get data
 		$settings =& $this->getExportSettings();
 		$data = array();
-		$query = "SELECT * FROM usr_data ORDER BY lastname, firstname";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' ORDER BY usr_data.lastname, usr_data.firstname";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 //			$datarow = array();
-			foreach ($settings as $key => $value)
-			{
-				$query = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-					$ilDB->quote($row["usr_id"] . ""),
-					$ilDB->quote($value)
-				);
-				$res = $ilDB->query($query);
-				if ($res->numRows() == 1)
-				{
-					$prefrow = $res->fetchRow(DB_FETCHMODE_ASSOC);
-					$row["language"] = $prefrow["value"];
-				}
-			}
 			array_push($data, $row);
 //			array_push($data, $datarow);
 		}
