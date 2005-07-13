@@ -136,6 +136,20 @@ class ilMDFactory
 				$class =& new ilMDClassification();
 				$class->setMetaId($a_index);
 				return $class;
+				
+			case 'classification_taxon_path':
+				include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+
+				$tax_path =& new ilMDTaxonPath();
+				$tax_path->setMetaId($a_index);
+				return $tax_path;
+
+			case 'classification_taxon':
+				include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
+
+				$tax =& new ilMDTaxon();
+				$tax->setMetaId($a_index);
+				return $tax;
 
 			default:
 				echo $a_type . " not known";
