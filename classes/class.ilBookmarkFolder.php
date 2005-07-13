@@ -237,5 +237,14 @@ class ilBookmarkFolder
 
 		return $tree->getRootId();
 	}
+	
+	function _getParentId($a_id)
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+		return $tree->getParentId($a_id);
+	}
+
 }
 ?>

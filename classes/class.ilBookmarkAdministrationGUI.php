@@ -141,7 +141,7 @@ class ilBookmarkAdministrationGUI
 	*/
 	function main_header()
 	{
-		global $lng, $tpl;
+		global $lng, $tpl,$ilias;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.bookmarks.html");
 
