@@ -203,7 +203,7 @@ class ilObjUserFolder extends ilObject
 		fwrite($file, "<Users>\n");
 		foreach ($data as $row) 
 		{
-			$log->write(date("[y-m-d H:i:s] ")."User data export: processing user " . $row["login"]);
+			//$log->write(date("[y-m-d H:i:s] ")."User data export: processing user " . $row["login"]);
 			foreach ($row as $key => $value)
 			{
 				$row[$key] = $this->escapeXML($value);
@@ -216,7 +216,10 @@ class ilObjUserFolder extends ilObject
 			{
 				$userline .= "<Login>".$row["login"]."</Login>\n";
 			}
-			$log->write(date("[y-m-d H:i:s] ")."User data export: get all roles");
+			//$log->write(date("[y-m-d H:i:s] ")."User data export: get all roles");
+			/* the export of roles is to expensive. on a system with 6000 users the following
+			   section needs 37 seconds
+				 
 			$roles = $rbacreview->getRolesByFilter(1, $row["usr_id"]);
 			$ass_roles = $rbacreview->assignedRoles($row["usr_id"]);
 			foreach ($roles as $role)
@@ -239,7 +242,8 @@ class ilObjUserFolder extends ilObject
 					}
 				}
 			}
-			$log->write(date("[y-m-d H:i:s] ")."User data export: got all roles");
+			*/
+			//$log->write(date("[y-m-d H:i:s] ")."User data export: got all roles");
 			$i2passwd = FALSE;
 			if (array_search("i2passwd", $settings) !== FALSE)
 			{
@@ -569,16 +573,16 @@ class ilObjUserFolder extends ilObject
 		
 		//get Log File
 		$expDir = $this->getExportDirectory();
-		$expLog = &$log;
-		$expLog->delete();
-		$expLog->setLogFormat("");
-		$expLog->write(date("[y-m-d H:i:s] ")."Start export of user data");
+		//$expLog = &$log;
+		//$expLog->delete();
+		//$expLog->setLogFormat("");
+		//$expLog->write(date("[y-m-d H:i:s] ")."Start export of user data");
 
 		// create export directory if needed
 		$this->createExportDirectory();
 		
 		//get data
-		$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
+		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 		$settings =& $this->getExportSettings();
 		$data = array();
 		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' ORDER BY usr_data.lastname, usr_data.firstname";
@@ -589,7 +593,7 @@ class ilObjUserFolder extends ilObject
 			array_push($data, $row);
 //			array_push($data, $datarow);
 		}
-		$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
+		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 
 		$fullname = $expDir."/".$this->getExportFilename($a_mode);
 		switch ($a_mode)
@@ -607,7 +611,7 @@ class ilObjUserFolder extends ilObject
 				$this->createXMLExport($settings, $data, $fullname);
 				break;
 		}
-		$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");
+		//$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");
 	
 		return $fullname;	
 	}
