@@ -217,10 +217,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				
 				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")";
             }
+            
+            if ($role["type"] == "rolt" and (substr($role["title"],0,3) == "il_"))
+            {
+            	$role["description"] .= "<br/><i>".$this->lng->txt("predefined_template")." (".$role["title"].")</i>";
+            }
 
             $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"]."_b.gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
             $result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
+            
+
+            	
             $result_set[$counter][] = $path." (".$role["role_type"].")";;
 
    			++$counter;
