@@ -185,6 +185,10 @@ class ilChatServerCommunicator
 				return "GET /moderate?".$this->chat->server_conf->getModeratorPassword().
 					"&delete&".$this->__getFormattedChatroom();
 
+			case "empty":
+				return "GET /moderate?".$this->chat->server_conf->getModeratorPassword().
+					"&clear&".$this->__getFormattedChatroom();
+
 			case "test":
 				return "GET /Version";
 
