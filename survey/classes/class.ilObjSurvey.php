@@ -4809,6 +4809,23 @@ class ilObjSurvey extends ilObject
 		return $codes;
 	}
 	
+	function isSurveyCodeUsed($code)
+	{
+		$query = sprintf("SELECT answer_id FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s",
+			$this->ilias->db->quote($this->getSurveyId() . ""),
+			$this->ilias->db->quote($code)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
 	function createSurveyCodes($nrOfCodes)
 	{
 		for ($i = 0; $i < $nrOfCodes; $i++)
