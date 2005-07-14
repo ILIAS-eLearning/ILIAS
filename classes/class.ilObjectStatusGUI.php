@@ -99,49 +99,12 @@ class ilObjectStatusGUI
 	{
         global $lng;
 
-        switch($from)
-		{
-			case "subscribers":
-				$offset = $_GET["update_subscribers"] ? $_GET["offset"] : 0;
-				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : 'login';
-				$direction = $_GET["update_subscribers"] ? $_GET["sort_order"] : '';
-				break;
-
-			case "group":
-				$offset = $_GET["offset"];
-	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
-				$direction = $_GET["sort_order"];
-				break;
-				
-			case "role":
-				$offset = $_GET["offset"];
-	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
-				$direction = $_GET["sort_order"];
-				break;
-
-			default:
-				// init sort_by (unfortunatly sort_by is preset with 'title'
-	           	if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
-                {
-                    $_GET["sort_by"] = "operation";
-                }
-                $order = $_GET["sort_by"];
-				$direction = $_GET["sort_order"];
-				break;
-		}
-
-		$tbl->setOrderColumn($order);
-		$tbl->setOrderDirection($direction);
-		
 		$tbl->disable('footer');
 		$tbl->disable('linkbar');
 		$tbl->disable('hits');
 		$tbl->disable('sort');
-		
-		//$tbl->setOffset($offset);
-		//$tbl->setLimit($_GET["limit"]);
-		//$tbl->setMaxCount(count($result_set));
-		//$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
+
+		$tbl->setLimit(0);
 		$tbl->setData($result_set);
 	}
 	
