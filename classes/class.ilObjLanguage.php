@@ -425,9 +425,10 @@ class ilObjLanguage extends ilObject
 		{
 			$separated = explode($this->separator, trim($val));
 			$num = count($separated);
-			$line ++;
+			++$n;
 			if ($num != 3)
 			{
+				$line = $n + 36;
 				$this->ilias->raiseError("Wrong parameter count in ".$lang_file." in line $line (Value: $val)! Please check your language file!",$this->ilias->error_obj->MESSAGE);
 			}
 		}

@@ -320,11 +320,12 @@ class ilObjLanguageFolder extends ilObject
 						if ($num != 3)
 						{
 							$error = true;
+							$line = $key + 37;
 
-                        $output .= "<br/><b/>".$lng->txt("err_in_line")." ".$key." !</b>&nbsp;&nbsp;";
-                        $output .= $lng->txt("module").": ".$separated[0];
-                        $output .= ", ".$lng->txt("identifier").": ".$separated[1];
-                        $output .= ", ".$lng->txt("value").": ".$separated[2];
+	                        $output .= "<br/><b/>".$lng->txt("err_in_line")." ".$line." !</b>&nbsp;&nbsp;";
+	                        $output .= $lng->txt("module").": ".$separated[0];
+	                        $output .= ", ".$lng->txt("identifier").": ".$separated[1];
+	                        $output .= ", ".$lng->txt("value").": ".$separated[2];
 
 							switch ($num)
 							{
