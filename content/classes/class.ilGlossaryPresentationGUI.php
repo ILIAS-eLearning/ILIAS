@@ -149,6 +149,8 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven($term_list, $filter ="")
 	{
+		global $ilCtrl;
+		
 		$this->lng->loadLanguageModule("meta");
 		include_once "./classes/class.ilTableGUI.php";
 
@@ -157,7 +159,9 @@ class ilGlossaryPresentationGUI
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_search_term.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_presentation.html", true);
+		
+		// search form
 		if (!$this->offlineMode())
 		{
 			$this->tpl->setCurrentBlock("search_form");
@@ -166,6 +170,23 @@ class ilGlossaryPresentationGUI
 			$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
 			$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));
 			$this->tpl->setVariable("TERM", $filter);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// glossary menu
+		if ($this->glossary->isActiveGlossaryMenu())
+		{
+			// download links
+			if (!$this->offlineMode() && $this->glossary->isActiveDownloads())
+			{
+				$this->tpl->setCurrentBlock("glo_menu_btn");
+				$this->tpl->setVariable("BTN_LINK",
+					"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listDownloads&offset=0&oldoffset=$oldoffset");
+				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("download"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("glo_menu");
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -227,6 +248,7 @@ class ilGlossaryPresentationGUI
 			$tbl->disable("footer");
 		}
 		$tbl->setOffset($_GET["offset"]);
+		$tbl->setLimit($_GET["limit"]);
 		$tbl->setMaxCount($this->maxcount);
 
 		//$this->tpl->setVariable("COLUMN_COUNTS", 4);
@@ -239,8 +261,8 @@ class ilGlossaryPresentationGUI
 
 		// sorting array
 		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
-		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 
+		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 		// render table
 		$tbl->render();
 

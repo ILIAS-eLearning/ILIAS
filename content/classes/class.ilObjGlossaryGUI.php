@@ -382,7 +382,29 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("SELECT_GLO_MODE", $opts);
 		$this->tpl->setVariable("TXT_GLO_MODE", $this->lng->txt("glo_mode"));
-		$this->tpl->setVariable("TXT_GLO_MODE_DESC", $this->lng->txt("glo_mode_desc"));		
+		$this->tpl->setVariable("TXT_GLO_MODE_DESC", $this->lng->txt("glo_mode_desc"));
+
+		// glossary menu
+		$this->tpl->setVariable("TXT_GLO_MENU", $this->lng->txt("cont_glo_menu"));
+		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
+		$this->tpl->setVariable("CBOX_GLO_MENU", "glo_act_menu");
+		$this->tpl->setVariable("VAL_GLO_MENU", "y");
+
+		if ($this->object->isActiveGlossaryMenu())
+		{
+			$this->tpl->setVariable("CHK_GLO_MENU", "checked");
+		}
+		
+		// downloads
+		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
+		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
+		$this->tpl->setVariable("CBOX_DOWNLOADS", "glo_act_downloads");
+		$this->tpl->setVariable("VAL_DOWNLOADS", "y");
+		if ($this->object->isActiveDownloads())
+		{
+			$this->tpl->setVariable("CHK_DOWNLOADS", "checked");
+		}
+
 
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
@@ -398,6 +420,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setVirtualMode($_POST["glo_mode"]);
+		$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
+		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
 		$this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

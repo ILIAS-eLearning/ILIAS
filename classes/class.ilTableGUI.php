@@ -541,7 +541,6 @@ class ilTableGUI
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
-
 			$start = $this->offset + 1;				// compute num info
 			$end = $this->offset + $this->limit;
 			
