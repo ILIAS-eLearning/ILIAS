@@ -174,7 +174,7 @@ class ilMDRelation extends ilMDBase
 			}
 			foreach($this->getDescriptionIds() as $id)
 			{
-				$des = $this->getDescription();
+				$des = $this->getDescription($id);
 				$des->delete();
 			}
 			

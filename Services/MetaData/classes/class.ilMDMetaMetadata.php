@@ -40,6 +40,15 @@ class ilMDMetaMetadata extends ilMDBase
 						 $a_obj_type);
 	}
 
+	function getPossibleSubelements()
+	{
+		$subs['Identifier'] = 'meta_identifier';
+		$subs['Contribute'] = 'meta_contribute';
+
+		return $subs;
+	}
+
+
 	// SUBELEMENTS
 	function &getIdentifierIds()
 	{
