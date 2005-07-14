@@ -479,7 +479,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);
+		
+		$term_list = $this->object->getTermList();
+		$tbl->setMaxCount(count($term_list));
+
+//echo "maxcount:".count($term_list).":";
+//echo "+".$_GET["offset"]."+".$_GET["limit"]."+";
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 		$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
@@ -488,10 +493,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$term_list = $this->object->getTermList();
-		$tbl->setMaxCount(count($term_list));
 
 		// sorting array
 		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
@@ -791,7 +792,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$export_dir = $this->object->getExportDirectory();
 
-		$export_files = $this->object->getExportFiles($export_dir);
+		$export_files = $this->object->getExportFiles();
 
 		// create table
 		require_once("classes/class.ilTableGUI.php");
@@ -809,14 +810,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("cont_export_files"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
+			$this->lng->txt("cont_file"),
 			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
 
-		$cols = array("", "file", "size", "date");
+		$cols = array("", "type", "file", "size", "date");
 		$header_params = array("ref_id" => $_GET["ref_id"],
 			"cmd" => "exportList", "cmdClass" => get_class($this));
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
+		$tbl->disable("sort");
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -825,8 +828,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
 
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// delete button
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
@@ -838,6 +840,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// public access
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "publishExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_public_access"));
 		$this->tpl->parseCurrentBlock();
 
 		// footer
@@ -854,15 +862,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			foreach($export_files as $exp_file)
 			{
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
 
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
 
-				$file_arr = explode("__", $exp_file);
+				$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+					? " <b>(".$this->lng->txt("public").")<b>"
+					: "";
+				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"].$public_str);
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
+
+				$file_arr = explode("__", $exp_file["file"]);
 				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
 
 				$this->tpl->parseCurrentBlock();
@@ -919,10 +932,40 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-
-		$export_dir = $this->object->getExportDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+		$file = explode(":", $_POST["file"][0]);
+		$export_dir = $this->object->getExportDirectory($file[0]);
+		ilUtil::deliverFile($export_dir."/".$file[1],
 			$_POST["file"][0]);
+	}
+
+	/**
+	* download export file
+	*/
+	function publishExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$file = explode(":", $_POST["file"][0]);
+		$export_dir = $this->object->getExportDirectory($file[0]);
+		
+		if ($this->object->getPublicExportFile($file[0]) ==
+			$file[1])
+		{
+			$this->object->setPublicExportFile($file[0], "");
+		}
+		else
+		{
+			$this->object->setPublicExportFile($file[0], $file[1]);
+		}
+		$this->object->update();
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/*
@@ -980,9 +1023,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($_POST["file"] as $file)
 		{
+				$file = explode(":", $file);
 				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->setVariable("TEXT_CONTENT", $file[1]." (".$file[0].")");
 				$this->tpl->parseCurrentBlock();
 		}
 
@@ -1013,10 +1057,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function deleteExportFile()
 	{
-		$export_dir = $this->object->getExportDirectory();
 		foreach($_SESSION["ilExportFiles"] as $file)
 		{
-			$exp_file = $export_dir."/".$file;
+			$file = explode(":", $file);
+			$export_dir = $this->object->getExportDirectory($file[0]);
+			
+			$exp_file = $export_dir."/".$file[1];
 			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
 			if (@is_file($exp_file))
 			{

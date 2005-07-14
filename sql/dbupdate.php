@@ -919,7 +919,7 @@ CREATE TABLE dp_changed_dates (
   status int(15) NOT NULL default '0',
   timestamp int(10) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r Anzeige von Geänderten Termindaten';
+) TYPE=MyISAM COMMENT='Tabelle f�r Anzeige von Geänderten Termindaten';
 # --------------------------------------------------------
 
 <#72>
@@ -7821,4 +7821,8 @@ CREATE TABLE `chat_records` (
 <#487>
 ALTER TABLE `chat_records` ADD `title` VARCHAR( 255 ) NOT NULL AFTER `room_id`,
 ADD `description` TEXT NOT NULL AFTER `title` ;
+
+<#488>
+ALTER TABLE glossary ADD public_html_file VARCHAR(50) DEFAULT '' NOT NULL;
+ALTER TABLE glossary ADD public_xml_file VARCHAR(50) DEFAULT '' NOT NULL;
 
