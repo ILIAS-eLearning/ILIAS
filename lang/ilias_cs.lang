@@ -918,6 +918,7 @@ common#:#cat_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#cat_create_grp#:#Create Group###16 Mar 2004 new variable
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###16 Mar 2004 new variable
@@ -1068,6 +1069,7 @@ common#:#crs_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1252,6 +1254,21 @@ common#:#export#:#Export###20 Mar 2004 new variable
 common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#exportovat jako html soubor###14 Sep 2004 content changed
 common#:#export_xml#:#exportovat jako xml soubor###14 Sep 2004 content changed
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#Cvičení FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax### identical translation
 common#:#feedback#:#Dejte nám vědět###07 Apr 2005 content changed
@@ -1294,6 +1311,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
 common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1301,6 +1319,7 @@ common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new 
 common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1436,6 +1455,7 @@ common#:#grp_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1559,6 +1579,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Verze ILIASu###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
@@ -2044,6 +2066,8 @@ common#:#obj_chat#:#Chat###16 Mar 2004 new variable
 common#:#obj_crs#:#Kurz###07 Apr 2005 content changed
 common#:#obj_dbk#:#Digilib učebnice###07 Apr 2005 content changed
 common#:#obj_exc#:#Exercise###16 Mar 2004 new variable
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Soubor###07 Apr 2005 content changed
 common#:#obj_fold#:#Složka###07 Apr 2005 content changed
 common#:#obj_frm#:#Diskusní skupina###07 Apr 2005 content changed
@@ -2227,9 +2251,11 @@ common#:#please_select_a_delivered_file_to_download#:#You must select at least o
 common#:#port#:#Port### identical translation
 common#:#position#:#Pozice###07 Apr 2005 content changed
 common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Prezentační volby###07 Apr 2005 content changed
 common#:#previous#:#předchozí###07 Apr 2005 content changed
 common#:#print#:#Tisk###07 Apr 2005 content changed
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Váš profil byl změněn###07 Apr 2005 content changed
 common#:#profile_of#:#Profil pro###07 Apr 2005 content changed
 common#:#properties#:#Vlastnosti###07 Apr 2005 content changed

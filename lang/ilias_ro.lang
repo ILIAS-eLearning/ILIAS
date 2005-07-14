@@ -889,6 +889,7 @@ common#:#cat_create_glo#:#Creati Glosar
 common#:#cat_create_grp#:#Creati Grup
 common#:#cat_create_hlm#:#Creati Modul de Invatare HACP
 common#:#cat_create_htlm#:#Creati Modul de Invatare HTML
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Creati Modul de Invatare ILIAS
 common#:#cat_create_mep#:#Creati Baza Media
 common#:#cat_create_qpl#:#Creati Baza de Intrebari pentru Test
@@ -1028,6 +1029,7 @@ common#:#crs_create_glo#:#Creati Glosar
 common#:#crs_create_grp#:#Creati Grup
 common#:#crs_create_hlm#:#Creati Modul de Invatare HACP
 common#:#crs_create_htlm#:#Creati Modul de Invatare HTML
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Creati Modul de Invatare ILIAS
 common#:#crs_create_mep#:#Creati Baza Media
 common#:#crs_create_qpl#:#Creati Baza de Intrebari pentru Test
@@ -1204,6 +1206,21 @@ common#:#export#:#Exporta
 common#:#export_group_members#:#Exportati membrii grupului (catre Microsoft Excel)
 common#:#export_html#:#Exportati ca fisier HTML
 common#:#export_xml#:#Exportati ca fisier XML
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#Exercitiu FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -1246,6 +1263,7 @@ common#:#fold_create_frm#:#Creati Forum
 common#:#fold_create_glo#:#Creati Glosar
 common#:#fold_create_hlm#:#Creati Modul de Invatare HACP
 common#:#fold_create_htlm#:#Creati Modul de Invatare HTML
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Creati Modul de Invatare ILIAS
 common#:#fold_create_mep#:#Creati Baza Media
 common#:#fold_create_qpl#:#Creati Baza de Intrebari pentru Test
@@ -1253,6 +1271,7 @@ common#:#fold_create_sahs#:#Creati Modul de Invatare SCORM/AICC
 common#:#fold_create_spl#:#Creati Baza de Intrebari pentru Sondaj
 common#:#fold_create_svy#:#Creati Sondaj
 common#:#fold_create_tst#:#Creati Test
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Stergeti Dosar
 common#:#fold_edit#:#Editati Dosar
 common#:#fold_edit_permission#:#Schimbati setarile de permisiune
@@ -1385,6 +1404,7 @@ common#:#grp_create_frm#:#Creati Forum
 common#:#grp_create_glo#:#Creati Glosar
 common#:#grp_create_hlm#:#Creati Modul de Invatare HACP
 common#:#grp_create_htlm#:#Creati Modul de Invatare HTML
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Creati Modul de Invatare ILIAS
 common#:#grp_create_mep#:#Creati Baza Media
 common#:#grp_create_qpl#:#Creati Baza de Intrebari pentru Test
@@ -1433,7 +1453,7 @@ common#:#guest#:#Invitat
 common#:#guests#:#Invitati
 common#:#header_title#:#Titlu
 common#:#help#:#Ajutor
-common#:#hide_details#:#Ascundeti detaliile
+common#:#hide_details#:#Ascundeti detaliile###14 Jul 2005 content changed
 common#:#hide_structure#:#Dezafectati vederea structurata
 common#:#hist_dbk:pg_create#:#Pagina creata
 common#:#hist_dbk:pg_cut#:#Pagina scoasa din capitolul "%1" [%2]
@@ -1486,6 +1506,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#versiune ILIAS
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Imagine
@@ -1956,6 +1978,8 @@ common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curs
 common#:#obj_dbk#:#Carte din Biblioteca Digitala
 common#:#obj_exc#:#Exercitiu
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Fisier
 common#:#obj_fold#:#Dosar
 common#:#obj_frm#:#Forum
@@ -2131,9 +2155,11 @@ common#:#please_select_a_delivered_file_to_download#:#Trebuie sa  selectati cel 
 common#:#port#:#Port
 common#:#position#:#Pozitie
 common#:#preconditions#:#Preconditii
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Optiuni de prezentare
 common#:#previous#:#Anterior
 common#:#print#:#Tipariti
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Profilul dumneavoastra a fost schimbat
 common#:#profile_of#:#Profilul
 common#:#properties#:#Proprietati
@@ -2367,7 +2393,7 @@ common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variab
 common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
 common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Aratati
-common#:#show_details#:#Aratati detalii
+common#:#show_details#:#Aratati detalii###14 Jul 2005 content changed
 common#:#show_list#:#Aratati Lista
 common#:#show_members#:#Aratati Membrii
 common#:#show_owner#:#Aratati Proprietar

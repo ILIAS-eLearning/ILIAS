@@ -918,6 +918,7 @@ common#:#cat_create_glo#:#Creëer woordenlijst###07 Apr 2005 content changed
 common#:#cat_create_grp#:#Creëer groep###07 Apr 2005 content changed
 common#:#cat_create_hlm#:#Creëer HACP lesmodule###07 Apr 2005 content changed
 common#:#cat_create_htlm#:#Creëer HTML lesmodule###07 Apr 2005 content changed
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Creëer lesmodule###07 Apr 2005 content changed
 common#:#cat_create_mep#:#Creëer Media-pool###07 Apr 2005 content changed
 common#:#cat_create_qpl#:#Creëer Vraagpool (Assessment)###07 Apr 2005 content changed
@@ -1068,6 +1069,7 @@ common#:#crs_create_glo#:#Creëer woordenlijst###07 Apr 2005 content changed
 common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Creëer HACP lesmodule###07 Apr 2005 content changed
 common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Creëer lesmodule###07 Apr 2005 content changed
 common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1252,6 +1254,21 @@ common#:#export#:#Exporteer###07 Apr 2005 content changed
 common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#exporteren als html-bestand###07 Apr 2005 content changed
 common#:#export_xml#:#exporteren als xml-bestand###07 Apr 2005 content changed
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#FAQ-oefening###07 Apr 2005 content changed
 common#:#fax#:#Fax###05 Nov 2004 new variable
 common#:#feedback#:#Feedback###05 Nov 2004 new variable
@@ -1294,6 +1311,7 @@ common#:#fold_create_frm#:#Creëer forum###07 Apr 2005 content changed
 common#:#fold_create_glo#:#Creëer woordenlijst###07 Apr 2005 content changed
 common#:#fold_create_hlm#:#Creëer HACP lesmodule###07 Apr 2005 content changed
 common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Creëer lesmodule###07 Apr 2005 content changed
 common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1301,6 +1319,7 @@ common#:#fold_create_sahs#:#Creëer SCORM/AICC lesmodule###07 Apr 2005 content c
 common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
 common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
 common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Verwijder Map###07 Apr 2005 content changed
 common#:#fold_edit#:#Wijzig Map###07 Apr 2005 content changed
 common#:#fold_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
@@ -1436,6 +1455,7 @@ common#:#grp_create_frm#:#Creëer forum###07 Apr 2005 content changed
 common#:#grp_create_glo#:#Creëer woordenlijst###07 Apr 2005 content changed
 common#:#grp_create_hlm#:#Creëer HACP lesmodule###07 Apr 2005 content changed
 common#:#grp_create_htlm#:#Creëer HTML lesmodule###07 Apr 2005 content changed
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Creëer lesmodule###07 Apr 2005 content changed
 common#:#grp_create_mep#:#Creëer Media-pool###07 Apr 2005 content changed
 common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1559,6 +1579,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS-versie###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
@@ -2044,6 +2066,8 @@ common#:#obj_chat#:#Chat###05 Nov 2004 new variable
 common#:#obj_crs#:#Cursus###07 Apr 2005 content changed
 common#:#obj_dbk#:#Digilib-boek###07 Apr 2005 content changed
 common#:#obj_exc#:#Oefening###07 Apr 2005 content changed
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Bestand###07 Apr 2005 content changed
 common#:#obj_fold#:#Map###07 Apr 2005 content changed
 common#:#obj_frm#:#Forum###05 Nov 2004 new variable
@@ -2227,9 +2251,11 @@ common#:#please_select_a_delivered_file_to_download#:#You must select at least o
 common#:#port#:#Port###05 Nov 2004 new variable
 common#:#position#:#Positie###07 Apr 2005 content changed
 common#:#preconditions#:#Condities vooraf###07 Apr 2005 content changed
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Presentatie van opties###07 Apr 2005 content changed
 common#:#previous#:#vorige###07 Apr 2005 content changed
 common#:#print#:#Print###05 Nov 2004 new variable
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Uw profiel is gewijzigd###07 Apr 2005 content changed
 common#:#profile_of#:#Profiel van###07 Apr 2005 content changed
 common#:#properties#:#Eigenschappen###07 Apr 2005 content changed

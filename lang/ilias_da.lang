@@ -875,6 +875,7 @@ common#:#cat_create_glo#:#Opret Ordbog
 common#:#cat_create_grp#:#Opret Gruppe
 common#:#cat_create_hlm#:#Opret HACP L&aelig;rer Modul
 common#:#cat_create_htlm#:#Opret HTML L&aelig;rer Modul
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Opret ILIAS L&aelig;rer Modul
 common#:#cat_create_mep#:#Opret Afstemning
 common#:#cat_create_qpl#:#Opret afstemning til en test
@@ -1024,6 +1025,7 @@ common#:#crs_create_glo#:#Opret Ordbog
 common#:#crs_create_grp#:#Opret Gruppe
 common#:#crs_create_hlm#:#Opret HACP L&aelig;rer Modul
 common#:#crs_create_htlm#:#Opret HTML L&aelig;rer Modul
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Opret ILIAS L&aelig;rer Modul
 common#:#crs_create_mep#:#Opret Afstemning
 common#:#crs_create_qpl#:#Opret afstemning til Test
@@ -1207,6 +1209,21 @@ common#:#export#:#Eksport
 common#:#export_group_members#:#Exporter gruppemedlemmer (til Microsoft Excel)
 common#:#export_html#:#eksporter som HTML fil
 common#:#export_xml#:#eksporter som en  XML fil
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#FAQ &oslash;velse
 common#:#fax#:#Fax###21 Apr 2005 new variable
 common#:#feedback#:#Tilbagemeldning
@@ -1249,6 +1266,7 @@ common#:#fold_create_frm#:#Opret Forum
 common#:#fold_create_glo#:#Opret Ordbog
 common#:#fold_create_hlm#:#Opret HACP L&aelig;rer Modul
 common#:#fold_create_htlm#:#Opret HTML L&aelig;rer Modul
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Opret ILIAS L&aelig;rer Modul
 common#:#fold_create_mep#:#Opret Media afstemning
 common#:#fold_create_qpl#:#Opret afstemning til Test
@@ -1256,6 +1274,7 @@ common#:#fold_create_sahs#:#Opret SCORM/AICC L&aelig;rer Modul
 common#:#fold_create_spl#:#Opret afstemning til unders&oslash;gelse
 common#:#fold_create_svy#:#Opret unders&oslash;gelse
 common#:#fold_create_tst#:#Opret test
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Slet mappe
 common#:#fold_edit#:#Rediger mappe
 common#:#fold_edit_permission#:#&aelig;ndrer rettigheds indstillinger
@@ -1385,6 +1404,7 @@ common#:#grp_create_frm#:#Opret Forum
 common#:#grp_create_glo#:#Opret ordbog
 common#:#grp_create_hlm#:#Opret HACP L&aelig;rer Modul
 common#:#grp_create_htlm#:#Opret HTML L&aelig;rer Modul
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Opret ILIAS L&aelig;rer Modul
 common#:#grp_create_mep#:#Opret Media afstemning
 common#:#grp_create_qpl#:#Opret afstemning til Test
@@ -1435,7 +1455,7 @@ common#:#guests#:#G&aelig;ster
 common#:#header_title#:#Overskrift
 common#:#help#:#Hj&aelig;lp
 common#:#hide#:#hide###21 Apr 2005 new variable
-common#:#hide_details#:#skjul detaljer
+common#:#hide_details#:#skjul detaljer###14 Jul 2005 content changed
 common#:#hide_structure#:#Deaktver Struktering visning
 common#:#hist_dbk:pg_create#:#Page created###21 Apr 2005 new variable
 common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###21 Apr 2005 new variable
@@ -1508,6 +1528,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS version###21 Apr 2005 new variable
 common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###21 Apr 2005 new variable
@@ -1982,6 +2004,8 @@ common#:#obj_chat#:#Chat###21 Apr 2005 new variable
 common#:#obj_crs#:#Kursus
 common#:#obj_dbk#:#Digilib Bog
 common#:#obj_exc#:#&oslash;velse
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Fil
 common#:#obj_fold#:#Mappe
 common#:#obj_frm#:#Forum###21 Apr 2005 new variable
@@ -2163,9 +2187,11 @@ common#:#please_select_a_delivered_file_to_download#:#You must select at least o
 common#:#port#:#Port###21 Apr 2005 new variable
 common#:#position#:#Position###21 Apr 2005 new variable
 common#:#preconditions#:#Preconditions###21 Apr 2005 new variable
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Presentation Options###21 Apr 2005 new variable
 common#:#previous#:#sidste
 common#:#print#:#Print###21 Apr 2005 new variable
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Din profile er blevet &aelig;ndret
 common#:#profile_of#:#Profil af
 common#:#properties#:#Egenskaber
@@ -2371,7 +2397,7 @@ common#:#set_offline#:#S&aelig;t til Offline
 common#:#set_online#:#S&aelig;t til Online
 common#:#settings#:#Indstillinger
 common#:#show#:#Vis
-common#:#show_details#:#Vis Detaljer
+common#:#show_details#:#Vis Detaljer###14 Jul 2005 content changed
 common#:#show_list#:#Vis Liste
 common#:#show_members#:#Vis Medlemmer
 common#:#show_owner#:#Vis Ejer

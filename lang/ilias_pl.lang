@@ -918,6 +918,7 @@ common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
 common#:#cat_create_qpl#:#Twórz pulę pytań
@@ -1068,6 +1069,7 @@ common#:#crs_create_glo#:#Twórz Słownik
 common#:#crs_create_grp#:#Twórz Grupę
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#crs_create_htlm#:#Twórz Moduł Nauczania HTML
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Twórz Moduł Nauczania
 common#:#crs_create_mep#:#Twórz pulę Mediów
 common#:#crs_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1252,6 +1254,21 @@ common#:#export#:#Eksport
 common#:#export_group_members#:#Eksport członków grup (do Microsoft Excel)
 common#:#export_html#:#Eksportuj jako plik html
 common#:#export_xml#:#Eksportuj jako plik xml
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
 common#:#fax#:#Faks
 common#:#feedback#:#Informacja systemowa
@@ -1294,6 +1311,7 @@ common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Twórz Moduł Nauczania
 common#:#fold_create_mep#:#Twórz pulę Mediów
 common#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1301,6 +1319,7 @@ common#:#fold_create_sahs#:#Twórz moduł nauczania SCORM/AICC
 common#:#fold_create_spl#:#Twórz pulę pytań dla ankiet
 common#:#fold_create_svy#:#Twórz Ankietę
 common#:#fold_create_tst#:#Twórz Test
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -1436,6 +1455,7 @@ common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Twórz Słownik
 common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
 common#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1486,7 +1506,7 @@ common#:#guests#:#Goście
 common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
 common#:#hide#:#Ukryj
-common#:#hide_details#:#Ukryj szczegóły
+common#:#hide_details#:#Ukryj szczegóły###14 Jul 2005 content changed
 common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hist_dbk:pg_create#:#Strona została utworzona
 common#:#hist_dbk:pg_cut#:#Stona wycięta z rozdziału "%1" [%2]
@@ -1531,37 +1551,39 @@ common#:#http_not_possible#:#Ten serwer nie obsługuje wywołań http.
 common#:#http_path#:#Ścieżka http
 common#:#https_not_possible#:#Ten serwer nie obsługuje połączeń HTTPS.
 common#:#i2passwd#:#Hasło ILIAS 2
-common#:#icla#:#Klasa iLinc
-common#:#icla_add#:#Dodaj klasę iLinc
-common#:#icla_delete#:#Usuń klasę iLinc
+common#:#icla#:#Klasa iLinc###14 Jul 2005 content changed
+common#:#icla_add#:#Dodaj klasę iLinc###14 Jul 2005 content changed
+common#:#icla_delete#:#Usuń klasę iLinc###14 Jul 2005 content changed
 common#:#icla_edit_permission#:#Edycja ustawień praw dostępu
-common#:#icla_new#:#Nowa klasa iLinc
-common#:#icla_read#:#Prawo czytania klasy iLinc
-common#:#icla_visible#:#Klasa iLinc jest widoczna
-common#:#icla_write#:#Edycja klasy iLinc
-common#:#icrs#:#Kurs iLinc
-common#:#icrs_add#:#Dodaj kurs iLinc
-common#:#icrs_delete#:#Usuń kurs iLinc
+common#:#icla_new#:#Nowa klasa iLinc###14 Jul 2005 content changed
+common#:#icla_read#:#Prawo czytania klasy iLinc###14 Jul 2005 content changed
+common#:#icla_visible#:#Klasa iLinc jest widoczna###14 Jul 2005 content changed
+common#:#icla_write#:#Edycja klasy iLinc###14 Jul 2005 content changed
+common#:#icrs#:#Kurs iLinc###14 Jul 2005 content changed
+common#:#icrs_add#:#Dodaj kurs iLinc###14 Jul 2005 content changed
+common#:#icrs_delete#:#Usuń kurs iLinc###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Edycja ustawień praw dostępu
-common#:#icrs_new#:#Nowy kurs iLinc
-common#:#icrs_read#:#Prawo czytania kursu iLinc
-common#:#icrs_visible#:#Kurs iLinc jest widoczny
-common#:#icrs_write#:#Edycja kursu iLinc
+common#:#icrs_new#:#Nowy kurs iLinc###14 Jul 2005 content changed
+common#:#icrs_read#:#Prawo czytania kursu iLinc###14 Jul 2005 content changed
+common#:#icrs_visible#:#Kurs iLinc jest widoczny###14 Jul 2005 content changed
+common#:#icrs_write#:#Edycja kursu iLinc###14 Jul 2005 content changed
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
 common#:#if_no_title_then_url#:#Pozostaw puste dla wyświetlenia URL
 common#:#ignore_on_conflict#:#Ignoruj przy konflikcie
 common#:#il_chat_moderator#:#Moderator czat
-common#:#il_crs_admin#:#Administrator
-common#:#il_crs_member#:#Członek
-common#:#il_crs_tutor#:#Opiekun
-common#:#il_frm_moderator#:#Moderator
-common#:#il_grp_admin#:#Administrator
-common#:#il_grp_member#:#Członek
+common#:#il_crs_admin#:#Administrator###14 Jul 2005 content changed
+common#:#il_crs_member#:#Członek###14 Jul 2005 content changed
+common#:#il_crs_tutor#:#Opiekun###14 Jul 2005 content changed
+common#:#il_frm_moderator#:#Moderator###14 Jul 2005 content changed
+common#:#il_grp_admin#:#Administrator###14 Jul 2005 content changed
+common#:#il_grp_member#:#Członek###14 Jul 2005 content changed
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Wersja ILIAS
-common#:#ilinc_classrooms#:#Klasa iLinc
-common#:#ilinc_courses#:#Kursy iLinc
+common#:#ilinc_classrooms#:#Klasa iLinc###14 Jul 2005 content changed
+common#:#ilinc_courses#:#Kursy iLinc###14 Jul 2005 content changed
 common#:#ilinc_id#:#ID iLinc
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
@@ -2044,6 +2066,8 @@ common#:#obj_chat#:#Czat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
 common#:#obj_exc#:#Ćwiczenie
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Plik
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
@@ -2051,8 +2075,8 @@ common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
 common#:#obj_hlm#:#Moduł Nauczania HACP
 common#:#obj_htlm#:#Moduł Nauczania HTML
-common#:#obj_icla#:#Klasa iLinc
-common#:#obj_icrs#:#Kurs iLinc
+common#:#obj_icla#:#Klasa iLinc###14 Jul 2005 content changed
+common#:#obj_icrs#:#Kurs iLinc###14 Jul 2005 content changed
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
 common#:#obj_lm#:#Moduł Nauczania (MN)
@@ -2128,8 +2152,8 @@ common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
 common#:#objs_hlm#:#Moduły Nauczania HACP
 common#:#objs_htlm#:#Moduły Nauczania HTML
-common#:#objs_icla#:#Klasa iLinc
-common#:#objs_icrs#:#Kursy iLinc
+common#:#objs_icla#:#Klasa iLinc###14 Jul 2005 content changed
+common#:#objs_icrs#:#Kursy iLinc###14 Jul 2005 content changed
 common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
@@ -2227,9 +2251,11 @@ common#:#please_select_a_delivered_file_to_download#:#Musisz zaznaczyć conajmni
 common#:#port#:#Port
 common#:#position#:#Pozycja
 common#:#preconditions#:#Warunki wstępne
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Opcje prezentacji
 common#:#previous#:#poprzedni
 common#:#print#:#Drukuj
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Twój profil został zmieniony.
 common#:#profile_of#:#Profil
 common#:#properties#:#Właściwości
@@ -2475,7 +2501,7 @@ common#:#shib_visible#:#Ustawienia Shibboleth są widoczne
 common#:#shib_write#:#Edycja ustawień Shibboleth
 common#:#shib_zipcode#:#Atrybut kodu pocztowego
 common#:#show#:#Pokaż
-common#:#show_details#:#Pokaż szczegóły
+common#:#show_details#:#Pokaż szczegóły###14 Jul 2005 content changed
 common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_owner#:#Pokaż właściciela
