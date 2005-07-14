@@ -40,6 +40,13 @@ class ilMDLifecycle extends ilMDBase
 						 $a_obj_type);
 	}
 
+	function getPossibleSubelements()
+	{
+		$subs['Contribute'] = 'meta_contribute';
+
+		return $subs;
+	}		
+
 	// Get subelemsts 'Contribute'
 	function &getContributeIds()
 	{

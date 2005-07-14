@@ -326,6 +326,165 @@ class ilMDEditorGUI
 		$this->ctrl->redirect($this,'listSection');
 	}
 
+	function listLifecycle()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_lifecycle');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_lifecycle.html','Services/MetaData');
+
+
+		$this->ctrl->setParameter($this, "section", "meta_lifecycle");
+		if(!is_object($this->md_section = $this->md_obj->getLifecycle()))
+		{
+			$this->tpl->setCurrentBlock("no_lifecycle");
+			$this->tpl->setVariable("TXT_NO_LIFECYCLE", $this->lng->txt("meta_no_lifecycle"));
+			$this->tpl->setVariable("TXT_ADD_LIFECYCLE", $this->lng->txt("meta_add"));
+			$this->tpl->setVariable("ACTION_ADD_LIFECYCLE",$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+
+			return true;
+		}
+		$this->ctrl->setReturn($this,'listLifecycle');
+		$this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
+
+		$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_LIFECYCLE",$this->lng->txt('meta_lifecycle'));
+
+		// Delete link
+		$this->tpl->setVariable("ACTION_DELETE",
+								$this->ctrl->getLinkTarget($this, "deleteSection"));
+		$this->tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
+
+		// New element
+		$this->__fillSubelements();
+
+		// Status
+		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('meta_status'));
+		$this->tpl->setVariable("SEL_STATUS",ilMDUtilSelect::_getStatusSelect($this->md_section->getStatus(),
+																			"lif_status",
+																			array(0 => $this->lng->txt('meta_please_select'))));
+		// Version
+		$this->tpl->setVariable("TXT_VERSION",$this->lng->txt('meta_version'));
+		$this->tpl->setVariable("VAL_VERSION",ilUtil::prepareFormOutput($this->md_section->getVersion()));
+
+		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt('meta_language'));
+		$this->tpl->setVariable("VAL_VERSION_LANGUAGE",$this->__showLanguageSelect('lif_language',
+																				   $this->md_section->getVersionLanguageCode()));
+
+		// Contributes
+		foreach(($ids = $this->md_section->getContributeIds()) as $con_id)
+		{
+			$md_con = $this->md_section->getContribute($con_id);
+
+			if(count($ids) > 1)
+			{
+				$this->ctrl->setParameter($this,'meta_index',$con_id);
+				$this->ctrl->setParameter($this,'meta_path','meta_contribute');
+				
+				$this->tpl->setCurrentBlock("contribute_delete");
+				$this->tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+				$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+				$this->tpl->parseCurrentBlock();
+			}
+			// Entities
+			foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+			{
+				$md_ent = $md_con->getEntity($ent_id);
+				
+				$this->ctrl->setParameter($this,'meta_path','meta_entity');
+				
+				if(count($ent_ids) > 1)
+				{
+					$this->tpl->setCurrentBlock("contribute_entity_delete");
+					
+					$this->ctrl->setParameter($this,'meta_index',$ent_id);
+					$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+					$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("contribute_entity_loop");
+
+				$this->ctrl->setParameter($this,'section_element','meta_entity');
+				$this->ctrl->setParameter($this,'meta_index',$con_id);
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD",$this->ctrl->getLinkTarget($this,'addSectionElement'));
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD",$this->lng->txt('add'));
+
+
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO",$con_id);
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO",$ent_id);
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY",ilUtil::prepareFormOutput($md_ent->getEntity()));
+				$this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY",$this->lng->txt('meta_entity'));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("contribute_loop");
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN",2 + count($ent_ids));
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE",$this->lng->txt('meta_contribute'));
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE",$this->lng->txt('meta_role'));
+			$this->tpl->setVariable("SEL_CONTRIBUTE_ROLE",ilMDUtilSelect::_getRoleSelect($md_con->getRole(),
+																					"met_contribute[".$con_id."][Role]",
+																					array(0 => $this->lng->txt('meta_please_select'))));
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE",$this->lng->txt('meta_date'));
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_NO",$con_id);
+			$this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE",ilUtil::prepareFormOutput($md_con->getDate()));
+			
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+
+	}
+
+	function updateLifecycle()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// update metametadata section
+		$this->md_section = $this->md_obj->getLifecycle();
+		$this->md_section->setVersionLanguage(new ilMDLanguageItem($_POST['lif_language']));
+		$this->md_section->setVersion(ilUtil::stripSlashes($_POST['lif_version']));
+		$this->md_section->setStatus($_POST['lif_status']);
+		$this->md_section->update();
+
+		// Identifier
+		if(is_array($_POST['met_identifier']))
+		{
+			foreach($_POST['met_identifier'] as $id => $data)
+			{
+				$md_ide = $this->md_section->getIdentifier($id);
+				$md_ide->setCatalog(ilUtil::stripSlashes($data['Catalog']));
+				$md_ide->setEntry(ilUtil::stripSlashes($data['Entry']));
+				$md_ide->update();
+			}
+		}
+		// Contribute
+		if(is_array($_POST['met_contribute']))
+		{
+			foreach($_POST['met_contribute'] as $id => $data)
+			{
+				$md_con =& $this->md_section->getContribute($id);
+				$md_con->setRole(ilUtil::stripSlashes($data['Role']));
+				$md_con->setDate(ilUtil::stripSlashes($data['Date']));
+				$md_con->update();
+
+				if(is_array($_POST['met_entity'][$id]))
+				{
+					foreach($_POST['met_entity'][$id] as $ent_id => $data)
+					{
+						$md_ent =& $md_con->getEntity($ent_id);
+						$md_ent->setEntity(ilUtil::stripSlashes($data['Entity']));
+						$md_ent->update();
+					}
+				}
+			}
+		}
+		$this->listSection();
+		return true;
+	}		
+
+
+
+
+
 	function listMetaMetaData()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
@@ -1338,6 +1497,16 @@ class ilMDEditorGUI
 		// Switch section
 		switch($_GET['section'])
 		{
+			case 'meta_lifecycle':
+				$this->md_section =& $this->md_obj->addLifecycle();
+				$this->md_section->save();
+				$con =& $this->md_section->addContribute();
+				$con->save();
+
+				$ent =& $con->addEntity();
+				$ent->save();
+				break;
+
 			case 'meta_meta_metadata':
 				$this->md_section = $this->md_obj->addMetaMetadata();
 				$this->md_section->save();
@@ -1397,6 +1566,10 @@ class ilMDEditorGUI
 		// Switch section
 		switch($_GET['section'])
 		{
+			case 'meta_lifecycle':
+				$this->md_section =& $this->md_obj->getLifecycle();
+				break;
+
 			case 'meta_meta_metadata':
 				$this->md_section =& $this->md_obj->getMetaMetadata();
 				break;
@@ -1488,6 +1661,9 @@ class ilMDEditorGUI
 		{
 			case 'meta_general':
 				return $this->listGeneral();
+
+			case 'meta_lifecycle':
+				return $this->listLifecycle();
 
 			case 'meta_meta_metadata':
 				return $this->listMetaMetadata();

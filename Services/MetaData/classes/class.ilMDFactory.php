@@ -44,6 +44,14 @@ class ilMDFactory
 	{
 		switch($a_type)
 		{
+			case 'meta_lifecycle':
+				include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
+
+				$lif =& new ilMDLifecycle();
+				$lif->setMetaId($a_index);
+
+				return $lif;
+
 			case 'meta_entity':
 				include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
