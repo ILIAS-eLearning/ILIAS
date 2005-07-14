@@ -612,6 +612,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_ANONYMIZE", sprintf($this->lng->txt("anonymize_key_introduction"), $anonymize_key));
 			}
 			$this->tpl->setVariable("ENTER_ANONYMOUS_ID", $this->lng->txt("enter_anonymous_id"));
+			$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_GET["accesscode"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("start");
@@ -4771,9 +4772,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
 					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
 					$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
-					if ($row["state"])
+					if ($this->object->isSurveyCodeUsed($row["survey_key"]))
 					{
 						$state = "<span class=\"smallgreen\">" . $this->lng->txt("used") . "</span>";
+					}
+					else
+					{
+						$this->tpl->setVariable("CODE_URL_NAME", $this->lng->txt("survey_code_url_name"));
+						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/survey/survey.php?cmd=run&ref_id=".$this->object->getRefId() . "&accesscode=".$row["survey_key"]);
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
@@ -4784,6 +4790,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("SURVEY_CODE", $this->lng->txt("survey_code"));
 			$this->tpl->setVariable("CODE_CREATED", $this->lng->txt("create_date"));
 			$this->tpl->setVariable("CODE_USED", $this->lng->txt("survey_code_used"));
+			$this->tpl->setVariable("CODE_URL", $this->lng->txt("survey_code_url"));
 			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
 			$this->tpl->parseCurrentBlock();
