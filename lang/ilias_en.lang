@@ -50,6 +50,8 @@ administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
+common#:#icrs_join#:#User may join LearnLink Seminar
+common#:#icrs_leave#:#User may leave LearnLink Seminar
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
@@ -1553,12 +1555,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#i2passwd#:#ILIAS 2 password
 common#:#icla#:#LearnLink Classroom
 common#:#icla_add#:#Add LearnLink Seminar room
-common#:#icla_delete#:#Delete LearnLink Seminar room
-common#:#icla_edit_permission#:#Edit permission settings
 common#:#icla_new#:#New LearnLink Seminar room
-common#:#icla_read#:#Read access to LearnLink Seminar room
-common#:#icla_visible#:#LearnLink Seminar room is visible
-common#:#icla_write#:#Edit LearnLink Seminar room
 common#:#icrs#:#LearnLink Seminar
 common#:#icrs_add#:#Add LearnLink Seminar
 common#:#icrs_delete#:#Delete LearnLink Seminar
