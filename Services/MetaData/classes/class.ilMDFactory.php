@@ -44,6 +44,22 @@ class ilMDFactory
 	{
 		switch($a_type)
 		{
+			case 'meta_entity':
+				include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+
+				$ent =& new ilMDEntity();
+				$ent->setMetaId($a_index);
+
+				return $ent;
+
+			case 'meta_contribute':
+				include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+
+				$con =& new ilMDContribute();
+				$con->setMetaId($a_index);
+				
+				return $con;
+
 			case 'meta_identifier':
 				include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
@@ -141,6 +157,7 @@ class ilMDFactory
 				include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
 				$tax_path =& new ilMDTaxonPath();
+
 				$tax_path->setMetaId($a_index);
 				return $tax_path;
 
@@ -150,6 +167,13 @@ class ilMDFactory
 				$tax =& new ilMDTaxon();
 				$tax->setMetaId($a_index);
 				return $tax;
+
+			case 'meta_meta_metadata':
+				include_once 'Services/MetaData/classes/class.ilMDMetaMetadata.php';
+
+				$met =& new ilMDMetaMetadata();
+				$met->setMetaId($a_index);
+				return $met;
 
 			default:
 				echo $a_type . " not known";

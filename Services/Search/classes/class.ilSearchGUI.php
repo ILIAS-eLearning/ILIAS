@@ -52,12 +52,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function ilSearchGUI()
 	{
-		$fp = fopen('zzz.txt','w');
-		$str = html_entity_decode('Straßbürg',ENT_NOQUOTES,"UTF-8");
-		fwrite($fp,$str);
-		fclose($fp);
-
-
 		$this->root_node = $_SESSION['search_root'] ? $_SESSION['search_root'] : ROOT_FOLDER_ID;
 		$this->setType($_POST['search']['type'] ? $_POST['search']['type'] : $_SESSION['search']['type']);
 		$this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
