@@ -142,7 +142,7 @@ class ilContainerGUI extends ilObjectGUI
 		// more list methods are implemented
 		if ($_SESSION["il_cont_admin_panel"] == true)
 		{
-			$tpl->setCurrentBlock("admin_button");
+			$tpl->setCurrentBlock("admin_button_off");
 			$tpl->setVariable("ADMIN_MODE_LINK",
 				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"));
 			$tpl->setVariable("TXT_ADMIN_MODE",
