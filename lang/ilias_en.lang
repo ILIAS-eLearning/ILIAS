@@ -47,11 +47,8 @@ administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
-common#:#obj_extt#:#Third party software
-common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
-common#:#predefined_template#:#Predefined role template
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
@@ -81,17 +78,6 @@ administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects
 administration#:#scan_completed#:#Scan completed
 administration#:#scan_details#:#Scan details
 administration#:#scan_modes#:#Scan modes used
-common#:#extt_title_configure#:#Configure external software
-common#:#extt_name#:#Software/Service
-common#:#extt_ilinc#:#netucate LearnLink
-common#:#extt_configure#:#configure...
-common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
-common#:#extt_ilinc_enable#:#Enable LearnLink support
-common#:#extt_ilinc_server#:#Server
-common#:#extt_ilinc_port#:#Port
-common#:#extt_ilinc_registrar_login#:#Login ID
-common#:#extt_ilinc_registrar_passwd#:#Password
-common#:#extt_ilinc_customer_id#:#Customer ID
 administration#:#scan_only#:#Scan only
 administration#:#scanning_system#:#Scanning system...
 administration#:#searching_deleted_objs#:#Searching for deleted objects...
@@ -850,7 +836,6 @@ common#:#auth_configure#:#configure...
 common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_edit_permission#:#Change permission settings
-common#:#extt_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
@@ -871,7 +856,6 @@ common#:#auth_radius_server_desc#:#You may add multiple servers with commas sepa
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_read#:#Access authentication settings
-common#:#extt_read#:#Access third party software settings
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script#:#Custom
@@ -883,8 +867,6 @@ common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
-common#:#extt_visible#:#Third party software settings are visible
-common#:#extt_write#:#Configure third party software
 common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#auto_registration#:#Automatically approve registration
@@ -934,9 +916,9 @@ common#:#cat_create_file#:#Upload File
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
-common#:#cat_create_icrs#:#Create LearnLink Seminar
 common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_htlm#:#Create HTML Learning Module
+common#:#cat_create_icrs#:#Create LearnLink Seminar
 common#:#cat_create_lm#:#Create ILIAS Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool for Test
@@ -1080,7 +1062,6 @@ common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_chat#:#Create Chat
 common#:#crs_create_dbk#:#Create Digilib Book
 common#:#crs_create_exc#:#Create Exercise
-common#:#crs_create_icrs#:#Create LearnLink Seminar
 common#:#crs_create_file#:#Upload File
 common#:#crs_create_fold#:#Create Folder
 common#:#crs_create_frm#:#Create Forum
@@ -1088,6 +1069,7 @@ common#:#crs_create_glo#:#Create Glossary
 common#:#crs_create_grp#:#Create Group
 common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_create_htlm#:#Create HTML Learning Module
+common#:#crs_create_icrs#:#Create LearnLink Seminar
 common#:#crs_create_lm#:#Create ILIAS Learning Module
 common#:#crs_create_mep#:#Create Media Pool
 common#:#crs_create_qpl#:#Create Question Pool for Test
@@ -1272,6 +1254,21 @@ common#:#export#:#Export
 common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#export_html#:#export as HTML file
 common#:#export_xml#:#export as XML file
+common#:#extt_configure#:#configure...
+common#:#extt_edit_permission#:#Change permission settings
+common#:#extt_ilinc#:#netucate LearnLink
+common#:#extt_ilinc_customer_id#:#Customer ID
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
+common#:#extt_ilinc_enable#:#Enable LearnLink support
+common#:#extt_ilinc_port#:#Port
+common#:#extt_ilinc_registrar_login#:#Login ID
+common#:#extt_ilinc_registrar_passwd#:#Password
+common#:#extt_ilinc_server#:#Server
+common#:#extt_name#:#Software/Service
+common#:#extt_read#:#Access third party software settings
+common#:#extt_title_configure#:#Configure external software
+common#:#extt_visible#:#Third party software settings are visible
+common#:#extt_write#:#Configure third party software
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -1309,13 +1306,12 @@ common#:#fold_create_chat#:#Create Chat
 common#:#fold_create_dbk#:#Create Digilib Book
 common#:#fold_create_exc#:#Create Exercise
 common#:#fold_create_file#:#Upload File
-common#:#fold_create_webr#:#Create new Web Resource
 common#:#fold_create_fold#:#Create Folder
 common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
-common#:#fold_create_icrs#:#Create LearnLink Seminar
 common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_create_htlm#:#Create HTML Learning Module
+common#:#fold_create_icrs#:#Create LearnLink Seminar
 common#:#fold_create_lm#:#Create ILIAS Learning Module
 common#:#fold_create_mep#:#Create Media Pool
 common#:#fold_create_qpl#:#Create Question Pool for Test
@@ -1323,6 +1319,7 @@ common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_create_spl#:#Create Question Pool for Survey
 common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
+common#:#fold_create_webr#:#Create new Web Resource
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -1454,11 +1451,11 @@ common#:#grp_create_dbk#:#Create Digilib Book
 common#:#grp_create_exc#:#Create Exercise
 common#:#grp_create_file#:#Upload File
 common#:#grp_create_fold#:#Create Folder
-common#:#grp_create_icrs#:#Create LearnLink Seminar
 common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_glo#:#Create Glossary
 common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
+common#:#grp_create_icrs#:#Create LearnLink Seminar
 common#:#grp_create_lm#:#Create ILIAS Learning Module
 common#:#grp_create_mep#:#Create Media Pool
 common#:#grp_create_qpl#:#Create Question Pool for Test
@@ -2069,6 +2066,8 @@ common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
+common#:#obj_extt#:#Third party software
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_file#:#File
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
@@ -2252,9 +2251,11 @@ common#:#please_select_a_delivered_file_to_download#:#You must select at least o
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#preconditions#:#Preconditions
+common#:#predefined_template#:#Predefined role template
 common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
+common#:#profile#:#Profile
 common#:#profile_changed#:#Your profile has changed
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
@@ -2733,7 +2734,6 @@ common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  
 common#:#usr_settings_header_profile#:#User profile settings
-common#:#profile#:#Profile
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style

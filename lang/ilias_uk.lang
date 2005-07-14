@@ -916,6 +916,7 @@ common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#cat_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Створити Учбовий Модуль
 common#:#cat_create_mep#:#Створити Медіа Пул
 common#:#cat_create_qpl#:#Створити Пил Питань для тесту
@@ -1066,6 +1067,7 @@ common#:#crs_create_glo#:#Створити Глосарій
 common#:#crs_create_grp#:#Створити Групу
 common#:#crs_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#crs_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Створити ILIAS Учбовий Модуль
 common#:#crs_create_mep#:#Створити Медіа Пул
 common#:#crs_create_qpl#:#Створити Пул Питань для Тесту
@@ -1250,6 +1252,21 @@ common#:#export#:#Експорт
 common#:#export_group_members#:#Експортувати членів групи (в Microsoft Excel)
 common#:#export_html#:#експортувати як HTML файл
 common#:#export_xml#:#експортувати як XML файл
+common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
+common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
+common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#FAQ Вправа
 common#:#fax#:#Факс
 common#:#feedback#:#Зворотній зв'язокk
@@ -1292,6 +1309,7 @@ common#:#fold_create_frm#:#Створити Форум
 common#:#fold_create_glo#:#Створити Глосарій
 common#:#fold_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#fold_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Створити Учбовий Модуль
 common#:#fold_create_mep#:#Створити Медіа Пул
 common#:#fold_create_qpl#:#Створити Пул Питань для Тесту
@@ -1299,6 +1317,7 @@ common#:#fold_create_sahs#:#Створити SCORM/AICC Учбовий Моду�
 common#:#fold_create_spl#:#Створити Пул Питань для Голосування
 common#:#fold_create_svy#:#Створити Опитування
 common#:#fold_create_tst#:#Створити Тест
+common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Видалити Папку
 common#:#fold_edit#:#РЕдагувати Папку
 common#:#fold_edit_permission#:#Змінити настройки прав
@@ -1432,6 +1451,7 @@ common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_glo#:#Створити Глосарій
 common#:#grp_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
 common#:#grp_create_mep#:#Створити Медіа Пул
 common#:#grp_create_qpl#:#Створити Пул питань для Теста
@@ -1482,7 +1502,7 @@ common#:#guests#:#Гості
 common#:#header_title#:#Назва Заголовку
 common#:#help#:#Допомога
 common#:#hide#:#сховати
-common#:#hide_details#:#сховати деталі
+common#:#hide_details#:#сховати деталі###14 Jul 2005 content changed
 common#:#hide_structure#:#Заборонити Структурований-Огляд
 common#:#hist_dbk:pg_create#:#Сторінка створена
 common#:#hist_dbk:pg_cut#:#Сторінка вирізана з глави "%1" [%2]
@@ -1527,22 +1547,22 @@ common#:#http_not_possible#:#Цей сервер не підтримує http з
 common#:#http_path#:#Http Шлях
 common#:#https_not_possible#:#Цей сервер не підтримує HTTPS з'єднання.
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
-common#:#icla#:#iLinc клас
-common#:#icla_add#:#Додати iLinc Клас
-common#:#icla_delete#:#Видалити iLinc Клас
+common#:#icla#:#iLinc клас###14 Jul 2005 content changed
+common#:#icla_add#:#Додати iLinc Клас###14 Jul 2005 content changed
+common#:#icla_delete#:#Видалити iLinc Клас###14 Jul 2005 content changed
 common#:#icla_edit_permission#:#Редагувати настройки прав
-common#:#icla_new#:#Новий iLinc Клас
-common#:#icla_read#:#Доступ на читання до iLinc Класу
-common#:#icla_visible#:#iLinc Клас є видимим
-common#:#icla_write#:#Редагувати iLinc Клас
-common#:#icrs#:#iLinc Курс
-common#:#icrs_add#:#Додати iLinc Курс
-common#:#icrs_delete#:#Видалити iLinc Курс
+common#:#icla_new#:#Новий iLinc Клас###14 Jul 2005 content changed
+common#:#icla_read#:#Доступ на читання до iLinc Класу###14 Jul 2005 content changed
+common#:#icla_visible#:#iLinc Клас є видимим###14 Jul 2005 content changed
+common#:#icla_write#:#Редагувати iLinc Клас###14 Jul 2005 content changed
+common#:#icrs#:#iLinc Курс###14 Jul 2005 content changed
+common#:#icrs_add#:#Додати iLinc Курс###14 Jul 2005 content changed
+common#:#icrs_delete#:#Видалити iLinc Курс###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Редагувати настройки прав
-common#:#icrs_new#:#Новий iLinc Курс
-common#:#icrs_read#:#Доступ на читання до iLinc Курсу
-common#:#icrs_visible#:#iLinc Курс є видимим
-common#:#icrs_write#:#Редагувати iLinc Курс
+common#:#icrs_new#:#Новий iLinc Курс###14 Jul 2005 content changed
+common#:#icrs_read#:#Доступ на читання до iLinc Курсу###14 Jul 2005 content changed
+common#:#icrs_visible#:#iLinc Курс є видимим###14 Jul 2005 content changed
+common#:#icrs_write#:#Редагувати iLinc Курс###14 Jul 2005 content changed
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
@@ -1555,9 +1575,11 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
+common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS версія
-common#:#ilinc_classrooms#:#iLinc Клас
-common#:#ilinc_courses#:#iLinc Курси
+common#:#ilinc_classrooms#:#iLinc Клас###14 Jul 2005 content changed
+common#:#ilinc_courses#:#iLinc Курси###14 Jul 2005 content changed
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
 common#:#image#:#Зображення
 common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях до програми конвертації.
@@ -2034,6 +2056,8 @@ common#:#obj_chat#:#Чат
 common#:#obj_crs#:#Курс
 common#:#obj_dbk#:#Digilib Книга
 common#:#obj_exc#:#Вправа
+common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
+common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
 common#:#obj_file#:#Файл
 common#:#obj_fold#:#Папка
 common#:#obj_frm#:#Форум
@@ -2041,8 +2065,8 @@ common#:#obj_glo#:#Глосарій
 common#:#obj_grp#:#Група
 common#:#obj_hlm#:#HACP Учбовий Модуль
 common#:#obj_htlm#:#HTML Учбовий Модуль
-common#:#obj_icla#:#iLinc Клас
-common#:#obj_icrs#:#iLinc Курс
+common#:#obj_icla#:#iLinc Клас###14 Jul 2005 content changed
+common#:#obj_icrs#:#iLinc Курс###14 Jul 2005 content changed
 common#:#obj_ldap#:#LDAP Настройки
 common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
 common#:#obj_lm#:#Учбовий Модуль ILIAS
@@ -2118,8 +2142,8 @@ common#:#objs_glo#:#Глосарії
 common#:#objs_grp#:#Групи
 common#:#objs_hlm#:#HACP Учбові Модулі
 common#:#objs_htlm#:#HTML Учбові Модулі
-common#:#objs_icla#:#iLinc Класи
-common#:#objs_icrs#:#iLinc Курси
+common#:#objs_icla#:#iLinc Класи###14 Jul 2005 content changed
+common#:#objs_icrs#:#iLinc Курси###14 Jul 2005 content changed
 common#:#objs_lm#:#Учбові Модулі
 common#:#objs_lng#:#Мови
 common#:#objs_lo#:#Учбові Об'єкти
@@ -2217,9 +2241,11 @@ common#:#please_select_a_delivered_file_to_download#:#Ви маєте вибра
 common#:#port#:#Порт
 common#:#position#:#Позиція
 common#:#preconditions#:#Передумови
+common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#presentation_options#:#Опції Показу
 common#:#previous#:#попередній
 common#:#print#:#Друкувати
+common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Ваш провіль був змінений
 common#:#profile_of#:#Профіль
 common#:#properties#:#Параметри
@@ -2464,7 +2490,7 @@ common#:#shib_visible#:#Shibboleth settings are visible###13 May 2005 new variab
 common#:#shib_write#:#Edit Shibboleth settings###13 May 2005 new variable
 common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Показати
-common#:#show_details#:#показати деталі
+common#:#show_details#:#показати деталі###14 Jul 2005 content changed
 common#:#show_list#:#Показати Список
 common#:#show_members#:#Показати Членів
 common#:#show_owner#:#Показати Власника
