@@ -293,6 +293,8 @@ class ilObjChatGUI extends ilObjectGUI
 			$message = $this->__formatMessage();
 			$this->object->server_comm->setMessage($message);
 			$this->object->server_comm->send();
+
+			$this->object->chat_room->deleteAllMessages();
 		}
 		unset($_GET["room_id_empty"]);
 		$this->showFrames();
