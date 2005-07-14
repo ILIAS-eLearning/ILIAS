@@ -83,7 +83,8 @@ class ilObjGlossary extends ilObject
 		$this->setVirtualMode($gl_rec["virtual"]);
 		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
 		$this->setPublicExportFile("html", $gl_rec["public_html_file"]);
-
+		$this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
+		$this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
 	}
 
 	/**
@@ -184,6 +185,26 @@ class ilObjGlossary extends ilObject
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
+	
+	function setActiveGlossaryMenu($a_act_glo_menu)
+	{
+		$this->glo_menu_active = $a_act_glo_menu;
+	}
+
+	function isActiveGlossaryMenu()
+	{
+		return $this->glo_menu_active;
+	}
+
+	function setActiveDownloads($a_down)
+	{
+		$this->downloads_active = $a_down;
+	}
+
+	function isActiveDownloads()
+	{
+		return $this->downloads_active;
+	}
 
 	/**
 	* assign a meta data object to glossary object
@@ -221,7 +242,9 @@ class ilObjGlossary extends ilObject
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" virtual = '".$this->getVirtualMode()."',".
 			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
-			" public_html_file = '".$this->getPublicExportFile("html")."'".
+			" public_html_file = '".$this->getPublicExportFile("html")."',".
+			" glo_menu_active = '".ilUtil::tf2yn($this->isActiveGlossaryMenu())."',".
+			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 		

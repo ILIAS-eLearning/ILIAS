@@ -7826,3 +7826,6 @@ ADD `description` TEXT NOT NULL AFTER `title` ;
 ALTER TABLE glossary ADD public_html_file VARCHAR(50) DEFAULT '' NOT NULL;
 ALTER TABLE glossary ADD public_xml_file VARCHAR(50) DEFAULT '' NOT NULL;
 
+<#489>
+ALTER TABLE glossary ADD COLUMN glo_menu_active ENUM('y','n') DEFAULT 'y';
+ALTER TABLE glossary ADD COLUMN downloads_active ENUM('y','n') DEFAULT 'n';
