@@ -795,8 +795,7 @@ common#:#auth_radius_server_desc#:#You may add multiple servers with commas sepa
 common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
 common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Autentikációs beállítások elérése
-common#:#auth_remark_non_local_auth#:#Amikor az alapértelmezettől eltérő autentikációs módot választ, a felhasználói bejelenkezési nevek és jelszavak nem változtathatók meg a továbbiakban, valamint új felhasználók regisztrációja nem lehetséges.
-###08 Jul 2005 content changed
+common#:#auth_remark_non_local_auth#:#Amikor az alapértelmezettől eltérő autentikációs módot választ, a felhasználói bejelenkezési nevek és jelszavak nem változtathatók meg a továbbiakban, valamint új felhasználók regisztrációja nem lehetséges.###08 Jul 2005 content changed
 common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Szokásos
 common#:#auth_script_desc#:#Felhasználók autentikációja külső script-en keresztül
@@ -855,7 +854,7 @@ common#:#cat_create_glo#:#Fogalomtár létrehozása
 common#:#cat_create_grp#:#Csoport létrehozása
 common#:#cat_create_hlm#:#HACP-tananyag létrehozása
 common#:#cat_create_htlm#:#HTML-tananyag létrehozása
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Tananyag létrehozása
 common#:#cat_create_mep#:#Médiagyűjtemény létrehozása
 common#:#cat_create_qpl#:#Kérdésgyűjtemény létrehozása (értékelés)
@@ -1002,7 +1001,7 @@ common#:#crs_create_glo#:#Fogalomtár létrehozása
 common#:#crs_create_grp#:#Csoport létrehozása
 common#:#crs_create_hlm#:#HACP-tananyag létrehozása
 common#:#crs_create_htlm#:#HTML-tananyag létrehozása
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#ILIAS-tananyag létrehozása
 common#:#crs_create_mep#:#Médiagyűjtemény létrehozása
 common#:#crs_create_qpl#:#Kérdésgyűjtemény létrehozása teszthez
@@ -1185,10 +1184,10 @@ common#:#export_html#:#exportálás html fájlként
 common#:#export_xml#:#exportálás xml fájlként
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1240,7 +1239,7 @@ common#:#fold_create_frm#:#Fórum létrehozása
 common#:#fold_create_glo#:#Fogalomtár létrehozása
 common#:#fold_create_hlm#:#HACP-tananyag létrehozása
 common#:#fold_create_htlm#:#HTML-tananyag létrehozása
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#ILIAS-tananyag létrehozása
 common#:#fold_create_mep#:#Médiagyűjtemény létrehozása
 common#:#fold_create_qpl#:#Kérdésgyűjtemény létrehozása
@@ -1370,7 +1369,7 @@ common#:#grp_create_frm#:#Fórum létrehozása
 common#:#grp_create_glo#:#Fogalomtár létrehozása
 common#:#grp_create_hlm#:#HACP-tananyag létrehozása
 common#:#grp_create_htlm#:#HTML-tananyag létrehozása
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Tananyag létrehozása
 common#:#grp_create_mep#:#Médiagyűjtemény létrehozása
 common#:#grp_create_qpl#:#Kérdésgyűjtemény létrehozása teszthez
@@ -1421,8 +1420,7 @@ common#:#guests#:#vendég
 common#:#header_title#:#Fejléccím
 common#:#help#:#Segítség
 common#:#hide#:#elrejt
-common#:#hide_details#:#részletek elrejtése
-###14 Jul 2005 content changed
+common#:#hide_details#:#részletek elrejtése###14 Jul 2005 content changed
 common#:#hide_structure#:#Tiltott struktúranézet
 common#:#hist_dbk:pg_create#:#Lap létrehozva
 common#:#hist_dbk:pg_cut#:#Lap  kivágása a fejezetből "%1" [%2]
@@ -1466,49 +1464,33 @@ common#:#htlm_write#:#HTML-tananyag szerkesztése
 common#:#http_not_possible#:#Ez a szerver nem támogatja a http-kéréseket.
 common#:#http_path#:#http-cím
 common#:#https_not_possible#:#Ez a szerver nem támogatja a HTTPS-kapcsolódásokat.
-common#:#icla#:#iLinc osztályterem
-###14 Jul 2005 content changed
-common#:#icla_add#:#iLinc osztályterem felvétele
-###14 Jul 2005 content changed
-common#:#icla_delete#:#iLinc osztályterem törlése
-###14 Jul 2005 content changed
+common#:#icla#:#LearnLinc osztályterem###14 Jul 2005 content 
+common#:#icla_add#:#LearnLinc osztályterem felvétele###14 Jul 2005 content changed
+common#:#icla_delete#:#LearnLinc osztályterem törlése###14 Jul 2005 content changed
 common#:#icla_edit_permission#:#Jogosultsági beállítások szerkesztése
-common#:#icla_new#:#Új iLinc osztályterem
-###14 Jul 2005 content changed
-common#:#icla_read#:#Olvasási jogosultság az iLinc osztályteremhez
-###14 Jul 2005 content changed
-common#:#icla_visible#:#iLinc osztályterem láthetó
-###14 Jul 2005 content changed
-common#:#icla_write#:#iLinc osztályterem szerkesztése
-###14 Jul 2005 content changed
-common#:#icrs#:#iLinc kurzus
-###14 Jul 2005 content changed
-common#:#icrs_add#:# iLinc kurzus felvétele
-###14 Jul 2005 content changed
-common#:#icrs_delete#:#iLinc kurzus törlése
-###14 Jul 2005 content changed
+common#:#icla_new#:#Új LearnLinc osztályterem###14 Jul 2005 content changed
+common#:#icla_read#:#Olvasási jogosultság az LearnLinc osztályteremhez###14 Jul 2005 content changed
+common#:#icla_visible#:#LearnLinc osztályterem láthetó###14 Jul 2005 content changed
+common#:#icla_write#:#LearnLinc osztályterem szerkesztése###14 Jul 2005 content changed
+common#:#icrs#:#LearnLinc kurzus###14 Jul 2005 content changed
+common#:#icrs_add#:# LearnLinc kurzus felvétele###14 Jul 2005 content changed
+common#:#icrs_delete#:#LearnLinc kurzus törlése###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Engedélyezési beállítások szerkesztése
-common#:#icrs_new#:#Új iLinc kurzus
-###14 Jul 2005 content changed
-common#:#icrs_read#:#Olvasási elérés az iLinc kurzushoz
-###14 Jul 2005 content changed
-common#:#icrs_visible#:#iLinc kurzus látható
-###14 Jul 2005 content changed
-common#:#icrs_write#:#iLinc kurzus szerkesztése
-###14 Jul 2005 content changed
+common#:#icrs_new#:#Új LearnLinc kurzus###14 Jul 2005 content changed
+common#:#icrs_read#:#Olvasási elérés az LearnLinc kurzushoz###14 Jul 2005 content changed
+common#:#icrs_visible#:#LearnLinc kurzus látható###14 Jul 2005 content changed
+common#:#icrs_write#:#LearnLinc kurzus szerkesztése###14 Jul 2005 content changed
 common#:#id#:#azonosító (ID)
 common#:#identifier#:#azonosító
 common#:#if_no_title_then_filename#:#Hagyja el a beviteli helyet, hogy megjelenjen a fájl neve
 common#:#if_no_title_then_url#:#Bevitel elhagyása URL megjelenítéséhez
 common#:#ignore_on_conflict#:#Ellentmondás figyelmen kívül hagyása
 common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
 common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS-verzió
-common#:#ilinc_classrooms#:#iLinc osztálytermek
-###14 Jul 2005 content changed
-common#:#ilinc_courses#:#iLinc kurzusok
-###14 Jul 2005 content changed
+common#:#ilinc_classrooms#:#LearnLinc osztálytermek###14 Jul 2005 content changed
+common#:#ilinc_courses#:#LearnLinc kurzusok###14 Jul 2005 content changed
 common#:#image#:#Kép
 common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.
 common#:#import#:#Import
@@ -1962,10 +1944,8 @@ common#:#obj_glo#:#Szótár
 common#:#obj_grp#:#Csoport
 common#:#obj_hlm#:#HACP-tananyag
 common#:#obj_htlm#:#HTML-tananyag
-common#:#obj_icla#:#iLinc osztályterem
-###14 Jul 2005 content changed
-common#:#obj_icrs#:#iLinc kurzus
-###14 Jul 2005 content changed
+common#:#obj_icla#:#LearnLinc osztályterem###14 Jul 2005 content changed
+common#:#obj_icrs#:#LearnLinc kurzus###14 Jul 2005 content changed
 common#:#obj_ldap#:#LDAP beállítások
 common#:#obj_ldap_desc#:#Konfigurálja itt a globális LDAP beállításokat.
 common#:#obj_lm#:#Tananyag
@@ -2039,10 +2019,8 @@ common#:#objs_glo#:#Fogalomtárak
 common#:#objs_grp#:#Csoportok
 common#:#objs_hlm#:#HACP-tananyagok
 common#:#objs_htlm#:#HTML-tananyagok
-common#:#objs_icla#:#iLinc osztálytermek
-###14 Jul 2005 content changed
-common#:#objs_icrs#:#iLinc kurzusok
-###14 Jul 2005 content changed
+common#:#objs_icla#:#LearnLinc osztálytermek###14 Jul 2005 content changed
+common#:#objs_icrs#:#LearnLinc kurzusok###14 Jul 2005 content changed
 common#:#objs_lm#:#Tananyagok
 common#:#objs_lng#:#Nyelvek
 common#:#objs_lo#:#Tananyagobjektumok
@@ -2348,8 +2326,7 @@ common#:#set_offline#:#Off-line-re állítás
 common#:#set_online#:#On-line-ra állítás
 common#:#settings#:#Beállítások
 common#:#show#:#Mutat
-common#:#show_details#:#részletek mutatása
-###14 Jul 2005 content changed
+common#:#show_details#:#részletek mutatása###14 Jul 2005 content changed
 common#:#show_list#:#Lista mutatása
 common#:#show_members#:#Tagok megjelenítése
 common#:#show_owner#:#Tulajdonos mutatása

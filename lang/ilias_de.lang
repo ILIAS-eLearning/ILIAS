@@ -48,6 +48,7 @@ administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#found#:#Gefunden
+common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
 administration#:#found_none#:#Nicht gefunden
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
@@ -917,7 +918,7 @@ common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#cat_create_icrs#:#Neues LearnLink Seminar anlegen
+common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1068,7 +1069,7 @@ common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_grp#:#Neue Gruppe anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#crs_create_icrs#:#Neues LearnLink Seminar anlegen
+common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#crs_create_mep#:#Neuen Media-Pool anlegen
 common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1255,10 +1256,10 @@ common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#extt_configure#:#konfigurieren...
 common#:#extt_edit_permission#:#Rechteeinstellungen ändern
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
-common#:#extt_ilinc_enable#:#LearnLink-Unterstützung aktivieren
+common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Passwort
@@ -1310,7 +1311,7 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#fold_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#fold_create_icrs#:#Neues LearnLink Seminar anlegen
+common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#fold_create_mep#:#Neuen Media-Pool anlegen
 common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1454,7 +1455,7 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_icrs#:#Neues LearnLink Seminar anlegen
+common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1478,8 +1479,8 @@ common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum un
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
-common#:#icrs_join#:#Benutzer kann LearnLink Seminar beitreten
-common#:#icrs_leave#:#Benutzer kann LearnLink Seminar verlassen
+common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
+common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
@@ -1552,17 +1553,17 @@ common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#i2passwd#:#ILIAS 2 password
-common#:#icla#:#LearnLink Seminaraum
-common#:#icla_add#:#LearnLink Seminarraum anlegen
-common#:#icla_new#:#Neuer LearnLink Seminarraum
-common#:#icrs#:#LearnLink Seminar
-common#:#icrs_add#:#LearnLink Seminar anlegen
-common#:#icrs_delete#:#LearnLink Seminar löschen
+common#:#icla#:#LearnLinc Seminaraum
+common#:#icla_add#:#LearnLinc Seminarraum anlegen
+common#:#icla_new#:#Neuer LearnLinc Seminarraum
+common#:#icrs#:#LearnLinc Seminar
+common#:#icrs_add#:#LearnLinc Seminar anlegen
+common#:#icrs_delete#:#LearnLinc Seminar löschen
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_new#:#Neues LearnLink Seminar
-common#:#icrs_read#:#Lesezugriff auf LearnLink Seminar
-common#:#icrs_visible#:#LearnLink Seminar ist sichtbar
-common#:#icrs_write#:#LearnLink Seminar bearbeiten
+common#:#icrs_new#:#Neues LearnLinc Seminar
+common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar
+common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar
+common#:#icrs_write#:#LearnLinc Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
@@ -1575,11 +1576,11 @@ common#:#il_crs_tutor#:#Kurs-Tutor
 common#:#il_frm_moderator#:#Forum-Moderator
 common#:#il_grp_admin#:#Gruppen-Administrator
 common#:#il_grp_member#:#Gruppen-Mitglied
-common#:#il_icrs_admin#:#LearnLink Seminar-Administrator
-common#:#il_icrs_member#:#Learnlink Seminar-Mitglied
+common#:#il_icrs_admin#:#LearnLinc Seminar-Administrator
+common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied
 common#:#ilias_version#:#ILIAS Version
-common#:#ilinc_classrooms#:#Learnlink Seminarräume
-common#:#ilinc_courses#:#LearnLink Seminare
+common#:#ilinc_classrooms#:#LearnLinc Seminarräume
+common#:#ilinc_courses#:#LearnLinc Seminare
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -2071,8 +2072,8 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLink Seminaraum
-common#:#obj_icrs#:#LearnLink Seminar
+common#:#obj_icla#:#LearnLinc Seminaraum
+common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -2148,8 +2149,8 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLink Seminarräume
-common#:#objs_icrs#:#LearnLink Seminare
+common#:#objs_icla#:#LearnLinc Seminarräume
+common#:#objs_icrs#:#LearnLinc Seminare
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte

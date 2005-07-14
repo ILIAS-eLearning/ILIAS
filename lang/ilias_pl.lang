@@ -918,7 +918,7 @@ common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
 common#:#cat_create_qpl#:#Twórz pulę pytań
@@ -1069,7 +1069,7 @@ common#:#crs_create_glo#:#Twórz Słownik
 common#:#crs_create_grp#:#Twórz Grupę
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#crs_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Twórz Moduł Nauczania
 common#:#crs_create_mep#:#Twórz pulę Mediów
 common#:#crs_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1256,10 +1256,10 @@ common#:#export_html#:#Eksportuj jako plik html
 common#:#export_xml#:#Eksportuj jako plik xml
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1311,7 +1311,7 @@ common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Twórz Moduł Nauczania
 common#:#fold_create_mep#:#Twórz pulę Mediów
 common#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1455,7 +1455,7 @@ common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Twórz Słownik
 common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_mep#:#Twórz Pulę Mediów
 common#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
@@ -1579,8 +1579,8 @@ common#:#il_crs_tutor#:#Opiekun###14 Jul 2005 content changed
 common#:#il_frm_moderator#:#Moderator###14 Jul 2005 content changed
 common#:#il_grp_admin#:#Administrator###14 Jul 2005 content changed
 common#:#il_grp_member#:#Członek###14 Jul 2005 content changed
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Wersja ILIAS
 common#:#ilinc_classrooms#:#Klasa iLinc###14 Jul 2005 content changed
 common#:#ilinc_courses#:#Kursy iLinc###14 Jul 2005 content changed

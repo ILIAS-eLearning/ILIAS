@@ -905,7 +905,7 @@ common#:#cat_create_glo#:#Créer glossaire###07 Apr 2005 content changed
 common#:#cat_create_grp#:#Créer groupe###07 Apr 2005 content changed
 common#:#cat_create_hlm#:#Créer  document HACP###07 Apr 2005 content changed
 common#:#cat_create_htlm#:#Créer  document HTML importé###07 Apr 2005 content changed
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Créer  document ILIAS###07 Apr 2005 content changed
 common#:#cat_create_mep#:#Créer jeu de ressources multimédia###07 Apr 2005 content changed
 common#:#cat_create_qpl#:#Créer jeu de questions pour test###07 Apr 2005 content changed
@@ -1056,7 +1056,7 @@ common#:#crs_create_glo#:#Créer glossaire###07 Apr 2005 content changed
 common#:#crs_create_grp#:#Créer groupe###07 Apr 2005 content changed
 common#:#crs_create_hlm#:#Créer  document HACP###07 Apr 2005 content changed
 common#:#crs_create_htlm#:#Créer  document HTML importé###07 Apr 2005 content changed
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Créer  document ILIAS###07 Apr 2005 content changed
 common#:#crs_create_mep#:#Créer jeu de ressources multimédia###07 Apr 2005 content changed
 common#:#crs_create_qpl#:#Créer jeu de questions pour test###07 Apr 2005 content changed
@@ -1239,10 +1239,10 @@ common#:#export_html#:#exporter sous la forme d'un fichier html###07 Apr 2005 co
 common#:#export_xml#:#exporter sous la forme d'un fichier xml###07 Apr 2005 content changed
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1293,7 +1293,7 @@ common#:#fold_create_frm#:#Créer forum###07 Apr 2005 content changed
 common#:#fold_create_glo#:#Créer glossaire###07 Apr 2005 content changed
 common#:#fold_create_hlm#:#Créer document HACP###07 Apr 2005 content changed
 common#:#fold_create_htlm#:# Créer document HTML importé###07 Apr 2005 content changed
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Créer document ILIAS###07 Apr 2005 content changed
 common#:#fold_create_mep#:#Créer jeu de ressources multimédia###07 Apr 2005 content changed
 common#:#fold_create_qpl#:#Créer jeu de question pour des tests###07 Apr 2005 content changed
@@ -1437,7 +1437,7 @@ common#:#grp_create_frm#:#Créer Forum###07 Apr 2005 content changed
 common#:#grp_create_glo#:#Créer glossaire###07 Apr 2005 content changed
 common#:#grp_create_hlm#:#Créer document HACP ###07 Apr 2005 content changed
 common#:#grp_create_htlm#:#Créer document HTML importé ###07 Apr 2005 content changed
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Créer document ILIAS###07 Apr 2005 content changed
 common#:#grp_create_mep#:#Créer media pool###07 Apr 2005 content changed
 common#:#grp_create_qpl#:#Créer jeu de questions pour des tests###07 Apr 2005 content changed
@@ -1561,8 +1561,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Version ILIAS###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#Classes iLinc###07 Apr 2005 content changed
 common#:#ilinc_courses#:#Cours iLinc###07 Apr 2005 content changed
