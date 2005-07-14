@@ -916,7 +916,7 @@ common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#cat_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Створити Учбовий Модуль
 common#:#cat_create_mep#:#Створити Медіа Пул
 common#:#cat_create_qpl#:#Створити Пил Питань для тесту
@@ -1067,7 +1067,7 @@ common#:#crs_create_glo#:#Створити Глосарій
 common#:#crs_create_grp#:#Створити Групу
 common#:#crs_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#crs_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Створити ILIAS Учбовий Модуль
 common#:#crs_create_mep#:#Створити Медіа Пул
 common#:#crs_create_qpl#:#Створити Пул Питань для Тесту
@@ -1254,10 +1254,10 @@ common#:#export_html#:#експортувати як HTML файл
 common#:#export_xml#:#експортувати як XML файл
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1309,7 +1309,7 @@ common#:#fold_create_frm#:#Створити Форум
 common#:#fold_create_glo#:#Створити Глосарій
 common#:#fold_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#fold_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Створити Учбовий Модуль
 common#:#fold_create_mep#:#Створити Медіа Пул
 common#:#fold_create_qpl#:#Створити Пул Питань для Тесту
@@ -1451,7 +1451,7 @@ common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_glo#:#Створити Глосарій
 common#:#grp_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
 common#:#grp_create_mep#:#Створити Медіа Пул
 common#:#grp_create_qpl#:#Створити Пул питань для Теста
@@ -1575,8 +1575,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS версія
 common#:#ilinc_classrooms#:#iLinc Клас###14 Jul 2005 content changed
 common#:#ilinc_courses#:#iLinc Курси###14 Jul 2005 content changed

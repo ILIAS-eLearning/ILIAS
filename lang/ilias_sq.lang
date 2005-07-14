@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file Albanian
@@ -874,7 +874,7 @@ common#:#cat_create_glo#:#Krijo Fjalorth
 common#:#cat_create_grp#:#Krijo Grup
 common#:#cat_create_hlm#:#Krijo Modul Mësimor HACP
 common#:#cat_create_htlm#:#Krijo Modul Mësimor HTML
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Krijo Modul Mësimor ILIAS
 common#:#cat_create_mep#:#Krijo Fond Multimedial
 common#:#cat_create_qpl#:#Krijo Fond Pyetjesh për Test
@@ -1020,7 +1020,7 @@ common#:#crs_create_glo#:#Krijo Fjalorth
 common#:#crs_create_grp#:#Krijo Grup
 common#:#crs_create_hlm#:#Krijo Modul Mësimor HACP
 common#:#crs_create_htlm#:#Krijo Modul Mësimor HTML
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Krijo Modul Mësimor ILIAS
 common#:#crs_create_mep#:#Krijo Fond Multimedial
 common#:#crs_create_qpl#:#Krijo Fond Pyetjesh për Test
@@ -1201,10 +1201,10 @@ common#:#export_html#:#eksporto në skedar HTML
 common#:#export_xml#:#eksporto në skedar XML
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1256,7 +1256,7 @@ common#:#fold_create_frm#:#Krijo Forum
 common#:#fold_create_glo#:#Krijo Fjalorth
 common#:#fold_create_hlm#:#Krijo Modul Mësimor HACP
 common#:#fold_create_htlm#:#Krijo Modul Mësimor HTML
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Krijo Modul Mësimor ILIAS
 common#:#fold_create_mep#:#Krijo Fond Multimedial
 common#:#fold_create_qpl#:#Krijo Fond Pyetjesh për Test
@@ -1392,7 +1392,7 @@ common#:#grp_create_frm#:#Krijo Forum
 common#:#grp_create_glo#:#Krijo Fjalorth
 common#:#grp_create_hlm#:#Krijo Modul Mësimor HACP
 common#:#grp_create_htlm#:#Krijo Modul Mësimor HTML
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Krijo Modul Mësimor ILIAS
 common#:#grp_create_mep#:#Krijo Fond Multimedial
 common#:#grp_create_qpl#:#Krijo Fond Pyetjesh për Test
@@ -1512,8 +1512,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Versioni i ILIAS
 common#:#ilinc_classrooms#:#Klasat në iLinc###14 Jul 2005 content changed
 common#:#ilinc_courses#:#Kurset në iLinc###14 Jul 2005 content changed

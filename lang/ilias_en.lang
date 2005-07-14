@@ -50,8 +50,8 @@ administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
-common#:#icrs_join#:#User may join LearnLink Seminar
-common#:#icrs_leave#:#User may leave LearnLink Seminar
+common#:#icrs_join#:#User may join LearnLinc Seminar
+common#:#icrs_leave#:#User may leave LearnLinc Seminar
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
@@ -920,7 +920,7 @@ common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
 common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_htlm#:#Create HTML Learning Module
-common#:#cat_create_icrs#:#Create LearnLink Seminar
+common#:#cat_create_icrs#:#Create LearnLinc Seminar
 common#:#cat_create_lm#:#Create ILIAS Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool for Test
@@ -1071,7 +1071,7 @@ common#:#crs_create_glo#:#Create Glossary
 common#:#crs_create_grp#:#Create Group
 common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_create_htlm#:#Create HTML Learning Module
-common#:#crs_create_icrs#:#Create LearnLink Seminar
+common#:#crs_create_icrs#:#Create LearnLinc Seminar
 common#:#crs_create_lm#:#Create ILIAS Learning Module
 common#:#crs_create_mep#:#Create Media Pool
 common#:#crs_create_qpl#:#Create Question Pool for Test
@@ -1257,11 +1257,12 @@ common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#export_html#:#export as HTML file
 common#:#export_xml#:#export as XML file
 common#:#extt_configure#:#configure...
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_edit_permission#:#Change permission settings
-common#:#extt_ilinc#:#netucate LearnLink
+common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Customer ID
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
-common#:#extt_ilinc_enable#:#Enable LearnLink support
+common#:#extt_ilinc_enable#:#Enable LearnLinc support
 common#:#extt_ilinc_port#:#Port
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
@@ -1313,7 +1314,7 @@ common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
 common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_create_htlm#:#Create HTML Learning Module
-common#:#fold_create_icrs#:#Create LearnLink Seminar
+common#:#fold_create_icrs#:#Create LearnLinc Seminar
 common#:#fold_create_lm#:#Create ILIAS Learning Module
 common#:#fold_create_mep#:#Create Media Pool
 common#:#fold_create_qpl#:#Create Question Pool for Test
@@ -1457,7 +1458,7 @@ common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_glo#:#Create Glossary
 common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
-common#:#grp_create_icrs#:#Create LearnLink Seminar
+common#:#grp_create_icrs#:#Create LearnLinc Seminar
 common#:#grp_create_lm#:#Create ILIAS Learning Module
 common#:#grp_create_mep#:#Create Media Pool
 common#:#grp_create_qpl#:#Create Question Pool for Test
@@ -1553,17 +1554,17 @@ common#:#http_not_possible#:#This server is not supporting http requests.
 common#:#http_path#:#Http Path
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#i2passwd#:#ILIAS 2 password
-common#:#icla#:#LearnLink Classroom
-common#:#icla_add#:#Add LearnLink Seminar room
-common#:#icla_new#:#New LearnLink Seminar room
-common#:#icrs#:#LearnLink Seminar
-common#:#icrs_add#:#Add LearnLink Seminar
-common#:#icrs_delete#:#Delete LearnLink Seminar
+common#:#icla#:#LearnLinc Classroom
+common#:#icla_add#:#Add LearnLinc Seminar room
+common#:#icla_new#:#New LearnLinc Seminar room
+common#:#icrs#:#LearnLinc Seminar
+common#:#icrs_add#:#Add LearnLinc Seminar
+common#:#icrs_delete#:#Delete LearnLinc Seminar
 common#:#icrs_edit_permission#:#Edit permission settings
-common#:#icrs_new#:#New LearnLink Seminar
-common#:#icrs_read#:#Read access to LearnLink Seminar
-common#:#icrs_visible#:#LearnLink Seminar is visible
-common#:#icrs_write#:#Edit LearnLink Seminar
+common#:#icrs_new#:#New LearnLinc Seminar
+common#:#icrs_read#:#Read access to LearnLinc Seminar
+common#:#icrs_visible#:#LearnLinc Seminar is visible
+common#:#icrs_write#:#Edit LearnLinc Seminar
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
@@ -1576,11 +1577,11 @@ common#:#il_crs_tutor#:#Course tutor
 common#:#il_frm_moderator#:#Forum moderator
 common#:#il_grp_admin#:#Group administrator
 common#:#il_grp_member#:#Group member
-common#:#il_icrs_admin#:#LearnLink Seminar administrator
-common#:#il_icrs_member#:#Learnlink Seminar member
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator
+common#:#il_icrs_member#:#LearnLinc Seminar member
 common#:#ilias_version#:#ILIAS version
-common#:#ilinc_classrooms#:#LearnLink Seminar rooms
-common#:#ilinc_courses#:#LearnLink Seminars
+common#:#ilinc_classrooms#:#LearnLinc Seminar rooms
+common#:#ilinc_courses#:#LearnLinc Seminars
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
@@ -2072,8 +2073,8 @@ common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
 common#:#obj_hlm#:#Learning Module HACP
 common#:#obj_htlm#:#Learning Module HTML
-common#:#obj_icla#:#LearnLink Seminar room
-common#:#obj_icrs#:#LearnLink Seminar
+common#:#obj_icla#:#LearnLinc Seminar room
+common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_lm#:#Learning Module ILIAS
@@ -2149,8 +2150,8 @@ common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
 common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML Learning Modules
-common#:#objs_icla#:#LearnLink Seminar rooms
-common#:#objs_icrs#:#LearnLink Seminars
+common#:#objs_icla#:#LearnLinc Seminar rooms
+common#:#objs_icrs#:#LearnLinc Seminars
 common#:#objs_lm#:#ILIAS Learning Modules
 common#:#objs_lng#:#Languages
 common#:#objs_lo#:#Learning Objects

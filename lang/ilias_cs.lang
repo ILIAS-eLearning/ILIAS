@@ -918,7 +918,7 @@ common#:#cat_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#cat_create_grp#:#Create Group###16 Mar 2004 new variable
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
-common#:#cat_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###16 Mar 2004 new variable
@@ -1069,7 +1069,7 @@ common#:#crs_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
-common#:#crs_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#crs_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1256,10 +1256,10 @@ common#:#export_html#:#exportovat jako html soubor###14 Sep 2004 content changed
 common#:#export_xml#:#exportovat jako xml soubor###14 Sep 2004 content changed
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
 common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
-common#:#extt_ilinc#:#netucate LearnLink###14 Jul 2005 new variable
+common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLink support###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
@@ -1311,7 +1311,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
-common#:#fold_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
 common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
 common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1455,7 +1455,7 @@ common#:#grp_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_icrs#:#Create LearnLink Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
@@ -1579,8 +1579,8 @@ common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
 common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Member###20 Jun 2005 new variable
-common#:#il_icrs_admin#:#LearnLink Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#Learnlink Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#Verze ILIASu###07 Apr 2005 content changed
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
