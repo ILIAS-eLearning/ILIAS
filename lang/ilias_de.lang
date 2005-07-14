@@ -1478,6 +1478,8 @@ common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum un
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
+common#:#icrs_join#:#Benutzer kann LearnLink Seminar beitreten
+common#:#icrs_leave#:#Benutzer kann LearnLink Seminar verlassen
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
@@ -1549,41 +1551,36 @@ common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
-common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
-common#:#icla#:#LearnLink Seminaraum###14 Jul 2005 content changed
-common#:#icla_add#:#LearnLink Seminarraum anlegen###14 Jul 2005 content changed
-common#:#icla_delete#:#LearnLink Seminarraum löschen###14 Jul 2005 content changed
-common#:#icla_edit_permission#:#Rechteeinstellungen ändern
-common#:#icla_new#:#Neuer LearnLink Seminarraum###14 Jul 2005 content changed
-common#:#icla_read#:#Lesezugriff auf LearnLink Seminarraum###14 Jul 2005 content changed
-common#:#icla_visible#:#LearnLink Seminarraum ist sichtbar###14 Jul 2005 content changed
-common#:#icla_write#:#LearnLink Seminarraum bearbeiten###14 Jul 2005 content changed
-common#:#icrs#:#LearnLink Seminar###14 Jul 2005 content changed
-common#:#icrs_add#:#LearnLink Seminar anlegen###14 Jul 2005 content changed
-common#:#icrs_delete#:#LearnLink Seminar löschen###14 Jul 2005 content changed
+common#:#i2passwd#:#ILIAS 2 password
+common#:#icla#:#LearnLink Seminaraum
+common#:#icla_add#:#LearnLink Seminarraum anlegen
+common#:#icla_new#:#Neuer LearnLink Seminarraum
+common#:#icrs#:#LearnLink Seminar
+common#:#icrs_add#:#LearnLink Seminar anlegen
+common#:#icrs_delete#:#LearnLink Seminar löschen
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_new#:#Neues LearnLink Seminar###14 Jul 2005 content changed
-common#:#icrs_read#:#Lesezugriff auf LearnLink Seminar###14 Jul 2005 content changed
-common#:#icrs_visible#:#LearnLink Seminar ist sichtbar###14 Jul 2005 content changed
-common#:#icrs_write#:#LearnLink Seminar bearbeiten###14 Jul 2005 content changed
+common#:#icrs_new#:#Neues LearnLink Seminar
+common#:#icrs_read#:#Lesezugriff auf LearnLink Seminar
+common#:#icrs_visible#:#LearnLink Seminar ist sichtbar
+common#:#icrs_write#:#LearnLink Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
 common#:#il_chat_moderator#:#Chat-Moderator
-common#:#il_crs_admin#:#Kurs-Administrator###14 Jul 2005 content changed
-common#:#il_crs_member#:#Kurs-Mitglied###14 Jul 2005 content changed
-common#:#il_crs_tutor#:#Kurs-Tutor###14 Jul 2005 content changed
-common#:#il_frm_moderator#:#Forum-Moderator###14 Jul 2005 content changed
-common#:#il_grp_admin#:#Gruppen-Administrator###14 Jul 2005 content changed
-common#:#il_grp_member#:#Gruppen-Mitglied###14 Jul 2005 content changed
+common#:#il_crs_admin#:#Kurs-Administrator
+common#:#il_crs_member#:#Kurs-Mitglied
+common#:#il_crs_tutor#:#Kurs-Tutor
+common#:#il_frm_moderator#:#Forum-Moderator
+common#:#il_grp_admin#:#Gruppen-Administrator
+common#:#il_grp_member#:#Gruppen-Mitglied
 common#:#il_icrs_admin#:#LearnLink Seminar-Administrator
 common#:#il_icrs_member#:#Learnlink Seminar-Mitglied
 common#:#ilias_version#:#ILIAS Version
-common#:#ilinc_classrooms#:#Learnlink Seminarräume###14 Jul 2005 content changed
-common#:#ilinc_courses#:#LearnLink Seminare###14 Jul 2005 content changed
-common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
+common#:#ilinc_classrooms#:#Learnlink Seminarräume
+common#:#ilinc_courses#:#LearnLink Seminare
+common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
@@ -1630,7 +1627,7 @@ common#:#info_not_assigned#:#nicht zugewiesen
 common#:#info_permission_origin#:#Absolute Position
 common#:#info_permission_source#:#wirksam von*
 common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
-common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_short#:#Info
 common#:#info_status_info#:#Statusinformationen
 common#:#info_trash#:#Gelöschte Objekte
 common#:#info_view_of_user#:#Benutzersicht
@@ -2074,8 +2071,8 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLink Seminaraum###14 Jul 2005 content changed
-common#:#obj_icrs#:#LearnLink Seminar###14 Jul 2005 content changed
+common#:#obj_icla#:#LearnLink Seminaraum
+common#:#obj_icrs#:#LearnLink Seminar
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -2151,8 +2148,8 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLink Seminarräume###14 Jul 2005 content changed
-common#:#objs_icrs#:#LearnLink Seminare###14 Jul 2005 content changed
+common#:#objs_icla#:#LearnLink Seminarräume
+common#:#objs_icrs#:#LearnLink Seminare
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
@@ -2177,7 +2174,7 @@ common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#old#:#Alt
-common#:#online#:#Online###20 Jun 2005 new variable
+common#:#online#:#Online
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
@@ -2254,7 +2251,7 @@ common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
-common#:#profile#:#Profile###14 Jul 2005 new variable
+common#:#profile#:#Profil
 common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
@@ -2468,8 +2465,8 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
-common#:#shib#:#Shibboleth###13 May 2005 new variable
-common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
+common#:#shib#:#Shibboleth
+common#:#shib_active#:#Shibboleth-Unterstützung aktivieren
 common#:#shib_city#:#Attribute for city###13 May 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###13 May 2005 new variable
 common#:#shib_country#:#Attribute for country###13 May 2005 new variable
@@ -2553,7 +2550,7 @@ common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
-common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
+common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#completed###20 Jun 2005 new variable
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
