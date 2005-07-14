@@ -450,21 +450,23 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('chat_recording_description'));
 		$this->tpl->setVariable("HEADER_MOD",$this->lng->txt('chat_recording_moderator'));
 		$this->tpl->setVariable("HEADER_TIME",$this->lng->txt('chat_recording_time_frame'));
+		$this->tpl->setVariable("HEADER_ACTION",$this->lng->txt('chat_recording_action'));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
 
 		$counter = 0;
 		for ($i = 0; $i < count($data); $i++)
 		{
-			if($data[$i]["description"] != "")
-			{
-				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("RECORDING_DESCRIPTION", $data[$i]["description"]);
-				$this->tpl->parseCurrentBlock();
-			}
 			$this->tpl->setCurrentBlock("recording_row");
 			$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckbox(0,'recordings[]',$data[$i]["record_id"]));
-			$this->tpl->setVariable("RECORDING_TITLE", $data[$i]["title"]);
+			if($data[$i]["title"] != "")
+			{
+				$this->tpl->setVariable("RECORDING_TITLE", $data[$i]["title"]);
+			}
+			if ($data[$i]["description"] != "")
+			{
+				$this->tpl->setVariable("RECORDING_DESCRIPTION", $data[$i]["description"]);
+			}
 			if (is_array($moderator = $this->object->chat_record->getModerator($data[$i]["moderator_id"])))
 			{
 				$this->tpl->setVariable("MODERATOR", $moderator["login"]);
@@ -473,6 +475,9 @@ class ilObjChatGUI extends ilObjectGUI
 			if ($data[$i]["end_time"] > 0)
 			{
 				$this->tpl->setVariable("END_TIME", date("Y-m-d H:i:s", $data[$i]["end_time"]));
+				$this->ctrl->setParameter($this,'record_id',$data[$i]["record_id"]);
+				$this->tpl->setVariable("LINK_EXPORT",$this->ctrl->getLinkTarget($this,'exportRecording'));
+				$this->tpl->setVariable("TXT_EXPORT",$this->lng->txt('export'));
 			}
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$this->tpl->parseCurrentBlock();
@@ -514,14 +519,15 @@ class ilObjChatGUI extends ilObjectGUI
 		for ($i = 0; $i < count($_POST["recordings"]); $i++)
 		{
 			$this->object->chat_record->getRecord($_POST["recordings"][$i]);
+			$this->tpl->setCurrentBlock("recordings_row");
+			if($this->object->chat_record->getTitle() != "")
+			{
+				$this->tpl->setVariable("RECORDING_TITLE", $this->object->chat_record->getTitle());
+			}
 			if($this->object->chat_record->getDescription() != "")
 			{
-				$this->tpl->setCurrentBlock("description");
 				$this->tpl->setVariable("RECORDING_DESCRIPTION", $this->object->chat_record->getDescription());
-				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("recordings_row");
-			$this->tpl->setVariable("RECORDING_TITLE", $this->object->chat_record->getTitle());
 			if (is_array($moderator = $this->object->chat_record->getModerator()))
 			{
 				$this->tpl->setVariable("MODERATOR", $moderator["login"]);
@@ -565,6 +571,40 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		unset($_SESSION['chat_recordings_del']);
 		return true;
+	}
+
+	function exportRecordingObject()
+	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->object->chat_record = new ilChatRecording($this->object->getRefId());
+
+		if (!$this->object->chat_record->getRecord($_GET["record_id"]) ||
+			$this->object->chat_record->getEndTime() == 0)
+		{
+			sendInfo($this->lng->txt('chat_recording_not_found'));
+			$this->recordingsObject();
+
+			return false;
+		}
+
+		$tmp_tpl =& new ilTemplate("tpl.chat_export_recording.html",true,true,true);
+
+		if($this->object->chat_record->getTitle())
+		{
+			$tmp_tpl->setVariable("TITLE",$this->object->chat_record->getTitle());
+		}
+		$tmp_tpl->setVariable("START_TIME",date("Y-m-d H:i:s", $this->object->chat_record->getStartTime()));
+		$tmp_tpl->setVariable("END_TIME",date("Y-m-d H:i:s", $this->object->chat_record->getEndTime()));
+		$tmp_tpl->setVariable("CONTENT",$this->object->chat_record->exportMessages());
+
+		ilUtil::deliverData($tmp_tpl->get(), "chat_recording_" . $_GET["record_id"] . ".html");
+		exit;
 	}
 
 	function startRecording()
