@@ -53,7 +53,7 @@ class ilTableGUI
 								// any exceeding values are ignored
 	var $max_count;				// max. count of database query
 	var $limit;					// max. count of dataset per page
-	var $max_limit = true;
+	var $max_limit = false;
 	var $offset;				// dataset offset
 	var $order_column;			// order column
 	var $order_direction;		// order direction
@@ -283,7 +283,7 @@ class ilTableGUI
 	function setLimit($a_limit = 0, $a_default_limit = 0)
 	{
 		$this->limit = ($a_limit) ? $a_limit : $a_default_limit;
-		
+
 		if ($this->limit == 0)
 		{
 			$this->max_limit = true;
@@ -509,7 +509,7 @@ class ilTableGUI
 		if ($this->enabled["content"] && is_array($this->data))
 		{
 			$this->setMaxCount(count($this->data));
-			
+
 			$this->sortData();
 			$count = 0;
 			
