@@ -171,6 +171,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		$to_filter = $objDefinition->getSubobjectsToFilter();
+		
+		$tpl_filter = array();
+		if ($this->object->isInternalTemplate())
+		{
+			$tpl_filter = $this->object->getFilterOfInternalTemplate();
+		}
 
 		// build array with all rbac object types
 		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
@@ -185,6 +191,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			{
 				continue;
 			}
+
+			if (in_array($row->title,$tpl_filter))
+			{
+				continue;
+			}
+				
 			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 											    "type"		=> $row->title
 												);

@@ -88,23 +88,42 @@ class ilObjRoleTemplate extends ilObject
 		return (parent::delete()) ? true : false;
 	}
 
-	
-	/**
-	* delete a role template object 
-	* @access	public
-	* @return	boolean
-	*
-	function delete()
+	function isInternalTemplate()
 	{
-		global $rbacsystem, $rbacadmin;
+		if (substr($this->getTitle(),0,3) == "il_")
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function getFilterOfInternalTemplate()
+	{
+		$filter = array();
 
-		// delete rbac permissions
-		$rbacadmin->deleteTemplate($this->getId(),$_GET["ref_id"]);
+		switch($this->getTitle())
+		{
+			case "il_icrs_admin":
+			case "il_icrs_member":
+				$filter = array('file','cat','grp','crs','tst','frm','chat','glo','spl','qpl','exc','dbk','fold','lm','htlm','webr','mep','sahs','pays','svy','tax','taxf');
+				break;
 
-		// delete object data entry
-		parent::delete();
-
-		return true;
-	}*/
+			case "il_grp_admin":
+			case "il_grp_member":
+			case "il_grp_status_closed":
+			case "il_grp_status_open":
+				$filter = array('cat','crs','pays','taxf');
+				break;
+				
+			case "il_crs_admin":
+			case "il_crs_tutor":
+			case "il_crs_member":
+				$filter = array('cat','pays','taxf');
+				break;
+		}
+		
+		return $filter;
+	}
 } // END class.ilObjRoleTemplate
 ?>
