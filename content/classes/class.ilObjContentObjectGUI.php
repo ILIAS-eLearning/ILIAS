@@ -2189,7 +2189,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$header_params = array("ref_id" => $_GET["ref_id"],
 			"cmd" => "exportList", "cmdClass" => strtolower(get_class($this)));
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "40%", "20%", "20%"));
+		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -2197,6 +2197,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
+		$tbl->disable("sort");
 
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 5);

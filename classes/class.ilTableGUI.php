@@ -269,7 +269,7 @@ class ilTableGUI
 		$this->max_count = $a_max_count;
 
 		if ($this->max_limit)
-		{ 
+		{
 			$this->limit = $this->max_count;
 		}
 	}
@@ -568,7 +568,6 @@ class ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// table footer linkbar
-
 		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0)
 		{
 			$params = array(
@@ -582,6 +581,7 @@ class ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
+
 			$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$this->max_count,$this->limit,$this->offset,$params,$layout);
 
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");

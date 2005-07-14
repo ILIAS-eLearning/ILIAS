@@ -219,7 +219,13 @@ class ilGlossaryPresentationGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
+		if ($this->offlineMode())
+		{
+			$_GET["limit"] = 99999;
+			$_GET["offset"] = 0;
+			$tbl->disable("sort");
+			$tbl->disable("footer");
+		}
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
@@ -227,7 +233,6 @@ class ilGlossaryPresentationGUI
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
 
 //		$term_list = $this->glossary->getTermList();
 		$tbl->setMaxCount(count($term_list));
@@ -292,6 +297,7 @@ class ilGlossaryPresentationGUI
 				{
 					$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
 				}
+				$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -733,7 +739,7 @@ class ilGlossaryPresentationGUI
 		else
 		{
 			$tabs_gui->addTarget("cont_back",
-				"index.html", "",
+				"index.html#term_".$_GET["term_id"], "",
 				"");
 		}
 	}

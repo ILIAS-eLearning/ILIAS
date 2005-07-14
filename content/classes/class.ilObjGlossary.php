@@ -81,6 +81,8 @@ class ilObjGlossary extends ilObject
 		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
 		$this->setVirtualMode($gl_rec["virtual"]);
+		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
+		$this->setPublicExportFile("html", $gl_rec["public_html_file"]);
 
 	}
 
@@ -217,7 +219,9 @@ class ilObjGlossary extends ilObject
 
 		$q = "UPDATE glossary SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" virtual = '".$this->getVirtualMode()."'".
+			" virtual = '".$this->getVirtualMode()."',".
+			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
+			" public_html_file = '".$this->getPublicExportFile("html")."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 		
@@ -386,41 +390,71 @@ class ilObjGlossary extends ilObject
 	/**
 	* get export files
 	*/
-	function getExportFiles($dir)
+	function getExportFiles()
 	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-
-		// open directory
-		$dir = dir($dir);
-
 		// initialize array
 		$file = array();
+		
+		$types = array("xml", "html");
 
-		// get files and save the in the array
-		while ($entry = $dir->read())
+		foreach($types as $type)
 		{
-			if ($entry != "." and
-				$entry != ".." and
-				substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(glo_)*[0-9]+\.zip\$", $entry))
+			$dir = $this->getExportDirectory($type);
+			
+			// quit if import dir not available
+			if (!@is_dir($dir) or
+				!is_writeable($dir))
 			{
-				$file[] = $entry;
+				return array();
 			}
+	
+			// open directory
+			$h_dir = dir($dir);
+	
+			// get files and save the in the array
+			while ($entry = $h_dir->read())
+			{
+				if ($entry != "." and
+					$entry != ".." and
+					substr($entry, -4) == ".zip" and
+					ereg("^[0-9]{10}_{2}[0-9]+_{2}(glo_)*[0-9]+\.zip\$", $entry))
+				{
+					$file[$entry.$type] = array("type" => $type, "file" => $entry,
+						"size" => filesize($dir."/".$entry));
+				}
+			}
+	
+			// close import directory
+			$h_dir->close();
 		}
 
-		// close import directory
-		$dir->close();
-
 		// sort files
-		sort ($file);
+		ksort ($file);
 		reset ($file);
-
 		return $file;
+	}
+	
+	/**
+	* specify public export file for type
+	*
+	* @param	string		$a_type		type ("xml" / "html")
+	* @param	string		$a_file		file name
+	*/
+	function setPublicExportFile($a_type, $a_file)
+	{
+		$this->public_export_file[$a_type] = $a_file;
+	}
+
+	/**
+	* get public export file
+	*
+	* @param	string		$a_type		type ("xml" / "html")
+	*
+	* @return	string		$a_file		file name	
+	*/
+	function getPublicExportFile($a_type)
+	{
+		return $this->public_export_file[$a_type];
 	}
 
 	/**
@@ -489,26 +523,6 @@ class ilObjGlossary extends ilObject
 			$this->exportHTMLFile($a_target_dir, $file);
 		}
 		
-		// export table of contents
-		/*
-		if ($this->isActiveTOC())
-		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
-			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$content =& $lm_gui->showTableOfContents();
-			$file = $a_target_dir."/table_of_contents.html";
-				
-			// open file
-			if (!($fp = @fopen($file,"w+")))
-			{
-				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-			}
-			chmod($file, 0770);
-			fwrite($fp, $content);
-			fclose($fp);
-		}*/
-
 		// export images
 		$image_dir = $a_target_dir."/images";
 		ilUtil::makeDir($image_dir);
@@ -536,7 +550,7 @@ class ilObjGlossary extends ilObject
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		
 		// zip everything
-		if (false)
+		if (true)
 		{
 			// zip it all
 			$date = time();
