@@ -133,11 +133,15 @@ class ilChatRecording
 		if (DB::isError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
 
 		$data = array();
+		$status = false;
 		if ($res->numRows() > 0)
 		{
 			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$status = true;
 		}
+
 		$this->setRecord($data);
+		return $status;
 	}
 
 	function setTitle($a_title)
@@ -279,6 +283,28 @@ class ilChatRecording
 					record_id = '" . $a_id . "'";
 		$res = $this->ilias->db->query($query);
 		if (DB::isError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+	}
+
+	function exportMessages()
+	{
+		$query = "SELECT message FROM chat_record_data WHERE 
+					record_id = '" . $this->getRecordId() . "' ORDER BY 
+					msg_time ASC";
+		$res = $this->ilias->db->query($query);
+		if (DB::isError($res)) die("ilChatRecording::exportMessages(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+
+		$html = "";
+		if (($num = $res->numRows()) > 0)
+		{
+			$html = "";
+			for ($i = 0; $i < $num; $i++)
+			{
+				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$html .= $data["message"] . "<br />\n";
+			}
+		}
+		
+		return $html;
 	}
 
 } // END class.ilChatRecording
