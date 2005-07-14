@@ -1,14 +1,22 @@
 <form action="{FORM_ACTION}" method="post">
+<br />
+{CONTAINER_PAGE_CONTENT}
 <!-- BEGIN admin_button -->
+<br />
 <div style="text-align:right"><a class="submit" href="{ADMIN_MODE_LINK}">
 	{TXT_ADMIN_MODE}</a></div><br />
 <!-- END admin_button -->
-{CONTAINER_PAGE_CONTENT}
 <!-- BEGIN admin_panel -->
 <br />
 <table class="fullwidth">
 	<tr class="tblheader">
-		<td class="std" colspan="2">{TXT_ADMIN_PANEL}</td>
+		<td class="std" colspan="2"><div style="float:left;">{TXT_ADMIN_PANEL}</div>
+		<!-- BEGIN admin_button_off -->
+		<div class="il_ContainerItemCommand">
+			<a class="il_ContainerItemCommand" style="float:right;" href="{ADMIN_MODE_LINK}">{TXT_ADMIN_MODE}</a>
+		</div>
+		<!-- END admin_button_off -->
+		</td>
 	</tr>
 	<tr>
 		<td class="submit" align="left">
