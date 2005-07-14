@@ -177,6 +177,7 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("admin_panel");
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$tpl->setVariable("TXT_ADMIN_PANEL", $this->lng->txt("admin_panel"));
 			$tpl->parseCurrentBlock();
 			$this->ctrl->setParameter($this, "type", "");
