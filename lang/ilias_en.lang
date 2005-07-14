@@ -929,7 +929,7 @@ common#:#cat_create_spl#:#Create Question Pool for Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Create new Web Resource
+common#:#cat_create_webr#:#Create Web Resource
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
@@ -1079,7 +1079,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_create_spl#:#Create Question Pool for Survey
 common#:#crs_create_svy#:#Create Survey
 common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create new Web Resource
+common#:#crs_create_webr#:#Create Web Resource
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -1322,7 +1322,7 @@ common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_create_spl#:#Create Question Pool for Survey
 common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create new Web Resource
+common#:#fold_create_webr#:#Create Web Resource
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -1466,7 +1466,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_create_spl#:#Create Question Pool for Survey
 common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create new Web Resource
+common#:#grp_create_webr#:#Create Web Resource
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
