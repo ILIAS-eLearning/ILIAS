@@ -10,11 +10,26 @@
 	  <th class="tblheader" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})&nbsp[<a class="navigation" href="{DETAILS_A}">{DETAILS_TXT}</a>]</th>
 	  <!-- BEGIN room_row -->
 	  <tr class="{ROOM_ROW_CSS}">
-		<td class="option_value">
-			<table width=100% cellspacing=0 cellpadding=0 border=0>
+		<td style="padding:3px; font-size:13px;	vertical-align:top;	text-align:left">
+			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-				<td><a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}"><font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a></td>
-				<td align="right">
+				<!-- BEGIN room_row_indent -->
+				<td width="20">&nbsp;</td>
+				<!-- END room_row_indent -->
+				<td width="*" valign="top">
+					<a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}"><font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a><br>
+					<!-- BEGIN room_row_invitation -->
+					<font class="small">
+					{TXT_ROOM_INVITATION}: {ROOM_INVITATION_USER}<br>
+					</font>
+					<!-- END room_row_invitation -->
+					<!-- BEGIN room_row_recording -->
+					<font class="small">
+					{TXT_RECORDING}
+					</font>
+					<!-- END room_row_recording -->
+				</td>
+				<td align="right" valign="top">
 					<!-- BEGIN room_row_delete -->
 					<a class="il_ContainerItemCommand" href="{LINK_DELETE_ROOM}" target="_top">{TXT_DELETE_ROOM}</a>
 					<!-- END room_row_delete -->
@@ -24,16 +39,6 @@
 				</td>
 			</tr>
 			</table>
-			<!-- BEGIN room_row_invitation -->
-			<font class="small">
-			{TXT_ROOM_INVITATION}: {ROOM_INVITATION_USER}
-			</font>
-			<!-- END room_row_invitation -->
-			<!-- BEGIN room_row_recording -->
-			<font class="small">
-			{TXT_RECORDING}
-			</font>
-			<!-- END room_row_recording -->
 		</td>
 	  </tr>
 	  <!-- END room_row -->
