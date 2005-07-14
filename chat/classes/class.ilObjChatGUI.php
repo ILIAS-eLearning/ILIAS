@@ -282,6 +282,22 @@ class ilObjChatGUI extends ilObjectGUI
 		
 	}
 
+	function emptyRoom()
+	{
+		global	$rbacsystem;
+
+		if ($rbacsystem->checkAccess("moderate", $this->object->getRefId()) &&
+			$this->object->chat_room->checkWriteAccess())
+		{
+			$this->object->server_comm->setType('empty');
+			$message = $this->__formatMessage();
+			$this->object->server_comm->setMessage($message);
+			$this->object->server_comm->send();
+		}
+		unset($_GET["room_id_empty"]);
+		$this->showFrames();
+	}
+
 	function deleteRoom()
 	{
 		global $rbacsystem;
@@ -1125,6 +1141,8 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function __showRooms()
 	{
+		global $rbacsystem;
+
 		$public_rooms = $this->object->chat_room->getAllRooms();
 		$private_rooms = $this->object->chat_room->getRooms();
 
@@ -1166,9 +1184,12 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
 			$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($room["child"],0));
 			$this->object->chat_record->setRefId($room["child"]);
-			if ($this->object->chat_record->isRecording())
+			if ($room["child"] == $this->object->getRefId() &&
+				$this->object->chat_room->getRoomId() == 0 &&
+				$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
 			{
-				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
+				$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
+				$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$room["child"]);
 			}
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1202,6 +1223,14 @@ class ilObjChatGUI extends ilObjectGUI
 			if ($this->object->chat_record->isRecording())
 			{
 				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
+			}
+
+			if ($room["chat_id"] == $this->object->getRefId() &&
+				$room["room_id"] == $this->object->chat_room->getRoomId() &&
+				$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+			{
+				$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
+				$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId());
 			}
 
 			$this->tpl->parseCurrentBlock();
@@ -1412,5 +1441,6 @@ class ilObjChatGUI extends ilObjectGUI
 		$fname = $file_obj->zip();
 		ilUtil::deliverFile($fname,"ilias_chat.zip");
 	}
-} // END class.ilObjChatGUI
+}
+// END class.ilObjChatGUI
 ?>
