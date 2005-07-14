@@ -1176,11 +1176,11 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$this->object->chat_record = new ilChatRecording();
 
-		$counter = 0;
+		$user_obj =& new ilObjUser();
 		foreach($public_rooms as $room)
 		{
 			$this->tpl->setCurrentBlock("room_row");
-			$this->tpl->setVariable("ROOM_ROW_CSS",++$counter%2 ? "tblrow1" : "tblrow2");
+			$this->tpl->setVariable("ROOM_ROW_CSS","tblrow1");
 			$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$room["child"]);
 			$this->tpl->setVariable("ROOM_TARGET","_top");
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
@@ -1193,49 +1193,61 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
 				$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$room["child"]);
 			}
-			$this->tpl->parseCurrentBlock();
-		}
 
-		$user_obj =& new ilObjUser();
-		foreach($private_rooms as $room)
-		{
-			$this->tpl->setCurrentBlock("room_row");
-			$this->tpl->setVariable("ROOM_ROW_CSS",++$counter%2 ? "tblrow1" : "tblrow2");
-			$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$room["chat_id"].
-																		 "&room_id=".$room["room_id"]);
-			$this->tpl->setVariable("ROOM_TARGET","_top");
-			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
-			$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($room["chat_id"],$room["room_id"])); 
-
-			if ($room["owner"] != $_SESSION["AccountId"])
-			{
-				$user_obj->setId($room["owner"]);
-				$user_obj->read();
-				$this->tpl->setVariable("TXT_ROOM_INVITATION", $this->lng->txt("chat_invited_by"));
-				$this->tpl->setVariable("ROOM_INVITATION_USER", $user_obj->getLogin());
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_DELETE_ROOM", $this->lng->txt("delete"));
-				$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId()."&room_id_delete=".$room["room_id"]);
-			}
-
-			$this->object->chat_record->setRefId($room["chat_id"]);
-			$this->object->chat_record->setRoomId($room["room_id"]);
+			$this->object->chat_record->setRefId($room["child"]);
+			$this->object->chat_record->setRoomId(0);
 			if ($this->object->chat_record->isRecording())
 			{
 				$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
 			}
-
-			if ($room["chat_id"] == $this->object->getRefId() &&
-				$room["room_id"] == $this->object->chat_room->getRoomId() &&
-				$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
-			{
-				$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
-				$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId());
-			}
-
 			$this->tpl->parseCurrentBlock();
+
+			reset($private_rooms);
+			foreach($private_rooms as $priv_room)
+			{
+				if ($priv_room["chat_id"] == $room["child"])
+				{
+					$this->tpl->touchBlock("room_row_indent");
+					$this->tpl->setCurrentBlock("room_row");
+					$this->tpl->setVariable("ROOM_ROW_CSS","tblrow2");
+					$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$priv_room["chat_id"].
+																				 "&room_id=".$priv_room["room_id"]);
+					$this->tpl->setVariable("ROOM_TARGET","_top");
+					$this->tpl->setVariable("ROOM_NAME",$priv_room["title"]);
+					$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($priv_room["chat_id"],$priv_room["room_id"])); 
+		
+					if ($priv_room["owner"] != $_SESSION["AccountId"])
+					{
+						$user_obj->setId($priv_room["owner"]);
+						$user_obj->read();
+						$this->tpl->setVariable("TXT_ROOM_INVITATION", $this->lng->txt("chat_invited_by"));
+						$this->tpl->setVariable("ROOM_INVITATION_USER", $user_obj->getLogin());
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_DELETE_ROOM", $this->lng->txt("delete"));
+						$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId()."&room_id_delete=".$priv_room["room_id"]);
+					}
+		
+					$this->object->chat_record->setRefId($priv_room["chat_id"]);
+					$this->object->chat_record->setRoomId($priv_room["room_id"]);
+					if ($this->object->chat_record->isRecording())
+					{
+						$this->tpl->setVariable("TXT_RECORDING", $this->lng->txt("chat_recording_running"));
+					}
+		
+					if ($priv_room["chat_id"] == $this->object->getRefId() &&
+						$priv_room["room_id"] == $this->object->chat_room->getRoomId() &&
+						$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+					{
+						$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
+						$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId());
+					}
+		
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 		}
 
 	}
