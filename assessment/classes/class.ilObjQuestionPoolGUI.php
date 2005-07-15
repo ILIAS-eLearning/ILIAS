@@ -1557,18 +1557,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("cont_select_max_one_item"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 
 		$export_dir = $this->object->getExportDirectory();
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
+		$this->ctrl->redirect($this, "export");
 	}
 
 	/**
