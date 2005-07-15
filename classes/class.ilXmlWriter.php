@@ -522,6 +522,16 @@ class ilXmlWriter
 	{
 		$this->xmlStr .= $a_str;
 	}
+	
+	/**
+	* clears xmlStr
+	* @access	public
+	*/
+	function xmlClear ()
+	{
+		// reset xml string
+		$this->xmlStr = "";
+	}
 
 }
 
