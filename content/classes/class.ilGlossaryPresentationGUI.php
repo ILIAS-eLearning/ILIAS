@@ -181,7 +181,7 @@ class ilGlossaryPresentationGUI
 			{
 				$this->tpl->setCurrentBlock("glo_menu_btn");
 				$this->tpl->setVariable("BTN_LINK",
-					"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listDownloads&offset=0&oldoffset=$oldoffset");
+					"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=showDownloadList&offset=0&oldoffset=$oldoffset");
 				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("download"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -205,6 +205,7 @@ class ilGlossaryPresentationGUI
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("cont_terms").(($filter=="")?"":"*"));
+		$tbl->disable("sort");
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		// display additional column 'glossary' for meta glossaries
@@ -212,7 +213,7 @@ class ilGlossaryPresentationGUI
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
 				 $this->lng->txt("cont_definitions"),$this->lng->txt("obj_glo")));
-	
+
 			$cols = array("term", "definitions", "glossary");
 			
 			$tbl->setColumnWidth(array("30%", "35%", "35%"));
@@ -581,8 +582,141 @@ class ilGlossaryPresentationGUI
 
 	}
 
+	/**
+	* show download list
+	*/
+	function showDownloadList()
+	{
+		global $ilBench;
 
+		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
+		/*
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->glossary->getTitle());
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());*/
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", true);
+
+		// set title header
+		$this->tpl->setVariable("HEADER", $this->glossary->getTitle());
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("LINK_BACK",
+			"glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("DOWNLOAD_TABLE", "download_table", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", true);
+
+		$export_files = array();
+		$types = array("xml", "html");
+		foreach($types as $type)
+		{
+			if ($this->glossary->getPublicExportFile($type) != "")
+			{
+				$dir = $this->glossary->getExportDirectory($type);
+				$size = filesize($this->glossary->getExportDirectory($type)."/".
+					$this->glossary->getPublicExportFile($type));
+				$export_files[] = array("type" => $type,
+					"file" => $this->glossary->getPublicExportFile($type),
+					"size" => $size);
+			}
+		}
+		
+		$num = 0;
+		
+		$tbl->setTitle($this->lng->txt("download"));
+
+		$tbl->setHeaderNames(array($this->lng->txt("cont_format"),
+			$this->lng->txt("cont_file"),
+			$this->lng->txt("size"), $this->lng->txt("date"),
+			""));
+
+		$cols = array("format", "file", "size", "date", "download");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "showDownloadList", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
+		$tbl->disable("sort");
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
+				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
+
+				$file_arr = explode("__", $exp_file["file"]);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
+				$this->tpl->setVariable("LINK_DOWNLOAD",
+					"glossary_presentation.php?cmd=downloadExportFile&type=".
+					$exp_file["type"]."&ref_id=".$_GET["ref_id"]);
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 5);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		//$this->tpl->show();
+	}
+
+	/**
+	* send download file (xml/html)
+	*/
+	function downloadExportFile()
+	{
+		$file = $this->glossary->getPublicExportFile($_GET["type"]);
+		if ($this->glossary->getPublicExportFile($_GET["type"]) != "")
+		{
+			$dir = $this->glossary->getExportDirectory($_GET["type"]);
+			if (is_file($dir."/".$file))
+			{
+				ilUtil::deliverFile($dir."/".$file, $file);
+				exit;
+			}
+		}
+		$this->ilias->raiseError($this->lng->txt("file_not_found"),$this->ilias->error_obj->MESSAGE);
+	}
 
 	/**
 	* set Locator
