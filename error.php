@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 require_once "include/inc.header.php";
 $tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
 

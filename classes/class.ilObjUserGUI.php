@@ -1943,7 +1943,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if ($_GET["vcard"] == 1)
 		{
-			ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype(), "utf-8");
+			ilUtil::deliverData(utf8_decode($vcard->buildVCard()), $vcard->getFilename(), $vcard->getMimetype());
 			exit;
 		}
 	}
