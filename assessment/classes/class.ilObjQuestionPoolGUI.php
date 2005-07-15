@@ -265,6 +265,129 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
+	function _uploadQplObject($redirect = true)
+	{
+		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
+		{
+			sendInfo($this->lng->txt("error_upload"));
+			$this->importObject();
+			return;
+		}
+
+		// create import directory
+		ilObjQuestionPool::_createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filenames of xml files
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+
+		// start verification of QTI files
+		include_once "./assessment/classes/class.ilQTIParser.php";
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI);
+		$result = $qtiParser->startParsing();
+		$founditems =& $qtiParser->getFoundItems();
+		
+		if (count($founditems) == 0)
+		{
+			// nothing found
+			// delete the imported files
+			unlink($xml_file);
+			unlink($qti_file);
+			unlink($full_path);
+
+			sendInfo($this->lng->txt("qpl_import_no_items"));
+			$this->importObject();
+			return;
+		}
+		
+		$complete = 0;
+		$incomplete = 0;
+		foreach ($founditems as $item)
+		{
+			if (strlen($item["type"]))
+			{
+				$complete++;
+			}
+			else
+			{
+				$incomplete++;
+			}
+		}
+		
+		if ($complete == 0)
+		{
+			// delete the imported files
+			unlink($xml_file);
+			unlink($qti_file);
+			unlink($full_path);
+
+			sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
+			$this->importObject();
+			return;
+		}
+		
+		$_SESSION["qpl_import_xml_file"] = $xml_file;
+		$_SESSION["qpl_import_qti_file"] = $qti_file;
+		$_SESSION["qpl_import_zip_file"] = $full_path;
+		// display of found questions
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html");
+		$row_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($founditems as $item)
+		{
+			$this->tpl->setCurrentBlock("verification_row");
+			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
+			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
+			switch ($item["type"])
+			{
+				case "MULTIPLE CHOICE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
+					break;
+				case "CLOZE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_cloze"));
+					break;
+				case "IMAGE MAP QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
+					break;
+				case "JAVA APPLET QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
+					break;
+				case "MATCHING QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_matching"));
+					break;
+				case "ORDERING QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_ordering"));
+					break;
+				case "TEXT QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_text"));
+					break;
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
+		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
+		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
+		$this->tpl->parseCurrentBlock();
+		
+	}
+	
+	/**
+	* imports question(s) into the questionpool
+	*/
 	function uploadQplObject($redirect = true)
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
@@ -290,39 +413,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
 		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
-		// here we have to work with the new QTI parser
-/*		include_once "./assessment/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file);
-		$result = $qtiParser->startParsing();
-		exit;
-/*		$_SESSION["qtiparser"] = $qtiParser;
-		$this->getTemplateFile("import_filelist", "qpl");
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_filelist.html");
-		$color_class = array("tblrow1", "tblrow2");
-		$questiontypes = array("qt_unknown", "qt_multiple_choice_sr", "qt_multiple_choice_mr", "qt_cloze", "qt_matching", "qt_ordering", "qt_imagemap", "qt_javaapplet", "qt_text");
-		$counter = 0;
-		foreach ($qtiParser->items as $key => $value)
-		{
-			$qt = $value->determineQuestionType();
-			$this->tpl->setCurrentBlock("found_question_row");
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter++ % 2]);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($questiontypes[$qt]));
-			$this->tpl->setVariable("QUESTION_TITLE", $value->getTitle());
-			$this->tpl->setVariable("QUESTION_ID", $value->getIdent());
-			$this->tpl->parseCurrentBlock();
-		}
-//		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_HEADING_FOUND_QUESTIONS", $this->lng->txt("qpl_import_found_questions"));
-		$this->tpl->setVariable("BUTTON_UPLOAD_SELECTED", $this->lng->txt("qpl_import_selected_questions"));
-		$this->tpl->setVariable("HEADING_QUESTION_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("HEADING_QUESTION_TITLE", $this->lng->txt("question_title"));
-		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
-		$this->tpl->parseCurrentBlock();
-		unlink($xml_file);
-		unlink($qti_file);
-		return;
-*/
 
 		// create new questionpool object
 		$newObj = new ilObjQuestionpool();
@@ -342,16 +432,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
 		// import qti data
-		$qtiresult = $newObj->importObject($qti_file);
+		//$qtiresult = $newObj->importObject($qti_file);
 
 		// import page data
-/*		include_once ("content/classes/class.ilContObjParser.php");
+		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->setQuestionMapping($newObj->getImportMapping());
 		$contParser->startParsing();
-*/
+
 		/* update title and description in object data */
-/*
+
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
@@ -362,7 +452,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
-*/
+
 		unlink($xml_file);
 		unlink($qti_file);
 		if ($redirect)

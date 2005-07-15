@@ -21,44 +21,39 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define ("SPACE_PRESERVE", "1");
-define ("SPACE_DEFAULT", "2");
-
 /**
-* QTI mattext class
+* QTI matapplet class
 *
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 *
 * @package assessment
 */
-class ilQTIMattext
+class ilQTIMatapplet
 {
-	var $texttype;
+	var $embedded;
+	
 	var $label;
-	var $charset;
 	var $uri;
-	var $xmlspace;
-	var $xmllang;
-	var $entityref;
-	var $width;
-	var $height;
 	var $x0;
 	var $y0;
+	var $width;
+	var $height;
+	var $entityref;
 	var $content;
 	
 	function ilQTIMatimage()
 	{
 	}
 
-	function setTexttype($a_texttype)
+	function setEmbedded($a_embedded)
 	{
-		$this->texttype = $a_texttype;
+		$this->embedded = $a_embedded;
 	}
 	
-	function getTexttype()
+	function getEmbedded()
 	{
-		return $this->texttype;
+		return $this->embedded;
 	}
 	
 	function setLabel($a_label)
@@ -91,16 +86,6 @@ class ilQTIMattext
 		return $this->width;
 	}
 	
-	function setCharset($a_charset)
-	{
-		$this->charset = $a_charset;
-	}
-	
-	function getCharset()
-	{
-		return $this->charset;
-	}
-	
 	function setUri($a_uri)
 	{
 		$this->uri = $a_uri;
@@ -109,36 +94,6 @@ class ilQTIMattext
 	function getUri()
 	{
 		return $this->uri;
-	}
-	
-	function setXmllang($a_xmllang)
-	{
-		$this->xmllang = $a_xmllang;
-	}
-	
-	function getXmllang()
-	{
-		return $this->xmllang;
-	}
-	
-	function setXmlspace($a_xmlspace)
-	{
-		switch (strtolower($a_xmlspace))
-		{
-			case "preserve":
-			case "1":
-				$this->xmlspace = SPACE_PRESERVE;
-				break;
-			case "default":
-			case "2":
-				$this->xmlspace = SPACE_DEFAULT;
-				break;
-		}
-	}
-	
-	function getXmlspace()
-	{
-		return $this->xmlspace;
 	}
 	
 	function setX0($a_x0)
