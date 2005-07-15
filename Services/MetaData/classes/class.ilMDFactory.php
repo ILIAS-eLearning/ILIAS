@@ -42,6 +42,14 @@ class ilMDFactory
 	{
 		switch($a_type)
 		{
+			case 'meta_technical':
+				include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
+
+				$tec = new ilMDTechnical();
+				$tec->setMetaId($a_index);
+
+				return $tec;
+
 			case 'meta_or_composite':
 				include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 				include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
