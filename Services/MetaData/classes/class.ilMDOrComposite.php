@@ -113,6 +113,7 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function delete()
 	{
+		echo "DELETE";
 		foreach($this->getRequirementIds() as $id)
 		{
 			$req = $this->getRequirement($id);

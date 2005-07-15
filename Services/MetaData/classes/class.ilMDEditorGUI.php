@@ -326,6 +326,277 @@ class ilMDEditorGUI
 		$this->ctrl->redirect($this,'listSection');
 	}
 
+	function updateTechnical()
+	{
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		// update technical section
+		$this->md_section = $this->md_obj->getTechnical();
+		$this->md_section->setSize(ilUtil::stripSlashes($_POST['met_size']));
+		$this->md_section->setInstallationRemarks(ilUtil::stripSlashes($_POST['met_inst']));
+		$this->md_section->setInstallationRemarksLanguage(new ilMDLanguageItem($_POST['inst_language']));
+		$this->md_section->setOtherPlatformRequirements(ilUtil::stripSlashes($_POST['met_opr']));
+		$this->md_section->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($_POST['opr_language']));
+		$this->md_section->setDuration(ilUtil::stripSlashes($_POST['duration']));
+		$this->md_section->update();
+
+		// Format
+		if(is_array($_POST['met_format']))
+		{
+			foreach($_POST['met_format'] as $id => $data)
+			{
+				$md_for = $this->md_section->getFormat($id);
+				$md_for->setFormat(ilUtil::stripSlashes($data['Format']));
+				$md_for->update();
+			}
+		}
+		// Location
+		if(is_array($_POST['met_location']))
+		{
+			foreach($_POST['met_location'] as $id => $data)
+			{
+				$md_loc = $this->md_section->getLocation($id);
+				$md_loc->setLocation(ilUtil::stripSlashes($data['Location']));
+				$md_loc->setLocationType(ilUtil::stripSlashes($data['Type']));
+				$md_loc->update();
+			}
+		}
+		if(is_array($_POST['met_re']))
+		{
+			foreach($_POST['met_re'] as $id => $data)
+			{
+
+				$md_re = $this->md_section->getRequirement($id);
+				$md_re->setOperatingSystemName(ilUtil::stripSlashes($data['os']['name']));
+				$md_re->setOperatingSystemMinimumVersion(ilUtil::stripSlashes($data['os']['MinimumVersion']));
+				$md_re->setOperatingSystemMaximumVersion(ilUtil::stripSlashes($data['os']['MaximumVersion']));
+				$md_re->setBrowserName(ilUtil::stripSlashes($data['browser']['name']));
+				$md_re->setBrowserMinimumVersion(ilUtil::stripSlashes($data['browser']['MinimumVersion']));
+				$md_re->setBrowserMaximumVersion(ilUtil::stripSlashes($data['browser']['MaximumVersion']));
+				$md_re->update();
+			}
+		}
+		
+
+		
+
+		$this->listSection();
+		#sendInfo($this->lng->txt('msg_changes_ok'));
+		return true;
+	}
+		
+
+
+	function listTechnical()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
+		$this->__setTabs('meta_technical');
+		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_technical.html','Services/MetaData');
+
+
+		$this->ctrl->setParameter($this, "section", "meta_technical");
+		if(!is_object($this->md_section = $this->md_obj->getTechnical()))
+		{
+			$this->tpl->setCurrentBlock("no_technical");
+			$this->tpl->setVariable("TXT_NO_TECHNICAL", $this->lng->txt("meta_no_technical"));
+			$this->tpl->setVariable("TXT_ADD_TECHNICAL", $this->lng->txt("meta_add"));
+			$this->tpl->setVariable("ACTION_ADD_TECHNICAL",$this->ctrl->getLinkTarget($this, "addSection"));
+			$this->tpl->parseCurrentBlock();
+
+			return true;
+		}
+		$this->ctrl->setReturn($this,'listTechnical');
+		$this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
+
+		$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_TECHNICAL",$this->lng->txt('meta_technical'));
+
+		// Delete link
+		$this->tpl->setVariable("ACTION_DELETE",
+								$this->ctrl->getLinkTarget($this, "deleteSection"));
+		$this->tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
+
+		// New element
+		$this->__fillSubelements();
+
+		// Format
+		foreach($ids = $this->md_section->getFormatIds() as $id)
+		{
+			$md_for =& $this->md_section->getFormat($id);
+
+			$this->tpl->setCurrentBlock("format_loop");
+
+			$this->ctrl->setParameter($this,'meta_index',$id);
+			$this->ctrl->setParameter($this,'meta_path','meta_format');
+			$this->tpl->setVariable("FORMAT_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+			$this->tpl->setVariable("FORMAT_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+
+			$this->tpl->setVariable("FORMAT_LOOP_NO",$id);
+			$this->tpl->setVariable("FORMAT_LOOP_TXT_FORMAT",$this->lng->txt('meta_format'));
+			$this->tpl->setVariable("FORMAT_LOOP_VAL",ilUtil::prepareFormOutput($md_for->getFormat()));
+
+			$this->tpl->parseCurrentBlock();
+		}
+		// Size
+		$this->tpl->setVariable("SIZE_TXT_SIZE",$this->lng->txt('meta_size'));
+		$this->tpl->setVariable("SIZE_VAL",ilUtil::prepareFormOutput($this->md_section->getSize()));
+
+		// Location
+		foreach($ids = $this->md_section->getLocationIds() as $id)
+		{
+			$md_loc =& $this->md_section->getLocation($id);
+
+			$this->tpl->setCurrentBlock("location_loop");
+
+			$this->ctrl->setParameter($this,'meta_index',$id);
+			$this->ctrl->setParameter($this,'meta_path','meta_location');
+			$this->tpl->setVariable("LOCATION_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+			$this->tpl->setVariable("LOCATION_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+
+			$this->tpl->setVariable("LOCATION_LOOP_TXT_LOCATION",$this->lng->txt('meta_location'));
+			$this->tpl->setVariable("LOCATION_LOOP_NO",$id);
+			$this->tpl->setVariable("LOCATION_LOOP_TXT_TYPE",$this->lng->txt('meta_type'));
+			$this->tpl->setVariable("LOCATION_LOOP_VAL",ilUtil::prepareFormOutput($md_loc->getLocation()));
+
+			$this->tpl->setVariable("SEL_LOCATION_TYPE",
+									ilMDUtilSelect::_getLocationTypeSelect($md_loc->getLocationType(),
+																		   "met_location[".$id."][Type]",
+																		   array(0 => $this->lng->txt('meta_please_select'))));
+			$this->tpl->parseCurrentBlock();
+		}
+		// Requirement
+		foreach($ids = $this->md_section->getRequirementIds() as $id)
+		{
+			$md_re =& $this->md_section->getRequirement($id);
+
+			$this->tpl->setCurrentBlock("requirement_loop");
+
+			$this->ctrl->setParameter($this,'meta_index',$id);
+			$this->ctrl->setParameter($this,'meta_path','meta_requirement');
+			$this->tpl->setVariable("REQUIREMENT_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_REQUIREMENT",$this->lng->txt('meta_requirement'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_TYPE",$this->lng->txt('meta_type'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM",$this->lng->txt('meta_operating_system'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_BROWSER",$this->lng->txt('meta_browser'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_NAME",$this->lng->txt('meta_name'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_MINIMUMVERSION",$this->lng->txt('meta_minimum_version'));
+			$this->tpl->setVariable("REQUIREMENT_LOOP_TXT_MAXIMUMVERSION",$this->lng->txt('meta_maximum_version'));
+
+			$this->tpl->setVariable("REQUIREMENT_LOOP_NO",$id);
+			$this->tpl->setVariable("REQUIREMENT_SEL_OS_NAME",
+									ilMDUtilSelect::_getOperatingSystemSelect($md_re->getOperatingSystemName(),
+																		   "met_re[".$id."][os][name]",
+																		   array(0 => $this->lng->txt('meta_please_select'))));
+			$this->tpl->setVariable("REQUIREMENT_SEL_BROWSER_NAME",
+									ilMDUtilSelect::_getBrowserSelect($md_re->getBrowserName(),
+																		   "met_re[".$id."][browser][name]",
+																		   array(0 => $this->lng->txt('meta_please_select'))));
+
+			$this->tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
+									ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion()));
+			
+			$this->tpl->setVariable("REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
+									ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion()));
+
+			$this->tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
+									ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion()));
+			
+			$this->tpl->setVariable("REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
+									ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion()));
+			$this->tpl->parseCurrentBlock();
+
+		}
+		// OrComposite
+		foreach($ids = $this->md_section->getOrCompositeIds() as $or_id)
+		{
+			$md_or =& $this->md_section->getOrComposite($or_id);
+			foreach($ids = $md_or->getRequirementIds() as $id)
+			{
+				$md_re =& $this->md_section->getRequirement($id);
+
+				$this->tpl->setCurrentBlock("orrequirement_loop");
+
+				$this->ctrl->setParameter($this,'meta_index',$id);
+				$this->ctrl->setParameter($this,'meta_path','meta_requirement');
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_REQUIREMENT",$this->lng->txt('meta_requirement'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_TYPE",$this->lng->txt('meta_type'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_OPERATINGSYSTEM",$this->lng->txt('meta_operating_system'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_BROWSER",$this->lng->txt('meta_browser'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_NAME",$this->lng->txt('meta_name'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MINIMUMVERSION",$this->lng->txt('meta_minimum_version'));
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MAXIMUMVERSION",$this->lng->txt('meta_maximum_version'));
+
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_NO",$id);
+				$this->tpl->setVariable("ORREQUIREMENT_SEL_OS_NAME",
+										ilMDUtilSelect::_getOperatingSystemSelect($md_re->getOperatingSystemName(),
+																				  "met_re[".$id."][os][name]",
+																				  array(0 => $this->lng->txt('meta_please_select'))));
+				$this->tpl->setVariable("ORREQUIREMENT_SEL_BROWSER_NAME",
+										ilMDUtilSelect::_getBrowserSelect($md_re->getBrowserName(),
+																		  "met_re[".$id."][browser][name]",
+																		  array(0 => $this->lng->txt('meta_please_select'))));
+
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
+										ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion()));
+			
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
+										ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion()));
+
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
+										ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion()));
+			
+				$this->tpl->setVariable("ORREQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
+										ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion()));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("orcomposite_loop");
+
+			$this->ctrl->setParameter($this,'meta_index',$or_id);
+			$this->ctrl->setParameter($this,'meta_path','meta_or_composite');
+			$this->ctrl->setParameter($this,'meta_technical',$this->md_section->getMetaId());
+			$this->tpl->setVariable("ORCOMPOSITE_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+			$this->tpl->setVariable("ORCOMPOSITE_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+
+			$this->tpl->setVariable("ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE",$this->lng->txt('meta_or_composite'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// InstallationRemarks
+		$this->tpl->setVariable("INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS",$this->lng->txt('meta_installation_remarks'));
+		$this->tpl->setVariable("INSTALLATIONREMARKS_TXT_LANGUAGE",$this->lng->txt('meta_language'));
+
+		$this->tpl->setVariable("INSTALLATIONREMARKS_VAL",ilUtil::prepareFormOutput($this->md_section->getInstallationRemarks()));
+		$this->tpl->setVariable("INSTALLATIONREMARKS_VAL_LANGUAGE",
+								$this->__showLanguageSelect('inst_language',
+															$this->md_section->getInstallationRemarksLanguageCode()));
+
+		// Other platform requirement
+		$this->tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS",
+								$this->lng->txt('meta_other_plattform_requirements'));
+		$this->tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE",$this->lng->txt('meta_language'));
+
+		$this->tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_VAL",
+								ilUtil::prepareFormOutput($this->md_section->getOtherPlatformRequirements()));
+		$this->tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE",
+								$this->__showLanguageSelect('opr_language',
+															$this->md_section->getOtherPlatformRequirementsLanguageCode()));
+
+		// Duration
+		$this->tpl->setVariable("DURATION_TXT_DURATION",$this->lng->txt('meta_duration'));
+		$this->tpl->setVariable("DURATION_VAL",ilUtil::prepareFormOutput($this->md_section->getDuration()));
+
+		$this->tpl->setCurrentBlock("technical");
+		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+
+
 	function listLifecycle()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
@@ -1472,7 +1743,7 @@ class ilMDEditorGUI
 	{
 		include_once 'Services/MetaData/classes/class.ilMDFactory.php';
 
-		$md_element = ilMDFactory::_getInstance($_GET['meta_path'],$_GET['meta_index']);
+		$md_element = ilMDFactory::_getInstance($_GET['meta_path'],$_GET['meta_index'],$_GET['meta_technical']);
 		$md_element->delete();
 		
 		$this->listSection();
@@ -1497,6 +1768,12 @@ class ilMDEditorGUI
 		// Switch section
 		switch($_GET['section'])
 		{
+			case 'meta_technical':
+				$this->md_section =& $this->md_obj->addTechnical();
+				$this->md_section->save();
+				break;
+
+
 			case 'meta_lifecycle':
 				$this->md_section =& $this->md_obj->addLifecycle();
 				$this->md_section->save();
@@ -1566,6 +1843,10 @@ class ilMDEditorGUI
 		// Switch section
 		switch($_GET['section'])
 		{
+			case 'meta_technical':
+				$this->md_section =& $this->md_obj->getTechnical();
+				break;
+
 			case 'meta_lifecycle':
 				$this->md_section =& $this->md_obj->getLifecycle();
 				break;
@@ -1592,6 +1873,23 @@ class ilMDEditorGUI
 		// Switch new element
 		switch($section_element)
 		{
+			case 'meta_or_composite':
+				$md_new =& $this->md_section->addOrComposite();
+				$md_new = $md_new->addRequirement();
+				break;
+
+			case 'meta_requirement':
+				$md_new =& $this->md_section->addRequirement();
+				break;
+
+			case 'meta_location':
+				$md_new =& $this->md_section->addLocation();
+				break;
+
+			case 'meta_format':
+				$md_new = $this->md_section->addFormat();
+				break;
+
 			case 'meta_entity':
 				$md_new = $this->md_section->getContribute((int) $_GET['meta_index']);
 				$md_new = $md_new->addEntity();
@@ -1664,6 +1962,9 @@ class ilMDEditorGUI
 
 			case 'meta_lifecycle':
 				return $this->listLifecycle();
+
+			case 'meta_technical':
+				return $this->listTechnical();
 
 			case 'meta_meta_metadata':
 				return $this->listMetaMetadata();

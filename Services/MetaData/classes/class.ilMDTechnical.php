@@ -39,6 +39,38 @@ class ilMDTechnical extends ilMDBase
 						 $a_obj_type);
 	}
 
+	function getPossibleSubelements()
+	{
+		$subs['Format'] = 'meta_format';
+		#if(!strlen($this->getSize()))
+		#{
+		#	$subs['Size'] = 'meta_size';
+		#}
+		$subs['Location'] = 'meta_location';
+		if(!$this->getRequirementIds())
+		{
+			$subs['OrComposite'] = 'meta_or_composite';
+		}
+		if(!$this->getOrCompositeIds())
+		{
+			$subs['Requirement'] = 'meta_requirement';
+		}
+		if(!$this->getInstallationRemarks() and !$this->getInstallationRemarksLanguageCode())
+		{
+			$subs['InstallationRemarks'] = 'meta_installation_remarks';
+		}
+		if(!strlen($this->getOtherPlatformRequirements()) and !$this->getOtherPlatformRequirementsLanguageCode())
+		{
+			$subs['OtherPlatformRequirements'] = 'meta_other_plattform_requirements';
+		}
+		if(!strlen($this->getDuration()))
+		{
+			$subs['Duration'] = 'meta_duration';
+		}
+			
+		return $subs;
+	}
+
 	// Methods for child objects (Format, Location, Requirement OrComposite)
 	function &getFormatIds()
 	{
