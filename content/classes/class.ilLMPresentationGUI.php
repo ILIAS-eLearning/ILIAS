@@ -2681,7 +2681,6 @@ class ilLMPresentationGUI
 		}
 		$this->ilias->raiseError($this->lng->txt("file_not_found"),$this->ilias->error_obj->MESSAGE);
 	}
-
 	
 	/**
 	* handles links for learning module presentation
