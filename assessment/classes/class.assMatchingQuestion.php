@@ -558,14 +558,15 @@ class ASS_MatchingQuestion extends ASS_Question
 			$qtiRenderChoice->append_child($qtiResponseLabel);
 		}
 
-		if ($a_shuffle)
+		// shuffle again to get another order for the terms or pictures
+		if ($this->getshuffle() && $a_shuffle)
 		{
 			$pkeys = $this->pcArrayShuffle($pkeys);
 		}
-
 		// add matchingtext
-		foreach ($this->matchingpairs as $index => $matchingpair)
+		foreach ($pkeys as $index)
 		{
+			$matchingpair = $this->matchingpairs[$index];
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $matchingpair->getTermId());
 			$qtiMaterial = $this->domxml->create_element("material");
