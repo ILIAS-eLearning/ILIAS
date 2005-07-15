@@ -50,8 +50,6 @@ administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
-common#:#icrs_join#:#User may join LearnLinc Seminar
-common#:#icrs_leave#:#User may leave LearnLinc Seminar
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
@@ -644,6 +642,7 @@ chat#:#chat_color#:#Font color
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chat room
 chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat
+chat#:#chat_empty#:#Empty
 chat#:#chat_face#:#Font type
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#gray
@@ -672,6 +671,7 @@ chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#No users present.
 chat#:#chat_no_connection#:#Cannot contact chat server.
 chat#:#chat_no_delete_public#:#The public chat room cannot be deleted
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.
 chat#:#chat_no_refresh_public#:#the public chat room cannot be refreshed.
 chat#:#chat_no_rename_public#:#The public room cannot be renamed
 chat#:#chat_no_write_perm#:#No permission to write
@@ -681,11 +681,19 @@ chat#:#chat_private_message#:#Private Message
 chat#:#chat_profile#:#Profile
 chat#:#chat_public_room#:#Public chat room
 chat#:#chat_purple#:#purple
+chat#:#chat_recording_action#:#Action
 chat#:#chat_recording_description#:#Description
+chat#:#chat_recording_moderator#:#Moderator
+chat#:#chat_recording_not_found#:#Could not find recording.
 chat#:#chat_recording_running#:#Recording running
 chat#:#chat_recording_started#:#Recording started
 chat#:#chat_recording_stopped#:#Recording stopped
+chat#:#chat_recording_time_frame#:#Time frame
 chat#:#chat_recording_title#:#Title of recording
+chat#:#chat_recordings#:#Recordings
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?
+chat#:#chat_recordings_deleted#:#Recordings were deleted.
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.
 chat#:#chat_red#:#red
 chat#:#chat_refresh#:#Refresh
 chat#:#chat_room_added#:#Added new chat room
@@ -1257,7 +1265,6 @@ common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#export_html#:#export as HTML file
 common#:#export_xml#:#export as XML file
 common#:#extt_configure#:#configure...
-common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_edit_permission#:#Change permission settings
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Customer ID
@@ -1267,6 +1274,7 @@ common#:#extt_ilinc_port#:#Port
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_name#:#Software/Service
 common#:#extt_read#:#Access third party software settings
 common#:#extt_title_configure#:#Configure external software
@@ -1561,6 +1569,8 @@ common#:#icrs#:#LearnLinc Seminar
 common#:#icrs_add#:#Add LearnLinc Seminar
 common#:#icrs_delete#:#Delete LearnLinc Seminar
 common#:#icrs_edit_permission#:#Edit permission settings
+common#:#icrs_join#:#User may join LearnLinc Seminar
+common#:#icrs_leave#:#User may leave LearnLinc Seminar
 common#:#icrs_new#:#New LearnLinc Seminar
 common#:#icrs_read#:#Read access to LearnLinc Seminar
 common#:#icrs_visible#:#LearnLinc Seminar is visible
@@ -3003,6 +3013,7 @@ content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in di
 content#:#cont_fullscreen#:#Full Screen
 content#:#cont_get_link#:#get link
 content#:#cont_get_orig_size#:#Set original size
+content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Glossary Properties
 content#:#cont_height#:#Height
 content#:#cont_how_published#:#How published
@@ -3049,7 +3060,6 @@ content#:#cont_lk_survey#:#Survey
 content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)
 content#:#cont_lm_menu#:#Menu
-content#:#cont_glo_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
@@ -5148,13 +5158,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-chat#:#chat_recordings#:#Recordings
-chat#:#chat_recording_moderator#:#Moderator
-chat#:#chat_recording_time_frame#:#Time frame
-chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?
-chat#:#chat_no_recordings_available#:#No recordings are available at the moment.
-chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.
-chat#:#chat_recordings_deleted#:#Recordings were deleted.
-chat#:#chat_empty#:#Empty
-chat#:#chat_recording_action#:#Action
-chat#:#chat_recording_not_found#:#Could not find recording.

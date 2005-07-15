@@ -205,7 +205,6 @@ intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schri
 ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
-lang_bg#:#Bulgarisch
 lang_cs#:#Tschechisch
 lang_da#:#Dänisch
 lang_de#:#Deutsch

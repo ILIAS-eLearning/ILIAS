@@ -640,6 +640,7 @@ chat#:#chat_color#:#color de fuente
 chat#:#chat_delete_sure#:#¿Está seguro de que quiere eliminar esta sala?
 chat#:#chat_drop_user#:#Usuario expulsado
 chat#:#chat_edit#:#Editar chat
+chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
 chat#:#chat_face#:#tipo de fuente
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#gris
@@ -668,6 +669,7 @@ chat#:#chat_navy#:#azul marino
 chat#:#chat_no_active_users#:#No hay usuarios presentes.
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat
 chat#:#chat_no_delete_public#:#La habitación pública no pudo ser eliminada
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#la habitación pública no pudo ser actualizada
 chat#:#chat_no_rename_public#:#La habitación pública no pudo ser renombrada
 chat#:#chat_no_write_perm#:#No tiene permisos de escritura
@@ -677,11 +679,19 @@ chat#:#chat_private_message#:#Mensaje Privado
 chat#:#chat_profile#:#Perfil
 chat#:#chat_public_room#:#Sala de Chat pública
 chat#:#chat_purple#:#violeta
+chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
 chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
 chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
 chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
 chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
 chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
+chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
+chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#rojo
 chat#:#chat_refresh#:#Actualizar
 chat#:#chat_room_added#:#Nueva sala de chat añadida
@@ -925,7 +935,7 @@ common#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_create_url#:#Crear URL
-common#:#cat_create_webr#:#Crear nuevo Recurso Web
+common#:#cat_create_webr#:#Crear nuevo Recurso Web###15 Jul 2005 content changed
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -1075,7 +1085,7 @@ common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta
 common#:#crs_create_svy#:#Crear Encuesta
 common#:#crs_create_tst#:#Crear Test
-common#:#crs_create_webr#:#Crear nuevo Recurso Web
+common#:#crs_create_webr#:#Crear nuevo Recurso Web###15 Jul 2005 content changed
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_permission#:#Modificar configuración de permisos
@@ -1262,6 +1272,7 @@ common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
@@ -1461,7 +1472,7 @@ common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 common#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
 common#:#grp_create_svy#:#Crear Encuesta
 common#:#grp_create_tst#:#Crear Test
-common#:#grp_create_webr#:#Crear nuevo Recurso Web
+common#:#grp_create_webr#:#Crear nuevo Recurso Web###15 Jul 2005 content changed
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
@@ -1551,16 +1562,13 @@ common#:#https_not_possible#:#Este servidor no soporta conexiones HTTPS.
 common#:#i2passwd#:#contraseña de ILIAS 2
 common#:#icla#:#iLinc Classroom###14 Jul 2005 content changed
 common#:#icla_add#:#Añadir iLinc Classroom###14 Jul 2005 content changed
-common#:#icla_delete#:#Eliminar iLinc Classroom###14 Jul 2005 content changed
-common#:#icla_edit_permission#:#Editar configuración de permisos
 common#:#icla_new#:#Nueva iLinc Classroom###14 Jul 2005 content changed
-common#:#icla_read#:#Acceso de lectura a iLinc Classroom###14 Jul 2005 content changed
-common#:#icla_visible#:#iLinc Classroom es visible###14 Jul 2005 content changed
-common#:#icla_write#:#Editar iLinc Classroom###14 Jul 2005 content changed
 common#:#icrs#:#Curso iLinc###14 Jul 2005 content changed
 common#:#icrs_add#:#Añadir Curso iLinc###14 Jul 2005 content changed
 common#:#icrs_delete#:#Eliminar Curso iLinc###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Editar configuración de permisos
+common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
+common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_new#:#Nuevo Curso iLinc###14 Jul 2005 content changed
 common#:#icrs_read#:#Acceso de lectura a un Curso iLinc###14 Jul 2005 content changed
 common#:#icrs_visible#:#Curso iLinc visible###14 Jul 2005 content changed
@@ -3003,6 +3011,7 @@ content#:#cont_full_is_in_dir#:#No es posible eliminar. El fichero de pantalla c
 content#:#cont_fullscreen#:#Pantalla Completa
 content#:#cont_get_link#:#obtener enlace
 content#:#cont_get_orig_size#:#Establecer tamaño original
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Propiedades del Glosario
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#Modo de publicación
@@ -5089,6 +5098,8 @@ survey#:#subtype#:#Subtipo
 survey#:#survey_code#:#Código de acceso a encuesta
 survey#:#survey_code_message_sent#:#¡Un código de encuensta que le permite continuar la encuesta fue enviado a su bandeja de entrada!
 survey#:#survey_code_no_codes#:#Aún no ha creado ningún código de acceso
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Code was used
 survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
