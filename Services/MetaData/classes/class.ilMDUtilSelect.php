@@ -398,9 +398,10 @@ class ilMDUtilSelect
 		}
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
+
+
 	/**
-	 * Prepare a meta educational context
-	 * All possible entries in meta_format are shown
+	 * Prepare a meta location type
 	 *
 	 * @param string Checked item
 	 * @param string Name of form variable.
@@ -408,11 +409,11 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getContextSelect($a_selected,$a_name,$prepend = array())
+	function _getLocationTypeSelect($a_selected,$a_name,$prepend = array())
 	{
 		global $lng;
 
-		$items = array('School','HigherEducation','Training','Other');
+		$items = array('LocalFile','Reference');
 		
 		foreach($prepend as $value => $translation)
 		{

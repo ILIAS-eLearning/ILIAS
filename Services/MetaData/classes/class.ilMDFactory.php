@@ -31,8 +31,6 @@
 
 class ilMDFactory
 {
-
-
 	/*
 	 * get md element by index and type
 	 *
@@ -40,10 +38,44 @@ class ilMDFactory
 	 *
 	 * @return MD object
 	 */
-	function &_getInstance($a_type,$a_index)
+	function &_getInstance($a_type,$a_index,$a_technical_id = 0)
 	{
 		switch($a_type)
 		{
+			case 'meta_or_composite':
+				include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
+				include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
+
+				$tec = new ilMDTechnical();
+				$tec->setMetaId($a_technical_id);
+
+				return $tec->getOrComposite($a_index);
+
+			case 'meta_requirement':
+				include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+
+				$req =& new ilMDRequirement();
+				$req->setMetaId($a_index);
+
+				return $req;
+				
+
+			case 'meta_location':
+				include_once 'Services/MetaData/classes/class.ilMDLocation.php';
+
+				$loc =& new ilMDLocation();
+				$loc->setMetaId($a_index);
+
+				return $loc;
+
+			case 'meta_format':
+				include_once 'Services/MetaData/classes/class.ilMDFormat.php';
+
+				$for =& new ilMDFormat();
+				$for->setMetaId($a_index);
+
+				return $for;
+
 			case 'meta_lifecycle':
 				include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
 
