@@ -3124,6 +3124,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("start");
 				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+				if (!$this->object->isComplete())
+				{
+					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+					$test_disabled = true;
+				}
 				$this->tpl->parseCurrentBlock();
 			}							
 		}
@@ -3204,6 +3209,10 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				sendInfo($this->lng->txt("detail_max_processing_time_reached"));					
 			}				
+			if (!$this->object->isComplete())
+			{
+				sendInfo($this->lng->txt("warning_test_not_complete"));
+			}
 		}		
 		$introduction = $this->object->getIntroduction();
 		$introduction = preg_replace("/\n/i", "<br />", $introduction);
