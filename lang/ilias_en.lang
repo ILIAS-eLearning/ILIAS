@@ -322,6 +322,9 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
@@ -329,6 +332,7 @@ assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_javaapplet#:#Java Applet Question
 assessment#:#qt_matching#:#Matching Question
+assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question

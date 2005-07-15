@@ -23,6 +23,9 @@
 
 include_once("./classes/class.ilSaxParser.php");
 
+define ("IL_MO_PARSE_QTI",  1);
+define ("IL_MO_VERIFY_QTI", 2);
+
 /**
 * QTI Parser
 *
@@ -62,16 +65,29 @@ class ilQTIParser extends ilSaxParser
 	var $sametag;
 	var $characterbuffer;
 	var $conditionvar;
+	var $parser_mode;
+	
+	var $founditems = array();
+	var $verifyroot = false;
+	var $verifyqticomment = 0;
+	var $verifymetadatafield = 0;
+	var $verifyfieldlabel = 0;
+	var $verifyfieldlabeltext = "";
+	var $verifyfieldentry = 0;
+	var $verifyfieldentrytext = "";
 	
 	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file			xml file
+	* @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
 	* @access	public
 	*/
-	function ilQTIParser($a_xml_file)
+	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI)
 	{
 		global $lng;
+
+		$this->setParserMode($a_mode);
 
 		parent::ilSaxParser($a_xml_file);
 
@@ -101,11 +117,25 @@ class ilQTIParser extends ilSaxParser
 		$this->flow = 0;
 		$this->presentation = NULL;
 		$this->mattext = NULL;
+		$this->matapplet = NULL;
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
 		$this->metadata = array("label" => "", "entry" => "");
 	}
 
+	function setParserMode($a_mode = IL_MO_PARSE_QTI)
+	{
+		$this->parser_mode = $a_mode;
+		$this->founditems = array();
+		$this->verifyroot = false;
+		$this->verifyqticomment = 0;
+		$this->verifymetadatafield = 0;
+		$this->verifyfieldlabel = 0;
+		$this->verifyfieldentry = 0;
+		$this->verifyfieldlabeltext = "";
+		$this->verifyfieldentrytext = "";
+	}
+	
 	/**
 	* set event handler
 	* should be overwritten by inherited class
@@ -140,6 +170,22 @@ class ilQTIParser extends ilSaxParser
 	* handler for begin of element
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
+	{
+		switch ($this->parser_mode)
+		{
+			case IL_MO_PARSE_QTI:
+				$this->handlerParseBeginTag($a_xml_parser, $a_name, $a_attribs);
+				break;
+			case IL_MO_VERIFY_QTI:
+				$this->handlerVerifyBeginTag($a_xml_parser, $a_name, $a_attribs);
+				break;
+		}
+	}
+
+	/**
+	* handler for begin of element parser
+	*/
+	function handlerParseBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
@@ -478,6 +524,85 @@ class ilQTIParser extends ilSaxParser
 			case "mattext":
 				include_once ("./assessment/classes/class.ilQTIMattext.php");
 				$this->mattext = new ilQTIMattext();
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "texttype":
+								$this->mattext->setTexttype($value);
+								break;
+							case "label":
+								$this->mattext->setLabel($value);
+								break;
+							case "charset":
+								$this->mattext->setCharset($value);
+								break;
+							case "uri":
+								$this->mattext->setUri($value);
+								break;
+							case "xml:space":
+								$this->mattext->setXmlspace($value);
+								break;
+							case "xml:lang":
+								$this->mattext->setXmllang($value);
+								break;
+							case "entityref":
+								$this->mattext->setEntityref($value);
+								break;
+							case "height":
+								$this->mattext->setHeight($value);
+								break;
+							case "width":
+								$this->mattext->setWidth($value);
+								break;
+							case "x0":
+								$this->mattext->setX0($value);
+								break;
+							case "y0":
+								$this->mattext->setY0($value);
+								break;
+						}
+					}
+				}
+				break;
+			case "matapplet":
+				include_once ("./assessment/classes/class.ilQTIMatapplet.php");
+				$this->matapplet = New ilQTIMatapplet();
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "label":
+								$this->matapplet->setLabel($value);
+								break;
+							case "uri":
+								$this->matapplet->setUri($value);
+								break;
+							case "y0":
+								$this->matapplet->setY0($value);
+								break;
+							case "height":
+								$this->matapplet->setHeight($value);
+								break;
+							case "width":
+								$this->matapplet->setWidth($value);
+								break;
+							case "x0":
+								$this->matapplet->setX0($value);
+								break;
+							case "embedded":
+								$this->matapplet->setEmbedded($value);
+								break;
+							case "entityref":
+								$this->matapplet->setEntityref($value);
+								break;
+						}
+					}
+				}
 				break;
 			case "questestinterop":
 				$this->hasRootElement = TRUE;
@@ -694,7 +819,7 @@ class ilQTIParser extends ilSaxParser
 						switch (strtolower($attribute))
 						{
 							case "scoremodel":
-								$this->resprocessing->addScoremodel($value);
+								$this->resprocessing->setScoremodel($value);
 								break;
 						}
 					}
@@ -703,11 +828,26 @@ class ilQTIParser extends ilSaxParser
 		}
 	}
 
-
 	/**
 	* handler for end of element
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
+	{
+		switch ($this->parser_mode)
+		{
+			case IL_MO_PARSE_QTI:
+				$this->handlerParseEndTag($a_xml_parser, $a_name);
+				break;
+			case IL_MO_VERIFY_QTI:
+				$this->handlerVerifyEndTag($a_xml_parser, $a_name);
+				break;
+		}
+	}
+	
+	/**
+	* handler for end of element parser
+	*/
+	function handlerParseEndTag($a_xml_parser,$a_name)
 	{
 		switch (strtolower($a_name))
 		{
@@ -1628,8 +1768,146 @@ class ilQTIParser extends ilSaxParser
 						}
 						break;
 					case QT_JAVAAPPLET:
+						$duration = $this->item->getDuration();
+						$now = getdate();
+						$applet = NULL;
+						$maxpoints = 0;
+						$javacode = "";
+						$params = array();
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						$answers = array();
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											if ((strlen($mattext->getLabel()) == 0) && (strlen($this->item->getQuestiontext()) == 0))
+											{
+												$this->item->setQuestiontext($mattext->getContent());
+											}
+											if (strcmp($mattext->getLabel(), "points") == 0)
+											{
+												$maxpoints = $mattext->getContent();
+											}
+											else if (strcmp($mattext->getLabel(), "java_code") == 0)
+											{
+												$javacode = $mattext->getContent();
+											}
+											else if (strlen($mattext->getLabel()) > 0)
+											{
+												array_push($params, array("key" => $mattext->getLabel(), "value" => $mattext->getContent()));
+											}
+										}
+									}
+									if (count($material->matapplet))
+									{
+										foreach ($material->matapplet as $matapplet)
+										{
+											$applet = $matapplet;
+										}
+									}
+									break;
+							}
+						}
+
+						include_once ("./assessment/classes/class.assJavaApplet.php");
+						$question = new ASS_JavaApplet(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							$this->item->getQuestiontext()
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->javaapplet_filename = $applet->getUri();
+						$question->setJavaWidth($applet->getWidth());
+						$question->setJavaHeight($applet->getHeight());
+						$question->setJavaCode($javacode);
+						$question->setPoints($maxpoints);
+						foreach ($params as $pair)
+						{
+							$question->addParameter($pair["key"], $pair["value"]);
+						}
+						$question->saveToDb();
+						$javaapplet =& base64_decode($applet->getContent());
+						$javapath = $question->getJavaPath();
+						if (!file_exists($javapath))
+						{
+							ilUtil::makeDirParents($javapath);
+						}
+						$javapath .=  $question->javaapplet_filename;
+						$fh = fopen($javapath, "wb");
+						if ($fh == false)
+						{
+	//									global $ilErr;
+	//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+	//									return;
+						}
+						else
+						{
+							$javafile = fwrite($fh, $javaapplet);
+							fclose($fh);
+						}
 						break;
 					case QT_TEXT:
+						$duration = $this->item->getDuration();
+						$now = getdate();
+						$maxchars = 0;
+						$maxpoints = 0;
+						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+						foreach ($this->item->getPresentation()->order as $entry)
+						{
+							switch ($entry["type"])
+							{
+								case "material":
+									$material = $this->item->getPresentation()->material[$entry["index"]];
+									if (count($material->mattext))
+									{
+										foreach ($material->mattext as $mattext)
+										{
+											$this->item->setQuestiontext($mattext->getContent());
+										}
+									}
+								case "response":
+									$response = $this->item->getPresentation()->response[$entry["index"]];
+									switch (get_class($response->getRenderType()))
+									{
+										case "ilQTIRenderFib":
+											$maxchars = $response->getRenderType()->getMaxchars();
+											break;
+									}
+									break;
+							}
+						}
+
+						foreach ($this->item->resprocessing as $resprocessing)
+						{
+							$outcomes = $resprocessing->getOutcomes();
+							foreach ($outcomes->decvar as $decvar)
+							{
+								$maxpoints = $decvar->getMaxvalue();
+							}
+						}
+						
+						include_once ("./assessment/classes/class.assTextQuestion.php");
+						$question = new ASS_TextQuestion(
+							$this->item->getTitle(),
+							$this->item->getComment(),
+							$this->item->getAuthor(),
+							$ilUser->id,
+							$this->item->getQuestiontext()
+						);
+						$question->setObjId($questionpool_id);
+						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->setPoints($maxpoints);
+						$question->setMaxNumOfChars($maxchars);
+						$question->saveToDb();
 						break;
 				}
 				break;
@@ -1698,6 +1976,14 @@ class ilQTIParser extends ilSaxParser
 					$this->material->addMattext($this->mattext);
 				}
 				$this->mattext = NULL;
+				break;
+			case "matapplet":
+				if ($this->material != NULL)
+				{
+					$this->material->addMatapplet($this->matapplet);
+				}
+				$this->matapplet = NULL;
+				break;
 		}
 		$this->depth[$a_xml_parser]--;
 	}
@@ -1706,6 +1992,22 @@ class ilQTIParser extends ilSaxParser
 	* handler for character data
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
+	{
+		switch ($this->parser_mode)
+		{
+			case IL_MO_PARSE_QTI:
+				$this->handlerParseCharacterData($a_xml_parser, $a_data);
+				break;
+			case IL_MO_VERIFY_QTI:
+				$this->handlerVerifyCharacterData($a_xml_parser, $a_data);
+				break;
+		}
+	}
+
+  /**
+	* handler for character data
+	*/
+	function handlerParseCharacterData($a_xml_parser,$a_data)
 	{
 		$this->characterbuffer .= $a_data;
 		$a_data = $this->characterbuffer;
@@ -1768,6 +2070,12 @@ class ilQTIParser extends ilSaxParser
 					$this->item->setQuestiontext($a_data);
 				}
 				break;
+			case "matapplet":
+				if ($this->matapplet != NULL)
+				{
+					$this->matapplet->setContent($a_data);
+				}
+				break;
 			case "matimage":
 				$this->matimage->setContent($a_data);
 				break;
@@ -1799,5 +2107,106 @@ class ilQTIParser extends ilSaxParser
 		$this->sametag = TRUE;
 	}
 
+	/**
+	* handler for begin of element verification
+	*/
+	function handlerVerifyBeginTag($a_xml_parser,$a_name,$a_attribs)
+	{
+		switch (strtolower($a_name))
+		{
+			case "questestinterop":
+				$this->verifyroot = true;
+				break;
+			case "qtimetadatafield":
+				$this->verifymetadatafield = 1;
+				break;
+			case "fieldlabel":
+				$this->verifyfieldlabeltext = "";
+				if ($this->verifymetadatafield == 1) $this->verifyfieldlabel = 1;
+				break;
+			case "fieldentry":
+				$this->verifyfieldentrytext = "";
+				if ($this->verifymetadatafield == 1) $this->verifyfieldentry = 1;
+				break;
+			case "item":
+				array_push($this->founditems, array("title" => "", "type" => ""));
+				break;
+			case "qticomment":
+				// check for "old" ILIAS qti format (not well formed)
+				$this->verifyqticomment = 1;
+				break;
+			case "presentation":
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "label":
+								$this->founditems[count($this->founditems)-1]["title"] = $value;
+								break;
+						}
+					}
+				}
+				break;
+		}
+	}
+
+	/**
+	* handler for end of element verification
+	*/
+	function handlerVerifyEndTag($a_xml_parser,$a_name)
+	{
+		switch (strtolower($a_name))
+		{
+			case "qticomment":
+				// check for "old" ILIAS qti format (not well formed)
+				$this->verifyqticomment = 0;
+				break;
+			case "qtimetadatafield":
+				$this->verifymetadatafield = 0;
+				if (strcmp($this->verifyfieldlabeltext, "QUESTIONTYPE") == 0)
+				{
+					$this->founditems[count($this->founditems)-1]["type"] = $this->verifyfieldentrytext;
+				}
+				break;
+			case "fieldlabel":
+				$this->verifyfieldlabel = 0;
+				break;
+			case "fieldentry":
+				$this->verifyfieldentry = 0;
+				break;
+		}
+	}
+
+	/**
+	* handler for character data verification
+	*/
+	function handlerVerifyCharacterData($a_xml_parser,$a_data)
+	{
+		if ($this->verifyqticomment == 1)
+		{
+			if (preg_match("/Questiontype\=(.*)/", $a_data, $matches))
+			{
+				if (count($this->founditems))
+				{
+					$this->founditems[count($this->founditems)-1]["type"] = $matches[1];
+				}
+			}
+		}
+		else if ($this->verifyfieldlabel == 1)
+		{
+			$this->verifyfieldlabeltext = $a_data;
+		}
+		else if ($this->verifyfieldentry == 1)
+		{
+			$this->verifyfieldentrytext = $a_data;
+		}
+	}
+	
+	function &getFoundItems()
+	{
+		return $this->founditems;
+	}
 }
 ?>
