@@ -48,7 +48,6 @@ administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#found#:#Gefunden
-common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
 administration#:#found_none#:#Nicht gefunden
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
@@ -642,6 +641,7 @@ chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
+chat#:#chat_empty#:#Leeren
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
@@ -670,6 +670,7 @@ chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
+chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
 chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
 chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
@@ -679,11 +680,19 @@ chat#:#chat_private_message#:#Private Nachricht
 chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Öffentlicher Chatraum
 chat#:#chat_purple#:#purpur
+chat#:#chat_recording_action#:#Aktion
 chat#:#chat_recording_description#:#Beschreibung
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Aufnahme nicht gefunden.
 chat#:#chat_recording_running#:#Aufnahme läuft
 chat#:#chat_recording_started#:#Aufnahme gestartet
 chat#:#chat_recording_stopped#:#Aufnahme gestoppt
+chat#:#chat_recording_time_frame#:#Zeitraum
 chat#:#chat_recording_title#:#Titel der Aufnahme
+chat#:#chat_recordings#:#Aufnahmen
+chat#:#chat_recordings_delete_sure#:#Aufnahmen wirklich löschen?
+chat#:#chat_recordings_deleted#:#Aufnahmen wurden gelöscht.
+chat#:#chat_recordings_select_one#:#Bitte Aufnahmen auswählen, die Sie löschen möchten.
 chat#:#chat_red#:#rot
 chat#:#chat_refresh#:#Zurücksetzen
 chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
@@ -918,7 +927,7 @@ common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen
+common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
 common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -927,7 +936,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Web Ressource anlegen
+common#:#cat_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -1069,7 +1078,7 @@ common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_grp#:#Neue Gruppe anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
+common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
 common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#crs_create_mep#:#Neuen Media-Pool anlegen
 common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1077,7 +1086,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Web Ressource anlegen
+common#:#crs_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1259,11 +1268,12 @@ common#:#extt_edit_permission#:#Rechteeinstellungen ändern
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
-common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
+common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren###15 Jul 2005 content changed
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Passwort
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
 common#:#extt_name#:#Software/Dienst
 common#:#extt_read#:#Lesezugriff auf Software von Drittanbietern
 common#:#extt_title_configure#:#Software von Drittanbietern einrichten
@@ -1311,7 +1321,7 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#fold_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
+common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
 common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#fold_create_mep#:#Neuen Media-Pool anlegen
 common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1319,7 +1329,7 @@ common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#fold_create_svy#:#Neue Umfrage anlegen
 common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neue Web Ressource anlegen
+common#:#fold_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1455,7 +1465,7 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen
+common#:#grp_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
 common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -1463,7 +1473,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Web Ressource anlegen
+common#:#grp_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
@@ -1479,8 +1489,6 @@ common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum un
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
-common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
-common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
@@ -1553,17 +1561,19 @@ common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#i2passwd#:#ILIAS 2 password
-common#:#icla#:#LearnLinc Seminaraum
-common#:#icla_add#:#LearnLinc Seminarraum anlegen
-common#:#icla_new#:#Neuer LearnLinc Seminarraum
-common#:#icrs#:#LearnLinc Seminar
-common#:#icrs_add#:#LearnLinc Seminar anlegen
-common#:#icrs_delete#:#LearnLinc Seminar löschen
+common#:#icla#:#LearnLinc Seminaraum###15 Jul 2005 content changed
+common#:#icla_add#:#LearnLinc Seminarraum anlegen###15 Jul 2005 content changed
+common#:#icla_new#:#Neuer LearnLinc Seminarraum###15 Jul 2005 content changed
+common#:#icrs#:#LearnLinc Seminar###15 Jul 2005 content changed
+common#:#icrs_add#:#LearnLinc Seminar anlegen###15 Jul 2005 content changed
+common#:#icrs_delete#:#LearnLinc Seminar löschen###15 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_new#:#Neues LearnLinc Seminar
-common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar
-common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar
-common#:#icrs_write#:#LearnLinc Seminar bearbeiten
+common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
+common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
+common#:#icrs_new#:#Neues LearnLinc Seminar###15 Jul 2005 content changed
+common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar###15 Jul 2005 content changed
+common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar###15 Jul 2005 content changed
+common#:#icrs_write#:#LearnLinc Seminar bearbeiten###15 Jul 2005 content changed
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
@@ -1576,11 +1586,11 @@ common#:#il_crs_tutor#:#Kurs-Tutor
 common#:#il_frm_moderator#:#Forum-Moderator
 common#:#il_grp_admin#:#Gruppen-Administrator
 common#:#il_grp_member#:#Gruppen-Mitglied
-common#:#il_icrs_admin#:#LearnLinc Seminar-Administrator
-common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied
+common#:#il_icrs_admin#:#LearnLinc Seminar-Administrator###15 Jul 2005 content changed
+common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied###15 Jul 2005 content changed
 common#:#ilias_version#:#ILIAS Version
-common#:#ilinc_classrooms#:#LearnLinc Seminarräume
-common#:#ilinc_courses#:#LearnLinc Seminare
+common#:#ilinc_classrooms#:#LearnLinc Seminarräume###15 Jul 2005 content changed
+common#:#ilinc_courses#:#LearnLinc Seminare###15 Jul 2005 content changed
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -2072,8 +2082,8 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLinc Seminaraum
-common#:#obj_icrs#:#LearnLinc Seminar
+common#:#obj_icla#:#LearnLinc Seminaraum###15 Jul 2005 content changed
+common#:#obj_icrs#:#LearnLinc Seminar###15 Jul 2005 content changed
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -2149,8 +2159,8 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLinc Seminarräume
-common#:#objs_icrs#:#LearnLinc Seminare
+common#:#objs_icla#:#LearnLinc Seminarräume###15 Jul 2005 content changed
+common#:#objs_icrs#:#LearnLinc Seminare###15 Jul 2005 content changed
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
@@ -3002,6 +3012,7 @@ content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht 
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen
 content#:#cont_get_orig_size#:#Originalgröße setzen
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Glossar Eigenschaften
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
@@ -5087,6 +5098,8 @@ survey#:#subtype#:#Untertyp
 survey#:#survey_code#:#Zugangscode für die Umfrage
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
 survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangscodes für die Umfrage erstellt.
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
@@ -5143,13 +5156,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-chat#:#chat_recordings#:#Aufnahmen
-chat#:#chat_recording_moderator#:#Moderator
-chat#:#chat_recording_time_frame#:#Zeitraum
-chat#:#chat_recordings_delete_sure#:#Aufnahmen wirklich löschen?
-chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
-chat#:#chat_recordings_select_one#:#Bitte Aufnahmen auswählen, die Sie löschen möchten.
-chat#:#chat_recordings_deleted#:#Aufnahmen wurden gelöscht.
-chat#:#chat_empty#:#Leeren
-chat#:#chat_recording_action#:#Aktion
-chat#:#chat_recording_not_found#:#Aufnahme nicht gefunden.

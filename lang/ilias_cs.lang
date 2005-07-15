@@ -642,6 +642,7 @@ chat#:#chat_color#:#Font color###16 Mar 2004 new variable
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###16 Mar 2004 new variable
 chat#:#chat_drop_user#:#User kicked###16 Mar 2004 new variable
 chat#:#chat_edit#:#Edit chat ###16 Mar 2004 new variable
+chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
 chat#:#chat_face#:#Font type###16 Mar 2004 new variable
 chat#:#chat_fuchsia#:#fuchsia###16 Mar 2004 new variable
 chat#:#chat_gray#:#gray###16 Mar 2004 new variable
@@ -670,6 +671,7 @@ chat#:#chat_navy#:#navy###16 Mar 2004 new variable
 chat#:#chat_no_active_users#:#No users present.###16 Mar 2004 new variable
 chat#:#chat_no_connection#:#Cannot contact chatserver.###16 Mar 2004 new variable
 chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###16 Mar 2004 new variable
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###16 Mar 2004 new variable
 chat#:#chat_no_rename_public#:#The public room cannot be renamed###16 Mar 2004 new variable
 chat#:#chat_no_write_perm#:#No permission to write###16 Mar 2004 new variable
@@ -679,11 +681,19 @@ chat#:#chat_private_message#:#Private Message###16 Mar 2004 new variable
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Public chatroom###16 Mar 2004 new variable
 chat#:#chat_purple#:#purple###16 Mar 2004 new variable
+chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
 chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
 chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
 chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
 chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
 chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
+chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
+chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#red###16 Mar 2004 new variable
 chat#:#chat_refresh#:#Refresh###16 Mar 2004 new variable
 chat#:#chat_room_added#:#Added new chatroom###16 Mar 2004 new variable
@@ -1264,6 +1274,7 @@ common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
@@ -1553,16 +1564,13 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
 common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
 common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
-common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
 common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
 common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
 common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
 common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
+common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
+common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
 common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
 common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
@@ -3005,6 +3013,7 @@ content#:#cont_full_is_in_dir#:#Smazání není možné.  Celoobrazovkový soubo
 content#:#cont_fullscreen#:#Přes celou obrazovku###14 Sep 2004 content changed
 content#:#cont_get_link#:#get link###16 Mar 2004 new variable
 content#:#cont_get_orig_size#:#Set original size###16 Mar 2004 new variable
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#Výška###07 Apr 2005 content changed
 content#:#cont_how_published#:#Jak publikováno###07 Apr 2005 content changed
@@ -5091,6 +5100,8 @@ survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
 survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable

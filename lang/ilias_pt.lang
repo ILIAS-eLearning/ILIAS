@@ -642,6 +642,7 @@ chat#:#chat_color#:#Cor da Fonte###07 Apr 2005 content changed
 chat#:#chat_delete_sure#:#Tem a certeza, quer apagar esta Sala de chat###14 Sep 2004 content changed
 chat#:#chat_drop_user#:#Utilizador dispensado###07 Apr 2005 content changed
 chat#:#chat_edit#:#Editar chat###29 Nov 2004 content changed
+chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
 chat#:#chat_face#:#Tipo de Fonte###07 Apr 2005 content changed
 chat#:#chat_fuchsia#:#fúcsia###07 Apr 2005 content changed
 chat#:#chat_gray#:#cinzento###07 Apr 2005 content changed
@@ -670,6 +671,7 @@ chat#:#chat_navy#:#azul-marinho###07 Apr 2005 content changed
 chat#:#chat_no_active_users#:#Nenhuns utilizadores presentes.###07 Apr 2005 content changed
 chat#:#chat_no_connection#:#Não pode contactar o servidor de chat.###14 Sep 2004 content changed
 chat#:#chat_no_delete_public#:#A sala de chat pública não pode ser apagada###14 Sep 2004 content changed
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#A sala de chat pública não pode ser actualizada.###14 Sep 2004 content changed
 chat#:#chat_no_rename_public#:#A sala pública não pode ser renomeada###07 Apr 2005 content changed
 chat#:#chat_no_write_perm#:#Sem permissão para escrever###07 Apr 2005 content changed
@@ -679,11 +681,19 @@ chat#:#chat_private_message#:#Mensagem Privada###07 Apr 2005 content changed
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Sala de chat pública###14 Sep 2004 content changed
 chat#:#chat_purple#:#púrpura###07 Apr 2005 content changed
+chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
 chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
 chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
 chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
 chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
 chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
+chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
+chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#vermelho###07 Apr 2005 content changed
 chat#:#chat_refresh#:#Actualizar###07 Apr 2005 content changed
 chat#:#chat_room_added#:#Adicionada nova Sala de chat###14 Sep 2004 content changed
@@ -1264,6 +1274,7 @@ common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
@@ -1553,16 +1564,13 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
 common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
 common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
-common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
 common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
 common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
 common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
 common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
+common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
+common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
 common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
 common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
@@ -3005,6 +3013,7 @@ content#:#cont_full_is_in_dir#:#Eliminação não possível. Ficheiro de ecrã i
 content#:#cont_fullscreen#:#Ecrã inteiro###14 Sep 2004 content changed
 content#:#cont_get_link#:#obter ligação###07 Apr 2005 content changed
 content#:#cont_get_orig_size#:#Definir tamanho original###07 Apr 2005 content changed
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#Altura###07 Apr 2005 content changed
 content#:#cont_how_published#:#Como está publicado###07 Apr 2005 content changed
@@ -5091,6 +5100,8 @@ survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
 survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable

@@ -603,6 +603,7 @@ chat#:#chat_color#:#Boja pisma
 chat#:#chat_delete_sure#:#Da li ste sigurni da želite da obrišete ovu sobu za caskanje?
 chat#:#chat_drop_user#:#Korisnik izbacen
 chat#:#chat_edit#:#Uredi caskanje
+chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
 chat#:#chat_face#:#Vrsta pisma
 chat#:#chat_fuchsia#:#fuksija
 chat#:#chat_gray#:#siva
@@ -631,6 +632,7 @@ chat#:#chat_navy#:#marin plava
 chat#:#chat_no_active_users#:#Nema prisutnih korisnika.
 chat#:#chat_no_connection#:#Nije moguce uspostaviti kontakt sa serverom za caskanje.
 chat#:#chat_no_delete_public#:#Javna soba za caskanje ne može biti obrisana
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#Javna soba za caskanje ne može biti osvežena.
 chat#:#chat_no_rename_public#:#Javna soba za caskanje ne može biti preimenovana
 chat#:#chat_no_write_perm#:#Nema dozvole za pisanje
@@ -640,11 +642,19 @@ chat#:#chat_private_message#:#Privatna poruka
 chat#:#chat_profile#:#Profile###20 Jun 2005 new variable
 chat#:#chat_public_room#:#Javna soba za caskanje
 chat#:#chat_purple#:#ljubicasta
+chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
 chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
 chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
 chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
 chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
 chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
+chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
+chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#crvena
 chat#:#chat_refresh#:#Osvežiti
 chat#:#chat_room_added#:#Nova soba za caskanje je dodata
@@ -1209,6 +1219,7 @@ common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
@@ -1486,16 +1497,13 @@ common#:#https_not_possible#:#Ovaj server ne podržava HTTPS  veze.
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Ucionica###14 Jul 2005 content changed
 common#:#icla_add#:#Dodaj iLinc Ucionica###14 Jul 2005 content changed
-common#:#icla_delete#:#Obriši iLinc Ucionicu###14 Jul 2005 content changed
-common#:#icla_edit_permission#:#Promenite okvir za dozvolu
 common#:#icla_new#:#Nova iLinc Ucionica###14 Jul 2005 content changed
-common#:#icla_read#:#Upoznaj iLinc Ucionicu###14 Jul 2005 content changed
-common#:#icla_visible#:#iLinc Ucionica je vidljiva###14 Jul 2005 content changed
-common#:#icla_write#:#Uredi iLinc Ucionicu###14 Jul 2005 content changed
 common#:#icrs#:#iLinc Kurs###14 Jul 2005 content changed
 common#:#icrs_add#:#Dodaj iLinc Kurs###14 Jul 2005 content changed
 common#:#icrs_delete#:#Obriši iLinc Kurs###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Promenite okvir za dozvolu
+common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
+common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_new#:#Novi iLinc Kurs###14 Jul 2005 content changed
 common#:#icrs_read#:#Upoznajte se sa pristupom iLinc Kursu###14 Jul 2005 content changed
 common#:#icrs_visible#:#iLinc Kurs je vidljiv###14 Jul 2005 content changed
@@ -2844,6 +2852,7 @@ content#:#cont_full_is_in_dir#:#Brisanje nije moguce. Faj celog ekrana je u dire
 content#:#cont_fullscreen#:#Ceo ekran
 content#:#cont_get_link#:#uspostavi vezu
 content#:#cont_get_orig_size#:#Podesi originalnu velicinu
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Karakteristike Recnika
 content#:#cont_height#:#Visina
 content#:#cont_how_published#:#Kako je izdato
@@ -4891,6 +4900,8 @@ survey#:#subtype#:#Podvrsta
 survey#:#survey_code#:#Anketni pristupni kod
 survey#:#survey_code_message_sent#:#Anketni kod koji vam dozvoljava da vratite anketu poslat je u vaše poštansko sanduce!
 survey#:#survey_code_no_codes#:#Još uvek niste sastavili nijedan anketni pristupni kod.
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#kod je korišcen
 survey#:#survey_finish#:#završi anketu
 survey#:#survey_finished#:#Završili ste anketu. Hvala vam na ucešcu!

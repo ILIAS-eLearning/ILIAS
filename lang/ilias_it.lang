@@ -640,6 +640,7 @@ chat#:#chat_color#:#Colori dei font
 chat#:#chat_delete_sure#:#Sei sicuro di voler eliminare questa chatroom
 chat#:#chat_drop_user#:#Utente tolto
 chat#:#chat_edit#:#Modifica chat
+chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
 chat#:#chat_face#:#Tipo font
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#grigio
@@ -668,6 +669,7 @@ chat#:#chat_navy#:#avio
 chat#:#chat_no_active_users#:#Non sono presenti utenti
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
+chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
@@ -677,11 +679,19 @@ chat#:#chat_private_message#:#Messaggio privato
 chat#:#chat_profile#:#Profilo
 chat#:#chat_public_room#:#Chatroom pubblica
 chat#:#chat_purple#:#porpora
+chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
 chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
 chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
 chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
 chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
+chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
 chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
+chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
+chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
+chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
+chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#rosso
 chat#:#chat_refresh#:#Aggiorna
 chat#:#chat_room_added#:#Aggiunte nuove chatroom
@@ -925,7 +935,7 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_create_webr#:#Creare una risorsa web
+common#:#cat_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
 common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1075,7 +1085,7 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
-common#:#crs_create_webr#:#Creare una risorsa web
+common#:#crs_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1262,6 +1272,7 @@ common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
@@ -1461,7 +1472,7 @@ common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
-common#:#grp_create_webr#:#Creare una risorsa web
+common#:#grp_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1551,16 +1562,13 @@ common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#i2passwd#:#Password di ILIAS 2
 common#:#icla#:#Classe iLinc###14 Jul 2005 content changed
 common#:#icla_add#:#Aggiungi classe iLinc###14 Jul 2005 content changed
-common#:#icla_delete#:#Elimina classe iLinc###14 Jul 2005 content changed
-common#:#icla_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#icla_new#:#Creare classi iLinc###14 Jul 2005 content changed
-common#:#icla_read#:#Accedere in lettura alle classi iLinc###14 Jul 2005 content changed
-common#:#icla_visible#:#Vedere classi iLinc###14 Jul 2005 content changed
-common#:#icla_write#:#Modificare classi iLinc###14 Jul 2005 content changed
 common#:#icrs#:#Corso iLinc###14 Jul 2005 content changed
 common#:#icrs_add#:#Aggiungi corso iLinc###14 Jul 2005 content changed
 common#:#icrs_delete#:#Elimina corso iLinc###14 Jul 2005 content changed
 common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
+common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_new#:#Nuovo corso iLinc###14 Jul 2005 content changed
 common#:#icrs_read#:#Accedere in lettura a corsi iLinc###14 Jul 2005 content changed
 common#:#icrs_visible#:#Vedere corsi iLinc###14 Jul 2005 content changed
@@ -3000,6 +3008,7 @@ content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a
 content#:#cont_fullscreen#:#A tutto schermo
 content#:#cont_get_link#:#restituisci il collegamento
 content#:#cont_get_orig_size#:#Ripristina le dimensioni originali
+content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Propriet&#224; del glossario
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Tipo di pubblicazione
@@ -5086,6 +5095,8 @@ survey#:#subtype#:#Sottotipo
 survey#:#survey_code#:#Codice di accesso al sondaggio
 survey#:#survey_code_message_sent#:#Il codice del sondaggio che ti consente di riprenderlo dal punto in cui &#232; stato interrotto, ti &#232; stato inviato con una eMail!
 survey#:#survey_code_no_codes#:#Non hai ancora creato nessun codice di accesso al sondaggio.
+survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
 survey#:#survey_code_used#:#Stato del codice
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
