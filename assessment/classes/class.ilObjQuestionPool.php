@@ -943,6 +943,22 @@ class ilObjQuestionPool extends ilObject
 			return false;
 		}
 	}
+
+	/**
+	* get import directory of lm
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	function &getAllQuestionIds()
 	{

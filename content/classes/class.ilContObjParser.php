@@ -671,6 +671,13 @@ class ilContObjParser extends ilMDSaxParser
 							}
 						}
 					}
+					else
+					{
+						$this->md =& new ilMD($this->content_object->getId() ,
+							$this->current_object->getId(),
+							$this->current_object->getType()
+						);
+					}
 				}
 				break;
 
@@ -1082,8 +1089,9 @@ class ilContObjParser extends ilMDSaxParser
 					strtolower(get_class($this->current_object)) == "ilobjtest") &&
 					!$this->in_media_object && !$this->in_page_object)
 				{
-					// todo: saving of md? getting title/descr and
-					// set it for current object
+					$this->current_object->MDUpdateListener('General');
+					ilLMObject::_writeImportId($this->current_object->getId(),
+							$this->current_object->getImportId());
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
