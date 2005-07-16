@@ -316,6 +316,9 @@ assessment#:#qpl_edit_rbac_error#:#Nemate prava da menjate ovo pitanje!
 assessment#:#qpl_edit_select_multiple#:#Molimo proverite samo jedno pitanje radi izmene
 assessment#:#qpl_edit_select_none#:#Molimo proverite jedno pitanje radi izmene
 assessment#:#qpl_export_select_none#:#Molimo proverite bar jedno pitanje radi .......
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Pitanje koje nameravate da izmenite nalazi se u %s testova. Ukoliko promenite ovo pitanje, NECETE promeniti pitanje(a) u testu/testovima, zato što sistem pravi kopije pitanja kada su una ubacena u test!
 assessment#:#qpl_questions_deleted#:#Pitanje(a) obrisano(a).
 assessment#:#qpl_select_file_for_import#:#Morate odabrati dokument za unos!
@@ -323,6 +326,7 @@ assessment#:#qt_cloze#:#Zatvori Pitanje###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#Pitanje mape slike
 assessment#:#qt_javaapplet#:#Pitanje Java aplikacije
 assessment#:#qt_matching#:#Odgovarajuce pitanje
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Pitanje višestrukog izbora (više odgovora)
 assessment#:#qt_multiple_choice_sr#:#Pitanje višestrukog izbora (jedan odgovor)
 assessment#:#qt_ordering#:#Porucivanje pitanja
