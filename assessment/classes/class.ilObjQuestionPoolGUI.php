@@ -432,7 +432,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
 		// import qti data
-		//$qtiresult = $newObj->importObject($qti_file);
+		$qtiresult = $newObj->importObject($qti_file);
 
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");
@@ -442,16 +442,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		/* update title and description in object data */
 
-		if (is_object($newObj->meta_data))
-		{
-			// read the object metadata from the nested set tables
-			//$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
-			//$newObj->meta_data = $meta_data;
-			//$newObj->setTitle($newObj->meta_data->getTitle());
-			//$newObj->setDescription($newObj->meta_data->getDescription());
-			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
-			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
-		}
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		//$md = new ilMD(0,$this->object->getId(),$this->object->getType());
+		$new_md =& $contParser->md->cloneMD(0,$newObj->getId(),$newObj->getType());			
 
 		unlink($xml_file);
 		unlink($qti_file);

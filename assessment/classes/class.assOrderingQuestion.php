@@ -334,14 +334,9 @@ class ASS_OrderingQuestion extends ASS_Question
 						}
 						$imagefile = fwrite($fh, $image);
 						fclose($fh);
-						$extension = "jpg";
-						if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $imagepath, $matches))
-						{
-							$extension = $matches[1];
-						}
 						// create thumbnail file
-						$thumbpath = $imagepath . "." . "thumb.$extension";
-						ilUtil::convertImage($imagepath, $thumbpath, strtoupper($extension), 100);
+						$thumbpath = $imagepath . "." . "thumb.jpg";
+						ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 					}
 				}
 			}
