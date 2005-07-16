@@ -322,6 +322,9 @@ assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen
 assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen###07 Apr 2005 content changed
 assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen###07 Apr 2005 content changed
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export###07 Apr 2005 content changed
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#De vraag, die u nu gaat bewerken, bestaat al in %s test(en). Als u deze vraag nu wijzigt, wijzigt u niet de vraag/vragen in de test(en), omdat het systeem een copie van de vraag maakt als de vraag in een test wordt opgenomen!###07 Apr 2005 content changed
 assessment#:#qpl_questions_deleted#:#Vraag/vragen verwijderd.###07 Apr 2005 content changed
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!###16 Nov 2004 new variable
@@ -329,6 +332,7 @@ assessment#:#qt_cloze#:#Gatentekst-vraag###07 Apr 2005 content changed
 assessment#:#qt_imagemap#:#Grafische kaart-vraag###07 Apr 2005 content changed
 assessment#:#qt_javaapplet#:#Java Applet vraag###07 Apr 2005 content changed
 assessment#:#qt_matching#:#Overeenkomende vraag###07 Apr 2005 content changed
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één antwoord)###07 Apr 2005 content changed
 assessment#:#qt_ordering#:#Bestel-vraag###07 Apr 2005 content changed

@@ -316,6 +316,9 @@ assessment#:#qpl_edit_rbac_error#:#Du har ikke rettigheder til at &aelig;ndre i 
 assessment#:#qpl_edit_select_multiple#:#Marker venligst kun et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_edit_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_export_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at eksportere det
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Sp&oslash;rgsm&aring;let du er ved at &aelig;ndre findes i %s test. Hvis du &aelig;ndre sp&oslash;rgsm&aring;let vil du ikke &aelig;ndre sp&oslash;rgsm&aring;let i disse test, fordi systemet laver en kopi af sp&oslash;rgsm&aring;let n&aring;r det tilf&oslash;jes til en test!
 assessment#:#qpl_questions_deleted#:#Sp&oslash;rgsm&aring;l slettet.
 assessment#:#qpl_select_file_for_import#:#Du m&aring; v&aelig;lge en fil at importere!
@@ -323,6 +326,7 @@ assessment#:#qt_cloze#:#Luk sp&oslash;rgsm&aring;l###23 May 2005 content changed
 assessment#:#qt_imagemap#:#Billed mappe sp&oslash;rgsm&aring;l
 assessment#:#qt_javaapplet#:#Java Applet sp&oslash;rgsm&aring;l
 assessment#:#qt_matching#:#Ens sp&oslash;rgsm&aring;l
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice sp&oslash;rgsm&aring;l (flere svar)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice sp&oslash;rgsm&aring;l (enkelt svar)
 assessment#:#qt_ordering#:#Sorter sp&oslash;rgsm&aring;l

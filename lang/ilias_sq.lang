@@ -316,6 +316,9 @@ assessment#:#qpl_edit_rbac_error#:#Nuk keni të drejta për të edituar këtë p
 assessment#:#qpl_edit_select_multiple#:#Ju lutem zgjedheni vetëm një pyetje për editimim
 assessment#:#qpl_edit_select_none#:#Ju lutem zgjedheni një pyetje për editimim
 assessment#:#qpl_export_select_none#:#Ju lutem zgjedheni së paku një pyetje për ta eksportuar
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Pyetjen që jeni duke e edituar ekziston në %s test(e). Nëse e ndërroni këtë pyetje, nuk do të ndërroni pyetjen/pyetjet në testin/testet, për shkak se sistemi krijon një kopje të pyetjes kur ajo futet në test!
 assessment#:#qpl_questions_deleted#:#Pyetja/pyetjet janë fshirë
 assessment#:#qpl_select_file_for_import#:#Duhet të përzgjedheni një skedar për importim!
@@ -323,6 +326,7 @@ assessment#:#qt_cloze#:#Mbyll Pyetjen###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#Pyetje me skemë të imazheve
 assessment#:#qt_javaapplet#:#Pyetje Java Applet
 assessment#:#qt_matching#:#Pyetje krahasore
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Pyetje me zgjedhje të shumëfishtë (me përgjigje të shumëfishtë)
 assessment#:#qt_multiple_choice_sr#:#Pyetje me zgjedhje të shumëfishtë (një përgjigje)
 assessment#:#qt_ordering#:#Radhitja e Pyetjeve

@@ -321,6 +321,9 @@ assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагув�
 assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
 assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одне питання для редагування
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Питання що ви збираєтесь редагувати існує в %s тесті(ах). Якщо ви зміните це питання, ви НЕ зміните питання в тесті(ах), тому що система створює копію питання коли воно вставляється в тест!
 assessment#:#qpl_questions_deleted#:#Питання виделено(і).
 assessment#:#qpl_select_file_for_import#:#Ви повинні вибрати файл для імпорту!
@@ -328,6 +331,7 @@ assessment#:#qt_cloze#:#Закрити питання###20 Jun 2005 content chan
 assessment#:#qt_imagemap#:#Питання з картою зображення
 assessment#:#qt_javaapplet#:#Питання з Ява Аплетом
 assessment#:#qt_matching#:#Співпадаючі питання
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання

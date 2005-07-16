@@ -312,6 +312,9 @@ assessment#:#qpl_edit_rbac_error#:#Nincs joga szerkeszteni ezt a kérdést!
 assessment#:#qpl_edit_select_multiple#:#Csak egy kérdést ellenőrizzen a szerkesztéshez
 assessment#:#qpl_edit_select_none#:#Ellenőrizzen egy kérdést a szerkesztéshez
 assessment#:#qpl_export_select_none#:#Legalább egy kérdést ellenőrizzen az exportáláshoz
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#A szerkesztendő kérdés % tesztben szerepel. Ha megváltoztatja a kérdést, az a teszt(ek)ben nem fog megváltozni, mivel a rendszer másolatot hoz létre a kérdésekről, mielőtt beteszi azokat a tesztekbe.
 assessment#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
 assessment#:#qpl_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz!
@@ -319,6 +322,7 @@ assessment#:#qt_cloze#:#Mondatkiegészítés
 assessment#:#qt_imagemap#:#Image Map-es kérdés
 assessment#:#qt_javaapplet#:#Java Applet kérdés
 assessment#:#qt_matching#:#Párosító kérdés
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Többszörös választási lehetőség (többszörös válasz)
 assessment#:#qt_multiple_choice_sr#:#Többszörös választási lehetőség (egyszeres válasz)
 assessment#:#qt_ordering#:#Sorrendbe rakó kérdés

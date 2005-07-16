@@ -315,6 +315,9 @@ assessment#:#qpl_edit_rbac_error#:#Nu aveti dreptul de a edita aceasta intrebare
 assessment#:#qpl_edit_select_multiple#:#Va rugam selectati doar o intrebare pentru a o edita
 assessment#:#qpl_edit_select_none#:#Va rugam selectati o intrebare pentru a o edita
 assessment#:#qpl_export_select_none#:#Va rugam selectati cel putin o intrebare pentru a o exporta
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#Intrebarea pe care doriti sa o editati axista in %s test(e). Daca schimbati aceasta intrebare, NU veti putea schimba intrebarea din alte teste pentru ca sistemul creaza o copie a intrebarii atunci cand este introdusa in test!
 assessment#:#qpl_questions_deleted#:#Intrebare stearsa.
 assessment#:#qpl_select_file_for_import#:#Trebuie sa selectati un fisier pentru a-l importa!
@@ -322,6 +325,7 @@ assessment#:#qt_cloze#:#Inchide intrebarea###20 Jun 2005 content changed
 assessment#:#qt_imagemap#:#Intrebare despre o harta imagine
 assessment#:#qt_javaapplet#:#Intrebare despre Java Applet
 assessment#:#qt_matching#:#Intrebare potrivita
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Intrebare cu variante multiple(raspunsuri multiple)
 assessment#:#qt_multiple_choice_sr#:#Intrebare cu variante multiple(raspuns unic)
 assessment#:#qt_ordering#:#Ordoneaza intrebarile

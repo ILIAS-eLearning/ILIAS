@@ -318,6 +318,9 @@ assessment#:#qpl_edit_rbac_error#:#Vous n'avez pas le droit de modifier cette qu
 assessment#:#qpl_edit_select_multiple#:#Veuillez ne sélectionner qu'une question à modifier###07 Apr 2005 content changed
 assessment#:#qpl_edit_select_none#:#Veuillez sélectionner une question à modifier###07 Apr 2005 content changed
 assessment#:#qpl_export_select_none#:#Veuillez saisir au moins une question pour l'exporter###07 Apr 2005 content changed
+assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
+assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
 assessment#:#qpl_question_is_in_use#:#La question que vous êtes sur le point de modifier existe dans %s test(s).  Si vous changez cette question, vous ne la changerez pas dans ce(s) test(s), car le système crée une copie de la question quand elle est insérée dans un test.###07 Apr 2005 content changed
 assessment#:#qpl_questions_deleted#:#Question(s) détruite(s).###07 Apr 2005 content changed
 assessment#:#qpl_select_file_for_import#:#Vous devez sélectionner un fichier à importer###07 Apr 2005 content changed
@@ -325,6 +328,7 @@ assessment#:#qt_cloze#:#Question de closure###07 Apr 2005 content changed
 assessment#:#qt_imagemap#:#Question d'image réactive###07 Apr 2005 content changed
 assessment#:#qt_javaapplet#:#Question d'applet Java###07 Apr 2005 content changed
 assessment#:#qt_matching#:#Question d'appariement###07 Apr 2005 content changed
+assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#qt_multiple_choice_mr#:#Question à choix multiple (réponse multiple)###07 Apr 2005 content changed
 assessment#:#qt_multiple_choice_sr#:#Question###07 Apr 2005 content changed
 assessment#:#qt_ordering#:#Question de remise en ordre###07 Apr 2005 content changed
