@@ -68,6 +68,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		else
 		{
 			$this->initCourseContentInterface();
+			$this->cci_obj->cci_setContainer($this);
 			$this->cci_obj->cci_view();
 		}
 		return true;
