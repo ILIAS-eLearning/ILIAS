@@ -599,27 +599,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// import qti data
 		$qtiresult = $newObj->importObject($qti_file, $_POST["qpl"]);
-//		$tmp_title = $newObj->getTitle();
-//		$tmp_descr = $newObj->getDescription();
+
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->setQuestionMapping($newObj->getImportMapping());
 		$contParser->startParsing();
-
-		/* update title and description in object data */
-/*
-		if (is_object($newObj->meta_data))
-		{
-			// read the object metadata from the nested set tables
-			//$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
-			//$newObj->meta_data = $meta_data;
-			//$newObj->setTitle($newObj->meta_data->getTitle());
-			//$newObj->setDescription($newObj->meta_data->getDescription());
-			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
-			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
-		}
-*/
 
 		$newObj->saveToDb();
 		if ($redirect)

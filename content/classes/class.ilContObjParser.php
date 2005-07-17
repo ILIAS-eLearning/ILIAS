@@ -673,8 +673,9 @@ class ilContObjParser extends ilMDSaxParser
 					}
 					else
 					{
-						$this->md =& new ilMD($this->content_object->getId() ,
-							$this->current_object->getId(),
+							$this->current_object->deleteMetaData();
+							$this->md =& new ilMD($this->content_object->getId() ,
+							0,
 							$this->current_object->getType()
 						);
 					}
@@ -1090,8 +1091,8 @@ class ilContObjParser extends ilMDSaxParser
 					!$this->in_media_object && !$this->in_page_object)
 				{
 					$this->current_object->MDUpdateListener('General');
-					ilLMObject::_writeImportId($this->current_object->getId(),
-							$this->current_object->getImportId());
+//					ilLMObject::_writeImportId($this->current_object->getId(),
+//							$this->current_object->getImportId());
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block

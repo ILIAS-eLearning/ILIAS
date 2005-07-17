@@ -853,12 +853,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 					print "image could not be duplicated!!!! ";
 				}
-				$extension = "jpg";
-				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $filename, $matches))
-				{
-					$extension = $matches[1];
-				}
-				if (!copy($imagepath_original . $filename . ".thumb.$extension", $imagepath . $filename . ".thumb.$extension")) {
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
 					print "image thumbnail could not be duplicated!!!! ";
 				}
 			}
