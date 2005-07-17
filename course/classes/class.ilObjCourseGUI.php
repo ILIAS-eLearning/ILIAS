@@ -54,7 +54,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "crs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('crs');
 
@@ -129,6 +129,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			   ($this->object->isActivated() and !$this->object->isArchived()))
 			{
 				$this->initCourseContentInterface();
+				$this->cci_obj->cci_setContainer($this);
 				$this->cci_obj->cci_view();
 			}
 			else
@@ -3826,6 +3827,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function cciObjectivesObject()
 	{
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives();
 
 		return true;;
@@ -3833,6 +3835,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function cciObjectivesEditObject()
 	{
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_view();
 
 		return true;
@@ -3840,6 +3843,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function cciObjectivesAskResetObject()
 	{
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives_ask_reset();
 
 		return true;;
@@ -3856,6 +3860,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		sendInfo($this->lng->txt('crs_objectives_reseted'));
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives();
 	}
 
@@ -3870,6 +3875,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();
 
 		return true;;
@@ -3886,6 +3892,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_update();
 
 		return true;;
@@ -3901,6 +3908,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_move();
 
 		return true;;

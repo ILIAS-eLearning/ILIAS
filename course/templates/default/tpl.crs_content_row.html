@@ -3,13 +3,13 @@
 	  <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
 	</td>
 	<td valign="top" class="{ROWCOL}" nowrap="nowrap">
+	  {ITEM_HTML}
 	  <!-- BEGIN crs_read -->
 	  <a href="{READ_LINK}" target={READ_TARGET}{R_CLASS}>{READ_TITLE}</a>
 	  <!-- END crs_read -->
 	  <!-- BEGIN crs_visible -->
 	  <b>{VIEW_TITLE}</b>
 	  <!-- END crs_visible -->
-	  &nbsp;
 	  <!-- BEGIN crs_edit -->
 	  [<a href="{EDIT_LINK}">{TXT_EDIT}</a>]
 	  <!-- END crs_edit -->
@@ -31,10 +31,9 @@
 	  <!-- BEGIN crs_preconditions -->
 	  [{TXT_PRECONDITIONS}<!-- BEGIN no_link -->&nbsp;<b>{PRECONDITION_NO_TITLE}</b><!-- END no_link --><!-- BEGIN link -->&nbsp;<a href="{PRECONDITION_LINK}">{PRECONDITION_NAME}</a><!-- END link -->]
 	  <!-- END crs_preconditions -->
-	  <br />
-		<div class="il_Description">{DESCRIPTION}</div>
 	</td>
-	<td valign="center" class="{ROWCOL}"><div class="small">{ACTIVATION_END}</div></td>
+	<td valign="top" class="{ROWCOL}"><div class="small" style="float:left;">{ACTIVATION_END}</div>
+	<div class="il_ContainerItemCommand" style="float:right;"><a class="il_ContainerItemCommand" href="{LINK_ACT_EDIT}">{TXT_ACT_EDIT}</a></div></td>
 	<!-- BEGIN options -->
 	<td valign="center" class="{OPT_ROWCOL}" nowrap="nowrap">
 	  <!-- BEGIN img -->

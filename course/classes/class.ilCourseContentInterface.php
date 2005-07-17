@@ -128,9 +128,21 @@ class ilCourseContentInterface
 
 		return true;
 	}
+	
+	/*
+	 * set container (gui) object (e.g. instance of ilObjCourseGUI, ilObjGroupGUI, ...)
+	 *
+	 * @param	object		container gui object
+	 */
+	function cci_setContainer(&$a_container)
+	{
+		$this->container =& $a_container;
+	}
 
 	function cci_view()
 	{
+		global $objDefinition;
+		
 		include_once "./classes/class.ilRepositoryExplorer.php";
 		include_once "./payment/classes/class.ilPaymentObject.php";
 		include_once './course/classes/class.ilCourseStart.php';
@@ -206,6 +218,29 @@ class ilCourseContentInterface
 				
 				#if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
 				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
+				
+				// get item list gui object
+				if (!is_object ($this->list_gui[$cont_data["type"]]))
+				{
+					$class = $objDefinition->getClassName($cont_data["type"]);
+					$location = $objDefinition->getLocation($cont_data["type"]);
+					$full_class = "ilObj".$class."ListGUI";
+					include_once($location."/class.".$full_class.".php");
+					$item_list_gui = new $full_class();
+					$item_list_gui->setContainerObject($this->container);
+					$this->list_gui[$cont_data["type"]] =& $item_list_gui;
+				}
+				else
+				{
+					$item_list_gui =& $this->list_gui[$cont_data["type"]];
+				}
+
+				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
+					$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
+					
+				$tpl->setVariable("ITEM_HTML", $html);
+
+/*
 				$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
 				$obj_frame = ilRepositoryExplorer::buildFrameTarget($cont_data["type"],$cont_data["child"],$cont_data["obj_id"]);
 				$contentObj = false;
@@ -358,10 +393,11 @@ class ilCourseContentInterface
 						$tpl->parseCurrentBlock();
 					}
 				}
-
+*/
 				// OPTIONS
 				if($write_perm)
 				{
+					$images = array();
 					if($this->cci_course_obj->getOrderType() == $this->cci_course_obj->SORT_MANUAL)
 					{
 						if($num != 0)
@@ -389,17 +425,10 @@ class ilCourseContentInterface
 							$images[] = $tmp_array;
 						}
 					}
-					$tmp_array["gif"] = ilUtil::getImagePath("edit.gif");
-					$tmp_array["lng"] = $this->lng->txt("edit");
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
-					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
-					$tmp_array["lnk"] = $this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit");
-					$tmp_array["tar"] = "";
-					
-					$images[] = $tmp_array;
 					
 					if ($rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
 					{
+						/*
 						$tmp_array["gif"] = ilUtil::getImagePath("delete.gif");
 						$tmp_array["lng"] = $this->lng->txt("delete");
 						$this->cci_client_obj->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["child"]);
@@ -407,6 +436,7 @@ class ilCourseContentInterface
 						$tmp_array["tar"] = "";
 
 						$images[] = $tmp_array;
+						*/
 					}
 					
 					foreach($images as $key => $image)
@@ -419,6 +449,13 @@ class ilCourseContentInterface
 						$tpl->parseCurrentBlock();
 					}
 					unset($images);
+					
+					//$tmp_array["gif"] = ilUtil::getImagePath("edit.gif");
+					$tpl->setVariable("TXT_ACT_EDIT", $this->lng->txt("edit"));
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"ref_id",$this->cci_client_obj->object->getRefId());
+					$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$cont_data["child"]);
+					$tpl->setVariable("LINK_ACT_EDIT",
+						$this->cci_client_obj->ctrl->getLinkTarget($this->cci_client_obj,"cciEdit"));
 
 					$tpl->setCurrentBlock("options");
 					$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
@@ -429,6 +466,7 @@ class ilCourseContentInterface
 
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				/*
 				if($cont_data["type"] == "lm")
 				{
 					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) && !$contentObj->getOnline())
@@ -444,10 +482,11 @@ class ilCourseContentInterface
 				}
 				else
 				{
+				*/
 					$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-				}
-				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+				//}
+				//$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 
 				// ACTIVATION
 				$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
@@ -491,12 +530,12 @@ class ilCourseContentInterface
 		if($write_perm)
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
-									   $this->lng->txt("activation"),$this->lng->txt("options")));
+									   $this->lng->txt("activation"),""));
 			$tbl->setHeaderVars(array("type","title","activation","options"), 
 								array("ref_id" => $this->cci_course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursegui",
 									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("1%","69%","20%","10%"));
+			$tbl->setColumnWidth(array("1","","","24"));
 		}
 		else
 		{

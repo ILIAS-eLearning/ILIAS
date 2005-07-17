@@ -122,7 +122,20 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
-		global $ilBench;
+		global $ilBench, $tree;
+		
+		
+		// course content interface methods could probably
+		// move to this class
+		if($tree->checkForParentType($this->ref_id,'crs'))
+		{
+			$this->initCourseContentInterface();
+			$this->cci_obj->cci_setContainer($this);
+			$this->cci_obj->cci_view();
+			
+			return;
+		}
+
 
 		$ilBench->start("ilContainerGUI", "0000__renderObject");
 

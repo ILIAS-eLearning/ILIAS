@@ -3502,16 +3502,16 @@ crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
 crs#:#crs_reg_subscription_start_later#:#The registration time starts later
-crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types above.
+crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration types below.
 crs#:#crs_reg_until#:#Registration date
 crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course
 crs#:#crs_reg_user_already_subscribed#:#You have already subscribed to this course
 crs#:#crs_reg_user_blocked#:#You are blocked from this course
 crs#:#crs_registration#:#Course registration
 crs#:#crs_registration_deactivated#:#Choose this option for disabling the registration. No you user can register for this course.
-crs#:#crs_registration_limited#:#Temporally limited registration
+crs#:#crs_registration_limited#:#Limited registration period
 crs#:#crs_registration_type#:#Registration type
-crs#:#crs_registration_unlimited#:#Temporally unlimited
+crs#:#crs_registration_unlimited#:#Unlimited registration period
 crs#:#crs_reject_subscriber#:#Course subscription
 crs#:#crs_reject_subscriber_body#:#Your subscription has been declined.
 crs#:#crs_reset_results#:#Reset results
