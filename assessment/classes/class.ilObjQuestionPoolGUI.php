@@ -444,7 +444,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		//$md = new ilMD(0,$this->object->getId(),$this->object->getType());
-		$new_md =& $contParser->md->cloneMD(0,$newObj->getId(),$newObj->getType());			
+		//$new_md =& $contParser->md->cloneMD($newObj->getId(),$newObj->getId(),$newObj->getType());			
 
 		unlink($xml_file);
 		unlink($qti_file);
