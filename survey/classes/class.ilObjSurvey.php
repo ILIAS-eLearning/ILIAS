@@ -4542,22 +4542,9 @@ class ilObjSurvey extends ilObject
 			}
 		}
 
-// to do: clone meta data!
 		// clone meta data
-/*
-		$meta_data =& new ilMetaData($original->getType(), $original->getId());
-		include_once("./classes/class.ilNestedSetXML.php");
-		$nested = new ilNestedSetXML();
-		$nested->dom = domxml_open_mem($meta_data->nested_obj->dom->dump_mem(0));
-		$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
-		if (is_array($nodes))
-		{
-			$nodes[0]["Entry"] = "il__" . $newObj->getType() . "_" . $newObj->getId();
-			$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
-		}
-		$xml = $nested->dom->dump_mem(0);
-		$nested->import($xml, $newObj->getId(), $newObj->getType());
-*/
+		$md = new ilMD($original->getId(),0,$original->getType());
+		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 	}
 
 	/**
