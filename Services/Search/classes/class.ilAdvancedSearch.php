@@ -323,14 +323,15 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchTypicalAgeRange()
 	{
-		if(!$this->options['typ_age_1'] and !$this->options['typ_age_2'])
+		if(!$this->options['typ_age_1'] or !$this->options['typ_age_2'])
 		{
 			return false;
 		}
 
 		$query = "SELECT rbac_id,obj_type FROM il_meta_typical_age_range ".
-			"WHERE typical_age_range_min <= '".(int) $this->options['typ_age_1']."' ".
-			"AND typical_age_range_max >= '".(int) $this->options['typ_age_2']."'";
+			"WHERE typical_age_range_min >= '".(int) $this->options['typ_age_1']."' ".
+			"AND typical_age_range_max <= '".(int) $this->options['typ_age_2']."'";
+
 
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
