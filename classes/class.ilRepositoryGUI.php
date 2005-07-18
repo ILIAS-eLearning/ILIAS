@@ -261,7 +261,7 @@ class ilRepositoryGUI
 			$cmd = "";
 		}
 		
-		if ($cmd == "showTree")
+		if ($cmd == "showTree" || $cmd == "linkSelector" || $cmd == "linkChilds")
 		{
 			$next_class = "";
 		}
@@ -315,7 +315,8 @@ class ilRepositoryGUI
 					? true
 					: false;
 				// forward command
-				if ($_GET["mode"] == "create")
+
+				if ($_GET["mode"] == "create" || $cmd == "linkSelector")
 				{
 					$tabs_out = false;
 				}
@@ -1419,9 +1420,11 @@ class ilRepositoryGUI
 	{
 		$cmd = $this->cmd;
 		$tabs_out = true;
+
 		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete" ||
 			$cmd == "create" || $cmd == "save" || $cmd=="importFile" ||
-			$cmd == "cloneAll" || $_GET["mode"] == "create")
+			$cmd == "cloneAll" || $_GET["mode"] == "create"
+			|| $cmd == "linkSelector")
 		{
 			$tabs_out = false;
 		}
@@ -1768,7 +1771,7 @@ class ilRepositoryGUI
 
 		include_once ("classes/class.ilRepositoryLinkSelector.php");
 
-		$this->prepareOutput();
+		$this->prepareOutput(false);
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_selector.html");
 
