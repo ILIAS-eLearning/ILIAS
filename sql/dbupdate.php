@@ -7829,3 +7829,90 @@ ALTER TABLE glossary ADD public_xml_file VARCHAR(50) DEFAULT '' NOT NULL;
 <#489>
 ALTER TABLE glossary ADD COLUMN glo_menu_active ENUM('y','n') DEFAULT 'y';
 ALTER TABLE glossary ADD COLUMN downloads_active ENUM('y','n') DEFAULT 'n';
+<#490>
+DROP TABLE IF EXISTS `tmp_migration`;
+CREATE TABLE `tmp_migration` (
+  `page_id` int(11) NOT NULL default '0',
+  `parent_id` int(11) default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+<#491>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $log;
+
+// php5 downward complaince to php 4 dom xml
+if (version_compare(PHP_VERSION,'5','>='))
+{
+	include_once 'Services/Migration/DBUpdate_491/inc.xml5compliance.php';
+}
+
+
+//  migration of page content
+$res = $ilDB->query("SELECT page_id,parent_id FROM page_object ORDER BY page_id,parent_id");
+
+$log->write("Page object migration: Number of objects: ".$res->numRows());
+
+$counter = 0;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$log->write("Page object migration: Processing page_id, parent_id: ".$row->page_id.", ".$row->parent_id);
+
+	// Check if already processed
+	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE page_id = '".$row->page_id."' AND parent_id = '".$row->parent_id."' ".
+							 "AND passed = '1'");
+	if($done_res->numRows())
+	{
+		continue;
+	}
+
+	// get content
+	$query = "SELECT content FROM page_object WHERE page_id = '".$row->page_id."' ".
+		"AND parent_id = '".$row->parent_id."'";
+
+	$res2 = $ilDB->query($query);
+
+	// Must be splitted since DBupdate.php cannot handle expressions like 'question mark greater than'.
+	$prefix = "<";
+	$prefix .= "?xml version=\"1.0\" encoding=\"UTF-8\" ?";
+	$prefix .= ">";
+
+	while($row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$content = $row2->content;
+	}
+	$content = $prefix.$content;
+
+	$error = '';
+	$dom_obj = @domxml_open_mem($content, DOMXML_LOAD_PARSING, $error);
+
+	if($error)
+	{
+		// Cannot handle this error. => set passed and continue
+		$log->write("Error building dom from node: page_id, parent_id: ".$row->page_id.", ".$row->parent_id);
+		$ilDB->query("INSERT INTO tmp_migration SET page_id = '".$row->page_id."', parent_id = '".$row->parent_id."', passed = 1");
+		continue;
+	}
+
+	$new_content = $dom_obj->dump_mem(0,"UTF-8");
+
+	//$log->write("FROM DOM: ".$new_content ."ENDE");
+
+	$new_content = eregi_replace("<\?xml[^>]*>","",$new_content);
+	$new_content = eregi_replace("<!DOCTYPE[^>]*>","",$new_content);
+
+	// Update content
+	$query = "UPDATE page_object SET content = '".addslashes($new_content)."' ".
+		"WHERE page_id = '".$row->page_id ."' AND parent_id = '".$row->parent_id."'";
+	$ilDB->query($query);
+
+
+	// Set passed
+	$ilDB->query("INSERT INTO tmp_migration SET page_id = '".$row->page_id."', parent_id = '".$row->parent_id."', passed = 1");
+}
+$log->write("Page object: Finished migration");
+chdir($wd);
+?>
+<#492>
+DROP TABLE `tmp_migration`;
