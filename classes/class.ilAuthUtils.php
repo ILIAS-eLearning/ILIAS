@@ -45,8 +45,8 @@ class ilAuthUtils
 		}
 		
 		$q = "SELECT auth_mode FROM usr_data WHERE ".
-			 "login='".$_POST['username']."' AND ".
-			 "passwd='".md5($_POST['password'])."'";
+			 "login='".$a_username."' AND ".
+			 "passwd='".md5($a_password)."'";
 		$r = $this->db->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
