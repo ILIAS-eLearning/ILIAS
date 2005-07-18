@@ -2191,14 +2191,6 @@ class ilLMPresentationGUI
 					$this->tpl->setVariable("CHAP_TITLE",
 						$chapter_title);
 
-					/*
-					if ($chap->getDescription() != "none" &&
-						$chap->getDescription() != "")
-					{
-						$chap->initMeta();
-						$meta =& $chap->getMetaData();
-						$this->tpl->setVariable("CHAP_DESCRIPTION", $meta->getDescription());
-					}*/
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("print_block");
 					$this->tpl->parseCurrentBlock();
@@ -2426,9 +2418,17 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LM_TITLE", $this->lm->getTitle());
 			if ($this->lm->getDescription() != "none")
 			{
-				$this->lm->initMeta();
-				$meta =& $this->lm->getMetaData();
-				$this->tpl->setVariable("LM_DESCRIPTION", $meta->getDescription());
+				include_once("Services/MetaData/classes/class.ilMD.php");
+				$md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
+				$md_gen = $md->getGeneral();
+				foreach($md_gen->getDescriptionIds() as $id)
+				{
+					$md_des = $md_gen->getDescription($id);
+					$description = $md_des->getDescription();
+				}
+
+				$this->tpl->setVariable("LM_DESCRIPTION",
+					$description);
 			}
 			$this->tpl->parseCurrentBlock();
 
