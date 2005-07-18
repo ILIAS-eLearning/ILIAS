@@ -7915,4 +7915,4 @@ $log->write("Page object: Finished migration");
 chdir($wd);
 ?>
 <#492>
-DROP TABLE `tmp_migration`;
+DROP TABLE IF EXISTS `tmp_migration`;
