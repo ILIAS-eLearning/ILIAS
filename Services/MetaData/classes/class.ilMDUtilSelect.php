@@ -398,6 +398,32 @@ class ilMDUtilSelect
 		}
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
+	/**
+	 * Prepare a meta context
+	 *
+	 * @param string Checked item
+	 * @param string Name of form variable.
+	 * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
+	 *
+	 * @return string Complete html select
+	 */
+	function _getContextSelect($a_selected,$a_name,$prepend = array())
+	{
+		global $lng;
+
+		$items = array('School','HigherEducation','Training','Other');
+		
+		foreach($prepend as $value => $translation)
+		{
+			$options[$value] = $translation;
+		}
+
+		foreach($items as $item)
+		{
+			$options[$item] = $item;
+		}
+		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+	}
 
 
 	/**
@@ -471,7 +497,7 @@ class ilMDUtilSelect
 		{
 			$options[$value] = $translation;
 		}
-		for($i = 0; $i < 100 ; $i++)
+		for($i = 1; $i < 100 ; $i++)
 		{
 			$items[$i] = $i;
 		}

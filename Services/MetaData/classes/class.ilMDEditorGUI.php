@@ -1209,7 +1209,7 @@ class ilMDEditorGUI
 		foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)
 		{
 			$md_age = $this->md_section->getTypicalAgeRange($id);
-			$md_age->setTypicalAgeRange(ilUtil::stripSlashes($_POST['educational']['TypicalAgeRange'][$id][Value]));
+			$md_age->setTypicalAgeRange(ilUtil::stripSlashes($_POST['educational']['TypicalAgeRange'][$id]['Value']));
 			$md_age->setTypicalAgeRangeLanguage(
 				new ilMDLanguageItem($_POST['educational']['TypicalAgeRange'][$id]['Language']));
 			$md_age->update();
@@ -1219,7 +1219,7 @@ class ilMDEditorGUI
 		foreach($ids = $this->md_section->getDescriptionIds() as $id)
 		{
 			$md_des = $this->md_section->getDescription($id);
-			$md_des->setDescription(ilUtil::stripSlashes($_POST['educational']['Description'][$id][Value]));
+			$md_des->setDescription(ilUtil::stripSlashes($_POST['educational']['Description'][$id]['Value']));
 			$md_des->setDescriptionLanguage(
 				new ilMDLanguageItem($_POST['educational']['Description'][$id]['Language']));
 			$md_des->update();

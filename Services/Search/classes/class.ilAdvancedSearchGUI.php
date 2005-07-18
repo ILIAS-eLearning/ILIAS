@@ -241,7 +241,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_LAN",$this->lng->txt('language'));
 		$this->tpl->setVariable("SEL_LAN",ilMDUtilSelect::_getLanguageSelect($this->options['language'],
 																			 'search_adv[language]'
-																			 ,array(0 => $this->lng->txt('search_any'))));
+																			 ,array(0 => $this->lng->txt('meta_please_select'))));
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('meta_title').'/'.
 								$this->lng->txt('meta_keyword').'/'.
@@ -250,7 +250,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_STRUCT",$this->lng->txt('meta_structure'));
 		$this->tpl->setVariable("SEL_STRUCT",ilMDUtilSelect::_getStructureSelect($this->options['structure'],
 																				 'search_adv[structure]',
-																				 array(0 => $this->lng->txt('search_any'))));
+																				 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("FRM_TITLE",ilUtil::prepareFormOutput($this->options['title'],true));
 		$this->tpl->setVariable("FRM_COVERAGE",ilUtil::prepareFormOutput($this->options['coverage'],true));
 
@@ -279,7 +279,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_STATUS",
 								ilMDUtilSelect::_getStatusSelect($this->options['status'],
 																 'search_adv[status]',
-																 array(0 => $this->lng->txt('search_any'))));
+																 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("TXT_VERSION",$this->lng->txt('meta_version'));
 		$this->tpl->setVariable("FRM_VERSION",ilUtil::prepareFormOutput($this->options['version'],true));
 
@@ -287,7 +287,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_CONTRIBUTOR",
 								ilMDUtilSelect::_getRoleSelect($this->options['role'],
 															   'search_adv[role]',
-															   array(0 => $this->lng->txt('search_any'))));
+															   array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("FRM_ENTITY",ilUtil::prepareFormOutput($this->options['entity'],true));
 
 		if($this->options['entity_ao'] == 'and')
@@ -319,19 +319,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_FORMAT",
 								ilMDUtilSelect::_getFormatSelect($this->options['format'],
 																 'search_adv[format]',
-																 array(0 => $this->lng->txt('search_any'))));
+																 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_OS",
 								ilMDUtilSelect::_getOperatingSystemSelect($this->options['os'],
 																		  'search_adv[os]',
-																		  array(0 => $this->lng->txt('search_any'))));
+																		  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_BROWSER",
 								ilMDUtilSelect::_getBrowserSelect($this->options['browser'],
 																  'search_adv[browser]',
-																  array(0 => $this->lng->txt('search_any'))));
+																  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DURATION_1",
-								ilMDUtilSelect::_getDurationSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getDurationSelect('','md_lan',array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DURATION_2",
-								ilMDUtilSelect::_getDurationSelect('','md_lan',array(0 => $this->lng->txt('search_any'))));
+								ilMDUtilSelect::_getDurationSelect('','md_lan',array(0 => $this->lng->txt('meta_please_select'))));
 
 		// Educational
 		$this->tpl->setVariable("TXT_EDUCATIONAL",$this->lng->txt('meta_education'));
@@ -349,59 +349,59 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_INTERACTIVITY",
 								ilMDUtilSelect::_getInteractivityTypeSelect($this->options['int_type'],
 																			'search_adv[int_type]',
-																			array(0 => $this->lng->txt('search_any'))));
+																			array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_RESOURCE",
 								ilMDUtilSelect::_getLearningResourceTypeSelect($this->options['lea_type'],
 																			   'search_adv[lea_type]',
-																			   array(0 => $this->lng->txt('search_any'))));
+																			   array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_LEVEL_1",
 								ilMDUtilSelect::_getInteractivityLevelSelect($this->options['int_level_1'],
 																			 'search_adv[int_level_1]',
-																			 array(0 => $this->lng->txt('search_any'))));
+																			 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_LEVEL_2",
 								ilMDUtilSelect::_getInteractivityLevelSelect($this->options['int_level_2'],
 																			 'search_adv[int_level_2]',
-																			 array(0 => $this->lng->txt('search_any'))));
+																			 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DENSITY_1",
 								ilMDUtilSelect::_getSemanticDensitySelect($this->options['sem_1'],
 																		  'search_adv[sem_1]',
-																		  array(0 => $this->lng->txt('search_any'))));
+																		  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DENSITY_2",
 								ilMDUtilSelect::_getSemanticDensitySelect($this->options['sem_2'],
 																		  'search_adv[sem_2]',
-																		  array(0 => $this->lng->txt('search_any'))));
+																		  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_END_USER",
 								ilMDUtilSelect::_getIntendedEndUserRoleSelect($this->options['int_role'],
 																			  'search_adv[int_role]',
-																			  array(0 => $this->lng->txt('search_any'))));
+																			  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_CONTEXT",
 								ilMDUtilSelect::_getContextSelect($this->options['con'],
 																  'search_adv[con]',
-																  array(0 => $this->lng->txt('search_any'))));
+																  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DIFFICULTY_1",
 								ilMDUtilSelect::_getDifficultySelect($this->options['dif_1'],
 																	 'search_adv[dif_1]',
-																	 array(0 => $this->lng->txt('search_any'))));
+																	 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_DIFFICULTY_2",
 								ilMDUtilSelect::_getDifficultySelect($this->options['dif_2'],
 																	 'search_adv[dif_2]',
-																	 array(0 => $this->lng->txt('search_any'))));
+																	 array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_AGE_RANGE_1",
 								ilMDUtilSelect::_getTypicalAgeRangeSelect($this->options['typ_age_1'],
 																		  'search_adv[typ_age_1]',
-																		  array(0 => $this->lng->txt('search_any'))));
+																		  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_AGE_RANGE_2",
 								ilMDUtilSelect::_getTypicalAgeRangeSelect($this->options['typ_age_2'],
 																		  'search_adv[typ_age_2]',
-																		  array(0 => $this->lng->txt('search_any'))));
+																		  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_LEARNING_TIME_1",
 								ilMDUtilSelect::_getTypicalLearningTimeSelect($this->options['typ_lea_1'],
 																			  'search_adv[typ_lea_1]',
-																			  array(0 => $this->lng->txt('search_any'))));
+																			  array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_LEARNING_TIME_2",
 								ilMDUtilSelect::_getTypicalLearningTimeSelect($this->options['typ_lea_2'],
 																			  'search_adv[typ_lea_2]',
-																			  array(0 => $this->lng->txt('search_any'))));
+																			  array(0 => $this->lng->txt('meta_please_select'))));
 
 		// RIGHTS
 		$this->tpl->setVariable("TXT_RIGHTS",$this->lng->txt('meta_rights'));
@@ -410,11 +410,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		
 		$this->tpl->setVariable("SEL_COSTS",
 								ilMDUtilSelect::_getCostsSelect($this->options['costs'],
-																'search_adv[costs]',array(0 => $this->lng->txt('search_any'))));
+																'search_adv[costs]',array(0 => $this->lng->txt('meta_please_select'))));
 		$this->tpl->setVariable("SEL_COPYRIGHT",
 								ilMDUtilSelect::_getCopyrightAndOtherRestrictionsSelect($this->options['copyright'],
 																						'search_adv[copyright]',
-																						array(0 => $this->lng->txt('search_any'))));
+																						array(0 => $this->lng->txt('meta_please_select'))));
 
 		// CLASSIFICATION
 		$this->tpl->setVariable("TXT_CLASSIFICATION",$this->lng->txt('meta_classification'));
@@ -425,7 +425,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("SEL_PURPOSE",
 								ilMDUtilSelect::_getPurposeSelect($this->options['purpose'],
 																  'search_adv[purpose]',
-																  array(0 => $this->lng->txt('search_any'))));
+																  array(0 => $this->lng->txt('meta_please_select'))));
 
 		if($this->options['taxon_ao'] == 'and')
 		{
