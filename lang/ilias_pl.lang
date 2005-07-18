@@ -3502,16 +3502,16 @@ crs#:#crs_reg_subscription_deactivated#:#Rejestracja jest wyłączona
 crs#:#crs_reg_subscription_end_earlier#:#Minął okres rejestracji
 crs#:#crs_reg_subscription_max_members_reached#:#Przekroczono maksymalną liczbę użytkowników.
 crs#:#crs_reg_subscription_start_later#:#Okres rejestracji rozpocznie się później
-crs#:#crs_reg_unlim_info#:#Jeśli włączony to nie ma limitu czasu dla rejestracji. Wybierz jeden z powyższych typów rejestracji.
+crs#:#crs_reg_unlim_info#:#Jeśli włączony to nie ma limitu czasu dla rejestracji. Wybierz jeden z powyższych typów rejestracji.###18 Jul 2005 content changed
 crs#:#crs_reg_until#:#Data rejestracji
 crs#:#crs_reg_user_already_assigned#:#Już zostałeś przydzielony do tego kursu
 crs#:#crs_reg_user_already_subscribed#:#Posiadasz już subskrypcję na ten kurs
 crs#:#crs_reg_user_blocked#:#Zostałeś zablokowany w tym kursie
 crs#:#crs_registration#:#Rejestracja do kursu
 crs#:#crs_registration_deactivated#:#Wybierz tę opcję dla wyłączenia rejestracji. Żaden użytkownik nie może się zarejestrować do tego kursu.
-crs#:#crs_registration_limited#:#Rejestracja limitowana tymczasowo
+crs#:#crs_registration_limited#:#Rejestracja limitowana tymczasowo###18 Jul 2005 content changed
 crs#:#crs_registration_type#:#Typ rejestracji
-crs#:#crs_registration_unlimited#:#Tymczasowo nielimitowany
+crs#:#crs_registration_unlimited#:#Tymczasowo nielimitowany###18 Jul 2005 content changed
 crs#:#crs_reject_subscriber#:#Subskrypcja kursu
 crs#:#crs_reject_subscriber_body#:#Twoja subskrypcja została odrzucona.
 crs#:#crs_reset_results#:#Wyczyść rezultaty

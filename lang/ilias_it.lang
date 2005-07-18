@@ -3497,16 +3497,16 @@ crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
 crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti &#232; stato raggiunto.
 crs#:#crs_reg_subscription_start_later#:#Il periodo di registrazione inizier&#224; successivamente
-crs#:#crs_reg_unlim_info#:#Se scelta, non verranno posti limiti alle registrazioni. Scegli uno dei tipi qui sotto.
+crs#:#crs_reg_unlim_info#:#Se scelta, non verranno posti limiti alle registrazioni. Scegli uno dei tipi qui sotto.###18 Jul 2005 content changed
 crs#:#crs_reg_until#:#Scadenza registrazione
 crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato iscritto a questo corso
 crs#:#crs_reg_user_already_subscribed#:#Ti sei gi&#224; iscritto a questo corso
 crs#:#crs_reg_user_blocked#:#La tua iscrizione a questo corso non pu&#242; essere modificata
 crs#:#crs_registration#:#Iscrizione al corso
 crs#:#crs_registration_deactivated#:#Scegli questa opzione se vuoi disabilitare la registrazione. Nessun utente potr&#224; registrarsi a questo corso.
-crs#:#crs_registration_limited#:#Registrazione limitata nel tempo
+crs#:#crs_registration_limited#:#Registrazione limitata nel tempo###18 Jul 2005 content changed
 crs#:#crs_registration_type#:#Tipo di registrazione
-crs#:#crs_registration_unlimited#:#Registrazione non limitata nel tempo
+crs#:#crs_registration_unlimited#:#Registrazione non limitata nel tempo###18 Jul 2005 content changed
 crs#:#crs_reject_subscriber#:#Iscrizione al corso
 crs#:#crs_reject_subscriber_body#:#La tua richiesta di iscrizione &#232; stata rifiutata.
 crs#:#crs_reset_results#:#Risultati azzerati
