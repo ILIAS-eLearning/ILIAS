@@ -920,6 +920,21 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Returns true, if a test is complete for use
+*
+* Returns true, if a test is complete for use
+*
+* @return boolean True, if the test is complete for use, otherwise false
+* @access public
+*/
+	function _isComplete($obj_id)
+	{
+		$test = new ilObjTest($obj_id, false);
+		$test->loadFromDb();
+		return $test->isComplete();
+	}
+
+/**
 * Saves the ECTS status (output of ECTS grades in a test) to the database
 * 
 * Saves the ECTS status (output of ECTS grades in a test) to the database
@@ -1246,6 +1261,7 @@ class ilObjTest extends ilObject
 	{
 		if (strcmp($total_questions, "NULL") != 0)
 		{
+			$this->setRandomQuestionCount($total_questions);
 			$total_questions = $this->ilias->db->quote($total_questions);
 		}
 		$query = sprintf("UPDATE tst_tests SET random_question_count = %s WHERE test_id = %s",
