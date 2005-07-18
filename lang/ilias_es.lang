@@ -3500,16 +3500,16 @@ crs#:#crs_reg_subscription_deactivated#:#Registro deshabilitado
 crs#:#crs_reg_subscription_end_earlier#:#El período de registro ha expirado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
 crs#:#crs_reg_subscription_start_later#:#El período de registro comienza más tarde
-crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limitación de tiempo para el registro. Por favor escoja uno de los modos de registro comentados.
+crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limitación de tiempo para el registro. Por favor escoja uno de los modos de registro comentados.###18 Jul 2005 content changed
 crs#:#crs_reg_until#:#Fecha de Registro
 crs#:#crs_reg_user_already_assigned#:#Usted ya está asignado a este curso
 crs#:#crs_reg_user_already_subscribed#:#Usted ya se ha suscrito a este curso
 crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
 crs#:#crs_registration#:#Registro de Curso
 crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar el registro. Ningún usuario puede registrarse para este curso
-crs#:#crs_registration_limited#:#Registro de tiempo limitado
+crs#:#crs_registration_limited#:#Registro de tiempo limitado###18 Jul 2005 content changed
 crs#:#crs_registration_type#:#Modo de registro
-crs#:#crs_registration_unlimited#:#Ilimitado en el tiempo
+crs#:#crs_registration_unlimited#:#Ilimitado en el tiempo###18 Jul 2005 content changed
 crs#:#crs_reject_subscriber#:#Suscripción al Curso
 crs#:#crs_reject_subscriber_body#:#Su suscripción ha sido rechazada
 crs#:#crs_reset_results#:#Reinicializar resultados

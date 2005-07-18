@@ -3501,16 +3501,16 @@ crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen
-crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.
+crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Kursregistrierungen zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch eine Registierungsart aus.###18 Jul 2005 content changed
 crs#:#crs_reg_until#:#Anmeldungszeitraum
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits angemeldet
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Kursanmeldung
 crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um die Registrierung zu deaktivieren. Es können sich keine neuen Benutzer registrieren.
-crs#:#crs_registration_limited#:#Zeitlich begrenzt
+crs#:#crs_registration_limited#:#Zeitlich begrenzt###18 Jul 2005 content changed
 crs#:#crs_registration_type#:#Registrierungsart
-crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
+crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt###18 Jul 2005 content changed
 crs#:#crs_reject_subscriber#:#Kursanmeldung
 crs#:#crs_reject_subscriber_body#:#Ihre Anmedung wurde abgelehnt
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
