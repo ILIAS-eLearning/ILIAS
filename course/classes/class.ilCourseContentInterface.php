@@ -166,7 +166,6 @@ class ilCourseContentInterface
 			return true;
 		}
 
-
 		// Jump to objective view if selected or user is only member
 		if(($view_objectives and !$write_perm) or ($_SESSION['crs_viewmode'] == 'objectives' and $write_perm))
 		{
@@ -215,7 +214,7 @@ class ilCourseContentInterface
 			foreach ($cont_arr as $cont_data)
 			{
 				$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($cont_data['obj_id']);
-				
+
 				#if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]) and 
 				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
 				
@@ -228,13 +227,12 @@ class ilCourseContentInterface
 					include_once($location."/class.".$full_class.".php");
 					$item_list_gui = new $full_class();
 					$item_list_gui->setContainerObject($this->container);
-					$this->list_gui[$cont_data["type"]] =& $item_list_gui;
+					$this->list_gui[$cont_data["type"]] = $item_list_gui;
 				}
 				else
 				{
 					$item_list_gui =& $this->list_gui[$cont_data["type"]];
 				}
-
 				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 					$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
 					

@@ -299,7 +299,7 @@ class ilRepositoryGUI
 			case "ilobjfoldergui":
 			case "ilobjilincclassroomgui":
 			//case "ilobjmediapoolgui":					// doesnt work, why?
-//echo "H-$next_class-H";
+
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
 				// get gui class instance
@@ -315,6 +315,10 @@ class ilRepositoryGUI
 					? true
 					: false;
 				// forward command
+				if ($_GET["mode"] == "create")
+				{
+					$tabs_out = false;
+				}
 				$this->prepareOutput($tabs_out);
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				$html = $this->gui_obj->getHTML();
@@ -1413,12 +1417,11 @@ class ilRepositoryGUI
 	*/
 	function executeAdminCommand()
 	{
-
 		$cmd = $this->cmd;
 		$tabs_out = true;
 		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete" ||
 			$cmd == "create" || $cmd == "save" || $cmd=="importFile" ||
-			$cmd == "cloneAll")
+			$cmd == "cloneAll" || $_GET["mode"] == "create")
 		{
 			$tabs_out = false;
 		}
