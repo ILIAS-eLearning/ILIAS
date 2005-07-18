@@ -415,7 +415,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 
 		// create new questionpool object
-		$newObj = new ilObjQuestionpool();
+		$newObj = new ilObjQuestionpool(true);
 		// set type of questionpool object
 		$newObj->setType($_GET["new_type"]);
 		// set title of questionpool object to "dummy"

@@ -569,7 +569,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		include_once("./assessment/classes/class.ilObjTest.php");
-		$newObj = new ilObjTest();
+		$newObj = new ilObjTest(true);
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle("dummy");
 		$newObj->setDescription("dummy");

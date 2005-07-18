@@ -64,24 +64,18 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
-	* create question pool object
+	* create questionpool object
 	*/
 	function create($a_upload = false)
 	{
 		parent::create();
-		$this->createMetaData();
-
-/*
+		
+		// meta data will be created by
+		// import parser
 		if (!$a_upload)
 		{
-			$this->meta_data->setId($this->getId());
-			$this->meta_data->setType($this->getType());
-			$this->meta_data->setTitle($this->getTitle());
-			$this->meta_data->setDescription($this->getDescription());
-			$this->meta_data->setObject($this);
-			$this->meta_data->create();
+			$this->createMetaData();
 		}
-*/
 	}
 
 	/**
