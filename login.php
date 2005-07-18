@@ -188,6 +188,14 @@ if ($ilias->getSetting("password_assistance") and AUTH_DEFAULT == AUTH_LOCAL)
 	$tpl->parseCurrentBlock();
 }
 
+if ($ilias->getSetting("pub_section"))
+{
+	$tpl->setCurrentBlock("homelink");
+	$tpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$_GET["lang"]);
+	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
+	$tpl->parseCurrentBlock();
+}
+
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilias->getSetting("shib_login_button"));

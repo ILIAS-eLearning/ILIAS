@@ -1550,7 +1550,7 @@ common#:#hlm_read#:#Read access to HACP Learning Module
 common#:#hlm_visible#:#HACP Learning Module is visible
 common#:#hlm_write#:#Edit HACP Learning Module
 common#:#hobby#:#Interests/Hobbies
-common#:#home#:#Home
+common#:#home#:#Public Area
 common#:#host#:#Host
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#Learning Module HTML
@@ -2025,7 +2025,7 @@ common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.
+common#:#no_access_item_public#:#This item cannot be accessed in the public area.
 common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
@@ -2271,7 +2271,7 @@ common#:#profile#:#Profile
 common#:#profile_changed#:#Your profile has changed
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
-common#:#pub_section#:#Public Section
+common#:#pub_section#:#Public Area
 common#:#public#:#public
 common#:#public_profile#:#Public Profile
 common#:#publication#:#Publication
@@ -3259,12 +3259,12 @@ content#:#lm_menu_select_object_to_add#:#Please select the object you want to ad
 content#:#msg_entry_added#:#Menu entry added
 content#:#msg_entry_removed#:#Menu entry removed
 content#:#msg_entry_updated#:#Menu entry updated
-content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.
+content#:#msg_page_no_public_access#:#The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page.
 content#:#msg_page_not_public#:#Page is not public
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page
-content#:#public_section#:#Public Section
+content#:#public_section#:#Public Area
 content#:#read offline#:#Read Offline
 content#:#select_a_file#:#Please select a file.
 content#:#selected_pages_only#:#only that pages selected below 
