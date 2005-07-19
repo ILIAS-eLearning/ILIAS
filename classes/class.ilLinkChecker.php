@@ -402,6 +402,12 @@ class ilLinkChecker
 			for($i = 0;$i < count($matches[0]); ++$i)
 			{
 				$url_data = parse_url($matches[1][$i]);
+
+				// continue if mailto link
+				if($url_data['scheme'] == 'mailto')
+				{
+					continue;
+				}
 				
 				// PUH, HTTP_REQUEST needs a beginning http://
 				if(!$url_data['scheme'])
