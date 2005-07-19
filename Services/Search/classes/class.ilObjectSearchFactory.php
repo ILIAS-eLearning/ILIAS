@@ -145,10 +145,24 @@ class ilObjectSearchFactory
 	 */
 	function &_getGlossaryDefinitionSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextGlossaryDefinitionSearch.php';
-		
-		return new ilFulltextGlossaryDefinitionSearch($query_parser);
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextGlossaryDefinitionSearch.php';
+			
+			return new ilFulltextGlossaryDefinitionSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeGlossaryDefinitionSearch.php';
+
+			return new ilLikeGlossaryDefinitionSearch($query_parser);
+		}
 	}
 	/*
 	 * get reference of ilFulltextExerciseSearch
@@ -158,10 +172,25 @@ class ilObjectSearchFactory
 	 */
 	function &_getExerciseSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextExerciseSearch.php';
-		
-		return new ilFulltextExerciseSearch($query_parser);
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextExerciseSearch.php';
+			
+			return new ilFulltextExerciseSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeExerciseSearch.php';
+
+			return new ilLikeExerciseSearch($query_parser);
+		}
+
 	}
 
 	/*
@@ -172,10 +201,24 @@ class ilObjectSearchFactory
 	 */
 	function &_getTestSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextTestSearch.php';
-		
-		return new ilFulltextTestSearch($query_parser);
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextTestSearch.php';
+			
+			return new ilFulltextTestSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeTestSearch.php';
+
+			return new ilLikeTestSearch($query_parser);
+		}
 	}
 
 	/*
@@ -186,10 +229,24 @@ class ilObjectSearchFactory
 	 */
 	function &_getMediaPoolSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediaPoolSearch.php';
-		
-		return new ilFulltextMediaPoolSearch($query_parser);
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextMediaPoolSearch.php';
+			
+			return new ilFulltextMediaPoolSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeMediaPoolSearch.php';
+
+			return new ilLikeMediaPoolSearch($query_parser);
+		}
 	}
 	/*
 	 * get reference of ilFulltextAdvancedSearch
