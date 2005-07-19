@@ -632,7 +632,7 @@ class ilContObjParser extends ilMDSaxParser
 			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
-
+//echo "<br>begin meta data section -".$this->current_object->getType()."-";
 				// media obejct meta data handling
 				// is done in the "Identifier" begin tag processing
 				// the rest is done here

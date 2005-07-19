@@ -53,10 +53,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function ilObjGlossaryGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
+		$lng->loadLanguageModule("content");
 
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
@@ -269,18 +270,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}*/
 
 		// check correct file type
-		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed"
-			&& $_FILES["xmldoc"]["type"] != "application/x-zip")
+		// check correct file type
+		$info = pathinfo($_FILES["xmldoc"]["name"]);
+		if (strtolower($info["extension"]) != "zip")
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_invalid_filetype"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("cont_no_zip_file"),
+				$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create and insert object in objecttree
 		include_once("content/classes/class.ilObjGlossary.php");
 		$newObj = new ilObjGlossary();
 		$newObj->setType($_GET["new_type"]);
-		$newObj->setTitle("dummy");
-		//$newObj->setDescription("dummy");
+		$newObj->setTitle($_FILES["xmldoc"]["name"]);
 		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
@@ -297,20 +299,36 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
 			$_FILES["xmldoc"]["name"], $full_path);
 		
-		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
-
 		// unzip file
 		ilUtil::unzip($full_path);
 
 		// determine filename of xml file
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-//echo "xmlfile:".$xml_file;
+
+		// check whether subdirectory exists within zip file
+		if (!is_dir($newObj->getImportDirectory()."/".$subdir))
+		{
+			$newObj->delete();
+			$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
+				$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check whether xml file exists within zip file
+		if (!is_file($xml_file))
+		{
+			$newObj->delete();
+			$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
+				$this->ilias->error_obj->MESSAGE);
+		}
 
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
 		ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
+
+		// delete import directory
+		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt("glo_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
