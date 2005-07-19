@@ -58,6 +58,8 @@ if (!$ilias->getSetting("pub_section"))
 	ilUtil::redirect("login.php");
 }
 
+//echo "-".$_GET["return_to"]."-".$_GET["reload"]."-"; exit;
+
 // catch reload
 if ($_GET["reload"])
 {
@@ -72,7 +74,10 @@ if ($_GET["reload"])
 // - hit repository in the locator bar
 // -> ILIAS shows public repository without top menu
 
-//		$return_to = "&return_to=".$_GET["return_to"];
+		if (is_int(strpos($_GET["return_to"], "goto.php")))
+		{
+			$return_to = "&return_to=".rawurlencode($_GET["return_to"]);
+		}
 	}
 
     if ($_GET["inactive"])
