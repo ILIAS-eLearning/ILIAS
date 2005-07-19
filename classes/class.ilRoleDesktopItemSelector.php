@@ -104,7 +104,11 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	{
 		global $rbacsystem;
 
-		return $rbacsystem->checkAccess('read',$a_ref_id);
+		if($a_ref_id)
+		{
+			return $rbacsystem->checkAccess('read',$a_ref_id);
+		}
+		return true;
 	}
 
 

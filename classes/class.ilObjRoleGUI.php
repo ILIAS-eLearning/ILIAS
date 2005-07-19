@@ -114,9 +114,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			return true;
 		}
 
+
 		include_once './classes/class.ilRoleDesktopItem.php';
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+
 
 		$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
 		if(!count($items = $role_desk_item_obj->getAll()))
@@ -153,7 +155,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("PATH",$this->__formatPath($tree->getPathFull($item['item_id'])));
 			$this->tpl->parseCurrentBlock();
 		}
-			
 		return true;
 	}
 
@@ -289,11 +290,15 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+
+			return false;
 		}
 	
 		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+
+			return false;
 		}
 		if(!isset($_GET['item_id']))
 		{
@@ -308,8 +313,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
 
 		sendInfo($this->lng->txt('role_assigned_desktop_item'));
-		$this->listDesktopItemsObject();
 
+
+		$this->ctrl->redirect($this,'listDesktopItems');
 		return true;
 	}
 
@@ -425,7 +431,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			exit();
 		}
 
 		// build array with all rbac object types
