@@ -39,8 +39,8 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-ALPHA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE ALHPA RELEASES WITHIN
-A PRODUCTIVE ENVIRONMENT. DATA MAY BE CORRUPTED OR LOST.
+BETA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE BETA RELEASES WITHIN
+A PRODUCTIVE ENVIRONMENT.
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -223,7 +223,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.5.0_alpha1.tar.gz
+    ilias-3.5.0_beta1.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -732,7 +732,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_alpha1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta1.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -843,13 +843,13 @@ components:
 
 3. Updating ILIAS 3
 
-PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS ALPHA VERSION. THIS
+PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS BETA VERSION. THIS
 VERSION IS FOR TEST PURPOSES ONLY.
 
 ---
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
-ILIAS 3.4.0.
+ILIAS 3.5.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -858,8 +858,8 @@ IF YOU UPDATE FROM ILIAS 3.4.0 or 3.4.1 AND ALREADY USED MYSQL 4.1.x PLEASE
 READ AND FOLLOW THE INSTRUCTIONS OF CHAPTER 3.1. FIRST.
 
 We recommend not to update from an any alpha version of ILIAS 3 because this
-may cause ambiguous errors in the future. Please setup any beta, release
-candidate or final version of ILIAS 3 from scratch.
+may cause ambiguous errors in the future. Please setup any stable version of
+ILIAS 3 from scratch.
 
 At the time being no installation script is available for updating ILIAS 3. For
 this reason the ILIAS script files must be updated manually. In the following
@@ -896,7 +896,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_alpha1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta1.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -951,11 +951,18 @@ c. Drop and recreate an empty database using an approriate collation, e.g.:
 
 d. Reload the database using UTF-8 as character set:
    > mysql --default-character-set=utf8 ilias3 < ilias3.dump
-   
-e. Check whether all content has been migrated properly.
+
+e. Update ILIAS following the instructions of chapter 3.
+
+f. Check whether all content has been migrated properly.
 
 If you run multiple ILIAS 3.4.0/3.4.1 instances on the same database server you
 have to update them all at the same time.
+
+For big installations it might be safer to update to ILIAS 3.4.3 or 3.4.4 first
+(after doing the procedure above) and then to update to ILIAS 3.5.x seperately.
+The data migration from 3.4.x to 3.5.x can take a long time because all meta
+data has to be converted to a new format.
 
 
 4. Migrating from MySQL 4.0.x to MySQL 4.1.x
