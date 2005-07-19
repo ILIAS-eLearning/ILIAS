@@ -1546,7 +1546,7 @@ common#:#hlm_read#:#Доступ на читання до HACP Учбового 
 common#:#hlm_visible#:#HACP Учбовий Модуль є видимим
 common#:#hlm_write#:#Редагувати HACP Учбовий Модуль
 common#:#hobby#:#Інтереси/Хоббі
-common#:#home#:#Дім
+common#:#home#:#Дім###19 Jul 2005 content changed
 common#:#host#:#Хост
 common#:#hours_of_day#:#Годин на день
 common#:#htlm#:#HTML Учбовий Модуль
@@ -2015,7 +2015,7 @@ common#:#next#:#наступний
 common#:#nickname#:#Нікнейм
 common#:#no#:#Ні
 common#:#no_access_item#:#Ви не маєте прав для доступу в цей розділ.
-common#:#no_access_item_public#:#Цей розділ не може бути доступним в публічній секції.
+common#:#no_access_item_public#:#Цей розділ не може бути доступним в публічній секції.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Вам не дозволено зв'язувати цей об'єкт
 common#:#no_bm_in_personal_list#:#Жодної закладинки не визначено.
 common#:#no_chat_in_personal_list#:#Немає чатів в персональному списку
@@ -2261,7 +2261,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Ваш провіль був змінений
 common#:#profile_of#:#Профіль
 common#:#properties#:#Параметри
-common#:#pub_section#:#Публічна Секція
+common#:#pub_section#:#Публічна Секція###19 Jul 2005 content changed
 common#:#public#:#публічний
 common#:#public_profile#:#Публічний Профіль
 common#:#publication#:#Публікація
@@ -3250,7 +3250,7 @@ content#:#msg_entry_updated#:#Пункт меню оновлений
 content#:#pages from#:#Сторінки З
 content#:#par#:#Параграф
 content#:#pg#:#Сторінка
-content#:#public_section#:#Публічна Секція
+content#:#public_section#:#Публічна Секція###19 Jul 2005 content changed
 content#:#read offline#:#Прочитати Оффлайн
 content#:#select_a_file#:#Будь ласка виберіть файл.
 content#:#selected_pages_only#:#тільки ті сторінки вибрані нижче 

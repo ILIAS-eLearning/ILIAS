@@ -1548,7 +1548,7 @@ common#:#hlm_read#:#Acceso de lectura a Módulo de aprendizaje HACP
 common#:#hlm_visible#:#Módulo de aprendizaje HACP visible
 common#:#hlm_write#:#Editar Módulo de aprendizaje HACP
 common#:#hobby#:#Intereses/hobbies
-common#:#home#:#Inicio
+common#:#home#:#Inicio###19 Jul 2005 content changed
 common#:#host#:#host
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
@@ -2023,7 +2023,7 @@ common#:#next#:#siguiente
 common#:#nickname#:#apodo
 common#:#no#:#no
 common#:#no_access_item#:#No tiene permiso para acceder a este item.
-common#:#no_access_item_public#:#Este item no puede ser accedido en la sección pública.
+common#:#no_access_item_public#:#Este item no puede ser accedido en la sección pública.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay favoritos definidos
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
@@ -2269,7 +2269,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Su perfil ha cambiado
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propiedades
-common#:#pub_section#:#sección pública
+common#:#pub_section#:#sección pública###19 Jul 2005 content changed
 common#:#public#:#público
 common#:#public_profile#:#Perfil Público
 common#:#publication#:#publicación
@@ -3257,12 +3257,12 @@ content#:#lm_menu_select_object_to_add#:#Por favor seleccione el objeto que quie
 content#:#msg_entry_added#:#Entrada de menú añadida
 content#:#msg_entry_removed#:#Entrada de menú eliminada
 content#:#msg_entry_updated#:#Entrada de menú actualizada
-content#:#msg_page_no_public_access#:#La página solicitada no está disponible en la sección pública. Sólo los usuarios registrados pueden ver dicha página. Por favor, identifíquese para acceder a esta página.
+content#:#msg_page_no_public_access#:#La página solicitada no está disponible en la sección pública. Sólo los usuarios registrados pueden ver dicha página. Por favor, identifíquese para acceder a esta página.###19 Jul 2005 content changed
 content#:#msg_page_not_public#:#La página no es pública
 content#:#pages from#:#Páginas Desde
 content#:#par#:#Párrafo
 content#:#pg#:#Página
-content#:#public_section#:#Sección Pública
+content#:#public_section#:#Sección Pública###19 Jul 2005 content changed
 content#:#read offline#:#Leer Offline
 content#:#select_a_file#:#Por favor seleccione un fichero
 content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo

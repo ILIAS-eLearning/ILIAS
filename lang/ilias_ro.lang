@@ -1494,7 +1494,7 @@ common#:#hlm_read#:#Permisiune de citire a Modulului de Invatare HACP
 common#:#hlm_visible#:#Modulul de Invatare HACP este vizibil
 common#:#hlm_write#:#Editati Modulul de Invatare HACP
 common#:#hobby#:#Interese/Hobby-uri
-common#:#home#:#Acasa
+common#:#home#:#Acasa###19 Jul 2005 content changed
 common#:#host#:#Host
 common#:#hours_of_day#:#Ore din zi
 common#:#htlm#:#Modul de Invatare HTML
@@ -2180,7 +2180,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Profilul dumneavoastra a fost schimbat
 common#:#profile_of#:#Profilul
 common#:#properties#:#Proprietati
-common#:#pub_section#:#Sectiunea publica
+common#:#pub_section#:#Sectiunea publica###19 Jul 2005 content changed
 common#:#public#:#public
 common#:#public_profile#:#Profil public
 common#:#publication#:#Publicatie
@@ -3071,7 +3071,7 @@ content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
 content#:#pages from#:#Pagini din
 content#:#par#:#Paragraf
 content#:#pg#:#Pagina
-content#:#public_section#:#Sectiunea Publica
+content#:#public_section#:#Sectiunea Publica###19 Jul 2005 content changed
 content#:#read offline#:#Cititi Offline
 content#:#select_a_file#:#Va rugam selectati un fisier.
 content#:#selected_pages_only#:#numai paginile selectate mai jos

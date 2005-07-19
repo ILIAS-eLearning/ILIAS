@@ -1548,7 +1548,7 @@ common#:#hlm_read#:#Accedere in lettura ad un modulo HACP
 common#:#hlm_visible#:#Vedere un modulo HACP
 common#:#hlm_write#:#Modificare un modulo HACP
 common#:#hobby#:#Interessi/Passatempi
-common#:#home#:#Home
+common#:#home#:#Home###19 Jul 2005 content changed
 common#:#host#:#Macchina
 common#:#hours_of_day#:#Ore nel giorno
 common#:#htlm#:#Modulo HTML
@@ -2023,7 +2023,7 @@ common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
 common#:#no_access_item#:#Non puoi accedere a questo oggetto.
-common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.
+common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
@@ -2267,7 +2267,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato
 common#:#profile_of#:#Profilo di
 common#:#properties#:#Propriet&#224;
-common#:#pub_section#:#Sezione pubblica
+common#:#pub_section#:#Sezione pubblica###19 Jul 2005 content changed
 common#:#public#:#pubblico
 common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
@@ -3254,12 +3254,12 @@ content#:#lm_menu_select_object_to_add#:#Per favore, seleziona l'oggetto che vuo
 content#:#msg_entry_added#:#Voce aggiunta la menu
 content#:#msg_entry_removed#:#Voce tolta dal menu
 content#:#msg_entry_updated#:#Voce del menu aggiornata
-content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Solamente gli utenti registrati possono vederla. Per poter accedervi devi prima effettuare il login.
+content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Solamente gli utenti registrati possono vederla. Per poter accedervi devi prima effettuare il login.###19 Jul 2005 content changed
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
-content#:#public_section#:#Sezione pubblica
+content#:#public_section#:#Sezione pubblica###19 Jul 2005 content changed
 content#:#read offline#:#Leggi offline
 content#:#select_a_file#:#Per favore seleziona un file.
 content#:#selected_pages_only#:#solamente le pagine selezionate sotto 
