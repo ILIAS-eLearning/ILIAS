@@ -22,96 +22,68 @@
 */
 
 /**
-* Class ilLikeMetaDataSearch
+* Class ilForumSearch
 *
-* class for searching meta 
+* Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id
+* @version $Id$
 * 
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
+include_once 'Services/Search/classes/class.ilForumSearch.php';
 
-class ilLikeMetaDataSearch extends ilMetaDataSearch
+class ilLikeForumSearch extends ilForumSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilLikeMetaDataSearch(&$qp_obj)
+	function ilForumSearch(&$qp_obj)
 	{
-		parent::ilMetaDataSearch($qp_obj);
+		parent::ilForumSearch($qp_obj);
 	}
 
-	// Private
-	function __createKeywordWhereCondition()
-	{
-		$concat = ' keyword ';
-		$where = " WHERE ";
-		$counter = 0;
-		foreach($this->query_parser->getQuotedWords() as $word)
-		{
-			if($counter++)
-			{
-				$where .= "OR";
-			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
-		}
-		return $where;
-	}		
 
-	function __createContributeWhereCondition()
+	function __createPostAndCondition()
 	{
-		$concat = ' entity ';
-		$where = " WHERE ";
+		$concat  = " CONCAT(";
+		$concat .= 'pos_message,pos_subject';
+		$concat .= ") ";
+
+		$and = "  AND ( ";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
-				$where .= "OR";
+				$and .= " OR";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$and .= $concat;
+			$and .= ("LIKE ('%".$word."%')");
 		}
-		return $where;
-	}		
-	function __createTitleWhereCondition()
-	{
-		$concat = ' CONCAT(title,coverage) ';
-		$where = " WHERE ";
-		$counter = 0;
-		foreach($this->query_parser->getQuotedWords() as $word)
-		{
-			if($counter++)
-			{
-				$where .= "OR";
-			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
-		}
-		return $where;
+		return $and.") ";
 	}
 
-	function __createDescriptionWhereCondition()
+	function __createTopicAndCondition()
 	{
-		$concat = ' description ';
-		$where = " WHERE ";
+		$field = 'thr_subject ';
+
+		$and = " AND( ";
+
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
-				$where .= "OR";
+				$and .= " OR ";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$and .= $field;
+			$and .= ("LIKE ('%".$word."%')");
 		}
-		return $where;
+		return $and." ) ";
 	}
 }
 ?>

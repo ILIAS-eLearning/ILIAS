@@ -54,6 +54,7 @@ class ilLikeObjectSearch extends ilObjectSearch
 		$concat .= ") ";
 
 		$where = "WHERE ";
+		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
