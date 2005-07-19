@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 								xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -612,13 +612,37 @@
 	<xsl:param name="p_id" select="-1"/>
 	<p class="ilc_Code"><table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
 		<xsl:value-of select="." />
-		<xsl:if test="$mode != 'offline'">
-			<xsl:if test="@DownloadTitle != '' and $download_script != ''">
+		<xsl:if test="@DownloadTitle != ''" >
 				<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
-				<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$download_script}&amp;cmd=download_paragraph&amp;downloadtitle={$downloadtitle}&amp;pg_id={$pg_id}&amp;par_id={$p_id}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
-			</xsl:if>
+				<xsl:choose>
+					<xsl:when test="$mode = 'offline'" >
+							<xsl:variable name="href" select="concat($webspace_path,'/codefiles/',$pg_id,'/',$p_id,'/',$downloadtitle)"/>
+							<xsl:call-template name="DownloadLink">
+								<xsl:with-param name="p_id" select="$p_id"/>
+								<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
+								<xsl:with-param name="href" select="$href"/>
+							</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:variable name="href" select="concat($download_script,'&amp;cmd=download_paragraph&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
+						<xsl:call-template name="DownloadLink">
+							<xsl:with-param name="p_id" select="$p_id"/>
+							<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
+							<xsl:with-param name="href" select="$href"/>
+						</xsl:call-template>					
+					</xsl:otherwise>
+				</xsl:choose>
 		</xsl:if>
 	</table></p>
+</xsl:template>
+
+<xsl:template name="DownloadLink">
+	<xsl:param name="p_id" select="-1"/>
+	<xsl:param name="downloadtitle" select="-1"/>
+	<xsl:param name="href" select="-1"/>
+	<xsl:if test="$href != ''">
+		<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$href}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
+	</xsl:if>
 </xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->

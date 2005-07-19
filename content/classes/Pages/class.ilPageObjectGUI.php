@@ -569,7 +569,7 @@ class ilPageObjectGUI
 			}
 		}
 
-		$this->obj->addSourceCodeHighlighting();
+		$this->obj->addSourceCodeHighlighting($this->getOutputMode());
 //echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 //echo "<br>-".htmlentities($this->getLinkXML())."-";
 		$content = $this->obj->getXMLFromDom(false, true, true,
@@ -646,7 +646,6 @@ class ilPageObjectGUI
 		{
 			$enable_split_next = "n";
 		}
-
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 //echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
