@@ -886,6 +886,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
 		$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").": ".$_SERVER["REMOTE_ADDR"]);
+		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
 		
 		// auth mode selection
 		include_once('classes/class.ilAuthUtils.php');
