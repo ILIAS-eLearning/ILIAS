@@ -1418,6 +1418,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();
 
 		return true;;
@@ -1434,6 +1435,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_update();
 
 		return true;;
@@ -1449,6 +1451,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$this->initCourseContentInterface();
+		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_move();
 
 		return true;;

@@ -321,6 +321,7 @@ class ilRepositoryGUI
 					$tabs_out = false;
 				}
 				$this->prepareOutput($tabs_out);
+
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				$html = $this->gui_obj->getHTML();
 				if ($html != "")
