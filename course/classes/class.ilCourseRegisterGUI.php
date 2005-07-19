@@ -90,7 +90,8 @@ class ilCourseRegisterGUI
 
 	function subscribe()
 	{
-		if($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
+		if(($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
+		   and $this->course_obj->getSubscriptionMaxMembers() != 0)
 		{
 			include_once 'course/classes/class.ilCourseWaitingList.php';
 
