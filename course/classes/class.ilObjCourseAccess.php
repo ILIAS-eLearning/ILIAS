@@ -70,7 +70,7 @@ class ilObjCourseAccess extends ilObjectAccess
 			case "info":
 				include_once 'course/classes/class.ilCourseMembers.php';
 
-				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id,'login'))
+				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
 				}
@@ -79,6 +79,16 @@ class ilObjCourseAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
 				}			
 				break;
+
+			case 'join':
+				include_once 'course/classes/class.ilCourseMembers.php';
+
+				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
+				{
+					return false;
+				}
+				break;
+				
 		}
 
 		switch ($a_permission)
@@ -121,7 +131,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "view", "lang_var" => "view",
 				"default" => true),
-			array("permission" => "join", "cmd" => "view", "lang_var" => "join"),
+			array("permission" => "join", "cmd" => "join", "lang_var" => "join"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
 		
