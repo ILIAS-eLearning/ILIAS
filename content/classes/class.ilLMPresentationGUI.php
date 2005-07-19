@@ -43,6 +43,7 @@ class ilLMPresentationGUI
 	var $lng;
 	var $layout_doc;
 	var $offline;
+	var $offline_directory;
 
 	function ilLMPresentationGUI()
 	{
@@ -1189,6 +1190,7 @@ class ilLMPresentationGUI
 		$page_id = $this->getCurrentPageId();
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object->buildDom();
+		$page_object->registerOfflineHandler($this);
 		$int_links = $page_object->getInternalLinks();
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 
@@ -1222,7 +1224,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$page_object_gui->setOutputMode("offline");
-		}
+		}		
 		$page_object_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 		$page_object_gui->setPresentationTitle(
@@ -1232,7 +1234,7 @@ class ilLMPresentationGUI
 		// ADDED FOR CITATION
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
-		$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId());
+		$page_object_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadLink());
 
 		if($_SESSION["tr_id"])
 		{
@@ -2787,6 +2789,8 @@ class ilLMPresentationGUI
 		return $link;
 	}
 	
+	
+	
 	function showNoPublicAccess()
 	{
 		$page_id = $this->getCurrentPageId();
@@ -2809,6 +2813,55 @@ class ilLMPresentationGUI
 		$this->tpl->setCurrentBlock("pg_content");
 		$this->tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS",$this->lng->txt("msg_page_no_public_access"));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	function getSourcecodeDownloadLink() {
+		if (!$this->offlineMode())
+		{
+			return "lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * set offline directory to offdir
+	 * 
+	 * @param offdir contains diretory where to store files
+	 * 
+	 * current used in code paragraph
+	 */	
+	function setOfflineDirectory ($offdir) {
+		$this->offline_directory = $offdir;
+	}
+	
+	
+	/**
+	 * get offline directory
+	 * @return directory where to store offline files
+	 * 
+	 * current used in code paragraph 
+	 */
+	function getOfflineDirectory () {
+		return $this->offline_directory;
+	}
+	
+	/**
+	 * store paragraph into file directory
+	 * files/codefile_$pg_id_$paragraph_id/downloadtitle
+	 */
+	function handleCodeParagraph ($page_id, $paragraph_id, $title, $text) {
+		$directory = $this->getOfflineDirectory()."/codefiles/".$page_id."/".$paragraph_id;
+		ilUtil::makeDirParents ($directory);
+		$file = $directory."/".$title;
+		if (!($fp = @fopen($file,"w+")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}		
+		chmod($file, 0770);
+		fwrite($fp, $text);
+		fclose($fp);
 	}
 }
 ?>

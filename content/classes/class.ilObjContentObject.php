@@ -1572,6 +1572,7 @@ class ilObjContentObject extends ilObject
 		$_GET["cmd"] = "nop";
 		$lm_gui =& new ilLMPresentationGUI();
 		$lm_gui->setOfflineMode(true);
+		$lm_gui->setOfflineDirectory($a_target_dir);
 		$lm_gui->setExportFormat($a_export_format);
 
 		// export pages
@@ -1796,6 +1797,7 @@ class ilObjContentObject extends ilObject
 		$mobs = array();
 		$int_links = array();
 		$this->offline_files = array();
+		
 		foreach ($pages as $page)
 		{
 			$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
@@ -1816,10 +1818,12 @@ class ilObjContentObject extends ilObject
 			include_once("classes/class.ilObjFile.php");
 			$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
 			$this->offline_files = array_merge($this->offline_files, $pg_files);
+
 			
 		}
 		$this->offline_mobs = $mobs;
 		$this->offline_int_links = $int_links;
+		
 		
 	}
 

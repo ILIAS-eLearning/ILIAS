@@ -24,8 +24,8 @@
 //require_once("content/classes/class.ilLMObject.php");
 require_once("content/classes/Pages/class.ilPageContent.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
-require_once("syntax_highlight/php/Beautifier/Init.php");
-require_once("syntax_highlight/php/Output/Output_css.php");
+require_once("./syntax_highlight/php/Beautifier/Init.php");
+require_once("./syntax_highlight/php/Output/Output_css.php");
 
 
 define("IL_INSERT_BEFORE", 0);
@@ -61,6 +61,7 @@ class ilPageObject
 	var $parent_id;
 	var $update_listeners;
 	var $update_listener_cnt;
+	var $offline_handler;
 	var $dom_builded;
 
 	/**
@@ -1707,8 +1708,8 @@ class ilPageObject
 		if (!$this->hasHighlighter($proglang)) {
 			$proglang="plain";
 		}
-
-		require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
+		
+		require_once("./syntax_highlight/php/HFile/HFile_".$proglang.".php");
 		$classname =  "HFile_$proglang";
 		$h_instance = new $classname();
 		if ($autoindent == "n") {
@@ -1720,14 +1721,11 @@ class ilPageObject
 		$highlighter = new Core($h_instance, new Output_css());
 		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));
 
-		//$a_text = str_replace("&","&amp;",$a_text);
-		//$a_text = str_replace("<","&lt;", $a_text);
-		//$a_text = str_replace(">","&gt;", $a_text);
 		return $a_text;
 	}
 
 	function hasHighlighter ($hfile_ext) {
-		return file_exists ("syntax_highlight/php/HFile/HFile_$hfile_ext.php");
+		return file_exists ("syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
 	}
 
 	/**
@@ -1735,14 +1733,19 @@ class ilPageObject
 	* attribute the line numbers and html tags for the syntax
 	* highlighting will be inserted using the dom xml functions
 	*/
-	function addSourceCodeHighlighting()
+	function addSourceCodeHighlighting($outputmode = "presentation")
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//Paragraph[@Characteristic = 'Code']";
+		$path = "//Paragraph"; //"[@Characteristic = 'Code']";
 		$res = & xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
-		{
+		{					
 			$context_node = $res->nodeset[$i];
+			$char = $context_node->get_attribute('Characteristic');
+
+			if ($char != "Code")			
+				continue; 
+			
 			$n = $context_node->parent_node();
 			$char = $context_node->get_attribute('Characteristic');
 			$subchar = $context_node->get_attribute('SubCharacteristic');
@@ -1773,7 +1776,7 @@ class ilPageObject
 
 			$plain_content = html_entity_decode($content);
 			$plain_content = preg_replace ("/\&#x([1-9a-f]{2});?/ise","chr (base_convert (\\1, 16, 10))",$plain_content);
-			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);
+			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);			
 			$content = utf8_encode($this->highlightText($plain_content, $subchar, $autoindent));
 
 			$content = str_replace("&amp;lt;", "&lt;", $content);
@@ -1807,9 +1810,13 @@ class ilPageObject
 			$newcontent = str_replace("\n", "<br/> ", $rows);
 						
 			$context_node->set_content($newcontent);
+			if ($outputmode != "presentation" && is_object($this->offline_handler)) {
+				// call code handler for offline versions
+				$this->offline_handler->handleCodeParagraph ($this->id, $i + 1, $downloadtitle, $plain_content);
+			}
 		}
-
 	}
+	
 
 	function send_paragraph ($par_id, $filename) {
 		$this->builddom();
@@ -1876,6 +1883,10 @@ class ilPageObject
 		$fo = substr($fo, strpos($fo,">") + 1);
 //echo "<br><b>fo:</b><br>".htmlentities($fo); flush();
 		return $fo;
+	}
+	
+	function registerOfflineHandler ($handler) {
+		$this->offline_handler = $handler;
 	}
 }
 ?>
