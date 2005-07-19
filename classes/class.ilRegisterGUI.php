@@ -166,8 +166,9 @@ class ilRegisterGUI
 	function cancel()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
-		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
-		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+		//$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
+		//$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+		ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
 	}
 	
 	function subscribe()
@@ -199,8 +200,9 @@ class ilRegisterGUI
 				$this->ilias->db->query($q);
 
 				sendInfo($this->lng->txt("application_completed"),true);
-				$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
-				$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+				//$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
+				//$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+				ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
 				break;
 
 			// passwort
