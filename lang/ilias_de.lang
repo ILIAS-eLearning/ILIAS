@@ -5162,3 +5162,12 @@ survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
+search#:#search_direct#:#Direktsuche
+search#:#search_index#:#Indizierte Suche
+search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
+search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
+search#:#search_lucene#:#Lucene-Suche
+search#:#search_lucene_host#:#Lucene-Server
+search#:#search_lucene_port#:#Lucene-Port
+search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.

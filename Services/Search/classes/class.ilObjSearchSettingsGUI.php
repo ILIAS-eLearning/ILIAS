@@ -97,12 +97,12 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		// Lucene
 		$this->tpl->setVariable("TXT_LUCENE",$this->lng->txt('search_lucene'));
+		$this->tpl->setVariable("TXT_LUCENE_INFO",$this->lng->txt('search_lucene_info'));
 		$this->tpl->setVariable("TXT_LUCENE_HOST",$this->lng->txt('search_lucene_host'));
 		$this->tpl->setVariable("TXT_LUCENE_PORT",$this->lng->txt('search_lucene_port'));
 		
 		$this->tpl->setVariable("CHECK_TYPE_LUCENE",ilUtil::formCheckBox($this->object->settings_obj->enabledLucene() ? 1 : 0,
 																		 'search_lucene',1));
-		$this->tpl->setVariable("TXT_LUCENE_INFO",$this->lng->txt('search_info_lucene'));
 		$this->tpl->setVariable("LUCENE_HOST",ilUtil::prepareFormOutput($rpc_settings->getHost()));
 		$this->tpl->setVariable("LUCENE_PORT",ilUtil::prepareFormOutput($rpc_settings->getPort()));
 									
