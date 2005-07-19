@@ -928,7 +928,7 @@ class ilCourseMembers
 	* @access	public
 	*/
 
-	function _isMember($a_usr_id,$a_course_id,$a_field)
+	function _isMember($a_usr_id,$a_course_id,$a_field = '')
 	{
 		global $ilUser,$ilDB;
 
@@ -945,6 +945,10 @@ class ilCourseMembers
 			case 'matriculation':
 				$and = "AND matriculation = '".$tmp_user->getMatriculation()."' ";
 				break;
+
+			default:
+				$and = "AND cm.usr_id = '".$a_usr_id."'";
+				break;
 		}
 
 		// check if entry exists
@@ -952,6 +956,7 @@ class ilCourseMembers
 			"WHERE cm.usr_id = ud.usr_id ".
 			"AND cm.obj_id = '".$a_course_id."' ".
 			$and;
+
 
 		$res = $ilDB->query($query);
 
