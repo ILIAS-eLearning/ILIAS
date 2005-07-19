@@ -1296,7 +1296,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// determine filename of xml file
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-//echo "xmlfile:".$xml_file;
+
+		// check whether subdirectory exists within zip file
+		if (!is_dir($newObj->getImportDirectory()."/".$subdir))
+		{
+			$newObj->delete();
+			$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
+				$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check whether xml file exists within zip file
+		if (!is_file($xml_file))
+		{
+			$newObj->delete();
+			$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
+				$this->ilias->error_obj->MESSAGE);
+		}
 
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
@@ -1313,6 +1328,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$style->createFromXMLFile($style_file);
 			$newObj->writeStyleSheetId($style->getId());
 		}
+		
+		// delete import directory
+		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt($this->type."_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
