@@ -179,6 +179,8 @@ class ilWysiwygUtil
 		//echo(htmlspecialchars($content));
 //		echo "<p>";
 //		echo(rawurlencode($content));
+
+		$content = str_replace("&","&amp;",$content);
 		
 		for($k=0;$k<2;$k++) {
 			$xml_parser = xml_parser_create("UTF-8");
