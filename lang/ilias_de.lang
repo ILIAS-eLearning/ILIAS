@@ -1549,7 +1549,7 @@ common#:#hlm_read#:#HACP Lernmodul lesen
 common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
 common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
-common#:#home#:#Zum öffentlichen Bereich
+common#:#home#:#Zum öffentlichen Bereich###19 Jul 2005 content changed
 common#:#host#:#Host
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
@@ -2024,7 +2024,7 @@ common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.
+common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
@@ -2270,7 +2270,7 @@ common#:#profile#:#Profil
 common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
-common#:#pub_section#:#öffentlicher Bereich
+common#:#pub_section#:#öffentlicher Bereich###19 Jul 2005 content changed
 common#:#public#:#öffentlich
 common#:#public_profile#:#Öffentliches Profil
 common#:#publication#:#Veröffentlichung
@@ -3258,12 +3258,12 @@ content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welch
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
-content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.
+content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.###19 Jul 2005 content changed
 content#:#msg_page_not_public#:#Seite ist nicht öffentlich
 content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
-content#:#public_section#:#Öffentlicher Bereich
+content#:#public_section#:#Öffentlicher Bereich###19 Jul 2005 content changed
 content#:#read offline#:#Offline lesen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 

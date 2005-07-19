@@ -1384,6 +1384,7 @@ common#:#hlm_visible#:#HACP модулът за обучение е видим
 common#:#hlm_write#:#Редактиране на HACP модул за обучение
 common#:#hobby#:#Интереси/хобита
 common#:#home#:#Начална страница
+###19 Jul 2005 content changed
 common#:#host#:#Хост
 common#:#hours_of_day#:#Часовете на деня
 common#:#htlm#:#Модул за обучение HTML
@@ -2012,6 +2013,7 @@ common#:#profile_changed#:#Вашият профил беше променен
 common#:#profile_of#:#Профил на
 common#:#properties#:#Характеристики
 common#:#pub_section#:#Публична секция
+###19 Jul 2005 content changed
 common#:#public#:#публичи
 common#:#public_profile#:#Публичен профил
 common#:#publication#:#Публикация
@@ -2828,6 +2830,7 @@ content#:#pages from#:#Страници от
 content#:#par#:#Параграф
 content#:#pg#:#Страница
 content#:#public_section#:#Публична секция
+###19 Jul 2005 content changed
 content#:#read offline#:#Четене офлайн
 content#:#select_a_file#:#Моля, изберете файл.
 content#:#selected_pages_only#:#само избраните по-долу страници 

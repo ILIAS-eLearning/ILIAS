@@ -1499,7 +1499,7 @@ common#:#hlm_read#:#L&aelig;se rettigheder til HACP L&aelig;rer Modul
 common#:#hlm_visible#:#HACP L&aelig;rer module er synligt
 common#:#hlm_write#:#Rediger HACP l&aelig;rer modul
 common#:#hobby#:#Interesser/Hobbyer
-common#:#home#:#Hjem
+common#:#home#:#Hjem###19 Jul 2005 content changed
 common#:#host#:#Udbyder
 common#:#hours_of_day#:#timer p&aring; en dag
 common#:#htlm#:#L&aelig;rer Modul HTML
@@ -1964,7 +1964,7 @@ common#:#next#:#n&aelig;ste
 common#:#nickname#:#&oslash;genavn
 common#:#no#:#Nej
 common#:#no_access_item#:#Du har ikke rettigheder til adgang af objekterne.
-common#:#no_access_item_public#:#Kan ikke faa adgang til objekterne fra den offentlige sektion.
+common#:#no_access_item_public#:#Kan ikke faa adgang til objekterne fra den offentlige sektion.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Du har ikke tilladelse til at linke til dette objekt
 common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
@@ -2207,7 +2207,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Din profile er blevet &aelig;ndret
 common#:#profile_of#:#Profil af
 common#:#properties#:#Egenskaber
-common#:#pub_section#:#Offentlig Sektion
+common#:#pub_section#:#Offentlig Sektion###19 Jul 2005 content changed
 common#:#public#:#public###21 Apr 2005 new variable
 common#:#public_profile#:#Offentlig Profil
 common#:#publication#:#Udgivelse

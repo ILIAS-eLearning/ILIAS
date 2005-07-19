@@ -1483,7 +1483,7 @@ common#:#hlm_read#:#Qasje për Lexim në Modulin Mësimor HACP
 common#:#hlm_visible#:#Moduli Mësimor HACP është i dukshëm
 common#:#hlm_write#:#Edito Modulin Mësimor HACP
 common#:#hobby#:#Interesat/Hobi
-common#:#home#:#Home
+common#:#home#:#Home###19 Jul 2005 content changed
 common#:#host#:#Host
 common#:#hours_of_day#:#Orë për ditë
 common#:#htlm#:#Modul Mësimor HTML
@@ -1945,7 +1945,7 @@ common#:#next#:#vazhdo
 common#:#nickname#:#Nofkë
 common#:#no#:#Jo
 common#:#no_access_item#:#Nuk keni të drejta për qasje në këtë artikull.
-common#:#no_access_item_public#:#Ky artikull nuk mund të ketë qasje në seksionin publik.
+common#:#no_access_item_public#:#Ky artikull nuk mund të ketë qasje në seksionin publik.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Nuk lejoheni të bëni link të këtij objekti
 common#:#no_bm_in_personal_list#:#Nuk është caktuar asnjë adresë.
 common#:#no_chat_in_personal_list#:#Nuk ka asnjë chat në listën personale
@@ -2185,7 +2185,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Profili juaj është ndërruar
 common#:#profile_of#:#Profili i
 common#:#properties#:#Karakteristikat
-common#:#pub_section#:#Seksioni Publik
+common#:#pub_section#:#Seksioni Publik###19 Jul 2005 content changed
 common#:#public#:#publik
 common#:#public_profile#:#Profili Publik
 common#:#publication#:#Publikim
@@ -3095,7 +3095,7 @@ content#:#msg_entry_updated#:#Është aktualizuar menyja
 content#:#pages from#:#Faqet Prej
 content#:#par#:#Paragraf
 content#:#pg#:#Faqe
-content#:#public_section#:#Seksioni Publik
+content#:#public_section#:#Seksioni Publik###19 Jul 2005 content changed
 content#:#read offline#:#Lexo Offline
 content#:#select_a_file#:#Ju lutem të zgjedhni një skedar.
 content#:#selected_pages_only#:#vetëm faqet e zgjedhura më poshtë

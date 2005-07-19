@@ -1483,7 +1483,7 @@ common#:#hlm_read#:#Upoznajte se sa pristupom HACP metodu ucenja
 common#:#hlm_visible#:#HACP metod ucenja je vidljiv
 common#:#hlm_write#:#Uredite HACP metod ucenja
 common#:#hobby#:#Interesovanja/Hobiji
-common#:#home#:#Pocetna lokacija
+common#:#home#:#Pocetna lokacija###19 Jul 2005 content changed
 common#:#host#:#Domacin
 common#:#hours_of_day#:#Sati u danu
 common#:#htlm#:#Metod ucenja HTML
@@ -1945,7 +1945,7 @@ common#:#next#:#sledece
 common#:#nickname#:#Nadimak
 common#:#no#:#Ne
 common#:#no_access_item#:#Nemate dozvolu da pristupite ovom predmetu
-common#:#no_access_item_public#:#Ovom predmetu se ne može pristupiti u javnoj sekciji.
+common#:#no_access_item_public#:#Ovom predmetu se ne može pristupiti u javnoj sekciji.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Nije vam dozvoljeno da povežete ovaj objekat
 common#:#no_bm_in_personal_list#:#Obeleživaci nisu definisani.
 common#:#no_chat_in_personal_list#:#Nema caskanja na licnoj listi
@@ -2185,7 +2185,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Vaš profil je izmenjen
 common#:#profile_of#:#Profil
 common#:#properties#:#Osobine
-common#:#pub_section#:#Javna sekcija
+common#:#pub_section#:#Javna sekcija###19 Jul 2005 content changed
 common#:#public#:#javno
 common#:#public_profile#:#Javni profil
 common#:#publication#:#Publikacija
@@ -3095,7 +3095,7 @@ content#:#msg_entry_updated#:#Unos u meni je ažuriran
 content#:#pages from#:#Stranice od
 content#:#par#:#Paragraf
 content#:#pg#:#Stranica
-content#:#public_section#:#Javna sekcija
+content#:#public_section#:#Javna sekcija###19 Jul 2005 content changed
 content#:#read offline#:#Procitaj nezavisno
 content#:#select_a_file#:#Molimo odaberite datoteku.
 content#:#selected_pages_only#:#samo te dole odabrane stranice

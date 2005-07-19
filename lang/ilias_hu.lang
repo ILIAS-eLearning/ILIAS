@@ -1464,7 +1464,7 @@ common#:#hlm_read#:#Olvasási elérés HACP-tananyaghoz
 common#:#hlm_visible#:#HACP-tananyag látható
 common#:#hlm_write#:#HACP-tananyag szerkesztése
 common#:#hobby#:#További információk
-common#:#home#:#Kezdőlap
+common#:#home#:#Kezdőlap###19 Jul 2005 content changed
 common#:#host#:#Host
 common#:#hours_of_day#:#A nap órái
 common#:#htlm#:#HTML-tananyag
@@ -1896,7 +1896,7 @@ common#:#next#:#következő
 common#:#nickname#:#Becenév
 common#:#no#:#No
 common#:#no_access_item#:#Nincs jogosultsága ezen tételek eléréséhez.
-common#:#no_access_item_public#:#Ez a tétel nem elérhető a nyilvános részben.
+common#:#no_access_item_public#:#Ez a tétel nem elérhető a nyilvános részben.###19 Jul 2005 content changed
 common#:#no_access_link_object#:#Ön nem linkelhet ehhez az objektumhoz
 common#:#no_bm_in_personal_list#:#Nincs megadva webcím.
 common#:#no_chat_in_personal_list#:#Nincs chat a személyes listán
@@ -2136,7 +2136,7 @@ common#:#profile#:#Profile###14 Jul 2005 new variable
 common#:#profile_changed#:#Adatai változtatásra kerültek
 common#:#profile_of#:#Adatai:
 common#:#properties#:#Jellemzők
-common#:#pub_section#:#Nyilvános rész
+common#:#pub_section#:#Nyilvános rész###19 Jul 2005 content changed
 common#:#public#:#nyilvános
 common#:#public_profile#:#Nyilvános adat
 common#:#publication#:#Publikáció
@@ -3049,7 +3049,7 @@ content#:#msg_entry_updated#:#Menübejegyzés frissítve
 content#:#pages from#:#Első
 content#:#par#:#Bekezdés
 content#:#pg#:#Lap
-content#:#public_section#:#Nyilvános rész
+content#:#public_section#:#Nyilvános rész###19 Jul 2005 content changed
 content#:#read offline#:#Off-line olvasás
 content#:#select_a_file#:#Válasszon ki egy fájlt.
 content#:#selected_pages_only#:#csak azokat az oldalakat, amelyek alább ki vannak választva
