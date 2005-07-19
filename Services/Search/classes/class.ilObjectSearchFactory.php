@@ -116,10 +116,25 @@ class ilObjectSearchFactory
 	 */
 	function &_getForumSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextForumSearch.php';
-		
-		return new ilFulltextForumSearch($query_parser);
+		include_once 'Services/Search/classes/class.ilObjSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextForumSearch.php';
+			
+			return new ilFulltextForumSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeForumSearch.php';
+
+			return new ilLikeForumSearch($query_parser);
+		}
+
 	}
 		
 	/*
