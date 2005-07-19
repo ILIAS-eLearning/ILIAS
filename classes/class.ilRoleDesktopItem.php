@@ -69,7 +69,7 @@ class ilRoleDesktopItem
 				"SET role_id = '".$this->getRoleId()."', ".
 				"item_id = '".$a_item_id."', ".
 				"item_type = '".$a_item_type."'";
-			
+
 			$this->db->query($query);
 
 			$this->__assign($a_item_id,$a_item_type);
@@ -146,6 +146,7 @@ class ilRoleDesktopItem
 			$items[$row->role_item_id]['item_id'] = $row->item_id;
 			$items[$row->role_item_id]['item_type'] = $row->item_type;
 		}
+
 		return $items ? $items : array();
 	}
 
