@@ -27,6 +27,7 @@
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
+*
 * @package ilias
 */
 
@@ -122,5 +123,5 @@ if ($_GET["reload"])
     $connector = "&";
 }
 
-ilUtil::redirect($start.$connector."return_to=".$_GET["return_to"]);
+ilUtil::redirect($start.$connector."return_to=".rawurlencode($_GET["return_to"]));
 ?>
