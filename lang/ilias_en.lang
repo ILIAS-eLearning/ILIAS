@@ -5164,3 +5164,12 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#warning_question_not_complete#:#The question is not complete!
 common#:#current_ip#:#Current IP:
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
+search#:#search_direct#:#Direct search
+search#:#search_index#:#Indexed search
+search#:#search_like_info#:#Choose this option to get best results.
+search#:#search_full_info#:#Choose this option to search in a large amount of data.
+search#:#search_lucene#:#Lucene search
+search#:#search_lucene_host#:#Lucene-Server
+search#:#search_lucene_port#:#Lucene-Port
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
