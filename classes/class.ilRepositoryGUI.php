@@ -299,7 +299,6 @@ class ilRepositoryGUI
 			case "ilobjfoldergui":
 			case "ilobjilincclassroomgui":
 			//case "ilobjmediapoolgui":					// doesnt work, why?
-
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
 				// get gui class instance
@@ -315,7 +314,6 @@ class ilRepositoryGUI
 					? true
 					: false;
 				// forward command
-
 				if ($_GET["mode"] == "create" || $cmd == "linkSelector")
 				{
 					$tabs_out = false;
