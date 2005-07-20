@@ -24,6 +24,7 @@
 include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 include_once("./content/classes/Pages/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
+
 include_once("./classes/class.ilDOMUtil.php");
 
 
@@ -603,9 +604,9 @@ class ilPageObjectGUI
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
-//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-//echo "mode:".$this->getOutputMode().":<br>";
+		//echo "<b>XML</b>:".htmlentities($content).":<br>";
+		//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		//		echo "mode:".$this->getOutputMode().":<br>";
 
 		$add_path = ilUtil::getImagePath("add.gif");
 		$col_path = ilUtil::getImagePath("col.gif");
@@ -646,6 +647,9 @@ class ilPageObjectGUI
 		{
 			$enable_split_next = "n";
 		}
+		 
+		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
+		
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 //echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
@@ -665,7 +669,8 @@ class ilPageObjectGUI
 						 'download_script' => $this->sourcecode_download_script,
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
-						 'javascript' => $sel_js_mode);
+						 'javascript' => $sel_js_mode,
+						 'paragraph_plugins' => $paragraph_plugins);
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
