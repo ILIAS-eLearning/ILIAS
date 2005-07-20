@@ -1110,6 +1110,8 @@ common#:#crs_visible#:#Cursus is zichtbaar###07 Apr 2005 content changed
 common#:#crs_write#:#Cursus wijzigen###07 Apr 2005 content changed
 common#:#cumulative_time#:#Cumulatieve tijd###07 Apr 2005 content changed
 common#:#cur_number_rec#:#Huidige aantal rekords###07 Apr 2005 content changed
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Huidig wachtwoord###07 Apr 2005 content changed
 common#:#cut#:#Knippen###07 Apr 2005 content changed
 common#:#cutPage#:#Knippen###07 Apr 2005 content changed
@@ -3094,6 +3096,8 @@ content#:#cont_no_assign_itself#:#Nieuw media-object###07 Apr 2005 content chang
 content#:#cont_no_manifest#:#Nieuw begrip###07 Apr 2005 content changed
 content#:#cont_no_object_found#:#Het object kan niet aan zichzelf toegewezen worden###07 Apr 2005 content changed
 content#:#cont_no_page#:#Geen imsmanifest.xml bestand gevonden in hoofd-map.###07 Apr 2005 content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Kan geen object met deze titel vinden###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#Geen pagina gevonden.###07 Apr 2005 content changed
 content#:#cont_nr_items#:#Geen enkele###07 Apr 2005 content changed
@@ -3248,6 +3252,7 @@ content#:#cont_width#:#Laatste export-log###07 Apr 2005 content changed
 content#:#cont_wysiwyg#:#Waar gepubliceerd###07 Apr 2005 content changed
 content#:#cont_xml_base#:#Breedte###07 Apr 2005 content changed
 content#:#cont_year#:#Inhoud Wysiwyg###07 Apr 2005 content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#xml:base###07 Apr 2005 content changed
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
@@ -4766,13 +4771,21 @@ search#:#search_dbk_content#:#Aaneenschakeling###07 Apr 2005 content changed
 search#:#search_dbk_meta#:#Pagina-inhoud###07 Apr 2005 content changed
 search#:#search_delete_sure#:#Digitale bibliotheek(inhoud)###07 Apr 2005 content changed
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Digital-bibliodeek (metagegevens)###07 Apr 2005 content changed
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Het object en zijn inhoud worden permanent verwijderd###07 Apr 2005 content changed
 search#:#search_inactive#:#Groepen###07 Apr 2005 content changed
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Zoeken binnen de resultaten###07 Apr 2005 content changed
 search#:#search_lm_meta#:#Include inactieve gebruikers###07 Apr 2005 content changed
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Leer-materialen(inhoud)###07 Apr 2005 content changed
 search#:#search_minimum_three#:#Lesmaterialen (metagegevens)###07 Apr 2005 content changed
 search#:#search_move_folder_not_allowed#:#Metagegevens###07 Apr 2005 content changed
@@ -4780,6 +4793,7 @@ search#:#search_move_to#:#Uw zoekopdracht moet op zijn minst drie tekens lang zi
 search#:#search_my_search_results#:#Map kan niet verplaatst worden.###07 Apr 2005 content changed
 search#:#search_new_folder#:#Verplaatsen naar:###07 Apr 2005 content changed
 search#:#search_no_category#:#Mijn zoekresultaten###07 Apr 2005 content changed
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Nieuwe map###07 Apr 2005 content changed
 search#:#search_no_results_saved#:#U heeft geen enkele zoek-kategorie geselecteerd###07 Apr 2005 content changed
 search#:#search_no_search_term#:#Uw zoekopdracht leverde geen enkel resultaat op###07 Apr 2005 content changed

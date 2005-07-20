@@ -1110,6 +1110,8 @@ common#:#crs_visible#:#Course is visible###16 Mar 2004 new variable
 common#:#crs_write#:#Edit Course###16 Mar 2004 new variable
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Současné heslo###07 Apr 2005 content changed
 common#:#cut#:#Vyjmout###07 Apr 2005 content changed
 common#:#cutPage#:#Vyjmout###07 Apr 2005 content changed
@@ -3094,6 +3096,8 @@ content#:#cont_no_assign_itself#:#Objekt nemůže být přiřazen sám sobě###0
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
 content#:#cont_no_object_found#:#Objekt s takovým názvem nebyl nalezen###07 Apr 2005 content changed
 content#:#cont_no_page#:#Žádná stránka nebyla nalezena.###07 Apr 2005 content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Žádný###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#Počet sloupců###07 Apr 2005 content changed
 content#:#cont_nr_items#:#Počet položek###07 Apr 2005 content changed
@@ -3248,6 +3252,7 @@ content#:#cont_width#:#Width###16 Mar 2004 new variable
 content#:#cont_wysiwyg#:#Wysiwyg obsah###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base### identical translation
 content#:#cont_year#:#Rok###07 Apr 2005 content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
@@ -4766,13 +4771,21 @@ search#:#search_dbk_content#:#Elektronická knihovna (obsah)###07 Apr 2005 conte
 search#:#search_dbk_meta#:#Elektronická knihovna (meta data)###14 Sep 2004 content changed
 search#:#search_delete_sure#:#Objekt a veškerý obsah bude navždy odstraněn###14 Sep 2004 content changed
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Skupiny###07 Apr 2005 content changed
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Vyhledávat v rámci výsledků###07 Apr 2005 content changed
 search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Výukové materiály (obsah)###07 Apr 2005 content changed
 search#:#search_lm_meta#:#Výukové materiály (meta data)###14 Sep 2004 content changed
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Meta data### identical translation
 search#:#search_minimum_three#:#Vyhledávací výraz musí být minimálně tři znaky dlouhý###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#Složka nemůže být přesunuta.###07 Apr 2005 content changed
@@ -4780,6 +4793,7 @@ search#:#search_move_to#:#Přesunout do:###07 Apr 2005 content changed
 search#:#search_my_search_results#:#Mé výsledky vyhledávání###07 Apr 2005 content changed
 search#:#search_new_folder#:#Nová složka###07 Apr 2005 content changed
 search#:#search_no_category#:#Nebyla vybrána žádná vyhledávací kategorie###26 Aug 2004 content changed
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Nebyla nalezena žádná data vyhovující zadané podmínce###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Žádné výsledky nebyly uloženy###07 Apr 2005 content changed
 search#:#search_no_search_term#:#Nebyl vybrán žádný vyhledávací výraz###14 Sep 2004 content changed

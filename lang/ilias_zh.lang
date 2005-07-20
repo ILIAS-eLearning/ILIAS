@@ -1128,6 +1128,8 @@ common#:#crs_visible#:#课程可视###07 Apr 2005 content changed
 common#:#crs_write#:#编辑课程###07 Apr 2005 content changed
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#当前口令###07 Apr 2005 content changed
 common#:#cut#:#剪切###07 Apr 2005 content changed
 common#:#cutPage#:#剪切###07 Apr 2005 content changed
@@ -3112,6 +3114,8 @@ content#:#cont_no_assign_itself#:#对象不能自身指派###07 Apr 2005 content
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
 content#:#cont_no_object_found#:#不能找到具有此标题的对象###07 Apr 2005 content changed
 content#:#cont_no_page#:#未找到页###07 Apr 2005 content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#无###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#列数###07 Apr 2005 content changed
 content#:#cont_nr_items#:#项数###07 Apr 2005 content changed
@@ -3266,6 +3270,7 @@ content#:#cont_width#:#宽度###07 Apr 2005 content changed
 content#:#cont_wysiwyg#:#所得即所见内容###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml库###07 Apr 2005 content changed
 content#:#cont_year#:#年###07 Apr 2005 content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
@@ -4784,13 +4789,21 @@ search#:#search_dbk_content#:#数字图书馆（内容）###07 Apr 2005 content 
 search#:#search_dbk_meta#:#数字图书馆（元数据）###14 Sep 2004 content changed
 search#:#search_delete_sure#:#此对象及其内容将被永久删除###14 Sep 2004 content changed
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#组###07 Apr 2005 content changed
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#在结果中搜索###07 Apr 2005 content changed
 search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#学习材料（内容）###07 Apr 2005 content changed
 search#:#search_lm_meta#:#学习材料（元数据）###14 Sep 2004 content changed
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#元数据###14 Sep 2004 content changed
 search#:#search_minimum_three#:#搜索必须至少三个字符长###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#文件夹不能移动。###07 Apr 2005 content changed
@@ -4798,6 +4811,7 @@ search#:#search_move_to#:#移到：e###07 Apr 2005 content changed
 search#:#search_my_search_results#:#我的搜索结果###07 Apr 2005 content changed
 search#:#search_new_folder#:#新文件夹###07 Apr 2005 content changed
 search#:#search_no_category#:#您未选择任何搜索种类###26 Aug 2004 content changed
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#搜索无任何匹配结果###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#未存任何结果。###07 Apr 2005 content changed
 search#:#search_no_search_term#:#您未选择任何搜索术语###14 Sep 2004 content changed

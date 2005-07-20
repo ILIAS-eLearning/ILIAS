@@ -1060,6 +1060,8 @@ common#:#crs_visible#:#Kursi është i dukshëm
 common#:#crs_write#:#Edito Kursin
 common#:#cumulative_time#:#Koha e grumbulluar
 common#:#cur_number_rec#:#Numri aktual i rekordeve
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Parulla Aktuale
 common#:#cut#:#Pres
 common#:#cutPage#:#Pres
@@ -2933,6 +2935,8 @@ content#:#cont_no_assign_itself#:#Objekti nuk mund të caktohet në vetvete
 content#:#cont_no_manifest#:#Nuk është gjetur asnjë skedar i llojit imsmanifest.xml në direktorium.
 content#:#cont_no_object_found#:#Nuk mund të gjej ndonjë objekt me këtë titull
 content#:#cont_no_page#:#Nuk gjendet asnjë Faqe.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Asnjë
 content#:#cont_nr_cols#:#Numri i Kolonave
 content#:#cont_nr_items#:#Numri i Artikujve
@@ -3081,6 +3085,7 @@ content#:#cont_width#:#Gjerësia
 content#:#cont_wysiwyg#:#Përmbajtja WYZIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Viti
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objektet e kopjuara në klipbord.
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edito të dhënat e menysë
@@ -4572,13 +4577,21 @@ search#:#search_dbk_content#:#Libraria Digjitale (përmbajtja)
 search#:#search_dbk_meta#:#Libraria Digjitale (metadata)
 search#:#search_delete_sure#:#Objekti dhe përmbajtja e tij do të fshihen në mënyrë permanente
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupet
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Kërko përbrenda rezultateve
 search#:#search_inactive#:#Përfshijë shfrytëzuesit joaktiv
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Materiale mësimore (përmbajtje)
 search#:#search_lm_meta#:#Materiale mësimore (metadata)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Metadata
 search#:#search_minimum_three#:#Duhet të shënoni së paku tre karaktere
 search#:#search_move_folder_not_allowed#:#Direktoriumi nuk mund të zhvendoset
@@ -4586,6 +4599,7 @@ search#:#search_move_to#:#Zhvendos në:
 search#:#search_my_search_results#:#Rezultatet e Kërkimit
 search#:#search_new_folder#:#Direktorium i ri
 search#:#search_no_category#:#Nuk keni zgjedhur ndonjë kategori për kërkim
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Kërkimi juaj nuk ka sjellë ndonjë rezultat
 search#:#search_no_results_saved#:#Nuk është ruajtur ndonjë rezultat
 search#:#search_no_search_term#:#Nuk keni zgjedhur asnjë term për kërkim

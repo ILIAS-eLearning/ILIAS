@@ -1060,6 +1060,8 @@ common#:#crs_visible#:#Kurs je vidljiv
 common#:#crs_write#:#Uredi Kurs
 common#:#cumulative_time#:#Ukupno vreme
 common#:#cur_number_rec#:#Trenutni broj zapisa
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Važeca šifra
 common#:#cut#:#Seci
 common#:#cutPage#:#Seci
@@ -2933,6 +2935,8 @@ content#:#cont_no_assign_itself#:#Objekat ne može biti namenjen samom sebi
 content#:#cont_no_manifest#:#imsmanifest.xml fajl nije pronaden u glavnom direktorijumu.
 content#:#cont_no_object_found#:#Nije pronaden nijedan objekat sa ovim nazivom
 content#:#cont_no_page#:#Nijedna stranica nije pronadena.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Nijedan
 content#:#cont_nr_cols#:#Broj kolona
 content#:#cont_nr_items#:#Broj predmeta
@@ -3081,6 +3085,7 @@ content#:#cont_width#:#Širina
 content#:#cont_wysiwyg#:#Sadržaj WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Godina
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objekti su kopirani u tablicu
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Uredi unos u meni
@@ -4572,13 +4577,21 @@ search#:#search_dbk_content#:#Digitalna Biblioteka (sadržaj)
 search#:#search_dbk_meta#:#Digitalna Biblioteka (metapodaci)
 search#:#search_delete_sure#:#Objekat i njegovi cinioci bice trajno obrisani
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupe
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Traži unutar rezultata
 search#:#search_inactive#:#Ukljuci aktivne korisnike
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Materijali za ucenje (sadržaj)
 search#:#search_lm_meta#:#Materijali za ucenje (metapodaci)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Petapodatak
 search#:#search_minimum_three#:#Vaša pretraga mora biti dužine od najmanje tri karaktera
 search#:#search_move_folder_not_allowed#:#Registrator ne može biti premešten
@@ -4586,6 +4599,7 @@ search#:#search_move_to#:#Premesti u:
 search#:#search_my_search_results#:#Rezultati moje pretrage
 search#:#search_new_folder#:#Novi registrator
 search#:#search_no_category#:#Niste odabrali nijednu kategoriju za pretragu
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Vaša pretraga nije prnašla nijedan rezultat
 search#:#search_no_results_saved#:#Nema snimljenih rezultata.
 search#:#search_no_search_term#:#Niste odabrali nijedan termin za pretragu

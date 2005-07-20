@@ -1108,6 +1108,8 @@ common#:#crs_visible#:#El Curso es visible
 common#:#crs_write#:#Editar Curso
 common#:#cumulative_time#:#Tiempo Acumulado
 common#:#cur_number_rec#:#Número actual de registros
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Contraseña actual
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
@@ -3092,6 +3094,8 @@ content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
 content#:#cont_no_manifest#:#No se encontró el fichero imsmanifest.xml en el directorio principal.
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
 content#:#cont_no_page#:#No se encontraron Página(s)
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Ninguno
 content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
@@ -3246,6 +3250,7 @@ content#:#cont_width#:#Anchura
 content#:#cont_wysiwyg#:#Contenido WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
@@ -4764,13 +4769,21 @@ search#:#search_dbk_content#:#Biblioteca Digital (contenido)
 search#:#search_dbk_meta#:#Biblioteca Digital (meta datos)
 search#:#search_delete_sure#:#El objeto y su contenido serán eliminados serán eliminados permanentemente content changed
 search#:#search_details_info#:#Búsqueda detallada. Por favor seleccione un o más objetos abajo.
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Buscar en títulos, descripciones y palabras clave en todos los tipos de objeto.
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupos
 search#:#search_in_magazin#:#En el repositorio
 search#:#search_in_result#:#Buscar en los resultados
 search#:#search_inactive#:#Incluir usuarios inactivos
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Materiales de aprendizaje (contenido)
 search#:#search_lm_meta#:#Materiales de aprendizaje (metadatos)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Metadatos
 search#:#search_minimum_three#:#La cadena de búsqueda debe tener al menos 3 caracteres
 search#:#search_move_folder_not_allowed#:#La carpeta no puede ser movida.
@@ -4778,6 +4791,7 @@ search#:#search_move_to#:#mover a:
 search#:#search_my_search_results#:#Mis resultados de búsqueda
 search#:#search_new_folder#:#Nueva carpeta
 search#:#search_no_category#:#No ha seleccionado ninguna categoría de búsqueda
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Su búsqueda no encontró resultados
 search#:#search_no_results_saved#:#No se han guardado los resultados
 search#:#search_no_search_term#:#No ha seleccionado ningun término de búsqueda

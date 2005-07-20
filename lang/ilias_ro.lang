@@ -1069,6 +1069,8 @@ common#:#crs_visible#:#Cursul este vizibil
 common#:#crs_write#:#Editati Curs
 common#:#cumulative_time#:#Timp cumulativ
 common#:#cur_number_rec#:#Numar curent de inregistrari
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Parola curenta
 common#:#cut#:#Decupare
 common#:#cutPage#:#Decupare
@@ -2912,6 +2914,8 @@ content#:#cont_no_assign_itself#:#Obiectul nu poate fi distribuit catre el insus
 content#:#cont_no_manifest#:#Nici un fisier .xml manifest nu a fost gasit in directorul principal.
 content#:#cont_no_object_found#:#Nu s-a gasit nici un obiect cu acest titlu
 content#:#cont_no_page#:#Nu s-a gasit nici o pagina.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#nimic
 content#:#cont_nr_cols#:#Numar de Coloane
 content#:#cont_nr_items#:#Numar de Obiecte
@@ -3055,6 +3059,7 @@ content#:#cont_width#:#Latime
 content#:#cont_wysiwyg#:#Continut WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Anul
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Obiecte copiate in clipboard.
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Editati intrarile din menu
@@ -4444,13 +4449,21 @@ search#:#search_dbk_content#:#Biblioteca Digitala (continut)
 search#:#search_dbk_meta#:#Biblioteca Digitala (metadate)
 search#:#search_delete_sure#:#Obiectul si continutul sau vor fi sterse permanent
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupuri
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Cautati in rezultate
 search#:#search_inactive#:#Includeti utilizatorii inactivi
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Materiale de studiu (continut)
 search#:#search_lm_meta#:#Materiale de studiu (metadate)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Metadate
 search#:#search_minimum_three#:#Lungimea cuvantului cautat trebuie sa fie de minim 3 caractere
 search#:#search_move_folder_not_allowed#:#Dosarul nu poate fi mutat.
@@ -4458,6 +4471,7 @@ search#:#search_move_to#:#Muta in:
 search#:#search_my_search_results#:#Rezultatele cautarii
 search#:#search_new_folder#:#Dosar nou
 search#:#search_no_category#:#Nu ati selectat nici o categorie de cautare
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Cautarea dumneavoastra nu a avut nici un rezultat
 search#:#search_no_results_saved#:#Nici un rezultat salvat.
 search#:#search_no_search_term#:#Nu ati selectat nici un termen de cautare

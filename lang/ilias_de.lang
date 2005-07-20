@@ -1109,6 +1109,8 @@ common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
 common#:#cumulative_time#:#Kumulative Zeit
 common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
+common#:#current_ip#:#Aktuelle IP:
+common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -3093,6 +3095,8 @@ content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zug
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
@@ -3247,6 +3251,7 @@ content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
@@ -4764,13 +4769,21 @@ search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
 search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
 search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
+search#:#search_direct#:#Direktsuche
 search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
+search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_group#:#Gruppen
 search#:#search_in_magazin#:#Im Magazin
 search#:#search_in_result#:#In den Resultaten suchen
 search#:#search_inactive#:#Inaktive Benutzer
+search#:#search_index#:#Indizierte Suche
+search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
 search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
+search#:#search_lucene#:#Lucene-Suche
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Metadaten
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
 search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
@@ -4778,6 +4791,7 @@ search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
 search#:#search_new_folder#:#Neuer Ordner
 search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt.
+search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
 search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
 search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
@@ -5160,14 +5174,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-common#:#current_ip#:#Aktuelle IP:
-common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
-search#:#search_direct#:#Direktsuche
-search#:#search_index#:#Indizierte Suche
-search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
-search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
-search#:#search_lucene#:#Lucene-Suche
-search#:#search_lucene_host#:#Lucene-Server
-search#:#search_lucene_port#:#Lucene-Port
-search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
-search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
