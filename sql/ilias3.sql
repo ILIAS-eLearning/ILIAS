@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 20, 2005 at 05:09 PM
+# Generation Time: Jul 20, 2005 at 06:11 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias350rt`
+# Database : `ilias350rel`
 # --------------------------------------------------------
 
 #
@@ -7642,7 +7642,7 @@ INSERT INTO `object_data` VALUES (29, 'typ', 'lng', 'Language object', -1, '2002
 INSERT INTO `object_data` VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37', '');
 INSERT INTO `object_data` VALUES (31, 'typ', 'dbk', 'Digilib Book', -1, '2003-08-15 10:07:29', '2003-08-15 12:30:19', '');
 INSERT INTO `object_data` VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2003-08-15 12:04:20', '');
-INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-20 15:08:22', '');
+INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-20 18:10:19', '');
 INSERT INTO `object_data` VALUES (14, 'role', 'Anonymous', 'Default role for anonymous users (with no account)', -1, '2003-08-15 12:06:19', '2005-07-20 15:15:06', '');
 INSERT INTO `object_data` VALUES (18, 'typ', 'mob', 'Multimedia object', -1, '0000-00-00 00:00:00', '2003-08-15 12:03:20', '');
 INSERT INTO `object_data` VALUES (35, 'typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00', '');
@@ -7701,6 +7701,10 @@ INSERT INTO `object_data` VALUES (123, 'typ', 'seas', 'Search settings', -1, '20
 INSERT INTO `object_data` VALUES (124, 'seas', 'Search settings', 'Search settings', -1, '2005-06-20 09:50:00', '2005-06-20 09:50:00', '');
 INSERT INTO `object_data` VALUES (125, 'rolt', 'Local Administrator', 'Role template for local administrators.', 6, '2005-07-20 15:33:13', '2005-07-20 16:00:19', '');
 INSERT INTO `object_data` VALUES (126, 'rolt', 'Co-Author', 'Role template for authors with limited permissions.', 6, '2005-07-20 16:36:46', '2005-07-20 16:42:50', '');
+INSERT INTO `object_data` VALUES (127, 'typ', 'extt', 'external tools settings', -1, '2005-07-20 18:10:04', '2005-07-20 18:10:04', '');
+INSERT INTO `object_data` VALUES (128, 'extt', 'External tools settings', 'Configuring external tools', -1, '2005-07-20 18:10:04', '2005-07-20 18:10:04', '');
+INSERT INTO `object_data` VALUES (129, 'rolt', 'il_icrs_admin', 'Administrator template for LearnLink Seminars', -1, '2005-07-20 18:10:05', '2005-07-20 18:10:05', '');
+INSERT INTO `object_data` VALUES (130, 'rolt', 'il_icrs_member', 'Member template for LearnLink Seminars', -1, '2005-07-20 18:10:05', '2005-07-20 18:10:05', '');
 # --------------------------------------------------------
 
 #
@@ -7734,6 +7738,7 @@ INSERT INTO `object_reference` VALUES (18, 86);
 INSERT INTO `object_reference` VALUES (20, 116);
 INSERT INTO `object_reference` VALUES (21, 118);
 INSERT INTO `object_reference` VALUES (22, 124);
+INSERT INTO `object_reference` VALUES (23, 128);
 # --------------------------------------------------------
 
 #
@@ -8177,6 +8182,8 @@ INSERT INTO `rbac_fa` VALUES (111, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (112, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (125, 8, 'n');
 INSERT INTO `rbac_fa` VALUES (126, 8, 'n');
+INSERT INTO `rbac_fa` VALUES (129, 8, 'n');
+INSERT INTO `rbac_fa` VALUES (130, 8, 'n');
 # --------------------------------------------------------
 
 #
@@ -8239,6 +8246,8 @@ INSERT INTO `rbac_operations` VALUES (49, 'push_desktop_items', 'Allow pushing d
 INSERT INTO `rbac_operations` VALUES (50, 'create_webr', 'create web resource');
 INSERT INTO `rbac_operations` VALUES (51, 'search', 'Allow using search');
 INSERT INTO `rbac_operations` VALUES (52, 'moderate', 'Moderate objects');
+INSERT INTO `rbac_operations` VALUES (53, 'create_icrs', 'create LearnLink Seminar');
+INSERT INTO `rbac_operations` VALUES (54, 'create_icla', 'create LearnLink Seminar room');
 # --------------------------------------------------------
 
 #
@@ -8310,6 +8319,7 @@ INSERT INTO `rbac_ta` VALUES (15, 32);
 INSERT INTO `rbac_ta` VALUES (15, 42);
 INSERT INTO `rbac_ta` VALUES (15, 43);
 INSERT INTO `rbac_ta` VALUES (15, 50);
+INSERT INTO `rbac_ta` VALUES (15, 53);
 INSERT INTO `rbac_ta` VALUES (16, 1);
 INSERT INTO `rbac_ta` VALUES (16, 2);
 INSERT INTO `rbac_ta` VALUES (16, 3);
@@ -8335,6 +8345,7 @@ INSERT INTO `rbac_ta` VALUES (16, 43);
 INSERT INTO `rbac_ta` VALUES (16, 47);
 INSERT INTO `rbac_ta` VALUES (16, 48);
 INSERT INTO `rbac_ta` VALUES (16, 50);
+INSERT INTO `rbac_ta` VALUES (16, 53);
 INSERT INTO `rbac_ta` VALUES (17, 1);
 INSERT INTO `rbac_ta` VALUES (17, 2);
 INSERT INTO `rbac_ta` VALUES (17, 3);
@@ -8359,6 +8370,7 @@ INSERT INTO `rbac_ta` VALUES (17, 32);
 INSERT INTO `rbac_ta` VALUES (17, 42);
 INSERT INTO `rbac_ta` VALUES (17, 43);
 INSERT INTO `rbac_ta` VALUES (17, 50);
+INSERT INTO `rbac_ta` VALUES (17, 53);
 INSERT INTO `rbac_ta` VALUES (19, 1);
 INSERT INTO `rbac_ta` VALUES (19, 2);
 INSERT INTO `rbac_ta` VALUES (19, 3);
@@ -8463,6 +8475,7 @@ INSERT INTO `rbac_ta` VALUES (87, 32);
 INSERT INTO `rbac_ta` VALUES (87, 42);
 INSERT INTO `rbac_ta` VALUES (87, 43);
 INSERT INTO `rbac_ta` VALUES (87, 50);
+INSERT INTO `rbac_ta` VALUES (87, 53);
 INSERT INTO `rbac_ta` VALUES (88, 1);
 INSERT INTO `rbac_ta` VALUES (88, 2);
 INSERT INTO `rbac_ta` VALUES (88, 3);
@@ -8540,11 +8553,9 @@ INSERT INTO `rbac_ta` VALUES (119, 2);
 INSERT INTO `rbac_ta` VALUES (119, 3);
 INSERT INTO `rbac_ta` VALUES (119, 4);
 INSERT INTO `rbac_ta` VALUES (119, 6);
-INSERT INTO `rbac_ta` VALUES (120, 1);
-INSERT INTO `rbac_ta` VALUES (120, 2);
-INSERT INTO `rbac_ta` VALUES (120, 3);
-INSERT INTO `rbac_ta` VALUES (120, 4);
-INSERT INTO `rbac_ta` VALUES (120, 6);
+INSERT INTO `rbac_ta` VALUES (119, 7);
+INSERT INTO `rbac_ta` VALUES (119, 8);
+INSERT INTO `rbac_ta` VALUES (119, 54);
 INSERT INTO `rbac_ta` VALUES (122, 1);
 INSERT INTO `rbac_ta` VALUES (122, 2);
 INSERT INTO `rbac_ta` VALUES (122, 3);
@@ -8557,6 +8568,10 @@ INSERT INTO `rbac_ta` VALUES (123, 2);
 INSERT INTO `rbac_ta` VALUES (123, 3);
 INSERT INTO `rbac_ta` VALUES (123, 4);
 INSERT INTO `rbac_ta` VALUES (123, 51);
+INSERT INTO `rbac_ta` VALUES (127, 1);
+INSERT INTO `rbac_ta` VALUES (127, 2);
+INSERT INTO `rbac_ta` VALUES (127, 3);
+INSERT INTO `rbac_ta` VALUES (127, 4);
 # --------------------------------------------------------
 
 #
@@ -9370,6 +9385,24 @@ INSERT INTO `rbac_templates` VALUES (80, 'webr', 2, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'webr', 3, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'webr', 4, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'webr', 6, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 1, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 3, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 4, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 6, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 8, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'icrs', 54, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 1, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 2, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 3, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 4, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 6, 8);
+INSERT INTO `rbac_templates` VALUES (129, 'rolf', 14, 8);
+INSERT INTO `rbac_templates` VALUES (130, 'icrs', 2, 8);
+INSERT INTO `rbac_templates` VALUES (130, 'icrs', 3, 8);
+INSERT INTO `rbac_templates` VALUES (130, 'icrs', 7, 8);
+INSERT INTO `rbac_templates` VALUES (130, 'icrs', 8, 8);
 # --------------------------------------------------------
 
 #
@@ -9716,7 +9749,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '493');
+INSERT INTO `settings` VALUES ('db_version', '499');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
@@ -10431,10 +10464,10 @@ CREATE TABLE `tree` (
 # Dumping data for table `tree`
 #
 
-INSERT INTO `tree` VALUES (1, 1, 0, 1, 32, 1);
+INSERT INTO `tree` VALUES (1, 1, 0, 1, 34, 1);
 INSERT INTO `tree` VALUES (1, 7, 9, 5, 6, 3);
 INSERT INTO `tree` VALUES (1, 8, 9, 7, 8, 3);
-INSERT INTO `tree` VALUES (1, 9, 1, 2, 31, 2);
+INSERT INTO `tree` VALUES (1, 9, 1, 2, 33, 2);
 INSERT INTO `tree` VALUES (1, 10, 9, 9, 10, 3);
 INSERT INTO `tree` VALUES (1, 11, 9, 11, 12, 3);
 INSERT INTO `tree` VALUES (1, 12, 9, 3, 4, 3);
@@ -10447,6 +10480,7 @@ INSERT INTO `tree` VALUES (1, 19, 9, 23, 24, 3);
 INSERT INTO `tree` VALUES (1, 20, 9, 25, 26, 3);
 INSERT INTO `tree` VALUES (1, 21, 9, 27, 28, 3);
 INSERT INTO `tree` VALUES (1, 22, 9, 29, 30, 3);
+INSERT INTO `tree` VALUES (1, 23, 9, 31, 32, 3);
 # --------------------------------------------------------
 
 #
@@ -10852,6 +10886,8 @@ CREATE TABLE `usr_data` (
   `approve_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `agree_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `ilinc_id` int(10) unsigned default NULL,
+  `ilinc_login` varchar(40) default NULL,
+  `ilinc_passwd` varchar(40) default NULL,
   `client_ip` varchar(15) default NULL,
   `auth_mode` enum('default','local','ldap','radius','shibboleth','script') NOT NULL default 'default',
   PRIMARY KEY  (`usr_id`),
@@ -10862,8 +10898,8 @@ CREATE TABLE `usr_data` (
 # Dumping data for table `usr_data`
 #
 
-INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2005-07-20 15:11:40', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 'default');
-INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 'local');
+INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2005-07-20 15:11:40', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'default');
+INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, 'local');
 # --------------------------------------------------------
 
 #
