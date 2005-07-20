@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-								xmlns:xhtml="http://www.w3.org/1999/xhtml">
+								xmlns:xhtml="http://www.w3.org/1999/xhtml"
+								xmlns:str="http://exslt.org/strings" >
 
 <xsl:output method="html"/>
 
@@ -56,6 +57,8 @@
 <xsl:param name="fullscreen_link" />
 <xsl:param name="enable_split_new"/>
 <xsl:param name="enable_split_next"/>
+<xsl:param name="paragraph_plugins"/>
+
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -621,16 +624,18 @@
 								<xsl:with-param name="p_id" select="$p_id"/>
 								<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
 								<xsl:with-param name="href" select="$href"/>
+								<xsl:with-param name="subchar" select="-1"/>
 							</xsl:call-template>
 					</xsl:when>
-					<xsl:otherwise>
+					<xsl:when test="$mode = 'presentation'" >
 						<xsl:variable name="href" select="concat($download_script,'&amp;cmd=download_paragraph&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 						<xsl:call-template name="DownloadLink">
 							<xsl:with-param name="p_id" select="$p_id"/>
 							<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
 							<xsl:with-param name="href" select="$href"/>
+							<xsl:with-param name="subchar" select="@SubCharacteristic"/>
 						</xsl:call-template>					
-					</xsl:otherwise>
+					</xsl:when >
 				</xsl:choose>
 		</xsl:if>
 	</table></p>
@@ -640,8 +645,57 @@
 	<xsl:param name="p_id" select="-1"/>
 	<xsl:param name="downloadtitle" select="-1"/>
 	<xsl:param name="href" select="-1"/>
+	<xsl:param name="subchar" select="-1"/>
 	<xsl:if test="$href != ''">
-		<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$href}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
+		<tr><td colspan="2"><div>
+		<a href="{$href}"><img src="plugins/resources/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>
+		<xsl:if test="$paragraph_plugins != ''">
+			<xsl:variable name="plugins">
+				<xsl:call-template name="str:tokenize">
+					<xsl:with-param name="string" select="$paragraph_plugins"/>
+					<xsl:with-param name="delimiters" select="'|'"/>
+				</xsl:call-template>
+			</xsl:variable>
+			
+			<xsl:call-template name="plugin">
+				<xsl:with-param name="plugin">
+					<xsl:call-template name="str:tokenize">
+						<xsl:with-param name="string" select="$plugins/token[position() = 1]"/>
+						<xsl:with-param name="delimiters" select="'#'"/>
+					</xsl:call-template>
+				</xsl:with-param>
+				<xsl:with-param name="p_id" select="$p_id"/>
+				<xsl:with-param name="subchar" select="$subchar"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="plugin">
+				<xsl:with-param name="plugin">
+					<xsl:call-template name="str:tokenize">
+						<xsl:with-param name="string" select="$plugins/token[position() = 2]"/>
+						<xsl:with-param name="delimiters" select="'#'"/>
+					</xsl:call-template>
+				</xsl:with-param>
+				<xsl:with-param name="p_id" select="$p_id"/>
+				<xsl:with-param name="subchar" select="$subchar"/>
+			</xsl:call-template>
+
+			
+		</xsl:if>
+		</div></td></tr>		
+	</xsl:if>
+</xsl:template>
+
+<xsl:template name="plugin">
+	<xsl:param name="plugin" select="-1"/>
+    <xsl:param name="p_id" select="-1"/>
+    <xsl:param name="subchar" select="-1"/>
+    <xsl:variable name="filetype" select="$plugin/token[position() = 1]"/>
+    <xsl:if test="$subchar = $filetype">
+		<xsl:variable name="title" select="$plugin/token[position() = 2]"/>
+		<xsl:variable name="link" select="$plugin/token[position() = 3]"/> 
+		<xsl:variable name="href" select="concat($link,'&amp;cmd=download_paragraph&amp;downloadtitle=',$title,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
+		<xsl:variable name="img" select="concat('./plugins/resources/',$plugin/token[position() = 4])"/>
+	<a href="{$href}" ><img src="{$img}" align="middle" alt="{$title}" border="0"/></a>
 	</xsl:if>
 </xsl:template>
 
@@ -2621,5 +2675,7 @@
 <xsl:template match="Text">
 	<xsl:apply-templates/>
 </xsl:template>-->
+
+<xsl:include href="../../str.tokenize.template.xsl"  />
 
 </xsl:stylesheet>
