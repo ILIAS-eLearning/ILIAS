@@ -4779,7 +4779,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					else
 					{
 						$this->tpl->setVariable("CODE_URL_NAME", $this->lng->txt("survey_code_url_name"));
-						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/survey/survey.php?cmd=run&ref_id=".$this->object->getRefId() . "&accesscode=".$row["survey_key"]);
+						//$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/survey/survey.php?cmd=run&ref_id=".$this->object->getRefId() . "&accesscode=".$row["survey_key"]);
+						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=run&target=svy_".$this->object->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$row["survey_key"]);
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
