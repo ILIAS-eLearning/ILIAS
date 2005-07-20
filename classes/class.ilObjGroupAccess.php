@@ -58,7 +58,7 @@ class ilObjGroupAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "info":
-				include_once 'classes/class.ilObjGroup.php';
+				include_once 'class.ilObjGroup.php';
 
 				if(ilObjGroup::_isMember($a_user_id,$a_ref_id))
 				{
@@ -68,6 +68,15 @@ class ilObjGroupAccess extends ilObjectAccess
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
 				}						
+				break;
+				
+			case "join":
+				include_once 'class.ilObjGroup.php';
+
+				if(ilObjGroup::_isMember($a_user_id,$a_ref_id))
+				{
+					return false;
+				}
 				break;
 		}
 
