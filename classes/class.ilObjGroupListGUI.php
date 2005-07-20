@@ -57,7 +57,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
-		$this->type = "group";
+		$this->type = "grp";
 		$this->gui_class_name = "ilobjgroupgui";
 
 		// general commands array

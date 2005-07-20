@@ -7916,3 +7916,7 @@ chdir($wd);
 ?>
 <#492>
 DROP TABLE IF EXISTS `tmp_migration`;
+
+<#493>
+DELETE FROM desktop_item WHERE type = 'grou';
+
