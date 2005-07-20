@@ -920,7 +920,22 @@ After installing a new ILIAS 3 release you must run the setup script
 'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
 your clients. Select "Details" for every client in the client list and click on
 the "Database" button. Depending on the size of your database the update process
-may take a while. Enter your clients and execute the "Refresh Languages" command
+may take a while.
+
+This is especially the case for an update to ILIAS 3.5.0 because all meta data
+will be converted into a new format. On big installations we recommend to set the
+following values to avoid multiple restarts of the database migration:
+
+- Apache, httpd.conf:
+  Timeout = 3600
+- PHP, php.ini:
+  memory_limit = 128M
+  max_execution_time = 3600
+
+If the update unexpectedly stops, it should be manually restarted until it
+finishes successcully.
+
+After that enter your clients and execute the "Refresh Languages" command
 in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
