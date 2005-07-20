@@ -19,7 +19,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	</tr>
 </table>
 <!-- END sysrole_msg -->
-<form action="{FORMACTION}" name="objectItems" method="post">
+<form action="{FORMACTION}" name="ObjectItems" method="post">
   <table class="fullwidth">
   <tr class="tbltitle">
     <td colspan="4">
@@ -39,8 +39,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	<td class="std" align="left">{TXT_OBJ_TYPE} <span class="alert">{TXT_NOT_IMPL}</span></td>
 	<td class="std" align="right">
 <!-- BEGIN obj_action_toggle_checkboxes -->
-    [<a href="" onclick="setCheckboxes('objectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
-    [<a href="" onclick="setCheckboxes('objectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
+    [<a href="" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
 <!-- END obj_action_toggle_checkboxes -->	
 	</td>
 	</tr></table>
@@ -85,7 +85,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </strong>
 </div>
 <br />
-<form action="{FORMACTION_ADOPT}" name="objectItems" method="post">
+<form action="{FORMACTION_ADOPT}" name="ObjectAdopt" method="post">
   <table class="std">
   <tr class="tblheader">
 	<td class="std">&nbsp;</td>
