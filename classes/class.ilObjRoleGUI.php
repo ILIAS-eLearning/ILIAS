@@ -901,6 +901,15 @@ class ilObjRoleGUI extends ilObjectGUI
 					else
 					{
 						$check = false;
+						
+						if (in_array($node["child"],$all_parent_obj_of_rolf))
+						{
+							$lft = $node["lft"];
+							$rgt = $node["rgt"];
+							$check = true;
+							continue;
+						}
+						
 						$valid_nodes[] = $node;
 					}
 				}
