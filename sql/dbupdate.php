@@ -7918,5 +7918,321 @@ chdir($wd);
 DROP TABLE IF EXISTS `tmp_migration`;
 
 <#493>
-DELETE FROM desktop_item WHERE type = 'grou';
+DELETE FROM desktop_item WHERE type = `grou`;
+
+<#494>
+<?php	
+// insert third party tools definition (extt)
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'extt', 'external tools settings', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment for extt object
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+
+// add extt object in administration panel
+$query = "INSERT INTO object_data VALUES('','extt','External tools settings','Configuring external tools',-1,NOW(),NOW(),'')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$obj_id = $row[0];
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$ref_id = $row[0];
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+?>
+
+<#495>
+ALTER TABLE `usr_data` ADD `ilinc_login` VARCHAR( 40 ) AFTER `ilinc_id` ,
+ADD `ilinc_passwd` VARCHAR( 40 ) AFTER `ilinc_login` ;
+
+<#496>
+<?php
+$query = "INSERT INTO rbac_operations SET operation = 'create_icrs', description = 'create LearnLink Seminar'";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as ops_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+$ops_id = $row->ops_id;
+
+// Add operation to cat,grp,fold,crs 
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('cat','grp','fold','crs')";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$obj_ids[] = $row->obj_id;
+}
+
+foreach ($obj_ids as $obj_id)
+{
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
+	$this->db->query($query);
+}
+?>
+
+<#497>
+<?php
+// Add new operation create_icla
+$query = "INSERT INTO rbac_operations SET operation = 'create_icla', description = 'create LearnLink Seminar room'";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as ops_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$icla_ops_id = $row->ops_id;
+
+// Add operation to icrs 
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('icrs')";
+$res = $this->db->query($query);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$obj_ids[] = $row->obj_id;
+}
+
+foreach ($obj_ids as $obj_id)
+{
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$icla_ops_id."')";
+	$this->db->query($query);
+}
+
+
+// Add join/leave operations to icrs 
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'icrs'";
+$res = $this->db->query($query);
+
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$obj_id = $row->obj_id;
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','7')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','8')";
+$this->db->query($query);
+
+// ADMIN TEMPLATE for LearnLink Seminars
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_icrs_admin', 'Administrator template for LearnLink Seminars', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as obj_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$obj_id = $row->obj_id;
+
+$admin = array();
+$admin["icrs"] = array(1,2,3,4,6,7,8,$icla_ops_id);
+$admin["rolf"] = array(1,2,3,4,6,14);
+
+$rbacadmin =& new ilRbacAdmin();
+
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+}
+
+$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+
+// MEMBER TEMPLATE for LearnLink Seminars
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_icrs_member', 'Member template for LearnLink Seminars', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as obj_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$obj_id = $row->obj_id;
+
+$admin = array();
+$admin["icrs"] = array(2,3,7,8);
+
+
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+}
+$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+?>
+
+<#498>
+<?php
+// the following code removes all existing icrs and icla objects in system
+// normally most of the code won't be triggered because iLinc-support was not available to public
+
+// init tree and rbacadmin
+$tree =& new ilTree(ROOT_FOLDER_ID);
+$rbacadmin =& new ilRbacAdmin();
+$rbacreview =& new ilRbacReview();
+
+$ilca_nodes = $tree->getNodeDataByType('icla');
+
+if (count($icla_nodes) != 0)
+{
+	foreach ($icla_nodes as $node)
+	{
+		// first look up for rolefolders
+		$rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
+		
+		if ($rolf)
+		{
+			// remove local roles
+			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+			foreach ($roles as $role_id)
+			{
+				$rbacadmin->deleteRole($role_id,$rolf["ref_id"]);
+			}
+			
+			// remove linked local roles
+			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			foreach ($roles as $role_id)
+			{
+				$rbacadmin->deleteLocalRole($role_id,$rolf["ref_id"]);
+			}
+
+			// delete rbac_fa entry
+			$query = "DELETE FROM rbac_fa WHERE parent = '".$rolf["ref_id"]."'";
+			$this->db->query($query);
+			
+			// delete entry in object_data
+			$query = "DELETE FROM object_data WHERE obj_id = '".$rolf["obj_id"]."'";
+			$this->db->query($query);
+			
+			// delete entry in object_reference
+			$query = "DELETE FROM object_reference WHERE ref_id = '".$rolf["ref_id"]."'";
+			$this->db->query($query);
+
+			// remove tree entry
+			$tree->deleteTree($rolf);	
+		}
+		
+		// delete entry in object_data
+		$query = "DELETE FROM object_data WHERE obj_id = '".$node["obj_id"]."'";
+		$this->db->query($query);
+		
+		// delete entry in object_reference
+		$query = "DELETE FROM object_reference WHERE ref_id = '".$node["ref_id"]."'";
+		$this->db->query($query);
+		
+		// remove permission settings
+		$rbacadmin->revokePermission($node["ref_id"]);
+		
+		// remove tree entry
+		$tree->deleteTree($node);	
+	}
+} // if count icla_nodes
+
+$ilcrs_nodes = $tree->getNodeDataByType('icrs');
+
+if (count($icrs_nodes) != 0)
+{
+	foreach ($icrs_nodes as $node)
+	{
+		// first look up for rolefolders
+		$rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
+		
+		if ($rolf)
+		{
+			// remove local roles
+			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+			foreach ($roles as $role_id)
+			{
+				$rbacadmin->deleteRole($role_id,$rolf["ref_id"]);
+			}
+			
+			// remove linked local roles
+			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			foreach ($roles as $role_id)
+			{
+				$rbacadmin->deleteLocalRole($role_id,$rolf["ref_id"]);
+			}
+			
+			// delete rbac_fa entry
+			$query = "DELETE FROM rbac_fa WHERE parent = '".$rolf["ref_id"]."'";
+			$this->db->query($query);
+			
+			// delete entry in object_data
+			$query = "DELETE FROM object_data WHERE obj_id = '".$rolf["obj_id"]."'";
+			$this->db->query($query);
+			
+			// delete entry in object_reference
+			$query = "DELETE FROM object_reference WHERE ref_id = '".$rolf["ref_id"]."'";
+			$this->db->query($query);
+
+			// remove tree entry
+			$tree->deleteTree($rolf);
+		}
+
+		// delete entry in object_data
+		$query = "DELETE FROM object_data WHERE obj_id = '".$node["obj_id"]."'";
+		$this->db->query($query);
+		
+		// delete entry in object_reference
+		$query = "DELETE FROM object_reference WHERE ref_id = '".$node["ref_id"]."'";
+		$this->db->query($query);
+		
+		// remove permission settings
+		$rbacadmin->revokePermission($node["ref_id"]);
+		
+		// remove tree entry
+		$tree->deleteTree($node);	
+	}
+} // if count icrs_nodes
+?>
+
+<#499>
+<?php
+// remove icla object from rbac system
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'icla'";
+$res = $this->db->query($query);
+
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$obj_id = $row->obj_id;
+
+$query = "DELETE FROM rbac_ta WHERE typ_id = '".$obj_id."'";
+$this->db->query($query);
+
+$query = "DELETE FROM rbac_templates WHERE type = 'icla'";
+$this->db->query($query);
+
+$query = "DELETE FROM object_data WHERE type = 'icla'";
+$this->db->query($query);
+
+$query = "DELETE FROM object_data WHERE type = 'icrs'";
+$this->db->query($query);
+
+// reset iLinc related datas
+$query = "TRUNCATE ilinc_data";
+$this->db->query($query);
+
+$query = "UPDATE usr_data SET ilinc_id = NULL";
+$this->db->query($query);
+?>
 
