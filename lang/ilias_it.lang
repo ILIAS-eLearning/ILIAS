@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file italian
@@ -322,9 +322,9 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
-assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
-assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
-assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
+assessment#:#qpl_import_no_items#:#Si &#232; verificato un errore: il file scelto non contiene domande!
+assessment#:#qpl_import_non_ilias_files#:#Si &#232; verificato un errore: il file scelto non &#232; stato creato con Ilias. Contatta il team di Ilias per avere un filtro di import per il formato del tuo file QTI.
+assessment#:#qpl_import_verify_found_questions#:#ILIAS ha trovato le seguenti domande nel file indicato. Scegli quelle che vuoi importare.
 assessment#:#qpl_question_is_in_use#:#La domanda che stai per modificare &#232; inserita in %s test. Se modifichi la domanda, NON verranno modificate le domande nei test, perch&#232; il sistema crea una copia delle domande quando queste vengono inserite in un test!
 assessment#:#qpl_questions_deleted#:#Domande eliminate
 assessment#:#qpl_select_file_for_import#:#Devi scegliere il file da importare!
@@ -332,7 +332,7 @@ assessment#:#qt_cloze#:#con risposta da completare
 assessment#:#qt_imagemap#:#con immagine a mappa
 assessment#:#qt_javaapplet#:#con applet java
 assessment#:#qt_matching#:#con risposte da associare
-assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
+assessment#:#qt_multiple_choice#:#Domanda con risposta multipla
 assessment#:#qt_multiple_choice_mr#:#con risposta multipla (scelta multipla)
 assessment#:#qt_multiple_choice_sr#:#con risposta singola (scelta multipla)
 assessment#:#qt_ordering#:#con risposte da ordinare
@@ -364,7 +364,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e torna all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
-assessment#:#save_text_answer_points#:#Salva i punti della domanda###25 Jun 2005 content changed
+assessment#:#save_text_answer_points#:#Salva i punti della domanda
 assessment#:#search_found_groups#:#Gruppi trovati
 assessment#:#search_found_users#:#Utenti trovati
 assessment#:#search_groups#:#Ricerca gruppi
@@ -389,7 +389,7 @@ assessment#:#statistical_data#:#Dati statistici
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
-assessment#:#text_answers_saved#:#Punti della domanda con testo modificati!###25 Jun 2005 content changed
+assessment#:#text_answers_saved#:#Punteggio delle domande modificato!
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#text_maximum_chars_allowed#:#Il numero massimo di caratteri consentiti &#232; %s. Ogni carattere in pi&#249; verr&#224; tolto.
 assessment#:#time_format#:#HH MM SS
@@ -644,7 +644,7 @@ chat#:#chat_color#:#Colori dei font
 chat#:#chat_delete_sure#:#Sei sicuro di voler eliminare questa chatroom
 chat#:#chat_drop_user#:#Utente tolto
 chat#:#chat_edit#:#Modifica chat
-chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_empty#:#Vuoto
 chat#:#chat_face#:#Tipo font
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#grigio
@@ -673,7 +673,7 @@ chat#:#chat_navy#:#avio
 chat#:#chat_no_active_users#:#Non sono presenti utenti
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
-chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
+chat#:#chat_no_recordings_available#:#Non ci sono registrazioni disponibili al momento.
 chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
@@ -683,19 +683,19 @@ chat#:#chat_private_message#:#Messaggio privato
 chat#:#chat_profile#:#Profilo
 chat#:#chat_public_room#:#Chatroom pubblica
 chat#:#chat_purple#:#porpora
-chat#:#chat_recording_action#:#Action###15 Jul 2005 new variable
-chat#:#chat_recording_description#:#Description###13 Jul 2005 new variable
-chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
-chat#:#chat_recording_not_found#:#Could not find recording.###15 Jul 2005 new variable
-chat#:#chat_recording_running#:#Recording running###13 Jul 2005 new variable
-chat#:#chat_recording_started#:#Recording started###13 Jul 2005 new variable
-chat#:#chat_recording_stopped#:#Recording stopped###13 Jul 2005 new variable
-chat#:#chat_recording_time_frame#:#Time frame###15 Jul 2005 new variable
-chat#:#chat_recording_title#:#Title of recording###13 Jul 2005 new variable
-chat#:#chat_recordings#:#Recordings###15 Jul 2005 new variable
-chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?###15 Jul 2005 new variable
-chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new variable
-chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
+chat#:#chat_recording_action#:#Azione
+chat#:#chat_recording_description#:#Descrizione
+chat#:#chat_recording_moderator#:#Moderatore
+chat#:#chat_recording_not_found#:#Non ho trovato la registrazione.
+chat#:#chat_recording_running#:#Registrazione in esecuzione
+chat#:#chat_recording_started#:#Registrazione partita
+chat#:#chat_recording_stopped#:#Registrazione fermata
+chat#:#chat_recording_time_frame#:#Intervallo di tempo
+chat#:#chat_recording_title#:#Titolo della registrazione
+chat#:#chat_recordings#:#Registrazioni
+chat#:#chat_recordings_delete_sure#:#Vuoi eliminare le registrazioni, sei sicuro?
+chat#:#chat_recordings_deleted#:#Le registrazioni sono state eliminate.
+chat#:#chat_recordings_select_one#:#Scegli le registrazioni che vuoi eliminare.
 chat#:#chat_red#:#rosso
 chat#:#chat_refresh#:#Aggiorna
 chat#:#chat_room_added#:#Aggiunte nuove chatroom
@@ -717,10 +717,10 @@ chat#:#chat_server_settings#:#Impostazioni del server di chat
 chat#:#chat_settings_saved#:#Impostazioni salvate
 chat#:#chat_show_details#:#Mostra dettagli
 chat#:#chat_silver#:#argento
-chat#:#chat_start_recording#:#Start recording###13 Jul 2005 new variable
+chat#:#chat_start_recording#:#Inizio registrazione
 chat#:#chat_status#:#Stato
 chat#:#chat_status_saved#:#Lo stato &#232; stato cambiato
-chat#:#chat_stop_recording#:#Stop recording###13 Jul 2005 new variable
+chat#:#chat_stop_recording#:#Registrazione interrotta
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Tempi
@@ -730,7 +730,7 @@ chat#:#chat_type#:#Tipo Font
 chat#:#chat_underlined#:#Sottolineato
 chat#:#chat_user_dropped#:#Utente tolto
 chat#:#chat_user_invited#:#Utente invitato alla chat.
-chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
+chat#:#chat_whisper#:#Bisbiglio
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Le mie Chat
@@ -764,7 +764,7 @@ common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
-common#:#admin_panel#:#Pannello di Amministrazione
+common#:#admin_panel#:#Pannello di amministrazione
 common#:#admin_panel_disable#:#Disattiva i comandi di amministrazione
 common#:#admin_panel_enable#:#Attiva i comandi di amministrazione
 common#:#administrate#:#Amministra
@@ -843,40 +843,40 @@ common#:#at_location#:#alla locazione
 common#:#attachment#:#Allegato
 common#:#attachments#:#Allegati
 common#:#attend#:#Frequenta
-common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
+common#:#auth_active_roles#:#Ruoli globali attivati per la registrazione
 common#:#auth_configure#:#configura ...
-common#:#auth_default#:#Default setting###08 Jul 2005 new variable
-common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
+common#:#auth_default#:#Impostazioni predefinite
+common#:#auth_default_mode_changed_to#:#Modificato il tipo di autenticazione predefinito in
 common#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
-common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
+common#:#auth_ldap_enable#:#Abilita il supporto LDAP
 common#:#auth_ldap_not_configured#:#LDAP non &#232; ancora stato configurato
-common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
+common#:#auth_ldap_settings_saved#:#Salvate le impostazioni LDAP
 common#:#auth_local#:#Database ILIAS
 common#:#auth_local_desc#:#Autenticazione degli utenti tramite database locale (predefinito)
 common#:#auth_mode#:#Modalit&#224; di autenticazione
 common#:#auth_mode_not_changed#:#(Nessuna modifica)
 common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
+common#:#auth_radius_configure#:#Configura l'autenticazione tramite RADIUS
 common#:#auth_radius_desc#:#Autenticazione degli utenti tramite server RADIUS
-common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
-common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
-common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
-common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
-common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
-common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
-common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
+common#:#auth_radius_enable#:#Abilita il supporto di RADIUS
+common#:#auth_radius_not_configured#:#L'autenticazione tramite RADIUS non &#232; stata ancora configurata
+common#:#auth_radius_port#:#Porta
+common#:#auth_radius_server#:#Server
+common#:#auth_radius_server_desc#:#E' possibile definire pi&#249; un server (utilizzare la virgola come sparatore). I server vengono interrogati a rotazione con un meccanismo Round robin.
+common#:#auth_radius_settings_saved#:#Salvate impostazioni del RADIUS
+common#:#auth_radius_shared_secret#:#Condivisione password
 common#:#auth_read#:#Accedere in lettura alla modalit&#224; di autenticazione
-common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.###08 Jul 2005 content changed
-common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
+common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.
+common#:#auth_role_auth_mode#:#Modalit&#224; di autenticazione
 common#:#auth_script#:#Personale
 common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
 common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Il riconoscimento degli utenti tramite Shibboleth pu&#242; essere usato come secondo metodo di autenticazione.
 common#:#auth_shib_not_configured#:#Shibboleth non &#232; ancora configurato
-common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
+common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
 common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
@@ -930,7 +930,7 @@ common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
 common#:#cat_create_hlm#:#Creare un modulo HACP
 common#:#cat_create_htlm#:#Creare un modulo HTML
-common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+common#:#cat_create_icrs#:#Creare un Seminario LearnLinc
 common#:#cat_create_lm#:#Creare un modulo ILIAS
 common#:#cat_create_mep#:#Creare una libreria multimediale
 common#:#cat_create_qpl#:#Creare una raccolta di domande (per test)
@@ -939,7 +939,7 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
+common#:#cat_create_webr#:#Creare una risorsa web
 common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -982,7 +982,7 @@ common#:#chat#:#Chat
 common#:#chat_add#:#Aggiungere una chat
 common#:#chat_delete#:#Eliminare una chat
 common#:#chat_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#chat_moderate#:#Moderate chat###01 Jul 2005 new variable
+common#:#chat_moderate#:#Moderare una chat
 common#:#chat_new#:#Nuova chat
 common#:#chat_read#:#Accedere in lettura/scrittura ad una chat
 common#:#chat_visible#:#Vedere una chat
@@ -1035,9 +1035,9 @@ common#:#confirm#:#Conferma
 common#:#confirmation#:#Conferma
 common#:#conflict_handling#:#Gestione conflitto
 common#:#cont_object#:#Oggetto
-common#:#contact_data#:#Contatti
+common#:#contact_data#:#Dati personali
 common#:#container#:#Contenitore
-common#:#content#:#Content###13 Jul 2005 new variable
+common#:#content#:#Contenuto
 common#:#content_styles#:#Stili presenti
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua
@@ -1065,7 +1065,7 @@ common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
 common#:#crs_all_questions_answered_successfully#:#Hai risposto con successo a tutte le domande.
-common#:#crs_archives#:#Archivi di corsi
+common#:#crs_archives#:#Corsi archiviati
 common#:#crs_at_least_one_admin#:#Deve essere definito almeno un amministratore di corso.
 common#:#crs_available#:#Corsi disponibili
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
@@ -1081,7 +1081,7 @@ common#:#crs_create_glo#:#Creare un glossario
 common#:#crs_create_grp#:#Creare un gruppo
 common#:#crs_create_hlm#:#Creare un modulo HACP
 common#:#crs_create_htlm#:#Creare un modulo HTML
-common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+common#:#crs_create_icrs#:#Creare un seminario LearnLinc
 common#:#crs_create_lm#:#Creare un modulo ILIAS
 common#:#crs_create_mep#:#Creare una raccolta multimediale
 common#:#crs_create_qpl#:#Creare una raccolta di domande per test
@@ -1089,7 +1089,7 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
-common#:#crs_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
+common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1108,8 +1108,8 @@ common#:#crs_visible#:#Vedere un corso
 common#:#crs_write#:#Modificare un corso
 common#:#cumulative_time#:#Tempo totale
 common#:#cur_number_rec#:#Numero corrente di record
-common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
+common#:#current_ip#:#IP attuale:
+common#:#current_ip_alert#:#Nota: se viene specificato un indirizzo ip errato, non sarai pi&#249; in grado di accedere al sistema con questo profilo.
 common#:#current_password#:#Password attuale
 common#:#cut#:#Taglia
 common#:#cutPage#:#Taglia
@@ -1268,22 +1268,22 @@ common#:#export#:#Esporta
 common#:#export_group_members#:#Esporta un gruppo di utenti (a Microsoft Excel)
 common#:#export_html#:#Esporta come file html
 common#:#export_xml#:#Esporta come file xml
-common#:#extt_configure#:#configure...###14 Jul 2005 new variable
-common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+common#:#extt_configure#:#configura ...
+common#:#extt_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
-common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
+common#:#extt_ilinc_customer_id#:#ID utente
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
-common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
-common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
-common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
-common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
-common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
-common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
-common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
-common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
-common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
-common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
+common#:#extt_ilinc_enable#:#Abilita il supporto LearnLinc
+common#:#extt_ilinc_port#:#Porta
+common#:#extt_ilinc_registrar_login#:#Login ID
+common#:#extt_ilinc_registrar_passwd#:#Password
+common#:#extt_ilinc_server#:#Server
+common#:#extt_ilinc_settings_saved#:#Impostazioni LearnLinc salvate
+common#:#extt_name#:#Software/Service
+common#:#extt_read#:#Accedere il lettura alle impostazioni del software di terze parti
+common#:#extt_title_configure#:#Configura software esterno
+common#:#extt_visible#:#Vedere le impostazioni del software di terze parti
+common#:#extt_write#:#Modificare le impostazioni del software di terze parti
 common#:#faq_exercise#:#FAQ/Esercitazioni
 common#:#fax#:#Fax
 common#:#feedback#:#Risposta
@@ -1326,7 +1326,7 @@ common#:#fold_create_frm#:#Creare un forum
 common#:#fold_create_glo#:#Creare un glossario
 common#:#fold_create_hlm#:#Creare un modulo HACP
 common#:#fold_create_htlm#:#Creare un modulo HTML
-common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+common#:#fold_create_icrs#:#Creare un seminario LearnLinc
 common#:#fold_create_lm#:#Creare un modulo ILIAS
 common#:#fold_create_mep#:#Creare una raccolta multimediale
 common#:#fold_create_qpl#:#Creare una raccolta di domande per test
@@ -1334,7 +1334,7 @@ common#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#fold_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#fold_create_svy#:#Creare un sondaggio
 common#:#fold_create_tst#:#Creare un test
-common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
+common#:#fold_create_webr#:#Creare una Risorsa Web
 common#:#fold_delete#:#Cancellare una cartella
 common#:#fold_edit#:#Modificare una cartella
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1470,7 +1470,7 @@ common#:#grp_create_frm#:#Creare un forum
 common#:#grp_create_glo#:#Creare un glossario
 common#:#grp_create_hlm#:#Creare un modulo HACP
 common#:#grp_create_htlm#:#Creare un modulo HTML
-common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+common#:#grp_create_icrs#:#Creare un seminario LearnLinc
 common#:#grp_create_lm#:#Creare un modulo ILIAS
 common#:#grp_create_mep#:#Creare una raccolta multimediale
 common#:#grp_create_qpl#:#Creare una raccolta di domande per test
@@ -1478,7 +1478,7 @@ common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
-common#:#grp_create_webr#:#Creare una risorsa web###15 Jul 2005 content changed
+common#:#grp_create_webr#:#Creare una risorsa web
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1521,7 +1521,7 @@ common#:#guests#:#Ospiti
 common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
 common#:#hide#:#nascondi
-common#:#hide_details#:#Nascondi dettagli###14 Jul 2005 content changed
+common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hist_dbk:pg_create#:#Pagina creata
 common#:#hist_dbk:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
@@ -1550,7 +1550,7 @@ common#:#hlm_read#:#Accedere in lettura ad un modulo HACP
 common#:#hlm_visible#:#Vedere un modulo HACP
 common#:#hlm_write#:#Modificare un modulo HACP
 common#:#hobby#:#Interessi/Passatempi
-common#:#home#:#Home###19 Jul 2005 content changed
+common#:#home#:#Home
 common#:#host#:#Macchina
 common#:#hours_of_day#:#Ore nel giorno
 common#:#htlm#:#Modulo HTML
@@ -1566,36 +1566,36 @@ common#:#http_not_possible#:#Questo server non supporta request HTTP.
 common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#i2passwd#:#Password di ILIAS 2
-common#:#icla#:#Classe iLinc###14 Jul 2005 content changed
-common#:#icla_add#:#Aggiungi classe iLinc###14 Jul 2005 content changed
-common#:#icla_new#:#Creare classi iLinc###14 Jul 2005 content changed
-common#:#icrs#:#Corso iLinc###14 Jul 2005 content changed
-common#:#icrs_add#:#Aggiungi corso iLinc###14 Jul 2005 content changed
-common#:#icrs_delete#:#Elimina corso iLinc###14 Jul 2005 content changed
+common#:#icla#:#Classe iLinc
+common#:#icla_add#:#Crea classe iLinc
+common#:#icla_new#:#Creare classi iLinc
+common#:#icrs#:#Corso iLinc
+common#:#icrs_add#:#Crea corso iLinc
+common#:#icrs_delete#:#Elimina corso iLinc
 common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
-common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
-common#:#icrs_new#:#Nuovo corso iLinc###14 Jul 2005 content changed
-common#:#icrs_read#:#Accedere in lettura a corsi iLinc###14 Jul 2005 content changed
-common#:#icrs_visible#:#Vedere corsi iLinc###14 Jul 2005 content changed
-common#:#icrs_write#:#Modificare corsi iLinc###14 Jul 2005 content changed
+common#:#icrs_join#:#Iscrivere ai seminari LearnLinc
+common#:#icrs_leave#:#Annullare l'iscrizione ai seminari LearnLinc
+common#:#icrs_new#:#Nuovo corso iLinc
+common#:#icrs_read#:#Accedere in lettura a corsi iLinc
+common#:#icrs_visible#:#Vedere corsi iLinc
+common#:#icrs_write#:#Modificare corsi iLinc
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#if_no_title_then_url#:#Lascia vuoto se vuoi far vedere l'URL
 common#:#ignore_on_conflict#:#Ignora i conflitti
-common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
-common#:#il_crs_admin#:#Amministratore###14 Jul 2005 content changed
-common#:#il_crs_member#:#Membro###14 Jul 2005 content changed
-common#:#il_crs_tutor#:#Tutor###14 Jul 2005 content changed
-common#:#il_frm_moderator#:#Moderatore###14 Jul 2005 content changed
-common#:#il_grp_admin#:#Amministratore di gruppo###14 Jul 2005 content changed
-common#:#il_grp_member#:#Membro di gruppo###14 Jul 2005 content changed
-common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
+common#:#il_chat_moderator#:#Moderatore Chat
+common#:#il_crs_admin#:#Amministratore
+common#:#il_crs_member#:#Membro
+common#:#il_crs_tutor#:#Tutor
+common#:#il_frm_moderator#:#Moderatore
+common#:#il_grp_admin#:#Amministratore di gruppo
+common#:#il_grp_member#:#Membro di gruppo
+common#:#il_icrs_admin#:#Amministratore di seminario LearnLinc
+common#:#il_icrs_member#:#Membro di seminario LearnLinc
 common#:#ilias_version#:#Versione ILIAS 3
-common#:#ilinc_classrooms#:#Classi iLinc###14 Jul 2005 content changed
-common#:#ilinc_courses#:#Corsi iLinc###14 Jul 2005 content changed
+common#:#ilinc_classrooms#:#Classi iLinc
+common#:#ilinc_courses#:#Corsi iLinc
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -1641,7 +1641,7 @@ common#:#info_is_member#:#L'utente &#232; un membro
 common#:#info_is_not_member#:#L'utente non &#232; un membro
 common#:#info_not_assigned#:#non assignato
 common#:#info_permission_origin#:#Posizione originale
-common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
+common#:#info_permission_source#:#valido a partire dal
 common#:#info_remark_interrupted#:#Il Ruolo si interrompe in questa posizione. Le impostazioni predefinite del ruolo sono localizzate in quella posizione.
 common#:#info_short#:#Info
 common#:#info_status_info#:#Informazioni sullo stato
@@ -1687,7 +1687,7 @@ common#:#internal_system#:#sistema interno
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;
 common#:#item#:#item
-common#:#join#:#Unisci
+common#:#join#:#Vedi
 common#:#kb#:#KB
 common#:#keywords#:#Parole chiave
 common#:#lang_cs#:#Ceco
@@ -1764,7 +1764,7 @@ common#:#link_check_message_disabled#:#Mail disabilitata
 common#:#link_check_message_enabled#:#Mail abilitata
 common#:#link_check_subject#:#[ILIAS 3] verifica collegamenti
 common#:#link_checker_refreshed#:#Vista aggiornata
-common#:#link_selected_items#:#Collega gli oggetti scelti
+common#:#link_selected_items#:#Collega gli oggetti selezionati
 common#:#linked_object#:#L'oggetto &#232; stato collegato
 common#:#linked_pages#:#Pagine collegate
 common#:#list_of_pages#:#Lista di pagine
@@ -2025,7 +2025,7 @@ common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
 common#:#no_access_item#:#Non puoi accedere a questo oggetto.
-common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.###19 Jul 2005 content changed
+common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
@@ -2043,7 +2043,7 @@ common#:#no_limit#:#Nessun limite
 common#:#no_lo_in_personal_list#:#Nessuna unit&#224; didattica nella lista personale.
 common#:#no_local_users#:#Non ci sono utenti locali
 common#:#no_objects#:#Nessun oggetto
-common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
+common#:#no_parent_access#:#Non &#232; possibile accedere all'oggetto padre!
 common#:#no_permission#:#Non hai sufficienti diritti
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_roles_user_can_be_assigned_to#:#Non ci sono ruoli globali ai quali l'utente pu&#242; essere assegnato. Perci&#242; non ti &#232; consentito aggiungere utenti.
@@ -2078,8 +2078,8 @@ common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
 common#:#obj_exc#:#Esercitazione
-common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
-common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
+common#:#obj_extt#:#Software di terze parti
+common#:#obj_extt_desc#:#La configurazione di software o servizi esterni che sono supportati da ILIAS
 common#:#obj_file#:#Scegli il file
 common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
@@ -2087,8 +2087,8 @@ common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
-common#:#obj_icla#:#Classe iLinc###14 Jul 2005 content changed
-common#:#obj_icrs#:#Corso iLinc###14 Jul 2005 content changed
+common#:#obj_icla#:#Classe iLinc
+common#:#obj_icrs#:#Corso iLinc
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
 common#:#obj_lm#:#Modulo ILIAS
@@ -2155,15 +2155,15 @@ common#:#objs_crs#:#Corsi
 common#:#objs_dbk#:#Libri digitali
 common#:#objs_delete#:#Cancella gli oggetti
 common#:#objs_exc#:#Esercitazioni
-common#:#objs_file#:#Scegli il file
+common#:#objs_file#:#File
 common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
 common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
 common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
-common#:#objs_icla#:#Classi iLinc###14 Jul 2005 content changed
-common#:#objs_icrs#:#Classi iLinc###14 Jul 2005 content changed
+common#:#objs_icla#:#Classi iLinc
+common#:#objs_icrs#:#Classi iLinc
 common#:#objs_lm#:#Moduli ILIAS
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Unit&#224; didattiche
@@ -2239,7 +2239,7 @@ common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
 common#:#permission_settings#:#Modifica i permessi
 common#:#person_title#:#Titolo
-common#:#personal_data#:#Informazioni Personali
+common#:#personal_data#:#Informazioni generali
 common#:#personal_desktop#:#Desktop personale
 common#:#personal_picture#:#Immagine Personale
 common#:#personal_profile#:#Profilo personale
@@ -2261,15 +2261,15 @@ common#:#please_select_a_delivered_file_to_download#:#Devi scegliere almeno uno 
 common#:#port#:#Porta
 common#:#position#:#Posizione
 common#:#preconditions#:#Condizioni preliminari
-common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
+common#:#predefined_template#:#Template di ruolo predefiniti
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente
 common#:#print#:#Stampa
-common#:#profile#:#Profile###14 Jul 2005 new variable
+common#:#profile#:#Profilo
 common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato
 common#:#profile_of#:#Profilo di
 common#:#properties#:#Propriet&#224;
-common#:#pub_section#:#Sezione pubblica###19 Jul 2005 content changed
+common#:#pub_section#:#Sezione pubblica
 common#:#public#:#pubblico
 common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
@@ -2511,12 +2511,12 @@ common#:#shib_visible#:#Vedere le impostazioni di Shibboleth
 common#:#shib_write#:#Modificare le impostazioni di Shibboleth
 common#:#shib_zipcode#:#Attributo per il codice postale
 common#:#show#:#Mostra
-common#:#show_details#:#Mostra dettagli###14 Jul 2005 content changed
+common#:#show_details#:#Mostra dettagli
 common#:#show_list#:#Mostra lista
 common#:#show_members#:#Mostra iscritti
 common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
-common#:#show_users_online#:#Vedi gli utenti online
+common#:#show_users_online#:#Mostra gli utenti 
 common#:#signature#:#Firma
 common#:#size#:#Dimensione
 common#:#skin_style#:#Predefinito Skin / Stile
@@ -2722,14 +2722,14 @@ common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#Dimensioni file
 common#:#userfolder_export_files#:#File
-common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
+common#:#userfolder_export_xml#:#XML
 common#:#username#:#Login
 common#:#users#:#Utenti
 common#:#users_not_imported#:#I seguenti utenti non esistono, i loro messaggi non possono essere importati
 common#:#users_online#:#Utenti online
-common#:#users_online_show_associated#:#Mostra solamemente i membri del mio corso e del mio gruppo
-common#:#users_online_show_n#:#Non mostrare gli utenti attivi
-common#:#users_online_show_y#:#Mostra tutti gli utenti attivi
+common#:#users_online_show_associated#:#collegati del mio corso e del mio gruppo
+common#:#users_online_show_n#:#nessuno
+common#:#users_online_show_y#:#collegati
 common#:#usertracking#:#Tracciamento utenti
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
@@ -2739,7 +2739,7 @@ common#:#usr_added#:#Utente aggiunto
 common#:#usr_agreement#:#Dichiarazione<br>di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
-common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
+common#:#usr_hits_per_page#:#Numero di righe per ogni pagina
 common#:#usr_inactive_only#:#Utenti non attivi
 common#:#usr_new#:#Nuovo utente
 common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
@@ -3014,7 +3014,7 @@ content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a
 content#:#cont_fullscreen#:#A tutto schermo
 content#:#cont_get_link#:#restituisci il collegamento
 content#:#cont_get_orig_size#:#Ripristina le dimensioni originali
-content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
+content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Propriet&#224; del glossario
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Tipo di pubblicazione
@@ -3091,8 +3091,8 @@ content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere associato a
 content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
 content#:#cont_no_page#:#Non &#232; stata trovata nessuna pagina.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
-content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
+content#:#cont_no_subdir_in_zip#:#Comando di Zip fallito o file di import non valido.<br>Il file non contiene la cartella '%s'.
+content#:#cont_no_zip_file#:#Il file di import non &#232; un file compresso (zip).
 content#:#cont_none#:#Nessuno
 content#:#cont_nr_cols#:#Numero di colonne
 content#:#cont_nr_items#:#Numero di elementi
@@ -3212,14 +3212,14 @@ content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Voce
 content#:#cont_terms#:#Gestione voci
-content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
-content#:#cont_text_com#:#Comment:###29 Jun 2005 new variable
-content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
-content#:#cont_text_fn#:#Footnote:###29 Jun 2005 new variable
-content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
-content#:#cont_text_quot#:#Quotation:###29 Jun 2005 new variable
-content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
-content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
+content#:#cont_text_code#:#Codice:
+content#:#cont_text_com#:#Commento:
+content#:#cont_text_emp#:#Testo enfatizzato:
+content#:#cont_text_fn#:#Note in calce alla pagina:
+content#:#cont_text_iln#:#Collegamneti interni, ovvero:
+content#:#cont_text_quot#:#Virgolettato:
+content#:#cont_text_str#:#Testo in evidenza:
+content#:#cont_text_xln#:#Collegamenti esterni:
 content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_title#:#titolo
@@ -3247,7 +3247,7 @@ content#:#cont_width#:#Larghezza
 content#:#cont_wysiwyg#:#Contenuto WYSIWYG
 content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
+content#:#cont_zip_file_invalid#:#File di import non valido.<br>Il file non contiene il file '%s'.
 content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
@@ -3259,12 +3259,12 @@ content#:#lm_menu_select_object_to_add#:#Per favore, seleziona l'oggetto che vuo
 content#:#msg_entry_added#:#Voce aggiunta la menu
 content#:#msg_entry_removed#:#Voce tolta dal menu
 content#:#msg_entry_updated#:#Voce del menu aggiornata
-content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Solamente gli utenti registrati possono vederla. Per poter accedervi devi prima effettuare il login.###19 Jul 2005 content changed
+content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Solamente gli utenti registrati possono vederla. Per poter accedervi devi prima effettuare il login.
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
-content#:#public_section#:#Sezione pubblica###19 Jul 2005 content changed
+content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
 content#:#select_a_file#:#Per favore seleziona un file.
 content#:#selected_pages_only#:#solamente le pagine selezionate sotto 
@@ -3273,16 +3273,16 @@ content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
 crs#:#activation_times_not_valid#:#Il periodo non &#232; valido.
 crs#:#assigned#:#Assegnato
-crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
+crs#:#contact_email_not_valid#:#l'indirizzo di posta del contatto non &#232; valido.
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
 crs#:#crs_accept_subscriber_body#:#Sei stato iscritto a questo corso.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Attivazione
-crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
-crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
-crs#:#crs_add_grouping#:#Aggiungi gruppo di corsi
+crs#:#crs_add_archive_html#:#Crea archivio (HTML)
+crs#:#crs_add_archive_xml#:#Crea archivio (XML)
+crs#:#crs_add_grouping#:#Crea un gruppo di corsi
 crs#:#crs_add_grp_assignment#:#Aggiungi corso
-crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
+crs#:#crs_add_html_archive#:#Aggiungi archivio (HTML)
 crs#:#crs_add_member#:#Iscrivi utente
 crs#:#crs_add_objective#:#Aggiungi obiettivo formativo
 crs#:#crs_add_starter#:#Aggiungi oggetto di partenza
@@ -3293,19 +3293,19 @@ crs#:#crs_added_member_body#:#Sei stato iscritto a questo corso.
 crs#:#crs_added_new_archive#:#Aggiunto un nuovo archivio
 crs#:#crs_added_objective#:#Obiettivo formativo aggiunto.
 crs#:#crs_added_starters#:#Oggetto di partenza assegnato.
-crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###09 Jul 2005 new variable
+crs#:#crs_added_to_list#:#Sei stato aggiunto alla lista di attesa. Ti trovi al %s° posto nella lista di attesa.
 crs#:#crs_admin#:#Amministratore
 crs#:#crs_admin_no_notify#:#Amministratore (senza notifica)
 crs#:#crs_admin_notify#:#Amministratore (notificato)
 crs#:#crs_allow_abo#:#Consenti l'iscrizione ad elementi del corso
-crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
+crs#:#crs_already_assigned_to_list#:#Sei gi&#224; stato aggiunto alla lista di attesa.
 crs#:#crs_archive#:#Archivi
 crs#:#crs_archive_disabled#:#Disabilitato
 crs#:#crs_archive_download#:#Anche download
 crs#:#crs_archive_lang#:#Lingua
 crs#:#crs_archive_read#:#In lettura
 crs#:#crs_archive_select_type#:#Tipo di accesso
-crs#:#crs_archive_type#:#Tipo di archivi
+crs#:#crs_archive_type#:#Tipo di archivio
 crs#:#crs_archive_type_disabled#:#Accesso disabilitato
 crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
 crs#:#crs_auto_fill#:#Riempimento automatico
@@ -3329,12 +3329,12 @@ crs#:#crs_content#:#Contenuto del corso
 crs#:#crs_copy_cat_not_allowed#:#Non &#232; possibile copiare i contesti
 crs#:#crs_count_members#:#Numero di iscritti
 crs#:#crs_count_questions#:#Numero di domande
-crs#:#crs_create_date#:#Crea scadenza
+crs#:#crs_create_date#:#Data creazione
 crs#:#crs_crs_structure#:#Struttura del corso
 crs#:#crs_dates#:#Scadenze
 crs#:#crs_deassign_lm_sure#:#Sei sicuro di volerlo rimuovere?
-crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
-crs#:#crs_delete_from_waiting_list#:#Remove from waiting list###09 Jul 2005 new variable
+crs#:#crs_delete_from_list_sure#:#Sei sicuro di voler togliere i seguenti utenti dalla lista?
+crs#:#crs_delete_from_waiting_list#:#Rimuovi dalla lista di attesa
 crs#:#crs_delete_member#:#Cancella iscrizione
 crs#:#crs_delete_members_sure#:#Vuoi cancellare l'iscrizione dei seguenti utenti a questo corso?
 crs#:#crs_delete_objectve_sure#:#Sei sicuro di voler eliminare i seguenti obiettivi?
@@ -3343,12 +3343,12 @@ crs#:#crs_delete_subscribers_sure#:#Vuoi cancellare l'iscrizione dei seguenti ut
 crs#:#crs_details#:#Dettagli del corso
 crs#:#crs_dismiss_member#:#Iscritti al corso
 crs#:#crs_dismiss_member_body#:#La tua iscrizione &#232; terminata
-crs#:#crs_edit_archive#:#Modifica Archivi
+crs#:#crs_edit_archive#:#Modifica archivio
 crs#:#crs_edit_content#:#Modifica elementi
 crs#:#crs_end#:#Fine periodo
 crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
-crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
+crs#:#crs_free_places#:#Posti disponibili
 crs#:#crs_from#:#Da:
 crs#:#crs_grouping#:#Gruppo di corsi
 crs#:#crs_grouping_assign#:#Modifica iscrizione al gruppo di corsi
@@ -3376,7 +3376,7 @@ crs#:#crs_header_archives#:#Archivi del corso
 crs#:#crs_header_delete_members#:#Cancella iscrizione
 crs#:#crs_header_edit_members#:#Modifica iscrizioni
 crs#:#crs_header_members#:#Iscritti al corso
-crs#:#crs_header_remove_from_waiting_list#:#Waiting list: deassign users###09 Jul 2005 new variable
+crs#:#crs_header_remove_from_waiting_list#:#Lista di attesa: rimozione utenti
 crs#:#crs_hide_link_lms#:#Nascondi il materiale formativo
 crs#:#crs_hide_link_objectives#:#Nascondi gli obiettivi
 crs#:#crs_hide_link_or#:#Nascondi le altre risorse
@@ -3399,8 +3399,8 @@ crs#:#crs_max_members_reached#:#E'stato raggiunto il numero massimo di iscritti
 crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
-crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
-crs#:#crs_member_unblocked#:#Iscritto (bloccato)
+crs#:#crs_member_blocked#:#Iscritto (bloccato)
+crs#:#crs_member_unblocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_updated#:#L'iscrizione &#232; stata aggiornata
 crs#:#crs_members_deleted#:#Eliminati iscritti
 crs#:#crs_members_footer#:#membri del corso
@@ -3490,7 +3490,7 @@ crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
 crs#:#crs_pdf#:#PDF
-crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
+crs#:#crs_persons_on_waiting_list#:#Persone nella lista di attesa
 crs#:#crs_print_list#:#Stampa elenco
 crs#:#crs_question_assignment#:#Modifica domande
 crs#:#crs_reg#:#Registrazione
@@ -3502,16 +3502,16 @@ crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
 crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti &#232; stato raggiunto.
 crs#:#crs_reg_subscription_start_later#:#Il periodo di registrazione inizier&#224; successivamente
-crs#:#crs_reg_unlim_info#:#Se scelta, non verranno posti limiti alle registrazioni. Scegli uno dei tipi qui sotto.###18 Jul 2005 content changed
+crs#:#crs_reg_unlim_info#:#Se scelta, non verranno posti limiti alle registrazioni. Scegli uno dei tipi qui sotto.
 crs#:#crs_reg_until#:#Scadenza registrazione
 crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato iscritto a questo corso
 crs#:#crs_reg_user_already_subscribed#:#Ti sei gi&#224; iscritto a questo corso
 crs#:#crs_reg_user_blocked#:#La tua iscrizione a questo corso non pu&#242; essere modificata
 crs#:#crs_registration#:#Iscrizione al corso
 crs#:#crs_registration_deactivated#:#Scegli questa opzione se vuoi disabilitare la registrazione. Nessun utente potr&#224; registrarsi a questo corso.
-crs#:#crs_registration_limited#:#Registrazione limitata nel tempo###18 Jul 2005 content changed
+crs#:#crs_registration_limited#:#Registrazione limitata nel tempo
 crs#:#crs_registration_type#:#Tipo di registrazione
-crs#:#crs_registration_unlimited#:#Registrazione non limitata nel tempo###18 Jul 2005 content changed
+crs#:#crs_registration_unlimited#:#Registrazione non limitata nel tempo
 crs#:#crs_reject_subscriber#:#Iscrizione al corso
 crs#:#crs_reject_subscriber_body#:#La tua richiesta di iscrizione &#232; stata rifiutata.
 crs#:#crs_reset_results#:#Risultati azzerati
@@ -3529,7 +3529,7 @@ crs#:#crs_select_one_archive#:#Per favore scegli un archivio
 crs#:#crs_select_one_object#:#Scegli un corso
 crs#:#crs_select_registration_type#:#Seleziona un tipo di registrazione.
 crs#:#crs_select_starter#:#Scegli l'oggetto di partenza
-crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
+crs#:#crs_set_on_waiting_list#:#Per favore, registrati al corso se vuoi essere aggiunto alla lista di attesa.
 crs#:#crs_settings#:#Propriet&#224; del corso
 crs#:#crs_settings_saved#:#Impostazioni salvate
 crs#:#crs_show_link_lms#:#Mostra i materiali formativi
@@ -3584,14 +3584,14 @@ crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_objective#:#Modifica l'obiettivo formativo
 crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso
-crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_users_removed_from_list#:#Gli utenti selezionati sono stati tolti dalla lista di attesa
 crs#:#crs_visibility#:#Visiblit&#224;
 crs#:#crs_visibility_limitless#:#Visibile (senza limiti)
 crs#:#crs_visibility_until#:#Visibile (da ... a ...)
 crs#:#crs_visibility_unvisible#:#Non visibile
-crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
+crs#:#crs_waiting_list#:#Lista di attesa
 crs#:#crs_xml#:#XML
-crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
+crs#:#crs_youre_position#:#Posizione nella lista di attesa
 crs#:#edit_content#:#Modifica il contenuto
 crs#:#learners_view#:#Vista studenti
 crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; valido.
@@ -4248,7 +4248,7 @@ meta#:#meta_contentprovider#:#Origine del contenuto
 meta#:#meta_context#:#Contesto
 meta#:#meta_contribute#:#Contributo
 meta#:#meta_copyright_and_other_restrictions#:#Copyright ed altre restrizioni.
-meta#:#meta_cost#:#Costo
+meta#:#meta_cost#:#A pagamento
 meta#:#meta_coverage#:#Copertura
 meta#:#meta_creator#:#Creatore
 meta#:#meta_date#:#Data
@@ -4262,7 +4262,7 @@ meta#:#meta_duration#:#Durata
 meta#:#meta_easy#:#Facile
 meta#:#meta_editor#:#Editore
 meta#:#meta_education#:#Educazione
-meta#:#meta_educational#:#Educational###12 Jul 2005 new variable
+meta#:#meta_educational#:#Educativo
 meta#:#meta_educational_level#:#Livello educativo
 meta#:#meta_educational_objective#:#Scopo educativo
 meta#:#meta_educationalvalidator#:#Supervisore contenuti educativi
@@ -4519,7 +4519,7 @@ meta#:#meta_terminator#:#Concluso da
 meta#:#meta_title#:#Titolo
 meta#:#meta_training#:#Apprendimento
 meta#:#meta_type#:#Tipo
-meta#:#meta_typical_age_range#:#Intervallo di et?consigliato
+meta#:#meta_typical_age_range#:#Intervallo di et&#224; consigliato
 meta#:#meta_typical_learning_time#:#Tempo di apprendimento consigliato
 meta#:#meta_unavailable#:#Non disponibile
 meta#:#meta_unix#:#Unix
@@ -4766,21 +4766,21 @@ search#:#search_dbk_content#:#Libraria digitale (contenuto)
 search#:#search_dbk_meta#:#Libraria digitale (metadati)
 search#:#search_delete_sure#:#L'oggetto ed il suo contenuto verranno eliminati permanentemente
 search#:#search_details_info#:#Ricerca in dettaglio. Scegli uno o pi&#249; oggetti tra quelli indicati sopra.
-search#:#search_direct#:#Direct search###20 Jul 2005 new variable
-search#:#search_fast_info#:#Ricerca nel titolo, descrizione e chiavi di ricerca di tutti i tipi degli oggetti.
-search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
+search#:#search_fast_info#:#Ricerca nel titolo, nella descrizione e tra le chiavi di ricerca.
+search#:#search_direct#:#Ricerca diretta
+search#:#search_full_info#:#Scegli questa opzione se vuoi ricercare in un grande numero di informazioni.
 search#:#search_group#:#Gruppo di ricerca
 search#:#search_in_magazin#:#Tra le risorse
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati
 search#:#search_inactive#:#Includi utenti inattivi
-search#:#search_index#:#Indexed search###20 Jul 2005 new variable
-search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
+search#:#search_index#:#Ricerca indicizzata
+search#:#search_like_info#:#Scegli questa opzione se vuoi ottenere i risultati migliori.
 search#:#search_lm_content#:#Modulo (contenuto)
 search#:#search_lm_meta#:#Modulo (metadati)
-search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
-search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
-search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
-search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene#:#Ricerca con Lucene
+search#:#search_lucene_host#:#Server Lucene
+search#:#search_lucene_info#:#Se attivata, &#232; possibile effettuare ricerche in file PDF, HTML e Moduli HTML
+search#:#search_lucene_port#:#Porta Lucene
 search#:#search_meta#:#Metadati
 search#:#search_minimum_three#:#Devi specificare almeno tre caratteri
 search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere spostata.
@@ -4788,7 +4788,7 @@ search#:#search_move_to#:#Sposta in:
 search#:#search_my_search_results#:#I miei risultati della ricerca
 search#:#search_new_folder#:#Nuova cartella
 search#:#search_no_category#:#Non hai selezionato il criterio di ricerca
-search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
+search#:#search_no_connection_lucene#:#Non &#232; possibile connettersi al server Lucene.
 search#:#search_no_match#:#La ricerca non ha prodotto risultati
 search#:#search_no_results_saved#:#Nessun risultato salvato.
 search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca
@@ -5061,7 +5061,7 @@ survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di doman
 survey#:#qt_metric#:#con risposta numerica
 survey#:#qt_nominal#:#con risposte predefinite
 survey#:#qt_ordinal#:#con risposte da ordinare
-survey#:#qt_text#:#con risposta libera###25 Jun 2005 content changed
+survey#:#qt_text#:#con risposta libera
 survey#:#question_has_constraints#:#Vincoli
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
 survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!
@@ -5113,8 +5113,8 @@ survey#:#subtype#:#Sottotipo
 survey#:#survey_code#:#Codice di accesso al sondaggio
 survey#:#survey_code_message_sent#:#Il codice del sondaggio che ti consente di riprenderlo dal punto in cui &#232; stato interrotto, ti &#232; stato inviato con una eMail!
 survey#:#survey_code_no_codes#:#Non hai ancora creato nessun codice di accesso al sondaggio.
-survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
-survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
+survey#:#survey_code_url#:#URL per l'accesso diretto
+survey#:#survey_code_url_name#:#URL (usa il tasto destro del mouse per copiare l'URL)
 survey#:#survey_code_used#:#Stato del codice
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
