@@ -593,8 +593,7 @@ class ilObjectDefinition extends ilSaxParser
 					break;
 
 				case "icrs":
-				case "icla":
-					if(!$this->ilias->ini->readVariable("iLinc","server_addr"))
+					if(!$this->ilias->getSetting("ilinc_active"))
 					{
 						unset($subobjects[$type]);
 					}

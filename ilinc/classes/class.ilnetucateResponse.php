@@ -60,7 +60,7 @@ class ilnetucateResponse extends ilSaxParser
 	{
 		if ($this->data['response']['status'] == "error" or $this->data['response']['status'] == "")
 		{
-			return $this->data['result']['cdata'];
+			return trim($this->data['result']['cdata']);
 		}
 	}
 	
@@ -149,6 +149,35 @@ class ilnetucateResponse extends ilSaxParser
 
 			case "netucate.ID":
 				break;
+				
+			case "netucate.Class.List":
+			case "netucate.User.List":
+				break;
+				
+			case "netucate.Class":
+				$this->data['classes'][$a_attribs['classid']] = array (
+																		'name' => $a_attribs['name'],
+																		'instructoruserid' => $a_attribs['instructoruserid'],
+																		'bandwidth' => $a_attribs['bandwidth'],
+																		'appsharebandwidth' => $a_attribs['appsharebandwidth'],
+																		'description' => $a_attribs['description'],
+																		'password' => $a_attribs['password'],
+																		'message' => $a_attribs['message'],
+																		'floorpolicy' => $a_attribs['floorpolicy'],
+																		'conferencetypeid' => $a_attribs['conferencetypeid'],
+																		'videobandwidth' => $a_attribs['videobandwidth'],
+																		'videoframerate' => $a_attribs['videoframerate'],
+																		'enablepush' => $a_attribs['enablepush'],
+																		'issecure' => $a_attribs['issecure'],
+																		'alwaysopen' => $a_attribs['alwaysopen']
+																		);
+				break;
+				
+			case "netucate.User":
+				$this->data['users'][$a_attribs['userid']] = array (
+																		'fullname' => $a_attribs['fullname']
+																		);
+				break;
 		}
 	}
 
@@ -175,6 +204,12 @@ class ilnetucateResponse extends ilSaxParser
 
 			case "netucate.ID":
 				$this->data['id'][$this->cdata] = $this->cdata;
+				break;
+				
+			case "netucate.Class.List":
+			case "netucate.Class":
+			case "netucate.User.List":
+			case "netucate.User":
 				break;
 		}
 		

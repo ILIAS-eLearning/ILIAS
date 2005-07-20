@@ -75,7 +75,7 @@ class ilRepositoryExplorer extends ilExplorer
 		//$this->addFilter("chat");
 		//$this->addFilter("glo");
 		//$this->addFilter("file");
-		//$this->addFilter("fold");
+		$this->addFilter("icrs");
 		$this->addFilter("crs");
 		//$this->addFilter('tst');
 		$this->setFiltered(true);
@@ -159,6 +159,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'webr':
 				return "./link/link_resources.php?ref_id=".$a_node_id;
+				
+			case "icrs":
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjilinccoursegui";
 		}
 	}
 	
@@ -307,6 +310,10 @@ class ilRepositoryExplorer extends ilExplorer
 					return "ilTest".$a_obj_id;
 				}
 				break;
+
+			case "icrs":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "icrs");
+				return $t_frame;
 
 			default:
 				return "";

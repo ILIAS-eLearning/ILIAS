@@ -1304,9 +1304,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
-			$tabs_gui->addTarget("show_owner",
-				$this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-			
 			if ($this->tree->getSavedNodeData($this->ref_id))
 			{
 				$tabs_gui->addTarget("trash",

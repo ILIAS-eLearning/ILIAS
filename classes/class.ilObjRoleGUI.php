@@ -639,11 +639,16 @@ class ilObjRoleGUI extends ilObjectGUI
 			// BEGIN object_type
 			$this->tpl->setCurrentBlock("object_type");
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+
 			if ($this->objDefinition->getDevMode($obj_data["type"]))
 			{
 				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
 			}
-
+			else if ($obj_data["type"] == "icrs" and !$this->ilias->getSetting("ilinc_active"))
+			{
+				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_enabled_or_configured").")");
+			}
+			
 			// js checkbox toggles
 			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
 			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ops_ids));

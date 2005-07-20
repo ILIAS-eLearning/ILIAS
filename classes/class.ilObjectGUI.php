@@ -936,7 +936,7 @@ class ilObjectGUI
 		session_unregister("saved_post");
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
-		
+
 		ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	}
@@ -1745,20 +1745,6 @@ class ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 		ilUtil::redirect($this->getReturnLocation("permSave",$this->ctrl->getLinkTarget($this,"perm")));
-	}
-
-	/**
-	* display object owner
-	*
-	* @access	public
-	*/
-	function ownerObject()
-	{
-		$this->getTemplateFile("owner");
-		$this->tpl->setVariable("OWNER_NAME", $this->object->getOwnerName());
-		$this->tpl->setVariable("TXT_OBJ_OWNER", $this->lng->txt("obj_owner"));
-		$this->tpl->setVariable("CMD","update");
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**

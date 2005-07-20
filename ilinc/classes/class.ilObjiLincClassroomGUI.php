@@ -33,7 +33,8 @@
 * @package ilias-core
 */
 
-require_once "./classes/class.ilObjectGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
+include_once "class.ilObjiLincClassroom.php";
 
 class ilObjiLincClassroomGUI extends ilObjectGUI
 {
@@ -41,13 +42,49 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjiLincClassroomGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function ilObjiLincClassroomGUI($a_icla_id,$a_icrs_id)
 	{
-		$this->type = "icla";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		global $ilCtrl,$lng,$ilias,$objDefinition,$tpl,$tree,$ilErr;
 		
-		//$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this,'ref_id');
+		$this->type = "icla";
+		$this->id = $a_icla_id;
+		$this->parent = $a_icrs_id;
+		$this->ilias =& $ilias;
+		$this->objDefinition =& $objDefinition;
+		$this->tpl =& $tpl;
+		$this->html = "";
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
+		$this->tree =& $tree;
+		$this->ilErr =& $ilErr;
+		
+		$this->ctrl->saveParameter($this,'parent');
+		
+		$this->formaction = array();
+		$this->return_location = array();
+		$this->target_frame = array();
+		$this->tab_target_script = "adm_object.php";
+		$this->actions = "";
+		$this->sub_objects = "";
+
+
+		/*if ($this->id != 0)
+		{
+			$this->link_params = "ref_id=".$this->ref_id;
+		}*/
+
+		//prepare output
+		if (false)
+		{
+			$this->prepareOutput();
+		}
+		
+		$this->assignObject();
+	}
+	
+	function assignObject()
+	{
+		$this->object = new ilObjiLincClassroom($this->id,$this->parent);
 	}
 	
 	function createObject()
@@ -56,41 +93,34 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
-		/*if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else*/
-		{
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-			$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
-			$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
+		// fill in saved values in case of error
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
+		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
-			
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
-			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-			$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
-			$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
-			$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
-			$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
-			$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
-			$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+		
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
+		$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
+		$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
+		$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
+		$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
+		$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		}
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																   $_GET["ref_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
 	/**
@@ -101,23 +131,17 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 		
-		include_once "class.ilObjiLincClassroom.php";
-		$icrs_id = ilObjiLincClassroom::_lookupiCourseId($_GET['ref_id']);
-		
-		include "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->addClass($_POST['Fobject'],$icrs_id);
-		$response = $ilinc->sendRequest('addClass');
+		$ilinc_crs_id = ilObjiLincClassroom::_lookupiCourseId($this->parent);
+
+		$this->object->ilinc->addClass($_POST['Fobject'],$ilinc_crs_id);
+		$response = $this->object->ilinc->sendRequest('addClass');
 		
 		if ($response->isError())
 		{
 			$this->ilErr->raiseError($response->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
 
-		// create and insert forum in objecttree
-		$iClaObj = parent::saveObject();
-		
-		$iClaObj->saveID($response->getFirstID(),$icrs_id);
+		//$iClaObj->saveID($response->getFirstID(),$icrs_id);
 
 		// always send a message
 		sendInfo($response->getResultMsg(),true);
@@ -128,14 +152,9 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	function joinObject()
 	{
 		// check if user is registered at iLinc server
-		if (!$this->object->isRegisteredAtiLincServer($this->ilias->account))
+		if (!$this->object->userExists($this->ilias->account))
 		{
-			// check if user is already added to ilinc server
-			//if (!$this->object->findUser($this->ilias->account))
-			//{
-				// add user first to iLinc servr
 				$ilinc_user_id = $this->object->addUser($this->ilias->account);
-			//}
 		}
 
 		// check if user is already member of icourse
@@ -151,6 +170,55 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		ilUtil::redirect(trim($url));
 	}
 	
+	function editClassroomObject()
+	{
+		$fields = array();
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		}
+		else
+		{
+			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
+			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+		}
+
+		$this->displayEditForm($fields);
+	}
+	
+	/**
+	* display edit form (usually called by editObject)
+	*
+	* @access	private
+	* @param	array	$fields		key/value pairs of input fields
+	*/
+	function displayEditForm($fields)
+	{
+		$this->getTemplateFile("edit");
+
+		foreach ($fields as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$obj_str = "&class_id=".$this->object->id;
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "updateClassroom");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+	}
+	
 	/**
 	* get tabs
 	* @access	public
@@ -160,6 +228,114 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
 		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
+	}
+	
+	/**
+	* display deletion confirmation screen
+	* only for referenced objects. For user,role & rolt overwrite this function in the appropriate
+	* Object folders classes (ilObjUserFolderGUI,ilObjRoleFolderGUI)
+	*
+	* @access	public
+ 	*/
+	function removeClassroomObject($a_error = false)
+	{
+		unset($this->data);
+		$this->data["cols"] = array("type", "title", "last_change");
+
+		$this->data["data"][$_GET['class_id']] = array(
+											"type"        => $this->object->getType(),
+											"title"       => $this->object->getTitle()."#separator#".$this->object->getDescription()." ",	// workaround for empty desc
+											"last_update" => "n/a"
+										);
+
+		$this->data["buttons"] = array( "confirmedDeleteClassroom"  => $this->lng->txt("confirm"),
+								  "cancelDeleteClassroom"  => $this->lng->txt("cancel"));
+
+		$this->getTemplateFile("confirm");
+
+		if(!$a_error)
+		{
+			sendInfo($this->lng->txt("info_delete_sure"));
+		}
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&class_id=".$_GET["class_id"]."&cmd=gateway"));
+	
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach ($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach ($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if ($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				elseif ($key == "title")
+				{
+					$name_field = explode("#separator#",$cell_data);
+
+					$this->tpl->setVariable("TEXT_CONTENT", "<b>".$name_field[0]."</b>");
+						
+					$this->tpl->setCurrentBlock("subtitle");
+					$this->tpl->setVariable("DESC", $name_field[1]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("table_cell");
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	* updates class room on ilinc server
+	*
+	* @access	public
+	*/
+	function updateClassroomObject()
+	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
 	}
 } // END class.ilObjiLincClassroomGUI
 ?>

@@ -51,7 +51,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+			array("permission" => "read", "cmd" => "view", "lang_var" => "view_rooms",
 				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);

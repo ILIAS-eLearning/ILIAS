@@ -63,7 +63,7 @@ class ilObjectListGUI
 		$this->lng = $lng;
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
-
+//echo "list";
 		$this->init();
 	}
 
@@ -98,14 +98,6 @@ class ilObjectListGUI
 		// general commands array, e.g.
 		include_once('class.ilObjectAccess.php');
 		$this->commands = ilObjectAccess::_getCommands();
-
-		/*	example:
-		$this->commands = array
-		(
-			array("permission" => "read", "cmd" => "render", "lang_var" => "show"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-			array("permission" => "delete", "cmd" => "delete", "lang_var" => "delete")
-		);*/
 	}
 
 	// Single get set methods
