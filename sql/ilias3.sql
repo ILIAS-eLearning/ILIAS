@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jun 20, 2005 at 09:51 AM
+# Generation Time: Jul 20, 2005 at 03:09 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias350alpha1`
+# Database : `ilias350rt`
 # --------------------------------------------------------
 
 #
@@ -200,6 +200,46 @@ CREATE TABLE `chat_invitations` (
 
 #
 # Dumping data for table `chat_invitations`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `chat_record_data`
+#
+
+CREATE TABLE `chat_record_data` (
+  `record_data_id` int(11) NOT NULL auto_increment,
+  `record_id` int(11) NOT NULL default '0',
+  `message` mediumtext NOT NULL,
+  `msg_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`record_data_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `chat_record_data`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `chat_records`
+#
+
+CREATE TABLE `chat_records` (
+  `record_id` int(11) NOT NULL auto_increment,
+  `moderator_id` int(11) NOT NULL default '0',
+  `chat_id` int(11) NOT NULL default '0',
+  `room_id` int(11) NOT NULL default '0',
+  `title` varchar(255) NOT NULL default '',
+  `description` text NOT NULL,
+  `start_time` int(11) NOT NULL default '0',
+  `end_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`record_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `chat_records`
 #
 
 # --------------------------------------------------------
@@ -576,6 +616,23 @@ CREATE TABLE `crs_subscribers` (
 
 #
 # Dumping data for table `crs_subscribers`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `crs_waiting_list`
+#
+
+CREATE TABLE `crs_waiting_list` (
+  `obj_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `sub_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`obj_id`,`usr_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `crs_waiting_list`
 #
 
 # --------------------------------------------------------
@@ -1187,6 +1244,10 @@ CREATE TABLE `glossary` (
   `id` int(11) NOT NULL default '0',
   `online` enum('y','n') default 'n',
   `virtual` enum('none','fixed','level','subtree') NOT NULL default 'none',
+  `public_html_file` varchar(50) NOT NULL default '',
+  `public_xml_file` varchar(50) NOT NULL default '',
+  `glo_menu_active` enum('y','n') default 'y',
+  `downloads_active` enum('y','n') default 'n',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -1977,24 +2038,6 @@ INSERT INTO `lng_data` VALUES ('administration', 'analyzing', 'en', 'Analyzing..
 INSERT INTO `lng_data` VALUES ('administration', 'analyzing_tree_structure', 'en', 'Analyzing tree structure...');
 INSERT INTO `lng_data` VALUES ('administration', 'check_tree', 'en', 'Check tree structure');
 INSERT INTO `lng_data` VALUES ('administration', 'check_tree_desc', 'en', 'Check consistence of entire tree structure. Depending on tree size this may take a while!');
-INSERT INTO `lng_data` VALUES ('common', 'info_access_permissions', 'en', 'Access permissions');
-INSERT INTO `lng_data` VALUES ('content', 'glo_term_used_in', 'en', 'The following resources linking to that term');
-INSERT INTO `lng_data` VALUES ('common', 'info_available_roles', 'en', 'Available roles');
-INSERT INTO `lng_data` VALUES ('common', 'info_access_and_status_info', 'en', 'Access- and Statusinformation');
-INSERT INTO `lng_data` VALUES ('common', 'info_status_info', 'en', 'Statusinformation');
-INSERT INTO `lng_data` VALUES ('common', 'info_permission_source', 'en', 'effective from*');
-INSERT INTO `lng_data` VALUES ('common', 'info_permission_origin', 'en', 'Original position');
-INSERT INTO `lng_data` VALUES ('common', 'no_parent_access', 'en', 'No access to a superordinated object!');
-INSERT INTO `lng_data` VALUES ('common', 'info_view_of_user', 'en', 'View of user');
-INSERT INTO `lng_data` VALUES ('common', 'info_change_user_view', 'en', 'Change view of user');
-INSERT INTO `lng_data` VALUES ('common', 'info_enter_user_id', 'en', '<enter user_id>');
-INSERT INTO `lng_data` VALUES ('common', 'info_err_user_not_exist', 'en', 'User with that user_id does not exists');
-INSERT INTO `lng_data` VALUES ('common', 'info_remark_interrupted', 'en', 'Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.');
-INSERT INTO `lng_data` VALUES ('common', 'info_assigned', 'en', 'assigned');
-INSERT INTO `lng_data` VALUES ('common', 'info_not_assigned', 'en', 'not assigned');
-INSERT INTO `lng_data` VALUES ('common', 'online', 'en', 'Online');
-INSERT INTO `lng_data` VALUES ('common', 'info_is_member', 'en', 'User is member');
-INSERT INTO `lng_data` VALUES ('common', 'info_is_not_member', 'en', 'User is not a member');
 INSERT INTO `lng_data` VALUES ('administration', 'clean', 'en', 'Clean up');
 INSERT INTO `lng_data` VALUES ('administration', 'clean_desc', 'en', 'Remove invalid references & tree entries. Close gaps in tree structure.');
 INSERT INTO `lng_data` VALUES ('administration', 'cleaning', 'en', 'Cleaning...');
@@ -2002,11 +2045,9 @@ INSERT INTO `lng_data` VALUES ('administration', 'cleaning_final', 'en', 'Final 
 INSERT INTO `lng_data` VALUES ('administration', 'closing_gaps', 'en', 'Closing gaps in tree...');
 INSERT INTO `lng_data` VALUES ('administration', 'disabled', 'en', 'disabled');
 INSERT INTO `lng_data` VALUES ('administration', 'done', 'en', 'Done');
-INSERT INTO `lng_data` VALUES ('common', 'msg_last_role_for_registration', 'en', 'At least one role must be available in the registration form for new users. This role is currently the only one available.');
 INSERT INTO `lng_data` VALUES ('administration', 'found', 'en', 'found.');
 INSERT INTO `lng_data` VALUES ('administration', 'found_none', 'en', 'none found.');
 INSERT INTO `lng_data` VALUES ('administration', 'log_scan', 'en', 'Log scan results');
-INSERT INTO `lng_data` VALUES ('common', 'info_short', 'en', 'Info');
 INSERT INTO `lng_data` VALUES ('administration', 'log_scan_desc', 'en', 'Write scan results to \'scanlog.log\' in client data directory.');
 INSERT INTO `lng_data` VALUES ('administration', 'nothing_to_purge', 'en', 'Nothing to purge...');
 INSERT INTO `lng_data` VALUES ('administration', 'nothing_to_remove', 'en', 'Nothing to remove...');
@@ -2029,12 +2070,6 @@ INSERT INTO `lng_data` VALUES ('administration', 'restore_missing_desc', 'en', '
 INSERT INTO `lng_data` VALUES ('administration', 'restore_trash', 'en', 'Restore deleted objects');
 INSERT INTO `lng_data` VALUES ('administration', 'restore_trash_desc', 'en', 'Restore all objects in trash bin to RecoveryFolder.');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring', 'en', 'Restoring...');
-INSERT INTO `lng_data` VALUES ('common', 'il_crs_admin', 'en', 'Administrator');
-INSERT INTO `lng_data` VALUES ('common', 'il_crs_tutor', 'en', 'Tutor');
-INSERT INTO `lng_data` VALUES ('common', 'il_crs_member', 'en', 'Member');
-INSERT INTO `lng_data` VALUES ('common', 'il_grp_admin', 'en', 'Administrator');
-INSERT INTO `lng_data` VALUES ('common', 'il_grp_member', 'en', 'Member');
-INSERT INTO `lng_data` VALUES ('common', 'il_frm_moderator', 'en', 'Moderator');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_missing_objs', 'en', 'Restoring missing objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_trash', 'en', 'Restoring trash...');
 INSERT INTO `lng_data` VALUES ('administration', 'restoring_unbound_objs', 'en', 'Restoring unbound objects & subobjects...');
@@ -2050,7 +2085,6 @@ INSERT INTO `lng_data` VALUES ('administration', 'searching_invalid_rolfs', 'en'
 INSERT INTO `lng_data` VALUES ('administration', 'searching_missing_objs', 'en', 'Searching for missing objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'searching_unbound_objs', 'en', 'Searching for unbound objects...');
 INSERT INTO `lng_data` VALUES ('administration', 'skipped', 'en', 'skipped');
-INSERT INTO `lng_data` VALUES ('common', 'msg_invalid_filetype', 'en', 'Invalid file type');
 INSERT INTO `lng_data` VALUES ('administration', 'start_scan', 'en', 'Start!');
 INSERT INTO `lng_data` VALUES ('administration', 'stop_scan', 'en', 'Stop!');
 INSERT INTO `lng_data` VALUES ('administration', 'systemcheck', 'en', 'System check');
@@ -2109,11 +2143,6 @@ INSERT INTO `lng_data` VALUES ('assessment', 'clientip', 'en', 'Client IP');
 INSERT INTO `lng_data` VALUES ('assessment', 'close_text_hint', 'en', 'You can define a gap by entering <gap></gap> at the text position of your choice. Press the \'Create gaps\' button to add an editable form for every gap.');
 INSERT INTO `lng_data` VALUES ('assessment', 'cloze_text', 'en', 'Cloze text');
 INSERT INTO `lng_data` VALUES ('assessment', 'code', 'en', 'Code');
-INSERT INTO `lng_data` VALUES ('common', 'glo_mode', 'en', 'Mode');
-INSERT INTO `lng_data` VALUES ('common', 'glo_mode_normal', 'en', 'normal');
-INSERT INTO `lng_data` VALUES ('common', 'glo_mode_level', 'en', 'virtual (this level only)');
-INSERT INTO `lng_data` VALUES ('common', 'glo_mode_subtree', 'en', 'virtual (entire subtree)');
-INSERT INTO `lng_data` VALUES ('common', 'glo_mode_desc', 'en', 'A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).');
 INSERT INTO `lng_data` VALUES ('assessment', 'concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('assessment', 'confirm_delete_all_user_data', 'en', 'Are you sure you want to delete all user data of the test?');
 INSERT INTO `lng_data` VALUES ('assessment', 'confirm_sync_questions', 'en', 'The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?');
@@ -2276,6 +2305,8 @@ INSERT INTO `lng_data` VALUES ('assessment', 'postpone', 'en', 'Postpone questio
 INSERT INTO `lng_data` VALUES ('assessment', 'postponed', 'en', 'postponed');
 INSERT INTO `lng_data` VALUES ('assessment', 'preview', 'en', 'Preview');
 INSERT INTO `lng_data` VALUES ('assessment', 'previous_question_rows', 'en', '<< Questions %d - %d of %d');
+INSERT INTO `lng_data` VALUES ('assessment', 'print_answers', 'en', 'Print Answers');
+INSERT INTO `lng_data` VALUES ('assessment', 'print_results', 'en', 'Print Results');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_no_assessment_of_questions', 'en', 'There is no assessment of questions available for the selected question. The question was never used in a test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_of_questions', 'en', 'Assessment of questions');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_assessment_total_of_answers', 'en', 'Total of answers');
@@ -2289,6 +2320,9 @@ INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_rbac_error', 'en', 'You h
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_select_multiple', 'en', 'Please check only one question for editing');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_edit_select_none', 'en', 'Please check one question for editing');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_export_select_none', 'en', 'Please check at least one question to export it');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_no_items', 'en', 'Error: The import file contains no questions!');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_non_ilias_files', 'en', 'Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.');
+INSERT INTO `lng_data` VALUES ('assessment', 'qpl_import_verify_found_questions', 'en', 'ILIAS found the following questions in the import file. Please select the questions you want to import.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_question_is_in_use', 'en', 'The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_questions_deleted', 'en', 'Question(s) deleted.');
 INSERT INTO `lng_data` VALUES ('assessment', 'qpl_select_file_for_import', 'en', 'You must select a file for import!');
@@ -2296,6 +2330,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'qt_cloze', 'en', 'Cloze Question')
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_imagemap', 'en', 'Image Map Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_javaapplet', 'en', 'Java Applet Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_matching', 'en', 'Matching Question');
+INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice', 'en', 'Multiple Choice Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice_mr', 'en', 'Multiple Choice Question (multiple response)');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice_sr', 'en', 'Multiple Choice Question (single response)');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_ordering', 'en', 'Ordering Question');
@@ -2327,7 +2362,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'save_finish', 'en', 'Finish the te
 INSERT INTO `lng_data` VALUES ('assessment', 'save_introduction', 'en', 'Go to introduction');
 INSERT INTO `lng_data` VALUES ('assessment', 'save_next', 'en', 'Next');
 INSERT INTO `lng_data` VALUES ('assessment', 'save_previous', 'en', 'Previous');
-INSERT INTO `lng_data` VALUES ('assessment', 'save_text_answer_points', 'en', 'Save text question points');
+INSERT INTO `lng_data` VALUES ('assessment', 'save_text_answer_points', 'en', 'Save essay points');
 INSERT INTO `lng_data` VALUES ('assessment', 'search_found_groups', 'en', 'Found groups');
 INSERT INTO `lng_data` VALUES ('assessment', 'search_found_users', 'en', 'Found users');
 INSERT INTO `lng_data` VALUES ('assessment', 'search_groups', 'en', 'Search Groups');
@@ -2352,7 +2387,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'statistical_data', 'en', 'Statisti
 INSERT INTO `lng_data` VALUES ('assessment', 'suggested_solution_added_successfully', 'en', 'You successfully set a suggested solution!');
 INSERT INTO `lng_data` VALUES ('assessment', 'symbol', 'en', 'Symbol');
 INSERT INTO `lng_data` VALUES ('assessment', 'test_cancelled', 'en', 'The test was cancelled');
-INSERT INTO `lng_data` VALUES ('assessment', 'text_answers_saved', 'en', 'Text question points modified!');
+INSERT INTO `lng_data` VALUES ('assessment', 'text_answers_saved', 'en', 'Essay points modified!');
 INSERT INTO `lng_data` VALUES ('assessment', 'text_gap', 'en', 'Text gap');
 INSERT INTO `lng_data` VALUES ('assessment', 'text_maximum_chars_allowed', 'en', 'Please do not enter more than a maximum of %s characters. Any characters above will be cut.');
 INSERT INTO `lng_data` VALUES ('assessment', 'time_format', 'en', 'HH MM SS');
@@ -2446,12 +2481,12 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_result_congratulations', 'en',
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_result_sorry', 'en', 'Sorry, you failed the test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_results', 'en', 'Test results');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_resume_test', 'en', 'Resume the test');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_questions', 'en', 'Multiple choice questions');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_use_scoring_system', 'en', 'Set the defined score, even when no answer was checked');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_zero_points_when_unanswered', 'en', 'Score 0 points when no answer was checked');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_reporting', 'en', 'Score reporting');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_reporting_date', 'en', 'Score reporting date');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_type', 'en', 'Score reporting type');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_questions', 'en', 'Multiple choice questions');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_zero_points_when_unanswered', 'en', 'Score 0 points when no answer was checked');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_score_mcmr_use_scoring_system', 'en', 'Set the defined score, even when no answer was checked');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_file_for_import', 'en', 'You must select a file for import!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpool', 'en', 'Please select a question pool to store the created question');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_select_questionpools', 'en', 'Please select a question pool to store the imported questions');
@@ -2466,6 +2501,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_answer_sheet', 'en', 'sho
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_show_results', 'en', 'Show test results');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_signature', 'en', 'Signature');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_start_test', 'en', 'Start the test');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_started', 'en', 'Test Started');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_starting_time', 'en', 'Starting time');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_stat_all_users', 'en', 'All users');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_stat_choose_users', 'en', '(select one or more users from the user list)');
@@ -2593,6 +2629,9 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_add_external_ip', 'en', 'Please add
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_internal_ip', 'en', 'Please add the server\'s internal IP.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_moderator_password', 'en', 'Please add a moderator password.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_add_port', 'en', 'Please add the server port.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_add_private_chatroom', 'en', 'Add private chatroom');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_address', 'en', 'Address');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_address_user', 'en', 'Address');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_aqua', 'en', 'aqua');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_arial', 'en', 'Arial');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_black', 'en', 'black');
@@ -2605,6 +2644,7 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_color', 'en', 'Font color');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_delete_sure', 'en', 'Are you sure, you want to delete this chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_drop_user', 'en', 'User kicked');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_edit', 'en', 'Edit chat');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_empty', 'en', 'Empty');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_face', 'en', 'Font type');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_fuchsia', 'en', 'fuchsia');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_gray', 'en', 'gray');
@@ -2618,6 +2658,7 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_insert_message', 'en', 'PLease inse
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invitation_body', 'en', 'Invitation to chat from:');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invitation_subject', 'en', 'Chat invitation');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_invite_user', 'en', 'Invite user');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_invited_by', 'en', 'Invited by');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_italic', 'en', 'Italic');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_level_all', 'en', 'All');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_level_debug', 'en', 'Debug');
@@ -2632,14 +2673,29 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_navy', 'en', 'navy');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_active_users', 'en', 'No users present.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_connection', 'en', 'Cannot contact chat server.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_delete_public', 'en', 'The public chat room cannot be deleted');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_no_recordings_available', 'en', 'No recordings are available at the moment.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_refresh_public', 'en', 'the public chat room cannot be refreshed.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_rename_public', 'en', 'The public room cannot be renamed');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_no_write_perm', 'en', 'No permission to write');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_olive', 'en', 'olive');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_online_users', 'en', 'User (online)');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_private_message', 'en', 'Private Message');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_profile', 'en', 'Profile');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_public_room', 'en', 'Public chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_purple', 'en', 'purple');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_action', 'en', 'Action');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_description', 'en', 'Description');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_moderator', 'en', 'Moderator');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_not_found', 'en', 'Could not find recording.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_running', 'en', 'Recording running');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_started', 'en', 'Recording started');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_stopped', 'en', 'Recording stopped');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_time_frame', 'en', 'Time frame');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recording_title', 'en', 'Title of recording');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings', 'en', 'Recordings');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings_delete_sure', 'en', 'Deleting records - are you sure?');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings_deleted', 'en', 'Recordings were deleted.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings_select_one', 'en', 'Please choose recordings you would like to delete.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_red', 'en', 'red');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_refresh', 'en', 'Refresh');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_added', 'en', 'Added new chat room');
@@ -2661,8 +2717,10 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_server_settings', 'en', 'Chat serve
 INSERT INTO `lng_data` VALUES ('chat', 'chat_settings_saved', 'en', 'Settings saved');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_show_details', 'en', 'Show details');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_silver', 'en', 'silver');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_start_recording', 'en', 'Start recording');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_status', 'en', 'Status');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_status_saved', 'en', 'The status has been changed');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_stop_recording', 'en', 'Stop recording');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_tahoma', 'en', 'Tahoma');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_teal', 'en', 'teal');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_times', 'en', 'Times');
@@ -2672,6 +2730,7 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_type', 'en', 'Font face');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_underlined', 'en', 'Underlined');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_user_dropped', 'en', 'User kicked');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_user_invited', 'en', 'Invited user to chat.');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_whisper', 'en', 'Whisper');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_yellow', 'en', 'yellow');
 INSERT INTO `lng_data` VALUES ('chat', 'chats', 'en', 'Chats');
 INSERT INTO `lng_data` VALUES ('chat', 'my_chats', 'en', 'My Chats');
@@ -2693,9 +2752,6 @@ INSERT INTO `lng_data` VALUES ('common', 'activation', 'en', 'Activation');
 INSERT INTO `lng_data` VALUES ('common', 'active', 'en', 'Active');
 INSERT INTO `lng_data` VALUES ('common', 'active_roles', 'en', 'Active Roles');
 INSERT INTO `lng_data` VALUES ('common', 'add', 'en', 'Add');
-INSERT INTO `lng_data` VALUES ('common', 'admin_panel_enable', 'en', 'Switch Administration Commands On');
-INSERT INTO `lng_data` VALUES ('common', 'admin_panel_disable', 'en', 'Switch Administration Commands Off');
-INSERT INTO `lng_data` VALUES ('common', 'admin_panel', 'en', 'Administration Panel');
 INSERT INTO `lng_data` VALUES ('common', 'add_author', 'en', 'Add Author');
 INSERT INTO `lng_data` VALUES ('common', 'add_condition', 'en', 'Create new association');
 INSERT INTO `lng_data` VALUES ('common', 'add_member', 'en', 'Add Member');
@@ -2708,12 +2764,16 @@ INSERT INTO `lng_data` VALUES ('common', 'adm_edit_permission', 'en', 'Change pe
 INSERT INTO `lng_data` VALUES ('common', 'adm_read', 'en', 'Read access to System settings');
 INSERT INTO `lng_data` VALUES ('common', 'adm_visible', 'en', 'System settings are visible');
 INSERT INTO `lng_data` VALUES ('common', 'adm_write', 'en', 'Edit Basic system settings');
+INSERT INTO `lng_data` VALUES ('common', 'admin_panel', 'en', 'Administration Panel');
+INSERT INTO `lng_data` VALUES ('common', 'admin_panel_disable', 'en', 'Switch Administration Commands Off');
+INSERT INTO `lng_data` VALUES ('common', 'admin_panel_enable', 'en', 'Switch Administration Commands On');
 INSERT INTO `lng_data` VALUES ('common', 'administrate', 'en', 'Administrate');
 INSERT INTO `lng_data` VALUES ('common', 'administrate_users', 'en', 'Local user administration');
 INSERT INTO `lng_data` VALUES ('common', 'administration', 'en', 'Administration');
 INSERT INTO `lng_data` VALUES ('common', 'administrator', 'en', 'Administrator');
 INSERT INTO `lng_data` VALUES ('common', 'adopt', 'en', 'adopt');
 INSERT INTO `lng_data` VALUES ('common', 'adopt_perm_from_template', 'en', 'Adopt permission settings from Role Template');
+INSERT INTO `lng_data` VALUES ('common', 'agree_date', 'en', 'Agreed on');
 INSERT INTO `lng_data` VALUES ('common', 'all_authors', 'en', 'All authors');
 INSERT INTO `lng_data` VALUES ('common', 'all_global_roles', 'en', 'Global roles');
 INSERT INTO `lng_data` VALUES ('common', 'all_lms', 'en', 'All learning modules');
@@ -2748,14 +2808,6 @@ INSERT INTO `lng_data` VALUES ('common', 'apply_filter', 'en', 'Apply filter');
 INSERT INTO `lng_data` VALUES ('common', 'appointment', 'en', 'Appointment');
 INSERT INTO `lng_data` VALUES ('common', 'appointment_list', 'en', 'Appointment List');
 INSERT INTO `lng_data` VALUES ('common', 'approve_date', 'en', 'Approved on');
-INSERT INTO `lng_data` VALUES ('common', 'agree_date', 'en', 'Agreed on');
-INSERT INTO `lng_data` VALUES ('common', 'i2passwd', 'en', 'ILIAS 2 password');
-INSERT INTO `lng_data` VALUES ('common', 'ilinc_id', 'en', 'iLinc ID');
-INSERT INTO `lng_data` VALUES ('common', 'time_limit_owner', 'en', 'Owner (time limit)');
-INSERT INTO `lng_data` VALUES ('common', 'time_limit_unlimited', 'en', 'Unlimited (time limit)');
-INSERT INTO `lng_data` VALUES ('common', 'time_limit_from', 'en', 'From (time limit)');
-INSERT INTO `lng_data` VALUES ('common', 'time_limit_until', 'en', 'Until (time limit)');
-INSERT INTO `lng_data` VALUES ('common', 'time_limit_message', 'en', 'Message (time limit)');
 INSERT INTO `lng_data` VALUES ('common', 'approve_recipient', 'en', 'Login ID of approver');
 INSERT INTO `lng_data` VALUES ('common', 'archive', 'en', 'Archive');
 INSERT INTO `lng_data` VALUES ('common', 'are_you_sure', 'en', 'Are you sure?');
@@ -2773,10 +2825,6 @@ INSERT INTO `lng_data` VALUES ('common', 'assessment_log_user_answer', 'en', 'Us
 INSERT INTO `lng_data` VALUES ('common', 'assessment_log_user_answers', 'en', 'Show user actions');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_settings', 'en', 'Test&Assessment administration settings');
 INSERT INTO `lng_data` VALUES ('common', 'assessment_settings_reporting_language', 'en', 'Reporting language');
-INSERT INTO `lng_data` VALUES ('common', 'tst_warning_test_not_complete', 'en', 'The test is not complete!');
-INSERT INTO `lng_data` VALUES ('common', 'tst_run', 'en', 'Run');
-INSERT INTO `lng_data` VALUES ('common', 'tst_anon_eval', 'en', 'Results');
-INSERT INTO `lng_data` VALUES ('common', 'tst_statistical_evaluation', 'en', 'Statistics');
 INSERT INTO `lng_data` VALUES ('common', 'assf_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'assf_read', 'en', 'Access Test&Assessment administration');
 INSERT INTO `lng_data` VALUES ('common', 'assf_visible', 'en', 'Test&Assessment administration is visible');
@@ -2795,26 +2843,40 @@ INSERT INTO `lng_data` VALUES ('common', 'at_location', 'en', 'at location');
 INSERT INTO `lng_data` VALUES ('common', 'attachment', 'en', 'Attachment');
 INSERT INTO `lng_data` VALUES ('common', 'attachments', 'en', 'Attachments');
 INSERT INTO `lng_data` VALUES ('common', 'attend', 'en', 'Attend');
+INSERT INTO `lng_data` VALUES ('common', 'auth_active_roles', 'en', 'Global roles activated for registration');
 INSERT INTO `lng_data` VALUES ('common', 'auth_configure', 'en', 'configure...');
+INSERT INTO `lng_data` VALUES ('common', 'auth_default', 'en', 'Default setting');
+INSERT INTO `lng_data` VALUES ('common', 'auth_default_mode_changed_to', 'en', 'Default authentication mode changed to');
 INSERT INTO `lng_data` VALUES ('common', 'auth_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'auth_ldap', 'en', 'LDAP');
 INSERT INTO `lng_data` VALUES ('common', 'auth_ldap_desc', 'en', 'Authenticate users via LDAP server');
+INSERT INTO `lng_data` VALUES ('common', 'auth_ldap_enable', 'en', 'Enable LDAP support');
 INSERT INTO `lng_data` VALUES ('common', 'auth_ldap_not_configured', 'en', 'LDAP is not configured yet');
+INSERT INTO `lng_data` VALUES ('common', 'auth_ldap_settings_saved', 'en', 'LDAP settings saved');
 INSERT INTO `lng_data` VALUES ('common', 'auth_local', 'en', 'ILIAS database');
 INSERT INTO `lng_data` VALUES ('common', 'auth_local_desc', 'en', 'Authenticate users via local ILIAS database (default)');
 INSERT INTO `lng_data` VALUES ('common', 'auth_mode', 'en', 'Authentication mode');
-INSERT INTO `lng_data` VALUES ('common', 'auth_mode_changed_to', 'en', 'Authentication mode changed to');
 INSERT INTO `lng_data` VALUES ('common', 'auth_mode_not_changed', 'en', '(Nothing changed)');
 INSERT INTO `lng_data` VALUES ('common', 'auth_radius', 'en', 'RADIUS');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_configure', 'en', 'Configure RADIUS-Authentication');
 INSERT INTO `lng_data` VALUES ('common', 'auth_radius_desc', 'en', 'Authenticate users via RADIUS server');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_enable', 'en', 'Enable RADIUS support');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_not_configured', 'en', 'RADIUS is not configured yet');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_port', 'en', 'Port');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_server', 'en', 'Servers');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_server_desc', 'en', 'You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_settings_saved', 'en', 'RADIUS settings saved');
+INSERT INTO `lng_data` VALUES ('common', 'auth_radius_shared_secret', 'en', 'Shared secret');
 INSERT INTO `lng_data` VALUES ('common', 'auth_read', 'en', 'Access authentication settings');
-INSERT INTO `lng_data` VALUES ('common', 'auth_remark_non_local_auth', 'en', 'When selecting another authentication mode than default mode, user logins and passwords cannot be changed anymore and the option to register new users is disabled.');
+INSERT INTO `lng_data` VALUES ('common', 'auth_remark_non_local_auth', 'en', 'When selecting another authentication mode than ILIAS database, you may not change user\'s login name and password anymore.');
+INSERT INTO `lng_data` VALUES ('common', 'auth_role_auth_mode', 'en', 'Authentication mode');
 INSERT INTO `lng_data` VALUES ('common', 'auth_script', 'en', 'Custom');
 INSERT INTO `lng_data` VALUES ('common', 'auth_script_desc', 'en', 'Authenticate users via external script');
 INSERT INTO `lng_data` VALUES ('common', 'auth_select', 'en', 'Select authentication mode');
 INSERT INTO `lng_data` VALUES ('common', 'auth_shib', 'en', 'Shibboleth');
 INSERT INTO `lng_data` VALUES ('common', 'auth_shib_desc', 'en', 'Authenticate users via Shibboleth, can be used as second authentication method');
 INSERT INTO `lng_data` VALUES ('common', 'auth_shib_not_configured', 'en', 'Shibboleth is not configured yet');
+INSERT INTO `lng_data` VALUES ('common', 'auth_shibboleth', 'en', 'Shibboleth');
 INSERT INTO `lng_data` VALUES ('common', 'auth_visible', 'en', 'Authentication settings are visible');
 INSERT INTO `lng_data` VALUES ('common', 'auth_write', 'en', 'Edit authentication settings');
 INSERT INTO `lng_data` VALUES ('common', 'author', 'en', 'Author');
@@ -2841,13 +2903,6 @@ INSERT INTO `lng_data` VALUES ('common', 'bookmarks', 'en', 'Bookmarks');
 INSERT INTO `lng_data` VALUES ('common', 'bookmarks_of', 'en', 'Bookmarks of');
 INSERT INTO `lng_data` VALUES ('common', 'btn_remove_system', 'en', 'Remove from System');
 INSERT INTO `lng_data` VALUES ('common', 'btn_undelete', 'en', 'Undelete');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_excel_x86', 'en', 'Microsoft Excel (Intel x86)');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_excel_ppc', 'en', 'Microsoft Excel (IBM PPC)');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_csv', 'en', 'Comma Separated Values');
-INSERT INTO `lng_data` VALUES ('common', 'create_export_file', 'en', 'Create export file');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_files', 'en', 'Files');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_file', 'en', 'File');
-INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_file_size', 'en', 'File size');
 INSERT INTO `lng_data` VALUES ('common', 'by', 'en', 'By');
 INSERT INTO `lng_data` VALUES ('common', 'bytes', 'en', 'Bytes');
 INSERT INTO `lng_data` VALUES ('common', 'calendar', 'en', 'Calendar');
@@ -2875,6 +2930,7 @@ INSERT INTO `lng_data` VALUES ('common', 'cat_create_glo', 'en', 'Create Glossar
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_grp', 'en', 'Create Group');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_hlm', 'en', 'Create HACP Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_htlm', 'en', 'Create HTML Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'cat_create_icrs', 'en', 'Create LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_lm', 'en', 'Create ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_mep', 'en', 'Create Media Pool');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_qpl', 'en', 'Create Question Pool for Test');
@@ -2883,7 +2939,7 @@ INSERT INTO `lng_data` VALUES ('common', 'cat_create_spl', 'en', 'Create Questio
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_svy', 'en', 'Create Survey');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_tst', 'en', 'Create Test');
 INSERT INTO `lng_data` VALUES ('common', 'cat_create_url', 'en', 'Create URL');
-INSERT INTO `lng_data` VALUES ('common', 'cat_create_webr', 'en', 'Create new Web Resource');
+INSERT INTO `lng_data` VALUES ('common', 'cat_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'cat_delete', 'en', 'Delete Category');
 INSERT INTO `lng_data` VALUES ('common', 'cat_edit', 'en', 'Edit Category');
 INSERT INTO `lng_data` VALUES ('common', 'cat_edit_permission', 'en', 'Change permission settings');
@@ -2926,6 +2982,7 @@ INSERT INTO `lng_data` VALUES ('common', 'chat', 'en', 'Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_add', 'en', 'Add Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_delete', 'en', 'Delete chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_edit_permission', 'en', 'Change permission settings');
+INSERT INTO `lng_data` VALUES ('common', 'chat_moderate', 'en', 'Moderate chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_new', 'en', 'New Chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_read', 'en', 'Read/Write access to chat');
 INSERT INTO `lng_data` VALUES ('common', 'chat_visible', 'en', 'Chat is visible');
@@ -2958,6 +3015,7 @@ INSERT INTO `lng_data` VALUES ('common', 'client_id', 'en', 'Client ID');
 INSERT INTO `lng_data` VALUES ('common', 'client_ip', 'en', 'Client IP');
 INSERT INTO `lng_data` VALUES ('common', 'clipboard', 'en', 'Clipboard');
 INSERT INTO `lng_data` VALUES ('common', 'close', 'en', 'Close');
+INSERT INTO `lng_data` VALUES ('common', 'close_window', 'en', 'Close window');
 INSERT INTO `lng_data` VALUES ('common', 'comma_separated', 'en', 'Comma Separated');
 INSERT INTO `lng_data` VALUES ('common', 'comment', 'en', 'comment');
 INSERT INTO `lng_data` VALUES ('common', 'compose', 'en', 'Compose');
@@ -2979,14 +3037,15 @@ INSERT INTO `lng_data` VALUES ('common', 'conflict_handling', 'en', 'Conflict ha
 INSERT INTO `lng_data` VALUES ('common', 'cont_object', 'en', 'Object');
 INSERT INTO `lng_data` VALUES ('common', 'contact_data', 'en', 'Contact Information');
 INSERT INTO `lng_data` VALUES ('common', 'container', 'en', 'Container');
+INSERT INTO `lng_data` VALUES ('common', 'content', 'en', 'Content');
 INSERT INTO `lng_data` VALUES ('common', 'content_styles', 'en', 'Content Styles');
 INSERT INTO `lng_data` VALUES ('common', 'context', 'en', 'Context');
 INSERT INTO `lng_data` VALUES ('common', 'continue_work', 'en', 'Continue');
 INSERT INTO `lng_data` VALUES ('common', 'cookies_howto', 'en', 'How to enable cookies');
 INSERT INTO `lng_data` VALUES ('common', 'copied_object', 'en', 'Copied object');
 INSERT INTO `lng_data` VALUES ('common', 'copy', 'en', 'Copy');
-INSERT INTO `lng_data` VALUES ('common', 'copyPage', 'en', 'Copy');
 INSERT INTO `lng_data` VALUES ('common', 'copyChapter', 'en', 'Copy');
+INSERT INTO `lng_data` VALUES ('common', 'copyPage', 'en', 'Copy');
 INSERT INTO `lng_data` VALUES ('common', 'copy_of', 'en', 'Copy of');
 INSERT INTO `lng_data` VALUES ('common', 'copy_to', 'en', 'to');
 INSERT INTO `lng_data` VALUES ('common', 'count', 'en', 'Count');
@@ -2995,6 +3054,7 @@ INSERT INTO `lng_data` VALUES ('common', 'course', 'en', 'Course');
 INSERT INTO `lng_data` VALUES ('common', 'courses', 'en', 'Courses');
 INSERT INTO `lng_data` VALUES ('common', 'create', 'en', 'Create');
 INSERT INTO `lng_data` VALUES ('common', 'create_date', 'en', 'Created On');
+INSERT INTO `lng_data` VALUES ('common', 'create_export_file', 'en', 'Create export file');
 INSERT INTO `lng_data` VALUES ('common', 'create_in', 'en', 'Create in');
 INSERT INTO `lng_data` VALUES ('common', 'create_stylesheet', 'en', 'Create Style');
 INSERT INTO `lng_data` VALUES ('common', 'created', 'en', 'Create date');
@@ -3021,6 +3081,7 @@ INSERT INTO `lng_data` VALUES ('common', 'crs_create_glo', 'en', 'Create Glossar
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_grp', 'en', 'Create Group');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_hlm', 'en', 'Create HACP Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_htlm', 'en', 'Create HTML Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'crs_create_icrs', 'en', 'Create LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_lm', 'en', 'Create ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_mep', 'en', 'Create Media Pool');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_qpl', 'en', 'Create Question Pool for Test');
@@ -3028,7 +3089,7 @@ INSERT INTO `lng_data` VALUES ('common', 'crs_create_sahs', 'en', 'Create SCORM/
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_spl', 'en', 'Create Question Pool for Survey');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_svy', 'en', 'Create Survey');
 INSERT INTO `lng_data` VALUES ('common', 'crs_create_tst', 'en', 'Create Test');
-INSERT INTO `lng_data` VALUES ('common', 'crs_create_webr', 'en', 'Create new Web Resource');
+INSERT INTO `lng_data` VALUES ('common', 'crs_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'crs_delete', 'en', 'Delete Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_edit', 'en', 'Edit Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_edit_permission', 'en', 'Change permission settings');
@@ -3047,6 +3108,8 @@ INSERT INTO `lng_data` VALUES ('common', 'crs_visible', 'en', 'Course is visible
 INSERT INTO `lng_data` VALUES ('common', 'crs_write', 'en', 'Edit Course');
 INSERT INTO `lng_data` VALUES ('common', 'cumulative_time', 'en', 'Cumulative time');
 INSERT INTO `lng_data` VALUES ('common', 'cur_number_rec', 'en', 'Current number of records');
+INSERT INTO `lng_data` VALUES ('common', 'current_ip', 'en', 'Current IP:');
+INSERT INTO `lng_data` VALUES ('common', 'current_ip_alert', 'en', 'Notice: if you enter a wrong ip you won\'t be able to access the system with this profile anymore.');
 INSERT INTO `lng_data` VALUES ('common', 'current_password', 'en', 'Current Password');
 INSERT INTO `lng_data` VALUES ('common', 'cut', 'en', 'Cut');
 INSERT INTO `lng_data` VALUES ('common', 'cutPage', 'en', 'Cut');
@@ -3093,8 +3156,6 @@ INSERT INTO `lng_data` VALUES ('common', 'delete_all_rec', 'en', 'Delete all rec
 INSERT INTO `lng_data` VALUES ('common', 'delete_object', 'en', 'Delete Object(s)');
 INSERT INTO `lng_data` VALUES ('common', 'delete_selected', 'en', 'Delete Selected');
 INSERT INTO `lng_data` VALUES ('common', 'delete_selected_items', 'en', 'Delete selected items');
-INSERT INTO `lng_data` VALUES ('common', 'link_selected_items', 'en', 'Link selected items');
-INSERT INTO `lng_data` VALUES ('common', 'move_selected_items', 'en', 'Move selected items');
 INSERT INTO `lng_data` VALUES ('common', 'delete_tr_data', 'en', 'Delete tracking data');
 INSERT INTO `lng_data` VALUES ('common', 'deleted', 'en', 'Deleted');
 INSERT INTO `lng_data` VALUES ('common', 'deleted_user', 'en', 'The user has been deleted');
@@ -3128,6 +3189,7 @@ INSERT INTO `lng_data` VALUES ('common', 'email', 'en', 'Email');
 INSERT INTO `lng_data` VALUES ('common', 'email_footer', 'en', '<br />powered by ILIAS');
 INSERT INTO `lng_data` VALUES ('common', 'email_not_valid', 'en', 'The email address you entered is not valid!');
 INSERT INTO `lng_data` VALUES ('common', 'enable', 'en', 'Enable');
+INSERT INTO `lng_data` VALUES ('common', 'enable_calendar', 'en', 'Enable Calendar');
 INSERT INTO `lng_data` VALUES ('common', 'enable_hist_user_comments', 'en', 'Enable user comments in history');
 INSERT INTO `lng_data` VALUES ('common', 'enable_hist_user_comments_desc', 'en', 'Gives authors the opportunity to add comments to the history log of pages.');
 INSERT INTO `lng_data` VALUES ('common', 'enable_js_edit', 'en', 'Enable JavaScript Editing');
@@ -3206,6 +3268,22 @@ INSERT INTO `lng_data` VALUES ('common', 'export', 'en', 'Export');
 INSERT INTO `lng_data` VALUES ('common', 'export_group_members', 'en', 'Export group members (to Microsoft Excel)');
 INSERT INTO `lng_data` VALUES ('common', 'export_html', 'en', 'export as HTML file');
 INSERT INTO `lng_data` VALUES ('common', 'export_xml', 'en', 'export as XML file');
+INSERT INTO `lng_data` VALUES ('common', 'extt_configure', 'en', 'configure...');
+INSERT INTO `lng_data` VALUES ('common', 'extt_edit_permission', 'en', 'Change permission settings');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc', 'en', 'netucate LearnLinc');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_customer_id', 'en', 'Customer ID');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_desc', 'en', 'Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_enable', 'en', 'Enable LearnLinc support');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_port', 'en', 'Port');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_registrar_login', 'en', 'Login ID');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_registrar_passwd', 'en', 'Password');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_server', 'en', 'Server');
+INSERT INTO `lng_data` VALUES ('common', 'extt_ilinc_settings_saved', 'en', 'LearnLinc settings saved');
+INSERT INTO `lng_data` VALUES ('common', 'extt_name', 'en', 'Software/Service');
+INSERT INTO `lng_data` VALUES ('common', 'extt_read', 'en', 'Access third party software settings');
+INSERT INTO `lng_data` VALUES ('common', 'extt_title_configure', 'en', 'Configure external software');
+INSERT INTO `lng_data` VALUES ('common', 'extt_visible', 'en', 'Third party software settings are visible');
+INSERT INTO `lng_data` VALUES ('common', 'extt_write', 'en', 'Configure third party software');
 INSERT INTO `lng_data` VALUES ('common', 'faq_exercise', 'en', 'FAQ Exercise');
 INSERT INTO `lng_data` VALUES ('common', 'fax', 'en', 'Fax');
 INSERT INTO `lng_data` VALUES ('common', 'feedback', 'en', 'Feedback');
@@ -3248,6 +3326,7 @@ INSERT INTO `lng_data` VALUES ('common', 'fold_create_frm', 'en', 'Create Forum'
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_glo', 'en', 'Create Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_hlm', 'en', 'Create HACP Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_htlm', 'en', 'Create HTML Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'fold_create_icrs', 'en', 'Create LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_lm', 'en', 'Create ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_mep', 'en', 'Create Media Pool');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_qpl', 'en', 'Create Question Pool for Test');
@@ -3255,6 +3334,7 @@ INSERT INTO `lng_data` VALUES ('common', 'fold_create_sahs', 'en', 'Create SCORM
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_spl', 'en', 'Create Question Pool for Survey');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_svy', 'en', 'Create Survey');
 INSERT INTO `lng_data` VALUES ('common', 'fold_create_tst', 'en', 'Create Test');
+INSERT INTO `lng_data` VALUES ('common', 'fold_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'fold_delete', 'en', 'Delete Folder');
 INSERT INTO `lng_data` VALUES ('common', 'fold_edit', 'en', 'Edit Folder');
 INSERT INTO `lng_data` VALUES ('common', 'fold_edit_permission', 'en', 'Change Permission settings');
@@ -3318,6 +3398,11 @@ INSERT INTO `lng_data` VALUES ('common', 'glo_delete', 'en', 'Delete Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'glo_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'glo_join', 'en', 'Subscribe to Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'glo_leave', 'en', 'Unsubscribe from Glossary');
+INSERT INTO `lng_data` VALUES ('common', 'glo_mode', 'en', 'Mode');
+INSERT INTO `lng_data` VALUES ('common', 'glo_mode_desc', 'en', 'A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).');
+INSERT INTO `lng_data` VALUES ('common', 'glo_mode_level', 'en', 'virtual (this level only)');
+INSERT INTO `lng_data` VALUES ('common', 'glo_mode_normal', 'en', 'normal');
+INSERT INTO `lng_data` VALUES ('common', 'glo_mode_subtree', 'en', 'virtual (entire subtree)');
 INSERT INTO `lng_data` VALUES ('common', 'glo_new', 'en', 'New Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'glo_read', 'en', 'Read access to Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'glo_upload_file', 'en', 'File');
@@ -3385,6 +3470,7 @@ INSERT INTO `lng_data` VALUES ('common', 'grp_create_frm', 'en', 'Create Forum')
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_glo', 'en', 'Create Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_hlm', 'en', 'Create HACP Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_htlm', 'en', 'Create HTML Learning Module');
+INSERT INTO `lng_data` VALUES ('common', 'grp_create_icrs', 'en', 'Create LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_lm', 'en', 'Create ILIAS Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_mep', 'en', 'Create Media Pool');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_qpl', 'en', 'Create Question Pool for Test');
@@ -3392,7 +3478,7 @@ INSERT INTO `lng_data` VALUES ('common', 'grp_create_sahs', 'en', 'Create SCORM/
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_spl', 'en', 'Create Question Pool for Survey');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_svy', 'en', 'Create Survey');
 INSERT INTO `lng_data` VALUES ('common', 'grp_create_tst', 'en', 'Create Test');
-INSERT INTO `lng_data` VALUES ('common', 'grp_create_webr', 'en', 'Create new Web Resource');
+INSERT INTO `lng_data` VALUES ('common', 'grp_create_webr', 'en', 'Create Web Resource');
 INSERT INTO `lng_data` VALUES ('common', 'grp_delete', 'en', 'Delete Group');
 INSERT INTO `lng_data` VALUES ('common', 'grp_dismiss_member', 'en', 'Are you sure you want to dismiss the following member(s) from the group?');
 INSERT INTO `lng_data` VALUES ('common', 'grp_dismiss_myself', 'en', 'Are you sure you want to dismiss yourself from the group?');
@@ -3435,7 +3521,7 @@ INSERT INTO `lng_data` VALUES ('common', 'guests', 'en', 'Guests');
 INSERT INTO `lng_data` VALUES ('common', 'header_title', 'en', 'Header Title');
 INSERT INTO `lng_data` VALUES ('common', 'help', 'en', 'Help');
 INSERT INTO `lng_data` VALUES ('common', 'hide', 'en', 'hide');
-INSERT INTO `lng_data` VALUES ('common', 'hide_details', 'en', 'hide details');
+INSERT INTO `lng_data` VALUES ('common', 'hide_details', 'en', 'Hide Details');
 INSERT INTO `lng_data` VALUES ('common', 'hide_structure', 'en', 'Disable Structured-View');
 INSERT INTO `lng_data` VALUES ('common', 'hist_dbk:pg_create', 'en', 'Page created');
 INSERT INTO `lng_data` VALUES ('common', 'hist_dbk:pg_cut', 'en', 'Page cut out of chapter "%1" [%2]');
@@ -3464,7 +3550,7 @@ INSERT INTO `lng_data` VALUES ('common', 'hlm_read', 'en', 'Read access to HACP 
 INSERT INTO `lng_data` VALUES ('common', 'hlm_visible', 'en', 'HACP Learning Module is visible');
 INSERT INTO `lng_data` VALUES ('common', 'hlm_write', 'en', 'Edit HACP Learning Module');
 INSERT INTO `lng_data` VALUES ('common', 'hobby', 'en', 'Interests/Hobbies');
-INSERT INTO `lng_data` VALUES ('common', 'home', 'en', 'Home');
+INSERT INTO `lng_data` VALUES ('common', 'home', 'en', 'Public Area');
 INSERT INTO `lng_data` VALUES ('common', 'host', 'en', 'Host');
 INSERT INTO `lng_data` VALUES ('common', 'hours_of_day', 'en', 'Hours of day');
 INSERT INTO `lng_data` VALUES ('common', 'htlm', 'en', 'Learning Module HTML');
@@ -3479,30 +3565,38 @@ INSERT INTO `lng_data` VALUES ('common', 'htlm_write', 'en', 'Edit HTML Learning
 INSERT INTO `lng_data` VALUES ('common', 'http_not_possible', 'en', 'This server is not supporting http requests.');
 INSERT INTO `lng_data` VALUES ('common', 'http_path', 'en', 'Http Path');
 INSERT INTO `lng_data` VALUES ('common', 'https_not_possible', 'en', 'This server is not supporting HTTPS connnections.');
-INSERT INTO `lng_data` VALUES ('common', 'icla', 'en', 'iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_add', 'en', 'Add iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_delete', 'en', 'Delete iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_edit_permission', 'en', 'Edit permission settings');
-INSERT INTO `lng_data` VALUES ('common', 'icla_new', 'en', 'New iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_read', 'en', 'Read access to iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icla_visible', 'en', 'iLinc Classroom is visible');
-INSERT INTO `lng_data` VALUES ('common', 'icla_write', 'en', 'Edit iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'icrs', 'en', 'iLinc Course');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_add', 'en', 'Add iLinc Course');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_delete', 'en', 'Delete iLinc Course');
+INSERT INTO `lng_data` VALUES ('common', 'i2passwd', 'en', 'ILIAS 2 password');
+INSERT INTO `lng_data` VALUES ('common', 'icla', 'en', 'LearnLinc Classroom');
+INSERT INTO `lng_data` VALUES ('common', 'icla_add', 'en', 'Add LearnLinc Seminar room');
+INSERT INTO `lng_data` VALUES ('common', 'icla_new', 'en', 'New LearnLinc Seminar room');
+INSERT INTO `lng_data` VALUES ('common', 'icrs', 'en', 'LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_add', 'en', 'Add LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_delete', 'en', 'Delete LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'icrs_edit_permission', 'en', 'Edit permission settings');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_new', 'en', 'New iLinc Course');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_read', 'en', 'Read access to iLinc Course');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_visible', 'en', 'iLinc Course is visible');
-INSERT INTO `lng_data` VALUES ('common', 'icrs_write', 'en', 'Edit iLinc Course');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_join', 'en', 'User may join LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_leave', 'en', 'User may leave LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_new', 'en', 'New LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_read', 'en', 'Read access to LearnLinc Seminar');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_visible', 'en', 'LearnLinc Seminar is visible');
+INSERT INTO `lng_data` VALUES ('common', 'icrs_write', 'en', 'Edit LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'id', 'en', 'ID');
 INSERT INTO `lng_data` VALUES ('common', 'identifier', 'en', 'identifier');
 INSERT INTO `lng_data` VALUES ('common', 'if_no_title_then_filename', 'en', 'Leave blank to display the file name');
 INSERT INTO `lng_data` VALUES ('common', 'if_no_title_then_url', 'en', 'Leave blank to display the URL');
 INSERT INTO `lng_data` VALUES ('common', 'ignore_on_conflict', 'en', 'Ignore on conflict');
+INSERT INTO `lng_data` VALUES ('common', 'il_chat_moderator', 'en', 'Chat moderator');
+INSERT INTO `lng_data` VALUES ('common', 'il_crs_admin', 'en', 'Course administrator');
+INSERT INTO `lng_data` VALUES ('common', 'il_crs_member', 'en', 'Course member');
+INSERT INTO `lng_data` VALUES ('common', 'il_crs_tutor', 'en', 'Course tutor');
+INSERT INTO `lng_data` VALUES ('common', 'il_frm_moderator', 'en', 'Forum moderator');
+INSERT INTO `lng_data` VALUES ('common', 'il_grp_admin', 'en', 'Group administrator');
+INSERT INTO `lng_data` VALUES ('common', 'il_grp_member', 'en', 'Group member');
+INSERT INTO `lng_data` VALUES ('common', 'il_icrs_admin', 'en', 'LearnLinc Seminar administrator');
+INSERT INTO `lng_data` VALUES ('common', 'il_icrs_member', 'en', 'LearnLinc Seminar member');
 INSERT INTO `lng_data` VALUES ('common', 'ilias_version', 'en', 'ILIAS version');
-INSERT INTO `lng_data` VALUES ('common', 'ilinc_classrooms', 'en', 'iLinc Classrooms');
-INSERT INTO `lng_data` VALUES ('common', 'ilinc_courses', 'en', 'iLinc Courses');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_classrooms', 'en', 'LearnLinc Seminar rooms');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_courses', 'en', 'LearnLinc Seminars');
+INSERT INTO `lng_data` VALUES ('common', 'ilinc_id', 'en', 'iLinc ID');
 INSERT INTO `lng_data` VALUES ('common', 'image', 'en', 'Image');
 INSERT INTO `lng_data` VALUES ('common', 'image_gen_unsucc', 'en', 'Image generation unsuccessful. Contact your system administrator and verify the convert path.');
 INSERT INTO `lng_data` VALUES ('common', 'import', 'en', 'Import');
@@ -3533,10 +3627,26 @@ INSERT INTO `lng_data` VALUES ('common', 'inactive', 'en', 'Inactive');
 INSERT INTO `lng_data` VALUES ('common', 'inbox', 'en', 'Inbox');
 INSERT INTO `lng_data` VALUES ('common', 'include_local', 'en', 'include local');
 INSERT INTO `lng_data` VALUES ('common', 'info', 'en', 'Information');
+INSERT INTO `lng_data` VALUES ('common', 'info_access_and_status_info', 'en', 'Access- and Statusinformation');
+INSERT INTO `lng_data` VALUES ('common', 'info_access_permissions', 'en', 'Access permissions');
 INSERT INTO `lng_data` VALUES ('common', 'info_assign_sure', 'en', 'Are you sure you want to assign the following user(s)?');
+INSERT INTO `lng_data` VALUES ('common', 'info_assigned', 'en', 'assigned');
+INSERT INTO `lng_data` VALUES ('common', 'info_available_roles', 'en', 'Available roles');
+INSERT INTO `lng_data` VALUES ('common', 'info_change_user_view', 'en', 'Change view of user');
 INSERT INTO `lng_data` VALUES ('common', 'info_delete_sure', 'en', 'Are you sure you want to delete the following object(s)?');
 INSERT INTO `lng_data` VALUES ('common', 'info_deleted', 'en', 'Object(s) Deleted');
+INSERT INTO `lng_data` VALUES ('common', 'info_enter_user_id', 'en', '<enter user_id>');
+INSERT INTO `lng_data` VALUES ('common', 'info_err_user_not_exist', 'en', 'User with that user_id does not exists');
+INSERT INTO `lng_data` VALUES ('common', 'info_is_member', 'en', 'User is member');
+INSERT INTO `lng_data` VALUES ('common', 'info_is_not_member', 'en', 'User is not a member');
+INSERT INTO `lng_data` VALUES ('common', 'info_not_assigned', 'en', 'not assigned');
+INSERT INTO `lng_data` VALUES ('common', 'info_permission_origin', 'en', 'Original position');
+INSERT INTO `lng_data` VALUES ('common', 'info_permission_source', 'en', 'effective from*');
+INSERT INTO `lng_data` VALUES ('common', 'info_remark_interrupted', 'en', 'Role is interrupted at this position. The role\'s default permission settings in effect are located in that position.');
+INSERT INTO `lng_data` VALUES ('common', 'info_short', 'en', 'Info');
+INSERT INTO `lng_data` VALUES ('common', 'info_status_info', 'en', 'Statusinformation');
 INSERT INTO `lng_data` VALUES ('common', 'info_trash', 'en', 'Deleted Objects');
+INSERT INTO `lng_data` VALUES ('common', 'info_view_of_user', 'en', 'View of user');
 INSERT INTO `lng_data` VALUES ('common', 'inform_user_mail', 'en', 'Send email to inform user about changes');
 INSERT INTO `lng_data` VALUES ('common', 'information_abbr', 'en', 'Info');
 INSERT INTO `lng_data` VALUES ('common', 'ingmedia_all_offers', 'en', 'All LE');
@@ -3577,6 +3687,7 @@ INSERT INTO `lng_data` VALUES ('common', 'internal_system', 'en', 'Internal syst
 INSERT INTO `lng_data` VALUES ('common', 'ip_address', 'en', 'IP Address');
 INSERT INTO `lng_data` VALUES ('common', 'is_already_your', 'en', 'is already your');
 INSERT INTO `lng_data` VALUES ('common', 'item', 'en', 'Item');
+INSERT INTO `lng_data` VALUES ('common', 'join', 'en', 'Join');
 INSERT INTO `lng_data` VALUES ('common', 'kb', 'en', 'KByte');
 INSERT INTO `lng_data` VALUES ('common', 'keywords', 'en', 'Keywords');
 INSERT INTO `lng_data` VALUES ('common', 'lang_cs', 'en', 'Czech');
@@ -3653,6 +3764,7 @@ INSERT INTO `lng_data` VALUES ('common', 'link_check_message_disabled', 'en', 'M
 INSERT INTO `lng_data` VALUES ('common', 'link_check_message_enabled', 'en', 'Messages enabled');
 INSERT INTO `lng_data` VALUES ('common', 'link_check_subject', 'en', '[ILIAS 3] Link check');
 INSERT INTO `lng_data` VALUES ('common', 'link_checker_refreshed', 'en', 'Refreshed view');
+INSERT INTO `lng_data` VALUES ('common', 'link_selected_items', 'en', 'Link selected items');
 INSERT INTO `lng_data` VALUES ('common', 'linked_object', 'en', 'The object has been linked');
 INSERT INTO `lng_data` VALUES ('common', 'linked_pages', 'en', 'Linked Pages');
 INSERT INTO `lng_data` VALUES ('common', 'list_of_pages', 'en', 'Pages List');
@@ -3806,6 +3918,7 @@ INSERT INTO `lng_data` VALUES ('common', 'monthly', 'en', 'monthly');
 INSERT INTO `lng_data` VALUES ('common', 'move', 'en', 'Move');
 INSERT INTO `lng_data` VALUES ('common', 'moveChapter', 'en', 'Move');
 INSERT INTO `lng_data` VALUES ('common', 'movePage', 'en', 'Move');
+INSERT INTO `lng_data` VALUES ('common', 'move_selected_items', 'en', 'Move selected items');
 INSERT INTO `lng_data` VALUES ('common', 'move_to', 'en', 'Move to');
 INSERT INTO `lng_data` VALUES ('common', 'move_users_to_style', 'en', 'Move users to style');
 INSERT INTO `lng_data` VALUES ('common', 'msg_cancel', 'en', 'Action cancelled');
@@ -3822,7 +3935,9 @@ INSERT INTO `lng_data` VALUES ('common', 'msg_deleted_rolt', 'en', 'Role Templat
 INSERT INTO `lng_data` VALUES ('common', 'msg_deleted_rolts', 'en', 'Role Template deleted');
 INSERT INTO `lng_data` VALUES ('common', 'msg_error_copy', 'en', 'Copy Error');
 INSERT INTO `lng_data` VALUES ('common', 'msg_failed', 'en', 'Sorry, action failed');
+INSERT INTO `lng_data` VALUES ('common', 'msg_invalid_filetype', 'en', 'Invalid file type');
 INSERT INTO `lng_data` VALUES ('common', 'msg_is_last_role', 'en', 'You removed the last global role from the following users');
+INSERT INTO `lng_data` VALUES ('common', 'msg_last_role_for_registration', 'en', 'At least one role must be available in the registration form for new users. This role is currently the only one available.');
 INSERT INTO `lng_data` VALUES ('common', 'msg_link_clipboard', 'en', 'Selected object(s) stored in clipboard (Action: link)');
 INSERT INTO `lng_data` VALUES ('common', 'msg_linked', 'en', 'Selected object(s) linked.');
 INSERT INTO `lng_data` VALUES ('common', 'msg_may_not_contain', 'en', 'This object may not contain objects of type:');
@@ -3910,7 +4025,7 @@ INSERT INTO `lng_data` VALUES ('common', 'next', 'en', 'next');
 INSERT INTO `lng_data` VALUES ('common', 'nickname', 'en', 'Nickname');
 INSERT INTO `lng_data` VALUES ('common', 'no', 'en', 'No');
 INSERT INTO `lng_data` VALUES ('common', 'no_access_item', 'en', 'You have no permission to access this item.');
-INSERT INTO `lng_data` VALUES ('common', 'no_access_item_public', 'en', 'This item cannot be accessed in the public section.');
+INSERT INTO `lng_data` VALUES ('common', 'no_access_item_public', 'en', 'This item cannot be accessed in the public area.');
 INSERT INTO `lng_data` VALUES ('common', 'no_access_link_object', 'en', 'You are not allowed to link this object');
 INSERT INTO `lng_data` VALUES ('common', 'no_bm_in_personal_list', 'en', 'No bookmarks defined.');
 INSERT INTO `lng_data` VALUES ('common', 'no_chat_in_personal_list', 'en', 'No chats in personal list');
@@ -3928,6 +4043,7 @@ INSERT INTO `lng_data` VALUES ('common', 'no_limit', 'en', 'No limit');
 INSERT INTO `lng_data` VALUES ('common', 'no_lo_in_personal_list', 'en', 'No learning objects in personal list.');
 INSERT INTO `lng_data` VALUES ('common', 'no_local_users', 'en', 'There are no local user');
 INSERT INTO `lng_data` VALUES ('common', 'no_objects', 'en', 'No objects');
+INSERT INTO `lng_data` VALUES ('common', 'no_parent_access', 'en', 'No access to a superordinated object!');
 INSERT INTO `lng_data` VALUES ('common', 'no_permission', 'en', 'You do not have the necessary permission.');
 INSERT INTO `lng_data` VALUES ('common', 'no_permission_to_join', 'en', 'You are not allowed to join this group!');
 INSERT INTO `lng_data` VALUES ('common', 'no_roles_user_can_be_assigned_to', 'en', 'There are no global roles the user can be assigned to. Therefore you are not allowed to add users.');
@@ -3962,6 +4078,8 @@ INSERT INTO `lng_data` VALUES ('common', 'obj_chat', 'en', 'Chat');
 INSERT INTO `lng_data` VALUES ('common', 'obj_crs', 'en', 'Course');
 INSERT INTO `lng_data` VALUES ('common', 'obj_dbk', 'en', 'Digilib Book');
 INSERT INTO `lng_data` VALUES ('common', 'obj_exc', 'en', 'Exercise');
+INSERT INTO `lng_data` VALUES ('common', 'obj_extt', 'en', 'Third party software');
+INSERT INTO `lng_data` VALUES ('common', 'obj_extt_desc', 'en', 'Configure external software or services that are supported by ILIAS');
 INSERT INTO `lng_data` VALUES ('common', 'obj_file', 'en', 'File');
 INSERT INTO `lng_data` VALUES ('common', 'obj_fold', 'en', 'Folder');
 INSERT INTO `lng_data` VALUES ('common', 'obj_frm', 'en', 'Forum');
@@ -3969,8 +4087,8 @@ INSERT INTO `lng_data` VALUES ('common', 'obj_glo', 'en', 'Glossary');
 INSERT INTO `lng_data` VALUES ('common', 'obj_grp', 'en', 'Group');
 INSERT INTO `lng_data` VALUES ('common', 'obj_hlm', 'en', 'Learning Module HACP');
 INSERT INTO `lng_data` VALUES ('common', 'obj_htlm', 'en', 'Learning Module HTML');
-INSERT INTO `lng_data` VALUES ('common', 'obj_icla', 'en', 'iLinc Classroom');
-INSERT INTO `lng_data` VALUES ('common', 'obj_icrs', 'en', 'iLinc Course');
+INSERT INTO `lng_data` VALUES ('common', 'obj_icla', 'en', 'LearnLinc Seminar room');
+INSERT INTO `lng_data` VALUES ('common', 'obj_icrs', 'en', 'LearnLinc Seminar');
 INSERT INTO `lng_data` VALUES ('common', 'obj_ldap', 'en', 'LDAP Settings');
 INSERT INTO `lng_data` VALUES ('common', 'obj_ldap_desc', 'en', 'Configure global LDAP Settings here.');
 INSERT INTO `lng_data` VALUES ('common', 'obj_lm', 'en', 'Learning Module ILIAS');
@@ -4046,8 +4164,8 @@ INSERT INTO `lng_data` VALUES ('common', 'objs_glo', 'en', 'Glossaries');
 INSERT INTO `lng_data` VALUES ('common', 'objs_grp', 'en', 'Groups');
 INSERT INTO `lng_data` VALUES ('common', 'objs_hlm', 'en', 'HACP Learning Modules');
 INSERT INTO `lng_data` VALUES ('common', 'objs_htlm', 'en', 'HTML Learning Modules');
-INSERT INTO `lng_data` VALUES ('common', 'objs_icla', 'en', 'iLinc Classrooms');
-INSERT INTO `lng_data` VALUES ('common', 'objs_icrs', 'en', 'iLinc Courses');
+INSERT INTO `lng_data` VALUES ('common', 'objs_icla', 'en', 'LearnLinc Seminar rooms');
+INSERT INTO `lng_data` VALUES ('common', 'objs_icrs', 'en', 'LearnLinc Seminars');
 INSERT INTO `lng_data` VALUES ('common', 'objs_lm', 'en', 'ILIAS Learning Modules');
 INSERT INTO `lng_data` VALUES ('common', 'objs_lng', 'en', 'Languages');
 INSERT INTO `lng_data` VALUES ('common', 'objs_lo', 'en', 'Learning Objects');
@@ -4072,6 +4190,7 @@ INSERT INTO `lng_data` VALUES ('common', 'offline', 'en', 'offline');
 INSERT INTO `lng_data` VALUES ('common', 'offline_version', 'en', 'Offline Version');
 INSERT INTO `lng_data` VALUES ('common', 'ok', 'en', 'OK');
 INSERT INTO `lng_data` VALUES ('common', 'old', 'en', 'Old');
+INSERT INTO `lng_data` VALUES ('common', 'online', 'en', 'Online');
 INSERT INTO `lng_data` VALUES ('common', 'online_chapter', 'en', 'Online Chapter');
 INSERT INTO `lng_data` VALUES ('common', 'online_version', 'en', 'Online Version');
 INSERT INTO `lng_data` VALUES ('common', 'open_views_inside_frameset', 'en', 'Open views inside frameset');
@@ -4099,6 +4218,7 @@ INSERT INTO `lng_data` VALUES ('common', 'password_assistance_info', 'en', 'If p
 INSERT INTO `lng_data` VALUES ('common', 'paste', 'en', 'Paste');
 INSERT INTO `lng_data` VALUES ('common', 'pasteChapter', 'en', 'Paste');
 INSERT INTO `lng_data` VALUES ('common', 'pastePage', 'en', 'Paste');
+INSERT INTO `lng_data` VALUES ('common', 'paste_clipboard_items', 'en', 'Paste items from clipboard');
 INSERT INTO `lng_data` VALUES ('common', 'path', 'en', 'Path');
 INSERT INTO `lng_data` VALUES ('common', 'path_not_set', 'en', 'Path not set');
 INSERT INTO `lng_data` VALUES ('common', 'path_to_babylon', 'en', 'Path to Babylon');
@@ -4143,13 +4263,15 @@ INSERT INTO `lng_data` VALUES ('common', 'please_select_a_delivered_file_to_down
 INSERT INTO `lng_data` VALUES ('common', 'port', 'en', 'Port');
 INSERT INTO `lng_data` VALUES ('common', 'position', 'en', 'Position');
 INSERT INTO `lng_data` VALUES ('common', 'preconditions', 'en', 'Preconditions');
+INSERT INTO `lng_data` VALUES ('common', 'predefined_template', 'en', 'Predefined role template');
 INSERT INTO `lng_data` VALUES ('common', 'presentation_options', 'en', 'Presentation Options');
 INSERT INTO `lng_data` VALUES ('common', 'previous', 'en', 'previous');
 INSERT INTO `lng_data` VALUES ('common', 'print', 'en', 'Print');
+INSERT INTO `lng_data` VALUES ('common', 'profile', 'en', 'Profile');
 INSERT INTO `lng_data` VALUES ('common', 'profile_changed', 'en', 'Your profile has changed');
 INSERT INTO `lng_data` VALUES ('common', 'profile_of', 'en', 'Profile of');
 INSERT INTO `lng_data` VALUES ('common', 'properties', 'en', 'Properties');
-INSERT INTO `lng_data` VALUES ('common', 'pub_section', 'en', 'Public Section');
+INSERT INTO `lng_data` VALUES ('common', 'pub_section', 'en', 'Public Area');
 INSERT INTO `lng_data` VALUES ('common', 'public', 'en', 'public');
 INSERT INTO `lng_data` VALUES ('common', 'public_profile', 'en', 'Public Profile');
 INSERT INTO `lng_data` VALUES ('common', 'publication', 'en', 'Publication');
@@ -4391,7 +4513,7 @@ INSERT INTO `lng_data` VALUES ('common', 'shib_visible', 'en', 'Shibboleth setti
 INSERT INTO `lng_data` VALUES ('common', 'shib_write', 'en', 'Edit Shibboleth settings');
 INSERT INTO `lng_data` VALUES ('common', 'shib_zipcode', 'en', 'Attribute for zipcode');
 INSERT INTO `lng_data` VALUES ('common', 'show', 'en', 'Show');
-INSERT INTO `lng_data` VALUES ('common', 'show_details', 'en', 'show details');
+INSERT INTO `lng_data` VALUES ('common', 'show_details', 'en', 'Show Details');
 INSERT INTO `lng_data` VALUES ('common', 'show_list', 'en', 'Show List');
 INSERT INTO `lng_data` VALUES ('common', 'show_members', 'en', 'Display Members');
 INSERT INTO `lng_data` VALUES ('common', 'show_owner', 'en', 'Show Owner');
@@ -4426,7 +4548,6 @@ INSERT INTO `lng_data` VALUES ('common', 'stop_inheritance', 'en', 'Stop inherit
 INSERT INTO `lng_data` VALUES ('common', 'street', 'en', 'Street');
 INSERT INTO `lng_data` VALUES ('common', 'structure', 'en', 'Structure');
 INSERT INTO `lng_data` VALUES ('common', 'sty', 'en', 'Style');
-INSERT INTO `lng_data` VALUES ('common', 'paste_clipboard_items', 'en', 'Paste items from clipboard');
 INSERT INTO `lng_data` VALUES ('common', 'style_activation', 'en', 'Style Activation');
 INSERT INTO `lng_data` VALUES ('common', 'stys_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'stys_read', 'en', 'Read access to style settings');
@@ -4445,20 +4566,20 @@ INSERT INTO `lng_data` VALUES ('common', 'svy', 'en', 'Survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_add', 'en', 'Add survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_delete', 'en', 'Delete survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_edit_permission', 'en', 'Change permission settings');
+INSERT INTO `lng_data` VALUES ('common', 'svy_evaluation', 'en', 'Evaluation');
+INSERT INTO `lng_data` VALUES ('common', 'svy_finished', 'en', 'completed');
 INSERT INTO `lng_data` VALUES ('common', 'svy_invite', 'en', 'Invite users to a survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_new', 'en', 'New survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_no_content', 'en', 'No surveys available');
+INSERT INTO `lng_data` VALUES ('common', 'svy_not_finished', 'en', 'not completed');
+INSERT INTO `lng_data` VALUES ('common', 'svy_not_started', 'en', 'not started');
 INSERT INTO `lng_data` VALUES ('common', 'svy_participate', 'en', 'Participate in a survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_read', 'en', 'Read access to survey');
+INSERT INTO `lng_data` VALUES ('common', 'svy_run', 'en', 'Run');
 INSERT INTO `lng_data` VALUES ('common', 'svy_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'svy_visible', 'en', 'Survey is visible');
-INSERT INTO `lng_data` VALUES ('common', 'svy_write', 'en', 'Edit survey');
 INSERT INTO `lng_data` VALUES ('common', 'svy_warning_survey_not_complete', 'en', 'The survey is not complete!');
-INSERT INTO `lng_data` VALUES ('common', 'svy_not_started', 'en', 'not started');
-INSERT INTO `lng_data` VALUES ('common', 'svy_not_finished', 'en', 'not completed');
-INSERT INTO `lng_data` VALUES ('common', 'svy_finished', 'en', 'completed');
-INSERT INTO `lng_data` VALUES ('common', 'svy_run', 'en', 'Run');
-INSERT INTO `lng_data` VALUES ('common', 'svy_evaluation', 'en', 'Evaluation');
+INSERT INTO `lng_data` VALUES ('common', 'svy_write', 'en', 'Edit survey');
 INSERT INTO `lng_data` VALUES ('common', 'system', 'en', 'System');
 INSERT INTO `lng_data` VALUES ('common', 'system_check', 'en', 'System Check');
 INSERT INTO `lng_data` VALUES ('common', 'system_choose_language', 'en', 'System Choose Language');
@@ -4494,10 +4615,15 @@ INSERT INTO `lng_data` VALUES ('common', 'time_h', 'en', 'Hour');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit', 'en', 'Access');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_add_time_limit_for_selected', 'en', 'Please enter a time period for the selected users.');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_applied_users', 'en', 'Applied users');
+INSERT INTO `lng_data` VALUES ('common', 'time_limit_from', 'en', 'From (time limit)');
+INSERT INTO `lng_data` VALUES ('common', 'time_limit_message', 'en', 'Message (time limit)');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_no_users_selected', 'en', 'Please select a user.');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_not_valid', 'en', 'The period is not valid.');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_not_within_owners', 'en', 'Your access is limited. The period is outside of your limit.');
+INSERT INTO `lng_data` VALUES ('common', 'time_limit_owner', 'en', 'Owner (time limit)');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_reached', 'en', 'Your access period is expired.');
+INSERT INTO `lng_data` VALUES ('common', 'time_limit_unlimited', 'en', 'Unlimited (time limit)');
+INSERT INTO `lng_data` VALUES ('common', 'time_limit_until', 'en', 'Until (time limit)');
 INSERT INTO `lng_data` VALUES ('common', 'time_limit_users_updated', 'en', 'User data updated');
 INSERT INTO `lng_data` VALUES ('common', 'time_limits', 'en', 'Access');
 INSERT INTO `lng_data` VALUES ('common', 'time_segment', 'en', 'Period of time');
@@ -4524,13 +4650,17 @@ INSERT INTO `lng_data` VALUES ('common', 'trash', 'en', 'Trash');
 INSERT INTO `lng_data` VALUES ('common', 'treeview', 'en', 'Tree View');
 INSERT INTO `lng_data` VALUES ('common', 'tst', 'en', 'Test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_add', 'en', 'Add test');
+INSERT INTO `lng_data` VALUES ('common', 'tst_anon_eval', 'en', 'Results');
 INSERT INTO `lng_data` VALUES ('common', 'tst_delete', 'en', 'Delete Test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_edit_permission', 'en', 'Change permission settings');
 INSERT INTO `lng_data` VALUES ('common', 'tst_new', 'en', 'New test');
 INSERT INTO `lng_data` VALUES ('common', 'tst_no_content', 'en', 'No tests available');
 INSERT INTO `lng_data` VALUES ('common', 'tst_read', 'en', 'Read access to Test');
+INSERT INTO `lng_data` VALUES ('common', 'tst_run', 'en', 'Run');
+INSERT INTO `lng_data` VALUES ('common', 'tst_statistical_evaluation', 'en', 'Statistics');
 INSERT INTO `lng_data` VALUES ('common', 'tst_upload_file', 'en', 'Upload file');
 INSERT INTO `lng_data` VALUES ('common', 'tst_visible', 'en', 'Test is visible');
+INSERT INTO `lng_data` VALUES ('common', 'tst_warning_test_not_complete', 'en', 'The test is not complete!');
 INSERT INTO `lng_data` VALUES ('common', 'tst_write', 'en', 'Edit Test');
 INSERT INTO `lng_data` VALUES ('common', 'txt_add_object_instruction1', 'en', 'Browse to the location where you want to add');
 INSERT INTO `lng_data` VALUES ('common', 'txt_add_object_instruction2', 'en', '.');
@@ -4588,6 +4718,13 @@ INSERT INTO `lng_data` VALUES ('common', 'user_not_chosen', 'en', 'You did not c
 INSERT INTO `lng_data` VALUES ('common', 'user_profile_other', 'en', 'Other Information');
 INSERT INTO `lng_data` VALUES ('common', 'user_statistics', 'en', 'Statistical Data');
 INSERT INTO `lng_data` VALUES ('common', 'userdata', 'en', 'User data');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_csv', 'en', 'Comma Separated Values');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_excel_ppc', 'en', 'Microsoft Excel (IBM PPC)');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_excel_x86', 'en', 'Microsoft Excel (Intel x86)');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_file', 'en', 'File');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_file_size', 'en', 'File size');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_files', 'en', 'Files');
+INSERT INTO `lng_data` VALUES ('common', 'userfolder_export_xml', 'en', 'XML');
 INSERT INTO `lng_data` VALUES ('common', 'username', 'en', 'User name');
 INSERT INTO `lng_data` VALUES ('common', 'users', 'en', 'Users');
 INSERT INTO `lng_data` VALUES ('common', 'users_not_imported', 'en', 'The following users do not exist, their messages cannot become imported');
@@ -4654,8 +4791,8 @@ INSERT INTO `lng_data` VALUES ('common', 'version', 'en', 'Version');
 INSERT INTO `lng_data` VALUES ('common', 'versions', 'en', 'Versions');
 INSERT INTO `lng_data` VALUES ('common', 'view', 'en', 'View');
 INSERT INTO `lng_data` VALUES ('common', 'view_content', 'en', 'View Content');
-INSERT INTO `lng_data` VALUES ('common', 'visible_layers', 'en', 'Visible Layers');
 INSERT INTO `lng_data` VALUES ('common', 'visible', 'en', 'Visible');
+INSERT INTO `lng_data` VALUES ('common', 'visible_layers', 'en', 'Visible Layers');
 INSERT INTO `lng_data` VALUES ('common', 'visitor', 'en', 'Visitor');
 INSERT INTO `lng_data` VALUES ('common', 'visitors', 'en', 'Visitors');
 INSERT INTO `lng_data` VALUES ('common', 'visits', 'en', 'Visits');
@@ -4674,8 +4811,6 @@ INSERT INTO `lng_data` VALUES ('common', 'webr_edit_permission', 'en', 'Change p
 INSERT INTO `lng_data` VALUES ('common', 'webr_fillout_all', 'en', 'Please fill out all required fields.');
 INSERT INTO `lng_data` VALUES ('common', 'webr_item_updated', 'en', 'Saved modifications');
 INSERT INTO `lng_data` VALUES ('common', 'webr_join', 'en', 'Subscribe Web Resource');
-INSERT INTO `lng_data` VALUES ('common', 'join', 'en', 'Join');
-INSERT INTO `lng_data` VALUES ('common', 'enable_calendar', 'en', 'Enable Calendar');
 INSERT INTO `lng_data` VALUES ('common', 'webr_last_check', 'en', 'Last check');
 INSERT INTO `lng_data` VALUES ('common', 'webr_last_check_table', 'en', 'Last check:');
 INSERT INTO `lng_data` VALUES ('common', 'webr_leave', 'en', 'Unsubscribe Web Resource');
@@ -4758,8 +4893,8 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_cant_del_std', 'en', 'Deletion o
 INSERT INTO `lng_data` VALUES ('content', 'cont_caption', 'en', 'Caption');
 INSERT INTO `lng_data` VALUES ('content', 'cont_change_type', 'en', 'Change Type');
 INSERT INTO `lng_data` VALUES ('content', 'cont_chap_and_pages', 'en', 'Chapters and Pages');
-INSERT INTO `lng_data` VALUES ('content', 'cont_chap_select_target_now', 'en', 'Chapter marked for moving. Select target now.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_chap_copy_select_target_now', 'en', 'Chapter marked for copying. Select target now.');
+INSERT INTO `lng_data` VALUES ('content', 'cont_chap_select_target_now', 'en', 'Chapter marked for moving. Select target now.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_chapters', 'en', 'Chapters');
 INSERT INTO `lng_data` VALUES ('content', 'cont_chapters_and_pages', 'en', 'Chapters and Pages');
 INSERT INTO `lng_data` VALUES ('content', 'cont_chapters_only', 'en', 'Chapters only');
@@ -4882,6 +5017,7 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_full_is_in_dir', 'en', 'Deletion
 INSERT INTO `lng_data` VALUES ('content', 'cont_fullscreen', 'en', 'Full Screen');
 INSERT INTO `lng_data` VALUES ('content', 'cont_get_link', 'en', 'get link');
 INSERT INTO `lng_data` VALUES ('content', 'cont_get_orig_size', 'en', 'Set original size');
+INSERT INTO `lng_data` VALUES ('content', 'cont_glo_menu', 'en', 'Menu');
 INSERT INTO `lng_data` VALUES ('content', 'cont_glo_properties', 'en', 'Glossary Properties');
 INSERT INTO `lng_data` VALUES ('content', 'cont_height', 'en', 'Height');
 INSERT INTO `lng_data` VALUES ('content', 'cont_how_published', 'en', 'How published');
@@ -4958,6 +5094,8 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_no_assign_itself', 'en', 'The ob
 INSERT INTO `lng_data` VALUES ('content', 'cont_no_manifest', 'en', 'No imsmanifest.xml file found in main directory.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_no_object_found', 'en', 'Could not find any object with this title');
 INSERT INTO `lng_data` VALUES ('content', 'cont_no_page', 'en', 'No Page found.');
+INSERT INTO `lng_data` VALUES ('content', 'cont_no_subdir_in_zip', 'en', 'Zip command failed or import file invalid.<br>It does not contain a subfolder \'%s\'.');
+INSERT INTO `lng_data` VALUES ('content', 'cont_no_zip_file', 'en', 'Import file is not a zip file.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_none', 'en', 'None');
 INSERT INTO `lng_data` VALUES ('content', 'cont_nr_cols', 'en', 'Number of Columns');
 INSERT INTO `lng_data` VALUES ('content', 'cont_nr_items', 'en', 'Number of Items');
@@ -5077,6 +5215,14 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_table_width', 'en', 'Table Width
 INSERT INTO `lng_data` VALUES ('content', 'cont_target_within_source', 'en', 'Target must not be within source object.');
 INSERT INTO `lng_data` VALUES ('content', 'cont_term', 'en', 'Term');
 INSERT INTO `lng_data` VALUES ('content', 'cont_terms', 'en', 'Terms');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_code', 'en', 'Code:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_com', 'en', 'Comment:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_emp', 'en', 'Emphatic Text:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_fn', 'en', 'Footnote:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_iln', 'en', 'Internal Link, e.g.:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_quot', 'en', 'Quotation:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_str', 'en', 'Strong Text:');
+INSERT INTO `lng_data` VALUES ('content', 'cont_text_xln', 'en', 'External Link:');
 INSERT INTO `lng_data` VALUES ('content', 'cont_time', 'en', 'Time');
 INSERT INTO `lng_data` VALUES ('content', 'cont_time_limit_action', 'en', 'adlcp:timelimitaction');
 INSERT INTO `lng_data` VALUES ('content', 'cont_title', 'en', 'title');
@@ -5104,7 +5250,9 @@ INSERT INTO `lng_data` VALUES ('content', 'cont_width', 'en', 'Width');
 INSERT INTO `lng_data` VALUES ('content', 'cont_wysiwyg', 'en', 'Content WYSIWYG');
 INSERT INTO `lng_data` VALUES ('content', 'cont_xml_base', 'en', 'xml:base');
 INSERT INTO `lng_data` VALUES ('content', 'cont_year', 'en', 'Year');
+INSERT INTO `lng_data` VALUES ('content', 'cont_zip_file_invalid', 'en', 'File is not a valid import file.<br>It does not contain a file \'%s\'.');
 INSERT INTO `lng_data` VALUES ('content', 'copied_to_clipboard', 'en', 'Copied object(s) to clipboard.');
+INSERT INTO `lng_data` VALUES ('content', 'glo_term_used_in', 'en', 'The following resources linking to that term');
 INSERT INTO `lng_data` VALUES ('content', 'lm_menu_edit_entry', 'en', 'Edit menu entry');
 INSERT INTO `lng_data` VALUES ('content', 'lm_menu_entry_target', 'en', 'Target');
 INSERT INTO `lng_data` VALUES ('content', 'lm_menu_entry_title', 'en', 'Title');
@@ -5114,12 +5262,12 @@ INSERT INTO `lng_data` VALUES ('content', 'lm_menu_select_object_to_add', 'en', 
 INSERT INTO `lng_data` VALUES ('content', 'msg_entry_added', 'en', 'Menu entry added');
 INSERT INTO `lng_data` VALUES ('content', 'msg_entry_removed', 'en', 'Menu entry removed');
 INSERT INTO `lng_data` VALUES ('content', 'msg_entry_updated', 'en', 'Menu entry updated');
-INSERT INTO `lng_data` VALUES ('content', 'msg_page_no_public_access', 'en', 'The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.');
+INSERT INTO `lng_data` VALUES ('content', 'msg_page_no_public_access', 'en', 'The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page.');
 INSERT INTO `lng_data` VALUES ('content', 'msg_page_not_public', 'en', 'Page is not public');
 INSERT INTO `lng_data` VALUES ('content', 'pages from', 'en', 'Pages From');
 INSERT INTO `lng_data` VALUES ('content', 'par', 'en', 'Paragraph');
 INSERT INTO `lng_data` VALUES ('content', 'pg', 'en', 'Page');
-INSERT INTO `lng_data` VALUES ('content', 'public_section', 'en', 'Public Section');
+INSERT INTO `lng_data` VALUES ('content', 'public_section', 'en', 'Public Area');
 INSERT INTO `lng_data` VALUES ('content', 'read offline', 'en', 'Read Offline');
 INSERT INTO `lng_data` VALUES ('content', 'select_a_file', 'en', 'Please select a file.');
 INSERT INTO `lng_data` VALUES ('content', 'selected_pages_only', 'en', 'only that pages selected below');
@@ -5128,6 +5276,7 @@ INSERT INTO `lng_data` VALUES ('content', 'st', 'en', 'Chapter');
 INSERT INTO `lng_data` VALUES ('content', 'start export', 'en', 'Start Export');
 INSERT INTO `lng_data` VALUES ('crs', 'activation_times_not_valid', 'en', 'The availability period is not valid.');
 INSERT INTO `lng_data` VALUES ('crs', 'assigned', 'en', 'Assigned');
+INSERT INTO `lng_data` VALUES ('crs', 'contact_email_not_valid', 'en', 'the contact email is not valid.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber', 'en', 'Course subscription');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_accept_subscriber_body', 'en', 'You have been assigned to this course.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_access_password', 'en', 'Password');
@@ -5147,10 +5296,12 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_added_member_body', 'en', 'You have b
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_new_archive', 'en', 'A new archive has been added');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_objective', 'en', 'A new learning objective has been created.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_added_starters', 'en', 'Assigned start object(s).');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_added_to_list', 'en', 'You have been assigned to the waiting list. You are assigned to position %s on the waiting list.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_admin', 'en', 'Administrator');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_admin_no_notify', 'en', 'Administrator (no notification)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_admin_notify', 'en', 'Administrator (notification)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_allow_abo', 'en', 'Allow subscription of course items');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_already_assigned_to_list', 'en', 'You are already assigned to the waiting list.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive', 'en', 'Archives');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_disabled', 'en', 'Disabled');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_archive_download', 'en', 'Download');
@@ -5185,6 +5336,8 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_create_date', 'en', 'Create date');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_crs_structure', 'en', 'Course structure');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_dates', 'en', 'Dates');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_deassign_lm_sure', 'en', 'Are you sure you want to delete this assignment?');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_from_list_sure', 'en', 'Are you sure, you want to deassign the following users from the list?');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_from_waiting_list', 'en', 'Remove from waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_member', 'en', 'Deassign member(s)');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_members_sure', 'en', 'Do you want to delete the following members from this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_delete_objectve_sure', 'en', 'Are you sure, you want to delete the selected objectives?');
@@ -5198,6 +5351,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_edit_content', 'en', 'Edit items');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_end', 'en', 'End');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_export', 'en', 'Course export');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_file_name', 'en', 'File name');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_free_places', 'en', 'Available places');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_from', 'en', 'From:');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grouping', 'en', 'Course grouping');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_grouping_assign', 'en', 'Change assignment');
@@ -5225,6 +5379,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_header_archives', 'en', 'Course archi
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_delete_members', 'en', 'Delete members');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_edit_members', 'en', 'Edit members');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_header_members', 'en', 'Course members');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_header_remove_from_waiting_list', 'en', 'Waiting list: deassign users');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_lms', 'en', 'Hide learning materials');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_objectives', 'en', 'Hide objectives');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_hide_link_or', 'en', 'Hide other resources');
@@ -5338,6 +5493,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_other_resources', 'en', 'Other resour
 INSERT INTO `lng_data` VALUES ('crs', 'crs_passed', 'en', 'Passed');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_password_not_valid', 'en', 'Your password is not valid');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_pdf', 'en', 'PDF');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_persons_on_waiting_list', 'en', 'Persons on the waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_print_list', 'en', 'Print list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_question_assignment', 'en', 'Question assignment');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg', 'en', 'Registration');
@@ -5349,16 +5505,16 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_deactivated', 'en', 
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_end_earlier', 'en', 'The registration time is expired');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_max_members_reached', 'en', 'The maximum number of users is exceeded.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_subscription_start_later', 'en', 'The registration time starts later');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_unlim_info', 'en', 'If enabled, there is no time limit for registrations. Please choose one of the registration types above.');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_unlim_info', 'en', 'If enabled, there is no time limit for registrations. Please choose one of the registration types below.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_until', 'en', 'Registration date');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_already_assigned', 'en', 'You are already assigned to this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_already_subscribed', 'en', 'You have already subscribed to this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reg_user_blocked', 'en', 'You are blocked from this course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration', 'en', 'Course registration');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_deactivated', 'en', 'Choose this option for disabling the registration. No you user can register for this course.');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_limited', 'en', 'Temporally limited registration');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_limited', 'en', 'Limited registration period');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_type', 'en', 'Registration type');
-INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_unlimited', 'en', 'Temporally unlimited');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_registration_unlimited', 'en', 'Unlimited registration period');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber', 'en', 'Course subscription');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reject_subscriber_body', 'en', 'Your subscription has been declined.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_reset_results', 'en', 'Reset results');
@@ -5376,6 +5532,7 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_select_one_archive', 'en', 'Please se
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_one_object', 'en', 'Please select one course item.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_registration_type', 'en', 'Please select one registration type.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_select_starter', 'en', 'Select start object');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_set_on_waiting_list', 'en', 'Please register to the course to be assigned to the waiting list.');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_settings', 'en', 'Course settings');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_settings_saved', 'en', 'Settings saved');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_show_link_lms', 'en', 'Show learning materials');
@@ -5430,11 +5587,14 @@ INSERT INTO `lng_data` VALUES ('crs', 'crs_unsubscribed_from_crs', 'en', 'You su
 INSERT INTO `lng_data` VALUES ('crs', 'crs_update_objective', 'en', 'Edit learning objective');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_users_added', 'en', 'Added user to the course');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_users_already_assigned', 'en', 'The user is already assigned to this course');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_users_removed_from_list', 'en', 'The selected users have been removed from the waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility', 'en', 'Availability');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_limitless', 'en', 'Unlimited');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_until', 'en', 'Temporarily available');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_visibility_unvisible', 'en', 'Not available');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_waiting_list', 'en', 'Waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'crs_xml', 'en', 'XML');
+INSERT INTO `lng_data` VALUES ('crs', 'crs_youre_position', 'en', 'Youre position on the waiting list');
 INSERT INTO `lng_data` VALUES ('crs', 'edit_content', 'en', 'Edit content');
 INSERT INTO `lng_data` VALUES ('crs', 'learners_view', 'en', 'Learners view');
 INSERT INTO `lng_data` VALUES ('crs', 'subscription_times_not_valid', 'en', 'The registration period is not valid.');
@@ -6087,11 +6247,13 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_choose_section', 'en', 'Please choo
 INSERT INTO `lng_data` VALUES ('meta', 'meta_classification', 'en', 'Classification');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_collection', 'en', 'Collection');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_competency', 'en', 'Competency');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_contentprovider', 'en', 'Content provider');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_context', 'en', 'Context');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_contribute', 'en', 'Contribute');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_copyright_and_other_restrictions', 'en', 'Copyright and Other Restrictions');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_cost', 'en', 'Cost');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_coverage', 'en', 'Coverage');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_creator', 'en', 'Creator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_date', 'en', 'Date');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_delete', 'en', 'Delete');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_description', 'en', 'Description');
@@ -6101,9 +6263,12 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_dificult', 'en', 'Difficult');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_draft', 'en', 'Draft');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_duration', 'en', 'Duration');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_easy', 'en', 'Easy');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_editor', 'en', 'Editor');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_education', 'en', 'Education');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_educational', 'en', 'Educational');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_educational_level', 'en', 'Educational Level');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_educational_objective', 'en', 'Educational Objective');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_educationalvalidator', 'en', 'Educational validator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_entity', 'en', 'Entity');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_entry', 'en', 'Entry');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_exam', 'en', 'Exam');
@@ -6115,6 +6280,7 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_final', 'en', 'Final');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_format', 'en', 'Format');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_general', 'en', 'General');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_graph', 'en', 'Graph');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_graphicaldesigner', 'en', 'Graphical designer');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_has_format', 'en', 'Has Format');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_has_part', 'en', 'Has Part');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_has_version', 'en', 'Has Version');
@@ -6125,7 +6291,9 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_id', 'en', 'Id');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_idea', 'en', 'Idea');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_identifier', 'en', 'Identifier');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_index', 'en', 'Index');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_initiator', 'en', 'Initiator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_installation_remarks', 'en', 'Installation Remarks');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_instructional_designer', 'en', 'instructional designer');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_intended_end_user_role', 'en', 'Intended End User Role');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_interactivity_level', 'en', 'Interactivity Level');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_interactivity_type', 'en', 'Interactivity Type');
@@ -6331,6 +6499,7 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_revised', 'en', 'Revised');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_rights', 'en', 'Rights');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_role', 'en', 'Role');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_school', 'en', 'School');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_scriptwriter', 'en', 'Scriptwriter');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_security_level', 'en', 'Security Level');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_self_assessment', 'en', 'Self Assessment');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_semantic_density', 'en', 'Semantic Density');
@@ -6341,11 +6510,15 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_slide', 'en', 'Slide');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_source', 'en', 'Source');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_status', 'en', 'Status');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_structure', 'en', 'Structure');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_subjectmatterexpert', 'en', 'Subject matter expert');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_table', 'en', 'Table');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_taxon', 'en', 'Taxon');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_taxon_path', 'en', 'Taxon Path');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_teacher', 'en', 'Teacher');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_technical', 'en', 'Technical');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_technicalimplementer', 'en', 'Technical implementer');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_technicalvalidator', 'en', 'Technical validator');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_terminator', 'en', 'Terminator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_title', 'en', 'Title');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_training', 'en', 'Training');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_type', 'en', 'Type');
@@ -6353,6 +6526,8 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_typical_age_range', 'en', 'Typical 
 INSERT INTO `lng_data` VALUES ('meta', 'meta_typical_learning_time', 'en', 'Typical Learning Time');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_unavailable', 'en', 'Unavailable');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_unix', 'en', 'Unix');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_unknown', 'en', 'Unknown');
+INSERT INTO `lng_data` VALUES ('meta', 'meta_validator', 'en', 'Validator');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_value', 'en', 'Value');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_version', 'en', 'Version');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_very_difficult', 'en', 'Very Difficult');
@@ -6577,18 +6752,38 @@ INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_session_expired', 'en', 'Pl
 INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_update_error', 'en', 'Please contact your system administrator.\\nThe password could not be assigned to the user account due to an error whe updating the data base.');
 INSERT INTO `lng_data` VALUES ('pwassist', 'pwassist_username_mail_body', 'en', 'These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address \'%s\'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.');
 INSERT INTO `lng_data` VALUES ('search', 'search_active', 'en', 'Include active users');
+INSERT INTO `lng_data` VALUES ('search', 'search_added_new_folder', 'en', 'Added new folder.');
+INSERT INTO `lng_data` VALUES ('search', 'search_advanced', 'en', 'Advanced search');
 INSERT INTO `lng_data` VALUES ('search', 'search_all_results', 'en', 'All results');
+INSERT INTO `lng_data` VALUES ('search', 'search_all_words', 'en', 'All words');
 INSERT INTO `lng_data` VALUES ('search', 'search_and', 'en', 'and');
+INSERT INTO `lng_data` VALUES ('search', 'search_any', 'en', '-- Any --');
+INSERT INTO `lng_data` VALUES ('search', 'search_any_word', 'en', 'Any word');
+INSERT INTO `lng_data` VALUES ('search', 'search_area', 'en', 'Search area');
+INSERT INTO `lng_data` VALUES ('search', 'search_area_info', 'en', 'Please select an area where the search should start.');
+INSERT INTO `lng_data` VALUES ('search', 'search_below', 'en', 'Beneath:');
+INSERT INTO `lng_data` VALUES ('search', 'search_change', 'en', 'Change');
 INSERT INTO `lng_data` VALUES ('search', 'search_concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('search', 'search_content', 'en', 'Page Content');
 INSERT INTO `lng_data` VALUES ('search', 'search_dbk_content', 'en', 'Digital Library (content)');
 INSERT INTO `lng_data` VALUES ('search', 'search_dbk_meta', 'en', 'Digital Library (metadata)');
 INSERT INTO `lng_data` VALUES ('search', 'search_delete_sure', 'en', 'The object and its contents will be deleted permanently');
+INSERT INTO `lng_data` VALUES ('search', 'search_details_info', 'en', 'Detail search. Please select one or more objects above.');
+INSERT INTO `lng_data` VALUES ('search', 'search_direct', 'en', 'Direct search');
+INSERT INTO `lng_data` VALUES ('search', 'search_fast_info', 'en', 'Search for titles, descriptions and keywords in all object types');
+INSERT INTO `lng_data` VALUES ('search', 'search_full_info', 'en', 'Choose this option to search in a large amount of data.');
 INSERT INTO `lng_data` VALUES ('search', 'search_group', 'en', 'Groups');
+INSERT INTO `lng_data` VALUES ('search', 'search_in_magazin', 'en', 'In the repository');
 INSERT INTO `lng_data` VALUES ('search', 'search_in_result', 'en', 'Search within results');
 INSERT INTO `lng_data` VALUES ('search', 'search_inactive', 'en', 'Include inactive users');
+INSERT INTO `lng_data` VALUES ('search', 'search_index', 'en', 'Indexed search');
+INSERT INTO `lng_data` VALUES ('search', 'search_like_info', 'en', 'Choose this option to get best results.');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_content', 'en', 'Learning materials (content)');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_meta', 'en', 'Learning materials (metadata)');
+INSERT INTO `lng_data` VALUES ('search', 'search_lucene', 'en', 'Lucene search');
+INSERT INTO `lng_data` VALUES ('search', 'search_lucene_host', 'en', 'Lucene-Server');
+INSERT INTO `lng_data` VALUES ('search', 'search_lucene_info', 'en', 'If activated, it is possible to search in PDF, HTML files and HTML-Learning modules');
+INSERT INTO `lng_data` VALUES ('search', 'search_lucene_port', 'en', 'Lucene-Port');
 INSERT INTO `lng_data` VALUES ('search', 'search_meta', 'en', 'Metadata');
 INSERT INTO `lng_data` VALUES ('search', 'search_minimum_three', 'en', 'Your search must be at least three characters long');
 INSERT INTO `lng_data` VALUES ('search', 'search_move_folder_not_allowed', 'en', 'Folder cannot be moved.');
@@ -6596,6 +6791,7 @@ INSERT INTO `lng_data` VALUES ('search', 'search_move_to', 'en', 'Move to:');
 INSERT INTO `lng_data` VALUES ('search', 'search_my_search_results', 'en', 'My search results');
 INSERT INTO `lng_data` VALUES ('search', 'search_new_folder', 'en', 'New folder');
 INSERT INTO `lng_data` VALUES ('search', 'search_no_category', 'en', 'You have not selected any search categories');
+INSERT INTO `lng_data` VALUES ('search', 'search_no_connection_lucene', 'en', 'Cannot connect to Lucene server.');
 INSERT INTO `lng_data` VALUES ('search', 'search_no_match', 'en', 'Your search did not match any results');
 INSERT INTO `lng_data` VALUES ('search', 'search_no_results_saved', 'en', 'No results saved.');
 INSERT INTO `lng_data` VALUES ('search', 'search_no_search_term', 'en', 'You have not selected any search terms');
@@ -6613,13 +6809,17 @@ INSERT INTO `lng_data` VALUES ('search', 'search_search_no_results_saved', 'en',
 INSERT INTO `lng_data` VALUES ('search', 'search_search_results', 'en', 'Search results');
 INSERT INTO `lng_data` VALUES ('search', 'search_search_term', 'en', 'Search term');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_exactly_one_object', 'en', 'You must select exactly one object.');
+INSERT INTO `lng_data` VALUES ('search', 'search_select_folder', 'en', 'Please select exactly one folder. It is not possible to rename search results.');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_one', 'en', 'Select one folder');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_one_action', 'en', '--Select one action--');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_one_folder_select', 'en', '--Select one folder--');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_one_result', 'en', 'Select at least one search result');
 INSERT INTO `lng_data` VALUES ('search', 'search_select_one_select', 'en', '--Select one folder--');
 INSERT INTO `lng_data` VALUES ('search', 'search_show_result', 'en', 'Show');
+INSERT INTO `lng_data` VALUES ('search', 'search_tst_svy', 'en', 'Tests/Surveys');
+INSERT INTO `lng_data` VALUES ('search', 'search_type', 'en', 'Search type');
 INSERT INTO `lng_data` VALUES ('search', 'search_user', 'en', 'Users');
+INSERT INTO `lng_data` VALUES ('search', 'until', 'en', 'up to');
 INSERT INTO `lng_data` VALUES ('survey', 'add_category', 'en', 'Add category');
 INSERT INTO `lng_data` VALUES ('survey', 'add_heading', 'en', 'Add heading');
 INSERT INTO `lng_data` VALUES ('survey', 'add_limits_for_standard_numbers', 'en', 'Please enter a lower and upper limit for the standard numbers you want to add as categories.');
@@ -6864,7 +7064,7 @@ INSERT INTO `lng_data` VALUES ('survey', 'qpl_unfold_select_none', 'en', 'Please
 INSERT INTO `lng_data` VALUES ('survey', 'qt_metric', 'en', 'Metric question');
 INSERT INTO `lng_data` VALUES ('survey', 'qt_nominal', 'en', 'Nominal question');
 INSERT INTO `lng_data` VALUES ('survey', 'qt_ordinal', 'en', 'Ordinal question');
-INSERT INTO `lng_data` VALUES ('survey', 'qt_text', 'en', 'Text question');
+INSERT INTO `lng_data` VALUES ('survey', 'qt_text', 'en', 'Essay');
 INSERT INTO `lng_data` VALUES ('survey', 'question_has_constraints', 'en', 'Constraints');
 INSERT INTO `lng_data` VALUES ('survey', 'question_obligatory', 'en', 'The question is obligatory!');
 INSERT INTO `lng_data` VALUES ('survey', 'question_saved_for_upload', 'en', 'The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!');
@@ -6916,6 +7116,8 @@ INSERT INTO `lng_data` VALUES ('survey', 'subtype', 'en', 'Subtype');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_code', 'en', 'Survey access code');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_code_message_sent', 'en', 'A survey code which allows you to resume the survey was sent to your INBOX!');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_code_no_codes', 'en', 'You have not created any survey access codes yet.');
+INSERT INTO `lng_data` VALUES ('survey', 'survey_code_url', 'en', 'URL for direct access');
+INSERT INTO `lng_data` VALUES ('survey', 'survey_code_url_name', 'en', 'URL (use right mouse button to copy URL)');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_code_used', 'en', 'Code was used');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_finish', 'en', 'finish survey');
 INSERT INTO `lng_data` VALUES ('survey', 'survey_finished', 'en', 'You have completed the survey. Thank you for your participation!');
@@ -6972,46 +7174,6 @@ INSERT INTO `lng_data` VALUES ('survey', 'view_constraints_introduction', 'en', 
 INSERT INTO `lng_data` VALUES ('survey', 'view_phrase', 'en', 'View phrase');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_in_use', 'en', 'Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.');
 INSERT INTO `lng_data` VALUES ('survey', 'warning_question_not_complete', 'en', 'The question is not complete!');
-INSERT INTO `lng_data` VALUES ('assessment', 'tst_started', 'en', 'Test Started');
-INSERT INTO `lng_data` VALUES ('assessment', 'print_answers', 'en', 'Print Answers');
-INSERT INTO `lng_data` VALUES ('assessment', 'print_results', 'en', 'Print Results');
-INSERT INTO `lng_data` VALUES ('search', 'search_area', 'en', 'Search area');
-INSERT INTO `lng_data` VALUES ('search', 'search_type', 'en', 'Search type');
-INSERT INTO `lng_data` VALUES ('search', 'search_fast_info', 'en', 'Search for titles, descriptions and keywords in all object types');
-INSERT INTO `lng_data` VALUES ('search', 'search_details_info', 'en', 'Detail search. Please select one or more objects above.');
-INSERT INTO `lng_data` VALUES ('search', 'search_in_magazin', 'en', 'In the repository');
-INSERT INTO `lng_data` VALUES ('search', 'search_below', 'en', 'Beneath:');
-INSERT INTO `lng_data` VALUES ('search', 'search_change', 'en', 'Change');
-INSERT INTO `lng_data` VALUES ('search', 'search_any_word', 'en', 'Any word');
-INSERT INTO `lng_data` VALUES ('search', 'search_all_words', 'en', 'All words');
-INSERT INTO `lng_data` VALUES ('search', 'search_advanced', 'en', 'Advanced search');
-INSERT INTO `lng_data` VALUES ('search', 'search_tst_svy', 'en', 'Tests/Surveys');
-INSERT INTO `lng_data` VALUES ('search', 'search_area_info', 'en', 'Please select an area where the search should start.');
-INSERT INTO `lng_data` VALUES ('search', 'search_added_new_folder', 'en', 'Added new folder.');
-INSERT INTO `lng_data` VALUES ('search', 'search_select_folder', 'en', 'Please select exactly one folder. It is not possible to rename search results.');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_address', 'en', 'Address');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_address_user', 'en', 'Address');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_whisper', 'en', 'Whisper');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_profile', 'en', 'Profile');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_invited_by', 'en', 'Invited by');
-INSERT INTO `lng_data` VALUES ('chat', 'chat_add_private_chatroom', 'en', 'Add private chatroom');
-INSERT INTO `lng_data` VALUES ('common', 'close_window', 'en', 'Close window');
-INSERT INTO `lng_data` VALUES ('search', 'search_any', 'en', '-- Any --');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_unknown', 'en', 'Unknown');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_initiator', 'en', 'Initiator');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_editor', 'en', 'Editor');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_terminator', 'en', 'Terminator');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_graphicaldesigner', 'en', 'Graphical designer');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_technicalimplementer', 'en', 'Technical implementer');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_contentprovider', 'en', 'Content provider');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_technicalvalidator', 'en', 'Technical validator');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_educationalvalidator', 'en', 'Educational validator');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_scriptwriter', 'en', 'Scriptwriter');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_instructional_designer', 'en', 'instructional designer');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_subjectmatterexpert', 'en', 'Subject matter expert');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_creator', 'en', 'Creator');
-INSERT INTO `lng_data` VALUES ('meta', 'meta_validator', 'en', 'Validator');
-INSERT INTO `lng_data` VALUES ('search', 'until', 'en', 'up to');
 # --------------------------------------------------------
 
 #
@@ -7480,7 +7642,7 @@ INSERT INTO `object_data` VALUES (29, 'typ', 'lng', 'Language object', -1, '2002
 INSERT INTO `object_data` VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37', '');
 INSERT INTO `object_data` VALUES (31, 'typ', 'dbk', 'Digilib Book', -1, '2003-08-15 10:07:29', '2003-08-15 12:30:19', '');
 INSERT INTO `object_data` VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2003-08-15 12:04:20', '');
-INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-06-20 09:50:33', '');
+INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-20 15:08:22', '');
 INSERT INTO `object_data` VALUES (14, 'role', 'Anonymous', 'Default role for anonymous users (with no account)', -1, '2003-08-15 12:06:19', '2004-01-20 12:15:45', '');
 INSERT INTO `object_data` VALUES (18, 'typ', 'mob', 'Multimedia object', -1, '0000-00-00 00:00:00', '2003-08-15 12:03:20', '');
 INSERT INTO `object_data` VALUES (35, 'typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00', '');
@@ -8072,6 +8234,7 @@ INSERT INTO `rbac_operations` VALUES (48, 'read_users', 'read local users');
 INSERT INTO `rbac_operations` VALUES (49, 'push_desktop_items', 'Allow pushing desktop items');
 INSERT INTO `rbac_operations` VALUES (50, 'create_webr', 'create web resource');
 INSERT INTO `rbac_operations` VALUES (51, 'search', 'Allow using search');
+INSERT INTO `rbac_operations` VALUES (52, 'moderate', 'Moderate objects');
 # --------------------------------------------------------
 
 #
@@ -8092,6 +8255,18 @@ CREATE TABLE `rbac_pa` (
 INSERT INTO `rbac_pa` VALUES (5, 'a:2:{i:0;i:3;i:1;i:2;}', 1);
 INSERT INTO `rbac_pa` VALUES (14, 'a:2:{i:0;i:3;i:1;i:2;}', 1);
 INSERT INTO `rbac_pa` VALUES (4, 'a:2:{i:0;i:3;i:1;i:2;}', 1);
+INSERT INTO `rbac_pa` VALUES (2, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (3, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (4, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (5, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (14, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (80, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (81, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (82, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (83, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (110, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (111, 'a:1:{i:0;s:2:"51";}', 22);
+INSERT INTO `rbac_pa` VALUES (112, 'a:1:{i:0;s:2:"51";}', 22);
 # --------------------------------------------------------
 
 #
@@ -8304,6 +8479,7 @@ INSERT INTO `rbac_ta` VALUES (96, 2);
 INSERT INTO `rbac_ta` VALUES (96, 3);
 INSERT INTO `rbac_ta` VALUES (96, 4);
 INSERT INTO `rbac_ta` VALUES (96, 6);
+INSERT INTO `rbac_ta` VALUES (96, 52);
 INSERT INTO `rbac_ta` VALUES (97, 1);
 INSERT INTO `rbac_ta` VALUES (97, 2);
 INSERT INTO `rbac_ta` VALUES (97, 3);
@@ -8870,6 +9046,7 @@ CREATE TABLE `role_data` (
   `role_id` int(11) NOT NULL default '0',
   `allow_register` tinyint(1) unsigned NOT NULL default '0',
   `assign_users` char(2) default '0',
+  `auth_mode` enum('default','local','ldap','radius','shibboleth','script') NOT NULL default 'default',
   PRIMARY KEY  (`role_id`)
 ) TYPE=MyISAM;
 
@@ -8877,11 +9054,11 @@ CREATE TABLE `role_data` (
 # Dumping data for table `role_data`
 #
 
-INSERT INTO `role_data` VALUES (2, 0, '0');
-INSERT INTO `role_data` VALUES (3, 0, '0');
-INSERT INTO `role_data` VALUES (4, 0, '0');
-INSERT INTO `role_data` VALUES (5, 1, '0');
-INSERT INTO `role_data` VALUES (14, 0, '0');
+INSERT INTO `role_data` VALUES (2, 0, '0', 'default');
+INSERT INTO `role_data` VALUES (3, 0, '0', 'default');
+INSERT INTO `role_data` VALUES (4, 0, '0', 'default');
+INSERT INTO `role_data` VALUES (5, 1, '0', 'default');
+INSERT INTO `role_data` VALUES (14, 0, '0', 'default');
 # --------------------------------------------------------
 
 #
@@ -9185,7 +9362,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '477');
+INSERT INTO `settings` VALUES ('db_version', '493');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
@@ -10322,6 +10499,7 @@ CREATE TABLE `usr_data` (
   `agree_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `ilinc_id` int(10) unsigned default NULL,
   `client_ip` varchar(15) default NULL,
+  `auth_mode` enum('default','local','ldap','radius','shibboleth','script') NOT NULL default 'default',
   PRIMARY KEY  (`usr_id`),
   KEY `login` (`login`,`passwd`)
 ) TYPE=MyISAM;
@@ -10330,8 +10508,8 @@ CREATE TABLE `usr_data` (
 # Dumping data for table `usr_data`
 #
 
-INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL);
-INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 'default');
+INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 7, 1, 0, 0, 0, '', NULL, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 'local');
 # --------------------------------------------------------
 
 #
