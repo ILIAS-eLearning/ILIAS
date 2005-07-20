@@ -91,7 +91,14 @@ switch($target_type)
 
 	case "svy":
 		require_once("./survey/classes/class.ilObjSurvey.php");
-		ilObjSurvey::_goto($target_id);
+		if (array_key_exists("accesscode", $_GET))
+		{
+			ilObjSurvey::_goto($target_id, $_GET["accesscode"]);
+		}
+		else
+		{
+			ilObjSurvey::_goto($target_id);
+		}
 		break;
 
 	case "webr":

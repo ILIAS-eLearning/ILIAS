@@ -4834,7 +4834,7 @@ class ilObjSurvey extends ilObject
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	function _goto($a_target, $a_access_code = "")
 	{
 		global $rbacsystem, $ilErr, $lng;
 
@@ -4844,7 +4844,14 @@ class ilObjSurvey extends ilObject
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
-			ilUtil::redirect("survey/survey.php?cmd=run&ref_id=$a_target");
+			if (strlen($a_access_code))
+			{
+				ilUtil::redirect("survey/survey.php?cmd=run&ref_id=$a_target&accesscode=$a_access_code");
+			}
+			else
+			{
+				ilUtil::redirect("survey/survey.php?cmd=run&ref_id=$a_target");
+			}
 		}
 		else
 		{
