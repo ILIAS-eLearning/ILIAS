@@ -147,5 +147,5 @@ class ilObjFileListGUI extends ilObjectListGUI
 
 
 
-} // END class.ilObjTestListGUI
+} // END class.ilObjFileListGUI
 ?>

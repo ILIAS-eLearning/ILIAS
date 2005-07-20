@@ -21,63 +21,21 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjFolderListGUI
+* Class ilObjExternalToolsSettingsAccess
+*
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* $Id$
+* @version $Id$
 *
-* @extends ilObjectListGUI
+* @package AccessControl
 */
-
-
-include_once "class.ilObjectListGUI.php";
-
-class ilObjFolderListGUI extends ilObjectListGUI
+class ilObjExternalToolsSettingsAccess extends ilObjectAccess
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjFolderListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
-
-	/**
-	* initialisation
-	*/
-	function init()
-	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
-		$this->link_enabled = false;
-		$this->payment_enabled = false;
-		$this->type = "fold";
-		$this->gui_class_name = "ilobjfoldergui";
-
-		// general commands array
-		include_once('class.ilObjFolderAccess.php');
-		$this->commands = ilObjFolderAccess::_getCommands();
-	}
-
-	/**
-	* Get command link url.
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	string		$a_cmd			command
-	*
-	*/
-	function getCommandLink($a_cmd)
-	{
-		// separate method for this line
-		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-
-		return $cmd_link;
-	}
 
 
-} // END class.ilObjFolderListGUI
+}
+
 ?>

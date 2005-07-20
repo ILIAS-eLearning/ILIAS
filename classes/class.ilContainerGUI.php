@@ -251,7 +251,6 @@ class ilContainerGUI extends ilObjectGUI
 
 			$this->items[$type][$key] = $object;
 		}
-
 	}
 
 	function renderItemList($a_type = "all")
@@ -280,7 +279,7 @@ class ilContainerGUI extends ilObjectGUI
 				// the resource type "lres" contains the object types
 				// "lm", "dbk", "sahs" and "htlm")
 				$type_ordering = array(
-					"cat", "fold", "crs", "grp", "chat", "frm", "lres",
+					"cat", "fold", "crs","icrs", "grp", "chat", "frm", "lres",
 					"glo", "webr", "file", "exc",
 					"tst", "svy", "mep", "qpl", "spl");
 
@@ -479,9 +478,6 @@ class ilContainerGUI extends ilObjectGUI
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
-			$tabs_gui->addTarget("show_owner",
-				$this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-
 			if ($this->tree->getSavedNodeData($this->ref_id))
 			{
 				$tabs_gui->addTarget("trash",

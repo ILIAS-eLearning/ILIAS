@@ -811,7 +811,6 @@ class ilObjGroup extends ilObject
 		
 		if ($this->getType() == "grp")
 		{
-
 			$arr_members = $this->getGroupMemberIds();
 
 			if (in_array($user_id, $arr_members))
@@ -1061,10 +1060,10 @@ class ilObjGroup extends ilObject
 		global $rbacsystem;
 		
 		// exclude system role from check
-		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		/*if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
 			return true;		
-		}
+		}*/
 
 		if (!$this->isMember() or !$rbacsystem->checkAccess("join", $this->ref_id))
 		{

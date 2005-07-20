@@ -7,7 +7,6 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
@@ -22,16 +21,15 @@
 	<subobj name="lngf" max="1">lngf</subobj>
 	<subobj name="mail" max="1">mail</subobj>
 	<subobj name="chac" max="1">chac</subobj>
-	<subobj name="ldap" max="1">ldap</subobj>
 	<subobj name="recf" max="1">recf</subobj>
 	<subobj name="trac" max="1">trac</subobj>
 	<subobj name="auth" max="1">auth</subobj>
 	<subobj name="assf" max="1">assf</subobj>
 	<subobj name="stys" max="1">stys</subobj>
 	<subobj name="seas" max="1">seas</subobj>
+	<subobj name="extt" max="1">extt</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="check">system_check</property>
 	<property name="benchmark">benchmarks</property>
 </object>
@@ -62,7 +60,6 @@
 	<property name="listUsers">administrate_users</property>
 -->
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
@@ -79,7 +76,6 @@
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="editBibItem">bib_data</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="crs" class_name="Course" location="course/classes" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
@@ -99,14 +95,13 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-<!--	<subobj name="icrs">icrs</subobj> -->
+	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="editMeta">meta_data</property>
 	<property name="members">members</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
@@ -136,7 +131,6 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
@@ -150,7 +144,6 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
@@ -177,7 +170,6 @@
 	<property name="export">export</property>
 	<property name="shownewRegistrations">group_new_registrations</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
@@ -195,14 +187,12 @@
 	<property name="exportList" module="1">export</property>
 	<property name="linkChecker" module="1">link_check</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="sahs" class_name="SAHSLearningModule" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="glo" class_name="Glossary" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -210,17 +200,14 @@
 	<property name="view">view_content</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="lng" class_name="Language" location="classes" checkbox="1" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="lngf" class_name="LanguageFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="lng">lng</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="install">install</action>
 	<action name="installLocal">install_local</action>
 	<action name="uninstall">uninstall</action>
@@ -231,46 +218,39 @@
 	<property name="listMedia" module="1">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="htlm" class_name="FileBasedLM" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<property name="edit" module="n">edit</property>
 	<property name="listFiles" module="1">list_files</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="mail" class_name="Mail" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="import">mail_import</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="objf" class_name="ObjectFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
 	<subobj name="typ">typ</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="role" class_name="Role" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>
 	<property name="userassignment">user_assignment</property>
 	<property name="listDesktopItems">desktop_items</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="rolf" class_name="RoleFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="rolt">rolt</subobj>
 	<subobj name="role">role</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="rolt" class_name="RoleTemplate" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="typ" class_name="TypeDefinition" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
@@ -282,7 +262,6 @@
 	<subobj name="datf" max="1">datf</subobj>
 	<property name="edit">edit_properties</property>
 	<property name="roleassignment">role_assignment</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="usrf" class_name="UserFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="usr">usr</subobj>
@@ -290,35 +269,30 @@
 	<property name="settings">global_settings</property>
 	<property name="export">export</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="datf" class_name="DateFolder" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
 	<subobj name="dat">dat</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="add_date">add_date</action>
 	<action name="delete_date">delete_date</action>
 </object>
 <object name="dat" class_name="Date" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="delete_date">delete_date</action>
 </object>
 <object name="notf" class_name="NoteFolder" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
 	<subobj name="note">note</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="add_note">add_note</action>
 	<action name="delete_note">delete_note</action>
 </object>
 <object name="note" class_name="Note" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="delete_note">delete_note</action>
 </object>
 <object name="bmf" class_name="BookmarkFolder" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
@@ -329,7 +303,6 @@
 <object name="bm" class_name="Bookmark" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="delete_favorite">delete_favorite</action>
 </object>
 <object name="st">
@@ -369,14 +342,12 @@
 	<property name="edit">edit_properties</property>
 	<property name="history">history</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 </object>
 <object name="qpl" class_name="QuestionPool" location="assessment/classes" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
 	<property name="questions" module="1">ass_questions</property>
 	<property name="export" module="1">export</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="tst" class_name="Test" location="assessment/classes" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
@@ -389,7 +360,6 @@
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="svy" class_name="Survey" location="survey/classes" module="survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
@@ -401,7 +371,6 @@
 	<property name="status" module="1">status</property>
 	<property name="codes" module="1">codes</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="spl" class_name="SurveyQuestionPool" location="survey/classes" module="survey" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
@@ -409,19 +378,17 @@
 	<property name="phrases" module="1">manage_phrases</property>
 	<property name="export" module="1">export</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
 <object name="chat" class_name="Chat" location="chat/classes" module="chat" checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1">
 	<property name="view">view</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="chac" class_name="ChatServer" location="chat/classes" module="chat" checkbox="0" inherit="0" translate="sys" rbac="1" >
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
+	
 </object>
 <object name="recf" class_name="RecoveryFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="cat">cat</subobj>
@@ -445,20 +412,17 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 	<action name="cut">cut</action>
 	<action name="clear">clear</action>
 	<action name="removeFromSystem">btn_remove_system</action>
 </object>
 <object name="tax" class_name="Taxonomy" location="classes" checkbox="1" translate="0" rbac="1" devmode="1">
 	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="taxf" class_name="TaxonomyFolder" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
 	<subobj name="tax" import="1">tax</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
@@ -476,7 +440,6 @@
 <object name="auth" class_name="AuthSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
 </object>
 <object name="pays" class_name="PaymentSettings" location="payment/classes" module="payment" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="generalSettings">general_settings</property>
@@ -485,27 +448,15 @@
 	<property name="payMethods">pay_methods</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="icrs" class_name="iLincCourse" location="ilinc/classes" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
-	<subobj name="icla">icla</subobj>
+<object name="icrs" class_name="iLincCourse" location="ilinc/classes" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="0">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view">view_content</property>
-<!--	<property name="edit">edit_properties</property>
-	<property name="editMeta">meta_data</property> -->
+	<subobj name="icla">icla</subobj>
+	<property name="view">view_rooms</property>
+	<property name="edit">edit_properties</property>
 	<property name="members">members</property>
 	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
-	<property name="trash">trash</property>
-<!--	<action name="cut">cut</action>
-	<action name="copy">copy</action>
-	<action name="link">link</action> -->
-	<action name="delete">delete</action>
-<!--	<action name="paste">paste</action>
-	<action name="clear">clear</action> -->
 </object>
-<object name="icla" class_name="iLincClassroom" location="ilinc/classes" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
-<!--	<property name="edit">edit_properties</property> -->
-	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
+<object name="icla" class_name="iLincClassroom" location="ilinc/classes" module="ilinc" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
 </object>
 <object name="crsg" class_name="CourseGrouping" location="course/classes" module="course">
 	<property name="view">view_content</property>
@@ -527,6 +478,10 @@
 </object>
 <object name="seas" class_name="SearchSettings" module="Services/Search" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="settings">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="extt" class_name="ExternalToolsSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
+	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 </object>
 </objects>

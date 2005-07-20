@@ -217,7 +217,6 @@ class ilRepositoryGUI
 		$this->folders = array();
 		$this->media_pools = array();
 		$this->ilinc_courses = array();
-		$this->ilinc_classrooms = array();
 		$this->link_resources = array();
 	}
 
@@ -297,7 +296,7 @@ class ilRepositoryGUI
 			case "ilobjfilegui":
 			case "ilobjforumgui":
 			case "ilobjfoldergui":
-			case "ilobjilincclassroomgui":
+			case "ilobjilinccoursegui":
 			//case "ilobjmediapoolgui":					// doesnt work, why?
 				// get file path for class name
 				$class_path = $this->ctrl->lookupClassPath($next_class);
@@ -1270,7 +1269,7 @@ class ilRepositoryGUI
 	function showPossibleSubObjects($type)
 	{
 		$found = false;
-		
+
 		$d = $this->objDefinition->getCreatableSubObjects($type);
 
 		if (count($d) > 0)

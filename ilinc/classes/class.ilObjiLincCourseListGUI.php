@@ -51,10 +51,10 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 	function init()
 	{
 		$this->delete_enabled = true;
-		$this->cut_enabled = true;
+		$this->cut_enabled = false;
 		$this->subscribe_enabled = true;
-		$this->link_enabled = true;
-		$this->payment_enabled = true;
+		$this->link_enabled = false;
+		$this->payment_enabled = false;
 		$this->type = "icrs";
 		$this->gui_class_name = "ilobjilinccoursegui";
 
@@ -62,63 +62,9 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 		include_once('class.ilObjiLincCourseAccess.php');
 		$this->commands = ilObjiLincCourseAccess::_getCommands();
 	}
+	
 
-
-	/**
-	* inititialize new item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
-	{
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-	}
-
-
-	/**
-	* Get command target frame
-	*
-	* @param	string		$a_cmd			command
-	*
-	* @return	string		command target frame
-	*/
-	function getCommandFrame($a_cmd)
-	{
-		switch($a_cmd)
-		{
-			case "":
-				$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
-				break;
-
-			default:
-		}
-
-		return $frame;
-	}
-
-
-
-	/**
-	* Get item properties
-	*
-	* @return	array		array of property arrays:
-	*						"alert" (boolean) => display as an alert property (usually in red)
-	*						"property" (string) => property name
-	*						"value" (string) => property value
-	*/
-	function getProperties()
-	{
-		global $lng, $ilUser;
-
-		$props = array();
-
-		return $props;
-	}
-
-
+	
 	/**
 	* Get command link url.
 	*
@@ -126,16 +72,12 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 	* @param	string		$a_cmd			command
 	*
 	*/
-	/*
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		$cmd_link = "repo.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 
 		return $cmd_link;
-	}*/
-
-
-
-} // END class.ilObjTestListGUI
+	}
+} // END class.ilObjiLincCOurseListGUI
 ?>

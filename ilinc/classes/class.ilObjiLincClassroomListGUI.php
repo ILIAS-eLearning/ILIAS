@@ -42,6 +42,8 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	*/
 	function ilObjiLincClassroomListGUI()
 	{
+		$this->ilinc_crs_id = $_GET['ref_id'];
+		
 		$this->ilObjectListGUI();
 	}
 
@@ -50,11 +52,11 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
-		$this->link_enabled = true;
-		$this->payment_enabled = true;
+		$this->delete_enabled = false;
+		$this->cut_enabled = false;
+		$this->subscribe_enabled = false;
+		$this->link_enabled = false;
+		$this->payment_enabled = false;
 		$this->type = "icla";
 		$this->gui_class_name = "ilobjilincclassroomgui";
 
@@ -62,80 +64,247 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		include_once('class.ilObjiLincClassroomAccess.php');
 		$this->commands = ilObjiLincClassroomAccess::_getCommands();
 	}
-
-
+	
 	/**
-	* inititialize new item
+	* Get all item information (title, commands, description) in HTML
+	*
+	* @access	public
+	* @param	int			$a_ref_id		item reference id
+	* @param	int			$a_obj_id		item object id
+	* @param	int			$a_title		item title
+	* @param	int			$a_description	item description
+	* @return	string		html code
+	*/
+	function getListItemHTML($a_icrs_ref_id, $a_icla_id, $a_title, $a_description)
+	{
+		// this variable stores wheter any admin commands
+		// are included in the output
+		$this->adm_commands_included = false;
+
+		// initialization
+		$this->tpl =& new ilTemplate ("tpl.container_list_item.html", true, true);
+		$this->initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description);
+
+		// commands
+		$this->insertCommands();
+
+		// insert title and describtion
+		$this->insertTitle();
+		if (!$this->isMode(IL_LIST_AS_TRIGGER))
+		{
+			if ($this->getDescriptionStatus())
+			{
+				$this->insertDescription();
+			}
+		}
+
+		// properties
+		if ($this->getPropertiesStatus())
+		{
+			$this->insertProperties();
+		}
+
+		// preconditions
+		//if ($this->getPreconditionsStatus())
+		//{
+		//	$this->insertPreconditions();
+		//}
+
+		// path
+		//$this->insertPath();
+
+		return $this->tpl->get();
+	}
+	
+	/**
+	* inititialize new item (is called by getItemHTML())
 	*
 	* @param	int			$a_ref_id		reference id
 	* @param	int			$a_obj_id		object id
 	* @param	string		$a_title		title
 	* @param	string		$a_description	description
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description)
 	{
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->ref_id = $a_icla_id;
+		$this->obj_id = "";
+		$this->title = $a_title;
+		$this->description = $a_description;
+		
+		// checks, whether any admin commands are included in the output
+		$this->adm_commands_included = false;
 	}
-
-
+	
 	/**
-	* Get command target frame
+	* get all current commands for a specific ref id (in the permission
+	* context of the current user)
+	*
+	* !!!NOTE!!!: Please use getListHTML() if you want to display the item
+	* including all commands
+	*
+	* !!!NOTE 2!!!: Please do not overwrite this method in derived
+	* classes becaus it will get pretty large and much code will be simply
+	* copy-and-pasted. Insert smaller object type related method calls instead.
+	* (like getCommandLink() or getCommandFrame())
+	*
+	* @access	public
+	* @param	int		$a_ref_id		ref id of object
+	* @return	array	array of command arrays including
+	*					"permission" => permission name
+	*					"cmd" => command
+	*					"link" => command link url
+	*					"frame" => command link frame
+	*					"lang_var" => language variable of command
+	*					"granted" => true/false: command granted or not
+	*					"access_info" => access info object (to do: implementation)
+	*/
+	function getCommands()
+	{
+		global $ilAccess, $ilBench;
+
+		$ref_commands = array();
+
+		foreach($this->commands as $command)
+		{
+			$permission = $command["permission"];
+			$cmd = $command["cmd"];
+			$lang_var = $command["lang_var"];
+
+			// TODO: check here for docent flag
+			// all access checking should be made within $ilAccess and
+			// the checkAccess of the ilObj...Access classes
+			//$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id);
+
+
+			if (true)
+			{
+				$cmd_link = $this->getCommandLink($command["cmd"]);
+				$cmd_frame = $this->getCommandFrame($command["cmd"]);
+				$access_granted = true;
+			}
+			else
+			{
+				$access_granted = false;
+				$info_object = $ilAccess->getInfo();
+			}
+
+			$ref_commands[] = array(
+				"permission" => $permission,
+				"cmd" => $cmd,
+				"link" => $cmd_link,
+				"frame" => $cmd_frame,
+				"lang_var" => $lang_var,
+				"granted" => $access_granted,
+				"access_info" => $info_object,
+				"default" => $command["default"]
+			);
+		}
+
+		return $ref_commands;
+	}
+	
+	/**
+	* insert delete command
+	*
+	* @access	private
+	* @param	object		$a_tpl		template object
+	* @param	int			$a_ref_id	item reference id
+	*/
+	function insertDeleteCommand()
+	{
+		if (true)  // query here docent flag
+		{
+			$this->ctrl->setParameter($this->container_obj, "ref_id",
+				$this->container_obj->object->getRefId());
+			$this->ctrl->setParameter($this->container_obj, "class_id", $this->ref_id);
+			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeRoom");
+			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
+			$this->adm_commands_included = true;
+		}
+	}
+	
+	/**
+	* insert all commands into html code
+	*
+	* @access	private
+	* @param	object		$a_tpl		template object
+	* @param	int			$a_ref_id	item reference id
+	*/
+	function insertCommands()
+	{
+		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
+
+		$commands = $this->getCommands($this->ref_id, $this->obj_id);
+
+		$this->default_command = false;
+		
+		foreach($commands as $command)
+		{
+			if ($command["granted"] == true )
+			{
+				if (!$command["default"] === true)
+				{
+					$cmd_link = $command["link"];
+					$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
+						$command["frame"]);
+				}
+				else
+				{
+					// this is view/show most times and will be linked
+					// with the item title in insertTitle
+					$this->default_command = $command;
+				}
+			}
+		}
+
+		if (!$this->isMode(IL_LIST_AS_TRIGGER))
+		{
+			// delete
+			if ($this->delete_enabled)
+			{
+				$this->insertDeleteCommand();
+			}
+		}
+	}
+	
+	/**
+	* Get command link url.
+	*
+	* Overwrite this method, if link target is not build by ctrl class
+	* (e.g. "lm_presentation.php", "forum.php"). This is the case
+	* for all links now, but bringing everything to ilCtrl should
+	* be realised in the future.
 	*
 	* @param	string		$a_cmd			command
 	*
-	* @return	string		command target frame
+	* @return	string		command link url
 	*/
+	function getCommandLink($a_cmd)
+	{
+		// don't use ctrl here in the moment
+		return 'repository.php?ref_id='.$this->ilinc_crs_id.'&class_id='.$this->ref_id.'&cmd='.$a_cmd;
+
+		// separate method for this line
+		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
+			$a_cmd);
+		return $cmd_link;
+	}
+	
 	function getCommandFrame($a_cmd)
 	{
 		switch($a_cmd)
 		{
-			case "":
-				$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+			case "joinClassroom":
+			case "agendaClassroom":
+				$frame = "_blank";
 				break;
 
 			default:
+				$frame = "";
+				break;
 		}
 
 		return $frame;
 	}
-
-
-
-	/**
-	* Get item properties
-	*
-	* @return	array		array of property arrays:
-	*						"alert" (boolean) => display as an alert property (usually in red)
-	*						"property" (string) => property name
-	*						"value" (string) => property value
-	*/
-	function getProperties()
-	{
-		global $lng, $ilUser;
-
-		$props = array();
-
-		return $props;
-	}
-
-
-	/**
-	* Get command link url.
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	string		$a_cmd			command
-	*
-	*/
-	/*
-	function getCommandLink($a_cmd)
-	{
-		// separate method for this line
-		$cmd_link = "repo.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-
-		return $cmd_link;
-	}*/
-
-
-
-} // END class.ilObjTestListGUI
+} // END class.ilObjiLincClassroomListGUI
 ?>

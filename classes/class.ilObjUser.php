@@ -275,10 +275,12 @@ class ilObjUser extends ilObject
 								$this->id."!</b><br />class: ".get_class($this)."<br />Script: "
 								.__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
+
 		if ($a_data["passwd"] != "********")
 		{
 			$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
 		}
+
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
 		$this->setFirstname($a_data["firstname"]);
@@ -318,7 +320,7 @@ class ilObjUser extends ilObject
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
 
 		//iLinc
-		$this->setiLincID($a_data['ilinc_id']);
+		$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
 		
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
@@ -478,7 +480,9 @@ class ilObjUser extends ilObject
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			$pw_update.", ".
             "last_update=now(), ".
-            "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."' ".
+            "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
+            "ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
+            "ilinc_passwd='".ilUtil::prepareDBString($this->ilinc_passwd)."' ".
             "WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
@@ -2842,21 +2846,23 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-    * set iLinc ID
+    * set iLinc connection data
 	* @access	public
 	*/
-	function setiLincID($a_str)
+	function setiLincData($a_id,$a_login,$a_passwd)
 	{
-		$this->ilinc_id = $a_str;
+		$this->ilinc_id = $a_id;
+		$this->ilinc_login = $a_login;
+		$this->ilinc_passwd = $a_passwd;
 	}
 	
 	/**
-    * get iLinc ID
+    * get iLinc connection data
 	* @access	public
 	*/
-	function getiLincID()
+	function getiLincData()
 	{
-		return $this->ilinc_id;
+		return array ("id" => $this->ilinc_id, "login" => $this->ilinc_login, "passwd" => $this->ilinc_passwd);
 	}
 
 	/**
