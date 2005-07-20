@@ -283,17 +283,21 @@ class ilObjectDefinition extends ilSaxParser
 	* get all subobjects by type
 	*
 	* @param	string	object type
+	* @param	boolean	filter disabled objects? (default: true)
 	* @access	public
 	* @return	array	list of allowed object types
 	*/
-	function getSubObjects($a_obj_type)
+	function getSubObjects($a_obj_type,$a_filter = true)
 	{
 		$subs = array();
 
 		if ($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
 		{
 			// Filter some objects e.g chat object are creatable if chat is active
-			$this->__filterObjects($subobjects);
+			if ($a_filter)
+			{
+				$this->__filterObjects($subobjects);
+			}
 
 			foreach ($subobjects as $data => $sub)
 			{
