@@ -3777,7 +3777,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			default:
-				if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
+				if(!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join')
 				{
 					$this->ctrl->setReturn($this,"");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
