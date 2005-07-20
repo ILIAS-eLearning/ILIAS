@@ -1110,6 +1110,8 @@ common#:#crs_visible#:#O Curso é visível###07 Apr 2005 content changed
 common#:#crs_write#:#Editar- Curso###07 Apr 2005 content changed
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Número actual de registos###07 Apr 2005 content changed
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Palavra-passe Actual###07 Apr 2005 content changed
 common#:#cut#:#Cortar###07 Apr 2005 content changed
 common#:#cutPage#:#Cortar###07 Apr 2005 content changed
@@ -3094,6 +3096,8 @@ content#:#cont_no_assign_itself#:#O objecto não pode ser atribuído a si mesmo#
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
 content#:#cont_no_object_found#:#Não pôde encontrar nenhum objecto com este título###07 Apr 2005 content changed
 content#:#cont_no_page#:#Nenhuma Página encontrada.###07 Apr 2005 content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Nenhum###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#Número de Colunas###07 Apr 2005 content changed
 content#:#cont_nr_items#:#Número de Itens###07 Apr 2005 content changed
@@ -3248,6 +3252,7 @@ content#:#cont_width#:#Largura###07 Apr 2005 content changed
 content#:#cont_wysiwyg#:#Conteúdo Wysiwyg###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
 content#:#cont_year#:#Ano###07 Apr 2005 content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
@@ -4766,13 +4771,21 @@ search#:#search_dbk_content#:#Biblioteca Digital (conteúdo)###07 Apr 2005 conte
 search#:#search_dbk_meta#:#Biblioteca Digital (meta dados)###14 Sep 2004 content changed
 search#:#search_delete_sure#:#O objecto e os seus conteúdos serão apagados permanentemente###14 Sep 2004 content changed
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupos###07 Apr 2005 content changed
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Procurar dentro dos resultados###07 Apr 2005 content changed
 search#:#search_inactive#:#Include inactive users###14 Sep 2004 new variable
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Materiais de Apredizagem (conteúdo)###07 Apr 2005 content changed
 search#:#search_lm_meta#:#Materiais de Apredizagem (meta dados)###14 Sep 2004 content changed
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Meta dados###14 Sep 2004 content changed
 search#:#search_minimum_three#:#A sua procura tem de ter pelo menos três caracteres###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#A pasta não pode ser movida.###07 Apr 2005 content changed
@@ -4780,6 +4793,7 @@ search#:#search_move_to#:#Mover para:###07 Apr 2005 content changed
 search#:#search_my_search_results#:#Os meus resultados de procuras###07 Apr 2005 content changed
 search#:#search_new_folder#:#Nova pasta###07 Apr 2005 content changed
 search#:#search_no_category#:#Você não seleccionou nenhuma categoria de procura###26 Aug 2004 content changed
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#A sua procura não coincidiu com nenhuns resultados###14 Sep 2004 content changed
 search#:#search_no_results_saved#:#Nenhuns resultados guardados.###07 Apr 2005 content changed
 search#:#search_no_search_term#:#Você não seleccionou nenhum termo de procura###14 Sep 2004 content changed

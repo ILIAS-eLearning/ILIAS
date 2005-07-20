@@ -1110,6 +1110,8 @@ common#:#crs_visible#:#Course is visible
 common#:#crs_write#:#Edit Course
 common#:#cumulative_time#:#Cumulative time
 common#:#cur_number_rec#:#Current number of records
+common#:#current_ip#:#Current IP:
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
@@ -2861,9 +2863,6 @@ content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman I, II, ...
-content#:#cont_no_zip_file#:#Import file is not a zip file.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
@@ -3097,6 +3096,8 @@ content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.
+content#:#cont_no_zip_file#:#Import file is not a zip file.
 content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
@@ -3251,6 +3252,7 @@ content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#glo_term_used_in#:#The following resources linking to that term
 content#:#lm_menu_edit_entry#:#Edit menu entry
@@ -4769,13 +4771,21 @@ search#:#search_dbk_content#:#Digital Library (content)
 search#:#search_dbk_meta#:#Digital Library (metadata)
 search#:#search_delete_sure#:#The object and its contents will be deleted permanently
 search#:#search_details_info#:#Detail search. Please select one or more objects above.
+search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
+search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_group#:#Groups
 search#:#search_in_magazin#:#In the repository
 search#:#search_in_result#:#Search within results
 search#:#search_inactive#:#Include inactive users
+search#:#search_index#:#Indexed search
+search#:#search_like_info#:#Choose this option to get best results.
 search#:#search_lm_content#:#Learning materials (content)
 search#:#search_lm_meta#:#Learning materials (metadata)
+search#:#search_lucene#:#Lucene search
+search#:#search_lucene_host#:#Lucene-Server
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
+search#:#search_lucene_port#:#Lucene-Port
 search#:#search_meta#:#Metadata
 search#:#search_minimum_three#:#Your search must be at least three characters long
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
@@ -4783,6 +4793,7 @@ search#:#search_move_to#:#Move to:
 search#:#search_my_search_results#:#My search results
 search#:#search_new_folder#:#New folder
 search#:#search_no_category#:#You have not selected any search categories
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match#:#Your search did not match any results
 search#:#search_no_results_saved#:#No results saved.
 search#:#search_no_search_term#:#You have not selected any search terms
@@ -5165,14 +5176,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-common#:#current_ip#:#Current IP:
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
-search#:#search_direct#:#Direct search
-search#:#search_index#:#Indexed search
-search#:#search_like_info#:#Choose this option to get best results.
-search#:#search_full_info#:#Choose this option to search in a large amount of data.
-search#:#search_lucene#:#Lucene search
-search#:#search_lucene_host#:#Lucene-Server
-search#:#search_lucene_port#:#Lucene-Port
-search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
-search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.

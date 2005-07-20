@@ -1042,6 +1042,8 @@ common#:#crs_visible#:#A kurzus látható
 common#:#crs_write#:#Kurzus szerkesztése
 common#:#cumulative_time#:#Növelt idő
 common#:#cur_number_rec#:#Rekordok jelenlegi száma
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Jelenlegi jelszó
 common#:#cut#:#Kivágás
 common#:#cutPage#:#Kivágás
@@ -2882,6 +2884,8 @@ content#:#cont_no_assign_itself#:#Az objektum nem rendelhető sajátmagához
 content#:#cont_no_manifest#:#Nem található umsmanifest.xml fájl a főkönyvtárban.
 content#:#cont_no_object_found#:#Ezen a címen nem található objektum
 content#:#cont_no_page#:#A lap nem létezik.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Semmi
 content#:#cont_nr_cols#:#Oszlopok száma
 content#:#cont_nr_items#:#Tételek száma
@@ -3036,6 +3040,7 @@ content#:#cont_width#:#Szélesség
 content#:#cont_wysiwyg#:#Tartalom előnézete
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Év
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
 content#:#lm_menu_edit_entry#:#Menübejegyzés szerkesztése
 content#:#lm_menu_entry_target#:#Cél
@@ -4498,11 +4503,19 @@ search#:#search_content#:#Laptartalom
 search#:#search_dbk_content#:#Digitális könyvtár (kontextus)
 search#:#search_dbk_meta#:#Digitális könyvtár (metaadat)
 search#:#search_delete_sure#:#Az objektum és kontextusa véglegesen törölésre került
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Csoportok
 search#:#search_in_result#:#Keresés az eredmények között
 search#:#search_inactive#:#Inaktív felhasználókat is beleértve
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Tananyagok (tartalom)
 search#:#search_lm_meta#:#Tananyagok (metaadat)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Metaadat
 search#:#search_minimum_three#:#A keresésnek legalább három karakter hosszúnak kell lennie
 search#:#search_move_folder_not_allowed#:#A mappa nem helyezhető át.
@@ -4510,6 +4523,7 @@ search#:#search_move_to#:#Áthelyezés:
 search#:#search_my_search_results#:#Keresési eredményeim
 search#:#search_new_folder#:#Új mappa
 search#:#search_no_category#:#Nem választott keresési kategóriát
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Keresésére nem illik egyetlen eredmény sem
 search#:#search_no_results_saved#:#Nincsenek mentett eredmények.
 search#:#search_no_search_term#:#Nem választott keresési kifejezést

@@ -1108,6 +1108,8 @@ common#:#crs_visible#:#Курс є видимим
 common#:#crs_write#:#Редагувати Курс
 common#:#cumulative_time#:#Загальний час
 common#:#cur_number_rec#:#Поточна кількість записів
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Поточний Пароль
 common#:#cut#:#Вирізати
 common#:#cutPage#:#Вирізати
@@ -3082,6 +3084,8 @@ content#:#cont_no_assign_itself#:#Об'єкт не може бути призн�
 content#:#cont_no_manifest#:#Файл imsmanifest.xml не знайдений в головній директорії.
 content#:#cont_no_object_found#:#Неможливо знайти жоден об'єкт з цією назвою
 content#:#cont_no_page#:#Сторінка не знайдена.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Нічого
 content#:#cont_nr_cols#:#Кількість Колонок
 content#:#cont_nr_items#:#Кількість Пунктів
@@ -3236,6 +3240,7 @@ content#:#cont_width#:#Ширина
 content#:#cont_wysiwyg#:#Вміст Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Об'єкти, скопійовані в буфер обміну.
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Редагувати пункт меню
@@ -4747,13 +4752,21 @@ search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
 search#:#search_dbk_meta#:#Цифрова Бібліотека (метадані)
 search#:#search_delete_sure#:#Об'єкт та його вміст будуть остаточно знищені
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Групи
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#Пошук всередині результатів
 search#:#search_inactive#:#Включаючи неактивних користувачів
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:#Учбові матеріали (вміст)
 search#:#search_lm_meta#:#Учбові матеріали (метадані)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Метадані
 search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
 search#:#search_move_folder_not_allowed#:#Папка не може бути переміщена.
@@ -4761,6 +4774,7 @@ search#:#search_move_to#:#Перемістити в:
 search#:#search_my_search_results#:#Результати пошуку
 search#:#search_new_folder#:#Нова папка
 search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Ваш пошук не приніс жодного результату
 search#:#search_no_results_saved#:#Не збережено жодних результатів.
 search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну

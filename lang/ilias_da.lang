@@ -1066,6 +1066,8 @@ common#:#crs_visible#:#Kursus er synligt
 common#:#crs_write#:#Rediger Kursus
 common#:#cumulative_time#:#Cumulative time###21 Apr 2005 new variable
 common#:#cur_number_rec#:#Nuv&aelig;rende antal registrerede
+common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable
 common#:#current_password#:#Nuv&aelig;rende Password
 common#:#cut#:#Klip
 common#:#cutPage#:#Klip
@@ -2988,6 +2990,8 @@ content#:#cont_no_assign_itself#:#Et objekt kan ikke uddeles til sig selv
 content#:#cont_no_manifest#:#Ingen imsmanifest.xml filer er fundet i hoved biblioteket.
 content#:#cont_no_object_found#:#Kunne ikke finde nogen objekter med dette navn
 content#:#cont_no_page#:#Ingen sider fundet.
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable
+content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Ingen
 content#:#cont_nr_cols#:#Antal kolonner
 content#:#cont_nr_items#:#Antal ting
@@ -3142,6 +3146,7 @@ content#:#cont_width#:#Bredde
 content#:#cont_wysiwyg#:#Indhold Wysiwyg
 content#:#cont_xml_base#:#xml:base###21 Apr 2005 new variable
 content#:#cont_year#:#&aring;r
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Edit menu entry###21 Apr 2005 new variable
@@ -4657,13 +4662,21 @@ search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
 search#:#search_dbk_meta#:#Digitalt bibliotek (meta data)
 search#:#search_delete_sure#:#Objektet og dets indhold vil blive slettet permenent
 search#:#search_details_info#:#Detail search. Please select one or more objects above.###20 Jun 2005 new variable
+search#:#search_direct#:#Direct search###20 Jul 2005 new variable
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types###20 Jun 2005 new variable
+search#:#search_full_info#:#Choose this option to search in a large amount of data.###20 Jul 2005 new variable
 search#:#search_group#:#Grupper
 search#:#search_in_magazin#:#In the repository###20 Jun 2005 new variable
 search#:#search_in_result#:#S&oslash;g inden for resultaterne
 search#:#search_inactive#:#Include inactive users###21 Apr 2005 new variable
+search#:#search_index#:#Indexed search###20 Jul 2005 new variable
+search#:#search_like_info#:#Choose this option to get best results.###20 Jul 2005 new variable
 search#:#search_lm_content#:# L&aelig;rings materialer (indhold)
 search#:#search_lm_meta#:#L&aelig;rings materialer (meta data)
+search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
 search#:#search_meta#:#Meta data
 search#:#search_minimum_three#:#Din s&oslash;gning skal v&aelig;re p&aring; mindst 3 bogstaver
 search#:#search_move_folder_not_allowed#:#Mappen kan ikke flyttes.
@@ -4671,6 +4684,7 @@ search#:#search_move_to#:#Flyt til:
 search#:#search_my_search_results#:#Mine s&oslash;geresultater
 search#:#search_new_folder#:#Ny mappe
 search#:#search_no_category#:#Du har ikke valgt nogen s&oslash;ge kategori
+search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
 search#:#search_no_match#:#Ingen resultat af s&oslash;gningen
 search#:#search_no_results_saved#:#Ingen resultater gemt.
 search#:#search_no_search_term#:#Du har ikke valgt nogen s&oslash;ge kritterier
