@@ -640,6 +640,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("object_type");
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
 
+// TODO: move this if in a function and query all objects that may be disabled or inactive
 			if ($this->objDefinition->getDevMode($obj_data["type"]))
 			{
 				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
@@ -738,8 +739,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$title = $this->object->getTitle();
 		}
-		
-		
+				
 		$this->tpl->setVariable("TBL_TITLE",$title.$description);
 	
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);

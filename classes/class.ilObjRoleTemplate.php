@@ -100,26 +100,31 @@ class ilObjRoleTemplate extends ilObject
 	
 	function getFilterOfInternalTemplate()
 	{
+		global $objDefinition;
+		
 		$filter = array();
 
 		switch($this->getTitle())
 		{
 			case "il_icrs_admin":
 			case "il_icrs_member":
-				$filter = array('file','cat','grp','crs','tst','frm','chat','glo','spl','qpl','exc','dbk','fold','lm','htlm','webr','mep','sahs','pays','svy','tax','taxf');
+				$filter = array_keys($objDefinition->getSubObjects('icrs',false));
+				$filter[] = 'icrs';
 				break;
 
 			case "il_grp_admin":
 			case "il_grp_member":
 			case "il_grp_status_closed":
 			case "il_grp_status_open":
-				$filter = array('cat','crs','pays','taxf');
+				$filter = array_keys($objDefinition->getSubObjects('grp',false));
+				$filter[] = 'grp';
 				break;
 				
 			case "il_crs_admin":
 			case "il_crs_tutor":
 			case "il_crs_member":
-				$filter = array('cat','pays','taxf');
+				$filter = array_keys($objDefinition->getSubObjects('crs',false));
+				$filter[] = 'crs';
 				break;
 		}
 		

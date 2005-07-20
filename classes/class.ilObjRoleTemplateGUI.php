@@ -173,7 +173,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$to_filter = $objDefinition->getSubobjectsToFilter();
 		
 		$tpl_filter = array();
-		if ($this->object->isInternalTemplate())
+		$internal_tpl = false;
+
+		if (($internal_tpl = $this->object->isInternalTemplate()))
 		{
 			$tpl_filter = $this->object->getFilterOfInternalTemplate();
 		}
@@ -192,7 +194,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				continue;
 			}
 
-			if (in_array($row->title,$tpl_filter))
+			if ($internal_tpl and !in_array($row->title,$tpl_filter))
 			{
 				continue;
 			}
@@ -313,6 +315,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			// BEGIN object_type
 			$this->tpl->setCurrentBlock("object_type");
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+			
+// TODO: move this if in a function and query all objects that may be disabled or inactive
+			if ($this->objDefinition->getDevMode($obj_data["type"]))
+			{
+				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+			}
+			else if ($obj_data["type"] == "icrs" and !$this->ilias->getSetting("ilinc_active"))
+			{
+				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_enabled_or_configured").")");
+			}
 			
 			// js checkbox toggles
 			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
