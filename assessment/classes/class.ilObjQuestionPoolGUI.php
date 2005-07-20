@@ -446,8 +446,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		//$md = new ilMD(0,$this->object->getId(),$this->object->getType());
 		//$new_md =& $contParser->md->cloneMD($newObj->getId(),$newObj->getId(),$newObj->getType());			
 
-		unlink($xml_file);
-		unlink($qti_file);
+		// delete import directory
+		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
+
 		if ($redirect)
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);
@@ -500,6 +501,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$contParser = new ilContObjParser($this->object, $xml_file, $subdir);
 			$contParser->setQuestionMapping($this->object->getImportMapping());
 			$contParser->startParsing();
+
+			// delete import directory
+			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 		}
 		
 		$this->questionsObject();

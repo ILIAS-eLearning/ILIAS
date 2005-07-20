@@ -4126,7 +4126,10 @@ class ilObjSurvey extends ilObject
 			}
 			$xml = fread($fh, filesize($importfile));
 			$result = fclose($fh);
-			unlink($importfile);
+
+			// delete import directory
+			ilUtil::delDir($this->getImportDirectory());
+	
 			if (!$result)
 			{
 				$this->ilias->raiseError($this->lng->txt("import_error_closing_file"),$this->ilias->error_obj->MESSAGE);

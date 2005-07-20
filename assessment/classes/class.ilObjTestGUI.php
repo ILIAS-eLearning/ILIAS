@@ -607,6 +607,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$contParser->startParsing();
 
 		$newObj->saveToDb();
+
+		// delete import directory
+		ilUtil::delDir($newObj->getImportDirectory());
+
 		if ($redirect)
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);
