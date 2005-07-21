@@ -24,7 +24,7 @@
 include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 include_once("./content/classes/Pages/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
-
+include_once("./content/classes/class.ilParagraphPlugin.php");
 include_once("./classes/class.ilDOMUtil.php");
 
 
@@ -647,7 +647,16 @@ class ilPageObjectGUI
 		{
 			$enable_split_next = "n";
 		}
-		 
+		
+		$paragraph_plugins = "";
+		if ($this->getOutputMode() == "presentation")
+		{ 			
+			if (is_object($GLOBALS["paragraph_plugins"])) {
+				$paragraph_plugins = $GLOBALS["paragraph_plugins"];
+				$paragraph_plugins = $paragraph_plugins->serializeToString();			
+			}
+		}
+	//	echo $paragraph_plugins;
 		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
 		
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
@@ -667,6 +676,7 @@ class ilPageObjectGUI
 						 'med_disabled_path' => $med_disabled_path,
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
+						 'encoded_download_script' => urlencode($this->sourcecode_download_script),
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
