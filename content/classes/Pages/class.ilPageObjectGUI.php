@@ -658,7 +658,7 @@ class ilPageObjectGUI
 			}
 		}
 		
-		$img_path = ilUtil::getImagePath("");
+		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
 	//	echo $paragraph_plugins;
 		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
 		
