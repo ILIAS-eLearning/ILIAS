@@ -613,6 +613,7 @@ class ilPageObjectGUI
 		$row_path = ilUtil::getImagePath("row.gif");
 		$item_path = ilUtil::getImagePath("item.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
+		 
 		if ($this->getOutputMode() != "offline")
 		{
 			$enlarge_path = ilUtil::getImagePath("enlarge.gif");
@@ -656,6 +657,8 @@ class ilPageObjectGUI
 				$paragraph_plugins = $paragraph_plugins->serializeToString();			
 			}
 		}
+		
+		$img_path = ilUtil::getImagePath("");
 	//	echo $paragraph_plugins;
 		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
 		
@@ -674,6 +677,7 @@ class ilPageObjectGUI
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'fullscreen_link' => $this->getFullscreenLink(),
 						 'med_disabled_path' => $med_disabled_path,
+						 'img_path' => $img_path,
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
 						 'encoded_download_script' => urlencode($this->sourcecode_download_script),
