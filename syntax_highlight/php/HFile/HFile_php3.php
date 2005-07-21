@@ -333,6 +333,7 @@ $this->keywords          	= array(
 			"ftp_rmdir" => "2", 
 			"ftp_size" => "2", 
 			"ftp_systype" => "2", 
+			"function" => "2", 
 			"function_exists" => "2", 
 			"func_get_arg" => "2", 
 			"func_get_args" => "2", 
@@ -1215,7 +1216,7 @@ function donothing($keywordin)
 
 function dofunction($keywordin)
 {
-	$outlink = "http://www.php.net/manual/en/function.".strtr($keywordin, "_", "-").".php";
+	$outlink = "http://www.php.net/".strtr($keywordin, "_", "-")."";
 	return "<a href=\"$outlink\">$keywordin</a>";
 }
 
