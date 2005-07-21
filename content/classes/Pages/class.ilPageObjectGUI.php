@@ -24,7 +24,7 @@
 include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 include_once("./content/classes/Pages/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
-include_once("./content/classes/class.ilParagraphPlugin.php");
+include_once("./content/classes/Pages/class.ilParagraphPlugin.php");
 include_once("./classes/class.ilDOMUtil.php");
 
 
