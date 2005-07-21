@@ -46,6 +46,7 @@
 <xsl:param name="img_col"/>
 <xsl:param name="img_row"/>
 <xsl:param name="img_item"/>
+<xsl:param name="img_path"/>
 <xsl:param name="med_disabled_path"/>
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
@@ -649,8 +650,8 @@
 	<xsl:param name="subchar" select="-1"/>
 	<xsl:if test="$href != ''">
 		<tr><td colspan="2"><div>
-		<a href="{$href}"><img src="plugins/resources/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>
-		<xsl:if test="$paragraph_plugins != ''">
+		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>
+		<xsl:if test="$paragraph_plugins != '' and $subchar != -1 ">
 			<xsl:variable name="plugins">
 				<xsl:call-template name="str:tokenize">
 					<xsl:with-param name="string" select="$paragraph_plugins"/>
