@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 								xmlns:xhtml="http://www.w3.org/1999/xhtml"
@@ -60,7 +60,6 @@
 <xsl:param name="enable_split_new"/>
 <xsl:param name="enable_split_next"/>
 <xsl:param name="paragraph_plugins"/>
-<xsl:param name="ilias_path"/>
 
 
 <xsl:template match="PageObject">
@@ -630,7 +629,7 @@
 								<xsl:with-param name="subchar" select="-1"/>
 							</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$mode = 'presentation'" >
+					<xsl:when test="$mode = '' or $mode = 'presentation'" >
 						<xsl:variable name="href" select="concat($download_script,'&amp;cmd=download_paragraph&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 						<xsl:call-template name="DownloadLink">
 							<xsl:with-param name="p_id" select="$p_id"/>
@@ -647,62 +646,85 @@
 <xsl:template name="DownloadLink">
 	<xsl:param name="p_id" select="-1"/>
 	<xsl:param name="downloadtitle" select="-1"/>
-	<xsl:param name="href" select="-1"/>
-	<xsl:param name="subchar" select="-1"/>	
-	<xsl:if test="$href != ''">
+	<xsl:param name="href" select="'-1'"/>
+	<xsl:param name="subchar" select="'-1'"/>
+	
+	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
 		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0"/></a>		
-		
-		<xsl:if test="$paragraph_plugins != '' and $subchar != -1 ">
-			
-			<xsl:variable name="plugins">
-				<xsl:call-template name="str:tokenize">
-					<xsl:with-param name="string" select="$paragraph_plugins"/>
-					<xsl:with-param name="delimiters" select="'|'"/>
-				</xsl:call-template>
-			</xsl:variable>
-			
-			<xsl:call-template name="plugin">
-				<xsl:with-param name="plugin">
-					<xsl:call-template name="str:tokenize">
-						<xsl:with-param name="string" select="$plugins/token[position() = 1]"/>
-						<xsl:with-param name="delimiters" select="'#'"/>
-					</xsl:call-template>
-				</xsl:with-param>
-				<xsl:with-param name="p_id" select="$p_id"/>
-				<xsl:with-param name="subchar" select="$subchar"/>
+		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
+			<xsl:call-template name="plugins">
+				<xsl:with-param name="pluginsString" select="$paragraph_plugins"/>
+				<xsl:with-param name="subchar" select="@SubCharacteristic"/>
+				<xsl:with-param name="par_vars" select="concat('&amp;download=',$encoded_download_script,'&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 			</xsl:call-template>
-			
-			<xsl:call-template name="plugin">
-				<xsl:with-param name="plugin">
-					<xsl:call-template name="str:tokenize">
-						<xsl:with-param name="string" select="$plugins/token[position() = 2]"/>
-						<xsl:with-param name="delimiters" select="'#'"/>
-					</xsl:call-template>
-				</xsl:with-param>
-				<xsl:with-param name="p_id" select="$p_id"/>
-				<xsl:with-param name="subchar" select="$subchar"/>
-			</xsl:call-template>
-
-			
 		</xsl:if>
+		
 		</div></td></tr>		
 	</xsl:if>
 </xsl:template>
 
-<xsl:template name="plugin">
-	<xsl:param name="plugin" select="-1"/>
-    <xsl:param name="p_id" select="-1"/>
-    <xsl:param name="subchar" select="-1"/>
-    <xsl:variable name="filetype" select="$plugin/token[position() = 1]"/>
-    <xsl:if test="$subchar = $filetype">
-		<xsl:variable name="title" select="$plugin/token[position() = 2]"/>
-		<xsl:variable name="link" select="$plugin/token[position() = 3]"/> 
-		<xsl:variable name="href" select="concat($link,'&amp;download=',$encoded_download_script,'&amp;downloadtitle=',$title,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
-		<xsl:variable name="img" select="$plugin/token[position() = 4]"/>
-	<a href="{$href}" ><img src="{$img}" align="middle" alt="{$title}" border="0"/></a>
-	</xsl:if>
-</xsl:template>
+	<xsl:template name="plugins">
+		<xsl:param name="pluginsString" select="'-1'"/>
+		<xsl:param name="subchar" select="'-1'"/>
+		<xsl:param name="par_vars" select="''"/>
+		<xsl:choose>			
+			<xsl:when test="string-length(substring-before($pluginsString,'|')) =0">
+				<xsl:call-template name="plugin">
+					<xsl:with-param name="pluginString" select="$pluginsString"/>								
+					<xsl:with-param name="subchar" select="$subchar"/>
+					<xsl:with-param name="par_vars" select="$par_vars"/>					
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="plugin">
+					<xsl:with-param name="pluginString" select="substring-before($pluginsString,'|')"/>								
+					<xsl:with-param name="subchar" select="$subchar"/>					
+					<xsl:with-param name="par_vars" select="$par_vars"/>										
+				</xsl:call-template>
+				<xsl:variable name="restString" select="substring-after($pluginsString,'|')"/>			
+				<xsl:if test="string-length($restString)>0">
+					<xsl:call-template name="plugins">
+						<xsl:with-param name="pluginsString" select="$restString"/>
+						<xsl:with-param name="subchar" select="$subchar"/>
+					<xsl:with-param name="par_vars" select="$par_vars"/>											
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>		
+	</xsl:template>
+	
+	<xsl:template name="plugin">
+		<xsl:param name="pluginString" select="'-1'"/>		
+		<xsl:param name="subchar" select="'-1'"/>		
+		<xsl:param name="par_vars" select="''"/>
+		
+		<xsl:variable name="filetype" select="substring-before($pluginString,'#')"/>
+		<xsl:variable name="rest1" select="substring-after($pluginString,'#')"/>
+		<xsl:variable name="title" select="substring-before($rest1,'#')"/>
+		<xsl:variable name="rest2" select="substring-after($rest1,'#')"/>
+	
+		<xsl:variable name="linkNode" >
+			<xsl:choose>
+				<xsl:when test="substring-before($rest2,'#')=''">
+					<xsl:value-of select="$rest2"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="substring-before($rest2,'#')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>		
+		<xsl:variable name="link" select="concat(string($linkNode),$par_vars)"/>
+		<xsl:variable name="image" select="substring-after($rest2,'#')"/>
+<!--		<filetype><xsl:value-of select="$filetype"/></filetype>
+		<title><xsl:value-of select="$title"/></title>
+		<link><xsl:value-of select="$link"/></link>
+		 <image><xsl:value-of select="$image"/></image>
+		<subchar><xsl:value-of select="$subchar"/></subchar> -->
+		 <xsl:if test="$subchar = $filetype">
+			 <a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0"/></a>
+		 </xsl:if>
+	</xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->
 <xsl:template match="Emph|Strong|Comment|Quotation">
@@ -2680,65 +2702,5 @@
 <xsl:template match="Text">
 	<xsl:apply-templates/>
 </xsl:template>-->
-
-
-<xsl:template name="str:tokenize">
-	<xsl:param name="string" select="''" />
-  <xsl:param name="delimiters" select="' &#x9;&#xA;'" />
-  <xsl:choose>
-    <xsl:when test="not($string)" />
-    <xsl:when test="not($delimiters)">
-      <xsl:call-template name="str:_tokenize-characters">
-        <xsl:with-param name="string" select="$string" />
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:call-template name="str:_tokenize-delimiters">
-        <xsl:with-param name="string" select="$string" />
-        <xsl:with-param name="delimiters" select="$delimiters" />
-      </xsl:call-template>
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-
-<xsl:template name="str:_tokenize-characters">
-  <xsl:param name="string" />
-  <xsl:if test="$string">
-    <token><xsl:value-of select="substring($string, 1, 1)" /></token>
-    <xsl:call-template name="str:_tokenize-characters">
-      <xsl:with-param name="string" select="substring($string, 2)" />
-    </xsl:call-template>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template name="str:_tokenize-delimiters">
-  <xsl:param name="string" />
-  <xsl:param name="delimiters" />
-  <xsl:variable name="delimiter" select="substring($delimiters, 1, 1)" />
-  <xsl:choose>
-    <xsl:when test="not($delimiter)">
-      <token><xsl:value-of select="$string" /></token>
-    </xsl:when>
-    <xsl:when test="contains($string, $delimiter)">
-      <xsl:if test="not(starts-with($string, $delimiter))">
-        <xsl:call-template name="str:_tokenize-delimiters">
-          <xsl:with-param name="string" select="substring-before($string, $delimiter)" />
-          <xsl:with-param name="delimiters" select="substring($delimiters, 2)" />
-        </xsl:call-template>
-      </xsl:if>
-      <xsl:call-template name="str:_tokenize-delimiters">
-        <xsl:with-param name="string" select="substring-after($string, $delimiter)" />
-        <xsl:with-param name="delimiters" select="$delimiters" />
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:call-template name="str:_tokenize-delimiters">
-        <xsl:with-param name="string" select="$string" />
-        <xsl:with-param name="delimiters" select="substring($delimiters, 2)" />
-      </xsl:call-template>
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-
 
 </xsl:stylesheet>
