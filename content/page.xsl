@@ -54,6 +54,7 @@
 <xsl:param name="javascript" />
 <xsl:param name="image_map_link" />
 <xsl:param name="file_download_link" />
+<xsl:param name="encoded_download_script"/>
 <xsl:param name="fullscreen_link" />
 <xsl:param name="enable_split_new"/>
 <xsl:param name="enable_split_next"/>
@@ -693,8 +694,8 @@
     <xsl:if test="$subchar = $filetype">
 		<xsl:variable name="title" select="$plugin/token[position() = 2]"/>
 		<xsl:variable name="link" select="$plugin/token[position() = 3]"/> 
-		<xsl:variable name="href" select="concat($link,'&amp;cmd=download_paragraph&amp;downloadtitle=',$title,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
-		<xsl:variable name="img" select="concat('./plugins/resources/',$plugin/token[position() = 4])"/>
+		<xsl:variable name="href" select="concat($link,'&amp;download=',$encoded_download_script,'&amp;downloadtitle=',$title,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
+		<xsl:variable name="img" select="$plugin/token[position() = 4]"/>
 	<a href="{$href}" ><img src="{$img}" align="middle" alt="{$title}" border="0"/></a>
 	</xsl:if>
 </xsl:template>
