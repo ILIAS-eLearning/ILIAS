@@ -1636,6 +1636,9 @@ class ilObjContentObject extends ilObject
 		copy(ilUtil::getImagePath("nav_arr_R.gif", false, "filesystem"),
 			$image_dir."/nav_arr_R.gif");
 			
+		copy(ilUtil::getImagePath("download.gif", false, "filesystem"),
+			$image_dir."/download.gif");			
+			
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
