@@ -66,6 +66,9 @@ class ilQTIParser extends ilSaxParser
 	var $characterbuffer;
 	var $conditionvar;
 	var $parser_mode;
+	var $import_idents;
+	var $qpl_id;
+	var $do_nothing;
 	
 	var $founditems = array();
 	var $verifyroot = false;
@@ -83,7 +86,7 @@ class ilQTIParser extends ilSaxParser
 	* @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
 	* @access	public
 	*/
-	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI)
+	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
 	{
 		global $lng;
 
@@ -91,12 +94,20 @@ class ilQTIParser extends ilSaxParser
 
 		parent::ilSaxParser($a_xml_file);
 
+		$this->qpl_id = $a_qpl_id;
+		$this->import_idents = array();
+		if (is_array($a_import_idents))
+		{
+			$this->import_idents =& $a_import_idents;
+		}
+		
 		$this->lng =& $lng;
 		$this->hasRootElement = FALSE;
 		$this->path = array();
 		$this->items = array();
 		$this->item = NULL;
 		$this->depth = array();
+		$this->do_nothing = FALSE;
 		$this->qti_element = "";
 		$this->in_presentation = FALSE;
 		$this->in_reponse = FALSE;
@@ -187,6 +198,7 @@ class ilQTIParser extends ilSaxParser
 	*/
 	function handlerParseBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+		if ($this->do_nothing) return;
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
 		$this->depth[$a_xml_parser]++;
@@ -801,6 +813,13 @@ class ilQTIParser extends ilSaxParser
 						{
 							case "ident":
 								$this->item->setIdent($value);
+								if (count($this->import_idents) > 0)
+								{
+									if (!in_array($value, $this->import_idents))
+									{
+										$this->do_nothing = TRUE;
+									}
+								}
 								break;
 							case "title":
 								$this->item->setTitle($value);
@@ -849,6 +868,7 @@ class ilQTIParser extends ilSaxParser
 	*/
 	function handlerParseEndTag($a_xml_parser,$a_name)
 	{
+		if (($this->do_nothing) && (strcmp(strtolower($a_name), "item") != 0)) return;
 		switch (strtolower($a_name))
 		{
 			case "qtimetadatafield":
@@ -1021,6 +1041,11 @@ class ilQTIParser extends ilSaxParser
 				$this->in_response = FALSE;
 				break;
 			case "item":
+				if ($this->do_nothing)
+				{
+					$this->do_nothing = FALSE;
+					return;
+				}
 				global $ilDB;
 				global $ilUser;
 				// save the item directly to save memory
@@ -1030,7 +1055,7 @@ class ilQTIParser extends ilSaxParser
 				// problems: the object id of the parent questionpool is not yet known. must be set later
 				//           the complete flag must be calculated?
 				$qt = $this->item->determineQuestionType();
-				$questionpool_id = 99999;
+				$questionpool_id = $this->qpl_id;
 				switch ($qt)
 				{
 					case QT_UNKNOWN:
@@ -1433,11 +1458,11 @@ class ilQTIParser extends ilSaxParser
 							}
 							if ($type == 0)
 							{
-								$question->addMatchingPair($term["answerimage"]["label"], $response["points"], $term["answerorder"], $match["answertext"], $match["matchingorder"]);
+								$question->addMatchingPair($match["answertext"], $response["points"], $match["matchingorder"], $term["answerimage"]["label"], $term["answerorder"]);
 							}
 							else
 							{
-								$question->addMatchingPair($term["answertext"], $response["points"], $term["answerorder"], $match["answertext"], $match["matchingorder"]);
+								$question->addMatchingPair($match["answertext"], $response["points"], $match["matchingorder"], $term["answertext"], $term["answerorder"]);
 							}
 						}
 						$question->saveToDb();
@@ -2009,6 +2034,7 @@ class ilQTIParser extends ilSaxParser
 	*/
 	function handlerParseCharacterData($a_xml_parser,$a_data)
 	{
+		if ($this->do_nothing) return;
 		$this->characterbuffer .= $a_data;
 		$a_data = $this->characterbuffer;
 		switch ($this->qti_element)
@@ -2129,7 +2155,7 @@ class ilQTIParser extends ilSaxParser
 				if ($this->verifymetadatafield == 1) $this->verifyfieldentry = 1;
 				break;
 			case "item":
-				array_push($this->founditems, array("title" => "", "type" => ""));
+				array_push($this->founditems, array("title" => "", "type" => "", "ident" => $a_attribs["ident"]));
 				break;
 			case "qticomment":
 				// check for "old" ILIAS qti format (not well formed)

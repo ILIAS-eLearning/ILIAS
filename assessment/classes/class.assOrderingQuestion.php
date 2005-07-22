@@ -1236,12 +1236,7 @@ class ASS_OrderingQuestion extends ASS_Question
 				else
 				{
 					// create thumbnail file
-					$extension = "jpg";
-					if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $image_filename, $matches))
-					{
-						$extension = $matches[1];
-					}
-					$thumbpath = $imagepath . $image_filename . "." . "thumb.$extension";
+					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
 					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, strtoupper($extension), 100);
 				}
 			}
