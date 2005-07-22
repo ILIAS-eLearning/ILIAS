@@ -124,7 +124,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				if ($filename)
 				{
 					$imagepath = $this->object->getImagePathWeb() . $thisanswer->get_answertext();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.$extension\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
 					$this->tpl->setVariable("IMAGE_FILENAME", htmlspecialchars($thisanswer->get_answertext()));
 					$this->tpl->setVariable("VALUE_ANSWER", "");
 					//$thisanswer->get_answertext()
@@ -545,7 +545,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 					{
 						$extension = $matches[1];
 					}
-					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.$extension");
+					$sizethumb = GetImageSize ($this->object->getImagePath() . $answer->get_answertext() . ".thumb.jpg");
 					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->get_answertext());
 					if ($sizethumb[0] >= $sizeorig[0])
 					{
@@ -629,7 +629,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				{
 					$extension = $matches[1];
 				}
-				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.$extension\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
+				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.jpg\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
 			}
 			else
 			{

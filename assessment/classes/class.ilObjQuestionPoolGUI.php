@@ -273,7 +273,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-
 		// create import directory
 		ilObjQuestionPool::_createImportDirectory();
 
@@ -299,10 +298,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (count($founditems) == 0)
 		{
 			// nothing found
-			// delete the imported files
-			unlink($xml_file);
-			unlink($qti_file);
-			unlink($full_path);
+
+			// delete import directory
+			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
 			sendInfo($this->lng->txt("qpl_import_no_items"));
 			$this->importObject();
@@ -325,10 +323,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		if ($complete == 0)
 		{
-			// delete the imported files
-			unlink($xml_file);
-			unlink($qti_file);
-			unlink($full_path);
+			// delete import directory
+			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
 			sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
 			$this->importObject();
@@ -337,7 +333,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		$_SESSION["qpl_import_xml_file"] = $xml_file;
 		$_SESSION["qpl_import_qti_file"] = $qti_file;
-		$_SESSION["qpl_import_zip_file"] = $full_path;
+		$_SESSION["qpl_import_subdir"] = $subdir;
 		// display of found questions
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html");
 		$row_class = array("tblrow1", "tblrow2");
@@ -347,6 +343,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("verification_row");
 			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
 			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
+			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
 			switch ($item["type"])
 			{
 				case "MULTIPLE CHOICE QUESTION":
@@ -378,11 +375,48 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
 		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-		
+	}
+	
+	/**
+	* imports question(s) into the questionpool (after verification)
+	*/
+	function importQplVerifiedObject()
+	{
+		// create new questionpool object
+		$newObj = new ilObjQuestionpool(true);
+		// set type of questionpool object
+		$newObj->setType($_GET["new_type"]);
+		// set title of questionpool object to "dummy"
+		$newObj->setTitle("dummy");
+		// create the questionpool class in the ILIAS database (object_data table)
+		$newObj->create(true);
+		// create a reference for the questionpool object in the ILIAS database (object_reference table)
+		$newObj->createReference();
+		// put the questionpool object in the administration tree
+		$newObj->putInTree($_GET["ref_id"]);
+		// get default permissions and set the permissions for the questionpool object
+		$newObj->setPermissions($_GET["ref_id"]);
+		// notify the questionpool object and all its parent objects that a "new" object was created
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		// start parsing of QTI files
+		include_once "./assessment/classes/class.ilQTIParser.php";
+		$qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
+		$result = $qtiParser->startParsing();
+
+		// import page data
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
+		$contParser->setQuestionMapping($newObj->getImportMapping());
+		$contParser->startParsing();
+
+		// delete import directory
+		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 	}
 	
 	/**
