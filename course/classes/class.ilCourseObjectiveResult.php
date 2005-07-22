@@ -144,6 +144,8 @@ class ilCourseObjectiveResult
 
 		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
 		include_once './assessment/classes/class.ilObjTest.php';
+		include_once './assessment/classes/class.ilObjTestAccess.php';
+
 
 		$tmp_obj_question =& new ilCourseObjectiveQuestion($a_objective_id);
 
@@ -157,7 +159,7 @@ class ilCourseObjectiveResult
 			}
 			if($test_data['tst_status'])
 			{
-				if(ilObjTest::_hasFinished($this->getUserId(),$test_data['obj_id']))
+				if(ilObjTestAccess::_hasFinished($this->getUserId(),$test_data['obj_id']))
 				{
 					return true;
 				}

@@ -815,7 +815,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHK_RADIUS_ACTIVE", "checked=\"checked\"");
 			}
 			
-			include_once('classes/class.ilRADIUSauthentication.php');
+			include_once('classes/class.ilRADIUSAuthentication.php');
 			$servers =ilRADIUSauthentication::_getServers();
 
 			$this->tpl->setVariable("RADIUS_SERVER", implode(",",$servers));
