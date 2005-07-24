@@ -673,9 +673,9 @@ class ilContObjParser extends ilMDSaxParser
 					}
 					else
 					{
-							$this->md =& new ilMD($this->content_object->getId() ,
-							0,
-							$this->current_object->getType()
+						$this->md =& new ilMD($this->content_object->getId() ,
+						0,
+						$this->current_object->getType()
 						);
 					}
 				}
