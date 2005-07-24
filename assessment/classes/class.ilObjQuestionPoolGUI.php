@@ -450,7 +450,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	function cancelImportObject()
 	{
-		ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		if ($_POST["questions_only"] == 1)
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
+		else
+		{
+			ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		}
 	}
 	
 	/**
