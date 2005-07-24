@@ -265,7 +265,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function uploadQplObject()
+	function uploadQplObject($questions_only = false)
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
@@ -371,14 +371,25 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+		if ($questions_only)
+		{
+			$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_questions_into_qpl"));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		}
+		else
+		{
+			$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+		}
 		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+		$value_questions_only = 0;
+		if ($questions_only) $value_questions_only = 1;
+		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -387,24 +398,31 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function importVerifiedFileObject()
 	{
-		// create new questionpool object
-		$newObj = new ilObjQuestionpool(true);
-		// set type of questionpool object
-		$newObj->setType($_GET["new_type"]);
-		// set title of questionpool object to "dummy"
-		$newObj->setTitle("dummy");
-		// set description of questionpool object
-		$newObj->setDescription("questionpool import");
-		// create the questionpool class in the ILIAS database (object_data table)
-		$newObj->create(true);
-		// create a reference for the questionpool object in the ILIAS database (object_reference table)
-		$newObj->createReference();
-		// put the questionpool object in the administration tree
-		$newObj->putInTree($_GET["ref_id"]);
-		// get default permissions and set the permissions for the questionpool object
-		$newObj->setPermissions($_GET["ref_id"]);
-		// notify the questionpool object and all its parent objects that a "new" object was created
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		if ($_POST["questions_only"] == 1)
+		{
+			$newObj =& $this->object;
+		}
+		else
+		{
+			// create new questionpool object
+			$newObj = new ilObjQuestionpool(true);
+			// set type of questionpool object
+			$newObj->setType($_GET["new_type"]);
+			// set title of questionpool object to "dummy"
+			$newObj->setTitle("dummy");
+			// set description of questionpool object
+			$newObj->setDescription("questionpool import");
+			// create the questionpool class in the ILIAS database (object_data table)
+			$newObj->create(true);
+			// create a reference for the questionpool object in the ILIAS database (object_reference table)
+			$newObj->createReference();
+			// put the questionpool object in the administration tree
+			$newObj->putInTree($_GET["ref_id"]);
+			// get default permissions and set the permissions for the questionpool object
+			$newObj->setPermissions($_GET["ref_id"]);
+			// notify the questionpool object and all its parent objects that a "new" object was created
+			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		}
 
 		// start parsing of QTI files
 		include_once "./assessment/classes/class.ilQTIParser.php";
@@ -420,7 +438,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 		
-		ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		if ($_POST["questions_only"] == 1)
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
+		else
+		{
+			ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+		}
 	}
 	
 	function cancelImportObject()
@@ -431,7 +456,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function _uploadQplObject($redirect = true)
+	/*function uploadQplObject($redirect = true)
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
@@ -483,11 +508,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$contParser->setQuestionMapping($newObj->getImportMapping());
 		$contParser->startParsing();
 
-		/* update title and description in object data */
-
-		include_once("Services/MetaData/classes/class.ilMD.php");
-		//$md = new ilMD(0,$this->object->getId(),$this->object->getType());
-		//$new_md =& $contParser->md->cloneMD($newObj->getId(),$newObj->getId(),$newObj->getType());			
 
 		// delete import directory
 		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
@@ -496,14 +516,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			ilUtil::redirect("adm_object.php?".$this->link_params);
 		}
-	}
+	}*/
 
 	/**
 	* imports question(s) into the questionpool
 	*/
 	function uploadObject()
 	{
-		// check if file was uploaded
+		$this->uploadQplObject(true);
+/*	// check if file was uploaded
 		$source = $_FILES["xmldoc"]["tmp_name"];
 		$error = 0;
 		if (($source == 'none') || (!$source) || $_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
@@ -549,7 +570,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 		}
 		
-		$this->questionsObject();
+		$this->questionsObject();*/
 	}
 	
 	/**
