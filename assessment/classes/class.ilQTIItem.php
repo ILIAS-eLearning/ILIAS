@@ -302,9 +302,9 @@ class ilQTIItem
 		return $this->author;
 	}
 	
-	function addSuggestedSolution($a_solution)
+	function addSuggestedSolution($a_solution, $a_gap_index)
 	{
-		array_push($this->suggested_solutions, $a_solution);
+		array_push($this->suggested_solutions, array("solution" => $a_solution, "gap_index" => $a_gap_index));
 	}
 }
 ?>
