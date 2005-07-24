@@ -1421,8 +1421,9 @@ class ilRepositoryGUI
 
 		if ($cmd == "delete" || $cmd == "cancelDelete" || $cmd == "confirmedDelete" ||
 			$cmd == "create" || $cmd == "save" || $cmd=="importFile" ||
-			$cmd == "cloneAll" || $_GET["mode"] == "create"
-			|| $cmd == "linkSelector")
+			$cmd == "cloneAll" || $_GET["mode"] == "create" ||
+			$cmd == "linkSelector" || $cmd == "importVerifiedFile" ||  
+			$cmd == "cancelImport" )
 		{
 			$tabs_out = false;
 		}
@@ -1651,6 +1652,11 @@ class ilRepositoryGUI
 		$this->executeAdminCommand();
 	}
 
+	function importVerifiedFile()
+	{
+		$this->executeAdminCommand();
+	}
+
 	function cloneAll()
 	{
 		$this->executeAdminCommand();
@@ -1662,6 +1668,11 @@ class ilRepositoryGUI
 	}
 
 	function cancel()
+	{
+		$this->executeAdminCommand();
+	}
+	
+	function cancelImport()
 	{
 		$this->executeAdminCommand();
 	}

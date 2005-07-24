@@ -69,6 +69,7 @@ class ilQTIParser extends ilSaxParser
 	var $import_idents;
 	var $qpl_id;
 	var $do_nothing;
+	var $gap_index;
 	
 	var $founditems = array();
 	var $verifyroot = false;
@@ -126,6 +127,7 @@ class ilQTIParser extends ilSaxParser
 		$this->itemfeedback = NULL;
 		$this->flow_mat = array();
 		$this->flow = 0;
+		$this->gap_index = 0;
 		$this->presentation = NULL;
 		$this->mattext = NULL;
 		$this->matapplet = NULL;
@@ -532,6 +534,18 @@ class ilQTIParser extends ilSaxParser
 				include_once("./assessment/classes/class.ilQTIMaterial.php");
 				$this->material = new ilQTIMaterial();
 				$this->material->setFlow($this->flow);
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "label":
+								$this->material->setLabel($value);
+								break;
+						}
+					}
+				}
 				break;
 			case "mattext":
 				include_once ("./assessment/classes/class.ilQTIMattext.php");
@@ -804,6 +818,7 @@ class ilQTIParser extends ilSaxParser
 				break;
 			case "item":
 				include_once("./assessment/classes/class.ilQTIItem.php");
+				$this->gap_index = 0;
 				$this->item =& $this->items[array_push($this->items, new ilQTIItem())-1];
 				if (is_array($a_attribs))
 				{
@@ -1026,6 +1041,7 @@ class ilQTIParser extends ilSaxParser
 			case "response_str":
 			case "response_num":
 			case "response_grp":
+				$this->gap_index++;
 				if ($this->presentation != NULL)
 				{
 					if ($this->response != NULL)
@@ -1146,10 +1162,10 @@ class ilQTIParser extends ilSaxParser
 							}
 						}
 						include_once ("./assessment/classes/class.assMultipleChoice.php");
-						$type = 1;
+						$type = "1";
 						if ($qt == QT_MULTIPLE_CHOICE_SR)
 						{
-							$type = 0;
+							$type = "0";
 						}
 						$question = new ASS_MultipleChoice(
 							$this->item->getTitle(),
@@ -1159,6 +1175,7 @@ class ilQTIParser extends ilSaxParser
 							join($questiontext, ""),
 							$type
 						);
+						//$question->set_response($type);
 						$question->setObjId($questionpool_id);
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 						$question->setShuffle($shuffle);
@@ -1167,6 +1184,14 @@ class ilQTIParser extends ilSaxParser
 							$question->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["correctness"]);
 						}
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						break;
 					case QT_CLOZE:
 						$duration = $this->item->getDuration();
@@ -1322,6 +1347,14 @@ class ilQTIParser extends ilSaxParser
 						}
 						$question->cloze_text = $clozetext;
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						break;
 					case QT_MATCHING:
 						$duration = $this->item->getDuration();
@@ -1466,6 +1499,14 @@ class ilQTIParser extends ilSaxParser
 							}
 						}
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						foreach ($responses as $response)
 						{
 							$subset = $response["subset"];
@@ -1633,6 +1674,14 @@ class ilQTIParser extends ilSaxParser
 							}
 						}
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						foreach ($answers as $answer)
 						{
 							if ($type == 0)
@@ -1772,6 +1821,14 @@ class ilQTIParser extends ilSaxParser
 							$question->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["correctness"], $answer["coordinates"], $areas[$answer["areatype"]]);
 						}
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						$image =& base64_decode($questionimage["content"]);
 						$imagepath = $question->getImagePath();
 						if (!file_exists($imagepath))
@@ -1860,6 +1917,14 @@ class ilQTIParser extends ilSaxParser
 							$question->addParameter($pair["key"], $pair["value"]);
 						}
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						$javaapplet =& base64_decode($applet->getContent());
 						$javapath = $question->getJavaPath();
 						if (!file_exists($javapath))
@@ -1933,13 +1998,21 @@ class ilQTIParser extends ilSaxParser
 						$question->setPoints($maxpoints);
 						$question->setMaxNumOfChars($maxchars);
 						$question->saveToDb();
+						if (count($this->item->suggested_solutions))
+						{
+							foreach ($this->item->suggested_solutions as $suggested_solution)
+							{
+								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+							}
+							$question->saveToDb();
+						}
 						break;
 				}
 				break;
 			case "material":
 				if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
 				{
-					$this->item->addSuggestedSolution($this->material->mattext[0]);
+					$this->item->addSuggestedSolution($this->material->mattext[0], $this->gap_index);
 				}
 				else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
 				{
