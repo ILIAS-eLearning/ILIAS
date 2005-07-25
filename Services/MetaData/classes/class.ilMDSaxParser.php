@@ -44,6 +44,10 @@ class ilMDSaxParser extends ilSaxParser
 	var $md_cur_el = null;
 
 	/*
+	 * @var boolean enable/disable parsing status. 
+	 */
+	var $md_parsing_enabled = null;
+	/*
 	 * @var object ilMD
 	 */
 	var $md = null;
@@ -63,7 +67,20 @@ class ilMDSaxParser extends ilSaxParser
 	{
 		global $lng, $tree;
 
+
+		// Enable parsing. E.g qpl' s will set this value to false
+		$this->md_parsing_enabled = true;
+
 		parent::ilSaxParser($a_xml_file);
+	}
+
+	function enableMDParsing($a_status)
+	{
+		$this->md_parsing_enabled = (bool) $a_status;
+	}
+	function getMDParsingStatus()
+	{
+		return (bool) $this->md_parsing_enabled;
 	}
 
 	function setMDObject(&$md)
@@ -87,6 +104,11 @@ class ilMDSaxParser extends ilSaxParser
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
 
 		switch($a_name)
 		{
@@ -369,6 +391,11 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
+
 		switch($a_name)
 		{
 			case 'MetaData':
@@ -607,6 +634,11 @@ class ilMDSaxParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+		if(!$this->getMDParsingStatus())
+		{
+			return;
+		}
+
 		if ($this->inMetaData() and $a_data != "\n")
 		{
 			// Replace multiple tabs with one space
