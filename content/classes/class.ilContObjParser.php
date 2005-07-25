@@ -90,6 +90,7 @@ class ilContObjParser extends ilMDSaxParser
 	var $in_bib_item;		// are we currently within BibItem? true/false
 	var $link_targets;		// stores all objects by import id
 	var $qst_mapping;
+	var $metadata_parsing_disabled;
 
 	/**
 	* Constructor
@@ -124,6 +125,7 @@ class ilContObjParser extends ilMDSaxParser
 		$this->inside_code = false;
 		$this->qst_mapping = array();
 		$this->coType = $this->content_object->getType();
+		$this->metadata_parsing_disabled = false;
 
 		if (($this->coType != "tst") and ($this->coType != "qpl"))
 		{
@@ -673,10 +675,16 @@ class ilContObjParser extends ilMDSaxParser
 					}
 					else
 					{
+						// type qpl or tst
 						$this->md =& new ilMD($this->content_object->getId() ,
-						0,
-						$this->current_object->getType()
+							0,
+							$this->current_object->getType()
 						);
+						if ($this->md->getGeneral() != false)
+						{
+							$this->metadata_parsing_disabled = true;
+							$this->enableMDParsing(false);
+						}
 					}
 				}
 				break;
@@ -1089,9 +1097,16 @@ class ilContObjParser extends ilMDSaxParser
 					strtolower(get_class($this->current_object)) == "ilobjtest") &&
 					!$this->in_media_object && !$this->in_page_object)
 				{
-					$this->current_object->MDUpdateListener('General');
-					ilLMObject::_writeImportId($this->current_object->getId(),
-							$this->current_object->getImportId());
+					if ($this->metadata_parsing_disabled)
+					{
+						$this->enableMDParsing(true);
+					}
+					else
+					{
+						$this->current_object->MDUpdateListener('General');
+						ilLMObject::_writeImportId($this->current_object->getId(),
+								$this->current_object->getImportId());
+					}
 				}
 				else if(strtolower(get_class($this->current_object)) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
