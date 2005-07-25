@@ -256,6 +256,8 @@ class ilContainerGUI extends ilObjectGUI
 	function renderItemList($a_type = "all")
 	{
 		global $objDefinition, $ilBench;
+		
+		include_once("classes/class.ilObjectListGUIFactory.php");
 
 		$html = "";
 		$this->adminCommands = false;
@@ -297,11 +299,13 @@ class ilContainerGUI extends ilObjectGUI
 							// get list gui class for each object type
 							if ($cur_obj_type != $item["type"])
 							{
+								/*
 								$class = $objDefinition->getClassName($item["type"]);
 								$location = $objDefinition->getLocation($item["type"]);
 								$full_class = "ilObj".$class."ListGUI";
 								include_once($location."/class.".$full_class.".php");
-								$item_list_gui = new $full_class();
+								$item_list_gui = new $full_class();*/
+								$item_list_gui =& ilObjectListGUIFactory::_getListGUIByType($item["type"]);
 								$item_list_gui->setContainerObject($this);
 							}
 							// render item row
