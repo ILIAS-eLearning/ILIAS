@@ -934,8 +934,8 @@ following values to avoid multiple restarts of the database migration:
   memory_limit = 128M
   max_execution_time = 3600
 
-If the update unexpectedly stops, it should be manually restarted until it
-finishes successcully.
+If the update unexpectedly stops, please restart the update until it finishes
+successfully.
 
 After that enter your clients and execute the "Refresh Languages" command
 in the language administration of the system settings ("Administration" ->
