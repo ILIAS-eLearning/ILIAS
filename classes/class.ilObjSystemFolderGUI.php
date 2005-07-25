@@ -390,6 +390,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["cron_user_check"] = $_POST["cron_user_check"];
 				$settings["cron_link_check"] = $_POST["cron_link_check"];
 				$settings["cron_web_resource_check"] = $_POST["cron_web_resource_check"];
+				$settings["cron_lucene_index"] = $_POST["cron_lucene_index"];
 
 				// forums
 				$settings['frm_store_new'] = $_POST['frm_store_new'];
@@ -465,6 +466,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $this->ilias->setSetting("cron_user_check",$_POST["cron_user_check"]);
                 $this->ilias->setSetting("cron_link_check",$_POST["cron_link_check"]);
                 $this->ilias->setSetting("cron_web_resource_check",$_POST["cron_web_resource_check"]);
+				$this->ilias->setSetting("cron_lucene_index",$_POST["cron_lucene_index"]);
 				
 				// webservice
 				$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
@@ -569,6 +571,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("CRON_LINK_CHECK_DESC",$this->lng->txt('check_link_desc'));
 		$this->tpl->setVariable("TXT_CRON_WEB_RESOURCE_CHECK",$this->lng->txt('check_web_resources'));
 		$this->tpl->setVariable("CRON_WEB_RESOURCE_CHECK_DESC",$this->lng->txt('check_web_resources_desc'));
+
+		$this->tpl->setVariable("TXT_CRON_LUCENE_INDEX",$this->lng->txt('cron_lucene_index'));
+		$this->tpl->setVariable("TXT_CRON_LUCENE_INDEX_INFO",$this->lng->txt('cron_lucene_index_info'));
 
 		$this->tpl->setVariable("TXT_NEVER",$this->lng->txt('never'));
 		$this->tpl->setVariable("TXT_DAILY",$this->lng->txt('daily'));
@@ -817,6 +822,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         {
 			$this->tpl->setVariable("CRON_LINK_CHECK","checked=\"checked\"");
         }
+		if($settings["cron_lucene_index"])
+		{
+			$this->tpl->setVariable("CRON_LUCENE_INDEX","checked=\"checked\"");
+		}
         if ($val = $settings["cron_web_resource_check"])
         {
 			switch($val)
