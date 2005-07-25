@@ -70,6 +70,9 @@ class ilQTIParser extends ilSaxParser
 	var $qpl_id;
 	var $do_nothing;
 	var $gap_index;
+	var $assessments;
+	var $assessment;
+	var $section;
 	
 	var $founditems = array();
 	var $verifyroot = false;
@@ -104,6 +107,9 @@ class ilQTIParser extends ilSaxParser
 		
 		$this->lng =& $lng;
 		$this->hasRootElement = FALSE;
+		$this->assessments = array();
+		$this->assessment = NULL;
+		$this->section = NULL;
 		$this->path = array();
 		$this->items = array();
 		$this->item = NULL;
@@ -209,6 +215,14 @@ class ilQTIParser extends ilSaxParser
 		
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				include_once ("./assessment/classes/class.ilQTIAssessment.php");
+				$this->assessment =& $this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+				break;
+			case "section":
+				include_once ("./assessment/classes/class.ilQTISection.php");
+				$this->section = new ilQTISection();
+				break;
 			case "qtimetadatafield":
 				$this->metadata = array("label" => "", "entry" => "");
 				break;
@@ -639,8 +653,14 @@ class ilQTIParser extends ilSaxParser
 				// not implemented yet
 				break;
 			case "assessment":
+				$this->assessment = NULL;
 				break;
 			case "section":
+				if ($this->assessment != NULL)
+				{
+					$this->assessment->addSection($this->section);
+				}
+				$this->section = NULL;
 				break;
 			case "presentation":
 				$this->in_presentation = TRUE;
@@ -886,6 +906,8 @@ class ilQTIParser extends ilSaxParser
 		if (($this->do_nothing) && (strcmp(strtolower($a_name), "item") != 0)) return;
 		switch (strtolower($a_name))
 		{
+			case "assessment":
+				break;
 			case "qtimetadatafield":
 				// handle only specific ILIAS metadata
 				switch ($this->metadata["label"])
