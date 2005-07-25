@@ -1613,6 +1613,7 @@ common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Importa modulo SCORM/AICC
 common#:#import_spl#:#Importa raccolta di domande per sondaggi

@@ -1615,6 +1615,7 @@ common#:#import_grp_finished#:#Zaimportowano grupę bez błędów
 common#:#import_hlm#:#Import pakietu HACP
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_qpl#:#Import testowej puli pytań
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_sahs#:#Import pakietu SCORM/AICC
 common#:#import_spl#:#Import Puli Pytań Ankiety

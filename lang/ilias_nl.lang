@@ -1615,6 +1615,7 @@ common#:#import_grp_finished#:#Geïmporteerd groep zonder een enkele fout###07 A
 common#:#import_hlm#:#Importeren HACP Package###07 Apr 2005 content changed
 common#:#import_lm#:#Importeren Lesmodule###07 Apr 2005 content changed
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importeren Root User###07 Apr 2005 content changed
 common#:#import_sahs#:#Importeren SCORM/AICC Package###07 Apr 2005 content changed
 common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable

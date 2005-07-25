@@ -1597,6 +1597,7 @@ common#:#import_grp_finished#:#Groupe importé sans erreur###07 Apr 2005 content
 common#:#import_hlm#:#Importer paquet HACP###07 Apr 2005 content changed
 common#:#import_lm#:#Importation de document ILIAS###07 Apr 2005 content changed
 common#:#import_qpl#:#Importer test avec jeu de questions###07 Apr 2005 content changed
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importer utilisateur root###07 Apr 2005 content changed
 common#:#import_sahs#:#Importer paquet SCORM/AICC###07 Apr 2005 content changed
 common#:#import_spl#:#Importer sondage-jeu de questions###07 Apr 2005 content changed

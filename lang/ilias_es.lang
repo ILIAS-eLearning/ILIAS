@@ -1613,6 +1613,7 @@ common#:#import_grp_finished#:#Grupo importado sin errores
 common#:#import_hlm#:#Importar Paquete HACP
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_qpl#:#Importar Banco de preguntas de Test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Import Usuario Root
 common#:#import_sahs#:#Importar Paquete SCORM/AICC
 common#:#import_spl#:#Importar Banco de preguntas para encuestas

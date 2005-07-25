@@ -1548,6 +1548,7 @@ common#:#import_grp_finished#:#Grupa je uvezena bez ikakvih grešaka
 common#:#import_hlm#:#Uvezi HACP Paket
 common#:#import_lm#:#Uvezi ILIAS metod ucenja
 common#:#import_qpl#:#Uvezi bazu pitanja za test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Uvezi putanju korisnika
 common#:#import_sahs#:#Uvezi SCORM/AICC Paket
 common#:#import_spl#:#Uvezi pitanja za proveru

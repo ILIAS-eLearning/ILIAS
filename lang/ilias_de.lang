@@ -1614,6 +1614,7 @@ common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_hlm#:#Import HACP Modul
 common#:#import_lm#:#Import Lernmodul
 common#:#import_qpl#:#Fragenpool für Test importieren
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
 common#:#import_spl#:#Fragenpool für Umfrage importieren

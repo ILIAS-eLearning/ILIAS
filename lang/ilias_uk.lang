@@ -1611,6 +1611,7 @@ common#:#import_grp_finished#:#Імпортована група не має ж�
 common#:#import_hlm#:#Імпортувати HACP Пакет
 common#:#import_lm#:#Імпортувати ILIAS Учбовий модуль
 common#:#import_qpl#:#Імпортувати Пул Питань для Тесту
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Імпортувати Користувача Root
 common#:#import_sahs#:#Імпортувати SCORM/AICC Пакет
 common#:#import_spl#:#Імпортувати Пул Питань для Опитування
