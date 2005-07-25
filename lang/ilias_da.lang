@@ -1564,6 +1564,7 @@ common#:#import_grp_finished#:#Importerede grupper uden nogle fejl
 common#:#import_hlm#:#Importer HACP Pakker
 common#:#import_lm#:#Importer ILIAS L&aelig;rer modul
 common#:#import_qpl#:#Importer afstemning til test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importer Root Bruger
 common#:#import_sahs#:#Importer SCORM/AICC Pakker
 common#:#import_spl#:#Importer afstemning til unders&oslash;gelser

@@ -1544,6 +1544,7 @@ common#:#import_grp_finished#:#Grup importat fara erori
 common#:#import_hlm#:#Importati Pachet HACP
 common#:#import_lm#:#Importati Modul de Invatare ILIAS
 common#:#import_qpl#:#Importati Baza de intrebari pentru Test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importati utilizator de Baza
 common#:#import_sahs#:#Importati Pachet SCORM/AICC
 common#:#import_spl#:#Importati Baza de Intrebari pentru sondaj

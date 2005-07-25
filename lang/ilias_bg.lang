@@ -1421,6 +1421,7 @@ common#:#import_grp_finished#:#Импортирана група без ника
 common#:#import_hlm#:#Импортиране на HACP пакет
 common#:#import_lm#:#Импортиране на ILIAS модул за обучение
 common#:#import_qpl#:#Импортиране на набори въпроси за тестове
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Импортиране на основен потребител
 common#:#import_sahs#:#Импортиране SCORM/AICC пакет
 common#:#import_spl#:#Импортиране на набори въпроси за обзори

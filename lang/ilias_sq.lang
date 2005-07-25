@@ -1548,6 +1548,7 @@ common#:#import_grp_finished#:#Grupet e importuara pa gabime
 common#:#import_hlm#:#Importo Paket HCAP
 common#:#import_lm#:#Importo Modul Mësimor ILIAS
 common#:#import_qpl#:#Importo Fond-Pyetjesh për Test
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importo Root Shfrytëzues
 common#:#import_sahs#:#Importo Paket SCORM/AICC
 common#:#import_spl#:#Importo Fond-Pyetjesh për Kuestioner

@@ -1521,6 +1521,7 @@ common#:#import_grp_finished#:#Hiba nélkül importált csoport
 common#:#import_hlm#:#HACP csomag importja
 common#:#import_lm#:#Tananyag importja
 common#:#import_qpl#:#Teszt kérdésgyűjtemény importálása
+common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Root felhasználó importja
 common#:#import_sahs#:#SCORM/AICC csomag importálása
 common#:#import_spl#:#Kérdőívi kérdésgyűjtemény importálása
