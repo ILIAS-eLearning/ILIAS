@@ -648,7 +648,7 @@ class ilPageObjectGUI
 		{
 			$enable_split_next = "n";
 		}
-		
+
 		$paragraph_plugins = "";
 		if ($this->getOutputMode() == "presentation")
 		{ 			
