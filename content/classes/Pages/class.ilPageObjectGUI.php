@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -24,7 +24,7 @@
 include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 include_once("./content/classes/Pages/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
-include_once("./content/classes/Pages/class.ilParagraphPlugin.php");
+//include_once("./content/classes/Pages/class.ilParagraphPlugin.php");
 include_once("./classes/class.ilDOMUtil.php");
 
 
@@ -649,6 +649,7 @@ class ilPageObjectGUI
 			$enable_split_next = "n";
 		}
 
+		/*
 		$paragraph_plugins = "";
 		if ($this->getOutputMode() == "presentation")
 		{ 			
@@ -656,10 +657,10 @@ class ilPageObjectGUI
 				$paragraph_plugins = $GLOBALS["paragraph_plugins"];
 				$paragraph_plugins = $paragraph_plugins->serializeToString();			
 			}
-		}
+		}*/
 		
 		$img_path = ilUtil::getImagePath("", false, $this->getOutputMode(), $this->getOutputMode() == "offline");
-	//	echo $paragraph_plugins;
+
 		//$paragraph_plugins = "java122#animate#http://www.mps.de#jeliot.gif|php3#edit#http://www.edit.de#edit.gif";
 		
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
@@ -683,8 +684,7 @@ class ilPageObjectGUI
 						 'encoded_download_script' => urlencode($this->sourcecode_download_script),
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
-						 'javascript' => $sel_js_mode,
-						 'paragraph_plugins' => $paragraph_plugins);
+						 'javascript' => $sel_js_mode);
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
