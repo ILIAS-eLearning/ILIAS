@@ -1060,6 +1060,8 @@ common#:#create_stylesheet#:#Створити Стиль
 common#:#created#:#Створити лату
 common#:#cron_jobs#:#Cron задачі
 common#:#cron_jobs_desc#:#Cron задача це автоматизований процес, що виконується в напередзадані часові інтервали. Ви знайдете інформацію стосовно установки в 'INSTALL Documentation'.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Курс
 common#:#crs_a#:#Курс
 common#:#crs_add#:#Додати Курс
@@ -4768,6 +4770,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Метадані
 search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
 search#:#search_move_folder_not_allowed#:#Папка не може бути переміщена.

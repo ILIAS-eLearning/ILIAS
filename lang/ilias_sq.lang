@@ -1013,6 +1013,8 @@ common#:#create_in#:#Krijo në
 common#:#create_stylesheet#:#Krijo Stil
 common#:#cron_jobs#:#Procedurat kron
 common#:#cron_jobs_desc#:#Procedura kron është proces i automatizuar që operon në intervale kohore të përcaktuara më parë. Do të gjeni informacione për setup në Dokumentimin për INSTALIM.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Kurs
 common#:#crs_a#:#një Kurs
 common#:#crs_add#:#Shto Kurs
@@ -4593,6 +4595,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Metadata
 search#:#search_minimum_three#:#Duhet të shënoni së paku tre karaktere
 search#:#search_move_folder_not_allowed#:#Direktoriumi nuk mund të zhvendoset

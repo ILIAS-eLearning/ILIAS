@@ -1060,6 +1060,8 @@ common#:#create_stylesheet#:#Crear Estilo
 common#:#created#:#Crear fecha
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Curso
 common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
@@ -4785,6 +4787,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Metadatos
 search#:#search_minimum_three#:#La cadena de búsqueda debe tener al menos 3 caracteres
 search#:#search_move_folder_not_allowed#:#La carpeta no puede ser movida.

@@ -1061,6 +1061,8 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
 common#:#cron_jobs#:#Cron-jobs
 common#:#cron_jobs_desc#:#Ein Cron-job ist automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
+common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
+common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
@@ -4785,6 +4787,7 @@ search#:#search_lucene#:#Lucene-Suche
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
 search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
@@ -5175,6 +5178,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-search#:#search_lucene_readme#:#Zur Installationsanleitung
-common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
-common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.
