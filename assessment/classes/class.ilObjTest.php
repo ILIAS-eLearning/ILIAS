@@ -746,6 +746,55 @@ class ilObjTest extends ilObject
 		return $file;
 	}
 
+	
+	/**
+	* creates data directory for import files
+	* (data_dir/tst_data/tst_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function _createImportDirectory()
+	{
+		global $ilias;
+		
+		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
+		ilUtil::makeDir($tst_data_dir);
+		
+		if(!is_writable($tst_data_dir))
+		{
+			$ilias->raiseError("Test data directory (".$tst_data_dir
+				.") not writeable.",$ilias->error_obj->FATAL);
+		}
+
+		// create test directory (data_dir/tst_data/tst_import)
+		$tst_dir = $tst_data_dir."/tst_import";
+		ilUtil::makeDir($tst_dir);
+		if(!@is_dir($tst_dir))
+		{
+			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
+		}
+	}
+
+/**
+* Get the import directory location of the test
+* 
+* Get the import directory location of the test
+*
+* @return string The location of the import directory or false if the directory doesn't exist
+* @access	public
+*/
+	function _getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	/**
 	* creates data directory for import files
 	* (data_dir/tst_data/tst_<id>/import, depending on data
@@ -762,20 +811,12 @@ class ilObjTest extends ilObject
 				.") not writeable.",$this->ilias->error_obj->FATAL);
 		}
 
-		// create test directory (data_dir/tst_data/tst_<id>)
-		$tst_dir = $tst_data_dir."/tst_".$this->getId();
+		// create test directory (data_dir/tst_data/tst_import)
+		$tst_dir = $tst_data_dir."/tst_import";
 		ilUtil::makeDir($tst_dir);
 		if(!@is_dir($tst_dir))
 		{
-			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->FATAL);
-		}
-
-		// create import subdirectory (data_dir/tst_data/tst_<id>/import)
-		$import_dir = $tst_dir."/import";
-		ilUtil::makeDir($import_dir);
-		if(!@is_dir($import_dir))
-		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
 	}
 
@@ -789,8 +830,7 @@ class ilObjTest extends ilObject
 */
 	function getImportDirectory()
 	{
-		$import_dir = ilUtil::getDataDir()."/tst_data".
-			"/tst_".$this->getId()."/import";
+		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if(@is_dir($import_dir))
 		{
 			return $import_dir;

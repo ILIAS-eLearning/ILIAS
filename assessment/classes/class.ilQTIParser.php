@@ -68,12 +68,16 @@ class ilQTIParser extends ilSaxParser
 	var $parser_mode;
 	var $import_idents;
 	var $qpl_id;
+	var $tst_id;
+	var $tst_object;
 	var $do_nothing;
 	var $gap_index;
 	var $assessments;
 	var $assessment;
 	var $section;
-	
+	var $import_mapping;
+	var $question_counter = 1;
+
 	var $founditems = array();
 	var $verifyroot = false;
 	var $verifyqticomment = 0;
@@ -90,7 +94,7 @@ class ilQTIParser extends ilSaxParser
 	* @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
 	* @access	public
 	*/
-	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
+	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", &$a_tst_object = "")
 	{
 		global $lng;
 
@@ -106,7 +110,13 @@ class ilQTIParser extends ilSaxParser
 		}
 		
 		$this->lng =& $lng;
+		$this->tst_object =& $a_tst_object;
+		if (is_object($a_tst_object))
+		{
+			$this->tst_id = $this->tst_object->getId();
+		}
 		$this->hasRootElement = FALSE;
+		$this->import_mapping = array();
 		$this->assessments = array();
 		$this->assessment = NULL;
 		$this->section = NULL;
@@ -132,6 +142,7 @@ class ilQTIParser extends ilSaxParser
 		$this->displayfeedback = NULL;
 		$this->itemfeedback = NULL;
 		$this->flow_mat = array();
+		$this->question_counter = 1;
 		$this->flow = 0;
 		$this->gap_index = 0;
 		$this->presentation = NULL;
@@ -153,6 +164,7 @@ class ilQTIParser extends ilSaxParser
 		$this->verifyfieldentry = 0;
 		$this->verifyfieldlabeltext = "";
 		$this->verifyfieldentrytext = "";
+		$this->question_counter = 1;
 	}
 	
 	/**
@@ -169,6 +181,7 @@ class ilQTIParser extends ilSaxParser
 
 	function startParsing()
 	{
+		$this->question_counter = 1;
 		parent::startParsing();
 		return FALSE;
 	}
@@ -1214,6 +1227,17 @@ class ilQTIParser extends ilSaxParser
 							}
 							$question->saveToDb();
 						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
 						break;
 					case QT_CLOZE:
 						$duration = $this->item->getDuration();
@@ -1376,6 +1400,17 @@ class ilQTIParser extends ilSaxParser
 								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
 							}
 							$question->saveToDb();
+						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
 						}
 						break;
 					case QT_MATCHING:
@@ -1571,6 +1606,17 @@ class ilQTIParser extends ilSaxParser
 								ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 							}
 						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
 						break;
 					case QT_ORDERING:
 						$duration = $this->item->getDuration();
@@ -1732,6 +1778,17 @@ class ilQTIParser extends ilSaxParser
 								ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 							}
 						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
 						break;
 					case QT_IMAGEMAP:
 						$duration = $this->item->getDuration();
@@ -1870,6 +1927,17 @@ class ilQTIParser extends ilSaxParser
 							$imagefile = fwrite($fh, $image);
 							fclose($fh);
 						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
 						break;
 					case QT_JAVAAPPLET:
 						$duration = $this->item->getDuration();
@@ -1966,6 +2034,17 @@ class ilQTIParser extends ilSaxParser
 							$javafile = fwrite($fh, $javaapplet);
 							fclose($fh);
 						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
+						}
 						break;
 					case QT_TEXT:
 						$duration = $this->item->getDuration();
@@ -2027,6 +2106,17 @@ class ilQTIParser extends ilSaxParser
 								$question->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
 							}
 							$question->saveToDb();
+						}
+						if ($this->tst_id > 0)
+						{
+							$q_1_id = $question->getId();
+							$question_id = $question->duplicate(true);
+							$this->tst_object->questions[$this->question_counter++] = $question_id;
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+						}
+						else
+						{
+							$this->import_mapping[$this->item->getIdent()] = array("pool" => $question->getId(), "test" => 0);
 						}
 						break;
 				}
@@ -2329,5 +2419,22 @@ class ilQTIParser extends ilSaxParser
 	{
 		return $this->founditems;
 	}
+
+	/**
+	* get array of new created questions for
+	* import id
+	*/
+	function getImportMapping()
+	{
+		if (!is_array($this->import_mapping))
+		{
+			return array();
+		}
+		else
+		{
+			return $this->import_mapping;
+		}
+	}
+	
 }
 ?>
