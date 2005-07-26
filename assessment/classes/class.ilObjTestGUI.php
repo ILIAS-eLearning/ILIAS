@@ -697,6 +697,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$newObj->setPermissions($_GET["ref_id"]);
 		// notify the questionpool object and all its parent objects that a "new" object was created
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		// empty mark schema
+		$newObj->mark_schema->flush();
 
 		// start parsing of QTI files
 		include_once "./assessment/classes/class.ilQTIParser.php";
