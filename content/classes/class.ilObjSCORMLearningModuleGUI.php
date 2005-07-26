@@ -308,7 +308,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 					$this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));
 				$this->tpl->setVariable("VAL_TIME", $data["time"]);
 				$this->tpl->setVariable("VAL_STATUS", $data["status"]);
-				$this->tpl->setVariable("VAL_CREDIT", $data["score"]);
+				$this->tpl->setVariable("VAL_SCORE", $data["score"]);
 
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -354,7 +354,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->lng->txt("cont_lvalue"), $this->lng->txt("cont_rvalue")));
 
 		$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
-			"cmdClass" => get_class($this), "obj_id" => $_GET["obj_id"]);
+			"cmdClass" => get_class($this), "obj_id" => $_GET["obj_id"],
+			"user_id" => $_GET["user_id"]);
 		$cols = array("firstname", "lastname", "lvalue", "rvalue");
 		$tbl->setHeaderVars($cols, $header_params);
 		//$tbl->setColumnWidth(array("25%",));
