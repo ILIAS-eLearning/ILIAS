@@ -74,6 +74,7 @@ class ilQTIParser extends ilSaxParser
 	var $gap_index;
 	var $assessments;
 	var $assessment;
+	var $in_assessment = FALSE;
 	var $section;
 	var $import_mapping;
 	var $question_counter = 1;
@@ -149,6 +150,7 @@ class ilQTIParser extends ilSaxParser
 		$this->mattext = NULL;
 		$this->matapplet = NULL;
 		$this->sametag = FALSE;
+		$this->in_assessment = FALSE;
 		$this->characterbuffer = "";
 		$this->metadata = array("label" => "", "entry" => "");
 	}
@@ -231,6 +233,50 @@ class ilQTIParser extends ilSaxParser
 			case "assessment":
 				include_once ("./assessment/classes/class.ilQTIAssessment.php");
 				$this->assessment =& $this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+				$this->in_assessment = TRUE;
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "title":
+								$this->assessment->setTitle($value);
+								break;
+							case "ident":
+								$this->assessment->setIdent($value);
+								break;
+						}
+					}
+				}
+				break;
+			case "assessmentcontrol":
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "solutionswitch":
+								if (is_object($this->tst_object))
+								{
+									$score_reporting = $value;
+									switch (strtolower($score_reporting))
+									{
+										case "1":
+										case "yes":
+											$score_reporting = 1;
+											break;
+										default:
+											$score_reporting = 0;
+											break;
+									}
+									$this->tst_object->setScoreReporting($score_reporting);
+								}
+								break;
+						}
+					}
+				}
 				break;
 			case "section":
 				include_once ("./assessment/classes/class.ilQTISection.php");
@@ -666,7 +712,12 @@ class ilQTIParser extends ilSaxParser
 				// not implemented yet
 				break;
 			case "assessment":
-				$this->assessment = NULL;
+				if (is_object($this->tst_object))
+				{
+					$this->tst_object->setDescription($this->assessment->getComment());
+					$this->tst_object->setTitle($this->assessment->getTitle());
+				}
+				$this->in_assessment = FALSE;
 				break;
 			case "section":
 				if ($this->assessment != NULL)
@@ -939,6 +990,107 @@ class ilQTIParser extends ilSaxParser
 							$this->item->setAuthor($this->metadata["entry"]);
 						}
 						break;
+				}
+				if ($this->in_assessment)
+				{
+					switch ($this->metadata["label"])
+					{
+						case "test_type":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setTestType($this->metadata["entry"]);
+							}
+							break;
+						case "sequence_settings":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setSequenceSettings($this->metadata["entry"]);
+							}
+							break;
+						case "author":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setAuthor($this->metadata["entry"]);
+							}
+							break;
+						case "nr_of_tries":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setNrOfTries($this->metadata["entry"]);
+							}
+							break;
+						case "random_test":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setRandomTest($this->metadata["entry"]);
+							}
+							break;
+						case "random_question_count":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setRandomQuestionCount($this->metadata["entry"]);
+							}
+							break;
+						case "count_system":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setCountSystem($this->metadata["entry"]);
+							}
+							break;
+						case "mc_scoring":
+							if (is_object($this->tst_object))
+							{
+								$this->tst_object->setMCScoring($this->metadata["entry"]);
+							}
+							break;
+						case "reporting_date":
+							if (is_object($this->tst_object))
+							{
+								$iso8601period = $this->metadata["entry"];
+								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+								{
+									$this->tst_object->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+								}
+							}
+							break;
+						case "starting_time":
+							if (is_object($this->tst_object))
+							{
+								$iso8601period = $this->metadata["entry"];
+								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+								{
+									$this->tst_object->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+								}
+							}
+							break;
+						case "ending_time":
+							if (is_object($this->tst_object))
+							{
+								$iso8601period = $this->metadata["entry"];
+								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+								{
+									$this->tst_object->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+								}
+							}
+							break;
+					}
+					if (is_object($this->tst_object))
+					{
+						if (preg_match("/mark_step_\d+/", $this->metadata["label"]))
+						{
+							$xmlmark = $this->metadata["entry"];
+							preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
+							$mark_short = $matches[1];
+							preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
+							$mark_official = $matches[1];
+							preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
+							$mark_percentage = $matches[1];
+							preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
+							$mark_passed = $matches[1];
+							$this->tst_object->mark_schema->add_mark_step($mark_short, $mark_official, $mark_percentage, $mark_passed);
+						}
+					}
+					
 				}
 				$this->metadata = array("label" => "", "entry" => "");
 				break;
@@ -2161,6 +2313,13 @@ class ilQTIParser extends ilSaxParser
 						$this->item->addPresentationitem($this->material);
 					}
 				}
+				else if (strcmp($this->material->getLabel(), "introduction") == 0)
+				{
+					if (is_object($this->tst_object))
+					{
+						$this->tst_object->setIntroduction($this->material->mattext[0]->getContent());
+					}
+				}
 				$this->material = NULL;
 				break;
 			case "matimage";
@@ -2309,6 +2468,9 @@ class ilQTIParser extends ilSaxParser
 				{
 					case "item":
 						$this->item->setComment($a_data);
+						break;
+					case "assessment":
+						$this->assessment->setComment($a_data);
 						break;
 					default:
 						break;
