@@ -4260,6 +4260,28 @@ class ilObjTest extends ilObject
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
 		$qtiMetadata->append_child($qtiMetadatafield);
+		// count system
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("count_system");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getCountSystem());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// multiple choice scoring
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("mc_scoring");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getMCScoring());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// score reporting date
 		if ($this->getReportingDate())
 		{
@@ -4453,13 +4475,11 @@ class ilObjTest extends ilObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-// to do: export meta data
-/*
-		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "modifyExportIdentifier");
-		$a_xml_writer->appendXML($nested->export($this->getId(),
-			$this->getType()));
-*/
+		include_once("Services/MetaData/classes/class.ilMD2XML.php");
+		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+		$md2xml->setExportMode(true);
+		$md2xml->startExport();
+		$a_xml_writer->appendXML($md2xml->getXML());
 	}
 
 /**
@@ -4639,7 +4659,7 @@ class ilObjTest extends ilObject
 								$score_reporting = 0;
 								break;
 						}
-						$this->setScoreReporting();
+						$this->setScoreReporting($score_reporting);
 						break;
 					case "objectives":
 						$material = $node->first_child();
