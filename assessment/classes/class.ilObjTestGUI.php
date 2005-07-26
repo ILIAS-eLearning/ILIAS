@@ -193,9 +193,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		$this->uploadObject(false);
-		ilUtil::redirect($this->getReturnLocation("post","$returnlocation?".$this->link_params));
-//		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		$this->uploadTstObject();
 	}
 	
 	/**
@@ -538,14 +536,192 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
 		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
-		$this->tpl->setVariable("BTN_NAME", "upload");
+		$this->tpl->setVariable("BTN_NAME", "uploadTst");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("NEW_TYPE", $this->type);
 		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
 		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 
 	}
 
+	/**
+	* imports test and question(s)
+	*/
+	function uploadTstObject()
+	{
+		if ($_POST["qpl"] < 1)
+		{
+			sendInfo($this->lng->txt("tst_select_questionpools"));
+			$this->importObject();
+			return;
+		}
+
+		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
+		{
+			sendInfo($this->lng->txt("error_upload"));
+			$this->importObject();
+			return;
+		}
+		include_once("./assessment/classes/class.ilObjTest.php");
+		// create import directory
+		ilObjTest::_createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = ilObjTest::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filenames of xml files
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = ilObjTest::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		$qti_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "qti", $subdir).".xml";
+		// start verification of QTI files
+		include_once "./assessment/classes/class.ilQTIParser.php";
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI);
+		$result = $qtiParser->startParsing();
+		$founditems =& $qtiParser->getFoundItems();
+		
+		if (count($founditems) == 0)
+		{
+			// nothing found
+
+			// delete import directory
+			ilUtil::delDir(ilObjTest::_getImportDirectory());
+
+			sendInfo($this->lng->txt("tst_import_no_items"));
+			$this->importObject();
+			return;
+		}
+		
+		$complete = 0;
+		$incomplete = 0;
+		foreach ($founditems as $item)
+		{
+			if (strlen($item["type"]))
+			{
+				$complete++;
+			}
+			else
+			{
+				$incomplete++;
+			}
+		}
+		
+		if ($complete == 0)
+		{
+			// delete import directory
+			ilUtil::delDir(ilObjTest::_getImportDirectory());
+
+			sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
+			$this->importObject();
+			return;
+		}
+		
+		$_SESSION["tst_import_xml_file"] = $xml_file;
+		$_SESSION["tst_import_qti_file"] = $qti_file;
+		$_SESSION["tst_import_subdir"] = $subdir;
+		// display of found questions
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tst_import_verification.html");
+		$row_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($founditems as $item)
+		{
+			$this->tpl->setCurrentBlock("verification_row");
+			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
+			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
+			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
+			switch ($item["type"])
+			{
+				case "MULTIPLE CHOICE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
+					break;
+				case "CLOZE QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_cloze"));
+					break;
+				case "IMAGE MAP QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_imagemap"));
+					break;
+				case "JAVA APPLET QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_javaapplet"));
+					break;
+				case "MATCHING QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_matching"));
+					break;
+				case "ORDERING QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_ordering"));
+					break;
+				case "TEXT QUESTION":
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_text"));
+					break;
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
+		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
+		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
+		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("QUESTIONPOOL_ID", $_POST["qpl"]);
+		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* imports question(s) into the questionpool (after verification)
+	*/
+	function importVerifiedFileObject()
+	{
+		include_once "./assessment/classes/class.ilObjTest.php";
+		// create new questionpool object
+		$newObj = new ilObjTest(true);
+		// set type of questionpool object
+		$newObj->setType($_GET["new_type"]);
+		// set title of questionpool object to "dummy"
+		$newObj->setTitle("dummy");
+		// set description of questionpool object
+		$newObj->setDescription("test import");
+		// create the questionpool class in the ILIAS database (object_data table)
+		$newObj->create(true);
+		// create a reference for the questionpool object in the ILIAS database (object_reference table)
+		$newObj->createReference();
+		// put the questionpool object in the administration tree
+		$newObj->putInTree($_GET["ref_id"]);
+		// get default permissions and set the permissions for the questionpool object
+		$newObj->setPermissions($_GET["ref_id"]);
+		// notify the questionpool object and all its parent objects that a "new" object was created
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		// start parsing of QTI files
+		include_once "./assessment/classes/class.ilQTIParser.php";
+		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $_POST["qpl_id"], $_POST["ident"], $newObj);
+		$result = $qtiParser->startParsing();
+		$newObj->saveToDb();
+		
+		// import page data
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
+		$contParser->setQuestionMapping($qtiParser->getImportMapping());
+		$contParser->startParsing();
+
+		// delete import directory
+		ilUtil::delDir(ilObjTest::_getImportDirectory());
+		
+		ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+	}
+	
+	function cancelImportObject()
+	{
+		ilUtil::redirect($this->getReturnLocation("cancel", "adm_object.php?ref_id=" . $_GET["ref_id"]));
+	}
+	
+	
 	/**
 	* display status information or report errors messages
 	* in case of error
@@ -554,6 +730,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function uploadObject($redirect = true)
 	{
+		$this->uploadTstObject();
+		return;
 		if ($_POST["qpl"] < 1)
 		{
 			sendInfo($this->lng->txt("tst_select_questionpools"));
