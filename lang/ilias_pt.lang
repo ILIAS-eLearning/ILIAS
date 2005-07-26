@@ -1062,6 +1062,8 @@ common#:#create_stylesheet#:#Criar Estilo###07 Apr 2005 content changed
 common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Curso###07 Apr 2005 content changed
 common#:#crs_a#:#um Curso###07 Apr 2005 content changed
 common#:#crs_add#:#Adicionar Curso###07 Apr 2005 content changed
@@ -4787,6 +4789,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Meta dados###14 Sep 2004 content changed
 search#:#search_minimum_three#:#A sua procura tem de ter pelo menos três caracteres###14 Sep 2004 content changed
 search#:#search_move_folder_not_allowed#:#A pasta não pode ser movida.###07 Apr 2005 content changed

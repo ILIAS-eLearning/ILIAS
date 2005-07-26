@@ -1062,6 +1062,8 @@ common#:#create_stylesheet#:#Twórz styl
 common#:#created#:#Data utworzenia
 common#:#cron_jobs#:#Zadania Cron
 common#:#cron_jobs_desc#:#Zadanie cron-a to automatyczny proces uruchamiany cyklicznie. O ustawieniu zadań znajdziesz informację w pliku 'INSTALL.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Kurs
 common#:#crs_a#:#Kurs
 common#:#crs_add#:#Dodaj kurs
@@ -4787,6 +4789,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Meta dane
 search#:#search_minimum_three#:#Element szukany musi mieć conajmniej trzy znaki.
 search#:#search_move_folder_not_allowed#:#Folder nie może być przesunięty

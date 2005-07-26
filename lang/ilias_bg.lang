@@ -947,6 +947,8 @@ common#:#create_in#:#Създаване в
 common#:#create_stylesheet#:#Създаване на стил
 common#:#cron_jobs#:#Хронологично определени задачи
 common#:#cron_jobs_desc#:#Хронологично определена задача е автоматизиран процес, който функционира на предварително определени интервали от време. Ще намерите информация за настройването в 'ИНСТАЛАЦИОННАТА документация.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Курсове
 common#:#crs_a#:#Курс
 common#:#crs_add#:#Добавяне на курс
@@ -4159,6 +4161,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Метаданни
 search#:#search_minimum_three#:#Вашето търсене трябва да има дължина поне три символа
 search#:#search_move_folder_not_allowed#:#Папката не може да бъде преместена.

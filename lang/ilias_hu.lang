@@ -994,6 +994,8 @@ common#:#create_stylesheet#:#Stílus létrehozása
 common#:#created#:#Dátum létrehozása
 common#:#cron_jobs#:#Cron-job-ok
 common#:#cron_jobs_desc#:#A cron-job automatizált folyamat, amely egy előre definiált időintervallumon működik. A telepítési dokumentációban talál információt a setup-ról.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Kurzus
 common#:#crs_a#:#egy kurzus
 common#:#crs_add#:#Kurzus hozzáadása
@@ -4517,6 +4519,7 @@ search#:#search_lucene#:#Lucene search###20 Jul 2005 new variable
 search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###20 Jul 2005 new variable
 search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Metaadat
 search#:#search_minimum_three#:#A keresésnek legalább három karakter hosszúnak kell lennie
 search#:#search_move_folder_not_allowed#:#A mappa nem helyezhető át.

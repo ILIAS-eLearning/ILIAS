@@ -1060,6 +1060,8 @@ common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Appuntamemto creato
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
+common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
@@ -4782,6 +4784,7 @@ search#:#search_lucene#:#Ricerca con Lucene
 search#:#search_lucene_host#:#Server Lucene
 search#:#search_lucene_info#:#Se attivata, &#232; possibile effettuare ricerche in file PDF, HTML e Moduli HTML
 search#:#search_lucene_port#:#Porta Lucene
+search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Metadati
 search#:#search_minimum_three#:#Devi specificare almeno tre caratteri
 search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere spostata.
