@@ -26,7 +26,7 @@
 * Class ilObjectGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjectGUIAdapter.php,v 1.4.10.1 2005/04/08 12:24:37 smeyer Exp $
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
