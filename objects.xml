@@ -71,10 +71,8 @@
 <object name="dbk" class_name="DlBook" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
-	<property name="view" module="n">subobjects</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
-	<property name="editBibItem">bib_data</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="crs" class_name="Course" location="course/classes" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
@@ -98,9 +96,6 @@
 	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="editMeta">meta_data</property>
-	<property name="members">members</property>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -197,8 +192,6 @@
 <object name="glo" class_name="Glossary" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listTerms" module="1">cont_terms</property>
-	<property name="view">view_content</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="lng" class_name="Language" location="classes" checkbox="1" translate="0" rbac="0">
