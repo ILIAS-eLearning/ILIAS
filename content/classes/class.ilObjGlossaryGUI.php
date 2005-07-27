@@ -1454,11 +1454,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "perm"), "perm",
 			get_class($this));
 
-		// owner
-		$tabs_gui->addTarget("owner",
-			$this->ctrl->getLinkTarget($this, "owner"), "owner",
-			get_class($this));
-
 	}
 
 }
