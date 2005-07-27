@@ -72,7 +72,7 @@ class ilCronCheck
 			$check_lnk->check();
 		}
 		// Start lucene indexer
-		if(1)
+		if($ilias->getSetting("cron_lucene_index"))
 		{
 			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
 

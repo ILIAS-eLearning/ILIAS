@@ -26,13 +26,14 @@ ILIAS needs the pear XML_RPC library.
 A Installation
 -------------------------------------------------------------------------------
 
-1) Change directory to:
+1) Install pear XML_RPC:
+
+bash$ pear install XML_RPC
+
+2) Change directory to:
 
 bash$ cd <YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib
 
-2) Install pear XML_RPC:
-
-bash$ pear install XML_RPC
 
 3) Edit the file ilServer.properties
 
