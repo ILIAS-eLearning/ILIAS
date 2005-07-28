@@ -405,6 +405,8 @@ assessment#:#tst_eval_total_persons#:#Total antal af personer der har taget denn
 assessment#:#tst_eval_user_answer#:#User answer###21 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Generelle egenskaber
 assessment#:#tst_generate_xls#:#Generer Excel
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. Du har ikke rettighedder til at flytte eller &aelig;ndre sp&oslash;rgsm&aring;lende i denne test!
 assessment#:#tst_insert_missing_question#:#V&aelig;lg venligst mindst et sp&oslash;rgsm&aring;l at inds&aelig;tte i denne test!
 assessment#:#tst_insert_questions#:#Er du sikker p&aring; du vil inds&aelig;tte f&oslash;lgende sp&oslash;rgsm&aring;l i denne test?
@@ -661,6 +663,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#r&oslash;d
 chat#:#chat_refresh#:#Opdater
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Tilf&oslash;jet nyt chat rum
 chat#:#chat_room_name#:#Navn p&aring; chat rum
 chat#:#chat_room_renamed#:#Chat rum omd&oslash;bt.

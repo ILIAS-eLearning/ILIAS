@@ -330,7 +330,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Pyetje me zgjedhje të shumëfishtë (me përgjigje të shumëfishtë)
 assessment#:#qt_multiple_choice_sr#:#Pyetje me zgjedhje të shumëfishtë (një përgjigje)
 assessment#:#qt_ordering#:#Radhitja e Pyetjeve
-assessment#:#qt_text#:#Pyetje me përgjigje të shkurtë (tekst)
+assessment#:#qt_text#:#Pyetje me përgjigje të shkurtë (tekst)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Pyetja është ruajtur automatikisht në mënyrë që të rezervoj hapësirë të diskut për të ruajtur skedarin e ngarkuar. Nëse anuloni këtë formë tani, keni kujdes se duhet ta fshini pyetjen në fondin e pyetjeve nëse nuk dëshironi ta mbani më!
 assessment#:#question_short#:#P
 assessment#:#question_title#:#Titulli i pyetjes
@@ -405,6 +405,8 @@ assessment#:#tst_eval_total_persons#:#Numri i personave të hyrë në këtë tes
 assessment#:#tst_eval_user_answer#:#Përgjigja e shfrytëzuesit
 assessment#:#tst_general_properties#:#Karakteristikat gjenerale
 assessment#:#tst_generate_xls#:#Gjenero Excel
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testi është në shfrytëzim nga %d shfrytëzues. Nuk lejohet editimi apo zhvendosja e pyetjeve në këtë test!
 assessment#:#tst_insert_missing_question#:#Ju lutem zgjedhni së paku një pyetje për ta futur në këtë test!
 assessment#:#tst_insert_questions#:#A jeni të sigurt për të futur pyetjen/pyetjet në test?
@@ -661,6 +663,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#e kuqe
 chat#:#chat_refresh#:#Aktualizo
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Chat Dhoma është shtuar
 chat#:#chat_room_name#:#Emri i chat dhomës
 chat#:#chat_room_renamed#:#Chat dhoma u riemërtua.

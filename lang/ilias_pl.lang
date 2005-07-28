@@ -336,7 +336,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
-assessment#:#qt_text#:#Pytanie na krótką odpowiedź  (Tekst)
+assessment#:#qt_text#:#Pytanie na krótką odpowiedź  (Tekst)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_title#:#Tytuł pytania
@@ -423,6 +423,8 @@ assessment#:#tst_finished#:#Ukończone
 assessment#:#tst_general_properties#:#Cechy ogólne
 assessment#:#tst_generate_xls#:#Generuj plik Excela
 assessment#:#tst_heading_scoring#:#Punktacja
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Test jest używany przez %d użytkowników. Nie możesz zmieniać oraz przesuwać pytań w tym teście!
 assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
 assessment#:#tst_insert_questions#:#Chcesz wstawić następujące pytania do testu?
@@ -700,6 +702,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#czerwony
 chat#:#chat_refresh#:#Odśwież
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Dodany nowy pokój czat
 chat#:#chat_room_name#:#Nazwa pokoju czat
 chat#:#chat_room_renamed#:#Zmieniono nazwę pokoju czat.

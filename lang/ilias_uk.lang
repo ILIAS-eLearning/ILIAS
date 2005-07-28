@@ -335,7 +335,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
-assessment#:#qt_text#:#Коротка Відповідь (Текст) Питання
+assessment#:#qt_text#:#Коротка Відповідь (Текст) Питання###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
 assessment#:#question_short#:#П
 assessment#:#question_title#:#Назва питання
@@ -421,6 +421,8 @@ assessment#:#tst_finished#:#Закінчений
 assessment#:#tst_general_properties#:#Загальні властивості
 assessment#:#tst_generate_xls#:#Сгенерувати Excel
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Тест виконують користувачі: %d осіб. Вам не дозволено редагувати або переміщувати питання в цьому тесті!
 assessment#:#tst_insert_missing_question#:#Будь ласка виберіть хоча б одне питання, щоб вставити його в тест!
 assessment#:#tst_insert_questions#:#Ви впервені що ви бажаєте вставити наступні питання в тест?
@@ -698,6 +700,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#червоний
 chat#:#chat_refresh#:#Обновити
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Додати нову кімнату
 chat#:#chat_room_name#:#Назва кімнати
 chat#:#chat_room_renamed#:#Кімнату переіменовано.
