@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 20, 2005 at 11:16 PM
+# Generation Time: Jul 28, 2005 at 04:18 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias350rel`
+# Database : `ilias350beta2`
 # --------------------------------------------------------
 
 #
@@ -643,7 +643,8 @@ CREATE TABLE `crs_waiting_list` (
 
 CREATE TABLE `ctrl_calls` (
   `parent` varchar(100) NOT NULL default '',
-  `child` varchar(100) default NULL
+  `child` varchar(100) default NULL,
+  KEY `jmp_parent` (`parent`)
 ) TYPE=MyISAM;
 
 #
@@ -9749,7 +9750,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '499');
+INSERT INTO `settings` VALUES ('db_version', '500');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
