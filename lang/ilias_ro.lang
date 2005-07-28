@@ -329,7 +329,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Intrebare cu variante multiple(raspunsuri multiple)
 assessment#:#qt_multiple_choice_sr#:#Intrebare cu variante multiple(raspuns unic)
 assessment#:#qt_ordering#:#Ordoneaza intrebarile
-assessment#:#qt_text#:#Intrebare cu raspuns scurt(Text)
+assessment#:#qt_text#:#Intrebare cu raspuns scurt(Text)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Intrebarea a fost salvata automat pentru a rezerva spatiu pe hard disk pentru a stoca fisierul incarcat. Daca anulati aceasta forma, trebuie sa stergeti intrebarea din baza de intrebari daca nu doriti sa o pastrati!
 assessment#:#question_short#:#I
 assessment#:#question_title#:#Titlul intrebarii
@@ -414,6 +414,8 @@ assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Proprietati generale
 assessment#:#tst_generate_xls#:#Generati fisa Excel
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Testul este utilizat de %d utilizatori. Nu aveti voie sa editati sau sa mutati intrebarile din acest test!
 assessment#:#tst_insert_missing_question#:#Va rugam selectati cel putin o intrebare pentru a fi inserata in test!
 assessment#:#tst_insert_questions#:#Sunteti sigur ca doriti sa inserati urmatoarele intrebari in test?
@@ -687,6 +689,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#rosu
 chat#:#chat_refresh#:#Reafisare
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Chat-room nou adaugat
 chat#:#chat_room_name#:#Numele chat-room-ului
 chat#:#chat_room_renamed#:#Chat-room redenumit.

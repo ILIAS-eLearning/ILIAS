@@ -335,7 +335,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#qt_text#:#Freitext-Frage
+assessment#:#qt_text#:#Freitext-Frage###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_title#:#Fragentitel
@@ -422,6 +422,8 @@ assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
@@ -699,6 +701,7 @@ chat#:#chat_recordings_deleted#:#Aufnahmen wurden gelöscht.
 chat#:#chat_recordings_select_one#:#Bitte Aufnahmen auswählen, die Sie löschen möchten.
 chat#:#chat_red#:#rot
 chat#:#chat_refresh#:#Zurücksetzen
+chat#:#chat_refreshed#:#Alle Nachrichten der ausgewählten Chaträume wurden gelöscht.
 chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
 chat#:#chat_room_name#:#Name des Chatraumes
 chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
@@ -5178,4 +5181,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-chat#:#chat_refreshed#:#Alle Nachrichten der ausgewählten Chaträume wurden gelöscht.

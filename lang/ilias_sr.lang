@@ -330,7 +330,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Pitanje višestrukog izbora (više odgovora)
 assessment#:#qt_multiple_choice_sr#:#Pitanje višestrukog izbora (jedan odgovor)
 assessment#:#qt_ordering#:#Porucivanje pitanja
-assessment#:#qt_text#:#Pitanje sa kratkim odgovorom (tekst)
+assessment#:#qt_text#:#Pitanje sa kratkim odgovorom (tekst)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Pitanje je automatski sacuvano u nameri da obezbedi prostor na hard disku za slanje datoteke. Ukoliko otkažete ovu formu sda, budite svesni da morate obrisati pitanje iz baze pitanja ako želite da ga sacuvate.
 assessment#:#question_short#:#Q
 assessment#:#question_title#:#Naziv pitanja
@@ -405,6 +405,8 @@ assessment#:#tst_eval_total_persons#:#Ukupan broj osoba koji su ušli u test
 assessment#:#tst_eval_user_answer#:#Odgovor korisnika
 assessment#:#tst_general_properties#:#Osnovne osobine
 assessment#:#tst_generate_xls#:#Generiši Excel
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Test je u upotrebi od strane %s korisnika. Nije vam dozvoljeno da menjate ili uklanjate pitanja u ovom testu!
 assessment#:#tst_insert_missing_question#:#Molimo odaberite najmanje jedno pitanje koje treba ubaciti u test!
 assessment#:#tst_insert_questions#:#Da li ste sigurni da želite da ubacite sledece pitanje(a) u test?
@@ -661,6 +663,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#crvena
 chat#:#chat_refresh#:#Osvežiti
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Nova soba za caskanje je dodata
 chat#:#chat_room_name#:#Naziv sobe za caskanje
 chat#:#chat_room_renamed#:#Soba za caskanje je preimenovana.

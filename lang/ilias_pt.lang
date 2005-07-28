@@ -423,6 +423,8 @@ assessment#:#tst_finished#:#Finished###08 Apr 2005 new variable
 assessment#:#tst_general_properties#:#Propriedades gerais###07 Apr 2005 content changed
 assessment#:#tst_generate_xls#:#Gerar Excel###07 Apr 2005 content changed
 assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
 assessment#:#tst_insert_missing_question#:#Por favor seleccione pelo menos uma questão para inserir-la no teste!###07 Apr 2005 content changed
 assessment#:#tst_insert_questions#:#Tem a certeza que quer inserir as seguintes questões no teste?###07 Apr 2005 content changed
@@ -700,6 +702,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#vermelho###07 Apr 2005 content changed
 chat#:#chat_refresh#:#Actualizar###07 Apr 2005 content changed
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Adicionada nova Sala de chat###14 Sep 2004 content changed
 chat#:#chat_room_name#:#Nome da Sala de chat###14 Sep 2004 content changed
 chat#:#chat_room_renamed#:#Sala de chat renomeada.###14 Sep 2004 content changed

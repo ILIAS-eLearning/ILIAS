@@ -326,7 +326,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new var
 assessment#:#qt_multiple_choice_mr#:#Többszörös választási lehetőség (többszörös válasz)
 assessment#:#qt_multiple_choice_sr#:#Többszörös választási lehetőség (egyszeres válasz)
 assessment#:#qt_ordering#:#Sorrendbe rakó kérdés
-assessment#:#qt_text#:#Esszékérdés (önállóan megfogalmazott szöveges válasz)
+assessment#:#qt_text#:#Esszékérdés (önállóan megfogalmazott szöveges válasz)###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#A kérdés automatikusan mentésre került, hogy a lefoglalja a merevlemezhelyet a felöltött fájl számára. Ha most bezárja ezt az űrlapot, törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani!
 assessment#:#question_short#:#Q
 assessment#:#question_title#:#Kérdéscím
@@ -401,6 +401,8 @@ assessment#:#tst_eval_total_persons#:#A tesztbe belépett összes személy szám
 assessment#:#tst_eval_user_answer#:#Felhasználói válasz
 assessment#:#tst_general_properties#:#Általános jellemzők
 assessment#:#tst_generate_xls#:#Létrehozás Excel-ben
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó használja. Nem szerkeszthet vagy helyezhet át kérdéseket a tesztben.
 assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a tesztbe beillesztéshez!
 assessment#:#tst_insert_questions#:#Biztosan be akarja tenni az alábbi kérdés(eke)t a tesztbe?
@@ -647,6 +649,7 @@ chat#:#chat_recordings_deleted#:#Recordings were deleted.###15 Jul 2005 new vari
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.###15 Jul 2005 new variable
 chat#:#chat_red#:#piros
 chat#:#chat_refresh#:#Frissítés
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Új chatszoba felvéve
 chat#:#chat_room_name#:#Chatszoba neve
 chat#:#chat_room_renamed#:#Chatszoba átnevezve

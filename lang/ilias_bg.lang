@@ -326,6 +326,7 @@ assessment#:#qt_multiple_choice_mr#:#Въпрос с избор на някол�
 assessment#:#qt_multiple_choice_sr#:#Въпрос с избор на един от много отговори
 assessment#:#qt_ordering#:#Въпрос за подреждане
 assessment#:#qt_text#:#Въпрос с кратък отговор (текст)
+###28 Jul 2005 content changed
 assessment#:#question_saved_for_upload#:#Въпросът беше съхранен автоматично, за да се запази харддисково пространство за съхранението на заредения файл. Ако отмените този формуляр сега, обърнете внимание, че трябва да изтриете въпроса от набора с въпроси, ако не желаете да го запазите!
 assessment#:#question_short#:#В
 assessment#:#question_title#:#Заглавие на въпроса
@@ -400,6 +401,8 @@ assessment#:#tst_eval_total_persons#:#Общ брой хора, влезли в 
 assessment#:#tst_eval_user_answer#:#Отговор от потребителя
 assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_generate_xls#:#Генериране в Excel
+assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
+assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
 assessment#:#tst_in_use_edit_questions_disabled#:#Тестът се ползва от %d потребител(и). Не можете да редактирате или премествате въпроси в този тест!
 assessment#:#tst_insert_missing_question#:#Моля, изберете поне един въпрос, за да го вмъкнете в теста!
 assessment#:#tst_insert_questions#:#Сигурни ли сте, че желаете да вмъкнете следния въпрос(и) в теста?
@@ -632,6 +635,7 @@ chat#:#chat_public_room#:#Публична чат-стая
 chat#:#chat_purple#:#пурпурен шрифт
 chat#:#chat_red#:#червен шрифт
 chat#:#chat_refresh#:#Обновяване
+chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
 chat#:#chat_room_added#:#Добавена нова чат-стая
 chat#:#chat_room_name#:#Име на чат-стая
 chat#:#chat_room_renamed#:#Чат-стаята преименувана.
