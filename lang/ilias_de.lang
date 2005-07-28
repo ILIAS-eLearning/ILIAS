@@ -142,7 +142,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
-assessment#:#cloze_text#:#Lückentext-Frage###20 Jun 2005 content changed
+assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
@@ -217,8 +217,8 @@ assessment#:#eval_search_users#:#Nutzerinnen
 assessment#:#eval_search_userselection#:#Suchen Sie nach den Nutzerinnen, die Sie in die statistische Auswertung einbeziehen wollen
 assessment#:#eval_selected_users#:#Auswertung für ausgewählte Nutzerinnen
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
-assessment#:#exp_type_excel#:#Microsoft Excel###17 May 2005 content changed
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -245,7 +245,7 @@ assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_file#:#Imagemap Datei
 assessment#:#imagemap_source#:#Imagemap Quelltext
-assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.###13 May 2005 new variable
+assessment#:#import_errors_qti#:#Während des Parsens der QTI-Datei trat ein Fehler auf. Der Import wurde daher abgebrochen.
 assessment#:#import_question#:#Frage(n) importieren
 assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
@@ -321,17 +321,17 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
-assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
-assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
-assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
+assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
+assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
+assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qt_cloze#:#Lückentext-Frage###20 Jun 2005 content changed
+assessment#:#qt_cloze#:#Lückentext-Frage
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
 assessment#:#qt_matching#:#Zuordnungsfrage
-assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
+assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
@@ -363,7 +363,7 @@ assessment#:#save_finish#:#Test fertigstellen
 assessment#:#save_introduction#:#Zur Einführung
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
-assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern###25 Jun 2005 content changed
+assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#search_found_groups#:#Gefundene Gruppen
 assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#search_groups#:#nach Gruppen
@@ -388,7 +388,7 @@ assessment#:#statistical_data#:#Statistische Daten
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
-assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!###25 Jun 2005 content changed
+assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#time_format#:#HH MM SS
@@ -686,7 +686,7 @@ chat#:#chat_public_room#:#Öffentlicher Chatraum
 chat#:#chat_purple#:#purpur
 chat#:#chat_recording_action#:#Aktion
 chat#:#chat_recording_description#:#Beschreibung
-chat#:#chat_recording_moderator#:#Moderator###15 Jul 2005 new variable
+chat#:#chat_recording_moderator#:#Moderator
 chat#:#chat_recording_not_found#:#Aufnahme nicht gefunden.
 chat#:#chat_recording_running#:#Aufnahme läuft
 chat#:#chat_recording_started#:#Aufnahme gestartet
@@ -765,9 +765,9 @@ common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
-common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
-common#:#admin_panel_disable#:#Switch Administration Commands Off###20 Jun 2005 new variable
-common#:#admin_panel_enable#:#Switch Administration Commands On ###20 Jun 2005 new variable
+common#:#admin_panel#:#Administrationsmenü
+common#:#admin_panel_disable#:#Administrationsmenü aus
+common#:#admin_panel_enable#:#Administrationsmenü an
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
@@ -808,8 +808,8 @@ common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
-common#:#approve_date#:#Freigegeben am###20 Jun 2005 content changed
-common#:#approve_recipient#:#Freigegeben durch (Login ID)
+common#:#approve_date#:#Freigegeben am
+common#:#approve_recipient#:#Freigegeben durch (Benutzername ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#articels_unread#:#Ungelesene Beiträge
@@ -863,13 +863,13 @@ common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
 common#:#auth_radius_enable#:#RADIUS-Unterstützung aktivieren
 common#:#auth_radius_not_configured#:#RADIUS ist nocht nicht eingerichtet
-common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
-common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port
+common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
 common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_read#:#Lesezugriff auf Authentifizierung
-common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausser über die ILIAS Datenbank sind Benutzerlogin und -passwort nicht mehr änderbar.###08 Jul 2005 content changed
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
@@ -1045,8 +1045,8 @@ common#:#continue_work#:#Fortsetzen
 common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy#:#Kopieren
-common#:#copyChapter#:#Copy###20 Jun 2005 new variable
-common#:#copyPage#:#Kopiere
+common#:#copyChapter#:#Kopieren
+common#:#copyPage#:#Kopieren
 common#:#copy_of#:#Kopie von
 common#:#copy_to#:#nach
 common#:#count#:#Anzahl
@@ -1055,7 +1055,7 @@ common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#Erstellen
 common#:#create_date#:#Erstellt am
-common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
+common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
@@ -1197,7 +1197,7 @@ common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
-common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
+common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
 common#:#enter_filename_deliver#:#Geben Sie eine Bearbeitung zum Abgeben an
@@ -1212,7 +1212,7 @@ common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
 common#:#err_ldap_search_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie BaseDN und Search base
-common#:#err_ldap_user_not_found#:#Benutzer konnte nicht gefunden werden! Bitte überprüfen Sie das Attribut für den Loginnamen und die Objectclass
+common#:#err_ldap_user_not_found#:#Benutzer konnte nicht gefunden werden! Bitte überprüfen Sie das Attribut für den Benutzernamen und die Objektklasse
 common#:#err_no_cookies#:#Bitte aktivieren Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
@@ -1221,7 +1221,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Login ungültig
+common#:#err_wrong_login#:#Benutzername ungültig
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -1276,11 +1276,11 @@ common#:#extt_edit_permission#:#Rechteeinstellungen ändern
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
-common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren###15 Jul 2005 content changed
+common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
 common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
-common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Benutzername ID
 common#:#extt_ilinc_registrar_passwd#:#Passwort
-common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
 common#:#extt_name#:#Software/Dienst
 common#:#extt_read#:#Lesezugriff auf Software von Drittanbietern
@@ -1743,7 +1743,7 @@ common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#LDAP-Authentifizierung konfigurieren
 common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
-common#:#ldap_login_key#:#Attribut für den Loginnamen
+common#:#ldap_login_key#:#Attribut für den Benutzernamen
 common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten
 common#:#ldap_passwd#:#Ihr aktuelles Passwort
 common#:#ldap_port#:#LDAP Port
@@ -1811,14 +1811,14 @@ common#:#local_languages_already_installed#:#Selected local language file(s) are
 common#:#locator#:#Position:
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
-common#:#login#:#Login
+common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
-common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth###13 May 2005 new variable
+common#:#login_to_ilias_via_shibboleth#:#In ILIAS einloggen über Shibboleth
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
@@ -2026,7 +2026,7 @@ common#:#new_lowercase#:#neu
 common#:#new_mail#:#Neue Mail!
 common#:#news#:#News
 common#:#next#:#weiter
-common#:#nickname#:#Login
+common#:#nickname#:#Benutzername
 common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Auf dieses Objekt kann im öffentlichen Bereich nicht zugegriffen werden.###19 Jul 2005 content changed
@@ -2217,12 +2217,12 @@ common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
-common#:#password_assistance_disabled#:#Passwort Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS Datenbank erfolgt.
-common#:#password_assistance_info#:#Wenn Password Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Password vergessen?" auf der Login-Seite von ILIAS. Benutzer können diesen Link verwenden, um ein neues Password an ihr Benutzerkonto zuzuweisen, ohne Unterstützung durch einen System Administrator in Anspruch nehmen zu müssen.
+common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS-Datenbank erfolgt.
+common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Login-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
+common#:#paste_clipboard_items#:#Aus Clipboard einfügen
 common#:#path#:#Pfad
 common#:#path_not_set#:#Pfad nicht gesetzt
 common#:#path_to_babylon#:#BABYLON Befehlszeile
@@ -2342,7 +2342,7 @@ common#:#require_gender#:#Pflichteingabe Geschlecht
 common#:#require_hobby#:#Pflichteingabe Hobby
 common#:#require_institution#:#Pflichteingabe Institution
 common#:#require_lastname#:#Pflichteingabe Nachname
-common#:#require_login#:#Pflichteingabe Login
+common#:#require_login#:#Pflichteingabe Benutzername
 common#:#require_mandatory#:#erforderlich
 common#:#require_matriculation#:#Pflichteingabe Matrikelnummer
 common#:#require_passwd#:#Pflichteingabe Passwort
@@ -2668,8 +2668,8 @@ common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
-common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
-common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzeraccount muß noch vom System-Administrator freigegeben werden. Wir bitten um Ihre Geduld.
+common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um in ILIAS zu gelangen.
+common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzeraccount muß noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
@@ -2770,10 +2770,10 @@ common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
 common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist).
+common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist).
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
-common#:#usrimport_login_is_not_unique#:#Login ist nicht eindeutig.
+common#:#usrimport_login_is_not_unique#:#Benutzername ist nicht eindeutig.
 common#:#usrimport_with_specified_role_not_permitted#:#Sie haben keine Berechtigung zum Importieren von Benutzern mit der angegebenen Rolle.
 common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist ungültig.
@@ -2897,8 +2897,8 @@ content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht m�
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
-content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
-content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll.
+content#:#cont_chap_copy_select_target_now#:#Das Kapitel wurde für das Kopieren markiert. Wählen Sie jetzt das Ziel.
+content#:#cont_chap_select_target_now#:#Wählen Sie jetzt die Check-Box, hinter die das Kapitel verschoben werden soll.
 content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
@@ -4739,21 +4739,21 @@ payment#:#pays_vendor#:#Verkäufer
 payment#:#price_a#:#Preis
 payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
-pwassist#:#password_assistance#:#Passwort Unterstützung
+pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_enter_email#:#Geben Sie eine Email-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Das E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der Passwort-Vergessen-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine Email erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
-pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort Unterstützung auf dem ILIAS Server erneut anfordern.
+pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
-pwassist#:#pwassist_mail_subject#:#ILIAS Passwort Unterstützung
-pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
+pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
+pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
-pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nIhre Passwort Unterstützungs-Sitzung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die EMailadresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
 search#:#search_active#:#Aktive Benutzer
 search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
 search#:#search_advanced#:#Erweiterte Suche
@@ -4784,9 +4784,9 @@ search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Tref
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
 search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
 search#:#search_lucene#:#Lucene-Suche
-search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene-Server
 search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
-search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene-Port
 search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
@@ -4953,9 +4953,9 @@ survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrach
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#exit#:#Beenden
-survey#:#exp_type_csv#:#Comma separated value (CSV)###17 May 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel (PC)###17 May 2005 new variable
-survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)###17 May 2005 new variable
+survey#:#exp_type_csv#:#Comma separated value (CSV)
+survey#:#exp_type_excel#:#Microsoft Excel (PC)
+survey#:#exp_type_excel_mac#:#Microsoft Excel (Mac)
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien hinzufügen können!
@@ -5121,7 +5121,7 @@ survey#:#survey_code#:#Zugangscode für die Umfrage
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
 survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangscodes für die Umfrage erstellt.
 survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
-survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Jul 2005 new variable
+survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
