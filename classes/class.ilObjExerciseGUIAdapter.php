@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.1 2003/12/16 15:53:43 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.2 2003/12/18 14:24:30 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,7 +69,8 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		$this->setAdminTabs();
+		$this->gui_obj->setAdminTabs();
+		//$this->setAdminTabs();
 		$this->__showLocator();
 	}
 
