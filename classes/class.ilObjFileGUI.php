@@ -319,18 +319,6 @@ class ilObjFileGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
 		}
-		
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			$tabs_gui->addTarget("show_owner",
-				$this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-			
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$tabs_gui->addTarget("trash",
-					$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
 	}
 
 	/**
