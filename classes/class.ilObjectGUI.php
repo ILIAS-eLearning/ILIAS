@@ -267,7 +267,7 @@ class ilObjectGUI
 		if (($this->object->getType() == "grp" or $this->object->getType() == "adm"
 			or $this->object->getType() == "sty" or $this->object->getType() == "svy"
 			or $this->object->getType() == "spl" or $this->object->getType() == "tst"
-			or $this->object->getType() == "qpl") &&
+			or $this->object->getType() == "qpl" or $this->object->getType() == "exc") &&
 			$this->ctrl->getTargetScript() != 'adm_object.php'
 			)
 		{
@@ -1285,7 +1285,7 @@ class ilObjectGUI
 	function permObject()
 	{
 		global $rbacsystem, $rbacreview;
-		
+
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 

@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.11.4.1 2005/05/05 13:26:58 hschottm Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.12 2005/05/05 13:28:53 hschottm Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -889,6 +889,55 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 		}
 		return $filtered ? $filtered : array();
+	}
+	
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+		
+		// view
+		$tabs_gui->addTarget("view",
+			$this->ctrl->getLinkTarget($this, 'view'),
+			"view", get_class($this));
+
+		// edit properties
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, 'edit'),
+				"edit", get_class($this));
+		}
+
+		// deliver exercise
+		$tabs_gui->addTarget("deliver",
+			$this->ctrl->getLinkTarget($this, 'deliver'),
+			"deliver", get_class($this));
+
+		// members
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$tabs_gui->addTarget("show_members",
+				$this->ctrl->getLinkTarget($this, 'members'),
+				"members", get_class($this));
+
+			// add member
+			$tabs_gui->addTarget("add_member",
+				$this->ctrl->getLinkTarget($this, 'newmembers'),
+				"newmembers", get_class($this));
+		}
+
+		// permissions
+		if ($rbacsystem->checkAccess("edit_permission", $this->ref_id))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTarget($this, 'perm'),
+				"perm", get_class($this));
+		}
 	}
 			
 } // END class.ilObjExerciseGUI
