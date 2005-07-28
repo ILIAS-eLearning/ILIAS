@@ -1148,68 +1148,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* view object
-	*
-	* @access	public
-	*/
-	function viewObject()
-	{
-		global $rbacsystem, $tree, $tpl;
-
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// Determine whether the view of a learning resource should
-		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		if (!defined("ILIAS_MODULE"))
-		{
-/*
-			$this->tpl->setCurrentBlock("btn_cell");
-//			$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-*/
-		}
-
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->tpl->setVariable("BTN_LINK","content/lm_presentation.php?ref_id=".$this->object->getRefID());
-		}
-		else
-		{
-			$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
-		}
-
-		// set page view link
-		if ($showViewInFrameset)
-		{
-			$view_frame = "bottom";
-		}
-		else
-		{
-			$view_frame = "ilContObj".$this->object->getID();
-		}
-		$this->tpl->setVariable("BTN_TARGET"," target=\"$view_frame\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
-
-		parent::viewObject();
-
-	}
-
-	/**
 	* export object
 	*
 	* @access	public

@@ -991,9 +991,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tabs_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
 			get_class($this), "perm");
 
-		$tabs_gui->addTarget("show_owner", $this->ctrl->getLinkTarget($this, "owner"),
-			get_class($this), "owner");
-
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view"),
 			"ileditclipboardgui", "view");
 
