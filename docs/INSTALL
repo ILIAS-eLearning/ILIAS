@@ -223,7 +223,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.5.0_beta1.tar.gz
+    ilias-3.5.0_beta2.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -734,7 +734,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta2.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -898,7 +898,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.5.0_beta2.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -987,8 +987,8 @@ data has to be converted to a new format.
     If you want to migrate an existing ILIAS from MySQL 4.0.x to 4.1.x you
     need to do the following steps:
 	
-    1. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
-    2. Backup your database
+    1. Backup your database
+    2. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
     3. Dump your ILIAS 3 MySQL 4.0.x database
        /opt/ilias/bin/mysqldump > ilias3.dump
     4. Update to MySQL 4.1.x
