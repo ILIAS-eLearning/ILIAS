@@ -124,7 +124,7 @@
 	<subobj name="spl">spl</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
+	<property name="edit" module="1">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -137,7 +137,7 @@
 <object name="frm" class_name="Forum" location="classes" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
+	<property name="edit" module="1">edit_properties</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="grp" class_name="Group" location="classes" checkbox="1" inherit="1" translate="0" rbac="1">
@@ -160,10 +160,10 @@
 	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="members">group_members</property>
-	<property name="export">export</property>
-	<property name="shownewRegistrations">group_new_registrations</property>
+	<property name="edit" module="1">edit_properties</property>
+	<property name="members" module="1">group_members</property>
+	<property name="export" module="1">export</property>
+	<property name="shownewRegistrations" module="1">group_new_registrations</property>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -175,7 +175,6 @@
 </object>
 <object name="lm" class_name="LearningModule" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
@@ -185,8 +184,6 @@
 </object>
 <object name="sahs" class_name="SAHSLearningModule" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view">view_content</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="glo" class_name="Glossary" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
@@ -209,13 +206,10 @@
 </object>
 <object name="mep" class_name="MediaPool" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<property name="listMedia" module="1">view_content</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="htlm" class_name="FileBasedLM" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
-	<property name="edit" module="n">edit</property>
 	<property name="listFiles" module="1">list_files</property>
-	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="mail" class_name="Mail" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
@@ -251,8 +245,6 @@
 	<property name="edit">edit_operations</property>
 </object>
 <object name="usr" class_name="User" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
-	<subobj name="favf" max="1">favf</subobj>
-	<subobj name="datf" max="1">datf</subobj>
 	<property name="edit">edit_properties</property>
 	<property name="roleassignment">role_assignment</property>
 </object>
@@ -263,40 +255,6 @@
 	<property name="export">export</property>
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
-</object>
-<object name="datf" class_name="DateFolder" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
-	<subobj name="dat">dat</subobj>
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<action name="add_date">add_date</action>
-	<action name="delete_date">delete_date</action>
-</object>
-<object name="dat" class_name="Date" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<action name="delete_date">delete_date</action>
-</object>
-<object name="notf" class_name="NoteFolder" location="classes" checkbox="0" inherit="0" translate="0" rbac="0">
-	<subobj name="note">note</subobj>
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<action name="add_note">add_note</action>
-	<action name="delete_note">delete_note</action>
-</object>
-<object name="note" class_name="Note" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<action name="delete_note">delete_note</action>
-</object>
-<object name="bmf" class_name="BookmarkFolder" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
-	<subobj name="bmf">bmf</subobj>
-	<subobj name="bm">bm</subobj>
-	<action name="delete">delete</action>
-</object>
-<object name="bm" class_name="Bookmark" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<action name="delete_favorite">delete_favorite</action>
 </object>
 <object name="st">
 	<property name="view">cont_pages</property>
