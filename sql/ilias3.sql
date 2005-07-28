@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 28, 2005 at 04:18 PM
+# Generation Time: Jul 28, 2005 at 04:20 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
 # Database : `ilias350beta2`
@@ -2335,7 +2335,7 @@ INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice', 'en', 'Multip
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice_mr', 'en', 'Multiple Choice Question (multiple response)');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_multiple_choice_sr', 'en', 'Multiple Choice Question (single response)');
 INSERT INTO `lng_data` VALUES ('assessment', 'qt_ordering', 'en', 'Ordering Question');
-INSERT INTO `lng_data` VALUES ('assessment', 'qt_text', 'en', 'Short Answer (Text) Question');
+INSERT INTO `lng_data` VALUES ('assessment', 'qt_text', 'en', 'Essay Question');
 INSERT INTO `lng_data` VALUES ('assessment', 'question_saved_for_upload', 'en', 'The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!');
 INSERT INTO `lng_data` VALUES ('assessment', 'question_short', 'en', 'Q');
 INSERT INTO `lng_data` VALUES ('assessment', 'question_title', 'en', 'Question title');
@@ -2422,6 +2422,8 @@ INSERT INTO `lng_data` VALUES ('assessment', 'tst_finished', 'en', 'Finished');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_general_properties', 'en', 'General properties');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_generate_xls', 'en', 'Generate Excel');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_heading_scoring', 'en', 'Scoring');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_import_no_items', 'en', 'Error: The import file contains no questions!');
+INSERT INTO `lng_data` VALUES ('assessment', 'tst_import_verify_found_questions', 'en', 'ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_in_use_edit_questions_disabled', 'en', 'The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_missing_question', 'en', 'Please select at least one question to insert it into the test!');
 INSERT INTO `lng_data` VALUES ('assessment', 'tst_insert_questions', 'en', 'Are you sure you want to insert the following question(s) to the test?');
@@ -2699,6 +2701,7 @@ INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings_deleted', 'en', 'Recordi
 INSERT INTO `lng_data` VALUES ('chat', 'chat_recordings_select_one', 'en', 'Please choose recordings you would like to delete.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_red', 'en', 'red');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_refresh', 'en', 'Refresh');
+INSERT INTO `lng_data` VALUES ('chat', 'chat_refreshed', 'en', 'Deleted all messages of the selected chatrooms.');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_added', 'en', 'Added new chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_name', 'en', 'Name of chat room');
 INSERT INTO `lng_data` VALUES ('chat', 'chat_room_renamed', 'en', 'Chat room renamed.');
@@ -3061,6 +3064,8 @@ INSERT INTO `lng_data` VALUES ('common', 'create_stylesheet', 'en', 'Create Styl
 INSERT INTO `lng_data` VALUES ('common', 'created', 'en', 'Create date');
 INSERT INTO `lng_data` VALUES ('common', 'cron_jobs', 'en', 'Cron jobs');
 INSERT INTO `lng_data` VALUES ('common', 'cron_jobs_desc', 'en', 'A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the \'INSTALL Documentation.');
+INSERT INTO `lng_data` VALUES ('common', 'cron_lucene_index', 'en', 'Update Lucene search index');
+INSERT INTO `lng_data` VALUES ('common', 'cron_lucene_index_info', 'en', 'If enabled, the lucene search index will be updated. Please configure the lucene server at \'Administration -> Search\'.');
 INSERT INTO `lng_data` VALUES ('common', 'crs', 'en', 'Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_a', 'en', 'a Course');
 INSERT INTO `lng_data` VALUES ('common', 'crs_add', 'en', 'Add Course');
@@ -3614,6 +3619,7 @@ INSERT INTO `lng_data` VALUES ('common', 'import_grp_finished', 'en', 'Imported 
 INSERT INTO `lng_data` VALUES ('common', 'import_hlm', 'en', 'Import HACP Package');
 INSERT INTO `lng_data` VALUES ('common', 'import_lm', 'en', 'Import ILIAS Learning module');
 INSERT INTO `lng_data` VALUES ('common', 'import_qpl', 'en', 'Import Questionpool Test');
+INSERT INTO `lng_data` VALUES ('common', 'import_questions_into_qpl', 'en', 'Import question(s) into questionpool');
 INSERT INTO `lng_data` VALUES ('common', 'import_root_user', 'en', 'Import Root User');
 INSERT INTO `lng_data` VALUES ('common', 'import_sahs', 'en', 'Import SCORM/AICC Package');
 INSERT INTO `lng_data` VALUES ('common', 'import_spl', 'en', 'Import Questionpool Survey');
@@ -6785,6 +6791,7 @@ INSERT INTO `lng_data` VALUES ('search', 'search_lucene', 'en', 'Lucene search')
 INSERT INTO `lng_data` VALUES ('search', 'search_lucene_host', 'en', 'Lucene-Server');
 INSERT INTO `lng_data` VALUES ('search', 'search_lucene_info', 'en', 'If activated, it is possible to search in PDF, HTML files and HTML-Learning modules');
 INSERT INTO `lng_data` VALUES ('search', 'search_lucene_port', 'en', 'Lucene-Port');
+INSERT INTO `lng_data` VALUES ('search', 'search_lucene_readme', 'en', 'Setup informations');
 INSERT INTO `lng_data` VALUES ('search', 'search_meta', 'en', 'Metadata');
 INSERT INTO `lng_data` VALUES ('search', 'search_minimum_three', 'en', 'Your search must be at least three characters long');
 INSERT INTO `lng_data` VALUES ('search', 'search_move_folder_not_allowed', 'en', 'Folder cannot be moved.');
@@ -7643,7 +7650,7 @@ INSERT INTO `object_data` VALUES (29, 'typ', 'lng', 'Language object', -1, '2002
 INSERT INTO `object_data` VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37', '');
 INSERT INTO `object_data` VALUES (31, 'typ', 'dbk', 'Digilib Book', -1, '2003-08-15 10:07:29', '2003-08-15 12:30:19', '');
 INSERT INTO `object_data` VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2003-08-15 12:04:20', '');
-INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-20 23:16:49', '');
+INSERT INTO `object_data` VALUES (70, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2005-07-28 16:20:02', '');
 INSERT INTO `object_data` VALUES (14, 'role', 'Anonymous', 'Default role for anonymous users (with no account)', -1, '2003-08-15 12:06:19', '2005-07-20 15:15:06', '');
 INSERT INTO `object_data` VALUES (18, 'typ', 'mob', 'Multimedia object', -1, '0000-00-00 00:00:00', '2003-08-15 12:03:20', '');
 INSERT INTO `object_data` VALUES (35, 'typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00', '');
