@@ -8235,4 +8235,5 @@ $this->db->query($query);
 $query = "UPDATE usr_data SET ilinc_id = NULL";
 $this->db->query($query);
 ?>
-
+<#500>
+CREATE INDEX jmp_parent ON ctrl_calls(parent);
