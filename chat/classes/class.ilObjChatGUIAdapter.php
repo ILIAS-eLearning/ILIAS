@@ -16,7 +16,8 @@
 	| GNU General Public License for more details.                                |
 	|                                                                             |
 	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
+	| along with this program; if not, write to the Free Software        
+         |
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
@@ -26,7 +27,7 @@
 * Class ilObjChatGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjChatGUIAdapter.php,v 1.2 2003/12/18 14:24:30 smeyer Exp $
+* $Id$Id: class.ilObjChatGUIAdapter.php,v 1.1 2004/03/02 12:15:48 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core

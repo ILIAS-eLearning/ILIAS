@@ -91,9 +91,6 @@ class ilObjChatGUI extends ilObjectGUI
 		return true;
 	}
 
-
-
-
 	function setTargetScript($a_script)
 	{
 		$this->target_script = $a_script;
@@ -129,6 +126,147 @@ class ilObjChatGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$new_obj->getRefId()));
 	}
 
+	// Methods for blocked users (administration)
+	function blockedUsersObject()
+	{
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_blocked_users.html","chat");
+		$blocked_obj = new ilChatBlockedUsers($this->object->getId());
+
+		if(!count($blocked = $blocked_obj->getBlockedUsers()))
+		{
+			$this->tpl->setVariable("MESSAGE_NO_BLOCKED",$this->lng->txt('chat_no_blocked'));
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("delete_blocked");
+			$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('chat_blocked_unlocked'));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		foreach($blocked as $usr_id)
+		{
+			$tmp_user =& new ilObjUser($usr_id);
+
+			$this->tpl->setCurrentBlock("blocked_users");
+			$this->tpl->setVariable("FULLNAME",$tmp_user->getFullname());
+			$this->tpl->setVariable("LOGIN",$tmp_user->getLogin());
+			$this->tpl->setVariable("BLOCK_CHECK",ilUtil::formCheckbox(0,'blocked_check[]',$tmp_user->getId()));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// Fill table
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_usr_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('chat_blocked_users'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('chat_blocked_users'));
+		$this->tpl->setVariable("HEADER_NAME",$this->lng->txt('chat_user_name'));
+
+		$this->tpl->setVariable("BTN_BLOCK",$this->lng->txt('chat_block_user'));
+		
+	}
+
+	function blockUserObject()
+	{
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$blocked_obj = new ilChatBlockedUsers($this->object->getId());
+
+		if(!$_POST['block'] or !($usr_id = ilObjUser::getUserIdByLogin($_POST['block'])))
+		{
+			sendInfo($this->lng->txt('chat_enter_valid_username'));
+			$this->blockedUsersObject();
+
+			return false;
+		}
+		if($blocked_obj->isBlocked($usr_id))
+		{
+			sendInfo($this->lng->txt('chat_user_already_blocked'));
+			$this->blockedUsersObject();
+
+			return false;
+		}			
+
+		$blocked_obj->block($usr_id);
+		sendInfo($this->lng->txt('chat_user_blocked'));
+		$this->blockedUsersObject();
+
+		return true;
+		
+	}
+
+	function unblockUsersObject()
+	{
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$blocked_obj = new ilChatBlockedUsers($this->object->getId());
+		
+		if(!is_array($_POST['blocked_check']))
+		{
+			sendInfo($this->lng->txt('chat_no_users_selected'));
+
+			return $this->blockedUsersObject();
+		}
+
+		foreach($_POST['blocked_check'] as $usr_id)
+		{
+			$blocked_obj->unblock($usr_id);
+		}
+
+		sendInfo($this->lng->txt('chat_unblocked_user'));
+		return $this->blockedUsersObject();
+	}
+
+
+	function kickUser()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if($_GET["kick_id"])
+		{
+			include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+			$tmp_user = new ilObjUser($_GET['kick_id']);
+
+			$this->object->server_comm->setKickedUser($tmp_user->getLogin());
+			$this->object->server_comm->setType("kick");
+			$this->object->server_comm->send();
+			sendInfo($this->lng->txt("chat_user_dropped"),true);
+			$this->showInputFrame();
+		}
+	}
+
+
+
+
 	function cancelObject()
 	{
 		unset($_SESSION["room_id_rename"]);
@@ -139,7 +277,11 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function viewObject()
 	{
-		global $rbacsystem;
+		// Check blocked
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+
+		global $rbacsystem,$ilUser;
 
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
 		{
@@ -152,6 +294,13 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("chat_server_not_active"));
 		}
+		if(ilChatBlockedUsers::_isBlocked($this->object->getId(),$ilUser->getId()))
+		{
+			sendInfo($this->lng->txt('chat_access_blocked'));
+
+			return true;
+		}
+
 
 		// DELETE ROOMS CONFIRM
 		$checked = array();
@@ -187,7 +336,15 @@ class ilObjChatGUI extends ilObjectGUI
 
 		// ADD PUBLIC ROOM
 		// CHAT SERVER  ACTIVE
-		if($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
+		
+
+		if(ilChatBlockedUsers::_isBlocked($this->object->getId(),$ilUser->getId()))
+		{
+			$this->tpl->setCurrentBlock("blocked");
+			$this->tpl->setVariable("MESSAGE_BLOCKED",$this->lng->txt('chat_blocked'));
+			$this->tpl->parseCurrentBlock();
+		}
+		elseif($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
 		{
 			$this->tpl->setCurrentBlock("active");
 			$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=0");
@@ -784,7 +941,8 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$this->__showRooms();
 
-		$this->tpl->setVariable("ADD_FORMACTION","chat.php?cmd=gateway&room_id=".$this->object->chat_room->getRoomId()."&ref_id=".$this->object->getRefId());
+		$this->tpl->setVariable("ADD_FORMACTION","chat.php?cmd=gateway&room_id=".
+								$this->object->chat_room->getRoomId()."&ref_id=".$this->object->getRefId());
 		$this->tpl->setVariable("TXT_ADD_PRIVATE_CHATROOM", $this->lng->txt("chat_add_private_chatroom"));
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 
@@ -995,7 +1153,20 @@ class ilObjChatGUI extends ilObjectGUI
 	// PRIVATE
 	function __showOnlineUsers()
 	{
-		$users = $this->object->chat_room->getOnlineUsers();
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+		$all_users = $this->object->chat_room->getOnlineUsers();
+
+		// filter blocked users 
+		$users = array();
+		foreach($all_users as $user)
+		{
+			if(!ilChatBlockedUsers::_isBlocked($this->object->getId(),$user['user_id']))
+			{
+				$users[] = $user;
+			}
+		}
+
 		if(count($users) <= 1)
 		{
 			$this->tpl->setCurrentBlock("no_actice");
@@ -1045,7 +1216,7 @@ class ilObjChatGUI extends ilObjectGUI
 										"&ref_id=".$this->ref_id."&room_id=".
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
 				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
-					$this->lng->txt("chat_drop_user"));
+										$this->lng->txt("chat_drop_user"));
 				$this->tpl->setVariable("ONLINE_USER_NAME_A",$user["login"]);
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,true));
 				
@@ -1134,14 +1305,20 @@ class ilObjChatGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
 
-				$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_obj->getId()."' AND keyword='public_profile' AND value='y'";
-				$r = $this->ilias->db->query($q);
-				if ($r->numRows())
+				if($user_obj->getPref('public_profile') == 'y')
 				{
-						$this->tpl->setVariable("ACTIVE_ROW_TXT_PROFILE",$this->lng->txt("chat_profile"));
-                        $this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
+					$this->tpl->setVariable("ACTIVE_ROW_TXT_PROFILE",$this->lng->txt("chat_profile"));
+					$this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
 				}
-
+				/*
+				if(!$_REQUEST['room_id'])
+				{
+					$this->tpl->setCurrentBlock("kick_user");
+					$this->tpl->setVariable("KICK_LINK","chat.php?cmd=kickUser&ref_id=".$this->ref_id."&kick_id=".$user);
+					$this->tpl->setVariable("TXT_KICK",$this->lng->txt('chat_kick'));
+					$this->tpl->parseCurrentBlock();
+				}
+				*/
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -1180,7 +1357,9 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function __showRooms()
 	{
-		global $rbacsystem;
+		include_once 'chat/classes/class.ilChatBlockedUsers.php';
+
+		global $rbacsystem,$ilUser;
 
 		$public_rooms = $this->object->chat_room->getAllRooms();
 		$private_rooms = $this->object->chat_room->getRooms();
@@ -1216,6 +1395,11 @@ class ilObjChatGUI extends ilObjectGUI
 		$user_obj =& new ilObjUser();
 		foreach($public_rooms as $room)
 		{
+			if(ilChatBlockedUsers::_isBlocked($room['obj_id'],$ilUser->getId()))
+			{
+				continue;
+			}
+
 			$this->tpl->setCurrentBlock("room_row");
 			$this->tpl->setVariable("ROOM_ROW_CSS","tblrow1");
 			$this->tpl->setVariable("ROOM_LINK","chat.php?ref_id=".$room["child"]);
@@ -1251,7 +1435,8 @@ class ilObjChatGUI extends ilObjectGUI
 																				 "&room_id=".$priv_room["room_id"]);
 					$this->tpl->setVariable("ROOM_TARGET","_top");
 					$this->tpl->setVariable("ROOM_NAME",$priv_room["title"]);
-					$this->tpl->setVariable("ROOM_ONLINE",$this->object->chat_room->getCountActiveUser($priv_room["chat_id"],$priv_room["room_id"])); 
+					$this->tpl->setVariable("ROOM_ONLINE",
+											$this->object->chat_room->getCountActiveUser($priv_room["chat_id"],$priv_room["room_id"])); 
 		
 					if ($priv_room["owner"] != $_SESSION["AccountId"])
 					{
@@ -1263,7 +1448,9 @@ class ilObjChatGUI extends ilObjectGUI
 					else
 					{
 						$this->tpl->setVariable("TXT_DELETE_ROOM", $this->lng->txt("delete"));
-						$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId()."&room_id_delete=".$priv_room["room_id"]);
+						$this->tpl->setVariable("LINK_DELETE_ROOM", "chat.php?cmd=deleteRoom&ref_id=".
+												$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId().
+												"&room_id_delete=".$priv_room["room_id"]);
 					}
 		
 					$this->object->chat_record->setRefId($priv_room["chat_id"]);
@@ -1278,7 +1465,9 @@ class ilObjChatGUI extends ilObjectGUI
 						$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
 					{
 						$this->tpl->setVariable("TXT_EMPTY_ROOM", $this->lng->txt("chat_empty"));
-						$this->tpl->setVariable("LINK_EMPTY_ROOM", "chat.php?cmd=emptyRoom&ref_id=".$this->object->getRefId()."&room_id=".$this->object->chat_room->getRoomId());
+						$this->tpl->setVariable("LINK_EMPTY_ROOM", 
+												"chat.php?cmd=emptyRoom&ref_id=".$this->object->getRefId().
+												"&room_id=".$this->object->chat_room->getRoomId());
 					}
 		
 					$this->tpl->parseCurrentBlock();
@@ -1519,6 +1708,12 @@ class ilObjChatGUI extends ilObjectGUI
 			$tabs_gui->addTarget("chat_recordings",
 								 $this->ctrl->getLinkTarget($this, "recordings"), "recordings", get_class($this));
 		}
+		if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("chat_blocked_users",
+								 $this->ctrl->getLinkTarget($this, "blockedUsers"), "blockedUsers", get_class($this));
+		}
+
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",

@@ -8249,3 +8249,8 @@ CREATE INDEX jmp_tree ON mail_tree(tree);
 CREATE INDEX jmp_tree ON tree(tree);
 <#506>
 CREATE INDEX jmp_lm ON lm_tree(lm_id);
+<#507>
+CREATE TABLE `chat_blocked` (
+`chat_id` INT( 11 ) NOT NULL ,
+`usr_id` INT( 11 ) NOT NULL
+) TYPE = MYISAM;

@@ -201,41 +201,71 @@ class ilChatServerCommunicator
 	function __emoticons()
 	{
 		$str = $this->getMessage();
-		$str = str_replace(":)", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":-)", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":smile:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(";)", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(";-)", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(":wink:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(":D", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":-D", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":laugh:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":grin:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":biggrin:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":(", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":-(", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":sad:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":o", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
-		$str = str_replace(":-o", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
-		$str = str_replace(":shocked:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":p", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
-		$str = str_replace(":-p", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
-		$str = str_replace(":tongue:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":cool:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_cool.gif\" border=0>", $str);
-		$str = str_replace(":eek:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_eek.gif\" border=0>", $str);
-		$str = str_replace(":||", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":-||", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":angry:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":flush:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_flush.gif\" border=0>", $str);
-		$str = str_replace(":idea:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_idea.gif\" border=0>", $str);
-		$str = str_replace(":thumbup:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_thumbup.gif\" border=0>", $str);
-		$str = str_replace(":thumbdown:", "<img src=\"" . ILIAS_HTTP_PATH . "/templates/default/images/emoticons/icon_thumbdown.gif\" border=0>", $str);
+		$str = str_replace(":)", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
+		$str = str_replace(":-)", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
+		$str = str_replace(":smile:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
+		$str = str_replace(";)", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
+		$str = str_replace(";-)", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
+		$str = str_replace(":wink:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
+		$str = str_replace(":D", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
+		$str = str_replace(":-D", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
+		$str = str_replace(":laugh:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
+		$str = str_replace(":grin:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
+		$str = str_replace(":biggrin:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
+		$str = str_replace(":(", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
+		$str = str_replace(":-(", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
+		$str = str_replace(":sad:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
+		$str = str_replace(":o", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
+		$str = str_replace(":-o", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
+		$str = str_replace(":shocked:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
+		$str = str_replace(":p", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
+		$str = str_replace(":-p", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
+		$str = str_replace(":tongue:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
+		$str = str_replace(":cool:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_cool.gif\" border=0>", $str);
+		$str = str_replace(":eek:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_eek.gif\" border=0>", $str);
+		$str = str_replace(":||", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
+		$str = str_replace(":-||", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
+		$str = str_replace(":angry:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
+		$str = str_replace(":flush:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_flush.gif\" border=0>", $str);
+		$str = str_replace(":idea:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_idea.gif\" border=0>", $str);
+		$str = str_replace(":thumbup:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_thumbup.gif\" border=0>", $str);
+		$str = str_replace(":thumbdown:", "<img src=\"" . ILIAS_HTTP_PATH . 
+						   "/templates/default/images/emoticons/icon_thumbdown.gif\" border=0>", $str);
 		$this->setMessage($str);
 	}
 
 	function __openSocket()
 	{
-        $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(), $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
+        $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(), 
+									 $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
 
 		return $this->socket_p == null ? false : true;
 	}
