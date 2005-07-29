@@ -5183,3 +5183,15 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
+chat#:#chat_blocked_users#:#Blocked users
+chat#:#chat_user_name#:#Username
+chat#:#chat_blocked_unlocked#:#Unlock
+chat#:#chat_block_user#:#Block
+chat#:#chat_user_blocked#:#Blocked access for the selected user.
+chat#:#chat_no_users_selected#:#You have to select one user.
+chat#:#chat_enter_valid_username#:#Please enter a valid username.
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.
+chat#:#chat_blocked#:#Restricted access
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.
+chat#:#chat_no_blocked#:#No blocked users available
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms

@@ -1,107 +1,125 @@
-  <style>
-	body { margin:0px; }
+<style>
+  body { margin:0px; }
   </style>
   <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-  <!--<div class="invisible_border">-->
-	<div class="il_Header">
-	  <h1>{TITLE}</h1>
-	</div>
-	<table class="std" width="100%">
-	  <th class="tblheader" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})&nbsp[<a class="navigation" href="{DETAILS_A}">{DETAILS_TXT}</a>]</th>
-	  <!-- BEGIN room_row -->
-	  <tr class="{ROOM_ROW_CSS}">
-		<td style="padding:3px; font-size:13px;	vertical-align:top;	text-align:left">
+	  <!--<div class="invisible_border">-->
+	  <div class="il_Header">
+		<h1>{TITLE}</h1>
+	  </div>
+	  <table class="std" width="100%">
+		<th class="tblheader" align="left" nowrap="nowrap">{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
+		  &nbsp[<a class="navigation" href="{DETAILS_A}">{DETAILS_TXT}</a>]
+		</th>
+		<!-- BEGIN room_row -->
+		<tr class="{ROOM_ROW_CSS}">
+		  <td style="padding:3px; font-size:13px;	vertical-align:top;	text-align:left">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
-			<tr>
+			  <tr>
 				<!-- BEGIN room_row_indent -->
 				<td width="20">&nbsp;</td>
 				<!-- END room_row_indent -->
 				<td width="*" valign="top">
-					<a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}"><font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a><br>
-					<!-- BEGIN room_row_invitation -->
-					<font class="small">
+				  <a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}">
+				  <font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a><br>
+				  <!-- BEGIN room_row_invitation -->
+				  <font class="small">
 					{TXT_ROOM_INVITATION}: {ROOM_INVITATION_USER}<br>
-					</font>
-					<!-- END room_row_invitation -->
-					<!-- BEGIN room_row_recording -->
-					<font class="small">
+				  </font>
+				  <!-- END room_row_invitation -->
+				  <!-- BEGIN room_row_recording -->
+				  <font class="small">
 					{TXT_RECORDING}
-					</font>
-					<!-- END room_row_recording -->
+				  </font>
+				  <!-- END room_row_recording -->
 				</td>
 				<td align="right" valign="top">
-					<!-- BEGIN room_row_delete -->
-					<a class="il_ContainerItemCommand" href="{LINK_DELETE_ROOM}" target="_top">{TXT_DELETE_ROOM}</a>
-					<!-- END room_row_delete -->
-					<!-- BEGIN room_row_empty -->
-					<a class="il_ContainerItemCommand" href="{LINK_EMPTY_ROOM}" target="_top">{TXT_EMPTY_ROOM}</a>
-					<!-- END room_row_empty -->
+				  <!-- BEGIN room_row_delete -->
+				  <a class="il_ContainerItemCommand" href="{LINK_DELETE_ROOM}" target="_top">{TXT_DELETE_ROOM}</a>
+				  <!-- END room_row_delete -->
+				  <!-- BEGIN room_row_empty -->
+				  <a class="il_ContainerItemCommand" href="{LINK_EMPTY_ROOM}" target="_top">{TXT_EMPTY_ROOM}</a>
+				  <!-- END room_row_empty -->
 				</td>
-			</tr>
+			  </tr>
 			</table>
-		</td>
-	  </tr>
-	  <!-- END room_row -->
-	</table>
-	<br />
+		  </td>
+		</tr>
+		<!-- END room_row -->
+	  </table>
+	  <br />
 
-	<table width="100%" class="std">
-	  <th class="tblheader" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
-	  <!-- BEGIN no_active -->
-	  <tr>
-		<td colspan="2" class="option_value"><font class="smallred">{NO_ACTIVE_USERS}</font></td>
-	  </tr>
-	  <!-- END no_active -->
-	  <!-- BEGIN active -->
-	  <!-- BEGIN active_row_start -->
-	  <tr>
-		<!-- END active_row_start -->
-		<td align="left" class="option_value">
+	  <table width="100%" class="std">
+		<th class="tblheader" align="left" colspan="2">{ACTIVE_USERS}&nbsp;[<a class="navigation" href="{DETAILS_B}">{DETAILS_B_TXT}</a>]</th>
+		<!-- BEGIN no_active -->
+		<tr>
+		  <td colspan="2" class="option_value"><font class="smallred">{NO_ACTIVE_USERS}</font></td>
+		</tr>
+		<!-- END no_active -->
+		<!-- BEGIN active -->
+		<!-- BEGIN active_row_start -->
+		<tr>
+		  <!-- END active_row_start -->
+		  <td align="left" class="option_value">
 			<table width=100% cellspacing=0 cellpadding=0 border=0>
-			<tr>
+			  <tr>
 				<td><font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font></td>
 				<td align="right">
-					<a class="il_ContainerItemCommand" href="{ACTIVE_ADDRESS_A}" target="input">{ACTIVE_TXT_ADDRESS_A}</a>
-					<a class="il_ContainerItemCommand" href="{ACTIVE_LINK_A}" target="input">{ACTIVE_TXT_WHISPER_A}</a>
-					<!-- BEGIN active_row_profile -->
-					<a class="il_ContainerItemCommand" href="#" onClick="window.open('chat_profile.php?user={ACTIVE_ROW_PROFILE_ID}','Profile','width=400,height=400,scrollbars=yes,menubar=no,toolbar=no,statusbar=no,resizable=no'); return false">{ACTIVE_ROW_TXT_PROFILE}</a>
-					<!-- END active_row_profile -->
+				  <a class="il_ContainerItemCommand" href="{ACTIVE_ADDRESS_A}" target="input">{ACTIVE_TXT_ADDRESS_A}</a>
+				  <a class="il_ContainerItemCommand" href="{ACTIVE_LINK_A}" target="input">{ACTIVE_TXT_WHISPER_A}</a>
+				  <!-- BEGIN active_row_profile -->
+				  <a class="il_ContainerItemCommand" href="#" 
+					onClick="window.open('chat_profile.php?user={ACTIVE_ROW_PROFILE_ID}',
+					'Profile',
+					'width=400,height=400,scrollbars=yes,menubar=no,toolbar=no,statusbar=no,resizable=no'); 
+					return false">{ACTIVE_ROW_TXT_PROFILE}
+				  </a>
+				  <!-- END active_row_profile -->
+				  <!-- BEGIN kick_user -->
+				  <a class="il_ContainerItemCommand" href="{KICK_LINK}" target="input">{TXT_KICK} </a>
+				  <!-- END kick_user -->
 				</td>
-			</tr>
+			  </tr>
 			</table>
-		</td>
-		<!-- BEGIN active_row_end -->
-	  </tr>
-	  <!-- END active_row_end -->
-	  <!-- END active -->
-	</table>
-	<br />
+		  </td>
+		  <!-- BEGIN active_row_end -->
+		</tr>
+		<!-- END active_row_end -->
+		<!-- END active -->
+	  </table>
+	  <br />
 
-	<form action="{ADD_FORMACTION}" method="post" target="_top">
-	<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
-	<input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
-	<input class="submit_small" type="submit" name="cmd[addRoom]" value="{TXT_ADD}" /></p>
-	</form>
+	  <form action="{ADD_FORMACTION}" method="post" target="_top">
+		<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
+		  <input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
+		  <input class="submit_small" type="submit" name="cmd[addRoom]" value="{TXT_ADD}" /></p>
+	  </form>
 
-	<!-- BEGIN show_online -->
-	<br />
-	<table width="100%" class="std">
-	  <th class="tblheader" align="left" colspan="2">{ONLINE_USERS}</th>
-	  <!-- BEGIN no_online -->
-	  <tr>
-		<td colspan="2" class="option_value"><font class="smallred">{NO_ONLINE_USERS}</font></td>
-	  </tr>
-	  <!-- END no_online -->
-	  <!-- BEGIN online -->
-	  <!-- BEGIN online_row_start -->
-	  <tr>
-		<!-- END online_row_start -->
-		<td align="left" class="option_value"><a class="navigation" title="{TXT_INVITE_USER}" href="{ONLINE_LINK_A}" target="_top" ><img src="{INVITE_IMG_SRC}" border="0" alt="{TXT_INVITE_USER}"><font class="{ONLINE_FONT_A}">&nbsp;{ONLINE_USER_NAME_A}</font></a></td>
-		<!-- BEGIN online_row_end -->
-	  </tr>
-	  <!-- END online_row_end -->
-	  <!-- END online -->
-	</table>
+	  <!-- BEGIN show_online -->
+	  <br />
+	  <table width="100%" class="std">
+		<th class="tblheader" align="left" colspan="2">{ONLINE_USERS}</th>
+		<!-- BEGIN no_online -->
+		<tr>
+		  <td colspan="2" class="option_value"><font class="smallred">{NO_ONLINE_USERS}</font></td>
+		</tr>
+		<!-- END no_online -->
+		<!-- BEGIN online -->
+		<!-- BEGIN online_row_start -->
+		<tr>
+		  <!-- END online_row_start -->
+		  <td align="left" class="option_value">
+			<a class="navigation" title="{TXT_INVITE_USER}" href="{ONLINE_LINK_A}" target="_top" >
+			  <img src="{INVITE_IMG_SRC}" border="0" alt="{TXT_INVITE_USER}">
+			<font class="{ONLINE_FONT_A}">&nbsp;{ONLINE_USER_NAME_A}</font>
+		  </a>
+		  </td>
+		  <!-- BEGIN online_row_end -->
+		</tr>
+		<!-- END online_row_end -->
+		<!-- END online -->
+	  </table>
 	  <!-- END show_online -->
-  <!--</div>-->
-  </td></tr></table>
+	  <!--</div>-->
+	</td>
+  </tr>
+</table>
