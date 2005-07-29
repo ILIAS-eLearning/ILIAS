@@ -8237,3 +8237,15 @@ $this->db->query($query);
 ?>
 <#500>
 CREATE INDEX jmp_parent ON ctrl_calls(parent);
+<#501>
+CREATE INDEX jmp_uid ON mail_obj_data(user_id);
+<#502>
+CREATE INDEX jmp_uid ON mail(user_id);
+<#503>
+CREATE INDEX jmp_parent ON rbac_fa(parent);
+<#504>
+CREATE INDEX jmp_tree ON mail_tree(tree);
+<#505>
+CREATE INDEX jmp_tree ON tree(tree);
+<#506>
+CREATE INDEX jmp_lm ON lm_tree(lm_id);
