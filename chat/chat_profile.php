@@ -38,7 +38,7 @@ define('ILIAS_MODULE','chat');
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilObjUserGUI.php";
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.chat_profile_view.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.chat_profile_view.html",'chat');
 
 $user = new ilObjUserGUI("",$_GET["user"], false, false);
 $user->insertPublicProfile("USR_PROFILE","usr_profile");
