@@ -299,6 +299,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
+	* info form
+	*/
+	function info()
+	{
+		$this->prepareOutput();
+		$this->infoObject();
+		$this->tpl->show();
+	}
+
+	/**
 	* save permissions
 	*/
 	function permSave()
