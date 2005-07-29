@@ -718,6 +718,16 @@ class ilObjCourse extends ilObject
 	{
 		global $ilDB;
 
+		// Due to a bug 3.5.alpha maybe no settings exist. => create default settings
+
+		$query = "SELECT * FROM crs_settings WHERE obj_id = '".$this->getId()."'";
+		$res = $ilDB->query($query);
+
+		if(!$res->numRows())
+		{
+			$this->__createDefaultSettings();
+		}
+
 		$query = "UPDATE crs_settings SET ".
 			"syllabus = '".ilUtil::prepareDBString($this->getSyllabus())."', ".
 			"contact_name = '".ilUtil::prepareDBString($this->getContactName())."', ".
