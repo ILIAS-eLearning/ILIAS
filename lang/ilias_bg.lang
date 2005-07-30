@@ -579,6 +579,7 @@ bibitem#:#bibitem_unpublished#:#Непубликуван
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Къде е публикуван
 bibitem#:#bibitem_year#:#Година
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Активен
 chat#:#chat_active_users#:#Потребител (активен)
 chat#:#chat_add_allowed_hosts#:#Моля, добавете адреса на хоста(овете), който има достъп до чат сървъра.
@@ -589,6 +590,10 @@ chat#:#chat_add_port#:#Моля, добавете порта на сървъра
 chat#:#chat_aqua#:#шрифт aqua
 chat#:#chat_arial#:#шрифт Arial
 chat#:#chat_black#:#черен шрифт
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#син шрифт
 chat#:#chat_bold#:#черен удебелен шрифт
 chat#:#chat_chatroom_body#:#Чат-стая:
@@ -598,6 +603,7 @@ chat#:#chat_color#:#Цвят на шрифта
 chat#:#chat_delete_sure#:#Сигурни ли сте, че желаете да изтриете тази чат-стая
 chat#:#chat_drop_user#:#Потребителят е отстранен
 chat#:#chat_edit#:#Редактиране на чат
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Тип шрифт
 chat#:#chat_fuchsia#:#шрифт fuchsia
 chat#:#chat_gray#:#сив шрифт
@@ -623,10 +629,12 @@ chat#:#chat_messages_deleted#:#Съобщенията бяха изтрити.
 chat#:#chat_moderator_password#:#Парола на оценителя
 chat#:#chat_navy#:#шрифт navy
 chat#:#chat_no_active_users#:#Няма присъстващи потребители.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Неуспешен контакт с чат сървъра.
 chat#:#chat_no_delete_public#:#Публичната чат-стая не може да бъде изтрита
 chat#:#chat_no_refresh_public#:#публичната чат-стая не може да бъде обновена.
 chat#:#chat_no_rename_public#:#Публичната чат-стая не може да бъде преименувана
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Няма разрешение за писане
 chat#:#chat_olive#:#шрифт olive
 chat#:#chat_online_users#:#Потребител (онлайн)
@@ -663,9 +671,13 @@ chat#:#chat_times#:#шрифт Times
 chat#:#chat_title_missing#:#Моля, вмъкнете име.
 chat#:#chat_to_chat_body#:#Към чата
 chat#:#chat_type#:#Изглед на шрифта
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Подчертан
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Потребителят отстранен
 chat#:#chat_user_invited#:#Поканен потребител за чат.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_yellow#:#жълт шрифт
 chat#:#chats#:#Чатове
 chat#:#my_chats#:#Моите чатове

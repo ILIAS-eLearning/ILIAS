@@ -626,6 +626,7 @@ bibitem#:#bibitem_unpublished#:#Unpublished
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Where published
 bibitem#:#bibitem_year#:#Year
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
 chat#:#chat_active_users#:#User (active)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
@@ -639,6 +640,10 @@ chat#:#chat_address_user#:#Address
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#black
+chat#:#chat_block_user#:#Block
+chat#:#chat_blocked#:#Restricted access
+chat#:#chat_blocked_unlocked#:#Unlock
+chat#:#chat_blocked_users#:#Blocked users
 chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
 chat#:#chat_chatroom_body#:#Chat room:
@@ -649,6 +654,7 @@ chat#:#chat_delete_sure#:#Are you sure, you want to delete this chat room
 chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat
 chat#:#chat_empty#:#Empty
+chat#:#chat_enter_valid_username#:#Please enter a valid username.
 chat#:#chat_face#:#Font type
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#gray
@@ -675,11 +681,13 @@ chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#No users present.
+chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Cannot contact chat server.
 chat#:#chat_no_delete_public#:#The public chat room cannot be deleted
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.
 chat#:#chat_no_refresh_public#:#the public chat room cannot be refreshed.
 chat#:#chat_no_rename_public#:#The public room cannot be renamed
+chat#:#chat_no_users_selected#:#You have to select one user.
 chat#:#chat_no_write_perm#:#No permission to write
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#User (online)
@@ -732,9 +740,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Please insert a name.
 chat#:#chat_to_chat_body#:#To the chat
 chat#:#chat_type#:#Font face
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.
 chat#:#chat_underlined#:#Underlined
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.
+chat#:#chat_user_blocked#:#Blocked access for the selected user.
 chat#:#chat_user_dropped#:#User kicked
 chat#:#chat_user_invited#:#Invited user to chat.
+chat#:#chat_user_name#:#Username
 chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
@@ -5183,15 +5195,3 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
-chat#:#chat_blocked_users#:#Blocked users
-chat#:#chat_user_name#:#Username
-chat#:#chat_blocked_unlocked#:#Unlock
-chat#:#chat_block_user#:#Block
-chat#:#chat_user_blocked#:#Blocked access for the selected user.
-chat#:#chat_no_users_selected#:#You have to select one user.
-chat#:#chat_enter_valid_username#:#Please enter a valid username.
-chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.
-chat#:#chat_blocked#:#Restricted access
-chat#:#chat_unblocked_user#:#The selected user have been unlocked.
-chat#:#chat_no_blocked#:#No blocked users available
-chat#:#chat_access_blocked#:#You are excluded from these chatrooms

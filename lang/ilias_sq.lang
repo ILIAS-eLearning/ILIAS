@@ -587,6 +587,7 @@ bibitem#:#bibitem_unpublished#:#Pabotuar
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Ku është botuar
 bibitem#:#bibitem_year#:#Viti
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Shfrytëzues (aktiv)
 chat#:#chat_add_allowed_hosts#:#Ju lutem shënoni adresën e hostit/hosteve që lejohen në serverin për chat.
@@ -600,6 +601,10 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#zezë
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#kaltër
 chat#:#chat_bold#:#Shkrim i trashë
 chat#:#chat_chatroom_body#:#Chat dhoma:
@@ -610,6 +615,7 @@ chat#:#chat_delete_sure#:#A jeni të sigurt për ta fshirë këtë chat dhomë
 chat#:#chat_drop_user#:#Shfrytëzuesi hedhet jashtë
 chat#:#chat_edit#:#Edito Chat
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Tipi i shkronjave
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#gri
@@ -636,11 +642,13 @@ chat#:#chat_messages_deleted#:#Mesazhi është fshirë.
 chat#:#chat_moderator_password#:#Parulla e moderatorit
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Nuk ka shfrytëzues prezent.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nuk mund të kontaktoj chat serverin
 chat#:#chat_no_delete_public#:#Dhoma publike e bisedave nuk mund të fshihet
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#Dhoma publike për chat nuk mund të aktualizohet.
 chat#:#chat_no_rename_public#:#Dhoma publike e bisedave nuk mund të riemërtohet
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Nuk keni të drejta për të shkruar
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Shfrytëzues (online)
@@ -693,9 +701,13 @@ chat#:#chat_times#:#Kohët
 chat#:#chat_title_missing#:#Ju lutem shëno një emër.
 chat#:#chat_to_chat_body#:#Në chat
 chat#:#chat_type#:#Fonti i pamjes
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Nënvizuar
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Shfrytëzuesi hedhet jashtë
 chat#:#chat_user_invited#:#Shfrytëzuesi i ftuar në chat.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#e verdhë
 chat#:#chats#:#Chat-et

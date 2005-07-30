@@ -626,6 +626,7 @@ bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
 bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
 bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
 bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktive###16 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###16 Mar 2004 new variable
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###16 Mar 2004 new variable
@@ -639,6 +640,10 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua###16 Mar 2004 new variable
 chat#:#chat_arial#:#Arial###16 Mar 2004 new variable
 chat#:#chat_black#:#black###16 Mar 2004 new variable
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#blue###16 Mar 2004 new variable
 chat#:#chat_bold#:#Bold###16 Mar 2004 new variable
 chat#:#chat_chatroom_body#:#Chatroom:###16 Mar 2004 new variable
@@ -649,6 +654,7 @@ chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###16 Ma
 chat#:#chat_drop_user#:#User kicked###16 Mar 2004 new variable
 chat#:#chat_edit#:#Edit chat ###16 Mar 2004 new variable
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Font type###16 Mar 2004 new variable
 chat#:#chat_fuchsia#:#fuchsia###16 Mar 2004 new variable
 chat#:#chat_gray#:#gray###16 Mar 2004 new variable
@@ -675,11 +681,13 @@ chat#:#chat_messages_deleted#:#Messages have been deleted.###16 Mar 2004 new var
 chat#:#chat_moderator_password#:#Moderator password###16 Mar 2004 new variable
 chat#:#chat_navy#:#navy###16 Mar 2004 new variable
 chat#:#chat_no_active_users#:#No users present.###16 Mar 2004 new variable
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Cannot contact chatserver.###16 Mar 2004 new variable
 chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###16 Mar 2004 new variable
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###16 Mar 2004 new variable
 chat#:#chat_no_rename_public#:#The public room cannot be renamed###16 Mar 2004 new variable
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#No permission to write###16 Mar 2004 new variable
 chat#:#chat_olive#:#olive###16 Mar 2004 new variable
 chat#:#chat_online_users#:#User (online)###16 Mar 2004 new variable
@@ -732,9 +740,13 @@ chat#:#chat_times#:#Times###16 Mar 2004 new variable
 chat#:#chat_title_missing#:#Please insert a name.###16 Mar 2004 new variable
 chat#:#chat_to_chat_body#:#To the chat###16 Mar 2004 new variable
 chat#:#chat_type#:#Font face###16 Mar 2004 new variable
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Underlined###16 Mar 2004 new variable
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#User kicked###16 Mar 2004 new variable
 chat#:#chat_user_invited#:#Invited user to chat.###16 Mar 2004 new variable
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#yellow###16 Mar 2004 new variable
 chat#:#chats#:#Chats###16 Mar 2004 new variable

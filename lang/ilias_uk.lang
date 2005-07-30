@@ -624,6 +624,7 @@ bibitem#:#bibitem_unpublished#:#Неопублікований
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Де опублікований
 bibitem#:#bibitem_year#:#Рік
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Активний
 chat#:#chat_active_users#:#Користувач (активний)
 chat#:#chat_add_allowed_hosts#:#Будь вкажіть додайте адресу хостів, яким довзолений доступ до чат серверу.
@@ -637,6 +638,10 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#аква
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#чорний
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#блакитний
 chat#:#chat_bold#:#Напівжирний
 chat#:#chat_chatroom_body#:#Кімната:
@@ -647,6 +652,7 @@ chat#:#chat_delete_sure#:#Ви впевнені, що бажаєете вида�
 chat#:#chat_drop_user#:#Користувача викинуто
 chat#:#chat_edit#:#Редагувати чат
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Тип шрифту
 chat#:#chat_fuchsia#:#фуксія
 chat#:#chat_gray#:#сірий
@@ -673,11 +679,13 @@ chat#:#chat_messages_deleted#:#Повідомлення було видален�
 chat#:#chat_moderator_password#:#Пароль модератора
 chat#:#chat_navy#:#темно-блакитний
 chat#:#chat_no_active_users#:#Немає користувачів.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Неможливо з'єднатись з чат сервером.
 chat#:#chat_no_delete_public#:#Публічна кімната не може бути видалена
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#публічна кімната не може бути оновлена.
 chat#:#chat_no_rename_public#:#Публічна кімната не може бути переіменована
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Немає прав на запис
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Користувач (онлайн)
@@ -730,9 +738,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Будь ласка введіть ім'я.
 chat#:#chat_to_chat_body#:#В чат
 chat#:#chat_type#:#Font face
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Підкреслений
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Користувач викинутий
 chat#:#chat_user_invited#:#Користувач запрошений в чат.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#жовтий
 chat#:#chats#:#Чати

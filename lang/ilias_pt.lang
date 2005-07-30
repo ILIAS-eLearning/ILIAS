@@ -626,6 +626,7 @@ bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
 bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
 bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
 bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Activo###14 Sep 2004 content changed
 chat#:#chat_active_users#:#Utilizador (activo)###14 Sep 2004 content changed
 chat#:#chat_add_allowed_hosts#:#Por favor adicione os endereços dos anfitriões que são permitidos aceder ao servidor de chat.###07 Apr 2005 content changed
@@ -639,6 +640,10 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua###05 Nov 2004 new variable
 chat#:#chat_arial#:#Arial###05 Nov 2004 new variable
 chat#:#chat_black#:#preto###07 Apr 2005 content changed
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#azul###07 Apr 2005 content changed
 chat#:#chat_bold#:#Negrito###07 Apr 2005 content changed
 chat#:#chat_chatroom_body#:#Sala de chat:###14 Sep 2004 content changed
@@ -649,6 +654,7 @@ chat#:#chat_delete_sure#:#Tem a certeza, quer apagar esta Sala de chat###14 Sep 
 chat#:#chat_drop_user#:#Utilizador dispensado###07 Apr 2005 content changed
 chat#:#chat_edit#:#Editar chat###29 Nov 2004 content changed
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Tipo de Fonte###07 Apr 2005 content changed
 chat#:#chat_fuchsia#:#fúcsia###07 Apr 2005 content changed
 chat#:#chat_gray#:#cinzento###07 Apr 2005 content changed
@@ -675,11 +681,13 @@ chat#:#chat_messages_deleted#:#As mensagens form apagadas.###07 Apr 2005 content
 chat#:#chat_moderator_password#:#Palavra-passe do Moderador###07 Apr 2005 content changed
 chat#:#chat_navy#:#azul-marinho###07 Apr 2005 content changed
 chat#:#chat_no_active_users#:#Nenhuns utilizadores presentes.###07 Apr 2005 content changed
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Não pode contactar o servidor de chat.###14 Sep 2004 content changed
 chat#:#chat_no_delete_public#:#A sala de chat pública não pode ser apagada###14 Sep 2004 content changed
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#A sala de chat pública não pode ser actualizada.###14 Sep 2004 content changed
 chat#:#chat_no_rename_public#:#A sala pública não pode ser renomeada###07 Apr 2005 content changed
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Sem permissão para escrever###07 Apr 2005 content changed
 chat#:#chat_olive#:#verde-negro###07 Apr 2005 content changed
 chat#:#chat_online_users#:#Utilizador (ligado)###07 Apr 2005 content changed
@@ -732,9 +740,13 @@ chat#:#chat_times#:#Tempos###07 Apr 2005 content changed
 chat#:#chat_title_missing#:#Por favor insira um nome.###07 Apr 2005 content changed
 chat#:#chat_to_chat_body#:#Para o chat###07 Apr 2005 content changed
 chat#:#chat_type#:#Cara da Fonte###07 Apr 2005 content changed
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Sublinhado###07 Apr 2005 content changed
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Utilizador dispensado###07 Apr 2005 content changed
 chat#:#chat_user_invited#:#Utilizador convidado para o chat.###07 Apr 2005 content changed
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#amarelo###07 Apr 2005 content changed
 chat#:#chats#:#Chats###05 Nov 2004 new variable
