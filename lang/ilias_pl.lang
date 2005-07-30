@@ -626,6 +626,7 @@ bibitem#:#bibitem_unpublished#:#Niepublikowany
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Gdzie publikowany
 bibitem#:#bibitem_year#:#Rok
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktywny
 chat#:#chat_active_users#:#Użytkownik (aktywny)
 chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
@@ -639,6 +640,10 @@ chat#:#chat_address_user#:#Adres
 chat#:#chat_aqua#:#akwa
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#czarny
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#niebieski
 chat#:#chat_bold#:#Wytłuszczony
 chat#:#chat_chatroom_body#:#Pokój czat:
@@ -649,6 +654,7 @@ chat#:#chat_delete_sure#:#Jesteś pewien, że chcesz usunąć ten pokój czat?
 chat#:#chat_drop_user#:#Odrzuceni użytkownicy
 chat#:#chat_edit#:#Edytuj czat
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Typ czcionki
 chat#:#chat_fuchsia#:#fuksja
 chat#:#chat_gray#:#szary
@@ -675,11 +681,13 @@ chat#:#chat_messages_deleted#:#Wiadomości zostały usunięte.
 chat#:#chat_moderator_password#:#Hasło Moderatora
 chat#:#chat_navy#:#granatowy
 chat#:#chat_no_active_users#:#Brak obecnych użytkowników.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nie można skontaktować się z serwerem czat.
 chat#:#chat_no_delete_public#:#Publiczny pokój czat nie może być usunięty
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#publiczny pokój czat nie może być odświeżony
 chat#:#chat_no_rename_public#:#Publiczny pokój nie może mieć zmienionej nazwy
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Brak prawa do zapisu
 chat#:#chat_olive#:#oliwkowy
 chat#:#chat_online_users#:#Użytkownik (online)
@@ -732,9 +740,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Podaj nazwę
 chat#:#chat_to_chat_body#:#Do czat
 chat#:#chat_type#:#Wygląd czcionki
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Podkreślony
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Odrzuceni użytkownicy
 chat#:#chat_user_invited#:#Zaproszony użytkownik do czata.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Szeptanina
 chat#:#chat_yellow#:#żółty
 chat#:#chats#:#Czaty

@@ -624,6 +624,7 @@ bibitem#:#bibitem_unpublished#:#Non pubblicato
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Luogo pubblicazione
 bibitem#:#bibitem_year#:#Anno
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
@@ -637,6 +638,10 @@ chat#:#chat_address_user#:#Indirizzo utente
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#nero
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#blu
 chat#:#chat_bold#:#Grassetto
 chat#:#chat_chatroom_body#:#Chatroom:
@@ -647,6 +652,7 @@ chat#:#chat_delete_sure#:#Sei sicuro di voler eliminare questa chatroom
 chat#:#chat_drop_user#:#Utente tolto
 chat#:#chat_edit#:#Modifica chat
 chat#:#chat_empty#:#Vuoto
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Tipo font
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#grigio
@@ -673,11 +679,13 @@ chat#:#chat_messages_deleted#:#I messaggi sono stati cancellati
 chat#:#chat_moderator_password#:#Password del moderatore
 chat#:#chat_navy#:#avio
 chat#:#chat_no_active_users#:#Non sono presenti utenti
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
 chat#:#chat_no_recordings_available#:#Non ci sono registrazioni disponibili al momento.
 chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
 chat#:#chat_olive#:#oliva
 chat#:#chat_online_users#:#Utente (online)
@@ -730,9 +738,13 @@ chat#:#chat_times#:#Tempi
 chat#:#chat_title_missing#:#Per favore, inserisci il nome.
 chat#:#chat_to_chat_body#:#Vai alla chat
 chat#:#chat_type#:#Tipo Font
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Sottolineato
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Utente tolto
 chat#:#chat_user_invited#:#Utente invitato alla chat.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Bisbiglio
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat

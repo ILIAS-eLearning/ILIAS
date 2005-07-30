@@ -579,6 +579,7 @@ bibitem#:#bibitem_unpublished#:#Nem publikált
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Publikálás helye
 bibitem#:#bibitem_year#:#Év
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktív
 chat#:#chat_active_users#:#Felhasználó (aktív)
 chat#:#chat_add_allowed_hosts#:#Adja meg a chatszerverként elérhető host címét.
@@ -588,6 +589,10 @@ chat#:#chat_add_port#:#Adja meg a szerverportot.
 chat#:#chat_aqua#:#akva
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#fekete
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#kék
 chat#:#chat_bold#:#Félkövér
 chat#:#chat_chatroom_body#:#Chatszoba:
@@ -598,6 +603,7 @@ chat#:#chat_delete_sure#:#Biztosan törölni akarja ezt a chatszobát?
 chat#:#chat_drop_user#:#Felhasználó kizárva
 chat#:#chat_edit#:#Chat szerkesztése
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Betűtípus
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#szürke
@@ -623,11 +629,13 @@ chat#:#chat_messages_deleted#:#Az üzenetek törlésre kerültek.
 chat#:#chat_moderator_password#:#Moderátor jelszava
 chat#:#chat_navy#:#matrózkék
 chat#:#chat_no_active_users#:#Jelenleg nincsenek felhasználók.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nem lehet kapcsolatba lépni a chatszerverrel.
 chat#:#chat_no_delete_public#:#A nyilvános chatszoba nem törölhető
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#a nyilvános chatszoba nem frissíthető.
 chat#:#chat_no_rename_public#:#A nyilvános chatszoba nem nevezhető át
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Nincs írási engedély
 chat#:#chat_olive#:#olajbarna
 chat#:#chat_online_users#:#Felhasználó (on-line)
@@ -679,9 +687,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Adjon meg egy nevet.
 chat#:#chat_to_chat_body#:#A chatbe
 chat#:#chat_type#:#Betűtípus
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Aláhúzott
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Felhasználó kizárva
 chat#:#chat_user_invited#:#A chatbe meghívott felhasználó.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_yellow#:#sárga
 chat#:#chats#:#Chatek
 chat#:#my_chats#:#Chatjeim

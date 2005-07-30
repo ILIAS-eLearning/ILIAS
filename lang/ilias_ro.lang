@@ -615,6 +615,7 @@ bibitem#:#bibitem_unpublished#:#Nepublicat
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Locul unde a fost publicat
 bibitem#:#bibitem_year#:#Anul
+chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Activ
 chat#:#chat_active_users#:#Utilizator (activ)
 chat#:#chat_add_allowed_hosts#:#Va rugam introduceti adresa host-urilor carora li se permite accesul la serverul de chat.
@@ -626,6 +627,10 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#negru
+chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
+chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
+chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
+chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#albastru
 chat#:#chat_bold#:#Bold
 chat#:#chat_chatroom_body#:#Chat room:
@@ -636,6 +641,7 @@ chat#:#chat_delete_sure#:#Sunteti sigur/a ca doriti sa stergeti acest chat room
 chat#:#chat_drop_user#:#Utilizator exclus
 chat#:#chat_edit#:#Editati chat
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Tipul fontului
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#gri
@@ -662,11 +668,13 @@ chat#:#chat_messages_deleted#:#Mesajele au fost sterse.
 chat#:#chat_moderator_password#:#Parola de moderator
 chat#:#chat_navy#:#bleumarin
 chat#:#chat_no_active_users#:#Nici un utilizator prezent.
+chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Serverul de chat nu poate fi contactat.
 chat#:#chat_no_delete_public#:#Chat room-ul public nu poate fi sters
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#Chat room-ul public nu poate fi inlocuit.
 chat#:#chat_no_rename_public#:# Chat room-ul public nu poate fi redenumit
+chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Nu aveti permisiunea de a scrie
 chat#:#chat_olive#:#oliv
 chat#:#chat_online_users#:#Utilizator (online)
@@ -717,9 +725,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Va rugam introduceti un nume.
 chat#:#chat_to_chat_body#:#Catre chat
 chat#:#chat_type#:#Aspectul font-ului
+chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Subliniat
+chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
+chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Utilizator exclus
 chat#:#chat_user_invited#:#utilizator invitat la chat.
+chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#galben
 chat#:#chats#:#Chat-uri

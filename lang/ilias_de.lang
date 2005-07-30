@@ -625,6 +625,7 @@ bibitem#:#bibitem_unpublished#:#Unveröffentlicht
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Wo herausgegeben
 bibitem#:#bibitem_year#:#Jahr
+chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
@@ -638,6 +639,10 @@ chat#:#chat_address_user#:#Direkte Anrede von
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#schwarz
+chat#:#chat_block_user#:#Sperren
+chat#:#chat_blocked#:#Zugang gesperrt
+chat#:#chat_blocked_unlocked#:#Freischalten
+chat#:#chat_blocked_users#:#Gesperrte Benutzer
 chat#:#chat_blue#:#blau
 chat#:#chat_bold#:#fett
 chat#:#chat_chatroom_body#:#Chatraum:
@@ -648,6 +653,7 @@ chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden
 chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_empty#:#Leeren
+chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
@@ -674,11 +680,13 @@ chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderator Passwort
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
+chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
 chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
 chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
 chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
+chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
 chat#:#chat_olive#:#oliv
 chat#:#chat_online_users#:#Benutzer (online)
@@ -731,9 +739,13 @@ chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
 chat#:#chat_to_chat_body#:#Zum Chat
 chat#:#chat_type#:#Schriftart
+chat#:#chat_unblocked_user#:#Der Zugang für die ausgewählten Benutzer wurde freigeschaltet.
 chat#:#chat_underlined#:#Unterstrichen
+chat#:#chat_user_already_blocked#:#Der Zugang dieses Benutzers ist bereits gesperrt.
+chat#:#chat_user_blocked#:#Der Zugang des Benutzer zu den Chaträumen wurde gesperrt.
 chat#:#chat_user_dropped#:#Der Benutzer wurde rausgeschmissen
 chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
+chat#:#chat_user_name#:#Benutzername
 chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
@@ -5181,15 +5193,3 @@ survey#:#view_constraints_introduction#:#Sie betrachten Beschränkungen der folg
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-chat#:#chat_blocked_users#:#Gesperrte Benutzer
-chat#:#chat_user_name#:#Benutzername
-chat#:#chat_blocked_unlocked#:#Freischalten
-chat#:#chat_block_user#:#Sperren
-chat#:#chat_user_blocked#:#Der Zugang des Benutzer zu den Chaträumen wurde gesperrt.
-chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
-chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
-chat#:#chat_user_already_blocked#:#Der Zugang dieses Benutzers ist bereits gesperrt.
-chat#:#chat_blocked#:#Zugang gesperrt
-chat#:#chat_unblocked_user#:#Der Zugang für die ausgewählten Benutzer wurde freigeschaltet.
-chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
-chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
