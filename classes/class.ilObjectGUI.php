@@ -1807,7 +1807,7 @@ class ilObjectGUI
 				$ctrl = $this->data["ctrl"][$i];
 
 				// color changing
-				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+				$css_row = ilUtil::switchColor($i+1,"tblrow2","tblrow1");
 
 				// surpress checkbox for particular object types AND the system role
 				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or $ctrl["obj_id"] == SYSTEM_USER_ID or $ctrl["obj_id"] == ANONYMOUS_ROLE_ID)

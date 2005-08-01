@@ -143,12 +143,8 @@ class ilBookmarkAdministrationGUI
 	{
 		global $lng, $tpl,$ilias;
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.bookmarks.html");
-
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		// output tabs
-		//$this->setTabs();
 
 		// output locator
 		$this->displayLocator();
@@ -163,9 +159,6 @@ class ilBookmarkAdministrationGUI
 		infoPanel();
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("personal_desktop"));
-
-		//$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.table.html");
-		//$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// display tabs
 		include "./include/inc.personaldesktop_buttons.php";
@@ -189,7 +182,7 @@ class ilBookmarkAdministrationGUI
 		{
 			$this->main_header();
 		}
-		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.table.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html");
 
 		$this->tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=post");
 
@@ -288,13 +281,13 @@ class ilBookmarkAdministrationGUI
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("bookmarks").$addstr,
-			"icon_bm_b.gif", $this->lng->txt("bookmarks"));
+			"icon_bm.gif", $this->lng->txt("bookmarks"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title"),
-			$this->lng->txt("bookmark_target")));
-		$tbl->setHeaderVars(array("", "type", "title", "target"),
+			$this->lng->txt("bookmark_target"), ""));
+		$tbl->setHeaderVars(array("", "type", "title", "target", "commands"),
 			array("bmf_id" => $this->id));
-		$tbl->setColumnWidth(array("1%", "1%", "49%", "49%"));
+		$tbl->setColumnWidth(array("1", "1", "", "", ""));
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -306,6 +299,7 @@ class ilBookmarkAdministrationGUI
 		$tbl->setFooter("tblfooter", $this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("content");
 		$tbl->disable("footer");
+		$tbl->disable("header");
 
 		// render table
 		$tbl->render();
@@ -313,7 +307,7 @@ class ilBookmarkAdministrationGUI
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setVariable("NUM_COLS", 4);
+		$this->tpl->setVariable("NUM_COLS", 5);
 		$this->showPossibleSubObjects();
 
 		$this->tpl->parseCurrentBlock();
@@ -374,7 +368,7 @@ class ilBookmarkAdministrationGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$title = ($row["child"] == 1) ?
-				$lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname() :
+				$lng->txt("bookmarks") :
 				$row["title"];
 			$this->tpl->setVariable("ITEM", $title);
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
@@ -397,7 +391,7 @@ class ilBookmarkAdministrationGUI
 
 		$this->main_header();
 
-		$tpl->addBlockFile("OBJECTS", "objects", "tpl.bookmark_newfolder.html");
+		$tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.bookmark_newfolder.html");
 		$tpl->setVariable("TITLE", $this->get_last("title", ""));
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
@@ -415,7 +409,7 @@ class ilBookmarkAdministrationGUI
 
 		$this->main_header();
 
-		$tpl->addBlockFile("OBJECTS", "objects", "tpl.bookmark_newfolder.html");
+		$tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.bookmark_newfolder.html");
 
 		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 
@@ -437,7 +431,7 @@ class ilBookmarkAdministrationGUI
 
 		$this->main_header();
 
-		$tpl->addBlockFile("OBJECTS", "objects", "tpl.bookmark_new.html");
+		$tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.bookmark_new.html");
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_new"));
 		$tpl->setVariable("TXT_TARGET", $lng->txt("bookmark_target"));
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
@@ -471,7 +465,7 @@ class ilBookmarkAdministrationGUI
 
 		$this->main_header();
 
-		$tpl->addBlockFile("OBJECTS", "objects", "tpl.bookmark_new.html");
+		$tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.bookmark_new.html");
 
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_edit"));
 		$tpl->setVariable("TXT_TARGET", $lng->txt("bookmark_target"));
@@ -599,7 +593,7 @@ class ilBookmarkAdministrationGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.obj_confirm.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.obj_confirm.html");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=post");
@@ -818,7 +812,7 @@ class ilBookmarkAdministrationGUI
 		if (is_array($subobj))
 		{
 			//build form
-			$opts = ilUtil::formSelect(12,"type",$subobj);
+			$opts = ilUtil::formSelect("","type",$subobj);
 
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("COLUMN_COUNTS", 7);

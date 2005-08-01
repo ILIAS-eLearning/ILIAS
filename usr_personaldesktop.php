@@ -79,9 +79,11 @@ switch($_GET["cmd"])
 }*/
 
 //add template for content
-$tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+//$tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 // set locator
@@ -97,10 +99,12 @@ sendInfo();
 infoPanel();
 
 // display tabs
-include "./include/inc.personaldesktop_buttons.php";
+//include "./include/inc.personaldesktop_buttons.php";
 
-$tpl->setCurrentBlock("content");
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
+$tpl->setCurrentBlock("adm_content");
+$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
+include "./include/inc.personaldesktop_buttons.php";
+//$tpl->setVariable("TABS", "KK");
 $tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 // courses

@@ -3621,10 +3621,10 @@ crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs_#:#crs_archives#:#Archives
 dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#Day View
-dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.
+dateplaner#:#ERROR_DATE_EXISTS#:#This event already exists.
 dateplaner#:#ERROR_DB#:#Database write error!
 dateplaner#:#ERROR_DB_CONNECT#:#The database is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#This is a recurring date. Would you like to delete one date or the series
+dateplaner#:#ERROR_DEL_MSG#:#This is a recurring event. Would you like to delete one event or the series
 dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
@@ -3639,7 +3639,7 @@ dateplaner#:#ERROR_TS#:#Incorrect date format
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Language_file#:#English
-dateplaner#:#Listbox_long#:#List of Dates
+dateplaner#:#Listbox_long#:#List of Events
 dateplaner#:#Mo_long#:#Monday
 dateplaner#:#Mo_short#:#Mo
 dateplaner#:#Month_long#:#Month View
@@ -3656,35 +3656,35 @@ dateplaner#:#View#:#View:
 dateplaner#:#We_long#:#Wednesday
 dateplaner#:#We_short#:#We
 dateplaner#:#Week_long#:#Week View
-dateplaner#:#add_data#:#Additional data
-dateplaner#:#app_#:#group dates inbox
-dateplaner#:#app_date#:#insert date
-dateplaner#:#app_day#:#day view
-dateplaner#:#app_freetime#:#free time of other group members (catch a time)
-dateplaner#:#app_inbox#:#group dates inbox
-dateplaner#:#app_list#:#date list
-dateplaner#:#app_month#:#month view
-dateplaner#:#app_properties#:#properties
-dateplaner#:#app_week#:#week view
+dateplaner#:#add_data#:#Additional Data
+dateplaner#:#app_#:#Group Events Inbox
+dateplaner#:#app_date#:#Create Event
+dateplaner#:#app_day#:#Day View
+dateplaner#:#app_freetime#:#Free time of other group members (catch a time)
+dateplaner#:#app_inbox#:#Group Events Inbox
+dateplaner#:#app_list#:#List of Events
+dateplaner#:#app_month#:#Month View
+dateplaner#:#app_properties#:#Properties
+dateplaner#:#app_week#:#Week View
 dateplaner#:#application#:#Calendar
-dateplaner#:#apply#:#apply
-dateplaner#:#back#:#back
+dateplaner#:#apply#:#Apply
+dateplaner#:#back#:#Back
 dateplaner#:#begin_date#:#Begin Date
-dateplaner#:#busytime#:#busy time in group
-dateplaner#:#c_date#:#Create Date
+dateplaner#:#busytime#:#Busy time in group
+dateplaner#:#c_date#:#Create Event
 dateplaner#:#changeTo#:#Change to:
-dateplaner#:#changedDates#:#Changed dates
+dateplaner#:#changedDates#:#Changed Events
 dateplaner#:#checkforfreetime#:#Check for free time
 dateplaner#:#created#:#Created
 dateplaner#:#date#:#Date
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#del_all#:#delete all dates
-dateplaner#:#del_one#:#delete one date
-dateplaner#:#delete#:#delete
-dateplaner#:#deletedDates#:#Deleted dates
-dateplaner#:#discard#:#discard
-dateplaner#:#dv_Grouptime#:#free time
+dateplaner#:#del_all#:#Delete all events
+dateplaner#:#del_one#:#Delete one event
+dateplaner#:#delete#:#Delete
+dateplaner#:#deletedDates#:#Deleted Events
+dateplaner#:#discard#:#Discard
+dateplaner#:#dv_Grouptime#:#Free time
 dateplaner#:#dv_button_cancel#:#Cancel
 dateplaner#:#dv_button_delete#:#Delete
 dateplaner#:#dv_button_insert#:#Insert
@@ -3694,7 +3694,7 @@ dateplaner#:#dv_date_end#:#End Date:
 dateplaner#:#dv_date_hm#:#Hour:Minute
 dateplaner#:#dv_enddate#:#End date:
 dateplaner#:#dv_groupselect#:#Group select:
-dateplaner#:#dv_groupview#:#Group date:
+dateplaner#:#dv_groupview#:#Group event:
 dateplaner#:#dv_groupview_text#:#Group:<br />
 dateplaner#:#dv_keywords#:#Keywords:
 dateplaner#:#dv_keywordselect#:#Keyword select:
@@ -3713,41 +3713,41 @@ dateplaner#:#dv_whole_rotation#:#Would you like to delete the entire recurring s
 dateplaner#:#end_date#:#End Date
 dateplaner#:#endtime_for_view#:#End time for view:
 dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
-dateplaner#:#execute#:#execute choices
-dateplaner#:#extra_dates#:#One Day Dates
-dateplaner#:#free#:#free
-dateplaner#:#freetime#:#free Time in group
-dateplaner#:#group#:#group
-dateplaner#:#help_day#:#Calendar day view
-dateplaner#:#help_day_l#:#In the day view all dates of a chosen day are displayed.
+dateplaner#:#execute#:#Execute choices
+dateplaner#:#extra_dates#:#One Day Events
+dateplaner#:#free#:#Free
+dateplaner#:#freetime#:#Free Time in group
+dateplaner#:#group#:#Group
+dateplaner#:#help_day#:#Calendar Day View
+dateplaner#:#help_day_l#:#In the day view all events of a chosen day are displayed.
 dateplaner#:#help_enddate#:#End date - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_enddate_l#:#Contains the end time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
 dateplaner#:#help_endrotation#:#End time syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calendar for choosing the appropriate date
 dateplaner#:#help_endtime#:#End time - syntax[hh/mm] 24-hour format
 dateplaner#:#help_endtime_l#:#Contains the end time of the appointment using 24-hour format.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Whole day date - syntax[on/off]
-dateplaner#:#help_fullday_l#:#If the date stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
+dateplaner#:#help_fullday#:#Whole day event - syntax[on/off]
+dateplaner#:#help_fullday_l#:#If the event stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
 dateplaner#:#help_further#:#<br /><b>click here for further information.</b>
-dateplaner#:#help_group#:#Group dates selection
+dateplaner#:#help_group#:#Group events selection
 dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has administrator rights and for which a date can be created.<br />After choosing this it is possible to view the unscheduled time of the group.
 dateplaner#:#help_inbox#:#Calendar Inbox
-dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group dates are displayed.
+dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group events are displayed.
 dateplaner#:#help_keyword#:#Keyword selection
 dateplaner#:#help_keywordUse#:#Keyword selection
 dateplaner#:#help_keywordUse_l#:#Choose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entries.
 dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
-dateplaner#:#help_list#:#Calendar date list
-dateplaner#:#help_list_l#:#In the date list, all dates over a given period of time are displayed.
+dateplaner#:#help_list#:#Calendar event list
+dateplaner#:#help_list_l#:#In the event list, all events of a given period of time are displayed.
 dateplaner#:#help_month#:#Calendar month view
-dateplaner#:#help_month_l#:#In the month view all dates of a given month are displayed.
+dateplaner#:#help_month_l#:#In the month view all events of a given month are displayed.
 dateplaner#:#help_properties_alt#:#Changes the keyword
 dateplaner#:#help_properties_alt_l#:#Choose a keyword from the dialog box.<br />Change the keyword in the text field. Important: max. 20 characters.
 dateplaner#:#help_properties_del#:#Deletes the keyword
 dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the calendar.
+dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
 dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
 dateplaner#:#help_properties_time#:#Display time for day view/week view
@@ -3757,19 +3757,19 @@ dateplaner#:#help_rotation_l#:#Contains the type of the recurrence / repetition.
 dateplaner#:#help_shorttext#:#Short text, max. 50 characters
 dateplaner#:#help_shorttext_l#:#Here one can enter the short text for a given date.
 dateplaner#:#help_startdate#:#Start date - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contains the start point of the appointment.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_startdate_l#:#Contains the starting time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
 dateplaner#:#help_starttime#:#Start time - syntax[hh/mm] 24-hour format
-dateplaner#:#help_starttime_l#:#Contains the start point of the appointment using 24-hour format.
+dateplaner#:#help_starttime_l#:#Contains the starting time of the event using 24-hour format.
 dateplaner#:#help_text#:#Text
-dateplaner#:#help_text_l#:#Here one can enter the text for a given date.
+dateplaner#:#help_text_l#:#Here one can enter the text for a given event.
 dateplaner#:#help_week#:#Calendar week view
-dateplaner#:#help_week_l#:#In the week view all dates of a given week are displayed.
+dateplaner#:#help_week_l#:#In the week view all events of a given week are displayed.
 dateplaner#:#hour#:#hour
-dateplaner#:#importDates#:#Import of Outlook Dates
+dateplaner#:#importDates#:#Import of Outlook Events
 dateplaner#:#inbox#:#Inbox
-dateplaner#:#insertImportDates#:#These dates were successfully registered:
-dateplaner#:#k_alldates#:#all dates
-dateplaner#:#keep#:#keep
+dateplaner#:#insertImportDates#:#These events were successfully registered:
+dateplaner#:#k_alldates#:#All Events
+dateplaner#:#keep#:#Keep
 dateplaner#:#keyword#:#Keyword
 dateplaner#:#keywords#:#Keywords
 dateplaner#:#last_change#:#Last changed
@@ -3785,36 +3785,36 @@ dateplaner#:#long_09#:#September
 dateplaner#:#long_10#:#October
 dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#December
-dateplaner#:#main_dates#:#Main Dates
+dateplaner#:#main_dates#:#Main Events
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#last month
-dateplaner#:#month#:#month
-dateplaner#:#more#:#more
-dateplaner#:#mweek#:#last week
-dateplaner#:#myeahr#:#last year
-dateplaner#:#newDates#:#New dates
+dateplaner#:#mmonth#:#Last Month
+dateplaner#:#month#:#Month
+dateplaner#:#more#:#More
+dateplaner#:#mweek#:#Last Week
+dateplaner#:#myeahr#:#Last Year
+dateplaner#:#newDates#:#New Events
 dateplaner#:#newKeyword#:#New:
-dateplaner#:#new_doc#:#create new date
-dateplaner#:#no_entry#:#no dates available
-dateplaner#:#o_day_date#:#24-hour date
+dateplaner#:#new_doc#:#Create new event
+dateplaner#:#no_entry#:#No events available
+dateplaner#:#o_day_date#:#24-hour event
 dateplaner#:#of#:#of
-dateplaner#:#open_day#:#day view
-dateplaner#:#pmonth#:#next month
-dateplaner#:#printlist#:#print
+dateplaner#:#open_day#:#Day View
+dateplaner#:#pmonth#:#Next Month
+dateplaner#:#printlist#:#Print
 dateplaner#:#properties#:#Properties
-dateplaner#:#pweek#:#next week
-dateplaner#:#pyear#:#next year
-dateplaner#:#r_14#:#every 14 days
-dateplaner#:#r_4_weeks#:#every 4 weeks
-dateplaner#:#r_day#:#every day
-dateplaner#:#r_halfyear#:#every half year
-dateplaner#:#r_month#:#every month
+dateplaner#:#pweek#:#Next Week
+dateplaner#:#pyear#:#Next Year
+dateplaner#:#r_14#:#Every 14 days
+dateplaner#:#r_4_weeks#:#Every 4 weeks
+dateplaner#:#r_day#:#Every day
+dateplaner#:#r_halfyear#:#Every half year
+dateplaner#:#r_month#:#Every month
 dateplaner#:#r_nonrecurring#:#Once
-dateplaner#:#r_week#:#every week
-dateplaner#:#r_year#:#every year
-dateplaner#:#readimportfile#:#insert
+dateplaner#:#r_week#:#Every week
+dateplaner#:#r_year#:#Every year
+dateplaner#:#readimportfile#:#Insert
 dateplaner#:#rotation#:#Recurrence
-dateplaner#:#rotation_dates#:#Recurrence dates
+dateplaner#:#rotation_dates#:#Recurrence events
 dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -3829,17 +3829,17 @@ dateplaner#:#short_10#:#Oct
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Short Text
-dateplaner#:#singleDate#:#single date
+dateplaner#:#singleDate#:#Single Event
 dateplaner#:#starttime_for_view#:#Start time for view:
 dateplaner#:#timedate#:#Time / Date
 dateplaner#:#timeslice#:#Time:
 dateplaner#:#title#:#ILIAS calendar
 dateplaner#:#to#:#to
-dateplaner#:#today#:#today
-dateplaner#:#viewlist#:#view
-dateplaner#:#week#:#week
+dateplaner#:#today#:#Today
+dateplaner#:#viewlist#:#View
+dateplaner#:#week#:#Week
 dateplaner#:#wk_short#:#WK
-dateplaner#:#year#:#year
+dateplaner#:#year#:#Year
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Attachments

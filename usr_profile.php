@@ -277,10 +277,11 @@ function change_password()
 }
 // End of function change_password
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
 
 // set locator
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
@@ -717,7 +718,7 @@ if ($ilias->account->getAuthMode(true) == AUTH_LOCAL and userSettingVisible('pas
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
+$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
 $tpl->setVariable("TXT_OF",strtolower($lng->txt("of")));
 $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 

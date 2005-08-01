@@ -353,6 +353,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($tabs_gui);
+		
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pg.gif"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("content");
+
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());

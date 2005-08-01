@@ -121,4 +121,8 @@ for ( $i=0; $i<sizeof($inhalt1); $i++)
 	}
 }
 
+$tpl->setCurrentBlock("tabs");
+$tpl->parseCurrentBlock();
+
+//$tpl->setVariable("TABS", "KK");
 ?>

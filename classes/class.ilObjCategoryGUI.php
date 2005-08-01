@@ -86,11 +86,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		#if ($rbacsystem->checkAccess('read',$this->ref_id))
-		#{
-		#	$tabs_gui->addTarget("view_content",
-		#						 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
-		#}
+		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		{
+			$tabs_gui->addTarget("view_content",
+				$this->ctrl->getLinkTarget($this, ""),
+				"");
+		}
+		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",

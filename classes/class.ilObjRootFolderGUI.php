@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.5 2004/04/12 13:46:52 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.6 2005/05/12 17:10:45 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI:
 *
@@ -76,6 +76,23 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		ilObjCategoryGUI::_importCategories($this->ref_id);
 	}
 
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+
+		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		{
+			$tabs_gui->addTarget("view_content",
+				$this->ctrl->getLinkTarget($this, ""),
+				"");
+		}
+		
+		// parent tabs (all container: edit_permission, clipboard, trash
+		parent::getTabs($tabs_gui);
+
+	}
 
 
 }

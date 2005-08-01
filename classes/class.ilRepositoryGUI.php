@@ -275,14 +275,14 @@ class ilRepositoryGUI
 				{
 					$this->gui_obj = new ilObjUserGUI("",$_GET['ref_id'],true, false);
 
-					$this->prepareOutput();
+					$this->prepareOutput(false);
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				}
 				else
 				{
 					$this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'],false, false);
 
-					$this->prepareOutput();
+					$this->prepareOutput(false);
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				}
 				$this->tpl->show();
@@ -848,6 +848,13 @@ class ilRepositoryGUI
 				$this->showPossibleSubObjects($this->gui_obj->object->getType());
 			}
 		}
+		
+		// header image
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER",
+			ilUtil::getImagePath("icon_".ilObject::_lookupType($this->cur_ref_id, true)."_b.gif"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("content");
 
 		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
 			"&cmd=post");
@@ -1269,6 +1276,14 @@ class ilRepositoryGUI
 	function showPossibleSubObjects($type)
 	{
 		$found = false;
+		$cmd = ($this->cmd != "")
+			? $this->cmd
+			: $this->ctrl->getCmd();
+			
+		if ($cmd != "" && $cmd != "showList")
+		{
+			return;
+		}
 
 		$d = $this->objDefinition->getCreatableSubObjects($type);
 

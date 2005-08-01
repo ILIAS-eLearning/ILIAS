@@ -86,6 +86,20 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tree =& $this->object->getTree();
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+		if ($cmd == "create")
+		{
+			switch($_POST["new_type"])
+			{
+				case "mob":
+					$this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
+					break;
+					
+				case "fold":
+					$this->ctrl->redirectByClass("ilobjfoldergui", "create");
+					break;
+			}
+		}
 
 		switch($next_class)
 		{
@@ -353,6 +367,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		/*
 		// create folder form button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",
@@ -365,7 +380,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK",
 			$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_mob"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 		$obj_id = ($_GET["obj_id"] == "")
 			? $obj_id = $this->object->tree->getRootId()
@@ -449,12 +464,23 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		
 		// merge everything together
 		$objs = array_merge($f2objs, $m2objs);
-
 		//$objs = $this->object->getChilds($_GET["obj_id"]);
 
 		$tbl->setMaxCount(count($objs));
 		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
 
+		$subobj = array(
+			"mob" => $this->lng->txt("mob"),
+			"fold" => $this->lng->txt("fold"));
+		$opts = ilUtil::formSelect("", "new_type", $subobj, false, true);
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("BTN_NAME", "create");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->parseCurrentBlock();
+		$tbl->disable("sort");
+		//$tbl->disable("title");
+		$tbl->disable("header");
 		$tbl->render();
 		if(count($objs) > 0)
 		{
@@ -965,6 +991,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		if (!empty($title))
 		{
+			$this->tpl->setCurrentBlock("header_image");
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mep_b.gif"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("content");
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
@@ -993,16 +1023,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
-			get_class($this), "listMedia");
+			"listMedia", get_class($this));
 
 		$tabs_gui->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
-			get_class($this), "edit");
+			"edit", get_class($this));
 
 		$tabs_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
-			get_class($this), "perm");
+			array("perm", "info"), get_class($this));
 
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view"),
-			"ileditclipboardgui", "view");
+			"view", "ileditclipboardgui");
 
 	}
 

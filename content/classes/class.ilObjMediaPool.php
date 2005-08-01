@@ -278,15 +278,23 @@ class ilObjMediaPool extends ilObject
 	/**
 	* get childs of node
 	*/
-	function getChilds($obj_id = "")
+	function getChilds($obj_id = "", $a_type = "")
 	{
+		$objs = array();
+		$mobs = array();
 		if ($obj_id == "")
 		{
 			$obj_id = $this->tree->getRootId();
 		}
 
-		$objs = $this->tree->getChildsByType($obj_id, "fold");
-		$mobs = $this->tree->getChildsByType($obj_id, "mob");
+		if ($a_type != "mob")
+		{
+			$objs = $this->tree->getChildsByType($obj_id, "fold");
+		}
+		if ($a_type != "fold")
+		{		
+			$mobs = $this->tree->getChildsByType($obj_id, "mob");
+		}
 		foreach($mobs as $key => $mob)
 		{
 			$objs[] = $mob;
