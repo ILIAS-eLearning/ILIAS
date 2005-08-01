@@ -1279,8 +1279,9 @@ class ilRepositoryGUI
 		$cmd = ($this->cmd != "")
 			? $this->cmd
 			: $this->ctrl->getCmd();
-			
-		if ($cmd != "" && $cmd != "showList" && $cmd != "render")
+
+		if ($cmd != "" && $cmd != "showList" && $cmd != "render"
+			&& $cmd != "view")
 		{
 			return;
 		}
