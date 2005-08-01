@@ -606,6 +606,7 @@ class ilContObjParser extends ilMDSaxParser
 				$this->in_glossary_definition = true;
 				$this->glossary_definition =& new ilGlossaryDefinition();
 				$this->page_object =& new ilPageObject("gdf");
+				$this->page_object->setParentId($this->glossary_term->getGlossaryId());
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
 				$this->glossary_definition->assignPageObject($this->page_object);
 				$this->current_object =& $this->glossary_definition;
