@@ -8254,3 +8254,28 @@ CREATE TABLE `chat_blocked` (
 `chat_id` INT( 11 ) NOT NULL ,
 `usr_id` INT( 11 ) NOT NULL
 ) TYPE = MYISAM;
+<#508>
+<?php
+
+// get all glossary definition pages
+$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
+	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='gdf'");
+
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$content = $row["content"];
+
+	// get all media aliases
+	while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found))
+	{
+		// insert mob usage record
+		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
+			" ('".$found[2]."', 'gdf:pg', '".$row["page_id"]."')";
+		$ilDB->query($q);
+
+		// remove id from content string to prevent endless while loop
+		$content = eregi_replace($found[1], "", $content);
+	}
+}
+
+?>
