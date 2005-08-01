@@ -271,6 +271,17 @@
 	<property name="clipboard">clipboard</property>
 	<subobj name="par">par</subobj>
 </object>
+<object name="bmf" class_name="BookmarkFolder" checkbox="1" inherit="0" translate="0" rbac="0">
+	<subobj name="bmf">bmf</subobj>
+	<subobj name="bm">bm</subobj>
+	<action name="delete">delete</action>
+</object>
+<object name="bm" class_name="Bookmark" checkbox="1" inherit="0" translate="0" rbac="0">
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+	<action name="delete_favorite">delete_favorite</action>
+</object>
 <object name="sty" class_name="StyleSheet" location="classes" checkbox="1" inherit="0" translate="0" rbac="0">
 	<property name="view">cont_content</property>
 </object>

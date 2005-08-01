@@ -177,11 +177,19 @@ class ilTabsGUI
 		$cmdClass = $ilCtrl->getCmdClass();
 
 		$tpl = new ilTemplate("tpl.tabs.html", true, true);
-
+		
 		foreach ($this->target as $target)
 		{
 			$i++;
-			if ($target["cmd"] == $cmd) // && ($target["cmdClass"] == $cmdClass))
+			
+			if (!is_array($target["cmd"]))
+			{
+				$target["cmd"] = array($target["cmd"]);
+			}
+
+//echo "<br>-".$target["cmd"]."-".$cmd."-";
+			if (in_array($cmd, $target["cmd"]) &&
+				($target["cmdClass"] == $cmdClass || $target["cmdClass"] == ""))
 			{
 				$tabtype = "tabactive";
 			}

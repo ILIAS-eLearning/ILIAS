@@ -1,5 +1,5 @@
 <tr class="{CSS_ROW}">
-	<td class="std" valign="top">
+	<td class="std" valign="top" width="1">
 		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
 	<td class="std" valign="top" nowrap="1" width="1">
@@ -7,16 +7,22 @@
 	</td>
 	<td class="std" valign="top">
 		<!-- BEGIN link -->
-		<a href="{LINK_VIEW}">
-		{TXT_TITLE}
-        </a>
+		<div style="float:left;">
+			<a href="{LINK_VIEW}">
+			{TXT_TITLE}
+			</a>
+		</div>
+		<div style="float:right;" class="il_ContainerItemCommands">
 			<!-- BEGIN edit -->
-			[<a href="{EDIT_LINK}">{TXT_EDIT}</a>]
+			<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
 			<!-- END edit -->
 			<!-- BEGIN show -->
-			[<a href="{SHOW_LINK}" target="_new">{TXT_SHOW}</a>]
+			<a class="il_ContainerItemCommand" href="{SHOW_LINK}" target="_new">{TXT_SHOW}</a>
 			<!-- END show -->
+		</div>
 		<!-- END link -->
+		<div style="clear:both;">
 		{MEDIA_INFO}
+		</div>
 	</td>
 </tr>

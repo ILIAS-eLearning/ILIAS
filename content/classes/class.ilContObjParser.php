@@ -224,6 +224,7 @@ class ilContObjParser extends ilMDSaxParser
 			$pg_mapping[$key] = "il__pg_".$value;
 		}*/
 //echo "<br><b>processIntLinks</b>"; flush();
+
 		// outgoin internal links
 		foreach($this->pages_to_parse as $page_id)
 		{
@@ -941,12 +942,12 @@ class ilContObjParser extends ilMDSaxParser
 						// collect pages with internal links
 						if ($this->page_object->containsIntLink())
 						{
-							//echo "<br>Page contains Int Link:".$this->page_object->getId();
 							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 						}
+						
+						// collect pages with mobs or files
 						if ($this->page_object->needsImportParsing())
 						{
-							//echo "<br>Page needs import parsing:".$this->page_object->getId();
 							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 						}
 						
@@ -1230,6 +1231,10 @@ class ilContObjParser extends ilMDSaxParser
 				if ($this->page_object->containsIntLink())
 				{
 //echo "<br>Definition contains Int Link:".$this->page_object->getId();
+					$this->pages_to_parse["gdf:".$this->page_object->getId()] = "gdf:".$this->page_object->getId();
+				}
+				if ($this->page_object->needsImportParsing())
+				{
 					$this->pages_to_parse["gdf:".$this->page_object->getId()] = "gdf:".$this->page_object->getId();
 				}
 				break;

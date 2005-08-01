@@ -1309,7 +1309,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
 
 			// link
 			$this->ctrl->setParameter($this, "backcmd", "");
@@ -2657,6 +2657,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($tabs_gui);
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}

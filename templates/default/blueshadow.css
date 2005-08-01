@@ -431,7 +431,7 @@ table.il_PDBlock
 	border-width:1px;
 	border-style:solid;
 	border-color:#a0a0a0;
-	margin-top:25px;
+	margin-bottom:25px;
 }
 
 td.il_PDBlockHeader
@@ -446,6 +446,20 @@ td.il_PDBlockHeader
 	border-bottom-width:1px;
 	border-bottom-color:#909090;
 	border-bottom-style:solid;
+}
+
+td.il_PDBlockSubHeader
+{
+	color:#000000;
+	font-size:13px;
+	font-weight:bold;
+	background-color:#e3e3e3;
+	background-image:url(images/cellpic1.gif);
+	background-repeat:repeat-x;
+	
+	border-top-width:1px;
+	border-top-color:#909090;
+	border-top-style:solid;
 }
 
 

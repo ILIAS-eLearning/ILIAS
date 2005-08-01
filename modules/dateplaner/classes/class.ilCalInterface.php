@@ -245,9 +245,16 @@ class ilCalInterface
 
 	function showLocator($tpl, $lng, $app)
 	{
+		global $ilias;
+		
+		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
+		$tpl->setCurrentBlock("locator_item");
+		$tpl->setVariable("LINK_ITEM","./usr_personaldesktop.php");
+		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("ITEM",$lng->txt("personal_desktop"));
+		$tpl->parseCurrentBlock();
 
-		$tpl = new ilTemplate("tpl.locator.html", true, true);
-		$tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
+		$tpl->touchBlock("locator_separator_prefix");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM","./dateplaner.php");
 		$tpl->setVariable("LINK_TARGET","bottom");
@@ -264,16 +271,13 @@ class ilCalInterface
 		$tpl->setCurrentBlock("locator");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$tpl->parseCurrentBlock();
-		$locator = '
-		<div class="il_Locator">
-		<table border="0" cellpadding="0" cellspacing="0" width="100%" >
-			<tr><td>'.$tpl->get().'</td>
-				<td align="right">
-				</td>
-			</tr>
-		</table>
-		</div>';
 		
+		$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
+		
+		include ("./include/inc.personaldesktop_buttons.php");
+		
+		$locator = $tpl->get();
+
 		Return $locator;
 
 
