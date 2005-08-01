@@ -63,7 +63,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		else if(!$tree->checkForParentType($this->ref_id,'crs'))
 		{
-			$this->ctrl->returnToParent($this);
+			//$this->ctrl->returnToParent($this);
+			$this->renderObject();
 		}
 		else
 		{
