@@ -47,7 +47,7 @@ class ilObjectStatusGUI
 	*/
 	function ilObjectStatusGUI(&$a_obj)
 	{
-		global $ilUser,$ilCtrl,$ilias,$ilErr,$lng;
+		global $ilUser,$ilCtrl,$ilias,$ilErr,$lng,$rbacreview;
 
 		$this->ctrl =& $ilCtrl;
 		$this->object =& $a_obj;
@@ -61,7 +61,16 @@ class ilObjectStatusGUI
 		}
 		else
 		{
-			$this->user = $ilias->obj_factory->getInstanceByObjId($_POST['Fuserid'],false);
+			if (is_numeric($_POST['Fuserid']))
+			{
+				$this->user = $ilias->obj_factory->getInstanceByObjId($_POST['Fuserid'],false);
+			}
+			else
+			{
+				include_once('class.ilObjUser.php');
+				$user_id = ilObjUser::_lookupId($_POST['Fuserid']);
+				$this->user = $ilias->obj_factory->getInstanceByObjId($user_id,false);
+			}
 
 			if ($this->user === false)
 			{
@@ -69,14 +78,19 @@ class ilObjectStatusGUI
 				$ilErr->raiseError($lng->txt("info_err_user_not_exist"),$ilErr->MESSAGE);
 			}
 		}
+		
+		// get all user roles and all valid roles in scope
+		$this->user_roles = $rbacreview->assignedRoles($this->user->getId());
+		$this->global_roles = $rbacreview->getGlobalRoles();
+		$this->valid_roles = $rbacreview->getParentRoleIds($this->object->getRefId());
+		$this->assigned_valid_roles = $this->getAssignedValidRoles();
 
 		$this->getPermissionInfo();
 		
 		$this->getRoleAssignmentInfo();
 		
 		$this->getObjectSummary();
-		
-		$this->displayUserChangeForm();
+
 	}
 
 	/**
@@ -119,10 +133,10 @@ class ilObjectStatusGUI
 		$tbl->setTitle($lng->txt("info_access_permissions"),"icon_perm_b.gif",$lng->txt("info_access_permissions"));
 
 		//user must be member
-		$tbl->setHeaderNames(array("",$lng->txt("operation")));
+		$tbl->setHeaderNames(array("",$lng->txt("operation"),$lng->txt("info_from_role")));
 		//$tbl->setHeaderVars(array("operation","granted"),$this->ctrl->getParameterArray($this->object,"",false));
-		$tbl->setHeaderVars(array("","operation"),"");
-		//$tbl->setColumnWidth(array("1%","20"));
+		$tbl->setHeaderVars(array("","operation","role"),"");
+		$tbl->setColumnWidth(array("1%","39%","60%"));
 
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
@@ -144,7 +158,7 @@ class ilObjectStatusGUI
 		$tbl->setTitle($lng->txt("info_available_roles"),"icon_rolf_b.gif",$lng->txt("info_available_roles"));
 
 		$tbl->setHeaderNames(array("",$lng->txt("role"),str_replace(" ","&nbsp;",$lng->txt("info_permission_source")),str_replace(" ","&nbsp;",$lng->txt("info_permission_origin"))));
-
+		$tbl->setColumnWidth(array("1%","19%","40%","40%"));
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
 		$tbl->setStyle('table','std');
 		$tbl->render();
@@ -159,12 +173,32 @@ class ilObjectStatusGUI
 
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
+		
+		$class_name = get_class($this->object)."gui";
+		
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass($class_name,"info"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		
+        $tpl->setCurrentBlock("plain_button");
+		$tpl->setVariable("PBTN_NAME","info");
+		$tpl->setVariable("PBTN_VALUE",$lng->txt("info_change_user_view"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setVariable("COLUMN_COUNTS",7);
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("spacer.gif"));
+
+		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// title & header columns
 		$tbl->setTitle($lng->txt("info_access_and_status_info"),"icon_".$this->object->getType()."_b.gif",$lng->txt("summary"));
 
 		//user must be member
-		$tbl->setHeaderNames(array("&nbsp;",""));
+		$tbl->setHeaderNames(array("&nbsp;",$lng->txt("info_enter_login_or_id")));
 		//$tbl->setHeaderVars(array("operation","granted"),$this->ctrl->getParameterArray($this->object,"",false));
 		$tbl->setHeaderVars(array("",""),"");
 		$tbl->setColumnWidth(array("15%","85%"));
@@ -181,6 +215,43 @@ class ilObjectStatusGUI
 	function getHTML()
 	{
 		return $this->tpl->get();
+	}
+	
+	function getAssignedValidRoles()
+	{
+		global $rbacreview;
+		
+		include_once ('class.ilObjRole.php');
+
+		$assigned_valid_roles = array();
+
+		foreach ($this->valid_roles as $role)
+		{
+			if (in_array($role['obj_id'],$this->user_roles))
+			{
+				if ($role["obj_id"] == SYSTEM_ROLE_ID)
+				{
+					// get all possible operation of current object
+					$ops_list = getOperationList($this->object->getType());
+					
+					foreach ($ops_list as $ops_data)
+					{
+						$ops[] = (int) $ops_data['ops_id'];
+					}
+					
+					$role['ops'] = $ops;
+				}
+				else
+				{
+					$role['ops'] = $rbacreview->getRoleOperationsOnObject($role["obj_id"],$this->object->getRefId());
+				}
+				
+				$role['translation'] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
+				$assigned_valid_roles[] = $role;
+			}
+		}
+		
+		return $assigned_valid_roles;
 	}
 	
 	function getPermissionInfo()
@@ -203,6 +274,28 @@ class ilObjectStatusGUI
 
 			$result_set[$counter][] = $access ? $icon_ok : $icon_not_ok;
 			$result_set[$counter][] = $lng->txt($this->object->getType()."_".$ops['operation']);
+			
+			$list_role = "";
+			
+			// get operations on object for each assigned role to user
+			foreach ($this->assigned_valid_roles as $role)
+			{
+				if (in_array($ops['ops_id'],$role['ops']))
+				{
+					$list_role[] = $role['translation'];
+				}
+			}
+			
+			if (empty($list_role))
+			{
+				$roles_formatted = $lng->txt('none');
+			}
+			else
+			{
+				$roles_formatted = implode("<br/>",$list_role);
+			}
+
+			$result_set[$counter][] = $roles_formatted;
 	
 			++$counter;
 		}
@@ -217,11 +310,6 @@ class ilObjectStatusGUI
 		// icon handlers
 		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
 		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
-		
-		// get all user roles and all valid roles in scope
-		$user_roles = $rbacreview->assignedRoles($this->user->getId());
-		$global_roles = $rbacreview->getGlobalRoles();
-		$valid_roles = $rbacreview->getParentRoleIds($this->object->getRefId());
 
 		$path = array_reverse($tree->getPathId($this->object->getRefId()));
 		
@@ -231,9 +319,9 @@ class ilObjectStatusGUI
 
 		$counter = 0;
 
-		foreach ($valid_roles as $role)
+		foreach ($this->valid_roles as $role)
 		{
-			$result_set[$counter][] = in_array($role['obj_id'],$user_roles) ? $icon_ok : $icon_not_ok;
+			$result_set[$counter][] = in_array($role['obj_id'],$this->user_roles) ? $icon_ok : $icon_not_ok;
 			$result_set[$counter][] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
 			
 			if ($role['role_type'] != "linked")
@@ -263,7 +351,7 @@ class ilObjectStatusGUI
 				}
 			}
 			
-			if (in_array($role['obj_id'],$global_roles))
+			if (in_array($role['obj_id'],$this->global_roles))
 			{
 				$result_set[$counter][] = $lng->txt("global");
 			}
@@ -284,17 +372,32 @@ class ilObjectStatusGUI
 	{
 		global $lng,$rbacreview,$ilAccess,$ilias;
 		$infos = array();
+		
+		$input_field = "<input class=\"std\" type=\"input\" name=\"Fuserid\" value=\"".$this->user->getLogin()."\"/>";
 
 		$result_set[0][] = "<b>".$lng->txt("info_view_of_user")."</b>";
-		$result_set[0][] = $this->user->getFullname()." (#".$this->user->getId().")";
-		
-		$result_set[1][] = "<b>".$lng->txt("object")."</b>";
-		$result_set[1][] = $this->object->getTitle()." (#".$this->object->getId().") (ref#".$this->object->getRefId().")";
+		$result_set[0][] = $input_field."&nbsp;(".$this->user->getFullname().") (#".$this->user->getId().")";
 
-		$result_set[2][] = "<b>".$lng->txt("type")."</b>";
-		$result_set[2][] = $lng->txt("obj_".$this->object->getType());
+		$assigned_valid_roles = array();
+
+		foreach ($this->assigned_valid_roles as $role)
+		{
+			$assigned_valid_roles[] = $role["translation"];
+		}
 		
-		$result_set[3][] = "<b>".$lng->txt("status")."</b>";
+		$roles_str = implode(", ",$assigned_valid_roles);
+			
+		$result_set[1][] = "<b>".$lng->txt("roles")."</b>";
+		$result_set[1][] = $roles_str;
+		
+		/*
+		$result_set[2][] = "<b>".$lng->txt("object")."</b>";
+		$result_set[2][] = $this->object->getTitle()." (#".$this->object->getId().") (ref#".$this->object->getRefId().")";
+
+		$result_set[3][] = "<b>".$lng->txt("type")."</b>";
+		$result_set[3][] = $lng->txt("obj_".$this->object->getType());
+		*/
+		$result_set[4][] = "<b>".$lng->txt("status")."</b>";
 
 		$ilAccess->clear();
 		$ilAccess->doTreeCheck("visible","info",$this->object->getRefId(),$this->user->getId());
@@ -349,7 +452,7 @@ class ilObjectStatusGUI
 			}
 		}
 
-		$result_set[3][] = $text;
+		$result_set[4][] = $text;
 
 		return $this->__showObjectSummaryTable($result_set);
 	}

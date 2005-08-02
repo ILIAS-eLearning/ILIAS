@@ -540,6 +540,20 @@ class ilObjUser extends ilObject
 		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["login"];
 	}
+	
+	/**
+	* lookup id by login
+	*/
+	function _lookupId($a_user_str)
+	{
+		global $ilDB;
+
+		$q = "SELECT usr_id FROM usr_data".
+			" WHERE login =".$ilDB->quote($a_user_str);
+		$user_set = $ilDB->query($q);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $user_rec["usr_id"];
+	}
 
 
 	/**
