@@ -22,7 +22,7 @@
 */
 
 
-function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
+function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 {
 		global $lng,$tpl,$ilias_locator;;
 
@@ -32,7 +32,7 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 			include_once "classes/class.ilMailbox.php";
 			$mbox = new ilMailBox($_SESSION["AccountId"]);
 			$a_obj_id = $mbox->getInboxFolder();
-		}		
+		}
 
 		$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
@@ -47,78 +47,68 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 		$tpl->touchBlock("locator_separator");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("ITEM", $lng->txt("mail_mails_of"));
-		$tpl->setVariable("LINK_ITEM", "mail.php");
+		$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$a_obj_id);
 		$tpl->parseCurrentBlock();
 		
 		// ### AA 03.11.10 added new locator GUI class ###
 		// navigate locator
 		$ilias_locator->navigate($i++,$lng->txt("mail_mails_of"),"mail.php","bottom");
 
-#		var_dump("<pre>",$_SERVER,"</pre");
-		switch(basename($_SERVER["PATH_INFO"]))
+		if($a_path == 'mail.php')
 		{
+			unset($path_full[0]);
+			foreach ($path_full as $key => $row)
+			{
+				if($row["type"] != 'user_folder')
+				{
+					$row["title"] = $lng->txt("mail_".$row["title"]);
+				}
+				if ($key < count($path_full))
+				{
+					$tpl->touchBlock("locator_separator");
+				}
+				$tpl->setCurrentBlock("locator_item");
+				$tpl->setVariable("ITEM", $row["title"]);
+				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+				$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$row["child"]);
+				$tpl->parseCurrentBlock();
+				
+				// ### AA 03.11.10 added new locator GUI class ###
+				// navigate locator
+				$ilias_locator->navigate($i++,$row["title"],"mail.php?mobj_id=".$row["child"],"bottom");
+			}
+			$tpl->setCurrentBlock("locator");
+		}
+
+
+		switch($a_path)
+		{
+			case 'mail_new.php':
+			case 'mail_attachment.php':
+			case 'mail_search.php':
+				$tpl->setCurrentBlock("locator_item");
+				$tpl->setVariable("ITEM", $lng->txt("mail_compose"));
+				$tpl->setVariable("LINK_ITEM", "mail_new.php?mobj_id=$a_obj_id");
+				$tpl->parseCurrentBlock();
+				break;
+
 			case "mail_addressbook.php":
 				$tpl->setCurrentBlock("locator_item");
 				$tpl->setVariable("ITEM", $lng->txt("mail_addressbook"));
 				$tpl->setVariable("LINK_ITEM", "mail_addressbook.php?mobj_id=$a_obj_id");
 				$tpl->parseCurrentBlock();
-				
-				// ### AA 03.11.10 added new locator GUI class ###
-				// navigate locator
-				$ilias_locator->navigate($i++,$lng->txt("mail_addressbook"),"mail_addressbook.php?mobj_id=$a_obj_id","bottom");
-				
-				return true;
+				break;
 
-			case "mail_new.php":
-			case "mail_attachment.php":
-			case "mail_search.php":
-				$tpl->setCurrentBlock("locator_item");
-				$tpl->setVariable("ITEM", $lng->txt("mail_compose"));
-				$tpl->setVariable("LINK_ITEM", "mail_new.php?mobj_id=$a_obj_id");
-				$tpl->parseCurrentBlock();
-				
-				// ### AA 03.11.10 added new locator GUI class ###
-				// navigate locator
-				$ilias_locator->navigate($i++,$lng->txt("mail_compose"),"mail_new.php?mobj_id=$a_obj_id","bottom");
-				
-				return true;
-				
 			case "mail_options.php":
 				$tpl->setCurrentBlock("locator_item");
 				$tpl->setVariable("ITEM", $lng->txt("mail_options_of"));
 				$tpl->setVariable("LINK_ITEM", "mail_options.php?mobj_id=$a_obj_id");
 				$tpl->parseCurrentBlock();
-				
-				// ### AA 03.11.10 added new locator GUI class ###
-				// navigate locator
-				$ilias_locator->navigate($i++,$lng->txt("mail_options_of"),"mail_options.php?mobj_id=$a_obj_id","bottom");
-				
-				return true;
-		}
-		unset($path_full[0]);
-		foreach ($path_full as $key => $row)
-		{
-			if($row["type"] != 'user_folder')
-			{
-				$row["title"] = $lng->txt("mail_".$row["title"]);
-			}
-			if ($key < count($path_full))
-			{
-				$tpl->touchBlock("locator_separator");
-			}
-			$tpl->setCurrentBlock("locator_item");
-			$tpl->setVariable("ITEM", $row["title"]);
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$row["child"]);
-			$tpl->parseCurrentBlock();
-				
-			// ### AA 03.11.10 added new locator GUI class ###
-			// navigate locator
-			$ilias_locator->navigate($i++,$row["title"],"mail.php?mobj_id=".$row["child"],"bottom");
-		}
+				break;
 
-		$tpl->setCurrentBlock("locator");
-		
+			default:
+				break;
+		}
 		
 		$tpl->setVariable("TXT_PATH",$a_txt_prefix);
 		$tpl->parseCurrentBlock();

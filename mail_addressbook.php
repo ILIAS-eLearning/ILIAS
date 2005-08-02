@@ -53,7 +53,7 @@ $tpl->setVariable("TXT_ADDRESSBOOK",$lng->txt("mail_addressbook"));
 infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
+setLocator($_GET["mobj_id"],'mail_addressbook.php',$_SESSION["AccountId"],"");
 
 // BUTTONS
 include "./include/inc.mail_buttons.php";

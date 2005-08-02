@@ -56,7 +56,7 @@ $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
 infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
+setLocator($_GET["mobj_id"],'mail_new.php',$_SESSION["AccountId"],"");
 
 // SEND MESSAGE
 if(isset($_POST["cmd"]["send"]))

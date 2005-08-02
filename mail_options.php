@@ -52,7 +52,7 @@ $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_OPTIONS_OF",$lng->txt("mail_options_of"));
 infoPanel();
 
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
+setLocator($_GET["mobj_id"],'mail_options.php',$_SESSION["AccountId"],"");
 
 // RENAME FOLDER
 if(isset($_POST["cmd"]["rename"]))
