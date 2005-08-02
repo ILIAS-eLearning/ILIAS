@@ -286,6 +286,10 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
+		
+		//$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").
+		//	$_SERVER["REMOTE_ADDR"]);
+		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
 
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
@@ -656,7 +660,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
     function editObject()
     {
-        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition;
+        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser;
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -885,7 +889,10 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
-		$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").": ".$_SERVER["REMOTE_ADDR"]);
+		if ($this->object->getId() == $ilUser->getId())
+		{
+			$this->tpl->setVariable("TXT_CURRENT_IP","(".$this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"].")");
+		}
 		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
 		
 		// auth mode selection
