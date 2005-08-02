@@ -8285,3 +8285,28 @@ ALTER TABLE `chat_user` ADD `kicked` TINYINT DEFAULT '0' AFTER `last_conn_timest
 ALTER TABLE `webr_items` ADD FULLTEXT (
 `title`
 	);
+<#511>
+<?php
+
+// get all question pages
+$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
+	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='qpl'");
+
+while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$content = $row["content"];
+
+	// get all media aliases
+	while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found))
+	{
+		// insert mob usage record
+		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
+			" ('".$found[2]."', 'qpl:pg', '".$row["page_id"]."')";
+		$ilDB->query($q);
+
+		// remove id from content string to prevent endless while loop
+		$content = eregi_replace($found[1], "", $content);
+	}
+}
+
+?>
