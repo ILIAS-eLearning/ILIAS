@@ -5843,7 +5843,7 @@ class ilObjTest extends ilObject
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
 	function _getSolvedQuestions ($test_fi, $user_fi, $question_fi = null) {
-		global $ilDb;
+		global $ilDB;
 		if (is_numeric($question_fi))
 			$query = sprintf("SELECT question_fi, solved FROM tst_active_qst_sol_settings " .
 						 "WHERE user_fi = %s AND test_fi = %s AND question_fi=%s",
