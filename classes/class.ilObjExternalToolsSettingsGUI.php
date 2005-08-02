@@ -45,6 +45,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		define ("ILINC_DEFAULT_PORT",80);
+		define ("ILINC_DEFAULT_TIMEOUT",15);
 	}
 	
 	/**
@@ -143,6 +144,15 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("ILINC_PORT", $settings["ilinc_port"]);			
 			}
+			
+			if (empty($settings["ilinc_timeout"]))
+			{
+				$this->tpl->setVariable("ILINC_TIMEOUT", ILINC_DEFAULT_TIMEOUT);
+			}
+			else
+			{
+				$this->tpl->setVariable("ILINC_TIMEOUT", $settings["ilinc_timeout"]);			
+			}
 		}
 
 		$this->getTemplateFile("ilinc");
@@ -153,6 +163,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_ILINC_SERVER", $this->lng->txt("extt_ilinc_server"));
 		$this->tpl->setVariable("TXT_ILINC_PORT", $this->lng->txt("extt_ilinc_port"));
+		$this->tpl->setVariable("TXT_ILINC_TIMEOUT", $this->lng->txt("extt_ilinc_timeout"));
+		$this->tpl->setVariable("TXT_SECONDS", $this->lng->txt("seconds"));
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_LOGIN", $this->lng->txt("extt_ilinc_registrar_login"));
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_PASSWD", $this->lng->txt("extt_ilinc_registrar_passwd"));
 		$this->tpl->setVariable("TXT_ILINC_CUSTOMER_ID", $this->lng->txt("extt_ilinc_customer_id"));
@@ -187,6 +199,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if (!ilUtil::isIPv4($_POST["ilinc"]["server"]) and !ilUtil::isDN($_POST["ilinc"]["server"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("err_invalid_server"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if (is_numeric($_POST["ilinc"]["timeout"]))
+		{
+			$this->ilias->setSetting("ilinc_timeout", $_POST["ilinc"]["timeout"]);
 		}
 
 		// all ok. save settings
