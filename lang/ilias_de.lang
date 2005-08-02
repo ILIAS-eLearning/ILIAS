@@ -1827,6 +1827,7 @@ common#:#locator#:#Position:
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
 common#:#login#:#Benutzername
+common#:#log_in#:#Einloggen
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen

@@ -172,7 +172,7 @@ class ilMainMenuGUI
 
 			$this->tpl->setCurrentBlock("userisanonymous");
 			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
-			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
+			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
 			$this->tpl->setVariable("LINK_LOGIN", $link_dir."index.php?cmd=login&lang=".$ilias->account->getCurrentLanguage());
 			$this->tpl->parseCurrentBlock();
 		}
