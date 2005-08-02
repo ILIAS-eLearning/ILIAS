@@ -3515,10 +3515,10 @@ crs#:#subscription_times_not_valid#:#The registration period is not valid.###21 
 crs_#:#crs_archives#:#Arkiver
 dateplaner#:#DateText#:#Besked
 dateplaner#:#Day_long#:#Dagsoversigt
-dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
+dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
 dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
+dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er f&oslash;r Startdato.
@@ -3533,7 +3533,7 @@ dateplaner#:#ERROR_TS#:#ukorrekt dato format
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr###21 Apr 2005 new variable
 dateplaner#:#Language_file#:#engelsk
-dateplaner#:#Listbox_long#:#Oversigt over aftaler
+dateplaner#:#Listbox_long#:#Oversigt over aftaler###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Mandag
 dateplaner#:#Mo_short#:#Ma
 dateplaner#:#Month_long#:#M&aring;nedsoversigt
@@ -3550,35 +3550,35 @@ dateplaner#:#View#:#Oversigt:
 dateplaner#:#We_long#:#Onsdag
 dateplaner#:#We_short#:#On
 dateplaner#:#Week_long#:#Weekend Oversigt
-dateplaner#:#add_data#:#Briugt data
-dateplaner#:#app_#:#Datoplanl&aelig;gning
-dateplaner#:#app_date#:#inds&aelig;t dato
-dateplaner#:#app_day#:#dagsoversigt
-dateplaner#:#app_freetime#:#ledig tid for medlemmer af gruppen (v&aelig;lg en tid)
-dateplaner#:#app_inbox#:#Gruppedatoer
-dateplaner#:#app_list#:#dato liste
-dateplaner#:#app_month#:#m&aring;nedsoversigt
-dateplaner#:#app_properties#:#egenskaber
-dateplaner#:#app_week#:#ugeoversigt
+dateplaner#:#add_data#:#Briugt data###02 Aug 2005 content changed
+dateplaner#:#app_#:#Datoplanl&aelig;gning###02 Aug 2005 content changed
+dateplaner#:#app_date#:#inds&aelig;t dato###02 Aug 2005 content changed
+dateplaner#:#app_day#:#dagsoversigt###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#ledig tid for medlemmer af gruppen (v&aelig;lg en tid)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Gruppedatoer###02 Aug 2005 content changed
+dateplaner#:#app_list#:#dato liste###02 Aug 2005 content changed
+dateplaner#:#app_month#:#m&aring;nedsoversigt###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#egenskaber###02 Aug 2005 content changed
+dateplaner#:#app_week#:#ugeoversigt###02 Aug 2005 content changed
 dateplaner#:#application#:#Datoplanl&aelig;gger
-dateplaner#:#apply#:#Godkend
-dateplaner#:#back#:#Tilbage
+dateplaner#:#apply#:#Godkend###02 Aug 2005 content changed
+dateplaner#:#back#:#Tilbage###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Begyndelse af dato
-dateplaner#:#busytime#:#Travl tid i gruppe
-dateplaner#:#c_date#:#Opret Aftale
+dateplaner#:#busytime#:#Travl tid i gruppe###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Opret Aftale###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#&aelig;ndret til:
-dateplaner#:#changedDates#:#&aelig;ndrede datoer
+dateplaner#:#changedDates#:#&aelig;ndrede datoer###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#S&oslash;g efter ledig tid
 dateplaner#:#created#:#Oprettet
 dateplaner#:#date#:#Dato
 dateplaner#:#date_format#:#m/d/Y H:i###21 Apr 2005 new variable
 dateplaner#:#date_format_middle#:#m/d/y###21 Apr 2005 new variable
-dateplaner#:#del_all#:#Slet alle dato.er
-dateplaner#:#del_one#:#Slet en dato
-dateplaner#:#delete#:#slet
-dateplaner#:#deletedDates#:#Slettede datoer
-dateplaner#:#discard#:#Afbryd
-dateplaner#:#dv_Grouptime#:#ledig tid
+dateplaner#:#del_all#:#Slet alle dato.er###02 Aug 2005 content changed
+dateplaner#:#del_one#:#Slet en dato###02 Aug 2005 content changed
+dateplaner#:#delete#:#slet###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Slettede datoer###02 Aug 2005 content changed
+dateplaner#:#discard#:#Afbryd###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#ledig tid###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Annuler
 dateplaner#:#dv_button_delete#:#Slet
 dateplaner#:#dv_button_insert#:#Inds&aelig;t
@@ -3588,7 +3588,7 @@ dateplaner#:#dv_date_end#:#Slut dato:
 dateplaner#:#dv_date_hm#:#Time:Minut
 dateplaner#:#dv_enddate#:#Slutdato:
 dateplaner#:#dv_groupselect#:#Valg af gruppe:
-dateplaner#:#dv_groupview#:#Gruppedato:
+dateplaner#:#dv_groupview#:#Gruppedato:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Gruppe:<br>
 dateplaner#:#dv_keywords#:#N&oslash;gleord:
 dateplaner#:#dv_keywordselect#:#Valg af n&oslash;gleord:
@@ -3607,41 +3607,41 @@ dateplaner#:#dv_whole_rotation#:#Vil du slette hele Rotationdatoen? (Marker chec
 dateplaner#:#end_date#:#Slutdato
 dateplaner#:#endtime_for_view#:#Slutdato for gennemgang:
 dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
-dateplaner#:#execute#:#K&oslash;r din valg
-dateplaner#:#extra_dates#:#Endags dato.er
-dateplaner#:#free#:#ledig
-dateplaner#:#freetime#:#Ledig tid i gruppen
-dateplaner#:#group#:#gruppe
-dateplaner#:#help_day#:#Dateplanl&aelig;gnings dagoversigt
-dateplaner#:#help_day_l#:#I dagoversigten er alle dato.er for en given dag vist.
+dateplaner#:#execute#:#K&oslash;r din valg###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Endags dato.er###02 Aug 2005 content changed
+dateplaner#:#free#:#ledig###02 Aug 2005 content changed
+dateplaner#:#freetime#:#Ledig tid i gruppen###02 Aug 2005 content changed
+dateplaner#:#group#:#gruppe###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Dateplanl&aelig;gnings dagoversigt###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#I dagoversigten er alle dato.er for en given dag vist.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Slutdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Indeholder sluttiden for en aftale. <br> Symbolet &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.
+dateplaner#:#help_enddate_l#:#Indeholder sluttiden for en aftale. <br> Symbolet &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Sluttidspunkt syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#P&aring; denne dag vil repitatioen slutte.<br> Synbolte &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato
 dateplaner#:#help_endtime#:#Sluttidspunkt - syntax[hh/mm] 24h formatet
 dateplaner#:#help_endtime_l#:#Indeholder sluttidspunktet for en aftale bruger 24h formatet.
 dateplaner#:#help_filename#:#dp_help_en.html###21 Apr 2005 new variable
-dateplaner#:#help_fullday#:#Hele dag dato - syntax[on/off]
-dateplaner#:#help_fullday_l#:#Hvis dato.en str&aelig;kker sig over hele dagen s&aring; va&aelig;g denne mulighed<br> S&aring; Bliver starttidspunktet, sluttidspunktet og slutdato.en skjult.
+dateplaner#:#help_fullday#:#Hele dag dato - syntax[on/off]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Hvis dato.en str&aelig;kker sig over hele dagen s&aring; va&aelig;g denne mulighed<br> S&aring; Bliver starttidspunktet, sluttidspunktet og slutdato.en skjult.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br> <b>Klik her for mere information.</b>
-dateplaner#:#help_group#:#Valg af gruppedato
+dateplaner#:#help_group#:#Valg af gruppedato###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Indeholder gruppen som bruger har administrator rettigheder til hvor man kan oprette nye dato.er <br> Efter valget er det muligt at se ikke skemalagt tid for en gruppe.
 dateplaner#:#help_inbox#:#Dateplanl&aelig;gnings indboks
-dateplaner#:#help_inbox_l#:#Her er alle nye, &aelig;ndrede og slettede gruppedato.er vist.
+dateplaner#:#help_inbox_l#:#Her er alle nye, &aelig;ndrede og slettede gruppedato.er vist.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Valg af n&oslash;gleord
 dateplaner#:#help_keywordUse#:#Valg af n&oslash;gleord
 dateplaner#:#help_keywordUse_l#:#V&aelig;lg et eller flere n&oslash;gleord fra dialog boksen. <br>TIP: Brug CTRL tasten for at markere flere ord.
 dateplaner#:#help_keyword_l#:#Indeholder n&oslash;gleordet som en bruge kan bruge til at henvise til en dato.
-dateplaner#:#help_list#:#Datoplanl&aelig;gnings datoliste
-dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.
+dateplaner#:#help_list#:#Datoplanl&aelig;gnings datoliste###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Datoplanl&aelig;gnings m&aring;nedsoversigt
-dateplaner#:#help_month_l#:#I m&aring;nedsoversigten er alle dato.er for en given m&aring;ned vist.
+dateplaner#:#help_month_l#:#I m&aring;nedsoversigten er alle dato.er for en given m&aring;ned vist.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#&aelig;ndrer n&oslash;gleordet
 dateplaner#:#help_properties_alt_l#:#V&aelig;lg et n&oslash;gleord fra dialogbokesen.<br>&aelig;ndre n&oslash;gleordet I tekstfeltet. Vigtigt: max. 20 Karaktere.
 dateplaner#:#help_properties_del#:#Sletter n&oslash;gleord
 dateplaner#:#help_properties_del_l#:#V&aelig;lg et n&oslash;gleord fra dialogboksen, klik p&aring; knappen for at slette n&oslash;gleordet.
 dateplaner#:#help_properties_import#:#Importering af Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Her kan en  CSC-File V&aelig;lges, som indeholder Outlook-Dato.er. Disse Dato.er vil blive importeret til Ilias.
+dateplaner#:#help_properties_import_l#:#Her kan en  CSC-File V&aelig;lges, som indeholder Outlook-Dato.er. Disse Dato.er vil blive importeret til Ilias.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Tilf&oslash;jer et nyt n&oslash;gleord, max. 20 Karakterer
 dateplaner#:#help_properties_new_l#:#Tilf&oslash;jer et ny n&oslash;gleord til feltet \"ny\". Vigtigt: max. 20 Karakterer.
 dateplaner#:#help_properties_time#:#Visertid for dagoversigt/ugeoversigt
@@ -3651,19 +3651,19 @@ dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_shorttext#:#Kort tekst med max 50 karaktere
 dateplaner#:#help_shorttext_l#:#Her kan du skrive en lille tekst for en given dato.
 dateplaner#:#help_startdate#:#Startdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Indeholder starttidspunktet for en aftale <br> Dette symbol &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.
+dateplaner#:#help_startdate_l#:#Indeholder starttidspunktet for en aftale <br> Dette symbol &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h formatet
-dateplaner#:#help_starttime_l#:#indeholder starttidspunktet af en aftale der bliver brugt 24h formatet.
+dateplaner#:#help_starttime_l#:#indeholder starttidspunktet af en aftale der bliver brugt 24h formatet.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#Her kan du skrive en given tekst.
+dateplaner#:#help_text_l#:#Her kan du skrive en given tekst.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Datoplanl&aelig;gger ugeoversigt.
-dateplaner#:#help_week_l#:#I ugeoversigten er alle datoer fra en given uge vist.
+dateplaner#:#help_week_l#:#I ugeoversigten er alle datoer fra en given uge vist.###02 Aug 2005 content changed
 dateplaner#:#hour#:#Time
-dateplaner#:#importDates#:#Importeret fra Microsoft outlook
+dateplaner#:#importDates#:#Importeret fra Microsoft outlook###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Indbakke
-dateplaner#:#insertImportDates#:#Disse datoer er registreret:
-dateplaner#:#k_alldates#:#alle datoer
-dateplaner#:#keep#:#Behold
+dateplaner#:#insertImportDates#:#Disse datoer er registreret:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#alle datoer###02 Aug 2005 content changed
+dateplaner#:#keep#:#Behold###02 Aug 2005 content changed
 dateplaner#:#keyword#:#N&oslash;gleord
 dateplaner#:#keywords#:#N&oslash;gleord
 dateplaner#:#last_change#:#Sidst &aelig;ndret
@@ -3679,36 +3679,36 @@ dateplaner#:#long_09#:#September###21 Apr 2005 new variable
 dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November###21 Apr 2005 new variable
 dateplaner#:#long_12#:#December###21 Apr 2005 new variable
-dateplaner#:#main_dates#:#Hoved datoer
+dateplaner#:#main_dates#:#Hoved datoer###02 Aug 2005 content changed
 dateplaner#:#menue#:#Menu###21 Apr 2005 new variable
-dateplaner#:#mmonth#:#sidste m&aring;ned
-dateplaner#:#month#:#m&aring;ned
-dateplaner#:#more#:#mere
-dateplaner#:#mweek#:#sidste &aring;r
-dateplaner#:#myeahr#:#sidste &aring;r
-dateplaner#:#newDates#:#Nye datoer
+dateplaner#:#mmonth#:#sidste m&aring;ned###02 Aug 2005 content changed
+dateplaner#:#month#:#m&aring;ned###02 Aug 2005 content changed
+dateplaner#:#more#:#mere###02 Aug 2005 content changed
+dateplaner#:#mweek#:#sidste &aring;r###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#sidste &aring;r###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Nye datoer###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Ny
-dateplaner#:#new_doc#:#Opret ny dato
-dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig
-dateplaner#:#o_day_date#:#24 timers dag
+dateplaner#:#new_doc#:#Opret ny dato###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#24 timers dag###02 Aug 2005 content changed
 dateplaner#:#of#:#af
-dateplaner#:#open_day#:#vis dag
-dateplaner#:#pmonth#:#n&aelig;ste m&aring;ned
+dateplaner#:#open_day#:#vis dag###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#n&aelig;ste m&aring;ned###02 Aug 2005 content changed
 dateplaner#:#printlist#:#print###21 Apr 2005 new variable
 dateplaner#:#properties#:#Egenskaber
-dateplaner#:#pweek#:#n&aelig;ste uge
-dateplaner#:#pyear#:#n&aelig;ste &aring;r
-dateplaner#:#r_14#:#hver 14 dag
-dateplaner#:#r_4_weeks#:#hver 4 uge
-dateplaner#:#r_day#:#hver dag
-dateplaner#:#r_halfyear#:#hvert halve &aring;r
-dateplaner#:#r_month#:#hver m&aring;ned
+dateplaner#:#pweek#:#n&aelig;ste uge###02 Aug 2005 content changed
+dateplaner#:#pyear#:#n&aelig;ste &aring;r###02 Aug 2005 content changed
+dateplaner#:#r_14#:#hver 14 dag###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#hver 4 uge###02 Aug 2005 content changed
+dateplaner#:#r_day#:#hver dag###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#hvert halve &aring;r###02 Aug 2005 content changed
+dateplaner#:#r_month#:#hver m&aring;ned###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#en gang
-dateplaner#:#r_week#:#hver uge
-dateplaner#:#r_year#:#hvert &aring;r
-dateplaner#:#readimportfile#:#inds&aelig;t
+dateplaner#:#r_week#:#hver uge###02 Aug 2005 content changed
+dateplaner#:#r_year#:#hvert &aring;r###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#inds&aelig;t###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Rotation
-dateplaner#:#rotation_dates#:#Rotations Datoer
+dateplaner#:#rotation_dates#:#Rotations Datoer###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Semester Navn
 dateplaner#:#short_01#:#Jan###21 Apr 2005 new variable
 dateplaner#:#short_02#:#Feb###21 Apr 2005 new variable
@@ -3723,17 +3723,17 @@ dateplaner#:#short_10#:#Oct###21 Apr 2005 new variable
 dateplaner#:#short_11#:#Nov###21 Apr 2005 new variable
 dateplaner#:#short_12#:#Dec###21 Apr 2005 new variable
 dateplaner#:#shorttext#:#Kort Tekst
-dateplaner#:#singleDate#:#enkelt dato
+dateplaner#:#singleDate#:#enkelt dato###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Starttid for visning:
 dateplaner#:#timedate#:#Tid / Dato
 dateplaner#:#timeslice#:#Tid:
 dateplaner#:#title#:#Ilias dato plan&aelig;gning
 dateplaner#:#to#:#til
-dateplaner#:#today#:#idag
-dateplaner#:#viewlist#:#vis
-dateplaner#:#week#:#uge
+dateplaner#:#today#:#idag###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#vis###02 Aug 2005 content changed
+dateplaner#:#week#:#uge###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
-dateplaner#:#year#:#&aring;r
+dateplaner#:#year#:#&aring;r###02 Aug 2005 content changed
 forum#:#forums#:#Forums###21 Apr 2005 new variable
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###21 Apr 2005 new variable
 forum#:#forums_attachments#:#Vedh&aelig;ftninger

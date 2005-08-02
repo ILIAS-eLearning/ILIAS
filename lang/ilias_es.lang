@@ -3619,10 +3619,10 @@ crs#:#subscription_times_not_valid#:#El período de registro no es válido.
 crs_#:#crs_archives#:#Archivos
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
-dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
+dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!
 dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
-dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
+dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
@@ -3637,7 +3637,7 @@ dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto
 dateplaner#:#Fr_long#:#Viernes
 dateplaner#:#Fr_short#:#Vi
 dateplaner#:#Language_file#:#castellano
-dateplaner#:#Listbox_long#:#Lista de citas
+dateplaner#:#Listbox_long#:#Lista de citas###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Lunes
 dateplaner#:#Mo_short#:#Lu
 dateplaner#:#Month_long#:#Vista mensual
@@ -3654,35 +3654,35 @@ dateplaner#:#View#:#Visualización (diaria/semanal):
 dateplaner#:#We_long#:#Miércoles
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Vista semanal
-dateplaner#:#add_data#:#datos adicionales
-dateplaner#:#app_#:#Bandeja de entrada 
-dateplaner#:#app_date#:#insertar cita
-dateplaner#:#app_day#:#vista diaria
-dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)
-dateplaner#:#app_inbox#:#Bandeja de entrada
-dateplaner#:#app_list#:#lista de citas
-dateplaner#:#app_month#:#vista mensual
-dateplaner#:#app_properties#:#propiedades
-dateplaner#:#app_week#:#vista semanal
+dateplaner#:#add_data#:#datos adicionales###02 Aug 2005 content changed
+dateplaner#:#app_#:#Bandeja de entrada ###02 Aug 2005 content changed
+dateplaner#:#app_date#:#insertar cita###02 Aug 2005 content changed
+dateplaner#:#app_day#:#vista diaria###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#tiempo libre de otros miembros del grupo (-catch a time-)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Bandeja de entrada###02 Aug 2005 content changed
+dateplaner#:#app_list#:#lista de citas###02 Aug 2005 content changed
+dateplaner#:#app_month#:#vista mensual###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#propiedades###02 Aug 2005 content changed
+dateplaner#:#app_week#:#vista semanal###02 Aug 2005 content changed
 dateplaner#:#application#:#Calendario
-dateplaner#:#apply#:#aplicar
-dateplaner#:#back#:#volver
+dateplaner#:#apply#:#aplicar###02 Aug 2005 content changed
+dateplaner#:#back#:#volver###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Comienzo de cita
-dateplaner#:#busytime#:#tiempo 'ocupado' en grupo
-dateplaner#:#c_date#:#Crear cita
+dateplaner#:#busytime#:#tiempo 'ocupado' en grupo###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Crear cita###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Modificar a:
-dateplaner#:#changedDates#:#Citas modificadas
+dateplaner#:#changedDates#:#Citas modificadas###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre
 dateplaner#:#created#:#Creada
 dateplaner#:#date#:#Fecha
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#del_all#:#eliminar todas las citas
-dateplaner#:#del_one#:#eliminar una cita
-dateplaner#:#delete#:#eliminar
-dateplaner#:#deletedDates#:#Citas eliminadas
-dateplaner#:#discard#:#descartar
-dateplaner#:#dv_Grouptime#:#tiempo libre
+dateplaner#:#del_all#:#eliminar todas las citas###02 Aug 2005 content changed
+dateplaner#:#del_one#:#eliminar una cita###02 Aug 2005 content changed
+dateplaner#:#delete#:#eliminar###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Citas eliminadas###02 Aug 2005 content changed
+dateplaner#:#discard#:#descartar###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#tiempo libre###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Cancelar
 dateplaner#:#dv_button_delete#:#Eliminar
 dateplaner#:#dv_button_insert#:#Insertar
@@ -3692,7 +3692,7 @@ dateplaner#:#dv_date_end#:#Fin de cita:
 dateplaner#:#dv_date_hm#:#Hora:
 dateplaner#:#dv_enddate#:#Fecha fin:
 dateplaner#:#dv_groupselect#:#Seleccionar Grupo:
-dateplaner#:#dv_groupview#:#Cita de Grupo:
+dateplaner#:#dv_groupview#:#Cita de Grupo:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupo:
 dateplaner#:#dv_keywords#:#Palabras clave:
 dateplaner#:#dv_keywordselect#:#Selección de palabras clave:
@@ -3711,41 +3711,41 @@ dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga cli
 dateplaner#:#end_date#:#Fin de Cita
 dateplaner#:#endtime_for_view#:#Hora final para visualización
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream
-dateplaner#:#execute#:#ejecutar acciones
-dateplaner#:#extra_dates#:#citas de día completo
-dateplaner#:#free#:#Libre
-dateplaner#:#freetime#:#tiempo libre en el grupo
-dateplaner#:#group#:#Grupo
-dateplaner#:#help_day#:#Vista diaria del calendario
-dateplaner#:#help_day_l#:#En la vista diaria se muestran todas las citas de un día concreto
+dateplaner#:#execute#:#ejecutar acciones###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#citas de día completo###02 Aug 2005 content changed
+dateplaner#:#free#:#Libre###02 Aug 2005 content changed
+dateplaner#:#freetime#:#tiempo libre en el grupo###02 Aug 2005 content changed
+dateplaner#:#group#:#Grupo###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Vista diaria del calendario###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#En la vista diaria se muestran todas las citas de un día concreto###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Fecha Fin - sintaxis [dd//mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contiene la fecha para el final de la cita <br> El simbolo abre un pequeño calendario para escoger la fecha apropiada
+dateplaner#:#help_enddate_l#:#Contiene la fecha para el final de la cita <br> El simbolo abre un pequeño calendario para escoger la fecha apropiada###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Sintaxis para fin de cita periódica [dd/mm/aaaa]
 dateplaner#:#help_endrotation_l#:#En este dia termina la cita periódica.<br> El icono abre un pequeño calendario para escoger la fecha apropiada
 dateplaner#:#help_endtime#:#Fecha de fin - sintaxis[hh/mm] formato 24h
 dateplaner#:#help_endtime_l#:#Contiene la fecha de fin de la cita usando el formato 24h
 dateplaner#:#help_filename#:#dp_help_es.html
-dateplaner#:#help_fullday#:#fecha de jornada completa - sintaxis[on/off]
-dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoja esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.
+dateplaner#:#help_fullday#:#fecha de jornada completa - sintaxis[on/off]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Si la cita se prolonga durante todo el día, por favor escoja esta opción.<br> Por lo tanto la hora de comienzo, la hora de fin y la fecha de fin se encuentran ocultas.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br><b>haga click aquí para más información</b>
-dateplaner#:#help_group#:#Seleccion de fechas de grupo
+dateplaner#:#help_group#:#Seleccion de fechas de grupo###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Contiene los grupos para los que el usuario identificado tiene derechos de administrador y para el que una cita puede ser creada. <br> Despues de escoger esto es posible ver el tiempo libre del grupo.
 dateplaner#:#help_inbox#:#Bandeja de entrada del Calendario
-dateplaner#:#help_inbox_l#:#Aqui se muestran todas las citas nuevas, modificadas y eliminadas
+dateplaner#:#help_inbox_l#:#Aqui se muestran todas las citas nuevas, modificadas y eliminadas###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Selección de palabras clave
 dateplaner#:#help_keywordUse#:#Selección de palabras clave
 dateplaner#:#help_keywordUse_l#:#Escoja una o más palabras clave de la caja de diálogo<br>NOTA: use la tecla CTRL para seleccionar para seleccionar varias palabras.
 dateplaner#:#help_keyword_l#:#Contiene las palabras clave que un usuario puede asociar a las citas.
-dateplaner#:#help_list#:#Lista de citas en el calendario
-dateplaner#:#help_list_l#:#En la lista de citas se muestran todas las citas de un período concreto.
+dateplaner#:#help_list#:#Lista de citas en el calendario###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#En la lista de citas se muestran todas las citas de un período concreto.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Vista mensual del calendario
-dateplaner#:#help_month_l#:#En la vista mensual se muestran todas las citas de un mes concreto.
+dateplaner#:#help_month_l#:#En la vista mensual se muestran todas las citas de un mes concreto.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Modifica la palabra clave
 dateplaner#:#help_properties_alt_l#:#Escoja una palabra clave de la caja de diálogo.<br>Modifique la palabra clave en el campo de texto. Importante: máx. 20 caracteres.
 dateplaner#:#help_properties_del#:#Elimina la palabra clave
 dateplaner#:#help_properties_del_l#:#Escoja una palabra clave de la caja de diálogo. Haga click en el botón para eliminar la palabra clave.
 dateplaner#:#help_properties_import#:#Importar desde ficheros CSV, Outlook
-dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.
+dateplaner#:#help_properties_import_l#:#Aquí se puede seleccionar un Fichero CSC, que contiene fechas de Outlook. Estas citas serán importadas en el calendario.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Añadir una palabra clave, máx. 20 caracteres
 dateplaner#:#help_properties_new_l#:#Añadir una nueva palabra clave al campo "nuevo". importante: máx. 20 caracteres
 dateplaner#:#help_properties_time#:#Fecha mostrada para vista diaria / vista semanal
@@ -3755,19 +3755,19 @@ dateplaner#:#help_rotation_l#:#Contiene el tipo de rotación / repetición
 dateplaner#:#help_shorttext#:#Asunto con un máximo de 50 caracteres
 dateplaner#:#help_shorttext_l#:#Aqui se puede introducir el asunto para una cita concreta.
 dateplaner#:#help_startdate#:#fecha comienzo - sintaxis[dd//mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contiene el inicio de la cita. <br> El símbolo abre un pequeño calendario para escoger la fecha apropiada.
+dateplaner#:#help_startdate_l#:#Contiene el inicio de la cita. <br> El símbolo abre un pequeño calendario para escoger la fecha apropiada.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Hora de inicio - sintaxis[hh/mm] formato 24h
-dateplaner#:#help_starttime_l#:#Contiene el inicio de la cita usando el formato 24h.
+dateplaner#:#help_starttime_l#:#Contiene el inicio de la cita usando el formato 24h.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Texto
-dateplaner#:#help_text_l#:#Aquí se puede introducir el texto para una cita concreta.
+dateplaner#:#help_text_l#:#Aquí se puede introducir el texto para una cita concreta.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Vista semanal del calendario
-dateplaner#:#help_week_l#:#En la vista semanal se muestran todas las citas de una semana dada.
+dateplaner#:#help_week_l#:#En la vista semanal se muestran todas las citas de una semana dada.###02 Aug 2005 content changed
 dateplaner#:#hour#:#hora
-dateplaner#:#importDates#:#Importar citas de Outlook
+dateplaner#:#importDates#:#Importar citas de Outlook###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Bandeja de entrada
-dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éxito:
-dateplaner#:#k_alldates#:#todas las citas
-dateplaner#:#keep#:#guardar
+dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éxito:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#todas las citas###02 Aug 2005 content changed
+dateplaner#:#keep#:#guardar###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Palabra clave
 dateplaner#:#keywords#:#Palabras clave
 dateplaner#:#last_change#:#Ultima modificación
@@ -3783,36 +3783,36 @@ dateplaner#:#long_09#:#Septiembre
 dateplaner#:#long_10#:#Octubre
 dateplaner#:#long_11#:#Noviembre
 dateplaner#:#long_12#:#Diciembre
-dateplaner#:#main_dates#:#Citas principales
+dateplaner#:#main_dates#:#Citas principales###02 Aug 2005 content changed
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#último mes
-dateplaner#:#month#:#mes
-dateplaner#:#more#:#más
-dateplaner#:#mweek#:#última semana
-dateplaner#:#myeahr#:#último año
-dateplaner#:#newDates#:#Nuevas citas
+dateplaner#:#mmonth#:#último mes###02 Aug 2005 content changed
+dateplaner#:#month#:#mes###02 Aug 2005 content changed
+dateplaner#:#more#:#más###02 Aug 2005 content changed
+dateplaner#:#mweek#:#última semana###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#último año###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Nuevas citas###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Nueva:
-dateplaner#:#new_doc#:#crear nueva cita
-dateplaner#:#no_entry#:#No hay citas disponibles
-dateplaner#:#o_day_date#:#fecha 24h
+dateplaner#:#new_doc#:#crear nueva cita###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#No hay citas disponibles###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#fecha 24h###02 Aug 2005 content changed
 dateplaner#:#of#:#de
-dateplaner#:#open_day#:#vista diaria
-dateplaner#:#pmonth#:#siguiente mes
-dateplaner#:#printlist#:#imprimir
+dateplaner#:#open_day#:#vista diaria###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#siguiente mes###02 Aug 2005 content changed
+dateplaner#:#printlist#:#imprimir###02 Aug 2005 content changed
 dateplaner#:#properties#:#Propiedades
-dateplaner#:#pweek#:#siguiente semana
-dateplaner#:#pyear#:#siguiente año
-dateplaner#:#r_14#:#cada 2 semanas
-dateplaner#:#r_4_weeks#:#cada 4 semanas
-dateplaner#:#r_day#:#cada día
-dateplaner#:#r_halfyear#:#cada medio año
-dateplaner#:#r_month#:#cada mes
+dateplaner#:#pweek#:#siguiente semana###02 Aug 2005 content changed
+dateplaner#:#pyear#:#siguiente año###02 Aug 2005 content changed
+dateplaner#:#r_14#:#cada 2 semanas###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#cada 4 semanas###02 Aug 2005 content changed
+dateplaner#:#r_day#:#cada día###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#cada medio año###02 Aug 2005 content changed
+dateplaner#:#r_month#:#cada mes###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#una sóla vez
-dateplaner#:#r_week#:#cada semana
-dateplaner#:#r_year#:#cada año
-dateplaner#:#readimportfile#:#insertar
+dateplaner#:#r_week#:#cada semana###02 Aug 2005 content changed
+dateplaner#:#r_year#:#cada año###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#insertar###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Frecuencia
-dateplaner#:#rotation_dates#:#Citas periódicas
+dateplaner#:#rotation_dates#:#Citas periódicas###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Nombre del Semestre
 dateplaner#:#short_01#:#Ene
 dateplaner#:#short_02#:#Feb
@@ -3827,17 +3827,17 @@ dateplaner#:#short_10#:#Oct
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Asunto
-dateplaner#:#singleDate#:#fecha única
+dateplaner#:#singleDate#:#fecha única###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#hora inicial de visualización:
 dateplaner#:#timedate#:#Hora / Fecha
 dateplaner#:#timeslice#:#Hora:
 dateplaner#:#title#:#calendario ILIAS
 dateplaner#:#to#:#a
-dateplaner#:#today#:#hoy
-dateplaner#:#viewlist#:#vista
-dateplaner#:#week#:#semana
+dateplaner#:#today#:#hoy###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#vista###02 Aug 2005 content changed
+dateplaner#:#week#:#semana###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#SEM
-dateplaner#:#year#:#año
+dateplaner#:#year#:#año###02 Aug 2005 content changed
 forum#:#forums#:#Foros
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Adjuntos

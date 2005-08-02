@@ -3029,9 +3029,11 @@ crs_#:#crs_archives#:#Архиви
 dateplaner#:#DateText#:#Съобщение
 dateplaner#:#Day_long#:#Преглед на деня
 dateplaner#:#ERROR_DATE_EXISTS#:#Тази дата вече съществува.
+###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Грешка при записването в базата данни!
 dateplaner#:#ERROR_DB_CONNECT#:#Прекъсната е връзката с базата данни.
 dateplaner#:#ERROR_DEL_MSG#:#Това е повтаряща се дата. Желаете ли да изтриете една дата или поредицата
+###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Грешно въведена крайна дата. Формат: дд/мм/гггг
 dateplaner#:#ERROR_ENDTIME#:#Грешен краен час. Формат: чч:мм
 dateplaner#:#ERROR_END_START#:#Грешно въведена крайна дата. Крайната дата е преди началната.
@@ -3047,6 +3049,7 @@ dateplaner#:#Fr_long#:#Петък
 dateplaner#:#Fr_short#:#Пет
 dateplaner#:#Language_file#:#Английски
 dateplaner#:#Listbox_long#:#Списък на датите
+###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Понеделник
 dateplaner#:#Mo_short#:#Пон
 dateplaner#:#Month_long#:#Преглед на месеца
@@ -3064,34 +3067,55 @@ dateplaner#:#We_long#:#Сряда
 dateplaner#:#We_short#:#Ср
 dateplaner#:#Week_long#:#Преглед на седмицата
 dateplaner#:#add_data#:#Допълнителни данни
+###02 Aug 2005 content changed
 dateplaner#:#app_#:#входяща кутия за груповите дати
+###02 Aug 2005 content changed
 dateplaner#:#app_date#:#вмъкване на дата
+###02 Aug 2005 content changed
 dateplaner#:#app_day#:#преглед на деня
+###02 Aug 2005 content changed
 dateplaner#:#app_freetime#:#свободно време на другите членове на групата (улавяне на момента)
+###02 Aug 2005 content changed
 dateplaner#:#app_inbox#:#входяща кутия за груповите дати
+###02 Aug 2005 content changed
 dateplaner#:#app_list#:#списък на датите
+###02 Aug 2005 content changed
 dateplaner#:#app_month#:#месечен преглед
+###02 Aug 2005 content changed
 dateplaner#:#app_properties#:#характеристики
+###02 Aug 2005 content changed
 dateplaner#:#app_week#:#седмичен преглед
+###02 Aug 2005 content changed
 dateplaner#:#application#:#Календар
 dateplaner#:#apply#:#прилагане
+###02 Aug 2005 content changed
 dateplaner#:#back#:#назад
+###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Начална дата
 dateplaner#:#busytime#:#заето време в групата
+###02 Aug 2005 content changed
 dateplaner#:#c_date#:#Създаване на дата
+###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Промяна към:
 dateplaner#:#changedDates#:#Променени дати
+###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Проверка за свободно време
 dateplaner#:#created#:#Създадено
 dateplaner#:#date#:#Дата
 dateplaner#:#date_format#:#м/д/Г Ч:м
 dateplaner#:#date_format_middle#:#м/д/г
 dateplaner#:#del_all#:#изтриване на всички дати
+###02 Aug 2005 content changed
 dateplaner#:#del_one#:#изтриване на една дата
+###02 Aug 2005 content changed
 dateplaner#:#delete#:#изтриване
+###02 Aug 2005 content changed
 dateplaner#:#deletedDates#:#Изтрити дати
+###02 Aug 2005 content changed
 dateplaner#:#discard#:#отхвърляне
+###02 Aug 2005 content changed
 dateplaner#:#dv_Grouptime#:#свободно време
+###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Отмяна
 dateplaner#:#dv_button_delete#:#Изтриване
 dateplaner#:#dv_button_insert#:#Вмъкване
@@ -3102,6 +3126,7 @@ dateplaner#:#dv_date_hm#:#Час:Минута
 dateplaner#:#dv_enddate#:#Крайна дата:
 dateplaner#:#dv_groupselect#:#Избор на група:
 dateplaner#:#dv_groupview#:#Групова дата:
+###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Група:<br />
 dateplaner#:#dv_keywords#:#Ключови думи:
 dateplaner#:#dv_keywordselect#:#Избор на ключова дума:
@@ -3121,40 +3146,56 @@ dateplaner#:#end_date#:#Крайна дата
 dateplaner#:#endtime_for_view#:#Краен час за преглед:
 dateplaner#:#error_minical_img#:#Не може да се създаде GD-поток изображения
 dateplaner#:#execute#:#изпълнение на избраното
+###02 Aug 2005 content changed
 dateplaner#:#extra_dates#:#Еднократни дати
+###02 Aug 2005 content changed
 dateplaner#:#free#:#свободно
+###02 Aug 2005 content changed
 dateplaner#:#freetime#:#свободно време в групата
+###02 Aug 2005 content changed
 dateplaner#:#group#:#група
+###02 Aug 2005 content changed
 dateplaner#:#help_day#:#Преглед по календарни дни
+###02 Aug 2005 content changed
 dateplaner#:#help_day_l#:#В прегледа по дни всички дати на избран ден са визуализирани.
+###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Крайна дата - синтаксис[дд/мм/гггг]
 dateplaner#:#help_enddate_l#:#Съдържа крайния момент на ангажимента.<br />Символът отваря малък календар за избор на съответната дата.
+###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Синтаксис на крайната дата[дд/мм/гггг]
 dateplaner#:#help_endrotation_l#:#На този ден повторението свършва.<br />Символът отваря малък календар за избор на съответната дата
 dateplaner#:#help_endtime#:#Краен час - синтаксис[чч/мм] 24-часов формат
 dateplaner#:#help_endtime_l#:#Съдържа крайния час на ангажимента, като се използва 24-часов формат.
 dateplaner#:#help_filename#:#dp_help_en.html
 dateplaner#:#help_fullday#:#Целодневна дата - синтаксис[включена/изключена]
+###02 Aug 2005 content changed
 dateplaner#:#help_fullday_l#:#Ако датата покрива цял ден, моля, изберете тази опция.<br />Това ще скрие началния час, крайния час и крайната дата.
+###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br /><b>кликнете тук за по-нататъшна информация.</b>
 dateplaner#:#help_group#:#Избор на групови дати
+###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Съдържа групите, за които регистрираният потребител има администраторски права и за които може да бъде създадена дата.<br />След избирането на това става възможен прегледът на непланираното време на групата.
 dateplaner#:#help_inbox#:#Входяща кутия за календара
 dateplaner#:#help_inbox_l#:#Тук се показват всички нови, променени и изтрити групови дати.
+###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Избор на ключова дума
 dateplaner#:#help_keywordUse#:#Избор на ключова дума
 dateplaner#:#help_keywordUse_l#:#Изберете една или повече ключови думи от диалоговата кутия.<br />СЪВЕТ: използвайте клавиша CTRL за избор на няколко записа.
 dateplaner#:#help_keyword_l#:#Съдържа ключовите думи, които потребителят може да асоциира към дати.
 dateplaner#:#help_list#:#Списък на календарните дати
+###02 Aug 2005 content changed
 dateplaner#:#help_list_l#:#В списъка с дати се показват всички дати за даден период от време.
+###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Преглед по календарни месеци
 dateplaner#:#help_month_l#:#В прегледа по месеци се показват всички дати от даден месец.
+###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Променя паролата
 dateplaner#:#help_properties_alt_l#:#Изберете ключова дума от диалоговата кутия.<br />Изберете ключова дума в текстовото поле. Важно: макс. 20 символа.
 dateplaner#:#help_properties_del#:#Изтрива ключовата дума
 dateplaner#:#help_properties_del_l#:#Изберете ключова дума от диалоговата кутия. Кликнете бутона, за да я изтриете.
 dateplaner#:#help_properties_import#:#Импортиране на Outlook-CSV-файлове
 dateplaner#:#help_properties_import_l#:#Тук може да бъде избран CSC-файл, който съдържа Outlook-дати. Тези дати ще бъдат импортирани в календара.
+###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Добавяне на ключова дума, макс. 20 символа
 dateplaner#:#help_properties_new_l#:#Добавяне на нова ключова дума в полето \"нова\". Важно: макс. 20 символа.
 dateplaner#:#help_properties_time#:#Показване на часа в дневния/седмичния преглед
@@ -3165,18 +3206,26 @@ dateplaner#:#help_shorttext#:#Кратък текст, макс. 50 символ
 dateplaner#:#help_shorttext_l#:#Тук можете да въведете кратък текст за дадена дата.
 dateplaner#:#help_startdate#:#Начална дата - синтаксис[дд/мм/гггг]
 dateplaner#:#help_startdate_l#:#Съдържа началния момент на ангажимента.<br />Символът отваря малък календар за избор на съответната дата.
+###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Начален час - синтаксис[чч/мм] 24-часов формат
 dateplaner#:#help_starttime_l#:#Съдържа началния момент на ангажимента, като се използва 24-часов формат.
+###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Текст
 dateplaner#:#help_text_l#:#Тук можете да въведете текста за дадена дата.
+###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Преглед по календарни седмици
 dateplaner#:#help_week_l#:#В прегледа по седмици се показват всички дати от дадена седмица.
+###02 Aug 2005 content changed
 dateplaner#:#hour#:#час
 dateplaner#:#importDates#:#Импортиране на Outlook дати
+###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Входяща кутия
 dateplaner#:#insertImportDates#:#Тези дати бяха успешно регистрирани:
+###02 Aug 2005 content changed
 dateplaner#:#k_alldates#:#всички дати
+###02 Aug 2005 content changed
 dateplaner#:#keep#:#запазване
+###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Ключова дума
 dateplaner#:#keywords#:#Ключови думи
 dateplaner#:#last_change#:#Последна промяна
@@ -3193,35 +3242,59 @@ dateplaner#:#long_10#:#Октомври
 dateplaner#:#long_11#:#Ноември
 dateplaner#:#long_12#:#Декември
 dateplaner#:#main_dates#:#Основни дати
+###02 Aug 2005 content changed
 dateplaner#:#menue#:#Меню
 dateplaner#:#mmonth#:#последен месец
+###02 Aug 2005 content changed
 dateplaner#:#month#:#месец
+###02 Aug 2005 content changed
 dateplaner#:#more#:#още
+###02 Aug 2005 content changed
 dateplaner#:#mweek#:#последна седмица
+###02 Aug 2005 content changed
 dateplaner#:#myeahr#:#последна година
+###02 Aug 2005 content changed
 dateplaner#:#newDates#:#Нови дати
+###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Нови:
 dateplaner#:#new_doc#:#създаване на нова дата
+###02 Aug 2005 content changed
 dateplaner#:#no_entry#:#няма налични дати
+###02 Aug 2005 content changed
 dateplaner#:#o_day_date#:#24-часова дата
+###02 Aug 2005 content changed
 dateplaner#:#of#:#на
 dateplaner#:#open_day#:#дневен преглед
+###02 Aug 2005 content changed
 dateplaner#:#pmonth#:#следващ месец
+###02 Aug 2005 content changed
 dateplaner#:#printlist#:#отпечатване
+###02 Aug 2005 content changed
 dateplaner#:#properties#:#Характеристики
 dateplaner#:#pweek#:#следваща седмица
+###02 Aug 2005 content changed
 dateplaner#:#pyear#:#следваща година
+###02 Aug 2005 content changed
 dateplaner#:#r_14#:#всеки 14 дни
+###02 Aug 2005 content changed
 dateplaner#:#r_4_weeks#:#всеки 4 седмици
+###02 Aug 2005 content changed
 dateplaner#:#r_day#:#всеки ден
+###02 Aug 2005 content changed
 dateplaner#:#r_halfyear#:#всяка половин година
+###02 Aug 2005 content changed
 dateplaner#:#r_month#:#всеки месец
+###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#Веднъж
 dateplaner#:#r_week#:#всяка седмица
+###02 Aug 2005 content changed
 dateplaner#:#r_year#:#всяка година
+###02 Aug 2005 content changed
 dateplaner#:#readimportfile#:#вмъкване
+###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Повторение
 dateplaner#:#rotation_dates#:#Дати на повторението
+###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Име на семестъра
 dateplaner#:#short_01#:#Ян
 dateplaner#:#short_02#:#Фев
@@ -3237,15 +3310,20 @@ dateplaner#:#short_11#:#Ноем
 dateplaner#:#short_12#:#Дек
 dateplaner#:#shorttext#:#Кратък текст
 dateplaner#:#singleDate#:#единична дата
+###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Начален час за преглед:
 dateplaner#:#timedate#:#Час / Дата
 dateplaner#:#timeslice#:#Час:
 dateplaner#:#title#:#ILIAS календар
 dateplaner#:#to#:#до
 dateplaner#:#today#:#днес
+###02 Aug 2005 content changed
 dateplaner#:#viewlist#:#преглед
+###02 Aug 2005 content changed
 dateplaner#:#week#:#седмица
+###02 Aug 2005 content changed
 dateplaner#:#year#:#година
+###02 Aug 2005 content changed
 forum#:#forums#:#Форуми
 forum#:#forums_attachments#:#Прикачени
 forum#:#forums_attachments_add#:#Добавяне на прикачени
