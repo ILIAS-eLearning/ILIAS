@@ -955,7 +955,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
+common#:#cat_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -1012,8 +1012,8 @@ common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten n
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
-common#:#check_web_resources#:#Web Ressourcen überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web Ressourcen nach ungültigen externen Links überprüft.
+common#:#check_web_resources#:#Links überprüfen
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Links nach ungültigen externen Links überprüft.
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -1107,7 +1107,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
+common#:#crs_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1352,7 +1352,7 @@ common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#fold_create_svy#:#Neue Umfrage anlegen
 common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
+common#:#fold_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1496,7 +1496,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Web Ressource anlegen###15 Jul 2005 content changed
+common#:#grp_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
@@ -1552,9 +1552,9 @@ common#:#hist_lm:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
 common#:#hist_lm:pg_paste#:#Seite eingefügt in Kapitel "%1" [%2]
 common#:#hist_lm:pg_update#:#Seite verändert
 common#:#hist_no_entries#:#Keine Einträge im Verlauf
-common#:#hist_webr_add#:#Neue Web Ressource angelegt mit Titel: "%1"
-common#:#hist_webr_delete#:#Web Ressource wurde gelöscht. Titel: "%1"
-common#:#hist_webr_update#:#Web Ressource wurde aktualisiert. Titel: "%1"
+common#:#hist_webr_add#:#Neuer Link angelegt mit Titel: "%1"
+common#:#hist_webr_delete#:#Link wurde gelöscht. Titel: "%1"
+common#:#hist_webr_update#:#Link wurde aktualisiert. Titel: "%1"
 common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
@@ -2159,7 +2159,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#obj_webr#:#Web Ressource
+common#:#obj_webr#:#Links
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
@@ -2203,7 +2203,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
-common#:#objs_webr#:#Web Ressourcen
+common#:#objs_webr#:#Links
 common#:#of#:#von
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -2815,32 +2815,32 @@ common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visitor#:#Besucher
 common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
-common#:#web_resources#:#Web Ressourcen
-common#:#webr#:#Web Ressource
+common#:#web_resources#:#Links
+common#:#webr#:#Links
 common#:#webr_active#:#Aktiv
-common#:#webr_add#:#Web Ressource hinzufügen
-common#:#webr_add_item#:#Web Ressource hinzufügen
-common#:#webr_delete#:#Web Ressource löschen
-common#:#webr_delete_items#:#Web Ressourcen löschen.
-common#:#webr_deleted_items#:#Die Web Ressource(n) wurde(n) gelöscht.
+common#:#webr_add#:#Links hinzufügen
+common#:#webr_add_item#:#Link hinzufügen
+common#:#webr_delete#:#Link löschen
+common#:#webr_delete_items#:#Links löschen.
+common#:#webr_deleted_items#:#Der/die Link(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
-common#:#webr_edit#:#Web Ressource bearbeiten
-common#:#webr_edit_item#:#Web Ressource bearbeiten
+common#:#webr_edit#:#Links bearbeiten
+common#:#webr_edit_item#:#Link bearbeiten
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Web Ressource abonnieren
+common#:#webr_join#:#Links abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der Web Ressource aufheben
+common#:#webr_leave#:#Abonnement der  Links aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
-common#:#webr_new#:#Neue Web Ressource anlegen
-common#:#webr_no_items_created#:#Es sind keine Web Ressourcen angelegt
-common#:#webr_read#:#Lesezugriff auf Web Ressource
-common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Web Ressourcen löschen möchten?
-common#:#webr_visible#:#Web Ressource ist sichtbar
-common#:#webr_write#:#Web Ressource bearbeiten
+common#:#webr_new#:#Neue Links anlegen
+common#:#webr_no_items_created#:#Es sind keine Links angelegt
+common#:#webr_read#:#Lesezugriff auf Links
+common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Links löschen möchten?
+common#:#webr_visible#:#Links sind sichtbar
+common#:#webr_write#:#Links bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#weekly#:#wöchentlich
