@@ -93,7 +93,10 @@ if ($ilias->auth->getAuth())
 	if ($ilias->getSetting("chat_active"))
 	{
 		include_once "./chat/classes/class.ilChatServerCommunicator.php";
+		include_once "./chat/classes/class.ilChatRoom.php";
+
 		ilChatServerCommunicator::_login();
+		ilChatRoom::_unkick($ilUser->getId());
 	}
 
 	// UPDATE LAST FORUM VISIT
