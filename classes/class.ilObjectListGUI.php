@@ -296,6 +296,26 @@ class ilObjectListGUI
 	}
 
 	/**
+	* @param string title
+	* @return bool
+	*/
+	function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+	/**
+	 * getTitle overwritten in class.ilObjLinkResourceList.php 
+	 *
+	 * @return string title
+	 */
+	function getTitle()
+	{
+		return $this->title;
+	}
+
+
+	/**
 	* inititialize new item (is called by getItemHTML())
 	*
 	* @param	int			$a_ref_id		reference id
@@ -307,7 +327,7 @@ class ilObjectListGUI
 	{
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
-		$this->title = $a_title;
+		$this->setTitle($a_title);
 		$this->description = $a_description;
 		
 		// checks, whether any admin commands are included in the output
@@ -459,7 +479,7 @@ class ilObjectListGUI
 		if (!$this->default_command)
 		{
 			$this->tpl->setCurrentBlock("item_title");
-			$this->tpl->setVariable("TXT_TITLE", $this->title);
+			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -473,7 +493,7 @@ class ilObjectListGUI
 			
 			// the default command is linked with the title
 			$this->tpl->setCurrentBlock("item_title_linked");
-			$this->tpl->setVariable("TXT_TITLE_LINKED", $this->title);
+			$this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
 			$this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
 			$this->tpl->parseCurrentBlock();
 		}

@@ -36,13 +36,31 @@ include_once "classes/class.ilObjectListGUI.php";
 
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
+	var $single_link = null;
+	var $link_data = array();
+
 	/**
 	* constructor
 	*
 	*/
-	function ilObjFileListGUI()
+	function ilObjLinkResourceListGUI()
 	{
 		$this->ilObjectListGUI();
+
+	}
+
+	/**
+	* overwritten from base class
+	*/
+	function getTitle()
+	{
+		if($this->__checkDirectLink())
+		{
+			$this->__readLink();
+			
+			return $this->link_data['title'];
+		}
+		return parent::getTitle();
 	}
 
 	/**
@@ -90,7 +108,14 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "":
-				$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+				if($this->__checkDirectLink())
+				{
+					$frame = '_blank';
+				}
+				else
+				{
+					$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+				}
 				break;
 
 			default:
@@ -128,13 +153,55 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		// separate method for this line
-		$cmd_link = "link/link_resources.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 
+		// separate method for this line
+		switch($a_cmd)
+		{
+			case '':
+				if($this->__checkDirectLink())
+				{
+					$this->__readLink();
+					$cmd_link = $this->link_data['target'];
+				}
+				else
+				{
+					$cmd_link = "link/link_resources.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				}
+				break;
+
+			default:
+				$cmd_link = "link/link_resources.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		}
 		return $cmd_link;
 	}
 
 
+	/**
+	* Check whether there is only one active link in the web resource.
+	* In this case this link is shown in a new browser window
+	*
+	*/
+	function __checkDirectLink()
+	{
+		if($this->single_link !== null)
+		{
+			return $this->single_link;
+		}
+		include_once './link/classes/class.ilLinkResourceItems.php';
+		
+		return $this->single_link = ilLinkResourceItems::_isSingular($this->obj_id);
+	}
 
+	/**
+	* Get data of first active link resource
+	*
+	* @return array link data array
+	*/
+	function __readLink()
+	{
+		include_once './link/classes/class.ilLinkResourceItems.php';
+		
+		return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
+	}
 } // END class.ilObjTestListGUI
 ?>
