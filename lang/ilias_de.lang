@@ -1654,18 +1654,19 @@ common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Benutzersicht wechseln
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
-common#:#info_enter_user_id#:#<user_id eingeben>
-common#:#info_err_user_not_exist#:#Einen Benutzer mit dieser user_id existiert nicht
+common#:#info_enter_login_or_id#:#<i>(Geben Sie Benutzernamen oder Benutzer-ID ein)</i>
+common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht
 common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_not_assigned#:#nicht zugewiesen
 common#:#info_permission_origin#:#Absolute Position
 common#:#info_permission_source#:#wirksam von*
+common#:#info_from_role#:#Gesetzt bei der Rolle
 common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Statusinformationen
+common#:#info_status_info#:#Rechte des Benutzers
 common#:#info_trash#:#Gelöschte Objekte
-common#:#info_view_of_user#:#Benutzersicht
+common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
