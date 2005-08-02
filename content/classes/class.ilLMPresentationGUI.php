@@ -1969,7 +1969,7 @@ class ilLMPresentationGUI
 	{
 		global $ilBench,$ilUser;
 
-		require_once("content/classes/class.ilStructureObject.php");
+		include_once("content/classes/class.ilStructureObject.php");
 
 		$ilBench->start("ContentPresentation", "PrintViewSelection");
 
@@ -2038,9 +2038,10 @@ class ilLMPresentationGUI
 					
 					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
-						if (ilLMObject::_isPagePublic($node["obj_id"]))
+						if (!ilLMObject::_isPagePublic($node["obj_id"]))
 						{
 							$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
+							$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
 						}
 					}
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
@@ -2065,12 +2066,6 @@ class ilLMPresentationGUI
 						."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
 
-					// if public access get first public page in chapter
-					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
-					{
-						$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
-					}
-
 					break;
 			}
 			
@@ -2083,9 +2078,8 @@ class ilLMPresentationGUI
 
 			if ($_POST["item"][$node["obj_id"]] == "y")
 			{
-				$this->tpl->setVariable("CHECKED", "checked=\"1\"");
+				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
 			}
-			
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -2100,7 +2094,7 @@ class ilLMPresentationGUI
 	*/
 	function showPrintView()
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
 
 		$ilBench->start("ContentPresentation", "PrintView");
 
@@ -2144,9 +2138,9 @@ class ilLMPresentationGUI
 
 		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
-		require_once("content/classes/class.ilLMPageObject.php");
-		require_once("content/classes/class.ilStructureObject.php");
+		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		include_once("content/classes/class.ilLMPageObject.php");
+		include_once("content/classes/class.ilStructureObject.php");
 
 		$act_level = 99999;
 		$activated = false;
@@ -2154,6 +2148,7 @@ class ilLMPresentationGUI
 		$glossary_links = array();
 		$output_header = false;
 		$media_links = array();
+
 		foreach ($nodes as $node)
 		{
 
@@ -2199,7 +2194,9 @@ class ilLMPresentationGUI
 				}
 
 				// output page
-				if ($node["type"] == "pg")
+				if ($node["type"] == "pg" and ($ilUser->getId() == ANONYMOUS_USER_ID and 
+											   $this->lm_gui->object->getPublicAccessMode() == "selected" and 
+											   ilLMObject::_isPagePublic($node["obj_id"])))
 				{
 					$this->tpl->setCurrentBlock("print_item");
 					$page_id = $node["obj_id"];
@@ -2298,11 +2295,12 @@ class ilLMPresentationGUI
 		// glossary
 		if (count($glossary_links) > 0)
 		{
-			require_once("content/classes/class.ilGlossaryTerm.php");
-			require_once("content/classes/class.ilGlossaryDefinition.php");
+			include_once("content/classes/class.ilGlossaryTerm.php");
+			include_once("content/classes/class.ilGlossaryDefinition.php");
 
 			// sort terms
 			$terms = array();
+			
 			foreach($glossary_links as $key => $link)
 			{
 				$term = ilGlossaryTerm::_lookGlossaryTerm($link["id"]);
@@ -2360,6 +2358,7 @@ class ilLMPresentationGUI
 		{
 			include_once("content/classes/Media/class.ilObjMediaObject.php");
 			include_once("content/classes/Media/class.ilMediaItem.php");
+
 			foreach($media_links as $media)
 			{
 				if (substr($media["Target"],0,4) == "il__")
