@@ -748,7 +748,7 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
 							$this->userObj->setTimeLimitMessage($ilias->account->getTimeLimitMessage());
 							$this->userObj->setApproveDate($ilias->account->getApproveDate());
-							$this->userObj->setiLincID($ilias->account->getiLincID());
+							//$this->userObj->setiLincID($ilias->account->getiLincID());
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
 							$this->userObj->create();
@@ -841,7 +841,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
-							if (! is_null($this->userObj->getiLincID())) $updateUser->setiLincID($this->userObj->getiLincID());
+							//if (! is_null($this->userObj->getiLincID())) $updateUser->setiLincID($this->userObj->getiLincID());
 
 							$updateUser->update();
 
@@ -1014,7 +1014,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "iLincID":
-				$this->userObj->setiLincID($this->cdata);
+				//$this->userObj->setiLincID($this->cdata);
 				break;
 		}
 	}
@@ -1295,7 +1295,7 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincID",$this->cdata));
 				}
-				$this->userObj->setiLincID($this->cdata);
+				//$this->userObj->setiLincID($this->cdata);
 				break;
 		}
 	}
