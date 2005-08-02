@@ -3384,10 +3384,10 @@ crs#:#learners_view#:#Hallgatói nézet
 crs_#:#crs_archives#:#Archívok
 dateplaner#:#DateText#:#Üzenet
 dateplaner#:#Day_long#:#Napi nézet
-dateplaner#:#ERROR_DATE_EXISTS#:#Ez a dátum már létezik.
+dateplaner#:#ERROR_DATE_EXISTS#:#Ez a dátum már létezik.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Adatbázis-írási hiba!
 dateplaner#:#ERROR_DB_CONNECT#:#A kapcsolat az adatbázissal megszűnt.
-dateplaner#:#ERROR_DEL_MSG#:#Ez egy körbeforduló dátum. Törölne egyet vagy többet a dátumok közül?
+dateplaner#:#ERROR_DEL_MSG#:#Ez egy körbeforduló dátum. Törölne egyet vagy többet a dátumok közül?###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Hibás a végdátum megadása. Formátum: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Hibás végdáum. Formátum: hh:mm
 dateplaner#:#ERROR_END_START#:#Hibás a végdáum megadása. A végdátum a kezdődátum előtti.
@@ -3402,7 +3402,7 @@ dateplaner#:#ERROR_TS#:#Nem megfelelő dátumformátum
 dateplaner#:#Fr_long#:#Péntek
 dateplaner#:#Fr_short#:#P.
 dateplaner#:#Language_file#:#angol
-dateplaner#:#Listbox_long#:#Dátumlista
+dateplaner#:#Listbox_long#:#Dátumlista###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Hétfő
 dateplaner#:#Mo_short#:#H.
 dateplaner#:#Month_long#:#Havi nézet
@@ -3419,35 +3419,35 @@ dateplaner#:#View#:#Nézet:
 dateplaner#:#We_long#:#Szerda
 dateplaner#:#We_short#:#Sze.
 dateplaner#:#Week_long#:#Heti nézet
-dateplaner#:#add_data#:#További adatok
-dateplaner#:#app_#:#Beérkezett csoportdátumok
-dateplaner#:#app_date#:#dátumbevitel
-dateplaner#:#app_day#:#napi nézet
-dateplaner#:#app_freetime#:#más csoporttagok szabadideje (chatidő)
-dateplaner#:#app_inbox#:#Beérkezett csoportdátumok
-dateplaner#:#app_list#:#dátumlista
-dateplaner#:#app_month#:#havi nézet
-dateplaner#:#app_properties#:#jellemzők
-dateplaner#:#app_week#:#heti nézet
+dateplaner#:#add_data#:#További adatok###02 Aug 2005 content changed
+dateplaner#:#app_#:#Beérkezett csoportdátumok###02 Aug 2005 content changed
+dateplaner#:#app_date#:#dátumbevitel###02 Aug 2005 content changed
+dateplaner#:#app_day#:#napi nézet###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#más csoporttagok szabadideje (chatidő)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Beérkezett csoportdátumok###02 Aug 2005 content changed
+dateplaner#:#app_list#:#dátumlista###02 Aug 2005 content changed
+dateplaner#:#app_month#:#havi nézet###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#jellemzők###02 Aug 2005 content changed
+dateplaner#:#app_week#:#heti nézet###02 Aug 2005 content changed
 dateplaner#:#application#:#Határidőnapló
-dateplaner#:#apply#:#alkalmaz
-dateplaner#:#back#:#vissza
+dateplaner#:#apply#:#alkalmaz###02 Aug 2005 content changed
+dateplaner#:#back#:#vissza###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Kezdési idő
-dateplaner#:#busytime#:#szorgalmi időszak a csoportban
-dateplaner#:#c_date#:#Dátum létrehozása
+dateplaner#:#busytime#:#szorgalmi időszak a csoportban###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Dátum létrehozása###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Mire változik:
-dateplaner#:#changedDates#:#Megváltozott dátumok
+dateplaner#:#changedDates#:#Megváltozott dátumok###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Szabadidő ellenőrzése
 dateplaner#:#created#:#Létrehozva
 dateplaner#:#date#:#Dátum
 dateplaner#:#date_format#:#hh:mm
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#del_all#:#az összes dátum törlése
-dateplaner#:#del_one#:#egy dátum törlése
-dateplaner#:#delete#:#törlés
-dateplaner#:#deletedDates#:#Törölt dátumok
-dateplaner#:#discard#:#elvetés
-dateplaner#:#dv_Grouptime#:#szabadidő
+dateplaner#:#del_all#:#az összes dátum törlése###02 Aug 2005 content changed
+dateplaner#:#del_one#:#egy dátum törlése###02 Aug 2005 content changed
+dateplaner#:#delete#:#törlés###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Törölt dátumok###02 Aug 2005 content changed
+dateplaner#:#discard#:#elvetés###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#szabadidő###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Mégsem
 dateplaner#:#dv_button_delete#:#Törlés
 dateplaner#:#dv_button_insert#:#Beszúrás
@@ -3457,7 +3457,7 @@ dateplaner#:#dv_date_end#:#Befejezési idő
 dateplaner#:#dv_date_hm#:#Óra:perc
 dateplaner#:#dv_enddate#:#Végdátum:
 dateplaner#:#dv_groupselect#:#Csoportkiválasztás:
-dateplaner#:#dv_groupview#:#Csoportdátum:
+dateplaner#:#dv_groupview#:#Csoportdátum:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Csoport:<BR />
 dateplaner#:#dv_keywords#:#Kulcsszavak:
 dateplaner#:#dv_keywordselect#:#Kulcsszókiválasztás:
@@ -3476,41 +3476,41 @@ dateplaner#:#dv_whole_rotation#:#Törölni szeretné az egész körben forgó d�
 dateplaner#:#end_date#:#Dátum vége
 dateplaner#:#endtime_for_view#:#Végdátum a nézethez:
 dateplaner#:#error_minical_img#:#Nem hozható létre 'GD-picture-stream'
-dateplaner#:#execute#:#kiválasztás végrehajtása
-dateplaner#:#extra_dates#:#Egy napos dátumok
-dateplaner#:#free#:#szabad
-dateplaner#:#freetime#:#szabadidő a csoportban
-dateplaner#:#group#:#csoport
-dateplaner#:#help_day#:#Határidőnapló napi nézete
-dateplaner#:#help_day_l#:#A napi nézetben a kiválasztott nap minden dátuma megjelent.
+dateplaner#:#execute#:#kiválasztás végrehajtása###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Egy napos dátumok###02 Aug 2005 content changed
+dateplaner#:#free#:#szabad###02 Aug 2005 content changed
+dateplaner#:#freetime#:#szabadidő a csoportban###02 Aug 2005 content changed
+dateplaner#:#group#:#csoport###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Határidőnapló napi nézete###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#A napi nézetben a kiválasztott nap minden dátuma megjelent.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Végdátum - szintaxis [nn/hh/éééé]
-dateplaner#:#help_enddate_l#:#A találkozó végét tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztására.
+dateplaner#:#help_enddate_l#:#A találkozó végét tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztására.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Végdátum szintaxisa [nn/hh/éééé]
 dateplaner#:#help_endrotation_l#:#Ezen a napon lesz vége az ismétlésnek.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztására.
 dateplaner#:#help_endtime#:#Végdátum - szintaxis [óó/pp] 24 órás formátum
 dateplaner#:#help_endtime_l#:#A találkozó végét tartalmazza, 24 órás formátumot használva.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Egész nap - szintaxis [ki/be]
-dateplaner#:#help_fullday_l#:#Ha a dátum egész napra terjed, válassza ezt a beállítást.<BR /> Ezáltal a kezdőidő, befejezőidő és a végdátum rejtve van.
+dateplaner#:#help_fullday#:#Egész nap - szintaxis [ki/be]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Ha a dátum egész napra terjed, válassza ezt a beállítást.<BR /> Ezáltal a kezdőidő, befejezőidő és a végdátum rejtve van.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<BR /><B>További információért kattintson ide.</B>
-dateplaner#:#help_group#:#Csoportdáumok kiválasztása
+dateplaner#:#help_group#:#Csoportdáumok kiválasztása###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Azon csoportokat tartalmazza, amelyekért a bejelentkezett felhasználónak adminisztrátori jogai vannak,  és amelyeknek dátum hozható létre.<BR /> Miután ezt kiválasztotta, látható a csoport be nem táblázott ideje.
 dateplaner#:#help_inbox#:#Határidőnapló bejövő levelek
-dateplaner#:#help_inbox_l#:#Itt minden új, megváltozott és törölt csoportdátum megtekinthető.
+dateplaner#:#help_inbox_l#:#Itt minden új, megváltozott és törölt csoportdátum megtekinthető.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Kulcsszó kiválasztása
 dateplaner#:#help_keywordUse#:#Kulcsszó kiválasztása
 dateplaner#:#help_keywordUse_l#:#Válasszon egy vagy több kulcsszót a párbeszéddobozból.<BR />TIPP: használja a CTRL billentyűt több bejegyzés kiválasztásához.
 dateplaner#:#help_keyword_l#:#Azon kulcsszavakat tartalmazza, amelyeket a felhasználó dátumokhoz asszociálhat.
-dateplaner#:#help_list#:#Határidőnapló dátumlistája
-dateplaner#:#help_list_l#:#A dátumlistában egy adott időperiódus minden dátuma megjelenítésre kerül.
+dateplaner#:#help_list#:#Határidőnapló dátumlistája###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#A dátumlistában egy adott időperiódus minden dátuma megjelenítésre kerül.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Határidőnapló havi nézete
-dateplaner#:#help_month_l#:#A havi nézetben egy adott hónap minden dátuma megjelenítésre kerül.
+dateplaner#:#help_month_l#:#A havi nézetben egy adott hónap minden dátuma megjelenítésre kerül.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Kulcsszóváltozások
 dateplaner#:#help_properties_alt_l#:#Válasszon egy kulcsszót a párbeszéddobozból.<BR /> Változtassa meg a kulcsszót a szövegmezőben. Fontos: maximum 20 karakter legyen.
 dateplaner#:#help_properties_del#:#Kulcsszavak törlése
 dateplaner#:#help_properties_del_l#:#Válasszon ki egy kulcsszót a párbeszéddobozból. Kattintson a gombra a kulcsszó törléséhez.
 dateplaner#:#help_properties_import#:#Outlook-fáj importja - vesszővel szeparált értékűek -
-dateplaner#:#help_properties_import_l#:#Itt CSC-fájl választható ki, amely Outlook dátumokat tartalmaz. Ezek a dátumok kerülnek importálásra a határidőnaplóba.
+dateplaner#:#help_properties_import_l#:#Itt CSC-fájl választható ki, amely Outlook dátumokat tartalmaz. Ezek a dátumok kerülnek importálásra a határidőnaplóba.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Kulcsszó hozzáadása - maximum 20 karakteres
 dateplaner#:#help_properties_new_l#:#Új kulcsszó hozzáadása az \"új\" mezőhöz. Fontos: maximum 20 karakter legyen.
 dateplaner#:#help_properties_time#:#Időmegjelenítés napi nézethez / heti nézethez
@@ -3520,19 +3520,19 @@ dateplaner#:#help_rotation_l#:#A körben forgás típusát tartalmazza / ismétl
 dateplaner#:#help_shorttext#:#Maximum 50 karakternyi rövid szöveg
 dateplaner#:#help_shorttext_l#:#Itt vihető be a rövid szöveg egy adott dátumhoz.
 dateplaner#:#help_startdate#:#Kezdődátum - szintaxis [nn/hh/éééé]
-dateplaner#:#help_startdate_l#:#A találkozó kezdőidőpontját tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztásához.
+dateplaner#:#help_startdate_l#:#A találkozó kezdőidőpontját tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztásához.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Kezdőidő - sintaxis [óó/pp] 24 órás formátum
-dateplaner#:#help_starttime_l#:#A találkozó kezdőidőpontját tartalmazza 24 órás formátumot használva.
+dateplaner#:#help_starttime_l#:#A találkozó kezdőidőpontját tartalmazza 24 órás formátumot használva.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Szöveg
-dateplaner#:#help_text_l#:#Itt vihető be a szöveg egy adott dátumhoz.
+dateplaner#:#help_text_l#:#Itt vihető be a szöveg egy adott dátumhoz.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Határidőnapló heti nézet
-dateplaner#:#help_week_l#:#A heti nézetben egy adott hét minden dátuma megjelenítésre kerül.
+dateplaner#:#help_week_l#:#A heti nézetben egy adott hét minden dátuma megjelenítésre kerül.###02 Aug 2005 content changed
 dateplaner#:#hour#:#óra
-dateplaner#:#importDates#:#Outlook dátumok importálása
+dateplaner#:#importDates#:#Outlook dátumok importálása###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Bejövő dátumok
-dateplaner#:#insertImportDates#:#Ezek a dátumok sikeresen regisztrálásra kerültek:
-dateplaner#:#k_alldates#:#minden dátum
-dateplaner#:#keep#:#megtartás
+dateplaner#:#insertImportDates#:#Ezek a dátumok sikeresen regisztrálásra kerültek:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#minden dátum###02 Aug 2005 content changed
+dateplaner#:#keep#:#megtartás###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Kulcsszó
 dateplaner#:#keywords#:#Kulcsszavak
 dateplaner#:#last_change#:#Legutoljára változott
@@ -3548,36 +3548,36 @@ dateplaner#:#long_09#:#Szeptember
 dateplaner#:#long_10#:#Október
 dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#December
-dateplaner#:#main_dates#:#Fő dátumok
+dateplaner#:#main_dates#:#Fő dátumok###02 Aug 2005 content changed
 dateplaner#:#menue#:#Menü
-dateplaner#:#mmonth#:#legutosó hánap
-dateplaner#:#month#:#hónap
-dateplaner#:#more#:#további
-dateplaner#:#mweek#:#legutolsó hét
-dateplaner#:#myeahr#:#legutolsó év
-dateplaner#:#newDates#:#Új dátumok
+dateplaner#:#mmonth#:#legutosó hánap###02 Aug 2005 content changed
+dateplaner#:#month#:#hónap###02 Aug 2005 content changed
+dateplaner#:#more#:#további###02 Aug 2005 content changed
+dateplaner#:#mweek#:#legutolsó hét###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#legutolsó év###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Új dátumok###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Új:
-dateplaner#:#new_doc#:#új dátum létrehozása
-dateplaner#:#no_entry#:#Nincs elérhető dátum
-dateplaner#:#o_day_date#:#24 órás dátum
+dateplaner#:#new_doc#:#új dátum létrehozása###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#Nincs elérhető dátum###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#24 órás dátum###02 Aug 2005 content changed
 dateplaner#:#of#:#Mettől
-dateplaner#:#open_day#:#napi nézet
-dateplaner#:#pmonth#:#következő hónap
-dateplaner#:#printlist#:#Nyomtatás
+dateplaner#:#open_day#:#napi nézet###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#következő hónap###02 Aug 2005 content changed
+dateplaner#:#printlist#:#Nyomtatás###02 Aug 2005 content changed
 dateplaner#:#properties#:#Jellemzők
-dateplaner#:#pweek#:#következő hét
-dateplaner#:#pyear#:#következő év
-dateplaner#:#r_14#:#minden 14 nap
-dateplaner#:#r_4_weeks#:#minden 14 hét
-dateplaner#:#r_day#:#minden nap
-dateplaner#:#r_halfyear#:#minden félév
-dateplaner#:#r_month#:#minden hónap
+dateplaner#:#pweek#:#következő hét###02 Aug 2005 content changed
+dateplaner#:#pyear#:#következő év###02 Aug 2005 content changed
+dateplaner#:#r_14#:#minden 14 nap###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#minden 14 hét###02 Aug 2005 content changed
+dateplaner#:#r_day#:#minden nap###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#minden félév###02 Aug 2005 content changed
+dateplaner#:#r_month#:#minden hónap###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#Egyszer
-dateplaner#:#r_week#:#minden hét
-dateplaner#:#r_year#:#minden év
-dateplaner#:#readimportfile#:#beszúrás
+dateplaner#:#r_week#:#minden hét###02 Aug 2005 content changed
+dateplaner#:#r_year#:#minden év###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#beszúrás###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Körben forgás
-dateplaner#:#rotation_dates#:#Körgen forgó dátumok
+dateplaner#:#rotation_dates#:#Körgen forgó dátumok###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Szemeszter megnevezése
 dateplaner#:#short_01#:#Jan.
 dateplaner#:#short_02#:#Febr.
@@ -3592,16 +3592,16 @@ dateplaner#:#short_10#:#Okt.
 dateplaner#:#short_11#:#Nov.
 dateplaner#:#short_12#:#Dec.
 dateplaner#:#shorttext#:#Rövid szöveg
-dateplaner#:#singleDate#:#egyszeri dátum
+dateplaner#:#singleDate#:#egyszeri dátum###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Kezdőidő a nézethez:
 dateplaner#:#timedate#:#Idő / dátum
 dateplaner#:#timeslice#:#Idő:
 dateplaner#:#title#:#ILIAS határidőnapló
 dateplaner#:#to#:#Meddig
-dateplaner#:#today#:#ma
-dateplaner#:#viewlist#:#Nézet
-dateplaner#:#week#:#hét
-dateplaner#:#year#:#év
+dateplaner#:#today#:#ma###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#Nézet###02 Aug 2005 content changed
+dateplaner#:#week#:#hét###02 Aug 2005 content changed
+dateplaner#:#year#:#év###02 Aug 2005 content changed
 forum#:#forums#:#Fórumok
 forum#:#forums_attachments#:#Csatolások
 forum#:#forums_attachments_add#:#Csatolás hozzáadása

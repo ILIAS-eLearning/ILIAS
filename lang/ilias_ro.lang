@@ -3302,10 +3302,10 @@ crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 
 crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Mesaj
 dateplaner#:#Day_long#:#Vizualizarea zilei
-dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
+dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Eroare de scriere in baza de date!
 dateplaner#:#ERROR_DB_CONNECT#:#Baza de date este deconectata.
-dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele
+dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Informatii gresite despre data limita. Formateaza: zz/ll/aaaa
 dateplaner#:#ERROR_ENDTIME#:#Termen limita gresit. Formatati: hh:mm
 dateplaner#:#ERROR_END_START#:#Informatii gresite despre data limita. Data limita este inaintea datei de incepere.
@@ -3320,7 +3320,7 @@ dateplaner#:#ERROR_TS#:#Formatare incorecta a datei
 dateplaner#:#Fr_long#:#Vineri
 dateplaner#:#Fr_short#:#Vi
 dateplaner#:#Language_file#:#Engleza
-dateplaner#:#Listbox_long#:#Listarea intrarilor
+dateplaner#:#Listbox_long#:#Listarea intrarilor###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Luni
 dateplaner#:#Mo_short#:#Lu
 dateplaner#:#Month_long#:#Vizualizarea lunii
@@ -3337,35 +3337,35 @@ dateplaner#:#View#:#Vizualizare:
 dateplaner#:#We_long#:#Miercuri
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Vizualizarea saptamanii
-dateplaner#:#add_data#:#Date Aditionale
-dateplaner#:#app_#:#Inbox al intalnirilor grupului
-dateplaner#:#app_date#:#inserati data
-dateplaner#:#app_day#:#vizualizarea zilei
-dateplaner#:#app_freetime#:#timp liber al altor membrii ai grupului (folositi timpul)
-dateplaner#:#app_inbox#:#Inbox al intalnirilor grupului
-dateplaner#:#app_list#:#lista datelor
-dateplaner#:#app_month#:#vizualizarea lunii
-dateplaner#:#app_properties#:#proprietati
-dateplaner#:#app_week#:#vizualizarea saptamanii
+dateplaner#:#add_data#:#Date Aditionale###02 Aug 2005 content changed
+dateplaner#:#app_#:#Inbox al intalnirilor grupului###02 Aug 2005 content changed
+dateplaner#:#app_date#:#inserati data###02 Aug 2005 content changed
+dateplaner#:#app_day#:#vizualizarea zilei###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#timp liber al altor membrii ai grupului (folositi timpul)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Inbox al intalnirilor grupului###02 Aug 2005 content changed
+dateplaner#:#app_list#:#lista datelor###02 Aug 2005 content changed
+dateplaner#:#app_month#:#vizualizarea lunii###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#proprietati###02 Aug 2005 content changed
+dateplaner#:#app_week#:#vizualizarea saptamanii###02 Aug 2005 content changed
 dateplaner#:#application#:#Calendar
-dateplaner#:#apply#:#aplicati
-dateplaner#:#back#:#inapoi
+dateplaner#:#apply#:#aplicati###02 Aug 2005 content changed
+dateplaner#:#back#:#inapoi###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Data de Incepere
-dateplaner#:#busytime#:#timp ocupat in grup
-dateplaner#:#c_date#:#Stabiliti intilnire
+dateplaner#:#busytime#:#timp ocupat in grup###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Stabiliti intilnire###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Schimbati in:
-dateplaner#:#changedDates#:#Date schimbate
+dateplaner#:#changedDates#:#Date schimbate###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Verificati daca exista timp liber
 dateplaner#:#created#:#Creat
 dateplaner#:#date#:#Data
 dateplaner#:#date_format#:#l/z/a H:m
 dateplaner#:#date_format_middle#:#l/z/a
-dateplaner#:#del_all#:#stergeti toate datele
-dateplaner#:#del_one#:#stergeti o data
-dateplaner#:#delete#:#stergeti
-dateplaner#:#deletedDates#:#Date sterse
-dateplaner#:#discard#:#aruncati
-dateplaner#:#dv_Grouptime#:#timp liber
+dateplaner#:#del_all#:#stergeti toate datele###02 Aug 2005 content changed
+dateplaner#:#del_one#:#stergeti o data###02 Aug 2005 content changed
+dateplaner#:#delete#:#stergeti###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Date sterse###02 Aug 2005 content changed
+dateplaner#:#discard#:#aruncati###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#timp liber###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Anulati
 dateplaner#:#dv_button_delete#:#Stergeti
 dateplaner#:#dv_button_insert#:#Inserati
@@ -3375,7 +3375,7 @@ dateplaner#:#dv_date_end#:#Data de terminare:
 dateplaner#:#dv_date_hm#:#Ora:Minut
 dateplaner#:#dv_enddate#:#Data de terminare:
 dateplaner#:#dv_groupselect#:#Selectare Grup:
-dateplaner#:#dv_groupview#:#Data Grup:
+dateplaner#:#dv_groupview#:#Data Grup:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grup:<br />
 dateplaner#:#dv_keywords#:#Cuvinte cheie:
 dateplaner#:#dv_keywordselect#:#Selectati cuvinte cheie:
@@ -3394,41 +3394,41 @@ dateplaner#:#dv_whole_rotation#:#Doriti sa stergeti toata seria de rotatie? (sel
 dateplaner#:#end_date#:#Data limita
 dateplaner#:#endtime_for_view#:#Data limita de vizualizare:
 dateplaner#:#error_minical_img#:#Imaginea GD nu a putut fi creata
-dateplaner#:#execute#:#aplicati selectiile
-dateplaner#:#extra_dates#:#Date suplimentare
-dateplaner#:#free#:#liber
-dateplaner#:#freetime#:#Timp liber in grup
-dateplaner#:#group#:#grup
-dateplaner#:#help_day#:#vizualizarea datei din calendar
-dateplaner#:#help_day_l#:#In datele suplimentare sunt afisate toate datele unei zile alese.
+dateplaner#:#execute#:#aplicati selectiile###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Date suplimentare###02 Aug 2005 content changed
+dateplaner#:#free#:#liber###02 Aug 2005 content changed
+dateplaner#:#freetime#:#Timp liber in grup###02 Aug 2005 content changed
+dateplaner#:#group#:#grup###02 Aug 2005 content changed
+dateplaner#:#help_day#:#vizualizarea datei din calendar###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#In datele suplimentare sunt afisate toate datele unei zile alese.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Termen limita - sintaxa[zz/ll/aaaa]
-dateplaner#:#help_enddate_l#:#Contine termenul limita al programarii.<br />Simbolul deschide un mic calendar pentru alegerea datei potrivite.
+dateplaner#:#help_enddate_l#:#Contine termenul limita al programarii.<br />Simbolul deschide un mic calendar pentru alegerea datei potrivite.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Sintaxa termenului limita[zz/ll/aaaa]
 dateplaner#:#help_endrotation_l#:#In aceasta zi rotatia se va termina.<br />Simbolul deschide un mic calendar pentru alegerea datei potrivite.
 dateplaner#:#help_endtime#:#Termen limita - sintaxa[hh/mm] zi de 24h
 dateplaner#:#help_endtime_l#:#Contine termenul limita al programarii folosind formatul zilei de 24h.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#data unei zile - sintaxa[activat/dezactivat]
-dateplaner#:#help_fullday_l#:#daca data se intinde pe parcursul intregii zile, va rugam alegeti acesta optiune.<br />Acest lucru va ascunde termenul de incepere, data limita si termenul limita.
+dateplaner#:#help_fullday#:#data unei zile - sintaxa[activat/dezactivat]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#daca data se intinde pe parcursul intregii zile, va rugam alegeti acesta optiune.<br />Acest lucru va ascunde termenul de incepere, data limita si termenul limita.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br /><b>apasati aici pentru informatii suplimentare.</b>
-dateplaner#:#help_group#:#Selectarea datelor grupului
+dateplaner#:#help_group#:#Selectarea datelor grupului###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Contine grupurile pentru care utilizatorul logat are drepturi de administrator si pentru care poate fi creata o data.<br />Dupa aceasta alegere se poate observa timpul nefolosit de grup.
 dateplaner#:#help_inbox#:#Inbox al Calendarului
-dateplaner#:#help_inbox_l#:#Aici sunt afisate toate datele grupului noi, modificate sau sterse.
+dateplaner#:#help_inbox_l#:#Aici sunt afisate toate datele grupului noi, modificate sau sterse.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Selectarea cuvantului cheie
 dateplaner#:#help_keywordUse#:#Selectarea cuvantului cheie
 dateplaner#:#help_keywordUse_l#:#Alegeti unul sau mai multe cuvinte cheie din fereastra de dialog.<br />INDICIU: folositi tasta CTRL pentru a selecta mai multe intrari.
 dateplaner#:#help_keyword_l#:#Contine toate cuvintele cheie pe care un utilizator le poate asocia cu date.
-dateplaner#:#help_list#:#Lista datelor din calendar
-dateplaner#:#help_list_l#:#In lista datelor, sunt afisate toate datele dintr-o anume perioada de timp.
+dateplaner#:#help_list#:#Lista datelor din calendar###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#In lista datelor, sunt afisate toate datele dintr-o anume perioada de timp.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Vizualizarea lunilor din calendar
-dateplaner#:#help_month_l#:#In vizualizarea pe luni, sunt afisate toate datele dintr-o anumita luna.
+dateplaner#:#help_month_l#:#In vizualizarea pe luni, sunt afisate toate datele dintr-o anumita luna.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Schimbati cuvantul cheie
 dateplaner#:#help_properties_alt_l#:#Alegeti un cuvant cheie din fereastra de dialog.<br />Schimba cuvantul din campul de text. Important: maximum 20 caractere.
 dateplaner#:#help_properties_del#:#Stergeti cuvantul cheie
 dateplaner#:#help_properties_del_l#:#Alegeti un cuvant cheie din fereastra de dialog. Apasati butonul pentru a sterge cuvantul cheie.
 dateplaner#:#help_properties_import#:#Importarea fisierelor Outlook-CSV
-dateplaner#:#help_properties_import_l#:#Aici poate fi selectat un fisier CSC, care contine date in Outlook. Aceste date vor fi importate in calendar.
+dateplaner#:#help_properties_import_l#:#Aici poate fi selectat un fisier CSC, care contine date in Outlook. Aceste date vor fi importate in calendar.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Adaugati un cuvant cheie, maximum 20 caractere
 dateplaner#:#help_properties_new_l#:#Adaugati un cuvant cheie nou in campul \"nou\". Important: max. 20 caractere.
 dateplaner#:#help_properties_time#:#Afisati timpul in vizualizarea pe zile/saptamani
@@ -3438,19 +3438,19 @@ dateplaner#:#help_rotation_l#:#Contine tipul rotatiei / repetitie.
 dateplaner#:#help_shorttext#:#Mesaj scurt, max. 50 caractere
 dateplaner#:#help_shorttext_l#:#Aici se poate introduce mesajul scurt pentru o anumita data.
 dateplaner#:#help_startdate#:#Data de incepere - sintaxa[zz/ll/aaaa]
-dateplaner#:#help_startdate_l#:#contine punctul de inceput al programarii.<br />Simbolul contine un mic calendar pentru alegerea datei potrivite.
+dateplaner#:#help_startdate_l#:#contine punctul de inceput al programarii.<br />Simbolul contine un mic calendar pentru alegerea datei potrivite.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Timpul de incepere - sintaxa[hh/mm] Format de 24h
-dateplaner#:#help_starttime_l#:#contine punctul de inceput al programarii in formatul de 24h.
+dateplaner#:#help_starttime_l#:#contine punctul de inceput al programarii in formatul de 24h.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Text
-dateplaner#:#help_text_l#:#Aici se poate introduce textul pentru o anumita data.
+dateplaner#:#help_text_l#:#Aici se poate introduce textul pentru o anumita data.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Vizualizarea pe saptamani a calendarului
-dateplaner#:#help_week_l#:#In vizualizarea pe saptamani sunt afisate toate datele pentru o anumita saptamana.
+dateplaner#:#help_week_l#:#In vizualizarea pe saptamani sunt afisate toate datele pentru o anumita saptamana.###02 Aug 2005 content changed
 dateplaner#:#hour#:#ora
-dateplaner#:#importDates#:#Importati Datele Outlook
+dateplaner#:#importDates#:#Importati Datele Outlook###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Inbox
-dateplaner#:#insertImportDates#:#Urmatoarele date au fost inregistrate cu succes:
-dateplaner#:#k_alldates#:#toate datele
-dateplaner#:#keep#:#pastreaza
+dateplaner#:#insertImportDates#:#Urmatoarele date au fost inregistrate cu succes:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#toate datele###02 Aug 2005 content changed
+dateplaner#:#keep#:#pastreaza###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Cuvant cheie
 dateplaner#:#keywords#:#Cuvinte cheie
 dateplaner#:#last_change#:#Modificat ultima data in
@@ -3466,36 +3466,36 @@ dateplaner#:#long_09#:#Septembrie
 dateplaner#:#long_10#:#Octombrie
 dateplaner#:#long_11#:#Noiembrie
 dateplaner#:#long_12#:#Decembrie
-dateplaner#:#main_dates#:#Datele Importante
+dateplaner#:#main_dates#:#Datele Importante###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meniu
-dateplaner#:#mmonth#:#ultima luna
-dateplaner#:#month#:#luna
-dateplaner#:#more#:#mai mult
-dateplaner#:#mweek#:#saptamana trecuta
-dateplaner#:#myeahr#:#anul trecut
-dateplaner#:#newDates#:#Date noi
+dateplaner#:#mmonth#:#ultima luna###02 Aug 2005 content changed
+dateplaner#:#month#:#luna###02 Aug 2005 content changed
+dateplaner#:#more#:#mai mult###02 Aug 2005 content changed
+dateplaner#:#mweek#:#saptamana trecuta###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#anul trecut###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Date noi###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Nou:
-dateplaner#:#new_doc#:#creati data noua
-dateplaner#:#no_entry#:#nici o data disponibila
-dateplaner#:#o_day_date#:#Zi de 24h
+dateplaner#:#new_doc#:#creati data noua###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#nici o data disponibila###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#Zi de 24h###02 Aug 2005 content changed
 dateplaner#:#of#:#din
-dateplaner#:#open_day#:#Vizualizarea zilei
-dateplaner#:#pmonth#:#luna urmatoare
-dateplaner#:#printlist#:#tipariti
+dateplaner#:#open_day#:#Vizualizarea zilei###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#luna urmatoare###02 Aug 2005 content changed
+dateplaner#:#printlist#:#tipariti###02 Aug 2005 content changed
 dateplaner#:#properties#:#Proprietati
-dateplaner#:#pweek#:#saptamana urmatoare
-dateplaner#:#pyear#:#anul urmator
-dateplaner#:#r_14#:#o data la 14 zile
-dateplaner#:#r_4_weeks#:#o data la 4 saptamani
-dateplaner#:#r_day#:#in fiecare zi
-dateplaner#:#r_halfyear#:#o data la 6 luni
-dateplaner#:#r_month#:#in fiecare luna
+dateplaner#:#pweek#:#saptamana urmatoare###02 Aug 2005 content changed
+dateplaner#:#pyear#:#anul urmator###02 Aug 2005 content changed
+dateplaner#:#r_14#:#o data la 14 zile###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#o data la 4 saptamani###02 Aug 2005 content changed
+dateplaner#:#r_day#:#in fiecare zi###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#o data la 6 luni###02 Aug 2005 content changed
+dateplaner#:#r_month#:#in fiecare luna###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#O data
-dateplaner#:#r_week#:#o data la fiecare saptamana
-dateplaner#:#r_year#:#o data pe an
-dateplaner#:#readimportfile#:#insereaza
+dateplaner#:#r_week#:#o data la fiecare saptamana###02 Aug 2005 content changed
+dateplaner#:#r_year#:#o data pe an###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#insereaza###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Rotatie
-dateplaner#:#rotation_dates#:#Datele rotatiei
+dateplaner#:#rotation_dates#:#Datele rotatiei###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Numele semestrului
 dateplaner#:#short_01#:#Ian
 dateplaner#:#short_02#:#Feb
@@ -3510,17 +3510,17 @@ dateplaner#:#short_10#:#Oct
 dateplaner#:#short_11#:#Noi
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Mesaj scurt
-dateplaner#:#singleDate#:#data unica
+dateplaner#:#singleDate#:#data unica###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Timpul de incepere al vizualizarii:
 dateplaner#:#timedate#:#Timp / Data
 dateplaner#:#timeslice#:#Timp:
 dateplaner#:#title#:#calendar ILIAS
 dateplaner#:#to#:#catre
-dateplaner#:#today#:#azi
-dateplaner#:#viewlist#:#vizualizare
-dateplaner#:#week#:#saptamana
+dateplaner#:#today#:#azi###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#vizualizare###02 Aug 2005 content changed
+dateplaner#:#week#:#saptamana###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
-dateplaner#:#year#:#an
+dateplaner#:#year#:#an###02 Aug 2005 content changed
 forum#:#forums#:#Forumuri
 forum#:#forums_attachments#:#Fisiere atasate
 forum#:#forums_attachments_add#:#Adauga fisiere atasate

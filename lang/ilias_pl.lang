@@ -3621,10 +3621,10 @@ crs#:#subscription_times_not_valid#:#Okres rejestracji nie jest poprawny.
 crs_#:#crs_archives#:#Archiwa
 dateplaner#:#DateText#:#Wiadomość
 dateplaner#:#Day_long#:#Widok dnia
-dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.
+dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Błąd zapisu do bazy danych!
 dateplaner#:#ERROR_DB_CONNECT#:#Baza danych jest rozłączona.
-dateplaner#:#ERROR_DEL_MSG#:#To jest termin cykliczny. Chcesz usunąć jedną lub wszystkie daty?
+dateplaner#:#ERROR_DEL_MSG#:#To jest termin cykliczny. Chcesz usunąć jedną lub wszystkie daty?###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
 dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
 dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
@@ -3639,7 +3639,7 @@ dateplaner#:#ERROR_TS#:#Błędny format daty
 dateplaner#:#Fr_long#:#Piątek
 dateplaner#:#Fr_short#:#Pt
 dateplaner#:#Language_file#:#polski
-dateplaner#:#Listbox_long#:#Lista terminów
+dateplaner#:#Listbox_long#:#Lista terminów###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Poniedziałek
 dateplaner#:#Mo_short#:#Pn
 dateplaner#:#Month_long#:#Widok miesiąca
@@ -3656,35 +3656,35 @@ dateplaner#:#View#:#Widok:
 dateplaner#:#We_long#:#Środa
 dateplaner#:#We_short#:#Śr
 dateplaner#:#Week_long#:#Widok tygodnia
-dateplaner#:#add_data#:#Dodatkowy termin
-dateplaner#:#app_#:#Wprowadzenie terminu grupowego
-dateplaner#:#app_date#:#wstaw termin
-dateplaner#:#app_day#:#widok dnia
-dateplaner#:#app_freetime#:#czas wolny członków innych grup (przechwyć czas)
-dateplaner#:#app_inbox#:#wprowadzenie terminów grupowych
-dateplaner#:#app_list#:#lista terminów
-dateplaner#:#app_month#:#widok miesiąca
-dateplaner#:#app_properties#:#właściwości
-dateplaner#:#app_week#:#widok tygodnia
+dateplaner#:#add_data#:#Dodatkowy termin###02 Aug 2005 content changed
+dateplaner#:#app_#:#Wprowadzenie terminu grupowego###02 Aug 2005 content changed
+dateplaner#:#app_date#:#wstaw termin###02 Aug 2005 content changed
+dateplaner#:#app_day#:#widok dnia###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#czas wolny członków innych grup (przechwyć czas)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#wprowadzenie terminów grupowych###02 Aug 2005 content changed
+dateplaner#:#app_list#:#lista terminów###02 Aug 2005 content changed
+dateplaner#:#app_month#:#widok miesiąca###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#właściwości###02 Aug 2005 content changed
+dateplaner#:#app_week#:#widok tygodnia###02 Aug 2005 content changed
 dateplaner#:#application#:#Terminarz
-dateplaner#:#apply#:#zastosuj
-dateplaner#:#back#:#powrót
+dateplaner#:#apply#:#zastosuj###02 Aug 2005 content changed
+dateplaner#:#back#:#powrót###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Początek terminu
-dateplaner#:#busytime#:#czas zajęty grupy
-dateplaner#:#c_date#:#Twórz termin
+dateplaner#:#busytime#:#czas zajęty grupy###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Twórz termin###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Zmień na:
-dateplaner#:#changedDates#:#Terminy zmienione
+dateplaner#:#changedDates#:#Terminy zmienione###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Sprawdź czy czas jest wolny
 dateplaner#:#created#:#Utworzony
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#m/d/R G:m
 dateplaner#:#date_format_middle#:#m/d/r
-dateplaner#:#del_all#:#usuń wszystkie terminy
-dateplaner#:#del_one#:#usuń jeden termin
-dateplaner#:#delete#:#usuń
-dateplaner#:#deletedDates#:#Terminy usunięte
-dateplaner#:#discard#:#anuluj
-dateplaner#:#dv_Grouptime#:#czas wolny
+dateplaner#:#del_all#:#usuń wszystkie terminy###02 Aug 2005 content changed
+dateplaner#:#del_one#:#usuń jeden termin###02 Aug 2005 content changed
+dateplaner#:#delete#:#usuń###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Terminy usunięte###02 Aug 2005 content changed
+dateplaner#:#discard#:#anuluj###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#czas wolny###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Anuluj
 dateplaner#:#dv_button_delete#:#Usuń
 dateplaner#:#dv_button_insert#:#Wstaw
@@ -3694,7 +3694,7 @@ dateplaner#:#dv_date_end#:#Data zakończenia:
 dateplaner#:#dv_date_hm#:#Godz:Min
 dateplaner#:#dv_enddate#:#DataKon:
 dateplaner#:#dv_groupselect#:#Grupa wybrana:
-dateplaner#:#dv_groupview#:#Termin Grupowy:
+dateplaner#:#dv_groupview#:#Termin Grupowy:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupa:<br />
 dateplaner#:#dv_keywords#:#Klucze:
 dateplaner#:#dv_keywordselect#:#Klucz wybrany:
@@ -3713,41 +3713,41 @@ dateplaner#:#dv_whole_rotation#:#Chcesz usunąć cały termin cykliczny? (klikni
 dateplaner#:#end_date#:#DataKon:
 dateplaner#:#endtime_for_view#:#Czas końca widoku:
 dateplaner#:#error_minical_img#:#Nie mona utworzyć strumienia obrazu GD
-dateplaner#:#execute#:#dokonanie wyboru
-dateplaner#:#extra_dates#:#Terminy jednodniowe
-dateplaner#:#free#:#wolny
-dateplaner#:#freetime#:#Czas wolny grupy
-dateplaner#:#group#:#Grupa
-dateplaner#:#help_day#:#Terminarz - widok dnia
-dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.
+dateplaner#:#execute#:#dokonanie wyboru###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Terminy jednodniowe###02 Aug 2005 content changed
+dateplaner#:#free#:#wolny###02 Aug 2005 content changed
+dateplaner#:#freetime#:#Czas wolny grupy###02 Aug 2005 content changed
+dateplaner#:#group#:#Grupa###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Terminarz - widok dnia###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Data końcowa - format[dd/mm/rrrr]
-dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Czas końca format[dd/mm/rrrr]
 dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br /> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_endtime#:#Czas końca - format[gg/mm] 24g
 dateplaner#:#help_endtime_l#:#Zawiera punkt końcowy spotkania w formacie 24 godzinnym.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Termnin całodniowy - format[on/off]
-dateplaner#:#help_fullday_l#:#Jeśli termin obejmuje cały dzień, wybierz tę  opcję<br /> Wtedy czas startu, końca i data końcowa są ukryte.
+dateplaner#:#help_fullday#:#Termnin całodniowy - format[on/off]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Jeśli termin obejmuje cały dzień, wybierz tę  opcję<br /> Wtedy czas startu, końca i data końcowa są ukryte.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br /> <b>Kliknij tu aby uzyskać więcej informacji.</b>
-dateplaner#:#help_group#:#Wybór terminów grupowych
+dateplaner#:#help_group#:#Wybór terminów grupowych###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Zawiera grupy do których zalogowany  użytkownik ma prawa administratorskie i dla których może być utworzony termin. <br /> Po wyborze jest możliwy podgląd nieprzydzielonego czasu dla grupy.
 dateplaner#:#help_inbox#:#Strona główna terminarza terminarza
-dateplaner#:#help_inbox_l#:#Wszystkie nowe, zmienione i usunięte terminy grupowe są wyświetlone.
+dateplaner#:#help_inbox_l#:#Wszystkie nowe, zmienione i usunięte terminy grupowe są wyświetlone.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Wybór klucza
 dateplaner#:#help_keywordUse#:#Wybór klucza
 dateplaner#:#help_keywordUse_l#:#Wybierz jeden lub więcej kluczy z okna dialogowego. <br /> Użyj klawisza Control do wyboru wielu pozycji.
 dateplaner#:#help_keyword_l#:#Zawiera klucze które użytkownik może skojarzyć z terminami.
-dateplaner#:#help_list#:#Terminarz - lista terminów
-dateplaner#:#help_list_l#:#Na liście są wyświetlone wszystkie terminy wybranego okresu.
+dateplaner#:#help_list#:#Terminarz - lista terminów###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#Na liście są wyświetlone wszystkie terminy wybranego okresu.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Terminarz - widok miesiąca
-dateplaner#:#help_month_l#:#W widoku miesięcznym są wyświetlone wszystkie terminy wybranego miesiąca.
+dateplaner#:#help_month_l#:#W widoku miesięcznym są wyświetlone wszystkie terminy wybranego miesiąca.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Zmiana klucza
 dateplaner#:#help_properties_alt_l#:#Wybierz klucz w oknie dialogowym.<br />Zmień  klucz w polu tekstowym. (maks. długość 20 znaków).
 dateplaner#:#help_properties_del#:#Usunięcie klucza
 dateplaner#:#help_properties_del_l#:#Wybierz klucz w oknie dialogowym. Kliknij przycisk aby usunąć klucz.
 dateplaner#:#help_properties_import#:#Import pliku CSV z Outlooka
-dateplaner#:#help_properties_import_l#:#W tym miejscu może być wybrany plik CSV, który zawiera terminy z Outlooka. Te terminy zostaną zaimportowane do terminarza.
+dateplaner#:#help_properties_import_l#:#W tym miejscu może być wybrany plik CSV, który zawiera terminy z Outlooka. Te terminy zostaną zaimportowane do terminarza.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Dodaje, klucz maks. 20 znaków
 dateplaner#:#help_properties_new_l#:#Dodaj klucz do pola 'nowy'. maks. 20 znaków.
 dateplaner#:#help_properties_time#:#Czas wyświetlania dla widoku dnia/tygodnia
@@ -3757,19 +3757,19 @@ dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
 dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
 dateplaner#:#help_shorttext_l#:#W tym miejscu można podać krótki opis terminu.
 dateplaner#:#help_startdate#:#Data początkowa - format[dd/mm/rrrr]
-dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
-dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.
+dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#W tym miejscu można podać tekst opisujący termin.
+dateplaner#:#help_text_l#:#W tym miejscu można podać tekst opisujący termin.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Terminarz - widok tygodnia
-dateplaner#:#help_week_l#:#W widoku tygodnia są wyświetlone wszystkie terminy wybranego tygodnia
+dateplaner#:#help_week_l#:#W widoku tygodnia są wyświetlone wszystkie terminy wybranego tygodnia###02 Aug 2005 content changed
 dateplaner#:#hour#:#godzina
-dateplaner#:#importDates#:#Import Terminów z Outlooka
+dateplaner#:#importDates#:#Import Terminów z Outlooka###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Strona główna terminarza
-dateplaner#:#insertImportDates#:#Te terminy zostały poprawnie zarejestrowane:
-dateplaner#:#k_alldates#:#wszystkie terminy
-dateplaner#:#keep#:#trzymaj
+dateplaner#:#insertImportDates#:#Te terminy zostały poprawnie zarejestrowane:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#wszystkie terminy###02 Aug 2005 content changed
+dateplaner#:#keep#:#trzymaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Klucz
 dateplaner#:#keywords#:#Klucze
 dateplaner#:#last_change#:#Ostatnia zmiana
@@ -3785,36 +3785,36 @@ dateplaner#:#long_09#:#Wrzesień
 dateplaner#:#long_10#:#Październik
 dateplaner#:#long_11#:#Listopad
 dateplaner#:#long_12#:#Grudzień
-dateplaner#:#main_dates#:#Główne terminy
+dateplaner#:#main_dates#:#Główne terminy###02 Aug 2005 content changed
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#poprzedni miesiąc
-dateplaner#:#month#:#miesiąc
-dateplaner#:#more#:#więcej
-dateplaner#:#mweek#:#poprzedni tydzień
-dateplaner#:#myeahr#:#poprzedni rok
-dateplaner#:#newDates#:#Nowe terminy
+dateplaner#:#mmonth#:#poprzedni miesiąc###02 Aug 2005 content changed
+dateplaner#:#month#:#miesiąc###02 Aug 2005 content changed
+dateplaner#:#more#:#więcej###02 Aug 2005 content changed
+dateplaner#:#mweek#:#poprzedni tydzień###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#poprzedni rok###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Nowe terminy###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Nowy:
-dateplaner#:#new_doc#:#twórz nowty termin
-dateplaner#:#no_entry#:#brak dostępnych terminów
-dateplaner#:#o_day_date#:#termin 24g
+dateplaner#:#new_doc#:#twórz nowty termin###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#brak dostępnych terminów###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#termin 24g###02 Aug 2005 content changed
 dateplaner#:#of#:#
-dateplaner#:#open_day#:#widok dnia
-dateplaner#:#pmonth#:#następny miesiąc
-dateplaner#:#printlist#:#drukuj
+dateplaner#:#open_day#:#widok dnia###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#następny miesiąc###02 Aug 2005 content changed
+dateplaner#:#printlist#:#drukuj###02 Aug 2005 content changed
 dateplaner#:#properties#:#Właściwości
-dateplaner#:#pweek#:#następny tydzień
-dateplaner#:#pyear#:#następny rok
-dateplaner#:#r_14#:#co 14 dni
-dateplaner#:#r_4_weeks#:#co 4 tygodnie
-dateplaner#:#r_day#:#codziennie
-dateplaner#:#r_halfyear#:#co pół roku
-dateplaner#:#r_month#:#co miesiąc
+dateplaner#:#pweek#:#następny tydzień###02 Aug 2005 content changed
+dateplaner#:#pyear#:#następny rok###02 Aug 2005 content changed
+dateplaner#:#r_14#:#co 14 dni###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#co 4 tygodnie###02 Aug 2005 content changed
+dateplaner#:#r_day#:#codziennie###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#co pół roku###02 Aug 2005 content changed
+dateplaner#:#r_month#:#co miesiąc###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#Raz
-dateplaner#:#r_week#:#co tydzień
-dateplaner#:#r_year#:#co rok
-dateplaner#:#readimportfile#:#wstaw
+dateplaner#:#r_week#:#co tydzień###02 Aug 2005 content changed
+dateplaner#:#r_year#:#co rok###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#wstaw###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Cykl
-dateplaner#:#rotation_dates#:#Terminy cykliczne
+dateplaner#:#rotation_dates#:#Terminy cykliczne###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Nazwa Semestru
 dateplaner#:#short_01#:#Sty
 dateplaner#:#short_02#:#Lut
@@ -3829,17 +3829,17 @@ dateplaner#:#short_10#:#Paź
 dateplaner#:#short_11#:#Lis
 dateplaner#:#short_12#:#Gru
 dateplaner#:#shorttext#:#Opis skrócony
-dateplaner#:#singleDate#:#pojedyńczy termin
+dateplaner#:#singleDate#:#pojedyńczy termin###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Czas początkowy widoku:
 dateplaner#:#timedate#:#Czas / Data
 dateplaner#:#timeslice#:#Czas:
 dateplaner#:#title#:#Terminarz Ilias
 dateplaner#:#to#:#do
-dateplaner#:#today#:#dziś
-dateplaner#:#viewlist#:#widok
-dateplaner#:#week#:#tydzień
+dateplaner#:#today#:#dziś###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#widok###02 Aug 2005 content changed
+dateplaner#:#week#:#tydzień###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#TD
-dateplaner#:#year#:#rok
+dateplaner#:#year#:#rok###02 Aug 2005 content changed
 forum#:#forums#:#Fora
 forum#:#forums_all_threads_marked_read#:#Wszystkie wątki zostały zaznaczone jako przeczytane.
 forum#:#forums_attachments#:#Załączniki

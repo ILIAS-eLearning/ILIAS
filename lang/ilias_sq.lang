@@ -3430,10 +3430,10 @@ crs#:#learners_view#:#Pamja e studentëve
 crs_#:#crs_archives#:#Arkivat
 dateplaner#:#DateText#:#Porosi
 dateplaner#:#Day_long#:#Pamja Ditore
-dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston
+dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Gabim gjatë shkrimit në databazë!
 dateplaner#:#ERROR_DB_CONNECT#:#Databaza është e çkyqur
-dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.
+dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Data përfundimtare e terminit është dhënë gabimisht. Formati është: dd/mm/vvvv
 dateplaner#:#ERROR_ENDTIME#:#Ora e përfundimtare e terminit është dhënë gabimisht. Formati është: oo:mm
 dateplaner#:#ERROR_END_START#:#Data përfundimtare e terminit është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
@@ -3448,7 +3448,7 @@ dateplaner#:#ERROR_TS#:#Formati i datës është i gabuar
 dateplaner#:#Fr_long#:#e Premte
 dateplaner#:#Fr_short#:#P
 dateplaner#:#Language_file#:#Anglisht
-dateplaner#:#Listbox_long#:#Lista e Terminëve
+dateplaner#:#Listbox_long#:#Lista e Terminëve###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#e Hënë
 dateplaner#:#Mo_short#:#H
 dateplaner#:#Month_long#:#Pamje Mujore
@@ -3465,35 +3465,35 @@ dateplaner#:#View#:#Definimi i pamjes:
 dateplaner#:#We_long#:#e Mërkurë
 dateplaner#:#We_short#:#Mk
 dateplaner#:#Week_long#:#Pamja Javore
-dateplaner#:#add_data#:#Të Dhëna shtesë
-dateplaner#:#app_#:#Grupi i Termineve
-dateplaner#:#app_date#:#vendos termin
-dateplaner#:#app_day#:#Pamje Ditore
-dateplaner#:#app_freetime#:#koha e lirë e anëtareve tjerë të grupit (zgjedh kohën)
-dateplaner#:#app_inbox#:#Inbox i Termineve të Grupit
-dateplaner#:#app_list#:#Lista e Termineve
-dateplaner#:#app_month#:#pamje mujore
-dateplaner#:#app_properties#:#karakteristikat
-dateplaner#:#app_week#:#pamje javore
+dateplaner#:#add_data#:#Të Dhëna shtesë###02 Aug 2005 content changed
+dateplaner#:#app_#:#Grupi i Termineve###02 Aug 2005 content changed
+dateplaner#:#app_date#:#vendos termin###02 Aug 2005 content changed
+dateplaner#:#app_day#:#Pamje Ditore###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#koha e lirë e anëtareve tjerë të grupit (zgjedh kohën)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Inbox i Termineve të Grupit###02 Aug 2005 content changed
+dateplaner#:#app_list#:#Lista e Termineve###02 Aug 2005 content changed
+dateplaner#:#app_month#:#pamje mujore###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#karakteristikat###02 Aug 2005 content changed
+dateplaner#:#app_week#:#pamje javore###02 Aug 2005 content changed
 dateplaner#:#application#:#Agjenda
-dateplaner#:#apply#:#apliko
-dateplaner#:#back#:#prapa
+dateplaner#:#apply#:#apliko###02 Aug 2005 content changed
+dateplaner#:#back#:#prapa###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Data e Fillimit
-dateplaner#:#busytime#:#koha e nxënë brenda në grup
-dateplaner#:#c_date#:#Krijo Termin
+dateplaner#:#busytime#:#koha e nxënë brenda në grup###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Krijo Termin###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#E ndërruar në:
-dateplaner#:#changedDates#:#Terminët e ndërruara
+dateplaner#:#changedDates#:#Terminët e ndërruara###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Kontrollo për kohë të lirë
 dateplaner#:#created#:#Krijohet
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#m/d/V H:i
 dateplaner#:#date_format_middle#:#m/d/V
-dateplaner#:#del_all#:#fshij të gjithë terminët
-dateplaner#:#del_one#:#fshij një termin
-dateplaner#:#delete#:#fshij
-dateplaner#:#deletedDates#:#Terminet e fshira
-dateplaner#:#discard#:#anulo
-dateplaner#:#dv_Grouptime#:#koha e lirë
+dateplaner#:#del_all#:#fshij të gjithë terminët###02 Aug 2005 content changed
+dateplaner#:#del_one#:#fshij një termin###02 Aug 2005 content changed
+dateplaner#:#delete#:#fshij###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Terminet e fshira###02 Aug 2005 content changed
+dateplaner#:#discard#:#anulo###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#koha e lirë###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Anulo
 dateplaner#:#dv_button_delete#:#Fshij
 dateplaner#:#dv_button_insert#:#Vendos
@@ -3503,7 +3503,7 @@ dateplaner#:#dv_date_end#:#Data e përfundimit:
 dateplaner#:#dv_date_hm#:#Orë:Minuta
 dateplaner#:#dv_enddate#:#Data e përfundimit:
 dateplaner#:#dv_groupselect#:#Zgjedh Grupin:
-dateplaner#:#dv_groupview#:#Grup Termini:
+dateplaner#:#dv_groupview#:#Grup Termini:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupi:<br/>
 dateplaner#:#dv_keywords#:#Fjalëkyçe:
 dateplaner#:#dv_keywordselect#:#Zgjedh fjalën kyçe:
@@ -3522,41 +3522,41 @@ dateplaner#:#dv_whole_rotation#:#A dëshironi të fshini të gjitha seritë e te
 dateplaner#:#end_date#:#Përfundimi i Terminit:
 dateplaner#:#endtime_for_view#:#Paraqit terminet deri në kohë:
 dateplaner#:#error_minical_img#:#Nuk mund të krijoj 'GD-Picture-Stream'
-dateplaner#:#execute#:#ekzekuto veprimet
-dateplaner#:#extra_dates#:#Termin Një Ditor
-dateplaner#:#free#:#e lirë
-dateplaner#:#freetime#:#Koha e lirë në grup
-dateplaner#:#group#:#grupi
-dateplaner#:#help_day#:#Pamje ditore e agjendës
-dateplaner#:#help_day_l#:#Në pamjen ditore do të shihen të gjitha terminet e ditës së zgjedhur.
+dateplaner#:#execute#:#ekzekuto veprimet###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Termin Një Ditor###02 Aug 2005 content changed
+dateplaner#:#free#:#e lirë###02 Aug 2005 content changed
+dateplaner#:#freetime#:#Koha e lirë në grup###02 Aug 2005 content changed
+dateplaner#:#group#:#grupi###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Pamje ditore e agjendës###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#Në pamjen ditore do të shihen të gjitha terminet e ditës së zgjedhur.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Përfundimi i Terminit - sintaksa[dd/mm/vvvv]
-dateplaner#:#help_enddate_l#:#Përmban datën përfundimtare të një termini.<br/>Simboli hap një kalendar të vogël për të zgjedhur datën e përshtatshme të terminit.
+dateplaner#:#help_enddate_l#:#Përmban datën përfundimtare të një termini.<br/>Simboli hap një kalendar të vogël për të zgjedhur datën e përshtatshme të terminit.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Koha e përfundimit sintaksa[dd/mm/vvvv]
 dateplaner#:#help_endrotation_l#:#Në këtë ditë do të kryhet përsëritja.<br/>Simboli hap një kalendar të vogël për të zgjedhur datën e përshtatshme.
 dateplaner#:#help_endtime#:#Koha e përfundimit sintaksa[oo/mm] formati 24-orësh
 dateplaner#:#help_endtime_l#:#Përmban kohën përfundimtare të terminit duke përdorur formatin 24-orësh.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Termin tërë ditën - sintaksa [po/jo]
-dateplaner#:#help_fullday_l#:#Zgjedhni këtë opsion, nëse termini përfshin tërë ditën.<br/>Kjo do të fsheh kohën e fillimi, kohën e përpunimit, dhe përfundimin e terminit. 
+dateplaner#:#help_fullday#:#Termin tërë ditën - sintaksa [po/jo]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Zgjedhni këtë opsion, nëse termini përfshin tërë ditën.<br/>Kjo do të fsheh kohën e fillimi, kohën e përpunimit, dhe përfundimin e terminit. ###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br/><b>kliko këtu për informacione shtesë.</b>
-dateplaner#:#help_group#:#Zgjedhja e grupit të termineve
+dateplaner#:#help_group#:#Zgjedhja e grupit të termineve###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Përmban grupe për të cilët shfrytëzuesit e identifikuar kanë të drejta administratori dhe për të cilët mund të krijohet termin. <br/> Pasi të zgjedhet kjo është e mundur të shihet koha e paplanifikuar në grup.
 dateplaner#:#help_inbox#:#Inbox i Agjendës
-dateplaner#:#help_inbox_l#:#Këtu shihen të gjitha terminet e reja, të ndërruara, të fshira, të grupeve
+dateplaner#:#help_inbox_l#:#Këtu shihen të gjitha terminet e reja, të ndërruara, të fshira, të grupeve###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Zgjedhja e fjalës kyçe
 dateplaner#:#help_keywordUse#:#Zgjedhja e fjalës kyçe
 dateplaner#:#help_keywordUse_l#:#Zgjedh një apo më shumë fjalëkyqe nga menyja për zgjedhje. <br/>Këshillë: përdor tastin CTRL për të zgjedhur më shumë të dhëna.
 dateplaner#:#help_keyword_l#:#Përmban fjalëkyqe të cilën shfrytëzuesi mund të ja shoqëroj terminit.
-dateplaner#:#help_list#:#Lista e Termineve të Agjendës
-dateplaner#:#help_list_l#:#Në listën e termineve do të shihen të gjitha terminet sipër periudhës së dhënë kohore.
+dateplaner#:#help_list#:#Lista e Termineve të Agjendës###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#Në listën e termineve do të shihen të gjitha terminet sipër periudhës së dhënë kohore.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Pamja mujore e Agjendës
-dateplaner#:#help_month_l#:#Në pamjen ditore do të shihen të gjitha terminet e muajit të zgjedhur.
+dateplaner#:#help_month_l#:#Në pamjen ditore do të shihen të gjitha terminet e muajit të zgjedhur.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Ndërron fjalën kyçe
 dateplaner#:#help_properties_alt_l#:#Zgjedh një fjalëkyçe nga menyja për zgjedhje. <br/> Ndërro fjalën kyqe në fushën për tekst. Kujdes: maks. 20 karaktere.
 dateplaner#:#help_properties_del#:#Fshij Fjalën kyçe
 dateplaner#:#help_properties_del_l#:#Zgjedh një fjalëkyqe nga menyja për zgjedhje. Klik në buton për të fshirë atë.
 dateplaner#:#help_properties_import#:#Importo nga skedarët Outlook-CVS
-dateplaner#:#help_properties_import_l#:#Këtu mund të zgjedhet CSC-Skedari, që përmban Termine nga Outlook. Këto termine do të vendosen në agjendë.
+dateplaner#:#help_properties_import_l#:#Këtu mund të zgjedhet CSC-Skedari, që përmban Termine nga Outlook. Këto termine do të vendosen në agjendë.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Shto fjalëkyçe, maks. 20 karaktere.
 dateplaner#:#help_properties_new_l#:#Shto fjalëkyqe të re në fushën \"të re"\. Kujdes: maks. 20 karaktere.
 dateplaner#:#help_properties_time#:#Paraqit kohën për pamje ditore/javore
@@ -3566,19 +3566,19 @@ dateplaner#:#help_rotation_l#:#Përmban tipin e përsëritjes.
 dateplaner#:#help_shorttext#:#Tekst i shkurt, maks. 50 karaktere
 dateplaner#:#help_shorttext_l#:#Këtu mund të shënohet teksti për terminin e caktuar.
 dateplaner#:#help_startdate#:#Fillimi i terminit - sintaksa[dd/mm/vvvv]
-dateplaner#:#help_startdate_l#:#Përmban fillimin e terminit.<br/>Simboli hap një kalendar të vogël për të zgjedhur datën e përshtatshme.
+dateplaner#:#help_startdate_l#:#Përmban fillimin e terminit.<br/>Simboli hap një kalendar të vogël për të zgjedhur datën e përshtatshme.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Koha e fillimit - sintaksa[oo/mm] format 24-orësh
-dateplaner#:#help_starttime_l#:#Përmban kohën e fillimit të terminit duke përdorur formatin 24-orësh.
+dateplaner#:#help_starttime_l#:#Përmban kohën e fillimit të terminit duke përdorur formatin 24-orësh.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Teksti
-dateplaner#:#help_text_l#:#Këtu mund të shënohet teksti për terminin e caktuar.
+dateplaner#:#help_text_l#:#Këtu mund të shënohet teksti për terminin e caktuar.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Pamja javore e agjendës
-dateplaner#:#help_week_l#:#Në pamjen javore do të shihen të gjitha terminet për javën e dhënë.
+dateplaner#:#help_week_l#:#Në pamjen javore do të shihen të gjitha terminet për javën e dhënë.###02 Aug 2005 content changed
 dateplaner#:#hour#:#ora
-dateplaner#:#importDates#:#Importo prej Termineve nga Outlook
+dateplaner#:#importDates#:#Importo prej Termineve nga Outlook###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Inbox
-dateplaner#:#insertImportDates#:#Këto termine janë regjistruar me sukses:
-dateplaner#:#k_alldates#:#të gjitha terminet
-dateplaner#:#keep#:#mbaj
+dateplaner#:#insertImportDates#:#Këto termine janë regjistruar me sukses:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#të gjitha terminet###02 Aug 2005 content changed
+dateplaner#:#keep#:#mbaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Fjalëkyqe
 dateplaner#:#keywords#:#Fjalët kyçe
 dateplaner#:#last_change#:#Data e ndërrimit të fundit
@@ -3594,36 +3594,36 @@ dateplaner#:#long_09#:#Shtator
 dateplaner#:#long_10#:#Tetor
 dateplaner#:#long_11#:#Nëntor
 dateplaner#:#long_12#:#Dhjetor
-dateplaner#:#main_dates#:#Terminet Kryesore
+dateplaner#:#main_dates#:#Terminet Kryesore###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meny
-dateplaner#:#mmonth#:#muajin e kaluar
-dateplaner#:#month#:#muaji
-dateplaner#:#more#:#më tepër
-dateplaner#:#mweek#:#javën e kaluar
-dateplaner#:#myeahr#:#vitin e kaluar
-dateplaner#:#newDates#:#Termine të Reja
+dateplaner#:#mmonth#:#muajin e kaluar###02 Aug 2005 content changed
+dateplaner#:#month#:#muaji###02 Aug 2005 content changed
+dateplaner#:#more#:#më tepër###02 Aug 2005 content changed
+dateplaner#:#mweek#:#javën e kaluar###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#vitin e kaluar###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Termine të Reja###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Të Reja:
-dateplaner#:#new_doc#:#krijo termin
-dateplaner#:#no_entry#:#nuk ka termine
-dateplaner#:#o_day_date#:#Termin 24 orë
+dateplaner#:#new_doc#:#krijo termin###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#nuk ka termine###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#Termin 24 orë###02 Aug 2005 content changed
 dateplaner#:#of#:#që nga
-dateplaner#:#open_day#:#pamje ditore
-dateplaner#:#pmonth#:#muajin e ardhshëm
-dateplaner#:#printlist#:#shtyp
+dateplaner#:#open_day#:#pamje ditore###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#muajin e ardhshëm###02 Aug 2005 content changed
+dateplaner#:#printlist#:#shtyp###02 Aug 2005 content changed
 dateplaner#:#properties#:#karakteristikat
-dateplaner#:#pweek#:#javën e  ardhshme
-dateplaner#:#pyear#:#vitin e ardhshëm
-dateplaner#:#r_14#:#çdo 14 ditë
-dateplaner#:#r_4_weeks#:#çdo 4 javë
-dateplaner#:#r_day#:#çdo ditë
-dateplaner#:#r_halfyear#:#çdo gjysmë viti
-dateplaner#:#r_month#:#çdo muaj
+dateplaner#:#pweek#:#javën e  ardhshme###02 Aug 2005 content changed
+dateplaner#:#pyear#:#vitin e ardhshëm###02 Aug 2005 content changed
+dateplaner#:#r_14#:#çdo 14 ditë###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#çdo 4 javë###02 Aug 2005 content changed
+dateplaner#:#r_day#:#çdo ditë###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#çdo gjysmë viti###02 Aug 2005 content changed
+dateplaner#:#r_month#:#çdo muaj###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#Një herë
-dateplaner#:#r_week#:#çdo javë
-dateplaner#:#r_year#:#çdo vit
-dateplaner#:#readimportfile#:#vendos
+dateplaner#:#r_week#:#çdo javë###02 Aug 2005 content changed
+dateplaner#:#r_year#:#çdo vit###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#vendos###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Përsëritje
-dateplaner#:#rotation_dates#:#Terminet Periodike
+dateplaner#:#rotation_dates#:#Terminet Periodike###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Emri i Semestrit
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Shk
@@ -3638,17 +3638,17 @@ dateplaner#:#short_10#:#Tet
 dateplaner#:#short_11#:#Nën
 dateplaner#:#short_12#:#Dhj
 dateplaner#:#shorttext#:#Tekst i Shkurt
-dateplaner#:#singleDate#:#termin i vetëm
+dateplaner#:#singleDate#:#termin i vetëm###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Paraqit terminet prej kohës:
 dateplaner#:#timedate#:#Ora / Data
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agjenda e ILIAS-it
 dateplaner#:#to#:#deri
-dateplaner#:#today#:#sot
-dateplaner#:#viewlist#:#aktualizo pamjen
-dateplaner#:#week#:#java
+dateplaner#:#today#:#sot###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#aktualizo pamjen###02 Aug 2005 content changed
+dateplaner#:#week#:#java###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
-dateplaner#:#year#:#viti
+dateplaner#:#year#:#viti###02 Aug 2005 content changed
 forum#:#forums#:#Forumet
 forum#:#forums_attachments#:#Shtesat (attachments)
 forum#:#forums_attachments_add#:#Bashkëngjit një shtesë

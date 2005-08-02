@@ -3430,10 +3430,10 @@ crs#:#learners_view#:#Pregled ucenika
 crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Poruka
 dateplaner#:#Day_long#:#Dnevni pregled
-dateplaner#:#ERROR_DATE_EXISTS#:#Ovaj datum vec postoji.
+dateplaner#:#ERROR_DATE_EXISTS#:#Ovaj datum vec postoji.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Pisana greška baze podataka. 
 dateplaner#:#ERROR_DB_CONNECT#:#Baza podataka je iskljucena
-dateplaner#:#ERROR_DEL_MSG#:#Ovo je vraceni datum. Da li bite želeli da obrišete jedan datum ili seriju
+dateplaner#:#ERROR_DEL_MSG#:#Ovo je vraceni datum. Da li bite želeli da obrišete jedan datum ili seriju###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Pogrešan unos datuma završetka. Format: dd/mm/gggg 
 dateplaner#:#ERROR_ENDTIME#:#Pogrešno vreme završetka. Format: cc:mm
 dateplaner#:#ERROR_END_START#:#Pogrešan unos krajnjeg datuma. Datum završetka je pre datuma pocetka.
@@ -3448,7 +3448,7 @@ dateplaner#:#ERROR_TS#:#Nepravilan format datuma
 dateplaner#:#Fr_long#:#Petak
 dateplaner#:#Fr_short#:#Pet
 dateplaner#:#Language_file#:#Engleski
-dateplaner#:#Listbox_long#:#Spisak datuma
+dateplaner#:#Listbox_long#:#Spisak datuma###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Ponedeljak
 dateplaner#:#Mo_short#:#Pon
 dateplaner#:#Month_long#:#Mesecni pregled
@@ -3465,35 +3465,35 @@ dateplaner#:#View#:#Pregled:
 dateplaner#:#We_long#:#Sreda
 dateplaner#:#We_short#:#Sre
 dateplaner#:#Week_long#:#Nedeljni pregled
-dateplaner#:#add_data#:#Dodatni podaci
-dateplaner#:#app_#:#grupiši datume ulazne pošte
-dateplaner#:#app_date#:#ubaci datum
-dateplaner#:#app_day#:#dnavni pregled
-dateplaner#:#app_freetime#:#slobodno vreme drugih clanova grupe (uhvati vreme)
-dateplaner#:#app_inbox#:#grupiši datume ulazne pošte
-dateplaner#:#app_list#:#Spisak datuma
-dateplaner#:#app_month#:#Mesecni pregled
-dateplaner#:#app_properties#:#karakteristike
-dateplaner#:#app_week#:#Nedeljni pregled
+dateplaner#:#add_data#:#Dodatni podaci###02 Aug 2005 content changed
+dateplaner#:#app_#:#grupiši datume ulazne pošte###02 Aug 2005 content changed
+dateplaner#:#app_date#:#ubaci datum###02 Aug 2005 content changed
+dateplaner#:#app_day#:#dnavni pregled###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#slobodno vreme drugih clanova grupe (uhvati vreme)###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#grupiši datume ulazne pošte###02 Aug 2005 content changed
+dateplaner#:#app_list#:#Spisak datuma###02 Aug 2005 content changed
+dateplaner#:#app_month#:#Mesecni pregled###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#karakteristike###02 Aug 2005 content changed
+dateplaner#:#app_week#:#Nedeljni pregled###02 Aug 2005 content changed
 dateplaner#:#application#:#Kalendar
-dateplaner#:#apply#:#primeni
-dateplaner#:#back#:#nazad
+dateplaner#:#apply#:#primeni###02 Aug 2005 content changed
+dateplaner#:#back#:#nazad###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Datum pocetka
-dateplaner#:#busytime#:#zauzeto vreme grupe
-dateplaner#:#c_date#:#Kreiraj datum
+dateplaner#:#busytime#:#zauzeto vreme grupe###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Kreiraj datum###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Promeni u:
-dateplaner#:#changedDates#:#Promenjeni datumi
+dateplaner#:#changedDates#:#Promenjeni datumi###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Proveri slobodno vreme
 dateplaner#:#created#:#Kreirano
 dateplaner#:#date#:#datum
 dateplaner#:#date_format#:#m/d/G C:m
 dateplaner#:#date_format_middle#:#m/d/G 
-dateplaner#:#del_all#:#obriši sve datume
-dateplaner#:#del_one#:#obriši jedan datum
-dateplaner#:#delete#:#obriši
-dateplaner#:#deletedDates#:#obrisani datumi
-dateplaner#:#discard#:#odbaci
-dateplaner#:#dv_Grouptime#:#slobodno vreme drugih clanova grupe (uhvati vreme)
+dateplaner#:#del_all#:#obriši sve datume###02 Aug 2005 content changed
+dateplaner#:#del_one#:#obriši jedan datum###02 Aug 2005 content changed
+dateplaner#:#delete#:#obriši###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#obrisani datumi###02 Aug 2005 content changed
+dateplaner#:#discard#:#odbaci###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#slobodno vreme drugih clanova grupe (uhvati vreme)###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#poništi
 dateplaner#:#dv_button_delete#:#Obriši
 dateplaner#:#dv_button_insert#:#Ubaci
@@ -3503,7 +3503,7 @@ dateplaner#:#dv_date_end#:#Završni datum:
 dateplaner#:#dv_date_hm#:#Cas:Minut
 dateplaner#:#dv_enddate#:#Završni datum:
 dateplaner#:#dv_groupselect#:#Grupiši odabir:
-dateplaner#:#dv_groupview#:#Grupiši datum:
+dateplaner#:#dv_groupview#:#Grupiši datum:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupiši:<br />
 dateplaner#:#dv_keywords#:#Kljucne reci:
 dateplaner#:#dv_keywordselect#:#Selektuj kljucne reci:
@@ -3522,41 +3522,41 @@ dateplaner#:#dv_whole_rotation#:#Da li biste želeli da obrišete celu seriju vr
 dateplaner#:#end_date#:#Datum završetka
 dateplaner#:#endtime_for_view#:#Vreme završetka za pregled:
 dateplaner#:#error_minical_img#:#Nije moguce kreirati GD-picture-stream
-dateplaner#:#execute#:#izvedi izbore
-dateplaner#:#extra_dates#:#Jedan dan datuma
-dateplaner#:#free#:#slobodno 
-dateplaner#:#freetime#:#slobodno vreme u grupi
-dateplaner#:#group#:#grupa
-dateplaner#:#help_day#:#Pregled kalendara
-dateplaner#:#help_day_l#:#U dnevnom pregledu svi sastanci izabranih dana su prikazani.
+dateplaner#:#execute#:#izvedi izbore###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Jedan dan datuma###02 Aug 2005 content changed
+dateplaner#:#free#:#slobodno ###02 Aug 2005 content changed
+dateplaner#:#freetime#:#slobodno vreme u grupi###02 Aug 2005 content changed
+dateplaner#:#group#:#grupa###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Pregled kalendara###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#U dnevnom pregledu svi sastanci izabranih dana su prikazani.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Datum završetka - sintaksa [dd/mm/gggg]
-dateplaner#:#help_enddate_l#:#Sadrži završnu tacku sastanka.<br />Simbol otvara mali kalendar za izbor odgovarajuceg datuma.
+dateplaner#:#help_enddate_l#:#Sadrži završnu tacku sastanka.<br />Simbol otvara mali kalendar za izbor odgovarajuceg datuma.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Datum završetka - sintaksa [dd/mm/gggg]
 dateplaner#:#help_endrotation_l#:#Ovog dana ponavljanje ce se završiti.<br />Simbol otvara mali kalendar za izbor odgovarajuceg datuma.
 dateplaner#:#help_endtime#:#Datum završetka - sintaksa [dd/mm/gggg]
 dateplaner#:#help_endtime_l#:#Sadrži vreme završetka sastanka koristeci 24-casovni format
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Celodnevni sastanak - sintaksa [ukljucen/iskljucen]
-dateplaner#:#help_fullday_l#:#Ukoliko se sastanak rastegna na ceo dan, molimo odaberite ovu opciju.<br />Ovo ce prikriti vreme pocetka, vreme završetka i datum završetka.
+dateplaner#:#help_fullday#:#Celodnevni sastanak - sintaksa [ukljucen/iskljucen]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Ukoliko se sastanak rastegna na ceo dan, molimo odaberite ovu opciju.<br />Ovo ce prikriti vreme pocetka, vreme završetka i datum završetka.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br /><b>kliknite ovde za više informacija.<b />
-dateplaner#:#help_group#:#Selekcija grupisanih sastanaka
+dateplaner#:#help_group#:#Selekcija grupisanih sastanaka###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Sadrži grupe za koje prijavljeni korisnik ima administratorska prava i za koje sastank može biti kreiran.<br />Nakon odabira ovoga moguce je pregledati nerasporedeno vreme grupe.
 dateplaner#:#help_inbox#:#Kalendar ulazne pošte
-dateplaner#:#help_inbox_l#:#Ovde su prikazani svi novi, promenjeni i obrisani grupni sastanci.
+dateplaner#:#help_inbox_l#:#Ovde su prikazani svi novi, promenjeni i obrisani grupni sastanci.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Selekcija kljucne reci
 dateplaner#:#help_keywordUse#:#Selekcija kljucne reci
 dateplaner#:#help_keywordUse_l#:#Izaberite jednu ili više kljucnih reci iz okvira za dijalog.<br />Ukucajte:koristi CTRL taster za selektovanje nekoliko ulaza.
 dateplaner#:#help_keyword_l#:#Sadrži kljucne reci uz pomoc kojih korisnik može zakazivati sastanke.
-dateplaner#:#help_list#:#Kalendarski spisak sastanaka
-dateplaner#:#help_list_l#:#Na listi sastanaka svi sastanci preko datog vremenskog perioda su prikazani.
+dateplaner#:#help_list#:#Kalendarski spisak sastanaka###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#Na listi sastanaka svi sastanci preko datog vremenskog perioda su prikazani.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Mesecni pregled Kalendara
-dateplaner#:#help_month_l#:#U mesecnom pregledu svi sastanci datog meseca su prikazani.
+dateplaner#:#help_month_l#:#U mesecnom pregledu svi sastanci datog meseca su prikazani.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Promeni kljucnu rec
 dateplaner#:#help_properties_alt_l#:#Izaberite kljucnu reci iz okvira za dijalog.<br />Promenite kljucnu rec u polju za tekst. Važno: max. 20 karaktera.
 dateplaner#:#help_properties_del#:#Brisanje kljucnih reci
 dateplaner#:#help_properties_del_l#:#Izaberite kljucnu reci iz okvira za dijalog.Kliknite dugme kako biste obrisali kljucnu rec.
 dateplaner#:#help_properties_import#:#Uvoz Outlook-CSV-datoteka
-dateplaner#:#help_properties_import_l#:#Ovde CSV-datoteka koja sadrži Outlook-sastanke može biti odabrana. Ti sastanci ce biti uneti u kalendar.
+dateplaner#:#help_properties_import_l#:#Ovde CSV-datoteka koja sadrži Outlook-sastanke može biti odabrana. Ti sastanci ce biti uneti u kalendar.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Dodaj kljucnu rec, max. 20 karaktera
 dateplaner#:#help_properties_new_l#:#Dodaj novu kljucnu rec u polje<"\"new\". Važno: max. 20 karaktera.
 dateplaner#:#help_properties_time#:#Prikaži vreme za dnevni pregled/mesecni pregled
@@ -3566,19 +3566,19 @@ dateplaner#:#help_rotation_l#:#Sadrži vrstu vracanja / ponavljanja.
 dateplaner#:#help_shorttext#:#Kratki tekst, max. 15 karaktera
 dateplaner#:#help_shorttext_l#:#Ovde se može uneti kratak tekst za dati sastanak.
 dateplaner#:#help_startdate#:#Datum pocetka - sintaksa[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Sadrži startnu poziciju sastanka.<br />Simbol otvara mali kalendar za izbor odgovarajuceg datuma.
+dateplaner#:#help_startdate_l#:#Sadrži startnu poziciju sastanka.<br />Simbol otvara mali kalendar za izbor odgovarajuceg datuma.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Vreme pocetka - sintaksa[cc/mm] 24-casovni format
-dateplaner#:#help_starttime_l#:#Sadrži pocenu poziciju sastanka koristeci 24-casovni format.
+dateplaner#:#help_starttime_l#:#Sadrži pocenu poziciju sastanka koristeci 24-casovni format.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#tekst
-dateplaner#:#help_text_l#:#Ovde se može uneti kratak tekst za dati sastanak.
+dateplaner#:#help_text_l#:#Ovde se može uneti kratak tekst za dati sastanak.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Nedeljni pregled Kalendara
-dateplaner#:#help_week_l#:#U nedeljnom pregledu svi sastanci date nedelje su prikazani.
+dateplaner#:#help_week_l#:#U nedeljnom pregledu svi sastanci date nedelje su prikazani.###02 Aug 2005 content changed
 dateplaner#:#hour#:#cas
-dateplaner#:#importDates#:#Uvezi sastanke iz Outlook-a
+dateplaner#:#importDates#:#Uvezi sastanke iz Outlook-a###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Ulazna pošta
-dateplaner#:#insertImportDates#:#Ovi sastanci su uspešno registrovani:
-dateplaner#:#k_alldates#:#svi sastanci
-dateplaner#:#keep#:#cuvaj
+dateplaner#:#insertImportDates#:#Ovi sastanci su uspešno registrovani:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#svi sastanci###02 Aug 2005 content changed
+dateplaner#:#keep#:#cuvaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Kljucna rec:
 dateplaner#:#keywords#:#Kljucne reci:
 dateplaner#:#last_change#:#Poslednja promena
@@ -3594,36 +3594,36 @@ dateplaner#:#long_09#:#Septembar
 dateplaner#:#long_10#:#Oktobar
 dateplaner#:#long_11#:#Novembar
 dateplaner#:#long_12#:#Decembar
-dateplaner#:#main_dates#:#Glavni sastanci
+dateplaner#:#main_dates#:#Glavni sastanci###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meni
-dateplaner#:#mmonth#:#prošli mesec
-dateplaner#:#month#:#mesec
-dateplaner#:#more#:#više
-dateplaner#:#mweek#:#prošla nedelja
-dateplaner#:#myeahr#:#prošla godina
-dateplaner#:#newDates#:#Novi sastanci
+dateplaner#:#mmonth#:#prošli mesec###02 Aug 2005 content changed
+dateplaner#:#month#:#mesec###02 Aug 2005 content changed
+dateplaner#:#more#:#više###02 Aug 2005 content changed
+dateplaner#:#mweek#:#prošla nedelja###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#prošla godina###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Novi sastanci###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Novo:
-dateplaner#:#new_doc#:#kreiraj novi sastanak
-dateplaner#:#no_entry#:#nema raspoloživih datuma
-dateplaner#:#o_day_date#:#24-casovni sastanak
+dateplaner#:#new_doc#:#kreiraj novi sastanak###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#nema raspoloživih datuma###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#24-casovni sastanak###02 Aug 2005 content changed
 dateplaner#:#of#:#od
-dateplaner#:#open_day#:#Dnevni pregled
-dateplaner#:#pmonth#:#sledeci mesec
-dateplaner#:#printlist#:#štampaj
+dateplaner#:#open_day#:#Dnevni pregled###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#sledeci mesec###02 Aug 2005 content changed
+dateplaner#:#printlist#:#štampaj###02 Aug 2005 content changed
 dateplaner#:#properties#:#karakteristike
-dateplaner#:#pweek#:#sledeca nedelja
-dateplaner#:#pyear#:#sledeca godina
-dateplaner#:#r_14#:#svakih 14 dana
-dateplaner#:#r_4_weeks#:#svake 4 nedelje
-dateplaner#:#r_day#:#svaki dan
-dateplaner#:#r_halfyear#:#svakih pola godine
-dateplaner#:#r_month#:#svakog meseca
+dateplaner#:#pweek#:#sledeca nedelja###02 Aug 2005 content changed
+dateplaner#:#pyear#:#sledeca godina###02 Aug 2005 content changed
+dateplaner#:#r_14#:#svakih 14 dana###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#svake 4 nedelje###02 Aug 2005 content changed
+dateplaner#:#r_day#:#svaki dan###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#svakih pola godine###02 Aug 2005 content changed
+dateplaner#:#r_month#:#svakog meseca###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#jedanput
-dateplaner#:#r_week#:#svake nedelje
-dateplaner#:#r_year#:#svake godine
-dateplaner#:#readimportfile#:#ubaci
+dateplaner#:#r_week#:#svake nedelje###02 Aug 2005 content changed
+dateplaner#:#r_year#:#svake godine###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#ubaci###02 Aug 2005 content changed
 dateplaner#:#rotation#:#vracanje
-dateplaner#:#rotation_dates#:#povratni sastanci
+dateplaner#:#rotation_dates#:#povratni sastanci###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Naziv polugodišta
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -3638,17 +3638,17 @@ dateplaner#:#short_10#:#Okt
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Kratak tekst
-dateplaner#:#singleDate#:#jedan sastanak
+dateplaner#:#singleDate#:#jedan sastanak###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Pocetno vreme za pregled:
 dateplaner#:#timedate#:#Vreme / datum
 dateplaner#:#timeslice#:#Vreme:
 dateplaner#:#title#:#ILIAS kalendar
 dateplaner#:#to#:#za
-dateplaner#:#today#:#danas
-dateplaner#:#viewlist#:#Pregled
-dateplaner#:#week#:#nedelja
+dateplaner#:#today#:#danas###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#Pregled###02 Aug 2005 content changed
+dateplaner#:#week#:#nedelja###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
-dateplaner#:#year#:#godina
+dateplaner#:#year#:#godina###02 Aug 2005 content changed
 forum#:#forums#:#Forumi
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak

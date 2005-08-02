@@ -3616,10 +3616,10 @@ crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; vali
 crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
-dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
+dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.###02 Aug 2005 content changed
 dateplaner#:#ERROR_DB#:#Errore di scrittura nel Database!
 dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
-dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze
+dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze###02 Aug 2005 content changed
 dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
@@ -3634,7 +3634,7 @@ dateplaner#:#ERROR_TS#:#Formato della data non corretto
 dateplaner#:#Fr_long#:#Venerdi
 dateplaner#:#Fr_short#:#Ve
 dateplaner#:#Language_file#:#Inglese
-dateplaner#:#Listbox_long#:#Lista degli appuntamenti
+dateplaner#:#Listbox_long#:#Lista degli appuntamenti###02 Aug 2005 content changed
 dateplaner#:#Mo_long#:#Lunedi
 dateplaner#:#Mo_short#:#Lu
 dateplaner#:#Month_long#:#Vista mensile
@@ -3651,35 +3651,35 @@ dateplaner#:#View#:#Impostazioni della vista:
 dateplaner#:#We_long#:#Mercoledi
 dateplaner#:#We_short#:#Me
 dateplaner#:#Week_long#:#Vista settimanale
-dateplaner#:#add_data#:#Dati addizionali
-dateplaner#:#app_#:#Appuntamenti del gruppo
-dateplaner#:#app_date#:#Inserisci appuntamento
-dateplaner#:#app_day#:#Vista giornaliera
-dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
-dateplaner#:#app_inbox#:#Appuntamenti del gruppo
-dateplaner#:#app_list#:#Lista appuntamenti
-dateplaner#:#app_month#:#Vista mensile
-dateplaner#:#app_properties#:#Propriet&#224;
-dateplaner#:#app_week#:#Vista settimanale
+dateplaner#:#add_data#:#Dati addizionali###02 Aug 2005 content changed
+dateplaner#:#app_#:#Appuntamenti del gruppo###02 Aug 2005 content changed
+dateplaner#:#app_date#:#Inserisci appuntamento###02 Aug 2005 content changed
+dateplaner#:#app_day#:#Vista giornaliera###02 Aug 2005 content changed
+dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi###02 Aug 2005 content changed
+dateplaner#:#app_inbox#:#Appuntamenti del gruppo###02 Aug 2005 content changed
+dateplaner#:#app_list#:#Lista appuntamenti###02 Aug 2005 content changed
+dateplaner#:#app_month#:#Vista mensile###02 Aug 2005 content changed
+dateplaner#:#app_properties#:#Propriet&#224;###02 Aug 2005 content changed
+dateplaner#:#app_week#:#Vista settimanale###02 Aug 2005 content changed
 dateplaner#:#application#:#Agenda
-dateplaner#:#apply#:#Conferma
-dateplaner#:#back#:#Indietro
+dateplaner#:#apply#:#Conferma###02 Aug 2005 content changed
+dateplaner#:#back#:#Indietro###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Inizio appuntamento:
-dateplaner#:#busytime#:#Tempo occupato del gruppo
-dateplaner#:#c_date#:#Crea appuntamento
+dateplaner#:#busytime#:#Tempo occupato del gruppo###02 Aug 2005 content changed
+dateplaner#:#c_date#:#Crea appuntamento###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Modifica in:
-dateplaner#:#changedDates#:#Appuntamenti modificati:
+dateplaner#:#changedDates#:#Appuntamenti modificati:###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
 dateplaner#:#date_format#:#m/d/Y H:i//mese/giorno/Anno4Cifre Ora24:Minuti
 dateplaner#:#date_format_middle#:#m/d/y//mese/giorno/Anno
-dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
-dateplaner#:#del_one#:#Cancella un appuntamento
-dateplaner#:#delete#:#Cancella
-dateplaner#:#deletedDates#:#Appuntamenti cancellati
-dateplaner#:#discard#:#Scartato
-dateplaner#:#dv_Grouptime#:#Tempo libero
+dateplaner#:#del_all#:#Cancella tutti gli appuntamenti###02 Aug 2005 content changed
+dateplaner#:#del_one#:#Cancella un appuntamento###02 Aug 2005 content changed
+dateplaner#:#delete#:#Cancella###02 Aug 2005 content changed
+dateplaner#:#deletedDates#:#Appuntamenti cancellati###02 Aug 2005 content changed
+dateplaner#:#discard#:#Scartato###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#Tempo libero###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
@@ -3689,7 +3689,7 @@ dateplaner#:#dv_date_end#:#Fine appuntamento:
 dateplaner#:#dv_date_hm#:#Ore:Minuti
 dateplaner#:#dv_enddate#:#Fine appuntamento:
 dateplaner#:#dv_groupselect#:#Gruppi scelti:
-dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
+dateplaner#:#dv_groupview#:#Appuntamenti gruppo:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Gruppi:<br>
 dateplaner#:#dv_keywords#:#Chiavi:
 dateplaner#:#dv_keywordselect#:#Chiavi scelte:
@@ -3708,41 +3708,41 @@ dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrent
 dateplaner#:#end_date#:#Fine dell'appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
 dateplaner#:#error_minical_img#:#Impossibile creare uno stream GD
-dateplaner#:#execute#:#scelte eseguite
-dateplaner#:#extra_dates#:#Appuntamento di un giorno
-dateplaner#:#free#:#libero
-dateplaner#:#freetime#:#tempo libero del gruppo
-dateplaner#:#group#:#Gruppo
-dateplaner#:#help_day#:#Vista giornaliera dell'agenda
-dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
+dateplaner#:#execute#:#scelte eseguite###02 Aug 2005 content changed
+dateplaner#:#extra_dates#:#Appuntamento di un giorno###02 Aug 2005 content changed
+dateplaner#:#free#:#libero###02 Aug 2005 content changed
+dateplaner#:#freetime#:#tempo libero del gruppo###02 Aug 2005 content changed
+dateplaner#:#group#:#Gruppo###02 Aug 2005 content changed
+dateplaner#:#help_day#:#Vista giornaliera dell'agenda###02 Aug 2005 content changed
+dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.###02 Aug 2005 content changed
 dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#In questo campo occorre indicare la data di scadenza dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
+dateplaner#:#help_enddate_l#:#In questo campo occorre indicare la data di scadenza dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.###02 Aug 2005 content changed
 dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h
 dateplaner#:#help_endtime_l#:#In questo campo occorre indicare l'ora in cui termina l'appuntamento nel formato 24h.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
-dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.
+dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]###02 Aug 2005 content changed
+dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.###02 Aug 2005 content changed
 dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>
-dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo
+dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo###02 Aug 2005 content changed
 dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l'utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo.
 dateplaner#:#help_inbox#:#Agenda in ingresso
-dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
+dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Scelta chiave
 dateplaner#:#help_keywordUse#:#Scelta chiave
 dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; chiavi dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.
 dateplaner#:#help_keyword_l#:#Contiene le chiavi che l'utente pu&#242; associare ad un appuntamento.
-dateplaner#:#help_list#:#Appuntamenti agenda.
-dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.
+dateplaner#:#help_list#:#Appuntamenti agenda.###02 Aug 2005 content changed
+dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Agenda vista mensile
-dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.
+dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.###02 Aug 2005 content changed
 dateplaner#:#help_properties_alt#:#Cambia la chiave
 dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br>Cambia la chiave nel campo testo. Importante: max. 20 caratteri.
 dateplaner#:#help_properties_del#:#Cancella la chiave
 dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per eliminare la chiave.
 dateplaner#:#help_properties_import#:#Importazione dei file CSV di Outlook
-dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.
+dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Aggiungi una chiave, max. 20 caratteri
 dateplaner#:#help_properties_new_l#:#Aggiungi una nuova chiave nel campo 'Nuova'. Importante: max. 20 caratteri
 dateplaner#:#help_properties_time#:#Intervallo scelto per la vista giornaliera/settimanale
@@ -3752,19 +3752,19 @@ dateplaner#:#help_rotation_l#:#Contiene il tipo di frequenza/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
 dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#In questo campo occorre indicare la data di inizio dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
+dateplaner#:#help_startdate_l#:#In questo campo occorre indicare la data di inizio dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.###02 Aug 2005 content changed
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
-dateplaner#:#help_starttime_l#:#In questo campo occorre indicare l'ora di inizio dell'appuntamento usando il formato 24h.
+dateplaner#:#help_starttime_l#:#In questo campo occorre indicare l'ora di inizio dell'appuntamento usando il formato 24h.###02 Aug 2005 content changed
 dateplaner#:#help_text#:#Testo
-dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.
+dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.###02 Aug 2005 content changed
 dateplaner#:#help_week#:#Vista settimanale appuntamenti.
-dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.
+dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.###02 Aug 2005 content changed
 dateplaner#:#hour#:#ora
-dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook
+dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook###02 Aug 2005 content changed
 dateplaner#:#inbox#:#Vedi appuntamenti
-dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:
-dateplaner#:#k_alldates#:#tutti gli appuntamenti
-dateplaner#:#keep#:#Tieni
+dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:###02 Aug 2005 content changed
+dateplaner#:#k_alldates#:#tutti gli appuntamenti###02 Aug 2005 content changed
+dateplaner#:#keep#:#Tieni###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Chiave
 dateplaner#:#keywords#:#Definizione delle chiavi
 dateplaner#:#last_change#:#Data ultima modifica
@@ -3780,36 +3780,36 @@ dateplaner#:#long_09#:#Settembre
 dateplaner#:#long_10#:#Ottobre
 dateplaner#:#long_11#:#Novembre
 dateplaner#:#long_12#:#Dicembre
-dateplaner#:#main_dates#:#Appuntamenti principali
+dateplaner#:#main_dates#:#Appuntamenti principali###02 Aug 2005 content changed
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#Mese precedente
-dateplaner#:#month#:#Mese
-dateplaner#:#more#:#ancora
-dateplaner#:#mweek#:#Settimana precedente
-dateplaner#:#myeahr#:#Anno precedente
-dateplaner#:#newDates#:#Nuovo appuntamento
+dateplaner#:#mmonth#:#Mese precedente###02 Aug 2005 content changed
+dateplaner#:#month#:#Mese###02 Aug 2005 content changed
+dateplaner#:#more#:#ancora###02 Aug 2005 content changed
+dateplaner#:#mweek#:#Settimana precedente###02 Aug 2005 content changed
+dateplaner#:#myeahr#:#Anno precedente###02 Aug 2005 content changed
+dateplaner#:#newDates#:#Nuovo appuntamento###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Nuova:
-dateplaner#:#new_doc#:#Crea un nuovo appuntamento
-dateplaner#:#no_entry#:#Nessun appuntamento disponibile
-dateplaner#:#o_day_date#:#Appuntamento di 24h
+dateplaner#:#new_doc#:#Crea un nuovo appuntamento###02 Aug 2005 content changed
+dateplaner#:#no_entry#:#Nessun appuntamento disponibile###02 Aug 2005 content changed
+dateplaner#:#o_day_date#:#Appuntamento di 24h###02 Aug 2005 content changed
 dateplaner#:#of#:#da:
-dateplaner#:#open_day#:#Vista giornaliera
-dateplaner#:#pmonth#:#Mese successivo
-dateplaner#:#printlist#:#Stampa
+dateplaner#:#open_day#:#Vista giornaliera###02 Aug 2005 content changed
+dateplaner#:#pmonth#:#Mese successivo###02 Aug 2005 content changed
+dateplaner#:#printlist#:#Stampa###02 Aug 2005 content changed
 dateplaner#:#properties#:#Propriet&#224;
-dateplaner#:#pweek#:#Settimana successiva
-dateplaner#:#pyear#:#Anno successivo
-dateplaner#:#r_14#:#Ogni 14 giorni
-dateplaner#:#r_4_weeks#:#Ogni 4 settimane
-dateplaner#:#r_day#:#Tutti i giorni
-dateplaner#:#r_halfyear#:#Ogni 6 mesi
-dateplaner#:#r_month#:#Tutti i mesi
+dateplaner#:#pweek#:#Settimana successiva###02 Aug 2005 content changed
+dateplaner#:#pyear#:#Anno successivo###02 Aug 2005 content changed
+dateplaner#:#r_14#:#Ogni 14 giorni###02 Aug 2005 content changed
+dateplaner#:#r_4_weeks#:#Ogni 4 settimane###02 Aug 2005 content changed
+dateplaner#:#r_day#:#Tutti i giorni###02 Aug 2005 content changed
+dateplaner#:#r_halfyear#:#Ogni 6 mesi###02 Aug 2005 content changed
+dateplaner#:#r_month#:#Tutti i mesi###02 Aug 2005 content changed
 dateplaner#:#r_nonrecurring#:#Una volta
-dateplaner#:#r_week#:#Tutte le settimane
-dateplaner#:#r_year#:#Tutti gli anni
-dateplaner#:#readimportfile#:#Inserisci
+dateplaner#:#r_week#:#Tutte le settimane###02 Aug 2005 content changed
+dateplaner#:#r_year#:#Tutti gli anni###02 Aug 2005 content changed
+dateplaner#:#readimportfile#:#Inserisci###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Ripeti
-dateplaner#:#rotation_dates#:#Ripeti appuntamenti
+dateplaner#:#rotation_dates#:#Ripeti appuntamenti###02 Aug 2005 content changed
 dateplaner#:#semester_name#:#Nome semestre
 dateplaner#:#short_01#:#Gen
 dateplaner#:#short_02#:#Feb
@@ -3824,17 +3824,17 @@ dateplaner#:#short_10#:#Ott
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Testo breve
-dateplaner#:#singleDate#:#Appuntamento singolo
+dateplaner#:#singleDate#:#Appuntamento singolo###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
 dateplaner#:#timedate#:#Ora/Giorno
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda ILIAS
 dateplaner#:#to#:#a:
-dateplaner#:#today#:#Oggi
-dateplaner#:#viewlist#:#Vista
-dateplaner#:#week#:#Settimana
+dateplaner#:#today#:#Oggi###02 Aug 2005 content changed
+dateplaner#:#viewlist#:#Vista###02 Aug 2005 content changed
+dateplaner#:#week#:#Settimana###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#Set
-dateplaner#:#year#:#Anno
+dateplaner#:#year#:#Anno###02 Aug 2005 content changed
 forum#:#forums#:#Forum
 forum#:#forums_all_threads_marked_read#:#Tutti gli argomenti sono stati indicati come letti
 forum#:#forums_attachments#:#Allegati
