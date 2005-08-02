@@ -3427,7 +3427,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($this->object->isOnlineTest()) {
+		if ($this->object->isOnlineTest() && !$finish) {
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
 			$this->tpl->parseCurrentBlock();
