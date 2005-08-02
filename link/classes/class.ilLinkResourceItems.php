@@ -411,6 +411,55 @@ class ilLinkResourceItems
 
 		return true;
 	}
+
+	/**
+	* Check whether there is only one active link in the web resource.
+	* In this case this link is shown in a new browser window
+	*
+	* @param	int			$a_webr_id		object id of web resource
+	* @return   boolean		success status
+	*
+	*/
+	function _isSingular($a_webr_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = '".$a_webr_id."' AND active = '1'");
+
+		return $res->numRows() == 1 ? true : false;
+	}
+
+	/**
+	* Get first link item
+	* Check before with _isSingular() if there is more or less than one
+	*
+	* @param	int			$a_webr_id		object id of web resource
+	* @return array link item data
+	*
+	*/
+	function _getFirstLink($a_webr_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = '".$a_webr_id."' AND active = '1'");
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$item['title']				= $row->title;
+			$item['target']				= $row->target;
+			$item['active']				= (bool) $row->active;
+			$item['disable_check']		= $row->disable_check;
+			$item['create_date']		= $row->create_date;
+			$item['last_update']		= $row->last_update;
+			$item['last_check']			= $row->last_check;
+			$item['valid']				= $row->valid;
+			$item['link_id']			= $row->link_id;
+		}
+		return $item ? $item : array();
+	}
+
+			
+		
+
 }
 		
 ?>
