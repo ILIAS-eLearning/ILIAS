@@ -31,7 +31,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->customer_id = $this->ilias->getSetting("ilinc_customer_id");
 		$this->server_addr	= $this->ilias->getSetting("ilinc_server");
 		$this->server_port	= $this->ilias->getSetting("ilinc_port");
-
+		$this->server_timeout	= $this->ilias->getSetting("ilinc_timeout");
 	}
 	
 	function xmlFormatData($a_data)
@@ -52,6 +52,11 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	function getServerPort()
 	{
 		return $this->server_port;
+	}
+	
+	function getServerTimeOut()
+	{
+		return $this->server_timeout;
 	}
 
 	function getCustomerID()
@@ -79,7 +84,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		//var_dump($this->request);exit;
 		
 
-		$sock = fsockopen($this->getServerAddr(), $this->getServerPort(), $errno, $errstr, 30);
+		$sock = fsockopen($this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
 		if (!$sock) die("$errstr ($errno)\n");
 		
 		fputs($sock, "POST /campus/XMLAPI/netucateXMLAPI.asp HTTP/1.0\r\n");
