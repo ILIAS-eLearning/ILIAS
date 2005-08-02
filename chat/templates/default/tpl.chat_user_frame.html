@@ -62,7 +62,20 @@
 		  <td align="left" class="option_value">
 			<table width=100% cellspacing=0 cellpadding=0 border=0>
 			  <tr>
-				<td><font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font></td>
+				<!-- BEGIN non_moderate -->
+				<td>
+				  <font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font>
+				</td>
+				<!-- END non_moderate -->
+				<!-- BEGIN moderate -->
+				<td>
+				  <a class="navigation" title="{MOD_TXT_INVITE_USER}" href="{MOD_ONLINE_LINK_A}" target="_top" >
+					<img src="{MOD_INVITE_IMG_SRC}" border="0" alt="{MOD_TXT_INVITE_USER}">
+				  <font class="small">&nbsp;{MOD_ONLINE_USER_NAME_A}</font>
+				</a>
+				</td>
+				<!-- END moderate -->
+
 				<td align="right">
 				  <a class="il_ContainerItemCommand" href="{ACTIVE_ADDRESS_A}" target="input">{ACTIVE_TXT_ADDRESS_A}</a>
 				  <a class="il_ContainerItemCommand" href="{ACTIVE_LINK_A}" target="input">{ACTIVE_TXT_WHISPER_A}</a>
@@ -74,9 +87,6 @@
 					return false">{ACTIVE_ROW_TXT_PROFILE}
 				  </a>
 				  <!-- END active_row_profile -->
-				  <!-- BEGIN kick_user -->
-				  <a class="il_ContainerItemCommand" href="{KICK_LINK}" target="input">{TXT_KICK} </a>
-				  <!-- END kick_user -->
 				</td>
 			  </tr>
 			</table>

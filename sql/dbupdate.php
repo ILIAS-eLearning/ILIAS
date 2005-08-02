@@ -8279,3 +8279,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+<#509>
+ALTER TABLE `chat_user` ADD `kicked` TINYINT DEFAULT '0' AFTER `last_conn_timestamp`;

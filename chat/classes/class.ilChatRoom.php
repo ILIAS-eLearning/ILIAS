@@ -238,6 +238,44 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 		return true;
 	}
+
+	function setKicked($a_usr_id)
+	{
+		$query = "UPDATE chat_user SET kicked = '1' ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND chat_id = '".$this->getRefId()."' ".
+			"AND room_id = '0'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+
+	function setUnkicked($a_usr_id)
+	{
+		$query = "UPDATE chat_user SET kicked = '0' ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND chat_id = '".$this->getRefId()."' ".
+			"AND room_id = '0'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+
+	function  isKicked($a_usr_id)
+	{
+		$query = "SELECT * FROM chat_user ".
+			"WHERE kicked = 1 ".
+			"AND usr_id = '".$a_usr_id."' ".
+			"AND chat_id = '".$this->getRefId()."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+		
+
 	function getCountActiveUser($chat_id,$room_id)
 	{
 		$query = "SELECT * FROM chat_user ".
@@ -448,6 +486,10 @@ class ilChatRoom
 
 	function checkWriteAccess()
 	{
+		if($this->isKicked($this->getUserId()))
+		{
+			return false;
+		}
 		if(!$this->getRoomId())
 		{
 			return true;
@@ -546,6 +588,16 @@ class ilChatRoom
 		}
 		return true;
 	}
+
+	function _unkick($a_usr_id)
+	{
+		global $ilDB;
+
+		$ilDB->query("UPDATE chat_user SET kicked = 0 WHERE usr_id = '".$a_usr_id."'");
+
+		return true;
+	}
+
 
 } // END class.ilChatRoom
 ?>
