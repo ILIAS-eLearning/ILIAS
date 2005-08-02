@@ -252,18 +252,36 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if($_GET["kick_id"])
 		{
-			include_once 'chat/classes/class.ilChatBlockedUsers.php';
-
 			$tmp_user = new ilObjUser($_GET['kick_id']);
 
 			$this->object->server_comm->setKickedUser($tmp_user->getLogin());
 			$this->object->server_comm->setType("kick");
 			$this->object->server_comm->send();
-			sendInfo($this->lng->txt("chat_user_dropped"),true);
-			$this->showInputFrame();
+
+			$this->object->chat_room->setKicked((int)$_GET['kick_id']);
+
+			#sendInfo($this->lng->txt("chat_user_dropped"),true);
+			$this->showFrames();
 		}
 	}
 
+	function unkickUser()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if($_GET["kick_id"])
+		{
+			$this->object->chat_room->setUnkicked((int)$_GET['kick_id']);
+
+			#sendInfo($this->lng->txt("chat_user_dropped"),true);
+			$this->showFrames();
+		}
+	}
 
 
 
@@ -1097,6 +1115,10 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->error = $this->lng->txt("chat_no_connection");
 			}
 		}
+		else
+		{
+			sendInfo($this->lng->txt('chat_kicked_from_room'),true);
+		}
 		$this->showInputFrame();
 	}
 
@@ -1230,6 +1252,8 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 	function __showActiveUsers()
 	{
+		global $rbacsystem;
+
 		if(isset($_GET["a_users"]))
 		{
 			if($_GET["a_users"])
@@ -1303,7 +1327,32 @@ class ilObjChatGUI extends ilObjectGUI
 										$_REQUEST["room_id"]."&p_id=".$user);
 				$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
 
-				$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
+				if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()) and !$_REQUEST['room_id'])
+				{
+					$this->tpl->setCurrentBlock("moderate");
+					if($this->object->chat_room->isKicked($user_obj->getId()))
+					{
+						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('plus.gif',true));
+						$this->tpl->setVariable("MOD_TXT_INVITE_USER",$this->lng->txt('chat_unkick_user_session'));
+						$this->tpl->setVariable("MOD_ONLINE_LINK_A","chat.php?cmd=unkickUser&ref_id=".$this->ref_id.
+												"&kick_id=".$user_obj->getId());
+					}
+					else
+					{
+						$this->tpl->setVariable("MOD_INVITE_IMG_SRC",ilUtil::getImagePath('minus.gif',true));
+						$this->tpl->setVariable("MOD_TXT_INVITE_USER",$this->lng->txt('chat_kick_user_session'));
+						$this->tpl->setVariable("MOD_ONLINE_LINK_A","chat.php?cmd=kickUser&ref_id=".$this->ref_id.
+												"&kick_id=".$user_obj->getId());
+					}
+
+					$this->tpl->setVariable("MOD_ONLINE_USER_NAME_A",$user_obj->getLogin());
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("non_moderate");
+					$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
+					$this->tpl->parseCurrentBlock();
+				}
 
 				if($user_obj->getPref('public_profile') == 'y')
 				{
@@ -1311,7 +1360,7 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
 				}
 				/*
-				if(!$_REQUEST['room_id'])
+				if(!$_REQUEST['room_id'] and $rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("kick_user");
 					$this->tpl->setVariable("KICK_LINK","chat.php?cmd=kickUser&ref_id=".$this->ref_id."&kick_id=".$user);
