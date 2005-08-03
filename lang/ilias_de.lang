@@ -764,6 +764,7 @@ common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
+common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Bitte kontaktieren Sie den Systemadministrator.
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
