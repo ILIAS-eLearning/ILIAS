@@ -668,6 +668,8 @@ chat#:#chat_invitation_subject#:#Invitación al Chat
 chat#:#chat_invite_user#:#Invitar usuario
 chat#:#chat_invited_by#:#Invitado por
 chat#:#chat_italic#:#Cursiva
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Todo
 chat#:#chat_level_debug#:#Debug
 chat#:#chat_level_error#:#Error
@@ -740,6 +742,7 @@ chat#:#chat_to_chat_body#:#Ir al chat
 chat#:#chat_type#:#Fuente
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Subrayado
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Usuario expulsado
@@ -1653,8 +1656,9 @@ common#:#info_available_roles#:#roles disponibles
 common#:#info_change_user_view#:#Cambiar vista de usuario
 common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?
 common#:#info_deleted#:#Objeto(s) eliminado(s)
-common#:#info_enter_user_id#:#<introduzca user_id>
-common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe###03 Aug 2005 content changed
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#El usuario es un miembro
 common#:#info_is_not_member#:#El usuario no es un miembro
 common#:#info_not_assigned#:#no asignado
@@ -1662,9 +1666,9 @@ common#:#info_permission_origin#:#Posición original
 common#:#info_permission_source#:#efectivo desde*
 common#:#info_remark_interrupted#:#El rol se interrumpe en esta posición. La configuración por defecto del rol en uso está localizada en esa posición.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Información de estado
+common#:#info_status_info#:#Información de estado###03 Aug 2005 content changed
 common#:#info_trash#:#Objetos Eliminados
-common#:#info_view_of_user#:#Vista de usuario
+common#:#info_view_of_user#:#Vista de usuario###03 Aug 2005 content changed
 common#:#inform_user_mail#:#Enviar email para informar al usuario sobre los cambios
 common#:#information_abbr#:#info
 common#:#ingmedia_all_offers#:#All LE
@@ -1823,6 +1827,7 @@ common#:#local_language_file#:#fichero de idioma local
 common#:#local_language_files#:#ficheros de idioma local
 common#:#local_languages_already_installed#:#El fichero(s) de idioma local seleccionado(s) ya están instalados
 common#:#locator#:#Estás en:
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#y
 common#:#logic_or#:#o
 common#:#login#:#Usuario
