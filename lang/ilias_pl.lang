@@ -670,6 +670,8 @@ chat#:#chat_invitation_subject#:#Zaproszenie do czatu
 chat#:#chat_invite_user#:#Zaproś użytkownika
 chat#:#chat_invited_by#:#Zaproszony przez
 chat#:#chat_italic#:#Pochylony
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Wszystko
 chat#:#chat_level_debug#:#Debuging
 chat#:#chat_level_error#:#Błędy
@@ -742,6 +744,7 @@ chat#:#chat_to_chat_body#:#Do czat
 chat#:#chat_type#:#Wygląd czcionki
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Podkreślony
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Odrzuceni użytkownicy
@@ -1655,8 +1658,9 @@ common#:#info_available_roles#:#Dostępne role
 common#:#info_change_user_view#:#Zmień widok użytkownika
 common#:#info_delete_sure#:#Jesteś pewien, że chcesz usunąć  następujące obiekty?
 common#:#info_deleted#:#Obiekty zostały usunięte
-common#:#info_enter_user_id#:#<enter user_id>
-common#:#info_err_user_not_exist#:#zytkownik z tym user_id nie istnieje
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_err_user_not_exist#:#zytkownik z tym user_id nie istnieje###03 Aug 2005 content changed
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#Użytkownik jest członkiem
 common#:#info_is_not_member#:#Użytkownik nie jest członkiem
 common#:#info_not_assigned#:#nie przydzielony
@@ -1664,9 +1668,9 @@ common#:#info_permission_origin#:#Pozucja oryginalna
 common#:#info_permission_source#:#efektywnie z *
 common#:#info_remark_interrupted#:#Rola jes przerwana w tej pozycji. Domyślne efektywne ustawienia uprawnień roli są ulokowane na tej pozycji.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Informacje o stausie
+common#:#info_status_info#:#Informacje o stausie###03 Aug 2005 content changed
 common#:#info_trash#:#Usunięte obiekty
-common#:#info_view_of_user#:#Widok użytkownika
+common#:#info_view_of_user#:#Widok użytkownika###03 Aug 2005 content changed
 common#:#inform_user_mail#:#Wyślij email aby poinformować użytkownika o zmianach
 common#:#information_abbr#:#Informacje
 common#:#ingmedia_all_offers#:#Wszystkie LE
@@ -1825,6 +1829,7 @@ common#:#local_language_file#:#lokalny plik językowy
 common#:#local_language_files#:#lokalne pliki językowe
 common#:#local_languages_already_installed#:#Wybrane lokalne pliki językowe zostały zainstalowane
 common#:#locator#:#Jesteś w:
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#i
 common#:#logic_or#:#lub
 common#:#login#:#Zaloguj się

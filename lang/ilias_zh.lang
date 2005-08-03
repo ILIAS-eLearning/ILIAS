@@ -688,6 +688,8 @@ chat#:#chat_invitation_subject#:#Chat invitation###05 Mar 2004 new variable
 chat#:#chat_invite_user#:#Invite user###05 Mar 2004 new variable
 chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Italic###05 Mar 2004 new variable
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#All###05 Mar 2004 new variable
 chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
 chat#:#chat_level_error#:#Error###05 Mar 2004 new variable
@@ -760,6 +762,7 @@ chat#:#chat_to_chat_body#:#To the chat###05 Mar 2004 new variable
 chat#:#chat_type#:#Font face###05 Mar 2004 new variable
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Underlined###05 Mar 2004 new variable
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
@@ -1673,8 +1676,9 @@ common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
 common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#您肯定要删除下列用户吗？###07 Apr 2005 content changed
 common#:#info_deleted#:#对象已删除###07 Apr 2005 content changed
-common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
 common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#User is member###20 Jun 2005 new variable
 common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
 common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
@@ -1843,6 +1847,7 @@ common#:#local_language_file#:#local language file###13 Apr 2005 new variable
 common#:#local_language_files#:#local language files###13 Apr 2005 new variable
 common#:#local_languages_already_installed#:#Selected local language file(s) are already installed###13 Apr 2005 new variable
 common#:#locator#:#地点###07 Apr 2005 content changed
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#登录###07 Apr 2005 content changed

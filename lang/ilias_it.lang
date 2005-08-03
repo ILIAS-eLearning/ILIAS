@@ -668,6 +668,8 @@ chat#:#chat_invitation_subject#:#Invito a chattare
 chat#:#chat_invite_user#:#Utente invitato
 chat#:#chat_invited_by#:#Invitato da
 chat#:#chat_italic#:#Italico
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Tutto
 chat#:#chat_level_debug#:#Debug
 chat#:#chat_level_error#:#Errore
@@ -740,6 +742,7 @@ chat#:#chat_to_chat_body#:#Vai alla chat
 chat#:#chat_type#:#Tipo Font
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Sottolineato
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Utente tolto
@@ -1653,8 +1656,9 @@ common#:#info_available_roles#:#Ruoli disponibili
 common#:#info_change_user_view#:#Modifica la vista dell'utente
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
-common#:#info_enter_user_id#:#<inserisci lo user_id>
-common#:#info_err_user_not_exist#:#L'utente con lo user_id indicato non esiste
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_err_user_not_exist#:#L'utente con lo user_id indicato non esiste###03 Aug 2005 content changed
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#L'utente &#232; un membro
 common#:#info_is_not_member#:#L'utente non &#232; un membro
 common#:#info_not_assigned#:#non assignato
@@ -1662,9 +1666,9 @@ common#:#info_permission_origin#:#Posizione originale
 common#:#info_permission_source#:#valido a partire dal
 common#:#info_remark_interrupted#:#Il Ruolo si interrompe in questa posizione. Le impostazioni predefinite del ruolo sono localizzate in quella posizione.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Informazioni sullo stato
+common#:#info_status_info#:#Informazioni sullo stato###03 Aug 2005 content changed
 common#:#info_trash#:#Oggetti eliminati
-common#:#info_view_of_user#:#Vista dell'utente
+common#:#info_view_of_user#:#Vista dell'utente###03 Aug 2005 content changed
 common#:#inform_user_mail#:#Invia una eMail per informare gli utenti dei cambiamenti
 common#:#information_abbr#:#Informazioni
 common#:#ingmedia_all_offers#:#Tutti i LE
@@ -1823,6 +1827,7 @@ common#:#local_language_file#:#file della lingua locale
 common#:#local_language_files#:#file della lingua locale
 common#:#local_languages_already_installed#:#Le lingue locali selezionate sono gi&#224; state installate
 common#:#locator#:#Adesso sei in:
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#AND
 common#:#logic_or#:#OR
 common#:#login#:#Login

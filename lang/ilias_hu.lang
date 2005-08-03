@@ -618,6 +618,8 @@ chat#:#chat_invitation_body#:#Meghívás a chatbe (honnan):
 chat#:#chat_invitation_subject#:#Meghívás chatbe
 chat#:#chat_invite_user#:#Felhasználó meghívása
 chat#:#chat_italic#:#Dőlt
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Minden
 chat#:#chat_level_debug#:#Nyomkövetés
 chat#:#chat_level_error#:#Hiba
@@ -689,6 +691,7 @@ chat#:#chat_to_chat_body#:#A chatbe
 chat#:#chat_type#:#Betűtípus
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Aláhúzott
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Felhasználó kizárva
@@ -1555,6 +1558,8 @@ common#:#info#:#Információ
 common#:#info_assign_sure#:#Biztosan hozzá akarja rendelni az alábbi felhasználó(ka)t?
 common#:#info_delete_sure#:#Biztosan törölni akarja az alábbi objektum(ok)at?
 common#:#info_deleted#:#Objektum(ok) törölve
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_trash#:#Törölt objektumok
 common#:#inform_user_mail#:#E-mail küldése a felhasználónak a változásokról
 common#:#information_abbr#:#Információ
@@ -1703,6 +1708,7 @@ common#:#lo_other_langs#:#Tananyagobjektum más nyelveken
 common#:#lo_overview#:#Tananyagobjektum áttekintése
 common#:#local#:#Helyi
 common#:#locator#:#Hely:
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#és
 common#:#logic_or#:#vagy
 common#:#login#:#  <b><blink><font color="#FF0000">Bejelentkezés</font></blink></b>

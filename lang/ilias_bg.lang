@@ -618,6 +618,8 @@ chat#:#chat_invitation_body#:#Покана за чат от:
 chat#:#chat_invitation_subject#:#Покана за чат
 chat#:#chat_invite_user#:#Поканете потребител
 chat#:#chat_italic#:#Курсив
+chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
+chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Всички
 chat#:#chat_level_debug#:#Дебъгер
 chat#:#chat_level_error#:#Грешка
@@ -673,6 +675,7 @@ chat#:#chat_to_chat_body#:#Към чата
 chat#:#chat_type#:#Изглед на шрифта
 chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Подчертан
+chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
 chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Потребителят отстранен
@@ -1455,6 +1458,8 @@ common#:#info#:#Информация
 common#:#info_assign_sure#:#Сигурни ли сте, че желаете да разпределите следния потребител(и)?
 common#:#info_delete_sure#:#Сигурни ли сте, че желаете да изтриете следния обект(и)?
 common#:#info_deleted#:#Обектът(ите) изтрит(и)
+common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_trash#:#Изтрити обекти
 common#:#inform_user_mail#:#Изпращане на email до потребител с информация за промени
 common#:#information_abbr#:#Информация
@@ -1602,6 +1607,7 @@ common#:#lo_other_langs#:#Предмети за обучение на други
 common#:#lo_overview#:#Преглед на предметите за обучение
 common#:#local#:#Локално
 common#:#locator#:#Локация:
+common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#и
 common#:#logic_or#:#или
 common#:#login#:#Регистрация
