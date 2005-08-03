@@ -248,6 +248,12 @@ if($_GET['time_limit'])
 	$tpl->setVariable("TXT_MSG_LOGIN_FAILED",$lng->txt('time_limit_reached'));
 }
 
+// output wrong IP message
+if($_GET['wrong_ip'])
+{
+	$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('wrong_ip_detected')." (".$_SERVER["REMOTE_ADDR"].")");
+}
+
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 $tpl->setVariable("USERNAME", $_POST["username"]);
 $tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));

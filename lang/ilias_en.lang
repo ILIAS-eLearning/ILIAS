@@ -772,6 +772,7 @@ common#:#activation#:#Activation
 common#:#active#:#Active
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
 common#:#add_author#:#Add Author
 common#:#add_condition#:#Create new association
 common#:#add_member#:#Add Member
