@@ -8331,3 +8331,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		}
 	}
 ?>
+<#513>
+CREATE TABLE `object_description` (
+  `obj_id` int(11) NOT NULL default '0',
+  `description` text  NOT NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+<#514>
+ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL DEFAULT NULL;

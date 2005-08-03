@@ -839,9 +839,11 @@ class ilRepositoryGUI
 		{
 			$this->tpl->setVariable("HEADER",  $this->gui_obj->object->getTitle());
 
-			$desc = ($this->gui_obj->object->getDescription())
-				? $this->gui_obj->object->getDescription()
+			$desc = ($this->gui_obj->object->getLongDescription())
+				? $this->gui_obj->object->getLongDescription()
 				: "";
+			$desc = nl2br($desc);
+
 			$this->tpl->setVariable("H_DESCRIPTION",  $desc);
 			if ($a_tabs_out)
 			{
