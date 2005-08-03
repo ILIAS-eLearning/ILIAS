@@ -176,6 +176,11 @@ class ilUserImportParser extends ilSaxParser
 	 * This is used because the ilObjUser object has no field for the personal picture
 	 */
 	var $personalPicture;
+
+	/**
+	 * Cached iLinc data
+	 */
+	var $ilincdata;
 	
 	/**
 	* Constructor
@@ -198,6 +203,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->logins = array();
 		$this->userCount = 0;
 		$this->localRoleCache = array();
+		$this->ilincdata = array();
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -748,7 +754,8 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
 							$this->userObj->setTimeLimitMessage($ilias->account->getTimeLimitMessage());
 							$this->userObj->setApproveDate($ilias->account->getApproveDate());
-							//$this->userObj->setiLincID($ilias->account->getiLincID());
+							$ilincdata = $ilias->account->getiLincData();
+							$this->userObj->setiLincData($ilincdata["id"], $ilincdata["login"], $ilincdata["password"]);
 							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
 							$this->userObj->create();
@@ -841,7 +848,8 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
-							//if (! is_null($this->userObj->getiLincID())) $updateUser->setiLincID($this->userObj->getiLincID());
+							$ilincdata = $this->userObj->getiLincData();
+							if (! is_null($ilincdata)) $updateUser->setiLincData($ilincdata["id"], $ilincdata["login"], $ilincdata["password"]);
 
 							$updateUser->update();
 
@@ -1014,7 +1022,16 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "iLincID":
-				//$this->userObj->setiLincID($this->cdata);
+				$ilincdata["id"] = $this->cdata;
+				break;
+
+			case "iLincLogin":
+				$ilincdata["login"] = $this->cdata;
+				break;
+
+			case "iLincPasswd":
+				$ilincdata["passwd"] = $this->cdata;
+				$this->userObj->setiLincData($this->ilincdata);
 				break;
 		}
 	}
@@ -1295,7 +1312,18 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincID",$this->cdata));
 				}
-				//$this->userObj->setiLincID($this->cdata);
+				break;
+			case "iLincUser":
+				if (!preg_match("/\w+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincUser",$this->cdata));
+				}
+				break;
+			case "iLincPasswd":
+				if (!preg_match("/\w+/", $this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincPasswd",$this->cdata));
+				}
 				break;
 		}
 	}

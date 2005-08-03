@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?, 
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, iLincID?, AuthMode?)>
+	ApproveDate?, AgreeDate?, iLincID?, iLincLogin?, iLincPasswd?, AuthMode?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
@@ -80,3 +80,5 @@
 <!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime *** wenn aggreedate nicht funktioniert, soll dann approvedate importiert werden? -->
 <!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode dafür in ilObjUser. Implementieren? -->
 <!ELEMENT iLincID (#PCDATA)>
+<!ELEMENT iLincLogin (#PCDATA)>
+<!ELEMENT iLincPasswd (#PCDATA)>
