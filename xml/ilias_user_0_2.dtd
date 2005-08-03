@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?, 
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, iLincID?, iLincLogin?, iLincPasswd?, AuthMode?)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
