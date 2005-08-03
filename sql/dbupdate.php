@@ -8310,3 +8310,24 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+<#512>
+<?php
+	// convert referral_comment and hobby textareas in usr_data:
+	// change html entities &lt; &gt; &amp; to normal characters because
+	// the form was changed
+	$res = $ilDB->query("SELECT usr_id, referral_comment, hobby FROM usr_data");
+	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$newhobby = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["hobby"])));
+		$newcomment = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["referral_comment"])));
+		if ((strcmp($row["hobby"], $newhobby) != 0) || (strcmp($row["referral_comment"], $newcomment) != 0))
+		{
+			$q = sprintf("UPDATE usr_data SET hobby = %s, referral_comment = %s WHERE usr_id = %s",
+				$ilDB->quote($newhobby . ""),
+				$ilDB->quote($newcomment . ""),
+				$ilDB->quote($row["usr_id"] . "")
+			);
+			$ilDB->query($q);
+		}
+	}
+?>
