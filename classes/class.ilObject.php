@@ -58,6 +58,7 @@ class ilObject
 	var $type;
 	var $title;
 	var $desc;
+	var $long_desc;
 	var $owner;
 	var $create_date;
 	var $last_update;
@@ -237,6 +238,17 @@ class ilObject
 		$this->last_update = $obj["last_update"];
 		$this->import_id = $obj["import_id"];
 
+		if($objDefinition->isRBACObject($this->getType()))
+		{
+			// Read long description
+			$query = "SELECT * FROM object_description WHERE obj_id = '".$this->id."'";
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->setDescription($row->description);
+			}
+		}
+
 		// multilingual support systemobjects (sys) & categories (db)
 		$ilBench->start("Core", "ilObject_Constructor_getTranslation");
 		$translation_type = $objDefinition->getTranslationType($this->type);
@@ -258,7 +270,8 @@ class ilObject
 			if ($row)
 			{
 				$this->title = $row->title;
-				$this->desc = $row->description;
+				$this->setDescription($row->description);
+				#$this->desc = $row->description;
 			}
 		}
 
@@ -373,7 +386,23 @@ class ilObject
 	*/
 	function setDescription($a_desc)
 	{
+		// Shortened form is storted in object_data. Long form is stored in object_description
 		$this->desc = ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots);
+
+		$this->long_desc = $a_desc;
+
+		return true;
+	}
+
+	/**
+	* get object long description (stored in object_description)
+	*
+	* @access	public
+	* @return	string		object description
+	*/
+	function getLongDescription()
+	{
+		return strlen($this->long_desc) ? $this->long_desc : $this->desc;
 	}
 
 	/**
@@ -501,7 +530,7 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilDB, $log,$ilUser;
+		global $ilDB, $log,$ilUser,$objDefinition;
 
 		if (!isset($this->type))
 		{
@@ -525,6 +554,19 @@ class ilObject
 		$ilDB->query($q);
 
 		$this->id = $ilDB->getLastInsertId();
+
+
+		
+		// Save long form of description if is rbac object
+		if($objDefinition->isRBACObject($this->getType()))
+		{
+			$query = "INSERT INTO object_description SET ".
+				"obj_id = '".$this->id."', ".
+				"description = '".ilUtil::prepareDBString($this->getLongDescription())."'";
+			
+			$ilDB->query($query);
+		}
+		
 
 		// the line ($this->read();) messes up meta data handling: meta data,
 		// that is not saved at this time, gets lost, so we query for the dates alone
@@ -554,6 +596,7 @@ class ilObject
 	*/
 	function update()
 	{
+		global $objDefinition;
 
 		$q = "UPDATE object_data ".
 			"SET ".
@@ -572,6 +615,22 @@ class ilObject
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
+
+		if($objDefinition->isRBACObject($this->getType()))
+		{
+			// Update long description
+			$res = $this->ilias->db->query("SELECT * FROM object_description WHERE obj_id = '".$this->getId()."'");
+			if($res->numRows())
+			{
+				$query = "UPDATE object_description SET description = '".ilUtil::prepareDBString($this->getLongDescription())."'";
+			}
+			else
+			{
+				$query = "INSERT INTO object_description SET obj_id = '".$this->getId()."', ".
+					"description = '".ilUtil::prepareDBString($this->getLongDescription())."'";
+			}
+			$this->ilias->db->query($query);
+		}		
 
 		return true;
 	}
@@ -629,7 +688,7 @@ class ilObject
 		$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
 		$md_creator->setTitle($this->getTitle());
 		$md_creator->setTitleLanguage($ilUser->getPref('language'));
-		$md_creator->setDescription($this->getDescription());
+		$md_creator->setDescription($this->getLongDescription());
 		$md_creator->setDescriptionLanguage($ilUser->getPref('language'));
 		$md_creator->setKeywordLanguage($ilUser->getPref('language'));
 		$md_creator->setLanguage($ilUser->getPref('language'));
@@ -656,7 +715,7 @@ class ilObject
 		if (count($md_des_ids) > 0)
 		{
 			$md_des =& $md_gen->getDescription($md_des_ids[0]);
-			$md_des->setDescription($this->getDescription());
+			$md_des->setDescription($this->getLongDescription());
 			$md_des->update();
 		}
 		$md_gen->update();
@@ -835,15 +894,34 @@ class ilObject
 	*/
 	function _writeDescription($a_obj_id, $a_desc)
 	{
-		global $ilDB;
+		global $ilDB,$objDefinition;
+
+
+		$desc = ilUtil::shortenText($a_desc,MAXLENGTH_OBJ_DESC,true);
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"description = ".$ilDB->quote($a_desc).",".
+			"description = ".$ilDB->quote($desc).",".
 			"last_update = now() ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 
 		$ilDB->query($q);
+
+		if($objDefinition->isRBACObject($this->getType()))
+		{
+			// Update long description
+			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = '".$a_obj_id."'");
+			if($res->numRows())
+			{
+				$query = "UPDATE object_description SET description = '".ilUtil::prepareDBString($a_desc)."'";
+			}
+			else
+			{
+				$query = "INSERT INTO object_description SET obj_id = '".$this->getId()."', ".
+					"description = '".ilUtil::prepareDBString($a_desc)."'";
+			}
+			$ilDB->query($query);
+		}
 	}
 
 	/**
@@ -1112,6 +1190,10 @@ class ilObject
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = '".$this->getId()."'";
 			$this->ilias->db->query($q);
+
+			// delete long description
+			$query = "DELETE FROM object_description WHERE obj_id = '".$this->getId()."'";
+			$this->ilias->db->query($query);
 
 			// write log entry
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".

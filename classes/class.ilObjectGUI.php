@@ -1223,7 +1223,7 @@ class ilObjectGUI
 		else
 		{
 			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+			$fields["desc"] = ilUtil::stripSlashes($this->object->getLongDescription());
 		}
 
 		$this->displayEditForm($fields);
@@ -1906,7 +1906,7 @@ class ilObjectGUI
 						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
 						
 						$this->tpl->setCurrentBlock("subtitle");
-						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->setVariable("DESC", ilUtil::shortenText($name_field[1],MAXLENGTH_OBJ_DESC,true));
 						$this->tpl->parseCurrentBlock();
 					}
 					else
