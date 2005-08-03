@@ -1968,7 +1968,7 @@ class ilMDEditorGUI
 
 			case 'meta_meta_metadata':
 				return $this->listMetaMetadata();
-
+				
 			case 'debug':
 				return $this->debug();
 				
@@ -2023,8 +2023,12 @@ class ilMDEditorGUI
 					  'meta_rights' => 'listRights',
 					  'meta_relation' => 'listRelation',
 					  'meta_annotation' => 'listAnnotation',
-					  'meta_classification' => 'listClassification',
-					  'debug' => 'debug');
+					  'meta_classification' => 'listClassification');
+
+		if(DEVMODE)
+		{
+			$tabs['debug'] = 'debug';
+		}
 
 		foreach($tabs as $key => $target)
 		{
