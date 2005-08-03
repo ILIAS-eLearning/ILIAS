@@ -457,24 +457,6 @@ class ilObjectStatusGUI
 		return $this->__showObjectSummaryTable($result_set);
 	}
 	
-	function displayUserChangeForm()
-	{
-		global $lng;
-		
-		$class_name = get_class($this->object)."gui";
-
-		$this->tpl->addBlockfile('INFO_USER_CHANGE_FORM','info_change_user_form','tpl.info_change_user.html');
-		$this->tpl->setVariable("INFO_FORMACTION", $this->ctrl->getFormActionByClass($class_name,"info"));
-		//$this->tpl->setVariable("INFO_FORMACTION", "");
-		$this->tpl->setVariable('INFO_TXT_CHANGE_USER',$lng->txt('info_change_user_view'));
-		$this->tpl->setVariable('INFO_CMD_CHANGE_USER','info');
-		$this->tpl->setVariable('INFO_TXT_BTN_CHANGE_USER',$lng->txt('ok'));
-		$this->tpl->setVariable('INFO_INPUT_USER_ID',$lng->txt('info_enter_user_id'));
-		$this->tpl->setVariable("INFO_TXT_RESET_CURRENT_USER", $lng->txt('info_reset_current_user'));
-		$this->tpl->setVariable("INFO_LINK_RESET_CURRENT_USER", "http://127.0.0.1/ilias3/repository.php?ref_id=27&cmdClass=ilobjcoursegui&cmd=info&cmdNode=6&baseClass=");
-		
-	}
-	
 	function getCommands($a_type)
 	{
 		global $objDefinition;
