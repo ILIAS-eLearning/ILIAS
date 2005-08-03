@@ -426,6 +426,14 @@ class ilObjUserFolder extends ilObject
 			{
 				if (strlen($row["ilinc_id"])) $userline .= "<iLincID>".$row["ilinc_id"]."</iLincID>\n";
 			}
+			if (array_search("ilinc_user", $settings) !== FALSE)
+			{
+				if (strlen($row["ilinc_user"])) $userline .= "<iLincUser>".$row["ilinc_user"]."</iLincUser>\n";
+			}
+			if (array_search("ilinc_passwd", $settings) !== FALSE)
+			{
+				if (strlen($row["ilinc_passwd"])) $userline .= "<iLincPasswd>".$row["ilinc_passwd"]."</iLincPasswd>\n";
+			}
 			if (array_search("auth_mode", $settings) !== FALSE)
 			{
 				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>\n";
@@ -580,6 +588,8 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "approve_date");
 		array_push($export_settings, "agree_date");
 		array_push($export_settings, "ilinc_id");
+		array_push($export_settings, "ilinc_user");
+		array_push($export_settings, "ilinc_passwd");
 		array_push($export_settings, "client_ip");
 		array_push($export_settings, "auth_mode");
 		return $export_settings;
