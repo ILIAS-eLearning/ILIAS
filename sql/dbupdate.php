@@ -8339,3 +8339,44 @@ CREATE TABLE `object_description` (
 ) TYPE=MyISAM;
 <#514>
 ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL DEFAULT NULL;
+<#515>
+<?php
+	// reconstruct original id's which were set wrong due to test duplication
+	$res = $ilDB->query("SELECT question_id, original_id FROM qpl_questions WHERE original_id > 0");
+	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$original_id = $row["original_id"];
+		$question_id = $row["question_id"];
+		$last_original_id = $row["original_id"];
+		$last_question_id = $row["question_id"];
+		while ($last_original_id > 0)
+		{
+			$search_query = sprintf("SELECT question_id, original_id FROM qpl_questions WHERE question_id = %s",
+				$ilDB->quote($last_original_id . "")
+			);
+			$result_search = $ilDB->query($search_query);
+			if ($result_search->numRows() == 0)
+			{
+				// no original found
+				$last_original_id = 0;
+			}
+			else
+			{
+				$search_row = $result_search->fetchRow(DB_FETCHMODE_ASSOC);
+				$last_original_id = $search_row["original_id"];
+				$last_question_id = $search_row["question_id"];
+			}
+		}
+		if ($last_question_id != $original_id)
+		{
+			if (($last_question_id > 0) && ($question_id > 0))
+			{
+				$update_query = sprintf("UPDATE qpl_questions SET original_id = %s WHERE question_id = %s",
+					$ilDB->quote($last_question_id . ""),
+					$ilDB->quote($question_id . "")
+				);
+				$result_update = $ilDB->query($update_query);
+			}
+		}
+	}
+?>
