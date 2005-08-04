@@ -1114,8 +1114,10 @@ class ASS_Question
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
-			$ilDB->quote($a_q_id));
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
+			$ilDB->quote($a_q_id),
+			$ilDB->quote($a_q_id)
+		);
 
 		$result = $ilDB->query($query);
 
@@ -1147,7 +1149,8 @@ class ASS_Question
 	function _getTotalRightAnswers($a_q_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
+			$ilDB->quote($a_q_id),
 			$ilDB->quote($a_q_id)
 		);
 		$result = $ilDB->query($query);
@@ -1188,6 +1191,29 @@ class ASS_Question
 		}
 	}
 
+	/**
+	* Returns the title of a question
+	*
+	* @param	int		$a_q_id		question id
+	*/
+	function _getTitle($a_q_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT title FROM qpl_questions WHERE question_id = %s",
+			$ilDB->quote($a_q_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["title"];
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
 	function copyPageOfQuestion($a_q_id)
 	{
 		if ($a_q_id > 0)
