@@ -163,7 +163,7 @@ class ilObjQuestionPool extends ilObject
 
 	function deleteQuestionpool()
 	{
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s",
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND original_id IS NULL",
 			$this->ilias->db->quote($this->getId()));
 
 		$result = $this->ilias->db->query($query);
