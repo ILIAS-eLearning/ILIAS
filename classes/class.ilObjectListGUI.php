@@ -314,6 +314,24 @@ class ilObjectListGUI
 		return $this->title;
 	}
 
+	/**
+	* @param string description
+	* @return bool
+	*/
+	function setDescription($a_description)
+	{
+		$this->description = $a_description;
+	}
+
+	/**
+	 * getDescription overwritten in class.ilObjLinkResourceList.php 
+	 *
+	 * @return string description
+	 */
+	function getDescription()
+	{
+		return $this->description;
+	}
 
 	/**
 	* inititialize new item (is called by getItemHTML())
@@ -328,7 +346,8 @@ class ilObjectListGUI
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
 		$this->setTitle($a_title);
-		$this->description = $a_description;
+		$this->setDescription($a_description);
+		#$this->description = $a_description;
 		
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
@@ -510,7 +529,7 @@ class ilObjectListGUI
 	function insertDescription()
 	{
 		$this->tpl->setCurrentBlock("item_description");
-		$this->tpl->setVariable("TXT_DESC", $this->description);
+		$this->tpl->setVariable("TXT_DESC", $this->getDescription());
 		$this->tpl->parseCurrentBlock();
 	}
 

@@ -82,6 +82,14 @@ class ilLinkResourceItems
 	{
 		return $this->title;
 	}
+	function setDescription($a_description)
+	{
+		$this->description = $a_description;
+	}
+	function getDescription()
+	{
+		return $this->description;
+	}
 	function setTarget($a_target)
 	{
 		$this->target = $a_target;
@@ -169,6 +177,7 @@ class ilLinkResourceItems
 		$this->__setLastUpdateDate(time());
 		$query = "UPDATE webr_items ".
 			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
+			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
 			"target = '".ilUtil::prepareDBString($this->getTarget())."', ".
 			"active = '".$this->getActiveStatus()."', ".
 			"valid = '".$this->getValidStatus()."', ".
@@ -286,6 +295,7 @@ class ilLinkResourceItems
 
 		$query = "INSERT INTO webr_items ".
 			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
+			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
 			"target = '".ilUtil::prepareDBString($this->getTarget())."', ".
 			"active = '".$this->getActiveStatus()."', ".
 			"disable_check = '".$this->getDisableCheckStatus()."', ".
@@ -313,6 +323,7 @@ class ilLinkResourceItems
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
+			$this->setDescription($row->description);
 			$this->setTarget($row->target);
 			$this->setActiveStatus($row->active);
 			$this->setDisableCheckStatus($row->disable_check);
@@ -337,6 +348,7 @@ class ilLinkResourceItems
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
+			$item['description']		= $row->description;
 			$item['target']				= $row->target;
 			$item['active']				= (bool) $row->active;
 			$item['disable_check']		= $row->disable_check;
@@ -359,6 +371,7 @@ class ilLinkResourceItems
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$items[$row->link_id]['title']				= $row->title;
+			$items[$row->link_id]['description']		= $row->description;
 			$items[$row->link_id]['target']				= $row->target;
 			$items[$row->link_id]['active']				= (bool) $row->active;
 			$items[$row->link_id]['disable_check']		= $row->disable_check;
@@ -445,6 +458,7 @@ class ilLinkResourceItems
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
+			$item['description']		= $row->description;
 			$item['target']				= $row->target;
 			$item['active']				= (bool) $row->active;
 			$item['disable_check']		= $row->disable_check;

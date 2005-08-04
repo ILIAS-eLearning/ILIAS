@@ -62,6 +62,19 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		}
 		return parent::getTitle();
 	}
+	/**
+	* overwritten from base class
+	*/
+	function getDescription()
+	{
+		if($this->__checkDirectLink())
+		{
+			$this->__readLink();
+			
+			return $this->link_data['description'];
+		}
+		return parent::getDescription();
+	}
 
 	/**
 	* initialisation
