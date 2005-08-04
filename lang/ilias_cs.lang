@@ -2855,6 +2855,7 @@ common#:#welcome#:#Welcome###16 Mar 2004 new variable
 common#:#who_is_online#:#Kdo je přihlášen?###07 Apr 2005 content changed
 common#:#with#:#s###07 Apr 2005 content changed
 common#:#write#:#Zápis###07 Apr 2005 content changed
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Ano###07 Apr 2005 content changed
 common#:#you_may_add_local_roles#:#Můžete přidat lokální role###07 Apr 2005 content changed
 common#:#your_message#:#Vaše zpráva###07 Apr 2005 content changed

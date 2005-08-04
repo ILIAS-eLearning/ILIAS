@@ -2694,6 +2694,7 @@ common#:#welcome#:#Mirë se Vini
 common#:#who_is_online#:#Kush është online?
 common#:#with#:#me
 common#:#write#:#Shkruaj
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Po
 common#:#you_may_add_local_roles#:#Ju Mund Të Shtoni Role Lokale
 common#:#your_message#:#Porosia Juaj

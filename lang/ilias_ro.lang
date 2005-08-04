@@ -2675,6 +2675,7 @@ common#:#welcome#:#Bine ati venit
 common#:#who_is_online#:#Cine este online?
 common#:#with#:#cu
 common#:#write#:#Scrieti
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Da
 common#:#you_may_add_local_roles#:#Puteti adauga Roluri Locale
 common#:#your_message#:#Mesajul Dumneavoastra

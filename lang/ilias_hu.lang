@@ -2645,6 +2645,7 @@ common#:#welcome#:#Üdvözöljük
 common#:#who_is_online#:#Ki van on-line?
 common#:#with#:#Mivel
 common#:#write#:#Ír
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Igen
 common#:#you_may_add_local_roles#:#Helyi szerepeket vehet fel
 common#:#your_message#:#Az Ön üzenete

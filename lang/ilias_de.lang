@@ -764,7 +764,6 @@ common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
-common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Bitte kontaktieren Sie den Systemadministrator.
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
@@ -2855,6 +2854,7 @@ common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
+common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Bitte kontaktieren Sie den Systemadministrator.
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht

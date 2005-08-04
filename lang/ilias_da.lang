@@ -2749,6 +2749,7 @@ common#:#welcome#:#Velkommen
 common#:#who_is_online#:#Hvem er online?
 common#:#with#:#Med
 common#:#write#:#Skriv
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Du kan tilf&oslash;je lokale roller
 common#:#your_message#:#Din Besked
