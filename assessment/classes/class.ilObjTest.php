@@ -5164,6 +5164,7 @@ class ilObjTest extends ilObject
 		$newObj->saveToDb();
 
 		// clone meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($original->getId(),0,$original->getType());
 		$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 	}
