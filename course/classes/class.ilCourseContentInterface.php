@@ -235,163 +235,12 @@ class ilCourseContentInterface
 				}
 				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 					$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-					
-				$tpl->setVariable("ITEM_HTML", $html);
 
-/*
-				$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
-				$obj_frame = ilRepositoryExplorer::buildFrameTarget($cont_data["type"],$cont_data["child"],$cont_data["obj_id"]);
-				$contentObj = false;
-				if (strcmp($cont_data["type"], "lm") == 0)
+				if(strlen($html))
 				{
-					require_once("./content/classes/class.ilObjContentObject.php");
-					$contentObj = new ilObjContentObject($cont_data["ref_id"]);
-					$contentObj->readProperties();
-				}
-				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id'])
-					&& $obj_link != "")	
-				{
-					$tpl->setCurrentBlock("crs_read");
-					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
-					$tpl->setVariable("READ_LINK", $obj_link);
-					if (strcmp($cont_data["type"], "lm") == 0)
-					{
-						if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) && !$contentObj->getOnline())
-						{
-							$tpl->setVariable("R_CLASS", " class=\"offline\"");
-						}
-					}
-					if ($obj_frame == "")
-					{
-						$tpl->setVariable("READ_TARGET", "");
-					}
-					else
-					{
-						$tpl->setVariable("READ_TARGET", $obj_frame);
-					}
-					$tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$tpl->setCurrentBlock("crs_visible");
-					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
-					$tpl->parseCurrentBlock();
-				}
-				if($cont_data["type"] == "file" and $rbacsystem->checkAccess('read',$cont_data['ref_id']))
-				{
-					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
-					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
+					$tpl->setVariable("ITEM_HTML", $html);
 				}
 
-				if(!$conditions_ok)
-				{
-					foreach(ilConditionHandler::_getConditionsOfTarget($cont_data['obj_id']) as $condition)
-					{
-						if(ilConditionHandler::_checkCondition($condition['id']))
-						{
-							continue;
-						}
-						$trigger_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
-
-						if(ilRepositoryExplorer::isClickable($trigger_obj->getType(),$trigger_obj->getRefId(),$trigger_obj->getId()))
-						{
-							$tpl->setCurrentBlock("link");
-							$tpl->setVariable("PRECONDITION_LINK",
-											  ilRepositoryExplorer::buildLinkTarget($trigger_obj->getRefId(),$trigger_obj->getType()));
-							$tpl->setVariable("PRECONDITION_NAME",$trigger_obj->getTitle());
-							$tpl->parseCurrentBlock();
-						}
-						else
-						{
-							$tpl->setCurrentBlock("no_link");
-							$tpl->setVariable("PRECONDITION_NO_TITLE",$trigger_obj->getTitle());
-							$tpl->parseCurrentBlock();
-						}
-					}
-					$tpl->setCurrentBlock("crs_preconditions");
-					$tpl->setVariable("TXT_PRECONDITIONS",$this->lng->txt('condition_precondition'));
-					$tpl->parseCurrentBlock();
-				}
-
-				if($rbacsystem->checkAccess('write',$cont_data['ref_id']))
-				{
-					if($obj_link = ilRepositoryExplorer::buildEditLinkTarget($cont_data["child"],$cont_data["type"]))
-					{
-						$tpl->setCurrentBlock("crs_edit");
-						$tpl->setVariable("EDIT_LINK", $obj_link);
-						$tpl->setVariable("TXT_EDIT",$this->lng->txt('edit'));
-						$tpl->parseCurrentBlock();
-					}
-				}
-				if($rbacsystem->checkAccess('delete',$cont_data['ref_id']))
-				{
-					$tpl->setCurrentBlock("crs_delete");
-
-					$this->cci_client_obj->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$cont_data["ref_id"]);
-						
-					$tpl->setVariable("DELETE_LINK",$this->cci_client_obj->ctrl->getLinkTargetByClass("ilRepositoryGUI","delete"));
-					$tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
-					$tpl->parseCurrentBlock();
-				}
-
-				// add evaluation tool link
-				if (strcmp($cont_data["type"], "svy") == 0)
-				{
-					require_once("./survey/classes/class.ilObjSurvey.php");
-					$this->lng->loadLanguageModule("survey");
-					$svy_data =& ilObjSurvey::_getGlobalSurveyData($cont_data["obj_id"]);
-					if (($rbacsystem->checkAccess('write',$cont_data["ref_id"]) 
-						 and $svy_data["complete"]) or ($svy_data["evaluation_access"] 
-														and $svy_data["complete"]))
-					{
-						$tpl->setCurrentBlock("svy_evaluation");
-						$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$cont_data["ref_id"]);
-						$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
-						$tpl->parseCurrentBlock();
-					}
-				}
-
-				// add test evaluation links
-				if (strcmp($cont_data["type"], "tst") == 0)
-				{
-					require_once("./assessment/classes/class.ilObjTestAccess.php");
-					$this->lng->loadLanguageModule("assessment");
-					$complete = ilObjTestAccess::_isComplete($cont_data["obj_id"]);
-					// add anonymous aggregated test results link
-					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and ($complete))
-					{
-						$tpl->setCurrentBlock("tst_anon_eval");
-						$tpl->setVariable("ANON_EVAL_LINK", "assessment/test.php?cmd=eval_a&ref_id=".$cont_data["ref_id"]);
-						$tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
-						$tpl->parseCurrentBlock();
-					}
-	
-					// add statistical evaluation tool
-					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and ($complete))
-					{
-						$tpl->setCurrentBlock("tst_statistical_evaluation");
-						$tpl->setVariable("STATISTICAL_EVALUATION_LINK", "assessment/test.php?cmd=eval_stat&ref_id=".$cont_data["ref_id"]);
-						$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
-						$tpl->parseCurrentBlock();
-					}
-				}
-
-				// add to desktop link
-				if ($ilias->account->getId() != ANONYMOUS_USER_ID and 
-					!$ilias->account->isDesktopItem($cont_data['ref_id'], $cont_data["type"]) and
-					$this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED)
-				{
-					if ($rbacsystem->checkAccess('read', $cont_data['ref_id']))
-					{
-						$tpl->setCurrentBlock("crs_subscribe");
-						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
-							"&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"]);
-
-						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-						$tpl->parseCurrentBlock();
-					}
-				}
-*/
 				// OPTIONS
 				if($write_perm)
 				{
@@ -458,63 +307,49 @@ class ilCourseContentInterface
 					$tpl->setCurrentBlock("options");
 					$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 					$tpl->parseCurrentBlock();
-				}
+ 				} // END write perm
 
-				$tpl->setCurrentBlock("tbl_content");
+				if(strlen($html))
+				{
+					$tpl->setCurrentBlock("tbl_content");
 
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				/*
-				if($cont_data["type"] == "lm")
-				{
-					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) && !$contentObj->getOnline())
-					{
-						$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"]."_offline".".gif"));
-						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]) . " (" . $this->lng->txt("offline") . ")");
-					}
-					else
-					{
-						$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
-						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-					}
-				}
-				else
-				{
-				*/
+					// change row color
+					$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 					$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
 					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-				//}
-				//$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+					//}
+					//$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 
-				// ACTIVATION
-				$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
-				if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
-					 $buyable == false) &&
-					$cont_data["activation_unlimited"])
-				{
-					$txt = $this->lng->txt("crs_unlimited");
-				}
-				else if ($buyable)
-				{
-					if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
+					// ACTIVATION
+					$buyable = ilPaymentObject::_isBuyable($this->cci_ref_id);
+					if (($rbacsystem->checkAccess('write',$this->cci_ref_id) ||
+						 $buyable == false) &&
+						$cont_data["activation_unlimited"])
 					{
-						$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
-							"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
+						$txt = $this->lng->txt("crs_unlimited");
+					}
+					else if ($buyable)
+					{
+						if (is_array($activation = ilPaymentObject::_getActivation($this->cci_ref_id)))
+						{
+							$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$activation["activation_start"]).
+								"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$activation["activation_end"]);
+						}
+						else
+						{
+							$txt = "N/A";
+						}
 					}
 					else
 					{
-						$txt = "N/A";
+						$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
+							"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
 					}
-				}
-				else
-				{
-					$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
-						"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
-				}
-				$tpl->setVariable("ACTIVATION_END",$txt);
+					$tpl->setVariable("ACTIVATION_END",$txt);
 
-				$tpl->parseCurrentBlock();
-				$num++;
+					$tpl->parseCurrentBlock();
+					$num++;
+				}
 			}
 		}
 
