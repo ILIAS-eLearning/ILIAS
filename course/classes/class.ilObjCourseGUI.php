@@ -143,7 +143,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess("read", $this->ref_id))
+		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2423,7 +2423,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTarget('learners_view',
 								 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
 		}
-		else
+		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget('view_content',
 								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
@@ -2435,7 +2435,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		}
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_details",
 								 $this->ctrl->getLinkTarget($this, "details"), "details", get_class($this));
@@ -2492,6 +2492,14 @@ class ilObjCourseGUI extends ilContainerGUI
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
+		if($rbacsystem->checkAccess('join',$this->ref_id)
+		   and !$rbacsystem->checkAccess('write',$this->ref_id)
+		   and !$this->object->members_obj->isMember($this->ilias->account->getId()))
+		{
+			$tabs_gui->addTarget("join",
+								 $this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+		}			
+
 		if($rbacsystem->checkAccess('leave',$this->ref_id) and 
 		   $this->object->members_obj->isMember($this->ilias->account->getId()))
 		{
@@ -3777,7 +3785,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			default:
-				if(!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join')
+				if((!$rbacsystem->checkAccess("read",$this->object->getRefId()) or $cmd == 'join')
+				   and $cmd != 'details')
 				{
 					$this->ctrl->setReturn($this,"");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
