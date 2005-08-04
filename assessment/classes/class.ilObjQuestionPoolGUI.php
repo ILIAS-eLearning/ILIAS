@@ -691,8 +691,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-		$question =& $this->object->createQuestion("", $_GET["q_id"]);
-		$total_of_answers = $question->getTotalAnswers();
+		include_once("./assessment/classes/class.assQuestion.php");
+		$total_of_answers = ASS_Question::_getTotalAnswers($_GET["q_id"]);
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", true);
@@ -718,7 +718,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question->object->getTitle());
+		$this->tpl->setVariable("TXT_QUESTION_TITLE", ASS_Question::_getTitle($_GET["q_id"]));
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
 		$this->tpl->parseCurrentBlock();
