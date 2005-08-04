@@ -88,7 +88,21 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}
 				break;
-				
+
+			case 'details':
+				include_once 'course/classes/class.ilCourseMembers.php';
+
+				// No details button if user is member
+				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
+				{
+					return false;
+				}
+				// No details button if user has join permission
+				if($rbacsystem->checkAccessOfUser($a_user_id,'join',$a_ref_id))
+				{
+					return false;
+				}
+				break;
 		}
 
 		switch ($a_permission)
@@ -130,9 +144,10 @@ class ilObjCourseAccess extends ilObjectAccess
 		$commands = array
 		(
 			array("permission" => "read", "cmd" => "view", "lang_var" => "view",
-				"default" => true),
+				  "default" => true),
 			array("permission" => "join", "cmd" => "join", "lang_var" => "join"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+			array('permission' => 'visible', 'cmd' => 'details','lang_var' => 'crs_info')
 		);
 		
 		return $commands;
