@@ -209,8 +209,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		include_once "./assessment/classes/class.ilObjTest.php";
 		ilObjTest::_clone($_POST["tst"]);
-		ilUtil::redirect($this->getReturnLocation("post","$returnlocation?".$this->link_params));
-//		ilUtil::redirect($this->getCallingScript() . "?".$this->link_params);
+		ilUtil::redirect($this->getReturnLocation("save", "adm_object.php?ref_id=" . $_GET["ref_id"]));
 	}
 	
 	/**

@@ -809,11 +809,8 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		// duplicate the question in database
 		$clone = $this;
-		$original_id = $this->id;
-		if ($original_id <= 0)
-		{
-			$original_id = "";
-		}
+		include_once ("./assessment/classes/class.assQuestion.php");
+		$original_id = ASS_Question::_getOriginalId($this->id);
 		$clone->id = -1;
 		if ($title)
 		{
