@@ -1106,6 +1106,7 @@ class ilObject
 		$this->ilias->db->query($q);
 
 		$this->ref_id = $ilDB->getLastInsertId();
+		$this->referenced = true;
 
 		return $this->ref_id;
 	}

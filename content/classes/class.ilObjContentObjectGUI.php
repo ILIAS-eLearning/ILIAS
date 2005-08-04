@@ -1238,7 +1238,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// check whether subdirectory exists within zip file
 		if (!is_dir($newObj->getImportDirectory()."/".$subdir))
 		{
-			$newObj->delete();
 			$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
 				$this->ilias->error_obj->MESSAGE);
 		}
@@ -1246,7 +1245,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// check whether xml file exists within zip file
 		if (!is_file($xml_file))
 		{
-			$newObj->delete();
 			$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
 				$this->ilias->error_obj->MESSAGE);
 		}
