@@ -8380,3 +8380,5 @@ ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL D
 		}
 	}
 ?>
+<#516>
+ALTER TABLE `webr_items` ADD `description` TEXT NOT NULL AFTER `title`;

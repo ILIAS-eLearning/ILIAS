@@ -141,6 +141,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($items as $item_id => $item)
 		{
+			if(strlen($item['description']))
+			{
+				$tpl->setCurrentBlock("description");
+				$tpl->setVariable("DESCRIPTION",$item['description']);
+				$tpl->parseCurrentBlock();
+			}
 			$tpl->setCurrentBlock("row");
 			$tpl->setVariable("ROW_CSS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$tpl->setVariable("TITLE",$item['title']);
@@ -231,6 +237,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($items as $item_id => $item)
 		{
+			if(strlen($item['description']))
+			{
+				$tpl->setCurrentBlock("description");
+				$tpl->setVariable("DESCRIPTION",$item['description']);
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("row");
 			$tpl->setVariable("ROW_CSS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			
@@ -450,8 +463,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_webr'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('webr_edit_item'));
-		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('title'));
-		$this->tpl->setVariable("DESCRIPTION",ilUtil::prepareFormOutput($item['title']));
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('description'));
+		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($item['title']));
+		$this->tpl->setVariable("DESCRIPTION",ilUtil::prepareFormOutput($item['description']));
 		$this->tpl->setVariable("TXT_TARGET",$this->lng->txt('target'));
 		$this->tpl->setVariable("TARGET",ilUtil::prepareFormOutput($item['target']));
 		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('webr_active'));
@@ -506,6 +521,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->object->items_obj->readItem($_SESSION['webr_item_id']);
 		$this->object->items_obj->setLinkId($_SESSION['webr_item_id']);
 		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->object->items_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
 		$this->object->items_obj->setActiveStatus($_POST['active']);
 		$this->object->items_obj->setValidStatus($_POST['valid']);
@@ -540,6 +556,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('webr_add_item'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("TXT_TARGET",$this->lng->txt('target'));
 		$this->tpl->setVariable("TARGET",$target);
 		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('active'));
@@ -575,6 +592,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			return false;
 		}
 		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->object->items_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
 		$this->object->items_obj->setActiveStatus($_POST['active']);
 		$this->object->items_obj->setDisableCheckStatus($_POST['disable_check']);

@@ -1,24 +1,29 @@
 	<form action="{FORMACTION}" name="ObjectItems" method="post">
 	  <table class="std" width="60%">
-		  <tr class="tbltitle">
-			<td colspan="2">
-			  <table class="fullwidth_invisible" cellspacing="0">
-				  <tr class="tbltitle">
-					<td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
-					<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
-				  </tr>
-			  </table>
-			</td>
-		  </tr>
-		  <tr class="tblheader">
-			<td class="std" colspan="2">&nbsp</td>
-		  </tr>
+		<tr class="tbltitle">
+		  <td colspan="2">
+			<table class="fullwidth_invisible" cellspacing="0">
+			  <tr class="tbltitle">
+				<td width="10"><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" /></td>
+				<td class="tbltitle" align="left">&nbsp;{TBL_TITLE}</td>
+			  </tr>
+			</table>
+		  </td>
+		</tr>
+		<tr class="tblheader">
+		  <td class="std" colspan="2">&nbsp</td>
+		</tr>
+		<tr>
+		  <td class="option" width="30%">
+			{TXT_TITLE}
+		  </td>
+		  <td class="option_value"><input name="title" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
 		  <tr>
-			<td class="option" width="30%">
-			  {TXT_DESCRIPTION}
-			</td>
-			<td class="option_value"><input name="title" value="{DESCRIPTION}" size="40" maxlength="70" style="width:300px;"/></td>
-		  <tr>
+			<tr>
+			  <td class="option" width="30%">{TXT_DESCRIPTION}</td>
+			  <td class="option_value"><textarea name="description" rows="2" cols="40" style="width:300px;">{DESCRIPTION}</textarea></td>
+			</tr>
+
 			<td class="option" width="30%">
 			  {TXT_TARGET}
 			</td>
