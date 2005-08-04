@@ -1,45 +1,50 @@
   <tr>
-	<td valign="center" class="{ROWCOL}" nowrap="nowrap">
-	  <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
-	</td>
-	<td valign="top" class="{ROWCOL}" nowrap="nowrap">
-	  {ITEM_HTML}
-	  <!-- BEGIN crs_read -->
-	  <a href="{READ_LINK}" target={READ_TARGET}{R_CLASS}>{READ_TITLE}</a>
-	  <!-- END crs_read -->
-	  <!-- BEGIN crs_visible -->
-	  <b>{VIEW_TITLE}</b>
-	  <!-- END crs_visible -->
-	  <!-- BEGIN crs_edit -->
-	  [<a href="{EDIT_LINK}">{TXT_EDIT}</a>]
-	  <!-- END crs_edit -->
-	  <!-- BEGIN crs_delete -->
-	  [<a href="{DELETE_LINK}">{TXT_DELETE}</a>]
-	  <!-- END crs_delete -->
-	  <!-- BEGIN crs_subscribe -->
-	  [<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a>]
-	  <!-- END crs_subscribe -->
-		<!-- BEGIN tst_anon_eval -->	
-		[<a href="{ANON_EVAL_LINK}">{TXT_ANON_EVAL}</a>]
-		<!-- END tst_anon_eval -->
-		<!-- BEGIN tst_statistical_evaluation -->	
-		[<a href="{STATISTICAL_EVALUATION_LINK}">{TXT_STATISTICAL_EVALUATION}</a>]
-		<!-- END tst_statistical_evaluation -->
-		<!-- BEGIN svy_evaluation -->	
-		[<a href="{EVALUATION_LINK}">{TXT_EVALUATION}</a>]
-		<!-- END svy_evaluation -->
-	  <!-- BEGIN crs_preconditions -->
-	  [{TXT_PRECONDITIONS}<!-- BEGIN no_link -->&nbsp;<b>{PRECONDITION_NO_TITLE}</b><!-- END no_link --><!-- BEGIN link -->&nbsp;<a href="{PRECONDITION_LINK}">{PRECONDITION_NAME}</a><!-- END link -->]
-	  <!-- END crs_preconditions -->
-	</td>
-	<td valign="top" class="{ROWCOL}"><div class="small" style="float:left;">{ACTIVATION_END}</div>
-	<div class="il_ContainerItemCommand" style="float:right;"><a class="il_ContainerItemCommand" href="{LINK_ACT_EDIT}">{TXT_ACT_EDIT}</a></div></td>
-	<!-- BEGIN options -->
-	<td valign="center" class="{OPT_ROWCOL}" nowrap="nowrap">
-	  <!-- BEGIN img -->
-	  <a href="{IMG_LINK}" target="{IMG_TARGET}"><img src="{IMG_TYPE}" alt="{IMG_ALT}" title="{IMG_ALT}" border="0" vspace="0" /></a>&nbsp;
-		<!-- END img -->
-	</td>
-	<!-- END options -->
+  <td valign="center" class="{ROWCOL}" nowrap="nowrap">
+	<img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
+  </td>
+  <td valign="top" class="{ROWCOL}" nowrap="nowrap">
+	{ITEM_HTML}
+	<!-- BEGIN crs_read -->
+	<a href="{READ_LINK}" target={READ_TARGET}{R_CLASS}>{READ_TITLE}</a>
+	<!-- END crs_read -->
+	<!-- BEGIN crs_visible -->
+	<b>{VIEW_TITLE}</b>
+	<!-- END crs_visible -->
+	<!-- BEGIN crs_edit -->
+	[<a href="{EDIT_LINK}">{TXT_EDIT}</a>]
+	<!-- END crs_edit -->
+	<!-- BEGIN crs_delete -->
+	[<a href="{DELETE_LINK}">{TXT_DELETE}</a>]
+	<!-- END crs_delete -->
+	<!-- BEGIN crs_subscribe -->
+	[<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a>]
+	<!-- END crs_subscribe -->
+	<!-- BEGIN tst_anon_eval -->	
+	[<a href="{ANON_EVAL_LINK}">{TXT_ANON_EVAL}</a>]
+	<!-- END tst_anon_eval -->
+	<!-- BEGIN tst_statistical_evaluation -->	
+	[<a href="{STATISTICAL_EVALUATION_LINK}">{TXT_STATISTICAL_EVALUATION}</a>]
+	<!-- END tst_statistical_evaluation -->
+	<!-- BEGIN svy_evaluation -->	
+	[<a href="{EVALUATION_LINK}">{TXT_EVALUATION}</a>]
+	<!-- END svy_evaluation -->
+	<!-- BEGIN crs_preconditions -->
+	[{TXT_PRECONDITIONS}<!-- BEGIN no_link -->&nbsp;<b>{PRECONDITION_NO_TITLE}</b><!-- END no_link --><!-- BEGIN link -->&nbsp;<a href="{PRECONDITION_LINK}">{PRECONDITION_NAME}</a><!-- END link -->]
+	<!-- END crs_preconditions -->
+  </td>
+  <td valign="top" class="{ROWCOL}"><div class="small" style="float:left;">{ACTIVATION_END}</div>
+	<!-- BEGIN activation_edit -->
+	<div class="il_ContainerItemCommand" style="float:right;">
+	  <a class="il_ContainerItemCommand" href="{LINK_ACT_EDIT}">{TXT_ACT_EDIT}</a>
+	</div>
+	<!-- END activation_edit -->
+  </td>
+  <!-- BEGIN options -->
+  <td valign="center" class="{OPT_ROWCOL}" nowrap="nowrap">
+	<!-- BEGIN img -->
+	<a href="{IMG_LINK}" target="{IMG_TARGET}"><img src="{IMG_TYPE}" alt="{IMG_ALT}" title="{IMG_ALT}" border="0" vspace="0" /></a>&nbsp;
+	<!-- END img -->
+  </td>
+  <!-- END options -->
   </tr>
   
