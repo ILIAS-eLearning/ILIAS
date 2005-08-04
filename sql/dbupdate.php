@@ -8382,3 +8382,30 @@ ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL D
 ?>
 <#516>
 ALTER TABLE `webr_items` ADD `description` TEXT NOT NULL AFTER `title`;
+
+<#517>
+ALTER TABLE `ilinc_data` DROP `class_id`;
+ALTER TABLE `ilinc_data` DROP `user_id`;
+
+ALTER TABLE `ilinc_data` ADD `contact_name` VARCHAR( 255 ) ,
+ADD `contact_responsibility` VARCHAR( 255 ) ,
+ADD `contact_phone` VARCHAR( 255 ) ,
+ADD `contact_email` VARCHAR( 255 ) ,
+ADD `activation_unlimited` TINYINT( 2 ) ,
+ADD `activation_start` INT( 11 ) ,
+ADD `activation_end` INT( 11 ) ,
+ADD `activation_offline` ENUM( 'y', 'n' ) ,
+ADD `subscription_unlimited` TINYINT( 2 ) ,
+ADD `subscription_start` INT( 11 ) ,
+ADD `subscription_end` INT( 11 ) ,
+ADD `subscription_type` TINYINT( 2 ) ,
+ADD `subscription_password` VARCHAR( 32 ) ;
+
+CREATE TABLE `ilinc_registration` (
+`obj_id` INT UNSIGNED NOT NULL ,
+`usr_id` INT UNSIGNED NOT NULL ,
+`usr_text` VARCHAR( 255 ) ,
+`application_date` DATETIME,
+PRIMARY KEY ( `obj_id` ) ,
+INDEX ( `usr_id` )
+);
