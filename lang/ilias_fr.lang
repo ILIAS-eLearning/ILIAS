@@ -2831,6 +2831,7 @@ common#:#welcome#:#Bienvenue###07 Apr 2005 content changed
 common#:#who_is_online#:#Qui est connecté ?###07 Apr 2005 content changed
 common#:#with#:#avec###07 Apr 2005 content changed
 common#:#write#:#Ecrire###07 Apr 2005 content changed
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Oui###07 Apr 2005 content changed
 common#:#you_may_add_local_roles#:#Vous pouvez ajouter des rôles locaux###07 Apr 2005 content changed
 common#:#your_message#:#Votre message###07 Apr 2005 content changed

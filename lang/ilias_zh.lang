@@ -2873,6 +2873,7 @@ common#:#welcome#:#欢迎###07 Apr 2005 content changed
 common#:#who_is_online#:#谁在线？###07 Apr 2005 content changed
 common#:#with#:#同###07 Apr 2005 content changed
 common#:#write#:#白色###07 Apr 2005 content changed
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#是###07 Apr 2005 content changed
 common#:#you_may_add_local_roles#:#您可以增加局部角色###07 Apr 2005 content changed
 common#:#your_message#:#您的消息###07 Apr 2005 content changed

@@ -2843,6 +2843,7 @@ common#:#welcome#:#Ласкаво Просимо
 common#:#who_is_online#:#Хто щє онлайн?
 common#:#with#:#з
 common#:#write#:#Писати
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Так
 common#:#you_may_add_local_roles#:#Ви Можете Додати Локальні Ролі
 common#:#your_message#:#Ваше Повідомлення

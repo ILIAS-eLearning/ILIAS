@@ -2855,6 +2855,7 @@ common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Tak
 common#:#you_may_add_local_roles#:#Możesz dodać lokalną rolę
 common#:#your_message#:#Twoja wiadomość

@@ -2448,6 +2448,7 @@ common#:#welcome#:#Добре дошли
 common#:#who_is_online#:#Кой е онлайн?
 common#:#with#:#с
 common#:#write#:#Записване
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Да
 common#:#you_may_add_local_roles#:#Можете да добавяте локални роли
 common#:#your_message#:#Вашето съобщение

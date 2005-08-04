@@ -2694,6 +2694,7 @@ common#:#welcome#:#Dobro došli
 common#:#who_is_online#:#Ko je na vezi?
 common#:#with#:#sa
 common#:#write#:#Piši
+common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Da
 common#:#you_may_add_local_roles#:#Modete dodati lokalne funkcije
 common#:#your_message#:#Vaša poruka
