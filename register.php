@@ -395,6 +395,19 @@ function displayForm()
 		{
 			$str = $lng->txt("person_title");
 		}
+		
+		if (!in_array($key, array("default_role", "login", "passwd", "passwd2",
+			"firstname", "lastname", "gender")))
+		{
+			 if ($settings["usr_settings_hide_".$key] != 1)
+			 {
+				 $tpl->setCurrentBlock($key."_section");
+			 }
+			 else
+			 {
+				 continue;
+			 }
+		}
 
         // check to see if dynamically required
         if (isset($settings["require_" . $key]) && $settings["require_" . $key])
@@ -411,6 +424,12 @@ function displayForm()
 		else
 		{
 			$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
+		}
+		
+		if (!in_array($key, array("default_role", "login", "passwd", "passwd2",
+			"firstname", "lastname", "gender")))
+		{
+			$tpl->parseCurrentBlock();
 		}
 	}
 

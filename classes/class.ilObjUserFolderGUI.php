@@ -1718,7 +1718,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_HEADER_PROFILE", $this->lng->txt("usr_settings_header_profile"));
 		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));
 		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
-		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("changeable"));
 		$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));
 		$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("HEADER_EXPORT", $this->lng->txt("export"));

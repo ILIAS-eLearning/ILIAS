@@ -770,6 +770,7 @@ common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active#:#Active
+common#:#changeable#:#Changeable
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
 common#:#add_author#:#Add Author
@@ -2769,7 +2770,7 @@ common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
-common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  
+common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#User profile settings
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!

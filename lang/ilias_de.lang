@@ -769,6 +769,7 @@ common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
 common#:#active#:#Aktiv
+common#:#changeable#:#Änderbar
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -2768,7 +2769,7 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Klicken Sie in die angebotenen Kontrollkästchen, um die Einstellungen im persönlichen Profil aller Nutzerinnen zu aktivieren oder zu deaktiveren. Alle deaktivierten oder versteckten Einstellungen können nur noch über Administration/Benutzerkonten bearbeitet werden!
+common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld in der Neuanmeldung und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Neuanmeldung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
