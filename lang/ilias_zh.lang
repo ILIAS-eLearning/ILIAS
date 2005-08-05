@@ -1012,6 +1012,7 @@ common#:#change_header_title#:#编辑标题###07 Apr 2005 content changed
 common#:#change_lo_info#:#更改学习对象信息###07 Apr 2005 content changed
 common#:#change_metadata#:#更改元数据###07 Apr 2005 content changed
 common#:#change_sort_direction#:#更改分类方向###07 Apr 2005 content changed
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#已更改为###07 Apr 2005 content changed
 common#:#chapter#:#章###07 Apr 2005 content changed
 common#:#chapter_number#:#章号###07 Apr 2005 content changed
@@ -1133,6 +1134,7 @@ common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#删除课程###07 Apr 2005 content changed
 common#:#crs_edit#:#编辑课程###07 Apr 2005 content changed
 common#:#crs_edit_permission#:#更改许可设置###07 Apr 2005 content changed
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#注册课程###07 Apr 2005 content changed
 common#:#crs_leave#:#注销课程###07 Apr 2005 content changed
 common#:#crs_management_system#:#课程管理系统###07 Apr 2005 content changed

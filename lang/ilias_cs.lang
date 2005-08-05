@@ -994,6 +994,7 @@ common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Změnit informace o výukovém objektu###07 Apr 2005 content changed
 common#:#change_metadata#:#Změnit metadata###07 Apr 2005 content changed
 common#:#change_sort_direction#:#Změnit směr řazení###07 Apr 2005 content changed
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#změněn na###07 Apr 2005 content changed
 common#:#chapter#:#Kapitola###07 Apr 2005 content changed
 common#:#chapter_number#:#Číslo kapitoly###07 Apr 2005 content changed
@@ -1115,6 +1116,7 @@ common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Delete Course###16 Mar 2004 new variable
 common#:#crs_edit#:#Upravit kurz###07 Apr 2005 content changed
 common#:#crs_edit_permission#:#Change permission settings###16 Mar 2004 new variable
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Subscribe to Course###16 Mar 2004 new variable
 common#:#crs_leave#:#Unsubscribe from Course###16 Mar 2004 new variable
 common#:#crs_management_system#:#Systém pro správu kurzů###07 Apr 2005 content changed

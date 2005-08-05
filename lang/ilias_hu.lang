@@ -930,6 +930,7 @@ common#:#change_header_title#:#Feljéccím szerkesztése
 common#:#change_lo_info#:#Tananyagobjektum információjának változtatása
 common#:#change_metadata#:#Metaadat-változtatás
 common#:#change_sort_direction#:#Rendezési irány változtatása
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#amire változtat
 common#:#chapter#:#Fejezet
 common#:#chapter_number#:#Fejezetszám
@@ -1047,6 +1048,7 @@ common#:#crs_create_webr#:#Új webforrás létrehozása###15 Jul 2005 content ch
 common#:#crs_delete#:#Kurzus törlése
 common#:#crs_edit#:#Kurzus szerkesztése
 common#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Kurzus felvétele
 common#:#crs_leave#:#Kurzus leadása
 common#:#crs_management_system#:#Kurzusmenedzsment-rendszer
@@ -2568,7 +2570,7 @@ common#:#usr_agreement_empty#:#A megállapodás nem tartalmaz szöveget
 common#:#usr_edit#:#Felhasználó szerkesztése
 common#:#usr_hits_per_page#:#Listákban egyszerre megjelenített elemszám
 common#:#usr_new#:#Új felhasználó
-common#:#usr_settings_explanation_profile#:#Ellenőrizze a felajánlott jelölőnégyzeteket, hogy letilthassa vagy elrejthesse az egyes személyes adatok beállításait az összes felhasználó számára a Munkaasztal > Felhasználói adatok képernyőn. Minden letiltott vagy elrejtett Felhasználói adatokbeli beállítás csak az adminisztrációs fa / felhasználói bejelenkezésekkel szerkeszthető.
+common#:#usr_settings_explanation_profile#:#Ellenőrizze a felajánlott jelölőnégyzeteket, hogy letilthassa vagy elrejthesse az egyes személyes adatok beállításait az összes felhasználó számára a Munkaasztal > Felhasználói adatok képernyőn. Minden letiltott vagy elrejtett Felhasználói adatokbeli beállítás csak az adminisztrációs fa / felhasználói bejelenkezésekkel szerkeszthető.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Felhasználói adatok beállításai
 common#:#usr_settings_header_profile_profile#:#Felhasználói adatok beállítás
 common#:#usr_settings_saved#:#A globális felhasználói beállítások sikeresen mentésre kerültek!
@@ -3378,7 +3380,7 @@ crs#:#crs_unblocked_member_body#:#Tagsága újra letárolásra került
 crs#:#crs_unlimited#:#Nem limitált
 crs#:#crs_unsubscribe#:#Leiratkozás
 crs#:#crs_unsubscribe_sure#:#Le akar iratkozni erről a kurzusról?
-crs#:#crs_unsubscribed_from_crs#:#Feliratkozott erre a kurzusra
+crs#:#crs_unsubscribed_from_crs#:#Feliratkozott erre a kurzusra###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Tanulási célkitűzés szerkesztése
 crs#:#crs_users_added#:#Kurzushoz felvett felhasználók
 crs#:#crs_users_already_assigned#:#A felhasználó már hozzá lett rendelve ehhez a kurzushoz

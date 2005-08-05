@@ -964,6 +964,7 @@ common#:#change_header_title#:#Editati Titlul
 common#:#change_lo_info#:#Schimbati informatia despre Obiectele de Studiu
 common#:#change_metadata#:#Schimbati metadatele
 common#:#change_sort_direction#:#Schimbati directia sortarii
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#schimbata in
 common#:#chapter#:#Capitol
 common#:#chapter_number#:#Numarul Capitolului
@@ -1074,6 +1075,7 @@ common#:#crs_create_tst#:#Creati Test
 common#:#crs_delete#:#Stergeti Curs
 common#:#crs_edit#:#Editati Curs
 common#:#crs_edit_permission#:#Schimbati setarile de permisiune
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Inscriere la Curs
 common#:#crs_leave#:#Renuntare la Curs
 common#:#crs_management_system#:#Sistem de Management al Cursurilor
@@ -3293,7 +3295,7 @@ crs#:#crs_unblocked_member_body#:#Calitatea de membru al cursului v-a fost redat
 crs#:#crs_unlimited#:#Nelimitat
 crs#:#crs_unsubscribe#:#Retragere
 crs#:#crs_unsubscribe_sure#:#Doriti sa va retrageti de la acest curs
-crs#:#crs_unsubscribed_from_crs#:#V-ati inscris la acest curs
+crs#:#crs_unsubscribed_from_crs#:#V-ati inscris la acest curs###05 Aug 2005 content changed
 crs#:#crs_users_added#:#Utilizator adaugat la curs
 crs#:#crs_users_already_assigned#:#Utilizatorul a fost deja inscris la acest curs
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable

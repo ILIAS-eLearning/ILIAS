@@ -981,6 +981,7 @@ common#:#change_header_title#:#Modifier titre de l'entête###07 Apr 2005 content
 common#:#change_lo_info#:#Changer informations sur le cours###07 Apr 2005 content changed
 common#:#change_metadata#:#Changer méta-données###07 Apr 2005 content changed
 common#:#change_sort_direction#:#Changer ordre de tri###07 Apr 2005 content changed
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#changé en###07 Apr 2005 content changed
 common#:#chapter#:#Chapitre###07 Apr 2005 content changed
 common#:#chapter_number#:#Numéro de chapitre###07 Apr 2005 content changed
@@ -1102,6 +1103,7 @@ common#:#crs_create_webr#:#Créer nouvelles ressources web###07 Apr 2005 content
 common#:#crs_delete#:#Détruire cours###07 Apr 2005 content changed
 common#:#crs_edit#:#Modifier cours###07 Apr 2005 content changed
 common#:#crs_edit_permission#:#Changer les paramètres de permission###07 Apr 2005 content changed
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#S'abonner au cours###07 Apr 2005 content changed
 common#:#crs_leave#:#Se désabonner du cours###07 Apr 2005 content changed
 common#:#crs_management_system#:#Système de gestion de cours###07 Apr 2005 content changed

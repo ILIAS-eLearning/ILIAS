@@ -994,6 +994,7 @@ common#:#change_header_title#:#Wijzig hoofd-titel###07 Apr 2005 content changed
 common#:#change_lo_info#:#Leerobject-informatie wijzigen###07 Apr 2005 content changed
 common#:#change_metadata#:#Metadata wijzigen###07 Apr 2005 content changed
 common#:#change_sort_direction#:#Sorteervolgorde wijzigen###07 Apr 2005 content changed
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#gewijzigd in###07 Apr 2005 content changed
 common#:#chapter#:#Hoofdstuk###07 Apr 2005 content changed
 common#:#chapter_number#:#Hoofdstuk-nummer###07 Apr 2005 content changed
@@ -1115,6 +1116,7 @@ common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Verwijderen cursus###07 Apr 2005 content changed
 common#:#crs_edit#:#Cursus wijzigen###07 Apr 2005 content changed
 common#:#crs_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Abonneren op cursus###07 Apr 2005 content changed
 common#:#crs_leave#:#Abonnement op cursus beëindigen###07 Apr 2005 content changed
 common#:#crs_management_system#:#Cursus-management-systeem###07 Apr 2005 content changed
