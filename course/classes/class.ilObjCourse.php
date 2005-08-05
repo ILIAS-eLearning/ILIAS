@@ -479,11 +479,11 @@ class ilObjCourse extends ilObject
 		{
 			$this->appendMessage($this->lng->txt("max_members_not_numeric"));
 		}
-		if($this->getSubscriptionMaxMembers() and
-			$this->getSubscriptionMaxMembers() < $this->members_obj->getCountMembers())
-		{
-			$this->appendMessage($this->lng->txt("crs_max_members_smaller_members"));
-		}
+		#if($this->getSubscriptionMaxMembers() and
+		#	$this->getSubscriptionMaxMembers() < $this->members_obj->getCountMembers())
+		#{
+		#	$this->appendMessage($this->lng->txt("crs_max_members_smaller_members"));
+		#}
 		if($this->getArchiveStart() > $this->getArchiveEnd())
 		{
 			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
