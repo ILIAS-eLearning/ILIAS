@@ -146,6 +146,7 @@ class ilCourseContentInterface
 		include_once "./classes/class.ilRepositoryExplorer.php";
 		include_once "./payment/classes/class.ilPaymentObject.php";
 		include_once './course/classes/class.ilCourseStart.php';
+		include_once './classes/class.ilObjectListGUIFactory.php';
 
 		global $rbacsystem;
 		global $ilias;
@@ -221,13 +222,13 @@ class ilCourseContentInterface
 				// get item list gui object
 				if (!is_object ($this->list_gui[$cont_data["type"]]))
 				{
-					$class = $objDefinition->getClassName($cont_data["type"]);
-					$location = $objDefinition->getLocation($cont_data["type"]);
-					$full_class = "ilObj".$class."ListGUI";
-					include_once($location."/class.".$full_class.".php");
-					$item_list_gui = new $full_class();
+					$item_list_gui =& ilObjectListGUIFactory::_getListGUIByType($cont_data["type"]);
 					$item_list_gui->setContainerObject($this->container);
-					$this->list_gui[$cont_data["type"]] = $item_list_gui;
+					
+					// Enable/disable subscription depending on course settings
+					$item_list_gui->enableSubscribe($this->cci_course_obj->getAboStatus());
+
+					$this->list_gui[$cont_data["type"]] =& $item_list_gui;
 				}
 				else
 				{
