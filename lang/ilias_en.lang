@@ -41,20 +41,42 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
+common#:#icrs_create_icla#:#Create LearnLinc Classrooms
+common#:#ilinc_manage_course_documents#:#Materials
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
+common#:#ilinc_notset#:#Not set
+common#:#please_choose#:#-- Select --
+common#:#ilinc_coursemember_status#:#Attending as
+common#:#ilinc_docent#:#Instructor
+common#:#ilinc_student#:#Participant
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
+common#:#extt_ilinc_timeout#:#Max time waiting for server response
+common#:#seconds#:#Seconds
+common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
+common#:#icrs_added#:#LearnLinc Seminar added
+common#:#ilinc_involved_users#:#Involved Users
+common#:#icrs_edit#:#Edit LearnLinc Seminar
+common#:#icla_edit#:#Edit LearnLinc Classroom
+common#:#ilinc_classroom_closed#:#Classroom is closed
+common#:#ilinc_classroom_open#:#Classroom is open
+common#:#ilinc_classroom_always_open#:#Classroom is always open
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#options#:#Options
+common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:
+common#:#ilinc_upload_pic_linktext#:#Upload
+common#:#ilinc_remark#:#Remark
+common#:#ilinc_server_not_active#:#iLinc server not activated
+common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
@@ -1482,6 +1504,14 @@ common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
+common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?
+common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?
+common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator
+common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.
+common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
+common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.
+common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
 common#:#grp_create_alm#:#Create AICC Learning Module
@@ -1591,8 +1621,8 @@ common#:#http_path#:#Http Path
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#i2passwd#:#ILIAS 2 password
 common#:#icla#:#LearnLinc Classroom
-common#:#icla_add#:#Add LearnLinc Seminar room
-common#:#icla_new#:#New LearnLinc Seminar room
+common#:#icla_add#:#Add LearnLinc Classroom
+common#:#icla_new#:#New LearnLinc Classroom
 common#:#icrs#:#LearnLinc Seminar
 common#:#icrs_add#:#Add LearnLinc Seminar
 common#:#icrs_delete#:#Delete LearnLinc Seminar
@@ -1618,7 +1648,7 @@ common#:#il_grp_member#:#Group member
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar member
 common#:#ilias_version#:#ILIAS version
-common#:#ilinc_classrooms#:#LearnLinc Seminar rooms
+common#:#ilinc_classrooms#:#LearnLinc Classrooms
 common#:#ilinc_courses#:#LearnLinc Seminars
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Image
@@ -2114,7 +2144,7 @@ common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
 common#:#obj_hlm#:#Learning Module HACP
 common#:#obj_htlm#:#Learning Module HTML
-common#:#obj_icla#:#LearnLinc Seminar room
+common#:#obj_icla#:#LearnLinc Classroom
 common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
@@ -2191,7 +2221,7 @@ common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
 common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML Learning Modules
-common#:#objs_icla#:#LearnLinc Seminar rooms
+common#:#objs_icla#:#LearnLinc Classrooms
 common#:#objs_icrs#:#LearnLinc Seminars
 common#:#objs_lm#:#ILIAS Learning Modules
 common#:#objs_lng#:#Languages
@@ -3724,6 +3754,8 @@ dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
 dateplaner#:#execute#:#Execute choices
 dateplaner#:#extra_dates#:#One Day Events
 dateplaner#:#free#:#Free
+common#:#ilinc_no_docent_assigned#:#Not assigned
+common#:#icla_deleted#:#LearnLinc classroom(s) deleted
 dateplaner#:#freetime#:#Free Time in group
 dateplaner#:#group#:#Group
 dateplaner#:#help_day#:#Calendar Day View

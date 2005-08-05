@@ -79,5 +79,36 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 
 		return $cmd_link;
 	}
+	
+	/**
+	* Get item properties
+	*
+	* @return	array		array of property arrays:
+	*						"alert" (boolean) => display as an alert property (usually in red)
+	*						"property" (string) => property name
+	*						"value" (string) => property value
+	*/
+	function getProperties()
+	{
+		global $lng, $ilias;
+
+		$props = array();
+
+		include_once("ilinc/classes/class.ilObjiLincCourse.php");
+
+		if (!ilObjiLincCourse::_isActivated($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
+
+		if (!$ilias->getSetting("ilinc_active"))
+		{
+			$props[] = array("alert" => false, "property" => $lng->txt("ilinc_remark"),
+				"value" => $lng->txt("ilinc_server_not_active"));
+		}
+
+		return $props;
+	}
 } // END class.ilObjiLincCOurseListGUI
 ?>

@@ -165,7 +165,7 @@ class ilTabsGUI
 		$a_cmdClass = strtolower($a_cmdClass);
 
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
-			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass);
+			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame);
 //echo "<br>addTarget:".$a_link."::";
 	}
 

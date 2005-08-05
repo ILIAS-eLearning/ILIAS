@@ -75,7 +75,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	* @param	int			$a_description	item description
 	* @return	string		html code
 	*/
-	function getListItemHTML($a_icrs_ref_id, $a_icla_id, $a_title, $a_description)
+	function getListItemHTML($a_icrs_ref_id, $a_icla_id, $a_title, $a_description,$a_item)
 	{
 		// this variable stores wheter any admin commands
 		// are included in the output
@@ -90,6 +90,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 
 		// insert title and describtion
 		$this->insertTitle();
+
 		if (!$this->isMode(IL_LIST_AS_TRIGGER))
 		{
 			if ($this->getDescriptionStatus())
@@ -101,7 +102,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		// properties
 		if ($this->getPropertiesStatus())
 		{
-			$this->insertProperties();
+			$this->insertProperties($a_item);
 		}
 
 		// preconditions
@@ -127,7 +128,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	function initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description)
 	{
 		$this->ref_id = $a_icla_id;
-		$this->obj_id = "";
+		$this->obj_id = $a_icrs_ref_id;
 		$this->title = $a_title;
 		$this->description = $a_description;
 		
@@ -170,13 +171,12 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 			$cmd = $command["cmd"];
 			$lang_var = $command["lang_var"];
 
-			// TODO: check here for docent flag
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
-			//$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id);
+			$item_data = $this->container_obj->items['icla'][$this->ref_id];
+			$access = $ilAccess->doStatusCheck($permission, $cmd, $this->obj_id, $item_data,$this->ref_id,"icla");
 
-
-			if (true)
+			if ($access)
 			{
 				$cmd_link = $this->getCommandLink($command["cmd"]);
 				$cmd_frame = $this->getCommandFrame($command["cmd"]);
@@ -305,6 +305,49 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		}
 
 		return $frame;
+	}
+	
+	/**
+	* Get item properties
+	*
+	* Overwrite this method to add properties at
+	* the bottom of the item html
+	*
+	* @return	array		array of property arrays:
+	*						"alert" (boolean) => display as an alert property (usually in red)
+	*						"property" (string) => property name
+	*						"value" (string) => property value
+	*/
+	function getProperties($a_item = '')
+	{
+		$props = array();
+
+		// docent
+		include_once ('ilinc/classes/class.ilObjiLincClassroom.php');
+		$docent = ilObjiLincClassroom::_getDocent($a_item['instructoruserid']);
+				
+		if (!$docent)
+		{
+			$props[] = array("alert" => true, "property" => $this->lng->txt(ILINC_MEMBER_DOCENT), "value" => $this->lng->txt('ilinc_no_docent_assigned'));
+		}
+		else
+		{
+			$props[] = array("alert" => false, "property" => $this->lng->txt(ILINC_MEMBER_DOCENT), "value" => $docent);
+		}
+var_dump($a_item['alwaysopen']);
+		// offline
+		if ($a_item['alwaysopen'] == 'Wahr')
+		{
+			$props[] = array("alert" => false, "property" => $this->lng->txt("status"),
+				"value" => $this->lng->txt("ilinc_classroom_always_open"));
+		}
+		else
+		{
+			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+				"value" => $this->lng->txt("ilinc_classroom_closed"));
+		}
+
+		return $props;
 	}
 } // END class.ilObjiLincClassroomListGUI
 ?>

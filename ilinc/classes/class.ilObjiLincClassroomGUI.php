@@ -45,7 +45,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	function ilObjiLincClassroomGUI($a_icla_id,$a_icrs_id)
 	{
 		global $ilCtrl,$lng,$ilias,$objDefinition,$tpl,$tree,$ilErr;
-		
 		$this->type = "icla";
 		$this->id = $a_icla_id;
 		$this->parent = $a_icrs_id;
@@ -101,17 +100,46 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
 		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
 		
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
-		$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
-		$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
-		$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
-		$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
-		$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
+
+		// get all docents of course
+		$docentlist = $this->object->getDocentList();
+		
+		$docent_options[0] = $this->lng->txt('please_choose');
+
+		foreach ($docentlist as $id => $data)
+		{
+			$docent_options[$id] = $data['fullname'];
+		}
+		
+		$sel_docents = ilUtil::formSelect("0","Fobject[instructoruserid]",$docent_options,false,true);
+		
+		$this->tpl->setVariable("TXT_DOCENT", $this->lng->txt(ILINC_MEMBER_DOCENT));
+		$this->tpl->setVariable("SEL_DOCENT", $sel_docents);
+		
+		
+		$docent = 0; $student = 0;
+
+		if ($ilinc_status == ILINC_MEMBER_DOCENT)
+		{
+			$docent = 1;
+		}
+		elseif ($ilinc_status == ILINC_MEMBER_STUDENT)
+		{
+			$student = 1;
+		}
+		
+		$radio1 = ilUtil::formRadioButton(1,"Fobject[alwaysopen]","1");
+		$radio2 = ilUtil::formRadioButton(0,"Fobject[alwaysopen]","0");
+		
+		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("access"));
+		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 																   $_GET["ref_id"]."&new_type=".$new_type));
@@ -131,10 +159,12 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 		
-		$ilinc_crs_id = ilObjiLincClassroom::_lookupiCourseId($this->parent);
+		$ilinc_course_id = ilObjiLincClassroom::_lookupiCourseId($this->parent);
 
-		$this->object->ilinc->addClass($_POST['Fobject'],$ilinc_crs_id);
-		$response = $this->object->ilinc->sendRequest('addClass');
+//var_dump($_POST["Fobject"]);exit;
+
+		$this->object->ilincAPI->addClass($ilinc_course_id,$_POST['Fobject']);
+		$response = $this->object->ilincAPI->sendRequest('addClass');
 		
 		if ($response->isError())
 		{
@@ -197,7 +227,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	*/
 	function displayEditForm($fields)
 	{
-		$this->getTemplateFile("edit");
+		//$this->getTemplateFile("edit");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
 
 		foreach ($fields as $key => $val)
 		{
@@ -205,6 +236,39 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// get all docents of course
+		$docentlist = $this->object->getDocentList();
+		
+		$docent_options[0] = $this->lng->txt('please_choose');
+
+		foreach ($docentlist as $id => $data)
+		{
+			$docent_options[$id] = $data['fullname'];
+		}
+		
+		$sel_docents = ilUtil::formSelect($this->object->getDocentId(),"Fobject[instructoruserid]",$docent_options,false,true);
+		
+		$this->tpl->setVariable("TXT_DOCENT", $this->lng->txt(ILINC_MEMBER_DOCENT));
+		$this->tpl->setVariable("SEL_DOCENT", $sel_docents);
+		
+		
+		$open = 0; $closed = 0;
+
+		if ($this->object->getStatus())
+		{
+			$open = 1;
+		}
+		else
+		{
+			$closed = 1;
+		}
+		
+		$radio1 = ilUtil::formRadioButton($open,"Fobject[alwaysopen]","1");
+		$radio2 = ilUtil::formRadioButton($closed,"Fobject[alwaysopen]","0");
+		
+		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("access"));
+		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
 		$obj_str = "&class_id=".$this->object->id;
 
@@ -331,7 +395,14 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
+		$this->object->setDocentId($_POST["Fobject"]["instructoruserid"]);
+		$this->object->setStatus($_POST["Fobject"]["alwaysopen"]);
+
+
+		if (!$this->object->update())
+		{
+			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+		}
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 

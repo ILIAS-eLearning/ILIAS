@@ -34,6 +34,57 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjiLincClassroomAccess extends ilObjectAccess
 {
+	
+	/**
+	* checks wether a user may invoke a command or not
+	* (this method is called by ilAccessHandler::checkAccess)
+	*
+	* @param	string		$a_cmd		command (not permission!)
+	* @param	string		$a_permission	permission
+	* @param	int			$a_ref_id	reference id
+	* @param	int			$a_obj_id	object id
+	* @param	int			$a_user_id	user id (if not provided, current user is taken)
+	*
+	* @return	boolean		true, if everything is ok
+	*/
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+
+		$user_id = $ilUser->getId();
+		$class_id = $a_ref_id;
+		$course_ref_id = $a_obj_id;
+		$class_arr = $a_user_id;
+
+		/** ATTENTION
+		* ref_id contains ilinc classroom id
+		* obj_id contains ILIAS ref_id of iLinc Seminar
+		* user_id contains online status of classroom
+		*/
+		switch ($a_cmd)
+		{
+			case 'join':
+				if($class_arr['alwaysopen'] == "Falsch")
+				{
+					return false;
+				}		
+				break;
+		}
+
+		switch ($a_permission)
+		{
+			case "write":
+			case "delete":
+			
+				if(!$rbacsystem->checkAccessOfUser($user_id,'create',$course_ref_id,"ilca"))
+				{
+					return false;
+				}	
+				break;
+		}
+		
+		return true;
+	}
 
 	/**
 	 * get commands
@@ -52,7 +103,6 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 		$commands = array
 		(
 			array("permission" => "join", "cmd" => "joinClassroom", "lang_var" => "join", "frame" => "_blank"),
-			array("permission" => "write", "cmd" => "agendaClassroom", "lang_var" => "agenda", "frame" => "_blank"),
 			array("permission" => "write", "cmd" => "editClassroom", "lang_var" => "edit"),
 			array("permission" => "delete", "cmd" => "removeClassroom", "lang_var" => "delete")
 		);

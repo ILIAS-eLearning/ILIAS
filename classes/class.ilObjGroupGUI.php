@@ -290,7 +290,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("grp_name_exists"),$this->ilErr->MESSAGE);
 		}
 
-		// create and insert forum in objecttree
+		// create and insert group in objecttree
 		$groupObj = parent::saveObject();
 
 		// setup rolefolder & default local roles (admin & member)
@@ -321,7 +321,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
 		{
-			$this->ilErr->raiseError("No permissions to change group status!",$this->ilErr->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
 
 		// check required fields

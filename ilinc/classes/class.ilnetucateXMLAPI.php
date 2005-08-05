@@ -21,6 +21,10 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	function ilnetucateXMLAPI()
 	{
 		global $ilias;
+		
+		define('ILINC_MEMBER_NOTSET','ilinc_notset');
+		define('ILINC_MEMBER_DOCENT','ilinc_docent');
+		define('ILINC_MEMBER_STUDENT','ilinc_student');
 
 		parent::ilXmlWriter();
 
@@ -78,7 +82,8 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		// workaround for error in iLinc API
 		/*if ($a_request == "userLogin")
 		{
-			$this->request = ereg_replace("></netucate.Task>","/>",$this->request);
+			//var_dump($this->request);exit;
+			//$this->request = ereg_replace("></netucate.Task>","/>",$this->request);
 		}*/
 		
 		//var_dump($this->request);exit;
@@ -115,7 +120,10 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		// return netucate response object
 		$response_obj =  new ilnetucateResponse($response);
 		
-		//var_dump($response,$response_obj->data);exit;
+		/*if ($a_request == "editClass")
+		{
+			var_dump($response,$response_obj->data);exit;
+		}*/
 
 		return $response_obj;
 	}
@@ -125,9 +133,10 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	 * 
 	 * @param	array	login data
 	 * @param	string	user fullname
+	 * @param	string	permission level (optional)
 	 *  
 	 */
-	function addUser(&$a_login_data,&$a_user_obj)
+	function addUser(&$a_login_data,&$a_user_obj,$a_authority = "leader")
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -148,7 +157,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$attr['loginname'] = $a_login_data["login"];
 		$attr['fullname'] = $a_user_obj->getFullname();
 		$attr['password'] = $a_login_data["passwd"];
-		$attr['authority'] = "leader";
+		$attr['authority'] = $a_authority;
 		$attr['email'] = $a_user_obj->getEmail();
 		$this->xmlStartTag('netucate.User',$attr);
 		$this->xmlEndTag('netucate.User');
@@ -156,7 +165,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.API.Request');
 	}
 
-	function registerUser($a_ilinc_user_id,$a_ilinc_course_id,$a_instructor = "False")
+	function registerUser($a_ilinc_course_id,$a_ilinc_user_arr)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -179,17 +188,21 @@ class ilnetucateXMLAPI extends ilXmlWriter
 
 		$this->xmlStartTag('netucate.User.List');
 
-		$attr = array();
-		$attr['userid'] = $a_ilinc_user_id;
-		$attr['instructorflag'] =$a_instructor;
-		$this->xmlStartTag('netucate.User',$attr);
-		$this->xmlEndTag('netucate.User');
+		foreach ($a_ilinc_user_arr as $user)
+		{
+			$attr = array();
+			$attr['userid'] = $user['id'];
+			$attr['instructorflag'] = $user['instructor'];
+			$this->xmlStartTag('netucate.User',$attr);
+			$this->xmlEndTag('netucate.User');
+		}
 		
 		$this->xmlEndTag('netucate.User.List');
 		
 		$this->xmlEndTag('netucate.Course');
 		
 		$this->xmlEndTag('netucate.API.Request');
+		//var_dump($a_ilinc_user_arr,$this->xmlDumpMem());exit;
 	}
 	
 	function findRegisteredUsersByRole($a_ilinc_course_id,$a_instructorflag = false)
@@ -246,7 +259,6 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		{
 			$attr = array();
 			$attr['userid'] = $user_id;
-			$attr['instructorflag'] = "True";
 			$this->xmlStartTag('netucate.User',$attr);
 			$this->xmlEndTag('netucate.User');
 		}
@@ -322,7 +334,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function addClass($a_icla_arr,$a_icrs_id)
+	function addClass($a_course_id,$a_data)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -340,12 +352,28 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.Command');
 
 		$attr = array();
-		$attr['courseid'] = $a_icrs_id;
-		$attr['name'] = $a_icla_arr['title'];
+		$attr['courseid'] = $a_course_id;
+		$attr['name'] = $a_data['title'];
+		$attr['instructoruserid'] = $a_data['instructoruserid'];
+		$attr['description'] = $a_data['desc'];
+		$attr['alwaysopen'] = $a_data['alwaysopen'];
+		//$attr['password'] = $a_data['password'];
+		//$attr['bandwidth'] = $a_data['bandwidth'];
+		//$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
+		//$attr['message'] = $a_data['message'];
+		//$attr['floorpolicy'] = $a_data['floorpolicy'];
+		//$attr['conferencetypeid'] = $a_data['conferencetypeid'];
+		//$attr['videobandwidth'] = $a_data['videobandwidth'];
+		//$attr['videoframerate'] = $a_data['videoframerate'];
+		//$attr['enablepush'] = $a_data['enablepush'];
+		//$attr['issecure'] = $a_data['issecure'];
+		//$attr['akclassvalue1'] = $a_data['akclassvalue1'];
+		//$attr['akclassvalue2'] = $a_data['akclassvalue2'];
 		$this->xmlStartTag('netucate.Class',$attr);
 		$this->xmlEndTag('netucate.Class');
 		
 		$this->xmlEndTag('netucate.API.Request');
+		//var_dump($this->xmlDumpMem());exit;
 	}
 
 	function editClass($a_class_id,$a_data)
@@ -354,7 +382,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');
-		
+
 		$attr = array();
 		$attr['user'] = $this->reg_login;
 		$attr['password'] = $this->reg_passwd;
@@ -369,12 +397,12 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$attr['classid'] = $a_class_id;
 		$attr['name'] = $a_data['name'];
 		$attr['instructoruserid'] = $a_data['instructoruserid'];
-		$attr['bandwidth'] = $a_data['bandwidth'];
-		$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
 		$attr['description'] = $a_data['description'];
 		$attr['alwaysopen'] = $a_data['alwaysopen'];
 		$attr['password'] = $a_data['password'];
 		$attr['message'] = $a_data['message'];
+		$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
+		$attr['bandwidth'] = $a_data['bandwidth'];
 		$attr['floorpolicy'] = $a_data['floorpolicy'];
 		$attr['conferencetypeid'] = $a_data['conferencetypeid'];
 		$attr['videobandwidth'] = $a_data['videobandwidth'];
@@ -410,20 +438,21 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function userLogin(&$a_user_obj,$a_lang)
+	function userLogin(&$a_user_obj)
 	{
+		$this->xmlClear();
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');
 
-		$data = $a_user_obj->getiLincData();
+		$ilinc_data = $a_user_obj->getiLincData();
 
 		$attr = array();
-		$attr['user'] = $data['login'];
-		$attr['password'] = $data['passwd'];
+		$attr['user'] = $ilinc_data['login'];
+		$attr['password'] = $ilinc_data['passwd'];
 		$attr['customerid'] = $this->customer_id;
 		$attr['id'] = "";
-		$attr['locale'] = $a_lang;
+		$attr['locale'] = $a_user_obj->getLanguage();
 		$attr['task'] = "UserLogin";
 		$this->xmlStartTag('netucate.Task',$attr);
 		$this->xmlEndTag('netucate.Task');
@@ -431,7 +460,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.API.Request');
 	}
 	
-	function uploadPicture(&$a_user_obj,$a_lang)
+	function uploadPicture(&$a_user_obj)
 	{
 		$this->xmlHeader();
 
@@ -444,7 +473,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$attr['password'] = $data['passwd'];
 		$attr['customerid'] = $this->customer_id;
 		$attr['id'] = "";
-		$attr['locale'] = $a_lang;
+		$attr['locale'] = $a_user_obj->getLanguage();
 		$attr['task'] = "UploadPicture";
 		$this->xmlStartTag('netucate.Task',$attr);
 		$this->xmlEndTag('netucate.Task');
@@ -559,7 +588,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->xmlEndTag('netucate.API.Request');
 	}
 
-	function editCourse(&$a_user_obj)
+	function editCourse($a_icrs_id,$a_icrs_arr)
 	{
 		$this->xmlClear();
 		$this->xmlHeader();
@@ -578,11 +607,11 @@ class ilnetucateXMLAPI extends ilXmlWriter
 
 		// Modifies any or all of the fields in a Course record. An empty parameter in an existing attribute (except the name) will cause the corresponding field to be cleared.
 		$attr = array();
-		$attr['courseid'] = "2191"; // (required; existing courseID)
-		$attr['name'] = "New Name"; // (optional; if present and not empty, the value will be changed)
-		$attr['homepage'] = ""; // (optional; if present and not empty, the value will be changed)
-		$attr['download'] = ""; // (optional; if present and not empty, the value will be changed)
-		$attr['description'] = ""; // (optional; if present and not empty, the value will be changed)
+		$attr['courseid'] = $a_icrs_id; // (required; existing courseID)
+		$attr['name'] = $a_icrs_arr['title']; // (optional; if present and not empty, the value will be changed)
+		$attr['homepage'] = $a_icrs_arr['homepage']; // (optional; if present and not empty, the value will be changed)
+		$attr['download'] = $a_icrs_arr['download']; // (optional; if present and not empty, the value will be changed)
+		$attr['description'] = $a_icrs_arr['desc']; // (optional; if present and not empty, the value will be changed)
 		$this->xmlStartTag('netucate.Course',$attr);
 		$this->xmlEndTag('netucate.Course');
 		

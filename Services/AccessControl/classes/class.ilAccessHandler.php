@@ -73,11 +73,11 @@ class ilAccessHandler
 
 		//var_dump("<pre>",$a_permission,"</pre>");
 
-		$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
-			array("granted" => $a_access_granted, "info" => $a_info);
+		//$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
+		//	array("granted" => $a_access_granted, "info" => $a_info);
 						
 		$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);			
-		$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
+		//$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
 		$this->last_info = $a_info;
 
 		// get new info object

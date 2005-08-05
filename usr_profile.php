@@ -820,6 +820,31 @@ if (userSettingVisible("upload"))
 	$tpl->setVariable("USER_FILE", $lng->txt("user_file"));
 }
 
+// ilinc upload pic
+if (userSettingVisible("upload") and $ilias->getSetting("ilinc_active"))
+{
+	$ilinc_data = $ilias->account->getiLincData();
+		
+	if ($ilinc_data["id"])
+	{
+		include_once ('ilinc/classes/class.ilnetucateXMLAPI.php');
+		$ilincAPI = new ilnetucateXMLAPI();
+		
+		$ilincAPI->uploadPicture($ilias->account);
+		$response = $ilincAPI->sendRequest("uploadPicture");
+	
+		// return URL to user's personal page
+		$url = trim($response->data['url']['cdata']);
+
+		$tpl->setCurrentBlock("ilinc_upload_pic");
+		$tpl->setVariable("TXT_ILINC_UPLOAD", $lng->txt("ilinc_upload_pic_text"));
+		$tpl->setVariable("ILINC_UPLOAD_LINK", $url);
+		$tpl->setVariable("ILINC_UPLOAD_LINKTXT", $lng->txt("ilinc_upload_pic_linktext"));
+		$tpl->parseCurrentBlock();
+	}
+}
+
+
 if (userSettingVisible("language"))
 {
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
@@ -850,7 +875,9 @@ if (userSettingVisible("matriculation"))
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
-$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()." (#".$ilias->account->getId().")"));
+$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()));
+//$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()." (#".$ilias->account->getId().")"));
+
 if (userSettingVisible("firstname"))
 {
 	$tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilias->account->getFirstname()));

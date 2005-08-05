@@ -31,7 +31,8 @@
 * @package ilias-core
 */
 
-require_once "./classes/class.ilObject.php";
+require_once ('./classes/class.ilObject.php');
+require_once ('class.ilnetucateXMLAPI.php');
 
 class ilObjiLincCourse extends ilObject
 {
@@ -46,6 +47,10 @@ class ilObjiLincCourse extends ilObject
 		$this->type = "icrs";
 		$this->ilObject($a_id,$a_call_by_reference);
 		$this->setRegisterMode(false);
+		$this->ilincAPI = new ilnetucateXMLAPI();
+		
+		$this->docent_ids = array();
+		$this->student_ids = array();
 	}
 	
 	/**
@@ -65,13 +70,26 @@ class ilObjiLincCourse extends ilObject
 		{
 			$data = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-			// fill member vars in one shot
 			$this->ilinc_id = $data->course_id;
+			$this->activated = ilUtil::yn2tf($data->activation_offline);
 		}
 		else
 		{
 			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
 		}
+	}
+	
+	function getiLincId()
+	{
+		return $this->ilinc_id;
+	}
+	
+	function getErrorMsg()
+	{
+		$err_msg = $this->error_msg;
+		$this->error_msg = "";
+
+		return $err_msg;
 	}
 
 	/**
@@ -82,12 +100,46 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function update()
 	{
-		if (!parent::update())
-		{			
+		$this->ilincAPI->editCourse($this->getiLincId(),$_POST["Fobject"]);
+		$response = $this->ilincAPI->sendRequest();
+		
+		if ($response->isError())
+		{
+			$this->error_msg = $response->getErrorMsg();
 			return false;
 		}
 
-		// put here object specific stuff
+
+		if (!parent::update())
+		{			
+			$this->error_msg = "database_error";
+			return false;
+		}
+		
+		$q = "UPDATE ilinc_data SET activation_offline='".$this->activated."' WHERE obj_id=".$this->getId()."";
+		$r = $this->ilias->db->query($q);
+		
+		return true;
+	}
+	
+	/**
+	* create course on iLinc server
+	*
+	* @access	public
+	* @return	boolean
+	*/
+	function addCourse()
+	{
+		$this->ilincAPI->addCourse($_POST["Fobject"]);
+		$response = $this->ilincAPI->sendRequest();
+		
+		if ($response->isError())
+		{
+			$this->error_msg = $response->getErrorMsg();
+			return false;
+		}
+		
+		$this->ilinc_id = $response->getFirstID();
 		
 		return true;
 	}
@@ -137,21 +189,25 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		//put here your module specific stuff
-		$q = "DELETE FROM ilinc_data WHERE course_id='".$this->ilinc_id."'";
+		$q = "DELETE FROM ilinc_data WHERE course_id='".$this->getiLincId()."'";
 		$this->ilias->db->query($q);
 		
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->removeCourse($this->ilinc_id);
-		$response = $ilinc->sendRequest();
+		// TODO: delete data in ilinc_registration table
 		
+		// remove course from ilinc server
+		$this->ilincAPI->removeCourse($this->getiLincId());
+		$response = $this->ilincAPI->sendRequest();
+
 		return true;
 	}
 	
-	function saveID($a_icrs_id)
+	// store iLinc Id in ILIAS and set variable
+	function storeiLincId($a_icrs_id)
 	{
-		$q = "INSERT INTO ilinc_data (obj_id,type,course_id,class_id) VALUES (".$this->id.",'icrs','".$a_icrs_id."',null)";
+		$q = "INSERT INTO ilinc_data (obj_id,type,course_id,activation_offline) VALUES (".$this->id.",'icrs','".$a_icrs_id."','".$this->activated."')";
 		$this->ilias->db->query($q);
+		
+		$this->ilinc_id = $a_icrs_id;
 	}
 	
 	/**
@@ -230,25 +286,44 @@ class ilObjiLincCourse extends ilObject
 	}
 	
 	/**
-	* add Member to icrs
+	* add Member to iLic course
 	* @access	public
 	* @param	integer	user_id
 	* @param	integer	member role_id of local group_role
+	* @param	boolean	register member on iLinc server as student(false) or docent(true)
 	*/
-	function addMember($a_user_id, $a_mem_role)
+	function addMember(&$a_user_obj, $a_mem_role, $a_instructor = false)
 	{
 		global $rbacadmin;
-
-		if (isset($a_user_id) && isset($a_mem_role) )
+//echo "0";
+		if (!isset($a_user_obj) && !isset($a_mem_role))
 		{
-			$this->join($a_user_id,$a_mem_role);
-			return true;
-		}
-		else
-		{
-			$this->ilias->raiseError(get_class($this)."::addMember(): Missing parameters !",$this->ilias->error_obj->WARNING);
+			$this->error_msg = get_class($this)."::addMember(): Missing parameters !";
 			return false;
 		}
+//echo "1";
+		// check if user is registered at iLinc server
+		if (!$this->userExists($a_user_obj))
+		{
+			// if not, add user on iLinc server
+			if ($this->addUser($a_user_obj) == false)
+			{
+				// error_msg already set
+				return false;
+			}
+		}
+//echo "2";
+		// assign membership to icourse on iLinc server
+		if (!$this->registerUser($a_user_obj,$a_instructor))
+		{
+			// error_msg already set
+			return false;
+		}
+//echo "3";
+		// finally assign user to member role in ILIAS
+		$this->join($a_user_obj->getId(),$a_mem_role);
+//echo "4";
+		return true;
 	}
 
 	/**
@@ -299,7 +374,6 @@ class ilObjiLincCourse extends ilObject
 		}
 
 		ilObjUser::updateActiveRoles($a_user_id);
-
 		return true;
 	}
 	
@@ -459,9 +533,9 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function getDefaultMemberRole()
 	{
-		$local_group_Roles = $this->getLocalRoles();
+		$local_icrs_Roles = $this->getLocalRoles();
 
-		return $local_group_Roles["il_icrs_member_".$this->getRefId()];
+		return $local_icrs_Roles["il_icrs_member_".$this->getRefId()];
 	}
 
 	/**
@@ -470,27 +544,38 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function getDefaultAdminRole()
 	{
-		$local_group_Roles = $this->getLocalRoles();
+		$local_icrs_Roles = $this->getLocalRoles();
 
-		return $local_group_Roles["il_icrs_admin_".$this->getRefId()];
+		return $local_icrs_Roles["il_icrs_admin_".$this->getRefId()];
 	}
 	
 	function getClassrooms()
 	{
 		global $ilErr;
+		
+		if (!$this->ilias->getSetting("ilinc_active"))
+		{
+			$this->error_msg = "ilinc_server_not_active";
+			return false;
+		}
 
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
+		$this->ilincAPI->findCourseClasses($this->getiLincId());
+		$response = $this->ilincAPI->sendRequest();
 
-		$ilinc->findCourseClasses($this->ilinc_id);
-		$response = $ilinc->sendRequest();
-		//echo "1";
 		if ($response->isError())
 		{
-			return $response->getErrorMsg();exit;
-			//$ilErr->raiseError($response->getErrorMsg(),$ilErr->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_get_classrooms";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
-		//echo "2";
+
 		if (!$response->data['classes'])
 		{
 			return $response->data['result']['cdata'];
@@ -498,8 +583,8 @@ class ilObjiLincCourse extends ilObject
 		//echo "3";
 		foreach ($response->data['classes'] as $class_id => $data)
 		{
-			$ilinc->findClass($class_id);
-			$response = $ilinc->sendRequest("findClass");
+			$this->ilincAPI->findClass($class_id);
+			$response = $this->ilincAPI->sendRequest("findClass");
 
 			if ($response->data['classes'])
 			{
@@ -508,10 +593,10 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		return $full_class_data;
-		//exit;	
-		//var_dump($response->data['classes']);exit;
 	}
 	
+	// checks if user is already registered at iLinc server
+	// TODO: check is only local in ILIAS not on iLinc server
 	function userExists(&$a_user_obj)
 	{
 		$data = $a_user_obj->getiLincData();
@@ -524,27 +609,34 @@ class ilObjiLincCourse extends ilObject
 		return true;
 	}
 	
+	// create user account on iLinc server
 	function addUser(&$a_user_obj)
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		
 		// create login and passwd for iLinc account
 		$login_data = $this->__createLoginData($a_user_obj->getId(),$a_user_obj->getLogin(),$this->ilias->getSetting($inst_id));
 		
-		$ilinc->addUser($login_data,$a_user_obj);
-		$response = $ilinc->sendRequest();
+		$this->ilincAPI->addUser($login_data,$a_user_obj);
+		$response = $this->ilincAPI->sendRequest();
 
 		if ($response->isError())
 		{
-			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_add_user";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
 		
 		$ilinc_user_id = $response->getFirstID();
 		$a_user_obj->setiLincData($ilinc_user_id,$login_data["login"],$login_data["passwd"]);
 		$a_user_obj->update();
 		
-		return $ilinc_user_id;
+		return true;
 	}
 
 	/**
@@ -555,21 +647,27 @@ class ilObjiLincCourse extends ilObject
 	 */
 	function __createLoginData($a_user_id,$a_user_login,$a_inst_id)
 	{
+		if (!$a_inst_id)
+		{
+			$a_inst_id = "0";
+		}
+
 		$data["login"] = substr($a_user_login,0,3)."_".$a_user_id."_".$a_inst_id."_".time();
 		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
 		
 		return $data;
 	}
 	
-	function isMember($a_user_id = 0,$a_course_id = 0)
+	function isMember($a_user_id = "")
 	{
-		return true;
-		
-		$q = "SELECT * FROM ilinc_data ".
-			 "WHERE user_id='".$a_user_id."' AND course_id='".$a_course_id."'";
-		$r = $this->ilias->db->query($q);
-		
-		if ($r->numRows() > 0)
+		if (strlen($a_user_id) == 0)
+		{
+			$a_user_id = $this->ilias->account->getId();
+		}
+
+		$arr_members = $this->getMemberIds();
+
+		if (in_array($a_user_id, $arr_members))
 		{
 			return true;
 		}
@@ -577,86 +675,214 @@ class ilObjiLincCourse extends ilObject
 		return false;
 	}
 	
-	function registerUser($a_ilinc_user_id,$a_ilinc_course_id,$a_instructor = "False")
+	function isDocent($a_user_obj = "")
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->registerUser($a_ilinc_user_id,$a_ilinc_course_id,$a_instructor);
-		$response = $ilinc->sendRequest("registerUser");
+		if (!$a_user_obj)
+		{
+			$a_user_obj =& $this->ilias->account;
+		}
+		
+		$docents = $this->getiLincMemberIds(true);
+		
+		$ilinc_data = $a_user_obj->getiLincData();
+		
+		if (in_array($ilinc_data['id'],$docents))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function registerUser(&$a_user_obj,$a_instructor = false)
+	{
+		if ($a_instructor === true)
+		{
+			$a_instructor = "True";
+		}
+		else
+		{
+			$a_instructor = "False";
+		}
+
+		$ilinc_data = $a_user_obj->getiLincData();
+		$user[] = array('id' => $ilinc_data['id'], 'instructor' => $a_instructor);
+		$this->ilincAPI->registerUser($this->getiLincId(),$user);
+		$response = $this->ilincAPI->sendRequest("registerUser");
+		
+//var_dump($response->data);exit;
 
 		if ($response->isError())
 		{
-			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_register_user";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
 		
 		return true;
 	}
 	
-	function unregisterUser($a_ilinc_user_id)
+	function registerUsers($a_user_arr)
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-
-		$ilinc->unregisterUser($this->ilinc_id,array($ilinc_user_id));
-		$response = $ilinc->sendRequest();
+		foreach ($a_user_arr as $user_id => $instructorflag)
+		{
+			$flag = "False";
+			
+			if ($instructorflag == ILINC_MEMBER_DOCENT)
+			{
+				$flag = "True";
+			}
+			
+			$ilinc_users[] = array('id' => $user_id,'instructor' => $flag);
+		}
+		
+		$this->ilincAPI->registerUser($this->getiLincId(),$ilinc_users);
+		$response = $this->ilincAPI->sendRequest("registerUser");
 
 		if ($response->isError())
 		{
-			return $response->getErrorMsg();
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_register_users";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
 		
-		return "";
+		return true;
+	}
+	
+	// unregister user from course on iLinc server
+	function unregisterUser($a_user_obj)
+	{
+		$ilinc_data = $a_user_obj->getiLincData();
+		
+		// do not send request if user is not registered at iLinc server at all
+		if ($ilinc_data['id'] == '0')
+		{
+			return true;
+		}
+		
+		$this->ilincAPI->unregisterUser($this->getiLincId(),array($ilinc_data['id']));
+		$response = $this->ilincAPI->sendRequest();
+
+		if ($response->isError())
+		{
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_unregister_user";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function unregisterUsers($a_ilinc_user_ids)
+	{
+		$this->ilincAPI->unregisterUser($this->getiLincId(),$a_ilinc_user_ids);
+		$response = $this->ilincAPI->sendRequest();
+		
+		//var_dump($response->data);exit;
+		
+		if ($response->isError())
+		{
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_unregister_users";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
+		}
+		
+		return true;
 	}
 	
 	function joinClass(&$a_user_obj,$a_ilinc_class_id)
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->joinClass($a_user_obj,$a_ilinc_class_id);
-		$response = $ilinc->sendRequest("joinClass");
+		$this->ilincAPI->joinClass($a_user_obj,$a_ilinc_class_id);
+		$response = $this->ilincAPI->sendRequest("joinClass");
 
 		if ($response->isError())
 		{
-			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_join_class";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
-		
-		//var_dump($response->data);exit;
 		
 		// return URL to join class room
 		return $response->data['url']['cdata'];
 	}
 	
-	function userLogin(&$a_user_obj,$a_lang)
+	function userLogin(&$a_user_obj)
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->userLogin($a_user_obj,$a_lang);
-		$response = $ilinc->sendRequest("userLogin");
+		$this->ilincAPI->userLogin($a_user_obj);
+		$response = $this->ilincAPI->sendRequest("userLogin");
 
 		if ($response->isError())
 		{
-			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_user_login";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
-		
-		//var_dump($response->data);exit;
 		
 		// return URL to join class room
 		return $response->data['url']['cdata'];
 	}
 	
+	// not used here
 	function uploadPicture(&$a_user_obj,$a_lang)
 	{
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI();
-		$ilinc->uploadPicture($a_user_obj,$a_lang);
-		$response = $ilinc->sendRequest("uploadPicture");
+		$this->ilincAPI->uploadPicture($a_user_obj,$a_lang);
+		$response = $this->ilincAPI->sendRequest("uploadPicture");
 
 		if ($response->isError())
 		{
-			$this->ilias->raiseError($response->getErrorMsg(),$this->ilias->MESSAGE);
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_upload_picture";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
 		}
-		
-		//var_dump($response->data);exit;
 		
 		// return URL to user's personal page
 		return $response->data['url']['cdata'];
@@ -696,34 +922,38 @@ class ilObjiLincCourse extends ilObject
 	* removes Member from group
 	* @access	public
 	*/
-	function removeMember($a_user_id, $a_grp_id="")
+	function removeMember(&$a_user_obj)
 	{
-		if (isset($a_user_id) && isset($a_grp_id) && $this->isMember($a_user_id))
+		if (!isset($a_user_obj))
 		{
-			if (count($this->getMemberIds()) > 1)
+			$this->error_msg = get_class($this)."::removeMember(): Missing parameters !";
+			return false;
+		}
+		
+		if (!$this->isMember($a_user_obj->getId()))
+		{
+			return true;
+		}
+
+		if (count($this->getMemberIds()) > 1)
+		{
+			if ($this->isAdmin($a_user_obj->getId()) && count($this->getAdminIds()) < 2)
 			{
-				if ($this->isAdmin($a_user_id) && count($this->getAdminIds()) < 2)
-				{
-					return "grp_err_administrator_required";
-				}
-				else
-				{
-					$this->leave($a_user_id);
-					$member = new ilObjUser($a_user_id);
-					$member->dropDesktopItem($this->getRefId(), "grp");
-					
-					return "";
-				}
-			}
-			else
-			{
-				return "grp_err_last_member";
+				$this->error_msg = "ilinc_err_administrator_required";
+				return false;
 			}
 		}
-		else
+		
+		// unregister from course on iLinc server
+		if (!$this->unregisterUser($a_user_obj))
 		{
-			$this->ilias->raiseError(get_class($this)."::removeMember(): Missing parameters !",$this->ilias->error_obj->WARNING);
+			// error_msg already set
+			return false;
 		}
+
+		$this->leave($a_user_obj->getId());
+
+		return true;
 	}
 
 	/**
@@ -732,13 +962,13 @@ class ilObjiLincCourse extends ilObject
 	* @param	integer	user_id
 	* @param	boolean, true if user is group administrator
 	*/
-	function isAdmin($a_userId)
+	function isAdmin($a_user_id)
 	{
 		global $rbacreview;
 
-		$grp_Roles = $this->getDefaultRoles();
+		$icrs_roles = $this->getDefaultRoles();
 
-		if (in_array($a_userId,$rbacreview->assignedUsers($grp_Roles["icrs_admin_role"])))
+		if (in_array($a_user_id,$rbacreview->assignedUsers($icrs_roles["icrs_admin_role"])))
 		{
 			return true;
 		}
@@ -789,131 +1019,91 @@ class ilObjiLincCourse extends ilObject
 
 		return $arr_grpDefaultRoles;
 	}
+	
+	// returns ilinc_user_ids of course (students=false,docents=true)
+	function getiLincMemberIds($a_instructorflag = false)
+	{
+		if ($a_instructorflag == true)
+		{
+			if ($this->docent_ids)
+			{
+				return $this->docent_ids;
+			}
+		}
+		else
+		{
+			if ($this->student_ids)
+			{
+				return $this->student_ids;
+			}
+		}
+		
+		$this->ilincAPI->findRegisteredUsersByRole($this->getiLincId(),$a_instructorflag);
+		$response = $this->ilincAPI->sendRequest();
+			
+		if (is_array($response->data['users']))
+		{
+			if ($a_instructorflag == true)
+			{
+				$this->docent_ids = array_keys($response->data['users']);
+			}
+			else
+			{
+				$this->student_ids = array_keys($response->data['users']);
+			}
 
-	/**
-	* set member status
-	* @access	public
-	* @param	integer	user id
-	* @param	integer member role id
-	*/
-	function setMemberStatus($a_user_id, $a_member_role)
-	{
-		if (isset($a_user_id) && isset($a_member_role))
-		{
-			$this->removeMember($a_user_id);
-			$this->addMember($a_user_id, $a_member_role);
+			return array_keys($response->data['users']);
 		}
+		
+		return array();
 	}
 	
-	function setiLincMemberStatus($a_user_ids)
+	function checkiLincMemberStatus($a_ilinc_user_id,$a_docent_ids,$a_student_ids)
 	{
-		$this->fetchiLincCourseMemberData();
-		
-		$members = $this->getMemberData(array_keys($a_user_ids));
-		
-		foreach ($members as $mem)
+		if (in_array($a_ilinc_user_id,$a_docent_ids))
 		{
-			$mem_status = $this->getiLincCourseMemberStatus($mem['ilinc_id']);
-			var_dump($mem_status,$a_user_ids[$mem['id']]);
-			if ($mem_status == ILINC_MEMBER_NOTSET)
-			{
-				$user_obj = new ilObjUser($mem['id']);
-				
-				// check if user is registered at iLinc server
-				if (!$this->userExists($user_obj))
-				{
-					$ilinc_user_id = $this->addUser($user_obj);
-				}
-				
-				if ($a_user_ids[$mem['id']] == ILINC_MEMBER_DOCENT)
-				{
-					$this->registerUser($ilinc_user_id,$this->ilinc_id,"True");
-				}
-				else
-				{
-					$this->registerUser($ilinc_user_id,$this->ilinc_id,"False");
-				}
-			}			
-			else if ($mem_status != $a_user_ids[$mem['id']])
-			{
-				$this->unregisterUser($mem['ilinc_id']);
-				
-				if ($a_user_ids[$mem['id']] == ILINC_MEMBER_DOCENT)
-				{
-					$this->registerUser($mem['ilinc_id'],$this->ilinc_id,"True");
-				}
-				else
-				{
-					$this->registerUser($mem['ilinc_id'],$this->ilinc_id,"False");
-				}
-				
-			}
-		}
-	}
-	
-	function fetchiLincCourseMemberData()
-	{
-		// get ilinc coursemember status
-		include_once "class.ilnetucateXMLAPI.php";
-		$ilinc = new ilnetucateXMLAPI("findRegisteredUsersByRole");
-		
-		if (!$this->ilinc_user_docent_ids)
-		{
-			$this->ilinc_user_docent_ids = array();
-			 
-			// get docent status
-			$ilinc->findRegisteredUsersByRole($this->ilinc_id,true);
-			$response = $ilinc->sendRequest();
-			
-			if (is_array($response->data['users']))
-			{
-				$this->ilinc_user_docent_ids = array_keys($response->data['users']);
-			}
-		}
-		
-		if (!$this->ilinc_user_student_ids)
-		{
-			$this->ilinc_user_student_ids = array();
-			 
-			// get docent status
-			$ilinc->findRegisteredUsersByRole($this->ilinc_id,false);
-			$response = $ilinc->sendRequest();
-			
-			if (is_array($response->data['users']))
-			{
-				$this->ilinc_user_student_ids = array_keys($response->data['users']);
-			}
-		}
-	}
-	
-	function getiLincCourseMemberStatus($a_ilinc_user_id,$a_text = false)
-	{
-		if (in_array($a_ilinc_user_id,$this->ilinc_user_docent_ids))
-		{
-			if ($a_text)
-			{
-				return $this->lng->txt("ilinc_docent");
-			}
-				
 			return ILINC_MEMBER_DOCENT;
 		}
-			
-		if (in_array($a_ilinc_user_id,$this->ilinc_user_student_ids))
+		
+		if (in_array($a_ilinc_user_id,$a_student_ids))
 		{
-			if ($a_text)
-			{
-				return $this->lng->txt("ilinc_student");
-			}
-			
 			return ILINC_MEMBER_STUDENT;
 		}
-		
-		if ($a_text)
+			
+		return ILINC_MEMBER_NOTSET;
+	}
+	
+	function _isActivated($a_course_obj_id)
+	{
+		global $ilDB,$ilias;
+
+		if (!$ilias->getSetting("ilinc_active"))
 		{
-			return $this->lng->txt("ilinc_notset");
+			return false;
 		}
 		
-		return ILINC_MEMBER_NOTSET;
+		$q = "SELECT activation_offline FROM ilinc_data WHERE obj_id=".$ilDB->quote($a_course_obj_id);
+		$r = $ilDB->query($q);
+		
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return ilUtil::yn2tf($row->activation_offline);
+	}
+	
+	function _isMember($a_user_id,$a_ref_id)
+	{
+		global $rbacreview;
+		
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$user_roles = $rbacreview->assignedRoles($a_user_id);
+		
+		if (!array_intersect($local_roles,$user_roles))
+		{
+			return false;
+		}
+		
+		return true;
 	}
 } // END class.ilObjiLincCourse
 ?>

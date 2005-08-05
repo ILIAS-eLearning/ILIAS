@@ -404,7 +404,7 @@ class ilObjectListGUI
 	*						"property" (string) => property name
 	*						"value" (string) => property value
 	*/
-	function getProperties()
+	function getProperties($a_item = '')
 	{
 		$props = array();
 
@@ -577,11 +577,11 @@ class ilObjectListGUI
 	*
 	* @access	private
 	*/
-	function insertProperties()
+	function insertProperties($a_item = '')
 	{
 		global $ilAccess, $lng;
 
-		$props = $this->getProperties();
+		$props = $this->getProperties($a_item);
 
 		// add no item access note in public section
 		// for items that are visible but not readable
