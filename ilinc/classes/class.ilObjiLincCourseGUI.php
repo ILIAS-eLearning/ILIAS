@@ -943,6 +943,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function getSubItems()
 	{
+		$objects = array();
+
 		if (!($objects = $this->object->getClassrooms()))
 		{
 			sendinfo($this->lng->txt($this->object->getErrorMsg()));

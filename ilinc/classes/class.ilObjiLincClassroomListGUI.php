@@ -26,6 +26,7 @@
 * Class ilObjiLincClassroomListGUI
 *
 * @author 		Alex Killing <alex.killing@gmx.de>
+* @author		Sascha Hofmann <saschahofmann@gmx.de>
 * @version		$Id$
 *
 * @extends ilObjectListGUI
@@ -174,7 +175,9 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
 			$item_data = $this->container_obj->items['icla'][$this->ref_id];
+			$ilAccess->enable("cache",false);
 			$access = $ilAccess->doStatusCheck($permission, $cmd, $this->obj_id, $item_data,$this->ref_id,"icla");
+			$ilAccess->enable("cache",true);
 
 			if ($access)
 			{
@@ -334,7 +337,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		{
 			$props[] = array("alert" => false, "property" => $this->lng->txt(ILINC_MEMBER_DOCENT), "value" => $docent);
 		}
-var_dump($a_item['alwaysopen']);
+//var_dump($a_item['alwaysopen']);
 		// offline
 		if ($a_item['alwaysopen'] == 'Wahr')
 		{

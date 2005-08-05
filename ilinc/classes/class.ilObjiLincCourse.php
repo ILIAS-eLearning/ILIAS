@@ -578,8 +578,11 @@ class ilObjiLincCourse extends ilObject
 
 		if (!$response->data['classes'])
 		{
-			return $response->data['result']['cdata'];
+
+			$this->error_msg = $response->data['result']['cdata'];
+			return false;
 		}
+
 		//echo "3";
 		foreach ($response->data['classes'] as $class_id => $data)
 		{
