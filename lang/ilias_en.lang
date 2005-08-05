@@ -2719,6 +2719,8 @@ common#:#tst_upload_file#:#Upload file
 common#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tst_write#:#Edit Test
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
+common#:#tst_user_not_invited#:#You are not supposed to take this exam.
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.

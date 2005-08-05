@@ -629,7 +629,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 		{
-			$this->tpl->setCurrentBlock("adm_content");
+			//$this->tpl->setCurrentBlock("adm_content");
 			$output = str_replace("textbox", "textboximage", $output);
 			$solutionoutput = str_replace("textbox", "textboximage", $solutionoutput);
 		}

@@ -101,9 +101,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		require_once "./assessment/classes/class.ilCommandControl.php";;
+		include_once "./assessment/classes/class.ilCommandControl.php";;
 		if ($this->object->isOnlineTest()) {
-			require_once "./assessment/classes/class.ilOnlineTestCommandControl.php";;
+			include_once "./assessment/classes/class.ilOnlineTestCommandControl.php";;
 			$this->cmdCtrl = new OnlineTestCommandControl ($this, $this->object);
 		} else 
 			$this->cmdCtrl = new DefaultTestCommandControl ($this, $this->object);
@@ -6167,55 +6167,50 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		
 		$add_parameter = $this->getAddParameter();
 		
+		// output of submit date and signature
+		if ($active->submitted)
+		{
+			// only display submit date when it exists (not in the summary but in the print form)
+			$tpl->setCurrentBlock("freefield_bottom");
+			$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
+			$tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
+			$tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
+	
+			$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("tst_signature"), "length" => 300)));
+	/*					"freefield_top" => 		array (	array ("title" => $this->lng->txt("semester"), "length" => 300), 
+															array ("title" => $this->lng->txt("career"), "length" => 300)
+															 ),*/
+						
 			
-		$tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
-		$tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
-		$tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
-		$tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-		$tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
-		$tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
-		$tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
-		
-		$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
-		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
-
-		$freefieldtypes = array ("freefield_bottom" => 	array(	array ("title" => $this->lng->txt("tst_signature"), "length" => 300)));
-/*					"freefield_top" => 		array (	array ("title" => $this->lng->txt("semester"), "length" => 300), 
-											  		array ("title" => $this->lng->txt("career"), "length" => 300)
-											  	   ),*/
+			
+			foreach ($freefieldtypes as $type => $freefields) {
+				$counter = 0;
+	
+				while ($counter < count ($freefields)) {
+					$freefield = $freefields[$counter];
 					
-		
-		
-		foreach ($freefieldtypes as $type => $freefields) {
-			$counter = 0;
-
-			while ($counter < count ($freefields)) {
-				$freefield = $freefields[$counter];
+					//$tpl->setCurrentBlock($type);
 				
-				$tpl->setCurrentBlock($type);
-			
-				$tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-				$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
-			
-				$counter ++;
-			
-				$tpl->parseCurrentBlock($type);
+					$tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
+					$tpl->setVariable("VALUE_FREE_FIELD", "<img height=\"30px\" border=\"0\" src=\"".ilUtil :: getImagePath("spacer.gif", false)."\" width=\"".$freefield["length"]."px\" />");
+				
+					$counter ++;
+				
+					//$tpl->parseCurrentBlock($type);
+				}
 			}
+			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setCurrentBlock("prolog");
-		$tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-		$tpl->parseCurrentBlock();
-		
 		$counter = 1;
 		
-		foreach ($this->object->questions as $question) {
+		// output of questions with solutions
+		foreach ($this->object->questions as $question) 
+		{
 			$tpl->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
 
-			$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
+			//$tpl->setVariable("EDIT_QUESTION", $this->getCallingScript().$this->getAddParameter()."&sequence=".$counter);
 			$tpl->setVariable("COUNTER_QUESTION", $counter.". ");
 			$tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 			
@@ -6231,11 +6226,12 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				default :
 					$question_gui->outWorkingForm($idx, $is_postponed = false, $showsolution = 0, $show_question_page=false, $show_solution_only = false, $ilUser);
 			}
-			$tpl->parseCurrentBlock("question");
+			$tpl->parseCurrentBlock();
 			$counter ++;
 		}
-
-		if ($isForm && !$active->submitted) {
+		// output of submit buttons
+		if ($isForm && !$active->submitted) 
+		{
 			$tpl->setCurrentBlock("confirm");
 			$tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
 			$tpl->setVariable("BTN_CANCEL", $this->lng->txt("back"));
@@ -6244,8 +6240,19 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setCurrentBlock ("adm_content");
-		$this->tpl->parseCurrentBlock();
+		// output of non-block elements
+		$tpl->setCurrentBlock("adm_content");
+		$tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
+		$tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
+		$tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
+		$tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+		$tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+		$tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
+		$tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
+		$tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
+		
+		$tpl->parseCurrentBlock();
 		
 	}
 	

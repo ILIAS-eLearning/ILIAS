@@ -26,7 +26,7 @@
 /**
 * Class OnlineTestCommandControl
 *
-* @author	Roland Küstermann <rku@aifb.uni-karlsruhe.de>
+* @author	Roland Kï¿½stermann <rku@aifb.uni-karlsruhe.de>
 * @version	$Id$
 *
 * @package assessment
@@ -43,7 +43,8 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	/**
 	 * prepare request variables
 	 */
-	function prepareRequestVariables (){
+	function prepareRequestVariables ()
+	{
 		if ($_GET["sort_summary"])
 		//	sort summary: click on title to sort in summary
 			$_POST["cmd"]["summary"]="1";
@@ -87,7 +88,8 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	/**
 	 * inherited behavior and checks access restrictions
 	 */
-	function onRunObjectEnter (){
+	function onRunObjectEnter ()
+	{
 		parent::onRunObjectEnter();	
 		$this->checkOnlineTestAccess();					
 	}	
@@ -97,7 +99,8 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 	 *
 	 */
 		
-	function checkOnlineTestAccess () {
+	function checkOnlineTestAccess () 
+	{
 		global $ilUser;
 		
 		// check if user is invited to participate
