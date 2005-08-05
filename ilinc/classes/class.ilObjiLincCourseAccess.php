@@ -34,6 +34,80 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjiLincCourseAccess extends ilObjectAccess
 {
+	/**
+	* checks wether a user may invoke a command or not
+	* (this method is called by ilAccessHandler::checkAccess)
+	*
+	* @param	string		$a_cmd		command (not permission!)
+	* @param	string		$a_permission	permission
+	* @param	int			$a_ref_id	reference id
+	* @param	int			$a_obj_id	object id
+	* @param	int			$a_user_id	user id (if not provided, current user is taken)
+	*
+	* @return	boolean		true, if everything is ok
+	*/
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+
+		if ($a_user_id == "")
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		switch ($a_cmd)
+		{
+			case "info":
+				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+
+				if(ilObjiLincCourse::_isMember($a_user_id,$a_obj_id))
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
+				}
+				else
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
+				}			
+				break;
+
+			case 'join':
+				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+
+				if(ilObjiLincCourse::_isMember($a_user_id,$a_ref_id))
+				{
+					return false;
+				}		
+				break;
+		}
+
+		switch ($a_permission)
+		{
+			case "visible":
+				include_once 'ilinc/classes/class.ilObjiLincCourse.php';
+
+				if(!($activated = ilObjiLincCourse::_isActivated($a_obj_id)))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+				}
+				else
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+				}
+				
+				if (!$ilias->getSetting("ilinc_active"))
+				{
+					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("ilinc_server_not_active"));
+				}
+				
+				if(!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id) and !$activated)
+				{
+					return false;
+				}	
+				break;
+		}
+		
+		return true;
+	}
 
 	/**
 	 * get commands
@@ -53,6 +127,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "view", "lang_var" => "view_rooms",
 				"default" => true),
+			array("permission" => "join", "cmd" => "join", "lang_var" => "join"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
 		

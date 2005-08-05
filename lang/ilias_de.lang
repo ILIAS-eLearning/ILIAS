@@ -5,6 +5,7 @@
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
+
 */
 
     +-----------------------------------------------------------------------------+
@@ -37,9 +38,16 @@
 administration#:#analyze_data#:#Analysiere Datenintegrität
 administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#analyzing#:#Analysiert...
+common#:#ilinc_manage_course_documents#:#Agenda
 administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
+common#:#ilinc_coursemember_status#:#Eingetragen als
+common#:#ilinc_docent#:#Dozent
+common#:#ilinc_student#:#Teilnehmer
+common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
+common#:#ilinc_notset#:#Nicht gesetzt
+common#:#please_choose#:#-- Bitte wählen --
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
@@ -47,14 +55,30 @@ administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
+common#:#icrs_create_icla#:#LearnLinc Seminarräume anlegen
 administration#:#found#:#Gefunden
+common#:#icla_deleted#:#LearnLinc Seminarräume gelöscht
 administration#:#found_none#:#Nicht gefunden
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
+common#:#ilinc_involved_users#:#Beteiligte Benutzer
+common#:#icrs_added#:#LearnLinc Seminar angelegt
+common#:#icla_edit#:#LearnLinc Seminarraum bearbeiten
+common#:#ilinc_classroom_closed#:#Raum ist geschlossen
+common#:#ilinc_classroom_open#:#Raum ist offen
+common#:#ilinc_classroom_always_open#:#Raum ist ständig geöffnet
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
+common#:#extt_ilinc_timeout#:#Max. Wartezeit auf Serverantwort
+common#:#seconds#:#Sekunden
+common#:#extt_remark#:#Die oben aufgeführten Softwareprogramme oder Dienste sind nicht Bestandteil von ILIAS und es gelten ggf. andere Lizenzbestimmungen.
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
+common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
+common#:#ilinc_upload_pic_linktext#:#Hochladen
+common#:#ilinc_remark#:#Hinweis
+common#:#ilinc_server_not_active#:#iLinc-Server ist nicht aktiv
+common#:#ilinc_msg_joined#:#Sie sind dem LearnLinc Seminar beigetreten
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#purge_missing#:#Entferne fehlende Objekte
 administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
@@ -1503,6 +1527,14 @@ common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
 common#:#grp_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
 common#:#grp_delete#:#Gruppe löschen
+common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
+common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
+common#:#ilinc_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc Seminar muss mindestens einen ausgewiesenen Administrator besitzen
+common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc Seminar !
+common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
+common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
+common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Registrierungszeitraums an !
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
 common#:#grp_edit#:#Gruppe bearbeiten
@@ -1588,20 +1620,21 @@ common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
-common#:#i2passwd#:#ILIAS 2 password
-common#:#icla#:#LearnLinc Seminaraum###15 Jul 2005 content changed
-common#:#icla_add#:#LearnLinc Seminarraum anlegen###15 Jul 2005 content changed
-common#:#icla_new#:#Neuer LearnLinc Seminarraum###15 Jul 2005 content changed
-common#:#icrs#:#LearnLinc Seminar###15 Jul 2005 content changed
-common#:#icrs_add#:#LearnLinc Seminar anlegen###15 Jul 2005 content changed
-common#:#icrs_delete#:#LearnLinc Seminar löschen###15 Jul 2005 content changed
+common#:#i2passwd#:#ILIAS 2 Passwort
+common#:#icla#:#LearnLinc Seminarraum
+common#:#icla_add#:#LearnLinc Seminarraum anlegen
+common#:#icla_new#:#Neuer LearnLinc Seminarraum
+common#:#icrs#:#LearnLinc Seminar
+common#:#icrs_edit#:#LearnLinc Seminar bearbeiten
+common#:#icrs_add#:#LearnLinc Seminar anlegen
+common#:#icrs_delete#:#LearnLinc Seminar löschen
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
 common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
 common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
-common#:#icrs_new#:#Neues LearnLinc Seminar###15 Jul 2005 content changed
-common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar###15 Jul 2005 content changed
-common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar###15 Jul 2005 content changed
-common#:#icrs_write#:#LearnLinc Seminar bearbeiten###15 Jul 2005 content changed
+common#:#icrs_new#:#Neues LearnLinc Seminar
+common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar
+common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar
+common#:#icrs_write#:#LearnLinc Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
@@ -1614,11 +1647,11 @@ common#:#il_crs_tutor#:#Kurs-Tutor
 common#:#il_frm_moderator#:#Forum-Moderator
 common#:#il_grp_admin#:#Gruppen-Administrator
 common#:#il_grp_member#:#Gruppen-Mitglied
-common#:#il_icrs_admin#:#LearnLinc Seminar-Administrator###15 Jul 2005 content changed
-common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied###15 Jul 2005 content changed
+common#:#il_icrs_admin#:#LearnLinc Seminar-Administrator
+common#:#il_icrs_member#:#LearnLinc Seminar-Mitglied
 common#:#ilias_version#:#ILIAS Version
-common#:#ilinc_classrooms#:#LearnLinc Seminarräume###15 Jul 2005 content changed
-common#:#ilinc_courses#:#LearnLinc Seminare###15 Jul 2005 content changed
+common#:#ilinc_classrooms#:#LearnLinc Seminarräume
+common#:#ilinc_courses#:#LearnLinc Seminare
 common#:#ilinc_id#:#iLinc ID
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -2113,8 +2146,8 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLinc Seminaraum###15 Jul 2005 content changed
-common#:#obj_icrs#:#LearnLinc Seminar###15 Jul 2005 content changed
+common#:#obj_icla#:#LearnLinc Seminarraum
+common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -2190,8 +2223,8 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLinc Seminarräume###15 Jul 2005 content changed
-common#:#objs_icrs#:#LearnLinc Seminare###15 Jul 2005 content changed
+common#:#objs_icla#:#LearnLinc Seminarräume
+common#:#objs_icrs#:#LearnLinc Seminare
 common#:#objs_lm#:#ILIAS Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte

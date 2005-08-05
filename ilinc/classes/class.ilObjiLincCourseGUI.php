@@ -48,10 +48,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$this->ctrl->saveParameter($this,'ref_id');
-		
-		define('ILINC_MEMBER_NOTSET',0);
-		define('ILINC_MEMBER_DOCENT',1);
-		define('ILINC_MEMBER_STUDENT',2);
+
 	}
 	
 	/**
@@ -79,6 +76,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
 		
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
@@ -100,15 +98,57 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 	
+	function updateObject()
+	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
+		}
+
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->object->activated = ilUtil::tf2yn($_POST["Fobject"]["activated"]);
+
+		// save changes to ilinc serverand ilias database
+		$success = $this->object->update();
+		
+		if ($success == false)
+		{
+			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+		}
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+	}
+	
 	/**
 	* save object
 	* @access	public
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin,$rbacsystem;
+
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
+		}
+
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->object->activated = ilUtil::tf2yn($_POST["Fobject"]["activated"]);
 		
-		include_once "class.ilnetucateXMLAPI.php";
+		// when creating new ilinc course we first create it on ilinc server
+		include_once ('class.ilnetucateXMLAPI.php');
 		$ilinc = new ilnetucateXMLAPI();
 		$ilinc->addCourse($_POST["Fobject"]);
 		$response = $ilinc->sendRequest();
@@ -118,16 +158,22 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->ilErr->raiseError($response->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
 		
-		$result = $response->getResultMsg();
-
-		// create and insert forum in objecttree
+		// if everything ok, create and insert ilinc course in ILIAS
 		$icrsObj = parent::saveObject();
+
+		// save ilinc_id in ILIAS and save data (temp. TODO: build save function)
+		$icrsObj->storeiLincId($response->getFirstID());
 		
 		// setup rolefolder & default local roles (admin & member)
 		$roles = $icrsObj->initDefaultRoles();
 
 		// ...finally assign icrsadmin role to creator of icrs object
-		$icrsObj->addMember($this->ilias->account->getId(),$icrsObj->getDefaultAdminRole());
+		$success = $icrsObj->addMember($this->ilias->account,$icrsObj->getDefaultAdminRole(),true);
+
+		if (!$success)
+		{
+			$this->ilErr->raiseError($icrsObj->getErrorMsg(),$this->ilErr->MESSAGE);
+		}
 
 //		$icrsObj->setRegistrationFlag($_POST["enable_registration"]); //0=no registration, 1=registration enabled 2=passwordregistration
 //		$icrsObj->setPassword($_POST["password"]);
@@ -135,21 +181,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$this->ilias->account->addDesktopItem($icrsObj->getRefId(),"icrs");	
 		
-		$icrsObj->saveID($response->getFirstID());
-		
-		// check if user is registered at iLinc server
-		if (!$icrsObj->userExists($this->ilias->account))
-		{
-					$ilinc_user_id = $icrsObj->addUser($this->ilias->account);
-		}
-			
-		$ilinc_data = $this->ilias->account->getiLincData();
-	
-		// then assign membership to icourse on iinc server
-		$icrsObj->registerUser($ilinc_data['id'],$response->getFirstID(),"True");
-
 		// always send a message
-		sendInfo($result,true);
+		sendInfo($this->lng->txt("icrs_added"),true);
 		
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
@@ -167,20 +200,33 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTarget("view_rooms",
+			$tabs_gui->addTarget("ilinc_classrooms",
 				$this->ctrl->getLinkTarget($this, ""), "", get_class($this));
 		}
-
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		
+		if ($this->ilias->getSetting("ilinc_active"))
 		{
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
-		}
-
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
-		{
-			$tabs_gui->addTarget("ilinc_members",
-				$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+			if ($rbacsystem->checkAccess('write',$this->ref_id))
+			{
+				$tabs_gui->addTarget("edit_properties",
+					$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+			}
+	
+			if ($rbacsystem->checkAccess('read',$this->ref_id))
+			{
+				$tabs_gui->addTarget("ilinc_involved_users",
+					$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+			}
+			
+			if ($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->isDocent($this->ilias->account))
+			{
+				// testing: display link to ilinc server directly
+				$tabs_gui->addTarget("ilinc_manage_course_documents",
+					$url = $this->object->userLogin($this->ilias->account), "agenda","","_blank");
+	//			$tabs_gui->addTarget("ilinc_manage_course_documents",
+	//				$this->ctrl->getLinkTarget($this, "agenda"), "agenda", get_class($this),"_blank");
+	
+			}
 		}
 		
 		/*$applications = $this->object->getNewRegistrations();
@@ -725,7 +771,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function membersObject()
 	{
-		global $rbacsystem,$ilBench,$ilDB;
+		global $rbacsystem,$ilBench,$ilDB,$lng;
+		
+		if (!$this->ilias->getSetting("ilinc_active"))
+		{
+			$this->ilias->raiseError($lng->txt("ilinc_server_not_active"),$this->ilias->error_obj->MESSAGE);
+		}
 		
 		//if current user is admin he is able to add new members to group
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
@@ -739,10 +790,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$member_ids = $this->object->getMemberIds();
 		
-		// fetch all users data in one shot to improve performance
+		// fetch all user data in one shot to improve performance (from ILIAS db)
 		$members = $this->object->getMemberData($member_ids);
 		
-		$this->object->fetchiLincCourseMemberData();
+		// fetch docent or student assignment form all coursemembers from iLinc server
+		$docent_ids = $this->object->getiLincMemberIds(true);
+		$student_ids = $this->object->getiLincMemberIds(false);
 	
 		$account_id = $this->ilias->account->getId();
 		$counter = 0;
@@ -777,12 +830,24 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			}
 			
 			$user_ids[$counter] = $mem["id"];
+			
+			$status = $this->object->checkiLincMemberStatus($mem['ilinc_id'],$docent_ids,$student_ids);
+			
+			if ($status == ILINC_MEMBER_NOTSET)
+			{
+				$status = "<span class='warning'>".$this->lng->txt($status)."</span>";
+			}
+			else
+			{
+				$status = $this->lng->txt($status);
+			}
+			
             
             //discarding the checkboxes
 			$result_set[$counter][] = $mem["login"];
 			$result_set[$counter][] = $mem["firstname"];
 			$result_set[$counter][] = $mem["lastname"];
-			$result_set[$counter][] = $this->object->getiLincCourseMemberStatus($mem['ilinc_id'],true);
+			$result_set[$counter][] = $status;
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
 
@@ -878,11 +943,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function getSubItems()
 	{
-		$objects = $this->object->getClassrooms();
-
-		if (!is_array($objects))
+		if (!($objects = $this->object->getClassrooms()))
 		{
-			sendinfo($objects);
+			sendinfo($this->lng->txt($this->object->getErrorMsg()));
 			return;
 		}
 
@@ -920,15 +983,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			foreach($this->items['icla'] as $key => $item)
 			{
 	
-				/*if ($_SESSION["il_cont_admin_panel"] != true)
-				{
-					$item_list_gui->enableDelete(false);
-					$item_list_gui->enableLink(false);
-					$item_list_gui->enableCut(false);
-				}*/
-							
 				$html = $item_list_gui->getListItemHTML($this->object->getRefId(),
-							$key, $item["name"], $item["description"]);
+							$key, $item["name"], $item["description"],$item);
 								
 				// check wheter any admin command is allowed for
 				// the items
@@ -965,7 +1021,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$first = false;
 
 				// add a header for each resource type
-				$this->addHeaderRow($tpl, $type);
+				$this->addHeaderRow($tpl, 'icla');
 				$this->resetRowType();
 	
 				// content row
@@ -1025,7 +1081,15 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	{
 		include_once ('class.ilObjiLincClassroom.php');
 		$icla_obj = new ilObjiLincClassroom($_GET['class_id'],$this->ref_id);
-		$msg = $icla_obj->delete();
+		
+		if (!$icla_obj->delete())
+		{
+			$msg = $ilca_obj->getErrorMsg();
+		}
+		else
+		{
+			$msg = $this->lng->txt('icla_deleted');
+		}
 		
 		// Feedback
 		sendInfo($msg,true);
@@ -1039,7 +1103,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function joinClassroomObject()
 	{
 		// check if user is registered at iLinc server
-		if (!$this->object->userExists($this->ilias->account))
+		/*if (!$this->object->userExists($this->ilias->account))
 		{
 				$ilinc_user_id = $this->object->addUser($this->ilias->account);
 		}
@@ -1050,31 +1114,29 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			// then assign membership to icourse
 			$ilinc_data = $this->ilias->account->getiLincData();
 			$this->object->registerUser($ilinc_data['id'],$this->object->ilinc_id,"False");
-		}
+		}*/
 
 		// join class
 		$url = $this->object->joinClass($this->ilias->account,$_GET['class_id']);
+		
+		if (!$url)
+		{
+			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
+		}
+
 		ilUtil::redirect(trim($url));
 	}
 	
-	function agendaClassroomObject()
+	function agendaObject()
 	{
-		// check if user is registered at iLinc server
-		if (!$this->object->userExists($this->ilias->account))
-		{
-				$ilinc_user_id = $this->object->addUser($this->ilias->account);
-		}
-
-		// check if user is already member of icourse
-		if (!$this->object->isMember($this->ilias->account,$this->object_ilinc_id))
-		{
-			// then assign membership to icourse
-			$ilinc_data = $this->ilias->account->getiLincData();
-			$this->object->registerUser($ilinc_data['id'],$this->object->ilinc_id,"False");
-		}
-
 		// user login
-		$url = $this->object->userLogin($this->ilias->account,'de');
+		$url = $this->object->userLogin($this->ilias->account);
+		
+		if (!$url)
+		{
+			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
+		}
+
 		ilUtil::redirect(trim($url));
 	}
 	
@@ -1269,28 +1331,20 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			$user_obj = $this->ilias->obj_factory->getInstanceByObjId($new_member);
 
-			if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
+			if (!$this->object->addMember($user_obj,$this->object->getDefaultMemberRole(),false))
 			{
-				$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+				//var_dump($this->object->getErrorMsg());exit;
+				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 			}
-			
-			// check if user is registered at iLinc server
-			if (!$this->object->userExists($user_obj))
-			{
-					$ilinc_user_id = $this->object->addUser($user_obj);
-			}
-			
-			$ilinc_data = $user_obj->getiLincData();
-	
-			// then assign membership to icourse on iinc server
-			$this->object->registerUser($ilinc_data['id'],$this->object->ilinc_id,"False");
 			
 			unset($user_obj);
 		}
+		
+		//echo "end";exit;
 
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		sendInfo($this->lng->txt("ilinc_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 	
@@ -1321,7 +1375,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) 
 				and !in_array($this->ilias->account->getId(),$this->object->getAdminIds()))
 			{
-				$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+				$this->ilErr->raiseError($this->lng->txt("ilinc_err_no_permission"),$this->ilErr->MESSAGE);
 			}
 		}
 		//bool value: says if $users_ids contains current user id
@@ -1329,7 +1383,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		$confirm = "confirmedRemoveMember";
 		$cancel  = "canceled";
-		$info	 = ($is_dismiss_me !== false) ? "grp_dismiss_myself" : "grp_dismiss_member";
+		$info	 = ($is_dismiss_me !== false) ? "ilinc_dismiss_myself" : "ilinc_dismiss_member";
 		$status  = "";
 		$return  = "members";
 		$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status, $return);
@@ -1458,26 +1512,19 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		//User needs to have administrative rights to remove members...
 		foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 		{
-			$err_msg = $this->object->removeMember($member_id);
-			
-			if (strlen($err_msg) > 0)
-			{
-				$this->ilErr->raiseError($this->lng->txt($err_msg),$this->ilErr->MESSAGE);
-			}
-			
 			$user_obj = new ilObjUser($member_id);
-			$ilinc_user_data = $user_obj->getiLincData();
-			$err_msg = $this->object->unregisterUser($ilinc_user_data['id']);
 
-			if (strlen($err_msg) > 0)
+			if (!$this->object->removeMember($user_obj))
 			{
-				$this->ilErr->raiseError($this->lng->txt($err_msg),$this->ilErr->MESSAGE);
+				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 			}
+			
+			$user_obj->dropDesktopItem($this->object->getRefId(), "icrs");
 		}
-
+		
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("grp_msg_membership_annulled"),true);
+		sendInfo($this->lng->txt("ilinc_msg_membership_annulled"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 	
@@ -1516,7 +1563,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$stati = array_flip($this->object->getLocalRoles(true));
 		
-		$this->object->fetchiLincCourseMemberData();
+		// fetch docent or student assignment form all coursemembers from iLinc server
+		$docent_ids = $this->object->getiLincMemberIds(true);
+		$student_ids = $this->object->getiLincMemberIds(false);
 
 		//build data structure
 		foreach ($member_ids as $member_id)
@@ -1525,7 +1574,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$mem_status = $this->object->getMemberRoles($member_id);
 			$ilinc_data = $member->getiLincData();
 						
-			$ilinc_status = $this->object->getiLincCourseMemberStatus($ilinc_data['id']);
+			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_data['id'],$docent_ids,$student_ids);
 
 			$docent = 0; $student = 0;
 
@@ -1538,8 +1587,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$student = 1;
 			}
 			
-			$radio1 = ilUtil::formRadioButton($docent,"ilinc_member_status_select[".$member->getId()."]",ILINC_MEMBER_DOCENT);
-			$radio2 = ilUtil::formRadioButton($student,"ilinc_member_status_select[".$member->getId()."]",ILINC_MEMBER_STUDENT);
+			$radio1 = ilUtil::formRadioButton($docent,"ilinc_member_status_select[".$member->getId()."][".$ilinc_data['id']."]",ILINC_MEMBER_DOCENT);
+			$radio2 = ilUtil::formRadioButton($student,"ilinc_member_status_select[".$member->getId()."][".$ilinc_data['id']."]",ILINC_MEMBER_STUDENT);
 
 
 			$this->data["data"][$member->getId()]= array(
@@ -1626,16 +1675,170 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			foreach ($_POST["member_status_select"] as $key=>$value)
 			{
-				$this->object->setMemberStatus($key,$value);
+				$this->object->leave($key);
+				$this->object->join($key,$value);
+			}
+		}
+
+		if (isset($_POST["ilinc_member_status_select"]))
+		{
+			$users_to_add = array();
+			$users_to_register = array();
+			$users_to_unregister = array();
+
+			foreach ($_POST["ilinc_member_status_select"] as $user_id => $ilinc_arr)
+			{
+				$ilinc_user_id = key($ilinc_arr);
+				$ilinc_user_status = current($ilinc_arr);
+				//var_dump($user_id,$ilinc_arr,$ilinc_user_id,$ilinc_user_status);
+				
+				// if no ilinc user id was passed, there are 3 options:
+				// 1. user was added by roleassignment and is registered on iLinc server
+				// 2. user was added by roleassignment and is registered NOT YET on iLinc server
+				// 3. iLinc server returns an empty response which happens sometimes :-(
+				if ($ilinc_user_id == 0)
+				{
+					//echo "0";
+					
+					// check if user is already registered on iLinc server
+					$user_obj = new ilObjUser($user_id);
+					$ilinc_data = $user_obj->getiLincData();
+					
+					if ($ilinc_data['id'] == '0')
+					{
+						// not registered. put user on 'add list'
+						$users_to_add[] =& $user_obj;
+					}
+					else
+					{
+						$users_to_register[$ilinc_data['id']] = ILINC_MEMBER_STUDENT;
+					}
+					
+					continue;
+				}
+				
+				//echo "1";
+				$users_to_unregister[] = $ilinc_user_id;
+				$users_to_register[$ilinc_user_id] = $ilinc_user_status;
+				//var_dump($users_to_unregister,$users_to_register);
+			}
+			
+			if (!$this->object->unregisterUsers($users_to_unregister))
+			{				
+				//echo "2";
+				//var_dump($this->object->getErrorMsg());exit;
+				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+			}
+			
+			if (count($users_to_add) > 0)
+			{
+				//echo "3";
+				foreach ($users_to_add as $user)
+				{
+					if (!$this->object->addUser($user))
+					{
+						//echo "4";
+						//var_dump($this->object->getErrorMsg());exit;
+						$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+					}
+					else
+					{
+						//echo "5";
+						$ilinc_data = $user->getiLincData();
+						$users_to_register[$ilinc_data['id']] = ILINC_MEMBER_STUDENT;
+					}
+				}
+			}
+
+			if (!$this->object->registerUsers($users_to_register))
+			{
+				//echo "6";
+				//var_dump($this->object->getErrorMsg());exit;
+				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 			}
 		}
 		
-		if (isset($_POST["ilinc_member_status_select"]))
-		{
-			$this->object->setiLincMemberStatus($_POST["ilinc_member_status_select"]);
-		}
+		//echo "ende";exit;
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+	}
+	
+	function editObject()
+	{
+		if (!$this->ilias->getSetting("ilinc_active"))
+		{
+			$this->ilias->raiseError($this->lng->txt("ilinc_server_not_active"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$fields = array();
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		}
+		else
+		{
+			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
+			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+		}
+
+		$this->displayEditForm($fields);
+	}
+	
+	/**
+	* display edit form (usually called by editObject)
+	*
+	* @access	private
+	* @param	array	$fields		key/value pairs of input fields
+	*/
+	function displayEditForm($fields)
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
+
+		foreach ($fields as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$checkbox_access = ilUtil::formCheckbox($this->object->activated,"Fobject[activated]",1);
+		
+		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("online"));
+		$this->tpl->setVariable("CHKBOX_ACCESS", $checkbox_access);
+		
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
+		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+	}
+	
+	function joinObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("join", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (!$this->object->addMember($this->ilias->account,$this->object->getDefaultMemberRole(),false))
+		{
+			//var_dump($this->object->getErrorMsg());exit;
+			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+		}
+		
+		sendInfo($this->lng->txt("ilinc_msg_joined"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 } // END class.ilObjiLincCourseGUI

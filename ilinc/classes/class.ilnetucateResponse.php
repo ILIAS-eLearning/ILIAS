@@ -66,7 +66,7 @@ class ilnetucateResponse extends ilSaxParser
 	
 	function getResultMsg()
 	{
-		return $this->data['result']['cdata'];
+		return trim($this->data['result']['cdata']);
 	}
 	
 	function getFirstID()
@@ -169,7 +169,9 @@ class ilnetucateResponse extends ilSaxParser
 																		'videoframerate' => $a_attribs['videoframerate'],
 																		'enablepush' => $a_attribs['enablepush'],
 																		'issecure' => $a_attribs['issecure'],
-																		'alwaysopen' => $a_attribs['alwaysopen']
+																		'alwaysopen' => $a_attribs['alwaysopen'],
+																		'akclassvalue1' => $a_attribs['akclassvalue1'],
+																		'akclassvalue1' => $a_attribs['akclassvalue1']
 																		);
 				break;
 				
@@ -199,11 +201,11 @@ class ilnetucateResponse extends ilSaxParser
 				break;
 
 			case "netucate.URL":
-				$this->data['url']['cdata'] = $this->cdata;
+				$this->data['url']['cdata'] = trim($this->cdata);
 				break;
 
 			case "netucate.ID":
-				$this->data['id'][$this->cdata] = $this->cdata;
+				$this->data['id'][trim($this->cdata)] = trim($this->cdata);
 				break;
 				
 			case "netucate.Class.List":

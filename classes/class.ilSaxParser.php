@@ -207,7 +207,7 @@ class ilSaxParser extends PEAR
 		if(!$parseOk
 		   && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
 		{
-			$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("XML Parse Error: ".xml_get_error_code($a_xml_parser),$this->ilias->error_obj->FATAL);
 		}
 		return true;
 				
