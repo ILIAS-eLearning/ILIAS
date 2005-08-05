@@ -956,11 +956,11 @@ if (userSettingVisible("email"))
 }
 if (userSettingVisible("hobby"))
 {
-	$tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		// here
+	$tpl->setVariable("HOBBY", ilUtil::prepareFormOutput($ilias->account->getHobby()));		// here
 }
 if (userSettingVisible("referral_comment"))
 {
-	$tpl->setVariable("REFERRAL_COMMENT", ilUtil::stripSlashes($ilias->account->getComment()));
+	$tpl->setVariable("REFERRAL_COMMENT", ilUtil::prepareFormOutput($ilias->account->getComment()));
 }
 if (userSettingVisible("matriculation"))
 {

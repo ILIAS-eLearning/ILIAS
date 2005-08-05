@@ -413,6 +413,61 @@ class ilObjTestAccess extends ilObjectAccess
 		return $num;
 	}
 	
+/**
+* Checks if a user is allowd to run an online exam
+*
+* Checks if a user is allowd to run an online exam
+*
+* @return mixed true if the user is allowed to run the online exam or if the test isn't an online exam, an alert message if the test is an online exam and the user is not allowed to run it
+* @access public
+*/
+	function _lookupOnlineTestAccess($a_test_id, $a_user_id)
+	{
+		global $ilDB, $lng;
+		
+		$test_result = array();
+		$query = sprintf("SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
+			$ilDB->quote($a_test_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["test_type_fi"] == 4)
+			{
+				$query = sprintf("SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
+					$ilDB->quote($row["test_id"] . ""),
+					$ilDB->quote($a_user_id . "")
+				);
+				$result = $ilDB->query($query);
+				if ($result->numRows())
+				{
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					if (strcmp($row["clientip"],"")!=0 && strcmp($row["clientip"],$_SERVER["REMOTE_ADDR"])!=0)
+					{
+						return $lng->txt("tst_user_wrong_clientip");
+					}
+					else
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return $lng->txt("tst_user_not_invited");
+				}
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 }
 
 ?>

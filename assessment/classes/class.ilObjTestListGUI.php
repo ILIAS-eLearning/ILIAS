@@ -125,6 +125,12 @@ class ilObjTestListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("tst_warning_test_not_complete"));
 		}
+		$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
+		if ($onlineaccess !== true)
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $onlineaccess);
+		}
 
 		return $props;
 	}

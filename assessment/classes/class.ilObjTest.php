@@ -2855,7 +2855,7 @@ class ilObjTest extends ilObject
 			$info =& ASS_Question::_getQuestionInfo($value);
 			$row = array(
 				"nr" => "$key",
-				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $value . "\">" . htmlentities($info["title"]) . "</a>",
+				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $value . "\">" . ilUtil::prepareFormOutput($info["title"]) . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
