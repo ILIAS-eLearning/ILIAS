@@ -994,6 +994,7 @@ common#:#change_header_title#:#Edytuj Tytuł Nagłówka
 common#:#change_lo_info#:#Zmień Informacje (PN)
 common#:#change_metadata#:#Zmień Metadane
 common#:#change_sort_direction#:#Zmień kierunek sortowania
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#zmienione na
 common#:#chapter#:#Rozdział
 common#:#chapter_number#:#Numer rozdziału
@@ -1115,6 +1116,7 @@ common#:#crs_create_webr#:#Twórz nowy zasób web###15 Jul 2005 content changed
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Subskrybuj Kurs
 common#:#crs_leave#:#Rezygnuję z subskrypcji kursu
 common#:#crs_management_system#:#System zarządzania kursami
@@ -2769,7 +2771,7 @@ common#:#usr_edit#:#Edytuj użytkownika
 common#:#usr_hits_per_page#:#Dotknięć/stronę w tabeli
 common#:#usr_inactive_only#:#Tylko nieaktywni użytkownicy
 common#:#usr_new#:#Nowy użytkownik
-common#:#usr_settings_explanation_profile#:#Sprawdź pola wyboru aby wyłączyć lub ukryć ustawienia profilu osobistego dla wszystkich użytkowników w Biurze osobistym. Wszystkie wyłączone lub ukryte ustawienia profili są modyfikowane tylko funkcjami z drzewa administracyjnego / kont użytkowników.
+common#:#usr_settings_explanation_profile#:#Sprawdź pola wyboru aby wyłączyć lub ukryć ustawienia profilu osobistego dla wszystkich użytkowników w Biurze osobistym. Wszystkie wyłączone lub ukryte ustawienia profili są modyfikowane tylko funkcjami z drzewa administracyjnego / kont użytkowników.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Ustawienia profilu użytkownika
 common#:#usr_settings_header_profile_profile#:#Ustawienia profilu użytkownika
 common#:#usr_settings_saved#:#Zapisano globalne ustawienia użytkownika!
@@ -3609,7 +3611,7 @@ crs#:#crs_unblocked_member_body#:#Twoje uczestnictwo zostało przywrócone
 crs#:#crs_unlimited#:#Nielimitowane
 crs#:#crs_unsubscribe#:#Rezygnacja z subskrypcji
 crs#:#crs_unsubscribe_sure#:#Czy rezygnujesz z subskrypcji kursu?
-crs#:#crs_unsubscribed_from_crs#:#Otrzymałeś  subskrypcję tego kursu
+crs#:#crs_unsubscribed_from_crs#:#Otrzymałeś  subskrypcję tego kursu###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Edycja celu nauczania
 crs#:#crs_users_added#:#Dodano użytkownika do kursu
 crs#:#crs_users_already_assigned#:#Ten użytkownik jest już przydzielony do tego kursu

@@ -949,6 +949,7 @@ common#:#change_header_title#:#Edito Titullin Kryesues
 common#:#change_lo_info#:#Ndërro LO infot
 common#:#change_metadata#:#Ndërro Metadata
 common#:#change_sort_direction#:#Ndërro drejtimin e sortimin
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#e ndërruar në
 common#:#chapter#:#Kapitull
 common#:#chapter_number#:#Numri i Kapitullit
@@ -1065,6 +1066,7 @@ common#:#crs_create_tst#:#Krijo Test
 common#:#crs_delete#:#Fshij Kursin
 common#:#crs_edit#:#Edito Kursin
 common#:#crs_edit_permission#:#Ndërro konfigurimet e të drejtave
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Abono për Kurs
 common#:#crs_leave#:#Çregjistrohu nga Kursi
 common#:#crs_management_system#:#Sistemi i Menaxhimit të Kursit
@@ -2639,7 +2641,7 @@ common#:#usr_agreement_empty#:#Marrëveshja nuk ka tekst
 common#:#usr_edit#:#Edito Shfrytëzuesin
 common#:#usr_hits_per_page#:#Vizita/Faqe në tabelë
 common#:#usr_new#:#Shfrytëzues i Ri
-common#:#usr_settings_explanation_profile#:#Aktivizo opsionet e ofruara për të pamundësuar ose fshehur konfigurimet e Profilit Personal për të gjithë shfrytëzuesit në faqen e Profilit Personal në Desktopin Personal. Këto konfigurime mund të editohen vetëm duke përdorur trungun administrativ ose administrimin e llogarive të shfrytëzuesve
+common#:#usr_settings_explanation_profile#:#Aktivizo opsionet e ofruara për të pamundësuar ose fshehur konfigurimet e Profilit Personal për të gjithë shfrytëzuesit në faqen e Profilit Personal në Desktopin Personal. Këto konfigurime mund të editohen vetëm duke përdorur trungun administrativ ose administrimin e llogarive të shfrytëzuesve###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Parametrat e profilit të shfrytëzuesit
 common#:#usr_settings_header_profile_profile#:#Konfigurimet e Profilit të Shfrytëzuesit
 common#:#usr_settings_saved#:#Konfigurimet Globale të shfrytëzuesit janë ruajtur me sukses!
@@ -3423,7 +3425,7 @@ crs#:#crs_unblocked_member_body#:#Anëtarësimi juaj është restauruar
 crs#:#crs_unlimited#:#Pakufizim
 crs#:#crs_unsubscribe#:#Çregjistrim
 crs#:#crs_unsubscribe_sure#:#A dëshironi të çregjistroheni nga ky kurs
-crs#:#crs_unsubscribed_from_crs#:#Keni abonuar për këtë kurs
+crs#:#crs_unsubscribed_from_crs#:#Keni abonuar për këtë kurs###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Edito objektivet mësimore
 crs#:#crs_users_added#:#Shfrytëzuesi është shtuar në kurs
 crs#:#crs_users_already_assigned#:#Shfrytëzuesi tanimë është caktuar në këtë kurs

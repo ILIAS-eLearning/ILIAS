@@ -949,6 +949,7 @@ common#:#change_header_title#:#Izmenite naziv zaglavlja
 common#:#change_lo_info#:#Promenite LO informacije
 common#:#change_metadata#:#Promenite metapodatke
 common#:#change_sort_direction#:#Promenite vrstu naredbe
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#promenjeno u
 common#:#chapter#:#Poglavlje
 common#:#chapter_number#:#Poglavlje broj
@@ -1065,6 +1066,7 @@ common#:#crs_create_tst#:#Kreiraj Test
 common#:#crs_delete#:#Obriši Kurs
 common#:#crs_edit#:#Uredi Kurs
 common#:#crs_edit_permission#:#Promenite okvir za dozvolu
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Prijavite se na Kurs
 common#:#crs_leave#:#Ispišite se sa Kursa
 common#:#crs_management_system#:#Sistem upravljanja Kursom
@@ -2639,7 +2641,7 @@ common#:#usr_agreement_empty#:#Ugovor ne sadrži nikakav tekst
 common#:#usr_edit#:#Uredi Korisnika
 common#:#usr_hits_per_page#:#Pogoci/stranica u tabeli
 common#:#usr_new#:#Novi korisnik
-common#:#usr_settings_explanation_profile#:#Proverite ponudene ispitne okvire kako biste onemogucli ili sakrili licna podešavanja profila svih korisnika u petlju licnih profila na sopstvenoj radnoj površini. Sva onemogucena ili sakrivena podešavanja licnih profila je moguce urediti korišcenjem administrativnog stabla / korisnickih naloga.
+common#:#usr_settings_explanation_profile#:#Proverite ponudene ispitne okvire kako biste onemogucli ili sakrili licna podešavanja profila svih korisnika u petlju licnih profila na sopstvenoj radnoj površini. Sva onemogucena ili sakrivena podešavanja licnih profila je moguce urediti korišcenjem administrativnog stabla / korisnickih naloga.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Podešavanje profila korisnika
 common#:#usr_settings_header_profile_profile#:#Podešavanje licnog profila
 common#:#usr_settings_saved#:#Opšta korisnicka podešavanja su uspešno sacuvana!
@@ -3423,7 +3425,7 @@ crs#:#crs_unblocked_member_body#:#Vaše clanstvo je vraceno
 crs#:#crs_unlimited#:#Neograniceno
 crs#:#crs_unsubscribe#:#Odjava
 crs#:#crs_unsubscribe_sure#:#Da li želite da se odjavite sa kursa
-crs#:#crs_unsubscribed_from_crs#:#Pretplatili ste se na kurs
+crs#:#crs_unsubscribed_from_crs#:#Pretplatili ste se na kurs###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Uredi predmete ucenja
 crs#:#crs_users_added#:#dodat korisnik kursa
 crs#:#crs_users_already_assigned#:#Korisnik je vec rasporeden na kurs

@@ -992,6 +992,7 @@ common#:#change_header_title#:#Editar Título de Cabecera
 common#:#change_lo_info#:#change lo info
 common#:#change_metadata#:#Modificar metadatos
 common#:#change_sort_direction#:#Modificar dirección de ordenación
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#modificado a
 common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número de capítulo
@@ -1113,6 +1114,7 @@ common#:#crs_create_webr#:#Crear nuevo Recurso Web###15 Jul 2005 content changed
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_permission#:#Modificar configuración de permisos
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Subscribir al Curso
 common#:#crs_leave#:#Darse de baja en el Curso
 common#:#crs_management_system#:#Sistema de Gestión de Cursos
@@ -2767,7 +2769,7 @@ common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#Items/página en tablas
 common#:#usr_inactive_only#:#Usuarios inactivos únicamente
 common#:#usr_new#:#Nuevo Usuario
-common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.
+common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario
 common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!
@@ -3607,7 +3609,7 @@ crs#:#crs_unblocked_member_body#:#Su pertenencia a sido restaurada
 crs#:#crs_unlimited#:#Ilimitada
 crs#:#crs_unsubscribe#:#Dar de baja
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
-crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
+crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Editar objetivo de aprendizaje
 crs#:#crs_users_added#:#Usuario añadido al curso
 crs#:#crs_users_already_assigned#:#El usuario ya está asignado a este curso

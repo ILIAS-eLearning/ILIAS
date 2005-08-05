@@ -894,6 +894,7 @@ common#:#change_header_title#:#Редактиране на заглавието
 common#:#change_lo_info#:#Промяна на информацията в обекта за обучение
 common#:#change_metadata#:#Промяна на метаданните
 common#:#change_sort_direction#:#Промяна посоката на сортиране
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#променен на
 common#:#chapter#:#Глава
 common#:#chapter_number#:#Номер на глава
@@ -998,6 +999,7 @@ common#:#crs_create_tst#:#Създаване на тест
 common#:#crs_delete#:#Изтриване на курс
 common#:#crs_edit#:#Редактиране на курс
 common#:#crs_edit_permission#:#Промяна на разрешителните настройки
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Абониране за курс
 common#:#crs_leave#:#Прекратяване на абонамента за курс
 common#:#crs_management_system#:#Система за управление на курса
@@ -2417,6 +2419,7 @@ common#:#usr_edit#:#Редактиране на потребител
 common#:#usr_hits_per_page#:#Влизания/страница в таблици
 common#:#usr_new#:#Нов потребител
 common#:#usr_settings_explanation_profile#:#Маркирайте предложените клетки за да изключите или скриете настройките на личните профили за всички потребители в лентата с личните профили на личния десктоп. Всички изключени или скрити настройки на лични профили могат да се редактират само чрез използването на администраторски / потребителски сметки. 
+###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Настройки на потребителските профили
 common#:#usr_settings_header_profile_profile#:#Настройки на личните профили
 common#:#usr_settings_saved#:#Глобалните потребителски настройки са съхранени успешно!
@@ -3029,6 +3032,7 @@ crs#:#crs_unlimited#:#Неограничено
 crs#:#crs_unsubscribe#:#Прекратяване на абонамент
 crs#:#crs_unsubscribe_sure#:#Желаете ли да прекратите абонамента си за този курс
 crs#:#crs_unsubscribed_from_crs#:#Вие се абонирахте за този курс
+###05 Aug 2005 content changed
 crs#:#crs_users_added#:#Добавен потребител в курса
 crs#:#crs_users_already_assigned#:#Потребителят вече е записан за този курс
 crs#:#crs_xml#:#XML

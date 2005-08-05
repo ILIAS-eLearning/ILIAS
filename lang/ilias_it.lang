@@ -992,6 +992,7 @@ common#:#change_header_title#:#Modifica l'intestazione
 common#:#change_lo_info#:#Modifica le informazioni dell'unit&#224; didattica
 common#:#change_metadata#:#Modifica i metadati
 common#:#change_sort_direction#:#Modifica la direzione dell&#039;ordinamento
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#modificata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
@@ -1113,6 +1114,7 @@ common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Iscriversi ad un corso
 common#:#crs_leave#:#Annullare l'iscrizione ad un corso
 common#:#crs_management_system#:#Sistema di gestione corsi
@@ -2765,7 +2767,7 @@ common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Numero di righe per ogni pagina
 common#:#usr_inactive_only#:#Utenti non attivi
 common#:#usr_new#:#Nuovo utente
-common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
+common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Impostazioni profilo utenti
 common#:#usr_settings_header_profile_profile#:#Impostazioni profilo personale
 common#:#usr_settings_saved#:#Impostazioni globali utente salvate con successo!
@@ -3604,7 +3606,7 @@ crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
 crs#:#crs_unsubscribe#:#Cancella iscrizione
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso?
-crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
+crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Modifica l'obiettivo formativo
 crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso

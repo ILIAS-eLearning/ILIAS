@@ -951,6 +951,7 @@ common#:#change_header_title#:#Rediger overskift
 common#:#change_lo_info#:#Rediger LO Info
 common#:#change_metadata#:#Rediger Metadata
 common#:#change_sort_direction#:#Rediger sti
+common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#&aelig;ndret Til
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitel Nummer
@@ -1071,6 +1072,7 @@ common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
 common#:#crs_edit_permission#:#&aelig;ndrer rettigheds indstillinger
+common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Tilmeld Kursus
 common#:#crs_leave#:#Afmeld kursus
 common#:#crs_management_system#:#Kursus styringssystem
@@ -3503,7 +3505,7 @@ crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet gen&aring;bnet
 crs#:#crs_unlimited#:#Ubegr&aelig;nset
 crs#:#crs_unsubscribe#:#Afmeld
 crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus
-crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus
+crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus###05 Aug 2005 content changed
 crs#:#crs_update_objective#:#Edit learning objective###21 Apr 2005 new variable
 crs#:#crs_users_added#:#Tilf&oslash;jet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
