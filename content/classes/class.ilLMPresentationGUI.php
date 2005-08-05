@@ -2194,10 +2194,16 @@ class ilLMPresentationGUI
 				}
 
 				// output page
-				if ($node["type"] == "pg" and ($ilUser->getId() == ANONYMOUS_USER_ID and 
-											   $this->lm_gui->object->getPublicAccessMode() == "selected" and 
-											   ilLMObject::_isPagePublic($node["obj_id"])))
+				if ($node["type"] == "pg")
 				{
+					 if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					 {
+					 	if (!ilLMObject::_isPagePublic($node["obj_id"]))
+					 	{
+					 		continue;
+					 	}
+					 }
+
 					$this->tpl->setCurrentBlock("print_item");
 					$page_id = $node["obj_id"];
 
