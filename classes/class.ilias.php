@@ -324,8 +324,8 @@ class ILIAS
 				break;
 				
 			case AUTH_RADIUS:
-				include_once('classes/class.ilRADIUSauthentication.php');
-				$radius_servers = ilRADIUSauthentication::_getServers($this->db);
+				include_once('classes/class.ilRADIUSAuthentication.php');
+				$radius_servers = ilRADIUSAuthentication::_getServers($this->db);
 
 				$settings = $this->getAllSettings();
 				
