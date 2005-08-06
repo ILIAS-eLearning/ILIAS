@@ -1255,8 +1255,10 @@ common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
+common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
 common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
 common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
@@ -1534,6 +1536,11 @@ common#:#http_not_possible#:#Acest server nu suporta cereri http.
 common#:#http_path#:#Path HTTP
 common#:#https_not_possible#:#Acest server nu suporta conexiuni HTTPS.
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
+common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
+common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
+common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
+common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
+common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
 common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
 common#:#id#:#ID
@@ -1550,7 +1557,30 @@ common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
 common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#versiune ILIAS
+common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
+common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
+common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
+common#:#ilinc_coursemember_status#:#Attending as###06 Aug 2005 new variable
+common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
+common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
+common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
+common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
+common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
+common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
+common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
+common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
+common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
+common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
+common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
+common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
+common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
+common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#Imagine
 common#:#image_gen_unsucc#:#Generarea imaginii nu a reusit. Contactati-l pe administratorul sistemului si verificati calea de conversiune.
 common#:#import#:#Importati
@@ -2192,6 +2222,7 @@ common#:#phone_home#:#Telefon, Acasa
 common#:#phone_mobile#:#Telefon, Mobil
 common#:#phone_office#:#Telefon, Birou
 common#:#phrase#:#Fraza
+common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Va rugam introduceti o tinta
 common#:#please_enter_title#:# Va rugam introduceti un titlu
 common#:#please_select_a_delivered_file_to_delete#:#Va rugam selectati cel putin un fisier livrat pentru a-l sterge!
@@ -2378,6 +2409,7 @@ common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
 common#:#seas_settings#:#Search settings###13 May 2005 new variable
 common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
 common#:#seas_write#:#Edit search settings###13 May 2005 new variable
+common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Sectiuni
 common#:#select#:#Selectati
 common#:#select_all#:#Selectati Tot
@@ -2568,6 +2600,8 @@ common#:#tst_read#:#Permisiune de citire a testului
 common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Incarcati fisierul
+common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
 common#:#tst_visible#:#Testul este vizibil
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Editati testul
