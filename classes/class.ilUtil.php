@@ -917,7 +917,7 @@ class ilUtil
 		// due to bug in php does not work
 		//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd)) 
 
-		if (!preg_match("/^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$/", $a_passwd))
+		if (!preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd))
 		{
 			return false;
 		}

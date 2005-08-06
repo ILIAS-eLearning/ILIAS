@@ -402,6 +402,7 @@ function displayForm()
 			 if ($settings["usr_settings_hide_".$key] != 1)
 			 {
 				 $tpl->setCurrentBlock($key."_section");
+//echo "<br>+section+".$key."_section"."+";
 			 }
 			 else
 			 {
@@ -416,6 +417,7 @@ function displayForm()
         }
 
 		$tpl->setVariable("TXT_".strtoupper($key), $str);
+//echo ".TXT_".strtoupper($key).".".$str.".";
 
 		if ($key == "default_role")
 		{
@@ -423,13 +425,19 @@ function displayForm()
 		}
 		else
 		{
+			if (isset($_SESSION["error_post_vars"]["Fobject"]))
+			{
+				$val = $_SESSION["error_post_vars"]["Fobject"][$key];
+			}
 			$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
+//echo "-".strtoupper($key)."-".ilUtil::prepareFormOutput($val,true)."-";
 		}
 		
 		if (!in_array($key, array("default_role", "login", "passwd", "passwd2",
 			"firstname", "lastname", "gender")))
 		{
 			$tpl->parseCurrentBlock();
+//echo ":parseCurrentBlock";
 		}
 	}
 
@@ -450,7 +458,7 @@ function displayForm()
         $tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
         $tpl->setVariable("TXT_PASSWD_VIA_MAIL", $lng->txt("reg_passwd_via_mail"));
     }
-
+//$tpl->show(); exit;
 	$tpl->setVariable("FORMACTION", "register.php?cmd=save&lang=".$_GET["lang"]);
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 	$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
@@ -519,14 +527,6 @@ function displayForm()
 	// FILL SAVED VALUES IN CASE OF ERROR
 	if (isset($_SESSION["error_post_vars"]["Fobject"]))
 	{
-		foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
-		{
-			if ($key != "default_role" and $key != "language")
-			{
-				$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
-			}
-		}
-
 		// gender selection
 		$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
 
