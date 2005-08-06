@@ -816,7 +816,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			}
 			
 			include_once('classes/class.ilRADIUSAuthentication.php');
-			$servers =ilRADIUSauthentication::_getServers();
+			$servers =ilRADIUSAuthentication::_getServers();
 
 			$this->tpl->setVariable("RADIUS_SERVER", implode(",",$servers));
 			$this->tpl->setVariable("RADIUS_SHARED_SECRET", $settings["radius_shared_secret"]);
@@ -870,14 +870,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		include_once('classes/class.ilRADIUSauthentication.php');
-		if (!ilRADIUSauthentication::_validateServers($_POST["radius"]["server"]))
+		include_once('classes/class.ilRADIUSAuthentication.php');
+		if (!ilRADIUSAuthentication::_validateServers($_POST["radius"]["server"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("err_invalid_server"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// all ok. save settings and activate RADIUS
-		ilRADIUSauthentication::_saveServers($_POST["radius"]["server"]);
+		ilRADIUSAuthentication::_saveServers($_POST["radius"]["server"]);
 		$this->ilias->setSetting("radius_shared_secret", $_POST["radius"]["shared_secret"]);
 		$this->ilias->setSetting("radius_port", $_POST["radius"]["port"]);
 		$this->ilias->setSetting("radius_active", $_POST["radius"]["active"]);
