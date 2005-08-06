@@ -89,7 +89,7 @@ class ilRADIUSAuthentication extends ilBaseAuthentication
 	{
 		global $ilias;
 		
-		$old_servers = ilRADIUSauthentication::_getServers();
+		$old_servers = ilRADIUSAuthentication::_getServers();
 		$count = count($old_servers);
 		
 		$servers = explode(",",$a_servers);
