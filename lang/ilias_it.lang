@@ -1301,8 +1301,10 @@ common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#Impostazioni LearnLinc salvate
+common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_name#:#Software/Service
 common#:#extt_read#:#Accedere il lettura alle impostazioni del software di terze parti
+common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#extt_title_configure#:#Configura software esterno
 common#:#extt_visible#:#Vedere le impostazioni del software di terze parti
 common#:#extt_write#:#Modificare le impostazioni del software di terze parti
@@ -1589,11 +1591,16 @@ common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#i2passwd#:#Password di ILIAS 2
 common#:#icla#:#Classe iLinc
-common#:#icla_add#:#Crea classe iLinc
-common#:#icla_new#:#Creare classi iLinc
+common#:#icla_add#:#Crea classe iLinc###06 Aug 2005 content changed
+common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
+common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
+common#:#icla_new#:#Creare classi iLinc###06 Aug 2005 content changed
 common#:#icrs#:#Corso iLinc
 common#:#icrs_add#:#Crea corso iLinc
+common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
+common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
 common#:#icrs_delete#:#Elimina corso iLinc
+common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
 common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#icrs_join#:#Iscrivere ai seminari LearnLinc
 common#:#icrs_leave#:#Annullare l'iscrizione ai seminari LearnLinc
@@ -1616,9 +1623,32 @@ common#:#il_grp_member#:#Membro di gruppo
 common#:#il_icrs_admin#:#Amministratore di seminario LearnLinc
 common#:#il_icrs_member#:#Membro di seminario LearnLinc
 common#:#ilias_version#:#Versione ILIAS 3
-common#:#ilinc_classrooms#:#Classi iLinc
+common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
+common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
+common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
+common#:#ilinc_classrooms#:#Classi iLinc###06 Aug 2005 content changed
+common#:#ilinc_coursemember_status#:#Attending as###06 Aug 2005 new variable
 common#:#ilinc_courses#:#Corsi iLinc
+common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
+common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
+common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
+common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
+common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
+common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
 common#:#ilinc_id#:#iLinc ID
+common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
+common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
+common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
+common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
+common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
+common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
+common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
+common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
@@ -2112,7 +2142,7 @@ common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
-common#:#obj_icla#:#Classe iLinc
+common#:#obj_icla#:#Classe iLinc###06 Aug 2005 content changed
 common#:#obj_icrs#:#Corso iLinc
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
@@ -2187,7 +2217,7 @@ common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
 common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
-common#:#objs_icla#:#Classi iLinc
+common#:#objs_icla#:#Classi iLinc###06 Aug 2005 content changed
 common#:#objs_icrs#:#Classi iLinc
 common#:#objs_lm#:#Moduli ILIAS
 common#:#objs_lng#:#Lingue
@@ -2279,6 +2309,7 @@ common#:#phone_home#:#Telefono casa
 common#:#phone_mobile#:#Telefono cellulare
 common#:#phone_office#:#Telefono ufficio
 common#:#phrase#:#Frase
+common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
 common#:#please_select_a_delivered_file_to_delete#:#Devi segliere almeno uno tra i file inviati per eliminarlo!
@@ -2476,6 +2507,7 @@ common#:#seas_search#:#Consentire l'uso della ricerca
 common#:#seas_settings#:#Impostazioni della ricerca
 common#:#seas_visible#:#Vedere le impostazioni di ricerca
 common#:#seas_write#:#Modificare le impostazioni di ricerca
+common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
@@ -2682,6 +2714,8 @@ common#:#tst_read#:#Accedere in lettura ad un test
 common#:#tst_run#:#Esegui
 common#:#tst_statistical_evaluation#:#Statistiche
 common#:#tst_upload_file#:#Scegli il file
+common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
 common#:#tst_visible#:#Vedere un test
 common#:#tst_warning_test_not_complete#:#Il test non &#232; completo!
 common#:#tst_write#:#Modificare un test

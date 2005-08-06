@@ -1165,6 +1165,8 @@ common#:#export#:#Експортиране
 common#:#export_group_members#:#Експортиране на членовете на групата (към Microsoft Excel)
 common#:#export_html#:#експортиране като HTML файл
 common#:#export_xml#:#експортиране като XML файл
+common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
+common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#faq_exercise#:#ЧЗВ упражнение
 common#:#fax#:#Факс
 common#:#feedback#:#Обратна връзка
@@ -1424,11 +1426,39 @@ common#:#htlm_write#:#Редактиране на HTML модул за обуч�
 common#:#http_not_possible#:#Този сървър не поддържа http заявки.
 common#:#http_path#:#Http път
 common#:#https_not_possible#:#Този сървър не поддържа HTTPS връзки.
+common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
+common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
+common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
+common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
+common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
 common#:#id#:#ID
 common#:#identifier#:#идентификатор
 common#:#if_no_title_then_filename#:#Оставете празно, за да се изпише името на файла
 common#:#if_no_title_then_url#:#Оставете празно, за да се изпише URL
 common#:#ilias_version#:#ILIAS версия
+common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
+common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
+common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
+common#:#ilinc_coursemember_status#:#Attending as###06 Aug 2005 new variable
+common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
+common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
+common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
+common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
+common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
+common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
+common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
+common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
+common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
+common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
+common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
+common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
+common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
+common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
+common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
+common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#Изображение
 common#:#image_gen_unsucc#:#Генерирането на изображение неуспешно. Свържете се с вашия системен администратор и проверете пътя за конвертирането.
 common#:#import#:#Импортиране
@@ -2028,6 +2058,7 @@ common#:#phone_home#:#Телефон, домашен
 common#:#phone_mobile#:#Телефон, мобилен
 common#:#phone_office#:#Телефон, служебен
 common#:#phrase#:#Фраза
+common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Моля, въведете местоназначение
 common#:#please_enter_title#:#Моля, въведете заглавие
 common#:#please_select_a_delivered_file_to_delete#:#Трябва да изберете поне един предоставен файл, за да го изтриете!
@@ -2205,6 +2236,7 @@ common#:#search_note#:#Ако &quot;search in&quot; бъде оставено п
 common#:#search_recipient#:#Търсене на реципиент
 common#:#search_result#:#Резултат от търсенето
 common#:#search_user#:#Търсене на потребител
+common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Секции
 common#:#select#:#Избор
 common#:#select_all#:#Избиране на всички
@@ -2352,6 +2384,8 @@ common#:#tst_edit_permission#:#Промяна на разрешителните 
 common#:#tst_new#:#Нов тест
 common#:#tst_read#:#Достъп за четене от тест
 common#:#tst_upload_file#:#Зареждане на файл
+common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
 common#:#tst_visible#:#Тестът е видим
 common#:#tst_write#:#Редактиране на тест
 common#:#txt_add_object_instruction1#:#Използвайте навигация, за да достигнете мястото, където желаете да добавите
