@@ -370,6 +370,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setCurrentBlock("import_qpl");
+		if (is_file($xml_file))
+		{
+			// read file into a string
+			$fh = @fopen($xml_file, "r") or die("");
+			$xml = @fread($fh, filesize($xml_file));
+			@fclose($fh);
+			if (preg_match("/<ContentObject.*?MetaData.*?General.*?Title[^>]*?>([^<]*?)</", $xml, $matches))
+			{
+				$this->tpl->setVariable("VALUE_NEW_QUESTIONPOOL", $matches[1]);
+			}
+		}
+		$this->tpl->setVariable("TEXT_CREATE_NEW_QUESTIONPOOL", $this->lng->txt("qpl_import_create_new_qpl"));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
@@ -390,6 +406,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$value_questions_only = 0;
 		if ($questions_only) $value_questions_only = 1;
 		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
+
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -435,9 +452,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
 
+		// set another question pool name (if possible)
+		$qpl_name = $_POST["qpl_new"];
+		if ((strcmp($qpl_name, $newObj->getTitle()) != 0) && (strlen($qpl_name) > 0))
+		{
+			$newObj->setTitle($qpl_name);
+			$newObj->update();
+		}
+		
 		// delete import directory
 		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
-		
+
 		if ($_POST["questions_only"] == 1)
 		{
 			$this->ctrl->redirect($this, "questions");
