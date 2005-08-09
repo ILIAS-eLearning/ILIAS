@@ -210,7 +210,7 @@ function saveForm()
 				$add, $ilErr->MESSAGE);
 		}
 	}
-exit;
+
 	// TODO: check if login or passwd already exists
 	// TODO: check length of login and passwd
 
