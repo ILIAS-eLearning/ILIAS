@@ -76,6 +76,13 @@ class ilErrorHandling extends PEAR
 		$this->FATAL	 = 1;
 		$this->WARNING	 = 2;
 		$this->MESSAGE	 = 3;
+		
+		$this->error_obj = false;
+	}
+	
+	function getLastError()
+	{
+		return $this->error_obj;
 	}
 	
 	/**
@@ -86,6 +93,8 @@ class ilErrorHandling extends PEAR
 	function errorHandler($a_error_obj)
 	{
 		global $log;
+
+		$this->error_obj =& $a_error_obj;
 
 		if ($_SESSION["message"])
 		{
