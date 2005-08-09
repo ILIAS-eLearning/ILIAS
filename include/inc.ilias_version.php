@@ -30,5 +30,5 @@
 *
 * @package ilias-core
 */
-define("ILIAS_VERSION", "3.5.0 Beta2 2005-07-28");
+define("ILIAS_VERSION", "3.6.0 pre-alpha");
 ?>
