@@ -335,7 +335,8 @@ class ILIAS
 				}
 				
 				// build option string for PEAR::Auth
-				$this->auth_params = array($rad_params);
+				//$this->auth_params = array($rad_params);
+				$this->auth_params = $rad_params;
 				$this->auth = new Auth("RADIUS", $this->auth_params,"",false);
 				break;
 				
