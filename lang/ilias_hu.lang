@@ -103,7 +103,7 @@ assessment#:#add_area#:#Terület hozzáadása
 assessment#:#add_gap#:#Kiegészítendő szöveg hozzáadása
 assessment#:#add_imagemap#:#Image Map hozzáadása
 assessment#:#add_matching_pair#:#Összeillő párok hozzáadása
-assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása
+assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása###09 Aug 2005 content changed
 assessment#:#add_solution#:#Javasolt megoldás hozzáadása
 assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemény
 assessment#:#answer#:#Válasz
@@ -129,10 +129,10 @@ assessment#:#by#:#Létrehozta
 assessment#:#cancel_test#:#Kilépés a tesztből
 assessment#:#cannot_edit_test#:#Nincs megfelelő jogosultsága a teszt szerkesztéséhez!
 assessment#:#cannot_execute_test#:#Nincs megfelelő jogosultsága a teszt futtatásához!
-assessment#:#cannot_export_qpl#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény exportálásához!
+assessment#:#cannot_export_qpl#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény exportálásához!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt exportálásához.
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
-assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához!
+assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
 assessment#:#change_solution#:#Javasolt megoldás változtatása.
 assessment#:#checkbox_checked#:#Kiválasztott
@@ -232,7 +232,7 @@ assessment#:#filter#:#Szűrő
 assessment#:#filter_all_question_types#:#Minden kérdéstípus
 assessment#:#filter_all_questionpools#:#Minden kérdéssor
 assessment#:#filter_show_question_types#:#Kérdéstípusok mutatása
-assessment#:#filter_show_questionpools#:#Kérdéssorok mutatása
+assessment#:#filter_show_questionpools#:#Kérdéssorok mutatása###09 Aug 2005 content changed
 assessment#:#gap#:#Kitöltendő hely
 assessment#:#gap_definition#:#Kitöltendő hely definíciója
 assessment#:#gap_selection#:#Kitöltendő hely kiválasztása
@@ -312,6 +312,7 @@ assessment#:#qpl_edit_rbac_error#:#Nincs joga szerkeszteni ezt a kérdést!
 assessment#:#qpl_edit_select_multiple#:#Csak egy kérdést ellenőrizzen a szerkesztéshez
 assessment#:#qpl_edit_select_none#:#Ellenőrizzen egy kérdést a szerkesztéshez
 assessment#:#qpl_export_select_none#:#Legalább egy kérdést ellenőrizzen az exportáláshoz
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -421,11 +422,11 @@ assessment#:#tst_missing_marks#:#Nem adott meg osztályozási sémát a tesztben
 assessment#:#tst_missing_questions#:#Nincs egy kérdése sem a tesztben. Legalább egy kérdést adjon a teszthez!
 assessment#:#tst_missing_title#:#Nem adott meg tesztcímet. Menjen a metaadatok részbe, és adjon meg egy címet.
 assessment#:#tst_no_marks_defined#:#Nincsenek érdemjegyek definiálva, hozzon létre legalább egy egyszerű osztályozási sémát!
-assessment#:#tst_no_more_available_questionpools#:#Nincs több kérdésgyűjtemény
+assessment#:#tst_no_more_available_questionpools#:#Nincs több kérdésgyűjtemény###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést az eltávolításhoz!
-assessment#:#tst_no_questionpools_for_random_test#:#Nem adott meg kérdésgyűjteményt ehhez a véletlen-kiválasztásos teszthez. Legalább egy kérdésgyűjteményt válasszon ki.
+assessment#:#tst_no_questionpools_for_random_test#:#Nem adott meg kérdésgyűjteményt ehhez a véletlen-kiválasztásos teszthez. Legalább egy kérdésgyűjteményt válasszon ki.###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#Nincs elérhető kérdés! Új kérdéseket kell létrehoznia vagy keresnie.
-assessment#:#tst_no_questions_for_random_test#:#Nem vett kérdést a kérdésgyűjteményekből ehhez a véletlen-kiválasztásos teszthez! Legalább egy kérdést válasszon, beállítva egy kérdésgyűjteményből veendő kérdések számát.
+assessment#:#tst_no_questions_for_random_test#:#Nem vett kérdést a kérdésgyűjteményekből ehhez a véletlen-kiválasztásos teszthez! Legalább egy kérdést válasszon, beállítva egy kérdésgyűjteményből veendő kérdések számát.###09 Aug 2005 content changed
 assessment#:#tst_no_taken_tests#:#Nincsenek igénybevett tesztek.
 assessment#:#tst_no_tries#:#nincs
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
@@ -439,8 +440,8 @@ assessment#:#tst_question_type#:#Kérdéstípus
 assessment#:#tst_questions_inserted#:#A kérdés(ek) beszúrásra kerültek!
 assessment#:#tst_questions_removed#:#A kérdése(ek) eltávolítva!
 assessment#:#tst_random_nr_of_questions#:#Hány darab kérdés?
-assessment#:#tst_random_qpl_unselected#:#Legalább egy kiválasztatlan kérdésgyűjtemény van! Nem kell hozzáadnia új kérdésgyűjteményt.
-assessment#:#tst_random_questionpools#:#Forrás-kérdésgyűjtemények
+assessment#:#tst_random_qpl_unselected#:#Legalább egy kiválasztatlan kérdésgyűjtemény van! Nem kell hozzáadnia új kérdésgyűjteményt.###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Forrás-kérdésgyűjtemények###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Válassza ki a kérdésgyűjteményt, hogy választhasson a kérdések közül
 assessment#:#tst_random_test#:#Véletlen kiválasztásos kérdés
 assessment#:#tst_random_test_description#:#Ha ellenőrzött, a teszt kérdései véletlen-kiválasztással lesznek generálva
@@ -459,7 +460,7 @@ assessment#:#tst_score_type#:#Jelentés a ponteredmények típusáról
 assessment#:#tst_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz.
 assessment#:#tst_select_questionpool#:#Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés elmentéséhez
 assessment#:#tst_select_questionpools#:#Válasszon ki egy kérdésgyűjteményt az importált kérdések elmentéséhez
-assessment#:#tst_select_random_questions#:#Válassza ki a kérdés(ek)et és a kérdések mennyiségét a véletlen-kiválasztásos teszthez
+assessment#:#tst_select_random_questions#:#Válassza ki a kérdés(ek)et és a kérdések mennyiségét a véletlen-kiválasztásos teszthez###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Válasszon ki egy tesztet a másolatkészítéshez
 assessment#:#tst_sequence#:#Sorrend
 assessment#:#tst_sequence_fixed#:#A kérdéssorrend rögzített
@@ -499,7 +500,7 @@ assessment#:#tst_status_ok#:#A teszt állapota rendben van. Nincsenek hiányzó 
 assessment#:#tst_status_progress#:#Folyamatban
 assessment#:#tst_time_already_spent#:#Az időmérés elindult
 assessment#:#tst_total_questions#:#Kérdések teljes mennyisége
-assessment#:#tst_total_questions_description#:#Ha beállította ezt az értéket, a a kérdésgyűjteménnyekkel megadott kérdések mennyisége nem lesz figyelembe véve. Ha nem állítja be ezt az értéket, minden kiválasztott kérdésgyűjteménnyel meg kell adnia egy mennyiséget!
+assessment#:#tst_total_questions_description#:#Ha beállította ezt az értéket, a a kérdésgyűjteménnyekkel megadott kérdések mennyisége nem lesz figyelembe véve. Ha nem állítja be ezt az értéket, minden kiválasztott kérdésgyűjteménnyel meg kell adnia egy mennyiséget!###09 Aug 2005 content changed
 assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_type_changed#:#Megváltoztatta a teszt típusát. Minden korábbi folyamatban levő teszt törlésre került!
 assessment#:#tst_type_comment#:#Figyelmeztetés: Egy futó teszt típusának megváltoztatása törölni fogja a korábban folyamatban levő teszteket!
@@ -1572,11 +1573,11 @@ common#:#import_glossary#:#Fogalomtár importálása
 common#:#import_grp_finished#:#Hiba nélkül importált csoport
 common#:#import_hlm#:#HACP csomag importja
 common#:#import_lm#:#Tananyag importja
-common#:#import_qpl#:#Teszt kérdésgyűjtemény importálása
+common#:#import_qpl#:#Teszt kérdésgyűjtemény importálása###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Root felhasználó importja
 common#:#import_sahs#:#SCORM/AICC csomag importálása
-common#:#import_spl#:#Kérdőívi kérdésgyűjtemény importálása
+common#:#import_spl#:#Kérdőívi kérdésgyűjtemény importálása###09 Aug 2005 content changed
 common#:#import_svy#:#Kérdőív importálása
 common#:#import_tst#:#Teszt importálása
 common#:#import_users#:#Felhasználók importálása
@@ -4109,6 +4110,7 @@ meta#:#meta_idea#:#Ötlet
 meta#:#meta_identifier#:#Azonosító
 meta#:#meta_index#:#Index
 meta#:#meta_installation_remarks#:#Telepítéshez megjegyzések
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Megcélzott végfelhasználói szerep
 meta#:#meta_interactivity_level#:#Interaktivitás szintje
 meta#:#meta_interactivity_type#:#Interaktivitás típusa
@@ -4632,12 +4634,12 @@ survey#:#before#:#before
 survey#:#browse_for_questions#:#Kérdések keresése
 survey#:#cannot_create_survey_codes#:#Nem rendelkezik elegendő jogosultsággal kérdőívhez tartozó kódok létrehozásához!
 survey#:#cannot_edit_survey#:#Nincs elég jogosultsága a kérdőív szerkesztéséhez!
-survey#:#cannot_export_questionpool#:#Nincs elég jogosultsága a kérdőívi kérdéssor exportálásához.
+survey#:#cannot_export_questionpool#:#Nincs elég jogosultsága a kérdőívi kérdéssor exportálásához.###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Nincs elég jogosultsága a kérdőív exportálásához.
 survey#:#cannot_maintain_survey#:#Nincs írási jogosultsága a kérdőív karbantartásához!
 survey#:#cannot_manage_phrases#:#Nincs írási jogosultsága a mondatok menedzseléséhez!
 survey#:#cannot_participate_survey#:#Nincs joga résztvenni a kérdőívben!
-survey#:#cannot_read_questionpool#:#Nem rendelkezik elegendő jogosultsággal a kérdésgyűjtemény adatainak olvasásához!
+survey#:#cannot_read_questionpool#:#Nem rendelkezik elegendő jogosultsággal a kérdésgyűjtemény adatainak olvasásához!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Nem rendelkezik elegendő jogosultsággal a kérdőív adatainak olvasásához!
 survey#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez!
 survey#:#cannot_switch_to_online_no_questions#:#Nem változtatható &quot;on-line&quot;-ra az állapot, mert nincsenek kérdések a tesztben!
@@ -4747,9 +4749,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Tötlsön ki minden megkí
 survey#:#fill_out_all_required_fields_save_phrase#:#Tötlsön ki minden megkívánt mezőt, mielőtt menti a mondatot!
 survey#:#filter#:#Szűrő
 survey#:#filter_all_question_types#:#Minden kérdéstípus
-survey#:#filter_all_questionpools#:#Minden kérdésgyűjtemény
+survey#:#filter_all_questionpools#:#Minden kérdésgyűjtemény###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Kérdéstípusok megjelenítése
-survey#:#filter_show_questionpools#:#Kérdésgyűjtemények megjelenítése
+survey#:#filter_show_questionpools#:#Kérdésgyűjtemények megjelenítése###09 Aug 2005 content changed
 survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok

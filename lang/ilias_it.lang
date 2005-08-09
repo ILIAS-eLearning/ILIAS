@@ -103,7 +103,7 @@ assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi spazio vuoto per testo
 assessment#:#add_imagemap#:#Aggiungi immagine a mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
-assessment#:#add_questionpool#:#Aggiungi raccolta di domande
+assessment#:#add_questionpool#:#Aggiungi raccolta di domande###09 Aug 2005 content changed
 assessment#:#add_solution#:#Aggiungi soluzione suggerita
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
@@ -130,10 +130,10 @@ assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_execute_test#:#Non hai i diritti per eseguire il test!
-assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
+assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
-assessment#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
+assessment#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Non hai i diritti per salvare i metadati!
 assessment#:#change_solution#:#Cambia la soluzione suggerita
 assessment#:#checkbox_checked#:#Selezionato
@@ -237,7 +237,7 @@ assessment#:#filter#:#Filtra in
 assessment#:#filter_all_question_types#:#Tutti i tipi di domande
 assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
 assessment#:#filter_show_question_types#:#Filtra tra le domande di tipo
-assessment#:#filter_show_questionpools#:#Filtra tra le domande nella raccolta
+assessment#:#filter_show_questionpools#:#Filtra tra le domande nella raccolta###09 Aug 2005 content changed
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
@@ -322,6 +322,7 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Si &#232; verificato un errore: il file scelto non contiene domande!
 assessment#:#qpl_import_non_ilias_files#:#Si &#232; verificato un errore: il file scelto non &#232; stato creato con Ilias. Contatta il team di Ilias per avere un filtro di import per il formato del tuo file QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS ha trovato le seguenti domande nel file indicato. Scegli quelle che vuoi importare.
@@ -443,11 +444,11 @@ assessment#:#tst_missing_marks#:#Non hai indicato uno schema di punteggio per il
 assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda.
 assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore vai nella sezione dei metadati e inserisci un titolo.
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
-assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte
+assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
-assessment#:#tst_no_questionpools_for_random_test#:#Non hai indicato nemmeno una raccolta di domande in questo test casuale! Seleziona almeno una raccolta di domande.
+assessment#:#tst_no_questionpools_for_random_test#:#Non hai indicato nemmeno una raccolta di domande in questo test casuale! Seleziona almeno una raccolta di domande.###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi creare nuove domande.
-assessment#:#tst_no_questions_for_random_test#:#Non hai selezionato nessuna domanda della raccolta per questo test casuale! Seleziona il numero di domande che compongono il test.
+assessment#:#tst_no_questions_for_random_test#:#Non hai selezionato nessuna domanda della raccolta per questo test casuale! Seleziona il numero di domande che compongono il test.###09 Aug 2005 content changed
 assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
 assessment#:#tst_no_tries#:#Nessun tentativo
@@ -471,8 +472,8 @@ assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
 assessment#:#tst_random_nr_of_questions#:#Quante domande vuoi inserire?
-assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.
-assessment#:#tst_random_questionpools#:#Numero di domande
+assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Numero di domande###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dalla quale verranno prese le domande
 assessment#:#tst_random_test#:#Test casuale
 assessment#:#tst_random_test_description#:#Se abilitato, le domande del test saranno generate casualmente.
@@ -494,7 +495,7 @@ assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_file_for_import#:#Devi scegliere un file da importare!
 assessment#:#tst_select_questionpool#:#Per favore, seleziona la raccolta alla quale verr&#224; aggiunta la domanda
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
-assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.
+assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
@@ -539,7 +540,7 @@ assessment#:#tst_submit_results#:#Si, confermo l'invio.
 assessment#:#tst_text_count_system#:#Sistema di punteggio
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_total_questions#:#Numero di domande
-assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, esso rappresenta il numero di domande prelevate da ogni raccolta ed il numero indicato per ogni singola raccolta viene ignorato!
+assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, esso rappresenta il numero di domande prelevate da ogni raccolta ed il numero indicato per ogni singola raccolta viene ignorato!###09 Aug 2005 content changed
 assessment#:#tst_tst_date#:#Data del test
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test precedentemente svolti sono stati eliminati!
@@ -1664,11 +1665,11 @@ common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo
-common#:#import_qpl#:#Importa raccolta di domande per test
+common#:#import_qpl#:#Importa raccolta di domande per test###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Importa modulo SCORM/AICC
-common#:#import_spl#:#Importa raccolta di domande per sondaggi
+common#:#import_spl#:#Importa raccolta di domande per sondaggi###09 Aug 2005 content changed
 common#:#import_svy#:#Importa sondaggio
 common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
@@ -4350,7 +4351,8 @@ meta#:#meta_identifier#:#Identificatore
 meta#:#meta_index#:#Indice
 meta#:#meta_initiator#:#Iniziatore
 meta#:#meta_installation_remarks#:#Note sull&#039;installazione
-meta#:#meta_instructional_designer#:#Progettista educativo
+meta#:#meta_instructional_designer#:#Progettista educativo###09 Aug 2005 content changed
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Ruolo progettato per utente finale
 meta#:#meta_interactivity_level#:#Livello di interazione
 meta#:#meta_interactivity_type#:#Tipo di interazione
@@ -4900,12 +4902,12 @@ survey#:#before#:#prima di
 survey#:#browse_for_questions#:#Ricerca con filtro
 survey#:#cannot_create_survey_codes#:#Non hai sufficienti diritti per creare codici di accesso al sondaggio!
 survey#:#cannot_edit_survey#:#Non hai sufficienti diritti per poter modificare il sondaggio!
-survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!
+survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Non hai sufficienti diritti per esportare il sondaggio!
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondaggio!
-survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
+survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
 survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
@@ -5018,9 +5020,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti 
 survey#:#fill_out_all_required_fields_save_phrase#:#Per favore completa tutti i campi richiesti prima di salvare la frase!
 survey#:#filter#:#Filtra in
 survey#:#filter_all_question_types#:#Tutti i tipi di domande
-survey#:#filter_all_questionpools#:#Tutte le raccolte di domande
+survey#:#filter_all_questionpools#:#Tutte le raccolte di domande###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Fitra tra le domande di tipo
-survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta
+survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta###09 Aug 2005 content changed
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite

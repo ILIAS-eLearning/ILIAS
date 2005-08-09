@@ -103,7 +103,7 @@ assessment#:#add_area#:#Shto zonë
 assessment#:#add_gap#:#Shto zbrazëtirë për tekst
 assessment#:#add_imagemap#:#Importo skemë me imazhe
 assessment#:#add_matching_pair#:#Shto çift krahasues
-assessment#:#add_questionpool#:#Shto fond pyetjesh
+assessment#:#add_questionpool#:#Shto fond pyetjesh###09 Aug 2005 content changed
 assessment#:#add_solution#:#Shto zgjidhje të sugjeruar
 assessment#:#all_available_question_pools#:#Të gjitha fondet e pyetjeve në dispozicion
 assessment#:#answer#:#Përgjigje
@@ -129,10 +129,10 @@ assessment#:#by#:#nga
 assessment#:#cancel_test#:#Anulo testin
 assessment#:#cannot_edit_test#:#Nuk keni të drejta të mjaftueshme për të edituar testin!
 assessment#:#cannot_execute_test#:#Nuk keni të drejta të mjaftueshme për të aktivizuar testin!
-assessment#:#cannot_export_qpl#:#Nuk keni të drejta të mjaftueshme për t'i eksportuar grupet e pyetjeve!
+assessment#:#cannot_export_qpl#:#Nuk keni të drejta të mjaftueshme për t'i eksportuar grupet e pyetjeve!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Nuk keni të drejta të mjaftueshme për të eksportuar testin!
 assessment#:#cannot_maintain_test#:#Nuk keni të drejta të mjaftueshme për të mbajtur testin!
-assessment#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për të lexuar fondet e pyetjeve!
+assessment#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për të lexuar fondet e pyetjeve!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Nuk keni të drejta të mjaftueshme për të ruajtur meta shënimet!
 assessment#:#change_solution#:#Ndërro zgjidhje të sugjeruar
 assessment#:#checkbox_checked#:#E shënuar
@@ -234,7 +234,7 @@ assessment#:#filter#:#Filtër
 assessment#:#filter_all_question_types#:#Të gjitha llojet e pyetjeve
 assessment#:#filter_all_questionpools#:#Të gjitha fondet e pyetjeve
 assessment#:#filter_show_question_types#:#Shih llojet e pyetjeve
-assessment#:#filter_show_questionpools#:#Shih fondet e pyetjeve
+assessment#:#filter_show_questionpools#:#Shih fondet e pyetjeve###09 Aug 2005 content changed
 assessment#:#gap#:#Zbrazëtirë
 assessment#:#gap_definition#:#Definim i zbrazëtirës
 assessment#:#gap_selection#:#Zgjedhje e zbrazëtirës
@@ -316,6 +316,7 @@ assessment#:#qpl_edit_rbac_error#:#Nuk keni të drejta për të edituar këtë p
 assessment#:#qpl_edit_select_multiple#:#Ju lutem zgjedheni vetëm një pyetje për editimim
 assessment#:#qpl_edit_select_none#:#Ju lutem zgjedheni një pyetje për editimim
 assessment#:#qpl_export_select_none#:#Ju lutem zgjedheni së paku një pyetje për ta eksportuar
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -425,11 +426,11 @@ assessment#:#tst_missing_marks#:#Nuk keni skemë të notimit për këtë test! J
 assessment#:#tst_missing_questions#:#Nuk keni asnjë pyetje në këtë test! Ju lutem të shtoni së paku një pyetje në test.
 assessment#:#tst_missing_title#:#Nuk keni shënuar titullin e testit! Ju lutem shkoni te seksioni i meta shënimeve dhe shëno një titull.
 assessment#:#tst_no_marks_defined#:#Nuk ka nota të definuara, ju lutem krijoni së paku një skemë të thjeshtë të notimit
-assessment#:#tst_no_more_available_questionpools#:#Nuk ka më fonde pyetjesh në dispozicion
+assessment#:#tst_no_more_available_questionpools#:#Nuk ka më fonde pyetjesh në dispozicion###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Ju lutem shënjoni së paku një pyetje për ta larguar!
-assessment#:#tst_no_questionpools_for_random_test#:#Nuk keni shtuar fund pyetjesh për këtë test të rastit! Ju lutem përzgjidh së paku një grup pyetjesh.
+assessment#:#tst_no_questionpools_for_random_test#:#Nuk keni shtuar fund pyetjesh për këtë test të rastit! Ju lutem përzgjidh së paku një grup pyetjesh.###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#Nuk ka pyetje në dispozicion! Duhet të krijoni pyetje të reja apo të shfletoni për pyetje.
-assessment#:#tst_no_questions_for_random_test#:#Nuk keni marrë asnjë pyetje nga fondi i pyetjeve për këtë test të rastit! Ju lutem të merrni së paku një pyetje duke vendosur numrin e pyetjeve për një grup pyetjesh të shtuar.
+assessment#:#tst_no_questions_for_random_test#:#Nuk keni marrë asnjë pyetje nga fondi i pyetjeve për këtë test të rastit! Ju lutem të merrni së paku një pyetje duke vendosur numrin e pyetjeve për një grup pyetjesh të shtuar.###09 Aug 2005 content changed
 assessment#:#tst_no_taken_tests#:#Nuk ka teste të marra!
 assessment#:#tst_no_tries#:#asnjë
 assessment#:#tst_nr_of_tries#:#Numri maksimal i tentimeve
@@ -443,8 +444,8 @@ assessment#:#tst_question_type#:#Lloji i pyetjes
 assessment#:#tst_questions_inserted#:#Pyetje të futura!
 assessment#:#tst_questions_removed#:#Pyetje të larguara!
 assessment#:#tst_random_nr_of_questions#:#Sa pyetje?
-assessment#:#tst_random_qpl_unselected#:#Është së paku një fond pyetjesh i pazgjedhur! Nuk keni nevojë për fond pyetjesh të ri.
-assessment#:#tst_random_questionpools#:#Fond pyetjevet burimore
+assessment#:#tst_random_qpl_unselected#:#Është së paku një fond pyetjesh i pazgjedhur! Nuk keni nevojë për fond pyetjesh të ri.###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Fond pyetjevet burimore###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Përzgjedh fondin e pyetjeve nga do të merren pyetjet
 assessment#:#tst_random_test#:#Test i rastit
 assessment#:#tst_random_test_description#:#Nëse shënjohet, pyetjet e testit do të gjenerohen nga gjenerator të rastit
@@ -466,7 +467,7 @@ assessment#:#tst_score_type#:#Mënyra e raportimit të rezultateve
 assessment#:#tst_select_file_for_import#:#Duhet të zgjedheni një filtër para se të importoni!
 assessment#:#tst_select_questionpool#:#Ju lutem zgjedh një fond pyetjesh për të ruajtur pyetjen e krijuar
 assessment#:#tst_select_questionpools#:#Ju lutem zgjedh një fond pyetjesh për të ruajtur pyetjet e importuara
-assessment#:#tst_select_random_questions#:#Përzgjedh fond(e) pyetjesh dhe numrin e pyetjeve për test të rastit
+assessment#:#tst_select_random_questions#:#Përzgjedh fond(e) pyetjesh dhe numrin e pyetjeve për test të rastit###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Ju lutem të zgjedheni testin për dublikim
 assessment#:#tst_sequence#:#Sekuencë
 assessment#:#tst_sequence_fixed#:#Sekuenca për pyetjet është fiksuar
@@ -507,7 +508,7 @@ assessment#:#tst_status_ok#:#Statusi i testit është OK. Nuk ka elemente qe mun
 assessment#:#tst_status_progress#:#Në progres
 assessment#:#tst_time_already_spent#:#Koha tashmë e kaluar e punës
 assessment#:#tst_total_questions#:#Numri total i pyetjeve
-assessment#:#tst_total_questions_description#:#Nëse e vendosë këtë vlerë, nuk do të keni nevojë të shënoni shumën e pyetjeve në fond pyetjesh. Nëse nuk e vendosë këtë vlerë, do të duhet të shënoni shumën e pyetjeve për çdo grup pyetjesh të zgjedhur!
+assessment#:#tst_total_questions_description#:#Nëse e vendosë këtë vlerë, nuk do të keni nevojë të shënoni shumën e pyetjeve në fond pyetjesh. Nëse nuk e vendosë këtë vlerë, do të duhet të shënoni shumën e pyetjeve për çdo grup pyetjesh të zgjedhur!###09 Aug 2005 content changed
 assessment#:#tst_type#:#Lloji i testit
 assessment#:#tst_type_changed#:#Keni ndërruar llojin e testit. Të gjithë testet e përgatitura më parë janë fshirë!
 assessment#:#tst_type_comment#:#Kujdes: Ndërrimi i llojit të testit aktiv do të fshij të gjithë testet e përgatitura më parë!
@@ -1599,11 +1600,11 @@ common#:#import_glossary#:#Importo Fjalorth
 common#:#import_grp_finished#:#Grupet e importuara pa gabime
 common#:#import_hlm#:#Importo Paket HCAP
 common#:#import_lm#:#Importo Modul Mësimor ILIAS
-common#:#import_qpl#:#Importo Fond-Pyetjesh për Test
+common#:#import_qpl#:#Importo Fond-Pyetjesh për Test###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importo Root Shfrytëzues
 common#:#import_sahs#:#Importo Paket SCORM/AICC
-common#:#import_spl#:#Importo Fond-Pyetjesh për Kuestioner
+common#:#import_spl#:#Importo Fond-Pyetjesh për Kuestioner###09 Aug 2005 content changed
 common#:#import_svy#:#Importo Kuestioner
 common#:#import_tst#:#Importo Test
 common#:#import_users#:#Importo Shfrytëzues
@@ -4162,6 +4163,7 @@ meta#:#meta_index#:#Indeks
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Komentet e Instalimit
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Roli i planifikuar për Shfrytëzuesin Final
 meta#:#meta_interactivity_level#:#Niveli i Interaktivitetit
 meta#:#meta_interactivity_type#:#Tipi i Interaktivitetit
@@ -4711,12 +4713,12 @@ survey#:#before#:#para
 survey#:#browse_for_questions#:#Shfleto për pyetje
 survey#:#cannot_create_survey_codes#:#Nuk keni të drejta të mjaftueshme për të krijuar kode për qasje në kuestioner!
 survey#:#cannot_edit_survey#:#Nuk keni të drejta të mjaftueshme për të modifikuar kuestionerin!
-survey#:#cannot_export_questionpool#:#Nuk keni të drejta të mjaftueshme për të eksportuar fond-pyetjesh për kuestionerit!
+survey#:#cannot_export_questionpool#:#Nuk keni të drejta të mjaftueshme për të eksportuar fond-pyetjesh për kuestionerit!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Nuk keni të drejta të mjaftueshme për të eksportuar kuestioner!
 survey#:#cannot_maintain_survey#:#Nuk keni të drejta të mjaftueshme për ta mirëmbajtur kuestionerin!
 survey#:#cannot_manage_phrases#:#Nuk keni të drejta të mjaftueshme për të menaxhuar frazat!
 survey#:#cannot_participate_survey#:#Nuk keni të drejta të mjaftueshme për të participuar ne kuestioner!
-survey#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për t'i lexuar fond-pyetjet!
+survey#:#cannot_read_questionpool#:#Nuk keni të drejta të mjaftueshme për t'i lexuar fond-pyetjet!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Nuk keni të drejta të mjaftueshme për të lexuar të dhënat e kuestionerit!
 survey#:#cannot_save_metaobject#:#Nuk keni të drejta të mjaftueshme për të vendosur metadata!
 survey#:#cannot_switch_to_online_no_questions#:#Statusi nuk mund të ndërrohet në &quot;online&quot; sepse nuk ka asnjë pyetje në test!
@@ -4829,9 +4831,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Ju lutem kompletoni të gj
 survey#:#fill_out_all_required_fields_save_phrase#:#Ju lutem kompletoni të gjitha fushat e kërkuara para se të ruani frazën!
 survey#:#filter#:#Filtro
 survey#:#filter_all_question_types#:#Të gjitha tipet e pyetjeve
-survey#:#filter_all_questionpools#:#Të gjitha fondet e pyetjeve
+survey#:#filter_all_questionpools#:#Të gjitha fondet e pyetjeve###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Shih tipet e pyetjeve
-survey#:#filter_show_questionpools#:#Shih fondet e pyetjeve
+survey#:#filter_show_questionpools#:#Shih fondet e pyetjeve###09 Aug 2005 content changed
 survey#:#found_questions#:#Pyetje të gjetura
 survey#:#geometric_mean#:#Mesatarja gjeometrike
 survey#:#given_answers#:#Përgjigje të dhëna

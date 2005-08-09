@@ -101,7 +101,7 @@ assessment#:#add_area#:#Añadir area
 assessment#:#add_gap#:#Añadir texto 'Gap'
 assessment#:#add_imagemap#:#Añadir mapa de imagen
 assessment#:#add_matching_pair#:#Añadir opcion de "unir parejas"
-assessment#:#add_questionpool#:#Añadir banco de preguntas
+assessment#:#add_questionpool#:#Añadir banco de preguntas###09 Aug 2005 content changed
 assessment#:#add_solution#:#Añadir solución recomendada
 assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles
 assessment#:#answer#:#Respuesta
@@ -128,10 +128,10 @@ assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
 assessment#:#cannot_edit_test#:#¡No posee permisos suficientes para editar el test!
 assessment#:#cannot_execute_test#:#¡No posee permisos suficientes para lanzar el test!
-assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el banco de preguntas!
+assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el banco de preguntas!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar el test!
 assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!
-assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!
+assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
 assessment#:#change_solution#:#Modificar solución recomendada
 assessment#:#checkbox_checked#:#Caja marcada
@@ -235,7 +235,7 @@ assessment#:#filter#:#Filtro
 assessment#:#filter_all_question_types#:#Todos los tipos de pregunta
 assessment#:#filter_all_questionpools#:#Todos los bancos de preguntas
 assessment#:#filter_show_question_types#:#Mostrar tipos de preguntas
-assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas
+assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas###09 Aug 2005 content changed
 assessment#:#gap#:#Hueco
 assessment#:#gap_definition#:#Definición de hueco
 assessment#:#gap_selection#:#Selección de hueco
@@ -320,6 +320,7 @@ assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
 assessment#:#qpl_edit_select_multiple#:#Por favor marque solo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
 assessment#:#qpl_import_non_ilias_files#:#Error: El fichero de importación contiene ficheros QTI que no han sido creados con el sistema ILIAS. Por favor, contacte con el equipo de ILIAS para adaptar el filtro de importación a su formato QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas en el fichero de importación. Por favor, seleccione las preguntas que quiere importar.
@@ -441,11 +442,11 @@ assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.
-assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles
+assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
-assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un banco de preguntas para este test aleatorio! Por favor seleccione al menos un banco .
+assessment#:#tst_no_questionpools_for_random_test#:#No ha añadido un banco de preguntas para este test aleatorio! Por favor seleccione al menos un banco .###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#No hay preguntas disponibles! Necesita 'crear nuevas preguntas' o 'explorar en busca de preguntas'.
-assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los bancos para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un banco dado
+assessment#:#tst_no_questions_for_random_test#:#No ha seleccionado preguntas de los bancos para este test aleatorio! Por favor, seleccione al menos una pregunta indicando la cantidad de preguntas para un banco dado###09 Aug 2005 content changed
 assessment#:#tst_no_solution_available#:#La pregunta de respuesta corta no tiene una solución
 assessment#:#tst_no_taken_tests#:#No hay tests realizados!
 assessment#:#tst_no_tries#:#ninguno
@@ -469,8 +470,8 @@ assessment#:#tst_question_type#:#Tipo de pregunta
 assessment#:#tst_questions_inserted#:#Pregunta(s) insertada!
 assessment#:#tst_questions_removed#:#Pregunta(s) eliminada!
 assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
-assessment#:#tst_random_qpl_unselected#:#Hay al menos un banco no seleccionado! No necesita añadir un nuevo banco de preguntas
-assessment#:#tst_random_questionpools#:#Bancos de preguntas origen
+assessment#:#tst_random_qpl_unselected#:#Hay al menos un banco no seleccionado! No necesita añadir un nuevo banco de preguntas###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Bancos de preguntas origen###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
 assessment#:#tst_random_test#:#Test aleatorio
 assessment#:#tst_random_test_description#:#Si se activa, las preguntas del test serán generadas de modo aleatorio
@@ -492,7 +493,7 @@ assessment#:#tst_score_type#:#Tipo de informe de puntuación
 assessment#:#tst_select_file_for_import#:#¡Debe seleccionar un fichero para importar!
 assessment#:#tst_select_questionpool#:#Por favor seleccione un banco de preguntas para almacenar la pregunta creada
 assessment#:#tst_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
-assessment#:#tst_select_random_questions#:#Seleccione los bancos y la cantidad de preguntas para el test aleatorio
+assessment#:#tst_select_random_questions#:#Seleccione los bancos y la cantidad de preguntas para el test aleatorio###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Por favor seleccione un test para duplicar
 assessment#:#tst_sequence#:#Secuencia
 assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
@@ -539,7 +540,7 @@ assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
 assessment#:#tst_total_questions#:#Cantidad total de preguntas
-assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!
+assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!###09 Aug 2005 content changed
 assessment#:#tst_tst_date#:#Fecha del Test
 assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_type_changed#:#Ha modificado el tipo de test. Todos los tests procesados anteriormente han sido eliminados
@@ -1663,11 +1664,11 @@ common#:#import_glossary#:#Importar Glosario
 common#:#import_grp_finished#:#Grupo importado sin errores
 common#:#import_hlm#:#Importar Paquete HACP
 common#:#import_lm#:#Importar Módulo de Aprendizaje
-common#:#import_qpl#:#Importar Banco de preguntas de Test
-common#:#import_questions_into_qpl#:#Importar pregunta(s) en el depósito de preguntas
+common#:#import_qpl#:#Importar Banco de preguntas de Test###09 Aug 2005 content changed
+common#:#import_questions_into_qpl#:#Importar pregunta(s) en el depósito de preguntas###09 Aug 2005 content changed
 common#:#import_root_user#:#Import Usuario Root
 common#:#import_sahs#:#Importar Paquete SCORM/AICC
-common#:#import_spl#:#Importar Banco de preguntas para encuestas
+common#:#import_spl#:#Importar Banco de preguntas para encuestas###09 Aug 2005 content changed
 common#:#import_svy#:#Importar Encuesta
 common#:#import_tst#:#Importar Test
 common#:#import_users#:#Importar Usuarios
@@ -4352,7 +4353,8 @@ meta#:#meta_identifier#:#Identificador
 meta#:#meta_index#:#Índice
 meta#:#meta_initiator#:#Initiator###new variable
 meta#:#meta_installation_remarks#:#Remarcas de Instalación
-meta#:#meta_instructional_designer#:#Diseñador instructivo
+meta#:#meta_instructional_designer#:#Diseñador instructivo###09 Aug 2005 content changed
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Rol de usuario final planeado
 meta#:#meta_interactivity_level#:#Nivel de Interactividad
 meta#:#meta_interactivity_type#:#Nivel de Interactividad
@@ -4902,12 +4904,12 @@ survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
 survey#:#cannot_create_survey_codes#:#¡Usted no posee suficientes permisos para crear códigos de acceso de encuestas!
 survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar la encuesta!
-survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el banco de preguntas!
+survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el banco de preguntas!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!
 survey#:#cannot_manage_phrases#:#No tiene derechos de escritura para gestionar los conjuntos!
 survey#:#cannot_participate_survey#:#No tiene derechos para participar en la encuesta!
-survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas
+survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#No posee suficiente permisos para leer los datos de la encuesta
 survey#:#cannot_save_metaobject#:#No posee suficientes permisos para modificar los meta datos!
 survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!
@@ -5020,9 +5022,9 @@ survey#:#fill_out_all_required_fields_move_category#:#¡Por favor rellene todos 
 survey#:#fill_out_all_required_fields_save_phrase#:#¡Por favor rellene todos los campos requeridos antes de grabar un conjunto!
 survey#:#filter#:#Filtro
 survey#:#filter_all_question_types#:#Todos los tipos de pregunta
-survey#:#filter_all_questionpools#:#Todos los bancos
+survey#:#filter_all_questionpools#:#Todos los bancos###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Mostrar tipos de pregunta
-survey#:#filter_show_questionpools#:#Mostrar banco de preguntas
+survey#:#filter_show_questionpools#:#Mostrar banco de preguntas###09 Aug 2005 content changed
 survey#:#found_questions#:#Preguntas encontradas
 survey#:#geometric_mean#:#Media Geométrica
 survey#:#given_answers#:#Respuestas dadas

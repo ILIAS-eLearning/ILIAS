@@ -129,7 +129,7 @@ assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettigheder til at &aelig;ndre i denne test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
-assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!
+assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at exporterer denne test!
 assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
@@ -234,7 +234,7 @@ assessment#:#filter#:#Filter###21 Apr 2005 new variable
 assessment#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
 assessment#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;ls grupper
 assessment#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
-assessment#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;ls grupper
+assessment#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;ls grupper###09 Aug 2005 content changed
 assessment#:#gap#:#Hul
 assessment#:#gap_definition#:#Hul definitation
 assessment#:#gap_selection#:#Hul valg
@@ -316,6 +316,7 @@ assessment#:#qpl_edit_rbac_error#:#Du har ikke rettigheder til at &aelig;ndre i 
 assessment#:#qpl_edit_select_multiple#:#Marker venligst kun et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_edit_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_export_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at eksportere det
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -1615,11 +1616,11 @@ common#:#import_glossary#:#Importer ordbog
 common#:#import_grp_finished#:#Importerede grupper uden nogle fejl
 common#:#import_hlm#:#Importer HACP Pakker
 common#:#import_lm#:#Importer ILIAS L&aelig;rer modul
-common#:#import_qpl#:#Importer afstemning til test
+common#:#import_qpl#:#Importer afstemning til test###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importer Root Bruger
 common#:#import_sahs#:#Importer SCORM/AICC Pakker
-common#:#import_spl#:#Importer afstemning til unders&oslash;gelser
+common#:#import_spl#:#Importer afstemning til unders&oslash;gelser###09 Aug 2005 content changed
 common#:#import_svy#:#Importer Unders&oslash;gelser
 common#:#import_tst#:#Importer Test
 common#:#import_users#:#Importer Brugere
@@ -4250,6 +4251,7 @@ meta#:#meta_index#:#Indeks
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Installations bem&aelig;rkning
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#&oslash;nsket slut bruger role
 meta#:#meta_interactivity_level#:#Interaktiv level   
 meta#:#meta_interactivity_type#:#Interaktiv type
@@ -4796,7 +4798,7 @@ survey#:#before#:#f&oslash;r
 survey#:#browse_for_questions#:#Kig efter sp&oslash;rgsm&aring;l
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###21 Apr 2005 new variable
 survey#:#cannot_edit_survey#:#Du har ikke de rigtige rettighedder til at &aelig;ndre i sp&oslash;rgeskemaet!
-survey#:#cannot_export_questionpool#:#Du har ikke de rigtige rettighedder til at eksportere dette sp&oslash;rgeskemas sp&oslash;rgsm&aring;lsgruppe!
+survey#:#cannot_export_questionpool#:#Du har ikke de rigtige rettighedder til at eksportere dette sp&oslash;rgeskemas sp&oslash;rgsm&aring;lsgruppe!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Du har ikke de rigtige rettighedder til at eksportere sp&oslash;rgeskemaet!
 survey#:#cannot_maintain_survey#:#Du har ikke de rigtige rettighedder til at vedligeholde dette sp&oslash;rgeskema!
 survey#:#cannot_manage_phrases#:#Du har ikke de rigtige rettighedder til at bruge disse s&aelig;tninger!
@@ -4914,9 +4916,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Please fill out all requir
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###21 Apr 2005 new variable
 survey#:#filter#:#Filter###21 Apr 2005 new variable
 survey#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
-survey#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;lsgrupper
+survey#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;lsgrupper###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
-survey#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;lsgrupper
+survey#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;lsgrupper###09 Aug 2005 content changed
 survey#:#found_questions#:#Fundne sp&oslash;rgsm&aring;l
 survey#:#geometric_mean#:#Geometric mean###21 Apr 2005 new variable
 survey#:#given_answers#:#Givet svar
