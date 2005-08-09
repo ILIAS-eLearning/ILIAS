@@ -223,6 +223,7 @@ elseif ($_GET["expired"])
 
 // TODO: Move this to header.inc since an expired session could not detected in login script 
 $status = $ilias->auth->getStatus();
+$auth_error = $ilias->getAuthError();
 
 if (!empty($status))
 {
@@ -237,7 +238,12 @@ if (!empty($status))
 			break;
 		case AUTH_WRONG_LOGIN:
 		default:
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));			
+			$add = "";
+			if (is_object($auth_error))
+			{
+				$add = "<br>".$auth_error->getMessage();
+			}
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login").$add);			
 			break;
 	}
 }

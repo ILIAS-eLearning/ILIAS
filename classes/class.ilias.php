@@ -387,6 +387,26 @@ class ILIAS
 		
 		return true;
 	}
+	
+	
+	/**
+	* set authentication error (should be set after Auth->start() via
+	* $ilias->setAuthError($ilErr->getLastError());
+	*
+	* @param	object		$a_error_obj	pear error object
+	*/
+	function setAuthError($a_error_obj)
+	{
+		$this->auth_error =& $a_error_obj;
+	}
+	
+	/**
+	* get (last) authentication error object
+	*/
+	function &getAuthError()
+	{
+		return $this->auth_error;
+	}
 
 	/**
 	* read one value from settingstable

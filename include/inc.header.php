@@ -151,9 +151,17 @@ if ($_SESSION["message"])
 	include_once "include/inc.debug.php";
 //}
 
+// start logging
+$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
+$GLOBALS['log'] =& $log;
+$ilLog =& $log;
+$GLOBALS['ilLog'] =& $ilLog;
+
 //authenticate & start session
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 $ilBench->start("Core", "HeaderInclude_Authentication");
 $ilias->auth->start();
+$ilias->setAuthError($ilErr->getLastError());
 $ilBench->stop("Core", "HeaderInclude_Authentication");
 
 // force login ; workaround for hsu
@@ -162,11 +170,9 @@ if ($_GET["cmd"] == "force_login")
 	$ilias->auth->logout();
 	$_SESSION["AccountId"] = "";
 	$ilias->auth->start();
+	$ilias->setAuthError($ilErr->getLastError());
 }
 
-// start logging
-$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
-$GLOBALS['log'] =& $log;
 
 // load object definitions
 $ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
@@ -186,8 +192,6 @@ $ilUser =& $ilias->account;
 $GLOBALS['ilUser'] =& $ilias->account;
 $ilCtrl = new ilCtrl();
 $GLOBALS['ilCtrl'] =& $ilCtrl;
-$ilLog =& $log;
-$GLOBALS['ilLog'] =& $ilLog;
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
@@ -202,6 +206,7 @@ if (AUTH_CURRENT == AUTH_LOCAL && !$ilias->auth->getAuth() && $script == "login.
 		if (ilObjUser::_switchToIlias3Password($_POST["username"], $_POST["password"]))
 		{
 			$ilias->auth->start();
+			$ilias->setAuthError($ilErr->getLastError());
 			ilUtil::redirect("start.php");
 		}
 	}
