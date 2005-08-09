@@ -322,6 +322,7 @@ assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen
 assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen###07 Apr 2005 content changed
 assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen###07 Apr 2005 content changed
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export###07 Apr 2005 content changed
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -4356,6 +4357,7 @@ meta#:#meta_index#:#Idee###07 Apr 2005 content changed
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Kenmerk###07 Apr 2005 content changed
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Index###07 Apr 2005 content changed
 meta#:#meta_interactivity_level#:#Installatie-opmerkingen###07 Apr 2005 content changed
 meta#:#meta_interactivity_type#:#Bedoelde eindgebruikers rol###07 Apr 2005 content changed

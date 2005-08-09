@@ -340,6 +340,7 @@ assessment#:#qpl_edit_rbac_error#:#您没有编辑此问题的权限！###07 Apr
 assessment#:#qpl_edit_select_multiple#:#请只选择一个问题进行编辑###07 Apr 2005 content changed
 assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑###07 Apr 2005 content changed
 assessment#:#qpl_export_select_none#:#请至少选择一个问题导出###07 Apr 2005 content changed
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -4374,6 +4375,7 @@ meta#:#meta_index#:#索引###07 Apr 2005 content changed
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#安装注释###07 Apr 2005 content changed
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#预期最终用户角色###07 Apr 2005 content changed
 meta#:#meta_interactivity_level#:#交互水平###07 Apr 2005 content changed
 meta#:#meta_interactivity_type#:#交互类型###07 Apr 2005 content changed

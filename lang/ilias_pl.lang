@@ -103,7 +103,7 @@ assessment#:#add_area#:#Dodaj obszar
 assessment#:#add_gap#:#Dodaj tekst odstępu
 assessment#:#add_imagemap#:#Import mapy bitowej
 assessment#:#add_matching_pair#:#Dodaj pasującą parę
-assessment#:#add_questionpool#:#Dodaj pulę pytań
+assessment#:#add_questionpool#:#Dodaj pulę pytań###09 Aug 2005 content changed
 assessment#:#add_solution#:#Dodaj sugerowaną odpowiedź
 assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
 assessment#:#answer#:#Odpowiedź
@@ -130,10 +130,10 @@ assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
 assessment#:#cannot_execute_test#:#Nie masz wystarczających uprawnień do uruchomienia tego testu!
-assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
+assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień do eksportu testu!
 assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
-assessment#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do odczytu puli pytań!
+assessment#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do odczytu puli pytań!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień dla zachowania meta danych!
 assessment#:#change_solution#:#Zmień sugerowaną odpowiedź
 assessment#:#checkbox_checked#:#Wybrany
@@ -237,7 +237,7 @@ assessment#:#filter#:#Filtr
 assessment#:#filter_all_question_types#:#Wszystkie typy  pytań
 assessment#:#filter_all_questionpools#:#Wszystkie pule pytań
 assessment#:#filter_show_question_types#:#Pokaż typy pytań
-assessment#:#filter_show_questionpools#:#Pokaż pule pytań
+assessment#:#filter_show_questionpools#:#Pokaż pule pytań###09 Aug 2005 content changed
 assessment#:#gap#:#Luka
 assessment#:#gap_definition#:#Definicja luki
 assessment#:#gap_selection#:#Wybór odstępu
@@ -322,6 +322,7 @@ assessment#:#qpl_edit_rbac_error#:#Nie masz uprawnień do edycji tego pytania!
 assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
 assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -443,11 +444,11 @@ assessment#:#tst_missing_marks#:#Nie masz schematu zaznaczeń w teście! Dodaj c
 assessment#:#tst_missing_questions#:#Nie masz żadnych pytań w teście! Dodaj conajmniej jedno pytanie do testu.
 assessment#:#tst_missing_title#:#Nie podałeś tytułu testu! Skocz do sekcji metadanych i podaj tytuł.
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
-assessment#:#tst_no_more_available_questionpools#:#Nie ma więcej dostępnych puli pytań
+assessment#:#tst_no_more_available_questionpools#:#Nie ma więcej dostępnych puli pytań###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do usunięcia!
-assessment#:#tst_no_questionpools_for_random_test#:#Nie dodałeś do tego testu puli pytań z której mają zostać wylosowane pytania! Wybierz conajmniej jedną pulę pytań.
+assessment#:#tst_no_questionpools_for_random_test#:#Nie dodałeś do tego testu puli pytań z której mają zostać wylosowane pytania! Wybierz conajmniej jedną pulę pytań.###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
-assessment#:#tst_no_questions_for_random_test#:#Nie podałeś żadnych pytań do wylosowania z puli! Wprowadź ilośc pytań do wylosowania.
+assessment#:#tst_no_questions_for_random_test#:#Nie podałeś żadnych pytań do wylosowania z puli! Wprowadź ilośc pytań do wylosowania.###09 Aug 2005 content changed
 assessment#:#tst_no_solution_available#:#Pytanie z krótką odpowiedzią nie ma rozwiązania.
 assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
 assessment#:#tst_no_tries#:#brak
@@ -471,8 +472,8 @@ assessment#:#tst_question_type#:#Typ pytania
 assessment#:#tst_questions_inserted#:#Pytania wstawione!
 assessment#:#tst_questions_removed#:#Pytania usunięte!
 assessment#:#tst_random_nr_of_questions#:#Ile pytań?
-assessment#:#tst_random_qpl_unselected#:#Conajmniej jedna pula pytań nie jest wybrana! Nie możesz  dodawać nowej puli pytań.
-assessment#:#tst_random_questionpools#:#Źródłowe pule pytań
+assessment#:#tst_random_qpl_unselected#:#Conajmniej jedna pula pytań nie jest wybrana! Nie możesz  dodawać nowej puli pytań.###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Źródłowe pule pytań###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Wybierz pulę pytań dla wyboru pytań
 assessment#:#tst_random_test#:#Test losowy
 assessment#:#tst_random_test_description#:#Jeśli wybrane, to pytania testu zostaną  wylosowane w sposób przypadkowy.
@@ -494,7 +495,7 @@ assessment#:#tst_score_type#:#Typ raportu punktacji
 assessment#:#tst_select_file_for_import#:#Musisz wybrać importowany plik!
 assessment#:#tst_select_questionpool#:#Wybierz pulę pytań dla zapamiętania utworzonego pytania
 assessment#:#tst_select_questionpools#:#Wybierz pulę pytań dla zapamiętania importowanych pytań.
-assessment#:#tst_select_random_questions#:#Wybierz pule pytań i liczbę pytań dla testu losowego
+assessment#:#tst_select_random_questions#:#Wybierz pule pytań i liczbę pytań dla testu losowego###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Wybierz test do powielenia
 assessment#:#tst_sequence#:#Kolejność pytań
 assessment#:#tst_sequence_fixed#:#Kolejność pytań została ustalona
@@ -541,7 +542,7 @@ assessment#:#tst_submit_results#:#Tak, zatwierdzam test do oceny.
 assessment#:#tst_text_count_system#:#System punktacji
 assessment#:#tst_time_already_spent#:#Czas spędzony na pracy
 assessment#:#tst_total_questions#:#Ogólna liczba pytań
-assessment#:#tst_total_questions_description#:#Jeśli ustawiłeś tę wartość, wtedy liczba pytań wprowadzona w puli pytań jest ignorowana. Jeśli nie ustawiłeś tej wartości, to musisz podać liczbę pytań dla każdej wybranej puli pytań!
+assessment#:#tst_total_questions_description#:#Jeśli ustawiłeś tę wartość, wtedy liczba pytań wprowadzona w puli pytań jest ignorowana. Jeśli nie ustawiłeś tej wartości, to musisz podać liczbę pytań dla każdej wybranej puli pytań!###09 Aug 2005 content changed
 assessment#:#tst_tst_date#:#Data testu
 assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_type_changed#:#Zmieniłeś typ testu. Wszystkie poprzednio rozwiązane testy zostały usunięte!
@@ -1666,11 +1667,11 @@ common#:#import_glossary#:#Import Słownika
 common#:#import_grp_finished#:#Zaimportowano grupę bez błędów
 common#:#import_hlm#:#Import pakietu HACP
 common#:#import_lm#:#Importuj moduł nauczania
-common#:#import_qpl#:#Import testowej puli pytań
+common#:#import_qpl#:#Import testowej puli pytań###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_sahs#:#Import pakietu SCORM/AICC
-common#:#import_spl#:#Import Puli Pytań Ankiety
+common#:#import_spl#:#Import Puli Pytań Ankiety###09 Aug 2005 content changed
 common#:#import_svy#:#Import Ankiety
 common#:#import_tst#:#Import Testu
 common#:#import_users#:#Import Użytkowników
@@ -4355,7 +4356,8 @@ meta#:#meta_identifier#:#Identyfikator
 meta#:#meta_index#:#Indeks
 meta#:#meta_initiator#:#Inicjator
 meta#:#meta_installation_remarks#:#Uwagi instalacyjne
-meta#:#meta_instructional_designer#:#Projektant kształcący
+meta#:#meta_instructional_designer#:#Projektant kształcący###09 Aug 2005 content changed
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Rola użytkownika końcowego
 meta#:#meta_interactivity_level#:#Poziom interaktywności
 meta#:#meta_interactivity_type#:#Typ interaktywności
@@ -4905,12 +4907,12 @@ survey#:#before#:#przed
 survey#:#browse_for_questions#:#Szukanie pytań
 survey#:#cannot_create_survey_codes#:#Nie masz wystarczających uprawnień do tworzenia kodów dostępu do ankiety!
 survey#:#cannot_edit_survey#:#Nie masz wystarczających uprawnień do edycji ankiety!
-survey#:#cannot_export_questionpool#:#Nie posiadasz wystarczających uprawnień dla eksportu puli pytań ankiety!
+survey#:#cannot_export_questionpool#:#Nie posiadasz wystarczających uprawnień dla eksportu puli pytań ankiety!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Nie posiadasz wystarczających uprawnień dla eksportu  ankiety!
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!
 survey#:#cannot_manage_phrases#:#Nie masz prawa zapisu do zarządzania frazą!
 survey#:#cannot_participate_survey#:#Nie masz uprawnień do uczestnictwa w przeglądzie!
-survey#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do czytania puli pytań!
+survey#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do czytania puli pytań!###09 Aug 2005 content changed
 survey#:#cannot_read_survey#:#Nie masz wystarczających uprawnień do czytania danych ankiety!
 survey#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień do zapisu meta  danych!
 survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot; ponieważ brak pytań w teście!
@@ -5023,9 +5025,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Wypełnij wszystkie wymaga
 survey#:#fill_out_all_required_fields_save_phrase#:#Wypełnij wszystkie wymagane pola przed zapisaniem frazy!
 survey#:#filter#:#Filtr
 survey#:#filter_all_question_types#:#Wszystkie typy pytań
-survey#:#filter_all_questionpools#:#Wszystkie pule pytań
+survey#:#filter_all_questionpools#:#Wszystkie pule pytań###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Pokaż typy pytań
-survey#:#filter_show_questionpools#:#Pokaż pule pytań
+survey#:#filter_show_questionpools#:#Pokaż pule pytań###09 Aug 2005 content changed
 survey#:#found_questions#:#Znalezione pytania
 survey#:#geometric_mean#:#Średnia geometryczna
 survey#:#given_answers#:#Podane odpowiedzi

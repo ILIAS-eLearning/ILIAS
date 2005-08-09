@@ -104,6 +104,7 @@ assessment#:#add_gap#:#Добавяне на текст в празнина
 assessment#:#add_imagemap#:#Импортиране на карта на изображение
 assessment#:#add_matching_pair#:#Добавяне на съответстваща двойка
 assessment#:#add_questionpool#:#Добавяне на набор въпроси
+###09 Aug 2005 content changed
 assessment#:#add_solution#:#Добавяне на предложено решение
 assessment#:#all_available_question_pools#:#Всички налични набори въпроси
 assessment#:#answer#:#Отговор
@@ -129,6 +130,7 @@ assessment#:#by#:#by
 assessment#:#cancel_test#:#Отмяна на теста
 assessment#:#cannot_edit_test#:#Нямате достатъчни права, за да редактирате теста!
 assessment#:#cannot_export_qpl#:#Нямате достатъчни права, за да експортирате набора с въпроси!
+###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:#Нямате достатъчно права, за да експортирате теста!
 assessment#:#cannot_maintain_test#:#Нямате достатъчно права, за да поддържате теста!
 assessment#:#cannot_save_metaobject#:#Нямате достатъчно права, за да записвате метаданните!
@@ -232,6 +234,7 @@ assessment#:#filter_all_question_types#:#Всички типове въпрос�
 assessment#:#filter_all_questionpools#:#Всички набори от въпроси
 assessment#:#filter_show_question_types#:#Показване на типовете въпроси
 assessment#:#filter_show_questionpools#:#Показване на наборите от въпроси
+###09 Aug 2005 content changed
 assessment#:#gap#:#Празнина
 assessment#:#gap_definition#:#Дефиниране на празнина
 assessment#:#gap_selection#:#Избор на празнина
@@ -311,6 +314,7 @@ assessment#:#qpl_edit_rbac_error#:#Нямате права, за да редак
 assessment#:#qpl_edit_select_multiple#:#Моля, маркирайте само един въпрос за редактиране
 assessment#:#qpl_edit_select_none#:#Моля, маркирайте един въпрос за редактиране
 assessment#:#qpl_export_select_none#:#Моля, маркирайте поне един въпрос, за да го експортирате
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -422,10 +426,13 @@ assessment#:#tst_missing_questions#:#Нямате никакви въпроси 
 assessment#:#tst_missing_title#:#Не сте въвели заглавие на теста! Моля, отидете в раздела за метаданни и въведете заглавие.
 assessment#:#tst_no_marks_defined#:#Няма дефинирани оценки, моля, създайте поне опростена схема за оценки!
 assessment#:#tst_no_more_available_questionpools#:#Няма повече налични набори от въпроси
+###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Моля, маркирайте поне един въпрос, за да го премахнете!
 assessment#:#tst_no_questionpools_for_random_test#:#Не сте добавили набор от въпроси за този случаен тест! Моля, изберете поне един набор от въпроси.
+###09 Aug 2005 content changed
 assessment#:#tst_no_questions_available#:#Няма налични въпроси! Трябва да създадете нови въпроси или да потърсите и заредите въпроси.
 assessment#:#tst_no_questions_for_random_test#:#Не сте използвали никакви въпроси от наборите с въпроси за този случаен тест! Моля, използвайте поне един въпрос, като настроите броя въпроси от добавения набор от въпроси.
+###09 Aug 2005 content changed
 assessment#:#tst_no_taken_tests#:#Няма положени тестове!
 assessment#:#tst_no_tries#:#няма
 assessment#:#tst_nr_of_tries#:#Макс. брой опити
@@ -440,7 +447,9 @@ assessment#:#tst_questions_inserted#:#Вмъкнат(и) въпрос(и)!
 assessment#:#tst_questions_removed#:#Премахнат(и) въпрос(и)!
 assessment#:#tst_random_nr_of_questions#:#Колко въпроса?
 assessment#:#tst_random_qpl_unselected#:#Има поне един неизбран набор от въпроси! Не е необходимо да добавяте нов набор въпроси.
+###09 Aug 2005 content changed
 assessment#:#tst_random_questionpools#:#Базови набори въпроси
+###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Изберете набора, от който да се избират въпросите
 assessment#:#tst_random_test#:#Случаен тест
 assessment#:#tst_random_test_description#:#Ако е маркирано, въпросите за теста ще бъдат генерирани от случаен генератор
@@ -460,6 +469,7 @@ assessment#:#tst_select_file_for_import#:#Трябва да изберете ф�
 assessment#:#tst_select_questionpool#:#Моля, изберете набор въпроси за съхраняване на създадения въпрос
 assessment#:#tst_select_questionpools#:#Моля, изберете набор въпроси за съхранение на импортираните въпроси
 assessment#:#tst_select_random_questions#:#Изберете набора(ите) въпроси и броя на въпросите за случайния тест
+###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Моля, изберете тест за дублиране
 assessment#:#tst_sequence#:#Последователност
 assessment#:#tst_sequence_fixed#:#Последователността на въпросите е фиксирана
@@ -500,6 +510,7 @@ assessment#:#tst_status_progress#:#В ход
 assessment#:#tst_time_already_spent#:#Дотук изразходено време за работа
 assessment#:#tst_total_questions#:#Общ брой въпроси
 assessment#:#tst_total_questions_description#:#Ако настроите тази стойност, въведените с наборите бройки на въпросите се игнорират. Ако не настроите тази стойност, трябва да въвеждате бройка с всеки избран набор въпроси!
+###09 Aug 2005 content changed
 assessment#:#tst_type#:#Тип на теста
 assessment#:#tst_type_changed#:#Променихте типа на теста. Всички предишни обработени тестове бяха изтрити!
 assessment#:#tst_type_comment#:#Предупреждение: Промяна на типа на тест в ход ще изтрие всички предишни обработени тестове!
@@ -1474,10 +1485,12 @@ common#:#import_grp_finished#:#Импортирана група без ника
 common#:#import_hlm#:#Импортиране на HACP пакет
 common#:#import_lm#:#Импортиране на ILIAS модул за обучение
 common#:#import_qpl#:#Импортиране на набори въпроси за тестове
+###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Импортиране на основен потребител
 common#:#import_sahs#:#Импортиране SCORM/AICC пакет
 common#:#import_spl#:#Импортиране на набори въпроси за обзори
+###09 Aug 2005 content changed
 common#:#import_svy#:#Импортиране на обзор
 common#:#import_tst#:#Импортиране на тест
 common#:#import_users#:#Импортиране на потребители
@@ -3832,6 +3845,7 @@ meta#:#meta_idea#:#Идея
 meta#:#meta_identifier#:#Идентификатор
 meta#:#meta_index#:#Индекс
 meta#:#meta_installation_remarks#:#Бележки по инсталирането
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Роля на деклариран краен потребител
 meta#:#meta_interactivity_level#:#Ниво на интерактивност
 meta#:#meta_interactivity_type#:#Тип интерактивност
@@ -4356,6 +4370,7 @@ survey#:#browse_for_questions#:#Навигация до въпросите
 survey#:#cannot_create_survey_codes#:#Не притежавате достатъчни разрешени права да създавате кодове за достъп до обзор!
 survey#:#cannot_edit_survey#:#Не притежавате достатъчни разрешени права да редактирате обзора!
 survey#:#cannot_export_questionpool#:#Не притежавате достатъчни разрешени права да експортирате набора с въпроси от обзора!
+###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Не притежавате достатъчни разрешени права да експортирате обзора!
 survey#:#cannot_maintain_survey#:#Не притежавате достатъчни разрешени права да поддържате обзора!
 survey#:#cannot_manage_phrases#:#Не притежавате достатъчни разрешени права да управлявате фразите!
@@ -4469,8 +4484,10 @@ survey#:#fill_out_all_required_fields_save_phrase#:#Моля, попълнете
 survey#:#filter#:#Филтър
 survey#:#filter_all_question_types#:#Всички типове въпроси
 survey#:#filter_all_questionpools#:#Всички набори въпроси
+###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Показване на типовете въпроси
 survey#:#filter_show_questionpools#:#Показване на наборите въпроси
+###09 Aug 2005 content changed
 survey#:#found_questions#:#Намерени въпроси
 survey#:#geometric_mean#:#Средногеометрично
 survey#:#given_answers#:#Дадени отговори

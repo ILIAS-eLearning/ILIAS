@@ -322,6 +322,7 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###1
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###16 Mar 2004 new variable
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###16 Mar 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###16 Mar 2004 new variable
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -4356,6 +4357,7 @@ meta#:#meta_index#:#Index### identical translation
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Poznámky k instalaci###07 Apr 2005 content changed
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Zamýšlená role koncového uživatele###07 Apr 2005 content changed
 meta#:#meta_interactivity_level#:#Úroveň interaktivity ###07 Apr 2005 content changed
 meta#:#meta_interactivity_type#:#Typ interaktivity###07 Apr 2005 content changed

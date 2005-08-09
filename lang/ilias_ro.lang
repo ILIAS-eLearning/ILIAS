@@ -103,7 +103,7 @@ assessment#:#add_area#:#Adaugati arie
 assessment#:#add_gap#:#Adaugati text cu spatii goale
 assessment#:#add_imagemap#:#Importati harta imagine
 assessment#:#add_matching_pair#:#Adaugati perechea potrivita
-assessment#:#add_questionpool#:#Adaugati baza de intrebari
+assessment#:#add_questionpool#:#Adaugati baza de intrebari###09 Aug 2005 content changed
 assessment#:#add_solution#:#Adaugati solutii sugerate
 assessment#:#all_available_question_pools#:#Toate bazele de intrebari disponibile
 assessment#:#answer#:#Raspuns
@@ -127,7 +127,7 @@ assessment#:#average_reached_points#:#Media punctelor obtinute
 assessment#:#by#:#prin
 assessment#:#cancel_test#:#Anulati testul
 assessment#:#cannot_edit_test#:#Nu aveti permisiunea necesara pentru a modifica testul!
-assessment#:#cannot_export_qpl#:#Nu aveti permisiunea necesara pentru a exporta intrebarile!
+assessment#:#cannot_export_qpl#:#Nu aveti permisiunea necesara pentru a exporta intrebarile!###09 Aug 2005 content changed
 assessment#:#cannot_export_test#:# Nu aveti permisiunea necesara pentru a exporta testul!
 assessment#:#cannot_maintain_test#:# Nu aveti permisiunea necesara pentru a rula testul!
 assessment#:#cannot_save_metaobject#:# Nu aveti permisiunea necesara pentru a salva meta-datele!
@@ -231,7 +231,7 @@ assessment#:#filter#:#Filtrare
 assessment#:#filter_all_question_types#:#Toate tipurile de intrebari
 assessment#:#filter_all_questionpools#:#Toate bazele de intrebari
 assessment#:#filter_show_question_types#:#Aratati tipurile de intrebari
-assessment#:#filter_show_questionpools#:#Aratati bazele de intrebari
+assessment#:#filter_show_questionpools#:#Aratati bazele de intrebari###09 Aug 2005 content changed
 assessment#:#gap#:#Spatiu
 assessment#:#gap_definition#:#Definitia spatiului
 assessment#:#gap_selection#:#Selectarea spatiului
@@ -315,6 +315,7 @@ assessment#:#qpl_edit_rbac_error#:#Nu aveti dreptul de a edita aceasta intrebare
 assessment#:#qpl_edit_select_multiple#:#Va rugam selectati doar o intrebare pentru a o edita
 assessment#:#qpl_edit_select_none#:#Va rugam selectati o intrebare pentru a o edita
 assessment#:#qpl_export_select_none#:#Va rugam selectati cel putin o intrebare pentru a o exporta
+assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -434,7 +435,7 @@ assessment#:#tst_missing_marks#:#Nu aveti o schema de notare in test! Va rugam i
 assessment#:#tst_missing_questions#:#Nu aveti nici o intrebare in test! Va rugam introduceti cel putin o intrebare in test.
 assessment#:#tst_missing_title#:#Nu ati introdus nici un titlu al testului! Va rugam introduceti un titlu in sectiunea metadate.
 assessment#:#tst_no_marks_defined#:#Nu exista nici o definitie a notelor, va rugam creati cel putin o schema simpla de notare!
-assessment#:#tst_no_more_available_questionpools#:#Nu mai exista baze de intrebari disponibile
+assessment#:#tst_no_more_available_questionpools#:#Nu mai exista baze de intrebari disponibile###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Va rugam selectati cel putin o intrebare pentru a o sterge!
 assessment#:#tst_no_questions_available#:#Nu exista intrebari disponibile! Trebuie sa creati intrebari noi sau sa cautati intrebari.
 assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.###08 Apr 2005 new variable
@@ -460,8 +461,8 @@ assessment#:#tst_question_type#:#Tipul intrebarii
 assessment#:#tst_questions_inserted#:#Intrebari inserate!
 assessment#:#tst_questions_removed#:#Intrebari sterse!
 assessment#:#tst_random_nr_of_questions#:#Cate intrebari?
-assessment#:#tst_random_qpl_unselected#:#Exista cel putin o baza de intrebari neselectata! Nu este necesar sa adaugati o alta baza de intrebari.
-assessment#:#tst_random_questionpools#:#Sursa bazelor de intrebari
+assessment#:#tst_random_qpl_unselected#:#Exista cel putin o baza de intrebari neselectata! Nu este necesar sa adaugati o alta baza de intrebari.###09 Aug 2005 content changed
+assessment#:#tst_random_questionpools#:#Sursa bazelor de intrebari###09 Aug 2005 content changed
 assessment#:#tst_random_select_questionpool#:#Selectati baza de intrebari pentru a alege forma intrebarilor
 assessment#:#tst_random_test#:#Test la intamplare
 assessment#:#tst_random_test_description#:#Daca selectati, intrebarile din test vor fi generate la intamplare
@@ -483,7 +484,7 @@ assessment#:#tst_score_type#:#Tipul afisarii rezultatelor
 assessment#:#tst_select_file_for_import#:#Trebuie sa selectati un dosar pentru a-l importa!
 assessment#:#tst_select_questionpool#:#Va rugam selectati o baza de intrebari in care sa salvati intrebarea creata
 assessment#:#tst_select_questionpools#:#Va rugam selectati o baza de intrebari in care sa salvati intrebarile create
-assessment#:#tst_select_random_questions#:#Selectati bazele de intrebari si numarul de intrebari pentru testul aleatoriu
+assessment#:#tst_select_random_questions#:#Selectati bazele de intrebari si numarul de intrebari pentru testul aleatoriu###09 Aug 2005 content changed
 assessment#:#tst_select_tsts#:#Va rugam selectati un test pentru copiere
 assessment#:#tst_sequence#:#Secventa
 assessment#:#tst_sequence_fixed#:#Secventa de intrebari este fixa
@@ -530,7 +531,7 @@ assessment#:#tst_submit_results#:#Yes, I do confirm the submission.###08 Apr 200
 assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
 assessment#:#tst_time_already_spent#:#Timp deja utilizat
 assessment#:#tst_total_questions#:#Numarul total de intrebari
-assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!
+assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!###09 Aug 2005 content changed
 assessment#:#tst_tst_date#:#Date of Test###08 Apr 2005 new variable
 assessment#:#tst_type#:#Tipul testului
 assessment#:#tst_type_changed#:#Ati schimbat tipul de test. Toate celelalte teste precedente au fost sterse!
@@ -1595,11 +1596,11 @@ common#:#import_glossary#:#Importati Glosar
 common#:#import_grp_finished#:#Grup importat fara erori
 common#:#import_hlm#:#Importati Pachet HACP
 common#:#import_lm#:#Importati Modul de Invatare ILIAS
-common#:#import_qpl#:#Importati Baza de intrebari pentru Test
+common#:#import_qpl#:#Importati Baza de intrebari pentru Test###09 Aug 2005 content changed
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importati utilizator de Baza
 common#:#import_sahs#:#Importati Pachet SCORM/AICC
-common#:#import_spl#:#Importati Baza de Intrebari pentru sondaj
+common#:#import_spl#:#Importati Baza de Intrebari pentru sondaj###09 Aug 2005 content changed
 common#:#import_svy#:#Importati Sondaj
 common#:#import_tst#:#Importati Test
 common#:#import_users#:#Importati Utilizatori
@@ -4034,6 +4035,7 @@ meta#:#meta_index#:#Index
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Remarci la instalare
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
+meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Rolul intentionat al utilizatorului final
 meta#:#meta_interactivity_level#:#Nivel de Interactivitate
 meta#:#meta_interactivity_type#:#Tip de interactivitate
@@ -4583,7 +4585,7 @@ survey#:#before#:#Precedent
 survey#:#browse_for_questions#:#Cautati intrebari
 survey#:#cannot_create_survey_codes#:#Nu aveti permisiunea de a crea coduri de acces in sondaj!
 survey#:#cannot_edit_survey#:#Nu aveti permisiunea de a edita sondajul!
-survey#:#cannot_export_questionpool#:#Nu aveti permisiunea de a exporta baza de intrebari a sondajului!
+survey#:#cannot_export_questionpool#:#Nu aveti permisiunea de a exporta baza de intrebari a sondajului!###09 Aug 2005 content changed
 survey#:#cannot_export_survey#:#Nu aveti permisiunea de a exporta sondajul!
 survey#:#cannot_maintain_survey#:#Nu aveti permisiunea de a supraveghea sondajul!
 survey#:#cannot_manage_phrases#:#Nu aveti permisiunea de a administra frazele!
@@ -4699,9 +4701,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Va rugam completati toate 
 survey#:#fill_out_all_required_fields_save_phrase#:#Va rugam completati toate campurile cerute inainte de a salva o fraza!
 survey#:#filter#:#Filtru
 survey#:#filter_all_question_types#:#Toate tipurile de intrebari
-survey#:#filter_all_questionpools#:#Toate bazele de intrebari
+survey#:#filter_all_questionpools#:#Toate bazele de intrebari###09 Aug 2005 content changed
 survey#:#filter_show_question_types#:#Aratati tipurile de intrebari
-survey#:#filter_show_questionpools#:#Aratati bazele de intrebari
+survey#:#filter_show_questionpools#:#Aratati bazele de intrebari###09 Aug 2005 content changed
 survey#:#found_questions#:#Intrebari gasite
 survey#:#geometric_mean#:#Media geometrica
 survey#:#given_answers#:#Raspunsuri date
