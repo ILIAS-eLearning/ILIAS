@@ -276,6 +276,7 @@ class ShibAuth
 				$newUser["matriculation"] = $_SERVER[$ilias->getSetting('shib_matriculation')];
 				$newUser["email"] = $_SERVER[$ilias->getSetting('shib_email')];
 				$newUser["hobby"] = $_SERVER[$ilias->getSetting('shib_hobby')];
+				$newUser["auth_mode"] = "shibboleth";
 				
 				// system data
 				$userObj->assignData($newUser);
