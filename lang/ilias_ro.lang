@@ -1033,6 +1033,7 @@ common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Copie
 common#:#copy_of#:#Copie a
 common#:#copy_to#:#catre
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Numaratoare
 common#:#country#:#Tara
 common#:#course#:#Curs

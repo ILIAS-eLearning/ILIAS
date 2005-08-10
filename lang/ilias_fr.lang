@@ -1057,6 +1057,7 @@ common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Copie###07 Apr 2005 content changed
 common#:#copy_of#:#Copie de###07 Apr 2005 content changed
 common#:#copy_to#:#vers###07 Apr 2005 content changed
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Décompte###07 Apr 2005 content changed
 common#:#country#:#Pays###07 Apr 2005 content changed
 common#:#course#:#Cours###07 Apr 2005 content changed

@@ -1070,6 +1070,7 @@ common#:#copyChapter#:#Copy
 common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
 common#:#copy_to#:#to
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.
 common#:#count#:#Count
 common#:#country#:#Country
 common#:#course#:#Course
@@ -1229,7 +1230,6 @@ common#:#err_2_param#:#Only 2 parameter!
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
-common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP

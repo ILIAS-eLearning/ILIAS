@@ -968,6 +968,7 @@ common#:#copy#:#Копиране
 common#:#copyPage#:#Копиране
 common#:#copy_of#:#Копиране на
 common#:#copy_to#:#към
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Броене
 common#:#country#:#Страна
 common#:#course#:#Курс

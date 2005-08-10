@@ -1070,6 +1070,7 @@ common#:#copyChapter#:#Kopiuj
 common#:#copyPage#:#Kopiuj
 common#:#copy_of#:#Kopia
 common#:#copy_to#:#do
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Licz
 common#:#country#:#Kraj
 common#:#course#:#Kurs

@@ -1069,6 +1069,7 @@ common#:#copyChapter#:#Kopieren
 common#:#copyPage#:#Kopieren
 common#:#copy_of#:#Kopie von
 common#:#copy_to#:#nach
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Anzahl
 common#:#country#:#Land
 common#:#course#:#Kurs

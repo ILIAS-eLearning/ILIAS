@@ -1003,6 +1003,7 @@ common#:#copy#:#Másolás
 common#:#copyPage#:#Másolás
 common#:#copy_of#:#Másolandó:
 common#:#copy_to#:#to
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Számlálás
 common#:#country#:#Ország
 common#:#course#:#Kurzus
