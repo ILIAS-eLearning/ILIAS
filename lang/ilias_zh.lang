@@ -1088,6 +1088,7 @@ common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#拷贝页面###07 Apr 2005 content changed
 common#:#copy_of#:#的拷贝###07 Apr 2005 content changed
 common#:#copy_to#:#至###07 Apr 2005 content changed
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#数目###07 Apr 2005 content changed
 common#:#country#:#国家###07 Apr 2005 content changed
 common#:#course#:#课程###07 Apr 2005 content changed

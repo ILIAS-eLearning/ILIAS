@@ -1070,6 +1070,7 @@ common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copia de###07 Apr 2005 content changed
 common#:#copy_to#:#to###07 Aug 2004 new variable
+common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#País###07 Apr 2005 content changed
 common#:#course#:#Curso###07 Apr 2005 content changed
