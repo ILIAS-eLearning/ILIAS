@@ -1508,7 +1508,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$existing_questions =& $this->object->getExistingQuestions();
 		foreach ($table["rows"] as $data)
 		{
-			if (($rbacsystem->checkAccess("write", $data["ref_id"])) and (!in_array($data["question_id"], $existing_questions)))
+			if (!in_array($data["question_id"], $existing_questions))
 			{
 				if ($data["complete"])
 				{
