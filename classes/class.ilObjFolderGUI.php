@@ -147,11 +147,9 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
-//		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
