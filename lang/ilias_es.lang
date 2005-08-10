@@ -320,7 +320,7 @@ assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
 assessment#:#qpl_edit_select_multiple#:#Por favor marque solo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
-assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
+assessment#:#qpl_import_create_new_qpl#:#Importar las preguntas en un nuevo depósito de preguntas
 assessment#:#qpl_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
 assessment#:#qpl_import_non_ilias_files#:#Error: El fichero de importación contiene ficheros QTI que no han sido creados con el sistema ILIAS. Por favor, contacte con el equipo de ILIAS para adaptar el filtro de importación a su formato QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas en el fichero de importación. Por favor, seleccione las preguntas que quiere importar.
@@ -1067,7 +1067,6 @@ common#:#copyChapter#:#Copiar
 common#:#copyPage#:#Copiar
 common#:#copy_of#:#Copia de
 common#:#copy_to#:#a 
-common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Cuenta
 common#:#country#:#País
 common#:#course#:#Curso
@@ -1131,7 +1130,7 @@ common#:#crs_visible#:#El Curso es visible
 common#:#crs_write#:#Editar Curso
 common#:#cumulative_time#:#Tiempo Acumulado
 common#:#cur_number_rec#:#Número actual de registros
-common#:#current_ip#:#IP actual:###20 Jul 2005 new variable
+common#:#current_ip#:#IP actual:
 common#:#current_ip_alert#:#Notice: si introduces una ip errónea no serás capaz de acceder al sistema con este perfil nunca más.
 common#:#current_password#:#Contraseña actual
 common#:#cut#:#cortar
@@ -1295,20 +1294,20 @@ common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#ID Cliente
-common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###14 Jul 2005 new variable
-common#:#extt_ilinc_enable#:#Enable LearnLinc support###14 Jul 2005 new variable
-common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
-common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
-common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
-common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
-common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
-common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
-common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
-common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
-common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
-common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
-common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
-common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
+common#:#extt_ilinc_desc#:#Aulas virtuales. Servicio comercia. Para conseguir una cuenta e información adicional contacte con netucate www.netucate.com
+common#:#extt_ilinc_enable#:#Habilitar soporte LearnLinc
+common#:#extt_ilinc_port#:#Puerto
+common#:#extt_ilinc_registrar_login#:#Login ID
+common#:#extt_ilinc_registrar_passwd#:#Contraseña
+common#:#extt_ilinc_server#:#Servidor
+common#:#extt_ilinc_settings_saved#:#Configuración LearnLinc grabada
+common#:#extt_ilinc_timeout#:#Máximo tiempo de espera para respuesta del servidor
+common#:#extt_name#:#Software/Servicio
+common#:#extt_read#:#Acceso a configuración de software externo
+common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia 'open source' de ILIAS
+common#:#extt_title_configure#:#Configurar software externo
+common#:#extt_visible#:#Configuración de software externo visible
+common#:#extt_write#:#Configurar software externo
 common#:#faq_exercise#:#actividad FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#feedback
@@ -1630,26 +1629,26 @@ common#:#ilinc_classroom_open#:#El Aula está abierta
 common#:#ilinc_classrooms#:#Aulas iLinc
 common#:#ilinc_coursemember_status#:#Asistiendo como
 common#:#ilinc_courses#:#Cursos iLinc
-common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
-common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
-common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
-common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
-common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
-common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
+common#:#ilinc_dismiss_member#:#¿Está seguro de querer dar de baja a los siguientes miembros del Seminario LearnLinc?
+common#:#ilinc_dismiss_myself#:#¿Está seguro de querer darse de baja del Seminario LearnLinc?
+common#:#ilinc_docent#:#Instructor
+common#:#ilinc_err_administrator_required#:#El miembro no puede ser eliminado, ¡ al menos se requiere un administrador por cada Seminario LearnLinc !
+common#:#ilinc_err_last_member#:#El último miembro no puede ser eliminado, por favor elimine el Seminario en su lugar.
+common#:#ilinc_err_member_could_not_be_removed#:#El miembro no puede ser eliminado. Por favor verifique todas las dependencias de este usuario.
+common#:#ilinc_err_no_permission#:#No posee permisos para esta operación.
+common#:#ilinc_err_registration_data#:#Por favor introduzca una contraseña, la fecha de expiración y hora para un período de registro válido!
 common#:#ilinc_id#:#iLinc ID
-common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
-common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
-common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
-common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
+common#:#ilinc_involved_users#:#Usuarios involucrados
+common#:#ilinc_manage_course_documents#:#Materiales
+common#:#ilinc_msg_joined#:#Se ha unido al Seminario LearnLinc
+common#:#ilinc_no_docent_assigned#:#No asignado
+common#:#ilinc_notset#:#No configurado
 common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
-common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
-common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
+common#:#ilinc_server_not_active#:#Servidor iLinc no activo
+common#:#ilinc_student#:#Participante
+common#:#ilinc_upload_pic_linktext#:#Cargar
+common#:#ilinc_upload_pic_text#:#Para mostrar su foto en Seminarios LearnLinc por favor use este enlace:
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Cada Seminario LearnLinc necesita al menos un administrador
 common#:#image#:#Imagen
 common#:#image_gen_unsucc#:#Falló la Generación de Imagen. Póngase en contacto con su administrador y compruebe la ruta de conversión (convert).
 common#:#import#:#importar
@@ -1689,7 +1688,7 @@ common#:#info_available_roles#:#roles disponibles
 common#:#info_change_user_view#:#Cambiar vista de usuario
 common#:#info_delete_sure#:#¿Está seguro de que quiere eliminar el siguiente objeto?
 common#:#info_deleted#:#Objeto(s) eliminado(s)
-common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>###03 Aug 2005 new variable
+common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
 common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
 common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#El usuario es un miembro
@@ -1860,7 +1859,7 @@ common#:#local_language_file#:#fichero de idioma local
 common#:#local_language_files#:#ficheros de idioma local
 common#:#local_languages_already_installed#:#El fichero(s) de idioma local seleccionado(s) ya están instalados
 common#:#locator#:#Estás en:
-common#:#log_in#:#Login###03 Aug 2005 new variable
+common#:#log_in#:#Login
 common#:#logic_and#:#y
 common#:#logic_or#:#o
 common#:#login#:#Usuario
@@ -2099,7 +2098,7 @@ common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
 common#:#no_local_users#:#No hay usuario local
 common#:#no_objects#:#no hay objetos
-common#:#no_parent_access#:#No access to a superordinated object!###new variable
+common#:#no_parent_access#:#No tiene acceso a un objeto -superordinated-!
 common#:#no_permission#:#No posee el permiso necesario.
 common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.
@@ -2556,22 +2555,22 @@ common#:#shib_instructions#:#Asegúrese de leer <a href="README.SHIBBOLETH.txt" 
 common#:#shib_language#:#Atributo para lenguaje
 common#:#shib_lastname#:#Atributo para apellido
 common#:#shib_login#:#Atributo Shibboleth único
-common#:#shib_login_button#:#Path to Shibboleth login button###new variable
-common#:#shib_login_instructions#:#Instructions shown in login field###new variable
-common#:#shib_phone_home#:#Attribute for home phone number###new variable
-common#:#shib_phone_mobile#:#Attribute for mobile phone number###new variable
-common#:#shib_phone_office#:#Attribute for office phone number###new variable
-common#:#shib_read#:#Read access to Shibboleth settings###new variable
-common#:#shib_settings_saved#:#The Shibboleth settings were saved###new variable
-common#:#shib_street#:#Attribute for street###new variable
-common#:#shib_title#:#Attribute for title###new variable
-common#:#shib_update#:#Update this field on login###new variable
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###new variable
-common#:#shib_visible#:#Shibboleth settings are visible###new variable
-common#:#shib_write#:#Edit Shibboleth settings###new variable
-common#:#shib_zipcode#:#Attribute for zipcode###new variable
+common#:#shib_login_button#:#Ruta al botón de login Shibboleth
+common#:#shib_login_instructions#:#Instrucciones mostradas en el campo de login
+common#:#shib_phone_home#:#Atributo para número de teléfono de casa
+common#:#shib_phone_mobile#:#Atributo para número de teléfono móvil
+common#:#shib_phone_office#:#Atributo para número de teléfono oficina
+common#:#shib_read#:#Acceso de Lectura a configuración Shibboleth
+common#:#shib_settings_saved#:#La configuración Shibboleth fue grabada
+common#:#shib_street#:#Atributo para calle
+common#:#shib_title#:#Atributo para estado
+common#:#shib_update#:#Actualizar este campo al entrar
+common#:#shib_user_default_role#:#Rol por defecto asignado a usuarios Shibboleth
+common#:#shib_visible#:#Configuración Shibboleth visible
+common#:#shib_write#:#Editar configuración Shibboleth
+common#:#shib_zipcode#:#Atributo para código zip
 common#:#show#:#Mostrar
-common#:#show_details#:#mostrar detalles###14 Jul 2005 content changed
+common#:#show_details#:#mostrar detalles
 common#:#show_list#:#mostrar lista
 common#:#show_members#:#Mostrar miembros
 common#:#show_owner#:#Mostrar propietario
@@ -4354,8 +4353,8 @@ meta#:#meta_identifier#:#Identificador
 meta#:#meta_index#:#Índice
 meta#:#meta_initiator#:#Initiator###new variable
 meta#:#meta_installation_remarks#:#Remarcas de Instalación
-meta#:#meta_instructional_designer#:#Diseñador instructivo###09 Aug 2005 content changed
-meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
+meta#:#meta_instructional_designer#:#Diseñador instructivo
+meta#:#meta_instructionaldesigner#:#Diseñador instructivo
 meta#:#meta_intended_end_user_role#:#Rol de usuario final planeado
 meta#:#meta_interactivity_level#:#Nivel de Interactividad
 meta#:#meta_interactivity_type#:#Nivel de Interactividad
