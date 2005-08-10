@@ -959,7 +959,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
+common#:#cat_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -1113,7 +1113,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
+common#:#crs_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1361,7 +1361,7 @@ common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#fold_create_svy#:#Neue Umfrage anlegen
 common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
+common#:#fold_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1505,7 +1505,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Links anlegen###15 Jul 2005 content changed
+common#:#grp_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
@@ -1814,7 +1814,7 @@ common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#Verknüpfen
-common#:#link_check#:#Link überprüfen
+common#:#link_check#:#Links überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Email über nicht gültige Links dieser Lerneinheit informiert.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
@@ -2198,7 +2198,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#obj_webr#:#Links
+common#:#obj_webr#:#Web-Links
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
@@ -2242,7 +2242,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
-common#:#objs_webr#:#Links
+common#:#objs_webr#:#Web-Links
 common#:#of#:#von
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -2858,32 +2858,32 @@ common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visitor#:#Besucher
 common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
-common#:#web_resources#:#Links
-common#:#webr#:#Links
+common#:#web_resources#:#Web-Links
+common#:#webr#:#Web-Links
 common#:#webr_active#:#Aktiv
-common#:#webr_add#:#Links hinzufügen
+common#:#webr_add#:#Web-Links hinzufügen
 common#:#webr_add_item#:#Link hinzufügen
-common#:#webr_delete#:#Link löschen
-common#:#webr_delete_items#:#Links löschen.
+common#:#webr_delete#:#Web-Links löschen
+common#:#webr_delete_items#:#Web-Links löschen.
 common#:#webr_deleted_items#:#Der/die Link(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
-common#:#webr_edit#:#Links bearbeiten
+common#:#webr_edit#:#Web-Links bearbeiten
 common#:#webr_edit_item#:#Link bearbeiten
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Links abonnieren
+common#:#webr_join#:#Web-Links abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der  Links aufheben
+common#:#webr_leave#:#Abonnement der  Web-Links aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
-common#:#webr_new#:#Neue Links anlegen
+common#:#webr_new#:#Neue Web-Links anlegen
 common#:#webr_no_items_created#:#Es sind keine Links angelegt
-common#:#webr_read#:#Lesezugriff auf Links
+common#:#webr_read#:#Lesezugriff auf Web-Links
 common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Links löschen möchten?
-common#:#webr_visible#:#Links sind sichtbar
-common#:#webr_write#:#Links bearbeiten
+common#:#webr_visible#:#Web-Links sind sichtbar
+common#:#webr_write#:#Web-Links bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#weekly#:#wöchentlich
