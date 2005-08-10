@@ -2847,7 +2847,7 @@ common#:#verification_failure_log#:#Log de fallo Verificación
 common#:#verification_log#:#Log de Verificación
 common#:#verification_warning_log#:#Log de 'warning' en Verificación
 common#:#version#:#versión
-common#:#versions#:#Versiones
+common#:#versions#:#versiones
 common#:#view#:#Ver
 common#:#view_content#:#Ver contenido
 common#:#visible#:#Visible
@@ -3161,9 +3161,9 @@ content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
 content#:#cont_nr_rows#:#Número de Filas
 content#:#cont_obj_removed#:#Objetos eliminados.
-content#:#cont_offline#:#Versiones Offline
-content#:#cont_offline_files#:#-Versiones offline-
-content#:#cont_offline_versions#:#Versiones offline
+content#:#cont_offline#:#versiones offline
+content#:#cont_offline_files#:#-versiones offline-
+content#:#cont_offline_versions#:#versiones offline
 content#:#cont_online#:#Online
 content#:#cont_or#:#o
 content#:#cont_order#:#Tipo de Orden
