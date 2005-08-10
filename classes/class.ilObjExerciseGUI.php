@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.12 2005/05/05 13:28:53 hschottm Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.13.2.1 2005/08/10 08:26:31 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -473,7 +473,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 												ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
 				if ($this->object->members_obj->hasReturned($member_id))
 				{
-					$f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"" . $this->lng->txt("download") . "\" />";
+					$f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"" . 
+						$this->lng->txt("download") . "\" />";
 				}
 				else
 				{
@@ -486,10 +487,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),
 															   "sent[$member_id]",1);
 
+				$member_ids[] = $member_id;
+
 				unset($tmp_obj);
 				++$counter;
 			}
-			$this->__showMembersTableContent($this->__showMembersTable($f_result));
+			$this->__showMembersTableContent($this->__showMembersTable($f_result,$member_ids));
 			
 			$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html");
 			$this->tpl->setCurrentBlock("download_all");
@@ -793,7 +796,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showMembersTable($a_data)
+	function __showMembersTable($a_data,$a_member_ids)
 	{
 		$actions = array("save_status"		=> $this->lng->txt("exc_save_changes"),
 						 "send_member"		=> $this->lng->txt("exc_send_exercise"),
@@ -811,6 +814,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// SET FOOTER BUTTONS
 		$this->tpl->setCurrentBlock("tbl_action_row");
+
+
+		// show select all
+		if (count($a_member_ids))
+		{
+			// set checkbox toggles
+			$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+			$this->tpl->setVariable("JS_VARNAME","member");			
+			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
+			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
+
 		$this->tpl->setVariable("COLUMN_COUNTS",6);
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -830,9 +849,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		$tbl->setTitle($this->lng->txt("exc_header_members"),"icon_usr_b.gif",$this->lng->txt("exc_header_members"));
-		$tbl->setHeaderNames(array('',$this->lng->txt("login"),$this->lng->txt("firstname")
-								   ,$this->lng->txt("lastname"),$this->lng->txt("exc_notices"),$this->lng->txt("exc_files_returned"), $this->lng->txt("exc_status_returned"),
-								   $this->lng->txt("exc_status_solved"),$this->lng->txt("sent")));
+		$tbl->setHeaderNames(array('',$this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt("exc_notices"),
+								   $this->lng->txt("exc_files_returned"),
+								   $this->lng->txt("exc_status_returned"),
+								   $this->lng->txt("exc_status_solved"),
+								   $this->lng->txt("sent")));
 		$tbl->setHeaderVars(array("","login","firstname","lastname","","","","",""),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members"));
