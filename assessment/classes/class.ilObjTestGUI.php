@@ -6309,21 +6309,21 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}	
 	
 	function resultsheetObject () {
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $ilErr;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
-			echo utf8_decode($this->lng->txt("cannot_edit_test"));
-			exit();
+			$ilErr->raiseError($this->lng->txt("cannot_edit_test"),$ilErr->WARNING);
+			return;
 		}
 		
 		$user_id = (int) $_GET["user_id"];
 		$user = $this->object->getInvitedUsers($user_id);
 		if (!is_array ($user) || count($user)!=1)
 		{
-			echo utf8_decode($this->lng->txt("user_not_invited"));
-			exit();
+			$ilErr->raiseError($this->lng->txt("user_not_invited"),$ilErr->WARNING);
+			return;
 		}
 			
 		$this->outPrintTestResults($user_id);
@@ -6331,21 +6331,21 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}
 	
 	function answersheetObject () {
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $ilErr;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
-			echo utf8_decode($this->lng->txt("cannot_edit_test"));
-			exit();
+			$ilErr->raiseError($this->lng->txt("cannot_edit_test"),$ilErr->WARNING);
+			return;
 		}
 		
 		$user_id = (int) $_GET["user_id"];
 		$user = $this->object->getInvitedUsers($user_id);
 		if (!is_array ($user) || count($user)!=1)
 		{
-			echo utf8_decode($this->lng->txt("user_not_invited"));
-			exit();
+			$ilErr->raiseError($this->lng->txt("user_not_invited"),$ilErr->WARNING);
+			return;
 		}
 		$ilUser = new IlObjUser ($user_id);	
 		$user = array_pop ($user);

@@ -135,7 +135,7 @@ $GLOBALS['ilDB'] =& $ilDB;
 if (!db_set_save_handler())
 {
 	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
-	$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+	$ilias->raiseError($message, $ilias->error_obj->WARNING);
 }
 
 
