@@ -129,7 +129,7 @@ assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettigheder til at &aelig;ndre i denne test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
-assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!###09 Aug 2005 content changed
+assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!
 assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at exporterer denne test!
 assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
@@ -234,7 +234,7 @@ assessment#:#filter#:#Filter###21 Apr 2005 new variable
 assessment#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
 assessment#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;ls grupper
 assessment#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
-assessment#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;ls grupper###09 Aug 2005 content changed
+assessment#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;ls grupper
 assessment#:#gap#:#Hul
 assessment#:#gap_definition#:#Hul definitation
 assessment#:#gap_selection#:#Hul valg
@@ -316,7 +316,6 @@ assessment#:#qpl_edit_rbac_error#:#Du har ikke rettigheder til at &aelig;ndre i 
 assessment#:#qpl_edit_select_multiple#:#Marker venligst kun et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_edit_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_export_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at eksportere det
-assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.###16 Jul 2005 new variable
@@ -588,7 +587,6 @@ bibitem#:#bibitem_unpublished#:#Ikke udgivet
 bibitem#:#bibitem_url#:#URL###21 Apr 2005 new variable
 bibitem#:#bibitem_where_published#:#hvor udgivet
 bibitem#:#bibitem_year#:#&aring;r
-chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Bruger (aktiv)
 chat#:#chat_add_allowed_hosts#:#Tilf&oslash;j venligst adressen p&aring; den v&aelig;rt der er tilladt at bruge chat serveren.
@@ -602,10 +600,6 @@ chat#:#chat_address_user#:#Address###20 Jun 2005 new variable
 chat#:#chat_aqua#:#aqua###21 Apr 2005 new variable
 chat#:#chat_arial#:#Arial###21 Apr 2005 new variable
 chat#:#chat_black#:#sort
-chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
-chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
-chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
-chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#bl&aring;
 chat#:#chat_bold#:#Bold###21 Apr 2005 new variable
 chat#:#chat_chatroom_body#:#Chat rum:
@@ -616,7 +610,6 @@ chat#:#chat_delete_sure#:#Er du sikker p&aring; du vil slette dette chat rum
 chat#:#chat_drop_user#:#Bruger smidt ud
 chat#:#chat_edit#:#&aelig;ndre chat 
 chat#:#chat_empty#:#Empty###15 Jul 2005 new variable
-chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
 chat#:#chat_face#:#Font type###21 Apr 2005 new variable
 chat#:#chat_fuchsia#:#fuchsia###21 Apr 2005 new variable
 chat#:#chat_gray#:#gr&aring;
@@ -632,8 +625,6 @@ chat#:#chat_invitation_subject#:#Chat invitation###21 Apr 2005 new variable
 chat#:#chat_invite_user#:#Inviter bruger
 chat#:#chat_invited_by#:#Invited by###20 Jun 2005 new variable
 chat#:#chat_italic#:#Italic###21 Apr 2005 new variable
-chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
-chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
 chat#:#chat_level_all#:#Alle
 chat#:#chat_level_debug#:#Debug###21 Apr 2005 new variable
 chat#:#chat_level_error#:#Fejl
@@ -645,13 +636,11 @@ chat#:#chat_messages_deleted#:#Besked er blevet slettet.
 chat#:#chat_moderator_password#:#Password
 chat#:#chat_navy#:#navy###21 Apr 2005 new variable
 chat#:#chat_no_active_users#:#Ingen brugere tilstede.
-chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Kan ikke kontakte chat server.
 chat#:#chat_no_delete_public#:#Det offentlige chat rum kan ikke slettes
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
 chat#:#chat_no_refresh_public#:#det offentlige chat rum kan ikke opdateres.
 chat#:#chat_no_rename_public#:#Det offentlige chat rum kan ikke omd&oslash;bes
-chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Ingen skrive rettighedder
 chat#:#chat_olive#:#olive###21 Apr 2005 new variable
 chat#:#chat_online_users#:#Bruger (online)
@@ -704,14 +693,9 @@ chat#:#chat_times#:#Tider
 chat#:#chat_title_missing#:#Indtast venligst et navn.
 chat#:#chat_to_chat_body#:#Til chatten
 chat#:#chat_type#:#Skrift type
-chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
 chat#:#chat_underlined#:#Understreget
-chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
-chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
-chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
 chat#:#chat_user_dropped#:#Bruger udelukket
 chat#:#chat_user_invited#:#Inviterede bruger til chat.
-chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
 chat#:#chat_whisper#:#Whisper###20 Jun 2005 new variable
 chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
@@ -952,7 +936,6 @@ common#:#change_header_title#:#Rediger overskift
 common#:#change_lo_info#:#Rediger LO Info
 common#:#change_metadata#:#Rediger Metadata
 common#:#change_sort_direction#:#Rediger sti
-common#:#changeable#:#Changeable###05 Aug 2005 new variable
 common#:#changed_to#:#&aelig;ndret Til
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitel Nummer
@@ -1026,7 +1009,6 @@ common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Kopier
 common#:#copy_of#:#Kopi af
 common#:#copy_to#:#Til
-common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#T&aelig;l
 common#:#country#:#Land
 common#:#course#:#Kursus
@@ -1074,7 +1056,6 @@ common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
 common#:#crs_edit_permission#:#&aelig;ndrer rettigheds indstillinger
-common#:#crs_info#:#Info###05 Aug 2005 new variable
 common#:#crs_join#:#Tilmeld Kursus
 common#:#crs_leave#:#Afmeld kursus
 common#:#crs_management_system#:#Kursus styringssystem
@@ -1260,10 +1241,8 @@ common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
-common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
 common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
-common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
 common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
 common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
@@ -1545,15 +1524,10 @@ common#:#https_not_possible#:#Denne server underst&oslash;tter ikke HTTPS forbin
 common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icla#:#iLinc Classroom###21 Apr 2005 new variable
 common#:#icla_add#:#Add iLinc Classroom###21 Apr 2005 new variable
-common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
-common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
 common#:#icla_new#:#New iLinc Classroom###21 Apr 2005 new variable
 common#:#icrs#:#iLinc Course###21 Apr 2005 new variable
 common#:#icrs_add#:#Add iLinc Course###21 Apr 2005 new variable
-common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
-common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
 common#:#icrs_delete#:#Delete iLinc Course###21 Apr 2005 new variable
-common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
 common#:#icrs_edit_permission#:#Edit permission settings###21 Apr 2005 new variable
 common#:#icrs_join#:#User may join LearnLinc Seminar###15 Jul 2005 new variable
 common#:#icrs_leave#:#User may leave LearnLinc Seminar###15 Jul 2005 new variable
@@ -1576,32 +1550,9 @@ common#:#il_grp_member#:#Member###20 Jun 2005 new variable
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
 common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
 common#:#ilias_version#:#ILIAS version###21 Apr 2005 new variable
-common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
-common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
-common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
 common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
-common#:#ilinc_coursemember_status#:#Attending as###06 Aug 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###21 Apr 2005 new variable
-common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
-common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
-common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
-common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
-common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
-common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
 common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
-common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
-common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
-common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
-common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
-common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
-common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
-common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
 common#:#image#:#billede
 common#:#image_gen_unsucc#:#billede generation ikke successfuldt udf&oslash;rt. Kontakt din system administrator og f&aring; bekr&aelig;ftet stien.
 common#:#import#:#Importering
@@ -1617,11 +1568,11 @@ common#:#import_glossary#:#Importer ordbog
 common#:#import_grp_finished#:#Importerede grupper uden nogle fejl
 common#:#import_hlm#:#Importer HACP Pakker
 common#:#import_lm#:#Importer ILIAS L&aelig;rer modul
-common#:#import_qpl#:#Importer afstemning til test###09 Aug 2005 content changed
+common#:#import_qpl#:#Importer afstemning til test
 common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
 common#:#import_root_user#:#Importer Root Bruger
 common#:#import_sahs#:#Importer SCORM/AICC Pakker
-common#:#import_spl#:#Importer afstemning til unders&oslash;gelser###09 Aug 2005 content changed
+common#:#import_spl#:#Importer afstemning til unders&oslash;gelser
 common#:#import_svy#:#Importer Unders&oslash;gelser
 common#:#import_tst#:#Importer Test
 common#:#import_users#:#Importer Brugere
@@ -1640,9 +1591,8 @@ common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
 common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
 common#:#info_delete_sure#:#Er du sikker p&aring; at du vil slette f&oslash;lgende Objekter?
 common#:#info_deleted#:#Objekt(er) slettet
-common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
+common#:#info_enter_user_id#:#<enter user_id>###20 Jun 2005 new variable
 common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
-common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#User is member###20 Jun 2005 new variable
 common#:#info_is_not_member#:#User is not a member###20 Jun 2005 new variable
 common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
@@ -1805,7 +1755,6 @@ common#:#lo_other_langs#:#LOs p&aring; Andres sprog
 common#:#lo_overview#:#LO Oversigt
 common#:#local#:#Lokal
 common#:#locator#:#Placering:
-common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#og
 common#:#logic_or#:#eller
 common#:#login#:#Login###21 Apr 2005 new variable
@@ -2251,7 +2200,6 @@ common#:#phone_home#:#Telefon, Hjem
 common#:#phone_mobile#:#Telefon, Mobil
 common#:#phone_office#:#Telefon, Arbejde
 common#:#phrase#:#Motto
-common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#indtast en destination
 common#:#please_enter_title#:#indtast en titel
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###21 Apr 2005 new variable
@@ -2441,7 +2389,6 @@ common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be
 common#:#search_recipient#:#S&oslash;g efter modtager
 common#:#search_result#:#S&oslash;ge resultater
 common#:#search_user#:#S&oslash;g efter bruger
-common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Sektioner
 common#:#select#:#v&aelig;lg
 common#:#select_all#:#V&aelig;lg alle
@@ -2616,8 +2563,6 @@ common#:#tst_read#:#L&aelig;se adgang til Test
 common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Upload fil
-common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
 common#:#tst_visible#:#Testen er synlig
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Rediger Test
@@ -2787,7 +2732,6 @@ common#:#welcome#:#Velkommen
 common#:#who_is_online#:#Hvem er online?
 common#:#with#:#Med
 common#:#write#:#Skriv
-common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Du kan tilf&oslash;je lokale roller
 common#:#your_message#:#Din Besked
@@ -3541,7 +3485,7 @@ crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet gen&aring;bnet
 crs#:#crs_unlimited#:#Ubegr&aelig;nset
 crs#:#crs_unsubscribe#:#Afmeld
 crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus
-crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus###05 Aug 2005 content changed
+crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus
 crs#:#crs_update_objective#:#Edit learning objective###21 Apr 2005 new variable
 crs#:#crs_users_added#:#Tilf&oslash;jet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
@@ -3559,10 +3503,10 @@ crs#:#subscription_times_not_valid#:#The registration period is not valid.###21 
 crs_#:#crs_archives#:#Arkiver
 dateplaner#:#DateText#:#Besked
 dateplaner#:#Day_long#:#Dagsoversigt
-dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.###02 Aug 2005 content changed
+dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
 dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
 dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er###02 Aug 2005 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
 dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er f&oslash;r Startdato.
@@ -3577,7 +3521,7 @@ dateplaner#:#ERROR_TS#:#ukorrekt dato format
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr###21 Apr 2005 new variable
 dateplaner#:#Language_file#:#engelsk
-dateplaner#:#Listbox_long#:#Oversigt over aftaler###02 Aug 2005 content changed
+dateplaner#:#Listbox_long#:#Oversigt over aftaler
 dateplaner#:#Mo_long#:#Mandag
 dateplaner#:#Mo_short#:#Ma
 dateplaner#:#Month_long#:#M&aring;nedsoversigt
@@ -3594,35 +3538,35 @@ dateplaner#:#View#:#Oversigt:
 dateplaner#:#We_long#:#Onsdag
 dateplaner#:#We_short#:#On
 dateplaner#:#Week_long#:#Weekend Oversigt
-dateplaner#:#add_data#:#Briugt data###02 Aug 2005 content changed
-dateplaner#:#app_#:#Datoplanl&aelig;gning###02 Aug 2005 content changed
-dateplaner#:#app_date#:#inds&aelig;t dato###02 Aug 2005 content changed
-dateplaner#:#app_day#:#dagsoversigt###02 Aug 2005 content changed
-dateplaner#:#app_freetime#:#ledig tid for medlemmer af gruppen (v&aelig;lg en tid)###02 Aug 2005 content changed
-dateplaner#:#app_inbox#:#Gruppedatoer###02 Aug 2005 content changed
-dateplaner#:#app_list#:#dato liste###02 Aug 2005 content changed
-dateplaner#:#app_month#:#m&aring;nedsoversigt###02 Aug 2005 content changed
-dateplaner#:#app_properties#:#egenskaber###02 Aug 2005 content changed
-dateplaner#:#app_week#:#ugeoversigt###02 Aug 2005 content changed
+dateplaner#:#add_data#:#Briugt data
+dateplaner#:#app_#:#Datoplanl&aelig;gning
+dateplaner#:#app_date#:#inds&aelig;t dato
+dateplaner#:#app_day#:#dagsoversigt
+dateplaner#:#app_freetime#:#ledig tid for medlemmer af gruppen (v&aelig;lg en tid)
+dateplaner#:#app_inbox#:#Gruppedatoer
+dateplaner#:#app_list#:#dato liste
+dateplaner#:#app_month#:#m&aring;nedsoversigt
+dateplaner#:#app_properties#:#egenskaber
+dateplaner#:#app_week#:#ugeoversigt
 dateplaner#:#application#:#Datoplanl&aelig;gger
-dateplaner#:#apply#:#Godkend###02 Aug 2005 content changed
-dateplaner#:#back#:#Tilbage###02 Aug 2005 content changed
+dateplaner#:#apply#:#Godkend
+dateplaner#:#back#:#Tilbage
 dateplaner#:#begin_date#:#Begyndelse af dato
-dateplaner#:#busytime#:#Travl tid i gruppe###02 Aug 2005 content changed
-dateplaner#:#c_date#:#Opret Aftale###02 Aug 2005 content changed
+dateplaner#:#busytime#:#Travl tid i gruppe
+dateplaner#:#c_date#:#Opret Aftale
 dateplaner#:#changeTo#:#&aelig;ndret til:
-dateplaner#:#changedDates#:#&aelig;ndrede datoer###02 Aug 2005 content changed
+dateplaner#:#changedDates#:#&aelig;ndrede datoer
 dateplaner#:#checkforfreetime#:#S&oslash;g efter ledig tid
 dateplaner#:#created#:#Oprettet
 dateplaner#:#date#:#Dato
 dateplaner#:#date_format#:#m/d/Y H:i###21 Apr 2005 new variable
 dateplaner#:#date_format_middle#:#m/d/y###21 Apr 2005 new variable
-dateplaner#:#del_all#:#Slet alle dato.er###02 Aug 2005 content changed
-dateplaner#:#del_one#:#Slet en dato###02 Aug 2005 content changed
-dateplaner#:#delete#:#slet###02 Aug 2005 content changed
-dateplaner#:#deletedDates#:#Slettede datoer###02 Aug 2005 content changed
-dateplaner#:#discard#:#Afbryd###02 Aug 2005 content changed
-dateplaner#:#dv_Grouptime#:#ledig tid###02 Aug 2005 content changed
+dateplaner#:#del_all#:#Slet alle dato.er
+dateplaner#:#del_one#:#Slet en dato
+dateplaner#:#delete#:#slet
+dateplaner#:#deletedDates#:#Slettede datoer
+dateplaner#:#discard#:#Afbryd
+dateplaner#:#dv_Grouptime#:#ledig tid
 dateplaner#:#dv_button_cancel#:#Annuler
 dateplaner#:#dv_button_delete#:#Slet
 dateplaner#:#dv_button_insert#:#Inds&aelig;t
@@ -3632,7 +3576,7 @@ dateplaner#:#dv_date_end#:#Slut dato:
 dateplaner#:#dv_date_hm#:#Time:Minut
 dateplaner#:#dv_enddate#:#Slutdato:
 dateplaner#:#dv_groupselect#:#Valg af gruppe:
-dateplaner#:#dv_groupview#:#Gruppedato:###02 Aug 2005 content changed
+dateplaner#:#dv_groupview#:#Gruppedato:
 dateplaner#:#dv_groupview_text#:#Gruppe:<br>
 dateplaner#:#dv_keywords#:#N&oslash;gleord:
 dateplaner#:#dv_keywordselect#:#Valg af n&oslash;gleord:
@@ -3651,41 +3595,41 @@ dateplaner#:#dv_whole_rotation#:#Vil du slette hele Rotationdatoen? (Marker chec
 dateplaner#:#end_date#:#Slutdato
 dateplaner#:#endtime_for_view#:#Slutdato for gennemgang:
 dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
-dateplaner#:#execute#:#K&oslash;r din valg###02 Aug 2005 content changed
-dateplaner#:#extra_dates#:#Endags dato.er###02 Aug 2005 content changed
-dateplaner#:#free#:#ledig###02 Aug 2005 content changed
-dateplaner#:#freetime#:#Ledig tid i gruppen###02 Aug 2005 content changed
-dateplaner#:#group#:#gruppe###02 Aug 2005 content changed
-dateplaner#:#help_day#:#Dateplanl&aelig;gnings dagoversigt###02 Aug 2005 content changed
-dateplaner#:#help_day_l#:#I dagoversigten er alle dato.er for en given dag vist.###02 Aug 2005 content changed
+dateplaner#:#execute#:#K&oslash;r din valg
+dateplaner#:#extra_dates#:#Endags dato.er
+dateplaner#:#free#:#ledig
+dateplaner#:#freetime#:#Ledig tid i gruppen
+dateplaner#:#group#:#gruppe
+dateplaner#:#help_day#:#Dateplanl&aelig;gnings dagoversigt
+dateplaner#:#help_day_l#:#I dagoversigten er alle dato.er for en given dag vist.
 dateplaner#:#help_enddate#:#Slutdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Indeholder sluttiden for en aftale. <br> Symbolet &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.###02 Aug 2005 content changed
+dateplaner#:#help_enddate_l#:#Indeholder sluttiden for en aftale. <br> Symbolet &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.
 dateplaner#:#help_endrotation#:#Sluttidspunkt syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#P&aring; denne dag vil repitatioen slutte.<br> Synbolte &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato
 dateplaner#:#help_endtime#:#Sluttidspunkt - syntax[hh/mm] 24h formatet
 dateplaner#:#help_endtime_l#:#Indeholder sluttidspunktet for en aftale bruger 24h formatet.
 dateplaner#:#help_filename#:#dp_help_en.html###21 Apr 2005 new variable
-dateplaner#:#help_fullday#:#Hele dag dato - syntax[on/off]###02 Aug 2005 content changed
-dateplaner#:#help_fullday_l#:#Hvis dato.en str&aelig;kker sig over hele dagen s&aring; va&aelig;g denne mulighed<br> S&aring; Bliver starttidspunktet, sluttidspunktet og slutdato.en skjult.###02 Aug 2005 content changed
+dateplaner#:#help_fullday#:#Hele dag dato - syntax[on/off]
+dateplaner#:#help_fullday_l#:#Hvis dato.en str&aelig;kker sig over hele dagen s&aring; va&aelig;g denne mulighed<br> S&aring; Bliver starttidspunktet, sluttidspunktet og slutdato.en skjult.
 dateplaner#:#help_further#:#<br> <b>Klik her for mere information.</b>
-dateplaner#:#help_group#:#Valg af gruppedato###02 Aug 2005 content changed
+dateplaner#:#help_group#:#Valg af gruppedato
 dateplaner#:#help_group_l#:#Indeholder gruppen som bruger har administrator rettigheder til hvor man kan oprette nye dato.er <br> Efter valget er det muligt at se ikke skemalagt tid for en gruppe.
 dateplaner#:#help_inbox#:#Dateplanl&aelig;gnings indboks
-dateplaner#:#help_inbox_l#:#Her er alle nye, &aelig;ndrede og slettede gruppedato.er vist.###02 Aug 2005 content changed
+dateplaner#:#help_inbox_l#:#Her er alle nye, &aelig;ndrede og slettede gruppedato.er vist.
 dateplaner#:#help_keyword#:#Valg af n&oslash;gleord
 dateplaner#:#help_keywordUse#:#Valg af n&oslash;gleord
 dateplaner#:#help_keywordUse_l#:#V&aelig;lg et eller flere n&oslash;gleord fra dialog boksen. <br>TIP: Brug CTRL tasten for at markere flere ord.
 dateplaner#:#help_keyword_l#:#Indeholder n&oslash;gleordet som en bruge kan bruge til at henvise til en dato.
-dateplaner#:#help_list#:#Datoplanl&aelig;gnings datoliste###02 Aug 2005 content changed
-dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.###02 Aug 2005 content changed
+dateplaner#:#help_list#:#Datoplanl&aelig;gnings datoliste
+dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.
 dateplaner#:#help_month#:#Datoplanl&aelig;gnings m&aring;nedsoversigt
-dateplaner#:#help_month_l#:#I m&aring;nedsoversigten er alle dato.er for en given m&aring;ned vist.###02 Aug 2005 content changed
+dateplaner#:#help_month_l#:#I m&aring;nedsoversigten er alle dato.er for en given m&aring;ned vist.
 dateplaner#:#help_properties_alt#:#&aelig;ndrer n&oslash;gleordet
 dateplaner#:#help_properties_alt_l#:#V&aelig;lg et n&oslash;gleord fra dialogbokesen.<br>&aelig;ndre n&oslash;gleordet I tekstfeltet. Vigtigt: max. 20 Karaktere.
 dateplaner#:#help_properties_del#:#Sletter n&oslash;gleord
 dateplaner#:#help_properties_del_l#:#V&aelig;lg et n&oslash;gleord fra dialogboksen, klik p&aring; knappen for at slette n&oslash;gleordet.
 dateplaner#:#help_properties_import#:#Importering af Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Her kan en  CSC-File V&aelig;lges, som indeholder Outlook-Dato.er. Disse Dato.er vil blive importeret til Ilias.###02 Aug 2005 content changed
+dateplaner#:#help_properties_import_l#:#Her kan en  CSC-File V&aelig;lges, som indeholder Outlook-Dato.er. Disse Dato.er vil blive importeret til Ilias.
 dateplaner#:#help_properties_new#:#Tilf&oslash;jer et nyt n&oslash;gleord, max. 20 Karakterer
 dateplaner#:#help_properties_new_l#:#Tilf&oslash;jer et ny n&oslash;gleord til feltet \"ny\". Vigtigt: max. 20 Karakterer.
 dateplaner#:#help_properties_time#:#Visertid for dagoversigt/ugeoversigt
@@ -3695,19 +3639,19 @@ dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_shorttext#:#Kort tekst med max 50 karaktere
 dateplaner#:#help_shorttext_l#:#Her kan du skrive en lille tekst for en given dato.
 dateplaner#:#help_startdate#:#Startdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Indeholder starttidspunktet for en aftale <br> Dette symbol &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.###02 Aug 2005 content changed
+dateplaner#:#help_startdate_l#:#Indeholder starttidspunktet for en aftale <br> Dette symbol &aring;bner en lille kalender hvor man kan v&aelig;lge den rigtige dato.
 dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h formatet
-dateplaner#:#help_starttime_l#:#indeholder starttidspunktet af en aftale der bliver brugt 24h formatet.###02 Aug 2005 content changed
+dateplaner#:#help_starttime_l#:#indeholder starttidspunktet af en aftale der bliver brugt 24h formatet.
 dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#Her kan du skrive en given tekst.###02 Aug 2005 content changed
+dateplaner#:#help_text_l#:#Her kan du skrive en given tekst.
 dateplaner#:#help_week#:#Datoplanl&aelig;gger ugeoversigt.
-dateplaner#:#help_week_l#:#I ugeoversigten er alle datoer fra en given uge vist.###02 Aug 2005 content changed
+dateplaner#:#help_week_l#:#I ugeoversigten er alle datoer fra en given uge vist.
 dateplaner#:#hour#:#Time
-dateplaner#:#importDates#:#Importeret fra Microsoft outlook###02 Aug 2005 content changed
+dateplaner#:#importDates#:#Importeret fra Microsoft outlook
 dateplaner#:#inbox#:#Indbakke
-dateplaner#:#insertImportDates#:#Disse datoer er registreret:###02 Aug 2005 content changed
-dateplaner#:#k_alldates#:#alle datoer###02 Aug 2005 content changed
-dateplaner#:#keep#:#Behold###02 Aug 2005 content changed
+dateplaner#:#insertImportDates#:#Disse datoer er registreret:
+dateplaner#:#k_alldates#:#alle datoer
+dateplaner#:#keep#:#Behold
 dateplaner#:#keyword#:#N&oslash;gleord
 dateplaner#:#keywords#:#N&oslash;gleord
 dateplaner#:#last_change#:#Sidst &aelig;ndret
@@ -3723,36 +3667,36 @@ dateplaner#:#long_09#:#September###21 Apr 2005 new variable
 dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November###21 Apr 2005 new variable
 dateplaner#:#long_12#:#December###21 Apr 2005 new variable
-dateplaner#:#main_dates#:#Hoved datoer###02 Aug 2005 content changed
+dateplaner#:#main_dates#:#Hoved datoer
 dateplaner#:#menue#:#Menu###21 Apr 2005 new variable
-dateplaner#:#mmonth#:#sidste m&aring;ned###02 Aug 2005 content changed
-dateplaner#:#month#:#m&aring;ned###02 Aug 2005 content changed
-dateplaner#:#more#:#mere###02 Aug 2005 content changed
-dateplaner#:#mweek#:#sidste &aring;r###02 Aug 2005 content changed
-dateplaner#:#myeahr#:#sidste &aring;r###02 Aug 2005 content changed
-dateplaner#:#newDates#:#Nye datoer###02 Aug 2005 content changed
+dateplaner#:#mmonth#:#sidste m&aring;ned
+dateplaner#:#month#:#m&aring;ned
+dateplaner#:#more#:#mere
+dateplaner#:#mweek#:#sidste &aring;r
+dateplaner#:#myeahr#:#sidste &aring;r
+dateplaner#:#newDates#:#Nye datoer
 dateplaner#:#newKeyword#:#Ny
-dateplaner#:#new_doc#:#Opret ny dato###02 Aug 2005 content changed
-dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig###02 Aug 2005 content changed
-dateplaner#:#o_day_date#:#24 timers dag###02 Aug 2005 content changed
+dateplaner#:#new_doc#:#Opret ny dato
+dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig
+dateplaner#:#o_day_date#:#24 timers dag
 dateplaner#:#of#:#af
-dateplaner#:#open_day#:#vis dag###02 Aug 2005 content changed
-dateplaner#:#pmonth#:#n&aelig;ste m&aring;ned###02 Aug 2005 content changed
+dateplaner#:#open_day#:#vis dag
+dateplaner#:#pmonth#:#n&aelig;ste m&aring;ned
 dateplaner#:#printlist#:#print###21 Apr 2005 new variable
 dateplaner#:#properties#:#Egenskaber
-dateplaner#:#pweek#:#n&aelig;ste uge###02 Aug 2005 content changed
-dateplaner#:#pyear#:#n&aelig;ste &aring;r###02 Aug 2005 content changed
-dateplaner#:#r_14#:#hver 14 dag###02 Aug 2005 content changed
-dateplaner#:#r_4_weeks#:#hver 4 uge###02 Aug 2005 content changed
-dateplaner#:#r_day#:#hver dag###02 Aug 2005 content changed
-dateplaner#:#r_halfyear#:#hvert halve &aring;r###02 Aug 2005 content changed
-dateplaner#:#r_month#:#hver m&aring;ned###02 Aug 2005 content changed
+dateplaner#:#pweek#:#n&aelig;ste uge
+dateplaner#:#pyear#:#n&aelig;ste &aring;r
+dateplaner#:#r_14#:#hver 14 dag
+dateplaner#:#r_4_weeks#:#hver 4 uge
+dateplaner#:#r_day#:#hver dag
+dateplaner#:#r_halfyear#:#hvert halve &aring;r
+dateplaner#:#r_month#:#hver m&aring;ned
 dateplaner#:#r_nonrecurring#:#en gang
-dateplaner#:#r_week#:#hver uge###02 Aug 2005 content changed
-dateplaner#:#r_year#:#hvert &aring;r###02 Aug 2005 content changed
-dateplaner#:#readimportfile#:#inds&aelig;t###02 Aug 2005 content changed
+dateplaner#:#r_week#:#hver uge
+dateplaner#:#r_year#:#hvert &aring;r
+dateplaner#:#readimportfile#:#inds&aelig;t
 dateplaner#:#rotation#:#Rotation
-dateplaner#:#rotation_dates#:#Rotations Datoer###02 Aug 2005 content changed
+dateplaner#:#rotation_dates#:#Rotations Datoer
 dateplaner#:#semester_name#:#Semester Navn
 dateplaner#:#short_01#:#Jan###21 Apr 2005 new variable
 dateplaner#:#short_02#:#Feb###21 Apr 2005 new variable
@@ -3767,17 +3711,17 @@ dateplaner#:#short_10#:#Oct###21 Apr 2005 new variable
 dateplaner#:#short_11#:#Nov###21 Apr 2005 new variable
 dateplaner#:#short_12#:#Dec###21 Apr 2005 new variable
 dateplaner#:#shorttext#:#Kort Tekst
-dateplaner#:#singleDate#:#enkelt dato###02 Aug 2005 content changed
+dateplaner#:#singleDate#:#enkelt dato
 dateplaner#:#starttime_for_view#:#Starttid for visning:
 dateplaner#:#timedate#:#Tid / Dato
 dateplaner#:#timeslice#:#Tid:
 dateplaner#:#title#:#Ilias dato plan&aelig;gning
 dateplaner#:#to#:#til
-dateplaner#:#today#:#idag###02 Aug 2005 content changed
-dateplaner#:#viewlist#:#vis###02 Aug 2005 content changed
-dateplaner#:#week#:#uge###02 Aug 2005 content changed
+dateplaner#:#today#:#idag
+dateplaner#:#viewlist#:#vis
+dateplaner#:#week#:#uge
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
-dateplaner#:#year#:#&aring;r###02 Aug 2005 content changed
+dateplaner#:#year#:#&aring;r
 forum#:#forums#:#Forums###21 Apr 2005 new variable
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###21 Apr 2005 new variable
 forum#:#forums_attachments#:#Vedh&aelig;ftninger
@@ -4252,7 +4196,6 @@ meta#:#meta_index#:#Indeks
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Installations bem&aelig;rkning
 meta#:#meta_instructional_designer#:#instructional designer###20 Jun 2005 new variable
-meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#&oslash;nsket slut bruger role
 meta#:#meta_interactivity_level#:#Interaktiv level   
 meta#:#meta_interactivity_type#:#Interaktiv type
@@ -4799,7 +4742,7 @@ survey#:#before#:#f&oslash;r
 survey#:#browse_for_questions#:#Kig efter sp&oslash;rgsm&aring;l
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###21 Apr 2005 new variable
 survey#:#cannot_edit_survey#:#Du har ikke de rigtige rettighedder til at &aelig;ndre i sp&oslash;rgeskemaet!
-survey#:#cannot_export_questionpool#:#Du har ikke de rigtige rettighedder til at eksportere dette sp&oslash;rgeskemas sp&oslash;rgsm&aring;lsgruppe!###09 Aug 2005 content changed
+survey#:#cannot_export_questionpool#:#Du har ikke de rigtige rettighedder til at eksportere dette sp&oslash;rgeskemas sp&oslash;rgsm&aring;lsgruppe!
 survey#:#cannot_export_survey#:#Du har ikke de rigtige rettighedder til at eksportere sp&oslash;rgeskemaet!
 survey#:#cannot_maintain_survey#:#Du har ikke de rigtige rettighedder til at vedligeholde dette sp&oslash;rgeskema!
 survey#:#cannot_manage_phrases#:#Du har ikke de rigtige rettighedder til at bruge disse s&aelig;tninger!
@@ -4917,9 +4860,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Please fill out all requir
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###21 Apr 2005 new variable
 survey#:#filter#:#Filter###21 Apr 2005 new variable
 survey#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
-survey#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;lsgrupper###09 Aug 2005 content changed
+survey#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;lsgrupper
 survey#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
-survey#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;lsgrupper###09 Aug 2005 content changed
+survey#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;lsgrupper
 survey#:#found_questions#:#Fundne sp&oslash;rgsm&aring;l
 survey#:#geometric_mean#:#Geometric mean###21 Apr 2005 new variable
 survey#:#given_answers#:#Givet svar
