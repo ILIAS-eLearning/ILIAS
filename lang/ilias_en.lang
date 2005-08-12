@@ -460,9 +460,9 @@ assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_qst_order#:#Order
-assessment#:#tst_qst_resetsolved#:#Reset
+assessment#:#tst_qst_resetsolved#:#Set unsolved
 assessment#:#tst_qst_result_sheet#:#Show result sheet
-assessment#:#tst_qst_setsolved#:#Set Solved
+assessment#:#tst_qst_setsolved#:#Set solved
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
