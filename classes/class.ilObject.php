@@ -622,7 +622,9 @@ class ilObject
 			$res = $this->ilias->db->query("SELECT * FROM object_description WHERE obj_id = '".$this->getId()."'");
 			if($res->numRows())
 			{
-				$query = "UPDATE object_description SET description = '".ilUtil::prepareDBString($this->getLongDescription())."'";
+				$query = "UPDATE object_description SET description = '".
+					ilUtil::prepareDBString($this->getLongDescription())."' ".
+					"WHERE obj_id = '".$this->getId()."'";
 			}
 			else
 			{
@@ -913,7 +915,9 @@ class ilObject
 			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = '".$a_obj_id."'");
 			if($res->numRows())
 			{
-				$query = "UPDATE object_description SET description = '".ilUtil::prepareDBString($a_desc)."'";
+				$query = "UPDATE object_description SET description = '".
+					ilUtil::prepareDBString($a_desc)."' ".
+					"WHERE obj_id = '".$this->getId()."'";
 			}
 			else
 			{

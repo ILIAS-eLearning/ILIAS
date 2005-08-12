@@ -8409,3 +8409,5 @@ CREATE TABLE `ilinc_registration` (
 PRIMARY KEY ( `obj_id` ) ,
 INDEX ( `usr_id` )
 );
+<#518>
+DELETE FROM object_description;
