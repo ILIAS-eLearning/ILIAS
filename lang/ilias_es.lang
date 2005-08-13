@@ -458,9 +458,9 @@ assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
 assessment#:#tst_qst_order#:#Orden
-assessment#:#tst_qst_resetsolved#:#Reiniciar
+assessment#:#tst_qst_resetsolved#:#Reiniciar###13 Aug 2005 content changed
 assessment#:#tst_qst_result_sheet#:#Mostrar hoja de resultados
-assessment#:#tst_qst_setsolved#:#Poner como resuelta
+assessment#:#tst_qst_setsolved#:#Poner como resuelta###13 Aug 2005 content changed
 assessment#:#tst_qst_summary_text#:#Aquí puede ver todas las preguntas. Active las cajas para marcar una pregunta como resuelta.
 assessment#:#tst_question_no#:#Orden
 assessment#:#tst_question_offer#:#Acepta este ejemplo or quiere otro?

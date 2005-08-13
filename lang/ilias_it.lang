@@ -460,9 +460,9 @@ assessment#:#tst_print#:#Anteprima di stampa
 assessment#:#tst_print_date#:#Data di stampa
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_qst_order#:#Ordine
-assessment#:#tst_qst_resetsolved#:#Reset
+assessment#:#tst_qst_resetsolved#:#Reset###13 Aug 2005 content changed
 assessment#:#tst_qst_result_sheet#:#Mostra risultati
-assessment#:#tst_qst_setsolved#:#Indica risolto
+assessment#:#tst_qst_setsolved#:#Indica risolto###13 Aug 2005 content changed
 assessment#:#tst_qst_summary_text#:#Qui puoi vedere tutte le domande. Puoi segnare le domande risolte.
 assessment#:#tst_question_no#:#Ordine
 assessment#:#tst_question_offer#:#Va bene questo esempio o ne vuoi un altro?

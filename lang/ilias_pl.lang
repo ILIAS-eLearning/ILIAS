@@ -460,9 +460,9 @@ assessment#:#tst_print#:#Test i ocena - Podgląd wydruku
 assessment#:#tst_print_date#:#Data wydruku
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_qst_order#:#Porządek
-assessment#:#tst_qst_resetsolved#:#Przywróć
+assessment#:#tst_qst_resetsolved#:#Przywróć###13 Aug 2005 content changed
 assessment#:#tst_qst_result_sheet#:#Pokaż arkusz wyników
-assessment#:#tst_qst_setsolved#:#Ustaw rozwiązane
+assessment#:#tst_qst_setsolved#:#Ustaw rozwiązane###13 Aug 2005 content changed
 assessment#:#tst_qst_summary_text#:#tu zobaczysz wszystkie pytania. Użyj kropek do zaznaczenia pytania jako rozwiązanego.
 assessment#:#tst_question_no#:#Porządek
 assessment#:#tst_question_offer#:#Akceptujesz ten przykład czy chcesz inny?
