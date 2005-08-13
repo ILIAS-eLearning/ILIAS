@@ -458,9 +458,9 @@ assessment#:#tst_print#:#Тест & Оцінювання Огляд Перед �
 assessment#:#tst_print_date#:#Дата Друку
 assessment#:#tst_processing_time#:#Максимальний час роботи
 assessment#:#tst_qst_order#:#Черга
-assessment#:#tst_qst_resetsolved#:#Скинути
+assessment#:#tst_qst_resetsolved#:#Скинути###13 Aug 2005 content changed
 assessment#:#tst_qst_result_sheet#:#Показати сторінку з відповіддю
-assessment#:#tst_qst_setsolved#:#Встановити Розв'язаним
+assessment#:#tst_qst_setsolved#:#Встановити Розв'язаним###13 Aug 2005 content changed
 assessment#:#tst_qst_summary_text#:#Тут ви можете побачити усі питання. Використовуйте лампочку щоб помітити питання як розв'язане.
 assessment#:#tst_question_no#:#Порядок
 assessment#:#tst_question_offer#:#Ви приймаєте цей приклад чи бажаєте інший?

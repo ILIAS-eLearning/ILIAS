@@ -459,9 +459,9 @@ assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
 assessment#:#tst_qst_order#:#Reihenfolge
-assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
+assessment#:#tst_qst_resetsolved#:#markiere als ungelöst###13 Aug 2005 content changed
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
-assessment#:#tst_qst_setsolved#:#markiere als gelöst
+assessment#:#tst_qst_setsolved#:#markiere als gelöst###13 Aug 2005 content changed
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
