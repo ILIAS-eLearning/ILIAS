@@ -75,7 +75,7 @@ function loginPage()
     {
         $tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
     }
-	$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
+	$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 	$tpl->setVariable("USERNAME", base64_decode($_GET["user"]));
 	$tpl->setVariable("PASSWORD", base64_decode($_GET["pass"]));
 
