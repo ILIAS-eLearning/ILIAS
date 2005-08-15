@@ -435,16 +435,16 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 	}
 }
 
-// php5 downward complaince to php 4 dom xml
+// php5 downward complaince to php 4 dom xml and clone method
 if (version_compare(PHP_VERSION,'5','>='))
 {
 	require_once("include/inc.xml5compliance.php");
-}
-
-// php5 downward complaince to php 4 sablotorn xslt
-if (version_compare(PHP_VERSION,'5','>='))
-{
 	require_once("include/inc.xsl5compliance.php");
+	require_once("include/inc.php4compliance.php");
+}
+else
+{
+	require_once("include/inc.php5compliance.php");
 }
 
 // provide global browser information
