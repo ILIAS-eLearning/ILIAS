@@ -59,7 +59,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$rpc_settings =& new ilRPCServerSettings();
 
-		if(!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
