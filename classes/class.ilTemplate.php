@@ -207,12 +207,16 @@ class ilTemplate extends ilTemplateX
 				$this->setVariable("MEMORY_USAGE",
 					", Memory Usage: ".memory_get_usage()." Bytes");
 			}
-			$this->setVariable("VALIDATION_LINKS",
-				'<br><a href="'.
-				ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml").
-				'">Validate</a> | <a href="'.
-				ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
-				'">Accessibility</a>');
+			
+			if (version_compare(PHP_VERSION,'5','>='))
+			{
+				$this->setVariable("VALIDATION_LINKS",
+					'<br /><a href="'.
+					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml").
+					'">Validate</a> | <a href="'.
+					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
+					'">Accessibility</a>');
+			}
 
 			if (!empty($_GET["do_dev_validate"]))
 			{
