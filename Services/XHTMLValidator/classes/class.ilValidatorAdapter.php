@@ -37,7 +37,7 @@ require_once './Services/XHTMLValidator/validator/validator.inc';
 class ilValidatorAdapter
 {
 	
-	function validate($a_html)
+	function validate($a_html, $a_mode)
 	{
 		// while php 5.1 isn't released we must keep compatibility with php 5.0
 		if (!defined('UPLOAD_ERR_CANT_WRITE'))
@@ -78,8 +78,13 @@ class ilValidatorAdapter
 		/****************** START OF THE VALIDATOR ITSELF *******************/
 		
 		// output: html/xhtml/xml, accessibility-check: 0-3
-		$validator = new validator(array("charset" => "utf8",
-			"accessibility-check" => 3));
+		$options = array();
+		$options["charset"] = "utf8";
+		if ($a_mode == "accessibility")
+		{
+			$options["accessibility-check"] = 3;
+		}
+		$validator = new validator($options);
 		
 		//$result = $validator->parse_url((string)$_REQUEST['url']);
 		$result = $validator->parse_string($a_html);
