@@ -23,7 +23,7 @@
 
 class ilPHP
 {
-	cloneObject($a_object)
+	function cloneObject($a_object)
 	{
 		$new_object = $a_object;
 		return $new_object;
