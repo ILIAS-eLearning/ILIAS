@@ -121,10 +121,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 			if (!ilPageEditorGUI::_doJSEditing())
 			{
-				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setCurrentBlock("bb_ilink_button");
 				$this->tpl->setVariable("BB_LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -141,8 +142,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		else
 		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
+				ilUtil::getStyleSheetLocation());
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(0));
+			if (!ilPageEditorGUI::_doJSEditing())
+			{
+				$this->tpl->touchBlock("bb_buttons");
+			}
 		}
 
 		$this->displayValidationError();
@@ -269,10 +276,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 			if (!ilPageEditorGUI::_doJSEditing())
 			{
-				$this->tpl->setCurrentBlock("bb_buttons");
+				$this->tpl->setCurrentBlock("bb_ilink_button");
 				$this->tpl->setVariable("BB_LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("BB_TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("bb_buttons");
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -287,8 +296,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		else
 		{
+			$this->tpl->setVariable("LOCATION_STYLESHEET_HTMLAREA",
+				ilUtil::getStyleSheetLocation());
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(0));
+			if (!ilPageEditorGUI::_doJSEditing())
+			{
+				$this->tpl->touchBlock("bb_buttons");
+			}
 		}
 		
 		$this->displayValidationError();

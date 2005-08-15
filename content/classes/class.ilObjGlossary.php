@@ -428,12 +428,12 @@ class ilObjGlossary extends ilObject
 			if (!@is_dir($dir) or
 				!is_writeable($dir))
 			{
-				return array();
+				continue;
 			}
-	
+
 			// open directory
 			$h_dir = dir($dir);
-	
+
 			// get files and save the in the array
 			while ($entry = $h_dir->read())
 			{
@@ -720,6 +720,22 @@ class ilObjGlossary extends ilObject
 		}
 	}
 
+	/**
+	* export file object
+	*/
+	function exportHTMLFile($a_target_dir, $a_file_id)
+	{
+		$file_dir = $a_target_dir."/files/file_".$a_file_id;
+		ilUtil::makeDir($file_dir);
+		include_once("classes/class.ilObjFile.php");
+		$file_obj = new ilObjFile($a_file_id, false);
+		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
+		if (!is_file($source_file))
+		{
+			$source_file = $file_obj->getDirectory()."/".$file_obj->getFileName();
+		}
+		copy($source_file, $file_dir."/".$file_obj->getFileName());
+	}
 
 
 	/**

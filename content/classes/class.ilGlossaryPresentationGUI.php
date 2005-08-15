@@ -426,16 +426,23 @@ class ilGlossaryPresentationGUI
 			$link_xml = $this->getLinkXML($int_links);
 			$page_gui->setLinkXML($link_xml);
 
-			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
-			$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen".
-				"&amp;ref_id=".$_GET["ref_id"]."&amp;def_id=".$def["id"]);
+			if ($this->offlineMode())
+			{
+				$page_gui->setOutputMode("offline");
+			}
+			$page_gui->setSourcecodeDownloadScript($this->getLink($_GET["ref_id"]));
+			$page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen", $_GET["term_id"], $def["id"]));
 
-			//$page_gui->setOutputMode("edit");
-			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
-			$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
-					"&amp;ref_id=".$_GET["ref_id"]);
-			$output = $page_gui->preview();
+			$page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+			if (!$this->offlineMode())
+			{
+				$output = $page_gui->preview();
+			}
+			else
+			{
+				$output = $page_gui->presentation($page_gui->getOutputMode());
+			}
 
 			if (count($defs) > 1)
 			{
@@ -445,43 +452,15 @@ class ilGlossaryPresentationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			/*
-			if ($j > 0)
-			{
-				$this->tpl->setCurrentBlock("up");
-				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
-				$this->tpl->setVariable("LINK_UP",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]."&offset=".$_GET["offset"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($j+1 < count($defs))
-			{
-				$this->tpl->setCurrentBlock("down");
-				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
-				$this->tpl->setVariable("LINK_DOWN",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]."&offset=".$_GET["offset"]);
-				$this->tpl->parseCurrentBlock();
-			}*/
-
 			$this->tpl->setCurrentBlock("definition");
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
-			/*$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("LINK_EDIT",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]."&offset=".$_GET["offset"]);
-			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("LINK_DELETE",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]."&offset=".$_GET["offset"]);
-				*/
 			$this->tpl->parseCurrentBlock();
 		}
-		//$this->tpl->setCurrentBlock("def_list");
-		//$this->tpl->parseCurrentBlock();
 		
 		// display possible backlinks
 		$sources = ilInternalLink::_getSourcesOfTarget('git',$_GET['term_id'],0);
 		
-		if ($sources)
+		if ($sources && false)
 		{
 			$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
 			
@@ -874,6 +853,84 @@ class ilGlossaryPresentationGUI
 		return $link_info;
 	}
 
+
+	/**
+	* handles links for learning module presentation
+	*/
+	function getLink($a_ref_id, $a_cmd = "", $a_term_id = "", $a_def_id = "",
+		$a_frame = "", $a_type = "")
+	{
+		if ($a_cmd == "")
+		{
+			$a_cmd = "layout";
+		}
+		$script = "glossary_presentation.php";
+		
+		// handle online links
+		if (!$this->offlineMode())
+		{
+			$link = $script."?ref_id=".$a_ref_id;
+			switch ($a_cmd)
+			{
+				case "fullscreen":
+					$link.= "&amp;cmd=fullscreen&amp;def_id=".$a_def_id;
+					break;
+				
+				default:
+					$link.= "&amp;cmd=".$a_cmd;
+					if ($a_frame != "")
+					{
+						$link.= "&amp;frame=".$a_frame;
+					}
+					if ($a_obj_id != "")
+					{
+						switch ($a_type)
+						{
+							case "MediaObject":
+								$link.= "&amp;mob_id=".$a_obj_id;
+								break;
+								
+							default:
+								$link.= "&amp;def_id=".$a_def_id;
+								break;
+						}
+					}
+					if ($a_type != "")
+					{
+						$link.= "&amp;obj_type=".$a_type;
+					}
+					break;
+			}
+		}
+		else	// handle offline links
+		{
+			switch ($a_cmd)
+			{
+				case "downloadFile":
+					break;
+					
+				case "fullscreen":
+					$link = "fullscreen.html";		// id is handled by xslt
+					break;
+					
+				case "layout":
+					break;
+					
+				case "glossary":
+				$link = "term_".$a_obj_id.".html";
+					break;
+				
+				case "media":
+					$link = "media_".$a_obj_id.".html";
+					break;
+					
+				default:
+					break;
+			}
+		}
+		
+		return $link;
+	}
 
 
 	/**
