@@ -810,6 +810,19 @@ span.il_Helptext {
 	color:red;
 }
 
+div.Warning {
+	text-decoration:none;
+	font-weight:bold;
+	color:red;
+}
+
+div.Access {
+	text-decoration:none;
+	font-weight:bold;
+	text-decoration:underline;
+	color:red;
+}
+
 .asterisk {
 	color:red;
 	font-size:11px;
