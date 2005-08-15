@@ -197,6 +197,7 @@
 						<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
 						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+						<xsl:attribute name="target">_new</xsl:attribute>
 					</xsl:for-each>
 				</area>
 			</xsl:for-each>
