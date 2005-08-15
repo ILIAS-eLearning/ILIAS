@@ -1,0 +1,53 @@
+   _   _         _  _      _         _                
+  | | | |       | |(_)    | |       | |               
+  | | | |  __ _ | | _   __| |  __ _ | |_   ___   _ __ 
+  | | | | / _` || || | / _` | / _` || __| / _ \ | '__|
+  \ \_/ /| (_| || || || (_| || (_| || |_ | (_) || |   
+   \___/  \__,_||_||_| \__,_| \__,_| \__| \___/ |_|   
+
+          «« http://validator.aborla.net »»
+
+The Aborla.net Validator is released under the LGPL license.
+
+
+This HTML/XHTML/XML validator is based on Tidy (http://tidy.sf.net)
+and *only* works on PHP 5.
+
+In order to use this software, you need to have PHP 5 compiled with:
+ * Tidy (1st June 2004 or newer)
+ * OpenSSL (to use the 'https://' wrapper)
+ * iconv (for UTF-8 translations)
+ * aspell 0.60.x or newer (for spell checking)
+ * xdiff (optional)
+
+Note: It's recommended the use of PHP >= 5.0.2.
+Note 2: PHP 5.1.0 is required to enable spell checking
+
+All code runs with no errors with E_ALL | E_STRICT and was tested
+with PHP 5.1-dev.
+
+This program uses the Text_Diff PEAR package (bundled).
+This bundled version was modified to be fully PHP 5 compliance. This
+package allows us to generate diffs when xdiff isn't avaliable,
+althought Text_Diff will use it when avaliable.
+
+The code isn't finished because tidylib itself isn't finished. The
+tidylib still contains a couple of bugs and the messages aren't
+still localized.
+
+------------------------------------------------------------------
+
+FAQ
+===
+Q: My language isn't avaliable. Can I translate?
+
+A: Sure! enter in the local folder and then copy the en.inc file to
+ your_lang.inc. Then translate all info there. After translating the
+ file, post it in our tracker or send it to our mailling list.
+
+  NOTE: the file should be encoded in UTF-8 (without BOM)
+
+-------------------------------------------------------------------
+
+
+Visit our tracker at: http://sourceforge.net/tracker/?group_id=143995
