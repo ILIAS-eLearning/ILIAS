@@ -367,7 +367,8 @@ class php4DOMNode
 		// sometimes the node to unlink is passed
 		if (!is_object($aDomNode))
 		{
-			$aDomNode =& $this;
+			//$aDomNode =& $this;
+			$aDomNode = $this;
 		}
 
 		$parent =& $aDomNode->myDOMNode->parentNode;

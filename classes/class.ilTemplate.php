@@ -207,6 +207,22 @@ class ilTemplate extends ilTemplateX
 				$this->setVariable("MEMORY_USAGE",
 					", Memory Usage: ".memory_get_usage()." Bytes");
 			}
+			if (empty($_GET["do_dev_validate"]))
+			{
+				$this->setVariable("VALIDATION_LINKS",
+					'<br><a href="'.
+					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=1").
+					'">Validate</a>');
+			}
+			else
+			{
+				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
+				$template2 = ilPHP::cloneObject($this);
+				$this->setCurrentBlock("xhtml_validation");
+				$this->setVariable("VALIDATION",
+					ilValidatorAdapter::validate($template2->get()));
+				$this->parseCurrentBlock();
+			}
 		}
 	}
 
