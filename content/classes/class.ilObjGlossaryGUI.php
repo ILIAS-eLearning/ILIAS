@@ -833,7 +833,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$export_dir = $this->object->getExportDirectory();
 
 		$export_files = $this->object->getExportFiles();
-
+		
 		// create table
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
