@@ -1,0 +1,12 @@
+TODO
+====
+
+Currently there is a lot to do:
+ * help the tidy project to localize the error messages
+ * translate our own messages (in the 'local' folder)
+ * Try to figure out if the current design is ok, and if not
+  change it. We can also add more options in how to display
+  the errors/html
+ * Include a link checker (locked to x levels deeper)
+ * Implement the display of the document parse tree, if
+  requested
