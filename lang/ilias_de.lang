@@ -2726,7 +2726,7 @@ common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
-common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um in ILIAS zu gelangen.
+common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
 common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzeraccount muß noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
