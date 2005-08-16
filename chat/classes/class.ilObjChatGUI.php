@@ -295,6 +295,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function viewObject()
 	{
+
 		// Check blocked
 		include_once 'chat/classes/class.ilChatBlockedUsers.php';
 
@@ -333,8 +334,13 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 
 		// SHOW ROOMS TABLE
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_chat.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_chat'));
+		$this->tpl->setVariable("TITLE",$this->lng->txt('chat_rooms'));
+								
+
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
+		#$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
 
 		$counter = 0;
 
@@ -432,24 +438,28 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		if(!isset($_POST["del_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("chat_select_one_room"));
+			$this->viewObject();
+			
+			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html","chat");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("chat_room_name"));
-		$this->tpl->setVariable("ROOM_CANCEL",$this->lng->txt("cancel"));
-	
 		switch($_POST["action"])
 		{
 			case "renameRoom":
 				if(count($_POST["del_id"]) > 1)
 				{
-					$this->ilias->raiseError($this->lng->txt("chat_select_one_room"),$this->ilias->error_obj->MESSAGE);
+					sendInfo($this->lng->txt("chat_select_one_room"));
+					$this->viewObject();
+
+					return false;
 				}
 				if(in_array(0,$_POST["del_id"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("chat_no_rename_public"),$this->ilias->error_obj->MESSAGE);
+					sendInfo($this->lng->txt("chat_no_rename_public"));
+					$this->viewObject();
+
+					return false;
 				}
 
 				// STORE ID IN SESSION
@@ -458,6 +468,10 @@ class ilObjChatGUI extends ilObjectGUI
 				$room =& new ilChatRoom($this->ref_id);
 				$room->setRoomId($_SESSION["room_id_rename"]);
 
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html","chat");
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("chat_room_name"));
+				$this->tpl->setVariable("ROOM_CANCEL",$this->lng->txt("cancel"));
 				$this->tpl->setVariable("TXT_EDIT_CHATROOMS",$this->lng->txt("chat_chatroom_rename"));
 				$this->tpl->setVariable("ROOM_NAME",$room->getTitle());
 				$this->tpl->setVariable("CMD","renameRoom");
@@ -467,20 +481,29 @@ class ilObjChatGUI extends ilObjectGUI
 			case "deleteRoom":
 				if(in_array(0,$_POST["del_id"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("chat_no_delete_public"),$this->ilias->error_obj->MESSAGE);
+					sendInfo($this->lng->txt("chat_no_delete_public"));
+					$this->viewObject();
+
+					return false;
 				}
 				$_SESSION["room_id_delete"] = $_POST["del_id"];
-				$this->ctrl->redirect($this);
+				$this->viewObject();
+
+				return true;
+
 
 			case "exportRoom":
 				$this->__exportRooms();
 				break;
 
 			case "refreshRoom":
-				#if(in_array(0,$_POST["del_id"]))
-				#{
-				#	$this->ilias->raiseError($this->lng->txt("chat_no_refresh_public"),$this->ilias->error_obj->MESSAGE);
-				#}
+				if(in_array(0,$_POST["del_id"]) and !$rbacsystem->checkAccess('write',$this->object->getRefId()))
+				{
+					sendInfo($this->lng->txt("chat_no_refresh_public"));
+					$this->viewObject();
+
+					return true;
+				}
 				foreach($_POST["del_id"] as $room_id)
 				{
 					$this->object->chat_room->setRoomId($room_id);
@@ -488,8 +511,10 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->object->server_comm->send();
 					$this->object->chat_room->deleteAllMessages();
 				}
-				sendInfo($this->lng->txt('chat_refreshed'),true);
-				$this->ctrl->redirect($this);
+				sendInfo($this->lng->txt('chat_refreshed'));
+				$this->viewObject();
+
+				return true;
 		}	
 		
 	}
@@ -561,10 +586,10 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		unset($_SESSION["room_id_delete"]);
-		sendInfo($this->lng->txt("chat_rooms_deleted"),true);
+		sendInfo($this->lng->txt("chat_rooms_deleted"));
 
-		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
-		exit;
+		$this->viewObject();
+		return true;
 	}
 
 	function addRoom()
@@ -606,10 +631,12 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		$room->add();
+		sendInfo($this->lng->txt("chat_room_added"));
+		$this->viewObject();
 
-		sendInfo("chat_room_added");
-		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
-		exit;
+		return true;
+		#header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
+		#exit;
 	}
 
 	function renameRoomObject()
@@ -631,9 +658,10 @@ class ilObjChatGUI extends ilObjectGUI
 		$room->rename();
 
 		unset($_SESSION["room_id_rename"]);
-		sendInfo("chat_room_renamed");
-		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
-		exit;
+		sendInfo($this->lng->txt("chat_room_renamed"));
+		$this->viewObject();
+
+		return true;
 	}		
 		
 
@@ -647,7 +675,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html","chat");
-		$this->tpl->setVariable("FORMACTION",$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ROOM_NAME",$this->lng->txt("chat_room_name"));
 		$this->tpl->setVariable("ROOM_CANCEL",$this->lng->txt("cancel"));
 	
@@ -1382,20 +1410,20 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function __showAdminRoomSelect()
 	{
+		global $rbacsystem;
+
+		$opt["exportRoom"] = $this->lng->txt("chat_html_export");
+
+		if($rbacsystem->checkAccess('write',$this->object->getRefId()) or
+		   count($this->object->chat_room->getRoomsOfObject()))
+		{
+			$opt["refreshRoom"] = $this->lng->txt("chat_refresh");
+		}
+		
 		if(count($this->object->chat_room->getRoomsOfObject()))
 		{
-			$opt = array("renameRoom" => $this->lng->txt("rename"),
-						 "refreshRoom" => $this->lng->txt("chat_refresh"),
-						 "exportRoom" => $this->lng->txt("chat_html_export"),
-						 "deleteRoom" => $this->lng->txt("delete"));
-		}
-		else
-		{
-			$opt = array("exportRoom" => $this->lng->txt("chat_html_export"));
-		}
-		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
-		{
-			unset($opt["refreshRoom"]);
+			$opt["renameRoom"] = $this->lng->txt("rename");
+			$opt["deleteRoom"] = $this->lng->txt("delete");
 		}
 		return ilUtil::formSelect(isset($_SESSION["room_id_delete"]) ? "deleteRoom" : "",
 								  "action",

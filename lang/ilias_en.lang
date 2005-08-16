@@ -688,7 +688,7 @@ chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Cannot contact chat server.
 chat#:#chat_no_delete_public#:#The public chat room cannot be deleted
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.
-chat#:#chat_no_refresh_public#:#the public chat room cannot be refreshed.
+chat#:#chat_no_refresh_public#:#The public chat room cannot be refreshed.
 chat#:#chat_no_rename_public#:#The public room cannot be renamed
 chat#:#chat_no_users_selected#:#You have to select one user.
 chat#:#chat_no_write_perm#:#No permission to write
