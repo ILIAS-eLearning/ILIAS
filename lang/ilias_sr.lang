@@ -2036,7 +2036,7 @@ common#:#normal#:#Standardno
 common#:#not_accessed#:#Nije pristupljeno
 common#:#not_implemented_yet#:#Još uvek nije primenjeno
 common#:#not_installed#:#Nije instalirano
-common#:#not_logged_in#:#Niste se prijavili
+common#:#not_logged_in#:#Niste se prijavili###16 Aug 2005 content changed
 common#:#num_users#:#Broj korisnika
 common#:#number_of_accesses#:#Broj pristupa
 common#:#number_of_records#:#Broj zapisa

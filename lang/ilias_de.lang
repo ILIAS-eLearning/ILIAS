@@ -2117,7 +2117,7 @@ common#:#normal#:#Normal
 common#:#not_accessed#:#Noch nicht aufgerufen
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
-common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#not_logged_in#:#Sie sind nicht eingeloggt###16 Aug 2005 content changed
 common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge

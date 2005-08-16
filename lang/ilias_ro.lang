@@ -382,7 +382,6 @@ assessment#:#true#:#Adevarat
 assessment#:#tst_all_user_data_deleted#:#Toate datele despre utilizator din acest test au foat sterse!
 assessment#:#tst_already_submitted#:#Testul a fost deja terminat si submis
 assessment#:#tst_already_taken#:#Teste deja completate
-assessment#:#tst_anon_eval#:#Rezultate colective anonime
 assessment#:#tst_answer_sheet#:#Pagina cu raspunsurile testului
 assessment#:#tst_browse_for_questions#:#Cautati intrebari
 assessment#:#tst_confirm_delete_results#:#Sunteti pe cale de a sterge toate raspunsurile la intrebarile din acest test. Acest lucru va reseta valorile intrebarilor la stadiul initial. Trebuie sa stiti ca nu puteti reseta numarul de incercari disponibile pentru acest test. Sunteti sigur/a ca doriti sa anulati toate raspunsurile deja date?
@@ -498,7 +497,6 @@ assessment#:#tst_stat_result_timeofwork#:#Timpul de munca
 assessment#:#tst_stat_result_total_participants#:#Numarul total de participanti
 assessment#:#tst_stat_selected_users#:#Participantii selectati
 assessment#:#tst_stat_users_intro#:#Aratati evaluarea statistica pentru
-assessment#:#tst_statistical_evaluation#:#Evaluarea statistica
 assessment#:#tst_status_completed#:#completate
 assessment#:#tst_status_completed_more_tries_possible#:#Completate
 assessment#:#tst_status_missing#:#Exista cerinte necompletate in acest test!
@@ -533,7 +531,6 @@ assessment#:#uploaded_material#:#Materiale incarcate
 assessment#:#user_not_invited#:#Nu trebuie sa dati acest examen
 assessment#:#user_wrong_clientip#:#Nu aveti adresa IP corecta pentru acest test
 assessment#:#warning_question_not_complete#:#Intrebarea nu este completa!
-assessment#:#warning_test_not_complete#:#Testul nu este complet!
 assessment#:#when#:#cand
 assessment#:#width#:#Latime
 assessment#:#with_order#:#in ordine
@@ -780,7 +777,6 @@ common#:#auth_ldap_not_configured#:#LDAP nu este inca configurat
 common#:#auth_local#:#baza de date ILIAS
 common#:#auth_local_desc#:#Autentificati utilizatori prin baza de date locala ILIAS (implicit)
 common#:#auth_mode#:#Mod de Autentificare
-common#:#auth_mode_changed_to#:#Mod de Autentificare schimbat in
 common#:#auth_mode_not_changed#:#(Nimic schimbat)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Autentificare prin server RADIUS
@@ -1507,7 +1503,6 @@ common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Suedeza
 common#:#lang_timeformat#:#H:M:S
-common#:#lang_ua#:#Ucrainiana
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnameza
 common#:#lang_xx#:#Custom
@@ -1829,7 +1824,7 @@ common#:#none#:#Nici unul
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#Inca neimplementat
 common#:#not_installed#:#Neinstalat
-common#:#not_logged_in#:#Nu sunteti logat
+common#:#not_logged_in#:#Nu sunteti logat###16 Aug 2005 content changed
 common#:#number_of_accesses#:#Numarul de accesari
 common#:#number_of_records#:#Numar de inregistrari
 common#:#obj#:#Obiect
@@ -3232,7 +3227,6 @@ dateplaner#:#viewlist#:#vizualizare
 dateplaner#:#week#:#saptamana
 dateplaner#:#year#:#an
 forum#:#forums#:#Forumuri
-forum#:#forums_articles#:#Articole
 forum#:#forums_attachments#:#Fisiere atasate
 forum#:#forums_attachments_add#:#Adauga fisiere atasate
 forum#:#forums_attachments_edit#:#Editeaza fisierul atasat
@@ -3247,10 +3241,7 @@ forum#:#forums_edit_post#:#Editeaza Articolul
 forum#:#forums_info_censor2_post#:#Revoc Cenzura?
 forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_delete_post#:#Sunteti sigur/a ca doriti sa stergeti acest articol inclusiv raspunsurile?
-forum#:#forums_last_post#:#Ultimul Articol
 forum#:#forums_mark_read#:#Marcheaza toate ca citite
-forum#:#forums_moderators#:#Moderatori
-forum#:#forums_new_articles#:#Articole noi
 forum#:#forums_new_entries#:#Intrari noi in forumuri
 forum#:#forums_new_thread#:#Subiect nou
 forum#:#forums_not_available#:#Nu exista forumuri disponibile
@@ -3271,7 +3262,6 @@ forum#:#forums_thread_create_date#:#Creat la
 forum#:#forums_thread_create_from#:#Creat din
 forum#:#forums_thread_marked#:#Subiectul a fost marcat drept citit.
 forum#:#forums_thread_new_entry#:#Subiect nou creat
-forum#:#forums_threads#:#Subiecte
 forum#:#forums_threads_not_available#:#Nu exista subiecte disponibile
 forum#:#forums_topics_overview#:#Vedere de ansamblu a subiectelor
 forum#:#forums_your_reply#:#Raspunsul dumneavoastra
@@ -4237,7 +4227,6 @@ survey#:#continue#:#Continuati >>
 survey#:#create_date#:#Creat
 survey#:#create_new#:#Creati nou
 survey#:#create_questionpool_before_add_question#:#Trebuie sa creati cel putin o baza de intrebari pentru a stoca intrebarile!
-survey#:#csv#:#Valori separate prin virgula (CSV)
 survey#:#dc_agree#:#de acord
 survey#:#dc_always#:#intotdeauna
 survey#:#dc_definitelyfalse#:#sigur fals
@@ -4317,7 +4306,6 @@ survey#:#error_retrieving_anonymous_survey#:#Sistemul nu a putut gasi datele des
 survey#:#eval_legend_link#:#Va rugam verificati legenda pentru a afla intelesul simbolurilor de la capatul coloanei.
 survey#:#evaluation#:#Evaluare
 survey#:#evaluation_access#:#Acces la evaluare
-survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Iesire
 survey#:#export_data_as#:#Exportati datele ca
 survey#:#fill_out_all_category_fields#:#Va rugam completati toate campurile de categorii inainte de a mai adauga altele!
@@ -4330,7 +4318,6 @@ survey#:#filter_all_question_types#:#Toate tipurile de intrebari
 survey#:#filter_all_questionpools#:#Toate bazele de intrebari
 survey#:#filter_show_question_types#:#Aratati tipurile de intrebari
 survey#:#filter_show_questionpools#:#Aratati bazele de intrebari
-survey#:#finished#:#completat
 survey#:#found_questions#:#Intrebari gasite
 survey#:#geometric_mean#:#Media geometrica
 survey#:#given_answers#:#Raspunsuri date
@@ -4392,8 +4379,6 @@ survey#:#no_user_or_group_selected#:#Va rugam selectati optiunea cautata (utiliz
 survey#:#no_user_phrases_defined#:#Nu exista fraze definite de utilizator disponibile!
 survey#:#nominal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#non_ratio#:#Non-Ratie
-survey#:#not_finished#:#necomlpetat
-survey#:#not_started#:#neinceput
 survey#:#not_used#:#nefolosit
 survey#:#obligatory#:#obligatoriu
 survey#:#off#:#oprit
@@ -4536,4 +4521,3 @@ survey#:#view_constraints_introduction#:#Vedeti restrictionarile pentru urmatoar
 survey#:#view_phrase#:#Vedeti fraza
 survey#:#warning_question_in_use#:#Avertisment! Intreberea pe care doriti sa o editati este folosita de sondajele de mai jos. Daca decideti sa continuati si salvati/aplicati intrebarea, toate raspunsurile din sondajele de mai jos vor fi sterse. Daca doriti sa schimbati intrebarea si sa o folositi intr-un alt sondaj va rugam duplicati-o in browser-ul de intrebari pentru a crea o copie a acestei intrebari.
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
-survey#:#warning_survey_not_complete#:#Sondajul nu este complet!

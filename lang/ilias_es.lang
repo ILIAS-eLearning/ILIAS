@@ -2114,7 +2114,7 @@ common#:#normal#:#normal
 common#:#not_accessed#:#No accedido
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
-common#:#not_logged_in#:#No está identificado
+common#:#not_logged_in#:#No está identificado###16 Aug 2005 content changed
 common#:#num_users#:#Número de usuarios
 common#:#number_of_accesses#:#Número de accesos
 common#:#number_of_records#:#Número de registros

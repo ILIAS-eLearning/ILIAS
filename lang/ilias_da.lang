@@ -2004,7 +2004,7 @@ common#:#normal#:#Normal###21 Apr 2005 new variable
 common#:#not_accessed#:#Not accessed###21 Apr 2005 new variable
 common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
-common#:#not_logged_in#:#Du er ikke logget ind
+common#:#not_logged_in#:#Du er ikke logget ind###16 Aug 2005 content changed
 common#:#num_users#:#Number of users###21 Apr 2005 new variable
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data
