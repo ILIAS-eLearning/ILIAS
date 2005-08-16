@@ -580,7 +580,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$id = $answer->getDefinitionId()."_".$answer->getTermId();
 				$repl_str = "dummy=\"solution_match".$id."\"";
 				$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);				
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id" . "[^\d].*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 												
 				if ($show_solution_only) {
 					//$regexp = "/<select name=\"solution_match_$idx\">.*?<option[^>]*dummy=\"solution_match$id\">(.*?)<\/option>.*?<\/select>/";

@@ -5535,7 +5535,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getTestType() != TYPE_ONLINE_TEST) 
 		{
 			// allow only read and write access
-			sendInfo($this->lng->txt("wrong_test_type"), true);
+			sendInfo($this->lng->txt("tst_must_be_online_exam"), false);
 			return;
 		}
 		
