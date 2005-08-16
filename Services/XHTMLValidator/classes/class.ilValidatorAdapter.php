@@ -60,15 +60,16 @@ class ilValidatorAdapter
 		} else {
 			$redir = true;
 		}
-		
+
+		/*
 		if (empty($_COOKIE['lang']) || $lang != $_COOKIE['lang']) {
 			setcookie('lang', $lang, time()+60*60*24*90, '/', 'validator.aborla.net');
-		}
-		
+		}*/
+
 		//output_add_rewrite_var('lang', $lang);
 		
 		require './Services/XHTMLValidator/validator/local/en.inc'; // fallback for not translated messages
-		
+
 		//if ($lang != 'en')
 		//	require "./local/$lang.inc"; //load localized messages
 		
@@ -84,15 +85,15 @@ class ilValidatorAdapter
 		{
 			$options["accessibility-check"] = 3;
 		}
+
 		$validator = new validator($options);
 		
 		//$result = $validator->parse_url((string)$_REQUEST['url']);
 		$result = $validator->parse_string($a_html);
 		
-		
 		/* no fatal errors. continue */
 		if ($result){
-		
+
 			if ($validator->internal_error()) {
 				$answer.= "<p>$message[13]:<br />\n";
 				$answer.= nl2br($validator->internal_errors_string()) . "</p>\n";

@@ -217,10 +217,11 @@ class ilTemplate extends ilTemplateX
 					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
 					'">Accessibility</a>');
 			}
-
+			
 			if (!empty($_GET["do_dev_validate"]))
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
+
 				$template2 = ilPHP::cloneObject($this);
 				$this->setCurrentBlock("xhtml_validation");
 				$this->setVariable("VALIDATION",
