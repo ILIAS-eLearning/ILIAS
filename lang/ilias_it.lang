@@ -2116,7 +2116,7 @@ common#:#normal#:#Normale
 common#:#not_accessed#:#Non entrato
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
-common#:#not_logged_in#:#Non sei entrato in ILIAS 3
+common#:#not_logged_in#:#Non sei entrato in ILIAS 3###16 Aug 2005 content changed
 common#:#num_users#:#Numero di utenti
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
