@@ -225,14 +225,17 @@ class validator {
         unset($this->config['charset'], $this->config['output'], $this->config['spellcheck']);
 
         // store the html for later use (as UTF-8)
-        $this->html = @iconv($this->readable_charset(), 'UTF-8//IGNORE', $html);
+		// removed unnecessary conversion
+        //$this->html = iconv($this->readable_charset(), 'UTF-8//IGNORE', $html);
+		$this->html = $html;
 
         $this->tidy = tidy_parse_string($html, $this->config, $this->tidy_charset());
         $this->tidy->cleanRepair();
         $result = $this->tidy->diagnose();
 
-        if ($this->lang)
-            $this->_spell_check();
+		// dont do spell check
+        //if ($this->lang)
+        //   $this->_spell_check();
 
         return $result;
 
@@ -293,7 +296,9 @@ class validator {
     function repaired_source() {
 
         if ($this->tidy instanceof tidy) {
-            return iconv($this->readable_charset(), 'UTF-8//IGNORE', $this->tidy);
+			// removed unnecessary conversion
+            //return iconv($this->readable_charset(), 'UTF-8//IGNORE', $this->tidy);
+			return $this->tidy;
 
         /* there is no tidy resource */
         } else {
@@ -370,7 +375,7 @@ class validator {
 
         if ($node->isText()) {
             if ($text = strtr($node->value, array('&nbsp;'=>''))) {
-                $text = @iconv($this->readable_charset(), 'UTF-8//IGNORE', $text);
+                $text = iconv($this->readable_charset(), 'UTF-8//IGNORE', $text);
                 preg_match_all('/\pL+/u', $text, $words);
 
                 // we avoid repeting the same error on the same line, so we keep the errors in the stack
