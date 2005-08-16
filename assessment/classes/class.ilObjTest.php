@@ -1704,6 +1704,30 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Gets the count system for the calculation of points
+* 
+* Gets the count system for the calculation of points
+*
+* @return integer The count system for the calculation of points
+* @access public
+* @see $count_system
+*/
+  function _getCountSystem($test_id) 
+	{
+		global $ilDB;
+		$query = sprintf("SELECT count_system FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["count_system"];
+		}
+    return FALSE;
+  }
+	
+/**
 * Gets the scoring type for multiple choice questions
 * 
 * Gets the scoring type for multiple choice questions
@@ -1715,6 +1739,30 @@ class ilObjTest extends ilObject
   function getMCScoring() 
 	{
     return $this->mc_scoring;
+  }
+
+/**
+* Gets the scoring type for multiple choice questions
+* 
+* Gets the scoring type for multiple choice questions
+*
+* @return mixed The scoring type for multiple choice questions
+* @access public
+* @see $mc_scoring
+*/
+  function _getMCScoring($test_id) 
+	{
+		global $ilDB;
+		$query = sprintf("SELECT  mc_scoring FROM tst_tests WHERE test_id = %s",
+			$ilDB->quote($test_Id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["mc_scoring"];
+		}
+    return FALSE;
   }
 
 /**
@@ -3278,7 +3326,8 @@ class ilObjTest extends ilObject
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
-		$query_worked_through = sprintf("SELECT DISTINCT(question_fi) FROM tst_solutions WHERE user_fi = %s AND test_fi = %s",
+		$query_worked_through = sprintf("SELECT test_result_id FROM tst_test_result WHERE user_fi = %s AND test_fi = %s",
+		//$query_worked_through = sprintf("SELECT DISTINCT(question_fi) FROM tst_solutions WHERE user_fi = %s AND test_fi = %s",
 			$this->ilias->db->quote("$user_id"),
 			$this->ilias->db->quote($this->getTestId())
 		);

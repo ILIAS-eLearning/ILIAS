@@ -732,7 +732,26 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 		if ($test_id) 
 		{
-			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+			$reached_points = $this->object->getReachedPoints($ilUser->id, $test_id);
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $reached_points, $this->object->getMaximumPoints());
+			$count_comment = "";
+			if ($reached_points == 0)
+			{
+				$count_comment = $this->object->getSolutionCommentCountSystem($test_id);
+				if (strlen($count_comment))
+				{
+					if (strlen($mc_comment) == 0)
+					{
+						$count_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$count_comment";
+					}
+					else
+					{
+						$count_comment = "<br /><span class=\"asterisk\">*</span>$count_comment";
+					}
+				}
+			}
+			$received_points .= $count_comment;
+			$received_points .= "</p>";
 		}
 		if (!$showsolution)
 		{

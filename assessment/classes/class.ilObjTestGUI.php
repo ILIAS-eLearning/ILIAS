@@ -3113,6 +3113,26 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
 		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt(($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)?"tst_report_after_question":"tst_report_after_test"));
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_count_partial_solutions") . ":");
+		if ($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt("tst_count_partial_solutions"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt("tst_count_correct_solutions"));
+		}
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_mcmr_questions") . ":");
+		if ($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt("tst_score_mcmr_use_scoring_system"));
+		}
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
 
 		$num_of = $this->object->getNrOfTries();
