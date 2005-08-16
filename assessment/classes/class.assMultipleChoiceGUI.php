@@ -758,7 +758,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					}
 					$sol .= ' ' . $this->lng->txt("points");
 					$sol .= '</em>)';
-					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
+					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx"."[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
 					
 					if ($show_solution_only) 
 						if ($answer->isStateChecked()) 
@@ -802,7 +802,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$sol .= ' ' . $this->lng->txt("points");
 					$sol .= '</em>)';
 					
-					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);					 				
+					$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);					 				
 				}
 			}
 			if (($maxindex > -1) && ($this->object->get_response() == RESPONSE_SINGLE))

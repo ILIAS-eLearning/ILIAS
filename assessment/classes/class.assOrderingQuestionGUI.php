@@ -565,7 +565,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		{
 			$repl_str = "dummy=\"solution_ord$idx\"";
 			$solutionoutput = str_replace($repl_str, $repl_str." value=\"" . $answer->get_solution_order() . "\"", $solutionoutput);
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_ord$idx" . "[^\d].*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 			if ($show_solution_only)
 				$solutionoutput = $this->replaceInputElements($repl_str, $answer->get_solution_order(), $solutionoutput , "[" , "]");
 		}

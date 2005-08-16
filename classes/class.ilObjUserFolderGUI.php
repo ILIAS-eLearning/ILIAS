@@ -1866,6 +1866,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_usrf.gif"));
 				$this->tpl->setVariable("TEXT_CONTENT", $file);
 				$this->tpl->parseCurrentBlock();
 		}
