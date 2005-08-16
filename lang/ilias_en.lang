@@ -382,6 +382,8 @@ assessment#:#selected_image#:#Selected image
 assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points
 assessment#:#solution_hint#:#Suggested solution
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag

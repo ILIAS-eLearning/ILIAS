@@ -827,7 +827,35 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
  
 			if ($test_id) 
 			{
-				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+				$reached_points = $this->object->getReachedPoints($ilUser->id, $test_id);
+				$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $reached_points, $this->object->getMaximumPoints());
+				$mc_comment = "";
+				if (($this->object->get_response() == RESPONSE_MULTIPLE) && ($reached_points == 0))
+				{
+					$mc_comment = $this->object->getSolutionCommentMCScoring($test_id);
+					if (strlen($mc_comment))
+					{
+						$mc_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$mc_comment";
+					}
+				}
+				$count_comment = "";
+				if ($reached_points == 0)
+				{
+					$count_comment = $this->object->getSolutionCommentCountSystem($test_id);
+					if (strlen($count_comment))
+					{
+						if (strlen($mc_comment) == 0)
+						{
+							$count_comment = "<span class=\"asterisk\">*</span><br /><br /><span class=\"asterisk\">*</span>$count_comment";
+						}
+						else
+						{
+							$count_comment = "<br /><span class=\"asterisk\">*</span>$count_comment";
+						}
+					}
+				}
+				$received_points .= $mc_comment . $count_comment;
+				$received_points .= "</p>";
 			}
 		} 			 // end of show solution
 

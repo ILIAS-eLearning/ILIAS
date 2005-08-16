@@ -1114,6 +1114,7 @@ class ASS_Question
 	{
 		global $ilDB;
 
+		// get all question references to the question id
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
 			$ilDB->quote($a_q_id),
 			$ilDB->quote($a_q_id)
@@ -1131,11 +1132,15 @@ class ASS_Question
 			array_push($found_id, $row->question_id);
 		}
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
+			join($found_id, ","));
+		$result = $ilDB->query($query);
+
+/*		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
 			join($found_id, ","));
 
 		$result = $ilDB->query($query);
-
+*/
 		return $result->numRows();
 	}
 
@@ -1163,14 +1168,17 @@ class ASS_Question
 		{
 			array_push($found_id, $row->question_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
+		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN (%s)",
+			join($found_id, ","));
+		$result = $ilDB->query($query);
+/*		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
 			join($found_id, ",")
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->query($query);*/
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$reached = ASS_Question::_getReachedPoints($row->user_fi, $row->test_fi, $row->question_fi);
+			$reached = $row->points; //ASS_Question::_getReachedPoints($row->user_fi, $row->test_fi, $row->question_fi);
 			$max = ASS_Question::_getMaximumPoints($row->question_fi);
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
@@ -1731,6 +1739,28 @@ class ASS_Question
 	function setPoints($a_points)
 	{
 		$this->points = $a_points;
+	}
+	
+	function getSolutionCommentMCScoring($test_id)
+	{
+		$result = "";
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_getMCScoring($test_id) == SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+		{
+			$result = $this->lng->txt("solution_comment_mc_scoring");
+		}
+		return $result;
+	}
+
+	function getSolutionCommentCountSystem($test_id)
+	{
+		$result = "";
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_getCountSystem($test_id) == COUNT_CORRECT_SOLUTIONS )
+		{
+			$result = $this->lng->txt("solution_comment_count_system");
+		}
+		return $result;
 	}
 }
 
