@@ -565,6 +565,7 @@ assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this exam.
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#warning_question_not_complete#:#The question is not complete!
+assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
