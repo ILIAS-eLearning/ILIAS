@@ -103,7 +103,7 @@ assessment#:#add_area#:#Region hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
-assessment#:#add_questionpool#:#Fragenpool hinzufügen###09 Aug 2005 content changed
+assessment#:#add_questionpool#:#Fragenpool hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -129,10 +129,10 @@ assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
-assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!###09 Aug 2005 content changed
+assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
-assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!###09 Aug 2005 content changed
+assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#checkbox_checked#:#Ausgewählt
@@ -236,7 +236,7 @@ assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#Alle Fragentypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
-assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools###09 Aug 2005 content changed
+assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
@@ -321,7 +321,7 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
-assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
+assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
@@ -336,7 +336,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#qt_text#:#Freitext-Frage###28 Jul 2005 content changed
+assessment#:#qt_text#:#Freitext-Frage
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_title#:#Fragentitel
@@ -406,8 +406,8 @@ assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageer
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit Anworten zu korrigieren. Bitte nutzen Sie die Druckfunktion ihres Browsers, um das sich öffnende Fenster auszudrucken.
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 May 2005 new variable
-assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
+assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_delete_results#:#Test zurücksetzen
@@ -424,9 +424,9 @@ assessment#:#tst_eval_user_answer#:#User-Antwort
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
-assessment#:#tst_heading_scoring#:#Scoring###13 May 2005 new variable
-assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
-assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
+assessment#:#tst_heading_scoring#:#Bewertung
+assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
+assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
@@ -446,11 +446,11 @@ assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzug
 assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
-assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!###09 Aug 2005 content changed
+assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
-assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!###09 Aug 2005 content changed
+assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
-assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu Ihrem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens eine Frage durch die Angabe einer Anzahl von Fragen zu einem ausgewählten Fragenpool aus! ###09 Aug 2005 content changed
+assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu Ihrem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens eine Frage durch die Angabe einer Anzahl von Fragen zu einem ausgewählten Fragenpool aus!
 assessment#:#tst_no_solution_available#:#Kurztext-Fragen besitzen keine Musterlösung.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
@@ -462,9 +462,9 @@ assessment#:#tst_print#:#Test & Assessment Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdruck
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
 assessment#:#tst_qst_order#:#Reihenfolge
-assessment#:#tst_qst_resetsolved#:#markiere als ungelöst###13 Aug 2005 content changed
+assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
-assessment#:#tst_qst_setsolved#:#markiere als gelöst###13 Aug 2005 content changed
+assessment#:#tst_qst_setsolved#:#markiere als gelöst
 assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus dem Test. Nutzen Sie die "Markier"-Funktion, um Fragen für sich als gelöst zu markieren.
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
@@ -474,8 +474,8 @@ assessment#:#tst_question_type#:#Fragentyp
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
-assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.###09 Aug 2005 content changed
-assessment#:#tst_random_questionpools#:#Fragenpools###09 Aug 2005 content changed
+assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
+assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_random_test_description#:#Wenn ausgewählt, werden die Fragen des Tests mit einem Zufallsgenerator zusammengestellt
@@ -488,16 +488,16 @@ assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test besta
 assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_resume_test#:#Test fortsetzen
-assessment#:#tst_score_mcmr_questions#:#Multiple choice questions###20 Jun 2005 new variable
-assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked###20 Jun 2005 new variable
+assessment#:#tst_score_mcmr_questions#:#Multiple choice Fragen
+assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vergabe von 0 Punkten, wenn keine Antwort ausgewählt wurde
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
-assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus###09 Aug 2005 content changed
+assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
@@ -541,10 +541,10 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_submit_answers#:#JA, ich möchte meine Antworten abschicken
 assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absenden Ihrer Anworten abschließen.
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
-assessment#:#tst_text_count_system#:#Scoring system###13 May 2005 new variable
+assessment#:#tst_text_count_system#:#Bewertungssystem
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
-assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.###09 Aug 2005 content changed
+assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
@@ -848,7 +848,7 @@ common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der Nutzerinnen anzeigen
 common#:#assessment_settings#:#Test&Assessment Adminstration
-common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
+common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration
 common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
@@ -1184,7 +1184,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
-common#:#delete_selected_items#:#Delete selected items###20 Jun 2005 new variable
+common#:#delete_selected_items#:#Ausgewählte Elemente löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
@@ -1671,11 +1671,11 @@ common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_hlm#:#Import HACP Modul
 common#:#import_lm#:#Import Lernmodul
-common#:#import_qpl#:#Fragenpool für Test importieren###09 Aug 2005 content changed
-common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
+common#:#import_qpl#:#Fragenpool für Test importieren
+common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
-common#:#import_spl#:#Fragenpool für Umfrage importieren###09 Aug 2005 content changed
+common#:#import_spl#:#Fragenpool für Umfrage importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -2631,18 +2631,18 @@ common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Evaluation
-common#:#svy_finished#:#completed###20 Jun 2005 new variable
+common#:#svy_finished#:#beendet
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
-common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
-common#:#svy_not_started#:#not started###20 Jun 2005 new variable
+common#:#svy_not_finished#:#nicht beendet
+common#:#svy_not_started#:#nicht gestartet
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
-common#:#svy_run#:#Run###20 Jun 2005 new variable
+common#:#svy_run#:#Ausführen
 common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
-common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
+common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
@@ -2720,13 +2720,13 @@ common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_read#:#Lesezugriff auf Test
-common#:#tst_run#:#Run###20 Jun 2005 new variable
+common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Datei hochladen
-common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
+common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
+common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.
 common#:#tst_visible#:#Test ist sichtbar
-common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
+common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
@@ -2784,13 +2784,13 @@ common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#user_profile_other#:#Weitere Informationen
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
-common#:#userfolder_export_csv#:#Comma Separated Values###20 Jun 2005 new variable
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)###20 Jun 2005 new variable
-common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)###20 Jun 2005 new variable
-common#:#userfolder_export_file#:#File###20 Jun 2005 new variable
-common#:#userfolder_export_file_size#:#File size###20 Jun 2005 new variable
-common#:#userfolder_export_files#:#Files###20 Jun 2005 new variable
-common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
+common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
+common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
+common#:#userfolder_export_excel_x86#:#Microsoft Excel (Intel x86)
+common#:#userfolder_export_file#:#Datei
+common#:#userfolder_export_file_size#:#Dateigröße
+common#:#userfolder_export_files#:#Dateien
+common#:#userfolder_export_xml#:#XML
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
@@ -4910,12 +4910,12 @@ survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangscodes für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
-survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!###09 Aug 2005 content changed
+survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
 survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu exportieren!
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!###09 Aug 2005 content changed
+survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
@@ -5028,9 +5028,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle ben
 survey#:#fill_out_all_required_fields_save_phrase#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie eine Phrase speichern!
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
-survey#:#filter_all_questionpools#:#Alle Fragenpools###09 Aug 2005 content changed
+survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
-survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools###09 Aug 2005 content changed
+survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
@@ -5038,13 +5038,13 @@ survey#:#glossary_term#:#Glossarbegriff
 survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#heading#:#Überschrift
 survey#:#horizontal#:#horizontal
-survey#:#import_error_closing_file#:#Error closing the import file!###21 Apr 2005 new variable
-survey#:#import_error_opening_file#:#Error opening the import file!###21 Apr 2005 new variable
-survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!###21 Apr 2005 new variable
-survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!###21 Apr 2005 new variable
-survey#:#import_no_file_selected#:#No file selected!###21 Apr 2005 new variable
+survey#:#import_error_closing_file#:#Fehler beim Schließen der Importdatei!
+survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
+survey#:#import_error_survey_no_proper_values#:#Die Umfrage-Eigenschaften beinhalten keine korrekten Werte!
+survey#:#import_error_survey_no_properties#:#Keine Umfrage-Eigenschaften gefunden.
+survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
 survey#:#import_question#:#Frage(n) importieren
-survey#:#import_wrong_file_type#:#Wrong file type!###21 Apr 2005 new variable
+survey#:#import_wrong_file_type#:#Falscher Dateityp!
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage hinzufügen wollen!
@@ -5132,7 +5132,7 @@ survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock
 survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
-survey#:#qt_text#:#Textfrage###25 Jun 2005 content changed
+survey#:#qt_text#:#Textfrage
 survey#:#question_has_constraints#:#Beschränkungen
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
@@ -5184,7 +5184,7 @@ survey#:#subtype#:#Untertyp
 survey#:#survey_code#:#Zugangscode für die Umfrage
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
 survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangscodes für die Umfrage erstellt.
-survey#:#survey_code_url#:#URL for direct access###15 Jul 2005 new variable
+survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_finish#:#Umfrage beenden >>>
