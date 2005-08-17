@@ -38,6 +38,7 @@ class ilQueryParser
 
 
 	var $query_str;
+	var $quoted_words = array();
 	var $message; // Translated error message
 	var $combination; // combiniation of search words e.g 'and' or 'or'
 
