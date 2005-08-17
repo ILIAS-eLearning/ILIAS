@@ -97,7 +97,7 @@ class ilLMExplorer extends ilExplorer
 	*
 	* @return	boolean		true if linking is activated
 	*/
-	function isClickable($a_type, $a_ref_id = 0)
+	function isClickable($a_type, $a_obj_id = 0)
 	{
 		global $ilUser;
 		// in this standard implementation
@@ -110,7 +110,7 @@ class ilLMExplorer extends ilExplorer
 		}
 
 		// check public access
-		if ($ilUser->getId() == ANONYMOUS_USER_ID and !ilLMObject::_isPagePublic($a_ref_id,true))
+		if ($ilUser->getId() == ANONYMOUS_USER_ID and !ilLMObject::_isPagePublic($a_obj_id,true))
 		{
 			return false;
 		}
