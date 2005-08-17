@@ -90,8 +90,9 @@ class ilCourseRegisterGUI
 
 	function subscribe()
 	{
-		if(($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
-		   and $this->course_obj->getSubscriptionMaxMembers() != 0)
+		if((($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
+			and $this->course_obj->getSubscriptionMaxMembers() != 0) or
+		   $this->waiting_list->getCountUsers())
 		{
 			include_once 'course/classes/class.ilCourseWaitingList.php';
 
@@ -354,7 +355,11 @@ class ilCourseRegisterGUI
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_end_earlier"));
 			$allow_subscription = false;
 		}
-		if($this->waiting_list->isOnList($this->user_id))
+		if(!$this->__checkGroupingDependencies())
+		{
+			$allow_subscription = false;
+		}
+		elseif($this->waiting_list->isOnList($this->user_id))
 		{
 			$this->course_obj->appendMessage($this->lng->txt('crs_already_assigned_to_list'));
 			$allow_subscription = false;
@@ -365,10 +370,11 @@ class ilCourseRegisterGUI
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
 			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
-		if(!$this->__checkGroupingDependencies())
+		elseif($this->waiting_list->getCountUsers())
 		{
-			$allow_subscription = false;
+			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
+			
 
 		return $allow_subscription;
 	}
