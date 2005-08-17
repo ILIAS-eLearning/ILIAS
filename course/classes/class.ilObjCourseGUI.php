@@ -1258,6 +1258,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	// MEMBER METHODS
 	function membersObject()
 	{
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+		include_once './classes/class.ilConditionHandler.php';
+
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
@@ -1293,7 +1296,19 @@ class ilObjCourseGUI extends ilContainerGUI
 					$waiting_list_ids[] = $waiting_data['usr_id'];
 					
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
-					$f_result[$counter][]	= $tmp_obj->getLogin();
+
+					$message = '';
+					// Check if user is member in course grouping
+					foreach(ilObjCourseGrouping::_getGroupingCourseIds($this->object->getId()) as $course_data)
+					{
+						if($course_data['id'] != $this->object->getId() and
+						   ilCourseMembers::_isMember($tmp_obj->getId(),$course_data['id'],$course_data['unique']))
+						{
+							$message .= ('<br />'.$this->lng->txt('crs_member_of').' ');
+							$message .= ilObject::_lookupTitle($course_data['id']);
+						}
+					}
+					$f_result[$counter][]   = $tmp_obj->getLogin().$message;
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLastname();
 					$f_result[$counter][]   = strftime("%Y-%m-%d %R",$waiting_data["time"]);

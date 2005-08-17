@@ -397,5 +397,32 @@ class ilObjCourseGrouping
 		return true;
 	}
 
+
+	/**
+	* Get all ids of courses that are grouped with another course
+	* @access	static
+	* @param	integer	 object_id of one course
+	* @param	array integer ids of courses or empty array if course is not in grouping
+	*/
+	function _getGroupingCourseIds($a_course_id)
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		// get all grouping ids the course is assigned to
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_course_id,'crs') as $condition)
+		{
+			if($condition['trigger_type'] == 'crsg')
+			{
+				foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$condition['trigger_obj_id']) as $target_condition)
+				{
+					$course_ids[] = array('id'			=> $target_condition['target_obj_id'],
+										  'unique'		=> $target_condition['value']);
+				}
+			}
+		}
+		return $course_ids ? $course_ids : array();
+	}	
+
+
 } // END class.ilObjCourseGrouping
 ?>
