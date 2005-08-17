@@ -372,6 +372,8 @@ assessment#:#selected_image#:#Odabrana slika
 assessment#:#set_filter#:#Postavi filter
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Izbegni odgovore
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Predložena rešenja
 assessment#:#solution_order#:#Poredak rešenja
 assessment#:#start_tag#:#Pocetna oznaka
@@ -425,6 +427,7 @@ assessment#:#tst_missing_author#:#Niste uneli ime autora u karakteristike testa!
 assessment#:#tst_missing_marks#:#Nemate šemu ocena u testu! Molimo dodajte bar jednostavnu šemu ocena u test.
 assessment#:#tst_missing_questions#:#Nemate nikakva pitanja u testu! Molimo dodajte bar jedno pitanje u test.
 assessment#:#tst_missing_title#:#Niste uneli naziv testa! Molimo idite na sekciju metapodaci i dodajte naziv.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Ocene nisu definisane. Molimo napravite bar jednostavnu šemu ocena.
 assessment#:#tst_no_more_available_questionpools#:#Ne postoje raspoložive baze pitanja###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Molimo proverite bar jedno pitanje radi uklanjanja!
@@ -525,6 +528,7 @@ assessment#:#unlock_question#:#Ovo pitanje je u uporebi u najmanje jednom testu 
 assessment#:#upload_imagemap#:#Pošaljite mapu slike
 assessment#:#uploaded_material#:#Poslat materijal
 assessment#:#warning_question_not_complete#:#Ovo pitanje nije potpuno!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#kada
 assessment#:#width#:#Širina
 assessment#:#with_order#:#redom
@@ -649,7 +653,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nije moguce uspostaviti kontakt sa serverom za caskanje.
 chat#:#chat_no_delete_public#:#Javna soba za caskanje ne može biti obrisana
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
-chat#:#chat_no_refresh_public#:#Javna soba za caskanje ne može biti osvežena.
+chat#:#chat_no_refresh_public#:#Javna soba za caskanje ne može biti osvežena.###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#Javna soba za caskanje ne može biti preimenovana
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Nema dozvole za pisanje

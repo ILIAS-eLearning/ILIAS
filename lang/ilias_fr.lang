@@ -376,6 +376,8 @@ assessment#:#selected_image#:#Image sélectionnée###07 Apr 2005 content changed
 assessment#:#set_filter#:#Définir le filtre###07 Apr 2005 content changed
 assessment#:#shape#:#Forme###07 Apr 2005 content changed
 assessment#:#shuffle_answers#:#Mélanger les réponses###07 Apr 2005 content changed
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_order#:#Ordre correct###07 Apr 2005 content changed
 assessment#:#start_tag#:#Point de départ###07 Apr 2005 content changed
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début###07 Apr 2005 content changed
@@ -435,6 +437,7 @@ assessment#:#tst_missing_author#:#Vous n'avez pas saisi le nom d'auteur dans les
 assessment#:#tst_missing_marks#:#Vous n'avez pas de schéma de note dasn la test.  Veuillez ajouter au moins un schéma de note simple.###07 Apr 2005 content changed
 assessment#:#tst_missing_questions#:#Vous n'avez pas de question dans le test. Veuillez ajouter au moins une question.###07 Apr 2005 content changed
 assessment#:#tst_missing_title#:#Vous n'avez pas saisi de titre de test. Veuillez aller dans la section des métadonnées et saisir un titre###07 Apr 2005 content changed
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Aucune note n'est définie, veuillez créer au moins un schéma de note simple.###07 Apr 2005 content changed
 assessment#:#tst_no_more_available_questionpools#:#Il n'y a plus de jeu de questions disponible.###07 Apr 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Veuillez sélectionner au moins une question à supprimer.###07 Apr 2005 content changed
@@ -553,6 +556,7 @@ assessment#:#uploaded_material#:#Matériau téléchargé###07 Apr 2005 content c
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#La question n'est pas terminée.###07 Apr 2005 content changed
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#quand###07 Apr 2005 content changed
 assessment#:#width#:#Largeur###07 Apr 2005 content changed
 assessment#:#with_order#:#dans l'ordre###07 Apr 2005 content changed

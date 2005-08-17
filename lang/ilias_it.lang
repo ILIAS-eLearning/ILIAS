@@ -382,6 +382,8 @@ assessment#:#selected_image#:#Immagine selezionata
 assessment#:#set_filter#:#Filtra
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Mostra la soluzione
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
@@ -443,6 +445,7 @@ assessment#:#tst_missing_author#:#Non hai indicato il nome dell'autore nelle pro
 assessment#:#tst_missing_marks#:#Non hai indicato uno schema di punteggio per il test! Per favore specifica almento uno schema di punteggio semplificato.
 assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda.
 assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore vai nella sezione dei metadati e inserisci un titolo.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
 assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
@@ -562,6 +565,7 @@ assessment#:#uploaded_material#:#Materiale salvato
 assessment#:#user_not_invited#:#Non sei ammesso ad eseguire questo test.
 assessment#:#user_wrong_clientip#:#Non hai l'IP corretto per eseguire questo test.
 assessment#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#quando
 assessment#:#width#:#Larghezza
 assessment#:#with_order#:#con ordine
@@ -686,7 +690,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
 chat#:#chat_no_recordings_available#:#Non ci sono registrazioni disponibili al momento.
-chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
+chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura

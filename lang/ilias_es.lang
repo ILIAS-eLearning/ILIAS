@@ -380,6 +380,8 @@ assessment#:#selected_image#:#Imagen seleccionada
 assessment#:#set_filter#:#Activar filtro
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Barajar respuestas
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Solución recomendada
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
@@ -441,6 +443,7 @@ assessment#:#tst_missing_author#:#No ha introducido el nombre de los autores en 
 assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test! Por favor añada al menos un esquema simple de calificación en el test.
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.
 assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
@@ -562,6 +565,7 @@ assessment#:#uploaded_material#:#Material Cargado
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
 assessment#:#user_wrong_clientip#:#No tiene la IP correcta usando este Test
 assessment#:#warning_question_not_complete#:#La pregunta no está completa!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#cuando
 assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
@@ -686,7 +690,7 @@ chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat
 chat#:#chat_no_delete_public#:#La habitación pública no pudo ser eliminada
 chat#:#chat_no_recordings_available#:#No hay grabaciones disponibles de momento.
-chat#:#chat_no_refresh_public#:#la habitación pública no pudo ser actualizada
+chat#:#chat_no_refresh_public#:#la habitación pública no pudo ser actualizada###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#La habitación pública no pudo ser renombrada
 chat#:#chat_no_users_selected#:#Debe seleccionar un usuario.
 chat#:#chat_no_write_perm#:#No tiene permisos de escritura

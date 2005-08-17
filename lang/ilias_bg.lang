@@ -371,6 +371,8 @@ assessment#:#selected_image#:#Избрано изображение
 assessment#:#set_filter#:#Настройване на филтър
 assessment#:#shape#:#Форма
 assessment#:#shuffle_answers#:#Разбъркване на отговорите
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Предложено решение
 assessment#:#solution_order#:#Решение за подреждането
 assessment#:#start_tag#:#Стартов прозорец
@@ -424,6 +426,7 @@ assessment#:#tst_missing_author#:#Не сте въвели името на ав�
 assessment#:#tst_missing_marks#:#Нямате схема на оценките в теста! Моля, добавете поне опростена схема за оценки към теста.
 assessment#:#tst_missing_questions#:#Нямате никакви въпроси в теста! Моля, добавете поне един въпрос в теста.
 assessment#:#tst_missing_title#:#Не сте въвели заглавие на теста! Моля, отидете в раздела за метаданни и въведете заглавие.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Няма дефинирани оценки, моля, създайте поне опростена схема за оценки!
 assessment#:#tst_no_more_available_questionpools#:#Няма повече налични набори от въпроси
 ###09 Aug 2005 content changed
@@ -527,6 +530,7 @@ assessment#:#unlock_question#:#Този въпрос се използва в п
 assessment#:#upload_imagemap#:#Заредете Карта на изображение
 assessment#:#uploaded_material#:#Зареден материал
 assessment#:#warning_question_not_complete#:#Въпросът не е пълен!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#когато
 assessment#:#width#:#Ширина
 assessment#:#with_order#:#с подреждане
@@ -646,6 +650,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Неуспешен контакт с чат сървъра.
 chat#:#chat_no_delete_public#:#Публичната чат-стая не може да бъде изтрита
 chat#:#chat_no_refresh_public#:#публичната чат-стая не може да бъде обновена.
+###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#Публичната чат-стая не може да бъде преименувана
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Няма разрешение за писане

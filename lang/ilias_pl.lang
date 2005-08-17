@@ -382,6 +382,8 @@ assessment#:#selected_image#:#Wybrany obrazek
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#shape#:#Kształt
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Sugerowana odpowiedź
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
@@ -443,6 +445,7 @@ assessment#:#tst_missing_author#:#Nie podałeś autora we właściwościach test
 assessment#:#tst_missing_marks#:#Nie masz schematu zaznaczeń w teście! Dodaj conajmniej prosty schemat do testu.
 assessment#:#tst_missing_questions#:#Nie masz żadnych pytań w teście! Dodaj conajmniej jedno pytanie do testu.
 assessment#:#tst_missing_title#:#Nie podałeś tytułu testu! Skocz do sekcji metadanych i podaj tytuł.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
 assessment#:#tst_no_more_available_questionpools#:#Nie ma więcej dostępnych puli pytań###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do usunięcia!
@@ -564,6 +567,7 @@ assessment#:#uploaded_material#:#Załadowany Materiał
 assessment#:#user_not_invited#:#Nie zostałeś dopuszczony do tego egzaminu.
 assessment#:#user_wrong_clientip#:#Nie masz uprawnień do użycia tego testu (zły numer ip).
 assessment#:#warning_question_not_complete#:#Pytanie nie jest kompletne!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#kiedy
 assessment#:#width#:#Szerokość
 assessment#:#with_order#:#w kolejności
@@ -688,7 +692,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nie można skontaktować się z serwerem czat.
 chat#:#chat_no_delete_public#:#Publiczny pokój czat nie może być usunięty
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
-chat#:#chat_no_refresh_public#:#publiczny pokój czat nie może być odświeżony
+chat#:#chat_no_refresh_public#:#publiczny pokój czat nie może być odświeżony###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#Publiczny pokój nie może mieć zmienionej nazwy
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Brak prawa do zapisu
