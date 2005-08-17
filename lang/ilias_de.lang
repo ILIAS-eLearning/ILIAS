@@ -94,6 +94,7 @@ administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Detail
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#tst_show_answer_print_sheet#:#Druckansicht der Antworten
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort hinzufügen

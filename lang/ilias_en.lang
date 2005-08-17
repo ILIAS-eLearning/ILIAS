@@ -94,6 +94,7 @@ administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
+assessment#:#tst_show_answer_print_sheet#:#Answers Printview
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
