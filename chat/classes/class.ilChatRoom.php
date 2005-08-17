@@ -213,28 +213,15 @@ class ilChatRoom
 	function updateLastVisit()
 	{
 		// CHECK IF OLD DATA EXISTS
-		$query = "SELECT * FROM chat_user ".
-			"WHERE usr_id = '".$this->getUserId()."' ".
-			"AND chat_id = '".$this->getRefId()."' ".
-			"AND room_id = '".$this->getRoomId()."'";
-
+		$query = "DELETE FROM chat_user ".
+			"WHERE usr_id = '".$this->getUserId()."'";
 		$res = $this->ilias->db->query($query);
-		if($res->numRows())
-		{
- 			$query = "UPDATE chat_user ".
-				"SET last_conn_timestamp = '".time()."' ".
-				"WHERE usr_id = '".$this->getUserId()."' ".
-				"AND room_id = '".$this->getRoomId()."' ".
-				"AND chat_id = '".$this->getRefId()."'";
-		}
-		else
-		{
-			$query = "INSERT INTO chat_user ".
-				"SET usr_id = '".$this->getUserId()."', ".
-				"room_id = '".$this->getRoomId()."', ".
-				"chat_id = '".$this->getRefId()."', ".
-				"last_conn_timestamp = '".time()."'";
-		}
+
+		$query = "INSERT INTO chat_user ".
+			"SET usr_id = '".$this->getUserId()."', ".
+			"room_id = '".$this->getRoomId()."', ".
+			"chat_id = '".$this->getRefId()."', ".
+			"last_conn_timestamp = '".time()."'";
 		$res = $this->ilias->db->query($query);
 		return true;
 	}
