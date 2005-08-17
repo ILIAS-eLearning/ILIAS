@@ -26,7 +26,7 @@
 /**
 * Class OnlineTestCommandControl
 *
-* @author	Roland K�stermann <rku@aifb.uni-karlsruhe.de>
+* @author	Roland Kuestermann <rku@aifb.uni-karlsruhe.de>
 * @version	$Id$
 *
 * @package assessment
@@ -162,11 +162,12 @@ class OnlineTestCommandControl extends DefaultTestCommandControl {
 			return true;
 		}
 				
-		if ($_POST["cmd"]["confirm_submit_answers"]) {
-			$this->obj->submit_answers($ilUser->id);
+		if ($_POST["cmd"]["confirm_submit_answers"]) {						
+			$this->obj->setActiveTestSubmitted ($ilUser->id);
 			$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
 			$ilias->auth->setExpire(0);
-			$this->gui->outShowAnswers(false, & $ilUser);			
+			$this->gui->outIntroductionPage();
+			//$this->gui->outShowAnswers(false, & $ilUser);			
 			return true;
 		}
 		

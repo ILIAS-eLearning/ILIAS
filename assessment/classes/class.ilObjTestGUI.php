@@ -3277,9 +3277,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			// Show results in a new print frame
 			if (!$this->cmdCtrl->canShowTestResults() && $this->object->isActiveTestSubmitted()) {
-				$this->tpl->setCurrentBlock("show_answers");
-				$this->tpl->setVariable("BTN_ANSWERS", $this->lng->txt("tst_show_answer_sheet"));				
+				$add_parameter = "?ref_id=" . $_GET["ref_id"];
+				$this->tpl->setCurrentBlock("show_printview");
+				$this->tpl->setVariable("BTN_ANSWERS", $this->lng->txt("tst_show_answer_print_sheet"));	
+				$this->tpl->setVariable("PRINT_VIEW_HREF", $this->getCallingScript (). $add_parameter. "&cmd=answersheet");				
 				$this->tpl->parseCurrentBlock();				
 			}			
 						
@@ -3292,6 +3295,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			
+			/**
+			 * time has ended, but the user has logged out and wants to submit his results
+			 */
 			if ($this->object->isOnlineTest() and $test_disabled) {
 				if (!$this->object->isActiveTestSubmitted($ilUser->getId())) {
 					$this->tpl->setCurrentBlock("show_summary");				
@@ -6099,7 +6105,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	
 	/**
 	* confirm submit results
-	* if confirm then results are submitted and printview of answers is shown.
+	* if confirm then results are submitted and the screen will be redirected to the startpage of the test
 	* @access public
 	*/
 	function confirmSubmitAnswers() {
@@ -6118,11 +6124,15 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_results"));
 		}
 		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));		
-		$this->tpl->setVariable("FORM_BACK_ACTION", $this->getCallingScript().$add_parameter);
-		$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript()."?ref_id=".$this->object->getRefId()."&cmd=printAnswers");
+		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript().$add_parameter);
+		//$this->tpl->setVariable("FORM_PRINT_ACTION", $this->getCallingScript()."?ref_id=".$this->object->getRefId()."&cmd=printAnswers");
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	*	printAnswer Object can only be called if the test is submitted, otherwise we generate an error.
+	*
+	*/
 	function printAnswersObject(){
 		global $ilUser,$rbacsystem;
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id))) 
@@ -6134,8 +6144,16 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			return;
 		}
 		
-		if (!$this->object->isActiveTestSubmitted($ilUser->getId()))
-			$this->object->setActiveTestSubmitted($ilUser->getId());
+		if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
+		{
+			sendInfo($this->lng->txt("test_not_submitted"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+
+
+		$this->object->setActiveTestSubmitted($ilUser->getId());
 
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
@@ -6192,6 +6210,7 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		{
 			// only display submit date when it exists (not in the summary but in the print form)
 			$tpl->setCurrentBlock("freefield_bottom");
+			$tpl->setVariable("TITLE", $this->object->getTitle());
 			$tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
 			$tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
 			$tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
@@ -6353,29 +6372,53 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	function answersheetObject () {
 		global $rbacsystem, $ilUser, $ilErr;
 		
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		$user_id = (int) $_GET["user_id"];
+		
+		// user has to have at least read permission
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id))) 
 		{
 			// allow only read and write access
-			$ilErr->raiseError($this->lng->txt("cannot_edit_test"),$ilErr->WARNING);
+			$ilErr->raiseError($this->lng->txt("cannot_read_test"),$ilErr->WARNING); 
+			return;
+		}
+
+		// if GET["user_id"] is not set, then we assume that the user the current ilias user
+		// that means he does not have to have write permissions to see the results! 
+
+		if (!isset($_GET["user_id"])) {
+			if (!$rbacsystem->checkAccess("write", $this->ref_id)) 
+			{
+				// allow only read and write access
+				$ilErr->raiseError($this->lng->txt("cannot_edit_test"),$ilErr->WARNING); 
+				return;
+			}
+			$user_id = $ilUser->getId();
+		} else 
+			$user_id = (int) $_GET["user_id"];
+		
+		// getInvitedUsers and see if the requested user belongs to the test
+		$users = $this->object->getInvitedUsers($user_id);
+		if (!is_array ($users) || count($users)!=1)
+		{
+			$ilErr->raiseError($this->lng->txt("user_not_invited"),$ilErr->WARNING); 
 			return;
 		}
 		
-		$user_id = (int) $_GET["user_id"];
-		$user = $this->object->getInvitedUsers($user_id);
-		if (!is_array ($user) || count($user)!=1)
-		{
-			$ilErr->raiseError($this->lng->txt("user_not_invited"),$ilErr->WARNING);
-			return;
-		}
-		$ilUser = new IlObjUser ($user_id);	
-		$user = array_pop ($user);
+		// create a new UserObject to be passed for showing answers
+		$userObject = new IlObjUser ($user_id);	
+		
+		// geht the invited user, we need the registered client ip in the print screen
+		$user = array_pop ($users);
+		
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_print_answers_sheet.html", true, true);
 		$this->tpl->setVariable("PRINT_CSS", "./templates/default/print_answers.css");
-		//$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("FRAME_CLIENTIP", $user->clientip); //$_SERVER["REMOTE_ADDR"]);		
-		$this->tpl->setVariable("FRAME_MATRICULATION",$ilUser->getMatriculation());
+		$this->tpl->setVariable("FRAME_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("FRAME_CLIENTIP", $user->clientip);		
+		$this->tpl->setVariable("FRAME_MATRICULATION",$userObject->getMatriculation());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);
-		$this->outShowAnswersDetails(false, $ilUser);			
+		
+		// pass the user to the output procedure
+		$this->outShowAnswersDetails(false, $userObject);			
 	}
 	
 	
