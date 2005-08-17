@@ -381,6 +381,8 @@ assessment#:#selected_image#:#Помічене зображення
 assessment#:#set_filter#:#Встановити фільтр
 assessment#:#shape#:#Форма
 assessment#:#shuffle_answers#:#Перерозташувати відповіді
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Запропоноване рішення
 assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#start_tag#:#Початковий тег
@@ -441,6 +443,7 @@ assessment#:#tst_missing_author#:#Ви не ввели ім'я автора у �
 assessment#:#tst_missing_marks#:#Ви не додали схему оцінювання до тесту! Будь ласка додайте хоча б просту схему оцінювання в тест.
 assessment#:#tst_missing_questions#:#В тесті немає жодного питання! Будь ласка додайте принаймні одне питання в тест.
 assessment#:#tst_missing_title#:#Ви не ввели назву тесту! Будь ласка перейдіть до секції мета даних та введіть назву.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Не вказані оцінки, будь ласка створіть принаймні просту схему оцінок!
 assessment#:#tst_no_more_available_questionpools#:#Більше не має доступних пулів питань###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Будь ласка виберіть принаймні одне питання щоб видалити його!
@@ -562,6 +565,7 @@ assessment#:#uploaded_material#:#Завантажений матеріал
 assessment#:#user_not_invited#:#Ви не допущені до цього екзамену.
 assessment#:#user_wrong_clientip#:#Ви не маєте потрібного ip щоб пройти цей тест.
 assessment#:#warning_question_not_complete#:#Питання не завершене!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#коли
 assessment#:#width#:#Ширина
 assessment#:#with_order#:#в порядку
@@ -686,7 +690,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Неможливо з'єднатись з чат сервером.
 chat#:#chat_no_delete_public#:#Публічна кімната не може бути видалена
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
-chat#:#chat_no_refresh_public#:#публічна кімната не може бути оновлена.
+chat#:#chat_no_refresh_public#:#публічна кімната не може бути оновлена.###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#Публічна кімната не може бути переіменована
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Немає прав на запис

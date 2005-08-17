@@ -382,6 +382,8 @@ assessment#:#selected_image#:#Plaatje geselecteerd###07 Apr 2005 content changed
 assessment#:#set_filter#:#Instellen filter###07 Apr 2005 content changed
 assessment#:#shape#:#Vorm###07 Apr 2005 content changed
 assessment#:#shuffle_answers#:#Antwoorden mengen###07 Apr 2005 content changed
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Oplossings-volgorde###07 Apr 2005 content changed
 assessment#:#start_tag#:#Start-tag###07 Apr 2005 content changed
@@ -443,6 +445,7 @@ assessment#:#tst_missing_author#:#U heeft geen auteursnaam ingevoerd. Ga naar de
 assessment#:#tst_missing_marks#:#U heeft geen cijfer-schema in de test! Voeg ten minste een simpel cijfer-schema toe aan de test.###07 Apr 2005 content changed
 assessment#:#tst_missing_questions#:#U heeft geen vragen in de test! Voeg ten minste één vraag toe aan de test.###07 Apr 2005 content changed
 assessment#:#tst_missing_title#:#U heeft geen test-titel ingevoerd. Ga naar de sectie metagegevens en voer een titel in.###07 Apr 2005 content changed
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Er zijn geen cijfers gedefiniëerd, creëer ten minste een simpel cijfer-schema!###07 Apr 2005 content changed
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Kies tenminste één vraag om te verwijderen!###07 Apr 2005 content changed
@@ -564,6 +567,7 @@ assessment#:#uploaded_material#:#Upgeload materiaal###07 Apr 2005 content change
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###08 Apr 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###08 Apr 2005 new variable
 assessment#:#warning_question_not_complete#:#De vraag is niet compleet!###07 Apr 2005 content changed
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#wanneer###07 Apr 2005 content changed
 assessment#:#width#:#Breedte###07 Apr 2005 content changed
 assessment#:#with_order#:#met sorteervolgorde###07 Apr 2005 content changed

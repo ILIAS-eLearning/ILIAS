@@ -371,6 +371,8 @@ assessment#:#selected_image#:#V&aelig;lg billed
 assessment#:#set_filter#:#S&aelig;t filter
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Bland svar
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Foresl&aring;et l&oslash;sning
 assessment#:#solution_order#:#L&oslash;snings r&aelig;kke
 assessment#:#start_tag#:#Start m&aelig;rke
@@ -424,6 +426,7 @@ assessment#:#tst_missing_author#:#Du har ikke skrevet forfatterens navn i test e
 assessment#:#tst_missing_marks#:#Du har ikke et m&aelig;rke skema for denne test! Tilf&oslash;j venligst mindst et simpely m&aelig;rke skema i denne test.
 assessment#:#tst_missing_questions#:#Der er ikke nogen sp&oslash;rgsm&aring;l i denne test! Tilf&oslash;j venligst mindst et sp&oslash;rgsm&aring;l i denne test.
 assessment#:#tst_missing_title#:#Du har ikke skrevet en test overskrift! G&aring; venligst til metadata sektionen og tilf&oslash;j en overskrift.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Der er ikke defineret nogen m&aelig;rker, opret venligst mindst et simpelt m&aelig;rke skema!
 assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###21 Apr 2005 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Marker venligst et sp&oslash;rgsm&aring;l for at flytte det!
@@ -524,6 +527,7 @@ assessment#:#unlock_question#:#Dette sp&oslash;rgsm&aring;l er i brug i mindst e
 assessment#:#upload_imagemap#:#Upload en billed mappe
 assessment#:#uploaded_material#:#Uploadet Materialle
 assessment#:#warning_question_not_complete#:#Dette sp&oslash;rgsm&aring;l er ikk ef&aelig;rdigt!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#hvorn&aring;r
 assessment#:#width#:#bredte
 assessment#:#with_order#:#med orden
@@ -639,7 +643,7 @@ chat#:#chat_no_active_users#:#Ingen brugere tilstede.
 chat#:#chat_no_connection#:#Kan ikke kontakte chat server.
 chat#:#chat_no_delete_public#:#Det offentlige chat rum kan ikke slettes
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
-chat#:#chat_no_refresh_public#:#det offentlige chat rum kan ikke opdateres.
+chat#:#chat_no_refresh_public#:#det offentlige chat rum kan ikke opdateres.###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#Det offentlige chat rum kan ikke omd&oslash;bes
 chat#:#chat_no_write_perm#:#Ingen skrive rettighedder
 chat#:#chat_olive#:#olive###21 Apr 2005 new variable

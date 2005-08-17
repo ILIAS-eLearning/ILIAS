@@ -368,6 +368,8 @@ assessment#:#selected_image#:#Kiválasztott kép
 assessment#:#set_filter#:#Szűrő beállítása
 assessment#:#shape#:#Alakzat
 assessment#:#shuffle_answers#:#Kevert válaszok
+assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_hint#:#Javasolt megoldás
 assessment#:#solution_order#:#Megoldási sorrend
 assessment#:#start_tag#:#Kezdő címke
@@ -421,6 +423,7 @@ assessment#:#tst_missing_author#:#Nem adott meg szerzőnevet a tesztjellemzőkbe
 assessment#:#tst_missing_marks#:#Nem adott meg osztályozási sémát a tesztben! Legalább egy egyszerű osztályozási sémát adjon meg a teszthez!
 assessment#:#tst_missing_questions#:#Nincs egy kérdése sem a tesztben. Legalább egy kérdést adjon a teszthez!
 assessment#:#tst_missing_title#:#Nem adott meg tesztcímet. Menjen a metaadatok részbe, és adjon meg egy címet.
+assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
 assessment#:#tst_no_marks_defined#:#Nincsenek érdemjegyek definiálva, hozzon létre legalább egy egyszerű osztályozási sémát!
 assessment#:#tst_no_more_available_questionpools#:#Nincs több kérdésgyűjtemény###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést az eltávolításhoz!
@@ -517,6 +520,7 @@ assessment#:#unlock_question#:#Ez a kérdés legalább egy tesztben használva v
 assessment#:#upload_imagemap#:#Image Map feltöltése
 assessment#:#uploaded_material#:#Feltöltött anyag
 assessment#:#warning_question_not_complete#:#A kérdés nem teljes!
+assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#amikor
 assessment#:#width#:#Szélesség
 assessment#:#with_order#:#with order
@@ -636,7 +640,7 @@ chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
 chat#:#chat_no_connection#:#Nem lehet kapcsolatba lépni a chatszerverrel.
 chat#:#chat_no_delete_public#:#A nyilvános chatszoba nem törölhető
 chat#:#chat_no_recordings_available#:#No recordings are available at the moment.###15 Jul 2005 new variable
-chat#:#chat_no_refresh_public#:#a nyilvános chatszoba nem frissíthető.
+chat#:#chat_no_refresh_public#:#a nyilvános chatszoba nem frissíthető.###17 Aug 2005 content changed
 chat#:#chat_no_rename_public#:#A nyilvános chatszoba nem nevezhető át
 chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
 chat#:#chat_no_write_perm#:#Nincs írási engedély
