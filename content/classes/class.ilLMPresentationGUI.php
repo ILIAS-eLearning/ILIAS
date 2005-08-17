@@ -1675,16 +1675,52 @@ class ilLMPresentationGUI
 			return;
 		}
 
+		// determine successor page_id
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchSuccessor");
-		$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
+		$found = false;
+		$c_id = $page_id;
+		while (!$found)
+		{
+			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+			$c_id = $succ_node["obj_id"];
+			if ($succ_node["obj_id"] > 0 &&
+				$ilUser->getId() == ANONYMOUS_USER_ID &&
+				( $this->lm->getPublicAccessMode() == "selected" &&
+				!ilLMObject::_isPagePublic($succ_node["obj_id"])))
+			{
+				$found = false;
+			}
+			else
+			{
+				$found = true;
+			}
+		}
 		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchSuccessor");
 
 		$succ_str = ($succ_node !== false)
 			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
 			: "";
 
+		// determine predecessor page id
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchPredecessor");
-		$pre_node = $this->lm_tree->fetchPredecessorNode($page_id, "pg");
+		$found = false;
+		$c_id = $page_id;
+		while (!$found)
+		{
+			$pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+			$c_id = $pre_node["obj_id"];
+			if ($pre_node["obj_id"] > 0 &&
+				$ilUser->getId() == ANONYMOUS_USER_ID &&
+				( $this->lm->getPublicAccessMode() == "selected" &&
+				!ilLMObject::_isPagePublic($pre_node["obj_id"])))
+			{
+				$found = false;
+			}
+			else
+			{
+				$found = true;
+			}
+		}
 		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchPredecessor");
 
 		$pre_str = ($pre_node !== false)
@@ -2064,6 +2100,14 @@ class ilLMPresentationGUI
 						ilStructureObject::_getPresentationTitle($node["obj_id"],
 						$this->lm->isActiveNumbering())
 						."</b>");
+					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					{
+						if (!ilLMObject::_isPagePublic($node["obj_id"]))
+						{
+							$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
+							$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+						}
+					}
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
 
 					break;
@@ -2180,6 +2224,14 @@ class ilLMPresentationGUI
 				// output chapter title
 				if ($node["type"] == "st")
 				{
+					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					{
+						if (!ilLMObject::_isPagePublic($node["obj_id"]))
+						{
+							continue;
+						}
+					}
+					
 					$chap =& new ilStructureObject($this->lm, $node["obj_id"]);
 					$this->tpl->setCurrentBlock("print_chapter");
 
@@ -2196,13 +2248,13 @@ class ilLMPresentationGUI
 				// output page
 				if ($node["type"] == "pg")
 				{
-					 if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
-					 {
-					 	if (!ilLMObject::_isPagePublic($node["obj_id"]))
-					 	{
-					 		continue;
-					 	}
-					 }
+					if ($ilUser->getId() == ANONYMOUS_USER_ID and $this->lm_gui->object->getPublicAccessMode() == "selected")
+					{
+						if (!ilLMObject::_isPagePublic($node["obj_id"]))
+						{
+							continue;
+						}
+					}
 
 					$this->tpl->setCurrentBlock("print_item");
 					$page_id = $node["obj_id"];
