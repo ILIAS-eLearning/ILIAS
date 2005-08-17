@@ -1317,43 +1317,14 @@ class ilObjChatGUI extends ilObjectGUI
 		else
 		{
 			$user_obj =& new ilObjUser();
-			$counter = 0;
 			foreach($users as $user)
 			{
 				if($user == $_SESSION["AccountId"])
 				{
 					continue;
 				}
-				if(!($counter%2))
-				{
-					$this->tpl->touchBlock("active_row_start");
-				}
-				else
-				{
-					$this->tpl->touchBlock("active_row_end");
-				}
 				$user_obj->setId($user);
 				$user_obj->read();
-
-				$this->tpl->setCurrentBlock("active");
-				if ($_GET["p_id"] == $user ||
-					$_GET["a_id"] == $user)
-				{
-					$this->tpl->setVariable("ACTIVE_FONT_A","smallred");
-				}
-				else
-				{
-					$this->tpl->setVariable("ACTIVE_FONT_A","small");
-				}
-				$this->tpl->setVariable("ACTIVE_ADDRESS_A","chat.php?cmd=showInputFrame&".
-										"ref_id=".$this->ref_id."&room_id=".
-										$_REQUEST["room_id"]."&a_id=".$user);
-				$this->tpl->setVariable("ACTIVE_TXT_ADDRESS_A",$this->lng->txt("chat_address"));
-
-				$this->tpl->setVariable("ACTIVE_LINK_A","chat.php?cmd=showInputFrame&".
-										"ref_id=".$this->ref_id."&room_id=".
-										$_REQUEST["room_id"]."&p_id=".$user);
-				$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
 
 				if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()) and !$_REQUEST['room_id'])
 				{
@@ -1374,10 +1345,20 @@ class ilObjChatGUI extends ilObjectGUI
 					}
 
 					$this->tpl->setVariable("MOD_ONLINE_USER_NAME_A",$user_obj->getLogin());
+					$this->tpl->parseCurrentBlock();
 				}
 				else
 				{
 					$this->tpl->setCurrentBlock("non_moderate");
+					if ($_GET["p_id"] == $user ||
+						$_GET["a_id"] == $user)
+					{
+						$this->tpl->setVariable("ACTIVE_FONT_A","smallred");
+					}
+					else
+					{
+						$this->tpl->setVariable("ACTIVE_FONT_A","small");
+					}
 					$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1396,8 +1377,19 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				*/
+				$this->tpl->setCurrentBlock("active");
+
+				$this->tpl->setVariable("ACTIVE_ADDRESS_A","chat.php?cmd=showInputFrame&".
+										"ref_id=".$this->ref_id."&room_id=".
+										$_REQUEST["room_id"]."&a_id=".$user);
+				$this->tpl->setVariable("ACTIVE_TXT_ADDRESS_A",$this->lng->txt("chat_address"));
+
+				$this->tpl->setVariable("ACTIVE_LINK_A","chat.php?cmd=showInputFrame&".
+										"ref_id=".$this->ref_id."&room_id=".
+										$_REQUEST["room_id"]."&p_id=".$user);
+				$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
+
 				$this->tpl->parseCurrentBlock();
-				$counter++;
 			}
 		}
 	}
