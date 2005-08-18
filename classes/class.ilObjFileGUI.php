@@ -104,7 +104,7 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
+			#$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));

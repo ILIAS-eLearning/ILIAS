@@ -295,6 +295,10 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function viewObject()
 	{
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			return parent::viewObject();
+		}
 
 		// Check blocked
 		include_once 'chat/classes/class.ilChatBlockedUsers.php';
