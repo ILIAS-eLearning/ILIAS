@@ -287,12 +287,21 @@ class ilRepositoryGUI
 				}
 				$this->tpl->show();
 				break;
+				
+			case "ilobjuserfoldergui":
+				include_once("./classes/class.ilObjUserFolderGUI.php");
 
+				$this->gui_obj = new ilObjUserFolderGUI("", $_GET['ref_id'],true, false);
+
+				$this->prepareOutput(false);
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				$this->tpl->show();
+				break;
+				
 			case "ilobjrootfoldergui":
 			case "ilobjcategorygui":
 			case "ilobjgroupgui":
 			case "ilobjcoursegui":
-			case "ilobjuserfoldergui":
 			case "ilobjfilegui":
 			case "ilobjforumgui":
 			case "ilobjfoldergui":
