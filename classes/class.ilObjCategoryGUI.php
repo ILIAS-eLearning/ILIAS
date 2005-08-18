@@ -133,10 +133,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 			//add template for buttons
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id."&cmd=importCategoriesForm");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_categories"));
-			$this->tpl->parseCurrentBlock();
+			// only in administration
+			if ($this->ctrl->getTargetScript() == "adm_object.php")
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				$this->tpl->setVariable("BTN_LINK",
+					$this->ctrl->getLinkTarget($this, "importCategoriesForm"));
+				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_categories"));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->getTemplateFile("edit",$new_type);
 
@@ -198,7 +203,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 				{
 					$this->tpl->setCurrentBlock("removeTranslation");
 					$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-					$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+					$this->ctrl->setParameter($this, "entry", $key);
+					$this->ctrl->setParameter($this, "new_type", $new_type);
+					$this->ctrl->setParameter($this, "mode", "create");
+					$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
+
+					//$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -254,7 +264,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 			}
 
 			// global
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->ctrl->setParameter($this, "mode", "create");
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+			$this->tpl->setVariable("FORMACTION",
+				$this->ctrl->getFormAction($this));
+			//$this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -403,7 +417,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$this->tpl->setCurrentBlock("removeTranslation");
 				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
+				$this->ctrl->setParameter($this, "entry", $key);
+				$this->ctrl->setParameter($this, "mode", "edit");
+				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -552,8 +568,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		$_SESSION["translation_post"] = $_POST;
-		ilUtil::redirect($this->getReturnLocation("addTranslation",
-			"adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
+		//ilUtil::redirect($this->getReturnLocation("addTranslation",
+		//	"adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
+		$this->ctrl->setParameter($this, "entry", 0);
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
 
 	/**
@@ -569,7 +589,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		ilUtil::redirect("adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
+		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		//ilUtil::redirect("adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+
 	}
 
 	/**
