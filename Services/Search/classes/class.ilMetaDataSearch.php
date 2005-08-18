@@ -120,7 +120,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createContributeWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_entity ".
 			$where." ".$in.' ';
@@ -128,7 +128,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -143,7 +143,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createKeywordWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_keyword ".
 			$where." ".$in.' ';
@@ -151,7 +151,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -164,7 +164,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createTitleWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_general ".
 			$where." ".$in.' ';
@@ -172,7 +172,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -185,7 +185,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createDescriptionWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_description ".
 			$where." ".$in.' ';
@@ -193,7 +193,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;

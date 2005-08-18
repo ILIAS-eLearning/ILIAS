@@ -5245,3 +5245,5 @@ survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 crs#:#crs_member_of#:#Mitglied des Kurses:
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
+search#:#search_hits#:#Gefunden in:
+search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.

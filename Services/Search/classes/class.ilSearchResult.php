@@ -42,6 +42,9 @@ class ilSearchResult
 	var $ilias;
 	var $ilAccess;
 
+	// Stores info if MAX HITS is reached or not
+	var $limit_reached = false;
+
 
 	var $result;
 	/**
@@ -71,6 +74,13 @@ class ilSearchResult
 		return $this->entries ? $this->entries : array();
 	}
 
+	function isLimitReached()
+	{
+		return $this->limit_reached ? true : false;
+	}
+
+
+
 	/**
 	 *
 	 * add search result entry
@@ -78,9 +88,10 @@ class ilSearchResult
 	 * @param integer object object_id
 	 * @param string obj_type 'lm' or 'crs' ...
 	 * @param array value position of query parser words in query string
+	 * @param integer child id e.g id of page or chapter
 	 * @access	public
 	 */
-	function addEntry($a_obj_id,$a_type,$found)
+	function addEntry($a_obj_id,$a_type,$found,$a_child_id = 0)
 	{
 		// Create new entry if it not exists
 		if(!$this->entries[$a_obj_id])
@@ -88,9 +99,20 @@ class ilSearchResult
 			$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
 			$this->entries[$a_obj_id]['type'] = $a_type;
 			$this->entries[$a_obj_id]['found'] = $found;
+
+			if($a_child_id and $a_child_id != $a_obj_id)
+			{
+				$this->entries[$a_obj_id]['child'][$a_child_id] = $a_child_id;
+			}
 		}
 		else
 		{
+			// replace or add child ('pg','st') id
+			if($a_child_id and $a_child_id != $a_obj_id)
+			{
+				$this->entries[$a_obj_id]['child'][$a_child_id] = $a_child_id;
+			}
+
 			// UPDATE FOUND
 			$counter = 0;
 			foreach($found as $position)
@@ -126,6 +148,7 @@ class ilSearchResult
 		foreach($result_obj->getEntries() as $entry)
 		{
 			$this->addEntry($entry['obj_id'],$entry['type'],$entry['found']);
+			$this->__updateEntryChilds($entry['obj_id'],$entry['child']);
 		}
 		return true;
 	}
@@ -150,6 +173,8 @@ class ilSearchResult
 				$this->addEntry($new_entries[$obj_id]['obj_id'],
 								$new_entries[$obj_id]['type'],
 								$new_entries[$obj_id]['found']);
+				$this->__updateEntryChilds($new_entries[$obj_id]['obj_id'],
+									 $new_entries[$obj_id]['child']);
 			}
 		}
 	}
@@ -173,6 +198,9 @@ class ilSearchResult
 				$this->addEntry($new_entries[$obj_id]['obj_id'],
 								$new_entries[$obj_id]['type'],
 								$new_entries[$obj_id]['found']);
+
+				$this->__updateEntryChilds($new_entries[$obj_id]['obj_id'],
+									 $new_entries[$obj_id]['child']);
 			}
 		}
 	}
@@ -224,7 +252,8 @@ class ilSearchResult
 												  'title' => $title,
 												  'description' => $description,
 												  'type' => $result['type'],
-												  'obj_id' => $result['obj_id']);
+												  'obj_id' => $result['obj_id'],
+												  'child' => $result['child']);
 		}
 		return $presentation_result ? $presentation_result : array();
 	}
@@ -251,9 +280,13 @@ class ilSearchResult
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
 						$this->addResult($ref_id,$entry['obj_id'],$type);
+						$this->__updateResultChilds($ref_id,$entry['child']);
+						
+						$counter += count($entry['child']);
 						// Stop if maximum of hits is reached
 						if(++$counter == $this->search_settings->getMaxHits())
 						{
+							$this->limit_reached = true;
 							return true;
 						}
 					}
@@ -280,6 +313,7 @@ class ilSearchResult
 			if($tree->isGrandChild($a_root_node,$result['ref_id']) and $tree->isInTree($result['ref_id']))
 			{
 				$this->addResult($result['ref_id'],$result['obj_id'],$result['type']);
+				$this->__updateResultChilds($result['ref_id'],$result['child']);
 			}
 		}
 
@@ -335,7 +369,52 @@ class ilSearchResult
 			}
 		}
 	}
+
 	// PRIVATE
+	/**
+	 *
+	 * Update childs for a specific entry
+	 * @param integer object object_id
+	 * @param array array of child ids. E.g 'pg', 'st'
+	 * @access	private
+	 */
+	function __updateEntryChilds($a_obj_id,$a_childs)
+	{
+		if($this->entries[$a_obj_id] and is_array($a_childs))
+		{
+			foreach($a_childs as $child_id)
+			{
+				if($child_id)
+				{
+					$this->entries[$a_obj_id]['child'][$child_id] = $child_id;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * Update childs for a specific result
+	 * @param integer  object ref_id
+	 * @param array array of child ids. E.g 'pg', 'st'
+	 * @access	private
+	 */
+	function __updateResultChilds($a_ref_id,$a_childs)
+	{
+		if($this->results[$a_ref_id] and is_array($a_childs))
+		{
+			foreach($a_childs as $child_id)
+			{
+				$this->results[$a_ref_id]['child'][$child_id] = $child_id;
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+
 	function __initSearchSettingsObject()
 	{
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';

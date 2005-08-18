@@ -394,6 +394,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->__showSearchInResults();
 		}
 
+		if($result->isLimitReached())
+		{
+			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
+			sendInfo($message);
+		}
+
 		// Step 6: show results
 		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
 
@@ -452,7 +458,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 					$result_meta =& $this->__searchMeta($query_parser,'title');
 					$result->mergeEntries($result_meta);
-
 					$result_meta =& $this->__searchMeta($query_parser,'description');
 					$result->mergeEntries($result_meta);
 
