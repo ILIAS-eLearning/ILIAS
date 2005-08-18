@@ -637,6 +637,8 @@ class ilObjectListGUI
 	*/
 	function insertPayment()
 	{
+		include_once './payment/classes/class.ilPaymentObject.php';
+
 		if ($this->payment_enabled)
 		{
 			if (ilPaymentObject::_isBuyable($this->ref_id))
