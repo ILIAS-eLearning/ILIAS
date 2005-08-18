@@ -580,7 +580,7 @@ class ilRbacAdmin
 	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
-		if (!isset($a_rol_id) or !isset($a_parent) or func_num_args() != 3)
+		if (!isset($a_rol_id) or !isset($a_parent))
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
 					   " role_id: ".$a_rol_id.

@@ -8411,3 +8411,84 @@ INDEX ( `usr_id` )
 );
 <#518>
 DELETE FROM object_description;
+<#519>
+<?php
+$wd = getcwd();
+chdir('..');
+
+$tree =& new ilTree(ROOT_FOLDER_ID);
+$GLOBALS['tree'] = $tree;
+$rbacadmin =& new ilRbacAdmin();
+$rbacreview =& new ilRbacReview();
+
+$query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd,object_reference as obr ".
+	"WHERE obd.obj_id = obr.obj_id ".
+	"AND type = 'chat'";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($tree->isInTree($row->refid) and !count($tree->getChilds($row->refid)))
+	{
+		// 1. Insert in object_data
+		$query = "INSERT INTO object_data ".
+			"(type,title,description,owner,create_date,last_update,import_id) ".
+			"VALUES ".
+			"('rolf','".$row->objid."','(ref_id ".$row->refid.")',".
+			"'6',now(),now(),'')";
+
+		$ilDB->query($query);
+		
+		// 2. Get id of new role folder
+		$rolf_id = $ilDB->getLastInsertId();
+
+		// 3. Create reference
+		$query = "INSERT INTO object_reference ".
+			"(obj_id) VALUES ('".$rolf_id."')";
+		$ilDB->query($query);
+
+		$rolf_ref_id = $ilDB->getLastInsertId();
+
+		// 4. Insert in tree
+		$tree->insertNode($rolf_ref_id,$row->refid);
+
+		// Set permissions
+		foreach ($rbacreview->getParentRoleIds($row->refid) as $parRol)
+		{
+			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf', $parRol["parent"]);
+			$rbacadmin->grantPermission($parRol["obj_id"], $ops,$rolf_ref_id);
+		}
+
+		// Add new lokal moderator role
+		$query = "INSERT INTO object_data ".
+			"(type,title,description,owner,create_date,last_update,import_id) ".
+			 "VALUES ".
+			"('role','il_chat_moderator_".$row->refid."','"."Moderator of chat obj_no.".$row->objid."',".
+			"'6',now(),now(),'')";
+
+		$ilDB->query($query);
+			
+		$role_id = $ilDB->getLastInsertId();
+
+		// Insert role_data entry
+		$query = "INSERT INTO role_data ".
+			"(role_id,allow_register,assign_users) ".
+			"VALUES ".
+			"('".$role_id."','0','1')";
+		$ilDB->query($query);
+
+		// Assign this role to role folder
+		$rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
+
+		// Grant permissions: visible,read,write,chat_moderate
+		$permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
+		$rbacadmin->grantPermission($role_id,
+									$permissions,
+									$row->refid);
+
+	}
+
+
+}
+chdir($wd);
+?>
