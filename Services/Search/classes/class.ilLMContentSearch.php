@@ -56,17 +56,18 @@ class ilLMContentSearch extends ilAbstractSearch
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT parent_id,parent_type ".
+		$query = "SELECT page_id,parent_id,parent_type ".
 			$locate.
-			"FROM page_object ".
+			"FROM page_object, lm_data ".
 			$where.
+			"AND obj_id = page_id ".
 			$in;
 			
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row));
+			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row),$row->page_id);
 		}
 
 		return $this->search_result;

@@ -284,7 +284,7 @@ class ilSearchResult
 						
 						$counter += count($entry['child']);
 						// Stop if maximum of hits is reached
-						if(++$counter == $this->search_settings->getMaxHits())
+						if(++$counter > $this->search_settings->getMaxHits())
 						{
 							$this->limit_reached = true;
 							return true;
