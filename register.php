@@ -248,6 +248,7 @@ function saveForm()
 
 	// setup user preferences
 	$userObj->setLanguage($_POST["Fobject"]["language"]);
+	$userObj->setPref("hits_per_page", $ilias->getSetting("hits_per_page"));
 	$userObj->writePrefs();
 
 	//set role entries
