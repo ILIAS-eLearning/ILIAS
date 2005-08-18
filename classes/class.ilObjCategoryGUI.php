@@ -594,17 +594,51 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function _importCategoriesForm ($a_ref_id, &$a_tpl)
 	{
-		global $lng;
+		global $lng, $rbacreview;
 
 		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
 
 		$a_tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$a_ref_id."&cmd=gateway");
 
 		$a_tpl->setVariable("TXT_IMPORT_CATEGORIES", $lng->txt("import_categories"));
+		$a_tpl->setVariable("TXT_HIERARCHY_OPTION", "Create local role for every new category");
 		$a_tpl->setVariable("TXT_IMPORT_FILE", $lng->txt("import_file"));
 
 		$a_tpl->setVariable("BTN_IMPORT", $lng->txt("import"));
 		$a_tpl->setVariable("BTN_CANCEL", $lng->txt("cancel"));
+
+		// NEED TO FILL ADOPT_PERMISSIONS HTML FORM....
+		$parent_role_ids = $rbacreview->getParentRoleIds($a_ref_id,true);
+		
+		// sort output for correct color changing
+		ksort($parent_role_ids);
+		
+		foreach ($parent_role_ids as $key => $par)
+		  {
+		    if ($par["obj_id"] != SYSTEM_ROLE_ID)
+		      {
+			$radio = ilUtil::formDisabledRadioButton(0,"adopt",$par["obj_id"],1);
+			$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+			$output["adopt"][$key]["check_adopt"] = $radio;
+			$output["adopt"][$key]["role_id"] = $par["obj_id"];
+			$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+			$output["adopt"][$key]["role_name"] = $par["title"];
+		      }
+		  }
+		
+		//var_dump($output);
+
+		// BEGIN ADOPT PERMISSIONS
+		foreach ($output["adopt"] as $key => $value)
+		  {
+		    $a_tpl->setCurrentBlock("ADOPT_PERM_ROW");
+		    $a_tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
+		    $a_tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
+		    $a_tpl->setVariable("LABEL_ID",$value["role_id"]);
+		    $a_tpl->setVariable("TYPE",$value["type"]);
+		    $a_tpl->setVariable("ROLE_NAME",$value["role_name"]);
+		    $a_tpl->parseCurrentBlock();
+		  }
 	}
 
 
@@ -633,13 +667,27 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function importCategoriesObject()
 	{
 		ilObjCategoryGUI::_importCategories($_GET["ref_id"]);
+		// call to importCategories with $withrol = 0
+		ilObjCategoryGUI::_importCategories($_GET["ref_id"], 0);
+	}
+	
+        /**
+	 * import categories with local rol
+	 */
+	function importCategoriesWithRolObject()
+	{
+	
+	  //echo "entra aqui";
+	  // call to importCategories with $withrol = 1
+	  ilObjCategoryGUI::_importCategories($_GET["ref_id"], 1);
 	}
 
 	/**
 	* import categories (static, also called by RootFolderGUI)
 	*/
-	function _importCategories($a_ref_id)
-	{
+	
+	function _importCategories($a_ref_id, $withrol_tmp)	
+{
 		global $lng;
 
 		require_once("classes/class.ilCategoryImportParser.php");
@@ -664,8 +712,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$subdir = basename($parts["basename"],".".$parts["extension"]);
 		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
-
-		$importParser = new ilCategoryImportParser($xml_file, $a_ref_id);
+		// CategoryImportParser
+		//var_dump($_POST);
+		$importParser = new ilCategoryImportParser($xml_file, $a_ref_id, $withrol_tmp);
 		$importParser->startParsing();
 
 		sendInfo($lng->txt("categories_imported"), true);

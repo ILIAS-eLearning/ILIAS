@@ -312,6 +312,36 @@ class ilUtil
 	}
 
 	/**
+	 * ???
+	 * @accesspublic
+	 * @paramstring
+	 * @paramstring
+	 * @paramstring
+	 * @param        string
+	 * @returnstring
+	 */
+	function formDisabledRadioButton($checked,$varname,$value,$disabled)
+	  {
+	    if ($disabled) {
+	      $str = "<input disabled type=\"radio\" name=\"".$varname."\"";
+	    }
+	    else {
+	      $str = "<input type=\"radio\" name=\"".$varname."\"";
+	    }
+	    if ($checked == 1)
+	      {
+		$str .= " checked=\"checked\"";
+	      }
+	    
+	    $str .= " value=\"".$value."\"";
+	    $str .= " id=\"".$value."\" />\n";
+	  
+	    return $str;
+
+	  }
+
+
+	/**
 	* ???
 	* @access	public
 	* @param	string

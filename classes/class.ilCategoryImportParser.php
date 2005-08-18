@@ -35,7 +35,8 @@ require_once("classes/class.ilSaxParser.php");
 class ilCategoryImportParser extends ilSaxParser
 {
 	var $parent;		// current parent ref id
-
+	var $withrol;          // must have value '1' when creating a hierarchy of local roles
+ 
 
 	/**
 	* Constructor
@@ -44,11 +45,13 @@ class ilCategoryImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilCategoryImportParser($a_xml_file, $a_parent)
+	function ilCategoryImportParser($a_xml_file, $a_parent,$withrol)
+
 	{
 		$this->parent_cnt = 0;
 		$this->parent[$this->parent_cnt] = $a_parent;
 		$this->parent_cnt++;
+		$this->withrol = $withrol;
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -104,26 +107,57 @@ class ilCategoryImportParser extends ilSaxParser
 	* handler for begin of element
 	*/
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
-	{
-
-		switch($a_name)
+	  
+ 	{
+	  
+	  global $rbacadmin, $rbacreview, $rbacsystem;
+	  
+	  switch($a_name)
 		{
 			case "Category":
 				$cur_parent = $this->parent[$this->parent_cnt - 1];
 				require_once("classes/class.ilObjCategory.php");
 				$this->category = new ilObjCategory;
-				$this->category->setImportId($a_attribs["Id"]);
+				$this->category->setImportId($a_attribs["Id"]." (#".$cur_parent.")");
 				$this->default_language = $a_attribs["DefaultLanguage"];
 				$this->category->setTitle($a_attribs["Id"]);
 				$this->category->create();
 				$this->category->createReference();
 				$this->category->putInTree($cur_parent);
 				$this->parent[$this->parent_cnt++] = $this->category->getRefId();
+				
+				// added for create local roles to categories imported
+				if ($this->withrol) {
+				    
+				  //CHECK ACCESS 'create' rolefolder
+				  if (!$rbacsystem->checkAccess('create',$this->category->getRefId(),'rolf')) {
+				    $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
+				  }
+ 
+				  include_once ("classes/class.ilObject.php");
+				  include_once ("classes/class.ilObjRole.php");
+  
+				  // create a rolefolder
+				  $rolfObj = $this->category->createRoleFolder("Local roles","Role Folder of category obj_no. ".$this->category->getRefId());
+				  // ...and put the role into local role folder...  
+				  //$roleObj = $rolfObj->createRole($a_attribs["Id"]." (#".$cur_parent.")","Local rol for category ".$a_attribs["Id"]);
+       
+				  $roleObj = $rolfObj->createRole($a_attribs["Id"],"Local rol for category ".$a_attribs["Id"]);
+				  // adopt permissions from rol template selected
+				  $parentRoles = $rbacreview->getParentRoleIds($rolfObj->getRefId(),true);
+				  $rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],$rolfObj->getRefId(),$roleObj->getId());
+
+				  unset($roleObj);
+				  unset($rolfObj);
+				  unset($parentRoles);
+				  
+				  // -----------------------------
+				}
 				break;
 
-			case "CategorySpec":
-				$this->cur_spec_lang = $a_attribs["Language"];
-				break;
+		case "CategorySpec":
+		  $this->cur_spec_lang = $a_attribs["Language"];
+		  break;
 
 		}
 

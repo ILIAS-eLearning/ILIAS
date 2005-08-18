@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.6 2005/05/12 17:10:45 akill Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.7 2005/08/01 09:07:09 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI:
 *
@@ -73,8 +73,18 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	*/
 	function importCategoriesObject()
 	{
-		ilObjCategoryGUI::_importCategories($this->ref_id);
+	  ilObjCategoryGUI::_importCategories($this->ref_id,0);
 	}
+
+
+	/**
+	 * import categories
+	 */
+	function importCategoriesWithRolObject()
+	{
+	  ilObjCategoryGUI::_importCategories($this->ref_id,1);
+	}
+
 
 	function getTabs(&$tabs_gui)
 	{
