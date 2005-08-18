@@ -194,6 +194,12 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$this->__showSearchInResults();
 		}			
 
+		if($res->isLimitReached())
+		{
+			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
+			sendInfo($message);
+		}
+
 		$this->showSearch();
 
 		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';

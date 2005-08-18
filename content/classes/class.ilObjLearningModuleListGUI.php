@@ -64,6 +64,16 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		include_once('class.ilObjLearningModuleAccess.php');
 		$this->commands = ilObjLearningModuleAccess::_getCommands();
 	}
+
+	function setChildId($a_child_id)
+	{
+		$this->child_id = $a_child_id;
+	}
+	function getChildId()
+	{
+		return $this->child_id;
+	}
+
 	
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
@@ -105,6 +115,11 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				$cmd_link = "ilias.php?baseClass=ilLMEditorGUI&ref_id=".$this->ref_id;
 				break;
 
+			case 'list':
+				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id."&obj_id=".$this->getChildId();
+				break;
+				
+
 			default:
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
@@ -129,6 +144,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		{
 			case "view":
 			case "continue":
+			case 'list':
 
 				include_once 'payment/classes/class.ilPaymentObject.php';
 

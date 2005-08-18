@@ -188,7 +188,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$and .= ("AND general_structure = '".ilUtil::prepareDBString($this->options['structure'])."' ");
 		}
 			
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_type,obj_id ".
 			$locate." ".
 			"FROM il_meta_general ".
 			"WHERE obj_type ".$this->__getInStatement($this->getFilter())." ".
@@ -202,12 +202,12 @@ class ilAdvancedSearch extends ilAbstractSearch
 				$found = $this->__prepareFound($row);
 				if(!in_array(0,$found))
 				{
-					$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+					$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found,$row->obj_id);
 				}
 			}
 			else
 			{
-				$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 			}
 		}
 
@@ -221,7 +221,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			return false;
 		}
 
-		$query = "SELECT rbac_id,obj_type FROM il_meta_language ".
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_language ".
 			"WHERE language = '".ilUtil::prepareDBString($this->options['language'])."' ".
 			"AND obj_type ".$this->__getInStatement($this->getFilter()).' '.
 			"AND parent_type = 'meta_general'";
@@ -230,7 +230,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
@@ -242,7 +242,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			return false;
 		}
 
-		$query = "SELECT rbac_id,obj_type FROM il_meta_contribute ".
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_contribute ".
 			"WHERE role = '".ilUtil::prepareDBString($this->options['role'])."' ".
 			"AND obj_type ".$this->__getInStatement($this->getFilter());
 
@@ -250,7 +250,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
@@ -263,7 +263,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$where = $this->__createEntityWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_entity ".
 			$where." ".$and.' ';
@@ -274,7 +274,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
 			{
-				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found,$row->obj_id);
 			}
 		}
 
@@ -285,7 +285,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchRequirement()
 	{
-		$query = "SELECT rbac_id,obj_type FROM il_meta_requirement ";
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_requirement ";
 
 		if(!strlen($where = $this->__createRequirementWhere()))
 		{
@@ -297,14 +297,14 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
 
 	function &__searchEducational()
 	{
-		$query = "SELECT rbac_id,obj_type FROM il_meta_educational ";
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_educational ";
 
 		if(!strlen($where = $this->__createEducationalWhere()))
 		{
@@ -316,7 +316,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
@@ -328,7 +328,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			return false;
 		}
 
-		$query = "SELECT rbac_id,obj_type FROM il_meta_typical_age_range ".
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_typical_age_range ".
 			"WHERE typical_age_range_min >= '".(int) $this->options['typ_age_1']."' ".
 			"AND typical_age_range_max <= '".(int) $this->options['typ_age_2']."'";
 
@@ -337,14 +337,14 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
 
 	function &__searchRights()
 	{
-		$query = "SELECT rbac_id,obj_type FROM il_meta_rights ";
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_rights ";
 
 		if(!strlen($where = $this->__createRightsWhere()))
 		{
@@ -356,14 +356,14 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
 
 	function &__searchClassification()
 	{
-		$query = "SELECT rbac_id,obj_type FROM il_meta_classification ";
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_classification ";
 
 		if(!strlen($where = $this->__createClassificationWhere()))
 		{
@@ -375,7 +375,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}
@@ -388,7 +388,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$where = $this->__createTaxonWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_taxon ".
 			$where." ".$and.' ';
@@ -399,7 +399,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
 			{
-				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found,$row->obj_id);
 			}
 		}
 
@@ -418,7 +418,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$where = $this->__createKeywordWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_keyword ".
 			$where." ".$and.' ';
@@ -429,7 +429,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found) or !$a_in_classification)
 			{
-				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found,$row->obj_id);
 			}
 		}
 
@@ -455,7 +455,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$and .= (" AND lifecycle_status = '".$this->options['status']."'");
 		}
 
-		$query = "SELECT rbac_id,obj_type ".
+		$query = "SELECT rbac_id,obj_id,obj_type ".
 			$locate.
 			"FROM il_meta_lifecycle ".
 			$where." ".$and.' ';
@@ -466,7 +466,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
 			{
-				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found);
+				$this->search_result->addEntry($row->rbac_id,$row->obj_type,$found,$row->obj_id);
 			}
 		}
 
@@ -480,7 +480,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			return false;
 		}
 
-		$query = "SELECT rbac_id,obj_type FROM il_meta_format ".
+		$query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_format ".
 			"WHERE format LIKE('".ilUtil::prepareDBString($this->options['format'])."') ".
 			"AND obj_type ".$this->__getInStatement($this->getFilter());
 		
@@ -488,7 +488,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		#var_dump("<pre>",$query,"<pre>");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array());
+			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
 		return $this->search_result;
 	}

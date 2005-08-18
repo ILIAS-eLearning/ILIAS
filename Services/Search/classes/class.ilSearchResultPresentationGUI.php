@@ -99,6 +99,7 @@ class ilSearchResultPresentationGUI
 
 					if($html)
 					{
+						$html = $this->__appendChildLinks($html,$item,$item_list_gui);
 						$item_html[$item["ref_id"]] = $html;
 					}
 				}
@@ -204,7 +205,38 @@ class ilSearchResultPresentationGUI
 		$a_tpl->touchBlock("container_row");
 	}
 
+	function __appendChildLinks($html,$item,&$item_list_gui)
+	{
+		if(!count($item['child']) or $item['type'] != 'lm')
+		{
+			return $html;
+		}
+		include_once 'content/classes/class.ilLMObject.php';
 
+		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
+
+		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
+		foreach($item['child'] as $child)
+		{
+			$tpl->setCurrentBlock("link_row");
+			
+			switch(ilLMObject::_lookupType($child))
+			{
+				case 'pg':
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_pg'));
+					break;
+				case 'st':
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_st'));
+					break;
+			}
+			$item_list_gui->setChildId($child);
+			$tpl->setVariable("LINK",$item_list_gui->getCommandLink('list'));
+			$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('list'));
+			$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
+			$tpl->parseCurrentBlock();
+		}
+		return $html . $tpl->get();
+	}
 
 }
 
