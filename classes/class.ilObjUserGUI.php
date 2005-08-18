@@ -438,7 +438,8 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("selecthits");
 
-			if ($this->object->prefs["hits_per_page"] == $selected_option)
+			//if ($this->object->prefs["hits_per_page"] == $selected_option)
+			if ($hits_option == $this->ilias->getSetting("hits_per_page"))
 			{
 				$this->tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
 			}
