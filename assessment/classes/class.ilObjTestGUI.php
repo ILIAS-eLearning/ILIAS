@@ -3278,11 +3278,11 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			
 			// Show results in a new print frame
-			if (!$this->cmdCtrl->canShowTestResults() && $this->object->isActiveTestSubmitted()) {
-				$add_parameter = "?ref_id=" . $_GET["ref_id"];
+			if ($this->object->isActiveTestSubmitted()) {
+				$add_parameter2 = "?ref_id=" . $_GET["ref_id"];
 				$this->tpl->setCurrentBlock("show_printview");
 				$this->tpl->setVariable("BTN_ANSWERS", $this->lng->txt("tst_show_answer_print_sheet"));	
-				$this->tpl->setVariable("PRINT_VIEW_HREF", $this->getCallingScript (). $add_parameter. "&cmd=answersheet");				
+				$this->tpl->setVariable("PRINT_VIEW_HREF", $this->getCallingScript (). $add_parameter2. "&cmd=answersheet");				
 				$this->tpl->parseCurrentBlock();				
 			}			
 						
