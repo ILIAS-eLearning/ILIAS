@@ -71,9 +71,34 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
+	* edit basic style settings
+	*/
+	function editBasicSettingsObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->tpl->addBlockfile("ADM_CONTENT", "style_basic_settings", "tpl.stys_basic_settings.html");
+		$this->tpl->setCurrentBlock("style_settings");
+
+		$settings = $this->ilias->getAllSettings();
+
+		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));		
+		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS", $this->lng->txt("enable_custom_icons"));
+		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS_INFO", $this->lng->txt("enable_custom_icons_info"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* view list of styles
 	*/
-	function viewObject()
+	function editContentStylesObject()
 	{
 		global $rbacsystem, $ilias;
 		
@@ -190,7 +215,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// render table
 		$tbl->render();
 		
-		//$this->displayStyleSettings();
 	}
 	
 	/**
@@ -348,6 +372,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		$this->ilias->ini->write();
 //echo "redirect-".$this->ctrl->getLinkTarget($this,"editSystemStyles")."-";
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editSystemStyles"));
 	}
 	
@@ -426,7 +451,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		$this->object->update();
 		
-		ilUtil::redirect($this->getReturnLocation("delete",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect($this->getReturnLocation("delete",
+			$this->ctrl->getLinkTarget($this,"editContentStyles")));
 	}
 	
 	
@@ -460,7 +486,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilias->deleteSetting("default_content_style_id");
 		}
 		
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
 	}
 
 	/**
@@ -491,7 +517,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			$ilias->setSetting("fixed_content_style_id", $_POST["id"][0]);
 		}
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
 	}
 
 	
@@ -532,6 +558,26 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* cancel deletion of object
+	*
+	* @access	public
+	*/
+	function cancelDeleteObject()
+	{
+		session_unregister("saved_post");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::redirect($this->getReturnLocation("cancelDelete",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles"));
+
+	}
+
+	
+	function setTabs()
+	{
+		echo "settings_setTabs";
+	}
 	
 	/**
 	* get tabs
@@ -540,9 +586,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		$tabs_gui->addTarget("settings",
-			$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
-
 		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
 		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
 	}
