@@ -190,18 +190,22 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// render table
 		$tbl->render();
 		
-		$this->displayStyleSettings();
+		//$this->displayStyleSettings();
 	}
 	
-	
 	/**
-	* displays style settings
+	* edit system styles
 	*/
-	function displayStyleSettings()
+	function editSystemStylesObject()
 	{
-		global $styleDefinition;
+		global $rbacsystem, $ilias, $styleDefinition;;
 		
-		$this->tpl->addBlockFile("SYSTEMSETTINGS", "style_settings", "tpl.stys_settings.html");
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->tpl->addBlockfile("ADM_CONTENT", "style_settings", "tpl.stys_settings.html");
 		$this->tpl->setCurrentBlock("style_settings");
 
 		$settings = $this->ilias->getAllSettings();
@@ -276,6 +280,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+
 	/**
 	* save skin and style settings
 	*/
@@ -342,7 +347,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			}
 		}
 		$this->ilias->ini->write();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+//echo "redirect-".$this->ctrl->getLinkTarget($this,"editSystemStyles")."-";
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editSystemStyles"));
 	}
 	
 	/**
@@ -534,6 +540,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		$tabs_gui->addTarget("settings",
+			$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+
 		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
 		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
 	}
