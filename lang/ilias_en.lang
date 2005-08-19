@@ -2819,7 +2819,11 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
+common#:#system_styles#:#System Styles
+common#:#basic_settings#:#Basic Settings
 common#:#usrf_create_user#:#Create new user account
+common#:#enable_custom_icons#:#Enable custom icons
+common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#usrf_delete#:#Delete user accounts
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts

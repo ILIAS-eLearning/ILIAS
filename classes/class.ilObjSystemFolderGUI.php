@@ -1651,8 +1651,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+			//$tabs_gui->addTarget("edit_properties",
+			//	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 
 			$tabs_gui->addTarget("system_check",
 				$this->ctrl->getLinkTarget($this, "check"), "check", get_class($this));

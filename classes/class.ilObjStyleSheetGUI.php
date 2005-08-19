@@ -363,7 +363,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$fold->update();
 				
 				// to do: introduce ilCtrl in administration properly
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
 			}
 		}
 
@@ -392,8 +392,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
-			{				
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+			{
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
 			}
 		}
 
@@ -406,7 +406,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		global $lng;
-		
+
 		// to do: introduce ilCtrl in administration properly
 		if ($_GET["ref_id"] > 0)
 		{
@@ -414,7 +414,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{				
-				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
 			}
 		}
 
@@ -458,11 +458,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
-			{				
+			{
 				// back to upper context
 				$tabs_gui->addTarget("back",
-					"adm_object.php?ref_id=".$_GET["ref_id"], "",
-					"");
+					"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles",
+					"", "");
 				return;
 			}
 		}

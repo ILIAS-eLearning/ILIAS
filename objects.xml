@@ -287,7 +287,6 @@
 </object>
 <object name="stys" class_name="StyleSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="sty">sty</subobj>
-	<property name="view">view_content</property>
 	<property name="editBasicSettings">basic_settings</property>
 	<property name="editSystemStyles">system_styles</property>
 	<property name="editContentStyles">content_styles</property>
