@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<html>
+<head>
+<title>QUALITUS GmbH</title>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<LINK href="style.css" type=text/css rel=stylesheet>
+<LINK href="menu.css" type=text/css rel=stylesheet>
+<style type="text/css">
+<!--
+body {
+	background-color: #F4F4F4;
+}
+-->
+</style><body bottomMargin=0 leftMargin=0 topMargin=0 rightMargin=0 marginheight="0" marginwidth="0">	
+				<table width="719" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="258" bgcolor="#E9E9E9"><img src="./templates/qualitus/images/p_trans.gif" width="1" height="1"></td>
+				<td bgcolor="#E9E9E9"><img src="./templates/qualitus/images/p_trans.gif" width="1" height="20"></td>
+				<td width="460" bgcolor="#E9E9E9"><img src="./templates/qualitus/images/p_trans.gif" width="1" height="1"></td>
+			</tr>
+			<tr>
+				<td width="258" height="92" align="center" valign="top" bgcolor="#E9E9E9"><img src="./templates/qualitus/images/login_logos.gif" width="201" height="73" border="0"></td>
+				<td bgcolor="#E9E9E9"><img src="./templates/qualitus/images/p_trans.gif" width="1" height="92"></td>
+			  <td width="460" height="92" valign="top" bgcolor="#E9E9E9"></td>
+			</tr>
+			<tr>
+				<td width="258" height="1"><img src="assets/p_weiss.gif" width="258" height="1"></td>
+				<td height="1"><img src="assets/p_weiss.gif" width="1" height="1"></td>
+				<td width="460" height="1"><img src="assets/p_weiss.gif" width="460" height="1"></td>
+			</tr>
+			<tr>
+				<td width="258" height="15" bgcolor="#213F50"></td>
+				<td height="15"><img src="assets/p_weiss.gif" width="1" height="15"></td>
+				<td width="460" height="15" align="right" background="./templates/qualitus/images/linea.gif" bgcolor="#E7302A"><img src="./templates/qualitus/images/linea_ende.gif" width="30" height="15" align="top"></td>
+			</tr>
+			<tr>
+				<td width="258" height="1"><img src="assets/p_weiss.gif" width="258" height="1"></td>
+				<td height="1"><img src="assets/p_weiss.gif" width="1" height="1"></td>
+				<td width="460" height="1"><img src="assets/p_weiss.gif" width="460" height="1"></td>
+			</tr>
+			<tr>
+				<td height="5" bgcolor="#9E9EA0"></td>
+				<td height="5"><img src="assets/p_weiss.gif" width="1" height="5"></td>
+				<td height="5" bgcolor="#213F50"></td>
+			</tr>
+			<tr>
+				<td width="258" height="1"><img src="assets/p_weiss.gif" width="258" height="1"></td>
+				<td height="1"><img src="assets/p_weiss.gif" width="1" height="1"></td>
+				<td width="460" height="1"><img src="assets/p_weiss.gif" width="460" height="1"></td>
+			</tr>
+			<tr bgcolor="#E9E9E9">
+				<td width="258" height="33"><img src="assets/p_trans.gif" width="1" height="33"></td>
+				<td height="33"><img src="assets/p_trans.gif" width="1" height="33"></td>
+				<td width="460" height="33"><img src="assets/p_trans.gif" width="1" height="33"></td>
+			</tr>
+			<tr>
+			  <td align="center" valign="top" bgcolor="#E9E9E9"><p><img src="./templates/qualitus/images/bilder/ilias_support.jpg" width="214" height="80" border-color="#ffffff" class="rahmen"></p>
+			    <p><br>
+                </p></td>
+				<td valign="top" bgcolor="#E9E9E9"><img src="./templates/qualitus/images/p_rot.gif" width="1" height="390"></td>
+				<td valign="top" bgcolor="#E9E9E9"><blockquote>
+				  <P class="ueberschrift">Login</P>
+				  <P class="tabletext">Sie k&ouml;nnen sich auf ILIAS mit folgenden Zugangsdaten einloggen:</P>
+				  <P class="tabletext">Name: root<br>
+			       Passwort: homer</P>
+				  <form method="post" action="{FORMACTION}" name="formlogin">
+				    <table width="370" border="0" cellpadding="0" cellspacing="5">
+							<tr>
+								<td width="125"><span class="haedline">{TXT_ILIAS_LOGIN}</span></td>
+								<td width="242"></td>
+							</tr>
+							<tr>
+							  <td width="125" bgcolor="#CCCCCC" ><span class="tabletext">{TXT_USERNAME}</span></td>
+							  <td class="tabletext"><input name="username" type="text" class="tabletext" value="{USERNAME}"  size="40"/></td>
+							</tr>
+							<tr>
+							  <td width="125" bgcolor="#CCCCCC"><span class="tabletext"> {TXT_PASSWORD}</span></td>
+							  <td class="tabletext"><input name="password" type="password" class="tabletext" value="{PASSWORD}"  size="40"/></td>
+							</tr>
+							<tr>
+							  <td width="125" bgcolor="#CCCCCC"><img src="./templates/qualitus/images/p_trans.gif" width="1" height="1"></td>
+							  <td class="tabletext"><input name="Submit" type="submit" class="tabletext" value="{TXT_SUBMIT}"></td>
+							</tr>
+			    	</table>
+			  	  </form>
+					<table width="370" border="0" cellpadding="0" cellspacing="5">
+                              <tr>
+                                <td width="125" bgcolor="#CCCCCC">&nbsp;</td>
+                                <td width="242">
+								  <form name="languageselection" action="{LANG_FORM_ACTION}"method="post">
+									  <select name="lang" class="tabletext" onChange="this.form.submit()">
+									    <option value="">{TXT_CHOOSE_LANGUAGE}</option>
+									    <!-- BEGIN languages -->
+									    <option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+									    <!-- END languages -->
+									  </select>
+										<input class="submit" type="submit" value="{TXT_OK}"/>
+								  </form>
+								</td>
+                              </tr>
+                              <tr>
+                                <td bgcolor="#CCCCCC"></td>
+                                <td >
+									<!-- BEGIN new_registration -->
+									<a href="register.php?lang={LANG_ID}" class="navi_login">{REGISTER}</a><br/>
+									<!-- END new_registration -->
+									<!-- BEGIN homelink -->
+									<a href="./index.php{CLIENT_ID}" class="navi_login">{TXT_HOME}</a><br/>
+									<!-- END homelink -->
+									<!-- BEGIN password_assistance -->
+									<a href="pwassist.php?lang={LANG_ID}" class="navi_login">{FORGOT_PASSWORD}</a><br/>
+									<!-- END password_assistance -->
+									<!-- BEGIN password_assistance -->
+									<a href="pwassist.php?lang={LANG_ID}&cmd=forgot_username" class="navi_login">{FORGOT_USERNAME}</a><br/>
+									<!-- END password_assistance -->
+									<a href="view_usr_agreement.php?lang={LANG_ID}" class="navi_login">{USER_AGREEMENT}</a><br/>
+									<span class="Textrot">{TXT_MSG_LOGIN_FAILED}</span>
+								</td>
+                              </tr>
+					</table>
+						<table width="370" border="0" cellpadding="0" cellspacing="5">
+                              <tr>
+                                <td ><span class="Textklein">{ILIAS_RELEASE}</span></td>
+                              </tr>
+                       </table>							 
+	              <P>&nbsp;</P>
+				  </blockquote>
+				</td>
+			</tr>
+</table>
+</body>
+</html>

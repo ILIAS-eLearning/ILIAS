@@ -1,0 +1,8 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<template xmlns = "http://www.w3.org" version = "$Id$" name = "ILIAS">
+	<!--
+	<style 	name = "Qualitus"
+			id = "qualitus"
+			image_directory = "qualitus" />
+	-->
+</template>

@@ -1,0 +1,1627 @@
+body {
+SCROLLBAR-FACE-COLOR: #999999; 
+SCROLLBAR-HIGHLIGHT-COLOR: #cccccc; 
+SCROLLBAR-DARKSHADOW-COLOR: #cccccc; 
+SCROLLBAR-BASE-COLOR: #cccccc;
+SCROLLBAR-SHADOW-COLOR: #cccccc; 
+SCROLLBAR-3DLIGHT-COLOR: #cccccc; 
+SCROLLBAR-ARROW-COLOR: #333333; 
+SCROLLBAR-TRACK-COLOR: #cccccc; 
+
+font-family: Tahoma, Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-style: normal;
+margin-left: 0px;
+margin-top: 0px;
+margin-right: 0px;
+margin-bottom: 0px;
+background-color:#E9E9E9;
+}
+
+td {
+	font-size:11px;
+}
+
+.btnbar {
+	background-color:#F4F4F4;
+	color:#F4F4F4;
+}
+
+a.menu:link, a.menu:visited {
+	color:#213f50 ;
+}
+
+a.menu:hover {
+	color:#e7302a;
+}
+
+a.offline, a.offline:visited
+{
+	font-style: italic;
+}
+
+input {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+}
+
+input.marked {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+	background: #FFFFCC;
+}
+
+textarea {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+}
+
+input.fullwidth {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+	width: 100%;
+}
+
+input.fullwidth_marked {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+	width: 98%;
+	background: #FFFFCC
+}
+
+textarea.fullwidth {
+	font-family:Tahoma, Arial,Verdana, Helvetica,sans-serif;
+	width: 98%
+}
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblrow2 {
+	background-color:#D4D4D5;
+	color:#474747;
+	font-size:11px;
+	padding:1px;
+}
+
+.tblrow1 {
+	background-color:#D4D4D5;
+	color:#474747;
+	font-size:11px;
+	padding:1px;
+}
+/*-----new Classes for r 3.5------*/
+				.tblrow2light {
+					background-color:#F0F0F0;
+					color:#474747;
+					font-size:11px;
+					padding:3px;
+					vertical-align:top;
+				}
+				
+				.tblrow1light {
+					background-color:#FFFFFF;
+					color:#474747;
+					font-size:11px;
+					padding:3px;
+					vertical-align:top;
+				}
+
+.tblrowmarked {
+	background-color:#D4D4D5;
+	color:#474747;
+	font-size:11px;
+	padding:1px;
+}
+
+/*-----new Classes for r 3.5------*/
+			.tblrow2top {
+				background-color:#F0F0F0;
+				color:#474747;
+				font-size:11px;
+				padding:3px;
+				vertical-align: top;
+			}
+			
+			.tblrow1top {
+				background-color:#FFFFFF;
+				color:#474747;
+				font-size:11px;
+				padding:3px;
+				vertical-align: top;
+			}
+			
+			.tblrowmarkedtop {
+				background-color:#ffe0e0;
+				color:#474747;
+				font-size:11px;
+				padding:3px;
+				vertical-align: top;
+			}
+
+/* -------------------- table formatting ------------------ */
+
+table.std {
+	color:#474747;
+	border-spacing: 1px;
+}
+
+table.fullwidth {
+	color:#474747;
+	/*background-color:#D4D4D5;*/
+	width:100%;
+	border-spacing:1px;
+	border-width:1px;
+	border-color:#ffffff;
+}
+
+/*-----new Classes for r 3.5------*/
+			table.halfwidth {
+				color:#474747;
+				background-color:#bbbbbb;
+				width:50%;
+				border-spacing:1px;
+				border-width:0px;
+			}
+
+table.ilPDSelectedItemBlock {
+	color:#ffffff;
+	background-color:#ffffff;
+	width:100%;
+	border-width:0px;
+}
+
+table.fullwidth_nowrap {
+	color:#474747;
+	background-color:#ffffff;
+	width:100%;
+	border-spacing:1px;
+	white-space: nowrap;
+	border-color:#ffffff;
+}
+
+table.fullwidth_invisible {
+	color:#474747;
+	/*background-color:#E9E9E9;*/
+	width:100%;
+	border-spacing:0px;
+	border-color:#E9E9E9;
+}
+
+table.admin_invisible {
+	color:#474747;
+	background-color:#E9E9E9;
+	width:460px;
+	border-spacing:0px;
+}
+
+table.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	padding: 3px;
+	border-color:#ffffff;
+}
+
+td.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border-color:#ffffff;
+	padding: 3px;
+	vertical-align: top;
+}
+
+td.std {
+	border-color:#ffffff;
+	padding-left:3px;
+}
+
+th.il_invisible, td.il_invisible {
+	background-color:#D9D9D9;
+	background-image: none;
+}
+
+.tbltitle {
+	color:#213F50;
+	font-size:11px;
+	font-weight:bold;
+	background-color:#C9C9C9;
+	border-width:0px;
+	border-spacing:0px;
+	border-width:0px;
+	border-color:#C9C9C9;
+}
+
+.tblheader {
+	color: #213F50;
+	font-size:11px;
+	font-weight:solid;
+}
+
+tr.tblheader {
+	color:#213F50;
+	font-size:11px;
+	font-weight:bold;
+	background-color:#C9C9C9;
+}
+
+.tblfooter {
+	color: #000000;
+	font-size:11px;
+	font-weight:normal;
+}
+
+tr.tblfooter {
+	color:#000000;
+	font-size:11px;
+	font-weight:normal;
+	background-color:#e3e3e3;
+}
+
+tr.std {
+	background-color:#D4D4D5;
+	color:#474747;
+}
+
+td.option {
+	background-color:#e2e2e2;
+	color:#222222;
+	padding:3px;
+	font-size:11px;
+	font-weight:normal;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.sub_option {
+	background-color:#e2e2e5;
+	color:#222222;
+	padding:3px;
+	font-size:11px;
+	font-weight : bold;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.option_value {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	color:#5D5D5D;
+	padding-left:3px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+	margin-left: 2px;
+	background-color:#dcdce0;
+}
+/*-----new Classes for r 3.5------*/
+			td.option_value_center {
+				background-color:#f7f7f7;
+				background-image: none;
+				color:#474747;
+				padding:3px;
+				font-size:11px;
+				vertical-align:top;
+				text-align:center;
+			}
+			
+			td.option_value_details {
+				background-color:#dee0e6;
+				background-image: none;
+				color:#474747;
+				padding:3px;
+				font-size:11px;
+				vertical-align:top;
+				text-align:left;
+			}
+			td.option_value_center_details {
+				background-color:#dee0e6;
+				background-image: none;
+				color:#474747;
+				padding:3px;
+				font-size:11px;
+				vertical-align:top;
+				text-align:center;
+			}
+
+/*---------- Classen aus der ILIAS-Version 3.4------*/
+td.option_value_center {
+	background-color:#dcdce0;
+	background-image: none;
+	color:#5D5D5D;
+	padding:1px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:center;
+}
+
+td.option_value_details {
+	background-color:#AAAAB8;
+	background-image: none;
+	color:#5D5D5D;
+	padding:1px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+}
+td.option_value_center_details {
+	background-color:#AAAAB8;
+	background-image: none;
+	color:#5D5D5D;
+	padding:1px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:center;
+}
+/*---------- ende Classen aus der ILIAS-Version 3.4------*/
+
+td.option_desc, p.option_desc {
+	color:#5d5d5d;
+	padding:1px;
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+}
+/*-----new Classes for r 3.5------*/
+			td.option_info {
+				background-color:#f7f7f7;
+				background-image: none;
+				color:#474747;
+				padding:3px;
+				font-size:11px;
+				font-weight:bold;
+				vertical-align:top;
+				text-align:center;
+			}
+
+td.boxed {
+	border-style: solid;
+	border-width: thin;
+}
+
+td.submit {
+	background-color:#dddddd;
+	color:#222222;
+	padding:3px;
+	font-size:11px;
+	vertical-align:top;
+}
+/*-----new Classes for r 3.5------*/
+			/* Container  list related styles */
+			
+			a.il_ContainerItemCommand
+			{
+				padding-top:1px;
+				padding-left:5px;
+				padding-right:5px;
+				padding-bottom:1px;
+				margin-top:1px;
+				margin-bottom:1px;
+				border-width: 1px;
+				border-style: solid;
+				border-color: #9E9EA0;
+				font-size:10px;
+				color: #213F50;
+				white-space: nowrap;
+				background-color:#C6C6C6;
+			}
+			
+			div.il_ContainerItemCommands
+			{
+				line-height: 18px;
+			}
+			
+			
+			div.il_ItemProperties
+			{
+				margin-top: 5px;
+				font-size: 11px;
+				text-align:left;
+			}
+			
+			div.il_Preconditions
+			{
+				margin-top: 3px;
+				font-size: 11px;
+				text-align:left;
+			}
+			
+			a.il_ItemProperty:link, a.il_ItemProperty:visited {
+				text-decoration:none;
+				font-weight: normal;
+				color:#213f50;
+			}
+			
+			a.il_ItemProperty:hover {
+				color:#e7302a;
+			}
+			
+			
+			span.il_ItemAlertProperty
+			{
+				font-size: 11px;
+				color: red;
+			}
+			
+			span.il_ItemProperty,
+			{
+				font-size: 11px;
+			}
+			
+			td.il_ContainerBlockHeader
+			{
+				/*background-image: url(images/cellpic5.gif);*/
+				background-color:#cccccc;
+				font-weight: bold;
+				padding: 2px;
+			}
+			
+			table.il_ContainerBlock
+			{
+				color:#474747;
+				/*background-color:#bbbbbb;*/
+				width:100%;
+				border-spacing:0px;
+				border-collapse:collapse;
+				border-width:1px;
+				border-style:solid;
+				border-color:#f7f7f7;
+			}
+
+Personal Desktop Header
+div.il_PDTitle
+{
+	font-family: "Tahoma", Arial, Verdana, "Palatino Linotype", serif;
+	font-size: 20px;
+	line-height: 36px;
+	color: #5d5d5d;
+	letter-spacing: 0.1em;
+	word-spacing: -0.1em;
+}
+
+/*-----new Classes for r 3.5------*/
+			table.il_PDBlock
+			{
+				color:#474747;
+				background-color:#ffffff;
+				width:100%;
+				border-spacing:0px;
+				border-collapse:collapse;
+				border-width:1px;
+				border-style:solid;
+				border-color:#ffffff;
+				margin-top:25px;
+			}
+			
+			td.il_PDBlockHeader
+			{
+				/*background-image: url(images/cellpic5.gif);
+				background-repeat: repeat-x;*/
+				font-weight: bold;
+				padding-left: 4px;
+				font-size:11px;
+				background-color: #CCCCCC;
+				color:#474747;
+				border-bottom-width:1px;
+				border-bottom-color:#ffffff;
+				border-bottom-style:solid;
+			}
+
+/* Repository Header */
+table.ilc_RepHeader {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.il_RepHeader
+{
+	padding:0px;
+	border-style: solid;
+	border-color:#cccccc;
+	border-width: 0px;
+	margin-bottom: 0px;
+}
+
+div.il_RepHeader
+{
+	color:#222222;
+	background-color: #E9E9E9;
+}
+
+/* SCORM styles */
+
+table.il_ScormTable
+{
+	color:#222222;
+	background-color:#ffffff;
+	border-spacing:1px;
+	border-width:0px;
+}
+
+td.il_ScormTableKey {
+	background-color:#e2e2e2;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.il_ScormTableValue {
+	background-color:#f7f7f7;
+	background-image: none;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+}
+
+
+
+/* must reset all values of td style */
+td.il_no_style {
+	font-size:normal;
+	font-weight:normal;
+}
+
+/* locator */
+div.il_Locator {
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+	/*background-color: #D4D4D5;*/
+	border-width: 0px;
+	border-style: solid;
+}
+
+span.il_LocatorTitle
+{
+	/*background-color:#D4D4D5;*/
+	font-weight: solid;
+	padding-left:15px;
+}
+
+/* form */
+form.il_Form
+{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+/* Tabs */
+
+div.il_Tab
+{
+	line-height:20px;
+}
+div.il_Tab_navi
+{
+	line-height:15px;
+}
+
+a.tabactive:link, a.tabactive:visited
+{
+	padding-top:1px;
+	padding-left:4px;
+	padding-right:4px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #9E9EA0;
+	color:213F50;
+	background-color: #C6C6C6;
+}
+
+a.tabinactive, a.tabinactive:visited
+{
+	padding-top:1px;
+	padding-left:4px;
+	padding-right:4px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D4D4D5;
+	background-color: #D4D4D5;
+}
+
+/* Explorer */
+
+div.il_Explorer
+{
+	background-color: #E9E9E9;
+	border-color: #a0a0a0;
+	border-width: 0px;
+}
+
+div.il_RepExplorer
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+div.il_ExplorerHeader
+{
+	color:#213F50;
+	padding-top:2px;
+	padding-left:15px;
+	padding-right:3px;
+	padding-bottom:2px;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#D4D4D5;
+	margin:0px;
+	font-weight: bold;
+}
+
+/* Table Links */
+
+a.tblheader:link, a.tblheader:visited
+{
+	color:#213F50;
+}
+
+a.tblheader:hover
+{
+		color:#e7302a;
+}
+
+/* --- description text ---*/
+div.il_Description, td.il_Description
+{
+	margin-top:5px;
+	font-size: 11px;
+	font-style: italic;
+	text-align:left;
+}
+
+/*-----new Classes for r 3.5------*/
+			div.il_Description_no_margin, td.il_Description_no_margin
+			{
+				font-size: 11px;
+				font-style: italic;
+				text-align:left;
+			}
+			div.il_info
+			{
+				font-size: 11px;
+				text-align:left;
+			}
+
+/* ---------------- headlines ------------------ */
+
+div.il_Header
+{
+	margin-top:1px;
+	margin-bottom:1px;
+	color:#222222;
+	border-width:1px;
+	border-color:#E9E9E9;
+	border-style:solid;
+	padding:1px;
+	background-color: #E9E9E9;
+}
+
+table.ilHeader
+{
+	margin-top:1px;
+	margin-bottom:1px;
+	color:#474747;
+	background-color: #C9C9C9;
+	border-width:1px;
+	border-color: #ffffff;
+	border-style:outset;
+	padding:1px;
+}
+
+div.ilMainHeader
+{
+	background-color: #F4F4F4;
+}
+
+a.ilMainHeader
+{
+	padding-top:1px;
+	padding-left:1px;
+	padding-right:1px;
+	padding-bottom:1px;
+	margin-top:1px;
+	margin-bottom: 1px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #E9E9E9;
+	background-color: #E9E9E9;
+}
+
+div.ilLogin
+{
+	color:#5D5D5D;
+	padding-top:0px;
+	padding-left:0px;
+	padding-right:0px;
+	padding-bottom:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+
+div.il_Footer
+{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-size: 10px;
+	text-align:center;
+}
+
+h1 {
+	color:#213F50;
+	margin-top:5px;
+	margin-bottom:5px;
+	font-size:18px;
+}
+
+h2 {
+	font-size:11px;
+	color:#213F50;
+	border-width:0px;
+	padding:2px;
+	margin-top:25px;
+	margin-bottom:2px;
+}
+
+/* ----------------- invisible border ------------- */
+
+div.invisible_border {
+	margin-top:15px;
+	margin-bottom:15px;
+	margin-right:15px;
+	margin-left:15px;
+}
+
+td.ilInvisibleBorder
+{
+	padding:15px;
+}
+
+/* ------- Helptext --------- */
+span.il_Helptext {
+	font-size:11px;
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+	text-decoration:none;
+	font-size:11px;
+	color:#213f50;
+}
+
+.smallgreen {
+	text-decoration:none;
+	font-size:11px;
+	color:green;
+}
+
+.smallred {
+	text-decoration:none;
+	font-size:11px;
+	color:red;
+}
+
+.obligatory {
+	font-weight: normal;
+	color: #800000;
+	font-variant: normal;
+}
+
+.warning {
+	text-decoration:none;
+	font-weight:bold;
+	color:red;
+}
+
+.asterisk {
+	color:red;
+	font-size:11px;
+}
+
+.default {
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.inactivepage {
+	text-decoration:none;
+	font-weight: bold;
+	color: gray;
+}
+
+.quote {
+	font-style:italic;
+	font-weight:normal;
+}
+
+.subtitle {
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+}
+
+.questiontext {
+	font-weight:bold;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+/* ----------------- normal links ------------- */
+
+a:link, a:visited {
+	text-decoration:none;
+	font-weight: bold;
+	color:#213F50;
+}
+
+a:hover {
+	color:#e7302a;
+}
+
+/* ------------------- mail links ----------- */
+/*-----new Classes for r 3.5------*/
+			a.mailread, a.mailread:visited
+			{
+				font-weight: normal;
+				color: #474747;
+			}
+			
+			a.mailunread, a.mailunread:visited
+			{
+				color: #213f50;
+				font-weight: bold;
+				padding-left:26px;
+				background-image:url(./images/new_mail.gif);
+				background-repeat:no-repeat;
+			}
+			
+			/* ------------------- forum links ----------- */
+			a.postread, a.postread:visited
+			{
+				font-weight: normal;
+				color: #213f50;
+			}
+			
+			a.postunread, a.postunread:visited
+			{
+				color: #213f50;
+				font-weight: bold;
+			}
+			
+			a.postnew, a.postnew:visited
+			{
+				color: #213f50;
+				font-style: italic;
+			}
+
+/* ------------------ buttons -------------- */
+
+td.btn {
+	background-color:#C9C9C9;
+	color:#5D5D5D;
+	padding-top:3px;
+	padding-left:2px;
+	padding-right:2px;
+	padding-bottom:3px;
+}
+
+a.btn:link, a.btn:visited {
+	color:#213f50;
+	text-decoration:normal;
+	font-size:11px;
+}
+
+
+a.btn:hover {
+	color:#e7302a;
+}
+
+
+/*
+input {
+	background-color:#ffffff;
+	color:#000000;
+	border-width:1px;
+	border-color:#ffffff;
+	border-style:inset;
+	font-size:13px;
+}
+*/
+
+
+input.submit, a.submit {
+	background-color:#D4D4D5;
+	color:#213F50;
+	border-width:1px;
+	border-color:#9E9EA0;
+	border-style:solid;
+	padding:2px;
+	text-decoration:none;
+	font-size:11px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+input.submit_disabled, a.submit_disabled {
+	background-color:#D4D4D5;
+	color:grey;
+	border-width:0px;
+	border-color:#9E9EA0;
+	border-style:solid;
+	padding:1px;
+	text-decoration:none;
+	font-size:11px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
+input[type=checkbox], input[type=radio]
+{
+	border-style:none;
+	background-color:none;
+}
+
+/*-----new Classes for r 3.5------*/
+			a.ilEditSubmit {
+				background-color:#ffffff;
+				color:#2255a0;
+				border-width:1px;
+				border-color:#bbbbbb;
+				border-style:outset;
+				padding: 2px;
+				margin: 0px;
+				background-image: none;
+				text-decoration: none;
+				font-size: 11px;
+				line-height: 14px;
+				font-weight:bold;
+				cursor:pointer;
+			}
+			
+			input.ilEditSubmit {
+				background-color:#ffffff;
+				color:#2255a0;
+				border-width:1px;
+				border-color:#bbbbbb;
+				border-style:outset;
+				padding: 1px;
+				margin: 0px;
+				background-image: none;
+				text-decoration: none;
+				font-size: 11px;
+				line-height: 14px;
+				font-weight:bold;
+				cursor:pointer;
+			}
+
+a.ilEditSubmit, input.ilEditSubmit {
+	background-color:#ffffff;
+	color:#2255a0;
+	border-width:1px;
+	border-color:#ffffff;
+	border-style:outset;
+	padding:1px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+input.ilEditHelpline {
+	background-color:#eeeeee;
+	border-style:none;
+	padding:3px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+}
+
+input.tblrow1, input.tblrow2
+{
+	/*background-color:#ffffff;*/
+	color:#000000;
+	background-image: none;
+	padding:0px;
+}
+
+textarea {
+	background-color:#ffffff;
+	color:#000000;
+	border-width:1px;
+	border-color:#ffffff;
+	border-style:inset;
+	padding:3px;
+	text-decoration:none;
+	font-size:11px;
+}
+
+input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
+	color:#e7302a;
+}
+
+
+.message {
+	color: #dd0000;
+	font-weight:normal;
+	text-align:center;
+	background-color:#D0D0D0;
+	margin-bottom: 1px;
+}
+
+.alert {
+	color: #dd0000;
+}
+
+select.ilEditSelect {
+	background-color:#ffffff;
+	border-width:1px;
+	border-color:#ffffff;
+	padding:1px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+}
+
+/* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
+img.imgtab {
+	display:block;
+}
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+	margin:0px;
+}
+
+/* --- Editor styles ---*/
+
+div.il_editarea
+{
+	border-style: dotted;
+	border-width: 1px;
+}
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display:block;
+}
+
+/* --- calendar styles -- */
+div.dp_Menu
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:1px;
+	margin-bottom:1px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+	width: 152px;
+}
+
+td.even
+{
+	color:#222222;
+	background-color:#F7F7F7;
+	padding: 3px;
+}
+
+td.uneven
+{
+	color:#222222;
+	background-color:#EEEEEE;
+	padding: 3px;
+}
+
+td.today
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDate
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #FFE0E0;
+}
+
+td.date
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonth
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.todayMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color:  #FFE0E0;
+}
+
+td.dateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonthMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.evenMO
+{
+	color:#222222;
+	background-color:#F7F7F7;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.unevenMO
+{
+	color:#222222;
+	background-color:#EEEEEE;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.weeknumber
+{
+	color: #5F5F5F;
+	background-color: none;
+	font-size: smaller;
+}
+
+a.weekLink
+{
+	font-size: x-small;
+}
+
+td.appointmentConfTitle
+{
+	font-size: 2em;
+	font-style: italic;
+}
+
+td.doubleComment
+{
+	font-size: 1em;
+	color: #FF0000;
+	font-weight: bold;
+}
+
+/* --- content styles (will move to content.css) --- */
+table.ilc_Page {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.ilc_Page
+{
+	padding:20px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+table.ilc_LMNavigation {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.ilc_LMNavigation
+{
+	padding:1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+div.ilc_DefinitionHeader
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size:18px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #000000;
+}
+
+table.ilc_Fullscreen
+{
+	background-color:#EEEEEE;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.ilc_Fullscreen, body.ilc_Fullscreen
+{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+table.ilc_FileList
+{
+	color: #222222;
+	background-color: #c0c0c0;
+	width: 100%;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #ffffff;
+	border-width: 1px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+th.ilc_FileList
+{
+	font-size: 11px;
+	text-align: left;
+	padding: 3px;
+}
+
+td.ilc_FileItem
+{
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	background-color: #FFFFFF;
+	padding: 3px;
+}
+
+a.ilc_LMMenu
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+div.ilc_TableOfContents
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+/* --- Test & Assessment styles --- */
+
+div.ilc_Question
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color: red;
+}
+
+.testSheet {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #5D5D5D;
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #ffffff;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionTitle {
+	border-bottom: thin solid #333333;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 0.5em;
+}
+
+/* --- Test tool javascript styles --- */
+
+div.textbox
+{
+	width: 200px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.textboximage
+{
+	width: 200px;
+	height: 80px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.imagebox
+{
+	position:relative;
+	width: 150px;
+}
+
+/* --- Survey tool styles --- */
+
+.surveySheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #ffffff;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionblockTitle {
+	margin-bottom: 10px;
+	border: thin ridge #cccccc;
+	background: #cccccc;
+	padding: 5px;
+}
+/*------- Style.css------*/
+/*
+i,ul,ol,span,p,a {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #5D5D5D;
+}
+*/
+.Text {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #5D5D5D;
+}
+.Textklein {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #5D5D5D;
+}
+.Textrot {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #E7302A;
+}
+.Textblau {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #213F50;
+}
+.Textrotfett {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	color: #E7302A;
+}
+.ueberschrift {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #213F50;
+}
+.ueberschrift2 {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	color: #213F50;
+}
+
+ul {
+	list-style-image: url(./images/bullet.gif);
+}
+
+.boxtext {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	color: #5D5D5D;
+	line-height:12px;
+}
+
+.tabletext {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #5D5D5D;
+	margin-left:6px;
+	padding-top:3px:
+}
+a.navi_login:link, a.navi_login:visited {
+	font-size: 11px;
+	font-weight:normal;
+	color: #213f50;
+	margin-left:6px;
+	padding-left:10px;
+	background-image:url(./images/pfeil_00.gif);
+	background-repeat:no-repeat;
+}
+a.navi_login:hover  {
+	font-size: 11px;
+	font-weight:normal;
+	color: #e7302a;
+	margin-left:6px;
+	padding-left:10px;
+	background-image:url(./images/pfeil_01.gif);
+	background-repeat:no-repeat;
+}
+.table1px {
+	clear: right;
+	font-size: 1px;
+	height: 1px;
+	width: 1px;
+	float: left;
+}
+
+.haedline {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	color: #213F50;
+}
+
+TABLE.homelink {
+	BORDER-RIGHT: #FFFFFF 2px solid; 
+	BORDER-TOP: #FFFFFF 2px solid; 
+	BORDER-LEFT: #FFFFFF 2px solid; 
+	BORDER-BOTTOM: #FFFFFF 2px solid; 
+	BACKGROUND-COLOR: #D4D4D5;
+	WIDTH: 230px;
+	height: 61px;
+}
+.table{
+border: 0px;
+cellpadding: 4px;
+cellspacing: 5px;
+}
+
+img.rahmen {
+	BORDER: #FFFFFF 2px solid; 
+	BACKGROUND-COLOR: #D4D4D5;
+}
+
+a:active {
+	text-decoration: none;
+	color: #213F50;
+}
+
+.naviback1
+{
+	background-image:url(./images/bg_navi_01.gif);
+	background-repeat:repeat-x;	
+}
+
+.naviback2
+{
+	background-image:url(./images/bg_navi_02.gif);
+	background-repeat:repeat-x;	
+}
+
+/*-----new Classes for r 3.5------*/
+			.questionheading {
+				margin-top:2px;
+				margin-bottom:5px;
+				font-size:11px;
+				font-weight: bold;
+			}

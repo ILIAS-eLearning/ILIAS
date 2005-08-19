@@ -1,0 +1,55 @@
+<style>
+body { margin:0px; }
+</style>
+{STATUSLINE}
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<!-- <div class="invisible_border"> -->
+<form class="il_Form" action="{H_FORMACTION}" method="post">
+<table class="il_RepHeader" width="100%" cellspacing="0" cellpadding="0"><tr><td class="il_RepHeader">
+<div class="il_RepHeader">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td><h1>{HEADER}</h1></td>
+	<td>
+	<!--<div class="il_RepMode">-->
+	<!-- BEGIN top -->
+	<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
+	<!-- END top -->
+	<!-- BEGIN tree_mode -->
+	<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
+	<!-- END tree_mode -->
+	
+	</td>
+	<td align="right" nowrap="1">	
+	<!-- BEGIN commands -->
+	<!--<div class="il_RepAddObjects">-->
+	{SELECT_OBJTYPE_REPOS}
+	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+		<!-- BEGIN get_from_repos -->
+		<input class="submit" type="submit" name="cmd[{GET_REPOS_CMD}]" value="{TXT_GET_REPOS}" />
+		<!-- END get_from_repos -->
+	<!--</div>-->
+	<!-- END commands -->
+	</td>
+	</tr>
+	<tr>
+	<td class="il_Description"></td>
+	</tr>
+	<tr>
+	<td align="left"><!---<div class="il_RepDescription">-->{H_DESCRIPTION}<!--</div>--></td>
+	<td align="right">
+	</td>
+	<td align="right">{TABS}</td>
+	</tr>
+	</table>
+
+</div>
+</td></tr></table>
+</form>
+<br/>
+{BUTTONS}
+{MESSAGE}
+{ADM_CONTENT}
+{OBJECTS}
+<!-- </div> -->
+</td></tr></table>
