@@ -1640,7 +1640,7 @@ class ilUtil
 	function appendUrlParameterString($a_url, $a_par)
 	{
 		$url = (is_int(strpos($a_url, "?")))
-		? $a_url."&amp;".$a_par
+		? $a_url."&".$a_par
 		: $a_url."?".$a_par;
 
 		return $url;
