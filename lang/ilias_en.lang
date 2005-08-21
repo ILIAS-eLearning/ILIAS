@@ -268,6 +268,7 @@ assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
+assessment#:#log_user_answered_question#:#User answered a question and received %s points
 assessment#:#log_user_data_removed#:#Removed all user data
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema

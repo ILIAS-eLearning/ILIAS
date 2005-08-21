@@ -864,8 +864,36 @@ class ASS_Question
 			$db->quote($reached_points . "")
 		);
     $result = $db->query($query);
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $test_id, $this->getId());
+		}
 	}
 
+/**
+* Logs an action into the Test&Assessment log
+* 
+* Logs an action into the Test&Assessment log
+*
+* @param string $logtext The log text
+* @param integer $question_id If given, saves the question id to the database
+* @access public
+*/
+	function logAction($logtext = "", $test_id = "", $question_id = "")
+	{
+		global $ilUser;
+
+		$original_id = "";
+		if (strcmp($question_id, "") != 0)
+		{
+			$original_id = ASS_Question::_getOriginalId($question_id);
+		}
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./classes/class.ilObjTest.php";
+		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, $question_id, $original_id);
+	}
+	
 	/**
 	* Returns the image path for web accessable images of a question
 	*
