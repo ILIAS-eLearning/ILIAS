@@ -126,41 +126,8 @@ class ilPersonalDesktopGUI
 					}
 				}
 			
-				/*
-				$tpl = new ilTemplate("tpl.usr_pd_selected_item_block.html", true, true);
-				$tpl->setVariable("TXT_BLOCK_HEADER", $a_title);
-				$img_type  = (is_array($a_type))
-					? $a_type[0]
-					: $a_type;*/
-	
-				//$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
-				
-				//$this->lng->loadLanguageModule("assessment");
-				//$this->lng->loadLanguageModule("survey");
-				//$this->lng->loadLanguageModule("crs");
 				foreach($items as $item)
-				{
-					// special test handling
-					/*
-					if (strcmp($a_type, "tst")==0) {
-						
-						$tpl->setCurrentBlock("tbl_tstheader");
-						if (($tstCount < $unsetCount)&&($unsetFlag==0)) {
-							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_not_entered"));
-							$unsetFlag++;
-						}
-						elseif (($tstCount < ($unsetCount+$progressCount))&&($progressFlag==0)) {
-							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_progress"));
-							$progressFlag++;
-						}
-						elseif (($tstCount >= ($unsetCount+$progressCount))&&($completedFlag==0)) {
-							$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_completed_more_tries_possible"));
-							$completedFlag++;
-						}
-						$tstCount++;
-						$tpl->parseCurrentBlock();
-					}*/
-					
+				{					
 					// get list gui class for each object type
 					if ($cur_obj_type != $item["type"])
 					{
@@ -189,13 +156,6 @@ class ilPersonalDesktopGUI
 					if ($html != "")
 					{
 						$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
-
-						/*
-						$tpl->setVariable("ITEM_HTML", $html);
-						$tpl->setCurrentBlock("block_row");
-						$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
-						$tpl->parseCurrentBlock();
-						*/
 					}
 				}
 
@@ -205,14 +165,22 @@ class ilPersonalDesktopGUI
 					// add a header for each resource type
 					if ($ilUser->getPref("pd_selected_items_details") == "y")
 					{
-						$this->addHeaderRow($tpl, $type);
+						if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
+						{
+							$this->addHeaderRow($tpl, $type, false);
+						}
+						else
+						{
+							$this->addHeaderRow($tpl, $type);
+						}
 						$this->resetRowType();
 					}
 
 					// content row
 					foreach($item_html as $item)
 					{
-						if ($ilUser->getPref("pd_selected_items_details") != "y")
+						if ($ilUser->getPref("pd_selected_items_details") != "y" ||
+							$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 						{
 							$this->addStandardRow($tpl, $item["html"], $item["item_id"], $type);
 						}
@@ -253,7 +221,7 @@ class ilPersonalDesktopGUI
 	* @param	string		$a_type		object type
 	* @access	private
 	*/
-	function addHeaderRow(&$a_tpl, $a_type)
+	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
 		if (!is_array($a_type))
 		{
@@ -265,8 +233,16 @@ class ilPersonalDesktopGUI
 			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
 		}
-		$a_tpl->setCurrentBlock("container_header_row");
-		$a_tpl->setVariable("HEADER_IMG", $icon);
+		if ($a_show_image)
+		{
+			$a_tpl->setCurrentBlock("container_header_row_image");
+			$a_tpl->setVariable("HEADER_IMG", $icon);
+		}
+		else
+		{
+			$a_tpl->setCurrentBlock("container_header_row");
+		}
+		
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
