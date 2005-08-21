@@ -2820,10 +2820,17 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
+common#:#icons_in_typed_lists#:#Icon position in item lists
+common#:#icons_in_header#:#Header row
+common#:#icons_in_item_rows#:#Item rows
+common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.
 common#:#system_styles#:#System Styles
 common#:#basic_settings#:#Basic Settings
 common#:#usrf_create_user#:#Create new user account
 common#:#enable_custom_icons#:#Enable custom icons
+common#:#custom_icon_size_big#:#Custom icon size (big)
+common#:#custom_icon_size_small#:#Custom icon size (small)
+common#:#width_x_height#:#Width x Height
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#usrf_delete#:#Delete user accounts
 common#:#usrf_edit_permission#:#Change access to user accounts

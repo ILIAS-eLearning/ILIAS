@@ -89,10 +89,52 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));		
 		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS", $this->lng->txt("icons_in_typed_lists"));
+		$this->tpl->setVariable("TXT_ICONS_IN_HEADER", $this->lng->txt("icons_in_header"));
+		$this->tpl->setVariable("TXT_ICONS_IN_ITEM_ROWS", $this->lng->txt("icons_in_item_rows"));
+		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS_INFO", $this->lng->txt("icons_in_typed_lists_info"));
+		
 		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS", $this->lng->txt("enable_custom_icons"));
 		$this->tpl->setVariable("TXT_ENABLE_CUSTOM_ICONS_INFO", $this->lng->txt("enable_custom_icons_info"));
+		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_BIG", $this->lng->txt("custom_icon_size_big"));
+		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_SMALL", $this->lng->txt("custom_icon_size_small"));
+		$this->tpl->setVariable("TXT_WIDTH_X_HEIGHT", $this->lng->txt("width_x_height"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		// set current values
+		if ($settings["custom_icons"])
+		{
+			$this->tpl->setVariable("CHK_CUSTOM_ICONS","checked=\"checked\"");
+		}
+		if ($settings["icon_position_in_lists"] == "item_rows")
+		{
+			$this->tpl->setVariable("SEL_ICON_POS_ITEM_ROWS","selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SEL_ICON_POS_HEADER","selected=\"selected\"");
+		}
+		$this->tpl->setVariable("CUST_ICON_BIG_WIDTH", $settings["custom_icon_big_width"]);
+		$this->tpl->setVariable("CUST_ICON_BIG_HEIGHT", $settings["custom_icon_big_height"]);
+		$this->tpl->setVariable("CUST_ICON_SMALL_WIDTH", $settings["custom_icon_small_width"]);
+		$this->tpl->setVariable("CUST_ICON_SMALL_HEIGHT", $settings["custom_icon_small_height"]);
+
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* save basic style settings
+	*/
+	function saveBasicStyleSettingsObject()
+	{
+		$this->ilias->setSetting("icon_position_in_lists", $_POST["icon_position_in_lists"]);
+		$this->ilias->setSetting("custom_icons", $_POST["custom_icons"]);
+		$this->ilias->setSetting("custom_icon_big_width", (int) $_POST["custom_icon_big_width"]);
+		$this->ilias->setSetting("custom_icon_big_height", (int) $_POST["custom_icon_big_height"]);
+		$this->ilias->setSetting("custom_icon_small_width", (int) $_POST["custom_icon_small_width"]);
+		$this->ilias->setSetting("custom_icon_small_height", (int) $_POST["custom_icon_small_height"]);
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editBasicSettings"));		
 	}
 	
 	/**

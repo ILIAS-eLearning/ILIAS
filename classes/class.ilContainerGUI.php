@@ -354,13 +354,27 @@ class ilContainerGUI extends ilObjectGUI
 							$first = false;
 
 							// add a header for each resource type
-							$this->addHeaderRow($tpl, $type);
+							if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
+							{
+								$this->addHeaderRow($tpl, $type, false);
+							}
+							else
+							{
+								$this->addHeaderRow($tpl, $type);
+							}
 							$this->resetRowType();
 
 							// content row
 							foreach($item_html as $item)
 							{
-								$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+								if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
+								{
+									$this->addStandardRow($tpl, $item["html"], $item["item_id"], $type);
+								}
+								else
+								{
+									$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+								}
 							}
 						}
 					}
@@ -397,7 +411,7 @@ class ilContainerGUI extends ilObjectGUI
 	* @param	string		$a_type		object type
 	* @access	private
 	*/
-	function addHeaderRow(&$a_tpl, $a_type)
+	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
 		if ($a_type != "lres")
 		{
@@ -409,8 +423,16 @@ class ilContainerGUI extends ilObjectGUI
 			$icon = ilUtil::getImagePath("icon_lm.gif");
 			$title = $this->lng->txt("learning_resources");
 		}
-		$a_tpl->setCurrentBlock("container_header_row");
-		$a_tpl->setVariable("HEADER_IMG", $icon);
+				if ($a_show_image)
+		{
+			$a_tpl->setCurrentBlock("container_header_row_image");
+			$a_tpl->setVariable("HEADER_IMG", $icon);
+		}
+		else
+		{
+			$a_tpl->setCurrentBlock("container_header_row");
+		}
+		
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
@@ -423,7 +445,7 @@ class ilContainerGUI extends ilObjectGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "")
+	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "", $a_image_type = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -431,13 +453,33 @@ class ilContainerGUI extends ilObjectGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
+		$nbsp = true;
+		if ($a_image_type != "")
+		{
+			if ($a_image_type != "lres")
+			{
+				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+				$title = $this->lng->txt("objs_".$a_image_type);
+			}
+			else
+			{
+				$icon = ilUtil::getImagePath("icon_lm.gif");
+				$title = $this->lng->txt("learning_resources");
+			}
+
+			$a_tpl->setCurrentBlock("block_row_image");
+			$a_tpl->setVariable("ROW_IMG", $icon);
+			$a_tpl->parseCurrentBlock();
+			$nbsp = false;
+		}
 		if ($_SESSION["il_cont_admin_panel"] == true)
 		{
 			$a_tpl->setCurrentBlock("block_row_check");
 			$a_tpl->setVariable("ITEM_ID", $a_item_id);
 			$a_tpl->parseCurrentBlock();
+			$nbsp = false;
 		}
-		else
+		if ($nbsp)
 		{
 			$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
 		}

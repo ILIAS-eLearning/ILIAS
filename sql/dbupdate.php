@@ -8497,5 +8497,9 @@ chdir($wd);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
+<#521>
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_big_width', 32);
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_big_height', 32);
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_small_width', 22);
+REPLACE INTO settings (keyword, value) VALUES ('custom_icon_small_height', 22);
+REPLACE INTO settings (keyword, value) VALUES ('icon_position_in_lists', 'header');
