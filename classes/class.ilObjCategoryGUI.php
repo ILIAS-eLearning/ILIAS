@@ -138,7 +138,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$this->tpl->setCurrentBlock("btn_cell");
 				$this->tpl->setVariable("BTN_LINK",
-					$this->ctrl->getLinkTarget($this, "importCategoriesForm"));
+				$this->ctrl->getLinkTarget($this, "importCategoriesForm"));
 				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_categories"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -660,8 +660,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$a_tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$a_ref_id."&cmd=gateway");
 
 		$a_tpl->setVariable("TXT_IMPORT_CATEGORIES", $lng->txt("import_categories"));
-		$a_tpl->setVariable("TXT_HIERARCHY_OPTION", "Create local role for every new category");
+		$a_tpl->setVariable("TXT_HIERARCHY_OPTION", $lng->txt("import_cat_localrol"));
 		$a_tpl->setVariable("TXT_IMPORT_FILE", $lng->txt("import_file"));
+		$a_tpl->setVariable("TXT_IMPORT_TABLE", $lng->txt("import_cat_table"));
 
 		$a_tpl->setVariable("BTN_IMPORT", $lng->txt("import"));
 		$a_tpl->setVariable("BTN_CANCEL", $lng->txt("cancel"));
