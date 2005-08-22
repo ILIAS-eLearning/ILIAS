@@ -319,6 +319,28 @@ class ilRepositoryExplorer extends ilExplorer
 				return "";
 		}
 	}
+	
+	/**
+	* get image path
+	*/
+	function getImage($a_name, $a_type = "", $a_obj_id = "")
+	{
+		if ($a_type != "")
+		{
+			// custom icons
+			if ($this->ilias->getSetting("custom_icons") &&
+				in_array($a_type, array("cat","grp","crs")))
+			{
+				require_once("classes/class.ilContainer.php");
+				if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) != "")
+				{
+					return $path;
+				}
+			}
+		}
+		
+		return parent::getImage($a_name);
+	}
 
 	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{

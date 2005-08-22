@@ -339,7 +339,8 @@ class ilContainerGUI extends ilObjectGUI
 							$ilBench->stop("ilContainerGUI", "0210_getListHTML");
 							if ($html != "")
 							{
-								$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
+								$item_html[] = array("html" => $html, "item_ref_id" => $item["ref_id"]
+									, "item_obj_id" => $item["obj_id"]);
 							}
 						}
 
@@ -369,11 +370,11 @@ class ilContainerGUI extends ilObjectGUI
 							{
 								if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_id"], $type);
+									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type);
 								}
 								else
 								{
-									$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+									$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
 								}
 							}
 						}
@@ -445,7 +446,8 @@ class ilContainerGUI extends ilObjectGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "", $a_image_type = "")
+	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
+		$a_image_type = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -466,6 +468,17 @@ class ilContainerGUI extends ilObjectGUI
 				$icon = ilUtil::getImagePath("icon_lm.gif");
 				$title = $this->lng->txt("learning_resources");
 			}
+			
+			// custom icon
+			if ($this->ilias->getSetting("custom_icons") &&
+				in_array($a_image_type, array("cat","grp","crs")))
+			{
+				require_once("classes/class.ilContainer.php");
+				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
+				{
+					$icon = $path;
+				}
+			}
 
 			$a_tpl->setCurrentBlock("block_row_image");
 			$a_tpl->setVariable("ROW_IMG", $icon);
@@ -475,7 +488,7 @@ class ilContainerGUI extends ilObjectGUI
 		if ($_SESSION["il_cont_admin_panel"] == true)
 		{
 			$a_tpl->setCurrentBlock("block_row_check");
-			$a_tpl->setVariable("ITEM_ID", $a_item_id);
+			$a_tpl->setVariable("ITEM_ID", $a_item_ref_id);
 			$a_tpl->parseCurrentBlock();
 			$nbsp = false;
 		}

@@ -155,7 +155,8 @@ class ilPersonalDesktopGUI
 					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
 					if ($html != "")
 					{
-						$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
+						$item_html[] = array("html" => $html, "item_ref_id" => $item["ref_id"],
+							"item_obj_id" => $item["obj_id"]);
 					}
 				}
 
@@ -182,11 +183,11 @@ class ilPersonalDesktopGUI
 						if ($ilUser->getPref("pd_selected_items_details") != "y" ||
 							$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 						{
-							$this->addStandardRow($tpl, $item["html"], $item["item_id"], $type);
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type);
 						}
 						else
 						{
-							$this->addStandardRow($tpl, $item["html"], $item["item_id"]);
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"]);
 						}
 						$output = true;
 					}
@@ -237,6 +238,7 @@ class ilPersonalDesktopGUI
 		{
 			$a_tpl->setCurrentBlock("container_header_row_image");
 			$a_tpl->setVariable("HEADER_IMG", $icon);
+			$a_tpl->setVariable("HEADER_ALT", $title);
 		}
 		else
 		{
@@ -255,7 +257,8 @@ class ilPersonalDesktopGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_item_id = "", $a_image_type = "")
+	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
+		$a_image_type = "")
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -267,16 +270,28 @@ class ilPersonalDesktopGUI
 			if (!is_array($a_image_type))
 			{
 				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
-				$title = $this->lng->txt("objs_".$a_image_type);
+				$title = $this->lng->txt("obj_".$a_image_type);
 			}
 			else
 			{
 				$icon = ilUtil::getImagePath("icon_lm.gif");
-				$title = $this->lng->txt("learning_resources");
+				$title = $this->lng->txt("learning_resource");
+			}
+			
+			// custom icon
+			if ($this->ilias->getSetting("custom_icons") &&
+				in_array($a_image_type, array("cat","grp","crs")))
+			{
+				require_once("classes/class.ilContainer.php");
+				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
+				{
+					$icon = $path;
+				}
 			}
 
 			$a_tpl->setCurrentBlock("block_row_image");
 			$a_tpl->setVariable("ROW_IMG", $icon);
+			$a_tpl->setVariable("ROW_ALT", $title);
 			$a_tpl->parseCurrentBlock();
 		}
 		else

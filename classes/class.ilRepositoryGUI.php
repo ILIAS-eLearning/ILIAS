@@ -860,10 +860,24 @@ class ilRepositoryGUI
 			}
 		}
 		
-		// header image
+		// header icon
 		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER",
-			ilUtil::getImagePath("icon_".ilObject::_lookupType($this->cur_ref_id, true)."_b.gif"));
+		$ic_type = ilObject::_lookupType($this->cur_ref_id, true);
+		$icon = ilUtil::getImagePath("icon_".$ic_type."_b.gif");
+
+		// custom icon
+		if ($this->ilias->getSetting("custom_icons") &&
+			in_array($ic_type, array("cat","grp","crs")))
+		{
+			require_once("classes/class.ilContainer.php");
+			if (($path = ilContainer::_lookupIconPath(ilObject::_lookupObjId($this->cur_ref_id), "big")) != "")
+			{
+				$icon = $path;
+			}
+		}
+
+		$this->tpl->setVariable("IMG_HEADER", $icon);
+
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("content");
 
