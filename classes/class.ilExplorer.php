@@ -632,7 +632,7 @@ class ilExplorer
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif", $a_option["type"], $a_obj_id));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
@@ -682,7 +682,7 @@ class ilExplorer
 	/**
 	* get image path (may be overwritten by derived classes)
 	*/
-	function getImage($a_name)
+	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
 		return ilUtil::getImagePath($a_name);
 	}

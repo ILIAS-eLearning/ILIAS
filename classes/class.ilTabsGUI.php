@@ -51,100 +51,9 @@ class ilTabsGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
-
+		
 		$this->temp_var = "TABS";
 	}
-
-	/*
-	function setTemplateVariable($a_temp_var)
-	{
-		$this->temp_var = $a_temp_var;
-	}
-
-	function setObjectType($a_type)
-	{
-		$this->obj_type = $a_type;
-	}
-
-	function setTargetScript($a_script)
-	{
-		$this->target_script = $a_script;
-	}
-
-	function getTargetScript()
-	{
-		return $this->target_script;
-	}
-
-	function setTabs($a_tabs)
-	{
-		$this->tabs = $a_tabs;
-	}*/
-
-
-	/*
-	function display()
-	{
-
-		$tabs = array();
-		$this->tpl->addBlockFile($this->temp_var, "tabs", "tpl.tabs.html");
-
-		if(!is_array($this->tabs))
-		{
-			$d = $this->objDefinition->getProperties($this->obj_type);
-
-			foreach ($d as $key => $row)
-			{
-				$tabs[] = array($row["lng"], $row["name"]);
-			}
-		}
-		else
-		{
-			$tabs = $this->tabs;
-		}
-
-		if ($_GET["cmd"] == "")
-		{
-			if (is_array($_POST["cmd"]))
-			{
-				$cmd = key($_POST["cmd"]);
-			}
-		}
-		else if ($_GET["cmd"] == "edpost")
-		{
-			$cmd_arr = explode("_", key($_POST["cmd"]));
-			$cmd = $_POST["command".$cmd_arr[1]];
-		}
-		else
-		{
-			$cmd = $_GET["cmd"];
-		}
-
-		foreach ($tabs as $row)
-		{
-			$i++;
-			if ($row[1] == $cmd)
-			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
-			}
-			else
-			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
-			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK",
-				ilUtil::appendUrlParameterString($this->target_script, "cmd=".$row[1]));
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
-		}
-	}*/
 
 	function getTargetsByObjectType(&$a_gui_obj, $a_type)
 	{
@@ -177,36 +86,43 @@ class ilTabsGUI
 		$cmdClass = $ilCtrl->getCmdClass();
 
 		$tpl = new ilTemplate("tpl.tabs.html", true, true);
-		
-		foreach ($this->target as $target)
+
+		// do not display one tab only
+		if (count($this->target) > 1)
 		{
-			$i++;
-			
-			if (!is_array($target["cmd"]))
+			foreach ($this->target as $target)
 			{
-				$target["cmd"] = array($target["cmd"]);
-			}
-
+				$i++;
+				
+				if (!is_array($target["cmd"]))
+				{
+					$target["cmd"] = array($target["cmd"]);
+				}
+	
 //echo "<br>-".$target["cmd"]."-".$cmd."-";
-			if (in_array($cmd, $target["cmd"]) &&
-				($target["cmdClass"] == $cmdClass || $target["cmdClass"] == ""))
-			{
-				$tabtype = "tabactive";
+				if (in_array($cmd, $target["cmd"]) &&
+					($target["cmdClass"] == $cmdClass || $target["cmdClass"] == ""))
+				{
+					$tabtype = "tabactive";
+				}
+				else
+				{
+					$tabtype = "tabinactive";
+				}
+	
+				$tpl->setCurrentBlock("tab");
+				$tpl->setVariable("TAB_TYPE", $tabtype);
+				$tpl->setVariable("TAB_LINK", $target["link"]);
+				$tpl->setVariable("TAB_TEXT", $lng->txt($target["text"]));
+				$tpl->setVariable("TAB_TARGET", $target["frame"]);
+				$tpl->parseCurrentBlock();
 			}
-			else
-			{
-				$tabtype = "tabinactive";
-			}
-
-			$tpl->setCurrentBlock("tab");
-			$tpl->setVariable("TAB_TYPE", $tabtype);
-			$tpl->setVariable("TAB_LINK", $target["link"]);
-			$tpl->setVariable("TAB_TEXT", $lng->txt($target["text"]));
-			$tpl->setVariable("TAB_TARGET", $target["frame"]);
-			$tpl->parseCurrentBlock();
+			return $tpl->get();
 		}
-
-		return $tpl->get();
+		else
+		{
+			return "";
+		}
 	}
 
 
