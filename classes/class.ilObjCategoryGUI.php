@@ -469,6 +469,33 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("NUM", $key);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if ($this->ilias->getSetting("custom_icons"))
+		{
+			if (($big_icon = $this->object->getBigIconPath()) != "")
+			{
+				$this->tpl->setCurrentBlock("big_icon");
+				$this->tpl->setVariable("SRC_BIG_ICON", $big_icon);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (($small_icon = $this->object->getSmallIconPath()) != "")
+			{
+				$this->tpl->setCurrentBlock("small_icon");
+				$this->tpl->setVariable("SRC_SMALL_ICON", $small_icon);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("category_icons");
+			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
+			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
+			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("small_icon"));
+			$this->tpl->setVariable("BIG_SIZE", "(".
+				$this->ilias->getSetting("custom_icon_big_width")."x".
+				$this->ilias->getSetting("custom_icon_big_height").")");
+			$this->tpl->setVariable("SMALL_SIZE", "(".
+				$this->ilias->getSetting("custom_icon_small_width")."x".
+				$this->ilias->getSetting("custom_icon_small_height").")");
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
@@ -547,6 +574,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 			// update object data entry with default translation
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+			
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				$this->object->saveIcons($_FILES["cat_big_icon"],
+					$_FILES["cat_small_icon"]);
+			}
+			
 			$this->update = $this->object->update();
 		}
 

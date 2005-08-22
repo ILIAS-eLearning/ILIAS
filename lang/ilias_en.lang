@@ -2840,6 +2840,9 @@ common#:#usrf_read#:#Read access to user accounts
 common#:#usrf_read_users#:#Role assignment for local administrators
 common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
+common#:#icon_settings#:#Icon Settings
+common#:#big_icon#:#Big Icon
+common#:#small_icon#:#Small Icon
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.

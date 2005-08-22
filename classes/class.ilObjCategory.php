@@ -32,9 +32,9 @@
 * @package ilias-core
 */
 
-require_once "class.ilObject.php";
+require_once "class.ilContainer.php";
 
-class ilObjCategory extends ilObject
+class ilObjCategory extends ilContainer
 {
 	/**
 	* Constructor
@@ -49,7 +49,7 @@ class ilObjCategory extends ilObject
 		$ilBench->start("Core", "ilObjCategory_Constructor");
 
 		$this->type = "cat";
-		$this->ilObject($a_id,$a_call_by_reference);
+		$this->ilContainer($a_id,$a_call_by_reference);
 
 		$ilBench->stop("Core", "ilObjCategory_Constructor");
 	}
@@ -144,5 +144,6 @@ class ilObjCategory extends ilObject
 
 		return true;
 	}
+		
 } // END class.ilObjCategory
 ?>
