@@ -103,7 +103,7 @@ assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi spazio vuoto per testo
 assessment#:#add_imagemap#:#Aggiungi immagine a mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
-assessment#:#add_questionpool#:#Aggiungi raccolta di domande###09 Aug 2005 content changed
+assessment#:#add_questionpool#:#Aggiungi raccolta di domande
 assessment#:#add_solution#:#Aggiungi soluzione suggerita
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
@@ -130,10 +130,10 @@ assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_execute_test#:#Non hai i diritti per eseguire il test!
-assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!###09 Aug 2005 content changed
+assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
-assessment#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!###09 Aug 2005 content changed
+assessment#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai i diritti per salvare i metadati!
 assessment#:#change_solution#:#Cambia la soluzione suggerita
 assessment#:#checkbox_checked#:#Selezionato
@@ -236,8 +236,8 @@ assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi t
 assessment#:#filter#:#Filtra in 
 assessment#:#filter_all_question_types#:#Tutti i tipi di domande
 assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
-assessment#:#filter_show_question_types#:#Filtra tra le domande di tipo
-assessment#:#filter_show_questionpools#:#Filtra tra le domande nella raccolta###09 Aug 2005 content changed
+assessment#:#filter_show_question_types#:#Filtra in base al tipo
+assessment#:#filter_show_questionpools#:#Filtra in base alla raccolta
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
@@ -322,7 +322,7 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
-assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
+assessment#:#qpl_import_create_new_qpl#:#Importa le domande in una nuova raccolta
 assessment#:#qpl_import_no_items#:#Si &#232; verificato un errore: il file scelto non contiene domande!
 assessment#:#qpl_import_non_ilias_files#:#Si &#232; verificato un errore: il file scelto non &#232; stato creato con Ilias. Contatta il team di Ilias per avere un filtro di import per il formato del tuo file QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS ha trovato le seguenti domande nel file indicato. Scegli quelle che vuoi importare.
@@ -337,7 +337,7 @@ assessment#:#qt_multiple_choice#:#Domanda con risposta multipla
 assessment#:#qt_multiple_choice_mr#:#con risposta multipla (scelta multipla)
 assessment#:#qt_multiple_choice_sr#:#con risposta singola (scelta multipla)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#qt_text#:#con risposta breve (testo)###28 Jul 2005 content changed
+assessment#:#qt_text#:#con risposta breve (testo)
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_title#:#Titolo della domanda
@@ -382,8 +382,8 @@ assessment#:#selected_image#:#Immagine selezionata
 assessment#:#set_filter#:#Filtra
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
-assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
-assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_count_system#:#Alle domande con risposta solo parzialmente corretta saranno assegnati 0 punti
+assessment#:#solution_comment_mc_scoring#:#Alle domande con risposta multipla senza risposte selezionate saranno assegnati 0 punti
 assessment#:#solution_hint#:#Mostra la soluzione
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
@@ -426,8 +426,8 @@ assessment#:#tst_finished#:#Finito
 assessment#:#tst_general_properties#:#Propriet&#224; generali
 assessment#:#tst_generate_xls#:#Crea un Foglio elettronico
 assessment#:#tst_heading_scoring#:#Punteggio
-assessment#:#tst_import_no_items#:#Error: The import file contains no questions!###28 Jul 2005 new variable
-assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.###28 Jul 2005 new variable
+assessment#:#tst_import_no_items#:#Errore: il file da importare non contiene domande!
+assessment#:#tst_import_verify_found_questions#:#ILIAS ha trovato nel file da importare le seguenti domande: scegli quelle che vuoi inserire nel test.
 assessment#:#tst_in_use_edit_questions_disabled#:#Ci sono %d utenti che stanno eseguendo il test in questo momento. Non puoi modificare o spostare le domande del test!
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel test?
@@ -445,13 +445,13 @@ assessment#:#tst_missing_author#:#Non hai indicato il nome dell'autore nelle pro
 assessment#:#tst_missing_marks#:#Non hai indicato uno schema di punteggio per il test! Per favore specifica almento uno schema di punteggio semplificato.
 assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda.
 assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore vai nella sezione dei metadati e inserisci un titolo.
-assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
+assessment#:#tst_must_be_online_exam#:#Questa opzione &#232; disponibile solamente per gli esami!
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
-assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte###09 Aug 2005 content changed
+assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
-assessment#:#tst_no_questionpools_for_random_test#:#Non hai indicato nemmeno una raccolta di domande in questo test casuale! Seleziona almeno una raccolta di domande.###09 Aug 2005 content changed
+assessment#:#tst_no_questionpools_for_random_test#:#Non hai indicato nessuna raccolta di domande per questo test casuale! Seleziona almeno una raccolta di domande.
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi creare nuove domande.
-assessment#:#tst_no_questions_for_random_test#:#Non hai selezionato nessuna domanda della raccolta per questo test casuale! Seleziona il numero di domande che compongono il test.###09 Aug 2005 content changed
+assessment#:#tst_no_questions_for_random_test#:#Non hai scelto nessuna domanda della raccolta per questo test casuale! Seleziona il numero di domande che compongono il test.
 assessment#:#tst_no_solution_available#:#Short answer question don't have a solution.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
 assessment#:#tst_no_tries#:#Nessun tentativo
@@ -463,9 +463,9 @@ assessment#:#tst_print#:#Anteprima di stampa
 assessment#:#tst_print_date#:#Data di stampa
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_qst_order#:#Ordine
-assessment#:#tst_qst_resetsolved#:#Reset###13 Aug 2005 content changed
+assessment#:#tst_qst_resetsolved#:#Azzera
 assessment#:#tst_qst_result_sheet#:#Mostra risultati
-assessment#:#tst_qst_setsolved#:#Indica risolto###13 Aug 2005 content changed
+assessment#:#tst_qst_setsolved#:#Indica risolto
 assessment#:#tst_qst_summary_text#:#Qui puoi vedere tutte le domande. Puoi segnare le domande risolte.
 assessment#:#tst_question_no#:#Ordine
 assessment#:#tst_question_offer#:#Va bene questo esempio o ne vuoi un altro?
@@ -475,8 +475,8 @@ assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
 assessment#:#tst_random_nr_of_questions#:#Quante domande vuoi inserire?
-assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.###09 Aug 2005 content changed
-assessment#:#tst_random_questionpools#:#Numero di domande###09 Aug 2005 content changed
+assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.
+assessment#:#tst_random_questionpools#:#Numero di domande
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dalla quale verranno prese le domande
 assessment#:#tst_random_test#:#Test casuale
 assessment#:#tst_random_test_description#:#Se abilitato, le domande del test saranno generate casualmente.
@@ -498,7 +498,7 @@ assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_file_for_import#:#Devi scegliere un file da importare!
 assessment#:#tst_select_questionpool#:#Per favore, seleziona la raccolta alla quale verr&#224; aggiunta la domanda
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
-assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.###09 Aug 2005 content changed
+assessment#:#tst_select_random_questions#:#Seleziona la raccolta o le raccolte dalle quali verranno prelevate le domande che comporranno il test casuale.
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
 assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
@@ -543,7 +543,7 @@ assessment#:#tst_submit_results#:#Si, confermo l'invio.
 assessment#:#tst_text_count_system#:#Sistema di punteggio
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_total_questions#:#Numero di domande
-assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, esso rappresenta il numero di domande prelevate da ogni raccolta ed il numero indicato per ogni singola raccolta viene ignorato!###09 Aug 2005 content changed
+assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, esso rappresenta il numero di domande prelevate da ogni raccolta ed il numero indicato per ogni singola raccolta viene ignorato!
 assessment#:#tst_tst_date#:#Data del test
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test precedentemente svolti sono stati eliminati!
@@ -565,7 +565,7 @@ assessment#:#uploaded_material#:#Materiale salvato
 assessment#:#user_not_invited#:#Non sei ammesso ad eseguire questo test.
 assessment#:#user_wrong_clientip#:#Non hai l'IP corretto per eseguire questo test.
 assessment#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
-assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
+assessment#:#warning_test_not_complete#:#Il test non &#232; completo!
 assessment#:#when#:#quando
 assessment#:#width#:#Larghezza
 assessment#:#with_order#:#con ordine
@@ -629,7 +629,7 @@ bibitem#:#bibitem_unpublished#:#Non pubblicato
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Luogo pubblicazione
 bibitem#:#bibitem_year#:#Anno
-chat#:#chat_access_blocked#:#You are excluded from these chatrooms###30 Jul 2005 new variable
+chat#:#chat_access_blocked#:#Sei stato escluso da questa chatroom
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
@@ -643,10 +643,10 @@ chat#:#chat_address_user#:#Indirizzo utente
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#nero
-chat#:#chat_block_user#:#Block###30 Jul 2005 new variable
-chat#:#chat_blocked#:#Restricted access###30 Jul 2005 new variable
-chat#:#chat_blocked_unlocked#:#Unlock###30 Jul 2005 new variable
-chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
+chat#:#chat_block_user#:#Blocca
+chat#:#chat_blocked#:#Accesso controllato
+chat#:#chat_blocked_unlocked#:#Sblocca
+chat#:#chat_blocked_users#:#Utenti bloccati
 chat#:#chat_blue#:#blu
 chat#:#chat_bold#:#Grassetto
 chat#:#chat_chatroom_body#:#Chatroom:
@@ -657,7 +657,7 @@ chat#:#chat_delete_sure#:#Sei sicuro di voler eliminare questa chatroom
 chat#:#chat_drop_user#:#Utente tolto
 chat#:#chat_edit#:#Modifica chat
 chat#:#chat_empty#:#Vuoto
-chat#:#chat_enter_valid_username#:#Please enter a valid username.###30 Jul 2005 new variable
+chat#:#chat_enter_valid_username#:#Inserisci un nome utente valido.
 chat#:#chat_face#:#Tipo font
 chat#:#chat_fuchsia#:#fucsia
 chat#:#chat_gray#:#grigio
@@ -673,8 +673,8 @@ chat#:#chat_invitation_subject#:#Invito a chattare
 chat#:#chat_invite_user#:#Utente invitato
 chat#:#chat_invited_by#:#Invitato da
 chat#:#chat_italic#:#Italico
-chat#:#chat_kick_user_session#:#Kick user###03 Aug 2005 new variable
-chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.###03 Aug 2005 new variable
+chat#:#chat_kick_user_session#:#Escludi utente
+chat#:#chat_kicked_from_room#:#Sei stato escluso da questa chatroom, non puoi pi&#249; scrivere messaggi.
 chat#:#chat_level_all#:#Tutto
 chat#:#chat_level_debug#:#Debug
 chat#:#chat_level_error#:#Errore
@@ -686,13 +686,13 @@ chat#:#chat_messages_deleted#:#I messaggi sono stati cancellati
 chat#:#chat_moderator_password#:#Password del moderatore
 chat#:#chat_navy#:#avio
 chat#:#chat_no_active_users#:#Non sono presenti utenti
-chat#:#chat_no_blocked#:#No blocked users available###30 Jul 2005 new variable
+chat#:#chat_no_blocked#:#Nessun utente bloccato disponibile
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat
 chat#:#chat_no_delete_public#:#La chatroom pubblica non pu&#242; essere cancellata.
 chat#:#chat_no_recordings_available#:#Non ci sono registrazioni disponibili al momento.
-chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.###17 Aug 2005 content changed
+chat#:#chat_no_refresh_public#:#La chatroom pubblica non pu&#242; essere aggiornata.
 chat#:#chat_no_rename_public#:#La chatroom pubblica non pu&#242; essere rinominata.
-chat#:#chat_no_users_selected#:#You have to select one user.###30 Jul 2005 new variable
+chat#:#chat_no_users_selected#:#Devi scegliere almeno un utente.
 chat#:#chat_no_write_perm#:#Non hai i permessi di scrittura
 chat#:#chat_olive#:#oliva
 chat#:#chat_online_users#:#Utente (online)
@@ -715,7 +715,7 @@ chat#:#chat_recordings_deleted#:#Le registrazioni sono state eliminate.
 chat#:#chat_recordings_select_one#:#Scegli le registrazioni che vuoi eliminare.
 chat#:#chat_red#:#rosso
 chat#:#chat_refresh#:#Aggiorna
-chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.###28 Jul 2005 new variable
+chat#:#chat_refreshed#:#Eliminati tutti i messaggi della chatroom indicata.
 chat#:#chat_room_added#:#Aggiunte nuove chatroom
 chat#:#chat_room_name#:#Nome della chatroom
 chat#:#chat_room_renamed#:#Chatroom rinominata
@@ -745,14 +745,14 @@ chat#:#chat_times#:#Tempi
 chat#:#chat_title_missing#:#Per favore, inserisci il nome.
 chat#:#chat_to_chat_body#:#Vai alla chat
 chat#:#chat_type#:#Tipo Font
-chat#:#chat_unblocked_user#:#The selected user have been unlocked.###30 Jul 2005 new variable
+chat#:#chat_unblocked_user#:#L'utente scelto &#232; stato sbloccato.
 chat#:#chat_underlined#:#Sottolineato
-chat#:#chat_unkick_user_session#:#Unkick user###03 Aug 2005 new variable
-chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.###30 Jul 2005 new variable
-chat#:#chat_user_blocked#:#Blocked access for the selected user.###30 Jul 2005 new variable
+chat#:#chat_unkick_user_session#:#Riammetti utente
+chat#:#chat_user_already_blocked#:#L'accesso dell'utente scelto &#232; gi&#224; stato bloccato.
+chat#:#chat_user_blocked#:#Accesso bloccato per l'utente scelto.
 chat#:#chat_user_dropped#:#Utente tolto
 chat#:#chat_user_invited#:#Utente invitato alla chat.
-chat#:#chat_user_name#:#Username###30 Jul 2005 new variable
+chat#:#chat_user_name#:#Username
 chat#:#chat_whisper#:#Bisbiglio
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
@@ -997,7 +997,7 @@ common#:#change_header_title#:#Modifica l'intestazione
 common#:#change_lo_info#:#Modifica le informazioni dell'unit&#224; didattica
 common#:#change_metadata#:#Modifica i metadati
 common#:#change_sort_direction#:#Modifica la direzione dell&#039;ordinamento
-common#:#changeable#:#Changeable###05 Aug 2005 new variable
+common#:#changeable#:#modificabile
 common#:#changed_to#:#modificata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
@@ -1072,7 +1072,7 @@ common#:#copyChapter#:#Copia
 common#:#copyPage#:#Copia
 common#:#copy_of#:#Copia di
 common#:#copy_to#:#a
-common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
+common#:#could_not_verify_account#:#Mi dispiace, non puoi verificare il tuo profilo. Contatta il tuo amministratore.
 common#:#count#:#Conta
 common#:#country#:#Nazione
 common#:#course#:#Corso
@@ -1085,8 +1085,8 @@ common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Appuntamemto creato
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_jobs_desc#:#Un job in crontab &#232; un processo che agisce in modo automatico ad intervalli di tempo prestabiliti. Puoi avere maggiori informazioni nel documento di installazione 'INSTALL' contenuto nella cartella docs.
-common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable
+common#:#cron_lucene_index#:#Aggiorna l'indice di ricerca di Lucene
+common#:#cron_lucene_index_info#:#Se selezionato, l'indice di ricerca di Lucene verr&#224; aggiornato. Configura il server Lucene alla pagina 'Amministrazione -> Impostazioni di sistema -> Impostazioni per le ricerche'.
 common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
@@ -1120,7 +1120,7 @@ common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#crs_info#:#Info###05 Aug 2005 new variable
+common#:#crs_info#:#Informazioni
 common#:#crs_join#:#Iscriversi ad un corso
 common#:#crs_leave#:#Annullare l'iscrizione ad un corso
 common#:#crs_management_system#:#Sistema di gestione corsi
@@ -1307,10 +1307,10 @@ common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#Impostazioni LearnLinc salvate
-common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
-common#:#extt_name#:#Software/Service
+common#:#extt_ilinc_timeout#:#Tempo massimo di attesa di una risposta dal server
+common#:#extt_name#:#Software/Servizi
 common#:#extt_read#:#Accedere il lettura alle impostazioni del software di terze parti
-common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
+common#:#extt_remark#:#Tutto il software ed i servizi indicati sopra non fanno parte di ILIAS e non sono sottoposti allo stesso tipo licenza Open Source di ILIAS.
 common#:#extt_title_configure#:#Configura software esterno
 common#:#extt_visible#:#Vedere le impostazioni del software di terze parti
 common#:#extt_write#:#Modificare le impostazioni del software di terze parti
@@ -1597,16 +1597,16 @@ common#:#http_path#:#Percorso HTTP
 common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#i2passwd#:#Password di ILIAS 2
 common#:#icla#:#Classe iLinc
-common#:#icla_add#:#Crea classe iLinc###06 Aug 2005 content changed
-common#:#icla_deleted#:#LearnLinc classroom(s) deleted###06 Aug 2005 new variable
-common#:#icla_edit#:#Edit LearnLinc Classroom###06 Aug 2005 new variable
-common#:#icla_new#:#Creare classi iLinc###06 Aug 2005 content changed
+common#:#icla_add#:#Crea una classe iLinc
+common#:#icla_deleted#:#Eliminata classe LearnLinc
+common#:#icla_edit#:#Modifica classe LearnLinc
+common#:#icla_new#:#Creare classi iLinc
 common#:#icrs#:#Corso iLinc
 common#:#icrs_add#:#Crea corso iLinc
-common#:#icrs_added#:#LearnLinc Seminar added###06 Aug 2005 new variable
-common#:#icrs_create_icla#:#Create LearnLinc Classrooms###06 Aug 2005 new variable
+common#:#icrs_added#:#Aggiunto seminario LearnLinc
+common#:#icrs_create_icla#:#Creata classe LearnLinc
 common#:#icrs_delete#:#Elimina corso iLinc
-common#:#icrs_edit#:#Edit LearnLinc Seminar###06 Aug 2005 new variable
+common#:#icrs_edit#:#Modifica seminario LearnLinc
 common#:#icrs_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#icrs_join#:#Iscrivere ai seminari LearnLinc
 common#:#icrs_leave#:#Annullare l'iscrizione ai seminari LearnLinc
@@ -1629,32 +1629,32 @@ common#:#il_grp_member#:#Membro di gruppo
 common#:#il_icrs_admin#:#Amministratore di seminario LearnLinc
 common#:#il_icrs_member#:#Membro di seminario LearnLinc
 common#:#ilias_version#:#Versione ILIAS 3
-common#:#ilinc_classroom_always_open#:#Classroom is always open###06 Aug 2005 new variable
-common#:#ilinc_classroom_closed#:#Classroom is closed###06 Aug 2005 new variable
-common#:#ilinc_classroom_open#:#Classroom is open###06 Aug 2005 new variable
-common#:#ilinc_classrooms#:#Classi iLinc###06 Aug 2005 content changed
-common#:#ilinc_coursemember_status#:#Attending as###06 Aug 2005 new variable
+common#:#ilinc_classroom_always_open#:#La classe &#232; sempre aperta
+common#:#ilinc_classroom_closed#:#La calsse &#232; chiusa
+common#:#ilinc_classroom_open#:#La classe &#232; aperta
+common#:#ilinc_classrooms#:#Classi iLinc
+common#:#ilinc_coursemember_status#:#Ammesso come
 common#:#ilinc_courses#:#Corsi iLinc
-common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###06 Aug 2005 new variable
-common#:#ilinc_docent#:#Instructor###06 Aug 2005 new variable
-common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !###06 Aug 2005 new variable
-common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.###06 Aug 2005 new variable
-common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###06 Aug 2005 new variable
-common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###06 Aug 2005 new variable
-common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###06 Aug 2005 new variable
+common#:#ilinc_dismiss_member#:#Sei sicuro di voler annullare l'iscrizione dei seguenti membri al seminario LearnLinc?
+common#:#ilinc_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al seminario LearnLinc?
+common#:#ilinc_docent#:#Insegnante
+common#:#ilinc_err_administrator_required#:#Questo utente non pu&#242; essere eliminato: per i seminari di LearnLinc &#232; richiesto almeno un amministratore!
+common#:#ilinc_err_last_member#:#L'ultimo utente non pu&#242; essere eliminato, puoi invece cancellare il seminario di LearnLinc.
+common#:#ilinc_err_member_could_not_be_removed#:#Questo utente non pu&#242; essere eliminato: verifica le dipendenze dell'utente.
+common#:#ilinc_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
+common#:#ilinc_err_registration_data#:#Per favore inserisci la Password, la data e l'ora della scadenza di un periodo di registrazione valido!
 common#:#ilinc_id#:#iLinc ID
-common#:#ilinc_involved_users#:#Involved Users###06 Aug 2005 new variable
-common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
-common#:#ilinc_no_docent_assigned#:#Not assigned###06 Aug 2005 new variable
-common#:#ilinc_notset#:#Not set###06 Aug 2005 new variable
-common#:#ilinc_remark#:#Remark###06 Aug 2005 new variable
-common#:#ilinc_server_not_active#:#iLinc server not activated###06 Aug 2005 new variable
-common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
-common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
+common#:#ilinc_involved_users#:#Utenti partecipanti
+common#:#ilinc_manage_course_documents#:#Materiale
+common#:#ilinc_msg_joined#:#Sei stato ammesso al seminario LearnLinc
+common#:#ilinc_no_docent_assigned#:#Non assgnato
+common#:#ilinc_notset#:#Non impostato
+common#:#ilinc_remark#:#Nota
+common#:#ilinc_server_not_active#:#Server iLinc non attivato
+common#:#ilinc_student#:#Participante
+common#:#ilinc_upload_pic_linktext#:#Upload
+common#:#ilinc_upload_pic_text#:#Per mostrare la tua immagine nei seminari LearnLinc utilizza questo collegamento:
+common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Ogni seminario LearnLinc ha bisogno di almeno un amministratore.
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
@@ -1670,11 +1670,11 @@ common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo
-common#:#import_qpl#:#Importa raccolta di domande per test###09 Aug 2005 content changed
-common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
+common#:#import_qpl#:#Importa raccolta di domande per test
+common#:#import_questions_into_qpl#:#Importa domande nella raccolta
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Importa modulo SCORM/AICC
-common#:#import_spl#:#Importa raccolta di domande per sondaggi###09 Aug 2005 content changed
+common#:#import_spl#:#Importa raccolta di domande per sondaggi
 common#:#import_svy#:#Importa sondaggio
 common#:#import_tst#:#Importa test
 common#:#import_users#:#Importa utenti
@@ -1694,8 +1694,8 @@ common#:#info_available_roles#:#Ruoli disponibili
 common#:#info_change_user_view#:#Modifica la vista dell'utente
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
-common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
-common#:#info_err_user_not_exist#:#L'utente con lo user_id indicato non esiste###03 Aug 2005 content changed
+common#:#info_enter_login_or_id#:#<i>(Inserisci nome o ID utente)</i>
+common#:#info_err_user_not_exist#:#L'utente con lo user_id indicato non esiste
 common#:#info_from_role#:#Given by Role###03 Aug 2005 new variable
 common#:#info_is_member#:#L'utente &#232; un membro
 common#:#info_is_not_member#:#L'utente non &#232; un membro
@@ -1704,9 +1704,9 @@ common#:#info_permission_origin#:#Posizione originale
 common#:#info_permission_source#:#valido a partire dal
 common#:#info_remark_interrupted#:#Il Ruolo si interrompe in questa posizione. Le impostazioni predefinite del ruolo sono localizzate in quella posizione.
 common#:#info_short#:#Info
-common#:#info_status_info#:#Informazioni sullo stato###03 Aug 2005 content changed
+common#:#info_status_info#:#Informazioni sullo stato
 common#:#info_trash#:#Oggetti eliminati
-common#:#info_view_of_user#:#Vista dell'utente###03 Aug 2005 content changed
+common#:#info_view_of_user#:#Vista dell'utente
 common#:#inform_user_mail#:#Invia una eMail per informare gli utenti dei cambiamenti
 common#:#information_abbr#:#Informazioni
 common#:#ingmedia_all_offers#:#Tutti i LE
@@ -1865,7 +1865,7 @@ common#:#local_language_file#:#file della lingua locale
 common#:#local_language_files#:#file della lingua locale
 common#:#local_languages_already_installed#:#Le lingue locali selezionate sono gi&#224; state installate
 common#:#locator#:#Adesso sei in:
-common#:#log_in#:#Login###03 Aug 2005 new variable
+common#:#log_in#:#Login
 common#:#logic_and#:#AND
 common#:#logic_or#:#OR
 common#:#login#:#Login
@@ -2120,7 +2120,7 @@ common#:#normal#:#Normale
 common#:#not_accessed#:#Non entrato
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
-common#:#not_logged_in#:#Non sei entrato in ILIAS 3###16 Aug 2005 content changed
+common#:#not_logged_in#:#Non sei entrato in ILIAS 3
 common#:#num_users#:#Numero di utenti
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
@@ -2148,7 +2148,7 @@ common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
-common#:#obj_icla#:#Classe iLinc###06 Aug 2005 content changed
+common#:#obj_icla#:#Classe iLinc
 common#:#obj_icrs#:#Corso iLinc
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
@@ -2181,7 +2181,7 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
-common#:#obj_seas#:#Impostazioni della ricerca
+common#:#obj_seas#:#Impostazioni per le ricerche
 common#:#obj_seas_desc#:#Imposta i criteri di ricerca qui.
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
@@ -2223,7 +2223,7 @@ common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
 common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
-common#:#objs_icla#:#Classi iLinc###06 Aug 2005 content changed
+common#:#objs_icla#:#Classi iLinc
 common#:#objs_icrs#:#Classi iLinc
 common#:#objs_lm#:#Moduli ILIAS
 common#:#objs_lng#:#Lingue
@@ -2315,7 +2315,7 @@ common#:#phone_home#:#Telefono casa
 common#:#phone_mobile#:#Telefono cellulare
 common#:#phone_office#:#Telefono ufficio
 common#:#phrase#:#Frase
-common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
+common#:#please_choose#:#-- Seleziona --
 common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
 common#:#please_select_a_delivered_file_to_delete#:#Devi segliere almeno uno tra i file inviati per eliminarlo!
@@ -2510,10 +2510,10 @@ common#:#seas_max_hits#:#Numero massimo di risultati
 common#:#seas_max_hits_info#:#Indica il numero massimo di risultati che vuoi visualizzare al termine della ricerca.
 common#:#seas_read#:#Vedere la ricerca
 common#:#seas_search#:#Consentire l'uso della ricerca
-common#:#seas_settings#:#Impostazioni della ricerca
+common#:#seas_settings#:#Impostazioni per le ricerche
 common#:#seas_visible#:#Vedere le impostazioni di ricerca
 common#:#seas_write#:#Modificare le impostazioni di ricerca
-common#:#seconds#:#Seconds###06 Aug 2005 new variable
+common#:#seconds#:#Secondi
 common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
@@ -2720,8 +2720,8 @@ common#:#tst_read#:#Accedere in lettura ad un test
 common#:#tst_run#:#Esegui
 common#:#tst_statistical_evaluation#:#Statistiche
 common#:#tst_upload_file#:#Scegli il file
-common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
+common#:#tst_user_not_invited#:#Non sei iscritto a questo esame.
+common#:#tst_user_wrong_clientip#:#Non hai il giusto indirizzo IP per questo test.
 common#:#tst_visible#:#Vedere un test
 common#:#tst_warning_test_not_complete#:#Il test non &#232; completo!
 common#:#tst_write#:#Modificare un test
@@ -2807,7 +2807,7 @@ common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Numero di righe per ogni pagina
 common#:#usr_inactive_only#:#Utenti non attivi
 common#:#usr_new#:#Nuovo utente
-common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.###05 Aug 2005 content changed
+common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
 common#:#usr_settings_header_profile#:#Impostazioni profilo utenti
 common#:#usr_settings_header_profile_profile#:#Impostazioni profilo personale
 common#:#usr_settings_saved#:#Impostazioni globali utente salvate con successo!
@@ -2893,7 +2893,7 @@ common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
 common#:#with#:#con
 common#:#write#:#Scrivi
-common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.###04 Aug 2005 new variable
+common#:#wrong_ip_detected#:#Il tuo accesso non &#232; consentito da questo indirizzo IP.<br>Per favore contatta l'amministratore di sistema.
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
 common#:#your_message#:#Il tuo messaggio
@@ -3646,7 +3646,7 @@ crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
 crs#:#crs_unsubscribe#:#Cancella iscrizione
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso?
-crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.###05 Aug 2005 content changed
+crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_objective#:#Modifica l'obiettivo formativo
 crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso
@@ -3664,10 +3664,10 @@ crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; vali
 crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
-dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.###02 Aug 2005 content changed
+dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
 dateplaner#:#ERROR_DB#:#Errore di scrittura nel Database!
 dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
-dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze###02 Aug 2005 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze
 dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
@@ -3682,7 +3682,7 @@ dateplaner#:#ERROR_TS#:#Formato della data non corretto
 dateplaner#:#Fr_long#:#Venerdi
 dateplaner#:#Fr_short#:#Ve
 dateplaner#:#Language_file#:#Inglese
-dateplaner#:#Listbox_long#:#Lista degli appuntamenti###02 Aug 2005 content changed
+dateplaner#:#Listbox_long#:#Lista degli appuntamenti
 dateplaner#:#Mo_long#:#Lunedi
 dateplaner#:#Mo_short#:#Lu
 dateplaner#:#Month_long#:#Vista mensile
@@ -3699,35 +3699,35 @@ dateplaner#:#View#:#Impostazioni della vista:
 dateplaner#:#We_long#:#Mercoledi
 dateplaner#:#We_short#:#Me
 dateplaner#:#Week_long#:#Vista settimanale
-dateplaner#:#add_data#:#Dati addizionali###02 Aug 2005 content changed
-dateplaner#:#app_#:#Appuntamenti del gruppo###02 Aug 2005 content changed
-dateplaner#:#app_date#:#Inserisci appuntamento###02 Aug 2005 content changed
-dateplaner#:#app_day#:#Vista giornaliera###02 Aug 2005 content changed
-dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi###02 Aug 2005 content changed
-dateplaner#:#app_inbox#:#Appuntamenti del gruppo###02 Aug 2005 content changed
-dateplaner#:#app_list#:#Lista appuntamenti###02 Aug 2005 content changed
-dateplaner#:#app_month#:#Vista mensile###02 Aug 2005 content changed
-dateplaner#:#app_properties#:#Propriet&#224;###02 Aug 2005 content changed
-dateplaner#:#app_week#:#Vista settimanale###02 Aug 2005 content changed
+dateplaner#:#add_data#:#Dati addizionali
+dateplaner#:#app_#:#Appuntamenti del gruppo
+dateplaner#:#app_date#:#Inserisci appuntamento
+dateplaner#:#app_day#:#Vista giornaliera
+dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
+dateplaner#:#app_inbox#:#Appuntamenti del gruppo
+dateplaner#:#app_list#:#Lista appuntamenti
+dateplaner#:#app_month#:#Vista mensile
+dateplaner#:#app_properties#:#Propriet&#224;
+dateplaner#:#app_week#:#Vista settimanale
 dateplaner#:#application#:#Agenda
-dateplaner#:#apply#:#Conferma###02 Aug 2005 content changed
-dateplaner#:#back#:#Indietro###02 Aug 2005 content changed
+dateplaner#:#apply#:#Conferma
+dateplaner#:#back#:#Indietro
 dateplaner#:#begin_date#:#Inizio appuntamento:
-dateplaner#:#busytime#:#Tempo occupato del gruppo###02 Aug 2005 content changed
-dateplaner#:#c_date#:#Crea appuntamento###02 Aug 2005 content changed
+dateplaner#:#busytime#:#Tempo occupato del gruppo
+dateplaner#:#c_date#:#Crea appuntamento
 dateplaner#:#changeTo#:#Modifica in:
-dateplaner#:#changedDates#:#Appuntamenti modificati:###02 Aug 2005 content changed
+dateplaner#:#changedDates#:#Appuntamenti modificati:
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
 dateplaner#:#date_format#:#m/d/Y H:i//mese/giorno/Anno4Cifre Ora24:Minuti
 dateplaner#:#date_format_middle#:#m/d/y//mese/giorno/Anno
-dateplaner#:#del_all#:#Cancella tutti gli appuntamenti###02 Aug 2005 content changed
-dateplaner#:#del_one#:#Cancella un appuntamento###02 Aug 2005 content changed
-dateplaner#:#delete#:#Cancella###02 Aug 2005 content changed
-dateplaner#:#deletedDates#:#Appuntamenti cancellati###02 Aug 2005 content changed
-dateplaner#:#discard#:#Scartato###02 Aug 2005 content changed
-dateplaner#:#dv_Grouptime#:#Tempo libero###02 Aug 2005 content changed
+dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
+dateplaner#:#del_one#:#Cancella un appuntamento
+dateplaner#:#delete#:#Cancella
+dateplaner#:#deletedDates#:#Appuntamenti cancellati
+dateplaner#:#discard#:#Scartato
+dateplaner#:#dv_Grouptime#:#Tempo libero
 dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
@@ -3737,7 +3737,7 @@ dateplaner#:#dv_date_end#:#Fine appuntamento:
 dateplaner#:#dv_date_hm#:#Ore:Minuti
 dateplaner#:#dv_enddate#:#Fine appuntamento:
 dateplaner#:#dv_groupselect#:#Gruppi scelti:
-dateplaner#:#dv_groupview#:#Appuntamenti gruppo:###02 Aug 2005 content changed
+dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
 dateplaner#:#dv_groupview_text#:#Gruppi:<br>
 dateplaner#:#dv_keywords#:#Chiavi:
 dateplaner#:#dv_keywordselect#:#Chiavi scelte:
@@ -3756,41 +3756,41 @@ dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrent
 dateplaner#:#end_date#:#Fine dell'appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
 dateplaner#:#error_minical_img#:#Impossibile creare uno stream GD
-dateplaner#:#execute#:#scelte eseguite###02 Aug 2005 content changed
-dateplaner#:#extra_dates#:#Appuntamento di un giorno###02 Aug 2005 content changed
-dateplaner#:#free#:#libero###02 Aug 2005 content changed
-dateplaner#:#freetime#:#tempo libero del gruppo###02 Aug 2005 content changed
-dateplaner#:#group#:#Gruppo###02 Aug 2005 content changed
-dateplaner#:#help_day#:#Vista giornaliera dell'agenda###02 Aug 2005 content changed
-dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.###02 Aug 2005 content changed
+dateplaner#:#execute#:#scelte eseguite
+dateplaner#:#extra_dates#:#Appuntamento di un giorno
+dateplaner#:#free#:#libero
+dateplaner#:#freetime#:#tempo libero del gruppo
+dateplaner#:#group#:#Gruppo
+dateplaner#:#help_day#:#Vista giornaliera dell'agenda
+dateplaner#:#help_day_l#:#Nella vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
 dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#In questo campo occorre indicare la data di scadenza dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.###02 Aug 2005 content changed
+dateplaner#:#help_enddate_l#:#In questo campo occorre indicare la data di scadenza dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
 dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminer&#224;.<br> Il simbolo apre un piccolo calendario per la scelta della data.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h
 dateplaner#:#help_endtime_l#:#In questo campo occorre indicare l'ora in cui termina l'appuntamento nel formato 24h.
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]###02 Aug 2005 content changed
-dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.###02 Aug 2005 content changed
+dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
+dateplaner#:#help_fullday_l#:#Se l'appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l'ora di partenza, l'ora conclusiva e la data sono nascoste.
 dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>
-dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo###02 Aug 2005 content changed
+dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo
 dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l'utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo.
 dateplaner#:#help_inbox#:#Agenda in ingresso
-dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.###02 Aug 2005 content changed
+dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
 dateplaner#:#help_keyword#:#Scelta chiave
 dateplaner#:#help_keywordUse#:#Scelta chiave
 dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; chiavi dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.
 dateplaner#:#help_keyword_l#:#Contiene le chiavi che l'utente pu&#242; associare ad un appuntamento.
-dateplaner#:#help_list#:#Appuntamenti agenda.###02 Aug 2005 content changed
-dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.###02 Aug 2005 content changed
+dateplaner#:#help_list#:#Appuntamenti agenda.
+dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.
 dateplaner#:#help_month#:#Agenda vista mensile
-dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.###02 Aug 2005 content changed
+dateplaner#:#help_month_l#:#Nella vista mensile vengono mostrati tutti gli appuntamenti del mese scelto.
 dateplaner#:#help_properties_alt#:#Cambia la chiave
 dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br>Cambia la chiave nel campo testo. Importante: max. 20 caratteri.
 dateplaner#:#help_properties_del#:#Cancella la chiave
 dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per eliminare la chiave.
 dateplaner#:#help_properties_import#:#Importazione dei file CSV di Outlook
-dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.###02 Aug 2005 content changed
+dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.
 dateplaner#:#help_properties_new#:#Aggiungi una chiave, max. 20 caratteri
 dateplaner#:#help_properties_new_l#:#Aggiungi una nuova chiave nel campo 'Nuova'. Importante: max. 20 caratteri
 dateplaner#:#help_properties_time#:#Intervallo scelto per la vista giornaliera/settimanale
@@ -3800,19 +3800,19 @@ dateplaner#:#help_rotation_l#:#Contiene il tipo di frequenza/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
 dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#In questo campo occorre indicare la data di inizio dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.###02 Aug 2005 content changed
+dateplaner#:#help_startdate_l#:#In questo campo occorre indicare la data di inizio dell'appuntamento. <br> Il simbolo a fianco apre un piccolo calendario che facilita la scelta della data.
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
-dateplaner#:#help_starttime_l#:#In questo campo occorre indicare l'ora di inizio dell'appuntamento usando il formato 24h.###02 Aug 2005 content changed
+dateplaner#:#help_starttime_l#:#In questo campo occorre indicare l'ora di inizio dell'appuntamento usando il formato 24h.
 dateplaner#:#help_text#:#Testo
-dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.###02 Aug 2005 content changed
+dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.
 dateplaner#:#help_week#:#Vista settimanale appuntamenti.
-dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.###02 Aug 2005 content changed
+dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.
 dateplaner#:#hour#:#ora
-dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook###02 Aug 2005 content changed
+dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook
 dateplaner#:#inbox#:#Vedi appuntamenti
-dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:###02 Aug 2005 content changed
-dateplaner#:#k_alldates#:#tutti gli appuntamenti###02 Aug 2005 content changed
-dateplaner#:#keep#:#Tieni###02 Aug 2005 content changed
+dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:
+dateplaner#:#k_alldates#:#tutti gli appuntamenti
+dateplaner#:#keep#:#Tieni
 dateplaner#:#keyword#:#Chiave
 dateplaner#:#keywords#:#Definizione delle chiavi
 dateplaner#:#last_change#:#Data ultima modifica
@@ -3828,36 +3828,36 @@ dateplaner#:#long_09#:#Settembre
 dateplaner#:#long_10#:#Ottobre
 dateplaner#:#long_11#:#Novembre
 dateplaner#:#long_12#:#Dicembre
-dateplaner#:#main_dates#:#Appuntamenti principali###02 Aug 2005 content changed
+dateplaner#:#main_dates#:#Appuntamenti principali
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#Mese precedente###02 Aug 2005 content changed
-dateplaner#:#month#:#Mese###02 Aug 2005 content changed
-dateplaner#:#more#:#ancora###02 Aug 2005 content changed
-dateplaner#:#mweek#:#Settimana precedente###02 Aug 2005 content changed
-dateplaner#:#myeahr#:#Anno precedente###02 Aug 2005 content changed
-dateplaner#:#newDates#:#Nuovo appuntamento###02 Aug 2005 content changed
+dateplaner#:#mmonth#:#Mese precedente
+dateplaner#:#month#:#Mese
+dateplaner#:#more#:#ancora
+dateplaner#:#mweek#:#Settimana precedente
+dateplaner#:#myeahr#:#Anno precedente
+dateplaner#:#newDates#:#Nuovo appuntamento
 dateplaner#:#newKeyword#:#Nuova:
-dateplaner#:#new_doc#:#Crea un nuovo appuntamento###02 Aug 2005 content changed
-dateplaner#:#no_entry#:#Nessun appuntamento disponibile###02 Aug 2005 content changed
-dateplaner#:#o_day_date#:#Appuntamento di 24h###02 Aug 2005 content changed
+dateplaner#:#new_doc#:#Crea un nuovo appuntamento
+dateplaner#:#no_entry#:#Nessun appuntamento disponibile
+dateplaner#:#o_day_date#:#Appuntamento di 24h
 dateplaner#:#of#:#da:
-dateplaner#:#open_day#:#Vista giornaliera###02 Aug 2005 content changed
-dateplaner#:#pmonth#:#Mese successivo###02 Aug 2005 content changed
-dateplaner#:#printlist#:#Stampa###02 Aug 2005 content changed
+dateplaner#:#open_day#:#Vista giornaliera
+dateplaner#:#pmonth#:#Mese successivo
+dateplaner#:#printlist#:#Stampa
 dateplaner#:#properties#:#Propriet&#224;
-dateplaner#:#pweek#:#Settimana successiva###02 Aug 2005 content changed
-dateplaner#:#pyear#:#Anno successivo###02 Aug 2005 content changed
-dateplaner#:#r_14#:#Ogni 14 giorni###02 Aug 2005 content changed
-dateplaner#:#r_4_weeks#:#Ogni 4 settimane###02 Aug 2005 content changed
-dateplaner#:#r_day#:#Tutti i giorni###02 Aug 2005 content changed
-dateplaner#:#r_halfyear#:#Ogni 6 mesi###02 Aug 2005 content changed
-dateplaner#:#r_month#:#Tutti i mesi###02 Aug 2005 content changed
+dateplaner#:#pweek#:#Settimana successiva
+dateplaner#:#pyear#:#Anno successivo
+dateplaner#:#r_14#:#Ogni 14 giorni
+dateplaner#:#r_4_weeks#:#Ogni 4 settimane
+dateplaner#:#r_day#:#Tutti i giorni
+dateplaner#:#r_halfyear#:#Ogni 6 mesi
+dateplaner#:#r_month#:#Tutti i mesi
 dateplaner#:#r_nonrecurring#:#Una volta
-dateplaner#:#r_week#:#Tutte le settimane###02 Aug 2005 content changed
-dateplaner#:#r_year#:#Tutti gli anni###02 Aug 2005 content changed
-dateplaner#:#readimportfile#:#Inserisci###02 Aug 2005 content changed
+dateplaner#:#r_week#:#Tutte le settimane
+dateplaner#:#r_year#:#Tutti gli anni
+dateplaner#:#readimportfile#:#Inserisci
 dateplaner#:#rotation#:#Ripeti
-dateplaner#:#rotation_dates#:#Ripeti appuntamenti###02 Aug 2005 content changed
+dateplaner#:#rotation_dates#:#Ripeti appuntamenti
 dateplaner#:#semester_name#:#Nome semestre
 dateplaner#:#short_01#:#Gen
 dateplaner#:#short_02#:#Feb
@@ -3872,17 +3872,17 @@ dateplaner#:#short_10#:#Ott
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Testo breve
-dateplaner#:#singleDate#:#Appuntamento singolo###02 Aug 2005 content changed
+dateplaner#:#singleDate#:#Appuntamento singolo
 dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
 dateplaner#:#timedate#:#Ora/Giorno
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda ILIAS
 dateplaner#:#to#:#a:
-dateplaner#:#today#:#Oggi###02 Aug 2005 content changed
-dateplaner#:#viewlist#:#Vista###02 Aug 2005 content changed
-dateplaner#:#week#:#Settimana###02 Aug 2005 content changed
+dateplaner#:#today#:#Oggi
+dateplaner#:#viewlist#:#Vista
+dateplaner#:#week#:#Settimana
 dateplaner#:#wk_short#:#Set
-dateplaner#:#year#:#Anno###02 Aug 2005 content changed
+dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
 forum#:#forums_all_threads_marked_read#:#Tutti gli argomenti sono stati indicati come letti
 forum#:#forums_attachments#:#Allegati
@@ -4356,7 +4356,7 @@ meta#:#meta_identifier#:#Identificatore
 meta#:#meta_index#:#Indice
 meta#:#meta_initiator#:#Iniziatore
 meta#:#meta_installation_remarks#:#Note sull&#039;installazione
-meta#:#meta_instructional_designer#:#Progettista educativo###09 Aug 2005 content changed
+meta#:#meta_instructional_designer#:#Progettista educativo
 meta#:#meta_instructionaldesigner#:#Instructional designer###09 Aug 2005 new variable
 meta#:#meta_intended_end_user_role#:#Ruolo progettato per utente finale
 meta#:#meta_interactivity_level#:#Livello di interazione
@@ -4848,7 +4848,7 @@ search#:#search_lucene#:#Ricerca con Lucene
 search#:#search_lucene_host#:#Server Lucene
 search#:#search_lucene_info#:#Se attivata, &#232; possibile effettuare ricerche in file PDF, HTML e Moduli HTML
 search#:#search_lucene_port#:#Porta Lucene
-search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
+search#:#search_lucene_readme#:#Informazioni su Lucene
 search#:#search_meta#:#Metadati
 search#:#search_minimum_three#:#Devi specificare almeno tre caratteri
 search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere spostata.
@@ -4907,12 +4907,12 @@ survey#:#before#:#prima di
 survey#:#browse_for_questions#:#Ricerca con filtro
 survey#:#cannot_create_survey_codes#:#Non hai sufficienti diritti per creare codici di accesso al sondaggio!
 survey#:#cannot_edit_survey#:#Non hai sufficienti diritti per poter modificare il sondaggio!
-survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!###09 Aug 2005 content changed
+survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!
 survey#:#cannot_export_survey#:#Non hai sufficienti diritti per esportare il sondaggio!
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondaggio!
-survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!###09 Aug 2005 content changed
+survey#:#cannot_read_questionpool#:#Non hai i diritti per vedere i dati della raccolta di domande!
 survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
 survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
@@ -5025,9 +5025,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti 
 survey#:#fill_out_all_required_fields_save_phrase#:#Per favore completa tutti i campi richiesti prima di salvare la frase!
 survey#:#filter#:#Filtra in
 survey#:#filter_all_question_types#:#Tutti i tipi di domande
-survey#:#filter_all_questionpools#:#Tutte le raccolte di domande###09 Aug 2005 content changed
+survey#:#filter_all_questionpools#:#Tutte le raccolte di domande
 survey#:#filter_show_question_types#:#Fitra tra le domande di tipo
-survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta###09 Aug 2005 content changed
+survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
