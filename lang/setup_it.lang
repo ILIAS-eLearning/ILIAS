@@ -47,7 +47,7 @@ change#:#Cambia
 change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
-check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coincide con la versione installata (di solito &#232; corretta). In caso negativo, la versione del database non &#232; supportata.<br> Esempio 1: se la versione &#232; 'MySQL 4.1.x o superiore' e la versione del tuo database &#232; '4.0.12' allora non &#232; supportata. In questo caso contatta il team di ILIAS.<br />Esempio 2: se la versione è 'MySQL 4.1.x o superiore' e il database &#232; '4.1.14' allora &#232; tutto a posto.
+check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coincide con la versione installata (di solito &#232; corretta). In caso negativo, la versione del database non &#232; supportata.<br>Esempio 1: se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e la versione del tuo database &#232; '4.0.12' allora non &#232; supportata (in questo caso contatta il team di ILIAS). <br/>Esempio 2: se la versione rilevata &#232; 'MySQL 4.1.x o superiore' e il database &#232; '4.1.14' allora &#232; tutto a posto.
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test Java fallito
@@ -150,7 +150,7 @@ htmldoc_path#:#Percorso della cartella con i doc HTML
 htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (nei sistemi a pagamento)
 http_path#:#percorso HTTP 
 id#:#ID
-ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
+ilias_db_mode#:#Tipo di database
 ilias_homepage#:#Homepage ILIAS 3
 ilias_nic#:#Registrazione del NIC
 ilias_nic_id#:#NIC-ID (Network Information Center)
@@ -168,12 +168,12 @@ info_text_first_client#:#Le tue impostazioni di base sono state salvate.<br/> Ad
 info_text_first_install#:#Sembra che questa sia la prima volta che installi ILIAS 3, visto che non &#232; presente il file ilias.ini.<br/> In ilias.ini viene messa la password di amministratore in modo da proteggere l'accesso alla procedura di installazione di ILIAS3 da parte di utenti non autorizzati.
 info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve essere costituito da un&#039;unica parola (sono consentiti solo caratteri alfanumerici).<br/>Successivamente dovrai indicare le informazioni relative alla connessione al database. <br/>La procedura di installazione effettuer&#224; dei test sulla connessione per verificare le impostazioni e controllare se il database &#232; gi&#224; presente. Nel caso non esista, puoi procedere con l&#039;installazione, nel passo successivo verr&#224; creato il database.
 info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
-info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS 3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
+info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro stato.<BR>In alto a destra puoi abilitare o meno la selezione dei client: <BR>- se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS 3; <BR>- se la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. <BR>Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
 info_text_nic1#:#Procurati un ID di questa installazione (NIC-ID ovvero Network Information Center Identifier) dal nostro server ILIAS 3.<br/>Il NIC-ID &#232; necessario se vuoi condividere il contenuto di questa installazione di ILIAS 3 con le altre in rete.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo NIC-ID anche via email: se vuoi utilizzare questo metodo, clicca su
 info_text_nic2#:#ed invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo NIC-ID via email, seleziona 'registrati tramite Email' e inserisci i dati nei campi appropriati.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo NIC-ID &#232;
-info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
+info_text_password#:#Indica la vecchia password e poi digita due volte la nuova.
 info_text_pathes#:#ILIAS 3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
 ini_client_id_exists#:#Un client con questo ID esiste gi&#224;! Per favore, scegline un altro.
 ini_client_id_invalid#:#Il client ID che hai specificato contiene caratteri non validi
@@ -301,7 +301,7 @@ password_info#:#Per proteggere i dati della configurazione, in futuro dovrai spe
 password_new_master#:#Specifica la nuova password.
 password_not_match#:#Le nuove password inserite non coincidono!
 password_old_wrong#:#La vecchia password &#232; sbagliata!
-password_retype#:#Ridigita la nuova password.
+password_retype#:#Ridigita la nuova password
 password_same#:#Vecchia e nuova password sono la stessa!
 password_set#:#Password salvata.
 path_not_set#:#Cartella non specificata.
@@ -345,8 +345,8 @@ select_client#:#Seleziona un client.
 server_info#:#Informazioni sul server.
 server_software#:#Software del server
 set_default_client#:#Imposta il client predefinito
-set_newpasswd#:#Per favore, scrivi la nuova password
-set_oldpasswd#:#Per favore, scrivi la vecchia password
+set_newpasswd#:#Nuova password
+set_oldpasswd#:#Vecchia password
 settings_changed#:#Impostazioni cambiate
 settings_saved#:#Impostazioni salvate
 setup#:#Installazione
