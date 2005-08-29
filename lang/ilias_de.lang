@@ -445,7 +445,7 @@ assessment#:#tst_missing_author#:#Sie haben keine Autorin in den Test-Eigenschaf
 assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angegeben! Bitte fügen Sie wenigstens ein einfaches Notenschema hinzu.
 assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
 assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
-assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
+assessment#:#tst_must_be_online_exam#:#Diese Option ist nur bei Online-Prüfungen verfügbar!
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
@@ -567,7 +567,7 @@ assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
 assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
+assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
@@ -692,7 +692,7 @@ chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
 chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
-chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.###17 Aug 2005 content changed
+chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
 chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
 chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
@@ -798,7 +798,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
+common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
 common#:#all_global_roles#:#Globale Rollen
 common#:#all_lms#:#Alle Lernmodule
@@ -898,10 +898,10 @@ common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
-common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
-common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
+common#:#auth_shib#:#Shibboleth
+common#:#auth_shib_desc#:#User-Authentifizierung über Shibboleth - Kann als zweite Authentifizierungsmethode verwendet werden.
 common#:#auth_shib_not_configured#:#Shibboleth ist nocht nicht eingerichtet
-common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
+common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#author#:#Autor
@@ -955,7 +955,7 @@ common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen###15 Jul 2005 content changed
+common#:#cat_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
@@ -964,7 +964,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Web-Links anlegen###15 Jul 2005 content changed
+common#:#cat_create_webr#:#Neue Web-Links anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -1870,7 +1870,7 @@ common#:#locator#:#Position:
 common#:#log_in#:#Einloggen
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
-common#:#login#:#Benutzername
+common#:#login#:#Einloggen
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
@@ -3380,9 +3380,9 @@ crs#:#crs_archive_type#:#Archivtyp
 crs#:#crs_archive_type_disabled#:#Kein Zugriff
 crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
-crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer, abhängig von der unten ausgewählten Registrierungsart, verfügbar zumachen.
-crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs nur während eines bestimmten Teitraumes freizuschalten.
-crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, um den Kurs einzurichten. Nur Kursadministratoren und Tutoren können den Kurs sehen und bearbeiten.
+crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Registrierungsart!
+crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Registrierungsart - nur während eines definierten Zeitraums freizuschalten.
+crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Kursmitgliedschaft
 crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft wurde beendet.
