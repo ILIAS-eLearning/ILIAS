@@ -52,7 +52,7 @@ $tpl->setVariable("TXT_SEARCH",$lng->txt("search"));
 infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
+setLocator($_GET["mobj_id"],"mail_search.php",$_SESSION["AccountId"],"");
 
 // BUTTONS
 include "./include/inc.mail_buttons.php";

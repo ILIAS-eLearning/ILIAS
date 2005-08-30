@@ -34,7 +34,6 @@ require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
-
 $lng->loadLanguageModule("mail");
 $lng->loadLanguageModule("forum");
 
@@ -52,7 +51,7 @@ $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
 infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
+setLocator($_GET["mobj_id"],"mail_attachment.php", $_SESSION["AccountId"],"");
 
 if(isset($_POST["attachment"]["adopt"]))
 {
