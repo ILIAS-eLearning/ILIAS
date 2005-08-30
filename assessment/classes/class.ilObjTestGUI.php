@@ -4958,6 +4958,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("USER_FEEDBACK", $mark);
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("test_user_name");
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $ilUser->getFullname()));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
