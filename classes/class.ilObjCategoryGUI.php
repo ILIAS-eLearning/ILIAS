@@ -677,9 +677,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		  {
 		    if ($par["obj_id"] != SYSTEM_ROLE_ID)
 		      {
-			$radio = ilUtil::formDisabledRadioButton(0,"adopt",$par["obj_id"],1);
+			$check = ilUtil::formCheckbox(0,"adopt[]",$par["obj_id"],1);
 			$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
-			$output["adopt"][$key]["check_adopt"] = $radio;
+			$output["adopt"][$key]["check_adopt"] = $check;
 			$output["adopt"][$key]["role_id"] = $par["obj_id"];
 			$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 			$output["adopt"][$key]["role_name"] = $par["title"];
