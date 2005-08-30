@@ -550,7 +550,7 @@ class ilObjUserFolder extends ilObject
 		
 		$db_settings = array();
 		$profile_fields =& $this->getProfileFields();
-		$query = "SELECT * FROM `settings` WHERE keyword LIKE 'usr_settings_export_%' AND value = '1'";
+		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
