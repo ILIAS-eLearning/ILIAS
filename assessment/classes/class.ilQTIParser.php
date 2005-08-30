@@ -18,7 +18,7 @@
 	| You should have received a copy of the GNU General Public License           |
 	| along with this program; if not, write to the Free Software                 |
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+	+---------9--------------------------------------------------------------------+
 */
 
 include_once("./classes/class.ilSaxParser.php");
@@ -95,7 +95,9 @@ class ilQTIParser extends ilSaxParser
 	* @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
 	* @access	public
 	*/
-	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", &$a_tst_object = "")
+	//  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
+	//	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", &$a_tst_object = "")
+	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "", $a_tst_object = "")
 	{
 		global $lng;
 
@@ -1259,6 +1261,7 @@ class ilQTIParser extends ilSaxParser
 				//           the complete flag must be calculated?
 				$qt = $this->item->determineQuestionType();
 				$questionpool_id = $this->qpl_id;
+				$presentation = $this->item->getPresentation(); 
 				switch ($qt)
 				{
 					case QT_UNKNOWN:
@@ -1272,12 +1275,12 @@ class ilQTIParser extends ilSaxParser
 						$now = getdate();
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 						$answers = array();
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -1287,13 +1290,14 @@ class ilQTIParser extends ilSaxParser
 									}
 									break;
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType();
 									switch (get_class($response->getRenderType()))
 									{
 										case "ilQTIRenderChoice":
-											$shuffle = $response->getRenderType()->getShuffle();
+											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
-											foreach ($response->getRenderType()->response_labels as $response_label)
+											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
@@ -1398,12 +1402,12 @@ class ilQTIParser extends ilSaxParser
 						$now = getdate();
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 						$gaps = array();
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -1413,7 +1417,8 @@ class ilQTIParser extends ilSaxParser
 									}
 									break;
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType(); 
 									array_push($questiontext, "<<" . $response->getIdent() . ">>");
 									switch (get_class($response->getRenderType()))
 									{
@@ -1422,9 +1427,9 @@ class ilQTIParser extends ilSaxParser
 											break;
 										case "ilQTIRenderChoice":
 											$answers = array();
-											$shuffle = $response->getRenderType()->getShuffle();
+											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
-											foreach ($response->getRenderType()->response_labels as $response_label)
+											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
@@ -1440,10 +1445,10 @@ class ilQTIParser extends ilSaxParser
 													"points" => 0,
 													"answerorder" => $answerorder++,
 													"action" => "",
-													"shuffle" => $response->getRenderType()->getShuffle()
+													"shuffle" => $rendertype->getShuffle()
 												);
 											}
-											array_push($gaps, array("ident" => $response->getIdent(), "type" => "choice", "shuffle" => $response->getRenderType()->getShuffle(), "answers" => $answers));
+											array_push($gaps, array("ident" => $response->getIdent(), "type" => "choice", "shuffle" => $rendertype->getShuffle(), "answers" => $answers));
 											break;
 									}
 									break;
@@ -1574,12 +1579,12 @@ class ilQTIParser extends ilSaxParser
 						$terms = array();
 						$matches = array();
 						$foundimage = FALSE;
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -1589,13 +1594,14 @@ class ilQTIParser extends ilSaxParser
 									}
 									break;
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
-									switch (get_class($response->getRenderType()))
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType();
+									switch (get_class($rendertype))
 									{
 										case "ilQTIRenderChoice":
-											$shuffle = $response->getRenderType()->getShuffle();
+											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
-											foreach ($response->getRenderType()->response_labels as $response_label)
+											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
@@ -1778,12 +1784,12 @@ class ilQTIParser extends ilSaxParser
 						$foundimage = FALSE;
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 						$answers = array();
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -1793,13 +1799,14 @@ class ilQTIParser extends ilSaxParser
 									}
 									break;
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
-									switch (get_class($response->getRenderType()))
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType(); 
+									switch (get_class($rendertype))
 									{
 										case "ilQTIRenderChoice":
-											$shuffle = $response->getRenderType()->getShuffle();
+											$shuffle = $rendertype->getShuffle();
 											$answerorder = 0;
-											foreach ($response->getRenderType()->response_labels as $response_label)
+											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answertext = "";
@@ -1949,12 +1956,12 @@ class ilQTIParser extends ilSaxParser
 						$questionimage = array();
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 						$answers = array();
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -1964,11 +1971,12 @@ class ilQTIParser extends ilSaxParser
 									}
 									break;
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
-									switch (get_class($response->getRenderType()))
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType(); 
+									switch (get_class($rendertype))
 									{
 										case "ilQTIRenderHotspot":
-											foreach ($response->getRenderType()->material as $mat)
+											foreach ($rendertype->material as $mat)
 											{
 												foreach ($mat->matimage as $matimage)
 												{
@@ -1979,7 +1987,7 @@ class ilQTIParser extends ilSaxParser
 													);
 												}
 											}
-											foreach ($response->getRenderType()->response_labels as $response_label)
+											foreach ($rendertype->response_labels as $response_label)
 											{
 												$ident = $response_label->getIdent();
 												$answerhint = "";
@@ -2100,12 +2108,12 @@ class ilQTIParser extends ilSaxParser
 						$params = array();
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 						$answers = array();
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -2204,12 +2212,12 @@ class ilQTIParser extends ilSaxParser
 						$maxchars = 0;
 						$maxpoints = 0;
 						$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-						foreach ($this->item->getPresentation()->order as $entry)
+						foreach ($presentation->order as $entry)
 						{
 							switch ($entry["type"])
 							{
 								case "material":
-									$material = $this->item->getPresentation()->material[$entry["index"]];
+									$material = $presentation->material[$entry["index"]];
 									if (count($material->mattext))
 									{
 										foreach ($material->mattext as $mattext)
@@ -2218,11 +2226,12 @@ class ilQTIParser extends ilSaxParser
 										}
 									}
 								case "response":
-									$response = $this->item->getPresentation()->response[$entry["index"]];
-									switch (get_class($response->getRenderType()))
+									$response = $presentation->response[$entry["index"]];
+									$rendertype = $response->getRenderType(); 
+									switch (get_class($rendertype))
 									{
 										case "ilQTIRenderFib":
-											$maxchars = $response->getRenderType()->getMaxchars();
+											$maxchars = $rendertype->getMaxchars();
 											break;
 									}
 									break;
