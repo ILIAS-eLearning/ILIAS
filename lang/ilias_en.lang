@@ -489,6 +489,7 @@ assessment#:#tst_report_after_question#:#Report the score after every question i
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
+assessment#:#tst_result_user_name#:#Test results for %s
 assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
