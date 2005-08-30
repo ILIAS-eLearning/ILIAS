@@ -65,6 +65,7 @@ if (file_exists($start_template))
 		$tpl->setVariable("RELOAD","<script language=\"javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 	}
 
+	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	$tpl->setVariable("SCRIPT", $start_script);
 	$tpl->show();
 }
