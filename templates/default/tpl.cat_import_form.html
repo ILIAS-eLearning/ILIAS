@@ -17,11 +17,11 @@ function getElementsByNameAndTag(name, tag) {
 
 function disableFields() {
 
-var radios = getElementsByNameAndTag("adopt","input");
+var checkboxes = getElementsByNameAndTag("adopt[]","input");
 
 
-for (i=0; i<radios.length;i++) {
-   radios[i].disabled=true;
+for (i=0; i<checkboxes.length;i++) {
+   checkboxes[i].disabled=true;
 }
 
 var labels = getElementsByNameAndTag("adoptedRole","label");
@@ -39,13 +39,13 @@ cmdimportw.disabled = true;
 
 function enableFields() {
 
-var radios = getElementsByNameAndTag("adopt","input");
+var checkboxes = getElementsByNameAndTag("adopt[]","input");
 
-for (i=0; i<radios.length;i++) {
-   radios[i].disabled=false;
+for (i=0; i<checkboxes.length;i++) {
+   checkboxes[i].disabled=false;
 }
 
-radios[0].checked = true;
+checkboxes[0].checked = true;
 
 var labels = getElementsByNameAndTag("adoptedRole","label");
 
@@ -106,7 +106,7 @@ function ChangeImportType() {
 		<td class="std" colspan="3"></td>
 	</tr>		
 	<tr>
-		<td class="std" colspan="3" style="text-align:right">{TXT_IMPORT_TABLE}</td>
+		<td class="std" colspan="3" style="text-align:right">The following table is only meaningful if the checkbox is set</td>
 	</tr>		
 	<tr>
 		<td class="std" colspan="3"></td>

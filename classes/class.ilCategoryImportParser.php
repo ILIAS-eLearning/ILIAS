@@ -139,15 +139,18 @@ class ilCategoryImportParser extends ilSaxParser
   
 				  // create a rolefolder
 				  $rolfObj = $this->category->createRoleFolder("Local roles","Role Folder of category obj_no. ".$this->category->getRefId());
-				  // ...and put the role into local role folder...  
-				  //$roleObj = $rolfObj->createRole($a_attribs["Id"]." (#".$cur_parent.")","Local rol for category ".$a_attribs["Id"]);
-       
-				  $roleObj = $rolfObj->createRole($a_attribs["Id"],"Local rol for category ".$a_attribs["Id"]);
-				  // adopt permissions from rol template selected
 				  $parentRoles = $rbacreview->getParentRoleIds($rolfObj->getRefId(),true);
-				  $rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],$rolfObj->getRefId(),$roleObj->getId());
+				
+				  // iterate through the chosen templates to create a rol for each checkbox checked
+				  foreach($_POST["adopt"] as $postadopt) {
+					  
+					  $desc = $a_attribs["Id"]. " ".$parentRoles[$postadopt]["title"];
+					  $roleObj = $rolfObj->createRole($desc,"Local rol for category ".$desc);
+					  // adopt permissions from rol template selected
+				  	  $rbacadmin->copyRolePermission($postadopt,$parentRoles[$postadopt]["parent"],$rolfObj->getRefId(),$roleObj->getId());					
+					  unset($roleObj);
+				  }
 
-				  unset($roleObj);
 				  unset($rolfObj);
 				  unset($parentRoles);
 				  
