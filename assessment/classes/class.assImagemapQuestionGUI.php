@@ -416,11 +416,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
-		}
 
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
