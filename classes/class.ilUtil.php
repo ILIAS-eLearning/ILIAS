@@ -1253,6 +1253,13 @@ class ilUtil
 			ilUtil::createDirectory($temp_path);
 		}
 		$temp_name = tempnam($temp_path, "tmp");
+		// --->
+		// added the following line because tempnam creates a backslash on some
+		// Windows systems which leads to problems, because the "...\tmp..." can be
+		// interpreted as "...{TAB-CHARACTER}...". The normal slash works fine
+		// even under windows (Helmut Schottmüller, 2005-08-31)
+		$temp_name = str_replace("\\", "/", $temp_name);
+		// --->
 		unlink($temp_name);
 		return $temp_name;
 	}
