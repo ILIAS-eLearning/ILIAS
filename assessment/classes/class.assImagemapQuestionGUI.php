@@ -181,7 +181,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 
 			if (count($preview->areas))
 			{
-				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+				$pfile = $preview->getPreviewFilename();
+				if (strlen($pfile) == 0)
+				{
+					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+				}
+				else
+				{
+					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+				}
 			}
 			else
 			{
@@ -353,7 +362,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
 					}
 					$preview->createPreview();
-					$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+					$pfile = $preview->getPreviewFilename();
+					if (strlen($pfile) == 0)
+					{
+						sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+						$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+					}
+					else
+					{
+						$imagepath = "displaytempimage.php?gfx=" . $pfile;
+					}
 					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
 				else
@@ -697,7 +715,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$preview->createPreview();
 			if (count($preview->areas))
 			{
-				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+				$pfile = $preview->getPreviewFilename();
+				if (strlen($pfile) == 0)
+				{
+					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+				}
+				else
+				{
+					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+				}
 				$output = preg_replace("/usemap\=\"#qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#qmap\" src=\"$imagepath\"", $output);
 			}
 		}
@@ -724,7 +751,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$preview->createPreview();
 			if (count($preview->areas))
 			{
-				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+				$pfile = $preview->getPreviewFilename();
+				if (strlen($pfile) == 0)
+				{
+					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
+				}
+				else
+				{
+					$imagepath = "displaytempimage.php?gfx=" . $pfile;
+				}
 				$solutionoutput = preg_replace("/usemap\=\"#solution_qmap\" src\=\"([^\"]*?)\"/", "usemap=\"#solution_qmap\" src=\"$imagepath\"", $solutionoutput);
 			}
 		}

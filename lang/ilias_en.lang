@@ -324,6 +324,7 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
