@@ -2432,9 +2432,9 @@ class ilQTIParser extends ilSaxParser
 			case "decvar":
 				if (strlen($a_data))
 				{
-					if ($this->outcomes != NULL)
+					if ($this->decvar != NULL)
 					{
-						$this->outcomes->setContent($a_data);
+						$this->decvar->setContent($a_data);
 					}
 				}
 				break;
