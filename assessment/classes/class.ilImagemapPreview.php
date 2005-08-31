@@ -164,7 +164,14 @@ class ilImagemapPreview
 
 	function getPreviewFilename()
 	{
-		return $this->preview_filename;
+		if (is_file($this->preview_filename))
+		{
+			return $this->preview_filename;
+		}
+		else
+		{
+			return "";
+		}
 	}
 
 	/**
