@@ -95,11 +95,10 @@ class ilObjTestAccess extends ilObjectAccess
 	function _checkCondition($a_obj_id, $a_operator, $a_value)
 	{
 		global $ilias;
-
 		switch($a_operator)
 		{
 			case 'passed':
-				$result = ilObjTestAccess::_getTestResult($ilias->account->getId(), $a_exc_id);
+				$result = ilObjTestAccess::_getTestResult($ilias->account->getId(), $a_obj_id);
 				if ($result["passed"] == 1)
 				{
 					return true;
@@ -111,10 +110,10 @@ class ilObjTestAccess extends ilObjectAccess
 				break;
 
 			case 'finished':
-				return ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_exc_id);
+				return ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_obj_id);
 
 			case 'not_finished':
-				return !ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_exc_id);
+				return !ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_obj_id);
 
 			default:
 				return true;
