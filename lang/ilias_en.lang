@@ -934,6 +934,10 @@ common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
 common#:#bytes#:#Bytes
+common#:#show_public_notes#:#Show public notes
+common#:#show_private_notes#:#Show private notes
+common#:#hide_public_notes#:#Hide public notes
+common#:#hide_private_notes#:#Hide private notes
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_find_xml#:#Cannot find any XML-file.
@@ -1817,6 +1821,13 @@ common#:#ldap_server#:#LDAP Server URL
 common#:#ldap_tls#:#Use LDAP TLS
 common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
+common#:#notes#:#Notes
+common#:#public_notes#:#Public Notes
+common#:#private_notes#:#Private Notes
+common#:#add_note#:#Add Note
+common#:#unlabeled#:#Unlabeled
+common#:#important#:#Important
+common#:#last_edited_on#:#Last edited on
 common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
 common#:#ldap_write#:#Edit LDAP settings
@@ -3005,6 +3016,8 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
+content#:#cont_public_notes#:#Public Notes
+content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates

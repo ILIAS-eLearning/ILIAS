@@ -1317,6 +1317,11 @@ td.ilc_FileItem
 	padding: 3px;
 }
 
+div.ilc_LMMenu
+{
+	line-height: 22px;
+}
+
 a.ilc_LMMenu
 {
 	padding-top:1px;

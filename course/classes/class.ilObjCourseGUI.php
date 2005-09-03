@@ -473,6 +473,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
 			$this->tpl->parseCurrentBlock();
+
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				$this->tpl->setCurrentBlock("btn_cell");
+				$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'editCourseIcons'));
+				$this->tpl->setVariable("BTN_TXT",$this->lng->txt('icon_settings'));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 
@@ -916,6 +924,74 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirect($this,'edit');
 		
 		return true;
+	}
+
+	/**
+	* edit container icons
+	*/
+	function editCourseIconsObject()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html","course");
+		$this->showCustomIconsEditing();
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_CANCEL", "cancel");
+		$this->tpl->setVariable("CMD_SUBMIT", "updateCourseIcons");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* update container icons
+	*/
+	function updateCourseIconsObject()
+	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
+		{
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+		
+		//save custom icons
+		if ($this->ilias->getSetting("custom_icons"))
+		{
+			$this->object->saveIcons($_FILES["cont_big_icon"],
+				$_FILES["cont_small_icon"]);
+		}
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this,"editCourseIcons");
+
+	}
+	
+	/**
+	* remove small icon
+	*
+	* @access	public
+	*/
+	function removeSmallIconObject()
+	{
+		$this->object->removeSmallIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
+	}
+
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeBigIconObject()
+	{
+		$this->object->removeBigIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
 	}
 
 

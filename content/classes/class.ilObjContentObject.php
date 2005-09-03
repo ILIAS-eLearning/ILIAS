@@ -640,6 +640,16 @@ class ilObjContentObject extends ilObject
 		return $this->downloads_active;
 	}
 
+	function setPublicNotes($a_pub_notes)
+	{
+		$this->pub_notes = $a_pub_notes;
+	}
+
+	function publicNotes()
+	{
+		return $this->pub_notes;
+	}
+	
 	function setCleanFrames($a_clean)
 	{
 		$this->clean_frames = $a_clean;
@@ -684,6 +694,7 @@ class ilObjContentObject extends ilObject
 		$this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
+		$this->setPublicNotes(ilUtil::yn2tf($lm_rec["pub_notes"]));
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
@@ -706,6 +717,7 @@ class ilObjContentObject extends ilObject
 			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
 			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
+			" pub_notes = '".ilUtil::tf2yn($this->publicNotes())."',".
 			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
 			" public_access_mode = '".$this->getPublicAccessMode()."',".
 			" public_xml_file = '".$this->getPublicExportFile("xml")."',".

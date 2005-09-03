@@ -315,6 +315,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$select_toc_mode = ilUtil::formSelect ($this->object->getTOCMode(), "toc_mode",
 			$arr_toc_mode, false, true);
 		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
+		
+		// public notes
+		$this->tpl->setVariable("TXT_PUB_NOTES", $this->lng->txt("cont_public_notes"));
+		$this->tpl->setVariable("TXT_PUB_NOTES_DESC", $this->lng->txt("cont_public_notes_desc"));
+		$this->tpl->setVariable("CBOX_PUB_NOTES", "cobj_pub_notes");
+		$this->tpl->setVariable("VAL_PUB_NOTES", "y");
+		if ($this->object->publicNotes())
+		{
+			$this->tpl->setVariable("CHK_PUB_NOTES", "checked");
+		}
 
 		// clean frames
 		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_clean_frames"));
@@ -761,6 +771,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
 		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
+		$this->object->setPublicNotes(ilUtil::yn2tf($_POST["cobj_pub_notes"]));
 		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
 		$this->object->updateProperties();
 

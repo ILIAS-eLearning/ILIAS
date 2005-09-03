@@ -33,6 +33,8 @@ require_once("./classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI
+
 * @package content
 */
 class ilLMPresentationGUI
@@ -47,22 +49,36 @@ class ilLMPresentationGUI
 
 	function ilLMPresentationGUI()
 	{
-		global $ilias, $lng, $tpl, $rbacsystem;
+		global $ilias, $lng, $tpl, $rbacsystem, $ilCtrl;
+
+		// load language vars
+		$lng->loadLanguageModule("content");
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->offline = false;
 		$this->frames = array();
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		$cmd = (!empty($_GET["cmd"]))
-			? $_GET["cmd"]
-			: "layout";
-
-		$cmd = ($cmd == "edpost")
-			? "ilCitation"
-			: $cmd;
-
+		// check read permission, payment and parent conditions
+		// todo: replace all this by ilAccess call
+		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+		}
+		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './classes/class.ilSearch.php';
+		
+		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+		{
+			ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+		}
+		if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+		{
+			$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
+		}
 		// Todo: check lm id
 		$type = $this->ilias->obj_factory->getTypeByRefId($_GET["ref_id"]);
 
@@ -82,12 +98,6 @@ class ilLMPresentationGUI
 				break;
 		}
 		$this->lm =& $this->lm_gui->object;
-		
-		$this->lm_tree = new ilTree($this->lm->getId());
-		$this->lm_tree->setTableNames('lm_tree','lm_data');
-		$this->lm_tree->setTreeTablePK("lm_id");
-
-		
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
@@ -96,19 +106,42 @@ class ilLMPresentationGUI
 				$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 			}
 		}
+		
+		$this->lm_tree = new ilTree($this->lm->getId());
+		$this->lm_tree->setTableNames('lm_tree','lm_data');
+		$this->lm_tree->setTreeTablePK("lm_id");
 
+	}
+
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("layout");
+
+		$cmd = ($cmd == "edpost")
+			? "ilCitation"
+			: $cmd;
 
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
 
-		if ($cmd == "post")
+		switch($next_class)
 		{
-			$cmd = key($_POST["cmd"]);
+			case "ilnotegui":
+				$ret =& $this->layout();
+				break;
+				
+			default: 
+				$ret =& $this->$cmd();
+				break;
 		}
-		$this->$cmd();
 	}
-	
-	
+
+
 	/**
 	* set offline mode (content is generated for offline package)
 	*/
@@ -669,6 +702,10 @@ class ilLMPresentationGUI
 					case "ilLMSubMenu":
 						$this->ilLMSubMenu();
 						break;
+						
+					case "ilLMNotes":
+						$this->ilLMNotes();
+						break;
 				}
 			}
 			$ilBench->stop("ContentPresentation", "layout_processContentTag");
@@ -886,6 +923,41 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("SUBMENU", $tpl_menu->get());
 	}
 
+
+	/**
+	* output notes of page
+	*/
+	function ilLMNotes()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
+		
+		$this->ctrl->setParameter($this, "frame", $_GET["frame"]);
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		
+		$notes_gui->enablePrivateNotes();
+		if ($this->lm->publicNotes())
+		{
+			$notes_gui->enablePublicNotes();
+		}
+
+		if ($next_class == "ilnotegui")
+		{
+			$html = $this->ctrl->forwardCommand($notes_gui);
+		}
+		else
+		{	
+			$html = $notes_gui->getNotesHTML();
+		}
+		$this->tpl->setVariable("NOTES", $html);
+	}
+
+
+	/**
+	* locator
+	*/
 	function ilLocator()
 	{
 		require_once("content/classes/class.ilStructureObject.php");
@@ -2746,6 +2818,8 @@ class ilLMPresentationGUI
 	*/
 	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "")
 	{
+		global $ilCtrl;
+		
 		if ($a_cmd == "")
 		{
 			$a_cmd = "layout";
@@ -2755,36 +2829,43 @@ class ilLMPresentationGUI
 		// handle online links
 		if (!$this->offlineMode())
 		{
-			$link = $script."?ref_id=".$a_ref_id;
 			switch ($a_cmd)
 			{
 				case "fullscreen":
-					$link.= "&cmd=fullscreen";
+					$this->ctrl->getLinkTarget($this, "fullscreen");
+					//$link.= "&cmd=fullscreen";
 					break;
 				
 				default:
-					$link.= "&amp;cmd=".$a_cmd;
+					
+					//$link.= "&amp;cmd=".$a_cmd;
 					if ($a_frame != "")
 					{
-						$link.= "&amp;frame=".$a_frame;
+						$this->ctrl->setParameter($this, "frame", $a_frame);
+						//$link.= "&amp;frame=".$a_frame;
 					}
 					if ($a_obj_id != "")
 					{
 						switch ($a_type)
 						{
 							case "MediaObject":
-								$link.= "&amp;mob_id=".$a_obj_id;
+								$this->ctrl->setParameter($this, "mob_id", $a_obj_id);
+								//$link.= "&amp;mob_id=".$a_obj_id;
 								break;
 								
 							default:
+								$this->ctrl->setParameter($this, "obj_id", $a_obj_id);
 								$link.= "&amp;obj_id=".$a_obj_id;
 								break;
 						}
 					}
 					if ($a_type != "")
 					{
-						$link.= "&amp;obj_type=".$a_type;
+						$this->ctrl->setParameter($this, "obj_type", $a_type);
+						//$link.= "&amp;obj_type=".$a_type;
 					}
+					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
+					$link = str_replace("&", "&amp;", $link);
 					break;
 			}
 		}
