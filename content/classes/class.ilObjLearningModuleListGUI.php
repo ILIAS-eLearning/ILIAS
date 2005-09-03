@@ -107,7 +107,8 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				break;
 				
 			case "view":
-				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;
+				//$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$this->ref_id;
 				break;
 
 			case "edit":

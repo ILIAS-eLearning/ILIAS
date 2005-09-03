@@ -32,9 +32,9 @@
 * @package ilias-core
 */
 
-require_once "./classes/class.ilObject.php";
+require_once "./classes/class.ilContainer.php";
 
-class ilObjCourse extends ilObject
+class ilObjCourse extends ilContainer
 {
 	var $members_obj;
 	var $archives_obj;

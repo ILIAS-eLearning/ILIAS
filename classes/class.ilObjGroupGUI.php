@@ -352,6 +352,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setPassword($_POST["password"]);
 		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 
+		//save custom icons
+		if ($this->ilias->getSetting("custom_icons"))
+		{
+			$this->object->saveIcons($_FILES["cont_big_icon"],
+				$_FILES["cont_small_icon"]);
+		}
+
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
@@ -426,6 +433,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
+		
+		$this->showCustomIconsEditing();
+		$this->tpl->setCurrentBlock("adm_content");
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));//$this->getFormAction("update",$this->ctrl->getFormAction($this)));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("grp_edit"));
@@ -1864,6 +1874,28 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
 
 		return true;
+	}
+	
+	/**
+	* remove small icon
+	*
+	* @access	public
+	*/
+	function removeSmallIconObject()
+	{
+		$this->object->removeSmallIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit"));
+	}
+
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeBigIconObject()
+	{
+		$this->object->removeBigIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit"));
 	}
 	
 	function listUsersGroupObject()

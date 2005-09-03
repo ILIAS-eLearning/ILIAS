@@ -11,6 +11,7 @@
 				<ilLocator/>
 				<ilLMMenu />
 				<ilLMSubMenu />
+				<ilLMNotes />
 			</StructureObject>
 			<PageObject template="tpl.page.html" template_location="module">
 				<ilPage/>
@@ -18,6 +19,7 @@
 				<ilLocator/>
 				<ilLMMenu />
 				<ilLMSubMenu />
+				<ilLMNotes />
 			</PageObject>
 		</ilFrame>
 	</ilFrame>

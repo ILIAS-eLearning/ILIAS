@@ -8511,3 +8511,26 @@ CREATE TABLE container_settings
 	value char(50),
 	PRIMARY KEY (id, keyword)
 ) TYPE = MYISAM;
+<#523>
+CREATE TABLE note
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	rep_obj_id INT NOT NULL,
+	obj_id INT NOT NULL,
+	obj_type CHAR(10),
+	type INT NOT NULL,
+	author INT NOT NULL,
+	text MEDIUMTEXT,
+	label INT NOT NULL,
+	creation_date DATETIME,
+	INDEX i_author (author),
+	INDEX i_obj (rep_obj_id, obj_id, obj_type)
+) TYPE = MYISAM;
+<#524>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#525>
+ALTER TABLE note ADD update_date DATETIME NOT NULL DEFAULT '0000-00-00 00:00';
+<#526>
+ALTER TABLE content_object ADD COLUMN pub_notes ENUM('y','n') NOT NULL DEFAULT 'n';

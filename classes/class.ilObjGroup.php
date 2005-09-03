@@ -34,9 +34,9 @@
 
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
-require_once "class.ilObject.php";
+require_once "class.ilContainer.php";
 
-class ilObjGroup extends ilObject
+class ilObjGroup extends ilContainer
 {
 	var $m_grpStatus;
 

@@ -470,32 +470,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($this->ilias->getSetting("custom_icons"))
-		{
-			if (($big_icon = $this->object->getBigIconPath()) != "")
-			{
-				$this->tpl->setCurrentBlock("big_icon");
-				$this->tpl->setVariable("SRC_BIG_ICON", $big_icon);
-				$this->tpl->parseCurrentBlock();
-			}
-			if (($small_icon = $this->object->getSmallIconPath()) != "")
-			{
-				$this->tpl->setCurrentBlock("small_icon");
-				$this->tpl->setVariable("SRC_SMALL_ICON", $small_icon);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("category_icons");
-			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
-			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
-			$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("small_icon"));
-			$this->tpl->setVariable("BIG_SIZE", "(".
-				$this->ilias->getSetting("custom_icon_big_width")."x".
-				$this->ilias->getSetting("custom_icon_big_height").")");
-			$this->tpl->setVariable("SMALL_SIZE", "(".
-				$this->ilias->getSetting("custom_icon_small_width")."x".
-				$this->ilias->getSetting("custom_icon_small_height").")");
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->showCustomIconsEditing();
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
@@ -575,10 +550,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 			
+			//save custom icons
 			if ($this->ilias->getSetting("custom_icons"))
 			{
-				$this->object->saveIcons($_FILES["cat_big_icon"],
-					$_FILES["cat_small_icon"]);
+				$this->object->saveIcons($_FILES["cont_big_icon"],
+					$_FILES["cont_small_icon"]);
 			}
 			
 			$this->update = $this->object->update();
@@ -629,6 +605,38 @@ class ilObjCategoryGUI extends ilContainerGUI
 		//ilUtil::redirect("adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 
+	}
+
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeBigIconObject()
+	{
+
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeBigIcon();
+		//$this->ctrl->setParameter($this, "entry", 0);
+		//$this->ctrl->setParameter($this, "mode", "session");
+		//$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+	}
+	
+	/**
+	* remove small icon
+	*
+	* @access	public
+	*/
+	function removeSmallIconObject()
+	{
+
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeSmallIcon();
+		//$this->ctrl->setParameter($this, "entry", 0);
+		//$this->ctrl->setParameter($this, "mode", "session");
+		//$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
 
 	/**
