@@ -320,7 +320,7 @@ assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
 assessment#:#qpl_edit_select_multiple#:#Por favor marque solo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
-assessment#:#qpl_import_create_new_qpl#:#Importar las preguntas en un nuevo depósito de preguntas
+assessment#:#qpl_import_create_new_qpl#:#Importar las preguntas en un nuevo banco de preguntas
 assessment#:#qpl_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
 assessment#:#qpl_import_non_ilias_files#:#Error: El fichero de importación contiene ficheros QTI que no han sido creados con el sistema ILIAS. Por favor, contacte con el equipo de ILIAS para adaptar el filtro de importación a su formato QTI.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas en el fichero de importación. Por favor, seleccione las preguntas que quiere importar.
@@ -380,8 +380,8 @@ assessment#:#selected_image#:#Imagen seleccionada
 assessment#:#set_filter#:#Activar filtro
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Barajar respuestas
-assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
-assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_count_system#:#Las preguntas contestadas parcialmente correctas se puntuarán con 0 puntos
+assessment#:#solution_comment_mc_scoring#:#Las preguntas de múltiple elección sin respuesta seleccionada serán puntuadas con 0 puntos
 assessment#:#solution_hint#:#Solución recomendada
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
@@ -443,7 +443,7 @@ assessment#:#tst_missing_author#:#No ha introducido el nombre de los autores en 
 assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test! Por favor añada al menos un esquema simple de calificación en el test.
 assessment#:#tst_missing_questions#:#No tiene ninguna pregunta en el test! Por favor añada al menos una pregunta al test.
 assessment#:#tst_missing_title#:#No ha introducido un título para el test! Por favor diríjase a la sección de metadatos e introduzca un título.
-assessment#:#tst_must_be_online_exam#:#This option is only available for online exams!###17 Aug 2005 new variable
+assessment#:#tst_must_be_online_exam#:#¡Esta opción está solo disponible para exámenes online!
 assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor cree al menos un esquema simple de calificación.
 assessment#:#tst_no_more_available_questionpools#:#No hay más bancos de preguntas disponibles###09 Aug 2005 content changed
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
@@ -565,7 +565,7 @@ assessment#:#uploaded_material#:#Material Cargado
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
 assessment#:#user_wrong_clientip#:#No tiene la IP correcta usando este Test
 assessment#:#warning_question_not_complete#:#La pregunta no está completa!
-assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
+assessment#:#warning_test_not_complete#:#El test no está completo
 assessment#:#when#:#cuando
 assessment#:#width#:#Anchura
 assessment#:#with_order#:#con orden
@@ -954,8 +954,8 @@ common#:#cat_create_hlm#:#Create Módulo de aprendizaje HACP
 common#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML
 common#:#cat_create_icrs#:#Crear Seminario LearnLinc
 common#:#cat_create_lm#:#Crear Módulo de aprendizaje
-common#:#cat_create_mep#:#Crear Depósito Multimedia
-common#:#cat_create_qpl#:#Crear Depósito de Preguntas
+common#:#cat_create_mep#:#Crear Banco Multimedia
+common#:#cat_create_qpl#:#Crear Banco de Preguntas
 common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
@@ -1500,7 +1500,7 @@ common#:#grp_create_hlm#:#Crear Módulo de aprendizaje HACP
 common#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
 common#:#grp_create_icrs#:#Crear Seminario LearnLinc
 common#:#grp_create_lm#:#Crear Módulo de Aprendizaje
-common#:#grp_create_mep#:#Crear Depósito Multimedia
+common#:#grp_create_mep#:#Crear Banco Multimedia
 common#:#grp_create_qpl#:#Crear Banco de Preguntas para Test
 common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 common#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
@@ -1669,7 +1669,7 @@ common#:#import_grp_finished#:#Grupo importado sin errores
 common#:#import_hlm#:#Importar Paquete HACP
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_qpl#:#Importar Banco de preguntas de Test###09 Aug 2005 content changed
-common#:#import_questions_into_qpl#:#Importar pregunta(s) en el depósito de preguntas###09 Aug 2005 content changed
+common#:#import_questions_into_qpl#:#Importar pregunta(s) en el banco de preguntas###09 Aug 2005 content changed
 common#:#import_root_user#:#Import Usuario Root
 common#:#import_sahs#:#Importar Paquete SCORM/AICC
 common#:#import_spl#:#Importar Banco de preguntas para encuestas###09 Aug 2005 content changed
@@ -1926,17 +1926,17 @@ common#:#member#:#Miembro
 common#:#member_status#:#Estado del participante:
 common#:#members#:#Miembros
 common#:#membership_annulled#:#Tu pertenencia ha sido cancelada
-common#:#mep#:#Depósito Multimedia
-common#:#mep_add#:#Añadir Depósito Multimedia
-common#:#mep_added#:#Depósito Multimedia añadido
-common#:#mep_delete#:#Eliminar Depósito Multimedia
-common#:#mep_edit#:#Editar propiedades de Depósito Multimedia
+common#:#mep#:#Banco Multimedia
+common#:#mep_add#:#Añadir Banco Multimedia
+common#:#mep_added#:#Banco Multimedia añadido
+common#:#mep_delete#:#Eliminar Banco Multimedia
+common#:#mep_edit#:#Editar propiedades de Banco Multimedia
 common#:#mep_edit_permission#:#Modificar configuración de permisos
-common#:#mep_new#:#Nuevo Depósito Multimedia
+common#:#mep_new#:#Nuevo Banco Multimedia
 common#:#mep_not_insert_already_exist#:#Los siguientes items no han sido insertados porque ya están en el banco multimedia:
-common#:#mep_read#:#Leer contenido del Depósito Multimedia
-common#:#mep_visible#:#Nuevo Depósito Multimedia visible
-common#:#mep_write#:#Editar contenido del Depósito Multimedia
+common#:#mep_read#:#Leer contenido del Banco Multimedia
+common#:#mep_visible#:#Nuevo Banco Multimedia visible
+common#:#mep_write#:#Editar contenido del Banco Multimedia
 common#:#message#:#mensaje
 common#:#message_content#:#contenido del mensaje
 common#:#message_no_delivered_files#:#¡No ha enviado un fichero!
