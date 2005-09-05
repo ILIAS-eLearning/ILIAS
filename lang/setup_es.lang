@@ -47,7 +47,7 @@ change#:#cambiar###07 Apr 2005 content changed
 change_basic_settings#:#Modificar configuracion básica###07 Apr 2005 content changed
 change_password#:#Cambiar contrase&ntilde;a###07 Apr 2005 content changed
 change_sort_direction#:#Modificar dirección de ordenación###07 Apr 2005 content changed
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
+check_db_versions#:#Por favor asegúrese de que el modo de base de datos determinado por ILIAS coincide con su versión de MySQL. Este debe ser el caso generalmente. Si no es así, su versión de base de datos no está soportada. Ejemplo 1: Si el modo es 'MySQL 4.1.x o mayor' y la version de base de datos es '4.0.12' entonces esta versión MySQL no está soportada. Por favor contacte con el equipo de ILIAS.<br />Ejemplo 2: Si el modo es 'MySQL 4.1.x o más alto' y su version de base de datos es '4.1.14' entonces todo está correcto
 check_failed_convert#:#Falló la prueba con 'convert'###07 Apr 2005 content changed
 check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'###07 Apr 2005 content changed
 check_failed_htmldoc#:#Falló la prueba con 'HTMLdoc'###07 Apr 2005 content changed
@@ -151,7 +151,7 @@ htmldoc_path#:#Ruta a HTMLdoc###07 Apr 2005 content changed
 htmldoc_path_comment#:#requerido para generar facturas PDF (Sistema de Pago)###07 Apr 2005 content changed
 http_path#:#Ruta HTTP###07 Apr 2005 content changed
 id#:#ID###07 Apr 2005 content changed
-ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
+ilias_db_mode#:#modo de base de datos ILIAS
 ilias_homepage#:#Página principal de ILIAS###07 Apr 2005 content changed
 ilias_nic#:#Registrar NIC###07 Apr 2005 content changed
 ilias_nic_id#:#ID de NIC###07 Apr 2005 content changed
@@ -200,7 +200,7 @@ inst_name#:#nombre de la Instalación###07 Apr 2005 content changed
 install#:#instalar###07 Apr 2005 content changed
 installation#:#Installación###07 Apr 2005 content changed
 installed#:#instalado###07 Apr 2005 content changed
-installed_local#:#Installed With Local###13 Apr 2005 new variable
+installed_local#:#Instalado con Local###13 Apr 2005 new variable
 institution#:#Institución###07 Apr 2005 content changed
 intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.###07 Apr 2005 content changed
 ip_address#:#Dirección IP###07 Apr 2005 content changed
@@ -249,8 +249,8 @@ login_to_ilias#:#Identificación en ILIAS###07 Apr 2005 content changed
 logout#:#Salir###07 Apr 2005 content changed
 main_datadir_outside_webspace#:#El fichero general de datos debe estar fuera del espacio web.###07 Apr 2005 content changed
 missing_data#:#Faltan datos###07 Apr 2005 content changed
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x o menor###20 Jun 2005 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x o mayor###20 Jun 2005 new variable
 name#:#Nombre###07 Apr 2005 content changed
 new#:#nuevo###07 Apr 2005 content changed
 next#:#Siguiente###07 Apr 2005 content changed
