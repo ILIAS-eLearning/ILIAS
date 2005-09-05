@@ -445,7 +445,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}	
 		
 		// check connection to ldap server
-		include_once('classes/class.ilLDAPAuthentication.php');
+		//include_once('classes/class.ilLDAPAuthentication.php');
 		
 		$ldap_host	= $_POST["ldap"]["server"];
 		$ldap_port	= $_POST["ldap"]["port"];
