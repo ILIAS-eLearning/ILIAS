@@ -405,7 +405,7 @@
 	<property name="payMethods">pay_methods</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="icrs" class_name="iLincCourse" location="ilinc/classes" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="icrs" class_name="iLincCourse" location="ilinc/classes" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="icla">icla</subobj>
 	<property name="view">view_rooms</property>
@@ -413,7 +413,7 @@
 	<property name="members">members</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="icla" class_name="iLincClassroom" location="ilinc/classes" module="ilinc" checkbox="0" inherit="0" translate="0" rbac="0" devmode="1">
+<object name="icla" class_name="iLincClassroom" location="ilinc/classes" module="ilinc" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
 </object>
 <object name="crsg" class_name="CourseGrouping" location="course/classes" module="course">
 	<property name="view">view_content</property>
@@ -435,7 +435,7 @@
 	<property name="settings">settings</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="extt" class_name="ExternalToolsSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+<object name="extt" class_name="ExternalToolsSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0">
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 </object>

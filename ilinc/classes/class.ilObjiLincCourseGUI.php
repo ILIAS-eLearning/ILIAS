@@ -74,22 +74,27 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 		$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
 		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
-
+		$data["fields"]["activated"] = ilUtil::formCheckbox($_SESSION["error_post_vars"]["Fobject"]["activated"],"Fobject[activated]",1);
+		$checkbox_access = ilUtil::formCheckbox($this->object->activated,"Fobject[activated]",1);
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
 		
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
+		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("online"));
+		$this->tpl->setVariable("CHKBOX_ACCESS", $data["fields"]["activated"]);
 		$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
 		$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
 		$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
 		$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
 		$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																   $_GET["ref_id"]."&new_type=".$new_type));
+
+		$this->ctrl->setParameter($this, "mode", "create");
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -124,9 +129,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
-
+//var_dump($this->ctrl->getLinkTarget($this,"edit"));exit;
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"edit"));
 	}
 	
 	/**
@@ -136,7 +141,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function saveObject()
 	{
 		global $rbacadmin,$rbacsystem;
-
+		
 		// check required fields
 		if (empty($_POST["Fobject"]["title"]))
 		{
@@ -163,6 +168,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		// save ilinc_id in ILIAS and save data (temp. TODO: build save function)
 		$icrsObj->storeiLincId($response->getFirstID());
+		$icrsObj->saveActivationStatus(ilUtil::tf2yn($_POST["Fobject"]["activated"]));
 		
 		// setup rolefolder & default local roles (admin & member)
 		$roles = $icrsObj->initDefaultRoles();
@@ -180,10 +186,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 //		$icrsObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 
 		$this->ilias->account->addDesktopItem($icrsObj->getRefId(),"icrs");	
-		
+		//var_dump($this->ctrl->getParentReturn($this));exit;
 		// always send a message
 		sendInfo($this->lng->txt("icrs_added"),true);
-		
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
 	
@@ -339,7 +344,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -352,7 +357,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 								  "last_visit"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => $a_cmd,
-								  "cmdClass" => "ilobjgroupgui",
+								  "cmdClass" => "ilobjilinccoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
 		$tbl->setColumnWidth(array("","33%","33%","33%"));
@@ -400,7 +405,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("grp_count_members")));
@@ -409,7 +414,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 								  "nr_members"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "search",
-								  "cmdClass" => "ilobjgroupgui",
+								  "cmdClass" => "ilobjilincoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
 		$tbl->setColumnWidth(array("","80%","19%"));
@@ -458,7 +463,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));
@@ -467,7 +472,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 								  "nr_members"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "search",
-								  "cmdClass" => "ilobjgroupgui",
+								  "cmdClass" => "ilobjilinccoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
 		$tbl->setColumnWidth(array("","80%","19%"));
@@ -501,7 +506,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{			//user is administrator
             $tpl->setCurrentBlock("plain_button");
 		    $tpl->setVariable("PBTN_NAME","searchUserForm");
-		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("grp_add_member"));
+		    $tpl->setVariable("PBTN_VALUE",$this->lng->txt("ilinc_add_user"));
 		    $tpl->parseCurrentBlock();
 		    $tpl->setCurrentBlock("plain_buttons");
 		    $tpl->parseCurrentBlock();
@@ -535,7 +540,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
+		$tbl->setTitle($this->lng->txt("ilinc_involved_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_involved_users"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -779,9 +784,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		
 		//if current user is admin he is able to add new members to group
-		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
-		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
+		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_send_mail")."\" title=\"".$this->lng->txt("ilinc_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
+		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_change_status")."\" title=\"".$this->lng->txt("ilinc_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
+		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_leave")."\" title=\"".$this->lng->txt("ilinc_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
 		// store access checks to improve performance
 		$access_delete = $rbacsystem->checkAccess("delete",$this->object->getRefId());
@@ -988,23 +993,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$html = $item_list_gui->getListItemHTML($this->object->getRefId(),
 							$key, $item["name"], $item["description"],$item);
 								
-				// check wheter any admin command is allowed for
-				// the items
-				if (!$this->adminCommands)
-				{
-					if ($_SESSION["il_cont_admin_panel"] != true)
-					{
-						/*if ($this->rbacsystem->checkAccess("delete", $item["ref_id"]))
-						{
-							$this->adminCommands = true;
-						}*/
-					}
-					else
-					{
-						$this->adminCommands = $item_list_gui->adminCommandsIncluded();
-					}
-				}
-							
 				if ($html != "")
 				{
 					$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);
@@ -1322,6 +1310,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function addUserObject()
 	{
 		$user_ids = $_POST["user"];
+		
+		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
 		{
@@ -1339,6 +1329,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 			}
 			
+			$user_obj->addDesktopItem($this->object->getRefId(),"icrs");
+			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_new_subcription").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_new_subscription"),array(),array('normal'));	
+
 			unset($user_obj);
 		}
 		
@@ -1511,6 +1504,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function confirmedRemoveMemberObject()
 	{
+		$removed_self = false;
+		
+		$mail = new ilMail($_SESSION["AccountId"]);
+		
 		//User needs to have administrative rights to remove members...
 		foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 		{
@@ -1522,11 +1519,26 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			}
 			
 			$user_obj->dropDesktopItem($this->object->getRefId(), "icrs");
+			
+			if (!$removed_self and $user_obj->getId() == $this->ilias->account->getId())
+			{
+				$removed_self = true;
+			}
+			else
+			{
+				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_subcription_cancelled").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_subscription_cancelled"),array(),array('normal'));
+			}
 		}
 		
 		unset($_SESSION["saved_post"]);
 
 		sendInfo($this->lng->txt("ilinc_msg_membership_annulled"),true);
+		
+		if ($removed_self)
+		{
+			ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
+		}
+		
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 	
@@ -1840,8 +1852,15 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
 		
+		$this->ilias->account->addDesktopItem($this->object->getRefId(),"icrs");	
+		
 		sendInfo($this->lng->txt("ilinc_msg_joined"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+	}
+	
+	function isActiveAdministrationPanel()
+	{
+		return false;
 	}
 } // END class.ilObjiLincCourseGUI
 ?>
