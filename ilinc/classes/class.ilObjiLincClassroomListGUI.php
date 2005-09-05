@@ -213,6 +213,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	* @param	object		$a_tpl		template object
 	* @param	int			$a_ref_id	item reference id
 	*/
+	/*
 	function insertDeleteCommand()
 	{
 		if (true)  // query here docent flag
@@ -222,9 +223,9 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "class_id", $this->ref_id);
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeRoom");
 			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
-			$this->adm_commands_included = true;
+			$this->adm_commands_included = false;
 		}
-	}
+	}*/
 	
 	/**
 	* insert all commands into html code

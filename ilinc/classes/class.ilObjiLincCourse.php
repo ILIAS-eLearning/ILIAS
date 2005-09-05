@@ -210,6 +210,13 @@ class ilObjiLincCourse extends ilObject
 		$this->ilinc_id = $a_icrs_id;
 	}
 	
+	// saveActivationStatus()
+	function saveActivationStatus($a_activated)
+	{
+		$q = "UPDATE ilinc_data SET activation_offline='".$a_activated."' WHERE obj_id=".$this->getId()."";
+		$r = $this->ilias->db->query($q);
+	}
+	
 	/**
 	* init default roles settings
 	* 

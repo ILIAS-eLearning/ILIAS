@@ -153,7 +153,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		// this has to be more "generalized" (moved out of this method) if
 		// more list methods are implemented
-		if ($_SESSION["il_cont_admin_panel"] == true)
+		if ($this->isActiveAdministrationPanel())
 		{
 			$tpl->setCurrentBlock("admin_button_off");
 			$tpl->setVariable("ADMIN_MODE_LINK",
@@ -310,7 +310,7 @@ class ilContainerGUI extends ilObjectGUI
 							}
 							// render item row
 							$ilBench->start("ilContainerGUI", "0210_getListHTML");
-							if ($_SESSION["il_cont_admin_panel"] != true)
+							if (!$this->isActiveAdministrationPanel())
 							{
 								$item_list_gui->enableDelete(false);
 								$item_list_gui->enableLink(false);
@@ -324,7 +324,7 @@ class ilContainerGUI extends ilObjectGUI
 							// the items
 							if (!$this->adminCommands)
 							{
-								if ($_SESSION["il_cont_admin_panel"] != true)
+								if (!$this->isActiveAdministrationPanel())
 								{
 									if ($this->rbacsystem->checkAccess("delete", $item["ref_id"]))
 									{
@@ -455,6 +455,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
+<<<<<<< class.ilContainerGUI.php
 		$nbsp = true;
 		if ($a_image_type != "")
 		{
@@ -486,6 +487,9 @@ class ilContainerGUI extends ilObjectGUI
 			$nbsp = false;
 		}
 		if ($_SESSION["il_cont_admin_panel"] == true)
+=======
+		if ($this->isActiveAdministrationPanel())
+>>>>>>> 1.17.2.2
 		{
 			$a_tpl->setCurrentBlock("block_row_check");
 			$a_tpl->setVariable("ITEM_ID", $a_item_ref_id);
@@ -1143,6 +1147,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		return true;
 	}
+<<<<<<< class.ilContainerGUI.php
 
 	
 	/**
@@ -1183,5 +1188,12 @@ class ilContainerGUI extends ilObjectGUI
 	}
 
 
+=======
+	
+	function isActiveAdministrationPanel()
+	{
+		return $_SESSION["il_cont_admin_panel"];
+	}
+>>>>>>> 1.17.2.2
 }
 ?>
