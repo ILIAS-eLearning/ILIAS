@@ -1645,18 +1645,29 @@ common#:#ilinc_classroom_open#:#Classroom is open
 common#:#ilinc_classrooms#:#LearnLinc Classrooms
 common#:#ilinc_coursemember_status#:#Attending as
 common#:#ilinc_courses#:#LearnLinc Seminars
-common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?
+common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following user(s) from the LearnLinc Seminar?
 common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?
 common#:#ilinc_docent#:#Instructor
 common#:#ilinc_err_administrator_required#:#Member could not be removed, at least one administrator per LearnLinc Seminar is required !
 common#:#ilinc_err_last_member#:#Last member could not be removed, please delete LearnLinc Seminar instead.
-common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
+common#:#ilinc_err_member_could_not_be_removed#:#User could not be removed. Please verify all dependencies of that user.
 common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.
 common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Involved Users
 common#:#ilinc_manage_course_documents#:#Materials
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
+common#:#ilinc_msg_membership_annulled#:#Subscription cancelled
+common#:#ilinc_msg_member_assigned#:#User(s) assigned
+common#:#ilinc_mem_send_mail#:#Send user a message
+common#:#ilinc_mem_change_status#:#Change user's status
+common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
+common#:#ilinc_add_user#:#Add user(s)
+common#:#ilinc_header_edit_users#:#Edit list of involved users
+common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled:
+common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
+common#:#ilinc_mail_subj_neW_subscription#:#New subscription:
+common#:#ilinc_mail_body_new_subscription#:#ou have been subscribed as to that LearnLinc Seminar.
 common#:#ilinc_no_docent_assigned#:#Not assigned
 common#:#ilinc_notset#:#Not set
 common#:#ilinc_remark#:#Remark
@@ -1664,7 +1675,7 @@ common#:#ilinc_server_not_active#:#iLinc server not activated
 common#:#ilinc_student#:#Participant
 common#:#ilinc_upload_pic_linktext#:#Upload
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#import#:#Import

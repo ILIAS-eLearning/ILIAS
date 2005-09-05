@@ -1637,10 +1637,10 @@ common#:#ilinc_classroom_open#:#Raum ist offen
 common#:#ilinc_classrooms#:#LearnLinc Seminarräume###06 Aug 2005 content changed
 common#:#ilinc_coursemember_status#:#Eingetragen als
 common#:#ilinc_courses#:#LearnLinc Seminare
-common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
-common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
+common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc Seminar ausgetragen werden sollen?
+common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc Seminar ausgetragen wollen?
 common#:#ilinc_docent#:#Dozent
-common#:#ilinc_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#ilinc_err_administrator_required#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
 common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc Seminar !
 common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
@@ -1649,6 +1649,17 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
 common#:#ilinc_manage_course_documents#:#Agenda
 common#:#ilinc_msg_joined#:#Sie sind dem LearnLinc Seminar beigetreten
+common#:#ilinc_msg_membership_annulled#:#Mitgliedschaft aufgehoben
+common#:#ilinc_msg_member_assigned#:#Benutzer zugewiesen
+common#:#ilinc_mem_send_mail#:#Benutzer eine Nachricht senden
+common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
+common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc Seminar austragen
+common#:#ilinc_add_user#:#Benutzer hinzufügen
+common#:#ilinc_header_edit_users#:#Liste der beteiligte Benutzer bearbeiten
+common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben:
+common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
+common#:#ilinc_mail_subj_new_subscription#:#Neue Mitlgiedschaft in:
+common#:#ilinc_mail_body_new_subscription#:#Sie wurden in dem LearnLinc Seminar als Teilnehmer aufgenommen.
 common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
 common#:#ilinc_notset#:#Nicht gesetzt
 common#:#ilinc_remark#:#Hinweis
@@ -1656,7 +1667,7 @@ common#:#ilinc_server_not_active#:#iLinc-Server ist nicht aktiv
 common#:#ilinc_student#:#Teilnehmer
 common#:#ilinc_upload_pic_linktext#:#Hochladen
 common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###06 Aug 2005 new variable
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc Seminar muss mindestens ein Benutzer mit Administrattionsrechten zugewiesen sein
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
