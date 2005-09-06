@@ -1667,7 +1667,7 @@ common#:#ilinc_header_edit_users#:#Edit list of involved users
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled:
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
 common#:#ilinc_mail_subj_neW_subscription#:#New subscription:
-common#:#ilinc_mail_body_new_subscription#:#ou have been subscribed as to that LearnLinc Seminar.
+common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
 common#:#ilinc_no_docent_assigned#:#Not assigned
 common#:#ilinc_notset#:#Not set
 common#:#ilinc_remark#:#Remark
