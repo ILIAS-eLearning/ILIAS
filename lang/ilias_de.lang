@@ -1304,7 +1304,9 @@ common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_customer_id#:#Kunden ID
 common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
 common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
-common#:#extt_ilinc_port#:#Port###14 Jul 2005 new variable
+common#:#extt_ilinc_protocol_port#:#Protokoll und Port
+common#:#http#:#HTTP
+common#:#ssl#:#SSL (HTTPS)
 common#:#extt_ilinc_registrar_login#:#Benutzername ID
 common#:#extt_ilinc_registrar_passwd#:#Passwort
 common#:#extt_ilinc_server#:#Server
@@ -1656,9 +1658,9 @@ common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
 common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc Seminar austragen
 common#:#ilinc_add_user#:#Benutzer hinzufügen
 common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
-common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben:
+common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
-common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft in:
+common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft in
 common#:#ilinc_mail_body_new_subscription#:#Sie wurden in dem LearnLinc Seminar als Teilnehmer aufgenommen.
 common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
 common#:#ilinc_notset#:#Nicht gesetzt
