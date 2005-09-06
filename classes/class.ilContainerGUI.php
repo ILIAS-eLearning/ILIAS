@@ -455,7 +455,6 @@ class ilContainerGUI extends ilObjectGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
-<<<<<<< class.ilContainerGUI.php
 		$nbsp = true;
 		if ($a_image_type != "")
 		{
@@ -486,10 +485,8 @@ class ilContainerGUI extends ilObjectGUI
 			$a_tpl->parseCurrentBlock();
 			$nbsp = false;
 		}
-		if ($_SESSION["il_cont_admin_panel"] == true)
-=======
+
 		if ($this->isActiveAdministrationPanel())
->>>>>>> 1.17.2.2
 		{
 			$a_tpl->setCurrentBlock("block_row_check");
 			$a_tpl->setVariable("ITEM_ID", $a_item_ref_id);
@@ -1147,7 +1144,6 @@ class ilContainerGUI extends ilObjectGUI
 
 		return true;
 	}
-<<<<<<< class.ilContainerGUI.php
 
 	
 	/**
@@ -1187,13 +1183,10 @@ class ilContainerGUI extends ilObjectGUI
 		}
 	}
 
-
-=======
-	
 	function isActiveAdministrationPanel()
 	{
 		return $_SESSION["il_cont_admin_panel"];
 	}
->>>>>>> 1.17.2.2
+
 }
 ?>
