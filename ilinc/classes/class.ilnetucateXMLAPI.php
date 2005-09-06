@@ -33,7 +33,9 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->reg_login = $this->ilias->getSetting("ilinc_registrar_login");
 		$this->reg_passwd = $this->ilias->getSetting("ilinc_registrar_passwd");
 		$this->customer_id = $this->ilias->getSetting("ilinc_customer_id");
+		$this->server_scheme = $this->ilias->getSetting("ilinc_protocol");
 		$this->server_addr	= $this->ilias->getSetting("ilinc_server");
+		$this->server_path = $this->ilias->getSetting("ilinc_path");
 		$this->server_port	= $this->ilias->getSetting("ilinc_port");
 		$this->server_timeout	= $this->ilias->getSetting("ilinc_timeout");
 	}
@@ -62,6 +64,16 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	{
 		return $this->server_timeout;
 	}
+	
+	function getServerPath()
+	{
+		return $this->server_path;
+	}
+	
+	function getServerScheme()
+	{
+		return $this->server_scheme;
+	}
 
 	function getCustomerID()
 	{
@@ -88,12 +100,24 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		
 		//var_dump($this->request);exit;
 		
+		if ($this->getServerScheme() == "https")
+		{
+			$scheme = "ssl";
+		}
+		else
+		{
+			$scheme = "http";
+		}
 
-		$sock = fsockopen($this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
+		$sock = fsockopen($scheme."://".$this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
 		if (!$sock) die("$errstr ($errno)\n");
-		
-		fputs($sock, "POST /campus/XMLAPI/netucateXMLAPI.asp HTTP/1.0\r\n");
-		fputs($sock, "Host: ".$this->getServerAddr()."\r\n");
+
+/*var_dump("POST ".$this->getServerPath()." HTTP/1.0\r\n");
+var_dump("Host: ".$this->getServerScheme()."://".$this->getServerAddr().$this->getServerPath()."\r\n");
+exit;
+*/		
+		fputs($sock, "POST ".$this->getServerPath()." HTTP/1.0\r\n");
+		fputs($sock, "Host: ".$this->getServerScheme()."://".$this->getServerAddr().$this->getServerPath()."\r\n");
 		fputs($sock, "Content-type: text/xml\r\n");
 		fputs($sock, "Content-length: " . strlen($this->request) . "\r\n");
 		fputs($sock, "Accept: */*\r\n");
@@ -120,10 +144,10 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		// return netucate response object
 		$response_obj =  new ilnetucateResponse($response);
 		
-		/*if ($a_request == "editClass")
+		if ($a_request == "joinClass")
 		{
-			var_dump($response,$response_obj->data);exit;
-		}*/
+			var_dump($this->request,$response,$response_obj->data);exit;
+		}
 
 		return $response_obj;
 	}
@@ -419,6 +443,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	
 	function joinClass(&$a_user_obj,$a_ilinc_class_id)
 	{
+		$this->xmlClear();
 		$this->xmlHeader();
 
 		$this->xmlStartTag('netucate.API.Request');

@@ -188,7 +188,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 			else
 			{
 				$access_granted = false;
-				$info_object = $ilAccess->getInfo();
+				//$info_object = $ilAccess->getInfo();
 			}
 
 			$ref_commands[] = array(
