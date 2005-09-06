@@ -1312,7 +1312,9 @@ common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_customer_id#:#Customer ID
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Enable LearnLinc support
-common#:#extt_ilinc_port#:#Port
+common#:#extt_ilinc_protocol_port#:#Protocol & Port
+common#:#http#:#HTTP
+common#:#ssl#:#SSL (HTTPS)
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
@@ -1664,9 +1666,9 @@ common#:#ilinc_mem_change_status#:#Change user's status
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
 common#:#ilinc_add_user#:#Add user(s)
 common#:#ilinc_header_edit_users#:#Edit list of involved users
-common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled:
+common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
-common#:#ilinc_mail_subj_neW_subscription#:#New subscription:
+common#:#ilinc_mail_subj_neW_subscription#:#New subscription
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
 common#:#ilinc_no_docent_assigned#:#Not assigned
 common#:#ilinc_notset#:#Not set
