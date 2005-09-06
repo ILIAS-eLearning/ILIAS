@@ -1,3 +1,20 @@
+<script type="text/javascript">
+<!--
+function setDefaultPort(a_http_port, a_ssl_port)
+{
+		if (document.ILINCOptions.ilinc_protocol.options[0].selected == true) {
+    		document.ILINCOptions.ilinc_port.value = a_http_port;
+    	}
+    	
+  		if (document.ILINCOptions.ilinc_protocol.options[1].selected == true) {
+    		document.ILINCOptions.ilinc_port.value = a_ssl_port;
+    	}
+
+    return true;
+}
+//-->
+</script>
+
 <form action="{FORMACTION}" name="ILINCOptions" method="post">
 <table class="fullwidth">
 <tr class="tbltitle">
@@ -19,11 +36,17 @@
     </tr>
      <tr>
       <td class="option">{TXT_ILINC_SERVER} <span class="asterisk">*</span><span class="small"></td>
-      <td class="option_value"><input type="text" size="50" maxlength="256" name="ilinc[server]" value="{ILINC_SERVER}" /></td>
+      <td class="option_value"><input type="text" size="60" maxlength="256" name="ilinc[server]" value="{ILINC_SERVER}" /></td>
     </tr>
      <tr>
-      <td class="option">{TXT_ILINC_PORT} <span class="asterisk">*</span><span class="small"></td>
-      <td class="option_value"><input type="text" size="7" maxlength="5" name="ilinc[port]" value="{ILINC_PORT}" /></td>
+      <td class="option">{TXT_ILINC_PROTOCOL_PORT} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value">
+      <select name="ilinc[protocol]" size="0" id="ilinc_protocol" onchange="setDefaultPort('{ILINC_DEFAULT_HTTP_PORT}','{ILINC_DEFAULT_SSL_PORT}');return true;">
+ 	  <option value="http" {ILINC_PROTOCOL_HTTP_SEL}>{TXT_HTTP}</option>
+ 	  <option value="https" {ILINC_PROTOCOL_SSL_SEL}>{TXT_SSL}</option>
+ 	  </select>     
+      &nbsp;
+      <input type="text" size="7" maxlength="5" name="ilinc[port]" id="ilinc_port" value="{ILINC_PORT}" /></td>
     </tr>
      <tr>
       <td class="option">{TXT_ILINC_TIMEOUT}</td>

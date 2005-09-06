@@ -44,8 +44,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->type = "extt";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
-		define ("ILINC_DEFAULT_PORT",80);
-		define ("ILINC_DEFAULT_TIMEOUT",15);
+		define ("ILINC_DEFAULT_HTTP_PORT",80);
+		define ("ILINC_DEFAULT_SSL_PORT",443);
+		define ("ILINC_DEFAULT_TIMEOUT",30);
 	}
 	
 	/**
@@ -119,7 +120,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			}
 			
 			$this->tpl->setVariable("ILINC_SERVER", $_SESSION["error_post_vars"]["ilinc"]["server"]);
-			$this->tpl->setVariable("ILINC_SHARED_SECRET", $_SESSION["error_post_vars"]["ilinc"]["shared_secret"]);
+			$this->tpl->setVariable("ILINC_REGISTRAR_LOGIN", $_SESSION["error_post_vars"]["ilinc"]["registrar_login"]);
+			$this->tpl->setVariable("ILINC_REGISTRAR_PASSWD", $_SESSION["error_post_vars"]["ilinc"]["registrar_passwd"]);
+			$this->tpl->setVariable("ILINC_CUSTOMER_ID", $_SESSION["error_post_vars"]["ilinc"]["customer_id"]);
 		}
 		else
 		{
@@ -131,18 +134,27 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHK_ILINC_ACTIVE", "checked=\"checked\"");
 			}
 
-			$this->tpl->setVariable("ILINC_SERVER", $settings["ilinc_server"]);
+			$this->tpl->setVariable("ILINC_SERVER", $settings["ilinc_server"].$settings["ilinc_path"]);
 			$this->tpl->setVariable("ILINC_REGISTRAR_LOGIN", $settings["ilinc_registrar_login"]);
 			$this->tpl->setVariable("ILINC_REGISTRAR_PASSWD", $settings["ilinc_registrar_passwd"]);
 			$this->tpl->setVariable("ILINC_CUSTOMER_ID", $settings["ilinc_customer_id"]);
 			
 			if (empty($settings["ilinc_port"]))
 			{
-				$this->tpl->setVariable("ILINC_PORT", ILINC_DEFAULT_PORT);
+				$this->tpl->setVariable("ILINC_PORT", ILINC_DEFAULT_HTTP_PORT);
 			}
 			else
 			{
 				$this->tpl->setVariable("ILINC_PORT", $settings["ilinc_port"]);			
+			}
+
+			if ($settings["ilinc_protocol"] == "https")
+			{
+				$this->tpl->setVariable("ILINC_PROTOCOL_SSL_SEL", "selected=\"selected\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("ILINC_PROTOCOL_HTTP_SEL", "selected=\"selected\"");		
 			}
 			
 			if (empty($settings["ilinc_timeout"]))
@@ -152,7 +164,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			else
 			{
 				$this->tpl->setVariable("ILINC_TIMEOUT", $settings["ilinc_timeout"]);			
-			}
+			}		
 		}
 
 		$this->getTemplateFile("ilinc");
@@ -162,8 +174,13 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ILINC_ACTIVE", $this->lng->txt("extt_ilinc_enable"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_ILINC_SERVER", $this->lng->txt("extt_ilinc_server"));
-		$this->tpl->setVariable("TXT_ILINC_PORT", $this->lng->txt("extt_ilinc_port"));
+		$this->tpl->setVariable("TXT_ILINC_PROTOCOL_PORT", $this->lng->txt("extt_ilinc_protocol_port"));
 		$this->tpl->setVariable("TXT_ILINC_TIMEOUT", $this->lng->txt("extt_ilinc_timeout"));
+		$this->tpl->setVariable("ILINC_DEFAULT_HTTP_PORT", ILINC_DEFAULT_HTTP_PORT);
+		$this->tpl->setVariable("ILINC_DEFAULT_SSL_PORT", ILINC_DEFAULT_SSL_PORT);
+		$this->tpl->setVariable("TXT_HTTP", $this->lng->txt('http'));
+		$this->tpl->setVariable("TXT_SSL", $this->lng->txt('ssl'));
+		
 		$this->tpl->setVariable("TXT_SECONDS", $this->lng->txt("seconds"));
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_LOGIN", $this->lng->txt("extt_ilinc_registrar_login"));
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_PASSWD", $this->lng->txt("extt_ilinc_registrar_passwd"));
@@ -196,7 +213,14 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		if (!ilUtil::isIPv4($_POST["ilinc"]["server"]) and !ilUtil::isDN($_POST["ilinc"]["server"]))
+		if (substr($_POST["ilinc"]["server"],0,8) != "https://" and substr($_POST["ilinc"]["server"],0,7) != "http://")
+		{
+			$_POST["ilinc"]["server"] = $_POST["ilinc"]["protocol"]."://".$_POST["ilinc"]["server"];
+		}
+		
+		$url = parse_url($_POST["ilinc"]["server"]);
+		
+		if (!ilUtil::isIPv4($url["host"]) and !ilUtil::isDN($url["host"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("err_invalid_server"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -207,7 +231,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		}
 
 		// all ok. save settings
-		$this->ilias->setSetting("ilinc_server", $_POST["ilinc"]["server"]);
+		$this->ilias->setSetting("ilinc_server", $url["host"]);
+		$this->ilias->setSetting("ilinc_path", $url["path"]);
+		$this->ilias->setSetting("ilinc_protocol", $_POST["ilinc"]["protocol"]);
 		$this->ilias->setSetting("ilinc_port", $_POST["ilinc"]["port"]);
 		$this->ilias->setSetting("ilinc_active", $_POST["ilinc"]["active"]);
 		$this->ilias->setSetting("ilinc_registrar_login", $_POST["ilinc"]["registrar_login"]);
