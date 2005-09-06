@@ -358,10 +358,11 @@ class ilLinkChecker
 				
 				$umail = new ilFormatMail($tmp_user->getId());
 				$subject = $this->__txt($tmp_user->getLanguage(),'link_check_subject');
+
+				$umail->sendMail($tmp_user->getLogin(),"","",$subject,$body,array(),array("normal"));
+				$this->__appendLogMessage('LinkChecker: Sent mail to '.$tmp_user->getEmail());
 			}
 
-			$umail->sendMail($tmp_user->getLogin(),"","",$subject,$body,array(),array("normal"));
-			$this->__appendLogMessage('LinkChecker: Sent mail to '.$tmp_user->getEmail());
 		}
 				
 
@@ -537,9 +538,9 @@ class ilLinkChecker
 			$query = "INSERT INTO link_check ".
 				"SET page_id = '".$link['page_id']."', ".
 				"obj_id = '".$link['obj_id']."', ".
-				"url = '".substr($link['complete'],0,255)."', ".
-				"parent_type = '".$link['type']."', ".
-				"http_status_code = '".$link['http_status_code']."', ".
+				"url = '".addslashes(substr($link['complete'],0,255))."', ".
+				"parent_type = '".addslashes($link['type'])."', ".
+				"http_status_code = '".addslashes($link['http_status_code'])."', ".
 				"last_check = '".time()."'";
 
 
@@ -556,7 +557,7 @@ class ilLinkChecker
 		{
 			$query = "SELECT * FROM link_check ".
 				"WHERE page_id = '".$link['page_id']."' ".
-				"AND url = '".substr($link['complete'],0,255)."'";
+				"AND url = '".addslashes(substr($link['complete'],0,255))."'";
 			$res = $this->db->query($query);
 			
 			if(!$res->numRows())

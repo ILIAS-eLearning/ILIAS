@@ -36,6 +36,15 @@ include_once 'Auth/Auth.php';
 
 class ilBaseAuthentication
 {
+
+	/*
+	 * Pear object (Auth) 
+	 * @var object
+	 */
+	var $auth = null;
+
+
+
 	/*
 	 * session id
 	 * @var string
@@ -217,17 +226,19 @@ class ilBaseAuthentication
 			$this->__setMessage('No session id given');
 			return false;
 		}
-		if(!$this->__buildAuth())
-		{
-			return false;
-		}
-		if(!$this->__setSessionSaveHandler())
-		{
-			return false;
-		}
+		// logged auth users are authenticated
+		// No preperations are required
+		#if(!$this->__buildAuth())
+		#{
+		#	return false;
+		#}
+		#if(!$this->__setSessionSaveHandler())
+		#{
+		#	return false;
+		#}
 		
 		// And finally logout
-		$this->auth->start();
+		#$this->auth->start();
 		$this->auth->logout();
 		session_destroy();
 
