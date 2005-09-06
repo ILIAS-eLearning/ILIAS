@@ -132,6 +132,10 @@ class ilSoapUserAdministration
 		$this->sauth->setClient($client);
 		$this->sauth->setSid($sid);
 
+		if(!$this->sauth->validateSession())
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
 
 		if(!$this->sauth->logout())
 		{
