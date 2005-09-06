@@ -239,7 +239,8 @@ class ilLMPresentationGUI
 
 		if ($_POST["cmd"]["cancel"] != "")
 		{
-			ilUtil::redirect("lm_presentation.php?cmd=layout&frame=maincontent&ref_id=".$_GET["ref_id"]);
+			$this->ctrl->setParameter($this, "frame", "maincontent");
+			$this->ctrl->redirect($this, "layout");
 		}
 
 		switch($this->lm->getType())
@@ -2964,8 +2965,11 @@ class ilLMPresentationGUI
 	function getSourcecodeDownloadLink() {
 		if (!$this->offlineMode())
 		{
-			return "lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId();
-		} else {
+			$this->ctrl->setParameter($this, session_name(), session_id());
+			return $this->ctrl->getLinkTarget($this, "");
+		}
+		else
+		{
 			return "";
 		}
 	}
