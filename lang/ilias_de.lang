@@ -1655,10 +1655,10 @@ common#:#ilinc_mem_send_mail#:#Benutzer eine Nachricht senden
 common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
 common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc Seminar austragen
 common#:#ilinc_add_user#:#Benutzer hinzufügen
-common#:#ilinc_header_edit_users#:#Liste der beteiligte Benutzer bearbeiten
+common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben:
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
-common#:#ilinc_mail_subj_new_subscription#:#Neue Mitlgiedschaft in:
+common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft in:
 common#:#ilinc_mail_body_new_subscription#:#Sie wurden in dem LearnLinc Seminar als Teilnehmer aufgenommen.
 common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
 common#:#ilinc_notset#:#Nicht gesetzt

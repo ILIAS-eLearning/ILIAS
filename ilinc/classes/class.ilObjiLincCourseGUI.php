@@ -1330,7 +1330,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			}
 			
 			$user_obj->addDesktopItem($this->object->getRefId(),"icrs");
-			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_new_subcription").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_new_subscription"),array(),array('normal'));	
+			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_new_subscription").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_new_subscription"),array(),array('normal'));	
 
 			unset($user_obj);
 		}
@@ -1526,7 +1526,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_subcription_cancelled").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_subscription_cancelled"),array(),array('normal'));
+				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txt("ilinc_mail_subj_subscription_cancelled").": ".$this->object->getTitle(),$this->lng->txt("ilinc_mail_body_subscription_cancelled"),array(),array('normal'));
 			}
 		}
 		
