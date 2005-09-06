@@ -192,14 +192,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function properties()
 	{
 		$this->setTabs();
+		
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+		if ($showViewInFrameset)
+		{
+			$buttonTarget = "bottom";
+		}
+		else
+		{
+			$buttonTarget = "ilContObj".$this->object->getID();
+		}
+
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",ILIAS_HTTP_PATH."/content/"."lm_presentation.php?ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
+		
+		$this->tpl->setVariable("BTN_LINK", "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"".$buttonTarget."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
@@ -2448,6 +2461,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function setilLMMenu($a_offline = false, $a_export_format = "")
 	{
+		global $ilCtrl;
+		
 		if (!$this->object->isActiveLMMenu())
 		{
 			return "";
@@ -2476,12 +2491,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$buttonTarget = "";
 		}
 
+		// table of contents
 		if ($this->object->isActiveTOC())
 		{
 			if (!$a_offline)
 			{
-				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showTableOfContents&ref_id="
-									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]); 
+				$tpl_menu->setVariable("BTN_LINK",
+					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents"));
+				//ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showTableOfContents&ref_id="
+				//.$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			}
 			else
 			{
@@ -2497,8 +2516,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
-				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showPrintViewSelection&ref_id="
-									   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
+				$tpl_menu->setVariable("BTN_LINK",
+					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection"));
 				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
 				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 				$tpl_menu->parseCurrentBlock();
@@ -2508,10 +2528,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// download
 		if ($this->object->isActiveDownloads() && !$a_offline)
 		{
-			$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showDownloadList&ref_id="
-								   .$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_LINK",
+				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList"));
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("download"));
-						$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
 		}
 

@@ -1084,6 +1084,7 @@ class ilObjContentObject extends ilObject
 	 * @static
 	 * @access	public
 	 */
+/* not needed anymore
 	function _getLinkToObject($a_ref_id,$a_type,$a_obj_id = 0)
 	{
 		switch($a_type)
@@ -1095,6 +1096,7 @@ class ilObjContentObject extends ilObject
 				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_blank");
 		}
 	}
+*/
 
 	/**
 	* redirect script
@@ -1111,7 +1113,8 @@ class ilObjContentObject extends ilObject
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
-			ilUtil::redirect("content/lm_presentation.php?ref_id=$a_target");
+			ilUtil::redirect("ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_target);
+			//ilUtil::redirect("content/lm_presentation.php?ref_id=$a_target");
 		}
 		else
 		{
