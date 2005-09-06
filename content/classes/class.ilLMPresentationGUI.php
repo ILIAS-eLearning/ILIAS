@@ -818,6 +818,7 @@ class ilLMPresentationGUI
 		$ilBench->start("ContentPresentation", "ilTOC");
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
 		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", $a_target),$this->lm);
+		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]));
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		$exp->addFilter("du");
@@ -2034,8 +2035,9 @@ class ilLMPresentationGUI
 
 		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
 		$exp = new ilTableOfContentsExplorer(
-			"lm_presentation.php?ref_id=".$_GET["ref_id"]
-			, $this->lm, $this->getExportFormat());
+			$this->getLink($this->lm->getRefId(), ""),
+			$this->lm, $this->getExportFormat());
+		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]));
 		$exp->setTargetGet("obj_id");
 		$exp->setOfflineMode($this->offlineMode());
 
@@ -2102,11 +2104,11 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
 		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
-			"lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->ctrl->getLinkTargetByClass("illmpresentationgui", ""));
 
-		$this->tpl->setVariable("FORMACTION", "lm_presentation.php?ref_id=".$_GET["ref_id"]
-			."&obj_id=".$_GET["obj_id"]."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
 
 		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
@@ -2698,8 +2700,9 @@ class ilLMPresentationGUI
 		// set title header
 		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
-			"lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->ctrl->getLinkTarget($this, ""));
 
 		// create table
 		require_once("classes/class.ilTableGUI.php");
@@ -2740,6 +2743,7 @@ class ilLMPresentationGUI
 			"cmd" => "showDownloadList", "cmdClass" => strtolower(get_class($this)));
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
+		$tbl->disable("sort");
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -2777,8 +2781,9 @@ class ilLMPresentationGUI
 				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
 
 				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
-				$this->tpl->setVariable("LINK_DOWNLOAD", "lm_presentation.php?cmd=downloadExportFile&type=".
-					$exp_file["type"]."&ref_id=".$_GET["ref_id"]);
+				$this->ctrl->setParameter($this, "type", $exp_file["type"]);
+				$this->tpl->setVariable("LINK_DOWNLOAD",
+					$this->ctrl->getLinkTarget($this, "downloadExportFile"));
 
 				$this->tpl->parseCurrentBlock();
 			}
@@ -2824,7 +2829,6 @@ class ilLMPresentationGUI
 		{
 			$a_cmd = "layout";
 		}
-		$script = "lm_presentation.php";
 		
 		// handle online links
 		if (!$this->offlineMode())
@@ -2866,6 +2870,10 @@ class ilLMPresentationGUI
 					}
 					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
 					$link = str_replace("&", "&amp;", $link);
+					
+					$this->ctrl->setParameter($this, "frame", "");
+					$this->ctrl->setParameter($this, "obj_id", "");
+					$this->ctrl->setParameter($this, "mob_id", "");
 					break;
 			}
 		}

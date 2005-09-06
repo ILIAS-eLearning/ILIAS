@@ -47,7 +47,6 @@ class ilLMTOCExplorer extends ilLMExplorer
 	{
 		$this->offline = false;
 		parent::ilLMExplorer($a_target, $a_lm_obj);
-		$this->setExpandTarget("lm_presentation.php?frame=".$_GET["frame"]."&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 	}
 	
 	/**
