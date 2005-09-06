@@ -264,6 +264,20 @@ class ilObjStyleSheet extends ilObject
 		// delete object
 		parent::delete();
 		
+		// check whether this style is global default
+		$def_style = $this->ilias->getSetting("default_content_style_id");		
+		if ($def_style == $this->getId())
+		{
+			$this->ilias->deleteSetting("default_content_style_id");
+		}
+
+		// check whether this style is global fixed
+		$fixed_style = $this->ilias->getSetting("fixed_content_style_id");		
+		if ($fixed_style == $this->getId())
+		{
+			$this->ilias->deleteSetting("fixed_content_style_id");
+		}
+
 		// delete style parameter
 		$q = "DELETE FROM style_parameter WHERE style_id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
@@ -278,6 +292,7 @@ class ilObjStyleSheet extends ilObject
 		// delete entries in learning modules
 		include_once("content/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_deleteStyleAssignments($this->getId());
+		
 	}
 
 
