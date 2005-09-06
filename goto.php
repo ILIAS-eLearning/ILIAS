@@ -56,22 +56,27 @@ switch($target_type)
 	case "pg":
 		require_once("content/classes/class.ilLMPageObject.php");
 		ilLMPageObject::_goto($target_id);
+		include("ilias.php");
 		break;
 
 	// learning module chapters
 	case "st":
 		require_once("content/classes/class.ilStructureObject.php");
 		ilStructureObject::_goto($target_id);
+		include("ilias.php");
 		break;
+		
 // glossar entries
 	case "glo":
 	case "git":
 		require_once("content/classes/class.ilGlossaryTerm.php");
 		ilGlossaryTerm::_goto($target_id,$target_type);
 		break;
+		
 	case "lm":
 		require_once("./content/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_goto($target_id);
+		include("ilias.php");
 		break;
 		
 	case "frm":

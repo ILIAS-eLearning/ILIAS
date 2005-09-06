@@ -1113,8 +1113,9 @@ class ilObjContentObject extends ilObject
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
 		{
-			ilUtil::redirect("ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_target);
-			//ilUtil::redirect("content/lm_presentation.php?ref_id=$a_target");
+			$_GET["baseClass"] = "ilLMPresentationGUI";
+			$_GET["ref_id"] = $a_target;
+			//ilUtil::redirect("ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_target);
 		}
 		else
 		{

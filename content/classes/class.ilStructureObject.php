@@ -163,12 +163,19 @@ class ilStructureObject extends ilLMObject
 			// Will be replaced in future releases by ilAccess::checkAccess()
 			if ($rbacsystem->checkAccess("read", $ref_id) and ilSearch::_checkParentConditions($ref_id))
 			{
-				ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
-					"&obj_id=$a_target");
+				// don't redirect anymore, just set parameters
+				// (goto.php includes  "ilias.php")
+				$_GET["baseClass"] = "ilLMPresentationGUI";
+				$_GET["obj_id"] = $a_target;
+				$_GET["ref_id"] = $ref_id;
+				//ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
+				//	"&obj_id=$a_target");
+			}
+			else
+			{
+				$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 			}
 		}
-
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
 
