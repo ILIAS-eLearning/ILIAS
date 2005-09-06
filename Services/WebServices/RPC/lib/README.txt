@@ -30,6 +30,11 @@ A Installation
 
 bash$ pear install XML_RPC
 
+Please check if your XML_RPC package is newer than Release 1.4 due to security bugs in older libraries.
+If not upgrade the package XML_RPC:
+
+bash$ pear upgrade XML_RPC
+
 2) Change directory to:
 
 bash$ cd <YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib
