@@ -5198,6 +5198,8 @@ class ilObjTest extends ilObject
 		$newObj->ects_grades = $original->ects_grades;
 		$newObj->random_test = $original->random_test;
 		$newObj->random_question_count = $original->random_question_count;
+		$newObj->setCountSystem($original->getCountSystem());
+		$newObj->setMCScoring($original->getMCScoring());
 		$newObj->saveToDb();		
 		if ($original->isRandomTest())
 		{
