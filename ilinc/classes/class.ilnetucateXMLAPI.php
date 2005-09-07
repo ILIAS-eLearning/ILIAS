@@ -144,10 +144,10 @@ exit;
 		// return netucate response object
 		$response_obj =  new ilnetucateResponse($response);
 		
-		if ($a_request == "joinClass")
+		/*if ($a_request == "joinClass")
 		{
 			var_dump($this->request,$response,$response_obj->data);exit;
-		}
+		}*/
 
 		return $response_obj;
 	}
