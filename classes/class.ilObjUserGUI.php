@@ -432,14 +432,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
-			$selected_option = $this->object->prefs["hits_per_page"];
+			$selected_option = $this->ilias->getSetting("hits_per_page");
 		}
 		foreach($hits_options as $hits_option)
 		{
 			$this->tpl->setCurrentBlock("selecthits");
 
-			//if ($this->object->prefs["hits_per_page"] == $selected_option)
-			if ($hits_option == $this->ilias->getSetting("hits_per_page"))
+			if ($hits_option == $selected_option)
 			{
 				$this->tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
 			}
@@ -464,13 +463,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
-			$selected_option = $this->object->prefs["show_users_online"];
+			$selected_option = $this->ilias->getSetting("show_users_online");
 		}
 		$users_online_options = array("y","associated","n");
 		foreach($users_online_options as $an_option)
 		{
 			$this->tpl->setCurrentBlock("show_users_online");
-
+			
 			if ($selected_option == $an_option)
 			{
 				$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
