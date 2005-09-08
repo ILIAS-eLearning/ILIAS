@@ -57,7 +57,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		parent::ilXmlWriter();
 
-		$this->EXPORT_VERSION = 1;
+		$this->EXPORT_VERSION = "2";
 
 		$this->ilias =& $ilias;
 		$this->course_obj =& $course_obj;
@@ -72,16 +72,18 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->__buildTutor();
 		$this->__buildMember();
 		$this->__buildSubscriber();
-
+		$this->__buildWaitingList();
+		
 		$this->__buildSetting();
 
-		$this->__buildObject($this->course_obj->getRefId());
+		#$this->__buildObject($this->course_obj->getRefId());
 		
 		$this->__buildFooter();
 	}
 
 	function getXML()
 	{
+		#var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
 		return $this->xmlDumpMem();
 	}
 
@@ -99,25 +101,25 @@ class ilCourseXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Course SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_course.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Course SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_course_0_1.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS course ".
 							$this->course_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
-		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_course_'.$this->course_obj->getId();
+		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_crs_'.$this->course_obj->getId();
 		$this->xmlStartTag("Course", $attrs);
 
 		return true;
 	}
 	function __buildMetaData()
 	{
-		include_once "./classes/class.ilNestedSetXML.php";
+		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 
-		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "modifyExportIdentifier");
-		$this->appendXML($nested->export($this->course_obj->getId(),$this->course_obj->getType()));
-		
+		$md2xml = new ilMD2XML($this->course_obj->getId(),$this->course_obj->getId(),'crs');
+		$md2xml->startExport();
+		$this->appendXML($md2xml->getXML());
+
 		return true;
 	}
 
@@ -127,10 +129,12 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		foreach($this->course_obj->members_obj->getAdmins() as $id)
 		{
+
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['status'] = $data['status'];
+			$attr['notification'] = $data['status'] ? 'Yes' : 'No';
+			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Admin',$attr);
 			$this->xmlEndTag('Admin');
@@ -147,7 +151,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['status'] = $data['status'];
+			$attr['notification'] = $data['status'] ? 'Yes' : 'No';
+			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Tutor',$attr);
 			$this->xmlEndTag('Tutor');
@@ -163,7 +168,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getUserData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['status'] = $data['status'];
+			$attr['blocked'] = $data['status'] ? 'Yes' : 'No';
+			$attr['passed'] = $data['passed'] ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Member',$attr);
 			$this->xmlEndTag('Member');
@@ -180,7 +186,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$data = $this->course_obj->members_obj->getSubscriberData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['SubscriptionTime'] = $data['time'];
+			$attr['subscriptionTime'] = $data['time'];
 
 			$this->xmlStartTag('Subscriber',$attr);
 			$this->xmlEndTag('Subscriber');
@@ -188,12 +194,52 @@ class ilCourseXMLWriter extends ilXmlWriter
 		return true;
 	}
 
+	function __buildWaitingList()
+	{
+		include_once 'course/classes/class.ilCourseWaitingList.php';
+
+		$waiting_list = new ilCourseWaitingList($this->course_obj->getId());
+		
+		foreach($waiting_list->getAllUsers() as $data)
+		{
+			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$data['usr_id'];
+			$attr['position'] = $data['position'];
+			$attr['subscriptionTime'] = $data['time'];
+			
+			$this->xmlStartTag('WaitingList',$attr);
+			$this->xmlEndTag('WaitingList');
+		}
+		return true;
+	}
+
+
 	function __buildSetting()
 	{
 		$this->xmlStartTag('Settings');
 
-		$this->xmlElement('Syllabus',null,$this->course_obj->getSyllabus());
+		// Availability
+		$this->xmlStartTag('Availability');
+		if($this->course_obj->getOfflineStatus())
+		{
+			$this->xmlElement('NotAvailable');
+		}
+		elseif($this->course_obj->getActivationUnlimitedStatus())
+		{
+			$this->xmlElement('Unlimited');
+		}
+		else
+		{
+			$this->xmlStartTag('TemporarilyAvailable');
+			$this->xmlElement('Start',null,$this->course_obj->getActivationStart());
+			$this->xmlElement('End',null,$this->course_obj->getActivationEnd());
+			$this->xmlEndTag('TemporarilyAvailable');
+		}
+		$this->xmlEndTag('Availability');
 
+		// Syllabus
+		$this->xmlElement('Syllabus',null,$this->course_obj->getSyllabus());
+		
+		// Contact
 		$this->xmlStartTag('Contact');
 		$this->xmlElement('Name',null,$this->course_obj->getContactName());
 		$this->xmlElement('Responsibility',null,$this->course_obj->getContactResponsibility());
@@ -202,37 +248,88 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->xmlElement('Consultation',null,$this->course_obj->getContactConsultation());
 		$this->xmlEndTag('Contact');
 
+		// Registration
 		$attr = array();
-		$attr["Unlimited"] = $this->course_obj->getActivationUnlimitedStatus() ? 1 : 0;
-		$attr["Offline"] = $this->course_obj->getOfflineStatus() ? 1 : 0;
-		$this->xmlStartTag('Activation',$attr);
-		$this->xmlElement('Start',null,$this->course_obj->getActivationStart());
-		$this->xmlElement('End',null,$this->course_obj->getActivationEnd());
-		$this->xmlEndTag('Activation');
 
-		$attr = array();
-		$attr['Unlimited'] = $this->course_obj->getSubscriptionUnlimitedStatus() ? 1 : 0;
-		$attr['MaxMembers'] = $this->course_obj->getSubscriptionMaxMembers();
-		$attr['Notify'] = $this->course_obj->getSubscriptionNotify() ? 1 : 0;
-		$attr['Type'] = $this->course_obj->getSubscriptionType();
-		$this->xmlStartTag('Subscription',$attr);
-		$this->xmlElement('Start',null,$this->course_obj->getSubscriptionStart());
-		$this->xmlElement('End',null,$this->course_obj->getSubscriptionEnd());
-		$this->xmlElement('Password',null,$this->course_obj->getSubscriptionPassword());
-		$this->xmlEndTag('Subscription');
+		if($this->course_obj->getSubscriptionType() == 2)
+		{
+			$attr['registrationType'] = 'Confirmation';
+		}
+		elseif($this->course_obj->getSubscriptionType() == 3)
+		{
+			$attr['registrationType'] = 'Direct';
+		}
+		else
+		{
+			$attr['registrationType'] = 'Password';
+		}
 
+		$attr['maxMembers'] = $this->course_obj->getSubscriptionMaxMembers();
+		$attr['notification'] = $this->course_obj->getSubscriptionNotify() ? 'Yes' : 'No';
+
+		$this->xmlStartTag('Registration',$attr);
+		
+		if($this->course_obj->getSubscriptionType() == 1)
+		{
+			$this->xmlElement('Disabled');
+		}
+		elseif($this->course_obj->getSubscriptionUnlimitedStatus() == 1)
+		{
+			$this->xmlElement('Unlimited');
+		}
+		else
+		{
+			$this->xmlStartTag('TemporarilyAvailable');
+			$this->xmlElement('Start',null,$this->course_obj->getSubscriptionStart());
+			$this->xmlElement('End',null,$this->course_obj->getSubscriptionEnd());
+			$this->xmlEndTag('TemporarilyAvailable');
+		}
+		if(strlen($pwd = $this->course_obj->getSubscriptionPassword()))
+		{
+			$this->xmlElement('Password',$pwd);
+		}
+		$this->xmlEndTag('Registration');
+
+		// Sort
 		$attr = array();
-		$attr['SortType'] = $this->course_obj->getOrderType();
+		if($this->course_obj->getOrderType() == 1)
+		{
+			$attr['type'] = 'Manual';
+		}
+		elseif($this->course_obj->getOrderType() == 2)
+		{
+			$attr['type'] = 'Title';
+		}
+		else
+		{
+			$attr['type'] = 'Activation';
+		}
 		$this->xmlElement('Sort',$attr);
 
+		// Archives
 		$attr = array();
-		$attr['Type'] = $this->course_obj->getArchiveType();
+		if($this->course_obj->getArchiveType() == 1)
+		{
+			$attr['Access'] = 'Disabled';
+		}
+		elseif($this->course_obj->getArchiveType() == 2)
+		{
+			$attr['Access'] = 'Read';
+		}
+		else
+		{
+			$attr['Access'] = 'Download';
+		}
 		$this->xmlStartTag('Archive',$attr);
+
 		$this->xmlElement('Start',null,$this->course_obj->getArchiveStart());
 		$this->xmlElement('End',null,$this->course_obj->getArchiveEnd());
+
 		$this->xmlEndTag('Archive');
 
 		$this->xmlEndTag('Settings');
+
+		return true;
 	}
 
 	
