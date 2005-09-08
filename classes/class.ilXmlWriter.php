@@ -278,7 +278,10 @@ class ilXmlWriter
 		// closing tag
 		if (substr($found, 0, 2) == "</")
 		{
-			$indent --;
+			if($indent)
+			{
+				$indent --;
+			}
 			$tab = str_repeat(" ", $indent * 2);
 		}
 		elseif (substr($found, -2, 1) == "/" or // opening and closing, comment, ...
