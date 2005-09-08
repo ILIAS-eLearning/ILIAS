@@ -99,12 +99,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "ilregistergui":
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
-				//$reg_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
 			default:
-				if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
+				if (!in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"]) and ($this->object->requireRegistration() and !$this->object->isUserRegistered()))
 				{
 					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
 				}
@@ -114,6 +113,11 @@ class ilObjGroupGUI extends ilContainerGUI
 					#$this->ctrl->returnToParent($this);
 					// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
 					$cmd = "view";
+				}
+				
+				if ($cmd == "join")
+				{
+					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
 				}
 
 				// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
@@ -627,6 +631,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	function addUserObject()
 	{
 		$user_ids = $_POST["user"];
+		
+		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
 		{
@@ -640,8 +646,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
 			}
-		}
+			
+			$user_obj = $this->ilias->obj_factory->getInstanceByObjId($new_member);
+		
+			$user_obj->addDesktopItem($this->object->getRefId(),"grp");
+			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_new_subscription",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_new_subscription",$user_obj->getLanguage()),array(),array('normal'));	
 
+			unset($user_obj);
+		}
+		
 		unset($_SESSION["saved_post"]);
 
 		sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
@@ -697,6 +710,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function confirmedRemoveMemberObject()
 	{
+		$removed_self = false;
+		
+		$mail = new ilMail($_SESSION["AccountId"]);
+
 		//User needs to have administrative rights to remove members...
 		foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 		{
@@ -706,11 +723,31 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$this->ilErr->raiseError($this->lng->txt($err_msg),$this->ilErr->MESSAGE);
 			}
+
+			$user_obj = new ilObjUser($member_id);
+			
+			$user_obj->dropDesktopItem($this->object->getRefId(), "grp");
+			
+			if (!$removed_self and $user_obj->getId() == $this->ilias->account->getId())
+			{
+				$removed_self = true;
+			}
+			else
+			{
+				$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_subscription_cancelled",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_subscription_cancelled",$user_obj->getLanguage()),array(),array('normal'));
+			}			
+
 		}
 
 		unset($_SESSION["saved_post"]);
 
 		sendInfo($this->lng->txt("grp_msg_membership_annulled"),true);
+		
+		if ($removed_self)
+		{
+			ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
+		}
+
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 

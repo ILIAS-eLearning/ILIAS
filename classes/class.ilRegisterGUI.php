@@ -178,6 +178,8 @@ class ilRegisterGUI
 			$this->ilErr->raiseError($this->lng->txt("err_unknown_error"),$this->ilErr->MESSAGE);
 		}
 		
+		$this->ilias->account->addDesktopItem($this->object->getRefId(),"grp");
+		
 		sendInfo($this->lng->txt("grp_registration_completed"),true);		
 		$this->ctrl->returnToParent($this);
 	}
@@ -215,6 +217,9 @@ class ilRegisterGUI
 				if (strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible() == true)
 				{
 					$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
+
+					$this->ilias->account->addDesktopItem($this->object->getRefId(),"grp");
+		
 					sendInfo($this->lng->txt("grp_registration_completed"),true);
 					$this->ctrl->returnToParent($this);
 				}
