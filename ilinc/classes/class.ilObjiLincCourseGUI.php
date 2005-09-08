@@ -1108,7 +1108,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		// join class
 		$url = $this->object->joinClass($this->ilias->account,$_GET['class_id']);
-		var_dump($url);exit;
+
 		if (!$url)
 		{
 			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
