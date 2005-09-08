@@ -637,7 +637,7 @@ bibitem#:#bibitem_where_published#:#Where published
 bibitem#:#bibitem_year#:#Year
 chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
-chat#:#chat_active_users#:#User (active)
+chat#:#chat_active_users#:#Further users (present)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
 chat#:#chat_add_external_ip#:#Please add the server's external IP.
 chat#:#chat_add_internal_ip#:#Please add the server's internal IP.
@@ -673,7 +673,7 @@ chat#:#chat_html_export#:#HTML export
 chat#:#chat_ilias#:#ILIAS Chat module
 chat#:#chat_inactive#:#Inactive
 chat#:#chat_input#:#Input
-chat#:#chat_insert_message#:#PLease insert a message
+chat#:#chat_insert_message#:#Please insert a message
 chat#:#chat_invitation_body#:#Invitation to chat from:
 chat#:#chat_invitation_subject#:#Chat invitation
 chat#:#chat_invite_user#:#Invite user
@@ -691,7 +691,7 @@ chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
-chat#:#chat_no_active_users#:#No users present.
+chat#:#chat_no_active_users#:#No further users present.
 chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Cannot contact chat server.
 chat#:#chat_no_delete_public#:#The public chat room cannot be deleted
@@ -701,7 +701,7 @@ chat#:#chat_no_rename_public#:#The public room cannot be renamed
 chat#:#chat_no_users_selected#:#You have to select one user.
 chat#:#chat_no_write_perm#:#No permission to write
 chat#:#chat_olive#:#olive
-chat#:#chat_online_users#:#User (online)
+chat#:#chat_online_users#:#Further users (online)
 chat#:#chat_private_message#:#Private Message
 chat#:#chat_profile#:#Profile
 chat#:#chat_public_room#:#Public chat room
