@@ -44,6 +44,9 @@ class ilCourseRegisterGUI
 	var $course_obj;
 	var $course_id;
 	var $user_id;
+
+
+	var $validation = true;
 	
 	function ilCourseRegisterGUI($a_course_id)
 	{
@@ -94,6 +97,20 @@ class ilCourseRegisterGUI
 			and $this->course_obj->getSubscriptionMaxMembers() != 0) or
 		   $this->waiting_list->getCountUsers())
 		{
+			// First check password
+			if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_PASSWORD)
+			{
+				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
+				{
+					sendInfo($this->lng->txt("crs_password_not_valid"));
+					$this->validation = false;
+					$this->showRegistrationForm();
+
+					return false;
+				}
+			}
+
+
 			include_once 'course/classes/class.ilCourseWaitingList.php';
 
 			if(!$this->waiting_list->isOnList($this->user_id))
@@ -181,7 +198,11 @@ class ilCourseRegisterGUI
 
 	function showRegistrationForm()
 	{
-		$really_submit = $this->__validateStatus();
+		$really_submit = true;
+		if($this->validation)
+		{
+			$really_submit = $this->__validateStatus();
+		}
 
 		if($this->course_obj->getMessage())
 		{
