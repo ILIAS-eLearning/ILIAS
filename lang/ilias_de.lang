@@ -41,6 +41,7 @@ administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
+common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
 common#:#grp_mail_body_new_subscription#:#Sie wurden in der Gruppe als Teilnehmer aufgenommen.
 common#:#grp_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#grp_mail_subj_new_subscription#:#Neue Mitgliedschaft in
@@ -1526,7 +1527,7 @@ common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, 
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
 common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
-common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
+common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
 common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Registrierungszeitraums an !
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
@@ -1640,7 +1641,7 @@ common#:#ilias_version#:#ILIAS Version
 common#:#ilinc_classroom_always_open#:#Raum ist ständig geöffnet
 common#:#ilinc_classroom_closed#:#Raum ist geschlossen
 common#:#ilinc_classroom_open#:#Raum ist offen
-common#:#ilinc_classrooms#:#LearnLinc Seminarräume###06 Aug 2005 content changed
+common#:#ilinc_classrooms#:#LearnLinc Seminarräume
 common#:#ilinc_coursemember_status#:#Eingetragen als
 common#:#ilinc_courses#:#LearnLinc Seminare
 common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc Seminar ausgetragen werden sollen?
