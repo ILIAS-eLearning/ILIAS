@@ -41,6 +41,10 @@ administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
+common#:#grp_mail_body_new_subscription#:#Sie wurden in der Gruppe als Teilnehmer aufgenommen.
+common#:#grp_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
+common#:#grp_mail_subj_new_subscription#:#Neue Mitgliedschaft in
+common#:#grp_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
