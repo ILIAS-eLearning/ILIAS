@@ -258,7 +258,7 @@ if(isset($_POST["cmd"]["rcp_to"]) or
 }
 
 // RECIPIENT
-$tpl->setVariable("TXT_RECIPIENT", $lng->txt("to"));
+$tpl->setVariable("TXT_RECIPIENT", $lng->txt("mail_to"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
 $tpl->setVariable("BUTTON_TO",$lng->txt("mail_to_search"));
 // CC
