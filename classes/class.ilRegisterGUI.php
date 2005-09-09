@@ -202,18 +202,11 @@ class ilRegisterGUI
 				$this->ilias->db->query($q);
 
 				sendInfo($this->lng->txt("application_completed"),true);
-				//$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
-				//$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 				ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
 				break;
 
 			// passwort
 			case 2:
-				if (strcmp($this->object->getPassword(),$_POST["subject"]) != 0 && $this->object->registrationPossible() == true)
-				{
-					$this->ilErr->raiseError($this->lng->txt("err_wrong_password"),$this->ilErr->MESSAGE);
-				}
-
 				if (strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible() == true)
 				{
 					$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
@@ -223,8 +216,12 @@ class ilRegisterGUI
 					sendInfo($this->lng->txt("grp_registration_completed"),true);
 					$this->ctrl->returnToParent($this);
 				}
+				
+				//wrong passwd
+				sendInfo($this->lng->txt("err_wrong_password"),true);
+				$this->ctrl->returnToParent($this);
 
-				$this->ilErr->raiseError($this->lng->txt("registration_not_possible"),$this->ilErr->MESSAGE);
+				//$this->ilErr->raiseError($this->lng->txt("registration_not_possible"),$this->ilErr->MESSAGE);
 				break;
 				
 			default:

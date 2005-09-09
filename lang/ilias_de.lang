@@ -5264,3 +5264,6 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
 search#:#search_hits#:#Gefunden in:
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
+chat#:#cancel_whisper#:#Flüstern beenden
+chat#:#cancel_talk#:#Anreden beenden
+mail#:#mail_to#:#An

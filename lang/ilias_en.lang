@@ -5299,3 +5299,6 @@ crs#:#crs_member_of#:#Member of course:
 search#:#search_choose_object_type#:#Please choose one object type.
 search#:#search_hits#:#Found in:
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
+chat#:#cancel_whisper#:#Cancel whisper
+chat#:#cancel_talk#:#Cancel address
+mail#:#mail_to#:#To
