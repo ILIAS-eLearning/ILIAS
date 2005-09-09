@@ -1278,7 +1278,8 @@ class ilLMPresentationGUI
 
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-
+//echo "<br>+".htmlentities($link_xml)."+";
+		
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());

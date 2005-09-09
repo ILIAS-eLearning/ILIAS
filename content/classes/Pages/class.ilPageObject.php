@@ -633,11 +633,10 @@ class ilPageObject
 
 
 	/**
-	* get all file items that are used within the page
+	* get all internal links that are used within the page
 	*/
 	function getInternalLinks()
 	{
-//echo "<br>PageObject::getInternalLinks[".$this->getId()."]";
 		// get all internal links of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -652,6 +651,24 @@ class ilPageObject
 			$links[$target.":".$type.":".$targetframe] =
 				array("Target" => $target, "Type" => $type,
 					"TargetFrame" => $targetframe);
+					
+			// get links (image map areas) for inline media objects
+			if ($type == "MediaObject" && $targetframe == "")
+			{
+				if (substr($target, 0, 4) =="il__")
+				{
+					$id_arr = explode("_", $target);
+					$id = $id_arr[count($id_arr) - 1];
+	
+					$med_links = ilMediaItem::_getMapAreasIntLinks($id);
+					foreach($med_links as $key => $med_link)
+					{
+						$links[$key] = $med_link;
+					}
+				}
+				
+			}
+//echo "<br>-:".$target.":".$type.":".$targetframe.":-";
 		}
 		unset($xpc);
 
