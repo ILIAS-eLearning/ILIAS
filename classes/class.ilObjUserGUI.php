@@ -843,7 +843,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
-				$this->tpl->parseCurrentBlock();
+				#$this->tpl->parseCurrentBlock();
 			}
 			
 			// gender selection
