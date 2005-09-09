@@ -268,7 +268,7 @@ class ilChatRoom
 		$query = "SELECT * FROM chat_user ".
 			"WHERE chat_id = '".$chat_id."' ".
 			"AND room_id = '".$room_id."' ".
-			"AND last_conn_timestamp > ".time()." - 30";
+			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
 
 		return $res->numRows();
@@ -279,7 +279,7 @@ class ilChatRoom
 		$query = "SELECT * FROM chat_user ".
 			"WHERE chat_id = '".$this->ref_id."' ".
 			"AND room_id = '".$this->room_id."' ".
-			"AND last_conn_timestamp > ".time()." - 30";
+			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

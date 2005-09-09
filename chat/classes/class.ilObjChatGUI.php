@@ -614,7 +614,8 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		$room->add();
 
-		sendInfo($this->lng->txt("chat_room_added"), true);
+		#$this->input_message = $this->lng->txt('chat_room_added');
+		sendInfo($this->lng->txt("chat_room_added"),true);
 		$this->showFrames();
 	}
 
@@ -1057,11 +1058,17 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_FACE",$this->lng->txt("chat_face"));
 		$this->tpl->setVariable("TXT_INPUT",$this->lng->txt("chat_input"));
 
-		if ($_GET["p_id"] ||
-			$_GET["a_id"])
+		if ($_GET["p_id"])
 		{
 			$this->tpl->setCurrentBlock("cancel");
-			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_whisper"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
+		}
+		elseif($_GET["a_id"])
+		{
+			$this->tpl->setCurrentBlock("cancel");
+			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_talk"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 		}
@@ -1123,6 +1130,10 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function input()
 	{
+		$this->object->chat_room->setUserId($_SESSION["AccountId"]);
+		$this->object->chat_room->updateLastVisit();
+
+
 		if(!$_POST["message"])
 		{
 			sendInfo($this->lng->txt("chat_insert_message"),true);
