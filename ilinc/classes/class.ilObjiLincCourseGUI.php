@@ -25,6 +25,7 @@
 * Class ilObjiLincCourseGUI
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
+*
 * @version $Id$
 * 
 * @extends ilObjectGUI
@@ -1515,7 +1516,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 			if (!$this->object->removeMember($user_obj))
 			{
-				$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
+				sendInfo($this->lng->txt($this->object->getErrorMsg()),true);
+				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 			}
 			
 			$user_obj->dropDesktopItem($this->object->getRefId(), "icrs");

@@ -26,6 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
+*
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface
@@ -704,8 +705,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	/**
 	* remove members from group
-	* TODO: set return location to parent object if user removes himself
-	* TODO: allow user to remove himself when he is not group admin
 	* @access public
 	*/
 	function confirmedRemoveMemberObject()
@@ -721,9 +720,10 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			if (strlen($err_msg) > 0)
 			{
-				$this->ilErr->raiseError($this->lng->txt($err_msg),$this->ilErr->MESSAGE);
+				sendInfo($this->lng->txt($err_msg),true);
+				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 			}
-
+			
 			$user_obj = new ilObjUser($member_id);
 			
 			$user_obj->dropDesktopItem($this->object->getRefId(), "grp");
