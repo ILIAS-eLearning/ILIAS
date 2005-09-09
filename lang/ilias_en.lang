@@ -47,6 +47,10 @@ administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
+common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
+common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
+common#:#grp_mail_subj_new_subscription#:#New subscription
+common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
