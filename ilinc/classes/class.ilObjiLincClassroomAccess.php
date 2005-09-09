@@ -28,6 +28,7 @@ include_once("classes/class.ilObjectAccess.php");
 *
 *
 * @author 		Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @package Survey
@@ -55,7 +56,7 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 		$class_id = $a_ref_id;
 		$course_ref_id = $a_obj_id;
 		$class_arr = $a_user_id;
-
+//var_dump($a_cmd,$a_permission,$a_ref_id,$a_obj_id,$a_user_id);
 		/** ATTENTION
 		* ref_id contains ilinc classroom id
 		* obj_id contains ILIAS ref_id of iLinc Seminar
@@ -63,19 +64,30 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 		*/
 		switch ($a_cmd)
 		{
-			case 'join':
-				if($class_arr['alwaysopen'] == "Falsch")
-				{
-					return false;
-				}		
-				break;
+
 		}
 
 		switch ($a_permission)
 		{
+			case 'join':
+				// closed rooms cannot joined 
+				if ($class_arr['alwaysopen'] == "Falsch")
+				{
+					return false;
+				}
+				
+				// non members cannot join
+				include_once ('ilinc/classes/class.ilObjiLincCourse.php');
+				
+				if (!ilObjiLincCourse::_isMember($user_id,$a_ref_id))
+				{
+					return false;
+				}
+				break;
+
 			case "write":
 			case "delete":
-				if(!$rbacsystem->checkAccessOfUser($user_id,'create',$course_ref_id,"ilca"))
+				if(!$rbacsystem->checkAccessOfUser($user_id,'create',$a_ref_id,"ilca"))
 				{
 					return false;
 				}	
