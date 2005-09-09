@@ -104,7 +104,7 @@
     notification: if enabled all course admins/tutors whose status is 'notification will receive a message about new registrations
 -->
 <!ATTLIST Registration
-    registrationType (Confirmation | Direct | Password) #REQUIRED
+    registrationType (Confirmation | Direct | Password) #IMPLIED
     maxMembers CDATA #REQUIRED
     notification (Yes | No) #REQUIRED
 >
