@@ -152,6 +152,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "save");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_CANCEL", "cancel");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 
 	}
@@ -357,6 +359,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		return $this->object;
 
+	}
+	
+	function cancelObject()
+	{
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
