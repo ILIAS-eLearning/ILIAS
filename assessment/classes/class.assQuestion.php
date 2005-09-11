@@ -890,7 +890,7 @@ class ASS_Question
 			$original_id = ASS_Question::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
-		include_once "./classes/class.ilObjTest.php";
+		include_once "./assessment/classes/class.ilObjTest.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, $question_id, $original_id);
 	}
 	

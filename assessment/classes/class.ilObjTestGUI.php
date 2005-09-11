@@ -2945,6 +2945,7 @@ class ilObjTestGUI extends ilObjectGUI
 		exit;*/
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");		
+			
 		$title = $this->object->getTitle();
 		
 		$this->createCommandControlObject();
@@ -3412,6 +3413,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			default:
+				$_SESSION["reorder"] = $formaction;
 				$question_gui->setSequenceNumber ($sequence);
 				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback);
 				break;
@@ -6314,7 +6316,6 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 		
 		//print_r($_GET);
 				//print_r($_POST);
-		
 		$negs =  //is_numeric($_GET["set_solved"]) || is_numeric($_GET["question_id"]) ||  
 				  isset($_POST["cmd"]["start"]) || isset($_POST["cmd"]["resume"]) || 
 				  isset($_POST["cmd"]["showresults"]) || isset($_POST["cmd"]["deleteresults"])|| 
@@ -6344,8 +6345,11 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 				if (is_numeric($q_id)) 
 				{
 				 	$question_gui = $this->object->createQuestionGUI("", $q_id);
+					if ($ilUser->prefs["tst_javascript"])
+					{
+						$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+					}
 				 	$this->saveResult = $question_gui->object->saveWorkingData($this->object->getTestId());
-				 	//echo "saving <br>";
 				}												
 			}			
 		}		

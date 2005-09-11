@@ -468,10 +468,10 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			global $ilUser;
 		}
 		
-		$output = $this->outQuestionPage(($show_solution_only)?"":"ORDERING_QUESTION", $is_postponed,"", !$show_question_page);
+		$output = $this->outQuestionPage(($show_solution_only)?"":"ORDERING_QUESTION", $is_postponed,$test_id, !$show_question_page);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
-
+		
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"ord/", "\"solution_ord", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"order_/", "name=\"solution_order_", $solutionoutput);
@@ -519,19 +519,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				//echo htmlentities ($output);
 				$output = $this->removeFormElements($output);
 			}
-			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-			{
-				if (count($jssolutions))
-				{
-					ksort($jssolutions, SORT_NUMERIC);
-					$s = array();
-					foreach ($jssolutions as $key => $value)
-					{
-						array_push($s, $value->value1);
-					}
-					$solution_script .= "setSolution(new Array(" . join(",", $s). "));\n";
-				}
-			}
 		}
 
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
@@ -556,9 +543,27 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 					$output = preg_replace("/(<img[^>]*?".$answer->get_answertext()."[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $sizethumb[3] . "\\2", $output);
 				}
 			}
-			$output = str_replace("// solution_script", "", $output);
-			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
-			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
+			// $output = str_replace("// solution_script", "", $output);
+
+			// BEGIN: add javascript code for javascript enabled ordering questions
+			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", true);
+			$this->tpl->setCurrentBlock("head_content");
+			$this->tpl->setVariable("JS_LOCATION", "js/toolman/");
+			$this->tpl->parseCurrentBlock();
+			// END: add javascript code for javascript enabled ordering questions
+			
+			// BEGIN: add additional stylesheet for javascript enabled ordering questions
+			$this->tpl->setCurrentBlock("AdditionalStyle");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "templates/default/test_javascript.css");
+			$this->tpl->parseCurrentBlock();
+			// END: add additional stylesheet for javascript enabled ordering questions
+			
+			// BEGIN: onsubmit form action for javascript enabled ordering questions
+			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
+			// END: onsubmit form action for javascript enabled ordering questions
+			
+			//$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
+			//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
 		}
 		
 		foreach ($this->object->answers as $idx => $answer)
@@ -599,6 +604,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$solutionoutput = "";
 			$received_points = "";
 		}
+		$output = str_replace("#reorder", $_SESSION["reorder"], $output);
 		$this->tpl->setVariable("ORDERING_QUESTION", $output.$solutionoutput.$received_points);
 	}
 

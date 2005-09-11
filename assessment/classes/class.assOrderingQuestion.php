@@ -356,6 +356,9 @@ class ASS_OrderingQuestion extends ASS_Question
 	*/
 	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
 	{
+		global $ilDB;
+		global $ilUser;
+		
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
@@ -487,7 +490,25 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$akeys = $this->pcArrayShuffle($akeys);
 		}
-
+		if ($test_output)
+		{
+			// create array keys from an existing solution
+			$query = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s ORDER BY value2",
+				$ilDB->quote($test_output),
+				$ilDB->quote($ilUser->id),
+				$ilDB->quote($this->getId())
+			);
+			$queryres = $ilDB->query($query);
+			if ($queryres->numRows() == count($this->answers))
+			{
+				$akeys = array();
+				while ($row = $queryres->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($akeys, $row["value1"]);
+				}
+			}
+		}
+		
 		// add answers
 		foreach ($akeys as $index)
 		{
@@ -1253,6 +1274,13 @@ class ASS_OrderingQuestion extends ASS_Question
 	function checkSaveData()
 	{
 		$result = true;
+		if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			if (strlen($_POST["orderresult"]))
+			{
+				return $result;
+			}
+		}
 		$order_values = array();
 		foreach ($_POST as $key => $value)
 		{
@@ -1300,21 +1328,41 @@ class ASS_OrderingQuestion extends ASS_Question
 				$db->quote($this->getId())
 			);
 			$result = $db->query($query);
-	
-			foreach ($_POST as $key => $value)
+			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
 			{
-				if (preg_match("/^order_(\d+)/", $key, $matches))
+				$orderresult = $_POST["orderresult"];
+				$orderarray = explode(":", $orderresult);
+				$ordervalue = 1;
+				foreach ($orderarray as $index)
 				{
-					if (!(preg_match("/initial_value_\d+/", $value)))
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($ilUser->id),
+						$db->quote($test_id),
+						$db->quote($this->getId()),
+						$db->quote($index),
+						$db->quote($ordervalue)
+					);
+					$result = $db->query($query);
+					$ordervalue++;
+				}
+			}
+			else
+			{
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/^order_(\d+)/", $key, $matches))
 					{
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-							$db->quote($ilUser->id),
-							$db->quote($test_id),
-							$db->quote($this->getId()),
-							$db->quote($matches[1]),
-							$db->quote($value)
-						);
-						$result = $db->query($query);
+						if (!(preg_match("/initial_value_\d+/", $value)))
+						{
+							$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+								$db->quote($ilUser->id),
+								$db->quote($test_id),
+								$db->quote($this->getId()),
+								$db->quote($matches[1]),
+								$db->quote($value)
+							);
+							$result = $db->query($query);
+						}
 					}
 				}
 			}
