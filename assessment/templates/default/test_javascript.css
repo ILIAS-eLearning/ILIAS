@@ -1,0 +1,21 @@
+#orderlist li { margin: 0px; }
+#orderlist { margin-top: -4px; }
+#orderlist li { margin-top: 4px; }
+
+ul.boxy {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	width: 250px;
+	font-size: 13px;
+	font-family: Arial, sans-serif;
+}
+
+ul.boxy li {
+	cursor:move;
+	padding: 12px 12px;
+	border: 1px solid #808080;
+	background-color: #CCCCCC;
+	text-align: center;
+}
+
