@@ -123,6 +123,7 @@ class ilObjRoleTemplate extends ilObject
 			case "il_crs_admin":
 			case "il_crs_tutor":
 			case "il_crs_member":
+			case "il_crs_non_member":
 				$filter = array_keys($objDefinition->getSubObjects('crs',false));
 				$filter[] = 'crs';
 				break;

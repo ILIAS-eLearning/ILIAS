@@ -933,7 +933,159 @@ class ilObjCourse extends ilContainer
 		unset($role_obj);
 		unset($rolf_obj);
 
+		// Break inheritance, create local roles and initialize permission
+		// settings depending on course status.
+		$this->__setCourseStatus();
+
 		return true;
+	}
+
+	/**
+	* set course status
+	*
+	* Grants permissions on the course object for all parent roles.  
+	* Each permission is granted by computing the intersection of the role 
+	* template il_crs_non_member and the permission template of 
+	* the parent role.
+	*
+	* Creates linked roles in the local role folder object for all 
+	* parent roles and initializes their permission templates.
+	* Each permission template is initialized by computing the intersection 
+	* of the role template il_crs_non_member and the permission
+	* template of the parent role.
+	*
+	* @access	private
+	*/
+	function __setCourseStatus()
+	{
+		global $rbacadmin, $rbacreview, $rbacsystem;
+
+		//get Rolefolder of course
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
+
+		//define all relevant roles for which rights are needed to be changed
+		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
+		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->__getDefaultCourseRoles());
+
+		$template_id = $this->__getCrsNonMemberTemplateId();
+
+		//get defined operations from template
+		if (is_null($template_id))
+		{
+			$template_ops = array();
+		} else {
+			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'crs', ROLE_FOLDER_ID);
+		}
+
+		foreach ($arr_relevantParentRoleIds as $parentRole)
+		{
+			$granted_permissions = array();
+
+			// Delete the linked role for the parent role
+			// (just in case if it already exists).
+			$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
+
+			// Grant permissions on the course object for 
+			// the parent role. In the foreach loop we
+			// compute the intersection of the role     
+			// template il_crs_non_member and the 
+			// permission template of the parent role.
+			$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
+			$rbacadmin->revokePermission($this->getRefId(), $parentRole);
+			foreach ($template_ops as $template_op) 
+			{
+				if (in_array($template_op,$current_ops)) 
+				{
+					array_push($granted_permissions,$template_op);
+				}
+			}
+			if (!empty($granted_permissions))
+			{
+				$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
+			}
+
+			// Create a linked role for the parent role and
+			// initialize it with the intersection of 
+			// il_crs_non_member and the permission
+			// template of the parent role
+			if (! is_null($template_id))
+			{
+				$rbacadmin->copyRolePermissionIntersection(
+					$template_id, ROLE_FOLDER_ID, 
+					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
+					$rolf_data["child"], $parentRole
+				);
+			}
+			$rbacadmin->assignRoleToFolder($parentRole,$rolf_data["child"],"false");
+		}//END foreach
+	}
+
+	/**
+	* get course non-member template
+	* @access	private
+	* @param	return obj_id of roletemplate containing permissionsettings for 
+	*           non-member roles of a course.
+	*/
+	function __getCrsNonMemberTemplateId()
+	{
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $row["obj_id"];
+	}
+
+
+	/**
+	* get default course roles, returns the defaultlike create roles 
+	* il_crs_tutor, il_crs_admin and il_crs_member
+	* @access	private
+	* @param 	returns the obj_ids of course specific roles in an associative
+    *           array.
+	*			key=descripiton of the role (i.e. "il_crs_tutor", "il_crs_admin", "il_crs_member".
+	*			value=obj_id of the role
+	*/
+	function __getDefaultCourseRoles($a_crs_id="")
+	{
+		global $rbacadmin, $rbacreview;
+
+		if (strlen($a_crs_id) > 0)
+		{
+			$crs_id = $a_crs_id;
+		}
+		else
+		{
+			$crs_id = $this->getRefId();
+		}
+
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($crs_id);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+
+		foreach ($role_arr as $role_id)
+		{
+			$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+
+			$crs_Member ="il_crs_member_".$crs_id;
+			$crs_Admin  ="il_crs_admin_".$crs_id;
+			$crs_Tutor  ="il_crs_tutor_".$crs_id;
+
+			if (strcmp($role_Obj->getTitle(), $crs_Member) == 0 )
+			{
+				$arr_crsDefaultRoles["crs_member_role"] = $role_Obj->getId();
+			}
+
+			if (strcmp($role_Obj->getTitle(), $crs_Admin) == 0)
+			{
+				$arr_crsDefaultRoles["crs_admin_role"] = $role_Obj->getId();
+			}
+
+			if (strcmp($role_Obj->getTitle(), $crs_Tutor) == 0)
+			{
+				$arr_crsDefaultRoles["crs_tutor_role"] = $role_Obj->getId();
+			}
+		}
+
+		return $arr_crsDefaultRoles;
 	}
 
 	function __getLocalRoles()

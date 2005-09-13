@@ -8534,3 +8534,26 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE note ADD update_date DATETIME NOT NULL DEFAULT '0000-00-00 00:00';
 <#526>
 ALTER TABLE content_object ADD COLUMN pub_notes ENUM('y','n') NOT NULL DEFAULT 'n';
+<#527>
+<?php
+// non-member template for course object
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('rolt', 'il_crs_non_member', 'Non-member template for course object', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as obj_id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$obj_id = $row->obj_id;
+
+$rbacadmin =& new ilRbacAdmin();
+
+$admin = array();
+$admin["crs"] = array(2,7,8);
+foreach($admin as $type => $ops)
+{
+	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+}
+
+$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+?>
