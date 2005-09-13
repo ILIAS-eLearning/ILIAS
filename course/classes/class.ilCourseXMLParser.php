@@ -53,7 +53,7 @@ class ilCourseXMLParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilCourseXMLParser(&$a_course_obj, $a_xml_file)
+	function ilCourseXMLParser(&$a_course_obj, $a_xml_file = '')
 	{
 		global $lng;
 
