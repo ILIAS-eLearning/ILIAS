@@ -82,7 +82,7 @@ function addCourse($sid,$target_id,$crs_xml)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->addCourse();
+	return $sua->addCourse($sid,$target_id,$crs_xml);
 }
 
 class ilSoapUserAdministration
@@ -424,7 +424,7 @@ class ilSoapUserAdministration
 		$newObj->setDescription("");
 		$newObj->create(true); // true for upload
 		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->putInTree($target_id);
 		$newObj->setPermissions($target_id);
 		$newObj->__initDefaultRoles();
 
@@ -434,6 +434,9 @@ class ilSoapUserAdministration
 		$xml_parser->setXMLContent($crs_xml);
 
 		$xml_parser->startParsing();
+
+		$newObj->MDUpdateListener('General');
+
 		
 		return true;
 	}
