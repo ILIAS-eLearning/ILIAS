@@ -578,6 +578,18 @@ class ilCourseMembers
 		return true;
 	}
 
+	function updateSubscriptionTime($a_usr_id,$a_subtime)
+	{
+		$query = "UPDATE crs_subscribers ".
+			"SET sub_time = '".ilUtil::prepareDBString($a_subtime)."' ".
+			"WHERE usr_id = '".ilUtil::prepareDBString($a_usr_id)."' ".
+			"AND obj_id = '".$this->course_obj->getId()."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
 	function deleteSubscriber($a_usr_id)
 	{
 		$query = "DELETE FROM crs_subscribers ".

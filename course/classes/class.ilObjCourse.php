@@ -312,7 +312,6 @@ class ilObjCourse extends ilContainer
 		return $this->abo;
 	}
 
-
 	function getMessage()
 	{
 		return $this->message;
@@ -426,20 +425,12 @@ class ilObjCourse extends ilContainer
 	function create($a_upload = false)
 	{
 		parent::create($a_upload);
-		$this->createMetaData();
 
-		if (!$a_upload)
+		if(!$a_upload)
 		{
-			#$this->__initMetaObject();
-			#$this->meta_data->setId($this->getId());
-			#$this->meta_data->setType($this->getType());
-			#$this->meta_data->setTitle($this->getTitle());
-			#$this->meta_data->setDescription($this->getDescription());
-			#$this->meta_data->setObject($this);
-			#$this->meta_data->create();
-
-			$this->__createDefaultSettings();
+			$this->createMetaData();
 		}
+		$this->__createDefaultSettings();
 	}
 
 	function validate()
@@ -687,7 +678,7 @@ class ilObjCourse extends ilContainer
 	function update()
 	{
 		$this->updateMetaData();
-		$this->__updateSettings();
+		$this->updateSettings();
 		parent::update();
 	}
 
@@ -714,7 +705,7 @@ class ilObjCourse extends ilContainer
 	}
 */
 
-	function __updateSettings()
+	function updateSettings()
 	{
 		global $ilDB;
 

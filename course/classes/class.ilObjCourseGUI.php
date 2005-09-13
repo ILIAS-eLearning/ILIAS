@@ -109,6 +109,104 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 
+	function createObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("create",$this->ref_id,'crs'))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html","course");
+		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$this->object->getRefId().'&cmd=post&new_type=crs');
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("crs_add"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('desc'));
+
+
+		// IMPORT
+		$this->tpl->setVariable("TXT_IMPORT_CRS", $this->lng->txt("import_crs"));
+		$this->tpl->setVariable("TXT_CRS_FILE", $this->lng->txt("file"));
+		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+
+		// use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+		if (!$max_filesize) 
+			$max_filesize=max($umf, $pms);
+	
+		// gives out the limit as a littel notice :)
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
+
+		return true;
+	}
+
+	function importFileObject()
+	{
+		global $_FILES, $rbacsystem, $ilDB;
+
+		// check if file was uploaded
+		if($_FILES['xmldoc']['tmp_name'] == 'none' or !$_FILES['xmldoc']['tmp_name'])
+		{
+			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check correct file type
+		$info = pathinfo($_FILES["xmldoc"]["name"]);
+		if (strtolower($info["extension"]) != "zip")
+		{
+			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// Create new object
+		include_once("course/classes/class.ilObjCourse.php");
+
+		$newObj = new ilObjCourse();
+		$newObj->setType('crs');
+		$newObj->setTitle($_FILES["xmldoc"]["name"]);
+		$newObj->setDescription("");
+		$newObj->create(true); // true for upload
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->__initDefaultRoles();
+
+		// Copy xml file
+		include_once 'course/classes/class.ilFileDataCourse.php';
+
+		$course_files = new ilFileDataCourse($newObj);
+
+		$course_files->createImportFile($_FILES["xmldoc"]["tmp_name"],$_FILES['xmldoc']['name']);
+		$course_files->unpackImportFile();
+		$course_files->validateImportFile();
+
+		include_once 'course/classes/class.ilCourseXMLParser.php';
+
+		$xml_parser = new ilCourseXMLParser($newObj,$course_files->getImportFile());
+
+		$xml_parser->startParsing();
+
+		// Update title description
+		$newObj->MDUpdateListener('General');
+		
+		// delete import file
+		#$course_files->deleteImportFile();
+
+		sendInfo($this->lng->txt('crs_added'),true);
+	   
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+
+	}
+
 	function viewObject()
 	{
 		global $rbacsystem;
@@ -1352,7 +1450,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->initCourseMemberObject();
 
 		if(!count($this->object->members_obj->getAssignedUsers()) and
-		   !count($this->object->member_obj->getSubscribers()))
+		   !count($this->object->members_obj->getSubscribers()))
 		{
 			sendInfo($this->lng->txt("crs_no_members_assigned"));
 			return false;

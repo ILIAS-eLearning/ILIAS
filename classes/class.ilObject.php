@@ -657,7 +657,7 @@ class ilObject
 			case 'General':
 
 				// Update Title and description
-				$md = new ilMD($this->getId(), 0, $this->getType());
+				$md = new ilMD($this->getId(),0, $this->getType());
 				$md_gen = $md->getGeneral();
 
 				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());

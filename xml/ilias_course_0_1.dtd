@@ -47,13 +47,11 @@
 >
 <!-- All users that are on the waiting list of a course.
     id: user id. User must exist in ILIAS database.
-    position: Users position on the waiting list.
     subscriptionTime: Unix time of subscription
 -->
 <!ELEMENT WaitingList EMPTY>
 <!ATTLIST WaitingList
     id CDATA #REQUIRED
-    position CDATA #REQUIRED
     subscriptionTime CDATA #REQUIRED
 >
 <!-- Description of course settings -->

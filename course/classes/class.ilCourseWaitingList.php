@@ -70,6 +70,19 @@ class ilCourseWaitingList
 
 		return false;
 	}
+
+	function updateSubscriptionTime($a_usr_id,$a_subtime)
+	{
+		$query = "UPDATE crs_waiting_list ".
+			"SET sub_time = '".ilUtil::prepareDBString($a_subtime)."' ".
+			"WHERE usr_id = '".ilUtil::prepareDBString($a_usr_id)."' ".
+			"AND obj_id = '".$this->getCourseId()."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
 	function removeFromList($a_usr_id)
 	{
 		$query = "DELETE FROM crs_waiting_list ".
