@@ -469,8 +469,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			// first get object in question (parent of role folder object)
 			$parent_data = $this->tree->getParentNodeData($this->rolf_ref_id);
-			// get allowed subobject of object
-			$subobj_data = $this->objDefinition->getSubObjects($parent_data["type"]);
+			// get allowed subobjects of object recursively
+			$subobj_data = $this->objDefinition->getSubObjectsRecursively($parent_data["type"]);
 			
 			// remove not allowed object types from array but keep the type definition of object itself
 			foreach ($rbac_objects as $key => $obj_data)
@@ -575,20 +575,21 @@ class ilObjRoleGUI extends ilObjectGUI
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
 
-			// sort output for correct color changing
-			ksort($parent_role_ids);
-
-			foreach ($parent_role_ids as $key => $par)
+			// Sort roles by title
+			$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
+			$key = 0;
+			foreach ($sorted_roles as $par)
 			{
 				if ($par["obj_id"] != SYSTEM_ROLE_ID)
 				{
 					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+					$output["adopt"][$key]["css_row_adopt"] = ($key % 2 == 0) ? "tblrow1" : "tblrow2";
 					$output["adopt"][$key]["check_adopt"] = $radio;
 					$output["adopt"][$key]["role_id"] = $par["obj_id"];
 					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 					$output["adopt"][$key]["role_name"] = $par["title"];
 				}
+				$key++;
 			}
 
 			#$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
@@ -816,7 +817,11 @@ class ilObjRoleGUI extends ilObjectGUI
 				$arr_previous = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
 				$arr_missing = array_diff($arr_previous,$allowed_ops_on_type);
 				
-				$_POST["template_perm"][$obj_data["type"]] = array_merge($_POST["template_perm"][$obj_data["type"]],$arr_missing);
+				// if type is not empty, merge it
+				if (! empty($_POST["template_perm"][$obj_data["type"]])) 
+				{
+					$_POST["template_perm"][$obj_data["type"]] = array_merge($_POST["template_perm"][$obj_data["type"]],$arr_missing);
+				}
 				
 				// remove empty types
 				if (empty($_POST["template_perm"][$obj_data["type"]]))

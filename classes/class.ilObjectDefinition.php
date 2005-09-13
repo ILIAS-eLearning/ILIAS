@@ -314,6 +314,54 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
+	* Get all subobjects by type.
+        * This function returns all subobjects allowed by the provided object type
+        * and all its subobject types recursively.
+        *
+        * This function is used to create local role templates. It is important,
+        * that we do not filter out any objects here!
+        *
+	*
+	* @param	string	object type
+	* @access	public
+	* @return	array	list of allowed object types
+	*/
+	function getSubObjectsRecursively($a_obj_type)
+	{
+		// This associative array is used to collect all subobject types.
+		// key=>type, value=data
+		$recursivesubs = array();
+
+		// This array is used to keep track of the object types, we
+		// need to call function getSubobjects() for.
+		$to_do = array($a_obj_type);
+
+		// This array is used to keep track of the object types, we
+		// have called function getSubobjects() already. This is to
+		// prevent endless loops, for object types that support 
+		// themselves as subobject types either directly or indirectly.
+		$done = array();
+
+		while (count($to_do) > 0)
+		{
+			$type = array_pop($to_do);
+			$done[] = $type;
+			$subs = $this->getSubObjects($type);
+			foreach ($subs as $subtype => $data)
+			{
+				$recursivesubs[$subtype] = $data;
+				if (! in_array($subtype, $done)
+				&& ! in_array($subtype, $to_do))
+				{
+					$to_do[] = $subtype;
+				}
+			}
+		}
+
+		return $recursivesubs;
+	}
+
+	/**
 	* get all subjects except (rolf) of the adm object
 	* This is neceesary for filtering these objects in role perm view.
 	* e.g It it not necessary to view/edit role permission for the usrf object since it's not possible to create a new one
