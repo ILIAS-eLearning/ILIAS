@@ -200,6 +200,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...)');
+
+		// addCourse()
+		$this->server->register('addCourse',
+								array('sid' => 'xsd:string',
+									  'target_id' => 'xsd:int',
+									  'crs_xml' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS addCourse(). Course import. See ilias_course_0_1.dtd for details about course xml structure');
+								
 		return true;
 	}
 		

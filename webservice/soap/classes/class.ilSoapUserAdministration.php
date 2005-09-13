@@ -78,6 +78,12 @@ function deleteUser($sid,$user_id)
 
 	return $sua->deleteUser($sid,$user_id);
 }
+function addCourse($sid,$target_id,$crs_xml)
+{
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->addCourse();
+}
 
 class ilSoapUserAdministration
 {
@@ -380,6 +386,58 @@ class ilSoapUserAdministration
 
 		return true;
 	}
+
+	function addCourse($sid,$target_id,$crs_xml)
+	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
+		$this->__initAuthenticationObject();
+
+		$this->sauth->setClient($client);
+		$this->sauth->setSid($sid);
+
+		if(!$this->sauth->validateSession())
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		if(!is_numeric($target_id))
+		{
+			return $this->__raiseError('No valid tqarget id given. Please choose an existing reference id of an ILIAS category',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(!$rbacsystem->checkAccess('create',$target_id,'crs'))
+		{
+			return $this->__raiseError('Check access failed. No permission to create courses','Server');
+		}
+
+		// Start import
+		include_once("course/classes/class.ilObjCourse.php");
+
+		$newObj = new ilObjCourse();
+		$newObj->setType('crs');
+		$newObj->setTitle('dummy');
+		$newObj->setDescription("");
+		$newObj->create(true); // true for upload
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($target_id);
+		$newObj->__initDefaultRoles();
+
+		include_once 'course/classes/class.ilCourseXMLParser.php';
+
+		$xml_parser = new ilCourseXMLParser($newObj);
+		$xml_parser->setXMLContent($crs_xml);
+
+		$xml_parser->startParsing();
+		
+		return true;
+	}
+
 		
 		
 	// PRIVATE
