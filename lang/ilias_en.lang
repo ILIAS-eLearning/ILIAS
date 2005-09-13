@@ -5303,3 +5303,4 @@ search#:#search_limit_reached#:#Your search produced more than %s hits. You can 
 chat#:#cancel_whisper#:#Cancel whisper
 chat#:#cancel_talk#:#Cancel address
 mail#:#mail_to#:#To
+crs#:#import_crs#:#Import course

@@ -41,6 +41,8 @@ class ilFileDataCourse extends ilFileData
 	*/
 	var $course_path;
 
+	var $course_obj = null;
+
 	/**
 	* Constructor
 	* call base constructors
@@ -53,12 +55,15 @@ class ilFileDataCourse extends ilFileData
 		define('COURSE_PATH','course');
 		parent::ilFileData();
 		$this->course_path = parent::getPath()."/".COURSE_PATH;
-		
+		$this->course_obj =& $course_obj;
+
 		// IF DIRECTORY ISN'T CREATED CREATE IT
 		if(!$this->__checkPath())
 		{
 			$this->__initDirectory();
 		}
+		// Check import dir
+		$this->__checkImportPath();
 	}
 	
 	function getArchiveFile($a_rel_name)
@@ -186,6 +191,47 @@ class ilFileDataCourse extends ilFileData
 	}
 
 
+	// METHODS FOR XML IMPORT OF COURSE
+	function createImportFile($a_tmp_name,$a_name)
+	{
+		ilUtil::makeDir($this->getCoursePath().'/import/crs_'.$this->course_obj->getId());
+
+		ilUtil::moveUploadedFile($a_tmp_name,
+								 $a_name, 
+								 $this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$a_name);
+		$this->import_file_info = pathinfo($this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$a_name);
+
+	}
+
+	function unpackImportFile()
+	{
+		return ilUtil::unzip($this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$this->import_file_info['basename']);
+	}
+
+	function validateImportFile()
+	{
+		if(!is_dir($this->getCoursePath().'/import/crs_'.$this->course_obj->getId()).'/'.
+		   basename($this->import_file_info['basename'],'.zip'))
+		{
+			return false;
+		}
+		if(!file_exists($this->getCoursePath().'/import/crs_'.$this->course_obj->getId()
+						.'/'.basename($this->import_file_info['basename'],'.zip')
+						.'/'.basename($this->import_file_info['basename'],'.zip').'.xml'))
+		{
+			return false;
+		}
+	}
+
+	function getImportFile()
+	{
+		return $this->getCoursePath().'/import/crs_'.$this->course_obj->getId()
+			.'/'.basename($this->import_file_info['basename'],'.zip')
+			.'/'.basename($this->import_file_info['basename'],'.zip').'.xml';
+	}
+	
+
+
 
 	// PRIVATE METHODS
 	function __checkPath()
@@ -204,6 +250,20 @@ class ilFileDataCourse extends ilFileData
 
 		return true;
 	}
+	
+	function __checkImportPath()
+	{
+		if(!@file_exists($this->getCoursePath().'/import'))
+		{
+			ilUtil::makeDir($this->getCoursePath().'/import');
+		}
+
+		if(!is_writable($this->getCoursePath().'/import') or !is_readable($this->getCoursePath().'/import'))
+		{
+			$this->ilias->raiseError("Course import path is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+		}
+	}
+
 	/**
 	* check if directory is writable
 	* overwritten method from base class
