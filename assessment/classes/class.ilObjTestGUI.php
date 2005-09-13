@@ -4430,7 +4430,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 
 				$htmloutput = "";
-				if ($stat_eval[$i-1]["type"] == 8)
+				if ($stat_eval[$i-1]["type"] == "qt_text")
 				{
 					// Text question
 					$name = $key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"];
