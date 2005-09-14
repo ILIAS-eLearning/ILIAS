@@ -1700,8 +1700,10 @@ class ilObjectGUI
 		// get rolefolder data if a rolefolder already exists
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
 		$rolf_id = $rolf_data["child"];
+		
+		$stop_inherit_roles = $_POST["stop_inherit"] ? $_POST["stop_inherit"] : array();
 
-		if ($_POST["stop_inherit"])
+		if ($stop_inherit_roles)
 		{
 			// rolefolder does not exist, so create one
 			if (empty($rolf_id))
@@ -1713,16 +1715,10 @@ class ilObjectGUI
 				$rolf_id = $rfoldObj->getRefId();
 			}
 
-			// CHECK ACCESS 'write' of role folder
-			if (!$rbacsystem->checkAccess('write',$rolf_id))
+			$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_id);
+			
+			foreach ($stop_inherit_roles as $stop_inherit)
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
-			}
-
-			foreach ($_POST["stop_inherit"] as $stop_inherit)
-			{
-				$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_id);
-
 				// create role entries for roles with stopped inheritance
 				if (!in_array($stop_inherit,$roles_of_folder))
 				{
@@ -1733,21 +1729,23 @@ class ilObjectGUI
 				}
 			}// END FOREACH
 		}// END STOP INHERIT
-		elseif 	(!empty($rolf_id))
+		
+		if ($rolf_id)
 		{
-			// TODO: this feature doesn't work at the moment
-			// ok. if the rolefolder is not empty, delete the local roles
-			//if (!empty($roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"])));
-			//{
-				//foreach ($roles_of_folder as $obj_id)
-				//{
-					//$rolfObj =& $this->ilias->obj_factory->getInstanceByRefId($rolf_data["child"]);
-					//$rolfObj->delete();
-					//unset($rolfObj);
-				//}
-			//}
+			// get roles where inheritance is stopped was cancelled
+			$linked_roles = $rbacreview->getLinkedRolesOfRoleFolder($rolf_id);
+			$linked_roles_to_remove = array_diff($linked_roles,$stop_inherit_roles);
+				
+			// remove roles where stopped inheritance is cancelled and purge rolefolder if empty
+			foreach ($linked_roles_to_remove as $role_id)
+			{
+				$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+				$role_obj->setParent($rolf_id);
+				$role_obj->delete();
+				unset($role_obj);
+			}
 		}
-
+		
 		sendinfo($this->lng->txt("saved_successfully"),true);
 		ilUtil::redirect($this->getReturnLocation("permSave",$this->ctrl->getLinkTarget($this,"perm")));
 	}

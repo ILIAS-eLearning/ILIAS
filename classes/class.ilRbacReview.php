@@ -895,6 +895,37 @@ class ilRbacReview
 		}
 		return $ops_ids ? $ops_ids : array();
 	}
+	
+	/**
+	* get all linked local roles of a role folder that are created due to stopped inheritance
+	* returns an array with role ids
+	* @access	public
+	* @param	integer		ref_id of object
+	* @param	boolean		if false only get true local roles
+	* @return	array		Array with rol_ids
+	*/
+	function getLinkedRolesOfRoleFolder($a_ref_id)
+	{
+		if (!isset($a_ref_id))
+		{
+			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+		
+		$and = " AND assign='n'";
+
+		$q = "SELECT rol_id FROM rbac_fa ".
+			 "WHERE parent = '".$a_ref_id."'".
+			 $and;
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rol_id[] = $row->rol_id;
+		}
+
+		return $rol_id ? $rol_id : array();
+	}
 
 } // END class.ilRbacReview
 ?>
