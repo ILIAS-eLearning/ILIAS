@@ -2456,7 +2456,10 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "matimage":
-				$this->matimage->setContent($a_data);
+				if ($this->matimage != NULL)
+				{
+					$this->matimage->setContent($a_data);
+				}
 				break;
 			case "duration":
 				switch ($this->getParent($a_xml_parser))
