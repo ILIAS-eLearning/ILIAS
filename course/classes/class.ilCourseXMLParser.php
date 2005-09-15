@@ -137,7 +137,9 @@ class ilCourseXMLParser extends ilMDSaxParser
 					{
 						$this->course_members->add(new ilObjUser($id_data['usr_id']),
 												   $this->course_members->ROLE_MEMBER,
-												   $a_attribs['blocked'] == 'Yes' ? 1 : 0,
+												   $a_attribs['blocked'] == 'Yes' ? 
+												   $this->course_members->STATUS_BLOCKED : 
+												   $this->course_members->STATUS_UNBLOCKED,
 												   $a_attribs['passed'] == 'Yes' ? 1 : 0);
 					}
 				}

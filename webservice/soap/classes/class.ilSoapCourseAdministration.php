@@ -84,7 +84,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		$newObj->MDUpdateListener('General');
 
-		return $newObj->getId() ? $newObj->getId() : 0;
+		return $newObj->getRefId() ? $newObj->getRefId() : 0;
 		
 	}
 
@@ -194,7 +194,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 				$course_members->add($tmp_user,$course_members->ROLE_TUTOR,$course_members->STATUS_NO_NOTIFY,0);
 				break;
 
-			case 'Member'
+			case 'Member':
 				$course_members->add($tmp_user,$course_members->ROLE_MEMBER,$course_members->STATUS_UNBLOCKED,0);
 				break;
 		}
@@ -227,11 +227,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Invalid user id. User with id "'. $user_id.' does not exist','Client');
 		}
 
+		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
+		{
+			return $this->__raiseError('Cannot create course instance!','Server');
+		}
+
 		include_once 'course/classes/class.ilCourseMembers.php';
 		
 		$course_members = new ilCourseMembers($tmp_course);
 
-		if($course_members->checkLastAdmin($user_id))
+		if(!$course_members->checkLastAdmin(array($user_id)))
 		{
 			return $this->__raiseError('Cannot deassign last administrator from course','Server');
 		}

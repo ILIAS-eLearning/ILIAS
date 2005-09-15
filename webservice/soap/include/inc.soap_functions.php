@@ -119,7 +119,7 @@ function assignCourseMember($sid,$course_id,$user_id,$type)
 
 	$sca =& new ilSoapCourseAdministration();
 
-	return $sca->deleteCourse($sid,$course_id,$user_id,$type);
+	return $sca->assignCourseMember($sid,$course_id,$user_id,$type);
 }
 function excludeCourseMember($sid,$course_id,$user_id)
 {
@@ -127,6 +127,6 @@ function excludeCourseMember($sid,$course_id,$user_id)
 
 	$sca =& new ilSoapCourseAdministration();
 
-	return $sca->deleteCourse($sid,$course_id,$user_id,$type);
+	return $sca->excludeCourseMember($sid,$course_id,$user_id,$type);
 }
 ?>
