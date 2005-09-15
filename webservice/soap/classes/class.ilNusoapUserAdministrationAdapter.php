@@ -32,7 +32,7 @@
 */
 
 include_once './webservice/soap/lib/nusoap.php';
-include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+include_once './webservice/soap/include/inc.soap_functions.php';
 
 class ilNusoapUserAdministrationAdapter
 {
@@ -206,12 +206,48 @@ class ilNusoapUserAdministrationAdapter
 								array('sid' => 'xsd:string',
 									  'target_id' => 'xsd:int',
 									  'crs_xml' => 'xsd:string'),
-								array('success' => 'xsd:boolean'),
+								array('course_id' => 'xsd:int'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#deleteUser',
+								SERVICE_NAMESPACE.'#addCourse',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS addCourse(). Course import. See ilias_course_0_1.dtd for details about course xml structure');
+
+		// deleteCourse()
+		$this->server->register('deleteCourse',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteCourse',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
+								' the ILIAS administration. ');
+		// assignCourseMember()
+		$this->server->register('assignCourseMember',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:int',
+									  'user_id' => 'xsd:int',
+									  'type' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#assignCourseMember',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS assignCourseMember(). Assigns an user to an existing course. Type should be "Admin", "Tutor" or "Member"');
+
+		// excludeCourseMember()
+		$this->server->register('excludeCourseMember',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:integer',
+									  'user_id' => 'xsd:int'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#excludeCourseMember',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS excludeCourseMember(). Excludes an user from an existing course.');
 								
 		return true;
 	}

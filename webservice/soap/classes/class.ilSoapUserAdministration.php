@@ -23,93 +23,20 @@
 
 
   /**
-   * soap server
+   * Soap user administration methods
    *
    * @author Stefan Meyer <smeyer@databay.de>
    * @version $Id$
    *
    * @package ilias
    */
-include_once './webservice/soap/lib/nusoap.php';
+include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
-// These functions are wrappers for nusoap, since it cannot register methods inside classes
-function login($client,$username,$password)
+class ilSoapUserAdministration extends ilSoapAdministration
 {
-	$sua =& new ilSoapUserAdministration();
-	
-	return $sua->login($client,$username,$password);
-}
-
-function logout($sid)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->logout($sid);
-}
-function lookupUser($sid,$user_name)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->lookupUser($sid,$user_name);
-}
-
-function getUser($sid,$user_id)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->getUser($sid,$user_id);
-}
-
-function updateUser($sid,$user_data)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->updateUser($sid,$user_data);
-}
-function addUser($sid,$user_data,$global_role_id)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->addUser($sid,$user_data,$global_role_id);
-}
-function deleteUser($sid,$user_id)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->deleteUser($sid,$user_id);
-}
-function addCourse($sid,$target_id,$crs_xml)
-{
-	$sua =& new ilSoapUserAdministration();
-
-	return $sua->addCourse($sid,$target_id,$crs_xml);
-}
-
-class ilSoapUserAdministration
-{
-	/*
-	 * object which handles php's authentication
-	 * @var object
-	 */
-	var $sauth = null;
-
-	/*
-	 * Defines type of error handling (PHP5 || NUSOAP)
-	 * @var object
-	 */
-	var $error_method = null;
-
-
-	function ilSoapUserAdministration($use_nusoap = true)
+	function ilSoapUserAdministration()
 	{
-		define('USER_FOLDER_ID',7);
-		define('NUSOAP',1);
-		define('PHP5',2);
-
-		if($use_nusoap)
-		{
-			$this->error_method = NUSOAP;
-		}
+		parent::ilSoapAdministration();
 	}
 		
 
@@ -131,14 +58,7 @@ class ilSoapUserAdministration
 
 	function logout($sid)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
@@ -153,14 +73,7 @@ class ilSoapUserAdministration
 	
 	function lookupUser($sid,$user_name)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
@@ -183,14 +96,7 @@ class ilSoapUserAdministration
 
 	function getUser($sid,$user_id)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
@@ -217,19 +123,11 @@ class ilSoapUserAdministration
 
 	function updateUser($sid,$user_data)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
-		
+
 		// Include main header
 		include_once './include/inc.header.php';
 
@@ -272,16 +170,10 @@ class ilSoapUserAdministration
 
 	function addUser($sid,$user_data,$global_role_id)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),'Client');
-		}
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -341,16 +233,10 @@ class ilSoapUserAdministration
 
 	function deleteUser($sid,$user_id)
 	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-		if(!$this->sauth->validateSession())
+		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),'Client');
-		}
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
 		
 		if(!isset($user_id))
 		{
@@ -387,85 +273,10 @@ class ilSoapUserAdministration
 		return true;
 	}
 
-	function addCourse($sid,$target_id,$crs_xml)
-	{
-		list($sid,$client) = $this->__explodeSid($sid);
-
-		$this->__initAuthenticationObject();
-
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
-		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-
-		if(!is_numeric($target_id))
-		{
-			return $this->__raiseError('No valid tqarget id given. Please choose an existing reference id of an ILIAS category',
-									   'Client');
-		}
-
-		// Include main header
-		include_once './include/inc.header.php';
-
-		if(!$rbacsystem->checkAccess('create',$target_id,'crs'))
-		{
-			return $this->__raiseError('Check access failed. No permission to create courses','Server');
-		}
-
-		// Start import
-		include_once("course/classes/class.ilObjCourse.php");
-
-		$newObj = new ilObjCourse();
-		$newObj->setType('crs');
-		$newObj->setTitle('dummy');
-		$newObj->setDescription("");
-		$newObj->create(true); // true for upload
-		$newObj->createReference();
-		$newObj->putInTree($target_id);
-		$newObj->setPermissions($target_id);
-		$newObj->__initDefaultRoles();
-
-		include_once 'course/classes/class.ilCourseXMLParser.php';
-
-		$xml_parser = new ilCourseXMLParser($newObj);
-		$xml_parser->setXMLContent($crs_xml);
-
-		$xml_parser->startParsing();
-
-		$newObj->MDUpdateListener('General');
-
-		
-		return true;
-	}
 
 		
 		
 	// PRIVATE
-	function __explodeSid($sid)
-	{
-		$exploded = explode('::',$sid);
-
-		return is_array($exploded) ? $exploded : array('sid' => '','client' => '');
-	}
-
-
-	function __setMessage($a_str)
-	{
-		$this->message = $a_str;
-	}
-	function __getMessage()
-	{
-		return $this->message;
-	}
-	function __appendMessage($a_str)
-	{
-		$this->message .= isset($this->message) ? ' ' : '';
-		$this->message .= $a_str;
-	}
-
 	function __validateUserData(&$user_data,$check_complete = true)
 	{
 		global $lng,$styleDefinition;
@@ -620,27 +431,6 @@ class ilSoapUserAdministration
 		}
 		return true;
 	}
-
-
-
-	function __initAuthenticationObject()
-	{
-		include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
-		
-		return $this->sauth = new ilSoapAuthentication();
-	}
-		
-
-	function __raiseError($a_message,$a_code)
-	{
-		switch($this->error_method)
-		{
-			case NUSOAP:
-
-				return new soap_fault($a_code,'',$a_message);
-		}
-	}
-
 	
 	function __readUserData(&$usr_obj)
 	{
