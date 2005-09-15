@@ -158,6 +158,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
 		}
+
+		if(!$rbacsystem->checkAccess('write',$course_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write to course','Server');
+		}
+
 		
 		if(ilObject::_lookupType($user_id) != 'usr')
 		{
@@ -217,6 +223,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		global $rbacsystem;
+
 		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
 		{
 			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
@@ -232,6 +240,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create course instance!','Server');
 		}
 
+		if(!$rbacsystem->checkAccess('write',$course_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write to course','Server');
+		}
+
 		include_once 'course/classes/class.ilCourseMembers.php';
 		
 		$course_members = new ilCourseMembers($tmp_course);
@@ -242,6 +255,104 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 		$course_members->delete($user_id);
+
+		return true;
+	}
+
+	function getCourseXML($sid,$course_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($course_id))
+		{
+			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		{
+			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+		}
+
+		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
+		{
+			return $this->__raiseError('Cannot create course instance!','Server');
+		}
+
+		if(!$rbacsystem->checkAccess('read',$course_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to read course','Server');
+		}
+
+		include_once 'course/classes/class.ilCourseXMLWriter.php';
+
+		$xml_writer = new ilCourseXMLWriter($tmp_course);
+		$xml_writer->start();
+		
+		return $xml_writer->getXML();
+	}
+
+	function updateCourse($sid,$course_id,$xml)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		if(!is_numeric($course_id))
+		{
+			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
+									   'Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem;
+
+		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
+		{
+			return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
+		}
+
+		if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
+		{
+			return $this->__raiseError('Cannot create course instance!','Server');
+		}
+
+		if(!$rbacsystem->checkAccess('write',$course_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to write course','Server');
+		}
+
+
+		// First delete old meta data
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		$md = new ilMD($tmp_course->getId(),0,'crs');
+		$md->deleteAll();
+
+		include_once 'course/classes/class.ilCourseMembers.php';
+
+		$crs_members = new ilCourseMembers($tmp_course);
+		$crs_members->deleteAllEntries();
+
+		include_once 'course/classes/class.ilCourseWaitingList.php';
+
+		ilCourseWaitingList::_deleteAll($tmp_course->getId());
+
+		include_once 'course/classes/class.ilCourseXMLParser.php';
+
+		$xml_parser = new ilCourseXMLParser($tmp_course);
+		$xml_parser->setXMLContent($xml);
+
+		$xml_parser->startParsing();
+
+		$tmp_course->MDUpdateListener('General');
 
 		return true;
 	}

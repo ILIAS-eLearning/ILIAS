@@ -658,7 +658,10 @@ class ilObject
 
 				// Update Title and description
 				$md = new ilMD($this->getId(),0, $this->getType());
-				$md_gen = $md->getGeneral();
+				if(!is_object($md_gen = $md->getGeneral()))
+				{
+					return false;
+				}
 
 				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
 				$this->setTitle($md_gen->getTitle());

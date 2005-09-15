@@ -249,6 +249,30 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS excludeCourseMember(). Excludes an user from an existing course.');
 								
+		// getCourseXML($sid,$course_id)
+		$this->server->register('getCourseXML',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:integer'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getCourseXML',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getCourseXML(). Get a xml description of a specific course.');
+
+		// updateCourse($sid,$course_id,$xml)
+		$this->server->register('updateCourse',
+								array('sid' => 'xsd:string',
+									  'course_id' => 'xsd:integer',
+									  'xml' => 'xsd:string'),
+								array('success' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#updateCourse',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS updateCourse(). Update course settings, assigned members, tutors, administrators with a '.
+								'given xml description');
+
 		return true;
 	}
 		

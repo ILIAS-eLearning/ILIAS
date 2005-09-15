@@ -129,4 +129,21 @@ function excludeCourseMember($sid,$course_id,$user_id)
 
 	return $sca->excludeCourseMember($sid,$course_id,$user_id,$type);
 }
+function getCourseXML($sid,$course_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+
+	$sca =& new ilSoapCourseAdministration();
+
+	return $sca->getCourseXML($sid,$course_id);
+}
+function updateCourse($sid,$course_id,$xml)
+{
+	include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
+
+	$sca =& new ilSoapCourseAdministration();
+
+	return $sca->updateCourse($sid,$course_id,$xml);
+}	
+	
 ?>
