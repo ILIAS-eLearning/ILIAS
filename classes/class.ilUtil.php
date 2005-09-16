@@ -1984,10 +1984,10 @@ class ilUtil
 	*/
 	function removeItemFromDesktops($a_id)
 	{
-		global $ilias;
+		global $ilDB;
 
 		$q = "SELECT user_id FROM desktop_item WHERE item_id = '".$a_id."'";
-		$r = $ilias->db->query($q);
+		$r = $ilDB->query($q);
 
 		$users = array();
 
@@ -1999,7 +1999,7 @@ class ilUtil
 		if (count($users) > 0)
 		{
 			$q = "DELETE FROM desktop_item WHERE item_id = '".$a_id."'";
-			$ilias->db->query($q);
+			$ilDB->query($q);
 		}
 
 		return $users;

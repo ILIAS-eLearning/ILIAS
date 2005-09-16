@@ -103,6 +103,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
+		include_once './classes/class.ilUtil.php';
+
+		global $rbacsystem;
 
 		if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
 		{
@@ -115,7 +118,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 
-		global $tree,$rbacadmin;
+		global $tree,$rbacadmin,$log;
 
 		$subnodes = $tree->getSubtree($tree->getNodeData($course_id));
 			
@@ -131,7 +134,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 			// write log entry
 			$log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$course_id." to trash");
-				
+
 			// remove item from all user desktops
 			$affected_users = ilUtil::removeItemFromDesktops($course_id);
 		}
