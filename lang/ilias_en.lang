@@ -5249,6 +5249,7 @@ survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<<< previous
 survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)
+survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
 survey#:#survey_skip_finish#:#skip and finish survey
 survey#:#survey_skip_next#:#skip >>>
