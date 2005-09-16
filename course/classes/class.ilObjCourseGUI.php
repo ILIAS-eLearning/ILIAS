@@ -3003,7 +3003,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			case "subscribers":
 				$offset = $_GET["update_subscribers"] ? $_GET["offset"] : 0;
-				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : 'login';
+				$order = $_GET["update_subscribers"] ? $_GET["sort_by"] : 'sub_time';
 				$direction = $_GET["update_subscribers"] ? $_GET["sort_order"] : '';
 				break;
 				

@@ -380,18 +380,19 @@ class ilCourseRegisterGUI
 		{
 			$allow_subscription = false;
 		}
-		elseif($this->waiting_list->isOnList($this->user_id))
+		if($this->waiting_list->isOnList($this->user_id) and $allow_subscription)
 		{
 			$this->course_obj->appendMessage($this->lng->txt('crs_already_assigned_to_list'));
 			$allow_subscription = false;
 		}
 		elseif($this->course_obj->getSubscriptionMaxMembers() and 
-		   ($this->course_obj->members_obj->getCountMembers() >= $this->course_obj->getSubscriptionMaxMembers()))
+			   ($this->course_obj->members_obj->getCountMembers() >= $this->course_obj->getSubscriptionMaxMembers()) and
+			   $allow_subscription)
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
 			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
-		elseif($this->waiting_list->getCountUsers())
+		elseif($this->waiting_list->getCountUsers() and $allow_subscription)
 		{
 			$this->course_obj->appendMessage($this->lng->txt('crs_set_on_waiting_list'));
 		}
