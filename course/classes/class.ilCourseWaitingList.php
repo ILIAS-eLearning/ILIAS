@@ -127,7 +127,7 @@ class ilCourseWaitingList
 		$this->users = array();
 
 		$query = "SELECT * FROM crs_waiting_list ".
-			"WHERE obj_id = '".$this->getCourseId()."'";
+			"WHERE obj_id = '".$this->getCourseId()."' ORDER BY sub_time";
 
 		$res = $this->db->query($query);
 		$counter = 0;
