@@ -129,15 +129,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			// remove item from all user desktops
 			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 				
-			$tree->saveSubTree($course_id);
-			$tree->deleteTree($tree->getNodeData($course_id));
-
-			// write log entry
-			$log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$course_id." to trash");
-
-			// remove item from all user desktops
-			$affected_users = ilUtil::removeItemFromDesktops($course_id);
 		}
+		$tree->saveSubTree($course_id);
+		$tree->deleteTree($tree->getNodeData($course_id));
+		
+		// write log entry
+		$log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$course_id." to trash");
+		
+		// remove item from all user desktops
+		$affected_users = ilUtil::removeItemFromDesktops($course_id);
+		
 		return true;
 	}
 
