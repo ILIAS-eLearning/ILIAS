@@ -240,7 +240,7 @@ class ilNusoapUserAdministrationAdapter
 		// excludeCourseMember()
 		$this->server->register('excludeCourseMember',
 								array('sid' => 'xsd:string',
-									  'course_id' => 'xsd:integer',
+									  'course_id' => 'xsd:int',
 									  'user_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
@@ -252,7 +252,7 @@ class ilNusoapUserAdministrationAdapter
 		// getCourseXML($sid,$course_id)
 		$this->server->register('getCourseXML',
 								array('sid' => 'xsd:string',
-									  'course_id' => 'xsd:integer'),
+									  'course_id' => 'xsd:int'),
 								array('xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getCourseXML',
@@ -263,9 +263,9 @@ class ilNusoapUserAdministrationAdapter
 		// updateCourse($sid,$course_id,$xml)
 		$this->server->register('updateCourse',
 								array('sid' => 'xsd:string',
-									  'course_id' => 'xsd:integer',
+									  'course_id' => 'xsd:int',
 									  'xml' => 'xsd:string'),
-								array('success' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#updateCourse',
 								SERVICE_STYLE,
