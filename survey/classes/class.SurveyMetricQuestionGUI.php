@@ -220,9 +220,9 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 		}
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
-		if ($this->object->getObligatory())
+		if (! $this->object->getObligatory())
 		{
-			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_obligatory"));
+			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
 		if ($question_title)
 		{
