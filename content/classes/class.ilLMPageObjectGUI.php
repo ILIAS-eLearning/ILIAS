@@ -58,15 +58,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	}
 
-	/**
-	* get all gui classes that are called from this one (see class ilCtrl)
-	*
-	* @param	array		array of gui classes that are called
-	*/
-	function _forwards()
-	{
-		return (array("ilPageObjectGUI", "ilInternalLinkGUI"));
-	}
 
 	/**
 	* set content object dependent page object (co page)
@@ -373,14 +364,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		// back to upper context
 		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTarget($this, "view")
-			, "view", get_class($this));
+			, array("", "view"), "ilpageobjectgui");
 
 		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
-			, "preview", get_class($this));
+			, "preview", "ilpageobjectgui");
+			
+		$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
+			, "properties", get_class($this));
 
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 "", "ilmdeditorgui");
 
 		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 			, "history", get_class($this));

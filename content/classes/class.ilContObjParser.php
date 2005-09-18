@@ -630,6 +630,66 @@ class ilContObjParser extends ilMDSaxParser
 				}
 				break;
 
+			case "Properties":
+				$this->in_properties = true;
+				break;
+				
+			case "Property":
+				if ($this->content_object->getType() == "lm"
+					|| $this->content_object->getType() == "dbk")
+				{
+					switch($a_attribs["Name"])
+					{
+						case "Layout":
+							$this->content_object->setLayout($a_attribs["Value"]);
+							break;
+
+						case "PageHeader":
+							$this->content_object->setPageHeader($a_attribs["Value"]);
+							break;
+							
+						case "TOCMode":
+							$this->content_object->setTOCMode($a_attribs["Value"]);
+							break;
+							
+						case "ActiveLMMenu":
+							$this->content_object->setActiveLMMenu(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+							
+						case "ActiveNumbering":
+							$this->content_object->setActiveNumbering(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+						
+						case "ActiveTOC":
+							$this->content_object->setActiveTOC(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+							
+						case "ActivePrintView":
+							$this->content_object->setActivePrintView(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+							
+						case "CleanFrames":
+							$this->content_object->setCleanFrames(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+							
+						case "PublicNotes":
+							$this->content_object->setPublicNotes(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+							
+						case "HistoryUserComments":
+							$this->content_object->setHistoryUserComments(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
+
+					}
+				}
+				break;
 
 			////////////////////////////////////////////////
 			/// Meta Data Section
@@ -1081,6 +1141,14 @@ class ilContObjParser extends ilMDSaxParser
 				$this->media_item->addMapArea($this->map_area);
 				break;
 
+			case "Properties":
+				$this->in_properties = false;
+				if ($this->content_object->getType() == "lm"
+					|| $this->content_object->getType() == "dbk")
+				{
+					$this->content_object->update();
+				}
+				break;
 
 			case "MetaData":
 				$this->in_meta_data = false;

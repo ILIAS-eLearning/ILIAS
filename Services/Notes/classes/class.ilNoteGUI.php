@@ -135,7 +135,7 @@ class ilNoteGUI
 			$tpl->setVariable("TXT_NOTES", $lng->txt("public_notes").$cnt_str);
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PUBLIC);
 		}
-		$tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass("ilnotegui"));
+		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 		
 		// show add new note button
 		if (!$this->add_note_form && !$this->edit_note_form)

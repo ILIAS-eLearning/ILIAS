@@ -91,6 +91,7 @@ require_once "classes/class.ilCtrl.php";
 require_once "classes/class.ilConditionHandler.php";
 require_once "classes/class.ilBrowser.php";
 require_once "classes/class.ilFrameTargetInfo.php";
+require_once "Services/Help/classes/class.ilHelp.php";
 require_once "include/inc.ilias_version.php";
 
 //include role based access control system
@@ -450,6 +451,10 @@ else
 // provide global browser information
 $ilBrowser = new ilBrowser();
 $GLOBALS['ilBrowser'] =& $ilBrowser;
+
+// provide global help object
+$ilHelp = new ilHelp();
+$GLOBALS['ilHelp'] =& $ilHelp;
 
 // utf-8 fix?
 $q = "SET NAMES utf8";

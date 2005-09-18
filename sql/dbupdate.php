@@ -7329,7 +7329,7 @@ $ilCtrlStructureReader->getStructure();
 <#471>
 <?php
 
-$ilModuleReader->getModules();
+//$ilModuleReader->getModules();
 
 ?>
 <#472>
@@ -8574,3 +8574,19 @@ foreach($admin as $type => $ops)
 
 $rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
 ?>
+<#528>
+CREATE TABLE `service` (
+	`name` VARCHAR(100) NOT NULL PRIMARY KEY,
+	`dir` VARCHAR(200) NOT NULL
+) COMMENT = 'ILIAS Modules';
+
+CREATE TABLE `service_class` (
+	`class` VARCHAR(100) NOT NULL PRIMARY KEY,
+	`service` VARCHAR(100) NOT NULL,
+	`dir` VARCHAR(200) NOT NULL
+) COMMENT = 'Class information of ILIAS Modules';
+<#529>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -58,7 +58,7 @@ class ilCtrlStructureReader
 		}
 		
 		// read module information
-		// not clear wheter this is a good place for module reading info
+		// not clear whether this is a good place for module reading info
 		// or not
 /*
 		require_once("classes/class.ilModuleReader.php");

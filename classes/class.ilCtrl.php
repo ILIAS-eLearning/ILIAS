@@ -66,7 +66,7 @@ class ilCtrl
 	{
 		global $ilDB;
 		
-		$baseClass = $_GET["baseClass"];
+		$baseClass = strtolower($_GET["baseClass"]);
 		
 		// get class information
 		$q = "SELECT * FROM module_class WHERE LOWER(class) = ".
@@ -77,16 +77,48 @@ class ilCtrl
 		$class = $mc_rec["class"];
 		$class_dir = $mc_rec["dir"];
 		
-		// get module information
-		$q = "SELECT * FROM module WHERE name = ".
-			$ilDB->quote($module);
+		if ($module != "")
+		{
+			// get module information
+			$q = "SELECT * FROM module WHERE name = ".
+				$ilDB->quote($module);
+	
+			$m_set = $ilDB->query($q);
+			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->module_dir = $m_rec["dir"];
+			
+			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";;
+		}
+		else		// check whether class belongs to a service
+		{
+			// get class information
+			$q = "SELECT * FROM service_class WHERE LOWER(class) = ".
+				$ilDB->quote($baseClass);
+			$mc_set = $ilDB->query($q);
+			$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$service = $mc_rec["service"];
+			$class = $mc_rec["class"];
+			$class_dir = $mc_rec["dir"];
+			
+			if ($service == "")
+			{
+				echo "Could not find entry in modules.xml or services.xml for".
+					$baseClass;
+				exit;
+			}
 
-		$m_set = $ilDB->query($q);
-		$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->module_dir = $m_rec["dir"];
+			// get service information
+			$q = "SELECT * FROM service WHERE name = ".
+				$ilDB->quote($service);
+	
+			$m_set = $ilDB->query($q);
+			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->service_dir = $m_rec["dir"];
+			
+			include_once $this->service_dir."/".$class_dir."/class.".$class.".php";;
+		}
 		
 		// forward processing to base class
-		include_once $this->module_dir."/".$class_dir."/class.".$class.".php";;
 		$this->getCallStructure(strtolower($baseClass));
 		$base_class_gui =& new $class();
 		$this->forwardCommand($base_class_gui);

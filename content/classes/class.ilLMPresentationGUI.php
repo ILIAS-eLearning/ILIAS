@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2004 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -931,6 +931,13 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNotes()
 	{
+		// no notes in offline (export) mode
+		if ($this->offlineMode())
+		{
+			return;
+		}
+		
+		
 		$next_class = $this->ctrl->getNextClass($this);
 
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
@@ -1835,7 +1842,7 @@ class ilLMPresentationGUI
 					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"], $_GET["frame"]).
 					"\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
-			else if ($showViewInFrameset)
+			else if ($showViewInFrameset && !$this->offlineMode())
 			{
 				$output = "<a href=\"".
 					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]).
@@ -1885,7 +1892,7 @@ class ilLMPresentationGUI
 					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
 					"\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
-			else if ($showViewInFrameset)
+			else if ($showViewInFrameset && !$this->offlineMode())
 			{
 				$output = " <a href=\"".
 					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]).
@@ -2917,7 +2924,14 @@ class ilLMPresentationGUI
 					}
 					else
 					{
-						$link = "lm_pg_".$a_obj_id.".html";
+						if ($nid = ilLMObject::_lookupNID($this->lm->getId(), $a_obj_id, "pg"))
+						{
+							$link = "lm_pg_".$nid.".html";
+						}
+						else
+						{
+							$link = "lm_pg_".$a_obj_id.".html";
+						}
 					}
 					break;
 					
@@ -2966,7 +2980,9 @@ class ilLMPresentationGUI
 	function getSourcecodeDownloadLink() {
 		if (!$this->offlineMode())
 		{
-			$this->ctrl->setParameter($this, session_name(), session_id());
+			//$this->ctrl->setParameter($this, session_name(), session_id());
+			$target = $this->ctrl->getLinkTarget($this, "");
+			$target = ilUtil::appendUrlParameterString($target, session_name()."=".session_id());
 			return $this->ctrl->getLinkTarget($this, "");
 		}
 		else

@@ -98,9 +98,10 @@ class ilTabsGUI
 				{
 					$target["cmd"] = array($target["cmd"]);
 				}
-	
-//echo "<br>-".$target["cmd"]."-".$cmd."-";
-				if (in_array($cmd, $target["cmd"]) &&
+
+//echo "<br>+".$target["cmdClass"]."-".$cmdClass."+";
+//echo "<br>-"; var_dump($target["cmd"]); echo "-".$cmd."-".$target["cmd"][0]."-";
+				if ((in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
 					($target["cmdClass"] == $cmdClass || $target["cmdClass"] == ""))
 				{
 					$tabtype = "tabactive";
