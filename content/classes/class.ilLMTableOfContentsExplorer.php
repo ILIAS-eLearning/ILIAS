@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -57,6 +57,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		$this->setExpandTarget("lm_presentation.php?cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 		$this->setSessionExpandVariable("lmtocexpand");
 		$this->export_format = $a_export_format;
+		$this->lm_obj =& $a_lm_obj;
 
 		$this->addFilter("du");
 		$this->addFilter("st");
@@ -158,8 +159,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 			return "";
 		}
 
-
-		if ($showViewInFrameset)
+		if ($showViewInFrameset && !$this->offlineMode())
 		{
 			return "bottom";
 		}
@@ -189,7 +189,15 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 				$a_node_id = $a_node["child"];
 			}
-			return "lm_pg_".$a_node_id.".html";
+
+			if ($nid = ilLMObject::_lookupNID($this->lm_obj->getId(), $a_node_id, "pg"))
+			{
+				return "lm_pg_".$nid.".html";
+			}
+			else
+			{
+				return "lm_pg_".$a_node_id.".html";
+			}
 		}
 	}
 

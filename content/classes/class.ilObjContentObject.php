@@ -1250,6 +1250,12 @@ class ilObjContentObject extends ilObject
 		$this->exportFileItems($a_target_dir, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
+		
+		// To do: implement version selection/detection
+		// Properties
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Properties");
+		$this->exportXMLProperties($a_xml_writer, $expLog);
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Properties");
 
 		// Glossary
 		// not implemented
@@ -1388,6 +1394,68 @@ class ilObjContentObject extends ilObject
 			$file_obj->export($a_target_dir);
 			unset($file_obj);
 		}
+	}
+
+	/**
+	* export properties of content object
+	*
+	*/
+	function exportXMLProperties($a_xml_writer, &$expLog)
+	{
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("Properties", $attrs);
+
+		// Layout
+		$attrs = array("Name" => "Layout", "Value" => $this->getLayout());
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// Page Header
+		$attrs = array("Name" => "PageHeader", "Value" => $this->getPageHeader());
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// TOC Mode
+		$attrs = array("Name" => "TOCMode", "Value" => $this->getTOCMode());
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// LM Menu Activation
+		$attrs = array("Name" => "ActiveLMMenu", "Value" =>
+			ilUtil::tf2yn($this->isActiveLMMenu()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// Numbering Activation
+		$attrs = array("Name" => "ActiveNumbering", "Value" =>
+			ilUtil::tf2yn($this->isActiveNumbering()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// Table of contents button activation
+		$attrs = array("Name" => "ActiveTOC", "Value" =>
+			ilUtil::tf2yn($this->isActiveTOC()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// Print view button activation
+		$attrs = array("Name" => "ActivePrintView", "Value" =>
+			ilUtil::tf2yn($this->isActivePrintView()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// Note that download button is not saved, because
+		// download files do not exist after import
+
+		// Clean frames
+		$attrs = array("Name" => "CleanFrames", "Value" =>
+			ilUtil::tf2yn($this->cleanFrames()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// Public notes activation
+		$attrs = array("Name" => "PublicNotes", "Value" =>
+			ilUtil::tf2yn($this->publicNotes()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		// History comments for authors activation
+		$attrs = array("Name" => "HistoryUserComments", "Value" =>
+			ilUtil::tf2yn($this->isActiveHistoryUserComments()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		
+		$a_xml_writer->xmlEndTag("Properties");
 	}
 
 	/**
@@ -1863,7 +1931,14 @@ class ilObjContentObject extends ilObject
 		
 		if ($a_frame == "")
 		{
-			$file = $a_target_dir."/lm_pg_".$a_lm_page_id.".html";
+			if ($nid = ilLMObject::_lookupNID($a_lm_gui->lm->getId(), $a_lm_page_id, "pg"))
+			{
+				$file = $a_target_dir."/lm_pg_".$nid.".html";
+			}
+			else
+			{
+				$file = $a_target_dir."/lm_pg_".$a_lm_page_id.".html";
+			}
 		}
 		else
 		{

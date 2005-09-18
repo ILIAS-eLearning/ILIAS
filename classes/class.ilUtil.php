@@ -416,6 +416,8 @@ class ilUtil
 	/**
 	* show the tabs in admin section
 	*
+	* old code, do not reuse this
+	*
 	* @access	public
 	* @param	integer	column to highlight
 	* @param	array	array with templatereplacements

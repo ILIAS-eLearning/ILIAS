@@ -101,6 +101,29 @@ class ilLMObject
 		return true;
 	}
 
+
+	/**
+	* lookup named identifier (ILIAS_NID)
+	*/
+	function _lookupNID($a_lm_id, $a_lm_obj_id, $a_type)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+//echo "-".$a_lm_id."-".$a_lm_obj_id."-".$a_type."-";
+		$md = new ilMD($a_lm_id, $a_lm_obj_id, $a_type);
+		$md_gen = $md->getGeneral();
+		foreach($md_gen->getIdentifierIds() as $id)
+		{
+			$md_id = $md_gen->getIdentifier($id);
+			if ($md_id->getCatalog() == "ILIAS_NID")
+			{
+				return $md_id->getEntry();
+			}
+		}
+		
+		return false;
+	}
+
+
 	/**
 	* create meta data entry
 	*/

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -215,7 +215,7 @@ class ilContObjectExport
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition
-		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
+		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_6.dtd\">");
 
 		// set generated comment
 		$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".

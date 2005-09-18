@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -22,25 +22,25 @@
 */
 
 /**
-* Class ilModuleReader
+* Class ilServiceReader
 *
-* Reads reads module information of modules.xml files into db
+* Reads reads service information of services.xml files into db
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package core
 */
-class ilModuleReader extends ilSaxParser
+class ilServiceReader extends ilSaxParser
 {
 
-	function ilModuleReader()
+	function ilServiceReader()
 	{
 		$this->executed = false;
-		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/modules.xml");
+		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/services.xml");
 	}
 	
-	function getModules()
+	function getServices()
 	{
 		if (!$this->executed)
 		{
@@ -66,10 +66,10 @@ class ilModuleReader extends ilSaxParser
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM module";;
+		$q = "DELETE FROM service";;
 		$ilDB->query($q);
 
-		$q = "DELETE FROM module_class";;
+		$q = "DELETE FROM service_class";;
 		$ilDB->query($q);
 
 	}
@@ -91,16 +91,16 @@ class ilModuleReader extends ilSaxParser
 		
 		switch ($a_name)
 		{
-			case 'module':
+			case 'service':
 				$this->current_module = $a_attribs["name"];
-				$q = "INSERT INTO module (name, dir) VALUES ".
+				$q = "INSERT INTO service (name, dir) VALUES ".
 					"(".$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";
 				$ilDB->query($q);
 				break;
 				
 			case 'baseclass':
-				$q = "INSERT INTO module_class (module, class, dir) VALUES ".
+				$q = "INSERT INTO service_class (service, class, dir) VALUES ".
 					"(".$ilDB->quote($this->current_module).",".
 					$ilDB->quote($a_attribs["name"]).",".
 					$ilDB->quote($a_attribs["dir"]).")";

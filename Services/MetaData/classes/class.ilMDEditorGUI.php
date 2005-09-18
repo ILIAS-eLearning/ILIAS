@@ -147,13 +147,20 @@ class ilMDEditorGUI
 				$this->ctrl->setParameter($this,'meta_index',$id);
 				$this->ctrl->setParameter($this,'meta_path','meta_identifier');
 
-				$this->tpl->setCurrentBlock("identifier_delete");
-				$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
-				$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE",$this->lng->txt('delete'));
-				$this->tpl->parseCurrentBlock();
+				if ($md_ide->getCatalog() != "ILIAS")
+				{
+					$this->tpl->setCurrentBlock("identifier_delete");
+					$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
+					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE",$this->lng->txt('delete'));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			$this->tpl->setCurrentBlock("identifier_loop");
+			if ($md_ide->getCatalog() == "ILIAS")
+			{
+				$this->tpl->setVariable("DISABLE_IDENT", ' disabled="disabled" ');
+			}
 			$this->tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
 			$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 			$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));

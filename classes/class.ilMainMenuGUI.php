@@ -113,6 +113,13 @@ class ilMainMenuGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// help button
+		$this->tpl->setCurrentBlock("userhelp");
+		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
+		$this->tpl->setVariable("SCRIPT_HELP", "ilias.php?baseClass=ilHelpGUI");
+		$this->tpl->setVariable("TARGET_HELP", "ilias_help");
+		$this->tpl->parseCurrentBlock();
+
 
 		// mail & desktop button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
@@ -244,11 +251,8 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
 		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
-		//$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
-		//$this->tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
 		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
 		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
-		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 		$this->tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
 		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 

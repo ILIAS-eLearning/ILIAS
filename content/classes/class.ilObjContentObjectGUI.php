@@ -2477,7 +2477,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// be shown in the frameset of ilias, or in a separate window.
 		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
-		if ($showViewInFrameset)
+		if ($showViewInFrameset && !$a_offline)
 		{
 			$buttonTarget = "bottom";
 		}
@@ -2507,7 +2507,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$tpl_menu->setVariable("BTN_LINK", "./table_of_contents.html");
 			}
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_contents"));
-                        $tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
 		}
 

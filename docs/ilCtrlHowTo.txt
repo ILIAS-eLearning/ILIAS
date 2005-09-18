@@ -84,7 +84,7 @@ class ilLMEditorGUI
 			// process command, if current class is responsible
 			// to do so
 			default:
-				$cmd = $this->ctrl->getCmd();
+				$cmd = $this->ctrl->getCmd("view");
 				$this->$cmd();
 				break;
 		}
@@ -106,12 +106,12 @@ class ilLMEditorGUI
 			
 		// generate a link to a method of the same GUI class
 		$tpl->setVariable("LINK_TARGET",
-			$this->ctrl->getLinkTarget($this, "command_x"));
+			$this->ctrl->getLinkTarget($this, "view"));
 	
 
 		// generate a link to a method of another GUI class
 		$tpl->setVariable("LINK_TARGET",
-			$this->ctrl->getLinkTargetByClass("classnamegui", "command_y"));
+			$this->ctrl->getLinkTargetByClass("classnamegui", "edit"));
 		
 	}
 	

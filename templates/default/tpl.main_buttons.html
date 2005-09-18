@@ -2,67 +2,6 @@
 body { margin:0px;}
 </style>
 
-<script type="text/javascript">
-<!--
-if (document.images)
-{
-	var path = "./templates/default/images/navbar/";
-
-	imag = new Array();
-	imag[0]  = "{IMG_DESK}";
-	imag[1]  = "{IMG_CATALOG}";
-	imag[2]  = "{IMG_BOOKMA}";
-	imag[3]  = "{IMG_SEARCH}";
-	imag[4]  = "{IMG_LITERAT}";
-	imag[5]  = "{IMG_MAIL}";
-	imag[6]  = "{IMG_FORUMS}";
-	imag[7]  = "{IMG_GROUPS}";
-	imag[8]  = "{IMG_HELP}";
-	imag[9]  = "{IMG_FEEDB}";
-	imag[10] = "{IMG_LOGOUT}";
-	imag[11] = "{IMG_DESK_O}";
-	imag[12] = "{IMG_CATALOG_O}";
-	imag[13] = "{IMG_BOOKMA_O}";
-	imag[14] = "{IMG_SEARCH_O}";
-	imag[15] = "{IMG_LITERAT_O}";
-	imag[16] = "{IMG_MAIL_O}";
-	imag[17] = "{IMG_FORUMS_O}";
-	imag[18] = "{IMG_GROUPS_O}";
-	imag[19] = "{IMG_HELP_O}";
-	imag[20] = "{IMG_FEEDB_O}";
-	imag[21] = "{IMG_LOGOUT_O}";
-	imag[22] = "{IMG_LOGIN}";
-	imag[23] = "{IMG_LOGIN_O}";
-	imag[24] = "{IMG_EDITOR}";
-	imag[25] = "{IMG_EDITOR_O}";
-	imag[26] = "{IMG_ADMIN}";
-	imag[27] = "{IMG_ADMIN_O}";
-	imag[28] = "{IMG_DP}";
-	imag[29] = "{IMG_DP_O}";
-
-	im = new Array();
-
-	for (var i = 0; i < imag.length; i++)
-	{
-		im[i] = new Image();
-		im[i].src = imag[i];
-	}
-
-	function swtch(num,imgname)
-	{
-		imgname.src = im[num].src;
-		window.status = '';
-	}
-
-	function swtchon(num,imgname,text)
-	{
-		imgname.src = im[num].src;
-		window.status = text;
-	}
-}
-//-->
-</script>
-
 <div class="ilMainHeader">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -99,6 +38,9 @@ if (document.images)
 <!-- BEGIN userisadmin -->
 		<a class="ilMainHeader" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
 <!-- END userisadmin -->
+<!-- BEGIN userhelp -->
+		<a class="ilMainHeader" href="{SCRIPT_HELP}" target="{TARGET_HELP}">{TXT_HELP}</a>
+<!-- END userhelp -->
 		</div>
 		</td></tr>
 		</table>

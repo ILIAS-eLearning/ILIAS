@@ -221,6 +221,14 @@ class ilDBUpdate
 		{
 			$this->updateMsg = "no_changes";
 		}
+		
+		// read module and service information into db
+		require_once "./classes/class.ilModuleReader.php";
+		require_once "./classes/class.ilServiceReader.php";
+		$ilModuleReader = new ilModuleReader();
+		$ilModuleReader->getModules();
+		$ilServiceReader = new ilServiceReader();
+		$ilServiceReader->getServices();
 				
 		return true;
 	}
