@@ -8349,27 +8349,44 @@ ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL D
 		$question_id = $row["question_id"];
 		$last_original_id = $row["original_id"];
 		$last_question_id = $row["question_id"];
-		while ($last_original_id > 0)
+		// DBUPDATE-BUGFIX
+		// add a fix for a previously update step run which was not successful and
+		// ended in an endless loop
+		if ($original_id == $question_id)
 		{
-			$search_query = sprintf("SELECT question_id, original_id FROM qpl_questions WHERE question_id = %s",
-				$ilDB->quote($last_original_id . "")
+			$update_query = sprintf("UPDATE qpl_questions SET original_id = NULL WHERE question_id = %s",
+				$ilDB->quote($question_id . "")
 			);
-			$result_search = $ilDB->query($search_query);
-			if ($result_search->numRows() == 0)
+			$result_update = $ilDB->query($update_query);
+		}
+		else
+		{
+			while ($last_original_id > 0)
 			{
-				// no original found
-				$last_original_id = 0;
-			}
-			else
-			{
-				$search_row = $result_search->fetchRow(DB_FETCHMODE_ASSOC);
-				$last_original_id = $search_row["original_id"];
-				$last_question_id = $search_row["question_id"];
+				$search_query = sprintf("SELECT question_id, original_id FROM qpl_questions WHERE question_id = %s",
+					$ilDB->quote($last_original_id . "")
+				);
+				$result_search = $ilDB->query($search_query);
+				if ($result_search->numRows() == 0)
+				{
+					// no original found
+					$last_original_id = 0;
+				}
+				else
+				{
+					$search_row = $result_search->fetchRow(DB_FETCHMODE_ASSOC);
+					$last_original_id = $search_row["original_id"];
+					$last_question_id = $search_row["question_id"];
+				}
 			}
 		}
 		if ($last_question_id != $original_id)
 		{
-			if (($last_question_id > 0) && ($question_id > 0))
+			// DBUPDATE-BUGFIX
+			// added && ($last_question_id != $question_id) to prevent setting the
+			// original_id equal to the question_id which could happen when the original
+			// question no longer exists
+			if ((($last_question_id > 0) && ($question_id > 0)) && ($last_question_id != $question_id))
 			{
 				$update_query = sprintf("UPDATE qpl_questions SET original_id = %s WHERE question_id = %s",
 					$ilDB->quote($last_question_id . ""),
