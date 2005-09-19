@@ -460,7 +460,7 @@ class ilGlossaryPresentationGUI
 		// display possible backlinks
 		$sources = ilInternalLink::_getSourcesOfTarget('git',$_GET['term_id'],0);
 		
-		if ($sources && false)
+		if ($sources)
 		{
 			$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
 			
