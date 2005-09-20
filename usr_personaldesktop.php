@@ -33,6 +33,11 @@
 *
 * @package ilias
 */
+
+
+echo "deprecated. use ilias.php?baseClass=ilPersonalDesktopGUI instead"; exit;
+
+/*
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
@@ -68,15 +73,6 @@ switch($_GET["cmd"])
 		break;
 
 }
-/*if ($_GET["action"] == "removeMember")
-{
-    $groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
-    //$err_msg = $groupObj->removeMember("usr_personaldesktop.php" , "loaction: usr_personaldesktop.php");//$ilias->account->getId());
-    if(strlen($err_msg) > 0)
-        $ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
-    exit();
-    break;
-}*/
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -107,21 +103,6 @@ include "./include/inc.personaldesktop_buttons.php";
 //$tpl->setVariable("TABS", "KK");
 $tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
-// courses
-/*
-$courses = $ilias->account->getCourses();
-
-// forums
-$frm_obj = ilUtil::getObjectsByOperations('frm','read');
-$frmNum = count($frm_obj);
-$lastLogin = $ilias->account->getLastLogin();
-*/
-
-//********************************************
-//* OUTPUT
-//********************************************
-
-//begin mailblock if there are new mails
 
 $deskgui =& new ilPersonalDesktopGUI();
 
@@ -134,4 +115,5 @@ $deskgui->displayBookmarks();
 
 // output
 $tpl->show();
+*/
 ?>

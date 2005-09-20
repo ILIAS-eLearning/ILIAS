@@ -43,8 +43,12 @@ if (ereg("whois",$command) or $script_name == "profile.php")
 
 
 // personal desktop home
-$inc_type = $script_name == "usr_personaldesktop.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type,"usr_personaldesktop.php",$lng->txt("overview"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
+	(strtolower($_GET["cmdClass"]) == "ilpersonaldesktopgui" ||
+	$_GET["cmdClass"] == ""))
+	? "tabactive"
+	: "tabinactive";
+$inhalt1[] = array($inc_type, "ilias.php?baseClass=ilPersonalDesktopGUI", $lng->txt("overview"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
 // user profile
 $inc_type = $script_name == "usr_profile.php" ? "tabactive" : "tabinactive";
@@ -98,16 +102,6 @@ if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
 
 
 include_once "./tracking/classes/class.ilUserTracking.php";
-/*
-$tracking = new ilUserTracking();
-$lm = $tracking->searchTitle($_SESSION["AccountId"]);
-if((count($lm) > 0) and (DEVMODE))
-{
-	$inc_type = ($script_name == "tracking.php")
-		? "tabactive"
-		: "tabinactive";
-	$inhalt1[] = array($inc_type,"tracking.php",$lng->txt("usertracking"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
-}*/
 
 for ( $i=0; $i<sizeof($inhalt1); $i++)
 {

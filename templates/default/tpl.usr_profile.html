@@ -58,11 +58,11 @@
     </td>
     <td class="option_value"><input type="file" name="userfile"{DISABLED_UPLOAD} />
         <!-- BEGIN upload_pic -->
-        <input class="submit" type="submit" name="usr_upload" value="{UPLOAD}" />
+        <input class="submit" type="submit" name="cmd[uploadUserPicture]" value="{UPLOAD}" />
         <!-- END upload_pic -->
         <!-- BEGIN remove_pic -->
         <br /><br />
-        <input class="submit" type="submit" name="removePicture" value="{TXT_REMOVE_PIC}" />
+        <input class="submit" type="submit" name="cmd[removeUserPicture]" value="{TXT_REMOVE_PIC}" />
         <!-- END remove_pic -->
         <!-- BEGIN ilinc_upload_pic -->
         <br /><i>{TXT_ILINC_UPLOAD}<a href="{ILINC_UPLOAD_LINK}" target="_blank">{ILINC_UPLOAD_LINKTXT}</a></i>
@@ -91,7 +91,7 @@
 <tr>
     <td class="option">{TXT_RETYPE_PW}</td>
     <td class="option_value"><input type="password" name="retype_password" maxlength="32" size="25" value="" />
-     <input class="submit" type="submit" name="usr_change_password" value="{CHANGE_PASSWORD}" />
+     <input class="submit" type="submit" name="cmd[changeUserPassword]" value="{CHANGE_PASSWORD}" />
     </td>
     <td class="option_value" colspan="2">&nbsp;</td>
 </tr>
@@ -301,7 +301,7 @@
 <!-- END show_users_online -->
 <tr>
     <td class="submit" colspan="4"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}<br /><br /></span>
-    <div align="right"><input class="submit" type="submit" value="{TXT_SAVE}" /></div></td>
+    <div align="right"><input class="submit" type="submit" name="cmd[saveProfile]" value="{TXT_SAVE}" /></div></td>
 </tr>
 </table>
 </form>

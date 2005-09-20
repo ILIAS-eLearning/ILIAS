@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -21,8 +21,21 @@
    +-----------------------------------------------------------------------------+
   */
 
+include_once "classes/class.ilObjUser.php";
+include_once "classes/class.ilMail.php";
+include_once "classes/class.ilPersonalDesktopGUI.php";
 
 
+/**
+* GUI class for personal desktop
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+*
+* @package content
+*/
 class ilPersonalDesktopGUI
 {
     var $tpl;
@@ -30,18 +43,182 @@ class ilPersonalDesktopGUI
     var $ilias;
 
 
-
+	/**
+	* constructor
+	*/
     function ilPersonalDesktopGUI()
     {
-        global $ilias, $tpl, $lng, $rbacsystem;
+        global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
 
 
         $this->tpl =& $tpl;
         $this->lng =& $lng;
         $this->ilias =& $ilias;
+		$this->ctrl =& $ilCtrl;
+		
+		// catch hack attempts
+		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
+		}
     }
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass();
+		$this->ctrl->setReturn($this, "show");
 
+		switch($next_class)
+		{
+			// bookmarks
+			case "ilbookmarkadministrationgui":
+				include_once("classes/class.ilBookmarkAdministrationGUI.php");
+				$bookmark_gui = new ilBookmarkAdministrationGUI();
+				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
+				break;
+
+			// profile
+			case "ilpersonalprofilegui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("classes/class.ilPersonalProfileGUI.php");
+				$profile_gui = new ilPersonalProfileGUI();
+				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				break;
+
+			default:
+				$this->getStandardTemplates();
+				$this->setTabs();
+				$cmd = $this->ctrl->getCmd("show");
+				$this->$cmd();
+				break;
+		}
+		return true;
+	}
+	
+	/**
+	* get standard templates
+	*/
+	function getStandardTemplates()
+	{
+		// add template for content
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+	}
+	
+	/**
+	* show desktop
+	*/
+	function show()
+	{	
+		// add template for content
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
+		
+		// set locator
+		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
+		$this->tpl->parseCurrentBlock();
+		
+		// catch feedback message
+		sendInfo();
+
+		// display infopanel if something happened
+		infoPanel();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		
+		// to do: not nice; get rid of this include
+		//global $tpl, $lng, $ilias;
+		//include "./include/inc.personaldesktop_buttons.php";
+		
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+
+		// output
+		$this->displaySelectedItems();
+		$this->displaySystemMessages();
+		$this->displayMails();
+		$this->displayUsersOnline();
+		$this->displayBookmarks();
+		$this->tpl->show();
+	}
+
+	/**
+	* drop item from desktop
+	*/
+	function dropItem()
+	{
+		global $ilUser;
+		
+		$ilUser->dropDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+		$this->show();
+	}
+	
+	/**
+	* copied from usr_personaldesktop.php
+	*/
+	function removeMember()
+	{
+		global $err_msg;
+		if (strlen($err_msg) > 0)
+		{
+			$this->ilias->raiseError($this->lng->txt($err_msg),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->show();
+	}
+	
+	/**
+	* show details for selected items
+	*/
+	function showSelectedItemsDetails()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("pd_selected_items_details", "y");
+		$this->show();
+	}
+
+	/**
+	* hide details for selected items
+	*/
+	function hideSelectedItemsDetails()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("pd_selected_items_details", "n");
+		$this->show();
+	}
+
+	
+	/**
+	* show details for users online
+	*/
+	function showUsersOnlineDetails()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref('show_users_online_details','y');
+		$this->show();
+	}
+	
+	/**
+	* hide details for users online
+	*/
+	function hideUsersOnlineDetails()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref('show_users_online_details','n');
+		$this->show();
+	}
+
+	
 	/**
 	 * display selected items
 	 */
@@ -202,12 +379,12 @@ class ilPersonalDesktopGUI
 			if ($ilUser->getPref("pd_selected_items_details") == "y")
 			{
 				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("hide_details"));
-				$tpl->setVariable("LINK_SEL_ITEMS_MODE", "usr_personaldesktop.php?cmd=hideSelectedItemsDetails");
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "hideSelectedItemsDetails"));
 			}
 			else
 			{
 				$tpl->setVariable("TXT_SEL_ITEMS_MODE", $this->lng->txt("show_details"));
-				$tpl->setVariable("LINK_SEL_ITEMS_MODE", "usr_personaldesktop.php?cmd=showSelectedItemsDetails");
+				$tpl->setVariable("LINK_SEL_ITEMS_MODE", $this->ctrl->getLinkTarget($this, "showSelectedItemsDetails"));
 			}
 			$tpl->parseCurrentBlock();
 		}
@@ -498,22 +675,7 @@ class ilPersonalDesktopGUI
 
 		// determine whether the user want's to see details of the active users
 		// and remember user preferences, in case the user has changed them.
-		$showdetails = false;
-		if ($_GET['cmd'] == 'whoisdetail')
-		{
-			$ilias->account->writePref('show_users_online_details','y');
-			$showdetails = true;
-		}
-		else if ($_GET['cmd'] == 'hidedetails')
-		{
-			$ilias->account->writePref('show_users_online_details','n');
-			$showdetails = false;
-		} 
-		else
-		{
-			$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
-		}
-
+		$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
 
 		// parse registered users text
 		if ($num > 0)
@@ -533,12 +695,12 @@ class ilPersonalDesktopGUI
 			if ($showdetails)
 			{
 				$text = $this->lng->txt("hide_details");
-				$cmd = "hidedetails";
+				$cmd = "hideUsersOnlineDetails";
 			}
 			else
 			{
 				$text = $this->lng->txt("show_details");
-				$cmd = "whoisdetail";
+				$cmd = "showUsersOnlineDetails";
 			}
 
 			//$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
@@ -556,7 +718,8 @@ class ilPersonalDesktopGUI
 		}
 
 		$this->tpl->setVariable("USER_LIST",$user_list);
-		$this->tpl->setVariable("LINK_USER_DETAILS", "usr_personaldesktop.php?cmd=".$cmd);
+		$this->tpl->setVariable("LINK_USER_DETAILS",
+			$this->ctrl->getLinkTarget($this, $cmd));
 		$this->tpl->setVariable("TXT_USER_DETAILS", $text);
 
         // display details of users online
@@ -643,73 +806,10 @@ class ilPersonalDesktopGUI
 	 */
     function displayBookmarks()
     {
-        include_once("classes/class.ilBookmarkFolder.php");
-        if (!empty($_GET["curBMFolder"]))
-        {
-            $_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
-        }
-        $bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
-
-		if(ilBookmarkFolder::isRootFolder($_SESSION['ilCurBMFolder']) or !$_SESSION['ilCurBMFolder'])
-		{
-			$colspan = 2;
-		}
- 
-		$i = 0;
-        if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
-            && !empty($_SESSION["ilCurBMFolder"]))
-        {
-            $i++;
-            $this->tpl->setCurrentBlock("tbl_bm_row");
-			$rowcol = ($rowcol == "tblrow1") ? "tblrow2" : "tblrow1";
-            $this->tpl->setVariable("ROWCOL", $rowcol);
-			$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
-			$this->tpl->setVariable("BM_TITLE", "..");
-            $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".
-				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
-            $this->tpl->setVariable("BM_TARGET", "");
-            $this->tpl->parseCurrentBlock();
-        }
-
-        foreach ($bm_items as $bm_item)
-        {
-            $i++;
-
-			$this->tpl->setCurrentBlock("tbl_bm_row");
-			$rowcol = ($rowcol == "tblrow1") ? "tblrow2" : "tblrow1";
-            $this->tpl->setVariable("ROWCOL", $rowcol);
-
-            switch ($bm_item["type"])
-            {
-                case "bmf":
-					$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
-					$this->tpl->setVariable("BM_TITLE", $bm_item["title"]);
-                    $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".$bm_item["obj_id"]);
-                    $this->tpl->setVariable("BM_TARGET", "");
-                    break;
-
-                case "bm":
-					$this->tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_bm.gif"));
-					$this->tpl->setVariable("BM_TITLE", $bm_item["title"]);
-                    $this->tpl->setVariable("BM_LINK", $bm_item["target"]);
-                    $this->tpl->setVariable("BM_TARGET", "_blank");
-                    break;
-            }
-
-            $this->tpl->parseCurrentBlock();
-        }
-
-        if ($i == 0)
-        {
-            $this->tpl->setCurrentBlock("tbl_no_bm");
-            $this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-            $this->tpl->setVariable("TXT_NO_BM", $this->lng->txt("no_bm_in_personal_list"));
-            $this->tpl->parseCurrentBlock();
-        }
-
-        $this->tpl->setCurrentBlock("tbl_bm");
-        $this->tpl->setVariable("TXT_BM_HEADER",$this->lng->txt("my_bms"));
-        $this->tpl->parseCurrentBlock();
+        include_once("classes/class.ilBookmarkAdministrationGUI.php");
+		$bookmark_gui = new ilBookmarkAdministrationGUI();
+		$html = $bookmark_gui->getPDBookmarkListHTML();
+		$this->tpl->setVariable("BOOKMARKS", $html);
     }
 
 /**
@@ -753,5 +853,92 @@ class ilPersonalDesktopGUI
             return $output;
         }
     }
+	
+	/**
+	* set personal desktop tabs
+	*/
+	function setTabs()
+	{
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+
+		$script_name = basename($_SERVER["SCRIPT_NAME"]);
+		
+		$command = $_GET["cmd"] ? $_GET["cmd"] : "";
+		
+		if (ereg("whois",$command) or $script_name == "profile.php")
+		{
+			$who_is_online = true;
+		}
+		
+		
+		// personal desktop home
+		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
+			(strtolower($_GET["cmdClass"]) == "ilpersonaldesktopgui" ||
+			$_GET["cmdClass"] == ""))
+			? "tabactive"
+			: "tabinactive";
+		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTarget($this), $this->lng->txt("overview"));
+		
+		// user profile
+		$inc_type = (strtolower($_GET["cmdClass"]) == "ilpersonalprofilegui")
+			? "tabactive"
+			: "tabinactive";
+		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"),
+			$this->lng->txt("personal_profile"));
+		
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			// user calendar
+			if ($this->ilias->getSetting("enable_calendar"))
+			{
+				$inc_type = ($script_name == "dateplaner.php")
+					? "tabactive"
+					: "tabinactive";
+				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
+			}
+		
+			// user bookmarks
+			$inc_type = ($script_name == "usr_bookmarks.php")
+				? "tabactive"
+				: "tabinactive";
+			$inhalt1[] = array($inc_type,"usr_bookmarks.php",$this->lng->txt("bookmarks"));
+		
+		}
+		
+		
+		include_once "./payment/classes/class.ilPaymentVendors.php";
+		include_once "./payment/classes/class.ilPaymentTrustees.php";
+		include_once "./payment/classes/class.ilPaymentShoppingCart.php";
+		include_once "./payment/classes/class.ilPaymentBookings.php";
+		
+		if(ilPaymentShoppingCart::_hasEntries($this->ilias->account->getId()) or
+		   ilPaymentBookings::_getCountBookingsByCustomer($this->ilias->account->getId()))
+											  
+		{
+			$this->lng->loadLanguageModule('payment');
+			$inhalt1[] = array('tabinactive',"./payment/payment.php", $this->lng->txt('paya_shopping_cart'));
+		}	
+		if(ilPaymentVendors::_isVendor($this->ilias->account->getId()) or
+		   ilPaymentTrustees::_hasAccess($this->ilias->account->getId()))
+		{
+			$this->lng->loadLanguageModule('payment');
+			$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$this->lng->txt('paya_header'));
+		}
+		
+		for ( $i=0; $i<sizeof($inhalt1); $i++)
+		{
+			if ($inhalt1[$i][1] != "")
+			{	$this->tpl->setCurrentBlock("tab");
+				$this->tpl->setVariable("TAB_TYPE",$inhalt1[$i][0]);
+				$this->tpl->setVariable("TAB_LINK",$inhalt1[$i][1]);
+				$this->tpl->setVariable("TAB_TEXT",$inhalt1[$i][2]);
+				$this->tpl->setVariable("TAB_TARGET",$inhalt1[$i][3]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		$this->tpl->setCurrentBlock("tabs");
+		$this->tpl->parseCurrentBlock();
+	}
 }
 ?>

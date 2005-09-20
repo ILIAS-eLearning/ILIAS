@@ -175,6 +175,20 @@ class ilBookmarkFolder
 	}
 
 	/**
+	* lookup bookmark folder title
+	*/
+	function _lookupTitle($a_bmf_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$ilDB->quote($a_bmf_id);
+		$bmf_set = $ilDB->query($q);
+		$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $bmf["title"];
+	}
+
+	/**
 	* static
 	*/
 	function getObjects($a_id)

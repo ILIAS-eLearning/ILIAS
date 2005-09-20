@@ -823,8 +823,11 @@ class ilObjectListGUI
 				}
 				else
 				{
-					$this->insertCommand("usr_personaldesktop.php?cmd=dropItem&".
-						"type=".$this->type."&id=".$this->ref_id, $this->lng->txt("unsubscribe"));
+					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $this->type);
+					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->ref_id);
+					$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
+						"dropItem");
+					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
 				}
 			}
 		}

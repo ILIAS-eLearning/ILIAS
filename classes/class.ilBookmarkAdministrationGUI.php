@@ -67,7 +67,7 @@ class ilBookmarkAdministrationGUI
 	*/
 	function ilBookmarkAdministrationGUI($bmf_id = 0)
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $ilCtrl;
 
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
 		if (empty($bmf_id))
@@ -79,6 +79,7 @@ class ilBookmarkAdministrationGUI
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 		$this->user_id = $_SESSION["AccountId"];
 		$this->id = $bmf_id;
 
@@ -88,6 +89,22 @@ class ilBookmarkAdministrationGUI
 
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass();
+
+		switch($next_class)
+		{				
+			default:
+				$cmd = $this->ctrl->getCmd();
+				$this->$cmd();
+				break;
+		}
+		return true;
+	}
 
 	/**
 	* output main frameset of bookmark administration
@@ -790,7 +807,7 @@ class ilBookmarkAdministrationGUI
 		{
 			foreach ($d as $row)
 			{
-			    $count = 0;
+				$count = 0;
 				if ($row["max"] > 0)
 				{
 					//how many elements are present?
@@ -798,7 +815,7 @@ class ilBookmarkAdministrationGUI
 					{
 						if ($this->data["ctrl"][$i]["type"] == $row["name"])
 						{
-						    $count++;
+							$count++;
 						}
 					}
 				}
@@ -830,6 +847,101 @@ class ilBookmarkAdministrationGUI
 		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
 		$this->tpl->parseCurrentBlock();
 
+	}
+	
+	/**
+	* get bookmark list for personal desktop
+	*/
+	function getPDBookmarkListHTML()
+	{
+		$tpl = new ilTemplate("tpl.bookmark_pd_list.html", true, true);
+		include_once("classes/class.ilBookmarkFolder.php");
+		
+		$bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
+
+		if(ilBookmarkFolder::isRootFolder($_SESSION['ilCurBMFolder']) or !$_SESSION['ilCurBMFolder'])
+		{
+			$colspan = 2;
+		}
+ 
+		$i = 0;
+		$title_append = "";
+		if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
+			&& !empty($_SESSION["ilCurBMFolder"]))
+		{
+			$i++;
+			$tpl->setCurrentBlock("tbl_bm_row");
+			$rowcol = ($rowcol == "tblrow1")
+				? "tblrow2"
+				: "tblrow1";
+			$tpl->setVariable("ROWCOL", $rowcol);
+			$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+			$tpl->setVariable("BM_TITLE", "..");
+			$this->ctrl->setParameter($this, "curBMFolder",
+				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
+			$tpl->setVariable("BM_LINK",
+				$this->ctrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
+
+			$tpl->setVariable("BM_TARGET", "");
+			$tpl->parseCurrentBlock();
+			
+			$title_append = ": ".ilBookmarkFolder::_lookupTitle($_SESSION["ilCurBMFolder"]);
+		}
+
+		foreach ($bm_items as $bm_item)
+		{
+			$i++;
+
+			$tpl->setCurrentBlock("tbl_bm_row");
+			$rowcol = ($rowcol == "tblrow1")
+				? "tblrow2"
+				: "tblrow1";
+			$tpl->setVariable("ROWCOL", $rowcol);
+
+			switch ($bm_item["type"])
+			{
+				case "bmf":
+					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
+					$tpl->setVariable("BM_TITLE", $bm_item["title"]);
+					$this->ctrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
+					$tpl->setVariable("BM_LINK",
+						$this->ctrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
+					$tpl->setVariable("BM_TARGET", "");
+					break;
+
+				case "bm":
+					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_bm.gif"));
+					$tpl->setVariable("BM_TITLE", $bm_item["title"]);
+					$tpl->setVariable("BM_LINK", $bm_item["target"]);
+					$tpl->setVariable("BM_TARGET", "_blank");
+					break;
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($i == 0)
+		{
+			$tpl->setCurrentBlock("tbl_no_bm");
+			$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$tpl->setVariable("TXT_NO_BM", $this->lng->txt("no_bm_in_personal_list"));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock();
+		$tpl->setVariable("TXT_BM_HEADER", $this->lng->txt("my_bms").$title_append);
+		$tpl->parseCurrentBlock();
+		
+		return $tpl->get();
+	}
+	
+	/**
+	* set current bookmarkfolder on personal desktop
+	*/
+	function setCurrentBookmarkFolder()
+	{
+		$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
+		$this->ctrl->returnToParent($this);
 	}
 }
 ?>
