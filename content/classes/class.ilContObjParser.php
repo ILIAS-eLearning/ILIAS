@@ -191,8 +191,11 @@ class ilContObjParser extends ilMDSaxParser
 						case "pg_alias":
 							if ($this->pg_mapping[$pg["id"]] == "")
 							{
-								$ilLog->write("LM Import: No PageObject for PageAlias ".$pg["id"]." found! (Please update export installation to ILIAS 3.3.0)");
-								continue;
+								$ilLog->write("LM Import: No PageObject for PageAlias ".
+											  $pg["id"]." found! (Please update export installation to ILIAS 3.3.0)");
+
+								// Jump two levels up. First level is switch
+								continue 2;
 							}
 							$pg_id = $this->pg_mapping[$pg["id"]];
 							break;
