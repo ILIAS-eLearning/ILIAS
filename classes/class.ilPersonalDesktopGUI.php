@@ -75,6 +75,8 @@ class ilPersonalDesktopGUI
 		{
 			// bookmarks
 			case "ilbookmarkadministrationgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
 				include_once("classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
 				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
@@ -896,15 +898,16 @@ class ilPersonalDesktopGUI
 					: "tabinactive";
 				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
 			}
-		
+
 			// user bookmarks
-			$inc_type = ($script_name == "usr_bookmarks.php")
+			$inc_type = (strtolower($_GET["cmdClass"]) == "ilbookmarkadministrationgui")
 				? "tabactive"
 				: "tabinactive";
-			$inhalt1[] = array($inc_type,"usr_bookmarks.php",$this->lng->txt("bookmarks"));
+			$inhalt1[] = array($inc_type,
+				$this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"),
+				$this->lng->txt("bookmarks"));
 		
 		}
-		
 		
 		include_once "./payment/classes/class.ilPaymentVendors.php";
 		include_once "./payment/classes/class.ilPaymentTrustees.php";
