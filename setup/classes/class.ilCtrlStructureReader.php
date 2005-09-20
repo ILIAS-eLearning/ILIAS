@@ -104,6 +104,7 @@ class ilCtrlStructureReader
 					if (eregi("^class.*php$", $file))
 					{
 						$handle = fopen($a_cdir."/".$file, "r");
+//echo "<br>".$a_cdir."/".$file;
 						while (!feof($handle)) {
 							$line = fgets($handle, 4096);
 							$pos = strpos(strtolower($line), "@ilctrl_calls");

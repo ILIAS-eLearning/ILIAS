@@ -8589,4 +8589,8 @@ CREATE TABLE `service_class` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#530>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

@@ -46,7 +46,7 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 }
 else
 {
-	$default_start_script = "usr_personaldesktop.php";
+	$default_start_script = "ilias.php?baseClass=ilPersonalDesktopGUI";
 }
 
 // look if there is a file tpl.start.html (containing a frameset definition)
