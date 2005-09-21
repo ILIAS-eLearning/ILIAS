@@ -1827,7 +1827,9 @@ class ilPageObject
 			$newcontent = str_replace("\n", "<br/> ", $rows);
 						
 			$context_node->set_content($newcontent);
-			if ($outputmode != "presentation" && is_object($this->offline_handler)) {
+			if ($outputmode != "presentation" && is_object($this->offline_handler)
+				&& trim($downloadtitle) != "")
+			{
 				// call code handler for offline versions
 				$this->offline_handler->handleCodeParagraph ($this->id, $i + 1, $downloadtitle, $plain_content);
 			}
