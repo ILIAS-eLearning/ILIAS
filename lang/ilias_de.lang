@@ -1395,12 +1395,12 @@ common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
-common#:#forums_articles#:#Articles###13 May 2005 new variable
-common#:#forums_last_post#:#Last Article###13 May 2005 new variable
-common#:#forums_moderators#:#Moderators###13 May 2005 new variable
-common#:#forums_new_articles#:#New articles###13 May 2005 new variable
+common#:#forums_articles#:#Beiträge
+common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_moderators#:#Moderatoren
+common#:#forums_new_articles#:#Neue Beiträge
 common#:#forums_overview#:#Übersicht Foren
-common#:#forums_threads#:#Topics###13 May 2005 new variable
+common#:#forums_threads#:#Themen
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
@@ -5270,3 +5270,4 @@ chat#:#cancel_whisper#:#Flüstern beenden
 chat#:#cancel_talk#:#Anreden beenden
 mail#:#mail_to#:#An
 crs#:#import_crs#:#Import Kurs
+mail#:#mail_to#:#An
