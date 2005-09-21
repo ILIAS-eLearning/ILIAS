@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -784,7 +784,7 @@ class ilPageObject
 		$this->first_col_ids = array();
 		$this->list_item_ids = array();
 		$this->file_item_ids = array();
-		
+
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
@@ -832,7 +832,7 @@ class ilPageObject
 			else						// no sibling -> node is first child
 			{
 				// get hierarchical id of next parent
-				$cnode =& $res->nodeset[$i];
+				$cnode = $res->nodeset[$i];
 				$par_hier_id = "";
 				while($cnode =& $cnode->parent_node())
 				{
@@ -866,7 +866,7 @@ class ilPageObject
 					{
 						$this->file_item_ids[] = $node_hier_id;
 					}
-					
+
 				}
 				else		// no sibling, no parent -> first node
 				{
@@ -888,7 +888,7 @@ class ilPageObject
 		}
 		unset($xpc);
 	}
-	
+
 	/**
 	* get all hierarchical ids
 	*/
@@ -896,8 +896,8 @@ class ilPageObject
 	{
 		return $this->hier_ids;
 	}
-	
-	
+
+
 	/**
 	* get ids of all first table rows
 	*/
