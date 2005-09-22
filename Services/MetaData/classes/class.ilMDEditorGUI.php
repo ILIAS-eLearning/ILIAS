@@ -2042,11 +2042,11 @@ class ilMDEditorGUI
 			$this->tpl->setCurrentBlock("md_tabs");
 			if($a_active == $key)
 			{
-				$this->tpl->setVariable("TAB_CLASS",'tabactive');
+				$this->tpl->setVariable("SUB_TAB_TYPE",'subtabactive');
 			}
 			else
 			{
-				$this->tpl->setVariable("TAB_CLASS",'tabinactive');
+				$this->tpl->setVariable("SUB_TAB_TYPE",'subtabinactive');
 			}
 			$this->ctrl->setParameter($this,'section',$key);
 			$this->tpl->setVariable("TAB_HREF",$this->ctrl->getLinkTarget($this,'listSection'));
