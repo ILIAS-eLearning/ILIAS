@@ -60,7 +60,7 @@ class ilChatRoom
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
 
-		$this->ref_id = $a_id;
+		$this->obj_id = $a_id;
 		$this->owner_id = $a_owner_id;
 		$this->user_id = $_SESSION["AccountId"];
 	}
@@ -82,9 +82,9 @@ class ilChatRoom
 	{
 		return $this->room_id;
 	}
-	function getRefId()
+	function getObjId()
 	{
-		return $this->ref_id;
+		return $this->obj_id;
 	}
 	function setOwnerId($a_id)
 	{
@@ -99,7 +99,7 @@ class ilChatRoom
 	{
 		if(!$this->getRoomId())
 		{
-			return $this->getRefId();
+			return $this->getObjId();
 		}
 		else
 		{
@@ -188,7 +188,7 @@ class ilChatRoom
 	function getAllMessages()
 	{
 		$query = "SELECT message FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getRefId()."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '".$this->getRoomId()."' ".
 			"ORDER BY commit_timestamp ";
 
@@ -202,7 +202,7 @@ class ilChatRoom
 	function deleteAllMessages()
 	{
 		$query = "DELETE FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getRefId()."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '".$this->getRoomId()."'";
 
 		$res = $this->ilias->db->query($query);
@@ -220,7 +220,7 @@ class ilChatRoom
 		$query = "INSERT INTO chat_user ".
 			"SET usr_id = '".$this->getUserId()."', ".
 			"room_id = '".$this->getRoomId()."', ".
-			"chat_id = '".$this->getRefId()."', ".
+			"chat_id = '".$this->getObjId()."', ".
 			"last_conn_timestamp = '".time()."'";
 		$res = $this->ilias->db->query($query);
 		return true;
@@ -230,7 +230,7 @@ class ilChatRoom
 	{
 		$query = "UPDATE chat_user SET kicked = '1' ".
 			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getRefId()."' ".
+			"AND chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '0'";
 
 		$this->ilias->db->query($query);
@@ -242,7 +242,7 @@ class ilChatRoom
 	{
 		$query = "UPDATE chat_user SET kicked = '0' ".
 			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getRefId()."' ".
+			"AND chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '0'";
 
 		$this->ilias->db->query($query);
@@ -255,7 +255,7 @@ class ilChatRoom
 		$query = "SELECT * FROM chat_user ".
 			"WHERE kicked = 1 ".
 			"AND usr_id = '".$a_usr_id."' ".
-			"AND chat_id = '".$this->getRefId()."'";
+			"AND chat_id = '".$this->getObjId()."'";
 
 		$res = $this->ilias->db->query($query);
 
@@ -277,7 +277,7 @@ class ilChatRoom
 	function getActiveUsers()
 	{
 		$query = "SELECT * FROM chat_user ".
-			"WHERE chat_id = '".$this->ref_id."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '".$this->room_id."' ".
 			"AND last_conn_timestamp > ".time()." - 40";
 		$res = $this->ilias->db->query($query);
@@ -387,7 +387,7 @@ class ilChatRoom
 	{
 		$query = "INSERT INTO chat_rooms ".
 			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"chat_id = '".$this->getRefId()."', ".
+			"chat_id = '".$this->getObjId()."', ".
 			"owner = '".$this->getOwnerId()."'";
 
 		$res = $this->ilias->db->query($query);
@@ -399,11 +399,11 @@ class ilChatRoom
 	{
 		if(!$this->getRoomId())
 		{
-			return $this->getRefId();
+			return $this->getObjId();
 		}
 		else
 		{
-			return $this->getRefId()."_".$this->getRoomId();
+			return $this->getObjId()."_".$this->getRoomId();
 		}
 	}
 	function getRooms()
@@ -417,11 +417,6 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$tree->isInTree($row->chat_id))
-			{
-				continue;
-			}
-
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["chat_id"] = $row->chat_id;
 			$data[$row->room_id]["owner"] = $row->owner;
@@ -435,7 +430,7 @@ class ilChatRoom
 	function getRoomsOfObject()
 	{
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE chat_id = '".$this->getRefId()."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND owner = '".$this->getUserId()."'";
 
 		$res = $this->ilias->db->query($query);
@@ -451,7 +446,7 @@ class ilChatRoom
 	function getAllRoomsOfObject()
 	{
 		$query = "SELECT * FROM chat_rooms ".
-			"WHERE chat_id = '".$this->getRefId()."'";
+			"WHERE chat_id = '".$this->getObjId()."'";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -468,7 +463,17 @@ class ilChatRoom
 
 	function getAllRooms()
 	{
-		return ilUtil::getObjectsByOperations("chat","read");
+		$obj_ids = array();
+		$unique_chats = array();
+		foreach(ilUtil::getObjectsByOperations("chat","read") as $chat)
+		{
+			if(!in_array($chat['obj_id'],$obj_ids))
+			{
+				$unique_chats[] = $chat;
+				$obj_ids[] = $chat['obj_id'];
+			}
+		}
+		return $unique_chats ? $unique_chats : array();
 	}
 
 	function checkWriteAccess()
@@ -496,7 +501,7 @@ class ilChatRoom
 	function __getCountLines()
 	{
 		$query = "SELECT COUNT(entry_id) as number_lines FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getRefId()."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '".$this->getRoomId()."'";
 
 		$res = $this->ilias->db->query($query);
@@ -509,7 +514,7 @@ class ilChatRoom
 	function __deleteFirstLine()
 	{
 		$query = "SELECT entry_id, MIN(commit_timestamp) as last_comm FROM chat_room_messages ".
-			"WHERE chat_id = '".$this->getRefId()."' ".
+			"WHERE chat_id = '".$this->getObjId()."' ".
 			"AND room_id = '".$this->getRoomId()."' ".
 			"GROUP BY null";
 
@@ -530,18 +535,18 @@ class ilChatRoom
 	function __addLine($message)
 	{
 		$query = "INSERT INTO chat_room_messages ".
-			"VALUES('0','".$this->getRefId()."','".$this->getRoomId()."','".addslashes($message)."',now())";
+			"VALUES('0','".$this->getObjId()."','".$this->getRoomId()."','".addslashes($message)."',now())";
 		
 		$res = $this->ilias->db->query($query);
 
-		$this->chat_record = new ilChatRecording($this->getRefId());
+		$this->chat_record = new ilChatRecording($this->getObjId());
 		$this->chat_record->setRoomId($this->getRoomId());
 		if ($this->chat_record->isRecording())
 		{
 			$query = "INSERT INTO chat_record_data VALUES (
 						'0', 
 						'" . $this->chat_record->getRecordId() . "', 
-						'" . addslashes($message) . "', 
+						'" . ilUtil::addslashes($message) . "', 
 						'" . time() . "')";
 
 			$res = $this->ilias->db->query($query);

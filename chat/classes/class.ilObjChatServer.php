@@ -58,7 +58,7 @@ class ilObjChatServer extends ilObject
 		$this->server_conf =& new ilChatServerConfig();
 		$this->server_comm =& new ilChatServerCommunicator($this);
 		$this->chat_user =& new ilChatUser();
-		$this->chat_room =& new ilChatRoom($this->getRefId());
+		$this->chat_room =& new ilChatRoom($this->getId());
 	}
 
 	function read()
@@ -69,7 +69,7 @@ class ilObjChatServer extends ilObject
 		$this->server_conf =& new ilChatServerConfig();
 		$this->server_comm =& new ilChatServerCommunicator($this);
 		$this->chat_user =& new ilChatUser();
-		$this->chat_room =& new ilChatRoom($this->getRefId());
+		$this->chat_room =& new ilChatRoom($this->getId());
 	}
 } // END class.ilObjChatServer
 ?>

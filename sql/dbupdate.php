@@ -8593,4 +8593,48 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#531>
+<?php
+
+function _lookupObjId($a_id)
+{
+	global $ilDB;
+
+	$query = "SELECT obj_id FROM object_reference ".
+		"WHERE ref_id = '".$a_id."'";
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		return $row->obj_id;
+	}
+	return 0;
+}
+
+  // Fix chat reference bug
+$query = "SELECT * FROM chat_records ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ilDB->query("UPDATE chat_records SET chat_id = '".
+				 _lookupObjId($row->chat_id)."' WHERE record_id = '".$row->record_id."'");
+}
+$query = "SELECT * FROM chat_room_messages ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ilDB->query("UPDATE chat_room_messages SET chat_id = '".
+				 _lookupObjId($row->chat_id)."' WHERE entry_id = '".$row->entry_id."'");
+}
+$query = "SELECT * FROM chat_rooms ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ilDB->query("UPDATE chat_rooms SET chat_id = '".
+				 _lookupObjId($row->chat_id)."' WHERE room_id = '".$row->room_id."'");
+}
+$ilDB->query("DELETE FROM chat_user");
+
+?>
+	
+
 

@@ -44,6 +44,7 @@ class ilObjChat extends ilObject
 	var $server_comm;
 	var $chat_room;
 	var $chat_user;
+	var $chat_recording = null;
 
 	/**
 	* Constructor
@@ -59,7 +60,7 @@ class ilObjChat extends ilObject
 		$this->server_conf =& new ilChatServerConfig();
 		$this->server_comm =& new ilChatServerCommunicator($this);
 		$this->chat_user =& new ilChatUser();
-		$this->chat_room =& new ilChatRoom($this->getRefId());
+		$this->chat_room =& new ilChatRoom($this->getId());
 	}
 
 	function read()
@@ -70,7 +71,7 @@ class ilObjChat extends ilObject
 		$this->server_conf =& new ilChatServerConfig();
 		$this->server_comm =& new ilChatServerCommunicator($this);
 		$this->chat_user =& new ilChatUser();
-		$this->chat_room =& new ilChatRoom($this->getRefId());
+		$this->chat_room =& new ilChatRoom($this->getId());
 	}
 
 	/**
@@ -131,7 +132,7 @@ class ilObjChat extends ilObject
 
 		// AND ALL RECORDINGS
 		$query = "SELECT record_id FROM chat_records WHERE 
-					chat_id = '".$this->getRefId()."'";
+					chat_id = '".$this->getId()."'";
 		$res = $this->ilias->db->query($query);
 		if (DB::isError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
 		if (($num = $res->numRows()) > 0)
@@ -144,7 +145,7 @@ class ilObjChat extends ilObject
 			
 		}
 		$query = "DELETE FROM chat_records WHERE 
-					chat_id = '".$this->getRefId()."'";
+					chat_id = '".$this->getId()."'";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -217,6 +218,21 @@ class ilObjChat extends ilObject
 
 		return $body;
 	}
+
+	// Protected
+	function __initChatRecording()
+	{
+		if(!is_object($this->chat_recording))
+		{
+			include_once 'chat/classes/class.ilChatRecording.php';
+
+			$this->chat_recording = new ilChatRecording($this->getId());
+
+			return true;
+		}
+		return false;
+	}
+
 	// SET/GET
 } // END class.ilObjTest
 ?>
