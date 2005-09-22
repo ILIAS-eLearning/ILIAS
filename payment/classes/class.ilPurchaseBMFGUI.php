@@ -1123,7 +1123,8 @@ class ilPurchaseBMFGUI
 
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		$this->tpl->setVariable("LINK_ITEM", "../usr_personaldesktop.php");
+		$this->tpl->setVariable("LINK_ITEM","../ilias.php?baseClass=ilPersonalDesktopGUI");
+		#$this->tpl->setVariable("LINK_ITEM", "../usr_personaldesktop.php");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("locator_item");
