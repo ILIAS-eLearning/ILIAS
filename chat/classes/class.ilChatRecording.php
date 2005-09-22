@@ -37,7 +37,7 @@ class ilChatRecording
 
 	var $error_msg;
 
-	var $ref_id = 0; // OF CHAT OBJECT
+	var $obj_id = 0; // OF CHAT OBJECT
 	var $moderator_id = 0;
 	var $room_id = 0;
 	var $record_id = 0;
@@ -61,7 +61,7 @@ class ilChatRecording
 
 		if ($a_id > 0)
 		{
-			$this->setRefId($a_id);
+			$this->setObjId($a_id);
 		}
 	}
 
@@ -80,13 +80,13 @@ class ilChatRecording
 		return $this->room_id;
 	}
 
-	function setRefId($a_id)
+	function setObjId($a_id)
 	{
-		$this->ref_id = $a_id;
+		$this->obj_id = $a_id;
 	}
-	function getRefId()
+	function getObjId()
 	{
-		return $this->ref_id;
+		return $this->obj_id;
 	}
 
 	function setRecordId($a_id)
@@ -166,16 +166,18 @@ class ilChatRecording
 	{
 		$query = "INSERT INTO chat_records SET 
 					moderator_id = '" . $this->getModeratorId() . "', 
-					chat_id = '" . $this->getRefId() . "', 
+					chat_id = '" . $this->getObjId() . "', 
 					room_id = '" . $this->getRoomId() . "', 
 					title = '" . (($a_title == "") ? "-N/A-" : addslashes($a_title)) . "', 
 					start_time = '" . time() . "'";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+		if (DB::isError($res)) 
+			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
 
 		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
+		if (DB::isError($res)) 
+			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
 
 		if ($res->numRows() > 0)
 		{
@@ -190,7 +192,7 @@ class ilChatRecording
 	{
 		$query = "UPDATE chat_records SET 
 					end_time = '" . time() . "' WHERE 
-					chat_id = '" . $this->getRefId() . "' AND 
+					chat_id = '" . $this->getObjId() . "' AND 
 					room_id = '" . $this->getRoomId() . "'";
 		$res = $this->ilias->db->query($query);
 		if (DB::isError($res)) die("ilChatRecording::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
@@ -204,7 +206,7 @@ class ilChatRecording
 	function isRecording()
 	{
 		$query = "SELECT record_id FROM chat_records WHERE 
-					chat_id = '" . $this->getRefId() . "' AND 
+					chat_id = '" . $this->getObjId() . "' AND 
 					room_id = '" . $this->getRoomId() . "' AND 
 					start_time > 0 AND 
 					end_time = 0";
@@ -226,7 +228,7 @@ class ilChatRecording
 	function getRecordings()
 	{
 		$query = "SELECT * FROM chat_records WHERE 
-					chat_id = '" . $this->getRefId() . "'";
+					chat_id = '" . $this->getObjId() . "'";
 		$res = $this->ilias->db->query($query);
 		if (DB::isError($res)) die("ilChatRecording::getRecordings(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
 
@@ -249,17 +251,7 @@ class ilChatRecording
 			$a_id = $this->getModeratorId();
 		}
 
-		$query = "SELECT * FROM usr_data WHERE 
-					usr_id = '" . $a_id . "'";
-		$res = $this->ilias->db->query($query);
-		if (DB::isError($res)) die("ilChatRecording::getModerator(): " . $res->getMessage() . "<br>SQL-Statement: ".$q);
-
-		if ($res->numRows() > 0)
-		{
-			return $res->fetchRow(DB_FETCHMODE_ASSOC);
-		}
-		
-		return false;
+		return ilObjUser::_lookupLogin($a_id);
 	}
 
 	function delete($a_id = 0)
