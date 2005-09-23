@@ -49,47 +49,47 @@
 <!-- END tbl_mails_row -->
     </table>
 <!-- END tbl_mails -->
-	  <!-- BEGIN tbl_users -->
-	  <table class="il_PDBlock">
-		<tr>
-		  <td class="il_PDBlockHeader" colspan="3"><div style="float:left;">{TXT_USERS_ONLINE}</div>
-			<div class="il_ContainerItemCommands" style="float:right;">
-			  <a class="il_ContainerItemCommand" href="{LINK_USER_DETAILS}">{TXT_USER_DETAILS}</a></div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="il_PDBlockSubHeader" valign="top" colspan="3">{USER_LIST}</td>
-		</tr>
-		<!-- BEGIN tbl_users_row -->
-		<tr class="{ROWCOL}">
-		  <td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
-			<!-- BEGIN usr_image -->
-			<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
-			<!-- END usr_image -->
-		  </td>
-		  <td class="std" valign="top">
-			<span class='navigation'>{USR_FULLNAME}</span>
-			<br>{USR_LOGIN}
-			<!--  BEGIN chat_info -->
-			<div class="il_Description_no_margin">
-			  {CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>
-			</div>
-			<!--  END chat_info -->
-		  </td>
-		  <td class="std" valign="top" nowrap="1" align="right">
-			<div class="il_ContainerItemCommand">
-			  <!-- BEGIN profile_link -->
-			  <a class="il_ContainerItemCommand" href="profile.php?user={USR_ID}">{TXT_VIEW}</a>
-			  <!-- END profile_link -->
-			  <!-- BEGIN mailto_link -->
-			  <a class="il_ContainerItemCommand" href="mail_new.php?type=new&rcp_to={USR_LOGIN}">{TXT_MAIL}</a>
-			  <!-- END mailto_link -->
-			</div>
-		  </td>
-		</tr>
-		<!-- END tbl_users_row -->
-	  </table>
-	  <!-- END tbl_users -->
+<!-- BEGIN tbl_users -->
+<table class="il_PDBlock">
+<tr>
+	<td class="il_PDBlockHeader" colspan="3"><div style="float:left;">{TXT_USERS_ONLINE}</div>
+		<div class="il_ContainerItemCommands" style="float:right;">
+		<a class="il_ContainerItemCommand" href="{LINK_USER_DETAILS}">{TXT_USER_DETAILS}</a></div>
+	</td>
+</tr>
+<tr>
+	<td class="il_PDBlockSubHeader" valign="top" colspan="3">{USER_LIST}</td>
+</tr>
+<!-- BEGIN tbl_users_row -->
+<tr class="{ROWCOL}">
+	<td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
+		<!-- BEGIN usr_image -->
+		<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+		<!-- END usr_image -->
+	</td>
+	<td class="std" valign="top">
+		<span class='navigation'>{USR_FULLNAME}</span>
+		<br>{USR_LOGIN}
+		<!--  BEGIN chat_info -->
+		<div class="il_Description_no_margin">
+		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>
+		</div>
+		<!--  END chat_info -->
+	</td>
+	<td class="std" valign="top" nowrap="1" align="right">
+		<div class="il_ContainerItemCommand">
+		<!-- BEGIN profile_link -->
+		<a class="il_ContainerItemCommand" href="{LINK_PROFILE}">{TXT_VIEW}</a>
+		<!-- END profile_link -->
+		<!-- BEGIN mailto_link -->
+		<a class="il_ContainerItemCommand" href="mail_new.php?type=new&rcp_to={USR_LOGIN}">{TXT_MAIL}</a>
+		<!-- END mailto_link -->
+		</div>
+	</td>
+</tr>
+<!-- END tbl_users_row -->
+</table>
+<!-- END tbl_users -->
 
 {BOOKMARKS}
 

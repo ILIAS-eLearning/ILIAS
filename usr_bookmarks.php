@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+echo "deprecated. use ilias.php?baseClass=ilPersonalDesktopGUI&ampjumpToBookmarks"; exit;
 
 /**
 * personal bookmark administration

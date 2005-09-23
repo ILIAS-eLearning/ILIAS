@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+echo "deprecated. use ilias.php?baseClass=ilPersonalDesktopGUI&ampjumpToProfile"; exit;
 
 /**
 * change user profile
