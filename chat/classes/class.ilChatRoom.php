@@ -272,7 +272,21 @@ class ilChatRoom
 		$res = $this->ilias->db->query($query);
 
 		return $res->numRows();
-	}		
+	}
+
+	function _getCountActiveUsers($chat_id,$room_id = 0)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM chat_user ".
+			"WHERE chat_id = '".$chat_id."' ".
+			"AND room_id = '".$room_id."' ".
+			"AND last_conn_timestamp > ".time()." - 40";
+		$res = $ilDB->query($query);
+
+		return $res->numRows();
+	}
+		
 
 	function getActiveUsers()
 	{
