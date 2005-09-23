@@ -2036,23 +2036,25 @@ class ilMDEditorGUI
 		{
 			$tabs['debug'] = 'debug';
 		}
-
+		
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs();
 		foreach($tabs as $key => $target)
 		{
-			$this->tpl->setCurrentBlock("md_tabs");
 			if($a_active == $key)
 			{
-				$this->tpl->setVariable("SUB_TAB_TYPE",'subtabactive');
+				$active = true;
 			}
 			else
 			{
-				$this->tpl->setVariable("SUB_TAB_TYPE",'subtabinactive');
+				$active = false;
 			}
 			$this->ctrl->setParameter($this,'section',$key);
-			$this->tpl->setVariable("TAB_HREF",$this->ctrl->getLinkTarget($this,'listSection'));
-			$this->tpl->setVariable("TAB_TXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
+			$tab_gui->addTarget($key, $this->ctrl->getLinkTarget($this,'listSection'),
+				"", "", "", $active);
 		}
+		$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 		return true;
 	}
 
