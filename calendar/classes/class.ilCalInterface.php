@@ -249,7 +249,7 @@ class ilCalInterface
 		
 		$tpl = new ilTemplate("tpl.calendar_header.html", true, true);
 		$tpl->setCurrentBlock("locator_item");
-		$tpl->setVariable("LINK_ITEM","./usr_personaldesktop.php");
+		$tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilPersonalDesktopGUI");
 		$tpl->setVariable("LINK_TARGET","bottom");
 		$tpl->setVariable("ITEM",$lng->txt("personal_desktop"));
 		$tpl->parseCurrentBlock();

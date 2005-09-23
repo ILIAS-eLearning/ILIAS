@@ -33,6 +33,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI
 *
 * @package content
 */
@@ -89,6 +90,13 @@ class ilPersonalDesktopGUI
 				include_once("classes/class.ilPersonalProfileGUI.php");
 				$profile_gui = new ilPersonalProfileGUI();
 				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				break;
+
+			// profile
+			case "ilobjusergui":
+				include_once("classes/class.ilObjUserGUI.php");
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$ret =& $this->ctrl->forwardCommand($user_gui);
 				break;
 
 			default:
@@ -148,6 +156,38 @@ class ilPersonalDesktopGUI
 		$this->displayMails();
 		$this->displayUsersOnline();
 		$this->displayBookmarks();
+		$this->tpl->show();
+	}
+
+	
+	/**
+	* show profile of other user
+	*/
+	function showUserProfile()
+	{	
+		// add template for content
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
+		
+		// set locator
+		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
+		$this->tpl->parseCurrentBlock();
+		
+		// catch feedback message
+		sendInfo();
+
+		// display infopanel if something happened
+		infoPanel();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		
+		include_once("classes/class.ilObjUserGUI.php");
+		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+		$this->tpl->setVariable("ADM_CONTENT", $user_gui->getPublicProfile());
+		
 		$this->tpl->show();
 	}
 
@@ -237,6 +277,7 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("SELECTED_ITEMS", $html);
 			$this->tpl->parseCurrentBlock();
 		}
+		$this->ctrl->clearParameters($this);
 	}
 
 
@@ -760,6 +801,9 @@ class ilPersonalDesktopGUI
                         $this->tpl->setCurrentBlock("profile_link");
                         //$this->tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
                         $this->tpl->setVariable("TXT_VIEW",$this->lng->txt("profile"));
+						$this->ctrl->setParameter($this, "user", $user_id);
+						$this->tpl->setVariable("LINK_PROFILE",
+							$this->ctrl->getLinkTarget($this, "showUserProfile"));
                         $this->tpl->setVariable("USR_ID",$user_id);
                         $this->tpl->parseCurrentBlock();
                     }
@@ -803,6 +847,8 @@ class ilPersonalDesktopGUI
                 $this->tpl->parseCurrentBlock();
             }
         }
+		
+		$this->ctrl->clearParameters($this);
     }
 
 
@@ -817,16 +863,16 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("BOOKMARKS", $html);
     }
 
-/**
- * Returns the multidimenstional sorted array
- *
- * Returns the multidimenstional sorted array
- *
- * @author       Muzaffar Altaf <maltaf@tzi.de>
- * @param array $arrays The array to be sorted
- * @param string $key_sort The keys on which array must be sorted
- * @access public
- */
+	/**
+	 * Returns the multidimenstional sorted array
+	 *
+	 * Returns the multidimenstional sorted array
+	 *
+	 * @author       Muzaffar Altaf <maltaf@tzi.de>
+	 * @param array $arrays The array to be sorted
+	 * @param string $key_sort The keys on which array must be sorted
+	 * @access public
+	 */
     function multiarray_sort ($array, $key_sort)
     {
         if ($array) {
@@ -946,7 +992,22 @@ class ilPersonalDesktopGUI
 		$this->tpl->setCurrentBlock("tabs");
 		$this->tpl->parseCurrentBlock();
 	}
-
+	
+	/**
+	* workaround for menu in calendar only
+	*/
+	function jumpToProfile()
+	{
+		$this->ctrl->redirectByClass("ilpersonalprofilegui");
+	}
+	
+	/**
+	* workaround for menu in calendar only
+	*/
+	function jumpToBookmarks()
+	{
+		$this->ctrl->redirectByClass("ilbookmarkadministrationgui");
+	}
 
 	function __showActiveChatsOfUser($a_usr_id)
 	{
@@ -971,7 +1032,6 @@ class ilPersonalDesktopGUI
 		}
 		return false;
 	}
-
 
 }
 ?>

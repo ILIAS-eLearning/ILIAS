@@ -50,9 +50,11 @@ $inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
 	: "tabinactive";
 $inhalt1[] = array($inc_type, "ilias.php?baseClass=ilPersonalDesktopGUI", $lng->txt("overview"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
-// user profile
-$inc_type = $script_name == "usr_profile.php" ? "tabactive" : "tabinactive";
-$inhalt1[] = array($inc_type ,"usr_profile.php",$lng->txt("personal_profile"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+// workaround for calendar, normally this include file should not be used anymore
+$inc_type = $script_name == "usr_profile.php"
+	? "tabactive"
+	: "tabinactive";
+$inhalt1[] = array($inc_type , "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",$lng->txt("personal_profile"));
 
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
@@ -73,7 +75,7 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$inc_type = ($script_name == "usr_bookmarks.php")
 		? "tabactive"
 		: "tabinactive";
-	$inhalt1[] = array($inc_type,"usr_bookmarks.php",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+	$inhalt1[] = array($inc_type,"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
 }
 

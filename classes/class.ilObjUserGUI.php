@@ -1795,6 +1795,8 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* display public profile
 	*
+	* DEPRECATED! Use getPublicProfile and deliverVCard via ilCtrl instead!
+	*
 	* @param	string	$a_template_var			template variable where profile
 	*											should be inserted
 	* @param	string	$a_template_block_name	name of profile template block
@@ -1802,55 +1804,126 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function insertPublicProfile($a_template_var, $a_template_block_name, $a_additional = "")
 	{
-		$this->tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
-		$this->tpl->setCurrentBlock($a_template_block_name);
-
-		// Get name of picture of user
-		// TODO: the user is already the current user object !!
-		$userObj = new ilObjUser($_GET["user"]);
-
-		$this->tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
-
-		$this->tpl->setVariable("ROWCOL1", "tblrow1");
-		$this->tpl->setVariable("ROWCOL2", "tblrow2");
-
-		require_once "./classes/class.ilvCard.php";
-		$vcard = new ilvCard();
-
-		//if (usr_id == $_GET["user"])
-		// Check from Database if value
-		// of public_profile = "y" show user infomation
-		if ($userObj->getPref("public_profile")=="y")
+		if ($_GET["vcard"] == 1)
 		{
-			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
-			$this->tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
-			$this->tpl->setVariable("LASTNAME",$userObj->getLastName());
-			$vcard->setName($userObj->getLastName(), $userObj->getFirstName(), "", $userObj->getUTitle());
-			$vcard->setNickname($userObj->getLogin());
+			$this->deliverVCardObject();
 		}
 		else
 		{
-			return;
-			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
-			$this->tpl->setVariable("FIRSTNAME","N /");
-			$this->tpl->setVariable("LASTNAME","A");
+			$this->tpl->setVariable($a_template_var,
+				$this->getPublicProfile($a_additional, true));
 		}
-		$this->tpl->setCurrentBlock("vcard");
-		$this->tpl->setVariable("TXT_VCARD", $this->lng->txt("vcard"));
-		$this->tpl->setVariable("TXT_DOWNLOAD_VCARD", $this->lng->txt("vcard_download"));
-		$this->tpl->setVariable("HREF_VCARD", basename($_SERVER["PHP_SELF"]) . "?user=" . $_GET["user"] . "&vcard=1");
-		$this->tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
-		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* get public profile html code
+	*
+	* @param	array	$a_additional		additional name/value pairs for profile
+	* @param	boolean	$no_ctrl			workaround for old insert public profile
+	*										implementation
+	*/
+	function getPublicProfile($a_additional = "", $no_ilctrl = false)
+	{
+		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true);
+
+		$tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
+
+		$tpl->setVariable("ROWCOL1", "tblrow1");
+		$tpl->setVariable("ROWCOL2", "tblrow2");
+
+		// Check from Database if value
+		// of public_profile = "y" show user infomation
+		if ($this->object->getPref("public_profile") != "y")
+		{
+			return;
+		}
+		
+		$tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
+		$tpl->setVariable("FIRSTNAME", $this->object->getFirstName());
+		$tpl->setVariable("LASTNAME", $this->object->getLastName());
+		
+		$tpl->setCurrentBlock("vcard");
+		$tpl->setVariable("TXT_VCARD", $this->lng->txt("vcard"));
+		$tpl->setVariable("TXT_DOWNLOAD_VCARD", $this->lng->txt("vcard_download"));
+		if ($no_ilctrl)
+		{
+			// to do: get rid of this, use ilctrl
+			$tpl->setVariable("HREF_VCARD", basename($_SERVER["PHP_SELF"]) . "?ref_id=".
+				$_GET["ref_id"]."&amp;user=" . $_GET["user"] . "&vcard=1");
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "user", $this->object->getId());
+			$tpl->setVariable("HREF_VCARD", $this->ctrl->getLinkTarget($this, "deliverVCard"));
+		}
+		$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
+		
 		$webspace_dir = ilUtil::getWebspaceDir("output");
-		$imagefile = $webspace_dir."/usr_images/".$userObj->getPref("profile_image");
-		if ($userObj->getPref("public_upload")=="y" && @is_file($imagefile))
+		$imagefile = $webspace_dir."/usr_images/".$this->object->getPref("profile_image");
+		
+		if ($this->object->getPref("public_upload")=="y" && @is_file($imagefile))
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
-			$this->tpl->setCurrentBlock("image");
-			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
-			$this->tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$userObj->getPref("profile_image")."?dummy=".rand(1,999999));
-			$this->tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("image");
+			$tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
+			$tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$this->object->getPref("profile_image")."?dummy=".rand(1,999999));
+			$tpl->parseCurrentBlock();
+		}
+
+		$val_arr = array("getInstitution" => "institution", "getDepartment" => "department",
+			"getStreet" => "street",
+			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
+			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
+			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
+			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
+
+		foreach ($val_arr as $key => $value)
+		{
+			// if value "y" show information
+			if ($this->object->getPref("public_".$value) == "y")
+			{
+				$tpl->setCurrentBlock("profile_data");
+				$tpl->setVariable("TXT_DATA", $this->lng->txt($value));
+				$tpl->setVariable("DATA", $this->object->$key());
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		if (is_array($a_additional))
+		{
+			foreach($a_additional as $key => $val)
+			{
+				$tpl->setCurrentBlock("profile_data");
+				$tpl->setVariable("TXT_DATA", $key);
+				$tpl->setVariable("DATA", $val);
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		return $tpl->get();
+	}
+	
+	/**
+	* deliver vcard information
+	*/
+	function deliverVCardObject()
+	{
+		require_once "./classes/class.ilvCard.php";
+		$vcard = new ilvCard();
+		
+		if ($this->object->getPref("public_profile")!="y")
+		{
+			return;
+		}
+		
+		$vcard->setName($this->object->getLastName(), $this->object->getFirstName(), "", $this->object->getUTitle());
+		$vcard->setNickname($this->object->getLogin());
+		
+		$webspace_dir = ilUtil::getWebspaceDir("output");
+		$imagefile = $webspace_dir."/usr_images/".$this->object->getPref("profile_image");
+		if ($this->object->getPref("public_upload")=="y" && @is_file($imagefile))
+		{
 			$fh = fopen($imagefile, "r");
 			if ($fh)
 			{
@@ -1878,51 +1951,47 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
-			if ($userObj->getPref("public_".$value) == "y")
+			if ($this->object->getPref("public_".$value) == "y")
 			{
 				switch ($value)
 				{
 					case "institution":
-						$org[0] = $userObj->$key();
+						$org[0] = $this->object->$key();
 						break;
 					case "department":
-						$org[1] = $userObj->$key();
+						$org[1] = $this->object->$key();
 						break;
 					case "street":
-						$adr[2] = $userObj->$key();
+						$adr[2] = $this->object->$key();
 						break;
 					case "zip":
-						$adr[5] = $userObj->$key();
+						$adr[5] = $this->object->$key();
 						break;
 					case "city":
-						$adr[3] = $userObj->$key();
+						$adr[3] = $this->object->$key();
 						break;
 					case "country":
-						$adr[6] = $userObj->$key();
+						$adr[6] = $this->object->$key();
 						break;
 					case "phone_office":
-						$vcard->setPhone($userObj->$key(), TEL_TYPE_WORK);
+						$vcard->setPhone($this->object->$key(), TEL_TYPE_WORK);
 						break;
 					case "phone_home":
-						$vcard->setPhone($userObj->$key(), TEL_TYPE_HOME);
+						$vcard->setPhone($this->object->$key(), TEL_TYPE_HOME);
 						break;
 					case "phone_mobile":
-						$vcard->setPhone($userObj->$key(), TEL_TYPE_CELL);
+						$vcard->setPhone($this->object->$key(), TEL_TYPE_CELL);
 						break;
 					case "fax":
-						$vcard->setPhone($userObj->$key(), TEL_TYPE_FAX);
+						$vcard->setPhone($this->object->$key(), TEL_TYPE_FAX);
 						break;
 					case "email":
-						$vcard->setEmail($userObj->$key());
+						$vcard->setEmail($this->object->$key());
 						break;
 					case "hobby":
-						$vcard->setNote($userObj->$key());
+						$vcard->setNote($this->object->$key());
 						break;
 				}
-				$this->tpl->setCurrentBlock("profile_data");
-				$this->tpl->setVariable("TXT_DATA", $this->lng->txt($value));
-				$this->tpl->setVariable("DATA", $userObj->$key());
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -1934,26 +2003,8 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);
 		}
-
-		if (is_array($a_additional))
-		{
-			foreach($a_additional as $key => $val)
-			{
-				$this->tpl->setCurrentBlock("profile_data");
-				$this->tpl->setVariable("TXT_DATA", $key);
-				$this->tpl->setVariable("DATA", $val);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		$this->tpl->setCurrentBlock($a_template_block_name);
-		$this->tpl->parseCurrentBlock();
-
-		if ($_GET["vcard"] == 1)
-		{
-			ilUtil::deliverData(utf8_decode($vcard->buildVCard()), $vcard->getFilename(), $vcard->getMimetype());
-			exit;
-		}
+		
+		ilUtil::deliverData(utf8_decode($vcard->buildVCard()), $vcard->getFilename(), $vcard->getMimetype());
 	}
 
 

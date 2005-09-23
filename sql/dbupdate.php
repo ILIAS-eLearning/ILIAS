@@ -8635,6 +8635,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 $ilDB->query("DELETE FROM chat_user");
 
 ?>
-	
-
+<#532>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
