@@ -752,6 +752,9 @@ class ilPersonalDesktopGUI
                     $q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
                     $r = $this->ilias->db->query($q);
 
+
+					$this->__showActiveChatsOfUser($user_id);
+
                     if ($r->numRows())
                     {
                         $this->tpl->setCurrentBlock("profile_link");
@@ -943,5 +946,32 @@ class ilPersonalDesktopGUI
 		$this->tpl->setCurrentBlock("tabs");
 		$this->tpl->parseCurrentBlock();
 	}
+
+
+	function __showActiveChatsOfUser($a_usr_id)
+	{
+		global $rbacsystem;
+
+		// show chat info
+		include_once './chat/classes/class.ilChatRoom.php';
+
+		$chat_id = ilChatRoom::_isActive($a_usr_id);
+		foreach(ilObject::_getAllReferences($chat_id) as $ref_id)
+		{
+			if($rbacsystem->checkAccess('read',$ref_id))
+			{
+				$this->tpl->setCurrentBlock("chat_info");
+				$this->tpl->setVariable("CHAT_ACTIVE_IN",$this->lng->txt('chat_active_in'));
+				$this->tpl->setVariable("CHAT_LINK","chat/chat.php?ref_id=".$ref_id."&room_id=0");
+				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
+				$this->tpl->parseCurrentBlock();
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 }
 ?>
