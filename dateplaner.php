@@ -48,7 +48,7 @@
 	* @ access private
 	*/
 
-	$modulDir = "/modules/dateplaner";
+	$modulDir = "/calendar";
 
 /** 
 * End modulsettings
@@ -56,7 +56,7 @@
 * ------------------------------------------------------------------------------+
 */
 
-// get ilias conectivity 
+// get ilias connectivity 
 require_once	('./include/inc.header.php');
 
 // catch hack attempts
