@@ -1,4 +1,4 @@
-  <br />
+	<br />
 	<form action="{FORMACTION}" method="post">
 	  <!-- BEGIN confirm_delete -->
 	  <table width="100%">
@@ -11,7 +11,7 @@
 	  </table>
 	  <!-- END confirm_delete -->
 	  <br />
-	<table class="std" width="75%">
+	  <table class="std" width="75%">
 		<tr class="tbltitle">
 		  <td colspan="3">
 			<table class="fullwidth_invisible" cellspacing="0">
@@ -23,43 +23,50 @@
 		  </td>
 		</tr>
 		<tr class="tblheader">
-		<td class="std" width="3%">&nbsp;</td>
-		<td class="std"><b>{TXT_CHATROOMS}</b></td>
-		<td class="std" width="10%">&nbsp;</td>
-	  </tr>
-	  <!-- BEGIN tbl_rooms_row -->
-	  <tr class="{ROWCOL}">
-		<td class="std" align="center">{ROOM_CHECK}</td>
-		<td class="std">{ROOM_NAME}</td>
-			<!-- BEGIN active -->
-			<td class="std"><a href="{ROOM_LINK}" class="navigation" target="{ROOM_TARGET}">{ROOM_TXT_LINK}</a></td>
-			<!-- END active -->
-			<!-- BEGIN not_active -->
-			<td class="std">&nbsp;</td>
-			<!-- END not_active -->
-			<!-- BEGIN blocked -->
-			<td class="std">{MESSAGE_BLOCKED}</td>
-			<!-- END blocked -->
+		  <td class="std" width="3%">&nbsp;</td>
+		  <td class="std"><b>{TXT_CHATROOMS}</b></td>
+		  <td class="std" width="10%">{ACTIONS}</td>
+		</tr>
+		<!-- BEGIN tbl_rooms_row -->
+		<tr class="{ROWCOL}">
+		  <td class="std" align="center">{ROOM_CHECK}</td>
+		  <td class="std">
+			{ROOM_NAME}
+			<div class="il_ItemProperties">
+			  <span class="il_ItemProperty">
+				{USERS_ONLINE}
+			  </span>
+			</div>
+		  </td>
+		  <!-- BEGIN active -->
+		  <td class="std"><a href="{ROOM_LINK}" class="navigation" target="{ROOM_TARGET}">{ROOM_TXT_LINK}</a></td>
+		  <!-- END active -->
+		  <!-- BEGIN not_active -->
+		  <td class="std">&nbsp;</td>
+		  <!-- END not_active -->
+		  <!-- BEGIN blocked -->
+		  <td class="std">{MESSAGE_BLOCKED}</td>
+		  <!-- END blocked -->
 		  
-	  </tr>
-	  <!-- END tbl_rooms_row -->
-	  <tr class="tblfooter">
-		<td colspan="3">
-		  <table width="100%">
-			<tr>
-			  <!-- BEGIN has_rooms -->
-			  <td align="left"><img src="{TBL_FOOTER_IMG_SRC}" border="0" /></td>
-			  <td class="std">
-				{TBL_FOOTER_SELECT}&nbsp;
-				<input class="submit" type="submit" name="cmd[adminRooms]" value="{FOOTER_HAS_ROOMS_OK}" />
-			  </td>
-			  <!-- END has_rooms -->
-			  <td class="std" colspan="{COLSPAN}" align="right" nowrap="nowrap">
-				{TBL_FOOTER_ADD_SELECT}&nbsp;
-				<input class="submit" type="submit" name="cmd[adminAddRoom]" value="{FOOTER_OK}" />
-			  </td>
-			</tr>
-		</td>
-	  </tr>
-	</table>
-  </form>
+		</tr>
+		<!-- END tbl_rooms_row -->
+		<tr class="tblfooter">
+		  <td colspan="3">
+			<table width="100%">
+			  <tr>
+				<!-- BEGIN has_rooms -->
+				<td align="left"><img src="{TBL_FOOTER_IMG_SRC}" border="0" /></td>
+				<td class="std">
+				  {TBL_FOOTER_SELECT}&nbsp;
+				  <input class="submit" type="submit" name="cmd[adminRooms]" value="{FOOTER_HAS_ROOMS_OK}" />
+				</td>
+				<!-- END has_rooms -->
+				<td class="std" colspan="{COLSPAN}" align="right" nowrap="nowrap">
+				  {TBL_FOOTER_ADD_SELECT}&nbsp;
+				  <input class="submit" type="submit" name="cmd[adminAddRoom]" value="{FOOTER_OK}" />
+				</td>
+			  </tr>
+		  </td>
+		</tr>
+	  </table>
+	</form>

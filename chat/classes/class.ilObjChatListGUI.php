@@ -102,9 +102,12 @@ class ilObjChatListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		global $lng;
 
-		$props = array();
+		include_once './chat/classes/class.ilChatRoom.php';
+
+		$props[] = array("alert" => false, "property" => $lng->txt("chat_users_active"),
+						 "value" => ilChatRoom::_getCountActiveUsers($this->obj_id));
 
 		return $props;
 	}

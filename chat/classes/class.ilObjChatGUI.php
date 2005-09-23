@@ -344,7 +344,8 @@ class ilObjChatGUI extends ilObjectGUI
 								
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		#$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
+		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
+		$this->tpl->setVariable("ACTIONS",$this->lng->txt('actions'));
 
 		$counter = 0;
 
@@ -391,6 +392,9 @@ class ilObjChatGUI extends ilObjectGUI
 													 "del_id[]",
 													 0));
 		$this->tpl->setVariable("ROOM_NAME",$this->object->getTitle()." ".$this->lng->txt("chat_public_room"));
+		$this->tpl->setVariable("USERS_ONLINE",
+								$this->lng->txt('chat_users_active').': '.
+								ilChatRoom::_getCountActiveUsers($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 
 		$script = $this->inModule() ? "./chat.php" : "./chat/chat.php";
@@ -420,6 +424,9 @@ class ilObjChatGUI extends ilObjectGUI
 									$room["room_id"]));
 
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
+			$this->tpl->setVariable("USERS_ONLINE",
+									$this->lng->txt('chat_users_active').': '.
+									ilChatRoom::_getCountActiveUsers($this->object->getId(),$room['room_id']));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("has_rooms");
