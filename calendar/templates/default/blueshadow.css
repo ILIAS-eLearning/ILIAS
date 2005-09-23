@@ -1,0 +1,132 @@
+
+/* ---------------- alternating tablerowcolors ----------------- */
+
+
+td.tblrow1 {
+	background-color:#eeeeee;
+	color:#222222;
+	font-size:13px;
+	padding:4px;
+    border-color: #808080;
+}
+
+td.tblrow2 {
+	background-color:#f7f7f7;
+	color:#222222;
+	font-size:13px;
+	padding:4px;
+    border-color: #808080;
+}
+
+td.tblrow3 {
+	background-color:#6699ff;
+	color:#222222;
+	font-size:13px;
+	padding:4px;
+    border-color: #808080;
+}
+
+td.tblrow4 {
+	font-size:13px;
+    border-color: #808080;
+}
+
+/*--- freetime-table without padding! ---*/
+.tblrow01 {
+	background-color:#eeeeee;
+	color:#222222;
+    border-color: #808080;
+}
+
+.tblrow02 {
+	background-color:#f7f7f7;
+	color:#222222;
+    border-color: #808080;
+}
+
+.tblrow03 {
+	background-color:#6699ff;
+	color:#222222;
+    border-color: #808080;
+}
+/* -------------------- table formatting ------------------ */
+
+
+td.tblheader {
+	color:#000000;
+	font-size:13px;
+	font-weight:bold;
+	background-color:#e3e3e3;
+	background-image:url(blueshadow/images/cellpic1.gif);
+	background-repeat:repeat-x;
+    border-color: #808080;
+}
+
+
+ 
+/* ---------------- headlines ------------------ */
+
+
+/* ----------------- invisible border ------------- */
+
+
+/* ----------------- alternative text styles ------------- */
+/* ------------------ buttons -------------- */
+
+/* ------------------ tabs -------------- */
+
+/* ------------------ links -------------- */
+a.navi_new:link {
+        display: block;
+        float: left;
+        background-image:url('images/new.gif'); 
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+
+.navi_new:visited {
+        display: block;
+        float: left;
+        background-image:url('images/new.gif'); 
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+        
+.navi_new:hover {
+        display: block;
+        background-image:url('images/new_o.gif');
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+        
+.navi_new:active {
+        display: block;
+        background-image:url('images/new_o.gif');
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+
+
+a.navi_open:link {
+        display: block;
+        float: left;
+        background-image:url('images/open.gif'); 
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+
+.navi_open:visited {
+        display: block;
+        float: left;
+        background-image:url('images/open.gif'); 
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+        
+.navi_open:hover {
+        display: block;
+        background-image:url('images/open_o.gif');
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+        
+.navi_open:active {
+        display: block;
+        background-image:url('images/open_o.gif');
+		background-repeat:no-repeat ; 
+		background-position:center center;}
+
+
