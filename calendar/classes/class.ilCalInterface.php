@@ -238,11 +238,12 @@ class ilCalInterface
 	/**
 	* showLocator($tpl, $lng, $app)
 	* genarate the locater for ilias3
+	*
+	* WORKAROUND: shows also tabs and sub tabs
 	* @access	public
 	* @param	
 	* @return	integer	
 	*/
-
 	function showLocator($tpl, $lng, $app)
 	{
 		global $ilias;
@@ -261,12 +262,13 @@ class ilCalInterface
 		$tpl->setVariable("ITEM",$lng->txt("dateplaner"));
 		$tpl->parseCurrentBlock();
 
+		/*
 		$tpl->touchBlock("locator_separator_prefix");
 		$tpl->setCurrentBlock("locator_item");
 		$tpl->setVariable("LINK_ITEM","./dateplaner.php?app=".$app);
 		$tpl->setVariable("LINK_TARGET","bottom");
 		$tpl->setVariable("ITEM",$lng->txt("app_".$app));
-		$tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();*/
 
 		$tpl->setCurrentBlock("locator");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
@@ -274,13 +276,38 @@ class ilCalInterface
 		
 		$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
 		
+		// set tabs
 		include ("./include/inc.personaldesktop_buttons.php");
 		
-		$locator = $tpl->get();
+		// set sub tabs
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs();
+		
+		$apps = array("inbox", "list", "day", "week", "month", "properties");
+		foreach($apps as $app)
+		{
+			$active = ($app == $_GET["app"] ||
+				($_GET["app"] == "" && $app == "inbox"))
+				? true
+				: false;
+			switch($app)
+			{
+				case "inbox": $txt_key = "inbox"; break;
+				case "list": $txt_key = "Listbox_long"; break;
+				case "day": $txt_key = "Day_long"; break;
+				case "week": $txt_key = "Week_long"; break;
+				case "month": $txt_key = "Month_long"; break;
+				case "properties": $txt_key = "properties"; break;
+			}
+			$tab_gui->addTarget($txt_key, "dateplaner.php?app=".$app.
+				"&amp;timestamp=".$GET_["timestamp"],
+				"", "", "", $active);
+		}
 
-		Return $locator;
-
-
+		$tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+		
+		return $tpl->get();
 	}
 
 
