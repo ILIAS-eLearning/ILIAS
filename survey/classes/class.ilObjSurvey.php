@@ -3264,13 +3264,17 @@ class ilObjSurvey extends ilObject
 			array_push($answers[$row["question_fi"]], $row);
 		}
 		$username = "";
+		$gender = "";
 		if ($user_id > 0)
 		{
 			$user = new ilObjUser($user_id);
 			$username = $user->getFullname();
+			$gender = $user->getGender();
+			if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");
 		}
 		$resultset = array(
 			"name" => $username,
+			"gender" => $gender,
 			"answers" => array()
 		);
 		foreach ($questions as $key => $question)

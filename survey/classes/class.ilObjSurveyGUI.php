@@ -2762,9 +2762,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("headercell");
 		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
 		$this->tpl->parseCurrentBlock();
+		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+		{
+			$this->tpl->setCurrentBlock("headercell");
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
+			$this->tpl->parseCurrentBlock();
+		}
 		if (array_key_exists("export_format", $_POST))
 		{
 			array_push($csvrow, $this->lng->txt("username"));
+			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+			{
+				array_push($csvrow, $this->lng->txt("gender"));
+			}
 		}
 		$char = "A";
 		$cellcounter = 1;
@@ -2809,6 +2819,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
 			array_push($csvrow, $resultset["name"]);
 			$this->tpl->parseCurrentBlock();
+			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+			{
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["gender"]);
+				array_push($csvrow, $resultset["gender"]);
+				$this->tpl->parseCurrentBlock();
+			}
 			foreach ($questions as $question_id => $question_data)
 			{
 				// csv output
