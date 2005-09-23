@@ -302,6 +302,24 @@ class ilChatRoom
 		return $usr_ids ? $usr_ids : array();
 	}
 
+	// Static
+	function _isActive($usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM chat_user ".
+			"WHERE room_id = 0 ".
+			"AND usr_id = '".(int) $usr_id."' ".
+			"AND last_conn_timestamp > ".time()." - 40";
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->chat_id;
+		}
+		return false;
+	}
+
 	function getOnlineUsers()
 	{
 		// TODO: CHECK INVITABLE AND ALLOW MESSAGES 
