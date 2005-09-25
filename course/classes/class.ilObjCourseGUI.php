@@ -2610,18 +2610,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
 			$tabs_gui->addTarget('learners_view',
-								 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+				$this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget('view_content',
-								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
+				$this->ctrl->getLinkTarget($this, ""), array("", "view"), get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
 			$tabs_gui->addTarget('edit_content',
-								 $this->ctrl->getLinkTarget($this, 'cciObjectivesEdit'), "", get_class($this));
-
+				$this->ctrl->getLinkTarget($this, 'cciObjectivesEdit'), "", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
@@ -2632,14 +2631,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit");
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),''),
-				 "meta_data", get_class($this));
+				 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
+				 "", "ilmdeditorgui");
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -2656,18 +2655,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("crs_objectives",
 								 $this->ctrl->getLinkTarget($this,"listObjectives"), 
-								 "objectives", 
+								 "listObjectives", 
 								 get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_groupings",
-								 $this->ctrl->getLinkTarget($this, "listGroupings"), "groupings", get_class($this));
+				$this->ctrl->getLinkTarget($this, "listGroupings"), "listGroupings", get_class($this));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"), array("info", "perm"), get_class($this));
 		}
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
