@@ -1,0 +1,1178 @@
+body {
+	color:#222222;
+	background-color:#D9D9D9;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:12px;
+	margin:10px;
+}
+
+td {
+	font-size:12px;
+}
+
+.btnbar {
+	background-color:#ffffff;
+	color:#ffffff;
+}
+
+a.menu:link, a.menu:visited {
+	color:#a0c0ff;
+}
+
+a.menu:hover {
+	color:#DDDDFF;
+}
+
+a.offline, a.offline:visited
+{
+	font-style: italic;
+}
+
+input {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+input.marked {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	background: #FFFFCC;
+}
+
+textarea {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+input.fullwidth {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%
+}
+
+input.fullwidth_marked {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%;
+	background: #FFFFCC
+}
+
+textarea.fullwidth {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%
+}
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblrow2 {
+	background-color:#f7f7f7;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+}
+
+.tblrow1 {
+	background-color:#f7f7f7;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+}
+
+.tblrowmarked {
+	background-color:#ffe0e0;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+}
+
+.tblrow2top {
+	background-color:#f7f7f7;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+	vertical-align: top;
+}
+
+.tblrow1top {
+	background-color:#eeeeee;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+	vertical-align: top;
+}
+
+.tblrowmarkedtop {
+	background-color:#ffe0e0;
+	color:#222222;
+	font-size:12px;
+	padding:3px;
+	vertical-align: top;
+}
+
+/* -------------------- table formatting ------------------ */
+
+table.std {
+	color:#222222;
+	background-color:#bbbbbb;
+	border-spacing: 0px;
+	border-width: 0px;
+}
+
+table.fullwidth {
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	border-width:0px;
+}
+
+table.ilPDSelectedItemBlock {
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	border-width:0px;
+}
+
+table.fullwidth_nowrap {
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	white-space: nowrap;
+}
+
+table.fullwidth_invisible {
+	color:#222222;
+	background-color:#D9D9D9;
+	width:100%;
+	border-spacing:0px;
+}
+
+table.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	padding: 3px;
+}
+
+td.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: transparent;
+	padding: 3px;
+	vertical-align: top;
+}
+
+td.std {
+	padding:2px;
+}
+
+th.il_invisible, td.il_invisible {
+	background-color:#D9D9D9;
+}
+
+.tbltitle {
+	color:#222222;
+	font-size:12px;
+	background-color: #C0C0C0;
+}
+
+.tblheader {
+	color: #000000;
+	font-size:12px;
+}
+
+tr.tblheader {
+	color:#000000;
+	font-size:12px;
+	background-color:#e3e3e3;
+	background-repeat:repeat-x;
+}
+
+.tblfooter {
+	color: #000000;
+	font-size:12px;
+	font-weight:normal;
+}
+
+tr.tblfooter {
+	color:#000000;
+	font-size:12px;
+	font-weight:normal;
+	background-color:#e3e3e3;
+}
+
+tr.std {
+	background-color:#eeeeee;
+	color:#222222;
+	padding:3px;
+}
+
+td.option {
+	background-color:#e2e2e2;
+	color:#222222;
+	padding:3px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.sub_option {
+	background-color:#eeeeee;
+	color:#222222;
+	padding:3px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.option_value {
+	background-color:#f7f7f7;
+	color:#222222;
+	padding:3px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:left;
+}
+
+td.option_desc, p.option_desc {
+	background-color:#f7f7f7;
+	color:#222222;
+	padding:3px;
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+}
+
+td.option_info { 
+	background-color:#f7f7f7;
+	color:#222222;
+	padding:3px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:center;
+}
+
+td.boxed {
+	border-style: solid;
+	border-width: thin;
+}
+
+td.submit {
+	background-color:#dddddd;
+	color:#222222;
+	padding:3px;
+	font-size:12px;
+	vertical-align:top;
+}
+
+/* Personal Desktop Header*/
+div.il_PDTitle
+{
+	font-family: "Times New Roman", Times, Palatino, "Palatino Linotype", serif;
+	font-size: 22px;
+	line-height: 36px;
+	color: #606060;
+	letter-spacing: 0.1em;
+	word-spacing: -0.1em;
+}
+
+
+/* Repository Header */
+table.ilc_RepHeader {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.il_RepHeader
+{
+	padding:0px;
+	border-style: solid;
+	border-color:#909090;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+div.il_RepHeader
+{
+	color:#222222;
+	background-color: #CCCCCC;
+}
+
+/* SCORM styles */
+
+table.il_ScormTable
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	border-spacing:1px;
+	border-width:0px;
+}
+
+td.il_ScormTableKey {
+	background-color:#e2e2e2;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:right;
+}
+
+td.il_ScormTableValue {
+	background-color:#f7f7f7;
+	color:#222222;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:left;
+}
+
+
+
+/* must reset all values of td style */
+td.il_no_style {
+	font-size:normal;
+	font-weight:normal;
+	background-color:white;
+}
+
+/* locator */
+div.il_Locator {
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:left;
+	background-color: #E0E0E0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+}
+
+span.il_LocatorTitle
+{
+}
+
+/* form */
+form.il_Form
+{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+/* Tabs */
+
+div.il_Tab
+{
+	line-height: 20px;
+}
+
+a.tabactive
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	color: black;
+	background-color: #D9D9D9;
+}
+
+a.tabinactive
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+/* Explorer */
+
+div.il_Explorer
+{
+	background-color: #FBFBFB;
+	border-color: #a0a0a0;
+	border-width: 1px;
+	border-style: solid;
+}
+
+div.il_RepExplorer
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+div.il_ExplorerHeader
+{
+	padding-top:1px;
+	padding-left:3px;
+	padding-right:3px;
+	padding-bottom:1px;
+	font-size:12px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#E0E0E0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #a0a0a0;
+	margin:0px;
+	border-bottom:0px;
+}
+
+/* Table Links */
+
+a.tblheader, a.tblheader:visited
+{
+	color:#3444aa;
+}
+
+a.tblheader:hover
+{
+	color:#000000;
+}
+
+/* --- description text ---*/
+div.il_Description, td.il_Description
+{
+	margin-top:5px;
+	font-size: 12px;
+	font-style: italic;
+	text-align:left;
+}
+
+/* ---------------- headlines ------------------ */
+
+div.il_Header
+{
+	margin-top:2px;
+	margin-bottom:5px;
+	color:#222222;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:7px;
+	background-color: #CCCCCC;
+}
+
+table.ilHeader
+{
+	margin-top:2px;
+	margin-bottom:5px;
+	color:#222222;
+	background-color: #DBE6F4;
+	border-width:1px;
+	border-color:#E0E0F0;
+	border-style:outset;
+	padding:7px;
+	background-repeat:repeat-x;
+}
+
+div.ilMainHeader
+{
+	background-color: #F0F0F0;
+}
+
+a.ilMainHeader
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom: 2px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+div.il1stColumnBox
+{
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+div.il_Footer
+{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-size: 10px;
+	text-align:center;
+}
+
+h1 {
+	margin-top:2px;
+	margin-bottom:5px;
+	font-size:12px;
+}
+
+h2 {
+	font-size:12px;
+	color:#222222;
+	background-color: #CCCCCC;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:3px;
+	margin-top:25px;
+	margin-bottom:0px;
+}
+
+/* ----------------- invisible border ------------- */
+
+div.invisible_border {
+	margin-top:15px;
+	margin-bottom:15px;
+	margin-right:15px;
+	margin-left:15px;
+}
+
+td.ilInvisibleBorder
+{
+	padding:15px;
+}
+
+/* ------- Helptext --------- */
+span.il_Helptext {
+	font-size:11px;
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+	text-decoration:none;
+	font-size:11px;
+}
+
+.smallgreen {
+	text-decoration:none;
+	font-size:11px;
+	color:green;
+}
+
+.smallred {
+	text-decoration:none;
+	font-size:11px;
+	color:red;
+}
+
+.obligatory {
+	font-weight: normal;
+	color: #800000;
+	font-variant: normal;
+}
+
+.warning {
+	text-decoration:none;
+	color:red;
+}
+
+.asterisk {
+	color:red;
+	font-size:11px;
+}
+
+.default {
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.inactivepage {
+	text-decoration:none;
+	color: gray;
+}
+
+.quote {
+	font-style:italic;
+	font-weight:normal;
+}
+
+.subtitle {
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+}
+
+.questiontext {
+
+}
+
+.bold {
+	font-weight:bold;
+}
+
+/* ----------------- normal links ------------- */
+
+a:link, a:visited {
+	text-decoration:none;
+	color:#2255a0;
+}
+
+a:hover {
+	color:#000000;
+}
+
+/* ------------------- mail links ----------- */
+a.mailread
+{
+	font-weight: normal;
+	color: #2255a0;
+}
+
+a.mailunread
+{
+	color: #2255a0;
+}
+
+/* ------------------- forum links ----------- */
+a.postread
+{
+	font-weight: normal;
+	color: #2255a0;
+}
+
+a.postunread
+{
+	color: #2255a0;
+}
+
+a.postnew
+{
+    color: #2255a0;
+    font-style: italic;
+}
+/* ------------------ buttons -------------- */
+
+td.btn {
+	background-color:#D3DAE8;
+	color:#BBBBBB;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
+}
+
+a.btn:link, a.btn:visited {
+	color:#2255a0;
+	text-decoration:none;
+	font-size:12px;
+}
+
+
+a.btn:hover {
+	color:#000000;
+}
+
+
+/*
+input {
+	background-color:#ffffff;
+	color:#000000;
+	border-width:1px;
+	border-color:#bbbbbb;
+	border-style:inset;
+	font-size:12px;
+}
+*/
+
+
+input.submit, a.submit {
+	background-color:#D3DAE8;
+	color:#2255a0;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
+	text-decoration:none;
+	font-size:12px;
+	cursor:pointer;
+}
+
+input.submit_disabled, a.submit_disabled {
+	background-color:#D3DAE8;
+	color:grey;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
+	text-decoration:none;
+	font-size:12px;
+	cursor:pointer;
+}
+
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
+input[type=checkbox], input[type=radio]
+{
+	border-style:none;
+	background-color:none;
+}
+
+a.ilEditSubmit, input.ilEditSubmit {
+	background-color:#ffffff;
+	color:#2255a0;
+	border-width:1px;
+	border-color:#bbbbbb;
+	border-style:outset;
+	padding:1px;
+	text-decoration:none;
+	font-size:10px;
+	cursor:pointer;
+}
+
+input.ilEditHelpline {
+	background-color:#eeeeee;
+	border-style:none;
+	padding:3px;
+	text-decoration:none;
+	font-size:10px;
+}
+
+input.tblrow1, input.tblrow2
+{
+	background-color:#ffffff;
+	color:#000000;
+	padding:0px;
+}
+
+textarea {
+	background-color:#ffffff;
+	color:#000000;
+	border-width:1px;
+	border-color:#bbbbbb;
+	border-style:inset;
+	padding:3px;
+	text-decoration:none;
+	font-size:12px;
+}
+
+input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
+	color:#000000;
+}
+
+
+.message {
+	color: #dd0000;
+	text-align:center;
+	background-color:#D0D0D0;
+	margin-bottom: 2px;
+}
+
+.alert {
+	color: #dd0000;
+}
+
+select.ilEditSelect {
+	background-color:#ffffff;
+	border-width:1px;
+	border-color:#bbbbbb;
+	padding:1px;
+	text-decoration:none;
+	font-size:10px;
+}
+
+/* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
+img.imgtab {
+	display:block;
+}
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+	margin:0px;
+}
+
+/* --- Editor styles ---*/
+
+div.il_editarea
+{
+	border-style: dotted;
+	border-width: 1px;
+}
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display:block;
+}
+
+/* --- calendar styles -- */
+div.dp_Menu
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+	width: 152px;
+}
+
+td.even
+{
+	color:#222222;
+	background-color:#F7F7F7;
+	padding: 3px;
+}
+
+td.uneven
+{
+	color:#222222;
+	background-color:#EEEEEE;
+	padding: 3px;
+}
+
+td.today
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDate
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #FFE0E0;
+}
+
+td.date
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonth
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.todayMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color:  #FFE0E0;
+}
+
+td.dateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonthMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.evenMO
+{
+	color:#222222;
+	background-color:#F7F7F7;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.unevenMO
+{
+	color:#222222;
+	background-color:#EEEEEE;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.weeknumber
+{
+	color: #5F5F5F;
+	background-color: none;
+	font-size: smaller;
+}
+
+a.weekLink
+{
+	font-size: x-small;
+}
+
+td.appointmentConfTitle
+{
+	font-size: 2em;
+	font-style: italic;
+}
+
+td.doubleComment
+{
+	font-size: 1em;
+	color: #FF0000;
+}
+
+/* --- content styles (will move to content.css) --- */
+table.ilc_Page {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.ilc_Page
+{
+	padding:20px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+table.ilc_LMNavigation {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+td.ilc_LMNavigation
+{
+	padding:1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+div.ilc_DefinitionHeader
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size:18px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #000000;
+}
+
+table.ilc_Fullscreen
+{
+	background-color:#EEEEEE;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.ilc_Fullscreen, body.ilc_Fullscreen
+{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+table.ilc_FileList
+{
+	color: #222222;
+	background-color: #c0c0c0;
+	width: 100%;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #bbbbbb;
+	border-width: 1px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+th.ilc_FileList
+{
+	font-size: 12px;
+	text-align: left;
+	padding: 3px;
+}
+
+td.ilc_FileItem
+{
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	background-color: #FFFFFF;
+	padding: 3px;
+}
+
+a.ilc_LMMenu
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+div.ilc_TableOfContents
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
+/* --- Test & Assessment styles --- */
+
+div.ilc_Question
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color: red;
+}
+
+.testSheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionTitle {
+	border-bottom: thin solid #333333;
+	font-size: 12px;
+	padding-bottom: 0.5em;
+}
+
+/* --- Test tool javascript styles --- */
+
+div.textbox
+{
+	width: 200px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.textboximage
+{
+	width: 200px;
+	height: 80px;
+	position:relative;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.imagebox
+{
+	position:relative;
+	width: 150px;
+}
+
+/* --- Survey tool styles --- */
+
+.surveySheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionblockTitle {
+	font-size:12px;
+	color:#222222;
+	background-color: #CCCCCC;
+	border-width:1px;
+	border-color:#909090;
+	border-style:solid;
+	padding: 10px;
+	margin-top:25px;
+	margin-bottom:0px;
+}
+
+.questionheading {
+	margin-top:2px;
+	margin-bottom:5px;
+	font-size:12px;
+}

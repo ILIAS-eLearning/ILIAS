@@ -698,9 +698,13 @@ class ilPersonalProfileGUI
 			}
 		}
 		
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		
+
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("TXT_OF",strtolower($this->lng->txt("of")));
 		$this->tpl->setVariable("USR_FULLNAME",$ilUser->getFullname());

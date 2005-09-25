@@ -47,9 +47,14 @@ if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId())
 }
 
 // CREATE OUTPUT
-$tpl->addBlockFile("CONTENT", "content", "tpl.mail_options.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_options.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-$tpl->setVariable("TXT_OPTIONS_OF",$lng->txt("mail_options_of"));
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+$tpl->parseCurrentBlock();
+
+$tpl->setVariable("HEADER",$lng->txt("mail"));
 infoPanel();
 
 setLocator($_GET["mobj_id"],'mail_options.php',$_SESSION["AccountId"],"");

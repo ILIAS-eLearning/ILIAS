@@ -419,6 +419,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 	{
 		parent::prepareOutput();
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_src_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("H_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('search'));
 

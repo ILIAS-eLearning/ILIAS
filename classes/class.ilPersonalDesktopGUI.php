@@ -141,6 +141,9 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		infoPanel();
 		
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 		
@@ -181,6 +184,9 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		infoPanel();
 		
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 		

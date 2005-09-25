@@ -39,7 +39,9 @@ $file_name = basename($_SERVER["SCRIPT_NAME"]);
 
 // FOLDER
 $tpl->setCurrentBlock("tab");
-$tpl->setVariable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_TYPE", ($script_name == "mail.php" || $script_name == "mail_read.php")
+	? "tabactive"
+	: "tabinactive");
 $tpl->setVariable("TAB_LINK", "mail.php?mobj_id=$_GET[mobj_id]&type=new");
 $tpl->setVariable("TAB_TEXT", $lng->txt("fold"));
 $tpl->parseCurrentBlock();
@@ -47,7 +49,10 @@ $tpl->parseCurrentBlock();
 
 // COMPOSE
 $tpl->setCurrentBlock("tab");
-$tpl->setVAriable("TAB_TYPE",$script_name == "mail_new.php" ? "tabactive" : "tabinactive");
+$tpl->setVAriable("TAB_TYPE", ($script_name == "mail_new.php" || $script_name == "mail_attachment.php"
+	|| $script_name == "mail_search.php")
+	? "tabactive"
+	: "tabinactive");
 $tpl->setVariable("TAB_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&type=new");
 $tpl->setVariable("TAB_TEXT", $lng->txt("compose"));
 $tpl->parseCurrentBlock();
@@ -69,19 +74,18 @@ $tpl->parseCurrentBlock();
 // FLATVIEW <-> TREEVIEW
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
-	$tpl->setCurrentBlock("tab");
-	$tpl->setVAriable("TAB_TYPE","tabinactive");
-	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=tree");
-	$tpl->setVariable("TAB_TEXT", $lng->txt("treeview"));
+	$tpl->setCurrentBlock("tree_mode");
+	$tpl->setVariable("LINK_MODE","mail_frameset.php?viewmode=tree");
+	$tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.gif"));
 	$tpl->parseCurrentBlock();
 }
 else
 {
-	$tpl->setCurrentBlock("tab");
-	$tpl->setVAriable("TAB_TYPE","tabinactive");
-	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=flat");
-	$tpl->setVariable("TAB_TARGET","bottom");
-	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
+	$tpl->setCurrentBlock("tree_mode");
+	$tpl->setVariable("LINK_MODE","mail_frameset.php?viewmode=flat");
+	$tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_flatview.gif"));
 	$tpl->parseCurrentBlock();
 }
+$tpl->setCurrentBlock("tree_icons");
+$tpl->parseCurrentBlock();
 ?>

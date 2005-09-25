@@ -1,0 +1,36 @@
+<style>
+body { margin:0px; }
+</style>
+{STATUSLINE}
+<div class="il_Header" style="float:left;">
+	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
+	{HEADER}</h1>
+	<span class="Description">{H_DESCRIPTION}</span>
+</div>
+<div style="float:right; margin-right:15px;">
+	<!-- BEGIN top -->
+	<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
+	<!-- END top -->
+	<!-- BEGIN tree_mode -->
+	<a class="{CLASS_TREE}" href="{LINK_MODE}" target="bottom"><img src="{IMG_TREE}" border="0"></a>
+	<!-- END tree_mode -->
+</div><div style="clear:both;"></div>
+{TABS}
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder" style="padding-top:0px;">
+<form class="il_Form" action="{H_FORMACTION}" method="post">
+	<!-- BEGIN commands -->
+	<div style="text-align:right;">
+	{SELECT_OBJTYPE_REPOS}
+	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+		<!-- BEGIN get_from_repos -->
+		<input class="submit" type="submit" name="cmd[{GET_REPOS_CMD}]" value="{TXT_GET_REPOS}" />
+		<!-- END get_from_repos -->
+	</div>
+	<!-- END commands -->
+</form>
+{BUTTONS}
+{MESSAGE}
+{ADM_CONTENT}
+{OBJECTS}
+</td></tr></table>
+
