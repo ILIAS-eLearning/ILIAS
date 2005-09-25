@@ -344,7 +344,22 @@ foreach ($mail_data as $mail)
 }
 // END MAILS
 
-//headline
+$mtree = new ilTree($ilUser->getId());
+$mtree->setTableNames('mail_tree','mail_obj_data');
+$folder_node = $mtree->getNodeData($_GET[mobj_id]);
+
+
+// folder_image
+if($folder_node["type"] == 'user_folder')
+{
+	$tpl->setVariable("TXT_FOLDER", $folder_node["title"]);
+	$tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_user_folder.gif"));
+}
+else
+{
+	$tpl->setVariable("TXT_FOLDER", $lng->txt("mail_".$folder_node["title"]));
+	$tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon".substr($folder_node["title"], 1).".gif"));
+}
 $tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 $tpl->setVariable("TXT_MAIL_S", $lng->txt("mail_s"));
 $tpl->setVariable("TXT_UNREAD", $lng->txt("unread"));

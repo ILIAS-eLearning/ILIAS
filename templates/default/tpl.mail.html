@@ -1,5 +1,4 @@
-<br />
-	<form action="{ACTION_FLAT}" method="GET">
+	<form action="{ACTION_FLAT}" class="il_Form" method="GET">
 	  <!-- BEGIN show_folder -->
 	  <table class="std">
 		  <tr class="std">
@@ -14,7 +13,7 @@
 			  <input class="submit" type="SUBMIT" value="{FOLDER_VALUE}"/>
 			</td>
 		  </tr>
-	  </table>
+	  </table><br />
 	  <!-- END show_folder -->
 	</form>
 	  {MESSAGE}
@@ -37,11 +36,15 @@
 	  </table>
 	  <!-- END linkbar -->
 	  <table class="fullwidth">
-		  <tr class="tblheader">
-			<td class="std" colspan="4">{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</td>
+		  <tr class="tbltitle">
+			<td class="std" colspan="1" width="1px">
+			<img border="0" src="{IMG_FOLDER}" /></td>
+			<td class="std" colspan="3">
+			{TXT_FOLDER}:&nbsp;
+			{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</td>
 		  </tr>
 		  <tr class="tblheader">
-			<td class="std"  width="4%">&nbsp;</td>
+			<td class="std"  width="1px">&nbsp;</td>
 			<td class="std" >{TXT_SENDER}</td>
 			<td class="std" >{TXT_SUBJECT}</td>
 			<td class="std" >{TXT_DATE}</td>
@@ -49,19 +52,20 @@
 
 		  <!-- BEGIN mails -->
 		  <tr class="{ROWCOL}">
-			<td class="std" >&nbsp;<input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
-			<td class="std"  valign="middle">&nbsp;{MAIL_FROM} [{MAIL_LOGIN}]</TD>
-			<td class="std"  valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
-			<td class="std"  valign="middle">&nbsp;{MAIL_DATE}</td>
+			<td class="std" ><input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
+			<td class="std"  valign="middle">{MAIL_FROM} [{MAIL_LOGIN}]</TD>
+			<td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
+			<td class="std"  valign="middle">{MAIL_DATE}</td>
 		  </tr>
 		  <!-- END mails -->
 		  <tr class="tblrow2">
-			<td class="std"  colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;
+			<td class="std" colspan="1"><input type="checkbox" name="all" value="check_all" onClick="CheckAll();"></td>
+			<td class="std" colspan="3">
 			  <strong>{TXT_SELECT_ALL}</strong>
 			</td>
 		  </tr>
 		  <tr>
-			<td class="submit"  width="4%" align="center">
+			<td class="submit"  width="1px" align="center">
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
 			<td class="submit" colspan="3">
