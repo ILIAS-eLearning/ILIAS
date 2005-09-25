@@ -167,6 +167,10 @@ class ilBookmarkAdministrationGUI
 		}
 		infoPanel();
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("personal_desktop"));
 	}
 

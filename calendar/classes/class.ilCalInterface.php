@@ -274,6 +274,10 @@ class ilCalInterface
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$tpl->parseCurrentBlock();
 		
+		$tpl->setCurrentBlock("header_image");
+		$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+		$tpl->parseCurrentBlock();
+		
 		$tpl->setVariable("HEADER", $lng->txt("personal_desktop"));
 		
 		// set tabs

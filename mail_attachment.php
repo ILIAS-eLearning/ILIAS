@@ -45,8 +45,13 @@ $mail_data = $umail->getSavedData();
 
 $_POST["filename"] = $_POST["filename"] ? $_POST["filename"] : array();
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.mail_attachment.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_attachment.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+$tpl->parseCurrentBlock();
+$tpl->setVariable("HEADER",$lng->txt("mail"));
 $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
 infoPanel();
 

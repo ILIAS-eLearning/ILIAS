@@ -50,9 +50,13 @@ if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId())
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-$tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+$tpl->parseCurrentBlock();
+$tpl->setVariable("HEADER",$lng->txt("mail"));
 infoPanel();
 
 // LOCATOR

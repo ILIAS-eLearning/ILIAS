@@ -51,9 +51,13 @@ $umail->markRead(array($_GET["mail_id"]));
 
 $mail_data = $umail->getMail($_GET["mail_id"]);
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.mail_read.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_read.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-$tpl->setVariable("TXT_MAILS_OF",$lng->txt("mail_mails_of"));
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+$tpl->parseCurrentBlock();
+$tpl->setVariable("HEADER",$lng->txt("mail_mails_of"));
 setLocator($_GET["mobj_id"],'mail.php',$_SESSION["AccountId"],"");
 
 // DOWNLOAD FILE

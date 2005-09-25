@@ -1,0 +1,86 @@
+<style>
+body { margin:0px;}
+</style>
+
+<div class="ilMainHeader">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="15" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="15" height="5" />
+	</td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
+</tr>
+<tr>
+	<td><img class="spacer" src="{IMG_SPACE}" border="0" width="15" height="1" /></td>
+	<td valign="top">
+		<table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td rowspan="2"><img style="vertical-align:bottom;" width="60" height="60" border="0" src="{HEADER_ICON}"></td>
+			<td rowspan="2"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+			<td nowrap="1"><div class="il_PDTitle">{TXT_HEADER_TITLE}</div></td>
+		</tr>
+		<tr><td valign="bottom" nowrap="1">
+		<div class="il_MainMenu">
+<!-- BEGIN desktopbutton -->
+		<a class="ilMainHeader" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
+<!-- END desktopbutton -->
+		<a class="ilMainHeader" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
+<!-- BEGIN searchbutton -->
+		<a class="ilMainHeader" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>
+<!-- END searchbutton -->
+<!-- BEGIN mailbutton -->
+		<a class="ilMainHeader" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>
+<!-- END mailbutton -->
+<!-- BEGIN userisadmin -->
+		<a class="ilMainHeader" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
+<!-- END userisadmin -->
+		</div>
+		</td></tr>
+		</table>
+	</td>
+	<!-- BEGIN userisanonymous -->
+	<td align="right" nowrap="nowrap">
+	<div class="ilLogin">
+	<span class="il_menu">{TXT_NOT_LOGGED_IN}!&nbsp;&nbsp;</span>
+		<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a> |
+		<!-- BEGIN registration_link -->
+		<a href="{LINK_REGISTER}" target="bottom">{TXT_REGISTER}</a>
+		<!-- END registration_link -->
+	<br />
+	<form nowrap="nowrap" class="il_Form" name="languageselection" action="{LANG_FORM_ACTION}" method="post">
+	<select name="change_lang_to" onChange="this.form.submit()"> 
+	<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+	<!-- BEGIN languages -->
+	<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+	<!-- END languages -->
+	</select>
+	<input class="submit" type="submit" value="{TXT_OK}" />
+	</form>	
+	</div>
+	</td>
+	<!-- END userisanonymous -->
+	<!-- BEGIN userisloggedin -->
+	<td align="right" nowrap="nowrap">
+	<div class="ilLogin">
+	{TXT_LOGIN_AS} {USERNAME}<br/><a href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
+	</div>
+	</td>
+	<!-- END userisloggedin -->
+	<td><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" /></td>
+	</tr>
+	<tr>
+	<td width="15" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="15" height="5" />
+	</td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td height="5"><img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" /></td>
+	<td width="20" height="5">
+		<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="5" />
+	</td>
+	</tr>
+</table>
+</div>

@@ -46,9 +46,13 @@ if (!$rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId())
 
 $lng->loadLanguageModule("mail");
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.mail_search.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-$tpl->setVariable("TXT_SEARCH",$lng->txt("search"));
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+$tpl->parseCurrentBlock();
+$tpl->setVariable("HEADER",$lng->txt("mail"));
 infoPanel();
 
 // LOCATOR
