@@ -130,7 +130,7 @@ class ilObjectStatusGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("info_access_permissions"),"icon_perm_b.gif",$lng->txt("info_access_permissions"));
+		$tbl->setTitle($lng->txt("info_access_permissions"),"icon_perm.gif",$lng->txt("info_access_permissions"));
 
 		//user must be member
 		$tbl->setHeaderNames(array("",$lng->txt("operation"),$lng->txt("info_from_role")));
@@ -155,7 +155,7 @@ class ilObjectStatusGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("info_available_roles"),"icon_rolf_b.gif",$lng->txt("info_available_roles"));
+		$tbl->setTitle($lng->txt("info_available_roles"),"icon_rolf.gif",$lng->txt("info_available_roles"));
 
 		$tbl->setHeaderNames(array("",$lng->txt("role"),str_replace(" ","&nbsp;",$lng->txt("info_permission_source")),str_replace(" ","&nbsp;",$lng->txt("info_permission_origin"))));
 		$tbl->setColumnWidth(array("1%","19%","40%","40%"));
@@ -195,7 +195,7 @@ class ilObjectStatusGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("info_access_and_status_info"),"icon_".$this->object->getType()."_b.gif",$lng->txt("summary"));
+		$tbl->setTitle($lng->txt("info_access_and_status_info"));
 
 		//user must be member
 		$tbl->setHeaderNames(array("&nbsp;",$lng->txt("info_enter_login_or_id")));

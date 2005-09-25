@@ -1293,17 +1293,15 @@ class ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "perm"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("permission_settings"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "info"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("info_status_info"));
-		$this->tpl->parseCurrentBlock();
-
+		include_once("classes/class.ilTabsGUI.php");
+		$sub_tab_gui = new ilTabsGUI();
+		$sub_tab_gui->setSubTabs();
+		$sub_tab_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
+			"", "", "", true);
+		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
+			"", "", "", false);
+		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());
+		
 		static $num = 0;
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
@@ -2649,16 +2647,14 @@ class ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "perm"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("permission_settings"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "info"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("info_status_info"));
-		$this->tpl->parseCurrentBlock();
+		include_once("classes/class.ilTabsGUI.php");
+		$sub_tab_gui = new ilTabsGUI();
+		$sub_tab_gui->setSubTabs();
+		$sub_tab_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
+			"", "", "", false);
+		$sub_tab_gui->addTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
+			"", "", "", true);
+		$this->tpl->setVariable("SUB_TABS", $sub_tab_gui->getHTML());
 
 		include_once('classes/class.ilObjectStatusGUI.php');
 		

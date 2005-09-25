@@ -90,7 +90,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""),
-				"");
+				array("view", ""));
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
