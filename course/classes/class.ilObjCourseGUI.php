@@ -338,6 +338,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->setSubTabs("properties");
 
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
@@ -554,33 +556,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		// display button
-		
 		if($this->ctrl->getTargetScript() != 'adm_object.php')
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'edit'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('edit_properties'));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
-			$this->tpl->parseCurrentBlock();
-
-			if ($this->ilias->getSetting("custom_icons"))
-			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'editCourseIcons'));
-				$this->tpl->setVariable("BTN_TXT",$this->lng->txt('icon_settings'));
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->setSubTabs("properties");			
 		}
-
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -1035,6 +1014,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->setSubTabs("properties");
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html","course");
 		$this->showCustomIconsEditing();
@@ -1069,7 +1050,40 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirect($this,"editCourseIcons");
 
 	}
-	
+
+
+	/**
+	* set sub tabs
+	*/
+	function setSubTabs($a_tab)
+	{
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs(true);
+		
+		switch ($a_tab)
+		{
+			case "properties":
+				$tab_gui->addTarget("edit_properties",
+					$this->ctrl->getLinkTarget($this,'edit'),
+					"edit", get_class($this));
+				$tab_gui->addTarget("preconditions",
+					$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+					"", "ilConditionHandlerInterface");
+				$tab_gui->addTarget("crs_crs_structure",
+					$this->ctrl->getLinkTarget($this,'listStructure'),
+					"listStructure", get_class($this));
+				if ($this->ilias->getSetting("custom_icons"))
+				{
+					$tab_gui->addTarget("icon_settings",
+						$this->ctrl->getLinkTarget($this,'editCourseIcons'),
+						"editCourseIcons", get_class($this));
+				}
+				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+				break;
+		}
+	}
+
 	/**
 	* remove small icon
 	*
@@ -2614,8 +2628,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		elseif($rbacsystem->checkAccess('read',$this->ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "")
+				? true
+				: false;
 			$tabs_gui->addTarget('view_content',
-				$this->ctrl->getLinkTarget($this, ""), array("", "view"), get_class($this));
+				$this->ctrl->getLinkTarget($this, ""), array("", "view"), get_class($this),
+					"", $force_active);
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
 		{
@@ -2630,8 +2648,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface")
+				? true
+				: false;
 			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit");
+				$this->ctrl->getLinkTarget($this, "edit"),
+				array("edit", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -3948,6 +3970,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			case "ilconditionhandlerinterface":
 				include_once './classes/class.ilConditionHandlerInterface.php';
+				
+				$this->setSubTabs("properties");
 
 				if($_GET['item_id'])
 				{
