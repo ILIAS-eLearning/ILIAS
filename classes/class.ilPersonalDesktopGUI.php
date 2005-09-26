@@ -800,7 +800,11 @@ class ilPersonalDesktopGUI
                     $r = $this->ilias->db->query($q);
 
 
-					$this->__showActiveChatsOfUser($user_id);
+					if(!$this->__showActiveChatsOfUser($user_id))
+					{
+						// Show invite to chat
+						$this->__showChatInvitation($user_id);
+					}
 
                     if ($r->numRows())
                     {
@@ -1039,5 +1043,29 @@ class ilPersonalDesktopGUI
 		return false;
 	}
 
+	function __showChatInvitation($a_usr_id)
+	{
+		global $rbacsystem,$ilUser;
+
+		include_once './chat/classes/class.ilObjChat.php';
+
+		if($a_usr_id == $ilUser->getId())
+		{
+			return false;
+		}
+
+		if($rbacsystem->checkAccess('read',ilObjChat::_getPublicChatRefId())
+		   and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
+		{
+			$this->tpl->setCurrentBlock("chat_link");
+			$this->tpl->setVariable("TXT_CHAT_INVITE",$this->lng->txt('chat_invite'));
+			$this->tpl->setVariable("CHAT_LINK",'chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
+									'&usr_id='.$a_usr_id.'&cmd=invitePD');
+			$this->tpl->parseCurrentBlock();
+
+			return true;
+		}
+		return false;
+	}
 }
 ?>

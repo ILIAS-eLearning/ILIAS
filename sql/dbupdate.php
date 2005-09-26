@@ -8639,4 +8639,78 @@ $ilDB->query("DELETE FROM chat_user");
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#533>
+<?php
 
+  // add chat below ChatSettings for personal desktop chat
+
+  // Get chat settings id
+$query = "SELECT * FROM object_data JOIN object_reference USING(obj_id) WHERE type = 'chac'";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$chac_ref_id = $row->ref_id;
+}
+
+$query = "INSERT INTO object_data ".
+	"(type,title,description,owner,create_date,last_update,import_id) ".
+	"VALUES ".
+	"('chat','Public chat','Public chat',".
+	"'6',now(),now(),'')";
+
+$ilDB->query($query);
+$chat_id = $ilDB->getLastInsertId();
+
+// Create reference
+$query = "INSERT INTO object_reference ".
+	"(obj_id) VALUES ('".$chat_id."')";
+$ilDB->query($query);
+
+$chat_ref_id = $ilDB->getLastInsertId();
+
+// put in tree
+$tree =& new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($chat_ref_id,$chac_ref_id);
+
+// Create role folder
+$query = "INSERT INTO object_data ".
+	"(type,title,description,owner,create_date,last_update,import_id) ".
+	"VALUES ".
+	"('rolf','".$chat_id."','(ref_id ".$chat_ref_id.")',".
+	"'6',now(),now(),'')";
+
+$ilDB->query($query);
+$rolf_id = $ilDB->getLastInsertId();
+
+// Create reference
+$query = "INSERT INTO object_reference ".
+	"(obj_id) VALUES ('".$rolf_id."')";
+$ilDB->query($query);
+
+$rolf_ref_id = $ilDB->getLastInsertId();
+
+// put in tree
+$tree->insertNode($rolf_ref_id,$chat_ref_id);
+
+// Create role
+$query = "INSERT INTO object_data ".
+	"(type,title,description,owner,create_date,last_update,import_id) ".
+	"VALUES ".
+	"('role','il_chat_moderator_".$chat_ref_id."','Moderator of chat obj_no.".$chat_id."',".
+	"'6',now(),now(),'')";
+
+$ilDB->query($query);
+$role_id = $ilDB->getLastInsertId();
+
+// Insert role_data
+$query = "INSERT INTO role_data set role_id = '".$role_id."'";
+$ilDB->query($query);
+
+
+$permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
+$rbacadmin = new ilRbacAdmin();
+$rbacadmin->grantPermission($role_id,
+							$permissions,
+							$chat_ref_id);
+$rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
+?>

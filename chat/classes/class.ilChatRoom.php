@@ -415,6 +415,21 @@ class ilChatRoom
 		return true;
 	}
 
+	function lookupRoomId()
+	{
+		$query = "SELECT * FROM chat_rooms ".
+			"WHERE title = '".ilUtil::prepareDBString($this->getTitle())."' ".
+			"AND chat_id = '".$this->getObjId()."' ".
+			"AND owner = '".$this->getOwnerId()."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->room_id;
+		}
+		return false;
+	}
+
 	function add()
 	{
 		$query = "INSERT INTO chat_rooms ".
@@ -424,7 +439,8 @@ class ilChatRoom
 
 		$res = $this->ilias->db->query($query);
 
-		return true;
+
+		return ($id = $this->ilias->db->getLastInsertId()) ? $id : false;
 	}
 
 	function getInternalName()
@@ -491,13 +507,11 @@ class ilChatRoom
 		return $data ? $data : array();
 	}		
 
-			
-
 	function getAllRooms()
 	{
 		$obj_ids = array();
 		$unique_chats = array();
-		foreach(ilUtil::getObjectsByOperations("chat","read") as $chat)
+		foreach(ilUtil::getObjectsByOperations("chat","read",false) as $chat)
 		{
 			if(!in_array($chat['obj_id'],$obj_ids))
 			{
