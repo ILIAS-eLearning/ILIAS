@@ -233,6 +233,30 @@ class ilObjChat extends ilObject
 		return false;
 	}
 
+	function _getPublicChatRefId()
+	{
+		static $public_chat_ref_id = 0;
+
+		global $tree;
+
+		if($public_chat_ref_id)
+		{
+			return $public_chat_ref_id;
+		}
+		else
+		{
+			foreach($tree->getSubTree($tree->getNodeData(SYSTEM_FOLDER_ID)) as $node)
+			{
+				if($node['type'] == 'chat')
+				{
+					return $public_chat_ref_id = $node['child'];
+				}
+			}
+		}
+		return false;
+	}
+
+			
 	// SET/GET
 } // END class.ilObjTest
 ?>

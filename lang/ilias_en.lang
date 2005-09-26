@@ -5307,3 +5307,4 @@ mail#:#mail_to#:#To
 crs#:#import_crs#:#Import course
 common#:#chat_users_active#:#Active users
 common#:#chat_active_in#:#Active in chat:
+common#:#chat_invite#:#Chat

@@ -1182,6 +1182,42 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->showFrames();
 		}
 	}
+
+	// Direct invitations from personal desktop
+	function invitePD()
+	{
+		global $ilUser;
+
+		if(!$_GET['usr_id'])
+		{
+			sendInfo($this->lng->txt('chat_no_user_selected',true));
+			$this->showFrames();
+		}
+		// Create room
+		$this->object->chat_room->setOwnerId($ilUser->getId());
+		$this->object->chat_room->setTitle(ilObjUser::_lookupLogin($ilUser->getId()). 
+										   ' <-> '.
+										   ilObjUser::_lookupLogin($_GET['usr_id']));
+
+		// only add room if it doesn't exist
+		if(!$id = $this->object->chat_room->lookupRoomId())
+		{
+			$id = $this->object->chat_room->add();
+			sendInfo($this->lng->txt("chat_user_invited"),true);
+		}
+			
+
+		// Send message
+		$this->object->chat_room->setRoomId($id);
+		$this->object->chat_room->invite((int) $_GET["usr_id"]);
+		$this->object->sendMessage((int) $_GET['usr_id']);
+
+		ilUtil::redirect('chat.php?ref_id='.$this->object->getRefId().'&room_id='.$id);
+	}
+
+
+
+
 	function drop()
 	{
 		if($_GET["i_id"])
