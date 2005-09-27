@@ -2126,7 +2126,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->rolf_ref_id);
 		$this->ctrl->setParameter($this,"obj_id",$this->object->getId());
-		
+
+//echo "-".$this->ctrl->getCmd()."-";
+
 		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("edit_properties",
@@ -2134,18 +2136,27 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		if($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
+				? true
+				: false;
 			$tabs_gui->addTarget("default_perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "adoptPermSave", "permSave"),
+				get_class($this),
+				"", $force_active);
 		}
 		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("user_assignment",
-								 $this->ctrl->getLinkTarget($this, "userassignment"), "userassignment", get_class($this));
+				$this->ctrl->getLinkTarget($this, "userassignment"),
+				array("deassignUser", "userassignment", "assignUser"),
+				get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
 		{
 			$tabs_gui->addTarget("desktop_items",
-								 $this->ctrl->getLinkTarget($this, "listDesktopItems"), "listDesktopItems", get_class($this));
+				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
+				array("listDesktopItems", "deleteDesktopItems"),
+				get_class($this));
 		}
 
 	}
