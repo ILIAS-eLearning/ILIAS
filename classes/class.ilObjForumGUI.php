@@ -502,17 +502,23 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			include_once './classes/class.ilRepositoryExplorer.php';
 
-			$tabs_gui->addTarget("view_content",ilRepositoryExplorer::buildLinkTarget($this->ref_id,'frm'));
+			$tabs_gui->addTarget("view_content",ilRepositoryExplorer::buildLinkTarget($this->ref_id,'frm'),
+				array("", "showThreads", "view", "markAllRead"), "");
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "edit")
+				? true
+				: false;
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
+				"", $force_active);
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("info", "perm"), get_class($this));
 		}
 
 
