@@ -678,8 +678,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tabs_gui->getTargetsByObjectType($this, "st");
 
 		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
+			 "", "ilmdeditorgui");
 			 
 		$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_st.gif"));
@@ -707,7 +707,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 "", get_class($this));
 
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 			, "view", "ilEditClipboardGUI");

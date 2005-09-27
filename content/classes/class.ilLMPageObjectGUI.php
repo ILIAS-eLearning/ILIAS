@@ -369,8 +369,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
 			, "preview", "ilpageobjectgui");
 			
-		$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
-			, "properties", get_class($this));
+		//$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
+		//	, "properties", get_class($this));
 
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),

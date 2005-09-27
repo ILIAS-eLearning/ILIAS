@@ -2702,6 +2702,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		
+//echo "-".$this->ctrl->getCmd()."-";
+
 		// back to upper context
 		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 
@@ -2713,7 +2716,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// meta data
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"meta_data", "ilmdeditorgui");
+			"", "ilmdeditorgui");
 
 		// chapters
 		$tabs_gui->addTarget("cont_chapters",
@@ -2730,12 +2733,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// export
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "exportList"),
-				"exportList", get_class($this));
+				array("exportList", "viewExportLog"), get_class($this));
 	
 			// link checker
 			$tabs_gui->addTarget("link_check",
 				$this->ctrl->getLinkTarget($this, "linkChecker"),
-				"linkChecker", get_class($this));
+				array("linkChecker", "refreshLinkCheck"), get_class($this));
 		}
 		else
 		{
@@ -2748,7 +2751,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTarget($this, "perm"),
-			"perm", get_class($this));
+			array("perm", "info"), get_class($this));
 
 	}
 
@@ -2771,6 +2774,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html");
+		//$this->tpl->setVariable("ADM_CONTENT", "adm_content", "bla");
 
 		require_once ("content/classes/class.ilPublicSectionSelector.php");
 		$exp = new ilPublicSectionSelector($this->ctrl->getLinkTarget($this, "view"),
@@ -2810,7 +2814,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
+
 	}
 	
 	function savePublicSection()
