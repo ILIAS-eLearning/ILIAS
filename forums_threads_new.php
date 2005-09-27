@@ -44,10 +44,16 @@ $frm->setForumRefId($forumObj->getRefId());
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 $topicData = $frm->getOneTopic();
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
-$tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+$tpl->setCurrentBlock("header_image");
+$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_frm_b.gif"));
+$tpl->parseCurrentBlock();
+$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
+
 // display infopanel if something happened
 infoPanel();
 
@@ -133,6 +139,7 @@ if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
+$tpl->setVariable("TXT_NEW_TOPIC", $lng->txt("forums_new_thread"));
 
 $tpl->setCurrentBlock("attachment");
 $tpl->setVariable("TXT_ATTACHMENTS_ADD",$lng->txt("forums_attachments_add"));

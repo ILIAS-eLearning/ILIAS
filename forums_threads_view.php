@@ -132,6 +132,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 	$threadData = $frm->getOneThread();
 
+	$tpl->setCurrentBlock("header_image");
+	$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_frm_b.gif"));
+	$tpl->parseCurrentBlock();
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("forums_thread")." \"".$threadData["thr_subject"]."\"");
 
 	// Visit-Counter

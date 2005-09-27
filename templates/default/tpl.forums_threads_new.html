@@ -1,49 +1,34 @@
-  <style>
-	body { margin:0px; }
-  </style>
-  {STATUSLINE}
-  <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-  <!--<div class="invisible_border">-->
-	<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
-	{MESSAGE}
-	<!-- BEGIN new_thread -->
-	<p>
-	  <form name="formular1" action="{FORMACTION}" method="post"  enctype="multipart/form-data" onSubmit="return isEmpty(this, 'all', '')">
-
-		<table class="std">
-		  <tr>
-			<td class="option">{TXT_SUBJECT}<span class="asterisk">*</span></td>
-			<td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT}" size="50" maxlength="255" style="width:550px"/></td>
-		  </tr>
-		  <tr>
-			<td class="option" valign="top">{TXT_MESSAGE}<span class="asterisk">*</span></td>
-			<td class="option_value">
-			  <textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{FORM_MESSAGE}</textarea>
-			</td>
-		  </tr>
-		<!-- BEGIN attachment -->
-		  <tr>
-			<td class="option" align="right"><b>{TXT_ATTACHMENTS_ADD}</b></td>
-		 	<td class="option_value"><input class="submit" type="file" name="userfile" /></td>
-		  </tr>
-		<!-- END attachment -->
-			  <!-- BEGIN notify -->
-		  <tr>
-			<td class="option" valign="top">{TXT_NOTIFY}</td>
-			<td class="option_value">&nbsp;<input type="checkbox" name="formData[notify]" value="1" {NOTIFY_CHECKED} />{NOTIFY}</td>
-		  </tr>
-			  <!-- END notify -->
-		  <tr>
-			<td colspan="2"><span class="asterisk"> *</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
-		  </tr>
-		  <tr>
-			<td align="right" colspan="2"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>
-			</td>
-		  </tr>
-		</table>
-	  </form>
-	</p>
-	<!-- END new_thread -->
-	<!--</div>-->
-	</td></tr></table>
-
+<form name="formular1" class="il_Form" action="{FORMACTION}" method="post"  enctype="multipart/form-data" onSubmit="return isEmpty(this, 'all', '')">
+<table class="std">
+  <tr class="tblheader">
+  <td class="std" colspan="2">{TXT_NEW_TOPIC}</td>
+  </tr>
+  <tr>
+	<td class="option">{TXT_SUBJECT}<span class="asterisk">*</span></td>
+	<td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT}" size="50" maxlength="255" style="width:550px"/></td>
+  </tr>
+  <tr>
+	<td class="option" valign="top">{TXT_MESSAGE}<span class="asterisk">*</span></td>
+	<td class="option_value">
+	  <textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{FORM_MESSAGE}</textarea>
+	</td>
+  </tr>
+<!-- BEGIN attachment -->
+  <tr>
+	<td class="option" align="right"><b>{TXT_ATTACHMENTS_ADD}</b></td>
+	<td class="option_value"><input type="file" name="userfile" /></td>
+  </tr>
+<!-- END attachment -->
+	  <!-- BEGIN notify -->
+  <tr>
+	<td class="option" valign="top">{TXT_NOTIFY}</td>
+	<td class="option_value">&nbsp;<input type="checkbox" name="formData[notify]" value="1" {NOTIFY_CHECKED} />{NOTIFY}</td>
+  </tr>
+	  <!-- END notify -->
+  <tr>
+	<td class="submit" colspan="2"><span class="asterisk"> *</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
+	<div style="text-align:right;"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/></div>
+	</td>
+  </tr>
+</table>
+</form>
