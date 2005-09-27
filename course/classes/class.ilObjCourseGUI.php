@@ -1081,6 +1081,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
 				break;
+				
+			case "item_activation":
+				$tab_gui->addTarget("activation",
+					$this->ctrl->getLinkTarget($this,'cciEdit'),
+					"cciEdit", get_class($this));
+				$tab_gui->addTarget("preconditions",
+					$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+					"", "ilConditionHandlerInterface");
+				$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+				break;				
 		}
 	}
 
@@ -2632,7 +2642,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				? true
 				: false;
 			$tabs_gui->addTarget('view_content',
-				$this->ctrl->getLinkTarget($this, ""), array("", "view"), get_class($this),
+				$this->ctrl->getLinkTarget($this, ""), array("", "view","addToDesk","removeFromDesk"), get_class($this),
 					"", $force_active);
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
@@ -2648,7 +2658,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface")
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface"
+				&& $_GET["item_id"] == "")
 				? true
 				: false;
 			$tabs_gui->addTarget("edit_properties",
@@ -2656,6 +2667,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				array("edit", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
 
+		// lom meta data
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
@@ -2663,23 +2675,33 @@ class ilObjCourseGUI extends ilContainerGUI
 				 "", "ilmdeditorgui");
 		}
 
+		// member list
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
 		}
+		
+		// course archives
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_archives",
 								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));
 		}
+		
+		// learning objectives
 		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilcourseobjectivesgui")
+				? true
+				: false;
 			$tabs_gui->addTarget("crs_objectives",
 								 $this->ctrl->getLinkTarget($this,"listObjectives"), 
-								 "listObjectives", 
-								 get_class($this));
+								 "listObjectives",
+								 get_class($this), "", $force_active);
 		}
+		
+		// course groupings
 		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_groupings",
@@ -3971,26 +3993,26 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilconditionhandlerinterface":
 				include_once './classes/class.ilConditionHandlerInterface.php';
 				
-				$this->setSubTabs("properties");
-
+				// preconditions for single course items
 				if($_GET['item_id'])
 				{
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->setSubTabs("item_activation");
 
 					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
-					$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
-												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-																										'listConditions')));
-					
+					//$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
+					//							   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+					//																					'listConditions')));
 					$this->ctrl->forwardCommand($new_gui);
 				}
-				else
+				else	// preconditions for whole course
 				{
+					$this->setSubTabs("properties");
 					$new_gui =& new ilConditionHandlerInterface($this);
-					$new_gui->setBackButtons(array('edit_properties' => $this->ctrl->getLinkTarget($this,'edit'),
-												   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-																										'listConditions'),
-												   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'listStructure')));
+					//$new_gui->setBackButtons(array('edit_properties' => $this->ctrl->getLinkTarget($this,'edit'),
+					//							   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+					//																					'listConditions'),
+					//							   'crs_crs_structure' => $this->ctrl->getLinkTarget($this,'listStructure')));
 
 					$this->ctrl->forwardCommand($new_gui);
 				}
@@ -4094,7 +4116,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
+		$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
+		$this->setSubTabs("item_activation");
+		
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_edit();

@@ -85,9 +85,9 @@ class ilCourseContentInterface
 
 				$new_gui =& new ilConditionHandlerInterface($this,$_GET['item_id']);
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-				$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
-											   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
-																									'listConditions')));
+				//$new_gui->setBackButtons(array('edit' => $this->ctrl->getLinkTarget($this,'cciEdit'),
+				//							   'preconditions' => $this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface',
+				//																					'listConditions')));
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
@@ -606,6 +606,7 @@ class ilCourseContentInterface
 
 		$this->tpl->setCurrentBlock("btn_cell");
 
+		/*
 		$this->ctrl->setParameterByClass(strtolower(get_class($this->cci_client_obj)),'item_id',(int) $_GET['item_id']);
 		$this->tpl->setVariable("BTN_LINK",
 								$this->ctrl->getLinkTarget($this->cci_client_obj,'cciEdit'));
@@ -615,10 +616,10 @@ class ilCourseContentInterface
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameterByClass('ilConditionHandlerInterface','item_id',(int) $_GET['item_id']);
 		$this->tpl->setVariable("BTN_LINK",
-								$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+			$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
 		$this->tpl->parseCurrentBlock();
-	
+		*/
 	
 	
 		$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$_GET["item_id"]);
