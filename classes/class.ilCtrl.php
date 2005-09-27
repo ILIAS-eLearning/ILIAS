@@ -741,6 +741,8 @@ class ilCtrl
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters($a_class, $script, $a_cmd, $transits);
 
+		//$script = str_replace("&", "&amp;", $script);
+
 		return $script;
 	}
 
