@@ -72,6 +72,9 @@ class ilCourseObjectivesGUI
 		{
 			$cmd = "list";
 		}
+		
+		$this->setSubTabs();
+		
 		$this->$cmd();
 	}
 
@@ -1997,6 +2000,23 @@ class ilCourseObjectivesGUI
 		return $chapter ? $chapter : array();
 	}
 
+	/**
+	* set sub tabs
+	*/
+	function setSubTabs()
+	{
+		include_once("classes/class.ilTabsGUI.php");
+		$tab_gui = new ilTabsGUI();
+		$tab_gui->setSubTabs(true);
+		$tab_gui->addTarget("crs_objective_overview_objectives",
+			$this->ctrl->getLinkTarget($this, "listObjectives"),
+			array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"));
+			
+		$tab_gui->addTarget("crs_objective_overview_question_assignment",
+			$this->ctrl->getLinkTarget($this, "editQuestionAssignment"),
+			"editQuestionAssignment");
 
+		$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
+	}
 }
 ?>
