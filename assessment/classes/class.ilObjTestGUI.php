@@ -3956,7 +3956,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$user = new ilObjUser($_GET["userdetail"]);
 		$this->tpl->setVariable("TEXT_USERNAME", trim($user->getFirstname() . " " . $user->getLastname()));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("TEXT_QUESTIONTEXT", $questiontext);
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$this->tpl->setVariable("TEXT_USER_ANSWER", str_replace("\n", "<br />", ilUtil::prepareFormOutput($answertext)));
 	}
