@@ -469,7 +469,7 @@ class ilLMPresentationGUI
 
 
 
-	function attrib2arr(&$a_attributes)
+	function attrib2arr($a_attributes)
 	{
 		$attr = array();
 		if(!is_array($a_attributes))
