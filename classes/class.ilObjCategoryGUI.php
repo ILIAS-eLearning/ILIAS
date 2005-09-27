@@ -88,9 +88,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
+				? true
+				: false;
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""),
-				array("view", ""));
+				array("view", ""), "", "", $force_active);
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
