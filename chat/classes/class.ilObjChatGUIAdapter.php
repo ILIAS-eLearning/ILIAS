@@ -27,7 +27,7 @@
 * Class ilObjChatGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjChatGUIAdapter.php,v 1.1 2004/03/02 12:15:48 smeyer Exp $
+* $Id$Id: class.ilObjChatGUIAdapter.php,v 1.2 2005/07/29 13:03:16 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,7 +62,7 @@ class ilObjChatGUIAdapter extends ilObjectGUIAdapter
 	// PRIVATE METHODS
 	function __prepareOutput()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat.html",true);
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$title = $this->gui_obj->object->getTitle();
