@@ -1820,15 +1820,25 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
+//echo "-".$this->ctrl->getCmd()."-";
+
 		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
+			$force_active = ($_GET["cmd"] == "")
+				? true
+				: false;
 			$tabs_gui->addTarget("view_content",
-								 $this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+				$this->ctrl->getLinkTarget($this, "view"), array("view", ""), get_class($this),
+				"", $force_active);
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
+			$force_active = ($_GET["cmd"] == "edit")
+				? true
+				: false;
 			$tabs_gui->addTarget("edit_properties",
-								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
+				"", $force_active);
 		}
 		if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
 		{
@@ -1838,13 +1848,16 @@ class ilObjChatGUI extends ilObjectGUI
 		if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("chat_blocked_users",
-								 $this->ctrl->getLinkTarget($this, "blockedUsers"), "blockedUsers", get_class($this));
+				$this->ctrl->getLinkTarget($this, "blockedUsers"),
+				array("blockedUsers", "unBlockUsers", "blockUser"), get_class($this));
 		}
 
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm", "info"),
+				get_class($this));
 		}
 	}
 
@@ -1853,7 +1866,7 @@ class ilObjChatGUI extends ilObjectGUI
 	function __prepareOutput()
 	{
 		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat.html",'chat');
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output locator
@@ -1876,6 +1889,9 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilTabsGUI.php';
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_chat_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getDescription());
 
