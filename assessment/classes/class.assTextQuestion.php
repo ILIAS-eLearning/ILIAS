@@ -702,14 +702,13 @@ class ASS_TextQuestion extends ASS_Question
 	{
 		if (($points > 0) && ($points <= $this->getPoints()))
 		{
-			$query = sprintf("UPDATE tst_solutions SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$this->ilias->db->quote($points . ""),
 				$this->ilias->db->quote($user_id . ""),
 				$this->ilias->db->quote($test_id . ""),
 				$this->ilias->db->quote($this->getId() . "")
 			);
 			$result = $this->ilias->db->query($query);
-
 			return true;
 		}
 			else
@@ -736,7 +735,7 @@ class ASS_TextQuestion extends ASS_Question
 		
 		if (($points > 0) && ($points <= $maxpoints))
 		{
-			$query = sprintf("UPDATE tst_solutions SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$ilDB->quote($points . ""),
 				$ilDB->quote($user_id . ""),
 				$ilDB->quote($test_id . ""),
