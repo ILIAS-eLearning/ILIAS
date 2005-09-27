@@ -1308,14 +1308,23 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
+			$force_active = (($_GET["cmd"] == "view" || $_GET["cmd"] == "")
+				&& $_GET["cmdClass"] == "")
+				? true
+				: false;
 			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""), "", get_class($this));
+				$this->ctrl->getLinkTarget($this, ""), array("", "view","addToDesk","removeFromDesk"), get_class($this),
+				"", $force_active);
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
+			$force_active = ($_GET["cmd"] == "edit" && $_GET["cmdClass"] == "")
+				? true
+				: false;
 			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
+				"", $force_active);
 //  Export tab to export group members to an excel file. Only available for group admins
 //  commented out for following reason: clearance needed with developer list
 //			$tabs_gui->addTarget("export",
@@ -1339,7 +1348,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"), get_class($this));
 		}
 		
 		// show clipboard in repository
