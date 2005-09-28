@@ -170,7 +170,7 @@ class ilAccessHandler
 	*/
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "")
 	{
-		global $ilAccess, $ilBench;
+		global $ilBench;
 		
 		$ilBench->start("AccessControl", "0400_clear_info");
 		$this->current_info->clear();
