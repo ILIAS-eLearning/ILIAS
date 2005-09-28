@@ -455,7 +455,7 @@ class ilObjectListGUI
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
 			$ilBench->start("ilObjectListGUI", "4110_get_commands_check_access");
-			$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id);
+			$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id, $this->type);
 			$ilBench->stop("ilObjectListGUI", "4110_get_commands_check_access");
 
 			if ($access)
