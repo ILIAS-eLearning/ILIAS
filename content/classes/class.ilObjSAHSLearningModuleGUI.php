@@ -303,6 +303,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
+	* permission form
+	*/
+	function info()
+	{
+		$this->infoObject();
+	}
+
+	/**
 	* save permissions
 	*/
 	function permSave()
@@ -617,6 +625,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->getTabs($this->tabs_gui);
 		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
@@ -658,17 +670,19 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 */
 		$tabs_gui->addTarget("meta_data",
 			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 "", "ilmdeditorgui");
 
 		// perm
 		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTarget($this, "perm"), "perm",
+			$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
 			get_class($this));
 
 		// owner
+/*
 		$tabs_gui->addTarget("owner",
 			$this->ctrl->getLinkTarget($this, "owner"), "owner",
 			get_class($this));
+*/
 	}
 
 

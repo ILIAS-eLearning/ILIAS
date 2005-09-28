@@ -283,6 +283,22 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
 		$this->permObject();
 	}
+	
+	/**
+	* info permissions
+	*/
+	function info()
+	{
+		$this->infoObject();
+	}
+
+	/**
+	* info permissions
+	*/
+	function info()
+	{
+		$this->infoObject();
+	}
 
 	/**
 	* save permissions
@@ -311,177 +327,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		$this->ownerObject();
 	}
-
-	/**
-	* choose meta data section
-	* (called by administration)
-	*/
-/*
-	function chooseMetaSectionObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$a_target, $_REQUEST["meta_section"]);
-	}
-*/
-
-	/**
-	* choose meta data section
-	* (called by module)
-	*/
-/*
-	function chooseMetaSection()
-	{
-		//$this->setTabs();
-		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* add meta data object
-	* (called by administration)
-	*/
-/*
-	function addMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
-	}
-*/
-
-	/**
-	* add meta data object
-	* (called by module)
-	*/
-/*
-	function addMeta()
-	{
-		$this->addMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-
-	/**
-	* delete meta data object
-	* (called by administration)
-	*/
-/*
-	function deleteMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* delete meta data object
-	* (called by module)
-	*/
-/*
-	function deleteMeta()
-	{
-		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* edit meta data
-	* (called by administration)
-	*/
-/*
-	function editMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
-	}
-*/
-
-	/**
-	* edit meta data
-	* (called by module)
-	*/
-/*
-	function editMeta()
-	{
-		$this->editMetaObject($this->ctrl->getLinkTarget($this));
-	}
-*/
-
-	/**
-	* save meta data
-	* (called by administration)
-	*/
-/*
-	function saveMetaObject($a_target = "")
-	{
-		if ($a_target == "")
-		{
-			$a_target = "adm_object.php?cmd=editMeta&ref_id=".$this->object->getRefId();
-		}
-
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
-			"meta_section=" . $_POST["meta_section"]));
-	}
-*/
-
-	/**
-	* save meta data
-	* (called by module)
-	*/
-/*
-	function saveMeta()
-	{
-		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
-	}
-*/
 
 	/**
 	* save bib item (admin call)
@@ -793,6 +638,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->getTabs($this->tabs_gui);
 		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
@@ -810,32 +659,27 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
 
-		// edit meta
-/*
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));
-*/
-
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"meta_data", get_class($this));
-
+			"", "ilmdeditorgui");
 
 		// edit bib item information
 		$tabs_gui->addTarget("bib_data",
-			$this->ctrl->getLinkTarget($this, "editBibItem"), "editBibItem",
+			$this->ctrl->getLinkTarget($this, "editBibItem"),
+			array("editBibItem", "saveBibItem", "deleteBibItem", "addBibItem"),
 			get_class($this));
 
 		// perm
 		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTarget($this, "perm"), "perm",
+			$this->ctrl->getLinkTarget($this, "perm"), array("perm", "info"),
 			get_class($this));
 
 		// owner
+		/*
 		$tabs_gui->addTarget("owner",
 			$this->ctrl->getLinkTarget($this, "owner"), "owner",
 			get_class($this));
+		*/
 	}
 
 

@@ -1399,6 +1399,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("glo").": ".$title);
 
 		//$this->setAdminTabs($_POST["new_type"]);
@@ -1428,9 +1431,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 
 		// list definitions
+		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
+				? true
+				: false;
 		$tabs_gui->addTarget("cont_terms",
-			$this->ctrl->getLinkTarget($this, "listTerms"), "listTerms",
-			get_class($this));
+			$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
+			get_class($this), "", $force_active);
 
 		// properties
 		$tabs_gui->addTarget("properties",
@@ -1439,13 +1445,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// meta data
 		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
 
 		// export
 		$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this, "exportList"),
-			 "exportList", get_class($this));
+			 array("exportList", "viewExportLog"), get_class($this));
 
 		// permissions
 		$tabs_gui->addTarget("permission_settings",
