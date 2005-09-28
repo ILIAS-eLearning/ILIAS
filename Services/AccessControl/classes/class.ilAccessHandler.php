@@ -54,6 +54,8 @@ class ilAccessHandler
 		$this->condition = true;
 		$this->path = true;
 		$this->status = true;
+		$this->obj_id_cache = array();
+		$this->obj_type_cache = array();
 	}
 
 	/**
@@ -168,18 +170,39 @@ class ilAccessHandler
 	*/
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "")
 	{
-		$this->current_info->clear();
+		global $ilAccess, $ilBench;
 		
+		$ilBench->start("AccessControl", "0400_clear_info");
+		$this->current_info->clear();
+		$ilBench->stop("AccessControl", "0400_clear_info");
+		
+		$ilBench->start("AccessControl", "0500_lookup_id_and_type");
 		// get object id if not provided
 		if ($a_obj_id == "")
 		{
-			$a_obj_id = ilObject::_lookupObjId($a_ref_id);
+			if ($this->obj_id_cache[$a_ref_id] > 0)
+			{
+				$a_obj_id = $this->obj_id_cache[$a_ref_id];
+			}
+			else
+			{
+				$a_obj_id = ilObject::_lookupObjId($a_ref_id);
+				$this->obj_id_cache[$a_ref_id] = $a_obj_id;
+			}
 		}
-		
 		if ($a_type == "")
 		{
-			$a_type = ilObject::_lookupType($a_ref_id, true);
+			if ($this->obj_type_cache[$a_ref_id] != "")
+			{
+				$a_type = $this->obj_type_cache[$a_ref_id];
+			}
+			else
+			{
+				$a_type = ilObject::_lookupType($a_ref_id, true);
+				$this->obj_type_cache[$a_ref_id] = $a_type;
+			}
 		}
+		$ilBench->stop("AccessControl", "0500_lookup_id_and_type");
 
 		// get cache result
 		if ($this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
@@ -202,7 +225,8 @@ class ilAccessHandler
 		}
 
 		// check read permission for all parents
-		if (!$this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
+		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
+		if (!$par_check)
 		{
 			return false;
 		}
@@ -310,7 +334,7 @@ class ilAccessHandler
 	{
 		global $lng, $ilBench, $ilErr, $ilLog;
 		//echo "rbacCheck<br/>";
-		$ilBench->start("AccessControl", "2000_checkAccess_rbac_check");
+		$ilBench->start("AccessControl", "2500_checkAccess_rbac_check");
 
 		if ($a_permission == "")
 		{
@@ -329,7 +353,7 @@ class ilAccessHandler
 		}
 		
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id);
-		$ilBench->stop("AccessControl", "2000_checkAccess_rbac_check");
+		$ilBench->stop("AccessControl", "2500_checkAccess_rbac_check");
 
 		return $access;
 	}
