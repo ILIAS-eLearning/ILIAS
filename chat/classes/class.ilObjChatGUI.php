@@ -1144,6 +1144,8 @@ class ilObjChatGUI extends ilObjectGUI
 		if(!$_POST["message"])
 		{
 			sendInfo($this->lng->txt("chat_insert_message"),true);
+
+			return $this->showInputFrame();
 		}
 		if($_POST["message"] and $this->object->chat_room->checkWriteAccess())
 		{
