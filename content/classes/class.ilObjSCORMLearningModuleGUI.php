@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -298,21 +298,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		{
 			foreach ($tr_data as $data)
 			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$user = new ilObjUser($data["user_id"]);
-				$this->tpl->setVariable("VAL_USERNAME", $user->getLastname().", ".
-					$user->getFirstname());
-				$this->ctrl->setParameter($this, "user_id", $data["user_id"]);
-				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$this->tpl->setVariable("LINK_USER",
-					$this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));
-				$this->tpl->setVariable("VAL_TIME", $data["time"]);
-				$this->tpl->setVariable("VAL_STATUS", $data["status"]);
-				$this->tpl->setVariable("VAL_SCORE", $data["score"]);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
+				if (ilObject::_exists($data["user_id"]))
+				{
+					$this->tpl->setCurrentBlock("tbl_content");
+					$user = new ilObjUser($data["user_id"]);
+					$this->tpl->setVariable("VAL_USERNAME", $user->getLastname().", ".
+						$user->getFirstname());
+					$this->ctrl->setParameter($this, "user_id", $data["user_id"]);
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$this->tpl->setVariable("LINK_USER",
+						$this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));
+					$this->tpl->setVariable("VAL_TIME", $data["time"]);
+					$this->tpl->setVariable("VAL_STATUS", $data["status"]);
+					$this->tpl->setVariable("VAL_SCORE", $data["score"]);
+	
+					$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+					$this->tpl->setVariable("CSS_ROW", $css_row);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		} //if is_array
 		else
