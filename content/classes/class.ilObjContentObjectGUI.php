@@ -1344,7 +1344,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-		if($cnt == 0)
+		
+		$paste_active = false;
+		if (ilEditClipboard::getContentObjectType() == "st")
+		{
+			if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
+				|| ilEditClipboard::getAction() == "copy")
+			{
+				$paste_active = true;
+			}
+		}
+
+		if($cnt == 0 && !$paste_active)
 		{
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("NUM_COLS", 3);
@@ -1355,15 +1366,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$acts = array("delete" => "delete", "move" => "moveChapter",
-				"copy" => "copyChapter");
-			if (ilEditClipboard::getContentObjectType() == "st")
+			if ($cnt > 0)
 			{
-				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
-					|| ilEditClipboard::getAction() == "copy")
-				{
-					$acts["pasteChapter"] =  "pasteChapter";
-				}
+				$acts = array("delete" => "delete", "move" => "moveChapter",
+					"copy" => "copyChapter");
+			}
+			if ($paste_active)
+			{
+				$acts["pasteChapter"] =  "pasteChapter";
 			}
 			$this->setActions($acts);
 			$this->showActions();
