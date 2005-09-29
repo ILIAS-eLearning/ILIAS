@@ -65,6 +65,18 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 		$this->commands = ilObjDLBookAccess::_getCommands();
 	}
 
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	{
+		global $ilUser;
+
+		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		
+		include_once("content/classes/class.ilObjLearningModuleAccess.php");
+		$this->last_accessed_page = 
+			ilObjLearningModuleAccess::_getLastAccessedPage($a_ref_id, $ilUser->getId());
+		
+	}
+
 	/**
 	* Overwrite this method, if link target is not build by ctrl class
 	* (e.g. "lm_presentation.php", "forum.php"). This is the case
@@ -78,6 +90,11 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 	{
 		switch($a_cmd)
 		{
+			case "continue":
+				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id.
+					"&obj_id=".$this->last_accessed_page;
+				break;
+
 			case "view":
 				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;
 				break;

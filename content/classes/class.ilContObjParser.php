@@ -1316,10 +1316,6 @@ class ilContObjParser extends ilMDSaxParser
 				{
 					$this->media_item->setFormat(trim($this->chr_data));
 				}
-				if ($this->in_meta_data)
-				{
-					$this->meta_technical->addFormat($this->chr_data);
-				}
 				if ($this->in_file_item)
 				{
 					$this->file_item->setFileType(trim($this->chr_data));
@@ -1370,10 +1366,6 @@ class ilContObjParser extends ilMDSaxParser
 				{
 					$this->media_item->setLocationType($this->loc_type);
 					$this->media_item->setLocation(trim($this->chr_data));
-				}
-				if ($this->in_meta_data)
-				{
-					//$this->meta_technical->addLocation($this->loc_type, $a_data);
 				}
 				if ($this->in_file_item)
 				{
