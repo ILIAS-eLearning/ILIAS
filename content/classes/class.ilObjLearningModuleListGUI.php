@@ -83,7 +83,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		
 		include_once("content/classes/class.ilObjLearningModuleAccess.php");
 		$this->last_accessed_page = 
-			ilObjLearningModuleAccess::_getLastAccessedPage($ilUser->getId(),$this->ref_id);
+			ilObjLearningModuleAccess::_getLastAccessedPage($a_ref_id, $ilUser->getId());
 		
 	}
 

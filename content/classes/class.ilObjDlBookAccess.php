@@ -53,6 +53,7 @@ class ilObjDlBookAccess extends ilObjContentObjectAccess
 		(
 			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
 				"default" => true),
+			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 		);
 		

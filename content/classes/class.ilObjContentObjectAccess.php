@@ -132,10 +132,10 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	/**
 	* get last accessed page
 	*
+	* @param	int		$a_obj_id	content object id
 	* @param	int		$a_user_id	user object id
-	* @param	int		$a_ref_id	content object id
 	*/
-	function _getLastAccessedPage($a_ref_id,$a_user_id = "")
+	function _getLastAccessedPage($a_ref_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 		
@@ -143,10 +143,11 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
 		$q = "SELECT * FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($a_user_id)." AND ".
 			"lm_id = ".$ilDB->quote($a_ref_id);
+
 		$acc_set = $ilDB->query($q);
 
 		if ($acc_rec = $acc_set->fetchRow(DB_FETCHMODE_ASSOC))
