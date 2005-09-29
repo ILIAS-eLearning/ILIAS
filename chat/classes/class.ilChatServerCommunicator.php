@@ -285,9 +285,7 @@ class ilChatServerCommunicator
 		}
 		
 		// GET INSTANCE
-		$ch_inst = ilObjectFactory::getInstanceByRefId($ref_id);
-		$chatcomm = new ilChatServerCommunicator($ch_inst);
-		return $chatcomm;
+		return new ilChatServerCommunicator($tmp =& ilObjectFactory::getInstanceByRefId($ref_id));
 	}		
 
 	function _login()
