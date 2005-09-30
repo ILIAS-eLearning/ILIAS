@@ -158,7 +158,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr_b.gif",$this->lng->txt("web_resources"));
+		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr.gif",$this->lng->txt("web_resources"));
 		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"),array("ref_id" => $this->object->getRefId(),
 													   "cmd" => 'listItems'));
@@ -290,7 +290,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr_b.gif",$this->lng->txt("web_resources"));
+		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr.gif",$this->lng->txt("web_resources"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("title"),
 								   $this->lng->txt("target"),
@@ -808,39 +808,43 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem,$rbacreview;
-
+//echo "-".$this->ctrl->getCmd()."-";
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
 		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("view_content",
-								 $this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("edit_content",
-								 $this->ctrl->getLinkTarget($this, "editItems"), "editItems", get_class($this));
+				$this->ctrl->getLinkTarget($this, "editItems"),
+				array("editItems", "addItem", "deleteItems", "editItem", "updateItem"),
+				"");
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-								 "meta_data", get_class($this));
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", 'ilmdeditorgui');
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("history",
-								 $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
+				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("link_check",
-								 $this->ctrl->getLinkTarget($this, "linkChecker"), "linkChecker", get_class($this));
+				$this->ctrl->getLinkTarget($this, "linkChecker"),
+				array("linkChecker", "refreshLinkCheck"), get_class($this));
 		}
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+				$this->ctrl->getLinkTarget($this, "perm"),
+				array("perm", "info"), get_class($this));
 		}
 	}
 
@@ -848,7 +852,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function __prepareOutput()
 	{
 		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.link_resource.html",'link');
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.link_resource.html",'link');
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// output locator
@@ -871,6 +876,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilTabsGUI.php';
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_webr_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getDescription());
 
