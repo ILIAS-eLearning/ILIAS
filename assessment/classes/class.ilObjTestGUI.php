@@ -5485,6 +5485,9 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_tst_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
@@ -6710,11 +6713,72 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		$tabs_gui->getTargetsByObjectType($this, "tst");
+		//$tabs_gui->getTargetsByObjectType($this, "tst");
 
+//echo "-".$this->ctrl->getCmd()."-";
+
+		// properties
+		$force_active = ($this->ctrl->getCmdClass() == "" &&
+			$this->ctrl->getCmd() == "")
+			? true
+			: false;
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", get_class($this),
+			 "", $force_active);
+
+		// questions
+		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+			? true
+			: false;
+		$tabs_gui->addTarget("ass_questions",
+			 $this->ctrl->getLinkTarget($this,'questions'),
+			 array("questions"),
+			 "", "", $force_active);
+			 
+		// mark schema
+		$tabs_gui->addTarget("mark_schema",
+			 $this->ctrl->getLinkTarget($this,'marks'),
+			 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+			 	"saveMarks"),
+			 get_class($this));
+
+		// participants
+		$tabs_gui->addTarget("participants",
+			 $this->ctrl->getLinkTarget($this,'participants'),
+			 "participants", get_class($this));
+
+		// print
+		$tabs_gui->addTarget("print",
+			 $this->ctrl->getLinkTarget($this,'print'),
+			 "print", get_class($this));
+
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTarget($this,'export'),
+			 array("export", "createExportFile"),
+			 get_class($this));
+			
+		// maintenance
+		$tabs_gui->addTarget("maintenance",
+			 $this->ctrl->getLinkTarget($this,'maintenance'),
+			 "maintenance", get_class($this));
+
+		// status
+		$tabs_gui->addTarget("status",
+			 $this->ctrl->getLinkTarget($this,'status'),
+			 "status", get_class($this));
+		
+		// permissions
+		$tabs_gui->addTarget("perm_settings",
+			 $this->ctrl->getLinkTarget($this,'perm'),
+			 array("perm", "info"),
+			 get_class($this));
+			 
+		// meta data
 		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
 	}
 
 				
