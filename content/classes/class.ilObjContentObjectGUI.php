@@ -210,7 +210,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		
 		$this->tpl->setVariable("BTN_LINK", "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"".$buttonTarget."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));

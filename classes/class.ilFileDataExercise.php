@@ -230,6 +230,7 @@ class ilFileDataExercise extends ilFileData
 		ksort($members);
 		$tmpfile = ilUtil::ilTempnam();
 		$fh = fopen($tmpfile, "w");
+
 		if ($fh)
 		{
 			foreach ($members as $id => $member)
@@ -238,9 +239,19 @@ class ilFileDataExercise extends ilFileData
 			}
 			fclose($fh);
 		}
+
 		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		copy($tmpfile, $savepath . "users.txt"); 
 		$cdir = getcwd();
+
+		// important check: if the directory does not exist
+		// ILIAS stays in the current directory (echoing only a warning)
+		// and the zip command below archives the whole ILIAS directory
+		// (including the data directory) and sends a mega file to the user :-o
+		if (!is_dir($savepath))
+		{
+			return;
+		}
 		chdir($savepath);
 		$zip = PATH_TO_ZIP;
 		$tmpfile = ilUtil::ilTempnam();
