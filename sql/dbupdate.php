@@ -8645,7 +8645,7 @@ $ilCtrlStructureReader->getStructure();
   // add chat below ChatSettings for personal desktop chat
 
   // Get chat settings id
-$query = "SELECT * FROM object_data JOIN object_reference USING(obj_id) WHERE type = 'chac'";
+$query = "SELECT * FROM object_data LEFT JOIN object_reference USING(obj_id) WHERE type = 'chac'";
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
