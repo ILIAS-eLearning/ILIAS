@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.7 2005/08/01 09:07:09 akill Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.8 2005/08/18 16:54:34 agonzalez Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI:
 *
@@ -96,7 +96,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""),
-				"");
+				array("", "view", "render"));
 		}
 		
 		// parent tabs (all container: edit_permission, clipboard, trash
