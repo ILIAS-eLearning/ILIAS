@@ -1575,6 +1575,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_spl_b.gif"));
+		$this->tpl->parseCurrentBlock();
+
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
