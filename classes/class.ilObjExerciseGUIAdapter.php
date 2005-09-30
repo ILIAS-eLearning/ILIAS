@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.2 2003/12/18 14:24:30 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.3 2005/07/28 13:14:26 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -56,7 +56,7 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 	// PRIVATE METHODS
 	function __prepareOutput()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.exercise.html");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$title = $this->gui_obj->object->getTitle();
@@ -64,6 +64,10 @@ class ilObjExerciseGUIAdapter extends ilObjectGUIAdapter
 		// catch feedback message
 		sendInfo();
 
+		
+		$this->tpl->setCurrentBlock("header_image");
+		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_exc_b.gif"));
+		$this->tpl->parseCurrentBlock();
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);

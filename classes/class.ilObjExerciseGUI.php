@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.13.2.1 2005/08/10 08:26:31 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.14 2005/08/10 08:39:45 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -77,7 +77,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->getTemplateFile("view","exc");
+		$this->getTemplateFile("view", "exc");
 
 		$this->tpl->setVariable("FORM_DOWNLOAD_ACTION",$this->getFormAction("downloadFile",
 																			"adm_object.php?cmd=downloadFile&ref_id=".$this->ref_id));
@@ -447,6 +447,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		//add template for buttons
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// add member button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, 'newmembers'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("add_member"));
+		$this->tpl->parseCurrentBlock();
 
 		$this->getTemplateFile("members","exc");
 
@@ -505,12 +514,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function downloadAllObject()
 	{
 		$members = array();
+
 		foreach($this->object->members_obj->getMembers() as $member_id)
 		{
 			$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
 			$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
 			unset($tmp_obj);
 		}
+
 		$this->object->file_obj->downloadAllDeliveredFiles($members);
 	}
 	
@@ -550,7 +561,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$this->getTemplateFile("add_member","exc");
 		$this->tpl->setVariable("F_ACTION", 
-								$this->getFormAction("newMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=newMembers"));
+			$this->getFormAction("newMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=newMembers"));
 		
 		if($_POST["search_str"])
 		{
@@ -616,8 +627,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
 			$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		}
-		
-		
 	}
 
 	// PRIVATE METHODS
@@ -848,7 +857,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$tbl = new ilTableGUI();
 
-		$tbl->setTitle($this->lng->txt("exc_header_members"),"icon_usr_b.gif",$this->lng->txt("exc_header_members"));
+		$tbl->setTitle($this->lng->txt("exc_header_members"),"icon_usr.gif",$this->lng->txt("exc_header_members"));
 		$tbl->setHeaderNames(array('',$this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
@@ -923,18 +932,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
-		
+
+//if ($this->ctrl->getCmd() != "gateway")
+//echo "-".$this->ctrl->getCmd()."-";
+
 		// view
 		$tabs_gui->addTarget("view",
 			$this->ctrl->getLinkTarget($this, 'view'),
-			"view", get_class($this));
+			"view", "");
 
 		// edit properties
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, 'edit'),
-				"edit", get_class($this));
+				"edit", "");
 		}
 
 		// deliver exercise
@@ -947,12 +959,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("show_members",
 				$this->ctrl->getLinkTarget($this, 'members'),
-				"members", get_class($this));
+				"members", "");
 
 			// add member
+			/*
 			$tabs_gui->addTarget("add_member",
 				$this->ctrl->getLinkTarget($this, 'newmembers'),
 				"newmembers", get_class($this));
+			*/
 		}
 
 		// permissions
@@ -960,7 +974,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTarget($this, 'perm'),
-				"perm", get_class($this));
+				array("perm", "info"), get_class($this));
 		}
 	}
 			
