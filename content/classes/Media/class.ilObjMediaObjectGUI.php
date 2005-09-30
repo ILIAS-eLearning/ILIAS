@@ -2272,12 +2272,19 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
+			$this->tpl->setCurrentBlock("header_image");
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock();
 			$title = $this->object->getTitle();
 			$this->tpl->setVariable("HEADER", $title);
 		}
 		else
 		{
 			//$title = $this->object->getTitle();
+			$this->tpl->setCurrentBlock("header_image");
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
 		}
 
@@ -2322,14 +2329,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			$tabs_gui->addTarget("meta_data",
 				$this->ctrl->getLinkTargetByClass(
-					array("ilobjmediaobjectgui", "ilmdeditorgui"),''),
-				"meta_data", get_class($this));
+					array("ilobjmediaobjectgui", "ilmdeditorgui"),'listSection'),
+				"", "ilmdeditorgui");
 
 		}
 
 		// back to upper context
 		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
+			$this->ctrl->getParentReturn($this), "back",
 			"");
 	}
 

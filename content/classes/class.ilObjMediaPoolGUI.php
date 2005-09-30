@@ -1023,7 +1023,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
-			"listMedia", get_class($this));
+			"listMedia", "");
 
 		$tabs_gui->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
 			"edit", get_class($this));
