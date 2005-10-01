@@ -1177,17 +1177,22 @@ class ASS_ClozeTest extends ASS_Question
 * @access public
 * @see $gaps
 */
-  function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) {
+  function set_answertext($index = 0, $answertext_index = 0, $answertext = "", $add_gaptext=0) 
+	{
 		$answertext = str_replace("\,", ",", $answertext);
-  	if ($add_gaptext == 1)    {
+  	if ($add_gaptext == 1)
+		{
     	$arr = $this->gaps[$index][0];
-    	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) {
+    	if (strlen($this->gaps[$index][count($this->gaps[$index])-1]->get_answertext()) != 0) 
+			{
 				$default_state = 0;
+				$default_points = 0;
 				if ($arr->get_cloze_type() == CLOZE_TEXT)
 				{
 					$default_state = 1;
+					if ($answertext_index > 0) $default_points = $this->gaps[$index][0]->get_points();
 				}
-    		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, 0, count($this->gaps[$index]),
+    		array_push($this->gaps[$index], new ASS_AnswerCloze($answertext, $default_points, count($this->gaps[$index]),
     			$default_state, $arr->get_cloze_type(),
     			$arr->get_name(), $arr->get_shuffle()));
     		$this->rebuild_cloze_text();
@@ -1202,10 +1207,13 @@ class ASS_ClozeTest extends ASS_Question
     if ($answertext_index >= count($this->gaps[$index])) return;
 
 
-    if (strlen($answertext) == 0) {
+    if (strlen($answertext) == 0) 
+		{
       // delete the answertext
       $this->delete_answertext($index, $this->gaps[$index][$answertext_index]->get_answertext());
-    } else {
+    } 
+		else 
+		{
       $this->gaps[$index][$answertext_index]->set_answertext($answertext);
       $this->rebuild_cloze_text();
     }
@@ -1575,11 +1583,22 @@ class ASS_ClozeTest extends ASS_Question
   function getMaximumPoints() {
     $points = 0;
     foreach ($this->gaps as $key => $value) {
-      if ($value[0]->get_cloze_type() == CLOZE_TEXT) {
-        $points += $value[0]->get_points();
-      } else {
+      if ($value[0]->get_cloze_type() == CLOZE_TEXT) 
+			{
+				$gap_max_points = 0;
+        foreach ($value as $key2 => $value2) 
+				{
+					if ($value2->get_points() > $gap_max_points)
+					{
+						$gap_max_points = $value2->get_points();
+					}
+				}
+        $points += $gap_max_points;
+      } else 
+			{
 				$points_arr = array("set" => 0, "unset" => 0);
-        foreach ($value as $key2 => $value2) {
+        foreach ($value as $key2 => $value2) 
+				{
 					if ($value2->get_points() > $points_arr["set"])
 					{
 						$points_arr["set"] = $value2->get_points();
