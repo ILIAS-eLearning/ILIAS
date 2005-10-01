@@ -8714,3 +8714,5 @@ $rbacadmin->grantPermission($role_id,
 							$chat_ref_id);
 $rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
 ?>
+<#534>
+ALTER TABLE `qpl_questions` ADD `textgap_rating` ENUM( 'ci', 'cs', 'l1', 'l2', 'l3', 'l4', 'l5' ) AFTER `maxNumOfChars` ;

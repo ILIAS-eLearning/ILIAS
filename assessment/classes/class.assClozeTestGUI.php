@@ -269,6 +269,30 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.title.focus();"));
 		}
 		$this->tpl->parseCurrentBlock();
+		
+		// Add textgap rating options
+		$textgap_options = array(
+			array("ci", $this->lng->txt("cloze_textgap_case_insensitive")),
+			array("cs", $this->lng->txt("cloze_textgap_case_sensitive")),
+			array("l1", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1")),
+			array("l2", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2")),
+			array("l3", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3")),
+			array("l4", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4")),
+			array("l5", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5"))
+		);
+		$textgap_rating = $this->object->getTextgapRating();
+		foreach ($textgap_options as $textgap_option)
+		{
+			$this->tpl->setCurrentBlock("textgap_rating");
+			$this->tpl->setVariable("TEXTGAP_VALUE", $textgap_option[0]);
+			$this->tpl->setVariable("TEXTGAP_TEXT", $textgap_option[1]);
+			if (strcmp($textgap_rating, $textgap_option[0]) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_TEXTGAP_VALUE", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
@@ -284,6 +308,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
 		$this->tpl->setVariable("TEXT_CLOSE_HINT", htmlspecialchars($this->lng->txt("close_text_hint")));
+		$this->tpl->setVariable("TEXTGAP_RATING", $this->lng->txt("cloze_textgap_rating"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
@@ -348,6 +373,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+		$this->object->setTextgapRating($_POST["textgap_rating"]);
 		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, "<strong><em><code><cite><gap>");
 		$cloze_text = preg_replace("/\n/", "<br />", $cloze_text);
 		$this->object->set_cloze_text($cloze_text);

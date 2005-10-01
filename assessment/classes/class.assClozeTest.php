@@ -29,6 +29,14 @@ define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
 define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
 
+define("TEXTGAP_RATING_CASEINSENSITIVE", "ci");
+define("TEXTGAP_RATING_CASESENSITIVE", "cs");
+define("TEXTGAP_RATING_LEVENSHTEIN1", "l1");
+define("TEXTGAP_RATING_LEVENSHTEIN2", "l2");
+define("TEXTGAP_RATING_LEVENSHTEIN3", "l3");
+define("TEXTGAP_RATING_LEVENSHTEIN4", "l4");
+define("TEXTGAP_RATING_LEVENSHTEIN5", "l5");
+
 /**
 * Class for cloze tests
 *
@@ -77,6 +85,19 @@ class ASS_ClozeTest extends ASS_Question
 	* @var string
 	*/
 	var $end_tag;
+	
+	/**
+	* The rating option for text gaps
+	*
+	* This could contain one of the following options:
+	* - case insensitive text gaps
+	* - case sensitive text gaps
+	* - various levenshtein distances
+	*
+	* @var string
+	*/
+	var $textgap_rating;
+	
 	/**
 	* ASS_ClozeTest constructor
 	*
@@ -279,7 +300,7 @@ class ASS_ClozeTest extends ASS_Question
 			// Neuen Datensatz schreiben
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, owner, question_text, working_time, shuffle, complete, created, original_id, textgap_rating, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getQuestionType()),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -292,7 +313,8 @@ class ASS_ClozeTest extends ASS_Question
 				$db->quote("$this->shuffle"),
 				$db->quote("$complete"),
 				$db->quote($created),
-				$original_id
+				$original_id,
+				$db->quote($this->textgap_rating)
 			);
 			$result = $db->query($query);
 			if ($result == DB_OK)
@@ -312,7 +334,7 @@ class ASS_ClozeTest extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s, textgap_rating = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -322,6 +344,7 @@ class ASS_ClozeTest extends ASS_Question
 				$db->quote($estw_time),
 				$db->quote("$this->shuffle"),
 				$db->quote("$complete"),
+				$db->quote($this->textgap_rating),
 				$db->quote($this->id)
 				);
 			$result = $db->query($query);
@@ -390,6 +413,7 @@ class ASS_ClozeTest extends ASS_Question
 				$this->points = $data->points;
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
+				$this->setTextgapRating($data->textgap_rating);
 				$this->shuffle = $data->shuffle;
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
@@ -782,6 +806,17 @@ class ASS_ClozeTest extends ASS_Question
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $this->domxml->create_element("fieldentry");
 		$qtiFieldentryText = $this->domxml->create_text_node($this->getAuthor());
+		$qtiFieldentry->append_child($qtiFieldentryText);
+		$qtiMetadatafield->append_child($qtiFieldlabel);
+		$qtiMetadatafield->append_child($qtiFieldentry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		
+		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
+		$qtiFieldlabel = $this->domxml->create_element("fieldlabel");
+		$qtiFieldlabelText = $this->domxml->create_text_node("TEXTGAP_RATING");
+		$qtiFieldlabel->append_child($qtiFieldlabelText);
+		$qtiFieldentry = $this->domxml->create_element("fieldentry");
+		$qtiFieldentryText = $this->domxml->create_text_node($this->getTextgapRating());
 		$qtiFieldentry->append_child($qtiFieldentryText);
 		$qtiMetadatafield->append_child($qtiFieldlabel);
 		$qtiMetadatafield->append_child($qtiFieldentry);
@@ -1794,7 +1829,7 @@ class ASS_ClozeTest extends ASS_Question
 			$estw_time = $this->getEstimatedWorkingTime();
 			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, textgap_rating = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
@@ -1804,6 +1839,7 @@ class ASS_ClozeTest extends ASS_Question
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
+				$db->quote($this->textgap_rating . ""),
 				$db->quote($this->original_id . "")
 				);
 			$result = $db->query($query);
@@ -1870,6 +1906,48 @@ class ASS_ClozeTest extends ASS_Question
 			if ($answertextsize > $size) $size = $answertextsize;
 		}
 		return $size;
+	}
+	
+	/**
+	* Returns the rating option for text gaps
+	*
+	* Returns the rating option for text gaps
+	*
+	* @return string The rating option for text gaps
+	* @see $textgap_rating
+	* @access public
+	*/
+	function getTextgapRating()
+	{
+		return $this->textgap_rating;
+	}
+	
+	/**
+	* Sets the rating option for text gaps
+	*
+	* Sets the rating option for text gaps
+	*
+	* @param string $a_textgap_rating The rating option for text gaps
+	* @see $textgap_rating
+	* @access public
+	*/
+	function setTextgapRating($a_textgap_rating)
+	{
+		switch ($a_textgap_rating)
+		{
+			case TEXTGAP_RATING_CASEINSENSITIVE:
+			case TEXTGAP_RATING_CASESENSITIVE:
+			case TEXTGAP_RATING_LEVENSHTEIN1:
+			case TEXTGAP_RATING_LEVENSHTEIN2:
+			case TEXTGAP_RATING_LEVENSHTEIN3:
+			case TEXTGAP_RATING_LEVENSHTEIN4:
+			case TEXTGAP_RATING_LEVENSHTEIN5:
+				$this->textgap_rating = $a_textgap_rating;
+				break;
+			default:
+				$this->textgap_rating = TEXTGAP_RATING_CASEINSENSITIVE;
+				break;
+		}
 	}
 }
 

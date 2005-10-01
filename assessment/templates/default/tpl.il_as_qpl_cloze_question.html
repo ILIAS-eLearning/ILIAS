@@ -22,6 +22,16 @@
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
+	<td class="option"><label for="textgap_rating">{TEXTGAP_RATING}:</label></td>
+	<td class="option_value" colspan="4">
+		<select name="textgap_rating" id="textgap_rating">
+<!-- BEGIN textgap_rating -->
+	    <option value="{TEXTGAP_VALUE}"{SELECTED_TEXTGAP_VALUE}>{TEXTGAP_TEXT}</option>
+<!-- END textgap_rating -->
+		</select>
+	</td>
+</tr>
+<tr>
 	<td colspan="5" class="option"><input name="cmd[createGaps]" type="submit" class="submit" id="creategaps" value="{TEXT_CREATE_GAPS}" /></td>
 </tr>
 <!-- BEGIN answer_row -->
