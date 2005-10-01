@@ -78,6 +78,7 @@ class ilQTIParser extends ilSaxParser
 	var $section;
 	var $import_mapping;
 	var $question_counter = 1;
+	var $textgap_rating;
 
 	var $founditems = array();
 	var $verifyroot = false;
@@ -904,6 +905,7 @@ class ilQTIParser extends ilSaxParser
 				break;
 			case "item":
 				include_once("./assessment/classes/class.ilQTIItem.php");
+				$this->textgap_rating = "ci";
 				$this->gap_index = 0;
 				$this->item =& $this->items[array_push($this->items, new ilQTIItem())-1];
 				if (is_array($a_attribs))
@@ -990,6 +992,10 @@ class ilQTIParser extends ilSaxParser
 						if ($this->item != NULL)
 						{
 							$this->item->setAuthor($this->metadata["entry"]);
+						}
+					case "TEXTGAP_RATING":
+						if ($this->item != NULL)
+						{
 						}
 						break;
 				}
@@ -1516,6 +1522,7 @@ class ilQTIParser extends ilSaxParser
 						);
 						$question->setObjId($questionpool_id);
 						$question->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+						$question->setTextgapRating($this->textgap_rating);
 						$gaptext = array();
 						foreach ($gaps as $gapidx => $gap)
 						{
