@@ -150,6 +150,10 @@ assessment#:#circle_click_circle#:#Please click on a circle point of the desired
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
 assessment#:#cloze_text#:#Cloze text
+assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
+assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
+assessment#:#cloze_textgap_rating#:#Text gap rating
 assessment#:#code#:#Code
 assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
