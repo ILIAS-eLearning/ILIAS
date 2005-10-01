@@ -1372,6 +1372,48 @@ class ASS_ClozeTest extends ASS_Question
   }
 	
 	/**
+	* Returns the points for a text gap
+	*
+	* Returns the points for a text gap and compares the given solution with
+	* the entered solution using the text gap rating options.
+	*
+	* @param string $a_original The original (correct) text
+	* @param string $a_entered The text entered by the user
+	* @param integer $max_points The maximum number of points for the solution
+	* @access public
+	*/
+	function getTextgapPoints($a_original, $a_entered, $max_points)
+	{
+		$result = 0;
+		$gaprating = $this->getTextgapRating();
+		switch ($gaprating)
+		{
+			case TEXTGAP_RATING_CASEINSENSITIVE:
+				if (strcmp(strtolower($a_original), strtolower($a_entered)) == 0) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_CASESENSITIVE:
+				if (strcmp($a_original, $a_entered) == 0) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_LEVENSHTEIN1:
+				if (levenshtein($a_original, $a_entered) <= 1) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_LEVENSHTEIN2:
+				if (levenshtein($a_original, $a_entered) <= 2) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_LEVENSHTEIN3:
+				if (levenshtein($a_original, $a_entered) <= 3) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_LEVENSHTEIN4:
+				if (levenshtein($a_original, $a_entered) <= 4) $result = $max_points;
+				break;
+			case TEXTGAP_RATING_LEVENSHTEIN5:
+				if (levenshtein($a_original, $a_entered) <= 5) $result = $max_points;
+				break;
+		}
+		return $result;
+	}
+	
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -1409,13 +1451,17 @@ class ASS_ClozeTest extends ASS_Question
 		foreach ($user_result as $gap_id => $value) {
 			if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) 
 			{
-				$foundsolution = 0;
-				foreach ($this->gaps[$gap_id] as $k => $v) {
-					if ((strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) && (!$foundsolution)) {
+				$gapmaxpoints = 0;
+				foreach ($this->gaps[$gap_id] as $k => $v) 
+				{
+					$getpoints = $this->getTextgapPoints($v->get_answertext(), $value["value"], $v->get_points());
+					if ($getpoints > $gapmaxpoints) $gapmaxpoints = $getpoints;
+/*					if ((strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) && (!$foundsolution)) {
 						$points += $v->get_points();
 						$foundsolution = 1;
-					}
+					}*/
 				}
+				$points += $gapmaxpoints;
 			} 
 			else 
 			{
