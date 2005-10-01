@@ -123,11 +123,17 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
 			{
 				$this->tpl->setCurrentBlock("textgap_value");
-				foreach ($gap	 as $key => $value)
+				foreach ($gap as $key => $value)
 				{
-					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->get_answertext()));
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_TEXT_GAP", htmlspecialchars($value->get_answertext()));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("VALUE_INDEX", $key);
+					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $value->get_points()));
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -159,14 +165,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("textgap");
-				$answer_array = $this->object->get_gap($i);
-				$answer_points = $answer_array[0]->get_points();
-				$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
 				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				$this->tpl->parseCurrentBlock();
-				
 			}
 			elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
@@ -178,7 +179,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $key);
-					$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
@@ -394,7 +394,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		if ($this->ctrl->getCmd() != "createGaps")
 		{
 			$this->setGapValues();
-			$this->setGapPoints();
 			$this->setShuffleState();
 
 			foreach ($_POST as $key => $value)
@@ -494,6 +493,21 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 									ilUtil::stripSlashes($value)
 								);
 							}
+							if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
+							{
+								$points = $_POST["points_$matches[1]_$matches[2]"];
+								if ($points < 0)
+								{
+									$points = 0.0;
+									sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+								}
+							}
+							else
+							{
+								$points = 0.0;
+							}
+							$this->object->set_single_answer_points($matches[1], $matches[2], $points);
+							$this->object->set_single_answer_state($matches[1], $matches[2], 1);
 						}
 					}
 					else
@@ -547,31 +561,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		}
 	}
 
-	function setGapPoints()
-	{
-		foreach ($_POST as $key => $value)
-		{
-			// Set text gap points
-			if (preg_match("/^points_(\d+)$/", $key, $matches))
-			{
-				if (preg_match("/\d+/", $value))
-				{
-					$points = $value;
-					if ($points < 0)
-					{
-						$points = 0.0;
-						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
-					}
-				}
-				else
-				{
-					$points = 0.0;
-				}
-				$this->object->set_gap_points($matches[1], $points);
-			}
-		}
-	}
-
 	function setShuffleState()
 	{
 		foreach ($_POST as $key => $value)
@@ -592,7 +581,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->writePostData();
 
 		$this->setGapValues(false);
-		$this->setGapPoints();
 		$this->setShuffleState();
 		$this->object->update_all_gap_params();
 		$this->editQuestion();
