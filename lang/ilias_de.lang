@@ -1844,7 +1844,7 @@ common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktivie
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. 
 common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
-common#:#link_selected_items#:#Link selected items###20 Jun 2005 new variable
+common#:#link_selected_items#:#Ausgewählte Elemente verknüpfen
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
@@ -1999,7 +1999,7 @@ common#:#monthly#:#monatlich
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
-common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
+common#:#move_selected_items#:#Ausgewählte Elemente verschieben
 common#:#move_to#:#Ablegen in
 common#:#move_users_to_style#:#Benutzer Style zuordnen
 common#:#msg_cancel#:#Aktion abgebrochen
