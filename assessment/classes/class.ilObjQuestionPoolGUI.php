@@ -209,6 +209,39 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
+	* Questionpool properties
+	*/
+	function propertiesObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_properties.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("qpl_general_properties"));
+		$this->tpl->setVariable("PROPERTY_ONLINE", $this->lng->txt("qpl_online_property"));
+		$this->tpl->setVariable("PROPERTY_ONLINE_DESCRIPTION", $this->lng->txt("qpl_online_property_description"));
+		if ($this->object->getOnline() == 1)
+		{
+			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Save questionpool properties
+	*/
+	function savePropertiesObject()
+	{
+		$qpl_online = $_POST["online"];
+		if (strlen($qpl_online) == 0) $qpl_online = "0";
+		$this->object->setOnline($qpl_online);
+		$this->object->saveToDb();
+		sendInfo($this->lng->txt("saved_successfully"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+	/**
 	* download file
 	*/
 	function downloadFileObject()

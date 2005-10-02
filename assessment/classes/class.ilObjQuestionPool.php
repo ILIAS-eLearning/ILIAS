@@ -45,6 +45,13 @@ require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 class ilObjQuestionPool extends ilObject
 {
 	/**
+	* Online status of questionpool
+	*
+	* @var string
+	*/
+	var $online;
+	
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -78,6 +85,21 @@ class ilObjQuestionPool extends ilObject
 		}
 	}
 
+/**
+* Creates a database reference id for the object
+* 
+* Creates a database reference id for the object (saves the object 
+* to the database and creates a reference id in the database)
+*
+* @access public
+*/
+	function createReference() 
+	{
+		$result = parent::createReference();
+		$this->saveToDb();
+		return $result;
+	}
+	
 	/**
 	* update object data
 	*
@@ -105,7 +127,7 @@ class ilObjQuestionPool extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+		$this->loadFromDb();
 	}
 
 	/**
@@ -298,6 +320,67 @@ class ilObjQuestionPool extends ilObject
 		$question->delete($question_id);
 	}
 
+	/**
+	* Loads a ilObjQuestionpool object from a database
+	*
+	* Loads a ilObjQuestionpool object from a database
+	*
+	* @access public
+	*/
+	function loadFromDb()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->setOnline($row["online"]);
+		}
+	}
+	
+/**
+* Saves a ilObjQuestionpool object to a database
+* 
+* Saves a ilObjQuestionpool object to a database
+*
+* @access public
+*/
+  function saveToDb()
+  {
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$query = sprintf("UPDATE qpl_questionpool SET online = %s WHERE obj_fi = %s",
+				$ilDB->quote($this->getOnline() . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+      $result = $ilDB->query($query);
+      if ($result != DB_OK) 
+			{
+      }
+		}
+		else
+		{
+			$query = sprintf("INSERT INTO qpl_questionpool (online, obj_fi) VALUES (%s, %s)",
+				$ilDB->quote($this->getOnline() . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+      $result = $ilDB->query($query);
+      if ($result != DB_OK) 
+			{
+      }
+		}
+	}
+	
 	/**
 	* Returns the question type of a question with a given id
 	*
@@ -1037,6 +1120,50 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["question_count"];
+	}
+	
+	/**
+	* Sets the questionpool online status
+	*
+	* Sets the questionpool online status
+	*
+	* @param integer $a_online_status Online status of the questionpool
+	* @see online
+	* @access public
+	*/
+	function setOnline($a_online_status)
+	{
+		switch ($a_online_status)
+		{
+			case 0:
+			case 1:
+				$this->online = $a_online_status;
+				break;
+			default:
+				$this->online = 0;
+				break;
+		}
+	}
+	
+	function getOnline()
+	{
+		return $this->online;
+	}
+	
+	function _lookupOnline($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT online FROM qpl_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["online"];
+		}
+		return 0;
 	}
 	
 } // END class.ilObjQuestionPool

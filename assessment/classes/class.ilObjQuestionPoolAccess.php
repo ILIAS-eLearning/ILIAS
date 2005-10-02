@@ -35,7 +35,6 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjQuestionPoolAccess extends ilObjectAccess
 {
-
 	/**
 	 * get commands
 	 * 

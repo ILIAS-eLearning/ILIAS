@@ -2406,7 +2406,11 @@ class ilObjTest extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				$qpl_titles["$row->obj_id"] = $row->title;
+				include_once("./assessment/classes/class.ilObjQuestionPool.php");
+				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
+				{
+					$qpl_titles["$row->obj_id"] = $row->title;
+				}
 			}
 		}
 		return $qpl_titles;
@@ -3597,7 +3601,11 @@ class ilObjTest extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				array_push($result_array, $row->obj_id);
+				include_once("./assessment/classes/class.ilObjQuestionPool.php");
+				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
+				{
+					array_push($result_array, $row->obj_id);
+				}
 			}
 		}
 		return $result_array;
@@ -3622,13 +3630,17 @@ class ilObjTest extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				if ($use_object_id)
+				include_once("./assessment/classes/class.ilObjQuestionPool.php");
+				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
 				{
-					$result_array[$row->obj_id] = $row->title;
-				}
-				else
-				{
-					$result_array[$row->ref_id] = $row->title;
+					if ($use_object_id)
+					{
+						$result_array[$row->obj_id] = $row->title;
+					}
+					else
+					{
+						$result_array[$row->ref_id] = $row->title;
+					}
 				}
 			}
 		}
@@ -4784,11 +4796,11 @@ class ilObjTest extends ilObject
 */
 
 /**
-* Returns the available question pools for the active user
+* Returns the available tests for the active user
 *
-* Returns the available question pools for the active user
+* Returns the available tests for the active user
 *
-* @return array The available question pools
+* @return array The available tests
 * @access public
 */
 	function &_getAvailableTests($use_object_id = false)

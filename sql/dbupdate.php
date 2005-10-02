@@ -8716,3 +8716,12 @@ $rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
 ?>
 <#534>
 ALTER TABLE `qpl_questions` ADD `textgap_rating` ENUM( 'ci', 'cs', 'l1', 'l2', 'l3', 'l4', 'l5' ) AFTER `maxNumOfChars` ;
+<#535>
+CREATE TABLE `qpl_questionpool` (
+`id_questionpool` INT NOT NULL AUTO_INCREMENT ,
+`obj_fi` INT NOT NULL ,
+`online` ENUM( '0', '1' ) NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `id_questionpool` ) ,
+INDEX ( `obj_fi` )
+);
