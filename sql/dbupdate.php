@@ -8725,3 +8725,26 @@ CREATE TABLE `qpl_questionpool` (
 PRIMARY KEY ( `id_questionpool` ) ,
 INDEX ( `obj_fi` )
 );
+<#536>
+<?php
+	// set all existing test question pools online
+	$query = "SELECT * FROM object_data WHERE type = 'qpl'";
+	$result = $ilDB->query($query);
+	if ($result->numRows() > 0)
+	{
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$checkquery = sprintf("SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
+				$ilDB->quote($row["obj_id"] . "")
+			);
+			$checkresult = $ilDB->query($checkquery);
+			if ($checkresult->numRows() == 0)
+			{
+				$insertquery = sprintf("INSERT INTO qpl_questionpool (online, obj_fi) VALUES ('1', %s)",
+					$ilDB->quote($row["obj_id"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+			}
+		}
+	}
+?>
