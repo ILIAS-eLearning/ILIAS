@@ -91,20 +91,20 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "continue":
-				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id.
-					"&obj_id=".$this->last_accessed_page;
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
+					"&amp;obj_ud=".$this->last_accessed_page;
 				break;
 
 			case "view":
-				$cmd_link = "content/lm_presentation.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			case "edit":
-				$cmd_link = "ilias.php?baseClass=ilLMEditorGUI&ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			default:
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				$cmd_link = "repository.php?ref_id=".$this->ref_id."&amp;cmd=$a_cmd";
 				break;
 		}
 

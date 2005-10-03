@@ -1822,7 +1822,6 @@ class ilLMPresentationGUI
 		if($pre_node != "")
 		{
 			$ilBench->start("ContentPresentation", "ilLMNavigation_outputPredecessor");
-			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
 
 			// get page object
 			//$ilBench->start("ContentPresentation", "ilLMNavigation_getPageObject");
@@ -1832,27 +1831,29 @@ class ilLMPresentationGUI
 
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
-			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
+			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
-			$prev_img = "<img src=\"".
-				ilUtil::getImagePath("nav_arr_L.gif", false, "output", $this->offlineMode())."\" border=\"0\"/>";
+			$prev_title = ilUtil::shortenText($prev_title, 50, true);
+			$prev_img = 
+				ilUtil::getImagePath("nav_arr_L.gif", false, "output", $this->offlineMode());
+
 			if (!$this->lm->cleanFrames())
 			{
-				$output = "<a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"], $_GET["frame"]).
-					"\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+				$prev_href =
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"], $_GET["frame"]);
+				$prev_target = "";
 			}
 			else if ($showViewInFrameset && !$this->offlineMode())
 			{
-				$output = "<a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]).
-					"\" target=\"bottom\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+				$prev_href =
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
+				$prev_target = 'target="bottom" ';
 			}
 			else
 			{
-				$output = "<a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]).
-					"\" target=\"_top\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+				$prev_href =
+					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
+				$prev_target = 'target="_top" ';
 			}
 			
 			if ($ilUser->getId() == ANONYMOUS_USER_ID and ($this->lm->getPublicAccessMode() == "selected" and !ilLMObject::_isPagePublic($pre_node["obj_id"])))
@@ -1861,48 +1862,49 @@ class ilLMPresentationGUI
 			}
 			
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
-
-			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
+			
+			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
+			$this->tpl->setVariable("IMG_PREV", $prev_img);
+			$this->tpl->setVariable("HREF_PREV", $prev_href);
+			$this->tpl->setVariable("FRAME_PREV", $prev_target);
+			$this->tpl->setVariable("TXT_PREV", $prev_title);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
-			$this->tpl->setVariable("LMNAVIGATION_PREV2", $output);
+			$this->tpl->setVariable("IMG_PREV2", $prev_img);
+			$this->tpl->setVariable("HREF_PREV2", $prev_href);
+			$this->tpl->setVariable("FRAME_PREV2", $prev_target);
+			$this->tpl->setVariable("TXT_PREV2", $prev_title);
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputPredecessor");
 		}
 		if($succ_node != "")
 		{
 			$ilBench->start("ContentPresentation", "ilLMNavigation_outputSuccessor");
-			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
-
-			// get page object
-			//$ilBench->start("ContentPresentation", "ilLMNavigation_getPageObject");
-			//$succ_page =& new ilLMPageObject($this->lm, $succ_node["obj_id"]);
-			//$ilBench->stop("ContentPresentation", "ilLMNavigation_getPageObject");
-			//$succ_page->setLMId($this->lm->getId());
 
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
-			$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
-			$succ_img = "<img src=\"".
-				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode())."\" border=\"0\"/>";
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+			$succ_title = ilUtil::shortenText($succ_title,50,true);
+			$succ_img =
+				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode());
 			if (!$this->lm->cleanFrames())
 			{
-				$output = " <a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
-					"\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
+				$succ_href =
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]);
+				$succ_target = "";
 			}
 			else if ($showViewInFrameset && !$this->offlineMode())
 			{
-				$output = " <a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]).
-					"\" target=\"bottom\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
+				$succ_href =
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
+				$succ_target = ' target="bottom" ';
 			}
 			else
 			{
-				$output = " <a href=\"".
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]).
-					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
+				$succ_href =
+					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
+				$succ_target = ' target="_top" ';
 			}
 			
 			if ($ilUser->getId() == ANONYMOUS_USER_ID and ($this->lm->getPublicAccessMode() == "selected" and !ilLMObject::_isPagePublic($succ_node["obj_id"])))
@@ -1911,11 +1913,18 @@ class ilLMPresentationGUI
 			}
 
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
-
-			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);
+			
+			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
+			$this->tpl->setVariable("IMG_SUCC", $succ_img);
+			$this->tpl->setVariable("HREF_SUCC", $succ_href);
+			$this->tpl->setVariable("FRAME_SUCC", $succ_target);
+			$this->tpl->setVariable("TXT_SUCC", $succ_title);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
-			$this->tpl->setVariable("LMNAVIGATION_NEXT2", $output);
+			$this->tpl->setVariable("IMG_SUCC2", $succ_img);
+			$this->tpl->setVariable("HREF_SUCC2", $succ_href);
+			$this->tpl->setVariable("FRAME_SUCC2", $succ_target);
+			$this->tpl->setVariable("TXT_SUCC2", $succ_title);
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputSuccessor");
 		}

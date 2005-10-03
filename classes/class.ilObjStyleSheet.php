@@ -345,6 +345,8 @@ class ilObjStyleSheet extends ilObject
 			$css_file_name = $a_target_file;
 		}
 		$css_file = fopen($css_file_name, "w");
+		
+		$page_background = "";
 
 		foreach ($style as $tag)
 		{
@@ -354,9 +356,24 @@ class ilObjStyleSheet extends ilObject
 			foreach($tag as $par)
 			{
 				fwrite ($css_file, "\t".$par["parameter"].": ".$par["value"].";\n");
+				
+				// save page background
+				if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
+					&& $par["parameter"] == "background-color")
+				{
+					$page_background = $par["value"];
+				}
 			}
 			fwrite ($css_file, "}\n");
 			fwrite ($css_file, "\n");
+		}
+		
+		if ($page_background != "")
+		{
+			fwrite ($css_file, "td.ilc_Page\n");
+			fwrite ($css_file, "{\n");
+			fwrite ($css_file, "\t"."background-color: ".$page_background.";\n");
+			fwrite ($css_file, "}\n");
 		}
 		fclose($css_file);
 	}
