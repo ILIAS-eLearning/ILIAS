@@ -61,6 +61,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		$this->type = "qpl";
 		$this->ilObject($a_id,$a_call_by_reference);
+		$this->setOnline(0);
 /*
 		if ($a_id == 0)
 		{
@@ -1147,6 +1148,7 @@ class ilObjQuestionPool extends ilObject
 	
 	function getOnline()
 	{
+		if (strcmp($this->online, "") == 0) $this->online = "0";
 		return $this->online;
 	}
 	
