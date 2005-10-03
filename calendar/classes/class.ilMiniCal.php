@@ -89,7 +89,11 @@ class ilMiniCal {
 		$last_ts = mktime (0,0,0,$cal_month,1,$last);
 	
 		// beginning of html-code for table 	
-		$cal = "<table tableborder='1' rules='none' frame='box' bgcolor='#FFFFFF' style='margin-right: 10px;'><tr><td><a href=\"dateplaner.php?app=".$_GET["app"]."&month=$cal_month&year=$last&timestamp=$last_ts\"> < </a></td> <td align=\"center\" colspan=\"6\">".$this->lng->txt("short_".$cal_month)." $cal_year </td><td> <a href=\"dateplaner.php?app=".$_GET["app"]."&month=$cal_month&year=$next&timestamp=$next_ts\"> > </a> </td></tr>\n";
+		$cal = "<table tableborder='1' rules='none' frame='box' bgcolor='#FFFFFF' style='margin-right: 10px;'><tr><td class=\"il_CalNextMonth\">".
+			"<a href=\"dateplaner.php?app=".$_GET["app"]."&month=$cal_month&year=$last&timestamp=$last_ts\">".
+			" < </a></td> <td align=\"center\" class=\"il_CalMonth\" colspan=\"6\">".
+			$this->lng->txt("short_".$cal_month)." $cal_year </td><td class=\"il_CalNextMonth\"> <a href=\"dateplaner.php?app=".
+			$_GET["app"]."&month=$cal_month&year=$next&timestamp=$next_ts\"> > </a> </td></tr>\n";
 		$cal = $cal."<tr><td></td>";
 		for($i = 1; $i <= 12; $i++)
 		{
@@ -102,17 +106,20 @@ class ilMiniCal {
 				$tmp = $i;
 			}
 			$ts = mktime (0,0,0,$tmp,1,$cal_year);		// create timestamps to enable dayviews for months in actual year
-			$cal = $cal."<td><a href=\"dateplaner.php?app=".$_GET["app"]."&month=".$tmp."&year=".$cal_year."&timestamp=".$ts."\">".$this->lng->txt("short_".$tmp)."</td>";
+			$cal = $cal."<td class=\"il_CalShortMonth\"><a href=\"dateplaner.php?app=".$_GET["app"]."&month=".$tmp."&year=".$cal_year."&timestamp=".$ts."\">".$this->lng->txt("short_".$tmp)."</td>";
 			if ($i == 6) $cal = $cal."<td></td></tr> \n <tr><td></td>";
 			
 		}
 		$cal = $cal."<td></td></tr> \n ";
 		// html code for displaying days of week using ilias lng-module
-		$cal = $cal."<tr bgcolor='#AAAAAA'><td >".$this->lng->txt("wk_short")."</td><td>".$this->lng->txt("Mo_short")."</td><td>".$this->lng->txt("Tu_short")."</td><td>".$this->lng->txt("We_short")."</td>";
-		$cal = $cal."<td>".$this->lng->txt("Th_short")."</td><td>".$this->lng->txt("Fr_short")."</td><td>".$this->lng->txt("Sa_short")."</td><td>".$this->lng->txt("Su_short")."</td></tr>";
+		$cal = $cal."<tr bgcolor='#AAAAAA'><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("wk_short").
+			"</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Mo_short")."</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Tu_short").
+			"</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("We_short")."</td>";
+		$cal = $cal."<td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Th_short").
+			"</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Fr_short").
+			"</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Sa_short").
+			"</td><td class=\"il_CalShortDayOfWeek\">".$this->lng->txt("Su_short")."</td></tr>";
 		
-	 
-	
 		$kw = strftime ("%V", mktime(0,0,0,$cal_month,1,$cal_year)); // get actual number of week to start with
 	
 		$counter = 1; // general counter; calendar will always dislpay 42 days
@@ -122,7 +129,7 @@ class ilMiniCal {
 		// loop to generate html-code for actual weeks and days in month
 		for ($x = 1; $x <= 6; $x++)
 		{		
-				$cal = $cal. " <tr><td bgcolor='#AAAAAA'><a href=\"dateplaner.php?app=week&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_week."\">$kw</td> ";
+				$cal = $cal. " <tr><td bgcolor='#AAAAAA' class=\"il_CalShortWeek\"><a href=\"dateplaner.php?app=week&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_week."\">$kw</td> ";
 				$ts_week = strtotime ("+1 week", $ts_week );
 	
 				if ($x == 1)
@@ -130,7 +137,7 @@ class ilMiniCal {
 					$tmp = $startday;
 					while ($tmp <= $lastday)
 					{
-						$cal = $cal." <td> $tmp</td> "; // displays days in old month if first day in month isn't Monday
+						$cal = $cal." <td class=\"il_CalDay\"> $tmp</td> "; // displays days in old month if first day in month isn't Monday
 						$tmp++;
 						$counter++;
 					}
@@ -142,7 +149,7 @@ class ilMiniCal {
 						if ($day == $cal_day&& $cal_month == date (m) && $cal_year == date (Y)) $empty_string = " bgcolor='FF8000'";
 	
 						// html-code for table entry and according link
-						$cal = $cal." <td ".$empty_string."><a href=\"dateplaner.php?app=day&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_day."\">$day</a></td> ";
+						$cal = $cal." <td class=\"il_CalDay\" ".$empty_string."><a href=\"dateplaner.php?app=day&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_day."\">$day</a></td> ";
 						$day++;
 						$tmp++;
 						$counter++;
@@ -163,13 +170,13 @@ class ilMiniCal {
 							if ($c == $cal_day && $cal_month == date (m) && $cal_year == date (Y)) $empty_string = " bgcolor='FF8000'";
 													
 							// html-code for table entry and according link
-							$cal = $cal. "<td ".$empty_string."><a href=\"dateplaner.php?app=day&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_day."\"> $c</a></td>";
+							$cal = $cal. "<td class=\"il_CalDay\" ".$empty_string."><a href=\"dateplaner.php?app=day&month=".$cal_month."&year=".$cal_year."&timestamp=".$ts_day."\"> $c</a></td>";
 							$counter++;
 							$empty_string ="";
 						}
 						else  // clause displays days that belong to next month
 						{
-							$cal = $cal. "<td> $day</td>";
+							$cal = $cal. "<td class=\"il_CalDay\"> $day</td>";
 							$day++;
 							$counter++;
 						}								

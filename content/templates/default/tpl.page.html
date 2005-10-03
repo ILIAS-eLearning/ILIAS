@@ -25,46 +25,44 @@ body { margin:0px; }
 {MENU}
 {MESSAGE}
 <br />
+<table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0">
 <!-- BEGIN ilLMNavigation -->
-<table class="ilc_LMNavigation" width="100%" cellspacing="0" cellpadding="0"><tr><td class="ilc_LMNavigation">
-<div class = "ilc_Page">
-<table border="0" cellpadding="0" cellspacing="3" width="100%">
 <tr>
+	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
 	<!-- BEGIN ilLMNavigation_Prev -->
-	<td align="left">
-	{LMNAVIGATION_PREV}
-	</td>
+	<a href="{HREF_PREV}" {FRAME_PREV}>
+	<img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV}" />{TXT_PREV}</a>
 	<!-- END ilLMNavigation_Prev -->
+	</td>
+	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
 	<!-- BEGIN ilLMNavigation_Next -->
-	<td align="right">
-	{LMNAVIGATION_NEXT}
-	</td>
+	<a href="{HREF_SUCC}" {FRAME_SUCC}>
+	{TXT_SUCC}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC}" /></a>
 	<!-- END ilLMNavigation_Next -->
+	</td>
 </tr>
-</table>
-</div>
-</td></tr></table>
 <!-- END ilLMNavigation -->
-<!-- BEGIN ilPage -->{PAGE_CONTENT}<!-- END ilPage -->
+<!-- BEGIN ilPage -->
+<tr><td class="ilc_Page" colspan="2">
+{PAGE_CONTENT}
+</td></tr>
+<!-- END ilPage -->
 <!-- BEGIN ilLMNavigation2 -->
-<table class="ilc_LMNavigation" width="100%" cellspacing="0" cellpadding="0"><tr><td class="ilc_LMNavigation">
-<div class = "ilc_Page">
-<table border="0" cellpadding="0" cellspacing="3" width="100%">
 <tr>
+	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
 	<!-- BEGIN ilLMNavigation_Prev2 -->
-	<td align="left">
-	{LMNAVIGATION_PREV2}
-	</td>
+	<a href="{HREF_PREV2}" {FRAME_PREV2}>
+	<img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV2}" />{TXT_PREV2}</a>
 	<!-- END ilLMNavigation_Prev2 -->
-	<!-- BEGIN ilLMNavigation_Next2 -->
-	<td align="right">
-	{LMNAVIGATION_NEXT2}
 	</td>
+	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
+	<!-- BEGIN ilLMNavigation_Next2 -->
+	<a href="{HREF_SUCC2}" {FRAME_SUCC2}>
+	{TXT_SUCC2}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC2}" /></a>
 	<!-- END ilLMNavigation_Next2 -->
+	</td>
 </tr>
 </table>
-</div>
-</td></tr></table>
 <!-- END ilLMNavigation2 -->
 <!--</div>-->
 <br />
