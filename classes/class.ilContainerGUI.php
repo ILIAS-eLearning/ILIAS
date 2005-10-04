@@ -124,10 +124,9 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $ilBench, $tree;
 		
-		
 		// course content interface methods could probably
 		// move to this class
-		if($tree->checkForParentType($this->ref_id,'crs'))
+		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))
 		{
 			$this->initCourseContentInterface();
 			$this->cci_obj->cci_setContainer($this);
