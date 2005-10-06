@@ -5237,6 +5237,9 @@ survey#:#selection#:#Selection
 survey#:#set_filter#:#Set filter
 survey#:#skipped#:#skipped
 survey#:#spl_select_file_for_import#:#You must select a file for import!
+survey#:#spl_general_properties#:#General properties
+survey#:#spl_online_property#:#Online
+survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
 survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey

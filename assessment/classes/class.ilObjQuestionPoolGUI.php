@@ -131,12 +131,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-
 			case "ilpageobjectgui":
-
+				$this->setAdminTabs();
+				$this->setQuestionTabs();
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
@@ -153,8 +152,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
-				$this->setQuestionTabs();
-				//$this->setPageEditorTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 
@@ -169,19 +166,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setFullscreenLink("questionpool.php?cmd=fullscreen".
 					"&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setSourcecodeDownloadScript("questionpool.php?ref_id=".$_GET["ref_id"]);
-				/*
-				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
-						array("edit", "view"),
-						array("cont_preview", "preview"),
-						array("meta_data", "editDefinitionMetaData")
-						));*/
 				$page_gui->setPresentationTitle($question->getTitle());
-				//$page_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_gui);
-
 				break;
-
-
 			case "ass_multiplechoicegui":
 			case "ass_clozetestgui":
 			case "ass_orderingquestiongui":
@@ -189,6 +176,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ass_imagemapquestiongui":
 			case "ass_javaappletgui":
 			case "ass_textquestiongui":
+				$this->setAdminTabs();
 				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
@@ -197,7 +185,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			default:
-//				echo "setAdminTabs<br>";
 				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest" && $cmd != "editQuestionForTest")
 				{
 					$this->setAdminTabs();
@@ -1185,252 +1172,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	}
 
-
-	/**
-	* output tabs
-	*/
-	function setPageEditorTabs()
-	{
-
-		// catch feedback message
-		include_once("classes/class.ilTabsGUI.php");
-		$tabs_gui =& new ilTabsGUI();
-		$this->getPageEditorTabs($tabs_gui);
-
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-
-	}
-
-	/**
-	* get tabs
-	*/
-	function getPageEditorTabs(&$tabs_gui)
-	{
-		global $rbacsystem;
-		
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
-		{
-			// edit page
-			$tabs_gui->addTarget("edit_content",
-				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
-				"ilPageObjectGUI");
-		}
-		// preview page
-		$tabs_gui->addTarget("preview",
-			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
-			"ilPageObjectGUI");
-
-		// back to upper context
-		$tabs_gui->addTarget("back",
-			$this->ctrl->getLinkTarget($this, "questions"), "questions",
-			"ilObjQuestionPoolGUI");
-
-	}
-	
-	function setQuestionTabs()
-	{
-//		echo "<br>setQuestionTabs<br>";
-		global $rbacsystem;
-		
-		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
-		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		switch ($q_type)
-		{
-			case "qt_multiple_choice_sr":
-				$classname = "ASS_MultipleChoiceGUI";
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_multiple_choice_mr":
-				$classname = "ASS_MultipleChoiceGUI";
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_cloze":
-				$classname = "ASS_ClozeTestGUI";
-				$this->ctrl->setParameterByClass("ass_clozetestgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_clozetestgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_matching":
-				$classname = "ASS_MatchingQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_ordering":
-				$classname = "ASS_OrderingQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_imagemap":
-				$classname = "ASS_ImagemapQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_javaapplet":
-				$classname = "ASS_JavaAppletGUI";
-				$this->ctrl->setParameterByClass("ass_javaappletgui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_javaappletgui", "q_id", $_GET["q_id"]);
-				break;
-
-			case "qt_text":
-				$classname = "ASS_TextQuestionGUI";
-				$this->ctrl->setParameterByClass("ass_textquestiongui", "sel_question_types", $q_type);
-				$this->ctrl->setParameterByClass("ass_textquestiongui", "q_id", $_GET["q_id"]);
-				break;
-		}
-
-		if (($_GET["q_id"]) && (strlen($_GET["calling_test"]) == 0))
-		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
-			{
-				// edit page
-				$tabs_gui->addTarget("edit_content",
-					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
-					"ilPageObjectGUI");
-			}
-	
-			$tabs_gui->addTarget("preview",
-				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
-				"ilPageObjectGUI");
-		}
-
-		if (($classname) && (strlen($_GET["calling_test"]) == 0))
-		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
-			{
-				$tabs_gui->addTarget("edit_properties",
-					$this->ctrl->getLinkTargetByClass($classname, "editQuestion"), "editQuestion",
-					$classname);
-			}
-		}
-
-		if (strlen($_GET["calling_test"]) == 0)
-		{
-			$tabs_gui->addTarget("back",
-				$this->ctrl->getLinkTarget($this, "questions"), "questions",
-				"ilObjQuestionPoolGUI");
-		}
-		else
-		{
-			$tabs_gui->addTarget("backtocallingtest",
-				"test.php?cmd=questions&ref_id=".$_GET["calling_test"], "questions",
-				"ilObjQuestionPoolGUI");
-		}
-
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-//		echo "<br>end setQuestionTabs<br>";
-	}
-
-/*
-	function editMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
-	}
-
-		function saveMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		if (!strcmp($_POST["meta_section"], "General")) {
-			//$this->updateObject();
-		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
-	}
-
-	// called by administration
-	function chooseMetaSectionObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
-	}
-
-	// called by editor
-	function chooseMetaSection()
-	{
-		$this->chooseMetaSectionObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function addMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
-	}
-
-	function addMeta()
-	{
-		$this->addMetaObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function deleteMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
-	}
-
-	function deleteMeta()
-	{
-		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-*/
-
 	/*
 	* list all export files
 	*/
 	function exportObject()
 	{
 		global $tree;
-
-		//$this->setTabs();
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1440,16 +1187,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
 		$this->tpl->parseCurrentBlock();
-
-		// view last export log button
-		/*
-		if (is_file($this->object->getExportDirectory()."/export.log"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
-			$this->tpl->parseCurrentBlock();
-		}*/
 
 		$export_dir = $this->object->getExportDirectory();
 		$export_files = $this->object->getExportFiles($export_dir);
@@ -1548,20 +1285,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $question_ids);
 			$qpl_exp->buildExportFile();
 			$this->exportObject();
-
-			//ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
-			
-			/*
-			$add_parameter = $this->getAddParameter();
-			if (!defined("ILIAS_MODULE"))
-			{
-				define("ILIAS_MODULE", "assessment");
-			}
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_export.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORMACTION", $add_parameter);
-			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
-			$this->tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -1751,6 +1474,109 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->uploadQplObject();
 	}
 
+	function setQuestionTabs()
+	{
+		global $rbacsystem;
+		
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$q_type = ASS_Question::getQuestionTypeFromDb($_GET["q_id"]);
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		$tabs_gui->setSubTabs();
+		
+		switch ($q_type)
+		{
+			case "qt_multiple_choice_sr":
+				$classname = "ASS_MultipleChoiceGUI";
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_multiple_choice_mr":
+				$classname = "ASS_MultipleChoiceGUI";
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_multiplechoicegui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_cloze":
+				$classname = "ASS_ClozeTestGUI";
+				$this->ctrl->setParameterByClass("ass_clozetestgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_clozetestgui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_matching":
+				$classname = "ASS_MatchingQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_matchingquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_ordering":
+				$classname = "ASS_OrderingQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_orderingquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_imagemap":
+				$classname = "ASS_ImagemapQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_imagemapquestiongui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_javaapplet":
+				$classname = "ASS_JavaAppletGUI";
+				$this->ctrl->setParameterByClass("ass_javaappletgui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_javaappletgui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_text":
+				$classname = "ASS_TextQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_textquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_textquestiongui", "q_id", $_GET["q_id"]);
+				break;
+		}
+
+		if (($_GET["q_id"]) && (strlen($_GET["calling_test"]) == 0))
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				// edit page
+				$tabs_gui->addTarget("edit_content",
+					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"),
+					array("view", "exec_pg"),
+					"", "", $force_active);
+			}
+	
+			// edit page
+			$tabs_gui->addTarget("preview",
+				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"),
+				array("preview"),
+				"ilPageObjectGUI", "", $force_active);
+		}
+
+		if (($classname) && (strlen($_GET["calling_test"]) == 0))
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				// edit question properties
+				$tabs_gui->addTarget("edit_properties",
+					$this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
+					"",
+					$classname, "", $force_active);
+			}
+		}
+
+		if (strlen($_GET["calling_test"]) != 0)
+		{
+			// back to calling test link
+			$tabs_gui->addTarget("backtocallingtest",
+				"test.php?cmd=questions&ref_id=".$_GET["calling_test"],
+				array("questions"),
+				"ilObjQuestionPoolGUI", "", $force_active);
+		}
+
+		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
+	}
+
 	/**
 	* adds tabs to tab gui object
 	*
@@ -1758,13 +1584,46 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		$tabs_gui->getTargetsByObjectType($this, "qpl");
+		// properties
+		$force_active = ($this->ctrl->getCmdClass() == "" &&
+			$this->ctrl->getCmd() == "")
+			? true
+			: false;
 
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", get_class($this),
+			 "", $force_active);
+
+		// questions
+		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+			? true
+			: false;
+		$tabs_gui->addTarget("ass_questions",
+			 $this->ctrl->getLinkTarget($this,'questions'),
+			 array("questions", "filter", "resetFilter", "createQuestion", 
+			 	"importQuestions", "deleteQuestions", "duplicate", 
+				"view", "preview", "editQuestion", "exec_pg",
+				"addItem"),
+			 "", "", $force_active);
+			 
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTarget($this,'export'),
+			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
+			 "", "", $force_active);
+			
+		// permissions
+		$tabs_gui->addTarget("perm_settings",
+			 $this->ctrl->getLinkTarget($this,'perm'),
+			 array("perm", "info"),
+			 get_class($this));
+			 
+		// meta data
 		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
 	}
-
 
 } // END class.ilObjQuestionPoolGUI
 ?>

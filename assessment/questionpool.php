@@ -58,9 +58,12 @@ if (!isset($_GET["ref_id"]))
 	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
 }
 
-if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"])) {
+if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"])) 
+{
 	$prepare_output = false;
-} else {
+} 
+else 
+{
 	$prepare_output = true;
 }
 //$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
