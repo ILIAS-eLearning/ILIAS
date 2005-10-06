@@ -43,6 +43,13 @@ require_once "./survey/classes/class.SurveyQuestion.php";
 class ilObjSurveyQuestionPool extends ilObject
 {
 	/**
+	* Online status of questionpool
+	*
+	* @var string
+	*/
+	var $online;
+	
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -108,9 +115,70 @@ class ilObjSurveyQuestionPool extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+		$this->loadFromDb();
 	}
 
+	/**
+	* Loads a ilObjQuestionpool object from a database
+	*
+	* Loads a ilObjQuestionpool object from a database
+	*
+	* @access public
+	*/
+	function loadFromDb()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->setOnline($row["online"]);
+		}
+	}
+	
+/**
+* Saves a ilObjSurveyQuestionPool object to a database
+* 
+* Saves a ilObjSurveyQuestionPool object to a database
+*
+* @access public
+*/
+  function saveToDb()
+  {
+		global $ilDB;
+		
+		$query = sprintf("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$query = sprintf("UPDATE survey_questionpool SET online = %s WHERE obj_fi = %s",
+				$ilDB->quote($this->getOnline() . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+      $result = $ilDB->query($query);
+      if ($result != DB_OK) 
+			{
+      }
+		}
+		else
+		{
+			$query = sprintf("INSERT INTO survey_questionpool (online, obj_fi) VALUES (%s, %s)",
+				$ilDB->quote($this->getOnline() . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+      $result = $ilDB->query($query);
+      if ($result != DB_OK) 
+			{
+      }
+		}
+	}
+	
 	/**
 	* copy all entries of your object.
 	*
@@ -980,5 +1048,49 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 	}
 
+	/**
+	* Sets the questionpool online status
+	*
+	* Sets the questionpool online status
+	*
+	* @param integer $a_online_status Online status of the questionpool
+	* @see online
+	* @access public
+	*/
+	function setOnline($a_online_status)
+	{
+		switch ($a_online_status)
+		{
+			case 0:
+			case 1:
+				$this->online = $a_online_status;
+				break;
+			default:
+				$this->online = 0;
+				break;
+		}
+	}
+	
+	function getOnline()
+	{
+		if (strcmp($this->online, "") == 0) $this->online = "0";
+		return $this->online;
+	}
+	
+	function _lookupOnline($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT online FROM survey_questionpool WHERE obj_fi = %s",
+			$ilDB->quote($a_obj_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["online"];
+		}
+		return 0;
+	}
 } // END class.ilSurveyObjQuestionPool
 ?>

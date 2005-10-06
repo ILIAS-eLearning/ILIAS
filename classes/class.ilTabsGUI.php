@@ -168,9 +168,5 @@ class ilTabsGUI
 			return "";
 		}
 	}
-
-
-
-
 }
 ?>

@@ -330,6 +330,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 				$this->object->delete_answer($matches[1]);
 			}
 		}
+		//$this->ctrl->redirect($this, "editQuestion"); works only on save
 		$this->editQuestion();
 	}
 

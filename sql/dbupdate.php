@@ -8748,3 +8748,35 @@ INDEX ( `obj_fi` )
 		}
 	}
 ?>
+<#537>
+CREATE TABLE `survey_questionpool` (
+`id_questionpool` INT NOT NULL AUTO_INCREMENT ,
+`obj_fi` INT NOT NULL ,
+`online` ENUM( '0', '1' ) NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `id_questionpool` ) ,
+INDEX ( `obj_fi` )
+);
+<#538>
+<?php
+	// set all existing test question pools online
+	$query = "SELECT * FROM object_data WHERE type = 'spl'";
+	$result = $ilDB->query($query);
+	if ($result->numRows() > 0)
+	{
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$checkquery = sprintf("SELECT id_questionpool FROM survey_questionpool WHERE obj_fi = %s",
+				$ilDB->quote($row["obj_id"] . "")
+			);
+			$checkresult = $ilDB->query($checkquery);
+			if ($checkresult->numRows() == 0)
+			{
+				$insertquery = sprintf("INSERT INTO survey_questionpool (online, obj_fi) VALUES ('1', %s)",
+					$ilDB->quote($row["obj_id"] . "")
+				);
+				$insertresult = $ilDB->query($insertquery);
+			}
+		}
+	}
+?>

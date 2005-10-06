@@ -117,7 +117,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("assessment/classes/class.ilObjQuestionPool.php");
+		include_once("./assessment/classes/class.ilObjQuestionPool.php");
 		if (!ilObjQuestionPool::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

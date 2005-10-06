@@ -134,6 +134,40 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 
+	/**
+	* Questionpool properties
+	*/
+	function propertiesObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_properties.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("spl_general_properties"));
+		$this->tpl->setVariable("PROPERTY_ONLINE", $this->lng->txt("spl_online_property"));
+		$this->tpl->setVariable("PROPERTY_ONLINE_DESCRIPTION", $this->lng->txt("spl_online_property_description"));
+		if ($this->object->getOnline() == 1)
+		{
+			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Save questionpool properties
+	*/
+	function savePropertiesObject()
+	{
+		$qpl_online = $_POST["online"];
+		if (strlen($qpl_online) == 0) $qpl_online = "0";
+		$this->object->setOnline($qpl_online);
+		$this->object->saveToDb();
+		sendInfo($this->lng->txt("saved_successfully"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+
 /**
 * Copies checked questions in the questionpool to a clipboard
 *
@@ -1642,13 +1676,46 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		$tabs_gui->getTargetsByObjectType($this, "spl");
+		// properties
+		$force_active = ($this->ctrl->getCmdClass() == "" &&
+			$this->ctrl->getCmd() == "")
+			? true
+			: false;
 
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", get_class($this),
+			 "", $force_active);
+
+		// questions
+		$tabs_gui->addTarget("survey_questions",
+			 $this->ctrl->getLinkTarget($this,'questions'),
+			 array("questions", "filter", "reset", "createQuestion", "importQuestions", "deleteQuestions", "duplicate", "copy", "paste", "exportQuestions"),
+			 "", "", $force_active);
+			 
+		// manage phrases
+		$tabs_gui->addTarget("manage_phrases",
+			 $this->ctrl->getLinkTarget($this,'phrases'),
+			 array("phrases", "deletePhrase"),
+			 "", "", $force_active);
+			
+		// export
+		$tabs_gui->addTarget("export",
+			 $this->ctrl->getLinkTarget($this,'export'),
+			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
+			 "", "", $force_active);
+			
+		// permissions
+		$tabs_gui->addTarget("perm_settings",
+			 $this->ctrl->getLinkTarget($this,'perm'),
+			 array("perm", "info"),
+			 get_class($this));
+			 
+		// meta data
 		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "meta_data", get_class($this));
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
 	}
-
 
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

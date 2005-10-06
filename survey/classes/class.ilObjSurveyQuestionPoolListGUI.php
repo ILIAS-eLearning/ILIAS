@@ -117,6 +117,12 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 
 		$props = array();
 
+		include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+		if (!ilObjSurveyQuestionPool::_lookupOnline($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
 		return $props;
 	}
 

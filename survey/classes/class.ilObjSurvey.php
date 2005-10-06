@@ -1685,7 +1685,11 @@ class ilObjSurvey extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				$qpl_titles["$row->obj_id"] = $row->title;
+				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
+				{
+					$qpl_titles["$row->obj_id"] = $row->title;
+				}
 			}
 		}
 		return $qpl_titles;
@@ -2554,13 +2558,17 @@ class ilObjSurvey extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				if ($use_obj_id)
+				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
 				{
-					$result_array[$row->obj_id] = $row->title;
-				}
-				else
-				{
-					$result_array[$row->ref_id] = $row->title;
+					if ($use_obj_id)
+					{
+						$result_array[$row->obj_id] = $row->title;
+					}
+					else
+					{
+						$result_array[$row->ref_id] = $row->title;
+					}
 				}
 			}
 		}
@@ -3565,7 +3573,11 @@ class ilObjSurvey extends ilObject
 		{		
 			if (!$rbacsystem->checkAccess("write", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
 			{
-				array_push($forbidden_pools, $row->obj_id);
+				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
+				{
+					array_push($forbidden_pools, $row->obj_id);
+				}
 			}
 		}
 		return $forbidden_pools;
