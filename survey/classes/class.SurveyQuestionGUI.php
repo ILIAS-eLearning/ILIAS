@@ -790,59 +790,6 @@ class SurveyQuestionGUI {
 		$this->editQuestion();
 	}
 
-	function setQuestionTabsForClass($guiclass)
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
-		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
-
-		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
-			$tabs_gui->addTarget("properties",
-				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), "editQuestion",
-				"$guiclass");
-		}
-		
-		if ($_GET["q_id"])
-		{
-			$tabs_gui->addTarget("preview",
-			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
-			"$guiclass");
-		}
-
-		if ($_GET["calling_survey"])
-		{
-			$tabs_gui->addTarget("menubacktosurvey",
-				"survey.php?cmd=questions&ref_id=".$_GET["calling_survey"], "questions",
-				"ilObjSurveyQuestionPoolGUI");
-		}
-		elseif ($_GET["new_for_survey"])
-		{
-			$tabs_gui->addTarget("menubacktosurvey",
-				"survey.php?cmd=questions&new_id=".$this->object->getId() . "&ref_id=".$_GET["new_for_survey"], "questions",
-				"ilObjSurveyQuestionPoolGUI");
-		}
-		else
-		{		
-			$tabs_gui->addTarget("menuback",
-				$this->ctrl->getLinkTargetByClass("ilobjsurveyquestionpoolgui", "questions"), "questions",
-				"ilObjSurveyQuestionPoolGUI");
-		}
-		
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-
-    if ($this->object->getId() > 0) {
-      $title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
-    } else {
-      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
-    }
-		$this->tpl->setVariable("HEADER", $title);
-//		echo "<br>end setQuestionTabs<br>";
-	}
-
 	function addMaterial()
 	{
 		global $tree;
@@ -1003,5 +950,61 @@ class SurveyQuestionGUI {
 				break;
 		}
 	}
+
+	function setQuestionTabsForClass($guiclass)
+	{
+		global $rbacsystem;
+
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		$tabs_gui->setSubTabs();
+		
+		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
+		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
+
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
+			$tabs_gui->addTarget("properties",
+				$this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
+				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
+				"addPG", "moveCategory", "deleteCategory", "addPhrase", "addCategory",
+				"editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
+				"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+				"cancelSavePhrase", "insertBeforeCategory", "insertAfterCategory",
+				"confirmDeleteCategory", "cancelDeleteCategory"
+				),
+				"$guiclass");
+		}
+		
+		if ($_GET["q_id"])
+		{
+			$tabs_gui->addTarget("preview",
+			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
+			"$guiclass");
+		}
+
+		if ($_GET["calling_survey"])
+		{
+			$tabs_gui->addTarget("menubacktosurvey",
+				"survey.php?cmd=questions&ref_id=".$_GET["calling_survey"], "questions",
+				"ilObjSurveyQuestionPoolGUI");
+		}
+		elseif ($_GET["new_for_survey"])
+		{
+			$tabs_gui->addTarget("menubacktosurvey",
+				"survey.php?cmd=questions&new_id=".$this->object->getId() . "&ref_id=".$_GET["new_for_survey"], "questions",
+				"ilObjSurveyQuestionPoolGUI");
+		}
+		
+		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
+
+    if ($this->object->getId() > 0) {
+      $title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
+    } else {
+      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
+    }
+		$this->tpl->setVariable("HEADER", $title);
+//		echo "<br>end setQuestionTabs<br>";
+	}
+
 }
 ?>

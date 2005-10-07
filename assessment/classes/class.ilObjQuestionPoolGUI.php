@@ -619,7 +619,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->setLocator();
 
-		$title = $this->lng->txt("qpl_assessment_of_questions");
+		$question_title = ASS_Question::_getTitle($_GET["q_id"]);
+		$title = $this->lng->txt("statistics") . " - $question_title";
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
@@ -651,7 +652,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", ASS_Question::_getTitle($_GET["q_id"]));
+		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question_title);
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
 		$this->tpl->parseCurrentBlock();
@@ -917,7 +918,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
-			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("qpl_assessment_of_questions"));
+			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
 			$this->tpl->setVariable("IMG_ASSESSMENT",
 				ilUtil::getImagePath("assessment.gif", true));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -1555,12 +1556,40 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if (($classname) && (strlen($_GET["calling_test"]) == 0))
 		{
+			$force_active = false;
+			$commands = $_POST["cmd"];
+			if (is_array($commands))
+			{
+				foreach ($commands as $key => $value)
+				{
+					if (preg_match("/^delete_.*/", $key, $matches) || 
+						preg_match("/^addSelectGap_.*/", $key, $matches) ||
+						preg_match("/^addTextGap_.*/", $key, $matches) ||
+						preg_match("/^addSuggestedSolution_.*/", $key, $matches)
+						)
+					{
+						$force_active = true;
+					}
+				}
+			}
+			if (array_key_exists("imagemap_x", $_POST))
+			{
+				$force_active = true;
+			}
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
 				// edit question properties
 				$tabs_gui->addTarget("edit_properties",
 					$this->ctrl->getLinkTargetByClass($classname, "editQuestion"),
-					"",
+					array("questions", "filter", "resetFilter", "createQuestion", 
+					"importQuestions", "deleteQuestions", "duplicate", 
+					"view", "preview", "editQuestion", "exec_pg",
+					"addItem", "upload", "save", "cancel", "addSuggestedSolution",
+					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
+					"add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
+					"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
+					"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
+					"addParameter", "addGIT", "addST", "addPG"),
 					$classname, "", $force_active);
 			}
 		}
@@ -1573,7 +1602,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				array("questions"),
 				"ilObjQuestionPoolGUI", "", $force_active);
 		}
-
+		
+		// Assessment of questions sub menu entry
+		$tabs_gui->addTarget("statistics",
+			$this->ctrl->getLinkTargetByClass($classname, "assessment"),
+			array("assessment"),
+			$classname, "");
+		
 		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());
 	}
 
@@ -1585,39 +1620,63 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		// properties
-		$force_active = ($this->ctrl->getCmdClass() == "" &&
-			$this->ctrl->getCmd() == "")
-			? true
-			: false;
-
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", get_class($this),
-			 "", $force_active);
+			 "properties", "",
+			 "");
 
 		// questions
-		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
-			? true
-			: false;
+		$force_active = false;
+		$commands = $_POST["cmd"];
+		if (is_array($commands))
+		{
+			foreach ($commands as $key => $value)
+			{
+				if (preg_match("/^delete_.*/", $key, $matches) || 
+					preg_match("/^addSelectGap_.*/", $key, $matches) ||
+					preg_match("/^addTextGap_.*/", $key, $matches) ||
+					preg_match("/^addSuggestedSolution_.*/", $key, $matches)
+					)
+				{
+					$force_active = true;
+				}
+			}
+		}
+		if (array_key_exists("imagemap_x", $_POST))
+		{
+			$force_active = true;
+		}
+		if (!$force_active)
+		{
+			$force_active = ($this->ctrl->getCmdClass() == strtolower(get_class($this)) &&
+				$this->ctrl->getCmd() == "")
+				? true
+				: false;
+		}
 		$tabs_gui->addTarget("ass_questions",
 			 $this->ctrl->getLinkTarget($this,'questions'),
 			 array("questions", "filter", "resetFilter", "createQuestion", 
 			 	"importQuestions", "deleteQuestions", "duplicate", 
 				"view", "preview", "editQuestion", "exec_pg",
-				"addItem"),
+				"addItem", "upload", "save", "cancel", "addSuggestedSolution",
+				"cancelExplorer", "linkChilds", "removeSuggestedSolution",
+				"add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
+				"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
+				"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
+				"addParameter", "assessment", "addGIT", "addST", "addPG"),
 			 "", "", $force_active);
-			 
+
 		// export
 		$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this,'export'),
 			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
-			 "", "", $force_active);
+			 "", "");
 			
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			 $this->ctrl->getLinkTarget($this,'perm'),
 			 array("perm", "info"),
-			 get_class($this));
+			 "");
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",

@@ -77,7 +77,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->setTabTargetScript("test.php");
 		}
-		if ($a_prepare_output) {
+		if ($a_prepare_output) 
+		{
 			$this->prepareOutput();
 		}
 
@@ -133,8 +134,8 @@ class ilObjTestGUI extends ilObjectGUI
 			default:
 				switch ($cmd)
 				{
-					case "run":
 					case "eval_a":
+					case "run":
 					case "eval_stat":
 					case "evalStatSelected":
 					case "searchForEvaluation":
@@ -410,12 +411,14 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("select_max_one_item"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 
@@ -1017,9 +1020,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("CalendarJS");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", ilUtil::getJSPath("calendar.js"));
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", ilUtil::getJSPath("calendar-setup.js"));
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", ilUtil::getJSPath("calendar.css"));
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "../assessment/js/calendar/calendar.js");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "../assessment/js/calendar/calendar-setup.js");
+			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "../assessment/js/calendar/calendar.css");
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("javascript_call_calendar");
 			$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
@@ -3517,7 +3520,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 		
 		$this->ctrl->setCmd("evalStatSelected");
-		$this->setEvaluationSettingsTabs();
+		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
 		if ($search)
 		{
@@ -3704,7 +3707,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->ctrl->setCmdClass(get_class($this));
 		$this->ctrl->setCmd("eval_stat");
-		$this->setEvaluationSettingsTabs();
+		$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -3808,7 +3811,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$eval_statistical_settings = $this->saveEvaluationSettings();
 		}
 //		$this->ctrl->setCmd("evalSelectedUsers");
-		$this->setEvaluationTabs($all_users);
+		$this->setResultsTabs();
 		$legend = array();
 		$legendquestions = array();
 		$titlerow = array();
@@ -4473,7 +4476,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function eval_aObject()
 	{
-		$this->setAggregatedResultsTabs();
+		$this->setResultsTabs();
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", true);
@@ -5142,53 +5145,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->setLocator();
 
-	}
-	
-	function setAggregatedResultsTabs()
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$path = $this->tree->getPathFull($this->object->getRefID());
-		$addcmd = "";
-		if (strcmp($_SESSION["il_rep_mode"], "tree") == 0)
-		{
-			$addcmd = "&cmd=frameset";
-		}
-		$tabs_gui->addTarget("back", $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]) . $addcmd, "",	"");
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
-	function setEvaluationSettingsTabs()
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$path = $this->tree->getPathFull($this->object->getRefID());
-		$tabs_gui->addTarget("eval_all_users", $this->ctrl->getLinkTargetByClass(get_class($this), "eval_stat"), "eval_stat",	"ilobjtestgui");
-		$tabs_gui->addTarget("eval_selected_users", $this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), "evalStatSelected",	"ilobjtestgui");
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
-	function setEvaluationTabs($all_users = 0)
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$cmd = "evalAllUsers";
-		if ($all_users == 0)
-		{
-			$cmd = "evalSelectedUsers";
-		}
-		$path = $this->tree->getPathFull($this->object->getRefID());
-		$tabs_gui->addTarget("tst_statistical_evaluation", $this->ctrl->getLinkTargetByClass(get_class($this), "$cmd"), "$cmd",	"ilobjtestgui");
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
 	/**
@@ -6351,16 +6307,41 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 	}
 
 	/**
+	* set the tabs for the results overview ("results" in the repository)
+	*/
+	function setResultsTabs()
+	{
+		include_once ("./classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+
+		// Test results tab
+		$tabs_gui->addTarget("tst_results_aggregated",
+			$this->ctrl->getLinkTarget($this, "eval_a"),
+			array("eval_a"),
+			"", "");
+
+		$tabs_gui->addTarget("eval_all_users", 
+			$this->ctrl->getLinkTargetByClass(get_class($this), "eval_stat"), 
+			array("eval_stat", "evalAllUsers"),	
+			""
+		);
+		
+		$tabs_gui->addTarget("eval_selected_users", 
+			$this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), 
+			array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",
+			"addFoundUsersToEval", "removeSelectedUser"),	
+			""
+		);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+	
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		//$tabs_gui->getTargetsByObjectType($this, "tst");
-
-//echo "-".$this->ctrl->getCmd()."-";
-
 		// properties
 		$force_active = ($this->ctrl->getCmdClass() == "" &&
 			$this->ctrl->getCmd() == "")
@@ -6368,56 +6349,71 @@ function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $tit
 			: false;
 		$tabs_gui->addTarget("properties",
 			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", get_class($this),
+			 array("properties", "saveProperties", "cancelProperties"),
+			 "",
 			 "", $force_active);
 
 		// questions
 		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
 			? true
 			: false;
+		if (!$force_active)
+		{
+			if ($_GET["browse"] == 1) $force_active = true;
+		}
 		$tabs_gui->addTarget("ass_questions",
 			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions"),
+			 array("questions", "browseForQuestions", "createQuestion", 
+			 "randomselect", "filter", "resetFilter", "insertQuestions",
+			 "back", "createRandomSelection", "cancelRandomSelect",
+			 "insertRandomSelection", "removeQuestions", "moveQuestions",
+			 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
+			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion"), 
 			 "", "", $force_active);
 			 
 		// mark schema
 		$tabs_gui->addTarget("mark_schema",
 			 $this->ctrl->getLinkTarget($this,'marks'),
 			 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-			 	"saveMarks"),
-			 get_class($this));
+			 	"saveMarks", "cancelMarks"),
+			 "");
 
 		// participants
 		$tabs_gui->addTarget("participants",
 			 $this->ctrl->getLinkTarget($this,'participants'),
-			 "participants", get_class($this));
+			 array("participants", "search", "add", "save_client_ip",
+			 "remove", "print_answers", "print_results"), 
+			 "");
 
 		// print
 		$tabs_gui->addTarget("print",
 			 $this->ctrl->getLinkTarget($this,'print'),
-			 "print", get_class($this));
+			 "print", "");
 
 		// export
 		$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile"),
-			 get_class($this));
+			 array("export", "createExportFile", "confirmDeleteExportFile",
+			 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+			 "");
 			
 		// maintenance
 		$tabs_gui->addTarget("maintenance",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
-			 "maintenance", get_class($this));
+			 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
+			 "cancelDeleteAllUserData"), 
+			 "");
 
 		// status
 		$tabs_gui->addTarget("status",
 			 $this->ctrl->getLinkTarget($this,'status'),
-			 "status", get_class($this));
+			 "status", "");
 		
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			 $this->ctrl->getLinkTarget($this,'perm'),
 			 array("perm", "info"),
-			 get_class($this));
+			 "");
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",

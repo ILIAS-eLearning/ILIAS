@@ -404,6 +404,7 @@ assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
 assessment#:#statistical_data#:#Statistical data
+assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#The test was cancelled
@@ -504,6 +505,7 @@ assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_result_user_name#:#Test results for %s
 assessment#:#tst_results#:#Test results
+assessment#:#tst_results_aggregated#:#Aggregated test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked
