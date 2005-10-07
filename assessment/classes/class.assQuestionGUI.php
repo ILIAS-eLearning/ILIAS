@@ -167,7 +167,7 @@ class ASS_QuestionGUI
 
 		//$this->setLocator();
 
-		$title = $this->lng->txt("qpl_assessment_of_questions");
+		$title = $this->object->getTitle() . " - " . $this->lng->txt("statistics");
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);

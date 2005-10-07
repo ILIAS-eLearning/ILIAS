@@ -1276,12 +1276,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt("select_max_one_item"),true);
+			$this->ctrl->redirect($this, "export");
 		}
 
 
@@ -1328,8 +1330,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		// cancel/confirm button
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
-			"deleteExportFile"  => $this->lng->txt("confirm"));
+		$buttons = array( 
+			"deleteExportFile"  => $this->lng->txt("confirm"),
+			"cancelDeleteExportFile"  => $this->lng->txt("cancel")
+			);
 		foreach ($buttons as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
@@ -1544,6 +1548,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "surveynominalquestiongui":
+				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -1552,6 +1557,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "surveyordinalquestiongui":
+				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -1560,6 +1566,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "surveymetricquestiongui":
+				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -1568,6 +1575,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "surveytextquestiongui":
+				$this->setAdminTabs();
 				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
 				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -1677,39 +1685,56 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		// properties
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", 
+			 "", "");
+
+		// questions
 		$force_active = ($this->ctrl->getCmdClass() == "" &&
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;
-
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", get_class($this),
-			 "", $force_active);
-
-		// questions
+		if (!$force_active)
+		{
+			if (is_array($_GET["sort"]))
+			{
+				$force_active = true;
+			}
+		}
 		$tabs_gui->addTarget("survey_questions",
 			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "filter", "reset", "createQuestion", "importQuestions", "deleteQuestions", "duplicate", "copy", "paste", "exportQuestions"),
+			 array("questions", "filter", "reset", "createQuestion", 
+			 "importQuestions", "deleteQuestions", "duplicate", "copy", "paste", 
+			 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
+			 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
+			 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
+			 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
+			 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
+			 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
+			 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
+			 "cancelDeleteCategory"
+			 ),
 			 "", "", $force_active);
 			 
 		// manage phrases
 		$tabs_gui->addTarget("manage_phrases",
 			 $this->ctrl->getLinkTarget($this,'phrases'),
-			 array("phrases", "deletePhrase"),
-			 "", "", $force_active);
+			 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase"),
+			 "", "");
 			
 		// export
 		$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
-			 "", "", $force_active);
+			 array("export", "createExportFile", "confirmDeleteExportFile", 
+			 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
+			 "", "");
 			
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			 $this->ctrl->getLinkTarget($this,'perm'),
 			 array("perm", "info"),
-			 get_class($this));
+			 "");
 			 
 		// meta data
 		$tabs_gui->addTarget("meta_data",

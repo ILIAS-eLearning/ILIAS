@@ -76,9 +76,11 @@
 		<label for="param_name_{PARAM_COUNTER}">{PARAM_NAME}:</label> <input type="text" name="param_name_{PARAM_COUNTER}" value="{PARAM_NAME_VALUE}" size="20" id="param_name_{PARAM_COUNTER}" />
 		<label for="param_value_{PARAM_COUNTER}">{PARAM_VALUE}:</label> <input type="text" name="param_value_{PARAM_COUNTER}" value="{PARAM_VALUE_VALUE}" size="20" id="param_value_{PARAM_COUNTER}" />
 	</td>
+	<td class="option_value">
 <!-- BEGIN delete_parameter -->
-	<td class="option_value"><input type="submit" class="submit" name="cmd[delete_{DELETE_PARAMETER_COUNT}]" value="{VALUE_DELETE_PARAMETER}" /></td>
+		<input type="submit" class="submit" name="cmd[delete_{DELETE_PARAMETER_COUNT}]" value="{VALUE_DELETE_PARAMETER}" />
 <!-- END delete_parameter -->
+	</td>
 </tr>
 <!-- END applet_parameter -->
 <!-- END appletcode -->
