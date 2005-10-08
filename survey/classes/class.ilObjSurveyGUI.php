@@ -36,7 +36,6 @@
 */
 
 require_once "./classes/class.ilObjectGUI.php";
-//require_once "./classes/class.ilMetaDataGUI.php";
 require_once "./classes/class.ilUtil.php";
 require_once "./classes/class.ilSearch.php";
 require_once "./classes/class.ilObjUser.php";
@@ -137,12 +136,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 		exit();
 	}
 
+	/**
+	* Cancel actions in the properties form
+	*
+	* Cancel actions in the properties form
+	*
+	* @access private
+	*/
 	function cancelPropertiesObject()
 	{
     sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
+	/**
+	* Save the survey properties
+	*
+	* Save the survey properties
+	*
+	* @access private
+	*/
 	function savePropertiesObject()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -852,21 +865,49 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->parseCurrentBlock();
   }
 
+	/**
+	* Called when the filter in the question browser is activated
+	*
+	* Called when the filter in the question browser is activated
+	*
+	* @access private
+	*/
 	function filterQuestionsObject()
 	{
 		$this->browseForQuestionsObject($_POST["sel_questionpool"]);
 	}
 	
+	/**
+	* Called when the filter in the question browser has been resetted
+	*
+	* Called when the filter in the question browser has been resetted
+	*
+	* @access private
+	*/
 	function resetFilterQuestionsObject()
 	{
 		$this->browseForQuestionsObject("", true);
 	}
 	
+	/**
+	* Change the object type in the question browser
+	*
+	* Change the object type in the question browser
+	*
+	* @access private
+	*/
 	function changeDatatypeObject()
 	{
 		$this->browseForQuestionsObject("", true, $_POST["datatype"]);
 	}
 	
+	/**
+	* Insert questions into the survey
+	*
+	* Insert questions into the survey
+	*
+	* @access private
+	*/
 	function insertQuestionsObject()
 	{
 		// insert selected questions into test
@@ -906,6 +947,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Remove questions from the survey
+	*
+	* Remove questions from the survey
+	*
+	* @access private
+	*/
 	function removeQuestionsObject()
 	{
 		$checked_questions = array();
@@ -1341,10 +1389,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
-	function insertSearchQuestionsObject()
-	{
-	}
-
 /**
 * Creates a form to search questions for inserting
 *
@@ -1932,418 +1976,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 /**
-* Handle question or questionblock constraints
-*
-* Handle question or questionblock constraints
-*
-* @access private
-*/
-	function constraintsObject()
-	{
-//		if ($_POST["cmd"]["constraints"] or $add_constraint or $delete_constraint or $_GET["constraints"])
-		$checked_questions = array();
-		$checked_questionblocks = array();
-		if ($_GET["constraints"])
-		{
-			$survey_questions =& $this->object->getSurveyQuestions();
-			if (strcmp($survey_questions[$_GET["constraints"]]["questionblock_id"], "") == 0)
-			{
-				array_push($checked_questions, $_GET["constraints"]);
-			}
-			else
-			{
-				array_push($checked_questionblocks, $survey_questions[$_GET["constraints"]]["questionblock_id"]);
-			}
-		}
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/cb_(\d+)/", $key, $matches)) {
-				array_push($checked_questions, $matches[1]);
-			}
-			if (preg_match("/cb_qb_(\d+)/", $key, $matches)) {
-				array_push($checked_questionblocks, $matches[1]);
-			}
-		}
-		if ($_POST["cmd"]["constraints"] and (count($checked_questions)+count($checked_questionblocks) == 0))
-		{
-			sendInfo($this->lng->txt("no_constraints_checked"));
-		}
-		else
-		{
-			$this->constraintsForm($checked_questions, $checked_questionblocks);
-			return;
-		}
-	}
-
-/**
-* Creates the form to edit the question/questionblock constraints
-*
-* Creates the form to edit the question/questionblock constraints
-*
-* @param array $checked_questions An array with the id's of the questions checked for editing
-* @param array $checked_questionblocks An array with the id's of the questionblocks checked for editing
-* @access public
-*/
-	function constraintsForm($checked_questions, $checked_questionblocks)
-	{
-		global $rbacsystem;
-		sendInfo();
-		$pages =& $this->object->getSurveyPages();
-		$all_questions =& $this->object->getSurveyQuestions();
-		$add_constraint = 0;
-		$delete_constraint = 0;
-		$constraint_question = -1;
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/add_constraint_(\d+)/", $key, $matches)) {
-				$add_constraint = 1;
-				$constraint_question = $matches[1];
-			}
-		}
-		if ($_POST["cmd"]["save_constraint"])
-		{
-			foreach ($checked_questions as $id)
-			{
-				foreach ($pages as $question_array)
-				{
-					foreach ($question_array as $question_data)
-					{
-						if ($question_data["question_id"] == $id)
-						{
-							$this->object->addConstraint($question_data["question_id"], $_POST["q"], $_POST["r"], $_POST["v"]);
-						}
-					}
-				}
-			}
-			foreach ($checked_questionblocks as $id)
-			{
-				foreach ($pages as $question_array)
-				{
-					if ($question_array[0]["questionblock_id"] == $id)
-					{
-						foreach ($question_array as $question_data)
-						{
-							$this->object->addConstraint($question_data["question_id"], $_POST["q"], $_POST["r"], $_POST["v"]);
-						}
-					}
-				}
-			}
-			$add_constraint = 0;
-		}
-		else if ($_POST["cmd"]["cancel_add_constraint"])
-		{
-			// do nothing, just cancel the form
-			$add_constraint = 0;
-		}
-		else
-		{
-		}
-		if ($add_constraint)
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", true);
-			$found = 0;
-			if ($_POST["cmd"]["select_relation"] or $_POST["cmd"]["select_value"])
-			{
-				$this->tpl->setCurrentBlock("option_q");
-				$this->tpl->setVariable("OPTION_VALUE", $_POST["q"]);
-				$this->tpl->setVariable("OPTION_TEXT", $all_questions[$_POST["q"]]["title"] . " (" . $this->lng->txt($all_questions[$_POST["q"]]["type_tag"]) . ")");
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				foreach ($pages as $question_array)
-				{
-					if (!$found)
-					{
-						foreach ($question_array as $question)
-						{
-							if ($question["question_id"] == $constraint_question)
-							{
-								$found = 1;
-							}
-						}
-						if (!$found)
-						{
-							foreach ($question_array as $question)
-							{
-								$this->tpl->setCurrentBlock("option_q");
-								$this->tpl->setVariable("OPTION_VALUE", $question["question_id"]);
-								$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . $this->lng->txt($question["type_tag"]) . ")");
-								if ($question["question_id"] == $_POST["q"])
-								{
-									$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-								}
-								$this->tpl->parseCurrentBlock();
-							}
-						}
-					}
-				}
-			}
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/add_constraint_(\d+)/", $key, $matches)) {
-					$this->tpl->setCurrentBlock("hidden");
-					$this->tpl->setVariable("HIDDEN_NAME", $key);
-					$this->tpl->setVariable("HIDDEN_VALUE", $value);
-					$this->tpl->parseCurrentBlock();
-					foreach ($checked_questions as $id)
-					{
-						$this->tpl->setCurrentBlock("hidden");
-						$this->tpl->setVariable("HIDDEN_NAME", "cb_$id");
-						$this->tpl->setVariable("HIDDEN_VALUE", "$id");
-						$this->tpl->parseCurrentBlock();
-					}
-					foreach ($checked_questionblocks as $id)
-					{
-						$this->tpl->setCurrentBlock("hidden");
-						$this->tpl->setVariable("HIDDEN_NAME", "cb_qb_$id");
-						$this->tpl->setVariable("HIDDEN_VALUE", "$id");
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-			}
-			$continue_command = "select_relation";
-			$back_command = "cancel_add_constraint";
-			if ($_POST["cmd"]["select_relation"] or $_POST["cmd"]["select_value"])
-			{
-				$relations = $this->object->getAllRelations();
-				switch ($all_questions[$_POST["q"]]["type_tag"])
-				{
-					case "qt_nominal":
-						foreach ($relations as $rel_id => $relation)
-						{
-							if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
-							{
-								$this->tpl->setCurrentBlock("option_r");
-								$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-								$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-								if ($rel_id == $_POST["r"])
-								{
-									$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-								}
-								$this->tpl->parseCurrentBlock();
-							}
-						}
-						break;
-					case "qt_ordinal":
-					case "qt_metric":
-						foreach ($relations as $rel_id => $relation)
-						{
-							$this->tpl->setCurrentBlock("option_r");
-							$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-							$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-							if ($rel_id == $_POST["r"])
-							{
-								$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-							}
-							$this->tpl->parseCurrentBlock();
-						}
-						break;
-				}
-				$this->tpl->setCurrentBlock("select_relation");
-				$this->tpl->setVariable("SELECT_RELATION", $this->lng->txt("select_relation"));
-				$this->tpl->parseCurrentBlock();
-				$continue_command = "select_value";
-				$back_command = "begin_add_constraint";
-			}
-			if ($_POST["cmd"]["select_value"])
-			{
-				$variables =& $this->object->getVariables($_POST["q"]);
-				switch ($all_questions[$_POST["q"]]["type_tag"])
-				{
-					case "qt_nominal":
-					case "qt_ordinal":
-						foreach ($variables as $sequence => $row)
-						{
-							$this->tpl->setCurrentBlock("option_v");
-							$this->tpl->setVariable("OPTION_VALUE", $sequence);
-							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row->title);
-							$this->tpl->parseCurrentBlock();
-						}
-						break;
-					case "qt_metric":
-							$this->tpl->setCurrentBlock("textfield");
-							$this->tpl->setVariable("TEXTFIELD_VALUE", "");
-							$this->tpl->parseCurrentBlock();
-						break;
-				}
-				$this->tpl->setCurrentBlock("select_value");
-				if (strcmp($all_questions[$_POST["q"]]["type_tag"], "qt_metric") == 0)
-				{
-					$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("enter_value"));
-				}
-				else
-				{
-					$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("select_value"));
-				}
-				$this->tpl->parseCurrentBlock();
-				$continue_command = "save_constraint";
-				$back_command = "select_relation";
-			}
-			$this->tpl->setCurrentBlock("buttons");
-			$this->tpl->setVariable("BTN_CONTINUE", $this->lng->txt("continue"));
-			$this->tpl->setVariable("COMMAND", "$continue_command");
-			$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
-			$this->tpl->setVariable("COMMAND_BACK", "$back_command");
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("adm_content");
-			$textoutput = "";
-			foreach ($checked_questions as $id)
-			{
-				foreach ($pages as $question_array)
-				{
-					foreach ($question_array as $question_data)
-					{
-						if ($question_data["question_id"] == $id)
-						{
-							if ($textoutput)
-							{
-								$textoutput .= "<br>";
-							}
-							$textoutput .= $question_data["title"] . ": " . $question_data["questiontext"];
-						}
-					}
-				}
-			}
-			foreach ($checked_questionblocks as $id)
-			{
-				foreach ($pages as $question_array)
-				{
-					if ($question_array[0]["questionblock_id"] == $id)
-					{
-						if ($textoutput)
-						{
-							$textoutput .= "<br>";
-						}
-						$textoutput .= $this->lng->txt("questionblock") . ": " . $question_array[0]["questionblock_title"];
-					}
-				}
-			}
-			$this->tpl->setVariable("CONSTRAINT_QUESTION_TEXT", "$textoutput");
-			$this->tpl->setVariable("SELECT_PRIOR_QUESTION", $this->lng->txt("select_prior_question"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/delete_constraint_(\d+)_(\d+)/", $key, $matches)) {
-					foreach ($pages as $question_array)
-					{
-						$found = 0;
-						foreach ($question_array as $question_data)
-						{
-							if ($question_data["question_id"] == $matches[2])
-							{
-								$found = 1;
-							}
-						}
-						if ($found)
-						{
-							foreach ($question_array as $question_id => $question_data)
-							{
-								$this->object->deleteConstraint($matches[1], $question_data["question_id"]);
-							}
-						}
-					}
-				}
-			}
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints.html", true);
-			$colors = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($pages as $question_array)
-			{
-				if (count($question_array) > 1)
-				{
-					// question block
-					$data = $question_array[0];
-				}
-				else
-				{
-					// question
-					$data = $question_array[0];
-				}
-				if (in_array($data["questionblock_id"], $checked_questionblocks) or (in_array($data["question_id"], $checked_questions)))
-				{
-					$counter = 0;
-					$constraints = $this->object->getConstraints($data["question_id"]);
-					if (count($constraints))
-					{
-						foreach ($constraints as $constraint)
-						{
-							$value = "";
-							$variables =& $this->object->getVariables($constraint["question"]);
-							switch ($all_questions[$constraint["question"]]["type_tag"])
-							{
-								case "qt_metric":
-									$value = $constraint["value"];
-									break;
-								case "qt_nominal":
-								case "qt_ordinal":
-									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[$constraint["value"]]->title;
-									break;
-							}
-							$this->tpl->setCurrentBlock("constraint");
-							$this->tpl->setVariable("CONSTRAINT_TEXT", $all_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " $value");
-							if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
-								$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
-								$this->tpl->setVariable("CONSTRAINT_QUESTION_ID", $constraint["question"]);
-								$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-							}
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("empty_row");
-						$this->tpl->setVariable("EMPTY_TEXT", $this->lng->txt("no_available_constraints"));
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("question");
-					if ($data["questionblock_id"])
-					{
-						$this->tpl->setVariable("QUESTION_IDENTIFIER", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
-					}
-					else
-					{
-						$this->tpl->setVariable("QUESTION_IDENTIFIER", $this->lng->txt($data["type_tag"]) . ": " . $data["title"]);
-					}
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
-						$this->tpl->setVariable("ADD_QUESTION_ID", $data["question_id"]);
-						$this->tpl->setVariable("BTN_ADD", $this->lng->txt("add"));
-					}
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-					$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			foreach ($checked_questions as $id)
-			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "cb_$id");
-				$this->tpl->setVariable("HIDDEN_VALUE", "$id");
-				$this->tpl->parseCurrentBlock();
-			}
-			foreach ($checked_questionblocks as $id)
-			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "cb_qb_$id");
-				$this->tpl->setVariable("HIDDEN_VALUE", "$id");
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("adm_content");
-			if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
-				$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("edit_constraints_introduction"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("view_constraints_introduction"));
-			}
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
-/**
 * Cancel define a question block
 *
 * Cancel define a question block
@@ -2498,7 +2130,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 *
 * @access public
 */
-	function questionsObject() {
+	function questionsObject() 
+	{
 		global $rbacsystem;
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -2560,23 +2193,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
-		$add_constraint = 0;
-		$delete_constraint = 0;
-		foreach ($_POST as $key => $value) 
-		{
-			if (preg_match("/add_constraint_(\d+)/", $key, $matches)) 
-			{
-				$add_constraint = 1;
-			}
-		}
-		foreach ($_POST as $key => $value) 
-		{
-			if (preg_match("/delete_constraint_(\d+)_(\d+)/", $key, $matches)) 
-			{
-				$delete_constraint = 1;
-			}
-		}
-
 		if ($_GET["add"])
 		{
 			// called after a new question was created from a questionpool
@@ -2625,7 +2241,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					if (count($data["constraints"]))
 					{
-						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
+						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
@@ -2722,7 +2338,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
 				{
-					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
+					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $this->ctrl->getLinkTarget($this, "constraints") . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
 				}
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				if (!$data["questionblock_id"])
@@ -2755,7 +2371,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-				$this->tpl->setVariable("CONSTRAINTS", $this->lng->txt("constraints"));
 				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -2799,6 +2414,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Print the survey evaluation
+	*
+	* Print the survey evaluation
+	*
+	* @access private
+	*/
 	function printEvaluationObject()
 	{
 		if (strcmp($_POST["evaltype"], "user") == 0)
@@ -2812,6 +2434,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		exit;
 	}
 
+	/**
+	* Print the survey evaluation for a selected user
+	*
+	* Print the survey evaluation for a selected user
+	*
+	* @access private
+	*/
 	function evaluationuserObject($print = 0)
 	{
 		if (!is_array($_POST))
@@ -3162,6 +2791,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Show the detailed evaluation
+	*
+	* Show the detailed evaluation
+	*
+	* @access private
+	*/
 	function evaluationdetailsObject()
 	{
 		$this->evaluationObject(1);
@@ -3815,11 +3451,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Cancels an action on the invitation tab
+	*
+	* Cancels an action on the invitation tab
+	*
+	* @access private
+	*/
 	function cancelInvitationStatusObject()
 	{
 		$this->ctrl->redirect($this, "invite");
 	}
 
+	/**
+	* Saves the status of the invitation tab
+	*
+	* Saves the status of the invitation tab
+	*
+	* @access private
+	*/
 	function saveInvitationStatusObject()
 	{
 		$this->object->setInvitationAndMode($_POST["invitation"], $_POST["mode"]);
@@ -3827,6 +3477,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "invite");
 	}
 	
+	/**
+	* Searches users for the invitation tab
+	*
+	* Searches users for the invitation tab
+	*
+	* @access private
+	*/
 	function searchInvitationObject()
 	{
 		if (is_array($_POST["search_for"]))
@@ -4271,102 +3928,13 @@ class ilObjSurveyGUI extends ilObjectGUI
     $ilias_locator->output();
 	}
 
-/*
-	function editMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
-	}
-
-	function saveMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		if (!strcmp($_POST["meta_section"], "General")) {
-			$meta = $_POST["meta"];
-			$this->object->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
-			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
-			$this->object->update();
-		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=editMeta");
-	}
-
-	// called by administration
-	function chooseMetaSectionObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
-	}
-
-	// called by editor
-	function chooseMetaSection()
-	{
-		$this->chooseMetaSectionObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function addMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
-	}
-
-	function addMeta()
-	{
-		$this->addMetaObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function deleteMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
-	}
-
-	function deleteMeta()
-	{
-		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
-			$this->object->getRefId());
-	}
-*/
-
+	/**
+	* Prepare the output of the survey GUI object
+	*
+	* Prepare the output of the survey GUI object
+	*
+	* @access private
+	*/
 	function prepareOutput()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -4845,6 +4413,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
+	/**
+	* Set the tabs for the evaluation output
+	*
+	* Set the tabs for the evaluation output
+	*
+	* @access private
+	*/
 	function setEvalTabs()
 	{
 		global $rbacsystem;
@@ -4858,6 +4433,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
+	/**
+	* Display the survey access codes tab
+	*
+	* Display the survey access codes tab
+	*
+	* @access private
+	*/
 	function codesObject()
 	{
 		global $rbacsystem;
@@ -4922,6 +4504,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Create access codes for the survey
+	*
+	* Create access codes for the survey
+	*
+	* @access private
+	*/
 	function createSurveyCodesObject()
 	{
 		if (preg_match("/\d+/", $_POST["nrOfCodes"]))
@@ -4933,6 +4522,376 @@ class ilObjSurveyGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("enter_valid_number_of_codes"), true);
 		}
 		$this->ctrl->redirect($this, "codes");
+	}
+
+	/**
+	* Display the form to add preconditions for survey questions
+	*
+	* Display the form to add preconditions for survey questions
+	*
+	* @access private
+	*/
+	function addConstraintForm($step, &$survey_questions, $questions = false)
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", true);
+		if (is_array($questions))
+		{
+			foreach ($questions as $question)
+			{
+				$this->tpl->setCurrentBlock("option_q");
+				$this->tpl->setVariable("OPTION_VALUE", $question["question_id"]);
+				$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . $this->lng->txt($question["type_tag"]) . ")");
+				if ($question["question_id"] == $_POST["q"])
+				{
+					$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		if ($step > 1)
+		{
+			$relations = $this->object->getAllRelations();
+			switch ($survey_questions[$_POST["q"]]["type_tag"])
+			{
+				case "qt_nominal":
+					foreach ($relations as $rel_id => $relation)
+					{
+						if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
+						{
+							$this->tpl->setCurrentBlock("option_r");
+							$this->tpl->setVariable("OPTION_VALUE", $rel_id);
+							$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
+							if ($rel_id == $_POST["r"])
+							{
+								$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+							}
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					break;
+				case "qt_ordinal":
+				case "qt_metric":
+					foreach ($relations as $rel_id => $relation)
+					{
+						$this->tpl->setCurrentBlock("option_r");
+						$this->tpl->setVariable("OPTION_VALUE", $rel_id);
+						$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
+						if ($rel_id == $_POST["r"])
+						{
+							$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+						}
+						$this->tpl->parseCurrentBlock();
+					}
+					break;
+			}
+			$this->tpl->setCurrentBlock("select_relation");
+			$this->tpl->setVariable("SELECT_RELATION", $this->lng->txt("step") . " 2: " . $this->lng->txt("select_relation"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($step > 2)
+		{
+			$variables =& $this->object->getVariables($_POST["q"]);
+			switch ($survey_questions[$_POST["q"]]["type_tag"])
+			{
+				case "qt_nominal":
+				case "qt_ordinal":
+					foreach ($variables as $sequence => $row)
+					{
+						$this->tpl->setCurrentBlock("option_v");
+						$this->tpl->setVariable("OPTION_VALUE", $sequence);
+						$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row->title);
+						$this->tpl->parseCurrentBlock();
+					}
+					break;
+				case "qt_metric":
+						$this->tpl->setCurrentBlock("textfield");
+						$this->tpl->setVariable("TEXTFIELD_VALUE", "");
+						$this->tpl->parseCurrentBlock();
+					break;
+			}
+			$this->tpl->setCurrentBlock("select_value");
+			if (strcmp($survey_questions[$_POST["q"]]["type_tag"], "qt_metric") == 0)
+			{
+				$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("step") . " 3: " . $this->lng->txt("enter_value"));
+			}
+			else
+			{
+				$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("buttons");
+		$this->tpl->setVariable("BTN_CONTINUE", $this->lng->txt("continue"));
+		switch ($step)
+		{
+			case 1:
+				$this->tpl->setVariable("COMMAND", "constraintStep2");
+				$this->tpl->setVariable("COMMAND_BACK", "constraints");
+				break;
+			case 2:
+				$this->tpl->setVariable("COMMAND", "constraintStep3");
+				$this->tpl->setVariable("COMMAND_BACK", "constraintStep1");
+				break;
+			case 3:
+				$this->tpl->setVariable("COMMAND", "constraintsAdd");
+				$this->tpl->setVariable("COMMAND_BACK", "constraintStep2");
+				break;
+		}
+		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$title = "";
+		if ($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_id"] > 0)
+		{
+			$title = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_title"];
+		}
+		else
+		{
+			$title = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["type_tag"]) . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["title"];
+		}
+		$this->tpl->setVariable("CONSTRAINT_QUESTION_TEXT", $title);
+		$this->tpl->setVariable("SELECT_PRIOR_QUESTION", $this->lng->txt("step") . " 1: " . $this->lng->txt("select_prior_question"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . "&start=" . $_GET["start"]);
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Add a precondition for a survey question or question block
+	*
+	* Add a precondition for a survey question or question block
+	*
+	* @access private
+	*/
+	function constraintsAddObject()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$structure =& $_SESSION["constraintstructure"];
+		if (is_array($structure[$_GET["start"]]))
+		{
+			foreach ($structure[$_GET["start"]] as $key => $question_id)
+			{
+				$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+			}
+		}
+		$this->ctrl->redirect($this, "constraints");
+	}
+
+	/**
+	* Handles the third step of the precondition add action
+	*
+	* Handles the third step of the precondition add action
+	*
+	* @access private
+	*/
+	function constraintStep3Object()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$option_questions = array();
+		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
+		$this->addConstraintForm(3, $survey_questions, $option_questions);
+	}
+	
+	/**
+	* Handles the second step of the precondition add action
+	*
+	* Handles the second step of the precondition add action
+	*
+	* @access private
+	*/
+	function constraintStep2Object()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$option_questions = array();
+		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
+		$this->addConstraintForm(2, $survey_questions, $option_questions);
+	}
+	
+	/**
+	* Handles the first step of the precondition add action
+	*
+	* Handles the first step of the precondition add action
+	*
+	* @access private
+	*/
+	function constraintStep1Object()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$structure =& $_SESSION["constraintstructure"];
+		$start = $_GET["start"];
+		$option_questions = array();
+		for ($i = 1; $i < $start; $i++)
+		{
+			if (is_array($structure[$i]))
+			{
+				foreach ($structure[$i] as $key => $question_id)
+				{
+					if (strcmp($survey_questions[$question_id]["type_tag"], "qt_text") != 0)
+					{
+						array_push($option_questions, array("question_id" => $survey_questions[$question_id]["question_id"], "title" => $survey_questions[$question_id]["title"], "type_tag" => $survey_questions[$question_id]["type_tag"]));
+					}
+				}
+			}
+		}
+		$this->addConstraintForm(1, $survey_questions, $option_questions);
+	}
+	
+	/**
+	* Delete constraints of a survey
+	*
+	* Delete constraints of a survey
+	*
+	* @access private
+	*/
+	function deleteConstraintsObject()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$structure =& $_SESSION["constraintstructure"];
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^constraint_(\d+)_(\d+)/", $key, $matches)) 
+			{
+				foreach ($structure[$matches[1]] as $key => $question_id)
+				{
+					$this->object->deleteConstraint($matches[2], $question_id);
+				}
+			}
+		}
+
+		$this->ctrl->redirect($this, "constraints");
+	}
+	
+	/**
+	* Administration page for survey constraints
+	*
+	* Administration page for survey constraints
+	*
+	* @access public
+	*/
+	function constraintsObject()
+	{
+		global $rbacsystem;
+		
+		$step = 0;
+		if (array_key_exists("step", $_GET))	$step = $_GET["step"];
+		switch ($step)
+		{
+			case 1:
+				$this->constraintStep1Object();
+				return;
+				break;
+			case 2:
+				return;
+				break;
+			case 3:
+				return;
+				break;
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints_list.html", true);
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$last_questionblock_title = "";
+		$counter = 1;
+		$structure = array();
+		foreach ($survey_questions as $question_id => $data)
+		{
+			$title = $data["title"];
+			$show = true;
+			if ($data["questionblock_id"] > 0)
+			{
+				$title = $data["questionblock_title"];
+				$type = $this->lng->txt("questionblock");
+				if (strcmp($title, $last_questionblock_title) != 0) 
+				{
+					$last_questionblock_title = $title;
+					$structure[$counter] = array();
+					array_push($structure[$counter], $data["question_id"]);
+				}
+				else
+				{
+					array_push($structure[$counter-1], $data["question_id"]);
+					$show = false;
+				}
+			}
+			else
+			{
+				$structure[$counter] = array($data["question_id"]);
+				$type = $this->lng->txt("question");
+			}
+			if ($show)
+			{
+				if ($counter == 1)
+				{
+					$this->tpl->setCurrentBlock("description");
+					$this->tpl->setVariable("DESCRIPTION", $this->lng->txt("constraints_first_question_description"));
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$constraints =& $this->object->getConstraints($data["question_id"]);
+					$colors = array("tblrow1", "tblrow2");
+					$rowcount = 0;
+					if (count($constraints))
+					{
+						foreach ($constraints as $constraint)
+						{
+							$value = "";
+							$variables =& $this->object->getVariables($constraint["question"]);
+							switch ($survey_questions[$constraint["question"]]["type_tag"])
+							{
+								case "qt_metric":
+									$value = $constraint["value"];
+									break;
+								case "qt_nominal":
+								case "qt_ordinal":
+									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[$constraint["value"]]->title;
+									break;
+							}
+							$this->tpl->setCurrentBlock("constraint");
+							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " $value");
+							$this->tpl->setVariable("SEQUENCE_ID", $counter);
+							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
+							$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
+							$rowcount++;
+							$this->tpl->parseCurrentBlock();
+						}
+						if ($rbacsystem->checkAccess("write", $this->ref_id) && ($this->object->isOffline())) 
+						{
+							$this->tpl->setCurrentBlock("delete_button");
+							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("empty_row");
+						$this->tpl->setVariable("EMPTY_TEXT", $this->lng->txt("no_available_constraints"));
+						$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
+						$this->tpl->parseCurrentBlock();
+					}
+
+					$this->tpl->setCurrentBlock("addbutton");
+					$this->tpl->setVariable("HREF_CREATE_CONSTRAINT", $this->ctrl->getLinkTarget($this, "constraints")  . "&start=$counter&step=1");
+					$this->tpl->setVariable("TEXT_CREATE_CONSTRAINT", $this->lng->txt("constraint_add"));
+					$this->tpl->parseCurrentBlock();
+
+				}
+				$this->tpl->setCurrentBlock("constraint_section");
+				$this->tpl->setVariable("QUESTION_NR", "$counter");
+				$this->tpl->setVariable("TITLE", "$title");
+				$this->tpl->setVariable("TYPE", "$type");
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("CONSTRAINTS_INTRODUCTION", $this->lng->txt("constraints_introduction"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+		$_SESSION["constraintstructure"] = $structure;
 	}
 
 	/**
@@ -4963,7 +4922,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			 "filterQuestions", "resetFilterQuestions", "changeDatatype", "insertQuestions",
 			 "removeQuestions", "cancelRemoveQuestions", "confirmRemoveQuestions",
 			 "defineQuestionblock", "saveDefineQuestionblock", "cancelDefineQuestionblock",
-			 "unfoldQuestionblock", "constraints", "moveQuestions",
+			 "unfoldQuestionblock", "moveQuestions",
 			 "insertQuestionsBefore", "insertQuestionsAfter", "saveObligatory",
 			 "addHeading", "saveHeading", "cancelHeading", "editHeading",
 			 "confirmRemoveHeading", "cancelRemoveHeading"),
@@ -4972,7 +4931,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// constraints
 		$tabs_gui->addTarget("constraints",
 			 $this->ctrl->getLinkTarget($this, "constraints"),
-			 array("constraints"),
+			 array("constraints", "constraintStep1", "constraintStep2",
+			 "constraintStep3", "constraintsAdd"),
 			 "");
 			 
 		// invite

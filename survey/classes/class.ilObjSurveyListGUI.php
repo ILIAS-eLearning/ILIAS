@@ -118,33 +118,41 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		$props = array();
 
 		include_once("survey/classes/class.ilObjSurveyAccess.php");
-		if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id))
+		if (!ilObjSurveyAccess::_lookupOnline($this->obj_id))
 		{
-			// no completion
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("svy_warning_survey_not_complete"));
+				"value" => $lng->txt("offline"));
 		}
 		else
 		{
-			$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
-
-			// finished
-			if ($finished === 1)
+			if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id))
 			{
-				$stat = $this->lng->txt("svy_finished");
+				// no completion
+				$props[] = array("alert" => true, "property" => $lng->txt("status"),
+					"value" => $lng->txt("svy_warning_survey_not_complete"));
 			}
-			// not finished
-			else if ($finished === 0)
-			{
-				$stat = $this->lng->txt("svy_not_finished");
-			}
-			// not started
 			else
 			{
-				$stat = $this->lng->txt("svy_not_started");
+				$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
+	
+				// finished
+				if ($finished === 1)
+				{
+					$stat = $this->lng->txt("svy_finished");
+				}
+				// not finished
+				else if ($finished === 0)
+				{
+					$stat = $this->lng->txt("svy_not_finished");
+				}
+				// not started
+				else
+				{
+					$stat = $this->lng->txt("svy_not_started");
+				}
+				$props[] = array("alert" => false, "property" => $lng->txt("status"),
+					"value" => $stat);
 			}
-			$props[] = array("alert" => false, "property" => $lng->txt("status"),
-				"value" => $stat);
 		}
 
 		return $props;
