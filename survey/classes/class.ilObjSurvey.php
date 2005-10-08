@@ -4097,7 +4097,7 @@ class ilObjSurvey extends ilObject
 				case "qt_text":
 					$question = new SurveyTextQuestion();
 					break;
-			}
+			} 
       $question->loadFromDb($question_id);
 			return $question;
   }
