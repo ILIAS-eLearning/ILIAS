@@ -5037,7 +5037,7 @@ survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define question block
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-survey#:#disinvite#:#Uninvite
+survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
