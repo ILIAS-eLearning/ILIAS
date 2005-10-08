@@ -74,7 +74,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		{
 			case "run":
 				if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)
-					|| !(ilObjSurveyAccess::_lookupStatus($a_obj_id) == 1))
+					|| !(ilObjSurveyAccess::_lookupOnline($a_obj_id) == 1))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
 					return false;
@@ -176,7 +176,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	/**
 	* get status
 	*/
-	function _lookupStatus($a_obj_id)
+	function _lookupOnline($a_obj_id)
 	{
 		global $ilDB;
 

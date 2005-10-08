@@ -4994,7 +4994,10 @@ survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
-survey#:#constraints#:#Constraints
+survey#:#constraint_add#:#Add precondition
+survey#:#constraints#:#Preconditions
+survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
+survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test.
 survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
@@ -5064,7 +5067,7 @@ survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the constraints
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
 survey#:#edit_heading#:#Edit heading
 survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
@@ -5147,10 +5150,10 @@ survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#next_question_rows#:#Questions %d - %d of %d >>
-survey#:#no_available_constraints#:#There are no constraints defined!
+survey#:#no_available_constraints#:#There are no preconditions defined!
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
-survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
+survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the preconditions!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
 survey#:#no_questionblocks_available#:#There are no question blocks available
@@ -5196,12 +5199,12 @@ survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Essay
-survey#:#question_has_constraints#:#Constraints
+survey#:#question_has_constraints#:#Preconditions
 survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
-survey#:#questionblock_has_constraints#:#Constraints
+survey#:#questionblock_has_constraints#:#Preconditions
 survey#:#questionblocks#:#Question blocks
 survey#:#questions#:#Questions
 survey#:#questions_inserted#:#Question(s) inserted!
@@ -5305,7 +5308,7 @@ survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#vertical#:#vertical
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
+survey#:#view_constraints_introduction#:#You are viewing the preconditions of the following question/question block:
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!

@@ -1,0 +1,34 @@
+<form name="form_constraints" method="post" action="{FORM_ACTION}">
+<p>{CONSTRAINTS_INTRODUCTION}</p>
+<!-- BEGIN constraint_section -->
+<h2>{QUESTION_NR}. {TITLE} ({TYPE})</h2>
+<!-- BEGIN description -->
+<p>{DESCRIPTION}</p>
+<!-- END description -->
+<!-- BEGIN addbutton -->
+<p><a href="{HREF_CREATE_CONSTRAINT}" class="btn">{TEXT_CREATE_CONSTRAINT}</a></p>
+<!-- END addbutton -->
+<!-- BEGIN question -->
+<table class="fullwidth">
+<!-- BEGIN empty_row -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" colspan="2">{EMPTY_TEXT}</td>
+</tr>
+<!-- END empty_row -->
+<!-- BEGIN constraint -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" width="25"><input type="checkbox" name="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" value="1" /></td>
+<td class="{COLOR_CLASS}">{CONSTRAINT_TEXT}</td>
+</tr>
+<!-- END constraint -->
+<!-- BEGIN delete_button -->
+<tr>
+	<td class="submit">{ARROW}</td>
+	<td class="submit" align="left"><input type="submit" class="submit" name="cmd[deleteConstraints]" value="{BTN_DELETE}" /></td>
+</tr>
+<!-- END delete_button -->
+</table>
+<br />
+<!-- END question -->
+<!-- END constraint_section -->
+</form>
