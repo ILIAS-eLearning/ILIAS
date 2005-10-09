@@ -2,7 +2,11 @@
 	<table class="fullwidth">
 		<TR class="{CSSROW_FROM}">
 			<TD class="option">{TXT_FROM}</TD>
-			<TD class="option_value">{FROM} [{MAIL_LOGIN}]</TD>
+			<TD class="option_value">
+			<!-- BEGIN pers_image -->
+			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+			<!-- END pers_image -->
+			{FROM} <br />{MAIL_LOGIN}</TD>
 		</TR>
 		<TR class="{CSSROW_TO}">
 			<TD class="option">{TXT_TO}</TD>

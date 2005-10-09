@@ -33,18 +33,20 @@
 <!-- BEGIN tbl_mails -->
 <table class="il_PDBlock">
 	<tr>
-		<td class="il_PDBlockHeader" colspan="3"><div>{NEW_MAIL}</div>
+		<td class="il_PDBlockHeader" colspan="4"><div>{NEW_MAIL}</div>
 	</tr>
 	<tr>
-		<td class="il_PDBlockSubHeader"><b>{NEW_TXT_SENDER}</b></td>
+		<td class="il_PDBlockSubHeader" colspan="2"><b>{NEW_TXT_SENDER}</b></td>
 		<td class="il_PDBlockSubHeader"><b>{NEW_TXT_SUBJECT}</b></td>
-		<td class="il_PDBlockSubHeader"><b>{NEW_TXT_DATE}</b></td>
 	</tr>
 <!-- BEGIN tbl_mails_row -->
 <tr class="{ROWCOL}">
-  <td class="std" valign="middle">{NEW_MAIL_FROM}</td>
-  <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}" target="bottom">{NEW_MAIL_SUBJ}</a></td>
-  <td class="std" valign="middle">{NEW_MAIL_DATE}</td>
+  <td class="std" valign="middle" width="1px">
+  	<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+  </td>
+  <td class="std" valign="middle">{NEW_MAIL_FROM}<br />{NEW_MAIL_FROM_LOGIN}</td>
+  <td class="std" valign="middle"><a class="{NEW_MAILCLASS}" href="{NEW_MAIL_LINK_READ}" target="bottom">{NEW_MAIL_SUBJ}</a>
+  <br /><div class="il_Description">{NEW_MAIL_DATE}</div></td>
 </tr>
 <!-- END tbl_mails_row -->
     </table>

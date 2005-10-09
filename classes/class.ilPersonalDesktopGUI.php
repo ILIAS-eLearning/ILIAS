@@ -657,11 +657,14 @@ class ilPersonalDesktopGUI
 
 				$this->tpl->setCurrentBlock("tbl_mails_row");
 				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+				$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
 				$this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
 				$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
 				$this->tpl->setVariable("NEW_MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
 				$this->tpl->setVariable("NEW_MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
+				$this->tpl->setVariable("IMG_SENDER", $user->getPersonalPicturePath("xxsmall"));
+				$this->tpl->setVariable("ALT_SENDER", $user->getLogin());
 				$this->tpl->parseCurrentBlock();
 
 			}
@@ -819,23 +822,11 @@ class ilPersonalDesktopGUI
                     }
 
                     // user image
-                    $webspace_dir = ilUtil::getWebspaceDir();
-                    $image_dir = $webspace_dir."/usr_images";
-                    $xxthumb_file = $image_dir."/usr_".$user_obj->getID()."_xxsmall.jpg";
-                    if ($user_obj->getPref("public_upload") == "y" &&
-                        $user_obj->getPref("public_profile") == "y" &&
-                        @is_file($xxthumb_file))
-                    {
-                        $this->tpl->setCurrentBlock("usr_image");
-                        $this->tpl->setVariable("USR_IMAGE", $xxthumb_file."?t=".rand(1, 99999));
-                        $this->tpl->parseCurrentBlock();
-                    }
-                    else
-                    {
-                        $this->tpl->setCurrentBlock("usr_image");
-                        $this->tpl->setVariable("USR_IMAGE", ilUtil::getImagePath("no_photo_xxsmall.jpg"));
-                        $this->tpl->parseCurrentBlock();
-                    }
+					$this->tpl->setCurrentBlock("usr_image");
+					$this->tpl->setVariable("USR_IMAGE",
+						$user_obj->getPersonalPicturePath("xxsmall"));
+						//$xxthumb_file."?t=".rand(1, 99999));
+					$this->tpl->parseCurrentBlock();
 
                     $this->tpl->setCurrentBlock("tbl_users_row");
                     $this->tpl->setVariable("ROWCOL",$rowCol);

@@ -324,6 +324,14 @@ foreach ($mail_data as $mail)
 		{
 			$login = $mail["import_name"]." (".$lng->txt("imported").")";
 		}
+		$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
+		
+		$tpl->setCurrentBlock("pers_image");
+		$tpl->setVariable("IMG_SENDER", $pic_path);
+		$tpl->setVariable("ALT_SENDER", $login);
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("mails");
+
 		$tpl->setVariable("MAIL_LOGIN",$login);
 	}
 	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');

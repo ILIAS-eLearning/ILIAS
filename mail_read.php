@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -129,6 +129,11 @@ $tmp_user = new ilObjUser($mail_data["sender_id"]);
 #$tmp_user =& ilObjectFactory::getInstanceByObjId($mail_data["sender_id"],false);
 
 $tpl->setVariable("FROM", $tmp_user->getFullname());
+$tpl->setCurrentBlock("pers_image");
+$tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
+$tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("adm_content");
 
 if(!($login = $tmp_user->getLogin()))
 {
