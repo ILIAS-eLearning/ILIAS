@@ -2936,5 +2936,30 @@ class ilObjUser extends ilObject
 
 		return TRUE;
 	}
+	
+	/**
+	* get path to personal picture
+	*
+	* @param	string		size		"small", "xsmall" or "xxsmall"
+	*/
+	function getPersonalPicturePath($a_size = "small")
+	{
+		$webspace_dir = ilUtil::getWebspaceDir();
+		$image_dir = $webspace_dir."/usr_images";
+		$thumb_file = $image_dir."/usr_".$this->getID()."_".$a_size.".jpg";
+		if ($this->getPref("public_upload") == "y" &&
+			$this->getPref("public_profile") == "y" &&
+			@is_file($thumb_file))
+		{
+			$file = $thumb_file."?t=".rand(1, 99999);
+		}
+		else
+		{
+			$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+		}
+
+		return $file;
+	}
+
 } // END class ilObjUser
 ?>

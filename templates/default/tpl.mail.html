@@ -38,14 +38,15 @@
 	  <table class="fullwidth">
 		  <tr class="tbltitle">
 			<td class="std" colspan="1" width="1px">
-			<img border="0" src="{IMG_FOLDER}" /></td>
-			<td class="std" colspan="3">
+			<img border="0" src="{IMG_FOLDER}" />
+			</td>
+			<td class="std" colspan="4">
 			{TXT_FOLDER}:&nbsp;
 			{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</td>
 		  </tr>
 		  <tr class="tblheader">
-			<td class="std"  width="1px">&nbsp;</td>
-			<td class="std" >{TXT_SENDER}</td>
+			<td class="std" width="1px">&nbsp;</td>
+			<td class="std" colspan="2">{TXT_SENDER}</td>
 			<td class="std" >{TXT_SUBJECT}</td>
 			<td class="std" >{TXT_DATE}</td>
 		  </tr>
@@ -53,14 +54,19 @@
 		  <!-- BEGIN mails -->
 		  <tr class="{ROWCOL}">
 			<td class="std" ><input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
-			<td class="std"  valign="middle">{MAIL_FROM} [{MAIL_LOGIN}]</TD>
+			<td class="std"  width="1px" valign="middle">
+			<!-- BEGIN pers_image -->
+			<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+			<!-- END pers_image -->
+			</TD>
+			<td class="std"  valign="middle">{MAIL_FROM}<br />{MAIL_LOGIN}</TD>
 			<td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
 			<td class="std"  valign="middle">{MAIL_DATE}</td>
 		  </tr>
 		  <!-- END mails -->
 		  <tr class="tblrow2">
 			<td class="std" colspan="1"><input type="checkbox" name="all" value="check_all" onClick="CheckAll();"></td>
-			<td class="std" colspan="3">
+			<td class="std" colspan="4">
 			  <strong>{TXT_SELECT_ALL}</strong>
 			</td>
 		  </tr>
@@ -68,7 +74,7 @@
 			<td class="submit"  width="1px" align="center">
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
-			<td class="submit" colspan="3">
+			<td class="submit" colspan="4">
 			  <select name="action">
 				<!-- BEGIN mailactions -->
 				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>
