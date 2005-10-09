@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./survey/classes/class.ilObjSurvey.php");
+include_once("./survey/classes/class.ilObjSurvey.php");
 
 /**
 * Export class for surveys

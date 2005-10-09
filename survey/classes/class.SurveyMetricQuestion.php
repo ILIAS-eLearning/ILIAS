@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./survey/classes/class.SurveyQuestion.php";
+include_once "./survey/classes/class.SurveyQuestion.php";
 
 define("SUBTYPE_NON_RATIO", 3);
 define("SUBTYPE_RATIO_NON_ABSOLUTE", 4);

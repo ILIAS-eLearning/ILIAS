@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./survey/classes/class.SurveyQuestion.php";
+include_once "./survey/classes/class.SurveyQuestion.php";
 
 define("TEXT_QUESTION_IDENTIFIER", "Text Question");
 

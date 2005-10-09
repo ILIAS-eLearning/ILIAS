@@ -5217,6 +5217,7 @@ survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?
 survey#:#reset_filter#:#Reset filter
 survey#:#resume_survey#:#Resume the survey
+survey#:#save_back_to_survey#:#Save and go back to the survey
 survey#:#save_obligatory_state#:#Save obligatory states
 survey#:#save_phrase#:#Save as phrase
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!

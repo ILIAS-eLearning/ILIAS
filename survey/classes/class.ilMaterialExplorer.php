@@ -30,7 +30,7 @@
 * @package survey
 */
 
-require_once("./classes/class.ilExplorer.php");
+include_once("./classes/class.ilExplorer.php");
 
 class ilMaterialExplorer extends ilExplorer
 {
