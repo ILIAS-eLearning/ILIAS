@@ -275,20 +275,20 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 					case "GlossaryItem":
 						$ltarget = $nframe = "_new";
-						$href = "lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
+						$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
 							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
 						break;
 
 					case "MediaObject":
 						$ltarget = $nframe = "_new";
-						$href = "lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+						$href = "content/lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
 							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
 						break;
 						
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
-						$href = "../goto.php?target=".$obj_type."_".$target_id;
+						$href = "./goto.php?target=".$obj_type."_".$target_id;
 						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
 						$ltarget = $t_frame;
 						break;
