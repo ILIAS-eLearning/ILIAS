@@ -32,13 +32,12 @@
 * @package survey
 */
 
-require_once "./classes/class.ilObject.php";
-//require_once "./classes/class.ilMetaData.php";
-require_once "./survey/classes/class.SurveyQuestion.php";
-require_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-require_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-require_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
+include_once "./classes/class.ilObject.php";
+include_once "./survey/classes/class.SurveyQuestion.php";
+include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
+include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
+include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
+include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
 
 define("STATUS_OFFLINE", 0);
 define("STATUS_ONLINE", 1);
@@ -3011,9 +3010,9 @@ class ilObjSurvey extends ilObject
 		{
 			if (strcmp($ilUser->login, "anonymous") != 0)
 			{
-				require_once "./include/inc.mail.php";
-				require_once "./classes/class.ilFormatMail.php";
-				require_once "./classes/class.ilMailbox.php";
+				include_once "./include/inc.mail.php";
+				include_once "./classes/class.ilFormatMail.php";
+				include_once "./classes/class.ilMailbox.php";
 				$subject = sprintf($this->lng->txt("subject_mail_survey_id"), $this->getTitle());
 				$message = sprintf($this->lng->txt("message_mail_survey_id"), $this->getTitle(), $_SESSION["anonymous_id"]);
 				$umail = new ilFormatMail($ilUser->id);

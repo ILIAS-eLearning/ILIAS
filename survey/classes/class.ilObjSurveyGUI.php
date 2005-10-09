@@ -35,12 +35,12 @@
 * @package survey
 */
 
-require_once "./classes/class.ilObjectGUI.php";
-require_once "./classes/class.ilUtil.php";
-require_once "./classes/class.ilSearch.php";
-require_once "./classes/class.ilObjUser.php";
-require_once "./classes/class.ilObjGroup.php";
-require_once "./survey/classes/class.SurveySearch.php";
+include_once "./classes/class.ilObjectGUI.php";
+include_once "./classes/class.ilUtil.php";
+include_once "./classes/class.ilSearch.php";
+include_once "./classes/class.ilObjUser.php";
+include_once "./classes/class.ilObjGroup.php";
+include_once "./survey/classes/class.SurveySearch.php";
 
 define ("TYPE_XLS", "latin1");
 define ("TYPE_XLS_MAC", "macos");
@@ -2447,7 +2447,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$_POST = array();
 		}
-		require_once './classes/Spreadsheet/Excel/Writer.php';
+		include_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
 		$format_datetime = "";
@@ -2814,7 +2814,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
-		require_once './classes/Spreadsheet/Excel/Writer.php';
+		include_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
 		$format_datetime = "";
@@ -3991,7 +3991,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		include_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -4081,7 +4081,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			require_once("./survey/classes/class.ilSurveyExport.php");
+			include_once("./survey/classes/class.ilSurveyExport.php");
 			$survey_exp = new ilSurveyExport($this->object);
 			$survey_exp->buildExportFile();
 			ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
@@ -4101,7 +4101,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->getTemplateFile("import", "svy");
 		$this->tpl->setCurrentBlock("option_qpl");
-		require_once("./survey/classes/class.ilObjSurvey.php");
+		include_once("./survey/classes/class.ilObjSurvey.php");
 		$svy = new ilObjSurvey();
 		$questionpools =& $svy->getAvailableQuestionpools(true);
 		if (count($questionpools) == 0)
@@ -4197,7 +4197,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			require_once("./survey/classes/class.ilObjSurvey.php");
+			include_once("./survey/classes/class.ilObjSurvey.php");
 			$svy = new ilObjSurvey();
 			
 			$surveys =& ilObjSurvey::_getAvailableSurveys(true);
@@ -4281,7 +4281,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		require_once "./survey/classes/class.ilObjSurvey.php";
+		include_once "./survey/classes/class.ilObjSurvey.php";
 		ilObjSurvey::_clone($_POST["svy"]);
 		ilUtil::redirect($this->getReturnLocation("cloneAll",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
@@ -4413,26 +4413,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
-	/**
-	* Set the tabs for the evaluation output
-	*
-	* Set the tabs for the evaluation output
-	*
-	* @access private
-	*/
-	function setEvalTabs()
-	{
-		global $rbacsystem;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$tabs_gui->addTarget("svy_eval_cumulated", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), "evaluation",	"ilobjsurveygui");
-		$tabs_gui->addTarget("svy_eval_detail", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluationdetails"), "evaluationdetails",	"ilobjsurveygui");
-		$tabs_gui->addTarget("svy_eval_user", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluationuser"), "evaluationuser",	"ilobjsurveygui");
-		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
 	/**
 	* Display the survey access codes tab
 	*
@@ -4894,6 +4874,45 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$_SESSION["constraintstructure"] = $structure;
 	}
 
+	/**
+	* Set the tabs for the evaluation output
+	*
+	* Set the tabs for the evaluation output
+	*
+	* @access private
+	*/
+	function setEvalTabs()
+	{
+		global $rbacsystem;
+
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		
+		$tabs_gui->addTarget(
+			"svy_eval_cumulated", 
+			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), 
+			array("evaluation"),	
+			""
+		);
+
+		$tabs_gui->addTarget(
+			"svy_eval_detail", 
+			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationdetails"), 
+			array("evaluationdetails"),	
+			""
+		);
+		
+		$tabs_gui->addTarget(
+			"svy_eval_user", 
+			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationuser"), 
+			array("evaluationuser"),	
+			""
+		);
+		
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+	
+	
 	/**
 	* adds tabs to tab gui object
 	*

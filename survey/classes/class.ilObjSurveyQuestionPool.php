@@ -32,13 +32,12 @@
 * @package survey
 */
 
-require_once "./classes/class.ilObjectGUI.php";
-//require_once "./classes/class.ilMetaData.php";
-require_once "./survey/classes/class.SurveyNominalQuestion.php";
-require_once "./survey/classes/class.SurveyTextQuestion.php";
-require_once "./survey/classes/class.SurveyMetricQuestion.php";
-require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-require_once "./survey/classes/class.SurveyQuestion.php";
+include_once "./classes/class.ilObjectGUI.php";
+include_once "./survey/classes/class.SurveyNominalQuestion.php";
+include_once "./survey/classes/class.SurveyTextQuestion.php";
+include_once "./survey/classes/class.SurveyMetricQuestion.php";
+include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
+include_once "./survey/classes/class.SurveyQuestion.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {

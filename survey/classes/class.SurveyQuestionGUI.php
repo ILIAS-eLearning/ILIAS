@@ -21,10 +21,10 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-require_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-require_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
+include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
+include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
+include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
+include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 
 /**
 * Basic class for all survey question types
@@ -212,6 +212,11 @@ class SurveyQuestionGUI {
 			{
 				$_GET["ref_id"] = $_GET["calling_survey"];
 				ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+				return;
+			}
+			elseif ($_GET["new_for_survey"] > 0)
+			{
+				ilUtil::redirect("survey.php?cmd=questions&ref_id=" . $_GET["new_for_survey"] . "&new_id=".$_GET["q_id"]);
 				return;
 			}
 			else
@@ -794,7 +799,7 @@ class SurveyQuestionGUI {
 	{
 		global $tree;
 
-		require_once("./survey/classes/class.ilMaterialExplorer.php");
+		include_once("./survey/classes/class.ilMaterialExplorer.php");
 		switch ($_POST["internalLinkType"])
 		{
 			case "lm":
@@ -891,7 +896,7 @@ class SurveyQuestionGUI {
 				$_GET["q_id"] = $this->object->getId();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				require_once("./content/classes/class.ilObjContentObject.php");
+				include_once("./content/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -921,7 +926,7 @@ class SurveyQuestionGUI {
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
-				require_once "./content/classes/class.ilObjGlossary.php";
+				include_once "./content/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
 				// get all glossary items
 				$terms = $glossary->getTermList();
@@ -980,19 +985,6 @@ class SurveyQuestionGUI {
 			$tabs_gui->addTarget("preview",
 			$this->ctrl->getLinkTargetByClass("$guiclass", "preview"), "preview",
 			"$guiclass");
-		}
-
-		if ($_GET["calling_survey"])
-		{
-			$tabs_gui->addTarget("menubacktosurvey",
-				"survey.php?cmd=questions&ref_id=".$_GET["calling_survey"], "questions",
-				"ilObjSurveyQuestionPoolGUI");
-		}
-		elseif ($_GET["new_for_survey"])
-		{
-			$tabs_gui->addTarget("menubacktosurvey",
-				"survey.php?cmd=questions&new_id=".$this->object->getId() . "&ref_id=".$_GET["new_for_survey"], "questions",
-				"ilObjSurveyQuestionPoolGUI");
 		}
 		
 		$this->tpl->setVariable("SUB_TABS", $tabs_gui->getHTML());

@@ -21,12 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
-require_once "./survey/classes/class.SurveyTextQuestionGUI.php";
-require_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
-require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
-require_once "./classes/class.ilObjectGUI.php";
-//require_once "./classes/class.ilMetaDataGUI.php";
+include_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
+include_once "./survey/classes/class.SurveyTextQuestionGUI.php";
+include_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
+include_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -1066,7 +1065,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		include_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -1156,7 +1155,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			require_once("./survey/classes/class.ilSurveyQuestionpoolExport.php");
+			include_once("./survey/classes/class.ilSurveyQuestionpoolExport.php");
 			$survey_exp = new ilSurveyQuestionpoolExport($this->object);
 			$survey_exp->buildExportFile($questions);
 			ilUtil::redirect("questionpool.php?cmd=export&ref_id=".$_GET["ref_id"]);
@@ -1302,7 +1301,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-		require_once "./survey/classes/class.ilObjSurveyQuestionPool.php";
+		include_once "./survey/classes/class.ilObjSurveyQuestionPool.php";
 		// create new questionpool object
 		$newObj = new ilObjSurveyQuestionPool();
 		// set type of questionpool object
@@ -1371,7 +1370,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			require_once("./survey/classes/class.ilObjSurvey.php");
+			include_once("./survey/classes/class.ilObjSurvey.php");
 			
 			// fill in saved values in case of error
 			$data = array();

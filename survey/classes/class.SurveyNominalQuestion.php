@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./survey/classes/class.SurveyQuestion.php";
+include_once "./survey/classes/class.SurveyQuestion.php";
 
 define("SUBTYPE_MCSR", 1);
 define("SUBTYPE_MCMR", 2);

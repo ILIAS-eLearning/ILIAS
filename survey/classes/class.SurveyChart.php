@@ -1,5 +1,5 @@
 <?php
-require_once ("phplot/phplot.php");
+include_once ("phplot/phplot.php");
 
 class SurveyChart
 {
