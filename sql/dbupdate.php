@@ -8780,3 +8780,7 @@ INDEX ( `obj_fi` )
 		}
 	}
 ?>
+<#539>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
