@@ -8784,3 +8784,7 @@ INDEX ( `obj_fi` )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#540>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
